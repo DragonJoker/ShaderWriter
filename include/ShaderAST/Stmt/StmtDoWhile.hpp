@@ -25,7 +25,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_ctrlExpr{};
 	};
 	using DoWhilePtr = std::unique_ptr< DoWhile >;
 

@@ -458,7 +458,9 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 			outs.write( "\n\t{" )
 			outs.write( "\n\t\treturn Ret" + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			# Write arguments
-			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findExprCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			#	Types cache argument
+			outs.write( "\n\t\t\t\t, findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 			#	Image argument
 			outs.write( "\n\t\t\t\t, makeExpr( image )" )
 			#	Remaining arguments
@@ -513,7 +515,9 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 					outs.write( "\n\t{" )
 					outs.write( "\n\t\treturn Ret" + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				# Write arguments
-				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findExprCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+				#	Types cache
+				outs.write( "\n\t\t\t\t, findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				#	Image argument
 				outs.write( "\n\t\t\t\t, makeExpr( image )" )
 				#	Remaining arguments
@@ -532,8 +536,11 @@ def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	# Header finished, write content
 	outs.write( "\n\t{" )
 	outs.write( "\n\t\treturn Ret" + retType + "{ *findWriter(" + listParams( paramsGroup, "", 0 ) + " )" )
-	outs.write( "\n\t\t\t, expr::make" + fullName + "( findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
-	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t\t," ) + " )" )
+	outs.write( "\n\t\t\t, expr::make" + fullName + "( findExprCache(" + listParams( paramsGroup, "", 0 ) + " )" )
+	#	Types cache
+	outs.write( "\n\t\t\t\t, findTypesCache(" + listParams( paramsGroup, "", 0 ) + " )" )
+	# Other arguments
+	outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
 	outs.write( "\n\t\t\t, areOptionalEnabled(" + listParams( paramsGroup, "", 0 ) + " ) };" )
 	outs.write( "\n\t}" )
 	

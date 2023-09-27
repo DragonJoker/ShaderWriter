@@ -52,12 +52,12 @@ namespace spirv
 
 	struct IOMapping
 	{
-		IOMapping( ast::type::TypesCache & pcache
-			, ast::ShaderStage pstage
-			, bool pisInput
-			, uint32_t & pnextVarId );
+		IOMapping( ast::type::TypesCache & typesCache
+			, ast::ShaderStage stage
+			, bool isInput
+			, uint32_t & nextVarId );
 
-		ast::type::TypesCache & cache;
+		ast::type::TypesCache & typesCache;
 		ast::ShaderStage stage;
 		bool isInput;
 		uint32_t * nextVarId;
@@ -83,14 +83,18 @@ namespace spirv
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
 			, uint32_t arraySize );
-		ast::expr::ExprPtr processPending( ast::EntityName const & name
+		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
+			, ast::EntityName const & name
 			, ast::stmt::Container * cont );
-		ast::expr::ExprPtr processPending( ast::Builtin builtin
+		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
+			, ast::Builtin builtin
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
-		ast::expr::ExprPtr processPending( ast::var::VariablePtr var
+		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
+			, ast::var::VariablePtr var
 			, ast::stmt::Container * cont );
-		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbr( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
@@ -116,7 +120,8 @@ namespace spirv
 			, uint32_t mbrLocation
 			, uint32_t mbrArraySize
 			, ast::stmt::Container * cont );
-		ast::expr::ExprPtr processPendingMbr( ast::var::VariablePtr outerVar
+		ast::expr::ExprPtr processPendingMbr( ast::expr::ExprCache & exprCache
+			, ast::var::VariablePtr outerVar
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
@@ -149,7 +154,7 @@ namespace spirv
 	struct ModuleConfig
 	{
 		ModuleConfig( SpirVConfig & pspirvConfig
-			, ast::type::TypesCache & cache
+			, ast::type::TypesCache & typesCache
 			, ast::ShaderStage pstage
 			, uint32_t pnextVarId
 			, uint32_t paliasId )
@@ -157,8 +162,8 @@ namespace spirv
 			, aliasId{ paliasId }
 			, stage{ pstage }
 			, spirvConfig{ pspirvConfig }
-			, inputs{ cache, stage, true, nextVarId }
-			, outputs{ cache, stage, false, nextVarId }
+			, inputs{ typesCache, stage, true, nextVarId }
+			, outputs{ typesCache, stage, false, nextVarId }
 		{
 		}
 
@@ -181,12 +186,15 @@ namespace spirv
 			, uint32_t location );
 		void addOutputVar( ast::var::VariablePtr var
 			, uint32_t location );
-		ast::expr::ExprPtr processPending( ast::Builtin builtin
+		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
+			, ast::Builtin builtin
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
-		ast::expr::ExprPtr processPending( ast::var::VariablePtr var
+		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
+			, ast::var::VariablePtr var
 			, ast::stmt::Container * cont );
-		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbr( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
@@ -228,14 +236,17 @@ namespace spirv
 				, arraySize );
 		}
 
-		ast::expr::ExprPtr processPendingInput( ast::EntityName const & name
+		ast::expr::ExprPtr processPendingInput( ast::expr::ExprCache & exprCache
+			, ast::EntityName const & name
 			, ast::stmt::Container * cont )
 		{
-			return inputs.processPending( name
+			return inputs.processPending( exprCache
+				, name
 				, cont );
 		}
 
-		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var
+		ast::expr::ExprPtr processPendingInput( ast::expr::ExprCache & exprCache
+			, ast::var::VariablePtr var
 			, ast::stmt::Container * cont )
 		{
 			if ( var->isBuiltin() )
@@ -243,11 +254,13 @@ namespace spirv
 				checkBuiltin( var->getBuiltin(), stage, *this );
 			}
 
-			return inputs.processPending( var
+			return inputs.processPending( exprCache
+				, var
 				, cont );
 		}
 
-		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbrInput( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
@@ -263,7 +276,8 @@ namespace spirv
 				}
 			}
 
-			return inputs.processPendingMbr( outer
+			return inputs.processPendingMbr( exprCache
+				, outer
 				, mbrIndex
 				, flags
 				, adapter
@@ -299,14 +313,17 @@ namespace spirv
 				, arraySize );
 		}
 
-		ast::expr::ExprPtr processPendingOutput( ast::EntityName const & name
+		ast::expr::ExprPtr processPendingOutput( ast::expr::ExprCache & exprCache
+			, ast::EntityName const & name
 			, ast::stmt::Container * cont )
 		{
-			return outputs.processPending( name
+			return outputs.processPending( exprCache
+				, name
 				, cont );
 		}
 
-		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var
+		ast::expr::ExprPtr processPendingOutput( ast::expr::ExprCache & exprCache
+			, ast::var::VariablePtr var
 			, ast::stmt::Container * cont )
 		{
 			if ( var->isBuiltin() )
@@ -314,11 +331,13 @@ namespace spirv
 				checkBuiltin( var->getBuiltin(), stage, *this );
 			}
 
-			return outputs.processPending( var
+			return outputs.processPending( exprCache
+				, var
 				, cont );
 		}
 
-		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
@@ -334,7 +353,8 @@ namespace spirv
 				}
 			}
 
-			return outputs.processPendingMbr( outer
+			return outputs.processPendingMbr( exprCache
+				, outer
 				, mbrIndex
 				, flags
 				, adapter
@@ -495,13 +515,17 @@ namespace spirv
 	InstructionPtr makeVariableInstruction( ValueId typeId
 		, ValueId varId
 		, ValueId initialiser = {} );
-	ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeZero( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::type::Kind kind );
-	ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeOne( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::type::Kind kind );
-	ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeToBoolCast( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr expr );
-	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeFromBoolCast( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr expr
 		, ast::type::Kind dstScalarType );
 	bool isPointerParam( ast::type::TypePtr type

@@ -11,13 +11,14 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	class ImageAccessCall
+	class StorageImageAccessCall
 		: public Expr
 	{
 	public:
-		SDAST_API ImageAccessCall( type::TypePtr type
+		SDAST_API StorageImageAccessCall( ExprCache & exprCache
+			, type::TypePtr type
 			, StorageImageAccess imageAccess
-			, ExprList && argList );
+			, ExprList argList );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -35,28 +36,6 @@ namespace ast::expr
 		StorageImageAccess m_imageAccess;
 		ExprList m_argList;
 	};
-	using ImageAccessCallPtr = std::unique_ptr< ImageAccessCall >;
-
-	inline ImageAccessCallPtr makeImageAccessCall( type::TypePtr type
-		, StorageImageAccess imageAccess
-		, ExprList && argList )
-	{
-		return std::make_unique< ImageAccessCall >( std::move( type )
-			, imageAccess
-			, std::move( argList ) );
-	}
-
-	template< typename ... Params >
-	inline ImageAccessCallPtr makeImageAccessCall( type::TypePtr type
-		, StorageImageAccess imageAccess
-		, Params ... args )
-	{
-		ExprList argList;
-		helpers::fillArgsListRec( argList, std::forward< Params >( args )... );
-		return makeImageAccessCall( std::move( type )
-			, imageAccess
-			, std::move( argList ) );
-	}
 }
 
 #endif

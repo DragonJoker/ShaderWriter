@@ -7,9 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	StreamAppend::StreamAppend( type::TypePtr type
+	StreamAppend::StreamAppend( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr operand )
-		: Unary{ std::move( type )
+		: Unary{ exprCache
+			, std::move( type )
 			, std::move( operand )
 			, Kind::eStreamAppend }
 	{

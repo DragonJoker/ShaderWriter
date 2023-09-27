@@ -24,6 +24,7 @@ namespace glsl
 		explicit ExprConfigFiller( IntrinsicsConfig & config );
 
 		void doSubmit( ast::expr::Expr * expr );
+		void doSubmit( ast::expr::ExprPtr const & expr );
 
 		void visitUnaryExpr( ast::expr::Unary * expr )override;
 		void visitBinaryExpr( ast::expr::Binary * expr )override;
@@ -34,7 +35,7 @@ namespace glsl
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
-		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+		void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitInitExpr( ast::expr::Init * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;

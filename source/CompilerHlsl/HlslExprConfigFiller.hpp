@@ -18,9 +18,6 @@ namespace hlsl
 		static void submit( ast::expr::Expr * expr
 			, AdaptationData & adaptationData
 			, IntrinsicsConfig & config );
-		static void submit( ast::expr::ExprPtr const & expr
-			, AdaptationData & adaptationData
-			, IntrinsicsConfig & config );
 
 	private:
 		ExprConfigFiller( AdaptationData & adaptationData
@@ -35,7 +32,7 @@ namespace hlsl
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
-		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+		void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitInitExpr( ast::expr::Init * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;

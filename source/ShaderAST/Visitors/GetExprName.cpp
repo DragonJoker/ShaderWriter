@@ -145,7 +145,7 @@ namespace ast
 				}
 			}
 
-			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
 			{
 				if ( checkToVisit() )
 				{
@@ -236,9 +236,7 @@ namespace ast
 		}
 		else
 		{
-			auto ident = findIdentifier( expr );
-
-			if ( ident )
+			if ( auto ident = findIdentifier( expr ) )
 			{
 				result.emplace_back( ident );
 			}
@@ -279,24 +277,16 @@ namespace ast
 		, type::Kind kind
 		, var::Flag flag )
 	{
-		auto result = listIdentifiers( expr, kind, flag );
-
-		if ( result.empty() )
-		{
-			return nullptr;
-		}
-
-		return result.front();
+		return findIdentifier( expr.get(), kind, flag );
 	}
 
 	std::string findName( expr::Expr * expr
 		, type::Kind kind
 		, var::Flag flag )
 	{
-		auto ident = findIdentifier( expr, kind, flag );
 		std::string result;
 
-		if ( ident )
+		if ( auto ident = findIdentifier( expr, kind, flag ) )
 		{
 			result = ident->getVariable()->getName();
 		}
@@ -308,15 +298,7 @@ namespace ast
 		, type::Kind kind
 		, var::Flag flag )
 	{
-		auto ident = findIdentifier( expr, kind, flag );
-		std::string result;
-
-		if ( ident )
-		{
-			result = ident->getVariable()->getName();
-		}
-
-		return result;
+		return findName( expr.get(), kind, flag );
 	}
 
 	//*************************************************************************

@@ -28,29 +28,33 @@ namespace sdw
 	RetFloat degrees( Float const radians )
 	{
 		return RetFloat{ *findWriter( radians )
-			, expr::makeDegrees1( findTypesCache( radians )
-					, makeExpr( radians ) )
+			, expr::makeDegrees1( findExprCache( radians )
+				, findTypesCache( radians )
+				, makeExpr( radians ) )
 			, areOptionalEnabled( radians ) };
 	}
 	RetVec2 degrees( Vec2 const radians )
 	{
 		return RetVec2{ *findWriter( radians )
-			, expr::makeDegrees2( findTypesCache( radians )
-					, makeExpr( radians ) )
+			, expr::makeDegrees2( findExprCache( radians )
+				, findTypesCache( radians )
+				, makeExpr( radians ) )
 			, areOptionalEnabled( radians ) };
 	}
 	RetVec3 degrees( Vec3 const radians )
 	{
 		return RetVec3{ *findWriter( radians )
-			, expr::makeDegrees3( findTypesCache( radians )
-					, makeExpr( radians ) )
+			, expr::makeDegrees3( findExprCache( radians )
+				, findTypesCache( radians )
+				, makeExpr( radians ) )
 			, areOptionalEnabled( radians ) };
 	}
 	RetVec4 degrees( Vec4 const radians )
 	{
 		return RetVec4{ *findWriter( radians )
-			, expr::makeDegrees4( findTypesCache( radians )
-					, makeExpr( radians ) )
+			, expr::makeDegrees4( findExprCache( radians )
+				, findTypesCache( radians )
+				, makeExpr( radians ) )
 			, areOptionalEnabled( radians ) };
 	}
 	/**@}*/
@@ -64,29 +68,33 @@ namespace sdw
 	RetFloat radians( Float const degrees )
 	{
 		return RetFloat{ *findWriter( degrees )
-			, expr::makeRadians1F( findTypesCache( degrees )
-					, makeExpr( degrees ) )
+			, expr::makeRadians1F( findExprCache( degrees )
+				, findTypesCache( degrees )
+				, makeExpr( degrees ) )
 			, areOptionalEnabled( degrees ) };
 	}
 	RetVec2 radians( Vec2 const degrees )
 	{
 		return RetVec2{ *findWriter( degrees )
-			, expr::makeRadians2F( findTypesCache( degrees )
-					, makeExpr( degrees ) )
+			, expr::makeRadians2F( findExprCache( degrees )
+				, findTypesCache( degrees )
+				, makeExpr( degrees ) )
 			, areOptionalEnabled( degrees ) };
 	}
 	RetVec3 radians( Vec3 const degrees )
 	{
 		return RetVec3{ *findWriter( degrees )
-			, expr::makeRadians3F( findTypesCache( degrees )
-					, makeExpr( degrees ) )
+			, expr::makeRadians3F( findExprCache( degrees )
+				, findTypesCache( degrees )
+				, makeExpr( degrees ) )
 			, areOptionalEnabled( degrees ) };
 	}
 	RetVec4 radians( Vec4 const degrees )
 	{
 		return RetVec4{ *findWriter( degrees )
-			, expr::makeRadians4F( findTypesCache( degrees )
-					, makeExpr( degrees ) )
+			, expr::makeRadians4F( findExprCache( degrees )
+				, findTypesCache( degrees )
+				, makeExpr( degrees ) )
 			, areOptionalEnabled( degrees ) };
 	}
 	/**@}*/
@@ -100,29 +108,33 @@ namespace sdw
 	RetFloat cos( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeCos1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCos1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 cos( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeCos2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCos2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 cos( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeCos3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCos3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 cos( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeCos4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCos4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -136,29 +148,33 @@ namespace sdw
 	RetFloat sin( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeSin1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSin1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 sin( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeSin2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSin2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 sin( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeSin3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSin3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 sin( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeSin4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSin4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -172,29 +188,33 @@ namespace sdw
 	RetFloat tan( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeTan1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTan1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 tan( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeTan2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTan2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 tan( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeTan3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTan3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 tan( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeTan4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTan4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -208,29 +228,33 @@ namespace sdw
 	RetFloat cosh( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeCosh1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCosh1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 cosh( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeCosh2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCosh2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 cosh( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeCosh3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCosh3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 cosh( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeCosh4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCosh4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -244,29 +268,33 @@ namespace sdw
 	RetFloat sinh( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeSinh1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSinh1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 sinh( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeSinh2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSinh2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 sinh( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeSinh3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSinh3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 sinh( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeSinh4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSinh4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -280,29 +308,33 @@ namespace sdw
 	RetFloat tanh( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeTanh1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTanh1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 tanh( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeTanh2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTanh2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 tanh( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeTanh3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTanh3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 tanh( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeTanh4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTanh4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -316,29 +348,33 @@ namespace sdw
 	RetFloat acos( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeAcos1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcos1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 acos( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeAcos2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcos2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 acos( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeAcos3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcos3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 acos( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeAcos4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcos4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -352,29 +388,33 @@ namespace sdw
 	RetFloat asin( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeAsin1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsin1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 asin( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeAsin2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsin2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 asin( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeAsin3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsin3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 asin( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeAsin4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsin4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -388,29 +428,33 @@ namespace sdw
 	RetFloat atan( Float const y_over_x )
 	{
 		return RetFloat{ *findWriter( y_over_x )
-			, expr::makeAtan1( findTypesCache( y_over_x )
-					, makeExpr( y_over_x ) )
+			, expr::makeAtan1( findExprCache( y_over_x )
+				, findTypesCache( y_over_x )
+				, makeExpr( y_over_x ) )
 			, areOptionalEnabled( y_over_x ) };
 	}
 	RetVec2 atan( Vec2 const y_over_x )
 	{
 		return RetVec2{ *findWriter( y_over_x )
-			, expr::makeAtan2( findTypesCache( y_over_x )
-					, makeExpr( y_over_x ) )
+			, expr::makeAtan2( findExprCache( y_over_x )
+				, findTypesCache( y_over_x )
+				, makeExpr( y_over_x ) )
 			, areOptionalEnabled( y_over_x ) };
 	}
 	RetVec3 atan( Vec3 const y_over_x )
 	{
 		return RetVec3{ *findWriter( y_over_x )
-			, expr::makeAtan3( findTypesCache( y_over_x )
-					, makeExpr( y_over_x ) )
+			, expr::makeAtan3( findExprCache( y_over_x )
+				, findTypesCache( y_over_x )
+				, makeExpr( y_over_x ) )
 			, areOptionalEnabled( y_over_x ) };
 	}
 	RetVec4 atan( Vec4 const y_over_x )
 	{
 		return RetVec4{ *findWriter( y_over_x )
-			, expr::makeAtan4( findTypesCache( y_over_x )
-					, makeExpr( y_over_x ) )
+			, expr::makeAtan4( findExprCache( y_over_x )
+				, findTypesCache( y_over_x )
+				, makeExpr( y_over_x ) )
 			, areOptionalEnabled( y_over_x ) };
 	}
 	/**@}*/
@@ -425,8 +469,9 @@ namespace sdw
 		, Float const x )
 	{
 		return RetFloat{ *findWriter( y, x )
-			, expr::makeAtan21( findTypesCache( y, x )
-					, makeExpr( y )
+			, expr::makeAtan21( findExprCache( y, x )
+				, findTypesCache( y, x )
+				, makeExpr( y )
 				, makeExpr( x ) )
 			, areOptionalEnabled( y, x ) };
 	}
@@ -434,8 +479,9 @@ namespace sdw
 		, Vec2 const x )
 	{
 		return RetVec2{ *findWriter( y, x )
-			, expr::makeAtan22( findTypesCache( y, x )
-					, makeExpr( y )
+			, expr::makeAtan22( findExprCache( y, x )
+				, findTypesCache( y, x )
+				, makeExpr( y )
 				, makeExpr( x ) )
 			, areOptionalEnabled( y, x ) };
 	}
@@ -443,8 +489,9 @@ namespace sdw
 		, Vec3 const x )
 	{
 		return RetVec3{ *findWriter( y, x )
-			, expr::makeAtan23( findTypesCache( y, x )
-					, makeExpr( y )
+			, expr::makeAtan23( findExprCache( y, x )
+				, findTypesCache( y, x )
+				, makeExpr( y )
 				, makeExpr( x ) )
 			, areOptionalEnabled( y, x ) };
 	}
@@ -452,8 +499,9 @@ namespace sdw
 		, Vec4 const x )
 	{
 		return RetVec4{ *findWriter( y, x )
-			, expr::makeAtan24( findTypesCache( y, x )
-					, makeExpr( y )
+			, expr::makeAtan24( findExprCache( y, x )
+				, findTypesCache( y, x )
+				, makeExpr( y )
 				, makeExpr( x ) )
 			, areOptionalEnabled( y, x ) };
 	}
@@ -468,29 +516,33 @@ namespace sdw
 	RetFloat acosh( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeAcosh1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcosh1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 acosh( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeAcosh2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcosh2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 acosh( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeAcosh3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcosh3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 acosh( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeAcosh4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAcosh4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -504,29 +556,33 @@ namespace sdw
 	RetFloat asinh( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeAsinh1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsinh1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 asinh( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeAsinh2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsinh2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 asinh( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeAsinh3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsinh3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 asinh( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeAsinh4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAsinh4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -540,29 +596,33 @@ namespace sdw
 	RetFloat atanh( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeAtanh1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAtanh1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 atanh( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeAtanh2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAtanh2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 atanh( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeAtanh3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAtanh3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 atanh( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeAtanh4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAtanh4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -577,8 +637,9 @@ namespace sdw
 		, Float const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makePow1( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makePow1( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -586,8 +647,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetVec2{ *findWriter( x, y )
-			, expr::makePow2( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makePow2( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -595,8 +657,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetVec3{ *findWriter( x, y )
-			, expr::makePow3( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makePow3( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -604,8 +667,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetVec4{ *findWriter( x, y )
-			, expr::makePow4( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makePow4( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -620,29 +684,33 @@ namespace sdw
 	RetFloat exp( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeExp1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 exp( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeExp2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 exp( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeExp3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 exp( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeExp4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -656,29 +724,33 @@ namespace sdw
 	RetFloat log( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeLog1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 log( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeLog2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 log( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeLog3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 log( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeLog4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -692,29 +764,33 @@ namespace sdw
 	RetFloat exp2( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeExp21( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp21( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 exp2( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeExp22( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp22( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 exp2( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeExp23( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp23( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 exp2( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeExp24( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeExp24( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -728,29 +804,33 @@ namespace sdw
 	RetFloat log2( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeLog21( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog21( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 log2( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeLog22( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog22( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 log2( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeLog23( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog23( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 log2( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeLog24( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLog24( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -764,57 +844,65 @@ namespace sdw
 	RetFloat sqrt( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeSqrt1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 sqrt( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeSqrt2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 sqrt( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeSqrt3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 sqrt( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeSqrt4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble sqrt( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeSqrt1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 sqrt( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeSqrt2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 sqrt( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeSqrt3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 sqrt( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeSqrt4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSqrt4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -828,57 +916,65 @@ namespace sdw
 	RetFloat inverseSqrt( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeInverseSqrt1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 inverseSqrt( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeInverseSqrt2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 inverseSqrt( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeInverseSqrt3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 inverseSqrt( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeInverseSqrt4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble inverseSqrt( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeInverseSqrt1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 inverseSqrt( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeInverseSqrt2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 inverseSqrt( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeInverseSqrt3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 inverseSqrt( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeInverseSqrt4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInverseSqrt4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -892,85 +988,97 @@ namespace sdw
 	RetFloat abs( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeAbs1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 abs( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeAbs2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 abs( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeAbs3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 abs( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeAbs4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetInt32 abs( Int32 const x )
 	{
 		return RetInt32{ *findWriter( x )
-			, expr::makeAbs1I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs1I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetI32Vec2 abs( I32Vec2 const x )
 	{
 		return RetI32Vec2{ *findWriter( x )
-			, expr::makeAbs2I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs2I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetI32Vec3 abs( I32Vec3 const x )
 	{
 		return RetI32Vec3{ *findWriter( x )
-			, expr::makeAbs3I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs3I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetI32Vec4 abs( I32Vec4 const x )
 	{
 		return RetI32Vec4{ *findWriter( x )
-			, expr::makeAbs4I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs4I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble abs( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeAbs1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 abs( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeAbs2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 abs( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeAbs3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 abs( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeAbs4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAbs4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -984,85 +1092,97 @@ namespace sdw
 	RetFloat sign( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeSign1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 sign( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeSign2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 sign( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeSign3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 sign( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeSign4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetInt32 sign( Int32 const x )
 	{
 		return RetInt32{ *findWriter( x )
-			, expr::makeSign1I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign1I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetI32Vec2 sign( I32Vec2 const x )
 	{
 		return RetI32Vec2{ *findWriter( x )
-			, expr::makeSign2I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign2I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetI32Vec3 sign( I32Vec3 const x )
 	{
 		return RetI32Vec3{ *findWriter( x )
-			, expr::makeSign3I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign3I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetI32Vec4 sign( I32Vec4 const x )
 	{
 		return RetI32Vec4{ *findWriter( x )
-			, expr::makeSign4I( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign4I( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble sign( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeSign1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 sign( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeSign2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 sign( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeSign3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 sign( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeSign4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeSign4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1076,57 +1196,65 @@ namespace sdw
 	RetFloat floor( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeFloor1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 floor( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeFloor2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 floor( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeFloor3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 floor( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeFloor4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble floor( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeFloor1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 floor( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeFloor2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 floor( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeFloor3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 floor( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeFloor4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFloor4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1140,57 +1268,65 @@ namespace sdw
 	RetFloat trunc( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeTrunc1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 trunc( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeTrunc2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 trunc( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeTrunc3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 trunc( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeTrunc4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble trunc( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeTrunc1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 trunc( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeTrunc2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 trunc( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeTrunc3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 trunc( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeTrunc4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTrunc4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1204,57 +1340,65 @@ namespace sdw
 	RetFloat round( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeRound1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 round( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeRound2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 round( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeRound3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 round( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeRound4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble round( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeRound1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 round( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeRound2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 round( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeRound3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 round( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeRound4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRound4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1268,57 +1412,65 @@ namespace sdw
 	RetFloat roundEven( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeRoundEven1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 roundEven( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeRoundEven2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 roundEven( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeRoundEven3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 roundEven( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeRoundEven4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble roundEven( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeRoundEven1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 roundEven( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeRoundEven2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 roundEven( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeRoundEven3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 roundEven( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeRoundEven4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeRoundEven4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1332,57 +1484,65 @@ namespace sdw
 	RetFloat ceil( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeCeil1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 ceil( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeCeil2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 ceil( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeCeil3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 ceil( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeCeil4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble ceil( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeCeil1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 ceil( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeCeil2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 ceil( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeCeil3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 ceil( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeCeil4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeCeil4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1396,57 +1556,65 @@ namespace sdw
 	RetFloat fract( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeFract1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 fract( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeFract2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 fract( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeFract3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 fract( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeFract4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble fract( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeFract1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 fract( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeFract2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 fract( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeFract3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 fract( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeFract4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeFract4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -1461,8 +1629,9 @@ namespace sdw
 		, Float const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeMod1F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod1F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1470,8 +1639,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetVec2{ *findWriter( x, y )
-			, expr::makeMod2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1479,8 +1649,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetVec3{ *findWriter( x, y )
-			, expr::makeMod3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1488,8 +1659,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetVec4{ *findWriter( x, y )
-			, expr::makeMod4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1497,8 +1669,9 @@ namespace sdw
 		, Double const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeMod1D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod1D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1506,8 +1679,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetDVec2{ *findWriter( x, y )
-			, expr::makeMod2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1515,8 +1689,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetDVec3{ *findWriter( x, y )
-			, expr::makeMod3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1524,8 +1699,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetDVec4{ *findWriter( x, y )
-			, expr::makeMod4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMod4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1541,8 +1717,9 @@ namespace sdw
 		, Float const i )
 	{
 		return RetFloat{ *findWriter( x, i )
-			, expr::makeModf1F( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf1F( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1550,8 +1727,9 @@ namespace sdw
 		, Vec2 const i )
 	{
 		return RetVec2{ *findWriter( x, i )
-			, expr::makeModf2F( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf2F( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1559,8 +1737,9 @@ namespace sdw
 		, Vec3 const i )
 	{
 		return RetVec3{ *findWriter( x, i )
-			, expr::makeModf3F( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf3F( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1568,8 +1747,9 @@ namespace sdw
 		, Vec4 const i )
 	{
 		return RetVec4{ *findWriter( x, i )
-			, expr::makeModf4F( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf4F( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1577,8 +1757,9 @@ namespace sdw
 		, Double const i )
 	{
 		return RetDouble{ *findWriter( x, i )
-			, expr::makeModf1D( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf1D( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1586,8 +1767,9 @@ namespace sdw
 		, DVec2 const i )
 	{
 		return RetDVec2{ *findWriter( x, i )
-			, expr::makeModf2D( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf2D( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1595,8 +1777,9 @@ namespace sdw
 		, DVec3 const i )
 	{
 		return RetDVec3{ *findWriter( x, i )
-			, expr::makeModf3D( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf3D( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1604,8 +1787,9 @@ namespace sdw
 		, DVec4 const i )
 	{
 		return RetDVec4{ *findWriter( x, i )
-			, expr::makeModf4D( findTypesCache( x, i )
-					, makeExpr( x )
+			, expr::makeModf4D( findExprCache( x, i )
+				, findTypesCache( x, i )
+				, makeExpr( x )
 				, makeExpr( i ) )
 			, areOptionalEnabled( x, i ) };
 	}
@@ -1621,8 +1805,9 @@ namespace sdw
 		, Float const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeMin1F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin1F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1630,8 +1815,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetVec2{ *findWriter( x, y )
-			, expr::makeMin2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1639,8 +1825,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetVec3{ *findWriter( x, y )
-			, expr::makeMin3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1648,8 +1835,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetVec4{ *findWriter( x, y )
-			, expr::makeMin4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1657,8 +1845,9 @@ namespace sdw
 		, Double const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeMin1D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin1D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1666,8 +1855,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetDVec2{ *findWriter( x, y )
-			, expr::makeMin2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1675,8 +1865,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetDVec3{ *findWriter( x, y )
-			, expr::makeMin3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1684,8 +1875,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetDVec4{ *findWriter( x, y )
-			, expr::makeMin4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1693,8 +1885,9 @@ namespace sdw
 		, Int32 const y )
 	{
 		return RetInt32{ *findWriter( x, y )
-			, expr::makeMin1I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin1I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1702,8 +1895,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetI32Vec2{ *findWriter( x, y )
-			, expr::makeMin2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1711,8 +1905,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetI32Vec3{ *findWriter( x, y )
-			, expr::makeMin3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1720,8 +1915,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetI32Vec4{ *findWriter( x, y )
-			, expr::makeMin4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1729,8 +1925,9 @@ namespace sdw
 		, UInt32 const y )
 	{
 		return RetUInt32{ *findWriter( x, y )
-			, expr::makeMin1U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin1U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1738,8 +1935,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetU32Vec2{ *findWriter( x, y )
-			, expr::makeMin2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1747,8 +1945,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetU32Vec3{ *findWriter( x, y )
-			, expr::makeMin3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1756,8 +1955,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetU32Vec4{ *findWriter( x, y )
-			, expr::makeMin4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMin4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1773,8 +1973,9 @@ namespace sdw
 		, Float const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeMax1F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax1F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1782,8 +1983,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetVec2{ *findWriter( x, y )
-			, expr::makeMax2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1791,8 +1993,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetVec3{ *findWriter( x, y )
-			, expr::makeMax3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1800,8 +2003,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetVec4{ *findWriter( x, y )
-			, expr::makeMax4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1809,8 +2013,9 @@ namespace sdw
 		, Double const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeMax1D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax1D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1818,8 +2023,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetDVec2{ *findWriter( x, y )
-			, expr::makeMax2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1827,8 +2033,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetDVec3{ *findWriter( x, y )
-			, expr::makeMax3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1836,8 +2043,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetDVec4{ *findWriter( x, y )
-			, expr::makeMax4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1845,8 +2053,9 @@ namespace sdw
 		, Int32 const y )
 	{
 		return RetInt32{ *findWriter( x, y )
-			, expr::makeMax1I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax1I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1854,8 +2063,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetI32Vec2{ *findWriter( x, y )
-			, expr::makeMax2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1863,8 +2073,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetI32Vec3{ *findWriter( x, y )
-			, expr::makeMax3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1872,8 +2083,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetI32Vec4{ *findWriter( x, y )
-			, expr::makeMax4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1881,8 +2093,9 @@ namespace sdw
 		, UInt32 const y )
 	{
 		return RetUInt32{ *findWriter( x, y )
-			, expr::makeMax1U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax1U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1890,8 +2103,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetU32Vec2{ *findWriter( x, y )
-			, expr::makeMax2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1899,8 +2113,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetU32Vec3{ *findWriter( x, y )
-			, expr::makeMax3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1908,8 +2123,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetU32Vec4{ *findWriter( x, y )
-			, expr::makeMax4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMax4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -1926,8 +2142,9 @@ namespace sdw
 		, Float const maxVal )
 	{
 		return RetFloat{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp1F( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp1F( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -1937,8 +2154,9 @@ namespace sdw
 		, Vec2 const maxVal )
 	{
 		return RetVec2{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp2F( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp2F( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -1948,8 +2166,9 @@ namespace sdw
 		, Vec3 const maxVal )
 	{
 		return RetVec3{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp3F( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp3F( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -1959,8 +2178,9 @@ namespace sdw
 		, Vec4 const maxVal )
 	{
 		return RetVec4{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp4F( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp4F( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -1970,8 +2190,9 @@ namespace sdw
 		, Double const maxVal )
 	{
 		return RetDouble{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp1D( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp1D( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -1981,8 +2202,9 @@ namespace sdw
 		, DVec2 const maxVal )
 	{
 		return RetDVec2{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp2D( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp2D( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -1992,8 +2214,9 @@ namespace sdw
 		, DVec3 const maxVal )
 	{
 		return RetDVec3{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp3D( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp3D( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2003,8 +2226,9 @@ namespace sdw
 		, DVec4 const maxVal )
 	{
 		return RetDVec4{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp4D( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp4D( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2014,8 +2238,9 @@ namespace sdw
 		, Int32 const maxVal )
 	{
 		return RetInt32{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp1I( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp1I( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2025,8 +2250,9 @@ namespace sdw
 		, I32Vec2 const maxVal )
 	{
 		return RetI32Vec2{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp2I( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp2I( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2036,8 +2262,9 @@ namespace sdw
 		, I32Vec3 const maxVal )
 	{
 		return RetI32Vec3{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp3I( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp3I( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2047,8 +2274,9 @@ namespace sdw
 		, I32Vec4 const maxVal )
 	{
 		return RetI32Vec4{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp4I( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp4I( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2058,8 +2286,9 @@ namespace sdw
 		, UInt32 const maxVal )
 	{
 		return RetUInt32{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp1U( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp1U( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2069,8 +2298,9 @@ namespace sdw
 		, U32Vec2 const maxVal )
 	{
 		return RetU32Vec2{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp2U( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp2U( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2080,8 +2310,9 @@ namespace sdw
 		, U32Vec3 const maxVal )
 	{
 		return RetU32Vec3{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp3U( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp3U( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2091,8 +2322,9 @@ namespace sdw
 		, U32Vec4 const maxVal )
 	{
 		return RetU32Vec4{ *findWriter( x, minVal, maxVal )
-			, expr::makeClamp4U( findTypesCache( x, minVal, maxVal )
-					, makeExpr( x )
+			, expr::makeClamp4U( findExprCache( x, minVal, maxVal )
+				, findTypesCache( x, minVal, maxVal )
+				, makeExpr( x )
 				, makeExpr( minVal )
 				, makeExpr( maxVal ) )
 			, areOptionalEnabled( x, minVal, maxVal ) };
@@ -2110,8 +2342,9 @@ namespace sdw
 		, Float const a )
 	{
 		return RetFloat{ *findWriter( x, y, a )
-			, expr::makeMix1F( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix1F( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2121,8 +2354,9 @@ namespace sdw
 		, Vec2 const a )
 	{
 		return RetVec2{ *findWriter( x, y, a )
-			, expr::makeMix2F( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix2F( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2132,8 +2366,9 @@ namespace sdw
 		, Vec3 const a )
 	{
 		return RetVec3{ *findWriter( x, y, a )
-			, expr::makeMix3F( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix3F( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2143,8 +2378,9 @@ namespace sdw
 		, Vec4 const a )
 	{
 		return RetVec4{ *findWriter( x, y, a )
-			, expr::makeMix4F( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix4F( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2154,8 +2390,9 @@ namespace sdw
 		, Double const a )
 	{
 		return RetDouble{ *findWriter( x, y, a )
-			, expr::makeMix1D( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix1D( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2165,8 +2402,9 @@ namespace sdw
 		, DVec2 const a )
 	{
 		return RetDVec2{ *findWriter( x, y, a )
-			, expr::makeMix2D( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix2D( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2176,8 +2414,9 @@ namespace sdw
 		, DVec3 const a )
 	{
 		return RetDVec3{ *findWriter( x, y, a )
-			, expr::makeMix3D( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix3D( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2187,8 +2426,9 @@ namespace sdw
 		, DVec4 const a )
 	{
 		return RetDVec4{ *findWriter( x, y, a )
-			, expr::makeMix4D( findTypesCache( x, y, a )
-					, makeExpr( x )
+			, expr::makeMix4D( findExprCache( x, y, a )
+				, findTypesCache( x, y, a )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( a ) )
 			, areOptionalEnabled( x, y, a ) };
@@ -2205,8 +2445,9 @@ namespace sdw
 		, Float const x )
 	{
 		return RetFloat{ *findWriter( edge, x )
-			, expr::makeStep1F( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep1F( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2214,8 +2455,9 @@ namespace sdw
 		, Vec2 const x )
 	{
 		return RetVec2{ *findWriter( edge, x )
-			, expr::makeStep2F( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep2F( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2223,8 +2465,9 @@ namespace sdw
 		, Vec3 const x )
 	{
 		return RetVec3{ *findWriter( edge, x )
-			, expr::makeStep3F( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep3F( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2232,8 +2475,9 @@ namespace sdw
 		, Vec4 const x )
 	{
 		return RetVec4{ *findWriter( edge, x )
-			, expr::makeStep4F( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep4F( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2241,8 +2485,9 @@ namespace sdw
 		, Double const x )
 	{
 		return RetDouble{ *findWriter( edge, x )
-			, expr::makeStep1D( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep1D( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2250,8 +2495,9 @@ namespace sdw
 		, DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( edge, x )
-			, expr::makeStep2D( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep2D( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2259,8 +2505,9 @@ namespace sdw
 		, DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( edge, x )
-			, expr::makeStep3D( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep3D( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2268,8 +2515,9 @@ namespace sdw
 		, DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( edge, x )
-			, expr::makeStep4D( findTypesCache( edge, x )
-					, makeExpr( edge )
+			, expr::makeStep4D( findExprCache( edge, x )
+				, findTypesCache( edge, x )
+				, makeExpr( edge )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge, x ) };
 	}
@@ -2286,8 +2534,9 @@ namespace sdw
 		, Float const x )
 	{
 		return RetFloat{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep1F( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep1F( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2297,8 +2546,9 @@ namespace sdw
 		, Vec2 const x )
 	{
 		return RetVec2{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep2F( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep2F( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2308,8 +2558,9 @@ namespace sdw
 		, Vec3 const x )
 	{
 		return RetVec3{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep3F( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep3F( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2319,8 +2570,9 @@ namespace sdw
 		, Vec4 const x )
 	{
 		return RetVec4{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep4F( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep4F( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2330,8 +2582,9 @@ namespace sdw
 		, Double const x )
 	{
 		return RetDouble{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep1D( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep1D( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2341,8 +2594,9 @@ namespace sdw
 		, DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep2D( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep2D( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2352,8 +2606,9 @@ namespace sdw
 		, DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep3D( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep3D( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2363,8 +2618,9 @@ namespace sdw
 		, DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( edge0, edge1, x )
-			, expr::makeSmoothStep4D( findTypesCache( edge0, edge1, x )
-					, makeExpr( edge0 )
+			, expr::makeSmoothStep4D( findExprCache( edge0, edge1, x )
+				, findTypesCache( edge0, edge1, x )
+				, makeExpr( edge0 )
 				, makeExpr( edge1 )
 				, makeExpr( x ) )
 			, areOptionalEnabled( edge0, edge1, x ) };
@@ -2380,57 +2636,65 @@ namespace sdw
 	RetBoolean isnan( Float const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeIsnan1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec2 isnan( Vec2 const x )
 	{
 		return RetBVec2{ *findWriter( x )
-			, expr::makeIsnan2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec3 isnan( Vec3 const x )
 	{
 		return RetBVec3{ *findWriter( x )
-			, expr::makeIsnan3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec4 isnan( Vec4 const x )
 	{
 		return RetBVec4{ *findWriter( x )
-			, expr::makeIsnan4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBoolean isnan( Double const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeIsnan1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec2 isnan( DVec2 const x )
 	{
 		return RetBVec2{ *findWriter( x )
-			, expr::makeIsnan2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec3 isnan( DVec3 const x )
 	{
 		return RetBVec3{ *findWriter( x )
-			, expr::makeIsnan3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec4 isnan( DVec4 const x )
 	{
 		return RetBVec4{ *findWriter( x )
-			, expr::makeIsnan4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsnan4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -2444,57 +2708,65 @@ namespace sdw
 	RetBoolean isinf( Float const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeIsinf1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec2 isinf( Vec2 const x )
 	{
 		return RetBVec2{ *findWriter( x )
-			, expr::makeIsinf2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec3 isinf( Vec3 const x )
 	{
 		return RetBVec3{ *findWriter( x )
-			, expr::makeIsinf3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec4 isinf( Vec4 const x )
 	{
 		return RetBVec4{ *findWriter( x )
-			, expr::makeIsinf4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBoolean isinf( Double const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeIsinf1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec2 isinf( DVec2 const x )
 	{
 		return RetBVec2{ *findWriter( x )
-			, expr::makeIsinf2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec3 isinf( DVec3 const x )
 	{
 		return RetBVec3{ *findWriter( x )
-			, expr::makeIsinf3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec4 isinf( DVec4 const x )
 	{
 		return RetBVec4{ *findWriter( x )
-			, expr::makeIsinf4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIsinf4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -2508,29 +2780,33 @@ namespace sdw
 	RetInt32 floatBitsToInt( Float const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeFloatBitsToInt1( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToInt1( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 floatBitsToInt( Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeFloatBitsToInt2( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToInt2( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 floatBitsToInt( Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeFloatBitsToInt3( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToInt3( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 floatBitsToInt( Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeFloatBitsToInt4( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToInt4( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -2544,29 +2820,33 @@ namespace sdw
 	RetUInt32 floatBitsToUInt( Float const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeFloatBitsToUInt1( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToUInt1( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 floatBitsToUInt( Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeFloatBitsToUInt2( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToUInt2( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 floatBitsToUInt( Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeFloatBitsToUInt3( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToUInt3( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 floatBitsToUInt( Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeFloatBitsToUInt4( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFloatBitsToUInt4( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -2580,29 +2860,33 @@ namespace sdw
 	RetFloat intBitsToFloat( Int32 const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeIntBitsToFloat1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIntBitsToFloat1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 intBitsToFloat( I32Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeIntBitsToFloat2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIntBitsToFloat2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 intBitsToFloat( I32Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeIntBitsToFloat3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIntBitsToFloat3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 intBitsToFloat( I32Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeIntBitsToFloat4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeIntBitsToFloat4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -2616,29 +2900,33 @@ namespace sdw
 	RetFloat uintBitsToFloat( UInt32 const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeUintBitsToFloat1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeUintBitsToFloat1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 uintBitsToFloat( U32Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeUintBitsToFloat2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeUintBitsToFloat2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 uintBitsToFloat( U32Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeUintBitsToFloat3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeUintBitsToFloat3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 uintBitsToFloat( U32Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeUintBitsToFloat4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeUintBitsToFloat4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -2654,8 +2942,9 @@ namespace sdw
 		, Float const c )
 	{
 		return RetFloat{ *findWriter( a, b, c )
-			, expr::makeFma1F( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma1F( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2665,8 +2954,9 @@ namespace sdw
 		, Vec2 const c )
 	{
 		return RetVec2{ *findWriter( a, b, c )
-			, expr::makeFma2F( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma2F( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2676,8 +2966,9 @@ namespace sdw
 		, Vec3 const c )
 	{
 		return RetVec3{ *findWriter( a, b, c )
-			, expr::makeFma3F( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma3F( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2687,8 +2978,9 @@ namespace sdw
 		, Vec4 const c )
 	{
 		return RetVec4{ *findWriter( a, b, c )
-			, expr::makeFma4F( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma4F( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2698,8 +2990,9 @@ namespace sdw
 		, Double const c )
 	{
 		return RetDouble{ *findWriter( a, b, c )
-			, expr::makeFma1D( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma1D( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2709,8 +3002,9 @@ namespace sdw
 		, DVec2 const c )
 	{
 		return RetDVec2{ *findWriter( a, b, c )
-			, expr::makeFma2D( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma2D( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2720,8 +3014,9 @@ namespace sdw
 		, DVec3 const c )
 	{
 		return RetDVec3{ *findWriter( a, b, c )
-			, expr::makeFma3D( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma3D( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2731,8 +3026,9 @@ namespace sdw
 		, DVec4 const c )
 	{
 		return RetDVec4{ *findWriter( a, b, c )
-			, expr::makeFma4D( findTypesCache( a, b, c )
-					, makeExpr( a )
+			, expr::makeFma4D( findExprCache( a, b, c )
+				, findTypesCache( a, b, c )
+				, makeExpr( a )
 				, makeExpr( b )
 				, makeExpr( c ) )
 			, areOptionalEnabled( a, b, c ) };
@@ -2749,8 +3045,9 @@ namespace sdw
 		, Int32  exp )
 	{
 		return RetFloat{ *findWriter( x, exp )
-			, expr::makeFrexp1F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp1F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2758,8 +3055,9 @@ namespace sdw
 		, I32Vec2  exp )
 	{
 		return RetVec2{ *findWriter( x, exp )
-			, expr::makeFrexp2F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp2F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2767,8 +3065,9 @@ namespace sdw
 		, I32Vec3  exp )
 	{
 		return RetVec3{ *findWriter( x, exp )
-			, expr::makeFrexp3F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp3F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2776,8 +3075,9 @@ namespace sdw
 		, I32Vec4  exp )
 	{
 		return RetVec4{ *findWriter( x, exp )
-			, expr::makeFrexp4F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp4F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2785,8 +3085,9 @@ namespace sdw
 		, Int32  exp )
 	{
 		return RetDouble{ *findWriter( x, exp )
-			, expr::makeFrexp1D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp1D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2794,8 +3095,9 @@ namespace sdw
 		, I32Vec2  exp )
 	{
 		return RetDVec2{ *findWriter( x, exp )
-			, expr::makeFrexp2D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp2D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2803,8 +3105,9 @@ namespace sdw
 		, I32Vec3  exp )
 	{
 		return RetDVec3{ *findWriter( x, exp )
-			, expr::makeFrexp3D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp3D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2812,8 +3115,9 @@ namespace sdw
 		, I32Vec4  exp )
 	{
 		return RetDVec4{ *findWriter( x, exp )
-			, expr::makeFrexp4D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeFrexp4D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2829,8 +3133,9 @@ namespace sdw
 		, Int32 const exp )
 	{
 		return RetFloat{ *findWriter( x, exp )
-			, expr::makeLdexp1F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp1F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2838,8 +3143,9 @@ namespace sdw
 		, I32Vec2 const exp )
 	{
 		return RetVec2{ *findWriter( x, exp )
-			, expr::makeLdexp2F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp2F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2847,8 +3153,9 @@ namespace sdw
 		, I32Vec3 const exp )
 	{
 		return RetVec3{ *findWriter( x, exp )
-			, expr::makeLdexp3F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp3F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2856,8 +3163,9 @@ namespace sdw
 		, I32Vec4 const exp )
 	{
 		return RetVec4{ *findWriter( x, exp )
-			, expr::makeLdexp4F( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp4F( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2865,8 +3173,9 @@ namespace sdw
 		, Int32 const exp )
 	{
 		return RetDouble{ *findWriter( x, exp )
-			, expr::makeLdexp1D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp1D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2874,8 +3183,9 @@ namespace sdw
 		, I32Vec2 const exp )
 	{
 		return RetDVec2{ *findWriter( x, exp )
-			, expr::makeLdexp2D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp2D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2883,8 +3193,9 @@ namespace sdw
 		, I32Vec3 const exp )
 	{
 		return RetDVec3{ *findWriter( x, exp )
-			, expr::makeLdexp3D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp3D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2892,8 +3203,9 @@ namespace sdw
 		, I32Vec4 const exp )
 	{
 		return RetDVec4{ *findWriter( x, exp )
-			, expr::makeLdexp4D( findTypesCache( x, exp )
-					, makeExpr( x )
+			, expr::makeLdexp4D( findExprCache( x, exp )
+				, findTypesCache( x, exp )
+				, makeExpr( x )
 				, makeExpr( exp ) )
 			, areOptionalEnabled( x, exp ) };
 	}
@@ -2908,8 +3220,9 @@ namespace sdw
 	RetDouble packDouble2x32( U32Vec2 const v )
 	{
 		return RetDouble{ *findWriter( v )
-			, expr::makePackDouble2x32( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makePackDouble2x32( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -2923,8 +3236,9 @@ namespace sdw
 	RetUInt32 packHalf2x16( Vec2 const v )
 	{
 		return RetUInt32{ *findWriter( v )
-			, expr::makePackHalf2x16( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makePackHalf2x16( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -2938,8 +3252,9 @@ namespace sdw
 	RetUInt32 packSnorm2x16( Vec2 const v )
 	{
 		return RetUInt32{ *findWriter( v )
-			, expr::makePackSnorm2x16( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makePackSnorm2x16( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -2953,8 +3268,9 @@ namespace sdw
 	RetUInt32 packSnorm4x8( Vec4 const v )
 	{
 		return RetUInt32{ *findWriter( v )
-			, expr::makePackSnorm4x8( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makePackSnorm4x8( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -2968,8 +3284,9 @@ namespace sdw
 	RetUInt32 packUnorm2x16( Vec2 const v )
 	{
 		return RetUInt32{ *findWriter( v )
-			, expr::makePackUnorm2x16( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makePackUnorm2x16( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -2983,8 +3300,9 @@ namespace sdw
 	RetUInt32 packUnorm4x8( Vec4 const v )
 	{
 		return RetUInt32{ *findWriter( v )
-			, expr::makePackUnorm4x8( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makePackUnorm4x8( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -2998,8 +3316,9 @@ namespace sdw
 	RetU32Vec2 unpackDouble2x32( Double const d )
 	{
 		return RetU32Vec2{ *findWriter( d )
-			, expr::makeUnpackDouble2x32( findTypesCache( d )
-					, makeExpr( d ) )
+			, expr::makeUnpackDouble2x32( findExprCache( d )
+				, findTypesCache( d )
+				, makeExpr( d ) )
 			, areOptionalEnabled( d ) };
 	}
 	/**@}*/
@@ -3013,8 +3332,9 @@ namespace sdw
 	RetVec2 unpackHalf2x16( UInt32 const v )
 	{
 		return RetVec2{ *findWriter( v )
-			, expr::makeUnpackHalf2x16( findTypesCache( v )
-					, makeExpr( v ) )
+			, expr::makeUnpackHalf2x16( findExprCache( v )
+				, findTypesCache( v )
+				, makeExpr( v ) )
 			, areOptionalEnabled( v ) };
 	}
 	/**@}*/
@@ -3028,8 +3348,9 @@ namespace sdw
 	RetVec2 unpackSnorm2x16( UInt32 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeUnpackSnorm2x16( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeUnpackSnorm2x16( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -3043,8 +3364,9 @@ namespace sdw
 	RetVec4 unpackSnorm4x8( UInt32 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeUnpackSnorm4x8( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeUnpackSnorm4x8( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -3058,8 +3380,9 @@ namespace sdw
 	RetVec2 unpackUnorm2x16( UInt32 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeUnpackUnorm2x16( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeUnpackUnorm2x16( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -3073,8 +3396,9 @@ namespace sdw
 	RetVec4 unpackUnorm4x8( UInt32 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeUnpackUnorm4x8( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeUnpackUnorm4x8( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -3088,57 +3412,65 @@ namespace sdw
 	RetFloat length( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeLength1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetFloat length( Vec2 const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeLength2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetFloat length( Vec3 const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeLength3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetFloat length( Vec4 const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeLength4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble length( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeLength1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble length( DVec2 const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeLength2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble length( DVec3 const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeLength3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble length( DVec4 const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeLength4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeLength4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -3153,8 +3485,9 @@ namespace sdw
 		, Float const p1 )
 	{
 		return RetFloat{ *findWriter( p0, p1 )
-			, expr::makeDistance1F( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance1F( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3162,8 +3495,9 @@ namespace sdw
 		, Vec2 const p1 )
 	{
 		return RetFloat{ *findWriter( p0, p1 )
-			, expr::makeDistance2F( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance2F( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3171,8 +3505,9 @@ namespace sdw
 		, Vec3 const p1 )
 	{
 		return RetFloat{ *findWriter( p0, p1 )
-			, expr::makeDistance3F( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance3F( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3180,8 +3515,9 @@ namespace sdw
 		, Vec4 const p1 )
 	{
 		return RetFloat{ *findWriter( p0, p1 )
-			, expr::makeDistance4F( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance4F( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3189,8 +3525,9 @@ namespace sdw
 		, Double const p1 )
 	{
 		return RetDouble{ *findWriter( p0, p1 )
-			, expr::makeDistance1D( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance1D( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3198,8 +3535,9 @@ namespace sdw
 		, DVec2 const p1 )
 	{
 		return RetDouble{ *findWriter( p0, p1 )
-			, expr::makeDistance2D( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance2D( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3207,8 +3545,9 @@ namespace sdw
 		, DVec3 const p1 )
 	{
 		return RetDouble{ *findWriter( p0, p1 )
-			, expr::makeDistance3D( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance3D( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3216,8 +3555,9 @@ namespace sdw
 		, DVec4 const p1 )
 	{
 		return RetDouble{ *findWriter( p0, p1 )
-			, expr::makeDistance4D( findTypesCache( p0, p1 )
-					, makeExpr( p0 )
+			, expr::makeDistance4D( findExprCache( p0, p1 )
+				, findTypesCache( p0, p1 )
+				, makeExpr( p0 )
 				, makeExpr( p1 ) )
 			, areOptionalEnabled( p0, p1 ) };
 	}
@@ -3233,8 +3573,9 @@ namespace sdw
 		, Float const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeDot1F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot1F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3242,8 +3583,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeDot2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3251,8 +3593,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeDot3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3260,8 +3603,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetFloat{ *findWriter( x, y )
-			, expr::makeDot4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3269,8 +3613,9 @@ namespace sdw
 		, Double const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeDot1D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot1D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3278,8 +3623,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeDot2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3287,8 +3633,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeDot3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3296,8 +3643,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetDouble{ *findWriter( x, y )
-			, expr::makeDot4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeDot4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3313,8 +3661,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetVec3{ *findWriter( x, y )
-			, expr::makeCrossF( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeCrossF( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3322,8 +3671,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetDVec3{ *findWriter( x, y )
-			, expr::makeCrossD( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeCrossD( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3338,57 +3688,65 @@ namespace sdw
 	RetFloat normalize( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeNormalize1F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize1F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 normalize( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeNormalize2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 normalize( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeNormalize3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 normalize( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeNormalize4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDouble normalize( Double const x )
 	{
 		return RetDouble{ *findWriter( x )
-			, expr::makeNormalize1D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize1D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec2 normalize( DVec2 const x )
 	{
 		return RetDVec2{ *findWriter( x )
-			, expr::makeNormalize2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec3 normalize( DVec3 const x )
 	{
 		return RetDVec3{ *findWriter( x )
-			, expr::makeNormalize3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDVec4 normalize( DVec4 const x )
 	{
 		return RetDVec4{ *findWriter( x )
-			, expr::makeNormalize4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNormalize4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -3404,8 +3762,9 @@ namespace sdw
 		, Float const Nref )
 	{
 		return RetFloat{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward1F( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward1F( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3415,8 +3774,9 @@ namespace sdw
 		, Vec2 const Nref )
 	{
 		return RetVec2{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward2F( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward2F( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3426,8 +3786,9 @@ namespace sdw
 		, Vec3 const Nref )
 	{
 		return RetVec3{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward3F( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward3F( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3437,8 +3798,9 @@ namespace sdw
 		, Vec4 const Nref )
 	{
 		return RetVec4{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward4F( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward4F( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3448,8 +3810,9 @@ namespace sdw
 		, Double const Nref )
 	{
 		return RetDouble{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward1D( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward1D( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3459,8 +3822,9 @@ namespace sdw
 		, DVec2 const Nref )
 	{
 		return RetDVec2{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward2D( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward2D( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3470,8 +3834,9 @@ namespace sdw
 		, DVec3 const Nref )
 	{
 		return RetDVec3{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward3D( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward3D( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3481,8 +3846,9 @@ namespace sdw
 		, DVec4 const Nref )
 	{
 		return RetDVec4{ *findWriter( N, I, Nref )
-			, expr::makeFaceForward4D( findTypesCache( N, I, Nref )
-					, makeExpr( N )
+			, expr::makeFaceForward4D( findExprCache( N, I, Nref )
+				, findTypesCache( N, I, Nref )
+				, makeExpr( N )
 				, makeExpr( I )
 				, makeExpr( Nref ) )
 			, areOptionalEnabled( N, I, Nref ) };
@@ -3499,8 +3865,9 @@ namespace sdw
 		, Float const N )
 	{
 		return RetFloat{ *findWriter( I, N )
-			, expr::makeReflect1F( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect1F( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3508,8 +3875,9 @@ namespace sdw
 		, Vec2 const N )
 	{
 		return RetVec2{ *findWriter( I, N )
-			, expr::makeReflect2F( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect2F( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3517,8 +3885,9 @@ namespace sdw
 		, Vec3 const N )
 	{
 		return RetVec3{ *findWriter( I, N )
-			, expr::makeReflect3F( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect3F( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3526,8 +3895,9 @@ namespace sdw
 		, Vec4 const N )
 	{
 		return RetVec4{ *findWriter( I, N )
-			, expr::makeReflect4F( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect4F( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3535,8 +3905,9 @@ namespace sdw
 		, Double const N )
 	{
 		return RetDouble{ *findWriter( I, N )
-			, expr::makeReflect1D( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect1D( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3544,8 +3915,9 @@ namespace sdw
 		, DVec2 const N )
 	{
 		return RetDVec2{ *findWriter( I, N )
-			, expr::makeReflect2D( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect2D( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3553,8 +3925,9 @@ namespace sdw
 		, DVec3 const N )
 	{
 		return RetDVec3{ *findWriter( I, N )
-			, expr::makeReflect3D( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect3D( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3562,8 +3935,9 @@ namespace sdw
 		, DVec4 const N )
 	{
 		return RetDVec4{ *findWriter( I, N )
-			, expr::makeReflect4D( findTypesCache( I, N )
-					, makeExpr( I )
+			, expr::makeReflect4D( findExprCache( I, N )
+				, findTypesCache( I, N )
+				, makeExpr( I )
 				, makeExpr( N ) )
 			, areOptionalEnabled( I, N ) };
 	}
@@ -3580,8 +3954,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetFloat{ *findWriter( I, N, eta )
-			, expr::makeRefract1F( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract1F( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3591,8 +3966,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetVec2{ *findWriter( I, N, eta )
-			, expr::makeRefract2F( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract2F( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3602,8 +3978,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetVec3{ *findWriter( I, N, eta )
-			, expr::makeRefract3F( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract3F( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3613,8 +3990,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetVec4{ *findWriter( I, N, eta )
-			, expr::makeRefract4F( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract4F( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3624,8 +4002,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetDouble{ *findWriter( I, N, eta )
-			, expr::makeRefract1D( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract1D( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3635,8 +4014,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetDVec2{ *findWriter( I, N, eta )
-			, expr::makeRefract2D( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract2D( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3646,8 +4026,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetDVec3{ *findWriter( I, N, eta )
-			, expr::makeRefract3D( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract3D( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3657,8 +4038,9 @@ namespace sdw
 		, Float const eta )
 	{
 		return RetDVec4{ *findWriter( I, N, eta )
-			, expr::makeRefract4D( findTypesCache( I, N, eta )
-					, makeExpr( I )
+			, expr::makeRefract4D( findExprCache( I, N, eta )
+				, findTypesCache( I, N, eta )
+				, makeExpr( I )
 				, makeExpr( N )
 				, makeExpr( eta ) )
 			, areOptionalEnabled( I, N, eta ) };
@@ -3675,8 +4057,9 @@ namespace sdw
 		, Mat2 const y )
 	{
 		return RetMat2{ *findWriter( x, y )
-			, expr::makeMatrixCompMult2x2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult2x2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3684,8 +4067,9 @@ namespace sdw
 		, Mat2x3 const y )
 	{
 		return RetMat2x3{ *findWriter( x, y )
-			, expr::makeMatrixCompMult2x3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult2x3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3693,8 +4077,9 @@ namespace sdw
 		, Mat2x4 const y )
 	{
 		return RetMat2x4{ *findWriter( x, y )
-			, expr::makeMatrixCompMult2x4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult2x4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3702,8 +4087,9 @@ namespace sdw
 		, Mat3x2 const y )
 	{
 		return RetMat3x2{ *findWriter( x, y )
-			, expr::makeMatrixCompMult3x2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult3x2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3711,8 +4097,9 @@ namespace sdw
 		, Mat3 const y )
 	{
 		return RetMat3{ *findWriter( x, y )
-			, expr::makeMatrixCompMult3x3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult3x3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3720,8 +4107,9 @@ namespace sdw
 		, Mat3x4 const y )
 	{
 		return RetMat3x4{ *findWriter( x, y )
-			, expr::makeMatrixCompMult3x4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult3x4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3729,8 +4117,9 @@ namespace sdw
 		, Mat4x2 const y )
 	{
 		return RetMat4x2{ *findWriter( x, y )
-			, expr::makeMatrixCompMult4x2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult4x2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3738,8 +4127,9 @@ namespace sdw
 		, Mat4x3 const y )
 	{
 		return RetMat4x3{ *findWriter( x, y )
-			, expr::makeMatrixCompMult4x3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult4x3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3747,8 +4137,9 @@ namespace sdw
 		, Mat4 const y )
 	{
 		return RetMat4{ *findWriter( x, y )
-			, expr::makeMatrixCompMult4x4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult4x4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3756,8 +4147,9 @@ namespace sdw
 		, DMat2 const y )
 	{
 		return RetDMat2{ *findWriter( x, y )
-			, expr::makeMatrixCompMult2x2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult2x2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3765,8 +4157,9 @@ namespace sdw
 		, DMat2x3 const y )
 	{
 		return RetDMat2x3{ *findWriter( x, y )
-			, expr::makeMatrixCompMult2x3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult2x3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3774,8 +4167,9 @@ namespace sdw
 		, DMat2x4 const y )
 	{
 		return RetDMat2x4{ *findWriter( x, y )
-			, expr::makeMatrixCompMult2x4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult2x4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3783,8 +4177,9 @@ namespace sdw
 		, DMat3x2 const y )
 	{
 		return RetDMat3x2{ *findWriter( x, y )
-			, expr::makeMatrixCompMult3x2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult3x2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3792,8 +4187,9 @@ namespace sdw
 		, DMat3 const y )
 	{
 		return RetDMat3{ *findWriter( x, y )
-			, expr::makeMatrixCompMult3x3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult3x3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3801,8 +4197,9 @@ namespace sdw
 		, DMat3x4 const y )
 	{
 		return RetDMat3x4{ *findWriter( x, y )
-			, expr::makeMatrixCompMult3x4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult3x4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3810,8 +4207,9 @@ namespace sdw
 		, DMat4x2 const y )
 	{
 		return RetDMat4x2{ *findWriter( x, y )
-			, expr::makeMatrixCompMult4x2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult4x2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3819,8 +4217,9 @@ namespace sdw
 		, DMat4x3 const y )
 	{
 		return RetDMat4x3{ *findWriter( x, y )
-			, expr::makeMatrixCompMult4x3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult4x3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3828,8 +4227,9 @@ namespace sdw
 		, DMat4 const y )
 	{
 		return RetDMat4{ *findWriter( x, y )
-			, expr::makeMatrixCompMult4x4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeMatrixCompMult4x4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -3845,8 +4245,9 @@ namespace sdw
 		, Vec2 const r )
 	{
 		return RetMat2{ *findWriter( c, r )
-			, expr::makeOuterProduct2x2F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct2x2F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3854,8 +4255,9 @@ namespace sdw
 		, Vec3 const r )
 	{
 		return RetMat3{ *findWriter( c, r )
-			, expr::makeOuterProduct3x3F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct3x3F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3863,8 +4265,9 @@ namespace sdw
 		, Vec4 const r )
 	{
 		return RetMat4{ *findWriter( c, r )
-			, expr::makeOuterProduct4x4F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct4x4F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3872,8 +4275,9 @@ namespace sdw
 		, Vec2 const r )
 	{
 		return RetMat2x3{ *findWriter( c, r )
-			, expr::makeOuterProduct3x2F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct3x2F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3881,8 +4285,9 @@ namespace sdw
 		, Vec3 const r )
 	{
 		return RetMat3x2{ *findWriter( c, r )
-			, expr::makeOuterProduct2x3F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct2x3F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3890,8 +4295,9 @@ namespace sdw
 		, Vec2 const r )
 	{
 		return RetMat2x4{ *findWriter( c, r )
-			, expr::makeOuterProduct4x2F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct4x2F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3899,8 +4305,9 @@ namespace sdw
 		, Vec4 const r )
 	{
 		return RetMat4x2{ *findWriter( c, r )
-			, expr::makeOuterProduct2x4F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct2x4F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3908,8 +4315,9 @@ namespace sdw
 		, Vec3 const r )
 	{
 		return RetMat3x4{ *findWriter( c, r )
-			, expr::makeOuterProduct4x3F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct4x3F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3917,8 +4325,9 @@ namespace sdw
 		, Vec4 const r )
 	{
 		return RetMat4x3{ *findWriter( c, r )
-			, expr::makeOuterProduct3x4F( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct3x4F( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3926,8 +4335,9 @@ namespace sdw
 		, DVec2 const r )
 	{
 		return RetDMat2{ *findWriter( c, r )
-			, expr::makeOuterProduct2x2D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct2x2D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3935,8 +4345,9 @@ namespace sdw
 		, DVec3 const r )
 	{
 		return RetDMat3{ *findWriter( c, r )
-			, expr::makeOuterProduct3x3D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct3x3D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3944,8 +4355,9 @@ namespace sdw
 		, DVec4 const r )
 	{
 		return RetDMat4{ *findWriter( c, r )
-			, expr::makeOuterProduct4x4D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct4x4D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3953,8 +4365,9 @@ namespace sdw
 		, DVec2 const r )
 	{
 		return RetDMat2x3{ *findWriter( c, r )
-			, expr::makeOuterProduct3x2D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct3x2D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3962,8 +4375,9 @@ namespace sdw
 		, DVec3 const r )
 	{
 		return RetDMat3x2{ *findWriter( c, r )
-			, expr::makeOuterProduct2x3D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct2x3D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3971,8 +4385,9 @@ namespace sdw
 		, DVec2 const r )
 	{
 		return RetDMat2x4{ *findWriter( c, r )
-			, expr::makeOuterProduct4x2D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct4x2D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3980,8 +4395,9 @@ namespace sdw
 		, DVec4 const r )
 	{
 		return RetDMat4x2{ *findWriter( c, r )
-			, expr::makeOuterProduct2x4D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct2x4D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3989,8 +4405,9 @@ namespace sdw
 		, DVec3 const r )
 	{
 		return RetDMat3x4{ *findWriter( c, r )
-			, expr::makeOuterProduct4x3D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct4x3D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -3998,8 +4415,9 @@ namespace sdw
 		, DVec4 const r )
 	{
 		return RetDMat4x3{ *findWriter( c, r )
-			, expr::makeOuterProduct3x4D( findTypesCache( c, r )
-					, makeExpr( c )
+			, expr::makeOuterProduct3x4D( findExprCache( c, r )
+				, findTypesCache( c, r )
+				, makeExpr( c )
 				, makeExpr( r ) )
 			, areOptionalEnabled( c, r ) };
 	}
@@ -4014,127 +4432,145 @@ namespace sdw
 	RetMat2 transpose( Mat2 const x )
 	{
 		return RetMat2{ *findWriter( x )
-			, expr::makeTranspose2x2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose2x2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat3x2 transpose( Mat2x3 const x )
 	{
 		return RetMat3x2{ *findWriter( x )
-			, expr::makeTranspose2x3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose2x3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat4x2 transpose( Mat2x4 const x )
 	{
 		return RetMat4x2{ *findWriter( x )
-			, expr::makeTranspose2x4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose2x4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat2x3 transpose( Mat3x2 const x )
 	{
 		return RetMat2x3{ *findWriter( x )
-			, expr::makeTranspose3x2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose3x2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat3 transpose( Mat3 const x )
 	{
 		return RetMat3{ *findWriter( x )
-			, expr::makeTranspose3x3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose3x3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat4x3 transpose( Mat3x4 const x )
 	{
 		return RetMat4x3{ *findWriter( x )
-			, expr::makeTranspose3x4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose3x4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat2x4 transpose( Mat4x2 const x )
 	{
 		return RetMat2x4{ *findWriter( x )
-			, expr::makeTranspose4x2F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose4x2F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat3x4 transpose( Mat4x3 const x )
 	{
 		return RetMat3x4{ *findWriter( x )
-			, expr::makeTranspose4x3F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose4x3F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetMat4 transpose( Mat4 const x )
 	{
 		return RetMat4{ *findWriter( x )
-			, expr::makeTranspose4x4F( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose4x4F( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat2 transpose( DMat2 const x )
 	{
 		return RetDMat2{ *findWriter( x )
-			, expr::makeTranspose2x2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose2x2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat3x2 transpose( DMat2x3 const x )
 	{
 		return RetDMat3x2{ *findWriter( x )
-			, expr::makeTranspose2x3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose2x3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat4x2 transpose( DMat2x4 const x )
 	{
 		return RetDMat4x2{ *findWriter( x )
-			, expr::makeTranspose2x4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose2x4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat2x3 transpose( DMat3x2 const x )
 	{
 		return RetDMat2x3{ *findWriter( x )
-			, expr::makeTranspose3x2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose3x2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat3 transpose( DMat3 const x )
 	{
 		return RetDMat3{ *findWriter( x )
-			, expr::makeTranspose3x3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose3x3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat4x3 transpose( DMat3x4 const x )
 	{
 		return RetDMat4x3{ *findWriter( x )
-			, expr::makeTranspose3x4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose3x4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat2x4 transpose( DMat4x2 const x )
 	{
 		return RetDMat2x4{ *findWriter( x )
-			, expr::makeTranspose4x2D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose4x2D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat3x4 transpose( DMat4x3 const x )
 	{
 		return RetDMat3x4{ *findWriter( x )
-			, expr::makeTranspose4x3D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose4x3D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetDMat4 transpose( DMat4 const x )
 	{
 		return RetDMat4{ *findWriter( x )
-			, expr::makeTranspose4x4D( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeTranspose4x4D( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -4148,43 +4584,49 @@ namespace sdw
 	RetFloat determinant( Mat2 const m )
 	{
 		return RetFloat{ *findWriter( m )
-			, expr::makeDeterminant2x2F( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeDeterminant2x2F( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetFloat determinant( Mat3 const m )
 	{
 		return RetFloat{ *findWriter( m )
-			, expr::makeDeterminant3x3F( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeDeterminant3x3F( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetFloat determinant( Mat4 const m )
 	{
 		return RetFloat{ *findWriter( m )
-			, expr::makeDeterminant4x4F( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeDeterminant4x4F( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetDouble determinant( DMat2 const m )
 	{
 		return RetDouble{ *findWriter( m )
-			, expr::makeDeterminant2x2D( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeDeterminant2x2D( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetDouble determinant( DMat3 const m )
 	{
 		return RetDouble{ *findWriter( m )
-			, expr::makeDeterminant3x3D( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeDeterminant3x3D( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetDouble determinant( DMat4 const m )
 	{
 		return RetDouble{ *findWriter( m )
-			, expr::makeDeterminant4x4D( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeDeterminant4x4D( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	/**@}*/
@@ -4198,43 +4640,49 @@ namespace sdw
 	RetMat2 inverse( Mat2 const m )
 	{
 		return RetMat2{ *findWriter( m )
-			, expr::makeInverse2x2F( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeInverse2x2F( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetMat3 inverse( Mat3 const m )
 	{
 		return RetMat3{ *findWriter( m )
-			, expr::makeInverse3x3F( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeInverse3x3F( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetMat4 inverse( Mat4 const m )
 	{
 		return RetMat4{ *findWriter( m )
-			, expr::makeInverse4x4F( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeInverse4x4F( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetDMat2 inverse( DMat2 const m )
 	{
 		return RetDMat2{ *findWriter( m )
-			, expr::makeInverse2x2D( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeInverse2x2D( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetDMat3 inverse( DMat3 const m )
 	{
 		return RetDMat3{ *findWriter( m )
-			, expr::makeInverse3x3D( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeInverse3x3D( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	RetDMat4 inverse( DMat4 const m )
 	{
 		return RetDMat4{ *findWriter( m )
-			, expr::makeInverse4x4D( findTypesCache( m )
-					, makeExpr( m ) )
+			, expr::makeInverse4x4D( findExprCache( m )
+				, findTypesCache( m )
+				, makeExpr( m ) )
 			, areOptionalEnabled( m ) };
 	}
 	/**@}*/
@@ -4249,8 +4697,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThan2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4258,8 +4707,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThan3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4267,8 +4717,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThan4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4276,8 +4727,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThan2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4285,8 +4737,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThan3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4294,8 +4747,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThan4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4303,8 +4757,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThan2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4312,8 +4767,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThan3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4321,8 +4777,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThan4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4330,8 +4787,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThan2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4339,8 +4797,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThan3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4348,8 +4807,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThan4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThan4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4365,8 +4825,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThanEqual2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4374,8 +4835,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThanEqual3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4383,8 +4845,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThanEqual4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4392,8 +4855,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThanEqual2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4401,8 +4865,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThanEqual3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4410,8 +4875,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThanEqual4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4419,8 +4885,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThanEqual2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4428,8 +4895,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThanEqual3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4437,8 +4905,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThanEqual4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4446,8 +4915,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeLessThanEqual2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4455,8 +4925,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeLessThanEqual3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4464,8 +4935,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeLessThanEqual4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeLessThanEqual4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4481,8 +4953,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThan2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4490,8 +4963,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThan3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4499,8 +4973,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThan4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4508,8 +4983,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThan2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4517,8 +4993,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThan3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4526,8 +5003,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThan4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4535,8 +5013,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThan2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4544,8 +5023,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThan3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4553,8 +5033,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThan4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4562,8 +5043,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThan2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4571,8 +5053,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThan3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4580,8 +5063,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThan4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThan4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4597,8 +5081,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4606,8 +5091,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4615,8 +5101,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4624,8 +5111,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4633,8 +5121,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4642,8 +5131,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4651,8 +5141,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4660,8 +5151,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4669,8 +5161,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4678,8 +5171,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4687,8 +5181,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4696,8 +5191,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeGreaterThanEqual4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeGreaterThanEqual4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4713,8 +5209,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeEqual2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4722,8 +5219,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeEqual3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4731,8 +5229,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeEqual4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4740,8 +5239,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeEqual2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4749,8 +5249,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeEqual3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4758,8 +5259,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeEqual4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4767,8 +5269,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeEqual2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4776,8 +5279,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeEqual3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4785,8 +5289,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeEqual4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4794,8 +5299,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeEqual2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4803,8 +5309,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeEqual3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4812,8 +5319,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeEqual4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeEqual4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4829,8 +5337,9 @@ namespace sdw
 		, Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeNotEqual2F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual2F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4838,8 +5347,9 @@ namespace sdw
 		, Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeNotEqual3F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual3F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4847,8 +5357,9 @@ namespace sdw
 		, Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeNotEqual4F( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual4F( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4856,8 +5367,9 @@ namespace sdw
 		, DVec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeNotEqual2D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual2D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4865,8 +5377,9 @@ namespace sdw
 		, DVec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeNotEqual3D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual3D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4874,8 +5387,9 @@ namespace sdw
 		, DVec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeNotEqual4D( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual4D( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4883,8 +5397,9 @@ namespace sdw
 		, I32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeNotEqual2I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual2I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4892,8 +5407,9 @@ namespace sdw
 		, I32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeNotEqual3I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual3I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4901,8 +5417,9 @@ namespace sdw
 		, I32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeNotEqual4I( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual4I( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4910,8 +5427,9 @@ namespace sdw
 		, U32Vec2 const y )
 	{
 		return RetBVec2{ *findWriter( x, y )
-			, expr::makeNotEqual2U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual2U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4919,8 +5437,9 @@ namespace sdw
 		, U32Vec3 const y )
 	{
 		return RetBVec3{ *findWriter( x, y )
-			, expr::makeNotEqual3U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual3U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4928,8 +5447,9 @@ namespace sdw
 		, U32Vec4 const y )
 	{
 		return RetBVec4{ *findWriter( x, y )
-			, expr::makeNotEqual4U( findTypesCache( x, y )
-					, makeExpr( x )
+			, expr::makeNotEqual4U( findExprCache( x, y )
+				, findTypesCache( x, y )
+				, makeExpr( x )
 				, makeExpr( y ) )
 			, areOptionalEnabled( x, y ) };
 	}
@@ -4944,22 +5464,25 @@ namespace sdw
 	RetBoolean all( BVec2 const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeAll2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAll2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBoolean all( BVec3 const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeAll3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAll3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBoolean all( BVec4 const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeAll4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAll4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -4973,22 +5496,25 @@ namespace sdw
 	RetBoolean any( BVec2 const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeAny2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAny2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBoolean any( BVec3 const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeAny3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAny3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBoolean any( BVec4 const x )
 	{
 		return RetBoolean{ *findWriter( x )
-			, expr::makeAny4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeAny4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -5002,22 +5528,25 @@ namespace sdw
 	RetBVec2 binNot( BVec2 const x )
 	{
 		return RetBVec2{ *findWriter( x )
-			, expr::makeNot2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNot2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec3 binNot( BVec3 const x )
 	{
 		return RetBVec3{ *findWriter( x )
-			, expr::makeNot3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNot3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetBVec4 binNot( BVec4 const x )
 	{
 		return RetBVec4{ *findWriter( x )
-			, expr::makeNot4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeNot4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -5033,8 +5562,9 @@ namespace sdw
 		, UInt32 const carry )
 	{
 		return RetUInt32{ *findWriter( x, y, carry )
-			, expr::makeUaddCarry1( findTypesCache( x, y, carry )
-					, makeExpr( x )
+			, expr::makeUaddCarry1( findExprCache( x, y, carry )
+				, findTypesCache( x, y, carry )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) )
 			, areOptionalEnabled( x, y, carry ) };
@@ -5044,8 +5574,9 @@ namespace sdw
 		, U32Vec2 const carry )
 	{
 		return RetU32Vec2{ *findWriter( x, y, carry )
-			, expr::makeUaddCarry2( findTypesCache( x, y, carry )
-					, makeExpr( x )
+			, expr::makeUaddCarry2( findExprCache( x, y, carry )
+				, findTypesCache( x, y, carry )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) )
 			, areOptionalEnabled( x, y, carry ) };
@@ -5055,8 +5586,9 @@ namespace sdw
 		, U32Vec3 const carry )
 	{
 		return RetU32Vec3{ *findWriter( x, y, carry )
-			, expr::makeUaddCarry3( findTypesCache( x, y, carry )
-					, makeExpr( x )
+			, expr::makeUaddCarry3( findExprCache( x, y, carry )
+				, findTypesCache( x, y, carry )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) )
 			, areOptionalEnabled( x, y, carry ) };
@@ -5066,8 +5598,9 @@ namespace sdw
 		, U32Vec4 const carry )
 	{
 		return RetU32Vec4{ *findWriter( x, y, carry )
-			, expr::makeUaddCarry4( findTypesCache( x, y, carry )
-					, makeExpr( x )
+			, expr::makeUaddCarry4( findExprCache( x, y, carry )
+				, findTypesCache( x, y, carry )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( carry ) )
 			, areOptionalEnabled( x, y, carry ) };
@@ -5085,8 +5618,9 @@ namespace sdw
 		, UInt32 const borrow )
 	{
 		return RetUInt32{ *findWriter( x, y, borrow )
-			, expr::makeUsubBorrow1( findTypesCache( x, y, borrow )
-					, makeExpr( x )
+			, expr::makeUsubBorrow1( findExprCache( x, y, borrow )
+				, findTypesCache( x, y, borrow )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) )
 			, areOptionalEnabled( x, y, borrow ) };
@@ -5096,8 +5630,9 @@ namespace sdw
 		, U32Vec2 const borrow )
 	{
 		return RetU32Vec2{ *findWriter( x, y, borrow )
-			, expr::makeUsubBorrow2( findTypesCache( x, y, borrow )
-					, makeExpr( x )
+			, expr::makeUsubBorrow2( findExprCache( x, y, borrow )
+				, findTypesCache( x, y, borrow )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) )
 			, areOptionalEnabled( x, y, borrow ) };
@@ -5107,8 +5642,9 @@ namespace sdw
 		, U32Vec3 const borrow )
 	{
 		return RetU32Vec3{ *findWriter( x, y, borrow )
-			, expr::makeUsubBorrow3( findTypesCache( x, y, borrow )
-					, makeExpr( x )
+			, expr::makeUsubBorrow3( findExprCache( x, y, borrow )
+				, findTypesCache( x, y, borrow )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) )
 			, areOptionalEnabled( x, y, borrow ) };
@@ -5118,8 +5654,9 @@ namespace sdw
 		, U32Vec4 const borrow )
 	{
 		return RetU32Vec4{ *findWriter( x, y, borrow )
-			, expr::makeUsubBorrow4( findTypesCache( x, y, borrow )
-					, makeExpr( x )
+			, expr::makeUsubBorrow4( findExprCache( x, y, borrow )
+				, findTypesCache( x, y, borrow )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( borrow ) )
 			, areOptionalEnabled( x, y, borrow ) };
@@ -5138,8 +5675,9 @@ namespace sdw
 		, UInt32 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeUmulExtended1( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeUmulExtended1( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5151,8 +5689,9 @@ namespace sdw
 		, U32Vec2 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeUmulExtended2( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeUmulExtended2( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5164,8 +5703,9 @@ namespace sdw
 		, U32Vec3 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeUmulExtended3( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeUmulExtended3( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5177,8 +5717,9 @@ namespace sdw
 		, U32Vec4 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeUmulExtended4( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeUmulExtended4( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5198,8 +5739,9 @@ namespace sdw
 		, Int32 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeImulExtended1( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeImulExtended1( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5211,8 +5753,9 @@ namespace sdw
 		, I32Vec2 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeImulExtended2( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeImulExtended2( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5224,8 +5767,9 @@ namespace sdw
 		, I32Vec3 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeImulExtended3( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeImulExtended3( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5237,8 +5781,9 @@ namespace sdw
 		, I32Vec4 const lsb )
 	{
 		return RetVoid{ *findWriter( x, y, msb, lsb )
-			, expr::makeImulExtended4( findTypesCache( x, y, msb, lsb )
-					, makeExpr( x )
+			, expr::makeImulExtended4( findExprCache( x, y, msb, lsb )
+				, findTypesCache( x, y, msb, lsb )
+				, makeExpr( x )
 				, makeExpr( y )
 				, makeExpr( msb )
 				, makeExpr( lsb ) )
@@ -5257,8 +5802,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetInt32{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract1I( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract1I( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5268,8 +5814,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetI32Vec2{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract2I( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract2I( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5279,8 +5826,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetI32Vec3{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract3I( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract3I( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5290,8 +5838,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetI32Vec4{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract4I( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract4I( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5301,8 +5850,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetUInt32{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract1U( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract1U( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5312,8 +5862,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetU32Vec2{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract2U( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract2U( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5323,8 +5874,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetU32Vec3{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract3U( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract3U( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5334,8 +5886,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetU32Vec4{ *findWriter( value, offset, bits )
-			, expr::makeBitfieldExtract4U( findTypesCache( value, offset, bits )
-					, makeExpr( value )
+			, expr::makeBitfieldExtract4U( findExprCache( value, offset, bits )
+				, findTypesCache( value, offset, bits )
+				, makeExpr( value )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
 			, areOptionalEnabled( value, offset, bits ) };
@@ -5354,8 +5907,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetInt32{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert1I( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert1I( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5367,8 +5921,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetI32Vec2{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert2I( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert2I( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5380,8 +5935,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetI32Vec3{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert3I( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert3I( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5393,8 +5949,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetI32Vec4{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert4I( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert4I( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5406,8 +5963,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetUInt32{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert1U( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert1U( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5419,8 +5977,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetU32Vec2{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert2U( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert2U( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5432,8 +5991,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetU32Vec3{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert3U( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert3U( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5445,8 +6005,9 @@ namespace sdw
 		, Int32 const bits )
 	{
 		return RetU32Vec4{ *findWriter( base, insert, offset, bits )
-			, expr::makeBitfieldInsert4U( findTypesCache( base, insert, offset, bits )
-					, makeExpr( base )
+			, expr::makeBitfieldInsert4U( findExprCache( base, insert, offset, bits )
+				, findTypesCache( base, insert, offset, bits )
+				, makeExpr( base )
 				, makeExpr( insert )
 				, makeExpr( offset )
 				, makeExpr( bits ) )
@@ -5463,57 +6024,65 @@ namespace sdw
 	RetInt32 bitfieldReverse( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeBitfieldReverse1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 bitfieldReverse( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeBitfieldReverse2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 bitfieldReverse( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeBitfieldReverse3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 bitfieldReverse( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeBitfieldReverse4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 bitfieldReverse( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeBitfieldReverse1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 bitfieldReverse( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeBitfieldReverse2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 bitfieldReverse( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeBitfieldReverse3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 bitfieldReverse( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeBitfieldReverse4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitfieldReverse4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -5527,57 +6096,65 @@ namespace sdw
 	RetInt32 bitCount( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeBitCount1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 bitCount( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeBitCount2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 bitCount( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeBitCount3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 bitCount( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeBitCount4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 bitCount( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeBitCount1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 bitCount( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeBitCount2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 bitCount( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeBitCount3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 bitCount( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeBitCount4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeBitCount4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -5591,57 +6168,65 @@ namespace sdw
 	RetInt32 findLSB( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeFindLSB1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 findLSB( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeFindLSB2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 findLSB( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeFindLSB3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 findLSB( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeFindLSB4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 findLSB( UInt32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeFindLSB1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 findLSB( U32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeFindLSB2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 findLSB( U32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeFindLSB3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 findLSB( U32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeFindLSB4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindLSB4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -5655,57 +6240,65 @@ namespace sdw
 	RetInt32 findMSB( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeFindMSB1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 findMSB( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeFindMSB2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 findMSB( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeFindMSB3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 findMSB( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeFindMSB4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 findMSB( UInt32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeFindMSB1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 findMSB( U32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeFindMSB2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 findMSB( U32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeFindMSB3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 findMSB( U32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeFindMSB4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeFindMSB4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -5720,8 +6313,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicAddI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAddI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5729,8 +6323,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicAddU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAddU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5738,8 +6333,9 @@ namespace sdw
 		, Float const data )
 	{
 		return RetFloat{ *findWriter( mem, data )
-			, expr::makeAtomicAddF( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAddF( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5747,8 +6343,9 @@ namespace sdw
 		, HVec2 const data )
 	{
 		return RetHVec2{ *findWriter( mem, data )
-			, expr::makeAtomicAdd2H( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAdd2H( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5756,8 +6353,9 @@ namespace sdw
 		, HVec4 const data )
 	{
 		return RetHVec4{ *findWriter( mem, data )
-			, expr::makeAtomicAdd4H( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAdd4H( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5773,8 +6371,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicMinI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicMinI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5782,8 +6381,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicMinU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicMinU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5799,8 +6399,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicMaxI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicMaxI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5808,8 +6409,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicMaxU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicMaxU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5825,8 +6427,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicAndI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAndI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5834,8 +6437,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicAndU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicAndU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5851,8 +6455,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicOrI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicOrI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5860,8 +6465,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicOrU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicOrU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5877,8 +6483,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicXorI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicXorI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5886,8 +6493,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicXorU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicXorU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5903,8 +6511,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, data )
-			, expr::makeAtomicExchangeI( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicExchangeI( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5912,8 +6521,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, data )
-			, expr::makeAtomicExchangeU( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicExchangeU( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5921,8 +6531,9 @@ namespace sdw
 		, Float const data )
 	{
 		return RetFloat{ *findWriter( mem, data )
-			, expr::makeAtomicExchangeF( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicExchangeF( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5930,8 +6541,9 @@ namespace sdw
 		, HVec2 const data )
 	{
 		return RetHVec2{ *findWriter( mem, data )
-			, expr::makeAtomicExchange2H( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicExchange2H( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5939,8 +6551,9 @@ namespace sdw
 		, HVec4 const data )
 	{
 		return RetHVec4{ *findWriter( mem, data )
-			, expr::makeAtomicExchange4H( findTypesCache( mem, data )
-					, makeExpr( mem )
+			, expr::makeAtomicExchange4H( findExprCache( mem, data )
+				, findTypesCache( mem, data )
+				, makeExpr( mem )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, data ) };
 	}
@@ -5957,8 +6570,9 @@ namespace sdw
 		, Int32 const data )
 	{
 		return RetInt32{ *findWriter( mem, compare, data )
-			, expr::makeAtomicCompSwapI( findTypesCache( mem, compare, data )
-					, makeExpr( mem )
+			, expr::makeAtomicCompSwapI( findExprCache( mem, compare, data )
+				, findTypesCache( mem, compare, data )
+				, makeExpr( mem )
 				, makeExpr( compare )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, compare, data ) };
@@ -5968,8 +6582,9 @@ namespace sdw
 		, UInt32 const data )
 	{
 		return RetUInt32{ *findWriter( mem, compare, data )
-			, expr::makeAtomicCompSwapU( findTypesCache( mem, compare, data )
-					, makeExpr( mem )
+			, expr::makeAtomicCompSwapU( findExprCache( mem, compare, data )
+				, findTypesCache( mem, compare, data )
+				, makeExpr( mem )
 				, makeExpr( compare )
 				, makeExpr( data ) )
 			, areOptionalEnabled( mem, compare, data ) };
@@ -5985,29 +6600,33 @@ namespace sdw
 	RetFloat dFdx( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeDFdx1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdx1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 dFdx( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeDFdx2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdx2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 dFdx( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeDFdx3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdx3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 dFdx( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeDFdx4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdx4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6021,29 +6640,33 @@ namespace sdw
 	RetFloat dFdxCoarse( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeDFdxCoarse1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxCoarse1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 dFdxCoarse( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeDFdxCoarse2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxCoarse2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 dFdxCoarse( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeDFdxCoarse3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxCoarse3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 dFdxCoarse( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeDFdxCoarse4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxCoarse4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6057,29 +6680,33 @@ namespace sdw
 	RetFloat dFdxFine( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeDFdxFine1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxFine1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 dFdxFine( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeDFdxFine2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxFine2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 dFdxFine( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeDFdxFine3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxFine3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 dFdxFine( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeDFdxFine4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdxFine4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6093,29 +6720,33 @@ namespace sdw
 	RetFloat dFdy( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeDFdy1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdy1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 dFdy( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeDFdy2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdy2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 dFdy( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeDFdy3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdy3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 dFdy( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeDFdy4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdy4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6129,29 +6760,33 @@ namespace sdw
 	RetFloat dFdyCoarse( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeDFdyCoarse1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyCoarse1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 dFdyCoarse( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeDFdyCoarse2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyCoarse2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 dFdyCoarse( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeDFdyCoarse3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyCoarse3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 dFdyCoarse( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeDFdyCoarse4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyCoarse4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6165,29 +6800,33 @@ namespace sdw
 	RetFloat dFdyFine( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeDFdyFine1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyFine1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 dFdyFine( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeDFdyFine2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyFine2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 dFdyFine( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeDFdyFine3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyFine3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 dFdyFine( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeDFdyFine4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeDFdyFine4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6201,29 +6840,33 @@ namespace sdw
 	RetFloat fwidth( Float const p )
 	{
 		return RetFloat{ *findWriter( p )
-			, expr::makeFwidth1( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeFwidth1( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec2 fwidth( Vec2 const p )
 	{
 		return RetVec2{ *findWriter( p )
-			, expr::makeFwidth2( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeFwidth2( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec3 fwidth( Vec3 const p )
 	{
 		return RetVec3{ *findWriter( p )
-			, expr::makeFwidth3( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeFwidth3( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	RetVec4 fwidth( Vec4 const p )
 	{
 		return RetVec4{ *findWriter( p )
-			, expr::makeFwidth4( findTypesCache( p )
-					, makeExpr( p ) )
+			, expr::makeFwidth4( findExprCache( p )
+				, findTypesCache( p )
+				, makeExpr( p ) )
 			, areOptionalEnabled( p ) };
 	}
 	/**@}*/
@@ -6237,29 +6880,33 @@ namespace sdw
 	RetFloat interpolateAtCentroid( Float const x )
 	{
 		return RetFloat{ *findWriter( x )
-			, expr::makeInterpolateAtCentroid1( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInterpolateAtCentroid1( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec2 interpolateAtCentroid( Vec2 const x )
 	{
 		return RetVec2{ *findWriter( x )
-			, expr::makeInterpolateAtCentroid2( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInterpolateAtCentroid2( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec3 interpolateAtCentroid( Vec3 const x )
 	{
 		return RetVec3{ *findWriter( x )
-			, expr::makeInterpolateAtCentroid3( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInterpolateAtCentroid3( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	RetVec4 interpolateAtCentroid( Vec4 const x )
 	{
 		return RetVec4{ *findWriter( x )
-			, expr::makeInterpolateAtCentroid4( findTypesCache( x )
-					, makeExpr( x ) )
+			, expr::makeInterpolateAtCentroid4( findExprCache( x )
+				, findTypesCache( x )
+				, makeExpr( x ) )
 			, areOptionalEnabled( x ) };
 	}
 	/**@}*/
@@ -6274,8 +6921,9 @@ namespace sdw
 		, Int32 const sample )
 	{
 		return RetFloat{ *findWriter( interpolant, sample )
-			, expr::makeInterpolateAtSample1( findTypesCache( interpolant, sample )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtSample1( findExprCache( interpolant, sample )
+				, findTypesCache( interpolant, sample )
+				, makeExpr( interpolant )
 				, makeExpr( sample ) )
 			, areOptionalEnabled( interpolant, sample ) };
 	}
@@ -6283,8 +6931,9 @@ namespace sdw
 		, Int32 const sample )
 	{
 		return RetVec2{ *findWriter( interpolant, sample )
-			, expr::makeInterpolateAtSample2( findTypesCache( interpolant, sample )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtSample2( findExprCache( interpolant, sample )
+				, findTypesCache( interpolant, sample )
+				, makeExpr( interpolant )
 				, makeExpr( sample ) )
 			, areOptionalEnabled( interpolant, sample ) };
 	}
@@ -6292,8 +6941,9 @@ namespace sdw
 		, Int32 const sample )
 	{
 		return RetVec3{ *findWriter( interpolant, sample )
-			, expr::makeInterpolateAtSample3( findTypesCache( interpolant, sample )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtSample3( findExprCache( interpolant, sample )
+				, findTypesCache( interpolant, sample )
+				, makeExpr( interpolant )
 				, makeExpr( sample ) )
 			, areOptionalEnabled( interpolant, sample ) };
 	}
@@ -6301,8 +6951,9 @@ namespace sdw
 		, Int32 const sample )
 	{
 		return RetVec4{ *findWriter( interpolant, sample )
-			, expr::makeInterpolateAtSample4( findTypesCache( interpolant, sample )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtSample4( findExprCache( interpolant, sample )
+				, findTypesCache( interpolant, sample )
+				, makeExpr( interpolant )
 				, makeExpr( sample ) )
 			, areOptionalEnabled( interpolant, sample ) };
 	}
@@ -6318,8 +6969,9 @@ namespace sdw
 		, Vec2 const offset )
 	{
 		return RetFloat{ *findWriter( interpolant, offset )
-			, expr::makeInterpolateAtOffset1( findTypesCache( interpolant, offset )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset1( findExprCache( interpolant, offset )
+				, findTypesCache( interpolant, offset )
+				, makeExpr( interpolant )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( interpolant, offset ) };
 	}
@@ -6327,8 +6979,9 @@ namespace sdw
 		, Vec2 const offset )
 	{
 		return RetVec2{ *findWriter( interpolant, offset )
-			, expr::makeInterpolateAtOffset2( findTypesCache( interpolant, offset )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset2( findExprCache( interpolant, offset )
+				, findTypesCache( interpolant, offset )
+				, makeExpr( interpolant )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( interpolant, offset ) };
 	}
@@ -6336,8 +6989,9 @@ namespace sdw
 		, Vec2 const offset )
 	{
 		return RetVec3{ *findWriter( interpolant, offset )
-			, expr::makeInterpolateAtOffset3( findTypesCache( interpolant, offset )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset3( findExprCache( interpolant, offset )
+				, findTypesCache( interpolant, offset )
+				, makeExpr( interpolant )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( interpolant, offset ) };
 	}
@@ -6345,8 +6999,9 @@ namespace sdw
 		, Vec2 const offset )
 	{
 		return RetVec4{ *findWriter( interpolant, offset )
-			, expr::makeInterpolateAtOffset4( findTypesCache( interpolant, offset )
-					, makeExpr( interpolant )
+			, expr::makeInterpolateAtOffset4( findExprCache( interpolant, offset )
+				, findTypesCache( interpolant, offset )
+				, makeExpr( interpolant )
 				, makeExpr( offset ) )
 			, areOptionalEnabled( interpolant, offset ) };
 	}
@@ -6361,8 +7016,9 @@ namespace sdw
 	RetVoid EmitStreamVertex( Int32 const stream )
 	{
 		return RetVoid{ *findWriter( stream )
-			, expr::makeEmitStreamVertex( findTypesCache( stream )
-					, makeExpr( stream ) )
+			, expr::makeEmitStreamVertex( findExprCache( stream )
+				, findTypesCache( stream )
+				, makeExpr( stream ) )
 			, areOptionalEnabled( stream ) };
 	}
 	/**@}*/
@@ -6376,8 +7032,9 @@ namespace sdw
 	RetVoid EndStreamPrimitive( Int32 const stream )
 	{
 		return RetVoid{ *findWriter( stream )
-			, expr::makeEndStreamPrimitive( findTypesCache( stream )
-					, makeExpr( stream ) )
+			, expr::makeEndStreamPrimitive( findExprCache( stream )
+				, findTypesCache( stream )
+				, makeExpr( stream ) )
 			, areOptionalEnabled( stream ) };
 	}
 	/**@}*/
@@ -6391,7 +7048,8 @@ namespace sdw
 	RetVoid EmitVertex( ShaderWriter & writer )
 	{
 		return RetVoid{ *findWriter( writer )
-			, expr::makeEmitVertex( findTypesCache( writer ) )
+			, expr::makeEmitVertex( findExprCache( writer )
+				, findTypesCache( writer ) )
 			, areOptionalEnabled( writer ) };
 	}
 	/**@}*/
@@ -6405,7 +7063,8 @@ namespace sdw
 	RetVoid EndPrimitive( ShaderWriter & writer )
 	{
 		return RetVoid{ *findWriter( writer )
-			, expr::makeEndPrimitive( findTypesCache( writer ) )
+			, expr::makeEndPrimitive( findExprCache( writer )
+				, findTypesCache( writer ) )
 			, areOptionalEnabled( writer ) };
 	}
 	/**@}*/
@@ -6419,7 +7078,8 @@ namespace sdw
 	RetBoolean helperInvocation( ShaderWriter & writer )
 	{
 		return RetBoolean{ *findWriter( writer )
-			, expr::makeHelperInvocation( findTypesCache( writer ) )
+			, expr::makeHelperInvocation( findExprCache( writer )
+				, findTypesCache( writer ) )
 			, areOptionalEnabled( writer ) };
 	}
 	/**@}*/
@@ -6435,8 +7095,9 @@ namespace sdw
 		, type::MemorySemantics  semantics )
 	{
 		return RetVoid{ *findWriter( executionScope, memoryScope, semantics )
-			, expr::makeControlBarrier( findTypesCache( executionScope, memoryScope, semantics )
-					, executionScope
+			, expr::makeControlBarrier( findExprCache( executionScope, memoryScope, semantics )
+				, findTypesCache( executionScope, memoryScope, semantics )
+				, executionScope
 				, memoryScope
 				, semantics )
 			, areOptionalEnabled( executionScope, memoryScope, semantics ) };
@@ -6453,8 +7114,9 @@ namespace sdw
 		, type::MemorySemantics  semantics )
 	{
 		return RetVoid{ *findWriter( memoryScope, semantics )
-			, expr::makeMemoryBarrier( findTypesCache( memoryScope, semantics )
-					, memoryScope
+			, expr::makeMemoryBarrier( findExprCache( memoryScope, semantics )
+				, findTypesCache( memoryScope, semantics )
+				, memoryScope
 				, semantics )
 			, areOptionalEnabled( memoryScope, semantics ) };
 	}
@@ -6476,8 +7138,9 @@ namespace sdw
 		, RayPayload const payload )
 	{
 		return RetVoid{ *findWriter( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload )
-			, expr::makeTraceRay( findTypesCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload )
-					, makeExpr( topLevel )
+			, expr::makeTraceRay( findExprCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload )
+				, findTypesCache( topLevel, rayFlags, cullMask, sbtRecordOffset, sbtRecordStride, missIndex, rayDesc, payload )
+				, makeExpr( topLevel )
 				, makeExpr( rayFlags )
 				, makeExpr( cullMask )
 				, makeExpr( sbtRecordOffset )
@@ -6500,8 +7163,9 @@ namespace sdw
 		, HitAttribute const attribs )
 	{
 		return RetBoolean{ *findWriter( hitT, hitKind, attribs )
-			, expr::makeReportIntersection( findTypesCache( hitT, hitKind, attribs )
-					, makeExpr( hitT )
+			, expr::makeReportIntersection( findExprCache( hitT, hitKind, attribs )
+				, findTypesCache( hitT, hitKind, attribs )
+				, makeExpr( hitT )
 				, makeExpr( hitKind )
 				, makeExpr( attribs ) )
 			, areOptionalEnabled( hitT, hitKind, attribs ) };
@@ -6518,8 +7182,9 @@ namespace sdw
 		, CallableData const callable )
 	{
 		return RetVoid{ *findWriter( sbtRecordIndex, callable )
-			, expr::makeExecuteCallable( findTypesCache( sbtRecordIndex, callable )
-					, makeExpr( sbtRecordIndex )
+			, expr::makeExecuteCallable( findExprCache( sbtRecordIndex, callable )
+				, findTypesCache( sbtRecordIndex, callable )
+				, makeExpr( sbtRecordIndex )
 				, makeExpr( callable ) )
 			, areOptionalEnabled( sbtRecordIndex, callable ) };
 	}
@@ -6535,8 +7200,9 @@ namespace sdw
 		, UInt32 const numPrimitives )
 	{
 		return RetVoid{ *findWriter( numVertices, numPrimitives )
-			, expr::makeSetMeshOutputCountsNV( findTypesCache( numVertices, numPrimitives )
-					, makeExpr( numVertices )
+			, expr::makeSetMeshOutputCountsNV( findExprCache( numVertices, numPrimitives )
+				, findTypesCache( numVertices, numPrimitives )
+				, makeExpr( numVertices )
 				, makeExpr( numPrimitives ) )
 			, areOptionalEnabled( numVertices, numPrimitives ) };
 	}
@@ -6552,8 +7218,9 @@ namespace sdw
 		, UInt32 const numTasks )
 	{
 		return RetVoid{ *findWriter( payload, numTasks )
-			, expr::makeDispatchMeshNV( findTypesCache( payload, numTasks )
-					, makeExpr( payload )
+			, expr::makeDispatchMeshNV( findExprCache( payload, numTasks )
+				, findTypesCache( payload, numTasks )
+				, makeExpr( payload )
 				, makeExpr( numTasks ) )
 			, areOptionalEnabled( payload, numTasks ) };
 	}
@@ -6569,8 +7236,9 @@ namespace sdw
 		, UInt32 const packedIndices )
 	{
 		return RetVoid{ *findWriter( indexOffset, packedIndices )
-			, expr::makeWritePackedPrimitiveIndices4x8NV( findTypesCache( indexOffset, packedIndices )
-					, makeExpr( indexOffset )
+			, expr::makeWritePackedPrimitiveIndices4x8NV( findExprCache( indexOffset, packedIndices )
+				, findTypesCache( indexOffset, packedIndices )
+				, makeExpr( indexOffset )
 				, makeExpr( packedIndices ) )
 			, areOptionalEnabled( indexOffset, packedIndices ) };
 	}
@@ -6586,8 +7254,9 @@ namespace sdw
 		, UInt32 const numPrimitives )
 	{
 		return RetVoid{ *findWriter( numVertices, numPrimitives )
-			, expr::makeSetMeshOutputCounts( findTypesCache( numVertices, numPrimitives )
-					, makeExpr( numVertices )
+			, expr::makeSetMeshOutputCounts( findExprCache( numVertices, numPrimitives )
+				, findTypesCache( numVertices, numPrimitives )
+				, makeExpr( numVertices )
 				, makeExpr( numPrimitives ) )
 			, areOptionalEnabled( numVertices, numPrimitives ) };
 	}
@@ -6602,7 +7271,8 @@ namespace sdw
 	RetBoolean subgroupElect( ShaderWriter & writer )
 	{
 		return RetBoolean{ *findWriter( writer )
-			, expr::makeSubgroupElect( findTypesCache( writer ) )
+			, expr::makeSubgroupElect( findExprCache( writer )
+				, findTypesCache( writer ) )
 			, areOptionalEnabled( writer ) };
 	}
 	/**@}*/
@@ -6616,8 +7286,9 @@ namespace sdw
 	RetBoolean subgroupAll( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAll( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAll( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -6631,8 +7302,9 @@ namespace sdw
 	RetBoolean subgroupAny( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAny( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAny( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -6646,141 +7318,161 @@ namespace sdw
 	RetBoolean subgroupAllEqual( Float const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( Vec2 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( Vec3 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( Vec4 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( Int32 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( I32Vec2 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( I32Vec3 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( I32Vec4 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( UInt32 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( U32Vec2 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( U32Vec3 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( U32Vec4 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( BVec2 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( BVec3 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( BVec4 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( Double const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( DVec2 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( DVec3 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAllEqual( DVec4 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAllEqual4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAllEqual4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -6795,8 +7487,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetFloat{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast1F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast1F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6804,8 +7497,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec2{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast2F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast2F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6813,8 +7507,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec3{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast3F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast3F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6822,8 +7517,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec4{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast4F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast4F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6831,8 +7527,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetInt32{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast1I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast1I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6840,8 +7537,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec2{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast2I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast2I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6849,8 +7547,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec3{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast3I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast3I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6858,8 +7557,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec4{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast4I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast4I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6867,8 +7567,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetUInt32{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast1U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast1U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6876,8 +7577,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec2{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast2U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast2U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6885,8 +7587,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec3{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast3U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast3U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6894,8 +7597,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec4{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast4U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast4U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6903,8 +7607,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBoolean{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast1B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast1B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6912,8 +7617,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec2{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast2B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast2B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6921,8 +7627,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec3{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast3B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast3B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6930,8 +7637,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec4{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast4B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast4B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6939,8 +7647,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDouble{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast1D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast1D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6948,8 +7657,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec2{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast2D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast2D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6957,8 +7667,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec3{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast3D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast3D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6966,8 +7677,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec4{ *findWriter( value, id )
-			, expr::makeSubgroupBroadcast4D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupBroadcast4D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -6982,141 +7694,161 @@ namespace sdw
 	RetFloat subgroupBroadcastFirst( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupBroadcastFirst( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupBroadcastFirst( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupBroadcastFirst( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupBroadcastFirst( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupBroadcastFirst( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupBroadcastFirst( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupBroadcastFirst( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupBroadcastFirst( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupBroadcastFirst( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupBroadcastFirst( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupBroadcastFirst( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupBroadcastFirst( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupBroadcastFirst( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupBroadcastFirst( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupBroadcastFirst( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupBroadcastFirst( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupBroadcastFirst( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupBroadcastFirst( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupBroadcastFirst( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupBroadcastFirst4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBroadcastFirst4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7130,8 +7862,9 @@ namespace sdw
 	RetU32Vec4 subgroupBallot( Boolean const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupBallot( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBallot( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7145,8 +7878,9 @@ namespace sdw
 	RetBoolean subgroupInverseBallot( U32Vec4 const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupInverseBallot( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInverseBallot( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7161,8 +7895,9 @@ namespace sdw
 		, UInt32 const index )
 	{
 		return RetBoolean{ *findWriter( value, index )
-			, expr::makeSubgroupBallotBitExtract( findTypesCache( value, index )
-					, makeExpr( value )
+			, expr::makeSubgroupBallotBitExtract( findExprCache( value, index )
+				, findTypesCache( value, index )
+				, makeExpr( value )
 				, makeExpr( index ) )
 			, areOptionalEnabled( value, index ) };
 	}
@@ -7177,8 +7912,9 @@ namespace sdw
 	RetUInt32 subgroupBallotBitCount( U32Vec4 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupBallotBitCount( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBallotBitCount( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7192,8 +7928,9 @@ namespace sdw
 	RetUInt32 subgroupBallotInclusiveBitCount( U32Vec4 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupBallotInclusiveBitCount( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBallotInclusiveBitCount( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7207,8 +7944,9 @@ namespace sdw
 	RetUInt32 subgroupBallotExclusiveBitCount( U32Vec4 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupBallotExclusiveBitCount( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBallotExclusiveBitCount( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7222,8 +7960,9 @@ namespace sdw
 	RetUInt32 subgroupBallotFindLSB( U32Vec4 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupBallotFindLSB( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBallotFindLSB( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7237,8 +7976,9 @@ namespace sdw
 	RetUInt32 subgroupBallotFindMSB( U32Vec4 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupBallotFindMSB( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupBallotFindMSB( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -7253,8 +7993,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetFloat{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle1F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle1F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7262,8 +8003,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec2{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle2F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle2F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7271,8 +8013,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec3{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle3F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle3F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7280,8 +8023,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec4{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle4F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle4F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7289,8 +8033,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetInt32{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle1I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle1I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7298,8 +8043,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec2{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle2I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle2I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7307,8 +8053,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec3{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle3I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle3I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7316,8 +8063,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec4{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle4I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle4I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7325,8 +8073,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetUInt32{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle1U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle1U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7334,8 +8083,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec2{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle2U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle2U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7343,8 +8093,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec3{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle3U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle3U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7352,8 +8103,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec4{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle4U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle4U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7361,8 +8113,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBoolean{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle1B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle1B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7370,8 +8123,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec2{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle2B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle2B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7379,8 +8133,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec3{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle3B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle3B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7388,8 +8143,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec4{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle4B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle4B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7397,8 +8153,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDouble{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle1D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle1D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7406,8 +8163,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec2{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle2D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle2D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7415,8 +8173,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec3{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle3D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle3D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7424,8 +8183,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec4{ *findWriter( value, id )
-			, expr::makeSubgroupShuffle4D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffle4D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -7441,8 +8201,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetFloat{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor1F( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor1F( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7450,8 +8211,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetVec2{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor2F( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor2F( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7459,8 +8221,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetVec3{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor3F( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor3F( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7468,8 +8231,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetVec4{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor4F( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor4F( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7477,8 +8241,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetInt32{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor1I( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor1I( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7486,8 +8251,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetI32Vec2{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor2I( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor2I( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7495,8 +8261,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetI32Vec3{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor3I( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor3I( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7504,8 +8271,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetI32Vec4{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor4I( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor4I( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7513,8 +8281,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetUInt32{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor1U( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor1U( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7522,8 +8291,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetU32Vec2{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor2U( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor2U( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7531,8 +8301,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetU32Vec3{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor3U( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor3U( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7540,8 +8311,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetU32Vec4{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor4U( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor4U( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7549,8 +8321,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetBoolean{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor1B( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor1B( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7558,8 +8331,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetBVec2{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor2B( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor2B( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7567,8 +8341,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetBVec3{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor3B( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor3B( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7576,8 +8351,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetBVec4{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor4B( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor4B( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7585,8 +8361,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetDouble{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor1D( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor1D( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7594,8 +8371,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetDVec2{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor2D( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor2D( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7603,8 +8381,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetDVec3{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor3D( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor3D( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7612,8 +8391,9 @@ namespace sdw
 		, UInt32 const mask )
 	{
 		return RetDVec4{ *findWriter( value, mask )
-			, expr::makeSubgroupShuffleXor4D( findTypesCache( value, mask )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleXor4D( findExprCache( value, mask )
+				, findTypesCache( value, mask )
+				, makeExpr( value )
 				, makeExpr( mask ) )
 			, areOptionalEnabled( value, mask ) };
 	}
@@ -7629,8 +8409,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetFloat{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp1F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp1F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7638,8 +8419,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetVec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp2F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp2F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7647,8 +8429,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetVec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp3F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp3F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7656,8 +8439,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetVec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp4F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp4F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7665,8 +8449,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetInt32{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp1I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp1I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7674,8 +8459,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetI32Vec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp2I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp2I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7683,8 +8469,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetI32Vec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp3I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp3I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7692,8 +8479,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetI32Vec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp4I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp4I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7701,8 +8489,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetUInt32{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp1U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp1U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7710,8 +8499,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetU32Vec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp2U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp2U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7719,8 +8509,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetU32Vec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp3U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp3U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7728,8 +8519,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetU32Vec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp4U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp4U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7737,8 +8529,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBoolean{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp1B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp1B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7746,8 +8539,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBVec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp2B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp2B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7755,8 +8549,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBVec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp3B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp3B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7764,8 +8559,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBVec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp4B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp4B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7773,8 +8569,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDouble{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp1D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp1D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7782,8 +8579,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDVec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp2D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp2D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7791,8 +8589,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDVec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp3D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp3D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7800,8 +8599,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDVec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleUp4D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleUp4D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7817,8 +8617,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetFloat{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown1F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown1F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7826,8 +8627,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetVec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown2F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown2F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7835,8 +8637,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetVec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown3F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown3F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7844,8 +8647,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetVec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown4F( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown4F( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7853,8 +8657,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetInt32{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown1I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown1I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7862,8 +8667,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetI32Vec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown2I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown2I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7871,8 +8677,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetI32Vec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown3I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown3I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7880,8 +8687,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetI32Vec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown4I( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown4I( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7889,8 +8697,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetUInt32{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown1U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown1U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7898,8 +8707,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetU32Vec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown2U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown2U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7907,8 +8717,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetU32Vec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown3U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown3U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7916,8 +8727,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetU32Vec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown4U( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown4U( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7925,8 +8737,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBoolean{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown1B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown1B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7934,8 +8747,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBVec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown2B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown2B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7943,8 +8757,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBVec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown3B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown3B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7952,8 +8767,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetBVec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown4B( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown4B( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7961,8 +8777,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDouble{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown1D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown1D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7970,8 +8787,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDVec2{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown2D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown2D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7979,8 +8797,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDVec3{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown3D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown3D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -7988,8 +8807,9 @@ namespace sdw
 		, UInt32 const delta )
 	{
 		return RetDVec4{ *findWriter( value, delta )
-			, expr::makeSubgroupShuffleDown4D( findTypesCache( value, delta )
-					, makeExpr( value )
+			, expr::makeSubgroupShuffleDown4D( findExprCache( value, delta )
+				, findTypesCache( value, delta )
+				, makeExpr( value )
 				, makeExpr( delta ) )
 			, areOptionalEnabled( value, delta ) };
 	}
@@ -8004,113 +8824,129 @@ namespace sdw
 	RetFloat subgroupAdd( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupAdd1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupAdd( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupAdd2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupAdd( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupAdd3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupAdd( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupAdd4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupAdd( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupAdd1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupAdd( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupAdd2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupAdd( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupAdd3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupAdd( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupAdd4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupAdd( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupAdd1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupAdd( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupAdd2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupAdd( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupAdd3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupAdd( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupAdd4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupAdd( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupAdd1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupAdd( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupAdd2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupAdd( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupAdd3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupAdd( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupAdd4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAdd4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8124,113 +8960,129 @@ namespace sdw
 	RetFloat subgroupMul( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupMul1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupMul( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupMul2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupMul( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupMul3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupMul( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupMul4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupMul( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupMul1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupMul( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupMul2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupMul( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupMul3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupMul( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupMul4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupMul( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupMul1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupMul( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupMul2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupMul( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupMul3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupMul( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupMul4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupMul( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupMul1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupMul( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupMul2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupMul( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupMul3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupMul( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupMul4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMul4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8244,113 +9096,129 @@ namespace sdw
 	RetFloat subgroupMin( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupMin1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupMin( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupMin2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupMin( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupMin3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupMin( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupMin4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupMin( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupMin1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupMin( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupMin2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupMin( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupMin3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupMin( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupMin4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupMin( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupMin1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupMin( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupMin2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupMin( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupMin3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupMin( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupMin4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupMin( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupMin1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupMin( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupMin2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupMin( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupMin3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupMin( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupMin4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMin4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8364,113 +9232,129 @@ namespace sdw
 	RetFloat subgroupMax( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupMax1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupMax( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupMax2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupMax( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupMax3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupMax( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupMax4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupMax( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupMax1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupMax( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupMax2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupMax( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupMax3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupMax( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupMax4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupMax( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupMax1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupMax( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupMax2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupMax( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupMax3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupMax( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupMax4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupMax( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupMax1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupMax( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupMax2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupMax( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupMax3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupMax( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupMax4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupMax4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8484,85 +9368,97 @@ namespace sdw
 	RetInt32 subgroupAnd( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupAnd1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupAnd( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupAnd2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupAnd( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupAnd3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupAnd( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupAnd4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupAnd( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupAnd1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupAnd( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupAnd2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupAnd( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupAnd3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupAnd( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupAnd4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupAnd( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupAnd1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupAnd( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupAnd2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupAnd( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupAnd3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupAnd( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupAnd4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupAnd4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8576,85 +9472,97 @@ namespace sdw
 	RetInt32 subgroupOr( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupOr1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupOr( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupOr2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupOr( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupOr3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupOr( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupOr4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupOr( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupOr1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupOr( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupOr2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupOr( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupOr3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupOr( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupOr4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupOr( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupOr1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupOr( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupOr2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupOr( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupOr3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupOr( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupOr4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupOr4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8668,85 +9576,97 @@ namespace sdw
 	RetInt32 subgroupXor( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupXor1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupXor( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupXor2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupXor( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupXor3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupXor( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupXor4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupXor( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupXor1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupXor( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupXor2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupXor( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupXor3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupXor( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupXor4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupXor( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupXor1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupXor( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupXor2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupXor( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupXor3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupXor( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupXor4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupXor4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8760,113 +9680,129 @@ namespace sdw
 	RetFloat subgroupInclusiveAdd( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupInclusiveAdd( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupInclusiveAdd( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupInclusiveAdd( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupInclusiveAdd( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveAdd( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveAdd( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveAdd( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveAdd( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveAdd( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveAdd( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveAdd( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupInclusiveAdd( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupInclusiveAdd( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupInclusiveAdd( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupInclusiveAdd( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAdd4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAdd4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -8880,113 +9816,129 @@ namespace sdw
 	RetFloat subgroupInclusiveMul( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupInclusiveMul( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupInclusiveMul( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupInclusiveMul( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupInclusiveMul( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveMul( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveMul( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveMul( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveMul( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveMul( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveMul( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveMul( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupInclusiveMul( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupInclusiveMul( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupInclusiveMul( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupInclusiveMul( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMul4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMul4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9000,113 +9952,129 @@ namespace sdw
 	RetFloat subgroupInclusiveMin( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupInclusiveMin( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupInclusiveMin( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupInclusiveMin( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupInclusiveMin( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveMin( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveMin( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveMin( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveMin( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveMin( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveMin( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveMin( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupInclusiveMin( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupInclusiveMin( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupInclusiveMin( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupInclusiveMin( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMin4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMin4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9120,113 +10088,129 @@ namespace sdw
 	RetFloat subgroupInclusiveMax( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupInclusiveMax( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupInclusiveMax( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupInclusiveMax( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupInclusiveMax( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveMax( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveMax( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveMax( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveMax( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveMax( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveMax( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveMax( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupInclusiveMax( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupInclusiveMax( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupInclusiveMax( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupInclusiveMax( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveMax4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveMax4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9240,85 +10224,97 @@ namespace sdw
 	RetInt32 subgroupInclusiveAnd( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveAnd( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveAnd( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveAnd( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveAnd( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveAnd( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveAnd( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveAnd( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupInclusiveAnd( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupInclusiveAnd( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupInclusiveAnd( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupInclusiveAnd( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveAnd4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveAnd4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9332,85 +10328,97 @@ namespace sdw
 	RetInt32 subgroupInclusiveOr( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveOr( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveOr( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveOr( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveOr( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveOr( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveOr( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveOr( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupInclusiveOr( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupInclusiveOr( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupInclusiveOr( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupInclusiveOr( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveOr4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveOr4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9424,85 +10432,97 @@ namespace sdw
 	RetInt32 subgroupInclusiveXor( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupInclusiveXor( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupInclusiveXor( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupInclusiveXor( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupInclusiveXor( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupInclusiveXor( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupInclusiveXor( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupInclusiveXor( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupInclusiveXor( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupInclusiveXor( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupInclusiveXor( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupInclusiveXor( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupInclusiveXor4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupInclusiveXor4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9516,113 +10536,129 @@ namespace sdw
 	RetFloat subgroupExclusiveAdd( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupExclusiveAdd( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupExclusiveAdd( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupExclusiveAdd( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupExclusiveAdd( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveAdd( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveAdd( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveAdd( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveAdd( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveAdd( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveAdd( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveAdd( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupExclusiveAdd( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupExclusiveAdd( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupExclusiveAdd( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupExclusiveAdd( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAdd4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAdd4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9636,113 +10672,129 @@ namespace sdw
 	RetFloat subgroupExclusiveMul( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupExclusiveMul( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupExclusiveMul( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupExclusiveMul( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupExclusiveMul( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveMul( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveMul( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveMul( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveMul( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveMul( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveMul( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveMul( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupExclusiveMul( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupExclusiveMul( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupExclusiveMul( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupExclusiveMul( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMul4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMul4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9756,113 +10808,129 @@ namespace sdw
 	RetFloat subgroupExclusiveMin( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupExclusiveMin( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupExclusiveMin( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupExclusiveMin( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupExclusiveMin( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveMin( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveMin( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveMin( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveMin( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveMin( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveMin( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveMin( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupExclusiveMin( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupExclusiveMin( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupExclusiveMin( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupExclusiveMin( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMin4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMin4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9876,113 +10944,129 @@ namespace sdw
 	RetFloat subgroupExclusiveMax( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupExclusiveMax( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupExclusiveMax( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupExclusiveMax( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupExclusiveMax( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveMax( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveMax( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveMax( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveMax( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveMax( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveMax( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveMax( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupExclusiveMax( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupExclusiveMax( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupExclusiveMax( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupExclusiveMax( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveMax4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveMax4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -9996,85 +11080,97 @@ namespace sdw
 	RetInt32 subgroupExclusiveAnd( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveAnd( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveAnd( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveAnd( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveAnd( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveAnd( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveAnd( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveAnd( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupExclusiveAnd( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupExclusiveAnd( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupExclusiveAnd( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupExclusiveAnd( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveAnd4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveAnd4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -10088,85 +11184,97 @@ namespace sdw
 	RetInt32 subgroupExclusiveOr( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveOr( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveOr( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveOr( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveOr( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveOr( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveOr( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveOr( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupExclusiveOr( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupExclusiveOr( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupExclusiveOr( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupExclusiveOr( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveOr4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveOr4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -10180,85 +11288,97 @@ namespace sdw
 	RetInt32 subgroupExclusiveXor( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupExclusiveXor( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupExclusiveXor( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupExclusiveXor( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupExclusiveXor( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupExclusiveXor( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupExclusiveXor( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupExclusiveXor( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupExclusiveXor( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupExclusiveXor( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupExclusiveXor( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupExclusiveXor( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupExclusiveXor4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupExclusiveXor4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -10273,8 +11393,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetFloat{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd1F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd1F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10282,8 +11403,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd2F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd2F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10291,8 +11413,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd3F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd3F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10300,8 +11423,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd4F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd4F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10309,8 +11433,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10318,8 +11443,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10327,8 +11453,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10336,8 +11463,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10345,8 +11473,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10354,8 +11483,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10363,8 +11493,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10372,8 +11503,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10381,8 +11513,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDouble{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd1D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd1D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10390,8 +11523,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd2D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd2D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10399,8 +11533,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd3D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd3D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10408,8 +11543,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAdd4D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAdd4D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10425,8 +11561,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetFloat{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul1F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul1F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10434,8 +11571,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul2F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul2F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10443,8 +11581,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul3F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul3F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10452,8 +11591,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul4F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul4F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10461,8 +11601,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10470,8 +11611,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10479,8 +11621,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10488,8 +11631,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10497,8 +11641,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10506,8 +11651,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10515,8 +11661,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10524,8 +11671,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10533,8 +11681,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDouble{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul1D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul1D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10542,8 +11691,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul2D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul2D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10551,8 +11701,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul3D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul3D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10560,8 +11711,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMul4D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMul4D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10577,8 +11729,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetFloat{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin1F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin1F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10586,8 +11739,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin2F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin2F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10595,8 +11749,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin3F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin3F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10604,8 +11759,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin4F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin4F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10613,8 +11769,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10622,8 +11779,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10631,8 +11789,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10640,8 +11799,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10649,8 +11809,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10658,8 +11819,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10667,8 +11829,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10676,8 +11839,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10685,8 +11849,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDouble{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin1D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin1D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10694,8 +11859,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin2D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin2D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10703,8 +11869,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin3D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin3D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10712,8 +11879,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMin4D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMin4D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10729,8 +11897,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetFloat{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax1F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax1F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10738,8 +11907,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax2F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax2F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10747,8 +11917,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax3F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax3F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10756,8 +11927,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax4F( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax4F( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10765,8 +11937,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10774,8 +11947,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10783,8 +11957,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10792,8 +11967,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10801,8 +11977,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10810,8 +11987,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10819,8 +11997,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10828,8 +12007,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10837,8 +12017,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDouble{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax1D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax1D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10846,8 +12027,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax2D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax2D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10855,8 +12037,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax3D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax3D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10864,8 +12047,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetDVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterMax4D( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterMax4D( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10881,8 +12065,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10890,8 +12075,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10899,8 +12085,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10908,8 +12095,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10917,8 +12105,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10926,8 +12115,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10935,8 +12125,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10944,8 +12135,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10953,8 +12145,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBoolean{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd1B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd1B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10962,8 +12155,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd2B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd2B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10971,8 +12165,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd3B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd3B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10980,8 +12175,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterAnd4B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterAnd4B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -10997,8 +12193,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11006,8 +12203,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11015,8 +12213,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11024,8 +12223,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11033,8 +12233,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11042,8 +12243,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11051,8 +12253,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11060,8 +12263,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11069,8 +12273,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBoolean{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr1B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr1B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11078,8 +12283,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr2B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr2B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11087,8 +12293,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr3B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr3B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11096,8 +12303,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterOr4B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterOr4B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11113,8 +12321,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor1I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor1I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11122,8 +12331,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor2I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor2I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11131,8 +12341,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor3I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor3I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11140,8 +12351,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetI32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor4I( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor4I( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11149,8 +12361,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetUInt32{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor1U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor1U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11158,8 +12371,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor2U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor2U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11167,8 +12381,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor3U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor3U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11176,8 +12391,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetU32Vec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor4U( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor4U( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11185,8 +12401,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBoolean{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor1B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor1B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11194,8 +12411,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec2{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor2B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor2B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11203,8 +12421,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec3{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor3B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor3B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11212,8 +12431,9 @@ namespace sdw
 		, UInt32 const clusterSize )
 	{
 		return RetBVec4{ *findWriter( value, clusterSize )
-			, expr::makeSubgroupClusterXor4B( findTypesCache( value, clusterSize )
-					, makeExpr( value )
+			, expr::makeSubgroupClusterXor4B( findExprCache( value, clusterSize )
+				, findTypesCache( value, clusterSize )
+				, makeExpr( value )
 				, makeExpr( clusterSize ) )
 			, areOptionalEnabled( value, clusterSize ) };
 	}
@@ -11229,8 +12449,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetFloat{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast1F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast1F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11238,8 +12459,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec2{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast2F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast2F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11247,8 +12469,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec3{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast3F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast3F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11256,8 +12479,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetVec4{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast4F( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast4F( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11265,8 +12489,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetInt32{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast1I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast1I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11274,8 +12499,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec2{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast2I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast2I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11283,8 +12509,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec3{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast3I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast3I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11292,8 +12519,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetI32Vec4{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast4I( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast4I( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11301,8 +12529,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetUInt32{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast1U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast1U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11310,8 +12539,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec2{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast2U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast2U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11319,8 +12549,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec3{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast3U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast3U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11328,8 +12559,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetU32Vec4{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast4U( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast4U( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11337,8 +12569,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBoolean{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast1B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast1B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11346,8 +12579,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec2{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast2B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast2B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11355,8 +12589,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec3{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast3B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast3B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11364,8 +12599,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetBVec4{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast4B( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast4B( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11373,8 +12609,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDouble{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast1D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast1D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11382,8 +12619,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec2{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast2D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast2D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11391,8 +12629,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec3{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast3D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast3D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11400,8 +12639,9 @@ namespace sdw
 		, UInt32 const id )
 	{
 		return RetDVec4{ *findWriter( value, id )
-			, expr::makeSubgroupQuadBroadcast4D( findTypesCache( value, id )
-					, makeExpr( value )
+			, expr::makeSubgroupQuadBroadcast4D( findExprCache( value, id )
+				, findTypesCache( value, id )
+				, makeExpr( value )
 				, makeExpr( id ) )
 			, areOptionalEnabled( value, id ) };
 	}
@@ -11416,141 +12656,161 @@ namespace sdw
 	RetFloat subgroupQuadSwapHorizontal( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupQuadSwapHorizontal( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupQuadSwapHorizontal( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupQuadSwapHorizontal( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupQuadSwapHorizontal( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupQuadSwapHorizontal( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupQuadSwapHorizontal( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupQuadSwapHorizontal( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupQuadSwapHorizontal( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupQuadSwapHorizontal( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupQuadSwapHorizontal( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupQuadSwapHorizontal( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupQuadSwapHorizontal( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupQuadSwapHorizontal( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupQuadSwapHorizontal( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupQuadSwapHorizontal( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupQuadSwapHorizontal( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupQuadSwapHorizontal( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupQuadSwapHorizontal( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupQuadSwapHorizontal( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapHorizontal4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapHorizontal4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -11564,141 +12824,161 @@ namespace sdw
 	RetFloat subgroupQuadSwapVertical( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupQuadSwapVertical( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupQuadSwapVertical( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupQuadSwapVertical( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupQuadSwapVertical( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupQuadSwapVertical( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupQuadSwapVertical( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupQuadSwapVertical( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupQuadSwapVertical( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupQuadSwapVertical( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupQuadSwapVertical( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupQuadSwapVertical( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupQuadSwapVertical( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupQuadSwapVertical( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupQuadSwapVertical( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupQuadSwapVertical( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupQuadSwapVertical( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupQuadSwapVertical( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupQuadSwapVertical( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupQuadSwapVertical( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapVertical4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapVertical4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/
@@ -11712,141 +12992,161 @@ namespace sdw
 	RetFloat subgroupQuadSwapDiagonal( Float const value )
 	{
 		return RetFloat{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal1F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec2 subgroupQuadSwapDiagonal( Vec2 const value )
 	{
 		return RetVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal2F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec3 subgroupQuadSwapDiagonal( Vec3 const value )
 	{
 		return RetVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal3F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetVec4 subgroupQuadSwapDiagonal( Vec4 const value )
 	{
 		return RetVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal4F( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetInt32 subgroupQuadSwapDiagonal( Int32 const value )
 	{
 		return RetInt32{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal1I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec2 subgroupQuadSwapDiagonal( I32Vec2 const value )
 	{
 		return RetI32Vec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal2I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec3 subgroupQuadSwapDiagonal( I32Vec3 const value )
 	{
 		return RetI32Vec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal3I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetI32Vec4 subgroupQuadSwapDiagonal( I32Vec4 const value )
 	{
 		return RetI32Vec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal4I( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetUInt32 subgroupQuadSwapDiagonal( UInt32 const value )
 	{
 		return RetUInt32{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal1U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec2 subgroupQuadSwapDiagonal( U32Vec2 const value )
 	{
 		return RetU32Vec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal2U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec3 subgroupQuadSwapDiagonal( U32Vec3 const value )
 	{
 		return RetU32Vec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal3U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetU32Vec4 subgroupQuadSwapDiagonal( U32Vec4 const value )
 	{
 		return RetU32Vec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal4U( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBoolean subgroupQuadSwapDiagonal( Boolean const value )
 	{
 		return RetBoolean{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal1B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal1B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec2 subgroupQuadSwapDiagonal( BVec2 const value )
 	{
 		return RetBVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal2B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal2B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec3 subgroupQuadSwapDiagonal( BVec3 const value )
 	{
 		return RetBVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal3B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal3B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetBVec4 subgroupQuadSwapDiagonal( BVec4 const value )
 	{
 		return RetBVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal4B( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal4B( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDouble subgroupQuadSwapDiagonal( Double const value )
 	{
 		return RetDouble{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal1D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec2 subgroupQuadSwapDiagonal( DVec2 const value )
 	{
 		return RetDVec2{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal2D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec3 subgroupQuadSwapDiagonal( DVec3 const value )
 	{
 		return RetDVec3{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal3D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	RetDVec4 subgroupQuadSwapDiagonal( DVec4 const value )
 	{
 		return RetDVec4{ *findWriter( value )
-			, expr::makeSubgroupQuadSwapDiagonal4D( findTypesCache( value )
-					, makeExpr( value ) )
+			, expr::makeSubgroupQuadSwapDiagonal4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
 			, areOptionalEnabled( value ) };
 	}
 	/**@}*/

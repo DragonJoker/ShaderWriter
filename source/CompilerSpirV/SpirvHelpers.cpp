@@ -713,11 +713,11 @@ namespace spirv
 
 	//*********************************************************************************************
 
-	IOMapping::IOMapping( ast::type::TypesCache & pcache
+	IOMapping::IOMapping( ast::type::TypesCache & ptypesCache
 		, ast::ShaderStage pstage
 		, bool pisInput
 		, uint32_t & pnextVarId )
-		: cache{ pcache }
+		: typesCache{ ptypesCache }
 		, stage{ pstage }
 		, isInput{ pisInput }
 		, nextVarId{ &pnextVarId }
@@ -805,7 +805,8 @@ namespace spirv
 			, arraySize );
 	}
 
-	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::var::VariablePtr outerVar
+	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::ExprCache & exprCache
+		, ast::var::VariablePtr outerVar
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & pflags
 		, ExprAdapter & adapter
@@ -822,7 +823,7 @@ namespace spirv
 
 			if ( splitIt != splitVarsOthers.end() )
 			{
-				return ast::expr::makeMbrSelect( ast::expr::makeIdentifier( cache, splitIt->second.first )
+				return exprCache.makeMbrSelect( exprCache.makeIdentifier( typesCache, splitIt->second.first )
 					, mbrIndex
 					, pflags.getFlags() );
 			}
@@ -872,10 +873,11 @@ namespace spirv
 				, cont );
 		}
 
-		return ast::expr::makeIdentifier( cache, mbr.io.result.var );
+		return exprCache.makeIdentifier( typesCache, mbr.io.result.var );
 	}
 
-	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::Expr * outer
+	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & pflags
 		, ExprAdapter & adapter
@@ -893,7 +895,8 @@ namespace spirv
 			return nullptr;
 		}
 
-		auto result = processPendingMbr( ident->getVariable()
+		auto result = processPendingMbr( exprCache
+			, ident->getVariable()
 			, mbrIndex
 			, pflags
 			, adapter
@@ -905,7 +908,7 @@ namespace spirv
 			auto type = result->getType();
 			assert( type->getKind() == ast::type::Kind::eArray );
 			auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
-			result = ast::expr::makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
+			result = exprCache.makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
 				, std::move( result )
 				, adapter.doSubmit( arrayAccess.getRHS() ) );
 		}
@@ -913,7 +916,8 @@ namespace spirv
 		return result;
 	}
 
-	ast::expr::ExprPtr IOMapping::processPending( ast::Builtin builtin
+	ast::expr::ExprPtr IOMapping::processPending( ast::expr::ExprCache & exprCache
+		, ast::Builtin builtin
 		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
@@ -926,7 +930,8 @@ namespace spirv
 
 				if ( mbrIndex != ast::type::Struct::NotFound )
 				{
-					return processPendingMbr( pending.outer
+					return processPendingMbr( exprCache
+						, pending.outer
 						, mbrIndex
 						, ast::var::FlagHolder{ pending.io.flags }
 						, adapter
@@ -938,7 +943,8 @@ namespace spirv
 		return nullptr;
 	}
 
-	ast::expr::ExprPtr IOMapping::processPending( ast::EntityName const & name
+	ast::expr::ExprPtr IOMapping::processPending( ast::expr::ExprCache & exprCache
+		, ast::EntityName const & name
 		, ast::stmt::Container * cont )
 	{
 		auto it = m_pending.find( name );
@@ -964,13 +970,15 @@ namespace spirv
 				, cont );
 		}
 
-		return ast::expr::makeIdentifier( cache, mbr.second.result.var );
+		return exprCache.makeIdentifier( typesCache, mbr.second.result.var );
 	}
 
-	ast::expr::ExprPtr IOMapping::processPending( ast::var::VariablePtr srcVar
+	ast::expr::ExprPtr IOMapping::processPending( ast::expr::ExprCache & exprCache
+		, ast::var::VariablePtr srcVar
 		, ast::stmt::Container * cont )
 	{
-		auto result = processPending( srcVar->getEntityName()
+		auto result = processPending( exprCache
+			, srcVar->getEntityName()
 			, cont );
 
 		if ( result )
@@ -978,7 +986,7 @@ namespace spirv
 			return result;
 		}
 
-		return ast::expr::makeIdentifier( srcVar->getType()->getCache()
+		return exprCache.makeIdentifier( srcVar->getType()->getTypesCache()
 				, srcVar );
 	}
 
@@ -1023,21 +1031,21 @@ namespace spirv
 		if ( builtin == ast::Builtin::ePrimitiveIndicesNV )
 		{
 			arraySize *= getComponentCount( type );
-			type = type->getCache().getBasicType( compType );
+			type = type->getTypesCache().getBasicType( compType );
 		}
 
 		if ( arraySize != ast::type::NotArray )
 		{
-			type = type->getCache().getArray( type, arraySize );
+			type = type->getTypesCache().getArray( type, arraySize );
 		}
 
 		if ( builtin == ast::Builtin::eTessLevelOuter )
 		{
-			type = cache.getArray( cache.getFloat(), 4u );
+			type = typesCache.getArray( typesCache.getFloat(), 4u );
 		}
 		else if ( builtin == ast::Builtin::eTessLevelInner )
 		{
-			type = cache.getArray( cache.getFloat(), 2u );
+			type = typesCache.getArray( typesCache.getFloat(), 2u );
 		}
 
 		if ( builtin != ast::Builtin::eNone )
@@ -1616,7 +1624,8 @@ namespace spirv
 		outputs.addPending( var, location );
 	}
 
-	ast::expr::ExprPtr ModuleConfig::processPendingMbr( ast::expr::Expr * outer
+	ast::expr::ExprPtr ModuleConfig::processPendingMbr( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter
@@ -1624,42 +1633,48 @@ namespace spirv
 	{
 		if ( flags.isShaderInput() )
 		{
-			return processPendingMbrInput( outer
+			return processPendingMbrInput( exprCache
+				, outer
 				, mbrIndex
 				, flags
 				, adapter
 				, cont );
 		}
 
-		return processPendingMbrOutput( outer
+		return processPendingMbrOutput( exprCache
+			, outer
 			, mbrIndex
 			, flags
 			, adapter
 			, cont );
 	}
 
-	ast::expr::ExprPtr ModuleConfig::processPending( ast::Builtin builtin
+	ast::expr::ExprPtr ModuleConfig::processPending( ast::expr::ExprCache & exprCache
+		, ast::Builtin builtin
 		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
 		if ( isShaderInput( builtin, inputs.stage ) )
 		{
-			return inputs.processPending( builtin, adapter, cont );
+			return inputs.processPending( exprCache, builtin, adapter, cont );
 		}
 
-		return outputs.processPending( builtin, adapter, cont );
+		return outputs.processPending( exprCache, builtin, adapter, cont );
 	}
 
-	ast::expr::ExprPtr ModuleConfig::processPending( ast::var::VariablePtr var
+	ast::expr::ExprPtr ModuleConfig::processPending( ast::expr::ExprCache & exprCache
+		, ast::var::VariablePtr var
 		, ast::stmt::Container * cont )
 	{
 		if ( var->isShaderInput() )
 		{
-			return processPendingInput( var
+			return processPendingInput( exprCache
+				, var
 				, cont );
 		}
 
-		return processPendingOutput( var
+		return processPendingOutput( exprCache
+			, var
 			, cont );
 	}
 
@@ -1768,11 +1783,11 @@ namespace spirv
 		{
 			auto & structType = *getStructType( patchType.getType() );
 			uint32_t indexBuiltins = 0u;
-			auto inStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+			auto inStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Repl"
 				, ast::var::Flag::ePatchInput );
-			auto inBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+			auto inBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Builtins"
 				, ast::var::Flag::eShaderInput );
@@ -1826,11 +1841,11 @@ namespace spirv
 			auto & structType = *getStructType( patchType.getType() );
 			uint32_t indexBuiltins = 0u;
 			auto flags = structType.getFlag();
-			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Repl"
 				, ast::var::Flag( flags ) );
-			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getCache()
+			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Builtins"
 				, ast::var::Flag::eShaderOutput );
@@ -3294,84 +3309,87 @@ namespace spirv
 				, ValueId{ spv::Id( convert( varId.getStorage() ) ) } );
 	}
 
-	ast::expr::ExprPtr makeZero( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeZero( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::type::Kind kind )
 	{
 		using ast::type::Kind;
 		switch ( kind )
 		{
 		case Kind::eInt8:
-			return ast::expr::makeLiteral( cache, int8_t( 0 ) );
+			return exprCache.makeLiteral( typesCache, int8_t( 0 ) );
 		case Kind::eInt16:
-			return ast::expr::makeLiteral( cache, int16_t( 0 ) );
+			return exprCache.makeLiteral( typesCache, int16_t( 0 ) );
 		case Kind::eInt32:
-			return ast::expr::makeLiteral( cache, int32_t( 0 ) );
+			return exprCache.makeLiteral( typesCache, int32_t( 0 ) );
 		case Kind::eInt64:
-			return ast::expr::makeLiteral( cache, int64_t( 0 ) );
+			return exprCache.makeLiteral( typesCache, int64_t( 0 ) );
 		case Kind::eUInt8:
-			return ast::expr::makeLiteral( cache, uint8_t( 0u ) );
+			return exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
 		case Kind::eUInt16:
-			return ast::expr::makeLiteral( cache, uint16_t( 0u ) );
+			return exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
 		case Kind::eUInt32:
-			return ast::expr::makeLiteral( cache, uint32_t( 0u ) );
+			return exprCache.makeLiteral( typesCache, uint32_t( 0u ) );
 		case Kind::eUInt64:
-			return ast::expr::makeLiteral( cache, uint64_t( 0u ) );
+			return exprCache.makeLiteral( typesCache, uint64_t( 0u ) );
 		case Kind::eHalf:
 		case Kind::eFloat:
-			return ast::expr::makeLiteral( cache, 0.0f );
+			return exprCache.makeLiteral( typesCache, 0.0f );
 		case Kind::eDouble:
-			return ast::expr::makeLiteral( cache, 0.0 );
+			return exprCache.makeLiteral( typesCache, 0.0 );
 		default:
 			AST_Failure( "Unsupported type kind for 0 literal" );
 			return nullptr;
 		}
 	}
 
-	ast::expr::ExprPtr makeOne( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeOne( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::type::Kind kind )
 	{
 		using ast::type::Kind;
 		switch ( kind )
 		{
 		case Kind::eInt8:
-			return ast::expr::makeLiteral( cache, int8_t( 1 ) );
+			return exprCache.makeLiteral( typesCache, int8_t( 1 ) );
 		case Kind::eInt16:
-			return ast::expr::makeLiteral( cache, int16_t( 1 ) );
+			return exprCache.makeLiteral( typesCache, int16_t( 1 ) );
 		case Kind::eInt32:
-			return ast::expr::makeLiteral( cache, int32_t( 1 ) );
+			return exprCache.makeLiteral( typesCache, int32_t( 1 ) );
 		case Kind::eInt64:
-			return ast::expr::makeLiteral( cache, int64_t( 1 ) );
+			return exprCache.makeLiteral( typesCache, int64_t( 1 ) );
 		case Kind::eUInt8:
-			return ast::expr::makeLiteral( cache, uint8_t( 1u ) );
+			return exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
 		case Kind::eUInt16:
-			return ast::expr::makeLiteral( cache, uint16_t( 1u ) );
+			return exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
 		case Kind::eUInt32:
-			return ast::expr::makeLiteral( cache, uint32_t( 1u ) );
+			return exprCache.makeLiteral( typesCache, uint32_t( 1u ) );
 		case Kind::eUInt64:
-			return ast::expr::makeLiteral( cache, uint64_t( 1u ) );
+			return exprCache.makeLiteral( typesCache, uint64_t( 1u ) );
 		case Kind::eHalf:
 		case Kind::eFloat:
-			return ast::expr::makeLiteral( cache, 1.0f );
+			return exprCache.makeLiteral( typesCache, 1.0f );
 		case Kind::eDouble:
-			return ast::expr::makeLiteral( cache, 1.0 );
+			return exprCache.makeLiteral( typesCache, 1.0 );
 		default:
 			AST_Failure( "Unsupported type kind for 0 literal" );
 			return nullptr;
 		}
 	}
 
-	ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeToBoolCast( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr expr )
 	{
 		auto componentCount = getComponentCount( expr->getType()->getKind() );
-		ast::expr::ExprPtr result;
+		ast::expr::ExprPtr result{};
 		auto type = expr->getType()->getKind();
 
 		if ( componentCount == 1u )
 		{
-			result = ast::expr::makeNotEqual( cache
+			result = exprCache.makeNotEqual( typesCache
 				, std::move( expr )
-				, makeZero( cache, type ) );
+				, makeZero( exprCache, typesCache, type ) );
 		}
 		else
 		{
@@ -3380,12 +3398,12 @@ namespace spirv
 
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
-				args.emplace_back( ast::expr::makeNotEqual( cache
-					, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-					, makeZero( cache, type ) ) );
+				args.emplace_back( exprCache.makeNotEqual( typesCache
+					, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
+					, makeZero( exprCache, typesCache, type ) ) );
 			}
 
-			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+			result = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount )
 				, ast::type::Kind::eBoolean
 				, std::move( args ) );
 		}
@@ -3393,36 +3411,37 @@ namespace spirv
 		return result;
 	}
 
-	ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
+	ast::expr::ExprPtr makeFromBoolCast( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr expr
 		, ast::type::Kind dstScalarType )
 	{
 		auto componentCount = getComponentCount( expr->getType()->getKind() );
-		ast::expr::ExprPtr result;
+		ast::expr::ExprPtr result{};
 
 		if ( componentCount == 1u )
 		{
-			auto scalarType = cache.getBasicType( dstScalarType );
-			result = ast::expr::makeQuestion( scalarType
+			auto scalarType = typesCache.getBasicType( dstScalarType );
+			result = exprCache.makeQuestion( scalarType
 				, std::move( expr )
-				, makeOne( cache, dstScalarType )
-				, makeZero( cache, dstScalarType ) );
+				, makeOne( exprCache, typesCache, dstScalarType )
+				, makeZero( exprCache, typesCache, dstScalarType ) );
 		}
 		else
 		{
 			ast::expr::ExprList args;
 			auto newExpr = std::move( expr );
-			auto scalarType = cache.getBasicType( dstScalarType );
+			auto scalarType = typesCache.getBasicType( dstScalarType );
 
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
-				args.emplace_back( ast::expr::makeQuestion( scalarType
-					, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-					, makeOne( cache, dstScalarType )
-					, makeZero( cache, dstScalarType ) ) );
+				args.emplace_back( exprCache.makeQuestion( scalarType
+					, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
+					, makeOne( exprCache, typesCache, dstScalarType )
+					, makeZero( exprCache, typesCache, dstScalarType ) ) );
 			}
 
-			result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+			result = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount )
 				, dstScalarType
 				, std::move( args ) );
 		}

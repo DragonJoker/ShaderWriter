@@ -13,9 +13,9 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	Type::Type( TypesCache & cache
+	Type::Type( TypesCache & typesCache
 		, Kind kind )
-		: m_cache{ &cache }
+		: m_typesCache{ &typesCache }
 		, m_kind{ kind }
 		, m_parent{ nullptr }
 		, m_index{ NotMember }
@@ -23,11 +23,11 @@ namespace ast::type
 	{
 	}
 
-	Type::Type( TypesCache & cache
+	Type::Type( TypesCache & typesCache
 		, Struct * parent
 		, uint32_t index
 		, Type const & nonMbr )
-		: m_cache{ &cache }
+		: m_typesCache{ &typesCache }
 		, m_kind{ nonMbr.getKind() }
 		, m_parent{ parent }
 		, m_index{ index }
@@ -35,17 +35,17 @@ namespace ast::type
 	{
 	}
 
-	Type::Type( TypesCache & cache
+	Type::Type( TypesCache & typesCache
 		, Struct & parent
 		, uint32_t index
 		, Type const & nonMbr )
-		: Type{ cache, &parent, index, nonMbr }
+		: Type{ typesCache, &parent, index, nonMbr }
 	{
 	}
 
 	TypePtr Type::getMemberType( Struct & parent, uint32_t index )const
 	{
-		return std::make_shared< Type >( *m_cache, parent, index, *this );
+		return std::make_shared< Type >( *m_typesCache, parent, index, *this );
 	}
 
 	Type const * Type::getNonMemberType()const

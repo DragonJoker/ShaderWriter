@@ -7,9 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	AggrInit::AggrInit( IdentifierPtr identifier
-		, ExprList && initialisers )
-		: Expr{ getExprTypesCache( *identifier, initialisers )
+	AggrInit::AggrInit( ExprCache & exprCache
+		, IdentifierPtr identifier
+		, ExprList initialisers )
+		: Expr{ exprCache
+			, sizeof( AggrInit )
+			, getExprTypesCache( *identifier, initialisers )
 			, identifier->getType()
 			, Kind::eAggrInit
 			, ( isExprConstant( identifier, initialisers )
@@ -26,9 +29,12 @@ namespace ast::expr
 #endif
 	}
 
-	AggrInit::AggrInit( type::TypePtr type
-		, ExprList && initialisers )
-		: Expr{ type->getCache()
+	AggrInit::AggrInit( ExprCache & exprCache
+		, type::TypePtr type
+		, ExprList initialisers )
+		: Expr{ exprCache
+			, sizeof( AggrInit )
+			, type->getTypesCache()
 			, type
 			, Kind::eAggrInit
 			, ( isExprConstant( initialisers )

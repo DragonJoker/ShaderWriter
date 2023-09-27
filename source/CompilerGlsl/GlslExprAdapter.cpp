@@ -14,7 +14,8 @@ namespace glsl
 {
 	namespace
 	{
-		ast::expr::ExprPtr swizzleConvert( ast::type::TypePtr dst
+		ast::expr::ExprPtr swizzleConvert( ast::expr::ExprCache & exprCache
+			, ast::type::TypePtr dst
 			, ast::type::TypePtr src
 			, ast::expr::ExprPtr expr )
 		{
@@ -94,11 +95,12 @@ namespace glsl
 				break;
 			}
 
-			return std::make_unique< ast::expr::Swizzle >( std::move( expr )
+			return exprCache.makeSwizzle( std::move( expr )
 				, swizzle );
 		}
 
-		ast::expr::ExprPtr registerPerVertexBuiltin( ast::type::TypesCache & cache
+		ast::expr::ExprPtr registerPerVertexBuiltin( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
 			, ast::Builtin builtin
 			, ast::type::TypePtr type
 			, uint64_t flags
@@ -109,17 +111,18 @@ namespace glsl
 
 			if ( ires.second )
 			{
-				ires.first->second = ast::expr::makeIdentifier( cache
+				ires.first->second = exprCache.makeIdentifier( typesCache
 					, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
 						, type
 						, flags | ast::var::Flag::eBuiltin ) );
 			}
 
 			auto it = ires.first;
-			return ast::ExprCloner::submit( it->second.get() );
+			return ast::ExprCloner::submit( exprCache, it->second );
 		}
 
-		ast::expr::ExprPtr registerPerPrimitiveBuiltin( ast::type::TypesCache & cache
+		ast::expr::ExprPtr registerPerPrimitiveBuiltin( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
 			, ast::Builtin builtin
 			, ast::type::TypePtr type
 			, uint64_t flags
@@ -130,42 +133,45 @@ namespace glsl
 
 			if ( ires.second )
 			{
-				ires.first->second = ast::expr::makeIdentifier( cache
+				ires.first->second = exprCache.makeIdentifier( typesCache
 					, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
 						, type
 						, flags | ast::var::Flag::eBuiltin ) );
 			}
 
 			auto it = ires.first;
-			return ast::ExprCloner::submit( it->second.get() );
+			return ast::ExprCloner::submit( exprCache, it->second );
 		}
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
+	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::expr::Expr * expr
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container )
 	{
-		ast::expr::ExprPtr result;
-		ExprAdapter vis{ cache, adaptationData, container, result };
+		ast::expr::ExprPtr result{};
+		ExprAdapter vis{ exprCache, typesCache, adaptationData, container, result };
 		expr->accept( &vis );
 		return result;
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::type::TypesCache & cache
+	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr const & expr
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container )
 	{
-		return submit( cache, expr.get(), adaptationData, container );
+		return submit( exprCache, typesCache, expr.get(), adaptationData, container );
 	}
 
-	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
+	ExprAdapter::ExprAdapter( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container
 		, ast::expr::ExprPtr & result )
-		: ExprCloner{ result }
-		, m_cache{ cache }
+		: ExprCloner{ exprCache, result }
+		, m_typesCache{ typesCache }
 		, m_adaptationData{ adaptationData }
 		, m_container{ container }
 	{
@@ -173,8 +179,8 @@ namespace glsl
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_adaptationData, m_container, result };
+		ast::expr::ExprPtr result{};
+		ExprAdapter vis{ m_exprCache, m_typesCache, m_adaptationData, m_container, result };
 		expr->accept( &vis );
 
 		if ( expr->isNonUniform() )
@@ -183,6 +189,11 @@ namespace glsl
 		}
 
 		return result;
+	}
+
+	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		return doSubmit( expr.get() );
 	}
 
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
@@ -216,17 +227,17 @@ namespace glsl
 					// Compute base index, based on declared type of builtin
 					auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
 					auto index = arrayAccess.getRHS();
-					ast::expr::ExprPtr multiplier;
+					ast::expr::ExprPtr multiplier{};
 
 					switch ( mbr.type->getKind() )
 					{
 					case ast::type::Kind::eUInt32:
 						break;
 					case ast::type::Kind::eVec2U32:
-						multiplier = ast::expr::makeLiteral( m_cache, 2u );
+						multiplier = m_exprCache.makeLiteral( m_typesCache, 2u );
 						break;
 					case ast::type::Kind::eVec3U32:
-						multiplier = ast::expr::makeLiteral( m_cache, 3u );
+						multiplier = m_exprCache.makeLiteral( m_typesCache, 3u );
 						break;
 					default:
 						AST_Failure( "Unsupported type for gl_PrimitiveIndicesNV" );
@@ -237,7 +248,7 @@ namespace glsl
 
 					if ( multiplier )
 					{
-						baseIndex = ast::expr::makeTimes( m_cache.getUInt32()
+						baseIndex = m_exprCache.makeTimes( m_typesCache.getUInt32()
 							, doSubmit( index )
 							, std::move( multiplier ) );
 					}
@@ -246,48 +257,48 @@ namespace glsl
 
 					if ( componentCount == 1u )
 					{
-						m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-							, ast::expr::makeIdentifier( m_cache, *mbrIt )
+						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+							, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
 							, std::move( baseIndex ) );
-						m_result = ast::expr::makeAssign( mbr.type
+						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
 							, doSubmit( expr->getRHS() ) );
 					}
 					else
 					{
-						m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-							, ast::expr::makeIdentifier( m_cache, *mbrIt )
-							, ExprCloner::submit( baseIndex ) );
-						m_result = ast::expr::makeAssign( mbr.type
+						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+							, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
+							, ExprCloner::submit( m_exprCache, baseIndex ) );
+						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
-							, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+							, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
 								, ast::expr::SwizzleKind::e0 ) );
 
 						if ( componentCount >= 2u )
 						{
 							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
-							m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-								, ast::expr::makeIdentifier( m_cache, *mbrIt )
-								, ast::expr::makeAdd( m_cache.getUInt32()
-									, ExprCloner::submit( baseIndex )
-									, ast::expr::makeLiteral( m_cache, 1u ) ) );
-							m_result = ast::expr::makeAssign( mbr.type
+							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+								, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
+								, m_exprCache.makeAdd( m_typesCache.getUInt32()
+									, ExprCloner::submit( m_exprCache, baseIndex )
+									, m_exprCache.makeLiteral( m_typesCache, 1u ) ) );
+							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
-								, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
 									, ast::expr::SwizzleKind::e1 ) );
 						}
 
 						if ( componentCount >= 3u )
 						{
 							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
-							m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-								, ast::expr::makeIdentifier( m_cache, *mbrIt )
-								, ast::expr::makeAdd( m_cache.getUInt32()
-									, ExprCloner::submit( baseIndex )
-									, ast::expr::makeLiteral( m_cache, 2u ) ) );
-							m_result = ast::expr::makeAssign( mbr.type
+							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+								, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
+								, m_exprCache.makeAdd( m_typesCache.getUInt32()
+									, ExprCloner::submit( m_exprCache, baseIndex )
+									, m_exprCache.makeLiteral( m_typesCache, 2u ) ) );
+							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
-								, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
 									, ast::expr::SwizzleKind::e2 ) );
 						}
 					}
@@ -312,7 +323,7 @@ namespace glsl
 
 		if ( it != m_adaptationData.aliases.end() )
 		{
-			m_result = ast::expr::makeIdentifier( expr->getCache(), it->second );
+			m_result = m_exprCache.makeIdentifier( expr->getTypesCache(), it->second );
 		}
 		else
 		{
@@ -320,7 +331,7 @@ namespace glsl
 		}
 	}
 
-	void ExprAdapter::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprAdapter::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
 		if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
 			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU )
@@ -340,11 +351,11 @@ namespace glsl
 			&& m_adaptationData.writerConfig.wantedVersion < v4_3 )
 		{
 			assert( expr->getArgList().size() == 3u );
-			m_result = ast::expr::makeAdd( expr->getType()
-				, ast::expr::makeTimes( expr->getType()
-					, doSubmit( expr->getArgList()[0].get() )
-					, doSubmit( expr->getArgList()[1].get() ) )
-				, doSubmit( expr->getArgList()[2].get() ) );
+			m_result = m_exprCache.makeAdd( expr->getType()
+				, m_exprCache.makeTimes( expr->getType()
+					, doSubmit( expr->getArgList()[0] )
+					, doSubmit( expr->getArgList()[1] ) )
+				, doSubmit( expr->getArgList()[2] ) );
 		}
 		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay )
 		{
@@ -352,7 +363,7 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
 			auto payLoad = std::move( args.back() );
@@ -364,12 +375,12 @@ namespace glsl
 			uint32_t index = 0u;
 			for ( auto mbr : *getStructType( rayDesc->getType() ) )
 			{
-				args.push_back( ast::expr::makeMbrSelect( ExprCloner::submit( rayDesc ), index++, 0u ) );
+				args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index++, 0u ) );
 			}
 			// Extract location from RayPayload type, to set it as last param.
-			args.push_back( ast::expr::makeLiteral( m_cache
+			args.push_back( m_exprCache.makeLiteral( m_typesCache
 				, int( static_cast< ast::type::RayPayload const & >( *payLoad->getType() ).getLocation() ) ) );
-			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
@@ -379,15 +390,15 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
 			auto callData = std::move( args.back() );
 			args.pop_back();
 			// Extract location from RayPayload type, to set it as last param.
-			args.push_back( ast::expr::makeLiteral( m_cache
+			args.push_back( m_exprCache.makeLiteral( m_typesCache
 				, int( static_cast< ast::type::CallableData const & >( *callData->getType() ).getLocation() ) ) );
-			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
@@ -397,12 +408,12 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
 			// Remove unused HitAttribute last param.
 			args.pop_back();
-			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
@@ -412,7 +423,7 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
 			auto numPrimitives = std::move( args.back() );
@@ -424,8 +435,8 @@ namespace glsl
 				, type
 				, "gl_" + getName( ast::Builtin::ePrimitiveCountNV )
 				, ast::var::Flag::eBuiltin | ast::var::Flag::eShaderOutput );
-			m_result = ast::expr::makeAssign( type
-				, ast::expr::makeIdentifier( m_cache, var )
+			m_result = m_exprCache.makeAssign( type
+				, m_exprCache.makeIdentifier( m_typesCache, var )
 				, std::move( numPrimitives ) );
 		}
 		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eDispatchMeshNV )
@@ -434,7 +445,7 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
 			auto numTasks = std::move( args.back() );
@@ -444,8 +455,8 @@ namespace glsl
 				, type
 				, "gl_" + getName( ast::Builtin::eTaskCountNV )
 				, ast::var::Flag::eBuiltin | ast::var::Flag::eShaderOutput );
-			m_result = ast::expr::makeAssign( type
-				, ast::expr::makeIdentifier( m_cache, var )
+			m_result = m_exprCache.makeAssign( type
+				, m_exprCache.makeIdentifier( m_typesCache, var )
 				, std::move( numTasks ) );
 		}
 		else if ( expr->getIntrinsic() != ast::expr::Intrinsic::eHelperInvocation )
@@ -454,10 +465,10 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
-			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
@@ -477,7 +488,7 @@ namespace glsl
 
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
-		m_result = ast::expr::makeEmitVertex( m_cache );
+		m_result = makeEmitVertex( m_exprCache, m_typesCache );
 	}
 
 	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
@@ -503,53 +514,53 @@ namespace glsl
 
 			for ( auto & arg : expr->getArgList() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 
-			m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+			m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
 				, expr->getCombinedImageAccess()
 				, std::move( args ) );
 		}
 	}
 
-	void ExprAdapter::doProcessImageStore( ast::expr::ImageAccessCall * expr )
+	void ExprAdapter::doProcessImageStore( ast::expr::StorageImageAccessCall * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto sampledType = m_cache.getSampledType( config.format );
-		auto glslType = m_cache.getVec4Type( getScalarType( sampledType->getKind() ) );
+		auto sampledType = m_typesCache.getSampledType( config.format );
+		auto glslType = m_typesCache.getVec4Type( getScalarType( sampledType->getKind() ) );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
 			if ( arg != expr->getArgList().back() )
 			{
-				args.emplace_back( doSubmit( arg.get() ) );
+				args.emplace_back( doSubmit( arg ) );
 			}
 			else
 			{
 				// Convert last parameter to appropriate gvec4 type.
-				auto result = doSubmit( arg.get() );
+				auto result = doSubmit( arg );
 
 				if ( sampledType != glslType )
 				{
 					result = ( ( getComponentCount( *sampledType ) == 1u )
-						? [&glslType, &result]()
+						? [this, &glslType, &result]()
 						{
 							ast::expr::ExprList list;
 							list.emplace_back( std::move( result ) );
-							return ast::expr::makeCompositeConstruct( getCompositeType( glslType->getKind() )
+							return m_exprCache.makeCompositeConstruct( getCompositeType( glslType->getKind() )
 								, getComponentType( *glslType )
 								, std::move( list ) );
 						}()
-						: swizzleConvert( glslType, sampledType, std::move( result ) ) );
+						: swizzleConvert( m_exprCache, glslType, sampledType, std::move( result ) ) );
 				}
 
 				args.emplace_back( std::move( result ) );
 			}
 		}
 
-		m_result = ast::expr::makeImageAccessCall( expr->getType()
+		m_result = m_exprCache.makeStorageImageAccessCall( expr->getType()
 			, expr->getImageAccess()
 			, std::move( args ) );
 	}
@@ -558,7 +569,7 @@ namespace glsl
 	{
 		ast::expr::ExprList args;
 		// First parameter is the sampled image
-		args.emplace_back( doSubmit( expr->getArgList()[0].get() ) );
+		args.emplace_back( doSubmit( expr->getArgList()[0] ) );
 		// For texture shadow functions, dref value is put inside the coords parameter, instead of being aside.
 		assert( expr->getArgList().size() >= 3u );
 		
@@ -586,36 +597,36 @@ namespace glsl
 			case ast::type::Kind::eFloat:
 				// Texture1DShadow accesses.
 				// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
-				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
+				merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
+				args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec3
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec2F:
 				{
 					// TextureProj1DShadow accesses.
-					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
-					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e0 ) );
-					merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-					merged.emplace_back( ast::expr::makeSwizzle( doSubmit( expr->getArgList()[1].get() ), ast::expr::SwizzleKind::e1 ) );
-					args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
+					merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind::e0 ) );
+					merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind::e0 ) );
+					merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
+					merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind::e1 ) );
+					args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
 						, ast::type::Kind::eFloat
 						, std::move( merged ) ) );
 				}
 				break;
 			case ast::type::Kind::eVec3F:
-				merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-				merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
+				merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
+				merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
+				args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec4F:
 				// If the first type was a vec4, forget about merging
-				args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				args.emplace_back( doSubmit( expr->getArgList()[1] ) );
+				args.emplace_back( doSubmit( expr->getArgList()[2] ) );
 				break;
 			default:
 				break;
@@ -625,30 +636,30 @@ namespace glsl
 		{
 			// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
 			ast::expr::ExprList merged;
-			merged.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-			merged.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+			merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
+			merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
 
 			switch ( merged[0]->getType()->getKind() )
 			{
 			case ast::type::Kind::eFloat:
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec2
+				args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec2F:
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec3
+				args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec3
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec3F:
-				args.emplace_back( ast::expr::makeCompositeConstruct( ast::expr::CompositeType::eVec4
+				args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
 					, ast::type::Kind::eFloat
 					, std::move( merged ) ) );
 				break;
 			case ast::type::Kind::eVec4F:
 				// If the first type was a vec4, forget about merging
-				args.emplace_back( doSubmit( expr->getArgList()[1].get() ) );
-				args.emplace_back( doSubmit( expr->getArgList()[2].get() ) );
+				args.emplace_back( doSubmit( expr->getArgList()[1] ) );
+				args.emplace_back( doSubmit( expr->getArgList()[2] ) );
 				break;
 			default:
 				break;
@@ -658,10 +669,10 @@ namespace glsl
 		// Other parameters remain unchanged.
 		for ( size_t i = 3u; i < expr->getArgList().size(); ++i )
 		{
-			args.emplace_back( doSubmit( expr->getArgList()[i].get() ) );
+			args.emplace_back( doSubmit( expr->getArgList()[i] ) );
 		}
 
-		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+		m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
 			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 	}
@@ -670,23 +681,23 @@ namespace glsl
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
-		auto callRetType = m_cache.getSampledType( config.format );
+		auto callRetType = m_typesCache.getSampledType( config.format );
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg.get() ) );
+			args.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+		m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
 			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 
-		auto glslRetType = m_cache.getVec4Type( getScalarType( callRetType->getKind() ) );
+		auto glslRetType = m_typesCache.getVec4Type( getScalarType( callRetType->getKind() ) );
 
 		if ( callRetType != glslRetType )
 		{
-			m_result = swizzleConvert( callRetType, glslRetType, std::move( m_result ) );
+			m_result = swizzleConvert( m_exprCache, callRetType, glslRetType, std::move( m_result ) );
 		}
 	}
 
@@ -696,7 +707,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg.get() ) );
+			args.emplace_back( doSubmit( arg ) );
 		}
 
 		// Component parameter is the last one in GLSL whilst it is the last before
@@ -707,7 +718,7 @@ namespace glsl
 		args.erase( it );
 		args.emplace_back( std::move( compArg ) );
 
-		m_result = ast::expr::makeCombinedImageAccessCall( expr->getType()
+		m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
 			, expr->getCombinedImageAccess()
 			, std::move( args ) );
 	}
@@ -731,7 +742,7 @@ namespace glsl
 			mbrFlags = mbrFlags | ast::var::Flag::eFlat;
 		}
 
-		ast::expr::ExprPtr result;
+		ast::expr::ExprPtr result{};
 
 		if ( isPerVertex( mbr.builtin
 			, m_adaptationData.writerConfig.shaderStage ) )
@@ -760,16 +771,17 @@ namespace glsl
 					auto perVertexType = getStructType( type );
 					mbrIndex = perVertexType->findMember( mbr.builtin );
 					assert( mbrIndex != ast::type::Struct::NotFound );
-					result = ast::expr::makeArrayAccess( perVertexType
-						, ast::expr::makeIdentifier( m_cache, io.perVertex )
+					result = m_exprCache.makeArrayAccess( perVertexType
+						, m_exprCache.makeIdentifier( m_typesCache, io.perVertex )
 						, std::move( indexExpr ) );
-					result = ast::expr::makeMbrSelect( std::move( result )
+					result = m_exprCache.makeMbrSelect( std::move( result )
 						, mbrIndex
 						, mbrFlags | ast::var::Flag::eBuiltin );
 				}
 				else
 				{
-					result = registerPerVertexBuiltin( m_cache
+					result = registerPerVertexBuiltin( m_exprCache
+						, m_typesCache
 						, mbr.builtin
 						, mbr.type
 						, mbrFlags
@@ -805,16 +817,17 @@ namespace glsl
 					auto perPrimitiveType = getStructType( type );
 					mbrIndex = perPrimitiveType->findMember( mbr.builtin );
 					assert( mbrIndex != ast::type::Struct::NotFound );
-					result = ast::expr::makeArrayAccess( perPrimitiveType
-						, ast::expr::makeIdentifier( m_cache, io.perPrimitive )
+					result = m_exprCache.makeArrayAccess( perPrimitiveType
+						, m_exprCache.makeIdentifier( m_typesCache, io.perPrimitive )
 						, std::move( indexExpr ) );
-					result = ast::expr::makeMbrSelect( std::move( result )
+					result = m_exprCache.makeMbrSelect( std::move( result )
 						, mbrIndex
 						, mbrFlags | ast::var::Flag::eBuiltin );
 				}
 				else
 				{
-					result = registerPerPrimitiveBuiltin( m_cache
+					result = registerPerPrimitiveBuiltin( m_exprCache
+						, m_typesCache
 						, mbr.builtin
 						, mbr.type
 						, mbrFlags
@@ -848,7 +861,7 @@ namespace glsl
 							|| lookup->getName() == "gl_" + mbr.name;
 					} );
 				assert( mbrIt != it->second.end() );
-				result = ast::expr::makeIdentifier( m_cache
+				result = m_exprCache.makeIdentifier( m_typesCache
 					, *mbrIt );
 			}
 		}
@@ -869,9 +882,10 @@ namespace glsl
 			}
 			else if ( outer->getType()->getKind() == ast::type::Kind::eTessellationControlOutput )
 			{
-				indexExpr = registerPerVertexBuiltin( m_cache
+				indexExpr = registerPerVertexBuiltin( m_exprCache
+					, m_typesCache
 					, ast::Builtin::eInvocationID
-					, m_cache.getUInt32()
+					, m_typesCache.getUInt32()
 					, uint64_t( ast::var::Flag::eShaderInput )
 					, m_adaptationData.nextVarId
 					, io );
@@ -888,7 +902,7 @@ namespace glsl
 
 					if ( structIt != io.othersStructs.end() )
 					{
-						return ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, structIt->second )
+						return m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, structIt->second )
 							, mbrIndex
 							, mbrFlags );
 					}
@@ -907,12 +921,12 @@ namespace glsl
 								&& lookup->getName() == "gl_" + mbr.name );
 					} );
 				assert( mbrIt != it->second.end() );
-				result = ast::expr::makeIdentifier( m_cache
+				result = m_exprCache.makeIdentifier( m_typesCache
 					, *mbrIt );
 
 				if ( indexExpr )
 				{
-					result = ast::expr::makeArrayAccess( mbr.type
+					result = m_exprCache.makeArrayAccess( mbr.type
 						, std::move( result )
 						, std::move( indexExpr ) );
 				}

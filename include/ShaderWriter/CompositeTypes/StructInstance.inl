@@ -41,10 +41,7 @@ namespace sdw
 			}
 
 			return T{ writer
-				, std::make_unique< expr::Expr >( m_type->getCache()
-					, T::makeType( m_type->getCache() )
-					, expr::Kind::eIdentifier
-					, expr::Flag::eDummy )
+				, getExprCache( writer ).makeDummyExpr( T::makeType( m_type->getTypesCache() ) )
 				, false };
 		}
 
@@ -120,10 +117,7 @@ namespace sdw
 			}
 
 			return Array< T >{ writer
-				, std::make_unique< expr::Expr >( m_type->getCache()
-					, m_type->getCache().getArray( T::makeType( m_type->getCache() ) )
-					, expr::Kind::eIdentifier
-					, expr::Flag::eDummy )
+				, getExprCache( writer ).makeDummyExpr( m_type->getTypesCache().getArray( T::makeType( m_type->getTypesCache() ) ) )
 				, false };
 		}
 		auto member = m_type->getMember( mbrIndex );

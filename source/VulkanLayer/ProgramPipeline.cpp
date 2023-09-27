@@ -624,6 +624,24 @@ namespace ast::vk
 
 	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
 		, uint32_t spvVersion
+		, ShaderPtrArray const & shaders )
+		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
+		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
+		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
+		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
+		, m_shaderModules{ createShaderModules( shaders.begin(), shaders.end() ) }
+		, m_pushConstantRanges{ createPushConstantRanges( shaders.begin(), shaders.end() ) }
+		, m_descriptorLayouts{ createDescriptorLayouts() }
+		, m_descriptorPoolSizes{ createDescriptorPoolSizes() }
+		, m_descriptorSetsWrites{ createDescriptorSetsWrites() }
+		, m_pipelineLayout{ createPipelineLayout() }
+		, m_vertexAttributes{ createVertexAttributes() }
+		, m_attachmentDescriptions{ createAttachmentDescriptions() }
+	{
+	}
+
+	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
+		, uint32_t spvVersion
 		, ShaderRefArray const & shaders )
 		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }

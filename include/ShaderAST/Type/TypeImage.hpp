@@ -16,7 +16,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API Image( TypesCache & cache
+		SDAST_API Image( TypesCache & typesCache
 			, ImageConfiguration config );
 
 		ImageConfiguration const & getConfig()const

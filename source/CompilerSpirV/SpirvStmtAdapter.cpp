@@ -12,18 +12,23 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::Container * container
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
+		, ast::stmt::Container * container
 		, AdaptationData & adaptationData )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ result, adaptationData };
+		StmtAdapter vis{ exprCache, typesCache, result, adaptationData };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( ast::stmt::ContainerPtr & result
+	StmtAdapter::StmtAdapter( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
+		, ast::stmt::ContainerPtr & result
 		, AdaptationData & adaptationData )
-		: StmtCloner{ result }
+		: StmtCloner{ exprCache, result }
+		, m_typesCache{ typesCache }
 		, m_adaptationData{ adaptationData }
 	{
 		auto cont = ast::stmt::makeContainer();
@@ -33,7 +38,12 @@ namespace spirv
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( expr, m_current, m_ioDeclarations, m_adaptationData );
+		return ExprAdapter::submit( m_exprCache, m_typesCache, expr, m_current, m_ioDeclarations, m_adaptationData );
+	}
+
+	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		return doSubmit( expr.get() );
 	}
 
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
@@ -48,6 +58,7 @@ namespace spirv
 
 	void StmtAdapter::visitIfStmt( ast::stmt::If * stmt )
 	{
+		TraceFunc;
 		assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 		auto save = m_current;
 		auto cont = ast::stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
@@ -69,6 +80,7 @@ namespace spirv
 
 	void StmtAdapter::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
+		TraceFunc;
 		if ( stmt->getFlags() )
 		{
 			if ( stmt->isEntryPoint() )
@@ -88,27 +100,32 @@ namespace spirv
 
 	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		TraceFunc;
 		m_ioDeclarations->addStmt( ast::stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
 	}
 
 	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
+		TraceFunc;
 		m_ioDeclarations->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
 			, stmt->getLocation() ) );
 	}
 
 	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
+		TraceFunc;
 		m_ioDeclarations->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
 			, stmt->getLocation() ) );
 	}
 
 	void StmtAdapter::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
+		TraceFunc;
 		bool processed = false;
 
 		if ( stmt->getExpr()->isConstant() )
@@ -136,7 +153,7 @@ namespace spirv
 
 					for ( auto & init : aggrInit->getInitialisers() )
 					{
-						initialisers.emplace_back( doSubmit( init.get() ) );
+						initialisers.emplace_back( doSubmit( init ) );
 					}
 
 					m_adaptationData.context.constAggrExprs.emplace( ident->getVariable()->getId()
@@ -154,27 +171,32 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocDefine( ast::stmt::PreprocDefine * preproc )
 	{
+		TraceFunc;
 		m_adaptationData.context.constExprs.emplace( preproc->getId()
 			, doSubmit( preproc->getExpr() ) );
 	}
 
 	void StmtAdapter::visitPreprocElif( ast::stmt::PreprocElif * preproc )
 	{
+		TraceFunc;
 		visitContainerStmt( preproc );
 	}
 
 	void StmtAdapter::visitPreprocElse( ast::stmt::PreprocElse * preproc )
 	{
+		TraceFunc;
 		visitContainerStmt( preproc );
 	}
 
 	void StmtAdapter::visitPreprocEndif( ast::stmt::PreprocEndif * preproc )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::visitPreprocIf( ast::stmt::PreprocIf * preproc )
 	{
-		bool isTrue = eval( preproc->getCtrlExpr(), m_adaptationData.context );
+		TraceFunc;
+		bool isTrue = eval( m_exprCache, preproc->getCtrlExpr(), m_adaptationData.context );
 
 		if ( isTrue )
 		{
@@ -185,7 +207,7 @@ namespace spirv
 			uint32_t i = 0u;
 
 			while ( i < preproc->getElifList().size()
-				&& !( isTrue = eval( static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
+				&& !( isTrue = eval( m_exprCache, static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
 			{
 				++i;
 			}
@@ -203,7 +225,8 @@ namespace spirv
 
 	void StmtAdapter::visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )
 	{
-		bool isTrue = eval( preproc->getIdentExpr(), m_adaptationData.context );
+		TraceFunc;
+		bool isTrue = eval( m_exprCache, preproc->getIdentExpr(), m_adaptationData.context );
 
 		if ( isTrue )
 		{
@@ -214,7 +237,7 @@ namespace spirv
 			uint32_t i = 0u;
 
 			while ( i < preproc->getElifList().size()
-				&& !( isTrue = eval( static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
+				&& !( isTrue = eval( m_exprCache, static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
 			{
 				++i;
 			}
@@ -233,6 +256,7 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
+		TraceFunc;
 		auto type = compType.getType();
 		m_current->addStmt( ast::stmt::makeInputComputeLayout( type
 			, compType.getLocalSizeX()
@@ -243,6 +267,7 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::FragmentInput const & fragType )
 	{
+		TraceFunc;
 		auto type = fragType.getType();
 		m_current->addStmt( ast::stmt::makeFragmentLayout( type
 			, fragType.getOrigin()
@@ -252,6 +277,7 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
+		TraceFunc;
 		auto type = geomType.getType();
 		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
 			, geomType.getLayout()
@@ -261,6 +287,7 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::GeometryInput const & geomType )
 	{
+		TraceFunc;
 		auto type = geomType.getType();
 		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
 			, geomType.getLayout() ) );
@@ -270,6 +297,7 @@ namespace spirv
 		, ast::type::TessellationControlOutput const & tessType
 		, bool isEntryPoint )
 	{
+		TraceFunc;
 		auto type = tessType.getType();
 		m_current->addStmt( ast::stmt::makeOutputTessellationControlLayout( type
 			, tessType.getDomain()
@@ -283,11 +311,13 @@ namespace spirv
 		, ast::type::TessellationControlInput const & geomType
 		, bool isEntryPoint )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationEvaluationInput const & tessType )
 	{
+		TraceFunc;
 		m_current->addStmt( ast::stmt::makeInputTessellationEvaluationLayout( tessType.getType()
 			, tessType.getDomain()
 			, tessType.getPartitioning()
@@ -297,6 +327,7 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::MeshVertexOutput const & meshType )
 	{
+		TraceFunc;
 		m_maxVertices = meshType.getMaxVertices();
 
 		if ( m_maxPrimitives )
@@ -311,6 +342,7 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::MeshPrimitiveOutput const & meshType )
 	{
+		TraceFunc;
 		m_maxPrimitives = meshType.getMaxPrimitives();
 		m_topology = meshType.getTopology();
 
@@ -326,26 +358,31 @@ namespace spirv
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayloadNV const & taskType )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayload const & taskType )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayloadInNV const & taskType )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayloadIn const & taskType )
 	{
+		TraceFunc;
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TessellationInputPatch const & patchType )
 	{
+		TraceFunc;
 		var = m_adaptationData.config.getInputPatch( var );
 
 		if ( !getStructType( var->getType() )->empty() )
@@ -358,6 +395,7 @@ namespace spirv
 		, ast::type::TessellationOutputPatch const & patchType
 		, bool isEntryPoint )
 	{
+		TraceFunc;
 		var = m_adaptationData.config.getOutputPatch( var );
 
 		if ( !getStructType( var->getType() )->empty() )
@@ -368,8 +406,9 @@ namespace spirv
 
 	void StmtAdapter::doProcessEntryPoint( ast::stmt::FunctionDecl * stmt )
 	{
-		auto & cache = stmt->getType()->getCache();
-		auto funcType = cache.getFunction( cache.getVoid(), {} );
+		TraceFunc;
+		auto & typesCache = stmt->getType()->getTypesCache();
+		auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
 		doProcessInOut( stmt->getType(), true );
 		auto save = m_current;
 		auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
@@ -389,6 +428,7 @@ namespace spirv
 
 	void StmtAdapter::doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
 	{
+		TraceFunc;
 		auto save = m_current;
 		auto cont = ast::stmt::makeContainer();
 		m_current = cont.get();
@@ -401,6 +441,7 @@ namespace spirv
 	void StmtAdapter::doProcessInOut( ast::type::FunctionPtr funcType
 		, bool isEntryPoint )
 	{
+		TraceFunc;
 		for ( auto & param : *funcType )
 		{
 			auto type = param->getType();
@@ -460,6 +501,7 @@ namespace spirv
 
 	void StmtAdapter::doDeclareStruct( ast::type::StructPtr const & structType )
 	{
+		TraceFunc;
 		if ( m_declaredStructs.emplace( structType ).second )
 		{
 			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );

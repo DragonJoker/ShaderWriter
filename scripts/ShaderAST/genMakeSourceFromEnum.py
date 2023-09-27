@@ -14,6 +14,7 @@ def printHeader( outs, match ):
 	outs.write( "#define ___AST_ExprMake" + enumName + "_H___\n" )
 	outs.write( "#pragma once\n" )
 	outs.write( "\n" )
+	outs.write( '#include "ExprCache.hpp"\n' )
 	outs.write( '#include "Expr' + enumName + 'Call.hpp"\n' )
 	outs.write( "\n" )
 	outs.write( '#include <cassert>\n' )
@@ -480,20 +481,21 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 			printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
 
 		outs.write( "\n\tinline " + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
-		outs.write( " type::TypesCache & cache" )
+		outs.write( " ExprCache & exprCache" )
+		outs.write( "\n\t\t, type::TypesCache & typesCache" )
 		outs.write( imgSplInputs )
 		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
 		outs.write( "\t{\n" )
 
 		if intrinsicName.find( "Store" ) != -1:
 			outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
-			outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( type::Kind::eVoid )\n" )
+			outs.write( "\t\treturn exprCache.make" + enumName + "Call( typesCache.getBasicType( type::Kind::eVoid )\n" )
 		else:
 			if intrinsicName.find( "Atomic" ) != -1:
 				outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
 			else:
 				outs.write( assertParams( paramsGroup, "\t\t" ) )
-			outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + ret + " )\n" )
+			outs.write( "\t\treturn exprCache.make" + enumName + "Call( typesCache.getBasicType( " + ret + " )\n" )
 
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 		outs.write( imgSplMoves )
@@ -528,11 +530,12 @@ def printIntrinsic( outs, enumName, match ):
 	paramsGroup = match.group( 3 )
 	printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
 	outs.write( "\n\tinline " + enumName + "CallPtr make" + computeIntrinsicName( functionGroup ) + "(" )
-	outs.write( " type::TypesCache & cache" )
+	outs.write( " ExprCache & exprCache" )
+	outs.write( "\n\t\t, type::TypesCache & typesCache" )
 	outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
 	outs.write( "\t{\n" )
 	outs.write( assertParams( paramsGroup, "\t\t" ) )
-	outs.write( "\t\treturn make" + enumName + "Call( cache.getBasicType( " + returnGroup + " )\n" )
+	outs.write( "\t\treturn exprCache.make" + enumName + "Call( typesCache.getBasicType( " + returnGroup + " )\n" )
 	outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
 	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t\t\t, std::move( texture )" )

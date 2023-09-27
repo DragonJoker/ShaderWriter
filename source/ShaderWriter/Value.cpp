@@ -35,6 +35,16 @@ namespace sdw
 	{
 	}
 
+	Value::Value( Value && rhs )
+		: Value{ findWriterMandat( rhs )
+		, makeExpr( findWriterMandat( rhs ), rhs )
+		, rhs.isEnabled() }
+	{
+		rhs.m_expr = {};
+		rhs.m_enabled = {};
+		rhs.m_container = {};
+	}
+
 	Value & Value::operator=( Value const & rhs )
 	{
 		assert( getComponentCount( getNonArrayType( getType() ) ) * getArraySize( getType() ) == getComponentCount( getNonArrayType( rhs.getType() ) ) * getArraySize( rhs.getType() )

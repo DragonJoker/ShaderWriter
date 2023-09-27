@@ -43,6 +43,9 @@ namespace sdw
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API uint32_t getNextVarId( ShaderWriter & writer );
 	SDW_API uint32_t getNextVarId( Shader & shader );
+	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter & writer );
+	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter const & writer );
+	SDW_API ast::expr::ExprCache & getExprCache( Shader const & shader );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter const & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );
@@ -250,7 +253,8 @@ namespace sdw
 		, expr::ExprPtr falseExpr );
 	SDW_API expr::ExprPtr makeCast( type::TypePtr destType
 		, expr::ExprPtr operand );
-	SDW_API expr::IdentifierPtr makeIdent( type::TypesCache & cache
+	SDW_API expr::IdentifierPtr makeIdent( expr::ExprCache & exprCache
+		, type::TypesCache & cache
 		, var::VariablePtr var );
 	SDW_API expr::ExprPtr makeDispatchMeshNV( type::TypesCache & cache
 		, expr::ExprPtr payload

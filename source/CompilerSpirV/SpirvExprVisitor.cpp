@@ -115,7 +115,7 @@ namespace spirv
 				m_result = true;
 			}
 
-			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
 			{
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -421,14 +421,16 @@ namespace spirv
 		return result;
 	}
 
-	ValueId ExprVisitor::submit( ast::expr::Expr * expr
+	ValueId ExprVisitor::submit( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool isAlias )
 	{
 		bool allLiterals{ false };
-		return submit( expr
+		return submit( exprCache
+			, expr
 			, context
 			, currentBlock
 			, module
@@ -436,7 +438,8 @@ namespace spirv
 			, isAlias );
 	}
 
-	ValueId ExprVisitor::submit( ast::expr::Expr * expr
+	ValueId ExprVisitor::submit( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
@@ -445,7 +448,8 @@ namespace spirv
 		, bool isAlias )
 	{
 		bool allLiterals{ false };
-		return submit( expr
+		return submit( exprCache
+			, expr
 			, context
 			, currentBlock
 			, module
@@ -455,7 +459,8 @@ namespace spirv
 			, isAlias );
 	}
 
-	ValueId ExprVisitor::submit( ast::expr::Expr * expr
+	ValueId ExprVisitor::submit( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
@@ -464,6 +469,7 @@ namespace spirv
 	{
 		ValueId result{ 0u, expr->getType() };
 		ExprVisitor vis{ result
+			, exprCache
 			, context
 			, currentBlock
 			, module
@@ -479,7 +485,8 @@ namespace spirv
 		return result;
 	}
 
-	ValueId ExprVisitor::submit( ast::expr::Expr * expr
+	ValueId ExprVisitor::submit( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
@@ -490,6 +497,7 @@ namespace spirv
 	{
 		ValueId result{ 0u, expr->getType() };
 		ExprVisitor vis{ result
+			, exprCache
 			, context
 			, currentBlock
 			, module
@@ -502,12 +510,14 @@ namespace spirv
 	}
 
 	ExprVisitor::ExprVisitor( ValueId & result
+		, ast::expr::ExprCache & exprCache
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
 		, bool & allLiterals
 		, bool isAlias )
-		: m_context{ context }
+		: m_exprCache{ exprCache }
+		, m_context{ context }
 		, m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
@@ -519,6 +529,7 @@ namespace spirv
 	}
 
 	ExprVisitor::ExprVisitor( ValueId & result
+		, ast::expr::ExprCache & exprCache
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & module
@@ -526,7 +537,8 @@ namespace spirv
 		, ValueId initialiser
 		, bool hasFuncInit
 		, bool isAlias )
-		: m_context{ context }
+		: m_exprCache{ exprCache }
+		, m_context{ context }
 		, m_result{ result }
 		, m_currentBlock{ currentBlock }
 		, m_module{ module }
@@ -539,24 +551,25 @@ namespace spirv
 
 	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr )
 	{
-		return submit( expr, m_context, m_currentBlock, m_module, false );
+		return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, false );
 	}
 
 	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, ValueId initialiser
 		, bool hasFuncInit )
 	{
-		return submit( expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, false );
+		return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, false );
 	}
 
 	ValueId ExprVisitor::doSubmit( ast::expr::Expr * expr
 		, bool & allLiterals )
 	{
-		return submit( expr, m_context, m_currentBlock, m_module, allLiterals, false );
+		return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, allLiterals, false );
 	}
 
 	void ExprVisitor::visitUnaryExpr( ast::expr::Unary * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
 		auto typeId = m_module.registerType( expr->getType() );
@@ -581,6 +594,7 @@ namespace spirv
 
 	void ExprVisitor::visitBinaryExpr( ast::expr::Binary * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		auto lhsId = loadVariable( doSubmit( expr->getLHS() ) );
 		auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
@@ -596,6 +610,7 @@ namespace spirv
 
 	void ExprVisitor::visitCastExpr( ast::expr::Cast * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
 		auto dstTypeId = m_module.registerType( expr->getType() );
@@ -629,6 +644,7 @@ namespace spirv
 
 	void ExprVisitor::visitCommaExpr( ast::expr::Comma * expr )
 	{
+		TraceFunc;
 		m_module.registerType( expr->getType() );
 		doSubmit( expr->getLHS() );
 		m_result = doSubmit( expr->getRHS() );
@@ -646,6 +662,7 @@ namespace spirv
 
 	void ExprVisitor::visitAssignExpr( ast::expr::Assign * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 
 		if ( expr->getLHS()->getKind() == ast::expr::Kind::eSwizzle )
@@ -751,6 +768,7 @@ namespace spirv
 
 	void ExprVisitor::visitAggrInitExpr( ast::expr::AggrInit * expr )
 	{
+		TraceFunc;
 		bool allLiterals = true;
 		bool hasFuncInit = false;
 		auto init = visitInitialisers( expr->getInitialisers()
@@ -782,8 +800,10 @@ namespace spirv
 
 	void ExprVisitor::visitArrayAccessExpr( ast::expr::ArrayAccess * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
-		m_result = makeAccessChain( expr
+		m_result = makeAccessChain( m_exprCache
+			, expr
 			, m_context
 			, m_module
 			, m_currentBlock );
@@ -791,8 +811,10 @@ namespace spirv
 
 	void ExprVisitor::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
-		m_result = makeAccessChain( expr
+		m_result = makeAccessChain( m_exprCache
+			, expr
 			, m_context
 			, m_module
 			, m_currentBlock );
@@ -800,6 +822,7 @@ namespace spirv
 
 	void ExprVisitor::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
+		TraceFunc;
 		bool allLiterals = true;
 
 		if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
@@ -856,6 +879,7 @@ namespace spirv
 
 	void ExprVisitor::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
+		TraceFunc;
 		ValueIdList params;
 		bool allLiterals = true;
 		auto type = expr->getFn()->getType();
@@ -929,6 +953,7 @@ namespace spirv
 
 	void ExprVisitor::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		auto var = expr->getVariable();
 		auto it = m_context.constAggrExprs.find( var->getId() );
@@ -948,7 +973,8 @@ namespace spirv
 		}
 		else if ( var->isMember() )
 		{
-			m_result = makeAccessChain( expr
+			m_result = makeAccessChain( m_exprCache
+				, expr
 				, m_context
 				, m_module
 				, m_currentBlock );
@@ -963,8 +989,9 @@ namespace spirv
 		}
 	}
 
-	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprVisitor::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		auto isStore = expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
 			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU;
@@ -1036,7 +1063,7 @@ namespace spirv
 			auto imgParam = static_cast< ast::expr::Identifier const & >( *expr->getArgList()[0] ).getType();
 			assert( imgParam->getKind() == ast::type::Kind::eImage );
 			auto image = std::static_pointer_cast< ast::type::Image >( imgParam );
-			auto sampledType = m_module.getCache().getBasicType( image->getConfig().sampledType );
+			auto sampledType = m_module.getTypesCache().getBasicType( image->getConfig().sampledType );
 			auto sampledId = m_module.registerType( sampledType );
 			auto pointerTypeId = m_module.registerPointerType( sampledId
 				, spv::StorageClassImage );
@@ -1083,6 +1110,7 @@ namespace spirv
 
 	void ExprVisitor::visitInitExpr( ast::expr::Init * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		m_module.registerType( expr->getType() );
 		bool allLiterals = true;
@@ -1097,6 +1125,7 @@ namespace spirv
 
 	void ExprVisitor::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		IntrinsicConfig config;
 		getSpirVConfig( expr->getIntrinsic(), config );
@@ -1143,6 +1172,7 @@ namespace spirv
 
 	void ExprVisitor::visitLiteralExpr( ast::expr::Literal * expr )
 	{
+		TraceFunc;
 		switch ( expr->getLiteralType() )
 		{
 		case ast::expr::LiteralType::eBool:
@@ -1186,6 +1216,7 @@ namespace spirv
 
 	void ExprVisitor::visitQuestionExpr( ast::expr::Question * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		auto ctrlId = loadVariable( doSubmit( expr->getCtrlExpr() ) );
 		auto trueId = loadVariable( doSubmit( expr->getTrueExpr() ) );
@@ -1210,6 +1241,7 @@ namespace spirv
 
 	void ExprVisitor::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 
 		if ( expr->getSwizzle().isOneComponent()
@@ -1217,14 +1249,16 @@ namespace spirv
 			&& !static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->isTempVar()
 			&& static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getBuiltin() != ast::Builtin::eWorkGroupSize )
 		{
-			m_result = loadVariable( makeAccessChain( expr
+			m_result = loadVariable( makeAccessChain( m_exprCache
+				, expr
 				, m_context
 				, m_module
 				, m_currentBlock ) );
 		}
 		else
 		{
-			m_result = loadVariable( makeVectorShuffle( expr
+			m_result = loadVariable( makeVectorShuffle( m_exprCache
+				, expr
 				, m_context
 				, m_module
 				, m_currentBlock ) );
@@ -1233,6 +1267,7 @@ namespace spirv
 
 	void ExprVisitor::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
+		TraceFunc;
 		m_allLiterals = false;
 		ValueIdList args;
 		bool first = true;
@@ -1260,7 +1295,7 @@ namespace spirv
 		assert( sampledImageType->getKind() == ast::type::Kind::eCombinedImage );
 		args[0] = loadVariable( args[0] );
 
-		if ( expr->getArgList().front().get()->isNonUniform() )
+		if ( expr->getArgList().front()->isNonUniform() )
 		{
 			m_module.decorate( args[0], spv::DecorationNonUniform );
 		}
@@ -1303,7 +1338,9 @@ namespace spirv
 
 	void ExprVisitor::visitAliasExpr( ast::expr::Alias * expr )
 	{
-		m_result = submit( expr->getRHS()
+		TraceFunc;
+		m_result = submit( m_exprCache
+			, expr->getRHS()
 			, m_context
 			, m_currentBlock
 			, m_module
@@ -1316,6 +1353,7 @@ namespace spirv
 
 	void ExprVisitor::handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		// Arg 1 is lhs.
 		// Arg 2 is rhs.
 		// Arg 3 is carry or borrow.
@@ -1355,6 +1393,7 @@ namespace spirv
 
 	void ExprVisitor::handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		// Arg 1 is lhs.
 		// Arg 2 is rhs.
 		// Arg 3 is msb.
@@ -1414,6 +1453,7 @@ namespace spirv
 
 	void ExprVisitor::handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		ValueIdList params;
 		params.push_back( doSubmit( expr->getArgList()[0].get() ) );
 
@@ -1444,6 +1484,7 @@ namespace spirv
 
 	void ExprVisitor::handleExtensionIntrinsicCallExpr( spv::Id opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		auto intrinsic = expr->getIntrinsic();
 		ValueIdList params;
 
@@ -1498,6 +1539,7 @@ namespace spirv
 
 	void ExprVisitor::handleBarrierIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		ValueIdList params;
 
 		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier )
@@ -1528,6 +1570,7 @@ namespace spirv
 
 	void ExprVisitor::handleSubgroupIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		ValueIdList params;
 		params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
 
@@ -1586,6 +1629,7 @@ namespace spirv
 
 	void ExprVisitor::handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		ValueIdList params;
 
 		for ( auto & arg : expr->getArgList() )
@@ -1623,22 +1667,23 @@ namespace spirv
 
 	ValueId ExprVisitor::getUnsignedExtendedResultTypeId( uint32_t count )
 	{
+		TraceFunc;
 		--count;
 
 		if ( !m_unsignedExtendedTypes[count] )
 		{
 			std::string name = "SDW_ExtendedResultTypeU" + std::to_string( count + 1u );
-			m_unsignedExtendedTypes[count] = m_module.getCache().getStruct( ast::type::MemoryLayout::eC, name );
+			m_unsignedExtendedTypes[count] = m_module.getTypesCache().getStruct( ast::type::MemoryLayout::eC, name );
 
 			if ( m_unsignedExtendedTypes[count]->empty() )
 			{
 				auto type = count == 3
-					? m_module.getCache().getVec4U32()
+					? m_module.getTypesCache().getVec4U32()
 					: ( count == 2
-						? m_module.getCache().getVec3U32()
+						? m_module.getTypesCache().getVec3U32()
 						: ( count == 1
-							? m_module.getCache().getVec2U32()
-							: m_module.getCache().getUInt32() ) );
+							? m_module.getTypesCache().getVec2U32()
+							: m_module.getTypesCache().getUInt32() ) );
 				m_unsignedExtendedTypes[count]->declMember( "result", type );
 				m_unsignedExtendedTypes[count]->declMember( "extended", type );
 			}
@@ -1649,22 +1694,23 @@ namespace spirv
 
 	ValueId ExprVisitor::getSignedExtendedResultTypeId( uint32_t count )
 	{
+		TraceFunc;
 		--count;
 
 		if ( !m_signedExtendedTypes[count] )
 		{
 			std::string name = "SDW_ExtendedResultTypeS" + std::to_string( count + 1u );
-			m_signedExtendedTypes[count] = m_module.getCache().getStruct( ast::type::MemoryLayout::eC, name );
+			m_signedExtendedTypes[count] = m_module.getTypesCache().getStruct( ast::type::MemoryLayout::eC, name );
 
 			if ( m_signedExtendedTypes[count]->empty() )
 			{
 				auto type = count == 3
-					? m_module.getCache().getVec4I32()
+					? m_module.getTypesCache().getVec4I32()
 					: ( count == 2
-						? m_module.getCache().getVec3I32()
+						? m_module.getTypesCache().getVec3I32()
 						: ( count == 1
-							? m_module.getCache().getVec2I32()
-							: m_module.getCache().getInt32() ) );
+							? m_module.getTypesCache().getVec2I32()
+							: m_module.getTypesCache().getInt32() ) );
 				m_signedExtendedTypes[count]->declMember( "result", type );
 				m_signedExtendedTypes[count]->declMember( "extended", type );
 			}
@@ -1675,6 +1721,7 @@ namespace spirv
 
 	ValueId ExprVisitor::getVariablePointer( ast::expr::Expr * expr )
 	{
+		TraceFunc;
 		ValueId result{ 0u, expr->getType() };
 
 		if ( isAccessChain( expr ) )
@@ -1730,6 +1777,7 @@ namespace spirv
 		, ValueId rhsId
 		, bool isLhsSpecConstant )
 	{
+		TraceFunc;
 		auto result = ValueId{ m_module.getIntermediateResult(), typeId.type };
 
 		if ( isLhsSpecConstant )
@@ -1758,22 +1806,26 @@ namespace spirv
 
 	ValueId ExprVisitor::loadVariable( ValueId varId )
 	{
+		TraceFunc;
 		return m_module.loadVariable( varId, m_currentBlock );
 	}
 
 	void ExprVisitor::storeVariable( ValueId varId, ValueId valId )
 	{
+		TraceFunc;
 		m_module.storeVariable( varId, valId, m_currentBlock );
 	}
 
 	ValueId ExprVisitor::makeFunctionAlias( ValueId source )
 	{
+		TraceFunc;
 		return makeFunctionAlias( source, source.type );
 	}
 
 	ValueId ExprVisitor::makeFunctionAlias( ValueId source
 		, ast::type::TypePtr type )
 	{
+		TraceFunc;
 		VariableInfo info;
 		info.rvalue = true;
 		auto result = m_module.registerVariable( "functmp_" + std::to_string( uintptr_t( type.get() ) ) + std::to_string( m_aliasId++ )
@@ -1796,6 +1848,7 @@ namespace spirv
 		, ast::var::VariablePtr var
 		, ast::type::TypePtr type )
 	{
+		TraceFunc;
 		bool result{};
 		spv::StorageClass storageClass{ getStorageClass( m_module.getVersion(), var ) };
 
@@ -1863,6 +1916,7 @@ namespace spirv
 		, bool & allLiterals
 		, bool & hasFuncInit )
 	{
+		TraceFunc;
 		ValueIdList initialisers;
 
 		for ( auto & init : inits )

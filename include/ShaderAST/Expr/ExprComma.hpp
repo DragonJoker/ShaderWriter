@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API Comma(type::TypePtr type
+		SDAST_API Comma( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using CommaPtr = std::unique_ptr< Comma >;
-
-	inline CommaPtr makeComma( ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		auto type = rhs->getType();
-		return std::make_unique< Comma >( type
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

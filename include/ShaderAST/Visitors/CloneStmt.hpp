@@ -13,13 +13,16 @@ namespace ast
 		: public stmt::Visitor
 	{
 	public:
-		SDAST_API static stmt::ContainerPtr submit( stmt::Container * stmt );
+		SDAST_API static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+			, stmt::Container * stmt );
 
 	protected:
-		SDAST_API explicit StmtCloner( stmt::ContainerPtr & result );
+		SDAST_API explicit StmtCloner( expr::ExprCache & exprCache
+			, stmt::ContainerPtr & result );
 
 	protected:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );
+		SDAST_API virtual expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
 
 		SDAST_API void visitContainerStmt( stmt::Container * cont )override;
 		SDAST_API void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override;
@@ -78,6 +81,7 @@ namespace ast
 		SDAST_API void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
 	protected:
+		expr::ExprCache & m_exprCache;
 		stmt::ContainerPtr & m_result;
 		stmt::Container * m_current;
 		std::vector< stmt::If * > m_ifStmts;

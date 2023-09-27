@@ -63,6 +63,10 @@ add_library( sdw::${_FOLDER_NAME}
 	ALIAS
 	${PROJECT_NAME}
 )
+target_sources( ${PROJECT_NAME} 
+	PRIVATE
+		${SDW_EDITORCONFIG_FILE}
+)
 target_link_libraries( ${PROJECT_NAME}
 	PUBLIC
 		sdw::ShaderAST

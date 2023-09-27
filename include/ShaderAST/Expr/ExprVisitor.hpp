@@ -97,7 +97,7 @@ namespace ast::expr
 		SDAST_API virtual void visitGreaterExpr( Greater * ) = 0;
 		SDAST_API virtual void visitGreaterEqualExpr( GreaterEqual * ) = 0;
 		SDAST_API virtual void visitIdentifierExpr( Identifier * ) = 0;
-		SDAST_API virtual void visitImageAccessCallExpr( ImageAccessCall * ) = 0;
+		SDAST_API virtual void visitImageAccessCallExpr( StorageImageAccessCall * ) = 0;
 		SDAST_API virtual void visitInitExpr( Init * ) = 0;
 		SDAST_API virtual void visitIntrinsicCallExpr( IntrinsicCall * ) = 0;
 		SDAST_API virtual void visitLessExpr( Less * ) = 0;
@@ -140,7 +140,7 @@ namespace ast::expr
 	*	- void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 	*	- void visitFnCallExpr( ast::expr::FnCall * expr )override;
 	*	- void visitIdentifierExpr( ast::expr::Identifier * expr )override;
-	*	- void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+	*	- void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override;
 	*	- void visitInitExpr( ast::expr::Init * expr )override;
 	*	- void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 	*	- void visitLiteralExpr( ast::expr::Literal * expr )override;

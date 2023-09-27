@@ -255,7 +255,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::switchStmt( expr::ExprPtr value
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeSwitch( ast::expr::makeSwitchTest( std::move( value ) ) );
+		auto stmt = stmt::makeSwitch( getExprCache().makeSwitchTest( std::move( value ) ) );
 		m_switchStmt.push_back( stmt.get() );
 		doPushScope( std::move( stmt ) );
 		function();
@@ -271,7 +271,7 @@ namespace sdw
 	void ShaderWriter::caseStmt( expr::LiteralPtr literal
 		, std::function< void() > function )
 	{
-		auto stmt = m_switchStmt.back()->createCase( ast::expr::makeSwitchCase( std::move( literal ) ) );
+		auto stmt = m_switchStmt.back()->createCase( getExprCache().makeSwitchCase( std::move( literal ) ) );
 		doPushScope( stmt
 			, ast::var::VariableList{} );
 		function();
@@ -374,7 +374,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Boolean{ *this
@@ -396,7 +396,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Int8{ *this
@@ -418,7 +418,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Int16{ *this
@@ -440,7 +440,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Int32{ *this
@@ -462,7 +462,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Int64{ *this
@@ -484,7 +484,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return UInt8{ *this
@@ -506,7 +506,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return UInt16{ *this
@@ -528,7 +528,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return UInt32{ *this
@@ -550,7 +550,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return UInt64{ *this
@@ -572,7 +572,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Float{ *this
@@ -594,7 +594,7 @@ namespace sdw
 		{
 			addStmt( sdw::makeSpecConstantDecl( var
 				, location
-				, ast::expr::makeLiteral( getTypesCache(), rhs ) ) );
+				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
 
 		return Double{ *this

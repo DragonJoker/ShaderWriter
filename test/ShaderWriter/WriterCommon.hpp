@@ -14,6 +14,16 @@
 #include <ShaderWriter/MeshWriterNV.hpp>
 #include <ShaderWriter/TaskWriterNV.hpp>
 
+#if defined( _WIN32 )
+#	if defined( TestWriterCommon_EXPORTS )
+#		define SDWTest_API __declspec( dllexport )
+#	else
+#		define SDWTest_API __declspec( dllimport )
+#	endif
+#else
+#	define SDWTest_API
+#endif
+
 #define ForceDisplayShaders false
 
 #define Compilers_GLSL { false, false, true, ForceDisplayShaders }
@@ -40,7 +50,8 @@ namespace test
 		struct TestCounts
 			: test::TestCounts
 		{
-			TestCounts( test::TestSuite & suite );
+			SDWTest_API TestCounts( test::TestSuite & suite );
+			SDWTest_API ~TestCounts()noexcept = default;
 
 			bool isSpirVInitialised( uint32_t infoIndex )const;
 			bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;
@@ -71,8 +82,8 @@ namespace test
 		{
 			using TestCountsType = test::sdw_test::TestCounts;
 
-			TestSuite( std::string name );
-			~TestSuite();
+			SDWTest_API TestSuite( std::string name );
+			SDWTest_API ~TestSuite();
 		};
 	}
 
@@ -83,7 +94,7 @@ namespace test
 	inline sdw::Boolean getDefault< sdw::Boolean >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Boolean{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), true )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), true )
 			, true };
 	}
 
@@ -91,7 +102,7 @@ namespace test
 	inline sdw::Int8 getDefault< sdw::Int8 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Int8{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), int8_t( 1 ) )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), int8_t( 1 ) )
 			, true };
 	}
 
@@ -99,7 +110,7 @@ namespace test
 	inline sdw::Int16 getDefault< sdw::Int16 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Int16{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), int16_t( 1 ) )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), int16_t( 1 ) )
 			, true };
 	}
 
@@ -107,7 +118,7 @@ namespace test
 	inline sdw::Int32 getDefault< sdw::Int32 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Int32{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1 )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1 )
 			, true };
 	}
 
@@ -115,7 +126,7 @@ namespace test
 	inline sdw::Int64 getDefault< sdw::Int64 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Int64{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1ll )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1ll )
 			, true };
 	}
 
@@ -123,7 +134,7 @@ namespace test
 	inline sdw::UInt8 getDefault< sdw::UInt8 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::UInt8{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), uint8_t( 1 ) )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), uint8_t( 1 ) )
 			, true };
 	}
 
@@ -131,7 +142,7 @@ namespace test
 	inline sdw::UInt16 getDefault< sdw::UInt16 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::UInt16{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), uint16_t( 1 ) )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), uint16_t( 1 ) )
 			, true };
 	}
 
@@ -139,7 +150,7 @@ namespace test
 	inline sdw::UInt32 getDefault< sdw::UInt32 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::UInt32{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1u )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1u )
 			, true };
 	}
 
@@ -147,7 +158,7 @@ namespace test
 	inline sdw::UInt64 getDefault< sdw::UInt64 >( sdw::ShaderWriter & writer )
 	{
 		return sdw::UInt64{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1ull )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1ull )
 			, true };
 	}
 
@@ -155,8 +166,8 @@ namespace test
 	inline sdw::Half getDefault< sdw::Half >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Half{ writer
-			, sdw::expr::makeCast( writer.getTypesCache().getHalf()
-				, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f ) )
+			, getExprCache( writer ).makeCast( writer.getTypesCache().getHalf()
+				, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1.0f ) )
 			, true };
 	}
 
@@ -164,7 +175,7 @@ namespace test
 	inline sdw::Float getDefault< sdw::Float >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Float{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0f )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1.0f )
 			, true };
 	}
 
@@ -172,7 +183,7 @@ namespace test
 	inline sdw::Double getDefault< sdw::Double >( sdw::ShaderWriter & writer )
 	{
 		return sdw::Double{ writer
-			, sdw::expr::makeLiteral( writer.getTypesCache(), 1.0 )
+			, getExprCache( writer ).makeLiteral( writer.getTypesCache(), 1.0 )
 			, true };
 	}
 
@@ -621,9 +632,9 @@ namespace test
 			initialisers.emplace_back( sdw::makeExpr( getDefault< T >( writer ) ) );
 		}
 
+		auto type = writer.getTypesCache().getArray( initialisers.front()->getType(), dimension );
 		return sdw::Array< T >{ writer
-			, ast::expr::makeAggrInit( writer.getTypesCache().getArray( initialisers.front()->getType(), dimension )
-				, std::move( initialisers ) )
+			, getExprCache( writer ).makeAggrInit( std::move( type ), std::move( initialisers ) )
 			, true };
 	}
 
@@ -636,19 +647,22 @@ namespace test
 		uint32_t ignoredSpv{};
 	};
 
-	void writeShader( ast::Shader const & shader
+	SDWTest_API void writeShader( ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
-	void writeShader( sdw::ShaderWriter const & writer
+	SDWTest_API void writeShader( sdw::ShaderWriter const & writer
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
-	void validateShaders( ast::ShaderArray const & shaders
+	SDWTest_API void validateShaders( ast::ShaderArray const & shaders
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
-	void validateShader( ast::Shader const & writer
+	SDWTest_API void validateShaders( ast::ShaderPtrArray const & shaders
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
-	void expectError( std::string value
+	SDWTest_API void validateShader( ast::Shader const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+	SDWTest_API void expectError( std::string value
 		, sdw_test::TestCounts & testCounts );
 }
 

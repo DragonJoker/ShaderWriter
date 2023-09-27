@@ -30,17 +30,20 @@ namespace ast::expr
 
 			if ( isPointer && result->getKind() != type::Kind::ePointer )
 			{
-				result = result->getCache().getPointerType( result, storage );
+				result = result->getTypesCache().getPointerType( result, storage );
 			}
 
 			return result;
 		}
 	}
 
-	MbrSelect::MbrSelect( ExprPtr outer
+	MbrSelect::MbrSelect( ExprCache & exprCache
+		, ExprPtr outer
 		, uint32_t memberIndex
 		, uint64_t memberFlags )
-		: Expr{ outer->getCache()
+		: Expr{ exprCache
+			, sizeof( MbrSelect )
+			, outer->getTypesCache()
 			, getMbrType( outer->getType(), memberIndex )
 			, Kind::eMbrSelect
 			, ( isExprConstant( outer )

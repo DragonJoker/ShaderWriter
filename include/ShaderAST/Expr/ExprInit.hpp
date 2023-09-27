@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API Init( IdentifierPtr identifier
+		SDAST_API Init( ExprCache & exprCache
+			, IdentifierPtr identifier
 			, ExprPtr initialiser );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -29,17 +30,9 @@ namespace ast::expr
 		}
 
 	private:
-		IdentifierPtr m_identifier;
-		ExprPtr m_initialiser;
+		IdentifierPtr m_identifier{};
+		ExprPtr m_initialiser{};
 	};
-	using InitPtr = std::unique_ptr< Init >;
-
-	inline InitPtr makeInit( IdentifierPtr identifier
-		, ExprPtr initialiser )
-	{
-		return std::make_unique< Init >( std::move( identifier )
-			, std::move( initialiser ) );
-	}
 }
 
 #endif

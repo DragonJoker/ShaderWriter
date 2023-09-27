@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API Question( type::TypePtr type
+		SDAST_API Question( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr ctrlExpr
 			, ExprPtr trueExpr
 			, ExprPtr falseExpr );
@@ -36,22 +37,10 @@ namespace ast::expr
 		}
 
 	private:
-		ExprPtr m_ctrlExpr;
-		ExprPtr m_trueExpr;
-		ExprPtr m_falseExpr;
+		ExprPtr m_ctrlExpr{};
+		ExprPtr m_trueExpr{};
+		ExprPtr m_falseExpr{};
 	};
-	using QuestionPtr = std::unique_ptr< Question >;
-
-	inline QuestionPtr makeQuestion( type::TypePtr type
-		, ExprPtr ctrlExpr
-		, ExprPtr trueExpr
-		, ExprPtr falseExpr )
-	{
-		return std::make_unique< Question >( std::move( type )
-			, std::move( ctrlExpr )
-			, std::move( trueExpr )
-			, std::move( falseExpr ) );
-	}
 }
 
 #endif

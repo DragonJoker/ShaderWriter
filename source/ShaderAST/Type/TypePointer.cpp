@@ -12,7 +12,7 @@ namespace ast::type
 	Pointer::Pointer( TypePtr pointerType
 		, Storage storage
 		, bool isForward )
-		: Type{ pointerType->getCache(), Kind::ePointer }
+		: Type{ pointerType->getTypesCache(), Kind::ePointer }
 		, m_pointerType{ std::move( pointerType ) }
 		, m_storage{ storage }
 		, m_isForward{ isForward }

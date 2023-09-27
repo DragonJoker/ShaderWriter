@@ -11,7 +11,7 @@ namespace ast::type
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: Type{ type->getCache(), Kind::eComputeInput }
+		: Type{ type->getTypesCache(), Kind::eComputeInput }
 		, m_type{ type }
 		, m_localSizeX{ localSizeX }
 		, m_localSizeY{ localSizeY }

@@ -153,35 +153,39 @@ namespace ast
 			: public ExprCloner
 		{
 		public:
-			static expr::ExprPtr submit( type::TypesCache & cache
+			static expr::ExprPtr submit( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, expr::Expr * expr )
 			{
 				bool allLiterals{ false };
-				return submit( cache
+				return submit( exprCache
+					, typesCache
 					, literalVars
 					, expr
 					, allLiterals );
 			}
 
-			static expr::ExprPtr submit( type::TypesCache & cache
+			static expr::ExprPtr submit( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, expr::Expr * expr
 				, bool & allLiterals )
 			{
-				expr::ExprPtr result;
-				ExprSimplifier vis{ cache, literalVars, allLiterals, result };
+				expr::ExprPtr result{};
+				ExprSimplifier vis{ exprCache, typesCache, literalVars, allLiterals, result };
 				expr->accept( &vis );
 				return result;
 			}
 
 		private:
-			ExprSimplifier( type::TypesCache & cache
+			ExprSimplifier( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, bool & allLiterals
 				, expr::ExprPtr & result )
-				: ExprCloner{ result }
-				, m_cache{ cache }
+				: ExprCloner{ exprCache, result }
+				, m_typesCache{ typesCache }
 				, m_literalVars{ literalVars }
 				, m_allLiterals{ allLiterals }
 			{
@@ -191,8 +195,8 @@ namespace ast
 			expr::ExprPtr doSubmit( expr::Expr * expr
 				, bool & allLiterals )
 			{
-				expr::ExprPtr result;
-				ExprSimplifier vis{ m_cache, m_literalVars, allLiterals, result };
+				expr::ExprPtr result{};
+				ExprSimplifier vis{ m_exprCache, m_typesCache, m_literalVars, allLiterals, result };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
@@ -215,6 +219,7 @@ namespace ast
 
 			void visitUnaryExpr( expr::Unary * expr )
 			{
+				TraceFunc
 				auto op = doSubmit( expr->getOperand() );
 
 				if ( op->getKind() == expr::Kind::eLiteral )
@@ -240,18 +245,19 @@ namespace ast
 						break;
 					default:
 						AST_Failure( "Unexpected unary expression" );
-						m_result = ExprCloner::submit( expr );
+						m_result = ExprCloner::submit( m_exprCache, expr );
 						break;
 					}
 				}
 				else
 				{
-					m_result = ExprCloner::submit( expr );
+					m_result = ExprCloner::submit( m_exprCache, expr );
 				}
 			}
 
 			void visitBinaryExpr( expr::Binary * expr )
 			{
+				TraceFunc
 				auto lhs = doSubmit( expr->getLHS() );
 				auto rhs = doSubmit( expr->getRHS() );
 
@@ -319,7 +325,7 @@ namespace ast
 						break;
 					default:
 						AST_Failure( "Unexpected binary expression" );
-						m_result = ExprCloner::submit( expr );
+						m_result = ExprCloner::submit( m_exprCache, expr );
 						break;
 					}
 				}
@@ -328,62 +334,62 @@ namespace ast
 					switch ( expr->getKind() )
 					{
 					case expr::Kind::eAdd:
-						m_result = expr::makeAdd( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeAdd( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eBitAnd:
-						m_result = expr::makeBitAnd( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeBitAnd( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eBitOr:
-						m_result = expr::makeBitOr( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeBitOr( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eBitXor:
-						m_result = expr::makeBitXor( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeBitXor( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eDivide:
-						m_result = expr::makeDivide( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeDivide( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eLShift:
-						m_result = expr::makeLShift( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeLShift( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eMinus:
-						m_result = expr::makeMinus( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeMinus( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eModulo:
-						m_result = expr::makeModulo( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeModulo( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eRShift:
-						m_result = expr::makeRShift( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeRShift( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eTimes:
-						m_result = expr::makeTimes( expr->getType(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeTimes( expr->getType(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eLogAnd:
-						m_result = expr::makeLogAnd( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeLogAnd( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eLogOr:
-						m_result = expr::makeLogOr( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeLogOr( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eLess:
-						m_result = expr::makeLess( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeLess( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eLessEqual:
-						m_result = expr::makeLessEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeLessEqual( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eGreater:
-						m_result = expr::makeGreater( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeGreater( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eGreaterEqual:
-						m_result = expr::makeGreaterEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeGreaterEqual( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eEqual:
-						m_result = expr::makeEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeEqual( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					case expr::Kind::eNotEqual:
-						m_result = expr::makeNotEqual( expr->getCache(), std::move( lhs ), std::move( rhs ) );
+						m_result = m_exprCache.makeNotEqual( expr->getTypesCache(), std::move( lhs ), std::move( rhs ) );
 						break;
 					default:
 						AST_Failure( "Unexpected binary expression" );
-						m_result = ExprCloner::submit( expr );
+						m_result = ExprCloner::submit( m_exprCache, expr );
 						break;
 					}
 				}
@@ -391,6 +397,7 @@ namespace ast
 
 			void visitCastExpr( expr::Cast * expr )override
 			{
+				TraceFunc
 				auto operand = doSubmit( expr->getOperand() );
 
 				if ( getComponentType( expr->getType() ) != type::Kind::eHalf )
@@ -399,12 +406,13 @@ namespace ast
 				}
 				else
 				{
-					m_result = ExprCloner::submit( expr );
+					m_result = ExprCloner::submit( m_exprCache, expr );
 				}
 			}
 
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
 			{
+				TraceFunc
 				auto allLiterals = true;
 				expr::ExprList args;
 
@@ -489,7 +497,7 @@ namespace ast
 						}
 					}
 
-					m_result = expr::makeCompositeConstruct( expr->getComposite()
+					m_result = m_exprCache.makeCompositeConstruct( expr->getComposite()
 						, expr->getComponent()
 						, std::move( realArgs ) );
 					
@@ -502,51 +510,61 @@ namespace ast
 
 			void visitAddExpr( expr::Add * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitBitAndExpr( expr::BitAnd * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitBitNotExpr( expr::BitNot * expr )override
 			{
+				TraceFunc
 				visitUnaryExpr( expr );
 			}
 
 			void visitBitOrExpr( expr::BitOr * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitBitXorExpr( expr::BitXor * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitDivideExpr( expr::Divide * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitEqualExpr( expr::Equal * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitGreaterExpr( expr::Greater * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitGreaterEqualExpr( expr::GreaterEqual * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
+				TraceFunc
 				bool processed{ false };
 
 				if ( expr->getVariable()->isConstant() )
@@ -569,6 +587,7 @@ namespace ast
 
 			void visitInitExpr( expr::Init * expr )override
 			{
+				TraceFunc
 				auto allLiterals = true;
 				auto init = doSubmit( expr->getInitialiser(), allLiterals );
 				m_allLiterals = m_allLiterals && allLiterals;
@@ -580,77 +599,91 @@ namespace ast
 						, static_cast< expr::Literal * >( init.get() ) );
 				}
 
-				m_result = expr::makeInit( std::make_unique< expr::Identifier >( *expr->getIdentifier() )
+				m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( *expr->getIdentifier() )
 					, std::move( init ) );
 			}
 
 			void visitLessExpr( expr::Less * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitLessEqualExpr( expr::LessEqual * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitLiteralExpr( expr::Literal * expr )override
 			{
+				TraceFunc
 				ExprCloner::visitLiteralExpr( expr );
 			}
 
 			void visitLogAndExpr( expr::LogAnd * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitLogNotExpr( expr::LogNot * expr )override
 			{
+				TraceFunc
 				visitUnaryExpr( expr );
 			}
 
 			void visitLogOrExpr( expr::LogOr * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitLShiftExpr( expr::LShift * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitMinusExpr( expr::Minus * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitModuloExpr( expr::Modulo * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitNotEqualExpr( expr::NotEqual * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitRShiftExpr( expr::RShift * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitTimesExpr( expr::Times * expr )override
 			{
+				TraceFunc
 				visitBinaryExpr( expr );
 			}
 
 			void visitUnaryMinusExpr( expr::UnaryMinus * expr )override
 			{
+				TraceFunc
 				visitUnaryExpr( expr );
 			}
 
 			void visitUnaryPlusExpr( expr::UnaryPlus * expr )override
 			{
+				TraceFunc
 				auto allLiterals = true;
 				m_result = doSubmit( expr->getOperand(), allLiterals );
 				m_allLiterals = m_allLiterals && allLiterals;
@@ -658,6 +691,7 @@ namespace ast
 
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override
 			{
+				TraceFunc
 				if ( expr->getLHS()->getKind() == expr::Kind::eSwizzle
 					&& expr->getRHS()->getKind() == expr::Kind::eLiteral )
 				{
@@ -707,7 +741,7 @@ namespace ast
 
 					auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );
 					auto newOuter = doSubmit( outer.getOuterExpr() );
-					m_result = doSubmit( expr::makeSwizzle( std::move( newOuter )
+					m_result = doSubmit( m_exprCache.makeSwizzle( std::move( newOuter )
 							, outer.getSwizzle()[index] ) );
 				}
 				else
@@ -719,6 +753,7 @@ namespace ast
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
+				TraceFunc
 				m_allLiterals = false;
 
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eSwizzle )
@@ -728,14 +763,14 @@ namespace ast
 					if ( expr::SwizzleKind::Value( expr->getSwizzle() ) == expr::SwizzleKind::Value( outer.getSwizzle() )
 						&& expr->getType() == outer.getType() )
 					{
-						m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
+						m_result = m_exprCache.makeSwizzle( doSubmit( outer.getOuterExpr() )
 							, outer.getSwizzle() );
 					}
 					else
 					{
 						auto values = getSwizzleValues( outer.getSwizzle() );
 						auto indices = getSwizzleIndices( expr->getSwizzle() );
-						m_result = expr::makeSwizzle( doSubmit( outer.getOuterExpr() )
+						m_result = m_exprCache.makeSwizzle( doSubmit( outer.getOuterExpr() )
 							, getFinalSwizzle( values, indices ) );
 					}
 				}
@@ -767,13 +802,13 @@ namespace ast
 
 				if ( !m_result )
 				{
-					m_result = expr::makeSwizzle( doSubmit( expr->getOuterExpr() )
+					m_result = m_exprCache.makeSwizzle( doSubmit( expr->getOuterExpr() )
 						, expr->getSwizzle() );
 				}
 			}
 
 		private:
-			type::TypesCache & m_cache;
+			type::TypesCache & m_typesCache;
 			std::map< var::VariablePtr, expr::Literal * > & m_literalVars;
 			bool & m_allLiterals;
 		};
@@ -782,33 +817,36 @@ namespace ast
 			: public StmtCloner
 		{
 		public:
-			static stmt::ContainerPtr submit( type::TypesCache & cache
+			static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, stmt::Container * stmt )
 			{
 				std::map< var::VariablePtr, expr::Literal * > literalVars;
 				std::vector< stmt::Container * > contStack;
-				return submit( cache, stmt, contStack, literalVars );
+				return submit( exprCache, typesCache, stmt, contStack, literalVars );
 			}
 
 		private:
-			static stmt::ContainerPtr submit( type::TypesCache & cache
+			static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, stmt::Container * stmt
 				, std::vector< stmt::Container * > & contStack
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars )
 			{
 				auto result = stmt::makeContainer();
-				StmtSimplifier vis{ cache, contStack, literalVars, result };
+				StmtSimplifier vis{ exprCache, typesCache, contStack, literalVars, result };
 				stmt->accept( &vis );
 				return result;
 			}
 
 		private:
-			StmtSimplifier( type::TypesCache & cache
+			StmtSimplifier( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, std::vector< stmt::Container * > & contStack
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, stmt::ContainerPtr & result )
-				: StmtCloner{ result }
-				, m_cache{ cache }
+				: StmtCloner{ exprCache, result }
+				, m_typesCache{ typesCache }
 				, m_contStack{ contStack }
 				, m_literalVars{ literalVars }
 			{
@@ -822,7 +860,7 @@ namespace ast
 
 			expr::ExprPtr doSubmit( expr::Expr * expr, bool & allLiterals )
 			{
-				return ExprSimplifier::submit( m_cache, m_literalVars, expr, allLiterals );
+				return ExprSimplifier::submit( m_exprCache, m_typesCache, m_literalVars, expr, allLiterals );
 			}
 
 			void processIfStmt( stmt::Container * stmt
@@ -832,6 +870,7 @@ namespace ast
 				, uint32_t & ifs
 				, uint32_t & elses )
 			{
+				TraceFunc
 				if ( stopped )
 				{
 					return;
@@ -845,7 +884,7 @@ namespace ast
 
 				if ( cont->empty() )
 				{
-					auto ifStmt = stmt::makeIf( expr::makeLogNot( m_cache
+					auto ifStmt = stmt::makeIf( m_exprCache.makeLogNot( m_typesCache
 						, std::move( ctrlExpr ) ) );
 
 					m_ifStmts.push_back( ifStmt.get() );
@@ -873,6 +912,7 @@ namespace ast
 				, uint32_t & ifs
 				, uint32_t & elses )
 			{
+				TraceFunc
 				if ( stopped )
 				{
 					return;
@@ -907,7 +947,7 @@ namespace ast
 					{
 						auto elseStmt = m_ifStmts.back()->createElse();
 						m_current = elseStmt;
-						auto ifStmt = stmt::makeIf( expr::makeLogNot( m_cache
+						auto ifStmt = stmt::makeIf( m_exprCache.makeLogNot( m_typesCache
 							, std::move( ctrlExpr ) ) );
 
 						m_ifStmts.push_back( ifStmt.get() );
@@ -934,6 +974,7 @@ namespace ast
 				, uint32_t & ifs
 				, uint32_t & elses )
 			{
+				TraceFunc
 				if ( stopped )
 				{
 					return;
@@ -965,6 +1006,7 @@ namespace ast
 		private:
 			void visitIfStmt( stmt::If * stmt )override
 			{
+				TraceFunc
 				bool allLiterals{ true };
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr(), allLiterals );
 				bool first = true;
@@ -1020,15 +1062,16 @@ namespace ast
 			}
 
 		private:
-			type::TypesCache & m_cache;
+			type::TypesCache & m_typesCache;
 			std::vector< stmt::Container * > & m_contStack;
 			std::map< var::VariablePtr, expr::Literal * > & m_literalVars;
 		};
 	}
 
-	stmt::ContainerPtr simplify( type::TypesCache & cache
+	stmt::ContainerPtr simplify( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
 		, stmt::Container * stmt )
 	{
-		return simpl::StmtSimplifier::submit( cache, stmt );
+		return simpl::StmtSimplifier::submit( exprCache, typesCache, stmt );
 	}
 }

@@ -39,7 +39,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::IdentifierPtr m_identExpr;
+		expr::IdentifierPtr m_identExpr{};
 		PreprocElsePtr m_else;
 		StmtList m_elifs;
 	};

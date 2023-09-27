@@ -162,22 +162,30 @@ namespace glsl
 			, shader.getStatements() );
 		checkConfig( writerConfig, intrinsics );
 
-		auto statements = ast::transformSSA( shader.getTypesCache()
+		ast::expr::ExprCache compileCache{};
+		auto statements = ast::transformSSA( compileCache
+			, shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
-		statements = ast::simplify( shader.getTypesCache()
+		statements = ast::simplify( compileCache
+			, shader.getTypesCache()
 			, statements.get() );
 		glsl::AdaptationData adaptationData{ shader.getType()
 			, writerConfig
 			, std::move( intrinsics )
 			, ssaData.nextVarId };
-		statements = glsl::StmtAdapter::submit( shader.getTypesCache()
+		statements = glsl::StmtAdapter::submit( compileCache
+			, shader.getTypesCache()
 			, statements.get()
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
-		statements = ast::simplify( shader.getTypesCache()
+		statements = ast::simplify( compileCache
+			, shader.getTypesCache()
 			, statements.get() );
-		statements = ast::StmtSpecialiser::submit( shader.getTypesCache(), statements.get(), specialisation );
+		statements = ast::StmtSpecialiser::submit( compileCache
+			, shader.getTypesCache()
+			, statements.get()
+			, specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
 		return glsl::StmtVisitor::submit( writerConfig, aliases, statements.get() );
 	}

@@ -884,9 +884,10 @@ namespace sdw
 			static_assert( ImageAccessT != expr::StorageImageAccess::eInvalid );
 			static_assert( ImageAccessT != expr::StorageImageAccess::eUndefined );
 
-			auto & cache = findTypesCache( image, params... );
+			auto & writer = findWriterMandat( image, params... );
+			auto & typesCache = findTypesCache( writer );
 			return ReturnWrapperT< ReturnT >{ findWriterMandat( image, params... )
-				, expr::makeImageAccessCall( ReturnT::makeType( cache )
+				, getExprCache( writer ).makeStorageImageAccessCall( ReturnT::makeType( typesCache )
 					, ImageAccessT
 					, makeExpr( image )
 					, makeExpr( params )... )
@@ -909,12 +910,12 @@ namespace sdw
 			static_assert( ImageAccessT != expr::StorageImageAccess::eUndefined );
 
 			auto & writer = findWriterMandat( image, params... );
-			auto & cache = findTypesCache( writer );
+			auto & typesCache = findTypesCache( writer );
 
 			if ( areOptionalEnabled( image, params... ) )
 			{
 				addStmt( writer
-					, makeSimple( expr::makeImageAccessCall( Void::makeType( cache )
+					, makeSimple( getExprCache( writer ).makeStorageImageAccessCall( Void::makeType( typesCache )
 						, ImageAccessT
 						, makeExpr( image )
 						, makeExpr( params )... ) ) );

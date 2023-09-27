@@ -42,7 +42,7 @@ namespace ast::stmt
 
 	private:
 		EntityName m_nameId;
-		expr::ExprPtr m_expr;
+		expr::ExprPtr m_expr{};
 	};
 	using PreprocDefinePtr = std::unique_ptr< PreprocDefine >;
 

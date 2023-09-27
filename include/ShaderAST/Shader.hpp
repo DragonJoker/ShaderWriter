@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "BoInfo.hpp"
 #include "shader.h"
 
+#include "ShaderAST/Expr/ExprCache.hpp"
 #include "ShaderAST/Stmt/StmtContainer.hpp"
 
 #include <vector>
@@ -292,6 +293,11 @@ namespace ast
 			return *m_typesCache;
 		}
 
+		ast::expr::ExprCache & getExprCache()const
+		{
+			return *m_exprCache;
+		}
+
 		ShaderData const & getData()const
 		{
 			return m_data;
@@ -308,6 +314,7 @@ namespace ast
 		};
 		ast::ShaderStage m_type;
 		std::unique_ptr< ast::type::TypesCache > m_typesCache;
+		std::unique_ptr< ast::expr::ExprCache > m_exprCache;
 		std::vector< Block > m_blocks;
 		stmt::ContainerPtr m_container;
 		ShaderData m_data;

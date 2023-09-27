@@ -12,11 +12,14 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
+	class SwitchCase;
+
 	class Switch
 		: public Compound
 	{
 	public:
 		SDAST_API explicit Switch( expr::SwitchTestPtr testExpr );
+
 		SDAST_API SwitchCase * createCase( expr::SwitchCasePtr label );
 		SDAST_API SwitchCase * createDefault();
 
@@ -31,7 +34,7 @@ namespace ast::stmt
 		using Compound::addStmt;
 
 	private:
-		expr::SwitchTestPtr m_testExpr;
+		expr::SwitchTestPtr m_testExpr{};
 	};
 	using SwitchPtr = std::unique_ptr< Switch >;
 

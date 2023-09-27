@@ -7,11 +7,14 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Question::Question( type::TypePtr type
+	Question::Question( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr ctrlExpr
 		, ExprPtr trueExpr
 		, ExprPtr falseExpr )
-		: Expr{ getExprTypesCache( ctrlExpr, trueExpr, falseExpr )
+		: Expr{ exprCache
+			, sizeof( Question )
+			, getExprTypesCache( ctrlExpr, trueExpr, falseExpr )
 			, std::move( type )
 			, Kind::eQuestion
 			, ( isExprConstant( ctrlExpr, trueExpr, falseExpr )

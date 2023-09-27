@@ -15,7 +15,8 @@ namespace ast::expr
 		, public var::FlagHolder
 	{
 	public:
-		SDAST_API MbrSelect( ExprPtr outer
+		SDAST_API MbrSelect( ExprCache & exprCache
+			, ExprPtr outer
 			, uint32_t memberIndex
 			, uint64_t memberFlags );
 
@@ -43,19 +44,9 @@ namespace ast::expr
 		using var::FlagHolder::getFlags;
 
 	private:
-		ExprPtr m_outer;
+		ExprPtr m_outer{};
 		uint32_t m_memberIndex;
 	};
-	using MbrSelectPtr = std::unique_ptr< MbrSelect >;
-
-	inline MbrSelectPtr makeMbrSelect( ExprPtr outer
-		, uint32_t memberIndex
-		, uint64_t flags )
-	{
-		return std::make_unique< MbrSelect >( std::move( outer )
-			, memberIndex
-			, flags );
-	}
 }
 
 #endif

@@ -13,23 +13,14 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API Assign( type::TypePtr type
+		SDAST_API Assign( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
 			, Kind kind = Kind::eAssign );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using AssignPtr = std::unique_ptr< Assign >;
-
-	inline AssignPtr makeAssign( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< Assign >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

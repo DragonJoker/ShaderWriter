@@ -100,7 +100,7 @@ namespace sdw
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
-			, sdw::makeSimple( ast::expr::makeStreamAppend( sdw::makeExpr( *this ) ) ) );
+			, sdw::makeSimple( getExprCache( writer ).makeStreamAppend( sdw::makeExpr( *this ) ) ) );
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT
@@ -109,7 +109,7 @@ namespace sdw
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
 		addStmt( writer
-			, sdw::makeSimple( ast::expr::makeEndPrimitive( getTypesCache( writer ) ) ) );
+			, sdw::makeSimple( makeEndPrimitive( getExprCache( writer ), getTypesCache( writer ) ) ) );
 	}
 
 	template< template< ast::var::Flag FlagT > typename DataT

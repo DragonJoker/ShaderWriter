@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API explicit SwitchCase( LiteralPtr label );
+		SDAST_API explicit SwitchCase( ExprCache & exprCache
+			, LiteralPtr label );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -23,15 +24,8 @@ namespace ast::expr
 		}
 
 	private:
-		LiteralPtr m_label;
+		LiteralPtr m_label{};
 	};
-	using SwitchCasePtr = std::unique_ptr< SwitchCase >;
-	using SwitchCaseList = std::vector< SwitchCasePtr >;
-
-	inline SwitchCasePtr makeSwitchCase( LiteralPtr label )
-	{
-		return std::make_unique< SwitchCase >( std::move( label ) );
-	}
 }
 
 #endif

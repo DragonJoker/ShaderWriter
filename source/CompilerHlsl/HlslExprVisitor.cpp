@@ -74,6 +74,11 @@ namespace hlsl
 		return submit( m_writerConfig, expr, m_aliases );
 	}
 
+	std::string ExprVisitor::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		return doSubmit( expr.get() );
+	}
+
 	void ExprVisitor::wrap( ast::expr::Expr * expr )
 	{
 		bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
@@ -196,7 +201,7 @@ namespace hlsl
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			m_result += sep + doSubmit( init.get() );
+			m_result += sep + doSubmit( init );
 			sep = ", ";
 		}
 
@@ -228,7 +233,7 @@ namespace hlsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 
@@ -265,7 +270,7 @@ namespace hlsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 
@@ -286,7 +291,7 @@ namespace hlsl
 		}
 	}
 
-	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprVisitor::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
 		if ( expr->getImageAccess() < ast::expr::StorageImageAccess::eImageLoad1DF
 			|| expr->getImageAccess() > ast::expr::StorageImageAccess::eImageLoad2DMSArrayU )
@@ -297,7 +302,7 @@ namespace hlsl
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				m_result += doSubmit( arg.get() );
+				m_result += doSubmit( arg );
 				sep = ", ";
 			}
 
@@ -305,15 +310,15 @@ namespace hlsl
 		}
 		else
 		{
-			m_result += doSubmit( expr->getArgList()[0].get() );
+			m_result += doSubmit( expr->getArgList()[0] );
 			m_result += "." + getHlslName( expr->getImageAccess() ) + "(";
-			m_result += doSubmit( expr->getArgList()[1].get() );
+			m_result += doSubmit( expr->getArgList()[1] );
 
 			for ( size_t i = 2; i < expr->getArgList().size(); ++i )
 			{
 				auto & arg = expr->getArgList()[i];
 				m_result += ", ";
-				m_result += doSubmit( arg.get() );
+				m_result += doSubmit( arg );
 			}
 
 			m_result += ")";
@@ -346,7 +351,7 @@ namespace hlsl
 
 			for ( auto & arg : argsList )
 			{
-				args.push_back( doSubmit( arg.get() ) );
+				args.push_back( doSubmit( arg ) );
 			}
 
 			auto mbrArg = std::move( args.front() );
@@ -370,8 +375,8 @@ namespace hlsl
 			if ( isNonMatchingOuterProduct( expr->getIntrinsic() ) )
 			{
 				m_result += "transpose(" + getHlslName( expr->getIntrinsic() ) + "(";
-				auto lhs = doSubmit( expr->getArgList().front().get() );
-				auto rhs = doSubmit( expr->getArgList().back().get() );
+				auto lhs = doSubmit( expr->getArgList().front() );
+				auto rhs = doSubmit( expr->getArgList().back() );
 
 				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3F )
 				{
@@ -502,7 +507,7 @@ namespace hlsl
 				for ( auto & arg : expr->getArgList() )
 				{
 					m_result += sep;
-					m_result += doSubmit( arg.get() );
+					m_result += doSubmit( arg );
 					sep = ", ";
 				}
 
@@ -662,15 +667,15 @@ namespace hlsl
 
 	void ExprVisitor::doProcessMemberTexture( ast::expr::CombinedImageAccessCall * expr )
 	{
-		m_result += doSubmit( expr->getArgList()[0].get() );
+		m_result += doSubmit( expr->getArgList()[0] );
 		m_result += "." + getHlslName( expr->getCombinedImageAccess() ) + "(";
-		m_result += doSubmit( expr->getArgList()[1].get() );
+		m_result += doSubmit( expr->getArgList()[1] );
 
 		for ( size_t i = 2; i < expr->getArgList().size(); ++i )
 		{
 			auto & arg = expr->getArgList()[i];
 			m_result += ", ";
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 		}
 
 		m_result += ")";
@@ -684,7 +689,7 @@ namespace hlsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 
@@ -694,7 +699,7 @@ namespace hlsl
 	void ExprVisitor::doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
 	{
 		// Image
-		m_result += doSubmit( expr->getArgList()[0].get() );
+		m_result += doSubmit( expr->getArgList()[0] );
 		uint32_t compValue = 0u;
 
 		// Component value will determine Gather function name.
@@ -735,17 +740,17 @@ namespace hlsl
 
 		m_result += "." + name + "(";
 		// Sampler
-		m_result += doSubmit( expr->getArgList()[1].get() );
+		m_result += doSubmit( expr->getArgList()[1] );
 		// Coord
 		m_result += ", ";
-		m_result += doSubmit( expr->getArgList()[3].get() );
+		m_result += doSubmit( expr->getArgList()[3] );
 		auto index = 4u;
 
 		while ( index < expr->getArgList().size() )
 		{
 			auto & arg = expr->getArgList()[index];
 			m_result += ", ";
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			++index;
 		}
 

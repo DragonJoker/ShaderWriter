@@ -71,7 +71,8 @@ namespace spirv
 		}
 	}
 
-	Module StmtVisitor::submit( ast::type::TypesCache & cache
+	Module StmtVisitor::submit( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::stmt::Stmt * stmt
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
@@ -79,23 +80,25 @@ namespace spirv
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
 	{
-		Module result{ cache
+		Module result{ typesCache
 			, spirvConfig
 			, moduleConfig.addressingModel
 			, getMemoryModel()
 			, getExecutionModel( type ) };
-		StmtVisitor vis{ result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
+		StmtVisitor vis{ exprCache, result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
 		stmt->accept( &vis );
 		return result;
 	}
 
-	StmtVisitor::StmtVisitor( Module & result
+	StmtVisitor::StmtVisitor( ast::expr::ExprCache & exprCache
+		, Module & result
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
-		: m_moduleConfig{ moduleConfig }
+		: m_exprCache{ exprCache }
+		, m_moduleConfig{ moduleConfig }
 		, m_context{ std::move( context ) }
 		, m_actions{ std::move( actions ) }
 		, m_result{ result }
@@ -138,6 +141,7 @@ namespace spirv
 
 	void StmtVisitor::visitContainerStmt( ast::stmt::Container * cont )
 	{
+		TraceFunc;
 		for ( auto & stmt : *cont )
 		{
 			if ( !m_currentBlock.isInterrupted )
@@ -149,6 +153,7 @@ namespace spirv
 
 	void StmtVisitor::visitBreakStmt( ast::stmt::Break * stmt )
 	{
+		TraceFunc;
 		interruptBlock( m_currentBlock
 			, makeInstruction< BranchInstruction >( ValueId{ m_controlBlocks.back().breakLabel } )
 			, !stmt->isSwitchCaseBreak() );
@@ -156,6 +161,7 @@ namespace spirv
 
 	void StmtVisitor::visitContinueStmt( ast::stmt::Continue * stmt )
 	{
+		TraceFunc;
 		interruptBlock( m_currentBlock
 			, makeInstruction< BranchInstruction >( ValueId{ m_controlBlocks.back().continueLabel } )
 			, true );
@@ -163,6 +169,7 @@ namespace spirv
 
 	void StmtVisitor::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
 	{
+		TraceFunc;
 		visitContainerStmt( stmt );
 		m_result.bindBufferVariable( stmt->getName()
 			, stmt->getBindingPoint()
@@ -172,6 +179,7 @@ namespace spirv
 
 	void StmtVisitor::visitDemoteStmt( ast::stmt::Demote * stmt )
 	{
+		TraceFunc;
 		if ( m_moduleConfig.hasExtension( EXT_demote_to_helper_invocation ) )
 		{
 			m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >() );
@@ -186,6 +194,7 @@ namespace spirv
 
 	void StmtVisitor::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
 	{
+		TraceFunc;
 		ValueIdList operands;
 		operands.push_back( submitAndLoad( stmt->getNumGroupsX() ) );
 		operands.push_back( submitAndLoad( stmt->getNumGroupsY() ) );
@@ -193,7 +202,7 @@ namespace spirv
 
 		if ( stmt->getPayload() )
 		{
-			operands.push_back( ExprVisitor::submit( stmt->getPayload(), m_context, m_currentBlock, m_result ) );
+			operands.push_back( ExprVisitor::submit( m_exprCache, stmt->getPayload(), m_context, m_currentBlock, m_result ) );
 		}
 
 		interruptBlock( m_currentBlock
@@ -203,6 +212,7 @@ namespace spirv
 
 	void StmtVisitor::visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )
 	{
+		TraceFunc;
 		if ( m_moduleConfig.hasExtension( KHR_terminate_invocation ) )
 		{
 			interruptBlock( m_currentBlock
@@ -219,15 +229,18 @@ namespace spirv
 
 	void StmtVisitor::visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )
 	{
+		TraceFunc;
 		visitContainerStmt( stmt );
 	}
 
 	void StmtVisitor::visitCommentStmt( ast::stmt::Comment * stmt )
 	{
+		TraceFunc;
 	}
 
 	void StmtVisitor::visitCompoundStmt( ast::stmt::Compound * stmt )
 	{
+		TraceFunc;
 		visitContainerStmt( stmt );
 	}
 
@@ -235,6 +248,7 @@ namespace spirv
 		, InstructionPtr interruptInstruction
 		, bool pushBlock )
 	{
+		TraceFunc;
 		m_currentBlock.blockEnd = std::move( interruptInstruction );
 		m_currentBlock.isInterrupted = true;
 
@@ -248,6 +262,7 @@ namespace spirv
 	void StmtVisitor::endBlock( Block & block
 		, spv::Id nextBlockLabel )
 	{
+		TraceFunc;
 		if ( !block.isInterrupted )
 		{
 			block.blockEnd = makeInstruction< BranchInstruction >( ValueId{ nextBlockLabel } );
@@ -261,6 +276,7 @@ namespace spirv
 		, spv::Id falseBlockLabel
 		, spv::Id mergeBlockLabel )
 	{
+		TraceFunc;
 		if ( !block.isInterrupted )
 		{
 			block.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( ValueId{ trueBlockLabel }
@@ -273,6 +289,7 @@ namespace spirv
 
 	void StmtVisitor::visitDoWhileStmt( ast::stmt::DoWhile * stmt )
 	{
+		TraceFunc;
 		auto loopBlock = m_result.newBlock();
 		auto ifBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
@@ -299,7 +316,7 @@ namespace spirv
 		endBlock( m_currentBlock, ifBlock.label );
 
 		// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
-		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( stmt->getCtrlExpr(), m_context, ifBlock, m_result ), m_currentBlock );
+		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getCtrlExpr(), m_context, ifBlock, m_result ), m_currentBlock );
 		endBlock( ifBlock, intermediateIfId.id, loopBlockLabel, mergeBlock.label );
 
 		// Current block becomes the merge block.
@@ -314,6 +331,7 @@ namespace spirv
 
 	void StmtVisitor::visitElseStmt( ast::stmt::Else * stmt )
 	{
+		TraceFunc;
 		visitContainerStmt( stmt );
 	}
 
@@ -324,6 +342,7 @@ namespace spirv
 
 	void StmtVisitor::visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )
 	{
+		TraceFunc;
 		switch ( stmt->getFragmentCenter() )
 		{
 		case ast::FragmentCenter::eCenterInteger:
@@ -351,6 +370,7 @@ namespace spirv
 
 	void StmtVisitor::visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )
 	{
+		TraceFunc;
 		auto type = stmt->getType();
 		auto retType = m_result.registerType( type->getReturnType() );
 		m_function = m_result.beginFunction( stmt->getName()
@@ -429,12 +449,14 @@ namespace spirv
 
 	void StmtVisitor::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
+		TraceFunc;
 		auto var = stmt->getVariable();
 		visitVariable( var );
 	}
 
 	void StmtVisitor::visitIfStmt( ast::stmt::If * stmt )
 	{
+		TraceFunc;
 		++m_ifStmts;
 		auto contentBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
@@ -453,7 +475,7 @@ namespace spirv
 		}
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
-		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( stmt->getCtrlExpr(), m_context, m_currentBlock, m_result ), m_currentBlock );
+		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getCtrlExpr(), m_context, m_currentBlock, m_result ), m_currentBlock );
 		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 		endBlock( m_currentBlock, intermediateIfId.id, contentBlock.label, falseBlockLabel );
 
@@ -476,6 +498,7 @@ namespace spirv
 
 	void StmtVisitor::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
 	{
+		TraceFunc;
 		m_result.bindVariable( visitVariable( stmt->getVariable() )
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
@@ -483,6 +506,7 @@ namespace spirv
 
 	void StmtVisitor::visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )
 	{
+		TraceFunc;
 		interruptBlock( m_currentBlock
 			, makeInstruction< IgnoreIntersectionInstruction >()
 			, false );
@@ -490,11 +514,13 @@ namespace spirv
 
 	void StmtVisitor::visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )
 	{
+		TraceFunc;
 		m_result.registerType( stmt->getType() );
 	}
 
 	void StmtVisitor::visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )
 	{
+		TraceFunc;
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
 		m_result.bindVariable( varId
@@ -504,6 +530,7 @@ namespace spirv
 
 	void StmtVisitor::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
+		TraceFunc;
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
 
@@ -515,6 +542,7 @@ namespace spirv
 
 	void StmtVisitor::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
+		TraceFunc;
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
 
@@ -526,6 +554,7 @@ namespace spirv
 
 	void StmtVisitor::visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )
 	{
+		TraceFunc;
 		auto var = stmt->getVariable();
 		auto varId = visitVariable( var );
 
@@ -552,6 +581,7 @@ namespace spirv
 
 	void StmtVisitor::visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )
 	{
+		TraceFunc;
 		auto var = stmt->getVariable();
 		m_result.registerSpecConstant( var->getName()
 			, stmt->getLocation()
@@ -561,6 +591,7 @@ namespace spirv
 
 	void StmtVisitor::visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )
 	{
+		TraceFunc;
 		m_result.registerExecutionMode( spv::ExecutionModeLocalSize
 			, { ValueId{ stmt->getWorkGroupsX() }, ValueId{ stmt->getWorkGroupsY() }, ValueId{ stmt->getWorkGroupsZ() } } );
 		ValueIdList ids;
@@ -570,23 +601,26 @@ namespace spirv
 
 		if ( m_moduleConfig.stage == ast::ShaderStage::eCompute )
 		{
-			m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getCache().getVec3U32() );
+			m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getTypesCache().getVec3U32() );
 			m_result.decorate( m_context.workGroupSizeExpr, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
 		}
 	}
 
 	void StmtVisitor::visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )
 	{
+		TraceFunc;
 		m_result.registerExecutionMode( stmt->getLayout() );
 	}
 
 	void StmtVisitor::visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )
 	{
+		TraceFunc;
 		m_result.registerExecutionMode( stmt->getLayout(), stmt->getPrimCount() );
 	}
 
 	void StmtVisitor::visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )
 	{
+		TraceFunc;
 		if ( m_moduleConfig.stage == ast::ShaderStage::eMeshNV )
 		{
 			m_result.registerExecutionModeNV( stmt->getTopology()
@@ -603,6 +637,7 @@ namespace spirv
 
 	void StmtVisitor::visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )
 	{
+		TraceFunc;
 		m_result.registerExecutionMode( stmt->getDomain()
 			, stmt->getPartitioning()
 			, stmt->getTopology()
@@ -612,6 +647,7 @@ namespace spirv
 
 	void StmtVisitor::visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )
 	{
+		TraceFunc;
 		m_result.registerExecutionMode( stmt->getDomain()
 			, stmt->getPartitioning()
 			, stmt->getPrimitiveOrdering() );
@@ -619,17 +655,21 @@ namespace spirv
 
 	void StmtVisitor::visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )
 	{
+		TraceFunc;
 	}
 
 	void StmtVisitor::visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )
 	{
+		TraceFunc;
 	}
 
 	void StmtVisitor::visitReturnStmt( ast::stmt::Return * stmt )
 	{
+		TraceFunc;
 		if ( stmt->getExpr() )
 		{
-			auto result = m_result.loadVariable( ExprVisitor::submit( stmt->getExpr()
+			auto result = m_result.loadVariable( ExprVisitor::submit( m_exprCache
+					, stmt->getExpr()
 					, m_context
 					, m_currentBlock
 					, m_result )
@@ -648,6 +688,7 @@ namespace spirv
 
 	void StmtVisitor::visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )
 	{
+		TraceFunc;
 		m_result.bindVariable( visitVariable( stmt->getVariable() )
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
@@ -655,6 +696,7 @@ namespace spirv
 
 	void StmtVisitor::visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )
 	{
+		TraceFunc;
 		m_result.bindVariable( visitVariable( stmt->getVariable() )
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
@@ -662,6 +704,7 @@ namespace spirv
 
 	void StmtVisitor::visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )
 	{
+		TraceFunc;
 		m_result.bindVariable( visitVariable( stmt->getVariable() )
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
@@ -669,6 +712,7 @@ namespace spirv
 
 	void StmtVisitor::visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )
 	{
+		TraceFunc;
 		visitContainerStmt( stmt );
 		m_result.bindBufferVariable( stmt->getSsboName()
 			, stmt->getBindingPoint()
@@ -680,6 +724,7 @@ namespace spirv
 
 	void StmtVisitor::visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )
 	{
+		TraceFunc;
 		visitVariable( stmt->getSsboInstance() );
 		m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 			, stmt->getBindingPoint()
@@ -691,21 +736,25 @@ namespace spirv
 
 	void StmtVisitor::visitSimpleStmt( ast::stmt::Simple * stmt )
 	{
-		ExprVisitor::submit( stmt->getExpr(), m_context, m_currentBlock, m_result );
+		TraceFunc;
+		ExprVisitor::submit( m_exprCache, stmt->getExpr(), m_context, m_currentBlock, m_result );
 	}
 
 	void StmtVisitor::visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )
 	{
+		TraceFunc;
 		m_result.registerType( stmt->getType() );
 	}
 
 	void StmtVisitor::visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )
 	{
+		TraceFunc;
 		visitContainerStmt( stmt );
 	}
 
 	void StmtVisitor::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
+		TraceFunc;
 		std::vector< Block > caseBlocks;
 		std::map< int32_t, spv::Id > caseBlocksIds;
 		auto mergeBlock = m_result.newBlock();
@@ -731,7 +780,7 @@ namespace spirv
 			}
 		}
 
-		auto selector = m_result.loadVariable( ExprVisitor::submit( stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result ), m_currentBlock );
+		auto selector = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result ), m_currentBlock );
 		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( ValueIdList{ selector, ValueId{ defaultBlock.label } }, caseBlocksIds );
 		m_currentBlock.isInterrupted = true;
@@ -793,6 +842,7 @@ namespace spirv
 
 	void StmtVisitor::visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )
 	{
+		TraceFunc;
 		interruptBlock( m_currentBlock
 			, makeInstruction< TerminateRayInstruction >()
 			, false );
@@ -800,6 +850,7 @@ namespace spirv
 
 	void StmtVisitor::visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )
 	{
+		TraceFunc;
 		visitVariable( stmt->getVariable() );
 	}
 
@@ -830,6 +881,7 @@ namespace spirv
 
 	void StmtVisitor::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
 	{
+		TraceFunc;
 		m_result.registerExtension( preproc->getName() );
 	}
 
@@ -845,11 +897,13 @@ namespace spirv
 
 	void StmtVisitor::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
+		TraceFunc;
 		//TODO m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
 	}
 
 	ValueId StmtVisitor::visitVariable( ast::var::VariablePtr var )
 	{
+		TraceFunc;
 		VariableInfo info;
 		ValueId result;
 
@@ -885,7 +939,8 @@ namespace spirv
 
 	ValueId StmtVisitor::submitAndLoad( ast::expr::Expr * expr )
 	{
-		auto result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_result );
+		TraceFunc;
+		auto result = ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_result );
 
 		if ( expr->getKind() == ast::expr::Kind::eIdentifier )
 		{

@@ -411,7 +411,7 @@ namespace ast::debug
 		m_result += ")";
 	}
 
-	void ExprVisitor::visitImageAccessCallExpr( expr::ImageAccessCall * expr )
+	void ExprVisitor::visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )
 	{
 		m_result += getName( expr->getKind() ) + " ";
 		m_result += getName( expr->getImageAccess() ) + "(";

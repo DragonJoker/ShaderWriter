@@ -14,7 +14,8 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API Alias( type::TypePtr type
+		SDAST_API Alias( ExprCache & exprCache
+			, type::TypePtr type
 			, IdentifierPtr lhs
 			, ExprPtr rhs );
 
@@ -25,16 +26,6 @@ namespace ast::expr
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using AliasPtr = std::unique_ptr< Alias >;
-
-	inline AliasPtr makeAlias( type::TypePtr type
-		, IdentifierPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< Alias >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

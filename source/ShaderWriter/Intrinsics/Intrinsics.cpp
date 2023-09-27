@@ -13,7 +13,8 @@ namespace sdw
 		, type::MemorySemantics semantics )
 	{
 		return RetVoid{ writer
-			, expr::makeControlBarrier( findTypesCache( writer )
+			, expr::makeControlBarrier( findExprCache( writer )
+				, findTypesCache( writer )
 				, executionScope
 				, memoryScope
 				, semantics )
@@ -25,7 +26,8 @@ namespace sdw
 		, type::MemorySemantics semantics )
 	{
 		return RetVoid{ writer
-			, expr::makeMemoryBarrier( findTypesCache( writer )
+			, expr::makeMemoryBarrier( findExprCache( writer )
+				, findTypesCache( writer )
 				, memoryScope
 				, semantics )
 			, true };

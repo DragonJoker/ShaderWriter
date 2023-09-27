@@ -14,11 +14,12 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API AggrInit( IdentifierPtr identifier
-			, ExprList && initialisers );
-		
-		SDAST_API AggrInit( type::TypePtr type
-			, ExprList && initialisers );
+		SDAST_API AggrInit( ExprCache & exprCache
+			, IdentifierPtr identifier
+			, ExprList initialisers );
+		SDAST_API AggrInit( ExprCache & exprCache
+			, type::TypePtr type
+			, ExprList initialisers );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -33,24 +34,9 @@ namespace ast::expr
 		}
 
 	private:
-		IdentifierPtr m_identifier;
+		IdentifierPtr m_identifier{};
 		ExprList m_initialisers;
 	};
-	using AggrInitPtr = std::unique_ptr< AggrInit >;
-
-	inline AggrInitPtr makeAggrInit( IdentifierPtr identifier
-		, ExprList && initialisers )
-	{
-		return std::make_unique< AggrInit >( std::move( identifier )
-			, std::move( initialisers ) );
-	}
-
-	inline AggrInitPtr makeAggrInit( type::TypePtr type
-		, ExprList && initialisers )
-	{
-		return std::make_unique< AggrInit >( std::move( type )
-			, std::move( initialisers ) );
-	}
 }
 
 #endif

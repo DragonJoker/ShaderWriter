@@ -37,7 +37,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_ctrlExpr{};
 		PreprocElsePtr m_else;
 		StmtList m_elifs;
 	};

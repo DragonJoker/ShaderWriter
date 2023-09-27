@@ -1836,6 +1836,93 @@ namespace
 		}
 		testEnd();
 	}
+
+	void radianceComputer( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "radianceComputer" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			VertexWriter writer;
+
+			// Inputs
+			auto position = writer.declInput< Vec3 >( "position", 0u );
+			UniformBuffer matrix{ writer, "Matrix", 0u, 0u };
+			auto c3d_viewProjection = matrix.declMember< Mat4 >( "c3d_viewProjection" );
+			matrix.end();
+
+			// Outputs
+			auto vtx_worldPosition = writer.declOutput< Vec3 >( "vtx_worldPosition", 0u );
+
+			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
+				, VertexOut out )
+				{
+					vtx_worldPosition = position;
+					out.vtx.position = ( c3d_viewProjection * vec4( position, 1.0_f ) ).xyww();
+				} );
+			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
+		}
+		{
+			FragmentWriter writer;
+
+			// Inputs
+			auto vtx_worldPosition = writer.declInput< Vec3 >( "vtx_worldPosition", 0u );
+			auto c3d_mapEnvironment = writer.declCombinedImg< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
+
+			// Outputs
+			auto outColour = writer.declOutput< Vec4 >( "outColour", 0u );
+
+			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn in
+				, FragmentOut out )
+				{
+					// From https://learnopengl.com/#!PBR/Lighting
+					// the sample direction equals the hemisphere's orientation 
+					auto normal = writer.declLocale( "normal"
+						, normalize( vtx_worldPosition ) );
+
+					auto irradiance = writer.declLocale( "irradiance"
+						, vec3( 0.0_f ) );
+
+					auto up = writer.declLocale( "up"
+						, vec3( 0.0_f, 1.0_f, 0.0_f ) );
+					auto right = writer.declLocale( "right"
+						, cross( up, normal ) );
+					up = cross( normal, right );
+
+					auto sampleDelta = writer.declLocale( "sampleDelta"
+						, 0.025_f );
+					auto nrSamples = writer.declLocale( "nrSamples"
+						, 0_i );
+
+					FOR( writer, Float, phi, 0.0_f, phi < 6.253184_f, phi += sampleDelta )
+					{
+						FOR( writer, Float, theta, 0.0_f, theta < 1.570796_f, theta += sampleDelta )
+						{
+							// spherical to cartesian (in tangent space)
+							auto tangentSample = writer.declLocale( "tangentSample"
+								, vec3( sin( theta ) * cos( phi ), sin( theta ) * sin( phi ), cos( theta ) ) );
+							// tangent space to world
+							auto sampleVec = writer.declLocale( "sampleVec"
+								, right * tangentSample.x() + up * tangentSample.y() + normal * tangentSample.z() );
+
+							irradiance += c3d_mapEnvironment.lod( sampleVec, 0.0_f ).rgb() * cos( theta ) * sin( theta );
+							nrSamples = nrSamples + 1;
+						}
+						ROF;
+					}
+					ROF;
+
+					irradiance = irradiance * 3.141592_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
+					outColour = vec4( irradiance, 1.0_f );
+				} );
+			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
+		}
+
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShader )
@@ -1858,6 +1945,7 @@ sdwTestSuiteMain( TestWriterShader )
 	tessellationPipeline( testCounts );
 	arraySsboTextureLookup( testCounts );
 	pcbHelper( testCounts );
+	radianceComputer( testCounts );
 	sdwTestSuiteEnd();
 }
 

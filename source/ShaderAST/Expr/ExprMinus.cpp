@@ -7,10 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Minus::Minus( type::TypePtr type
+	Minus::Minus( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type )
+		: Binary{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eMinus }

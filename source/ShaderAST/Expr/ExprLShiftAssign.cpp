@@ -7,10 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	LShiftAssign::LShiftAssign( type::TypePtr type
+	LShiftAssign::LShiftAssign( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Assign{ std::move( type )
+		: Assign{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eLShiftAssign }

@@ -16,7 +16,7 @@ namespace ast
 		public:
 			static expr::Expr * submit( expr::Expr * expr )
 			{
-				expr::Expr * result{ nullptr };
+				expr::Expr * result{};
 				OutermostExprExtractor vis{ result };
 				expr->accept( &vis );
 				return result;
@@ -97,7 +97,7 @@ namespace ast
 				visitOtherExpr( expr );
 			}
 
-			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
 			{
 				visitOtherExpr( expr );
 			}

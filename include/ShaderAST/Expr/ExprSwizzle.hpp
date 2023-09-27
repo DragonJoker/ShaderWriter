@@ -14,7 +14,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API Swizzle( ExprPtr outer
+		SDAST_API Swizzle( ExprCache & exprCache
+			, ExprPtr outer
 			, SwizzleKind swizzle );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -30,23 +31,9 @@ namespace ast::expr
 		}
 
 	private:
-		ExprPtr m_outer;
+		ExprPtr m_outer{};
 		SwizzleKind m_swizzle;
 	};
-	using SwizzlePtr = std::unique_ptr< Swizzle >;
-
-	inline SwizzlePtr makeSwizzle( ExprPtr outer
-		, SwizzleKind swizzle )
-	{
-		assert( type::isVectorType( outer->getType() )
-			|| ( type::isScalarType( outer->getType() )
-				&& ( swizzle == SwizzleKind::e0
-					|| swizzle == SwizzleKind::e00
-					|| swizzle == SwizzleKind::e000
-					|| swizzle == SwizzleKind::e0000 ) ) );
-		return std::make_unique< Swizzle >( std::move( outer )
-			, swizzle );
-	}
 }
 
 #endif

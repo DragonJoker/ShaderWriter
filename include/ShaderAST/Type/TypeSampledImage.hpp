@@ -21,7 +21,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API SampledImage( TypesCache & cache
+		SDAST_API SampledImage( TypesCache & typesCache
 			, ImageConfiguration config
 			, Trinary comparison = Trinary::eDontCare );
 

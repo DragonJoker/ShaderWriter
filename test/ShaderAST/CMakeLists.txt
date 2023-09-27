@@ -16,6 +16,10 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
 	)
+	target_sources( ${TEST_NAME}
+		PRIVATE
+			${SDW_EDITORCONFIG_FILE}
+	)
 	target_link_libraries( ${TEST_NAME}
 		PRIVATE
 			sdw::ShaderAST

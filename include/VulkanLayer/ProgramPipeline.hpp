@@ -18,6 +18,9 @@ namespace ast::vk
 	public:
 		ProgramPipeline( uint32_t vkVersion
 			, uint32_t spvVersion
+			, ShaderPtrArray const & shaders );
+		ProgramPipeline( uint32_t vkVersion
+			, uint32_t spvVersion
 			, ShaderRefArray const & shaders );
 		ProgramPipeline( uint32_t vkVersion
 			, uint32_t spvVersion
@@ -199,6 +202,7 @@ namespace ast::vk
 		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
 			, uint32_t spvVersion
 			, Shader const & shader );
+
 		SpecializationInfoOpt createSpecializationInfo( Shader const & shader );
 		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader );
 		ShaderDataPtr createShaderData( Shader const & shader );
@@ -213,6 +217,38 @@ namespace ast::vk
 		bool checkTessellationState( VkPipelineTessellationStateCreateInfo const & state )const;
 		bool checkVertexInputState( VkPipelineVertexInputStateCreateInfo const & state )const;
 		bool checkSpecializationInfos( std::vector< VkSpecializationInfoOpt > const & infos )const;
+
+		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
+			, uint32_t spvVersion
+			, ShaderPtr const & shader )
+		{
+			return createShaderSource( vkVersion, spvVersion, *shader );
+		}
+
+		SpecializationInfoOpt createSpecializationInfo( ShaderPtr const & shader )
+		{
+			return createSpecializationInfo( *shader );
+		}
+
+		PipelineShaderStageCreateInfo createShaderStage( ShaderPtr const & shader )
+		{
+			return createShaderStage( *shader );
+		}
+
+		ShaderDataPtr createShaderData( ShaderPtr const & shader )
+		{
+			return createShaderData( *shader );
+		}
+
+		ShaderModuleCreateInfo createShaderModule( ShaderPtr const & shader )
+		{
+			return createShaderModule( *shader );
+		}
+
+		std::vector< VkPushConstantRange > createPushConstantRanges( ShaderPtr const & shader )
+		{
+			return createPushConstantRanges( *shader );
+		}
 
 		template< typename ShaderItT >
 		std::vector< std::vector< uint32_t > > createShaderSources( uint32_t vkVersion
@@ -266,6 +302,21 @@ namespace ast::vk
 			return result;
 		}
 
+		Shader const & getShader( Shader const & shader )
+		{
+			return shader;
+		}
+
+		Shader const & getShader( ShaderRef const & shader )
+		{
+			return shader;
+		}
+
+		Shader const & getShader( ShaderPtr const & shader )
+		{
+			return *shader;
+		}
+
 		template< typename ShaderItT >
 		ShaderDataPtr createShaderData( ShaderItT begin, ShaderItT end )
 		{
@@ -275,7 +326,7 @@ namespace ast::vk
 
 			while ( begin != end )
 			{
-				sorted.push_back( *begin );
+				sorted.push_back( getShader( *begin ) );
 				++begin;
 			}
 

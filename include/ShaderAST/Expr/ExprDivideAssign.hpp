@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		SDAST_API DivideAssign( type::TypePtr type
+		SDAST_API DivideAssign( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using DivideAssignPtr = std::unique_ptr< DivideAssign >;
-
-	inline DivideAssignPtr makeDivideAssign( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< DivideAssign >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

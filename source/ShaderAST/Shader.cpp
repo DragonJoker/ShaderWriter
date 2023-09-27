@@ -44,6 +44,7 @@ namespace ast
 	Shader::Shader( ast::ShaderStage type )
 		: m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
+		, m_exprCache{ std::make_unique< ast::expr::ExprCache >() }
 		, m_container{ stmt::makeContainer() }
 	{
 		push( m_container.get(), ast::var::VariableList{} );
@@ -87,7 +88,8 @@ namespace ast
 	{
 		if ( m_savedStmt != nullptr )
 		{
-			auto result = ExprCloner::submit( static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
+			auto result = ExprCloner::submit( expr->getExprCache()
+				, static_cast< ast::stmt::Simple const & >( *m_savedStmt ).getExpr() );
 			m_savedStmt = nullptr;
 			return result;
 		}
@@ -654,10 +656,7 @@ namespace ast
 
 	expr::ExprPtr Shader::getDummyExpr( type::TypePtr type )const
 	{
-		return std::make_unique< expr::Expr >( *m_typesCache
-			, type
-			, expr::Kind::eIdentifier
-			, expr::Flag::eDummy );
+		return m_exprCache->makeDummyExpr( type );
 	}
 
 	SdwShader Shader::getOpaqueHandle()const

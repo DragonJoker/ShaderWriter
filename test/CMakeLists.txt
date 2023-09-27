@@ -15,6 +15,10 @@ add_library( sdw::test::Common
 	ALIAS
 	TestCommon
 )
+target_sources( TestCommon
+	PRIVATE
+		${SDW_EDITORCONFIG_FILE}
+)
 target_include_directories( TestCommon
 	PUBLIC
 		${CMAKE_SOURCE_DIR}/include

@@ -30,14 +30,19 @@ namespace spirv
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::stmt::Container * container
+		static ast::stmt::ContainerPtr submit( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
+			, ast::stmt::Container * container
 			, AdaptationData & adaptationData );
 
 	private:
-		StmtAdapter( ast::stmt::ContainerPtr & result
+		StmtAdapter( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
+			, ast::stmt::ContainerPtr & result
 			, AdaptationData & adaptationData );
 		
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 
 		void visitElseIfStmt( ast::stmt::ElseIf * stmt )override;
 		void visitElseStmt( ast::stmt::Else * stmt )override;
@@ -96,6 +101,7 @@ namespace spirv
 		void doDeclareStruct( ast::type::StructPtr const & structType );
 
 	private:
+		ast::type::TypesCache & m_typesCache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_ioDeclarations;
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;

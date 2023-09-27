@@ -13,19 +13,12 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API PreIncrement( type::TypePtr type
+		SDAST_API PreIncrement( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr operand );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using PreIncrementPtr = std::unique_ptr< PreIncrement >;
-
-	inline PreIncrementPtr makePreIncrement( ExprPtr operand )
-	{
-		auto type = operand->getType();
-		return std::make_unique< PreIncrement >( std::move( type )
-			, std::move( operand ) );
-	}
 }
 
 #endif

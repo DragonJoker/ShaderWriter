@@ -38,7 +38,7 @@ namespace ast::stmt
 	private:
 		var::VariablePtr m_variable;
 		uint32_t m_location;
-		expr::LiteralPtr m_value;
+		expr::LiteralPtr m_value{};
 	};
 	using SpecialisationConstantDeclPtr = std::unique_ptr< SpecialisationConstantDecl >;
 

@@ -7,9 +7,15 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Init::Init( IdentifierPtr identifier
+	Init::Init( ExprCache & exprCache
+		, IdentifierPtr identifier
 		, ExprPtr initialiser )
-		: Expr{ getExprTypesCache( initialiser ), identifier->getType(), Kind::eInit, isExprConstant( initialiser, identifier ) ? Flag::eConstant : Flag::eNone }
+		: Expr{ exprCache
+			, sizeof( Init )
+			, getExprTypesCache( initialiser )
+			, identifier->getType()
+			, Kind::eInit
+			, isExprConstant( initialiser, identifier ) ? Flag::eConstant : Flag::eNone }
 		, m_identifier{ std::move( identifier ) }
 		, m_initialiser{ std::move( initialiser ) }
 	{

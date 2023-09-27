@@ -25,7 +25,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_expr;
+		expr::ExprPtr m_expr{};
 	};
 	using SimplePtr = std::unique_ptr< Simple >;
 

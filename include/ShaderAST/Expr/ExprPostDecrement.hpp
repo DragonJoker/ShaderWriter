@@ -13,19 +13,12 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API PostDecrement( type::TypePtr type
+		SDAST_API PostDecrement( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr operand );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using PostDecrementPtr = std::unique_ptr< PostDecrement >;
-
-	inline PostDecrementPtr makePostDecrement( ExprPtr operand )
-	{
-		auto type = operand->getType();
-		return std::make_unique< PostDecrement >( std::move( type )
-			, std::move( operand ) );
-	}
 }
 
 #endif

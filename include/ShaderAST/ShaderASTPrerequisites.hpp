@@ -29,6 +29,23 @@ See LICENSE file in root folder
 #	define SDAST_API
 #endif
 
+#define AST_TraceFunc 0
+
+#if AST_TraceFunc
+#	include <iostream>
+#endif
+
+#if AST_TraceFunc
+#	if !defined( NDEBUG )
+#		define TraceFunc \
+		std::cout << "Function " << __FUNCTION__ << ":" << __LINE__ << std::endl;
+#	else
+#		define TraceFunc
+#	endif
+#else
+#	define TraceFunc
+#endif
+
 #define AST_Failure( msg )\
 	assert( false && msg )
 
@@ -200,9 +217,139 @@ namespace ast
 	namespace expr
 	{
 		class Expr;
+		class ExprCache;
+		class Binary;
+		class Unary;
 		class Visitor;
-		using ExprPtr = std::unique_ptr< Expr >;
-		using VisitorPtr = Visitor * ;
+
+		class Add;
+		class AddAssign;
+		class AggrInit;
+		class Alias;
+		class AndAssign;
+		class ArrayAccess;
+		class Assign;
+		class BitAnd;
+		class BitNot;
+		class BitOr;
+		class BitXor;
+		class Cast;
+		class CombinedImageAccessCall;
+		class Comma;
+		class CompositeConstruct;
+		class Copy;
+		class Divide;
+		class DivideAssign;
+		class Equal;
+		class FnCall;
+		class Greater;
+		class GreaterEqual;
+		class Identifier;
+		class Init;
+		class IntrinsicCall;
+		class Less;
+		class LessEqual;
+		class Literal;
+		class LogAnd;
+		class LogNot;
+		class LogOr;
+		class LShift;
+		class LShiftAssign;
+		class MbrSelect;
+		class Minus;
+		class MinusAssign;
+		class Modulo;
+		class ModuloAssign;
+		class NotEqual;
+		class OrAssign;
+		class PostDecrement;
+		class PostIncrement;
+		class PreDecrement;
+		class PreIncrement;
+		class Question;
+		class RShift;
+		class RShiftAssign;
+		class StorageImageAccessCall;
+		class StreamAppend;
+		class SwitchCase;
+		class SwitchTest;
+		class Swizzle;
+		class Times;
+		class TimesAssign;
+		class UnaryMinus;
+		class UnaryPlus;
+		class XorAssign;
+
+		struct DeleteExpr
+		{
+			SDAST_API void operator()( Expr * expr )noexcept;
+		};
+
+		template< typename ExprT >
+		using ExprPtrT = std::unique_ptr< ExprT, DeleteExpr >;
+
+		using ExprPtr = ExprPtrT< Expr >;
+		using AddPtr = ExprPtrT< Add >;
+		using AddAssignPtr = ExprPtrT< AddAssign >;
+		using AggrInitPtr = ExprPtrT< AggrInit >;
+		using AliasPtr = ExprPtrT< Alias >;
+		using AndAssignPtr = ExprPtrT< AndAssign >;
+		using ArrayAccessPtr = ExprPtrT< ArrayAccess >;
+		using AssignPtr = ExprPtrT< Assign >;
+		using BitAndPtr = ExprPtrT< BitAnd >;
+		using BitNotPtr = ExprPtrT< BitNot >;
+		using BitOrPtr = ExprPtrT< BitOr >;
+		using BitXorPtr = ExprPtrT< BitXor >;
+		using CastPtr = ExprPtrT< Cast >;
+		using CombinedImageAccessCallPtr = ExprPtrT< CombinedImageAccessCall >;
+		using CommaPtr = ExprPtrT< Comma >;
+		using CompositeConstructPtr = ExprPtrT< CompositeConstruct >;
+		using CopyPtr = ExprPtrT< Copy >;
+		using DividePtr = ExprPtrT< Divide >;
+		using DivideAssignPtr = ExprPtrT< DivideAssign >;
+		using EqualPtr = ExprPtrT< Equal >;
+		using FnCallPtr = ExprPtrT< FnCall >;
+		using GreaterPtr = ExprPtrT< Greater >;
+		using GreaterEqualPtr = ExprPtrT< GreaterEqual >;
+		using IdentifierPtr = ExprPtrT< Identifier >;
+		using InitPtr = ExprPtrT< Init >;
+		using IntrinsicCallPtr = ExprPtrT< IntrinsicCall >;
+		using LessPtr = ExprPtrT< Less >;
+		using LessEqualPtr = ExprPtrT< LessEqual >;
+		using LiteralPtr = ExprPtrT< Literal >;
+		using LogAndPtr = ExprPtrT< LogAnd >;
+		using LogNotPtr = ExprPtrT< LogNot >;
+		using LogOrPtr = ExprPtrT< LogOr >;
+		using LShiftPtr = ExprPtrT< LShift >;
+		using LShiftAssignPtr = ExprPtrT< LShiftAssign >;
+		using MbrSelectPtr = ExprPtrT< MbrSelect >;
+		using MinusPtr = ExprPtrT< Minus >;
+		using MinusAssignPtr = ExprPtrT< MinusAssign >;
+		using ModuloPtr = ExprPtrT< Modulo >;
+		using ModuloAssignPtr = ExprPtrT< ModuloAssign >;
+		using NotEqualPtr = ExprPtrT< NotEqual >;
+		using OrAssignPtr = ExprPtrT< OrAssign >;
+		using PostDecrementPtr = ExprPtrT< PostDecrement >;
+		using PostIncrementPtr = ExprPtrT< PostIncrement >;
+		using PreDecrementPtr = ExprPtrT< PreDecrement >;
+		using PreIncrementPtr = ExprPtrT< PreIncrement >;
+		using QuestionPtr = ExprPtrT< Question >;
+		using RShiftPtr = ExprPtrT< RShift >;
+		using RShiftAssignPtr = ExprPtrT< RShiftAssign >;
+		using StorageImageAccessCallPtr = ExprPtrT< StorageImageAccessCall >;
+		using StreamAppendPtr = ExprPtrT< StreamAppend >;
+		using SwitchCasePtr = ExprPtrT< SwitchCase >;
+		using SwitchTestPtr = ExprPtrT< SwitchTest >;
+		using SwizzlePtr = ExprPtrT< Swizzle >;
+		using TimesPtr = ExprPtrT< Times >;
+		using TimesAssignPtr = ExprPtrT< TimesAssign >;
+		using UnaryMinusPtr = ExprPtrT< UnaryMinus >;
+		using UnaryPlusPtr = ExprPtrT< UnaryPlus >;
+		using XorAssignPtr = ExprPtrT< XorAssign >;
+
+		using VisitorPtr = Visitor *;
+		using ExprList = std::vector< ExprPtr >;
+		using SwitchCaseList = std::vector< SwitchCase * >;
 
 		enum class CompositeType
 		{
@@ -227,6 +374,23 @@ namespace ast
 	{
 		class Stmt;
 		class Visitor;
+
+		class DispatchMesh;
+		class DoWhile;
+		class ElseIf;
+		class For;
+		class If;
+		class PreprocDefine;
+		class PreprocElif;
+		class PreprocIf;
+		class PreprocIfDef;
+		class Return;
+		class Simple;
+		class SpecialisationConstantDecl;
+		class Switch;
+		class SwitchCase;
+		class While;
+
 		using StmtPtr = std::unique_ptr< Stmt >;
 		using VisitorPtr = Visitor * ;
 	}
@@ -375,8 +539,10 @@ namespace ast
 
 	class Shader;
 	using ShaderRef = std::reference_wrapper< Shader const >;
+	using ShaderPtr = std::unique_ptr< Shader >;
 	using ShaderArray = std::vector< Shader >;
 	using ShaderRefArray = std::vector< ShaderRef >;
+	using ShaderPtrArray = std::vector< ShaderPtr >;
 }
 
 #endif

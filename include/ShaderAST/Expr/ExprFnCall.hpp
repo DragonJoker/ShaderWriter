@@ -14,14 +14,15 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API FnCall( type::TypePtr type
+		SDAST_API FnCall( ExprCache & exprCache
+			, type::TypePtr type
 			, IdentifierPtr fn
-			, ExprList && argList );
-		
-		SDAST_API FnCall( type::TypePtr type
+			, ExprList argList );
+		SDAST_API FnCall( ExprCache & exprCache
+			, type::TypePtr type
 			, IdentifierPtr fn
 			, ExprPtr instance
-			, ExprList && argList );
+			, ExprList argList );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -47,31 +48,10 @@ namespace ast::expr
 		}
 
 	private:
-		IdentifierPtr m_fn;
+		IdentifierPtr m_fn{};
 		ExprList m_argList;
-		ExprPtr m_instance;
+		ExprPtr m_instance{};
 	};
-	using FnCallPtr = std::unique_ptr< FnCall >;
-
-	inline FnCallPtr makeFnCall( type::TypePtr type
-		, IdentifierPtr fn
-		, ExprList && argList )
-	{
-		return std::make_unique< FnCall >( std::move( type )
-			, std::move( fn )
-			, std::move( argList ) );
-	}
-
-	inline FnCallPtr makeMemberFnCall( type::TypePtr type
-		, IdentifierPtr fn
-		, ExprPtr instance
-		, ExprList && argList )
-	{
-		return std::make_unique< FnCall >( std::move( type )
-			, std::move( fn )
-			, std::move( instance )
-			, std::move( argList ) );
-	}
 }
 
 #endif

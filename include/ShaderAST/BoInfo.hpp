@@ -14,10 +14,10 @@ namespace ast
 {
 	struct InterfaceBlock
 	{
-		InterfaceBlock( type::TypesCache & cache
+		InterfaceBlock( type::TypesCache & typesCache
 			, type::MemoryLayout layout
 			, std::string name )
-			: m_type{ getType( cache, layout, std::move( name ) ) }
+			: m_type{ getType( typesCache, layout, std::move( name ) ) }
 		{
 		}
 		
@@ -39,7 +39,7 @@ namespace ast
 			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );
-			return registerMember( std::move( name ), m_type->getCache().getBasicType( Kind ), arraySize );
+			return registerMember( std::move( name ), m_type->getTypesCache().getBasicType( Kind ), arraySize );
 		}
 
 		type::TypePtr registerMember( std::string name
@@ -69,11 +69,11 @@ namespace ast
 			return m_type;
 		}
 
-		static type::BaseStructPtr getType( type::TypesCache & cache
+		static type::BaseStructPtr getType( type::TypesCache & typesCache
 			, type::MemoryLayout layout
 			, std::string name )
 		{
-			return cache.getStruct( layout, std::move( name ) );
+			return typesCache.getStruct( layout, std::move( name ) );
 		}
 
 	private:
@@ -83,12 +83,12 @@ namespace ast
 	struct BoInfo
 		: DescriptorInfoT< type::BaseStruct >
 	{
-		BoInfo( type::TypesCache & cache
+		BoInfo( type::TypesCache & typesCache
 			, type::MemoryLayout layout
 			, std::string name
 			, uint32_t bind
 			, uint32_t set )
-			: DescriptorInfoT{ InterfaceBlock::getType( cache, layout, std::move( name ) )
+			: DescriptorInfoT{ InterfaceBlock::getType( typesCache, layout, std::move( name ) )
 				, { bind, set } }
 		{
 		}

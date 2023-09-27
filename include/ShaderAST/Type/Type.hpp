@@ -279,13 +279,13 @@ namespace ast::type
 		friend class Struct;
 
 	public:
-		SDAST_API Type( TypesCache & cache
+		SDAST_API Type( TypesCache & typesCache
 			, Kind kind );
-		SDAST_API Type( TypesCache & cache
+		SDAST_API Type( TypesCache & typesCache
 			, Struct * parent
 			, uint32_t index
 			, Type const & nonMbr );
-		SDAST_API Type( TypesCache & cache
+		SDAST_API Type( TypesCache & typesCache
 			, Struct & parent
 			, uint32_t index
 			, Type const & nonMbr );
@@ -321,17 +321,17 @@ namespace ast::type
 			return m_parent;
 		}
 
-		TypesCache & getCache()const
+		TypesCache & getTypesCache()const
 		{
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnull-dereference"
-			assert( m_cache );
-			return *m_cache;
+			assert( m_typesCache );
+			return *m_typesCache;
 #pragma GCC diagnostic pop
 		}
 
 	private:
-		TypesCache * m_cache;
+		TypesCache * m_typesCache;
 		Kind m_kind;
 		Struct * m_parent;
 		uint32_t m_index;

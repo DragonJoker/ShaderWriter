@@ -15,26 +15,29 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static ast::expr::LiteralPtr submit( ast::expr::Expr * expr
+			static ast::expr::LiteralPtr submit( ast::expr::ExprCache & exprCache
+				, ast::expr::Expr * expr
 				, PreprocContext const & context )
 			{
 				ast::expr::LiteralPtr result;
-				ExprEvaluator vis{ result, context };
+				ExprEvaluator vis{ exprCache, result, context };
 				expr->accept( &vis );
 				return result;
 			}
 
 		private:
-			ExprEvaluator( ast::expr::LiteralPtr & result
+			ExprEvaluator( ast::expr::ExprCache & exprCache
+				, ast::expr::LiteralPtr & result
 				, PreprocContext const & context )
-				: m_result{ result }
+				: m_exprCache{ exprCache }
+				, m_result{ result }
 				, m_context{ context }
 			{
 			}
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				auto operand = submit( expr->getOperand(), m_context );
+				auto operand = submit( m_exprCache, expr->getOperand(), m_context );
 
 				switch ( expr->getKind() )
 				{
@@ -54,8 +57,8 @@ namespace spirv
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				auto lhs = submit( expr->getLHS(), m_context );
-				auto rhs = submit( expr->getRHS(), m_context );
+				auto lhs = submit( m_exprCache, expr->getLHS(), m_context );
+				auto rhs = submit( m_exprCache, expr->getRHS(), m_context );
 
 				switch ( expr->getKind() )
 				{
@@ -123,12 +126,12 @@ namespace spirv
 				auto it = m_context.constExprs.find( expr->getVariable()->getId() );
 				assert( it != m_context.constExprs.end() );
 				assert( it->second->getKind() == ast::expr::Kind::eLiteral );
-				m_result = std::unique_ptr< ast::expr::Literal >( new ast::expr::Literal{ static_cast< ast::expr::Literal const & >( *it->second ) } );
+				m_result = m_exprCache.makeLiteral( static_cast< ast::expr::Literal const & >( *it->second ) );
 			}
 
 			void visitLiteralExpr( ast::expr::Literal * expr )override
 			{
-				m_result = std::unique_ptr< ast::expr::Literal >( new ast::expr::Literal{ *expr } );
+				m_result = m_exprCache.makeLiteral( *expr );
 			}
 
 			void visitPreDecrementExpr( ast::expr::PreDecrement * expr )override
@@ -246,9 +249,9 @@ namespace spirv
 				AST_Failure( "Unexpected FnCall expression" );
 			}
 
-			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
 			{
-				AST_Failure( "Unexpected ImageAccessCall expression" );
+				AST_Failure( "Unexpected StorageImageAccessCall expression" );
 			}
 
 			void visitInitExpr( ast::expr::Init * expr )override
@@ -292,20 +295,23 @@ namespace spirv
 			}
 
 		private:
+			ast::expr::ExprCache & m_exprCache;
 			ast::expr::LiteralPtr & m_result;
 			PreprocContext const & m_context;
 		};
 	}
 
-	bool eval( ast::expr::Expr * expr
+	bool eval( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context )
 	{
-		return getLiteral( expr, context )->getValue< ast::expr::LiteralType::eBool >();
+		return getLiteral( exprCache, expr, context )->getValue< ast::expr::LiteralType::eBool >();
 	}
 
-	ast::expr::LiteralPtr getLiteral( ast::expr::Expr * expr
+	ast::expr::LiteralPtr getLiteral( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context )
 	{
-		return ExprEvaluator::submit( expr, context );
+		return ExprEvaluator::submit( exprCache, expr, context );
 	}
 }

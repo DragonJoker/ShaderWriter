@@ -23,12 +23,14 @@ namespace spirv
 		: public ast::expr::SimpleVisitor
 	{
 	public:
-		static ValueId submit( ast::expr::Expr * expr
+		static ValueId submit( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool isAlias = false );
-		static ValueId submit( ast::expr::Expr * expr
+		static ValueId submit( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
@@ -37,13 +39,15 @@ namespace spirv
 			, bool isAlias = false );
 
 	private:
-		static ValueId submit( ast::expr::Expr * expr
+		static ValueId submit( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool isAlias );
-		static ValueId submit( ast::expr::Expr * expr
+		static ValueId submit( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * expr
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
@@ -53,12 +57,14 @@ namespace spirv
 			, bool isAlias );
 
 		ExprVisitor( ValueId & result
+			, ast::expr::ExprCache & exprCache
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
 			, bool & allLiterals
 			, bool isAlias );
 		ExprVisitor( ValueId & result
+			, ast::expr::ExprCache & exprCache
 			, PreprocContext const & context
 			, Block & currentBlock
 			, Module & module
@@ -86,7 +92,7 @@ namespace spirv
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
-		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+		void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override;
 		void visitInitExpr( ast::expr::Init * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;
@@ -185,7 +191,7 @@ namespace spirv
 			AST_Failure( "Unexpected ast::expr::SwitchTest expression." );
 		}
 
-		void handleTexelPointerImageAccessCall( spv::Op opCode, ast::expr::ImageAccessCall * expr );
+		void handleTexelPointerImageAccessCall( spv::Op opCode, ast::expr::StorageImageAccessCall * expr );
 		void handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
@@ -220,6 +226,7 @@ namespace spirv
 			, bool & allLiterals
 			, bool & hasFuncInit );
 	private:
+		ast::expr::ExprCache & m_exprCache;
 		spirv::PreprocContext const & m_context;
 		ValueId & m_result;
 		Block & m_currentBlock;

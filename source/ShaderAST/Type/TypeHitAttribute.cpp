@@ -6,7 +6,7 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	HitAttribute::HitAttribute( TypePtr dataType )
-		: Type{ dataType->getCache(), Kind::eHitAttribute }
+		: Type{ dataType->getTypesCache(), Kind::eHitAttribute }
 		, m_dataType{ dataType }
 	{
 	}

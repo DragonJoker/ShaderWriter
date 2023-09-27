@@ -31,10 +31,13 @@ namespace ast::expr
 
 	//*************************************************************************
 
-	CompositeConstruct::CompositeConstruct( CompositeType composite
+	CompositeConstruct::CompositeConstruct( ExprCache & exprCache
+		, CompositeType composite
 		, type::Kind component
-		, ExprList && argList )
-		: Expr{ getExprTypesCache( argList )
+		, ExprList argList )
+		: Expr{ exprCache
+			, sizeof( CompositeConstruct )
+			, getExprTypesCache( argList )
 			, getCompositeType( getExprTypesCache( argList ), composite, component )
 			, Kind::eCompositeConstruct
 			, ( isExprConstant( argList )
@@ -58,9 +61,12 @@ namespace ast::expr
 		}
 	}
 
-	CompositeConstruct::CompositeConstruct( ExprPtr image
+	CompositeConstruct::CompositeConstruct( ExprCache & exprCache
+		, ExprPtr image
 		, ExprPtr sampler )
-		: Expr{ getExprTypesCache( image, sampler )
+		: Expr{ exprCache
+			, sizeof( CompositeConstruct )
+			, getExprTypesCache( image, sampler )
 			, getCombinedType( image->getType(), sampler->getType() )
 			, Kind::eCompositeConstruct
 			, ( isExprConstant( image, sampler )
@@ -135,11 +141,11 @@ namespace ast::expr
 		return result;
 	}
 
-	type::TypePtr getCompositeType( type::TypesCache & cache
+	type::TypePtr getCompositeType( type::TypesCache & typesCache
 		, type::ImageConfiguration config
 		, bool isComparison )
 	{
-		return cache.getCombinedImage( config, isComparison );
+		return typesCache.getCombinedImage( config, isComparison );
 	}
 
 	type::TypePtr getCombinedType( type::TypePtr image
@@ -160,12 +166,12 @@ namespace ast::expr
 
 		auto & imgType = static_cast< ast::type::SampledImage const & >( *image );
 		auto & splType = static_cast< ast::type::Sampler const & >( *sampler );
-		return getCompositeType( image->getCache()
+		return getCompositeType( image->getTypesCache()
 			, imgType.getConfig()
 			, splType.isComparison() );
 	}
 
-	type::TypePtr getCompositeType( type::TypesCache & cache
+	type::TypePtr getCompositeType( type::TypesCache & typesCache
 		, CompositeType composite
 		, type::Kind component )
 	{
@@ -179,40 +185,40 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = cache.getBool();
+				result = typesCache.getBool();
 				break;
 			case type::Kind::eInt8:
-				result = cache.getInt8();
+				result = typesCache.getInt8();
 				break;
 			case type::Kind::eInt16:
-				result = cache.getInt16();
+				result = typesCache.getInt16();
 				break;
 			case type::Kind::eInt32:
-				result = cache.getInt32();
+				result = typesCache.getInt32();
 				break;
 			case type::Kind::eInt64:
-				result = cache.getInt64();
+				result = typesCache.getInt64();
 				break;
 			case type::Kind::eUInt8:
-				result = cache.getUInt8();
+				result = typesCache.getUInt8();
 				break;
 			case type::Kind::eUInt16:
-				result = cache.getUInt16();
+				result = typesCache.getUInt16();
 				break;
 			case type::Kind::eUInt32:
-				result = cache.getUInt32();
+				result = typesCache.getUInt32();
 				break;
 			case type::Kind::eUInt64:
-				result = cache.getUInt64();
+				result = typesCache.getUInt64();
 				break;
 			case type::Kind::eHalf:
-				result = cache.getHalf();
+				result = typesCache.getHalf();
 				break;
 			case type::Kind::eFloat:
-				result = cache.getFloat();
+				result = typesCache.getFloat();
 				break;
 			case type::Kind::eDouble:
-				result = cache.getDouble();
+				result = typesCache.getDouble();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -223,40 +229,40 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = cache.getVec2B();
+				result = typesCache.getVec2B();
 				break;
 			case type::Kind::eInt8:
-				result = cache.getVec2I8();
+				result = typesCache.getVec2I8();
 				break;
 			case type::Kind::eInt16:
-				result = cache.getVec2I16();
+				result = typesCache.getVec2I16();
 				break;
 			case type::Kind::eInt32:
-				result = cache.getVec2I32();
+				result = typesCache.getVec2I32();
 				break;
 			case type::Kind::eInt64:
-				result = cache.getVec2I64();
+				result = typesCache.getVec2I64();
 				break;
 			case type::Kind::eUInt8:
-				result = cache.getVec2U8();
+				result = typesCache.getVec2U8();
 				break;
 			case type::Kind::eUInt16:
-				result = cache.getVec2U16();
+				result = typesCache.getVec2U16();
 				break;
 			case type::Kind::eUInt32:
-				result = cache.getVec2U32();
+				result = typesCache.getVec2U32();
 				break;
 			case type::Kind::eUInt64:
-				result = cache.getVec2U64();
+				result = typesCache.getVec2U64();
 				break;
 			case type::Kind::eHalf:
-				result = cache.getVec2H();
+				result = typesCache.getVec2H();
 				break;
 			case type::Kind::eFloat:
-				result = cache.getVec2F();
+				result = typesCache.getVec2F();
 				break;
 			case type::Kind::eDouble:
-				result = cache.getVec2D();
+				result = typesCache.getVec2D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -267,37 +273,37 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = cache.getVec3B();
+				result = typesCache.getVec3B();
 				break;
 			case type::Kind::eInt8:
-				result = cache.getVec3I8();
+				result = typesCache.getVec3I8();
 				break;
 			case type::Kind::eInt16:
-				result = cache.getVec3I16();
+				result = typesCache.getVec3I16();
 				break;
 			case type::Kind::eInt32:
-				result = cache.getVec3I32();
+				result = typesCache.getVec3I32();
 				break;
 			case type::Kind::eInt64:
-				result = cache.getVec3I64();
+				result = typesCache.getVec3I64();
 				break;
 			case type::Kind::eUInt8:
-				result = cache.getVec3U8();
+				result = typesCache.getVec3U8();
 				break;
 			case type::Kind::eUInt16:
-				result = cache.getVec3U16();
+				result = typesCache.getVec3U16();
 				break;
 			case type::Kind::eUInt32:
-				result = cache.getVec3U32();
+				result = typesCache.getVec3U32();
 				break;
 			case type::Kind::eUInt64:
-				result = cache.getVec3U64();
+				result = typesCache.getVec3U64();
 				break;
 			case type::Kind::eFloat:
-				result = cache.getVec3F();
+				result = typesCache.getVec3F();
 				break;
 			case type::Kind::eDouble:
-				result = cache.getVec3D();
+				result = typesCache.getVec3D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -308,40 +314,40 @@ namespace ast::expr
 			switch ( component )
 			{
 			case type::Kind::eBoolean:
-				result = cache.getVec4B();
+				result = typesCache.getVec4B();
 				break;
 			case type::Kind::eInt8:
-				result = cache.getVec4I8();
+				result = typesCache.getVec4I8();
 				break;
 			case type::Kind::eInt16:
-				result = cache.getVec4I16();
+				result = typesCache.getVec4I16();
 				break;
 			case type::Kind::eInt32:
-				result = cache.getVec4I32();
+				result = typesCache.getVec4I32();
 				break;
 			case type::Kind::eInt64:
-				result = cache.getVec4I64();
+				result = typesCache.getVec4I64();
 				break;
 			case type::Kind::eUInt8:
-				result = cache.getVec4U8();
+				result = typesCache.getVec4U8();
 				break;
 			case type::Kind::eUInt16:
-				result = cache.getVec4U16();
+				result = typesCache.getVec4U16();
 				break;
 			case type::Kind::eUInt32:
-				result = cache.getVec4U32();
+				result = typesCache.getVec4U32();
 				break;
 			case type::Kind::eUInt64:
-				result = cache.getVec4U64();
+				result = typesCache.getVec4U64();
 				break;
 			case type::Kind::eHalf:
-				result = cache.getVec4H();
+				result = typesCache.getVec4H();
 				break;
 			case type::Kind::eFloat:
-				result = cache.getVec4F();
+				result = typesCache.getVec4F();
 				break;
 			case type::Kind::eDouble:
-				result = cache.getVec4D();
+				result = typesCache.getVec4D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -355,11 +361,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec2F:
-				result = cache.getMat2x2F();
+				result = typesCache.getMat2x2F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec2D:
-				result = cache.getMat2x2D();
+				result = typesCache.getMat2x2D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -373,11 +379,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec3F:
-				result = cache.getMat2x3F();
+				result = typesCache.getMat2x3F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec3D:
-				result = cache.getMat2x3D();
+				result = typesCache.getMat2x3D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -391,11 +397,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec4F:
-				result = cache.getMat2x4F();
+				result = typesCache.getMat2x4F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec4D:
-				result = cache.getMat2x4D();
+				result = typesCache.getMat2x4D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -409,11 +415,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec2F:
-				result = cache.getMat3x2F();
+				result = typesCache.getMat3x2F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec2D:
-				result = cache.getMat3x2D();
+				result = typesCache.getMat3x2D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -427,11 +433,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec3F:
-				result = cache.getMat3x3F();
+				result = typesCache.getMat3x3F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec3D:
-				result = cache.getMat3x3D();
+				result = typesCache.getMat3x3D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -445,11 +451,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec4F:
-				result = cache.getMat3x4F();
+				result = typesCache.getMat3x4F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec4D:
-				result = cache.getMat3x4D();
+				result = typesCache.getMat3x4D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -463,11 +469,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec2F:
-				result = cache.getMat4x2F();
+				result = typesCache.getMat4x2F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec2D:
-				result = cache.getMat4x2D();
+				result = typesCache.getMat4x2D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -481,11 +487,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec3F:
-				result = cache.getMat4x3F();
+				result = typesCache.getMat4x3F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec3D:
-				result = cache.getMat4x3D();
+				result = typesCache.getMat4x3D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
@@ -499,11 +505,11 @@ namespace ast::expr
 			{
 			case type::Kind::eFloat:
 			case type::Kind::eVec4F:
-				result = cache.getMat4x4F();
+				result = typesCache.getMat4x4F();
 				break;
 			case type::Kind::eDouble:
 			case type::Kind::eVec4D:
-				result = cache.getMat4x4D();
+				result = typesCache.getMat4x4D();
 				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );

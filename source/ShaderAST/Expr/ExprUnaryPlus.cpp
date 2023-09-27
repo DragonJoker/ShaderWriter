@@ -7,9 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	UnaryPlus::UnaryPlus( type::TypePtr type
+	UnaryPlus::UnaryPlus( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr operand )
-		: Unary{ std::move( type )
+		: Unary{ exprCache
+			, std::move( type )
 			, std::move( operand )
 			, Kind::eUnaryPlus }
 	{

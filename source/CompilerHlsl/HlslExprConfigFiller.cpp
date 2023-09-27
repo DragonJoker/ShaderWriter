@@ -70,15 +70,6 @@ namespace hlsl
 		expr->accept( &vis );
 	}
 
-	void ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
-		, AdaptationData & adaptationData
-		, IntrinsicsConfig & config )
-	{
-		submit( expr.get()
-			, adaptationData
-			, config );
-	}
-
 	ExprConfigFiller::ExprConfigFiller( AdaptationData & adaptationData
 		, IntrinsicsConfig & config )
 		: ast::expr::SimpleVisitor{}
@@ -187,7 +178,7 @@ namespace hlsl
 		}
 	}
 
-	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
 		checkType( expr->getType(), m_config );
 		getHlslConfig( expr->getImageAccess(), m_config );

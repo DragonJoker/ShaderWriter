@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		SDAST_API AndAssign( type::TypePtr type
+		SDAST_API AndAssign( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using AndAssignPtr = std::unique_ptr< AndAssign >;
-
-	inline AndAssignPtr makeAndAssign( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< AndAssign >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

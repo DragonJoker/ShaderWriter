@@ -15,7 +15,7 @@ namespace ast::type
 
 	Function::Function( TypePtr returnType
 		, var::VariableList parameters )
-		: Type{ returnType->getCache(), Kind::eFunction }
+		: Type{ returnType->getTypesCache(), Kind::eFunction }
 		, m_returnType{ std::move( returnType ) }
 		, m_parameters{ std::move( parameters ) }
 	{

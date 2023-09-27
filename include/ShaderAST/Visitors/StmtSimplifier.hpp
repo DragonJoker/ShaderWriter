@@ -9,7 +9,8 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	SDAST_API stmt::ContainerPtr simplify( type::TypesCache & cache
+	SDAST_API stmt::ContainerPtr simplify( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
 		, stmt::Container * stmt );
 }
 

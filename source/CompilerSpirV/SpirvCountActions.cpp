@@ -132,7 +132,7 @@ namespace spirv
 				}
 			}
 
-			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
 			{
 				for ( auto & init : expr->getArgList() )
 				{

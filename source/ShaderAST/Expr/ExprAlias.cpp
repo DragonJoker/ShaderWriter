@@ -6,10 +6,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Alias::Alias( type::TypePtr type
+	Alias::Alias( ExprCache & exprCache
+		, type::TypePtr type
 		, IdentifierPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type )
+		: Binary{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eAlias }

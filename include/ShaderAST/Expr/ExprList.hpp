@@ -11,41 +11,89 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	using ExprList = std::vector< ExprPtr >;
-	class Identifier;
-	using IdentifierPtr = std::unique_ptr< Identifier >;
-
 	namespace details
 	{
-		SDAST_API void getCache( type::TypesCache *& result
+		SDAST_API void getExprCache( ExprCache *& result
 			, Expr const & expr );
-		SDAST_API void getCache( type::TypesCache *& result
-			, ExprPtr const & expr );
-		SDAST_API void getCache( type::TypesCache *& result
+		SDAST_API void getExprCache( ExprCache *& result
 			, ExprList const & list );
+
+		template< typename ExprT >
+		void getExprCache( ExprCache *& result
+			, ExprPtrT< ExprT > const & expr )
+		{
+			if ( expr )
+			{
+				getExprCache( result, *expr );
+			}
+		}
+
+		SDAST_API void getTypesCache( type::TypesCache *& result
+			, Expr const & expr );
+		SDAST_API void getTypesCache( type::TypesCache *& result
+			, ExprList const & list );
+
+		template< typename ExprT >
+		void getTypesCache( type::TypesCache *& result
+			, ExprPtrT< ExprT > const & expr )
+		{
+			if ( expr )
+			{
+				getTypesCache( result, *expr );
+			}
+		}
+
 		SDAST_API bool isConstant( Expr const & expr );
-		SDAST_API bool isConstant( ExprPtr const & expr );
-		SDAST_API bool isConstant( Identifier const & expr );
-		SDAST_API bool isConstant( IdentifierPtr const & expr );
 		SDAST_API bool isConstant( ExprList const & list );
 
+		template< typename ExprT >
+		bool isConstant( ExprPtrT< ExprT > const & expr )
+		{
+			if ( !expr )
+			{
+				return true;
+			}
+
+			return isConstant( *expr );
+		}
+
 		template< typename ParamT >
-		inline void getExprCacheRec( type::TypesCache *& result
+		inline void getExprExprCacheRec( ExprCache *& result
 			, ParamT const & last )
 		{
-			getCache( result, last );
+			getExprCache( result, last );
 		}
 
 		template< typename ParamT, typename ... ParamsT >
-		inline void getExprCacheRec( type::TypesCache *& result
+		inline void getExprExprCacheRec( ExprCache *& result
 			, ParamT const & current
 			, ParamsT const & ... params )
 		{
-			getCache( result, current );
+			getExprCache( result, current );
 
 			if ( !result )
 			{
-				getExprCacheRec( result, params... );
+				getExprExprCacheRec( result, params... );
+			}
+		}
+
+		template< typename ParamT >
+		inline void getExprTypesCacheRec( type::TypesCache *& result
+			, ParamT const & last )
+		{
+			getTypesCache( result, last );
+		}
+
+		template< typename ParamT, typename ... ParamsT >
+		inline void getExprTypesCacheRec( type::TypesCache *& result
+			, ParamT const & current
+			, ParamsT const & ... params )
+		{
+			getTypesCache( result, current );
+
+			if ( !result )
+			{
+				getExprTypesCacheRec( result, params... );
 			}
 		}
 
@@ -71,10 +119,18 @@ namespace ast::expr
 	}
 
 	template< typename ... ParamsT >
+	inline ExprCache & getExprExprCache( ParamsT const & ... params )
+	{
+		ExprCache * result{ nullptr };
+		details::getExprExprCacheRec( result, params... );
+		return *result;
+	}
+
+	template< typename ... ParamsT >
 	inline type::TypesCache & getExprTypesCache( ParamsT const & ... params )
 	{
 		type::TypesCache * result{ nullptr };
-		details::getExprCacheRec( result, params... );
+		details::getExprTypesCacheRec( result, params... );
 		return *result;
 	}
 

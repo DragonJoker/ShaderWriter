@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API LessEqual( type::TypePtr type
+		SDAST_API LessEqual( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using LessEqualPtr = std::unique_ptr< LessEqual >;
-
-	inline LessEqualPtr makeLessEqual( type::TypesCache & cache
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< LessEqual >( cache.getBool()
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

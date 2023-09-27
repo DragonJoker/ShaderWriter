@@ -41,10 +41,10 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_numGroupsX;
-		expr::ExprPtr m_numGroupsY;
-		expr::ExprPtr m_numGroupsZ;
-		expr::ExprPtr m_payload;
+		expr::ExprPtr m_numGroupsX{};
+		expr::ExprPtr m_numGroupsY{};
+		expr::ExprPtr m_numGroupsZ{};
+		expr::ExprPtr m_payload{};
 	};
 	using DispatchMeshPtr = std::unique_ptr< DispatchMesh >;
 

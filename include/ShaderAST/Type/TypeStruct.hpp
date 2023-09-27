@@ -84,19 +84,19 @@ namespace ast::type
 		};
 
 	private:
-		SDAST_API Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & typesCache
 			, Struct const & rhs );
-		SDAST_API Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & typesCache
 			, Struct * parent
 			, uint32_t index
 			, Struct const & copy );
-		SDAST_API Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & typesCache
 			, Struct & parent
 			, uint32_t index
 			, Struct const & copy );
 
 	protected:
-		SDAST_API Struct( TypesCache & cache
+		SDAST_API Struct( TypesCache & typesCache
 			, MemoryLayout layout
 			, std::string name
 			, var::Flag flag
@@ -218,13 +218,13 @@ namespace ast::type
 		: public Struct
 	{
 	protected:
-		SDAST_API BaseStruct( TypesCache & cache
+		SDAST_API BaseStruct( TypesCache & typesCache
 			, MemoryLayout layout
 			, std::string name
 			, Kind kind );
 
 	public:
-		SDAST_API BaseStruct( TypesCache & cache
+		SDAST_API BaseStruct( TypesCache & typesCache
 			, MemoryLayout layout
 			, std::string name );
 
@@ -275,7 +275,7 @@ namespace ast::type
 		: public Struct
 	{
 	public:
-		SDAST_API IOStruct( TypesCache & cache
+		SDAST_API IOStruct( TypesCache & typesCache
 			, MemoryLayout layout
 			, std::string name
 			, var::Flag flag );
@@ -331,7 +331,7 @@ namespace ast::type
 	struct RayDesc
 		: public BaseStruct
 	{
-		SDAST_API explicit RayDesc( TypesCache & cache );
+		SDAST_API explicit RayDesc( TypesCache & typesCache );
 	};
 
 	using RayDescPtr = std::shared_ptr< RayDesc >;

@@ -97,12 +97,12 @@ namespace hlsl
 			, Semantic & intSem
 			, Semantic & fltSem )
 		{
-			auto & cache = type->getCache();
+			auto & typesCache = type->getTypesCache();
 			std::string semantic;
 
 			if ( builtin == ast::Builtin::eClipDistance )
 			{
-				type = cache.getVec4F();
+				type = typesCache.getVec4F();
 				semantic = ": SV_ClipDistance" + std::to_string( builtinIndex );
 			}
 			else if ( builtin == ast::Builtin::eCullDistance )

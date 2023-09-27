@@ -13,15 +13,14 @@ namespace hlsl
 		: public ast::ExprCloner
 	{
 	public:
-		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
-			, ast::var::VariablePtr origin
-			, ast::var::VariablePtr replacement );
-		static ast::expr::ExprPtr submit( ast::expr::ExprPtr const & expr
+		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
+			, ast::expr::Expr * expr
 			, ast::var::VariablePtr origin
 			, ast::var::VariablePtr replacement );                       
 
 	private:
-		VariableReplacer( ast::expr::ExprPtr & result
+		VariableReplacer( ast::expr::ExprCache & exprCache
+			, ast::expr::ExprPtr & result
 			, ast::var::VariablePtr origin
 			, ast::var::VariablePtr replacement );
 

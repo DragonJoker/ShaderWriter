@@ -9,7 +9,7 @@ namespace ast::type
 
 	TessellationOutputPatch::TessellationOutputPatch( TypePtr type
 		, uint32_t location )
-		: Type{ type->getCache(), Kind::eTessellationOutputPatch }
+		: Type{ type->getTypesCache(), Kind::eTessellationOutputPatch }
 		, m_type{ type }
 		, m_location{ location }
 	{
@@ -19,7 +19,7 @@ namespace ast::type
 
 	TessellationControlInput::TessellationControlInput( TypePtr type
 		, uint32_t inputVertices )
-		: Type{ type->getCache(), Kind::eTessellationControlInput }
+		: Type{ type->getTypesCache(), Kind::eTessellationControlInput }
 		, m_type{ std::move( type ) }
 		, m_inputVertices{ inputVertices }
 	{
@@ -33,7 +33,7 @@ namespace ast::type
 		, OutputTopology topology
 		, PrimitiveOrdering order
 		, uint32_t outputVertices )
-		: Type{ type->getCache(), Kind::eTessellationControlOutput }
+		: Type{ type->getTypesCache(), Kind::eTessellationControlOutput }
 		, m_type{ type }
 		, m_domain{ domain }
 		, m_partitioning{ partitioning }
