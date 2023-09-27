@@ -13,19 +13,12 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API UnaryMinus( type::TypePtr type
+		SDAST_API UnaryMinus( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr operand );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using UnaryMinusPtr = std::unique_ptr< UnaryMinus >;
-
-	inline UnaryMinusPtr makeUnaryMinus( ExprPtr operand )
-	{
-		auto type = operand->getType();
-		return std::make_unique< UnaryMinus >( std::move( type )
-			, std::move( operand ) );
-	}
 }
 
 #endif

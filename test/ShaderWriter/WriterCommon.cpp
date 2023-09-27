@@ -1074,6 +1074,82 @@ namespace test
 #endif
 		}
 
+		void validateShadersOnIndex( ast::ShaderPtrArray const & shaders
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex
+			, Compilers const & compilers )
+		{
+#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
+			if ( compilers.spirV
+				&& testCounts.isSpirVInitialised( infoIndex ) )
+			{
+				testCounts.incIndent();
+				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
+					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
+
+				try
+				{
+					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
+						, testCounts.getSpirVVersion( infoIndex )
+						, shaders };
+					std::string errors;
+					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+					check( isValidated );
+					check( errors.empty() );
+
+					if ( !isValidated
+						|| !errors.empty() )
+					{
+						if ( !errors.empty() )
+						{
+							testCounts << errors << endl;
+						}
+
+#if SDW_Test_HasSpirVCross
+						auto validate = [&]( ast::Shader const & shader )
+						{
+							spirv::SpirVConfig config{};
+							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+								, shader.getType()
+								, testCounts
+								, true );
+							auto textSpirv = spirv::writeSpirv( shader, config );
+							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
+							displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
+							auto cfg = getGlslConfig( glsl::v4_6 );
+							auto glslangSpirv = compileGlslToSpv( shader.getType()
+								, glsl::compileGlsl( shader
+									, ast::SpecialisationInfo{}
+									, cfg ) );
+							displayShader( "glslang SPIR-V"
+								, spirv::displaySpirv( glslangSpirv )
+								, testCounts
+								, true
+								, true );
+						};
+
+						for ( auto & shader : shaders )
+						{
+							checkNoThrow( validate( shader ) );
+						}
+#endif
+					}
+				}
+				catch ( std::exception & exc )
+				{
+					if ( exc.what() != std::string{ "Shader serialization failed." } )
+					{
+						failure( "Shader validation" );
+					}
+				}
+
+				testCounts.decIndent();
+			}
+#endif
+		}
+
 		void validateShaderOnIndex( ::ast::Shader const & shader
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
@@ -1299,6 +1375,24 @@ namespace test
 	}
 
 	void validateShaders( ast::ShaderArray const & shaders
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		testCounts.incIndent();
+		testCounts << "Validate shaders" << endl;
+
+		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+		{
+			validateShadersOnIndex( shaders
+				, testCounts
+				, infoIndex
+				, compilers );
+		}
+
+		testCounts.decIndent();
+	}
+
+	void validateShaders( ast::ShaderPtrArray const & shaders
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{

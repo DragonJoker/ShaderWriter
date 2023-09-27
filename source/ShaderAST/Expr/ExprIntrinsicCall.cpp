@@ -7,10 +7,15 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	IntrinsicCall::IntrinsicCall( type::TypePtr type
+	IntrinsicCall::IntrinsicCall( ExprCache & exprCache
+		, type::TypePtr type
 		, Intrinsic intrinsic
-		, ExprList && argList )
-		: Expr{ type->getCache(), type, Kind::eIntrinsicCall, Flag::eNone }
+		, ExprList argList )
+		: Expr{ exprCache
+			, sizeof( IntrinsicCall )
+			, type->getTypesCache()
+			, type
+			, Kind::eIntrinsicCall, Flag::eNone }
 		, m_intrinsic{ intrinsic }
 		, m_argList{ std::move( argList ) }
 	{
@@ -19,5 +24,29 @@ namespace ast::expr
 	void IntrinsicCall::accept( VisitorPtr vis )
 	{
 		vis->visitIntrinsicCallExpr( this );
+	}
+
+	IntrinsicCallPtr makeControlBarrier( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, type::Scope executionScope
+		, type::Scope memoryScope
+		, type::MemorySemantics semantics )
+	{
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eControlBarrier
+			, exprCache.makeLiteral( typesCache, uint32_t( executionScope ) )
+			, exprCache.makeLiteral( typesCache, uint32_t( memoryScope ) )
+			, exprCache.makeLiteral( typesCache, uint32_t( semantics ) ) );
+	}
+
+	IntrinsicCallPtr makeMemoryBarrier( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, type::Scope memoryScope
+		, type::MemorySemantics semantics )
+	{
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eMemoryBarrier
+			, exprCache.makeLiteral( typesCache, uint32_t( memoryScope ) )
+			, exprCache.makeLiteral( typesCache, uint32_t( semantics ) ) );
 	}
 }

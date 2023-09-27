@@ -507,7 +507,7 @@
 			<Item Name="var">m_var</Item>
 		</Expand>
 	</Type>
-	<Type Name="ast::expr::ImageAccessCall">
+	<Type Name="ast::expr::StorageImageAccessCall">
 		<DisplayString>{*m_type} {m_imageAccess}( {m_argList} )</DisplayString>
 		<Expand>
 			<Item Name="kind">m_kind</Item>

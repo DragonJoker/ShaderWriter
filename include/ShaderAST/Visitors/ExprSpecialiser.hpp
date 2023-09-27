@@ -15,15 +15,18 @@ namespace ast
 		: public ExprCloner
 	{
 	public:
-		SDAST_API static expr::ExprPtr submit( type::TypesCache & cache
+		SDAST_API static expr::ExprPtr submit( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, expr::Expr * expr
 			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations );
-		SDAST_API static expr::ExprPtr submit( type::TypesCache & cache
+		SDAST_API static expr::ExprPtr submit( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, expr::ExprPtr const & expr
 			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations );
 
 	private:
-		SDAST_API ExprSpecialiser( type::TypesCache & cache
+		SDAST_API ExprSpecialiser( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations
 			, expr::ExprPtr & result );
 
@@ -32,7 +35,7 @@ namespace ast
 		SDAST_API void visitIdentifierExpr( expr::Identifier * expr )override;
 
 	private:
-		type::TypesCache & m_cache;
+		type::TypesCache & m_typesCache;
 		std::map< var::VariablePtr, expr::LiteralPtr > const & m_specialisations;
 	};
 }

@@ -116,13 +116,6 @@ namespace glsl
 		ExprConfigFiller vis{ config };
 		expr->accept( &vis );
 	}
-			
-	void ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
-		, IntrinsicsConfig & config )
-	{
-		return submit( expr.get()
-			, config );
-	}
 
 	ExprConfigFiller::ExprConfigFiller( IntrinsicsConfig & config )
 		: ast::expr::SimpleVisitor{}
@@ -138,6 +131,11 @@ namespace glsl
 		{
 			m_config.requiredExtensions.insert( EXT_nonuniform_qualifier );
 		}
+	}
+
+	void ExprConfigFiller::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		doSubmit( expr.get() );
 	}
 
 	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
@@ -164,7 +162,7 @@ namespace glsl
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			doSubmit( init.get() );
+			doSubmit( init );
 		}
 	}
 
@@ -174,7 +172,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 
@@ -192,7 +190,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 
@@ -496,7 +494,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 
@@ -507,11 +505,11 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 
-	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
 		checkType( expr->getType(), m_config );
 
@@ -538,7 +536,7 @@ namespace glsl
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 

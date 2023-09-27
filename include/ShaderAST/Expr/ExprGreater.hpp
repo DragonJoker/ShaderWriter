@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API Greater( type::TypePtr type
+		SDAST_API Greater( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using GreaterPtr = std::unique_ptr< Greater >;
-
-	inline GreaterPtr makeGreater( type::TypesCache & cache
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< Greater >( cache.getBool()
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

@@ -384,6 +384,10 @@ add_library( sdw::${_FOLDER_NAME}
 	ALIAS
 	${PROJECT_NAME}
 )
+target_sources( ${PROJECT_NAME} 
+	PRIVATE
+		${SDW_EDITORCONFIG_FILE}
+)
 target_add_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}/ShaderWriterPch.hpp
 	${SDW_SOURCE_DIR}/source/${_FOLDER_NAME}/ShaderWriterPch.cpp

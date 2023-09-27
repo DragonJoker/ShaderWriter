@@ -9,9 +9,11 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	bool eval( ast::expr::Expr * expr
+	bool eval( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context );
-	ast::expr::LiteralPtr getLiteral( ast::expr::Expr * expr
+	ast::expr::LiteralPtr getLiteral( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context );
 }
 

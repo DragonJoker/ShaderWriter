@@ -45,7 +45,7 @@ namespace spirv
 		struct AccessChainExpr
 		{
 			ast::expr::Kind kind;
-			ast::expr::Expr * expr;
+			ast::expr::Expr * expr{};
 		};
 		using AccessChainExprArray = std::vector< AccessChainExpr >;
 
@@ -53,11 +53,13 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static AccessChainExprArray submit( ast::type::TypesCache & cache
+			static AccessChainExprArray submit( ast::expr::ExprCache & exprCache
+				, ast::type::TypesCache & typesCache
 				, ast::expr::Expr * expr
 				, ast::expr::ExprList & idents )
 			{
-				return submit( cache
+				return submit( exprCache
+					, typesCache
 					, ast::expr::Kind::eIdentifier
 					, expr
 					, idents
@@ -65,12 +67,14 @@ namespace spirv
 			}
 
 		private:
-			AccessChainLineariser( ast::type::TypesCache & cache
+			AccessChainLineariser( ast::expr::ExprCache & exprCache
+				, ast::type::TypesCache & typesCache
 				, ast::expr::Kind kind
 				, AccessChainExprArray & result
 				, ast::expr::ExprList & idents
 				, bool parsingMbrSelect )
-				: m_cache{ cache }
+				: m_exprCache{ exprCache }
+				, m_typesCache{ typesCache }
 				, m_result{ result }
 				, m_idents{ idents }
 				, m_kind{ kind }
@@ -78,21 +82,20 @@ namespace spirv
 			{
 			}
 
-			static AccessChainExprArray submit( ast::type::TypesCache & cache
+			static AccessChainExprArray submit( ast::expr::ExprCache & exprCache
+				, ast::type::TypesCache & typesCache
 				, ast::expr::Kind kind
 				, ast::expr::Expr * expr
 				, ast::expr::ExprList & idents
 				, bool parsingMbrSelect )
 			{
 				AccessChainExprArray result;
-				AccessChainLineariser vis
-				{
-					cache,
-					kind,
-					result,
-					idents,
-					parsingMbrSelect,
-				};
+				AccessChainLineariser vis{ exprCache
+					, typesCache
+					, kind
+					, result
+					, idents
+					, parsingMbrSelect };
 				expr->accept( &vis );
 				return result;
 			}
@@ -117,7 +120,7 @@ namespace spirv
 			AccessChainExprArray doSubmit( ast::expr::Kind kind
 				, ast::expr::Expr * expr )
 			{
-				return submit( m_cache, kind, expr, m_idents, m_parsingMbrSelect );
+				return submit( m_exprCache, m_typesCache, kind, expr, m_idents, m_parsingMbrSelect );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -147,7 +150,7 @@ namespace spirv
 					&& expr->getType()->isMember()
 					&& !m_parsingMbrSelect )
 				{
-					m_idents.emplace_back( ast::expr::makeIdentifier( m_cache, expr->getVariable()->getOuter() ) );
+					m_idents.emplace_back( m_exprCache.makeIdentifier( m_typesCache, expr->getVariable()->getOuter() ) );
 					auto ident = m_idents.back().get();
 					m_result = doSubmit( m_kind, ident );
 				}
@@ -185,9 +188,9 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::FnCall ?" );
 			}
 
-			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * )override
 			{
-				AST_Failure( "Unexpected ast::expr::ImageAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::StorageImageAccessCall ?" );
 			}
 
 			void visitInitExpr( ast::expr::Init * )override
@@ -226,7 +229,8 @@ namespace spirv
 			}
 
 		private:
-			ast::type::TypesCache & m_cache;
+			ast::expr::ExprCache & m_exprCache;
+			ast::type::TypesCache & m_typesCache;
 			AccessChainExprArray & m_result;
 			ast::expr::ExprList & m_idents;
 			ast::expr::Kind m_kind{ ast::expr::Kind::eIdentifier };
@@ -237,7 +241,8 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static ValueIdList submit( AccessChainExprArray const & exprs
+			static ValueIdList submit( ast::expr::ExprCache & exprCache
+				, AccessChainExprArray const & exprs
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock )
@@ -245,14 +250,16 @@ namespace spirv
 				ValueIdList result;
 				assert( exprs.size() >= 2u );
 				auto it = exprs.begin();
-				result.push_back( submit( it->expr
+				result.push_back( submit( exprCache
+					, it->expr
 					, context
 					, module
 					, currentBlock ) );
 
 				while ( ++it != exprs.end())
 				{
-					result.push_back( module.loadVariable( submit( result.back()
+					result.push_back( module.loadVariable( submit( exprCache
+							, result.back()
 							, *it
 							, context
 							, module
@@ -265,12 +272,14 @@ namespace spirv
 
 		private:
 			AccessChainCreator( ValueId & result
+				, ast::expr::ExprCache & exprCache
 				, ast::expr::Kind parentKind
 				, ValueId parentId
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock )
-				: m_result{ result }
+				: m_exprCache{ exprCache }
+				, m_result{ result }
 				, m_context{ context }
 				, m_module{ module }
 				, m_currentBlock{ currentBlock }
@@ -279,13 +288,15 @@ namespace spirv
 			{
 			}
 
-			static ValueId submit( ast::expr::Expr * expr
+			static ValueId submit( ast::expr::ExprCache & exprCache
+				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
 				, Block & currentBlock )
 			{
 				ValueId result{ 0u, expr->getType() };
 				AccessChainCreator vis{ result
+					, exprCache
 					, expr->getKind()
 					, {}
 					, context
@@ -295,7 +306,8 @@ namespace spirv
 				return result;
 			}
 
-			static ValueId submit( ValueId parentId
+			static ValueId submit( ast::expr::ExprCache & exprCache
+				, ValueId parentId
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
@@ -303,6 +315,7 @@ namespace spirv
 			{
 				ValueId result{ 0u, expr->getType() };
 				AccessChainCreator vis{ result
+					, exprCache
 					, expr->getKind()
 					, parentId
 					, context
@@ -312,7 +325,8 @@ namespace spirv
 				return result;
 			}
 
-			static ValueId submit( ValueId parentId
+			static ValueId submit( ast::expr::ExprCache & exprCache
+				, ValueId parentId
 				, AccessChainExpr expr
 				, PreprocContext const & context
 				, Module & module
@@ -320,6 +334,7 @@ namespace spirv
 			{
 				ValueId result{ 0u, parentId.type };
 				AccessChainCreator vis{ result
+					, exprCache
 					, expr.kind
 					, parentId
 					, context
@@ -331,12 +346,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module );
+				m_result = ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_module );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				m_result = ExprVisitor::submit( expr, m_context, m_currentBlock, m_module );
+				m_result = ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_module );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -351,14 +366,16 @@ namespace spirv
 
 				if ( isAccessChain( expr->getRHS(), true ) )
 				{
-					m_result = makeAccessChain( expr->getRHS()
+					m_result = makeAccessChain( m_exprCache
+						, expr->getRHS()
 						, m_context
 						, m_module
 						, m_currentBlock );
 				}
 				else
 				{
-					m_result = submit( m_parentId
+					m_result = submit( m_exprCache
+						, m_parentId
 						, expr->getRHS()
 						, m_context
 						, m_module
@@ -394,7 +411,7 @@ namespace spirv
 					if ( it != m_context.constAggrExprs.end() )
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
-						m_result = m_module.loadVariable( ExprVisitor::submit( expr, m_context, m_currentBlock, m_module ), m_currentBlock );
+						m_result = m_module.loadVariable( ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_module ), m_currentBlock );
 						m_result = m_module.registerVariable( var->getName()
 							, var->getBuiltin()
 							, getStorageClass( m_module.getVersion(), var )
@@ -500,7 +517,8 @@ namespace spirv
 				}
 				else
 				{
-					m_result = makeVectorShuffle( expr
+					m_result = makeVectorShuffle( m_exprCache
+						, expr
 						, m_context
 						, m_module
 						, m_currentBlock );
@@ -522,9 +540,9 @@ namespace spirv
 				AST_Failure( "Unexpected ast::expr::FnCall ?" );
 			}
 
-			void visitImageAccessCallExpr( ast::expr::ImageAccessCall * )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * )override
 			{
-				AST_Failure( "Unexpected ast::expr::ImageAccessCall ?" );
+				AST_Failure( "Unexpected ast::expr::StorageImageAccessCall ?" );
 			}
 
 			void visitInitExpr( ast::expr::Init * )override
@@ -563,6 +581,7 @@ namespace spirv
 			}
 
 		private:
+			ast::expr::ExprCache & m_exprCache;
 			ValueId & m_result;
 			PreprocContext const & m_context;
 			Module & m_module;
@@ -636,15 +655,17 @@ namespace spirv
 		return isAccessChain( expr, false );
 	}
 
-	ValueId makeAccessChain( ast::expr::Expr * expr
+	ValueId makeAccessChain( ast::expr::ExprCache & exprCache
+		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Module & module
 		, Block & currentBlock )
 	{
 		// Create Access Chain.
 		ast::expr::ExprList idents;
-		auto accessChainExprs = AccessChainLineariser::submit( expr->getCache(), expr, idents );
-		auto accessChain = AccessChainCreator::submit( accessChainExprs
+		auto accessChainExprs = AccessChainLineariser::submit( exprCache, expr->getTypesCache(), expr, idents );
+		auto accessChain = AccessChainCreator::submit( exprCache
+			, accessChainExprs
 			, context
 			, module
 			, currentBlock );
@@ -654,13 +675,14 @@ namespace spirv
 			, module );
 	}
 
-	ValueId makeVectorShuffle( ast::expr::Swizzle * expr
+	ValueId makeVectorShuffle( ast::expr::ExprCache & exprCache
+		, ast::expr::Swizzle * expr
 		, PreprocContext const & context
 		, Module & module
 		, Block & currentBlock )
 	{
 		auto typeId = module.registerType( expr->getType() );
-		auto outerId = module.loadVariable( ExprVisitor::submit( expr->getOuterExpr()
+		auto outerId = module.loadVariable( ExprVisitor::submit( exprCache, expr->getOuterExpr()
 				, context
 				, currentBlock
 				, module )

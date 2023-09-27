@@ -105,6 +105,21 @@ namespace sdw
 		return ++shader.getData().nextVarId;
 	}
 
+	expr::ExprCache & getExprCache( ShaderWriter & writer )
+	{
+		return writer.getExprCache();
+	}
+
+	expr::ExprCache & getExprCache( ShaderWriter const & writer )
+	{
+		return writer.getExprCache();
+	}
+
+	expr::ExprCache & getExprCache( Shader const & shader )
+	{
+		return shader.getExprCache();
+	}
+
 	type::TypesCache & getTypesCache( ShaderWriter & writer )
 	{
 		return writer.getTypesCache();
@@ -133,56 +148,56 @@ namespace sdw
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, bool value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), value );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int32_t value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), value );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int64_t value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), int32_t( value ) );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), int32_t( value ) );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint32_t value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), value );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint64_t value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), uint32_t( value ) );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), uint32_t( value ) );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, float value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), value );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, double value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), value );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, long double value )
 	{
-		return expr::makeLiteral( writer.getTypesCache(), double( value ) );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), double( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, var::VariablePtr const & var
 		, bool force )
 	{
-		return expr::makeIdentifier( writer.getTypesCache(), var );
+		return writer.getExprCache().makeIdentifier( writer.getTypesCache(), var );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
@@ -259,14 +274,14 @@ namespace sdw
 		, expr::ExprPtr const & expr
 		, bool force )
 	{
-		return ExprCloner::submit( expr );
+		return ExprCloner::submit( writer.getExprCache(), expr );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, expr::Expr * expr
 		, bool force )
 	{
-		return ExprCloner::submit( expr );
+		return ExprCloner::submit( writer.getExprCache(), expr );
 	}
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer
@@ -352,23 +367,26 @@ namespace sdw
 	expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init )
 	{
-		auto & cache = getExprTypesCache( init );
-		return expr::makeInit( makeIdent( cache, std::move( var ) )
+		auto & exprCache = getExprExprCache( init );
+		auto & typesCache = getExprTypesCache( init );
+		return exprCache.makeInit( makeIdent( exprCache, typesCache, std::move( var ) )
 			, std::move( init ) );
 	}
 
 	expr::ExprPtr makeAggrInit( var::VariablePtr var
 		, expr::ExprList && init )
 	{
-		auto & cache = getExprTypesCache( init );
-		return expr::makeAggrInit( makeIdent( cache, std::move( var ) )
+		auto & exprCache = getExprExprCache( init );
+		auto & typesCache = getExprTypesCache( init );
+		return exprCache.makeAggrInit( makeIdent( exprCache, typesCache, std::move( var ) )
 			, std::move( init ) );
 	}
 
 	expr::ExprPtr makeAggrInit( type::TypePtr type
 		, expr::ExprList && init )
 	{
-		return expr::makeAggrInit( std::move( type )
+		auto & exprCache = getExprExprCache( init );
+		return exprCache.makeAggrInit( std::move( type )
 			, std::move( init ) );
 	}
 
@@ -376,7 +394,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeAdd( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeAdd( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -385,7 +404,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeMinus( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeMinus( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -394,7 +414,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeTimes( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeTimes( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -403,7 +424,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeDivide( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeDivide( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -412,7 +434,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeModulo( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeModulo( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -421,7 +444,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeLShift( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeLShift( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -430,7 +454,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeRShift( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeRShift( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -439,7 +464,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeBitAnd( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeBitAnd( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -448,7 +474,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeBitOr( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeBitOr( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -457,26 +484,30 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeBitXor( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeBitXor( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeBitNot( expr::ExprPtr operand )
 	{
-		return expr::makeBitNot( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makeBitNot( std::move( operand ) );
 	}
 
 	expr::ExprPtr makeCopy( expr::ExprPtr operand )
 	{
-		return expr::makeCopy( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makeCopy( std::move( operand ) );
 	}
 
 	expr::ExprPtr makeLogAnd( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeLogAnd( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeLogAnd( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -484,16 +515,18 @@ namespace sdw
 	expr::ExprPtr makeLogOr( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeLogOr( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeLogOr( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
 
 	expr::ExprPtr makeLogNot( expr::ExprPtr operand )
 	{
-		auto & cache = getExprTypesCache( operand );
-		return expr::makeLogNot( cache
+		auto & exprCache = getExprExprCache( operand );
+		auto & typesCache = getExprTypesCache( operand );
+		return exprCache.makeLogNot( typesCache
 			, std::move( operand ) );
 	}
 
@@ -501,7 +534,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -510,7 +544,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeAddAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeAddAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -519,7 +554,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeMinusAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeMinusAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -528,7 +564,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeTimesAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeTimesAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -537,7 +574,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeDivideAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeDivideAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -546,7 +584,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeModuloAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeModuloAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -555,7 +594,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeLShiftAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeLShiftAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -564,7 +604,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeRShiftAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeRShiftAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -573,7 +614,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeAndAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeAndAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -582,7 +624,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeOrAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeOrAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -591,7 +634,8 @@ namespace sdw
 		, expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		return expr::makeXorAssign( std::move( type )
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		return exprCache.makeXorAssign( std::move( type )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -600,46 +644,54 @@ namespace sdw
 		, expr::ExprPtr array
 		, expr::ExprPtr index )
 	{
-		return expr::makeArrayAccess( std::move( type )
+		auto & exprCache = getExprExprCache( array, index );
+		return exprCache.makeArrayAccess( std::move( type )
 			, std::move( array )
 			, std::move( index ) );
 	}
 
 	expr::ExprPtr makeUnMinus( expr::ExprPtr operand )
 	{
-		return expr::makeUnaryMinus( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makeUnaryMinus( std::move( operand ) );
 	}
 
 	expr::ExprPtr makeUnPlus( expr::ExprPtr operand )
 	{
-		return expr::makeUnaryPlus( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makeUnaryPlus( std::move( operand ) );
 	}
 
 	expr::ExprPtr makePostInc( expr::ExprPtr operand )
 	{
-		return expr::makePostIncrement( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makePostIncrement( std::move( operand ) );
 	}
 
 	expr::ExprPtr makePostDec( expr::ExprPtr operand )
 	{
-		return expr::makePostDecrement( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makePostDecrement( std::move( operand ) );
 	}
 
 	expr::ExprPtr makePreInc( expr::ExprPtr operand )
 	{
-		return expr::makePreIncrement( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makePreIncrement( std::move( operand ) );
 	}
 
 	expr::ExprPtr makePreDec( expr::ExprPtr operand )
 	{
-		return expr::makePreDecrement( std::move( operand ) );
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makePreDecrement( std::move( operand ) );
 	}
 
 	expr::ExprPtr makeEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeEqual( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeEqual( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -647,8 +699,9 @@ namespace sdw
 	expr::ExprPtr makeNEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeNotEqual( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeNotEqual( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -656,8 +709,9 @@ namespace sdw
 	expr::ExprPtr makeLess( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeLess( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeLess( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -665,8 +719,9 @@ namespace sdw
 	expr::ExprPtr makeLEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeLessEqual( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeLessEqual( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -674,8 +729,9 @@ namespace sdw
 	expr::ExprPtr makeGreater( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeGreater( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeGreater( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -683,8 +739,9 @@ namespace sdw
 	expr::ExprPtr makeGEqual( expr::ExprPtr lhs
 		, expr::ExprPtr rhs )
 	{
-		auto & cache = getExprTypesCache( lhs, rhs );
-		return expr::makeGreaterEqual( cache
+		auto & exprCache = getExprExprCache( lhs, rhs );
+		auto & typesCache = getExprTypesCache( lhs, rhs );
+		return exprCache.makeGreaterEqual( typesCache
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -693,7 +750,8 @@ namespace sdw
 		, expr::IdentifierPtr name
 		, expr::ExprList && args )
 	{
-		return expr::makeFnCall( std::move( type )
+		auto & exprCache = getExprExprCache( name, args );
+		return exprCache.makeFnCall( std::move( type )
 			, std::move( name )
 			, std::move( args ) );
 	}
@@ -703,7 +761,8 @@ namespace sdw
 		, expr::IdentifierPtr instance
 		, expr::ExprList && args )
 	{
-		return expr::makeMemberFnCall( std::move( type )
+		auto & exprCache = getExprExprCache( name, instance, args );
+		return exprCache.makeMemberFnCall( std::move( type )
 			, std::move( name )
 			, std::move( instance )
 			, std::move( args ) );
@@ -713,7 +772,8 @@ namespace sdw
 		, type::Kind component
 		, expr::ExprList && args )
 	{
-		return expr::makeCompositeConstruct( composite
+		auto & exprCache = getExprExprCache( args );
+		return exprCache.makeCompositeConstruct( composite
 			, component
 			, std::move( args ) );
 	}
@@ -721,7 +781,8 @@ namespace sdw
 	expr::ExprPtr makeCompositeCtor( expr::ExprPtr image
 		, expr::ExprPtr sampler )
 	{
-		return expr::makeCompositeConstruct( std::move( image )
+		auto & exprCache = getExprExprCache( image, sampler );
+		return exprCache.makeCompositeConstruct( std::move( image )
 			, std::move( sampler ) );
 	}
 
@@ -729,7 +790,8 @@ namespace sdw
 		, uint32_t memberIndex
 		, uint64_t flags )
 	{
-		return expr::makeMbrSelect( std::move( outer )
+		auto & exprCache = getExprExprCache( outer );
+		return exprCache.makeMbrSelect( std::move( outer )
 			, memberIndex
 			, flags );
 	}
@@ -737,7 +799,8 @@ namespace sdw
 	expr::ExprPtr makeSwizzle( expr::ExprPtr outer
 		, expr::SwizzleKind swizzle )
 	{
-		return expr::makeSwizzle( std::move( outer )
+		auto & exprCache = getExprExprCache( outer );
+		return exprCache.makeSwizzle( std::move( outer )
 			, swizzle );
 	}
 
@@ -746,7 +809,8 @@ namespace sdw
 		, expr::ExprPtr trueExpr
 		, expr::ExprPtr falseExpr )
 	{
-		return expr::makeQuestion( std::move( type )
+		auto & exprCache = getExprExprCache( ctrlExpr, trueExpr, falseExpr );
+		return exprCache.makeQuestion( std::move( type )
 			, std::move( ctrlExpr )
 			, std::move( trueExpr )
 			, std::move( falseExpr ) );
@@ -755,21 +819,25 @@ namespace sdw
 	expr::ExprPtr makeCast( type::TypePtr destType
 		, expr::ExprPtr operand )
 	{
-		return expr::makeCast( std::move( destType )
+		auto & exprCache = getExprExprCache( operand );
+		return exprCache.makeCast( std::move( destType )
 			, std::move( operand ) );
 	}
 
-	expr::IdentifierPtr makeIdent( type::TypesCache & cache
+	expr::IdentifierPtr makeIdent( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
 		, var::VariablePtr var )
 	{
-		return expr::makeIdentifier( cache, std::move( var ) );
+		return exprCache.makeIdentifier( typesCache, std::move( var ) );
 	}
 
-	expr::ExprPtr makeDispatchMeshNV( type::TypesCache & cache
+	expr::ExprPtr makeDispatchMeshNV( type::TypesCache & typesCache
 		, expr::ExprPtr payload
 		, expr::ExprPtr numTasks )
 	{
-		return expr::makeDispatchMeshNV( cache
+		auto & exprCache = getExprExprCache( payload, numTasks );
+		return makeDispatchMeshNV( exprCache
+			, typesCache
 			, std::move( payload )
 			, std::move( numTasks ) );
 	}

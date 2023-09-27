@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API Modulo( type::TypePtr type
+		SDAST_API Modulo( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using ModuloPtr = std::unique_ptr< Modulo >;
-
-	inline ModuloPtr makeModulo( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< Modulo >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

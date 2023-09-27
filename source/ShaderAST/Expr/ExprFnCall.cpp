@@ -7,26 +7,29 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	FnCall::FnCall( type::TypePtr type
+	FnCall::FnCall( ExprCache & exprCache
+		, type::TypePtr type
 		, IdentifierPtr fn
-		, ExprList && argList )
-		: FnCall{ std::move( type ), std::move( fn ), nullptr, std::move( argList ) }
+		, ExprList argList )
+		: FnCall{ exprCache
+			, std::move( type )
+			, std::move( fn )
+			, nullptr
+			, std::move( argList ) }
 	{
 	}
 
-	FnCall::FnCall( type::TypePtr type
+	FnCall::FnCall( ExprCache & exprCache
+		, type::TypePtr type
 		, IdentifierPtr fn
 		, ExprPtr instance
-		, ExprList && argList )
-		: Expr
-		{
-			getExprTypesCache( *fn, instance, argList ),
-			std::move( type ),
-			Kind::eFnCall,
-			( isExprConstant( argList, fn )
-				? Flag::eConstant
-				: Flag::eNone )
-		}
+		, ExprList argList )
+		: Expr{ exprCache
+			, sizeof( FnCall )
+			, getExprTypesCache( *fn, instance, argList )
+			, std::move( type )
+			, Kind::eFnCall
+			, ( isExprConstant( argList, fn ) ? Flag::eConstant : Flag::eNone ) }
 		, m_fn{ std::move( fn ) }
 		, m_argList{ std::move( argList ) }
 		, m_instance{ std::move( instance ) }

@@ -7,16 +7,22 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	ImageAccessCall::ImageAccessCall( type::TypePtr type
+	StorageImageAccessCall::StorageImageAccessCall( ExprCache & exprCache
+		, type::TypePtr type
 		, StorageImageAccess imageAccess
-		, ExprList && argList )
-		: Expr{ getExprTypesCache( argList ), std::move( type ), Kind::eImageAccessCall, Flag::eNone }
+		, ExprList argList )
+		: Expr{ exprCache
+			, sizeof( StorageImageAccessCall )
+			, getExprTypesCache( argList )
+			, std::move( type )
+			, Kind::eImageAccessCall
+			, Flag::eNone }
 		, m_imageAccess{ imageAccess }
 		, m_argList{ std::move( argList ) }
 	{
 	}
 
-	void ImageAccessCall::accept( VisitorPtr vis )
+	void StorageImageAccessCall::accept( VisitorPtr vis )
 	{
 		vis->visitImageAccessCallExpr( this );
 	}

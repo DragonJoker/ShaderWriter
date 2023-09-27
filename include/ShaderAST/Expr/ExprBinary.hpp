@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API Binary( type::TypePtr type
+		SDAST_API Binary( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs
 			, Kind kind );
@@ -29,8 +30,8 @@ namespace ast::expr
 		}
 
 	private:
-		ExprPtr m_lhs;
-		ExprPtr m_rhs;
+		ExprPtr m_lhs{};
+		ExprPtr m_rhs{};
 	};
 }
 

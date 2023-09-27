@@ -13,15 +13,18 @@ namespace ast
 		: public expr::Visitor
 	{
 	public:
-		SDAST_API static expr::ExprPtr submit( expr::Expr * expr );
-		SDAST_API static expr::ExprPtr submit( expr::ExprPtr const & expr );
+		SDAST_API static expr::ExprPtr submit( expr::ExprCache & exprCache
+			, expr::Expr * expr );
+		SDAST_API static expr::ExprPtr submit( expr::ExprCache & exprCache
+			, expr::ExprPtr const & expr );
 
 	protected:
-		SDAST_API explicit ExprCloner( expr::ExprPtr & result );
+		SDAST_API explicit ExprCloner( expr::ExprCache & exprCache
+			, expr::ExprPtr & result );
 
 	private:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );
-		SDAST_API expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
+		SDAST_API virtual expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
 
 	protected:
 		SDAST_API void visitAddExpr( expr::Add * expr )override;
@@ -46,7 +49,7 @@ namespace ast
 		SDAST_API void visitGreaterExpr( expr::Greater * expr )override;
 		SDAST_API void visitGreaterEqualExpr( expr::GreaterEqual * expr )override;
 		SDAST_API void visitIdentifierExpr( expr::Identifier * expr )override;
-		SDAST_API void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
+		SDAST_API void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override;
 		SDAST_API void visitInitExpr( expr::Init * expr )override;
 		SDAST_API void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override;
 		SDAST_API void visitLessExpr( expr::Less * expr )override;
@@ -83,6 +86,7 @@ namespace ast
 		SDAST_API void visitXorAssignExpr( expr::XorAssign * expr )override;
 
 	protected:
+		expr::ExprCache & m_exprCache;
 		expr::ExprPtr & m_result;
 	};
 }

@@ -37,9 +37,9 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_initExpr;
-		expr::ExprPtr m_ctrlExpr;
-		expr::ExprPtr m_incrExpr;
+		expr::ExprPtr m_initExpr{};
+		expr::ExprPtr m_ctrlExpr{};
+		expr::ExprPtr m_incrExpr{};
 	};
 	using ForPtr = std::unique_ptr< For >;
 

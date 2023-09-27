@@ -17,20 +17,23 @@ namespace hlsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( HlslShader & shader
+		static ast::stmt::ContainerPtr submit( ast::expr::ExprCache & exprCache
+			, HlslShader & shader
 			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData );
 
 	private:
-		StmtAdapter( HlslShader & shader
+		StmtAdapter( ast::expr::ExprCache & exprCache
+			, HlslShader & shader
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig
 			, AdaptationData & adaptationData
 			, ast::stmt::ContainerPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 
 		void linkVars( ast::var::VariablePtr textureSampler
 			, ast::var::VariablePtr texture
@@ -67,7 +70,7 @@ namespace hlsl
 		HlslConfig const & m_writerConfig;
 		AdaptationData & m_adaptationData;
 		HlslShader & m_shader;
-		ast::type::TypesCache & m_cache;
+		ast::type::TypesCache & m_typesCache;
 		ast::type::TypesCache m_rtCache;
 		ast::stmt::Container * m_intrinsics;
 		ast::stmt::Container * m_inOutDeclarations;

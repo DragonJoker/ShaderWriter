@@ -10,7 +10,7 @@ namespace ast::type
 	TessellationInputPatch::TessellationInputPatch( TypePtr type
 		, PatchDomain domain
 		, uint32_t location )
-		: Type{ type->getCache(), Kind::eTessellationInputPatch }
+		: Type{ type->getTypesCache(), Kind::eTessellationInputPatch }
 		, m_type{ type }
 		, m_domain{ domain }
 		, m_location{ location }
@@ -24,7 +24,7 @@ namespace ast::type
 		, Partitioning partitioning
 		, PrimitiveOrdering order
 		, uint32_t inputVertices )
-		: Type{ type->getCache(), Kind::eTessellationEvaluationInput }
+		: Type{ type->getTypesCache(), Kind::eTessellationEvaluationInput }
 		, m_type{ std::move( type ) }
 		, m_domain{ domain }
 		, m_partitioning{ partitioning }

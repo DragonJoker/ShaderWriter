@@ -1498,12 +1498,14 @@ namespace hlsl
 
 	//*********************************************************************************************
 
-	IOMapping::IOMapping( HlslShader & pshader
+	IOMapping::IOMapping( ast::expr::ExprCache & pexprCache
+		, HlslShader & pshader
 		, IOMappingMode pmode
 		, bool pisInput
 		, bool pisPatch
 		, std::string const & infix )
-		: shader{ &pshader }
+		: exprCache{ pexprCache }
+		, shader{ &pshader }
 		, stage{ shader->getType() }
 		, isInput{ pisInput }
 		, isPatch{ pisPatch }
@@ -1621,7 +1623,7 @@ namespace hlsl
 
 	void IOMapping::writeLocalesEnd( ast::stmt::Container & stmt )const
 	{
-		auto & cache = shader->getTypesCache();
+		auto & typesCache = shader->getTypesCache();
 
 		switch ( mode )
 		{
@@ -1631,7 +1633,7 @@ namespace hlsl
 		case hlsl::IOMappingMode::eLocalReturn:
 			if ( !paramStruct->empty() )
 			{
-				stmt.addStmt( ast::stmt::makeReturn( ast::expr::makeIdentifier( cache
+				stmt.addStmt( ast::stmt::makeReturn( exprCache.makeIdentifier( typesCache
 					, paramVar ) ) );
 			}
 			break;
@@ -1794,14 +1796,14 @@ namespace hlsl
 
 		if ( outer->getKind() != ast::expr::Kind::eArrayAccess )
 		{
-			return ast::expr::makeMbrSelect( std::move( result )
+			return exprCache.makeMbrSelect( std::move( result )
 				, mbr.io.result.mbrIndex
 				, mbr.io.result.flags );
 		}
 
 		auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
 		auto type = getNonArrayType( result->getType() );
-		return ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( type
+		return exprCache.makeMbrSelect( exprCache.makeArrayAccess( type
 				, std::move( result )
 				, adapter.doSubmit( arrayAccess.getRHS() ) )
 			, mbr.io.result.mbrIndex
@@ -1833,12 +1835,12 @@ namespace hlsl
 
 		if ( mbr.second.result.expr )
 		{
-			return ast::ExprCloner::submit( mbr.second.result.expr.get() );
+			return ast::ExprCloner::submit( exprCache, mbr.second.result.expr );
 		}
 
-		auto & cache = shader->getTypesCache();
-		auto outerIdent = ast::expr::makeIdentifier( cache, mainVar );
-		return ast::expr::makeMbrSelect( std::move( outerIdent )
+		auto & typesCache = shader->getTypesCache();
+		auto outerIdent = exprCache.makeIdentifier( typesCache, mainVar );
+		return exprCache.makeMbrSelect( std::move( outerIdent )
 			, mbr.second.result.mbrIndex
 			, mbr.second.result.flags );
 	}
@@ -1852,7 +1854,7 @@ namespace hlsl
 			return result;
 		}
 
-		return ast::expr::makeIdentifier( shader->getTypesCache()
+		return exprCache.makeIdentifier( shader->getTypesCache()
 				, srcVar );
 	}
 
@@ -2023,7 +2025,7 @@ namespace hlsl
 
 			}
 
-			return { 0u, 0u, ast::expr::makeIdentifier( shader->getTypesCache(), *it ) };
+			return { 0u, 0u, exprCache.makeIdentifier( shader->getTypesCache(), *it ) };
 		}
 
 		if ( separateStruct )
@@ -2063,7 +2065,7 @@ namespace hlsl
 		, std::vector< PendingMbrIO >::iterator & it )
 	{
 		it = m_pendingMbr.end();
-		auto & cache = shader->getTypesCache();
+		auto & typesCache = shader->getTypesCache();
 
 		it = std::find_if( m_pendingMbr.begin()
 			, m_pendingMbr.end()
@@ -2092,7 +2094,7 @@ namespace hlsl
 
 		if ( !mbr.io.result.expr )
 		{
-			mbr.io.result.expr = ast::expr::makeIdentifier( cache, mainVar );
+			mbr.io.result.expr = exprCache.makeIdentifier( typesCache, mainVar );
 		}
 
 		if ( !isStructType( mbr.io.result.expr->getType() ) )
@@ -2100,29 +2102,34 @@ namespace hlsl
 			it = m_pendingMbr.end();
 		}
 
-		return ast::ExprCloner::submit( mbr.io.result.expr.get() );
+		return ast::ExprCloner::submit( exprCache, mbr.io.result.expr );
 	}
 
 	//*********************************************************************************************
 
-	Routine::Routine( HlslShader & pshader
+	Routine::Routine( ast::expr::ExprCache & pexprCache
+		, HlslShader & pshader
 		, AdaptationData * pparent
 		, bool pisMain
 		, std::string const & name )
-		: shader{ &pshader }
+		: exprCache{ pexprCache }
+		, shader{ &pshader }
 		, parent{ pparent }
 		, isMain{ pisMain }
-		, m_highFreqOutputs{ *shader
+		, m_highFreqOutputs{ exprCache 
+			, *shader
 			, HlslHelpersInternal::getMode( shader->getType(), isMain, false, true, false )
 			, false
 			, false
 			, HlslHelpersInternal::getFuncName( isMain ) }
-		, m_lowFreqInputs{ *shader
+		, m_lowFreqInputs{ exprCache 
+			, *shader
 			, HlslHelpersInternal::getMode( shader->getType(), isMain, true, false, false )
 			, true
 			, false
 			, HlslHelpersInternal::getFuncName( isMain ) }
-		, m_lowFreqOutputs{ *shader
+		, m_lowFreqOutputs{ exprCache 
+			, *shader
 			, HlslHelpersInternal::getMode( shader->getType(), isMain, false, false, false )
 			, false
 			, isMeshStage( shader->getType() )
@@ -2264,7 +2271,7 @@ namespace hlsl
 
 		if ( it != paramToEntryPoint.end() )
 		{
-			return ast::expr::makeIdentifier( shader->getTypesCache()
+			return exprCache.makeIdentifier( shader->getTypesCache()
 				, it->second );
 		}
 
@@ -2489,8 +2496,8 @@ namespace hlsl
 				assert( outer->getKind() == ast::expr::Kind::eArrayAccess );
 				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
 				auto type = getNonArrayType( m_primitiveIndices.io.var->getType() );
-				result = ast::expr::makeArrayAccess( type
-					, ast::expr::makeIdentifier( shader->getTypesCache(), m_primitiveIndices.io.var )
+				result = exprCache.makeArrayAccess( type
+					, exprCache.makeIdentifier( shader->getTypesCache(), m_primitiveIndices.io.var )
 					, adapter.doSubmit( arrayAccess.getRHS() ) );
 			}
 			else
@@ -2573,22 +2580,25 @@ namespace hlsl
 
 	//*********************************************************************************************
 
-	AdaptationData::AdaptationData( HlslShader & pshader )
-		: m_highFreqInputs{ pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, false, "Global" }
+	AdaptationData::AdaptationData( ast::expr::ExprCache & pexprCache
+		, HlslShader & pshader )
+		: exprCache{ pexprCache }
+		, m_highFreqInputs{ exprCache, pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, false, "Global" }
 		, m_patchInputs{ ( pshader.getType() == ast::ShaderStage::eTessellationEvaluation
-			? std::make_unique< IOMapping >( pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, true, "Global" )
+			? std::make_unique< IOMapping >( exprCache, pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, true, "Global" )
 			: nullptr ) }
 		, shader{ &pshader }
 	{
 		m_routines.emplace( "main"
-			, std::make_unique< Routine >( pshader, this, true, "main" ) );
+			, std::make_unique< Routine >( exprCache, pshader, this, true, "main" ) );
 		m_mainEntryPoint = m_routines["main"].get();
 	}
 
 	void AdaptationData::addEntryPoint( ast::stmt::FunctionDecl const & stmt )
 	{
 		m_routines.emplace( stmt.getName()
-			, std::make_unique< Routine >( *shader
+			, std::make_unique< Routine >( exprCache
+				, *shader
 				, this
 				, stmt.isEntryPoint()
 				, stmt.getName() ) );
@@ -2835,7 +2845,7 @@ namespace hlsl
 
 		if ( it != m_currentRoutine->paramToEntryPoint.end() )
 		{
-			return ast::expr::makeIdentifier( shader->getTypesCache()
+			return exprCache.makeIdentifier( shader->getTypesCache()
 				, it->second );
 		}
 

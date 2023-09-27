@@ -12,6 +12,7 @@ See LICENSE file in root folder
 namespace ast::stmt
 {
 	class Switch;
+
 	class SwitchCase
 		: public Compound
 	{
@@ -30,7 +31,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::SwitchCasePtr m_caseExpr;
+		expr::SwitchCasePtr m_caseExpr{};
 	};
 	using SwitchCasePtr = std::unique_ptr< SwitchCase >;
 }

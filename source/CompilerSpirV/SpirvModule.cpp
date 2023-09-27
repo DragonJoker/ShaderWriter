@@ -21,20 +21,20 @@ namespace spirv
 
 	namespace
 	{
-		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::TypePtr qualified );
 
-		ast::type::StructPtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::StructPtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Struct const & qualified )
 		{
-			auto result = cache.getStruct( qualified.getMemoryLayout(), qualified.getName() );
+			auto result = typesCache.getStruct( qualified.getMemoryLayout(), qualified.getName() );
 			assert( result->empty() || ( result->size() == qualified.size() ) );
 
 			if ( result->empty() && !qualified.empty() )
 			{
 				for ( auto & member : qualified )
 				{
-					auto type = getUnqualifiedType( cache, member.type );
+					auto type = getUnqualifiedType( typesCache, member.type );
 
 					if ( type->getKind() == ast::type::Kind::eArray )
 					{
@@ -58,90 +58,90 @@ namespace spirv
 			return result;
 		}
 
-		ast::type::ArrayPtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::ArrayPtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Array const & qualified )
 		{
-			return cache.getArray( getUnqualifiedType( cache, qualified.getType() ), qualified.getArraySize() );
+			return typesCache.getArray( getUnqualifiedType( typesCache, qualified.getType() ), qualified.getArraySize() );
 		}
 
-		ast::type::SamplerPtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::SamplerPtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Sampler const & qualified )
 		{
-			return cache.getSampler( qualified.isComparison() );
+			return typesCache.getSampler( qualified.isComparison() );
 		}
 
-		ast::type::CombinedImagePtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::CombinedImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::CombinedImage const & qualified )
 		{
 			auto config = qualified.getConfig();
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return cache.getCombinedImage( config, qualified.isComparison() );
+			return typesCache.getCombinedImage( config, qualified.isComparison() );
 		}
 
-		ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::SampledImage const & qualified )
 		{
 			auto config = qualified.getConfig();
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return cache.getSampledImage( config, qualified.getDepth() );
+			return typesCache.getSampledImage( config, qualified.getDepth() );
 		}
 
-		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Image const & qualified )
 		{
 			auto config = qualified.getConfig();
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return cache.getImage( config );
+			return typesCache.getImage( config );
 		}
 
-		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Type const & qualified )
 		{
 			ast::type::TypePtr result;
 
 			if ( qualified.getRawKind() == ast::type::Kind::eArray )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::Array const & >( qualified ) );
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::Array const & >( qualified ) );
 			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eStruct
 				|| qualified.getRawKind() == ast::type::Kind::eRayDesc )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::Struct const & >( qualified ) );
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::Struct const & >( qualified ) );
 			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eImage )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::Image const & >( qualified ) );
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::Image const & >( qualified ) );
 			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eCombinedImage )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::CombinedImage const & >( qualified ) );
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::CombinedImage const & >( qualified ) );
 			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eSampledImage )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::SampledImage const & >( qualified ) );
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::SampledImage const & >( qualified ) );
 			}
 			else if ( qualified.getRawKind() == ast::type::Kind::eSampler )
 			{
-				result = getUnqualifiedType( cache, static_cast< ast::type::Sampler const & >( qualified ) );
+				result = getUnqualifiedType( typesCache, static_cast< ast::type::Sampler const & >( qualified ) );
 			}
 			else if ( qualified.isMember() )
 			{
-				result = cache.getBasicType( qualified.getKind() );
+				result = typesCache.getBasicType( qualified.getKind() );
 			}
 
 			return result;
 		}
 
-		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & cache
+		ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::TypePtr qualified )
 		{
-			ast::type::TypePtr result = getUnqualifiedType( cache, *qualified );
+			ast::type::TypePtr result = getUnqualifiedType( typesCache, *qualified );
 			return result
 				? result
 				: qualified;
@@ -208,7 +208,7 @@ namespace spirv
 	static uint32_t constexpr VendorID = 33u;
 	static uint32_t constexpr Version = 0x0012u;
 
-	Module::Module( ast::type::TypesCache & pcache
+	Module::Module( ast::type::TypesCache & typesCache
 		, SpirVConfig const & spirvConfig
 		, spv::AddressingModel addressingModel
 		, spv::MemoryModel pmemoryModel
@@ -216,7 +216,7 @@ namespace spirv
 		: memoryModel{ makeInstruction< MemoryModelInstruction >( ValueId{ spv::Id( addressingModel ) }, ValueId{ spv::Id( pmemoryModel ) } ) }
 		, variables{ &globalDeclarations }
 		, m_version{ spirvConfig.specVersion }
-		, m_cache{ &pcache }
+		, m_typesCache{ &typesCache }
 		, m_currentScopeVariables{ &m_registeredVariables }
 		, m_model{ pexecutionModel }
 	{
@@ -313,7 +313,7 @@ namespace spirv
 		if ( it == m_registeredPointerTypes.end() )
 		{
 			ValueId id{ getNextId()
-				, type.type->getCache().getPointerType( type.type, convert( storage ) ) };
+				, type.type->getTypesCache().getPointerType( type.type, convert( storage ) ) };
 			it = m_registeredPointerTypes.emplace( key, id ).first;
 
 			if ( isForward )
@@ -417,7 +417,7 @@ namespace spirv
 		if ( !varId.isPointer() )
 		{
 			ValueId id{ getNextId()
-				, varId.type->getCache().getPointerType( varId.type, convert( storage ) ) };
+				, varId.type->getTypesCache().getPointerType( varId.type, convert( storage ) ) };
 			addDebug( name, id );
 			std::map< std::string, VariableInfo >::iterator it;
 			addVariable( name, id, it, {} );
@@ -570,7 +570,7 @@ namespace spirv
 
 		if ( ires.second )
 		{
-			auto typeId = registerType( image.type->getCache().getCombinedImage( imgType.getConfig()
+			auto typeId = registerType( image.type->getTypesCache().getCombinedImage( imgType.getConfig()
 				, splType.isComparison() ) );
 			it->second = { getNextId(), typeId.type };
 			currentBlock.instructions.push_back( makeInstruction< SampledImageInstruction >( typeId, it->second, image, sampler ) );
@@ -713,8 +713,8 @@ namespace spirv
 							decorate( typeId, spv::DecorationBlock );
 						}
 
-						varType = type->getCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
-						varType = type->getCache().getPointerType( varType, typeStorage );
+						varType = type->getTypesCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
+						varType = type->getTypesCache().getPointerType( varType, typeStorage );
 						typeStorage = ast::type::Storage::ePhysicalStorageBuffer;
 					}
 				}
@@ -722,7 +722,7 @@ namespace spirv
 
 			if ( !varType )
 			{
-				varType = type->getCache().getPointerType( type, convert( storage ) );
+				varType = type->getTypesCache().getPointerType( type, convert( storage ) );
 			}
 
 			ValueId id{ getNextId(), varType };
@@ -758,7 +758,7 @@ namespace spirv
 				|| ( it->second.isAlias && !isAlias ) )
 			{
 				ValueId id{ getNextId()
-					, type->getCache().getPointerType( ( it->second.id.isPointer()
+					, type->getTypesCache().getPointerType( ( it->second.id.isPointer()
 							? static_cast< ast::type::Pointer const & >( *it->second.id.type ).getPointerType()
 							: it->second.id.type )
 						, convert( storage ) ) };
@@ -904,7 +904,7 @@ namespace spirv
 		if ( it == m_currentScopeVariables->end() )
 		{
 			ValueId id{ getNextId()
-				, type->getCache().getPointerType( type, outer.getStorage() ) };
+				, type->getTypesCache().getPointerType( type, outer.getStorage() ) };
 			m_registeredMemberVariables.emplace( fullName, std::make_pair( outer, id ) );
 			it = m_currentScopeVariables->emplace( fullName, VariableInfo{ id, false, false, false } ).first;
 			registerLiteral( type->getIndex() );
@@ -963,7 +963,7 @@ namespace spirv
 
 		if ( it == m_registeredBoolConstants.end() )
 		{
-			auto type = registerType( m_cache->getBool() );
+			auto type = registerType( m_typesCache->getBool() );
 			ValueId result{ getNextId(), type.type };
 
 			if ( value )
@@ -978,7 +978,7 @@ namespace spirv
 			}
 
 			it = m_registeredBoolConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getBool() );
+			m_registeredConstants.emplace( result, m_typesCache->getBool() );
 		}
 
 		return it->second;
@@ -990,13 +990,13 @@ namespace spirv
 
 		if ( it == m_registeredInt8Constants.end() )
 		{
-			auto type = registerType( m_cache->getInt8() );
+			auto type = registerType( m_typesCache->getInt8() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ spv::Id( value ) } } ) );
 			it = m_registeredInt8Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getInt8() );
+			m_registeredConstants.emplace( result, m_typesCache->getInt8() );
 		}
 
 		return it->second;
@@ -1008,13 +1008,13 @@ namespace spirv
 
 		if ( it == m_registeredInt16Constants.end() )
 		{
-			auto type = registerType( m_cache->getInt16() );
+			auto type = registerType( m_typesCache->getInt16() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ spv::Id( value ) } } ) );
 			it = m_registeredInt16Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getInt16() );
+			m_registeredConstants.emplace( result, m_typesCache->getInt16() );
 		}
 
 		return it->second;
@@ -1026,13 +1026,13 @@ namespace spirv
 
 		if ( it == m_registeredInt32Constants.end() )
 		{
-			auto type = registerType( m_cache->getInt32() );
+			auto type = registerType( m_typesCache->getInt32() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ spv::Id( value ) } } ) );
 			it = m_registeredInt32Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getInt32() );
+			m_registeredConstants.emplace( result, m_typesCache->getInt32() );
 		}
 
 		return it->second;
@@ -1044,14 +1044,14 @@ namespace spirv
 
 		if ( it == m_registeredInt64Constants.end() )
 		{
-			auto type = registerType( m_cache->getInt64() );
+			auto type = registerType( m_typesCache->getInt64() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFll ) }
 			, ValueId{ uint32_t( value & 0x00000000FFFFFFFFll ) } } ) );
 			it = m_registeredInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getInt64() );
+			m_registeredConstants.emplace( result, m_typesCache->getInt64() );
 		}
 
 		return it->second;
@@ -1063,13 +1063,13 @@ namespace spirv
 
 		if ( it == m_registeredUInt8Constants.end() )
 		{
-			auto type = registerType( m_cache->getUInt8() );
+			auto type = registerType( m_typesCache->getUInt8() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ value } } ) );
 			it = m_registeredUInt8Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getUInt8() );
+			m_registeredConstants.emplace( result, m_typesCache->getUInt8() );
 		}
 
 		return it->second;
@@ -1081,13 +1081,13 @@ namespace spirv
 
 		if ( it == m_registeredUInt16Constants.end() )
 		{
-			auto type = registerType( m_cache->getUInt16() );
+			auto type = registerType( m_typesCache->getUInt16() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ value } } ) );
 			it = m_registeredUInt16Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getUInt16() );
+			m_registeredConstants.emplace( result, m_typesCache->getUInt16() );
 		}
 
 		return it->second;
@@ -1099,13 +1099,13 @@ namespace spirv
 
 		if ( it == m_registeredUInt32Constants.end() )
 		{
-			auto type = registerType( m_cache->getUInt32() );
+			auto type = registerType( m_typesCache->getUInt32() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ value } } ) );
 			it = m_registeredUInt32Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getUInt32() );
+			m_registeredConstants.emplace( result, m_typesCache->getUInt32() );
 		}
 
 		return it->second;
@@ -1117,14 +1117,14 @@ namespace spirv
 
 		if ( it == m_registeredUInt64Constants.end() )
 		{
-			auto type = registerType( m_cache->getUInt64() );
+			auto type = registerType( m_typesCache->getUInt64() );
 			ValueId result{ getNextId(), type.type };
 			globalDeclarations.push_back( makeInstruction< ConstantInstruction >( type
 				, result
 				, ValueIdList{ ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFull ) }
 					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFull ) } } ) );
 			it = m_registeredUInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getUInt64() );
+			m_registeredConstants.emplace( result, m_typesCache->getUInt64() );
 		}
 
 		return it->second;
@@ -1136,7 +1136,7 @@ namespace spirv
 
 		if ( it == m_registeredFloatConstants.end() )
 		{
-			auto type = registerType( m_cache->getFloat() );
+			auto type = registerType( m_typesCache->getFloat() );
 			ValueId result{ getNextId(), type.type };
 			IdList list;
 			list.resize( 1u );
@@ -1146,7 +1146,7 @@ namespace spirv
 				, result
 				, convert( list ) ) );
 			it = m_registeredFloatConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getFloat() );
+			m_registeredConstants.emplace( result, m_typesCache->getFloat() );
 		}
 
 		return it->second;
@@ -1158,7 +1158,7 @@ namespace spirv
 
 		if ( it == m_registeredDoubleConstants.end() )
 		{
-			auto type = registerType( m_cache->getDouble() );
+			auto type = registerType( m_typesCache->getDouble() );
 			ValueId result{ getNextId(), type.type };
 			IdList list;
 			list.resize( 2u );
@@ -1168,7 +1168,7 @@ namespace spirv
 				, result
 				, convert( list ) ) );
 			it = m_registeredDoubleConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_cache->getDouble() );
+			m_registeredConstants.emplace( result, m_typesCache->getDouble() );
 		}
 
 		return it->second;
@@ -1628,7 +1628,7 @@ namespace spirv
 		, ValueId parentId )
 	{
 		ValueId result;
-		auto unqualifiedType = getUnqualifiedType( *m_cache, type );
+		auto unqualifiedType = getUnqualifiedType( *m_typesCache, type );
 		auto it = m_registeredTypes.find( unqualifiedType );
 
 		if ( it == m_registeredTypes.end() )
@@ -1661,7 +1661,7 @@ namespace spirv
 				, mbrIndex
 				, parentId
 				, arrayStride );
-			auto unqualifiedType = getUnqualifiedType( *m_cache, type );
+			auto unqualifiedType = getUnqualifiedType( *m_typesCache, type );
 			auto it = m_registeredTypes.find( unqualifiedType );
 
 			if ( it == m_registeredTypes.end() )
@@ -1870,13 +1870,13 @@ namespace spirv
 		assert( kind != ast::type::Kind::eSampledImage );
 		assert( kind != ast::type::Kind::eCombinedImage );
 
-		auto type = m_cache->getBasicType( kind );
+		auto type = m_typesCache->getBasicType( kind );
 		ValueId result{ 0u, type };
 
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
 		{
-			auto componentType = registerType( m_cache->getBasicType( getComponentType( kind ) ) );
+			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ) );
 			result.id = getNextId();
 
 			if ( isMatrixType( kind ) )
@@ -1931,7 +1931,7 @@ namespace spirv
 		if ( ires.second )
 		{
 			// The Sampled Type.
-			auto sampledTypeId = registerType( m_cache->getBasicType( type->getConfig().sampledType ) );
+			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ) );
 			// The Image Type.
 			it->second = { getNextId(), type };
 			globalDeclarations.push_back( makeImageTypeInstruction( type->getConfig()
@@ -2014,13 +2014,13 @@ namespace spirv
 			if ( isMatrixType( kind ) )
 			{
 				auto colKind = getComponentType( kind );
-				auto colType = m_cache->getBasicType( colKind );
+				auto colType = m_typesCache->getBasicType( colKind );
 				auto rowCount = getComponentCount( colType );
 
 				if ( rowCount == 3
 					|| ( rowCount == 2 && type->getMemoryLayout() == ast::type::MemoryLayout::eStd140 ) )
 				{
-					colType = m_cache->getVector( getComponentType( colKind ), 4u );
+					colType = m_typesCache->getVector( getComponentType( colKind ), 4u );
 				}
 
 				auto size = getSize( *colType

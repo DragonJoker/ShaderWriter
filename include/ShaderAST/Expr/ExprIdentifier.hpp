@@ -13,8 +13,11 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API Identifier( type::TypesCache & cache
+		SDAST_API Identifier( ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, var::VariablePtr var );
+		SDAST_API Identifier( ExprCache & exprCache
+			, Identifier const & rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -26,14 +29,6 @@ namespace ast::expr
 	private:
 		var::VariablePtr m_var;
 	};
-	using IdentifierPtr = std::unique_ptr< Identifier >;
-
-	inline IdentifierPtr makeIdentifier( type::TypesCache & cache
-		, var::VariablePtr var )
-	{
-		return std::make_unique< Identifier >( cache
-			, std::move( var ) );
-	}
 }
 
 #endif

@@ -96,9 +96,6 @@ namespace ast::expr
 	template< LiteralType T >
 	using LiteralValueType = typename LiteralValueTraits< T >::type;
 
-	class Literal;
-	using LiteralPtr = std::unique_ptr< Literal >;
-
 	union LiteralValue
 	{
 		bool boolv;
@@ -118,34 +115,36 @@ namespace ast::expr
 		: public Expr
 	{
 	private:
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, bool value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed char value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed short value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed int value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed long value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, signed long long value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned char value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned short value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned int value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned long value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, unsigned long long value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, float value );
-		SDAST_API Literal( type::TypesCache & cache, type::TypePtr type, double value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, bool value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed char value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed short value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed int value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed long long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned char value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned short value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned int value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned long long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, float value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, double value );
 
 	public:
-		SDAST_API Literal( type::TypesCache & cache, bool value );
-		SDAST_API Literal( type::TypesCache & cache, signed char value );
-		SDAST_API Literal( type::TypesCache & cache, signed short value );
-		SDAST_API Literal( type::TypesCache & cache, signed int value );
-		SDAST_API Literal( type::TypesCache & cache, signed long value );
-		SDAST_API Literal( type::TypesCache & cache, signed long long value );
-		SDAST_API Literal( type::TypesCache & cache, unsigned char value );
-		SDAST_API Literal( type::TypesCache & cache, unsigned short value );
-		SDAST_API Literal( type::TypesCache & cache, unsigned int value );
-		SDAST_API Literal( type::TypesCache & cache, unsigned long value );
-		SDAST_API Literal( type::TypesCache & cache, unsigned long long value );
-		SDAST_API Literal( type::TypesCache & cache, float value );
-		SDAST_API Literal( type::TypesCache & cache, double value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, bool value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed char value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed short value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed int value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed long long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned char value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned short value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned int value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned long long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, float value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, double value );
+
+		SDAST_API Literal( ExprCache & exprCache, Literal const & rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -164,17 +163,10 @@ namespace ast::expr
 		LiteralValue m_value;
 	};
 
-	template< typename T >
-	inline LiteralPtr makeLiteral( type::TypesCache & cache
-		, T value )
-	{
-		return std::make_unique< Literal >( cache, value );
-	}
-
 	template< expr::LiteralType TargetT, typename SourceT >
 	expr::LiteralValueType< TargetT > convert( SourceT const & v );
 	template< template< typename TypeT > typename OperatorT >
-	expr::LiteralPtr replaceLiterals( type::TypesCache & cache
+	expr::LiteralPtr replaceLiterals( type::TypesCache & typesCache
 		, expr::Literal const & lhs
 		, expr::Literal const & rhs );
 	template< LiteralType T >

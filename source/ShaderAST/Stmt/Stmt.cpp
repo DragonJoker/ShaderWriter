@@ -9,8 +9,4 @@ namespace ast::stmt
 		: m_kind{ kind }
 	{
 	}
-
-	Stmt::~Stmt()
-	{
-	}
 }

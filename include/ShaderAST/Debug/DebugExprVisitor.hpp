@@ -18,6 +18,12 @@ namespace ast::debug
 	public:
 		SDAST_API static std::string submit( expr::Expr * expr );
 
+		template< typename ExprT >
+		static std::string submit( expr::ExprPtrT< ExprT > const & expr )
+		{
+			return submit( expr.get() );
+		}
+
 	private:
 		SDAST_API void wrap( expr::Expr * expr );
 		SDAST_API void visitUnaryExpr( expr::Unary * expr )override;
@@ -30,7 +36,7 @@ namespace ast::debug
 		SDAST_API void visitFnCallExpr( expr::FnCall * expr )override;
 		SDAST_API void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override;
 		SDAST_API void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override;
-		SDAST_API void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override;
+		SDAST_API void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override;
 		SDAST_API void visitIdentifierExpr( expr::Identifier * expr )override;
 		SDAST_API void visitInitExpr( expr::Init * expr )override;
 		SDAST_API void visitLiteralExpr( expr::Literal * expr )override;

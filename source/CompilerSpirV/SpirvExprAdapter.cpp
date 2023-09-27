@@ -27,13 +27,16 @@ namespace spirv
 		}
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::Expr * expr
+	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
+		, ast::expr::Expr * expr
 		, ast::stmt::Container * container
 		, ast::stmt::Container * ioDeclarations
 		, AdaptationData & adaptationData )
 	{
-		ast::expr::ExprPtr result;
-		ExprAdapter vis{ expr->getCache()
+		ast::expr::ExprPtr result{};
+		ExprAdapter vis{ exprCache
+			, typesCache
 			, container
 			, ioDeclarations
 			, adaptationData
@@ -48,13 +51,14 @@ namespace spirv
 		return result;
 	}
 
-	ExprAdapter::ExprAdapter( ast::type::TypesCache & cache
+	ExprAdapter::ExprAdapter( ast::expr::ExprCache & exprCache
+		, ast::type::TypesCache & typesCache
 		, ast::stmt::Container * container
 		, ast::stmt::Container * ioDeclarations
 		, AdaptationData & adaptationData
 		, ast::expr::ExprPtr & result )
-		: ExprCloner{ result }
-		, m_cache{ cache }
+		: ExprCloner{ exprCache, result }
+		, m_typesCache{ typesCache }
 		, m_container{ container }
 		, m_ioDeclarations{ ioDeclarations }
 		, m_adaptationData{ adaptationData }
@@ -63,8 +67,8 @@ namespace spirv
 
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		ast::expr::ExprPtr result;
-		ExprAdapter vis{ m_cache, m_container, m_ioDeclarations, m_adaptationData, result };
+		ast::expr::ExprPtr result{};
+		ExprAdapter vis{ m_exprCache, m_typesCache, m_container, m_ioDeclarations, m_adaptationData, result };
 		expr->accept( &vis );
 
 		if ( expr->isNonUniform() )
@@ -75,8 +79,14 @@ namespace spirv
 		return result;
 	}
 
+	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		return doSubmit( expr.get() );
+	}
+
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
 	{
+		TraceFunc;
 		auto lhs = expr->getLHS();
 
 		if ( lhs->getKind() == ast::expr::Kind::eMbrSelect )
@@ -91,23 +101,23 @@ namespace spirv
 
 				if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
 				{
-					auto builtinExpr = m_adaptationData.config.processPending( mbr.builtin, *this, m_container );
+					auto builtinExpr = m_adaptationData.config.processPending( m_exprCache, mbr.builtin, *this, m_container );
 					assert( builtinExpr );
 
 					// Compute base index, based on declared type of builtin
 					auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
 					auto index = arrayAccess.getRHS();
-					ast::expr::ExprPtr multiplier;
+					ast::expr::ExprPtr multiplier{};
 
 					switch ( mbr.type->getKind() )
 					{
 					case ast::type::Kind::eUInt32:
 						break;
 					case ast::type::Kind::eVec2U32:
-						multiplier = ast::expr::makeLiteral( m_cache, 2u );
+						multiplier = m_exprCache.makeLiteral( m_typesCache, 2u );
 						break;
 					case ast::type::Kind::eVec3U32:
-						multiplier = ast::expr::makeLiteral( m_cache, 3u );
+						multiplier = m_exprCache.makeLiteral( m_typesCache, 3u );
 						break;
 					default:
 						AST_Failure( "Unsupported type for gl_PrimitiveIndicesNV" );
@@ -118,7 +128,7 @@ namespace spirv
 
 					if ( multiplier )
 					{
-						baseIndex = ast::expr::makeTimes( m_cache.getUInt32()
+						baseIndex = m_exprCache.makeTimes( m_typesCache.getUInt32()
 							, doSubmit( index )
 							, std::move( multiplier ) );
 					}
@@ -127,48 +137,48 @@ namespace spirv
 
 					if ( componentCount == 1u )
 					{
-						m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-							, ExprCloner::submit( builtinExpr )
+						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+							, ExprCloner::submit( m_exprCache, builtinExpr )
 							, std::move( baseIndex ) );
-						m_result = ast::expr::makeAssign( mbr.type
+						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
 							, doSubmit( expr->getRHS() ) );
 					}
 					else
 					{
-						m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-							, ExprCloner::submit( builtinExpr )
-							, ExprCloner::submit( baseIndex ) );
-						m_result = ast::expr::makeAssign( mbr.type
+						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+							, ExprCloner::submit( m_exprCache, builtinExpr )
+							, ExprCloner::submit( m_exprCache, baseIndex ) );
+						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
-							, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+							, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
 								, ast::expr::SwizzleKind::e0 ) );
 
 						if ( componentCount >= 2u )
 						{
 							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
-							m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-								, ExprCloner::submit( builtinExpr )
-								, ast::expr::makeAdd( m_cache.getUInt32()
-									, ExprCloner::submit( baseIndex )
-									, ast::expr::makeLiteral( m_cache, 1u ) ) );
-							m_result = ast::expr::makeAssign( mbr.type
+							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+								, ExprCloner::submit( m_exprCache, builtinExpr )
+								, m_exprCache.makeAdd( m_typesCache.getUInt32()
+									, ExprCloner::submit( m_exprCache, baseIndex )
+									, m_exprCache.makeLiteral( m_typesCache, 1u ) ) );
+							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
-								, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
 									, ast::expr::SwizzleKind::e1 ) );
 						}
 
 						if ( componentCount >= 3u )
 						{
 							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
-							m_result = ast::expr::makeArrayAccess( m_cache.getUInt32()
-								, ExprCloner::submit( builtinExpr )
-								, ast::expr::makeAdd( m_cache.getUInt32()
-									, ExprCloner::submit( baseIndex )
-									, ast::expr::makeLiteral( m_cache, 2u ) ) );
-							m_result = ast::expr::makeAssign( mbr.type
+							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
+								, ExprCloner::submit( m_exprCache, builtinExpr )
+								, m_exprCache.makeAdd( m_typesCache.getUInt32()
+									, ExprCloner::submit( m_exprCache, baseIndex )
+									, m_exprCache.makeLiteral( m_typesCache, 2u ) ) );
+							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
-								, ast::expr::makeSwizzle( doSubmit( expr->getRHS() )
+								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
 									, ast::expr::SwizzleKind::e2 ) );
 						}
 					}
@@ -184,6 +194,7 @@ namespace spirv
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
+		TraceFunc;
 		auto var = expr->getVariable();
 		auto it = m_adaptationData.context.constExprs.find( var->getId() );
 
@@ -191,11 +202,11 @@ namespace spirv
 		{
 			if ( it->second->getKind() == ast::expr::Kind::eLiteral )
 			{
-				m_result = getLiteral( expr, m_adaptationData.context );
+				m_result = getLiteral( m_exprCache, expr, m_adaptationData.context );
 			}
 			else
 			{
-				m_result = ExprCloner::submit( it->second );
+				m_result = ExprCloner::submit( m_exprCache, it->second );
 			}
 		}
 		else
@@ -203,35 +214,37 @@ namespace spirv
 			if ( var->isShaderOutput()
 				&& var->isBuiltin() )
 			{
-				auto & cache = var->getType()->getCache();
+				auto & typesCache = var->getType()->getTypesCache();
 
 				if ( var->getName() == "gl_TessLevelOuter" )
 				{
-					var->updateType( cache.getArray( getNonArrayType( var->getType() ), 4u ) );
+					var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 4u ) );
 				}
 				else if ( var->getName() == "gl_TessLevelInner" )
 				{
-					var->updateType( cache.getArray( getNonArrayType( var->getType() ), 2u ) );
+					var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 2u ) );
 				}
 			}
 
-			m_result = m_adaptationData.config.processPending( expr->getVariable()
+			m_result = m_adaptationData.config.processPending( m_exprCache
+				, expr->getVariable()
 				, m_ioDeclarations );
 
 			if ( !m_result )
 			{
-				m_result = ExprCloner::submit( expr );
+				m_result = ExprCloner::submit( m_exprCache, expr );
 			}
 		}
 	}
 
 	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
+		TraceFunc;
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg.get() ) );
+			args.emplace_back( doSubmit( arg ) );
 		}
 
 		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCountsNV )
@@ -244,9 +257,9 @@ namespace spirv
 				, ast::Builtin::ePrimitiveCountNV
 				, type
 				, ast::var::Flag::eShaderOutput );
-			auto ident = ast::expr::makeIdentifier( m_cache, var );
+			auto ident = m_exprCache.makeIdentifier( m_typesCache, var );
 			m_adaptationData.config.addPendingOutput( var, ast::type::Struct::InvalidLocation );
-			m_result = ast::expr::makeAssign( type
+			m_result = m_exprCache.makeAssign( type
 				, doSubmit( ident.get() )
 				, std::move( numPrimitives ) );
 		}
@@ -259,9 +272,9 @@ namespace spirv
 				, ast::Builtin::eTaskCountNV
 				, type
 				, ast::var::Flag::eShaderOutput );
-			auto ident = ast::expr::makeIdentifier( m_cache, var );
+			auto ident = m_exprCache.makeIdentifier( m_typesCache, var );
 			m_adaptationData.config.addPendingOutput( var, ast::type::Struct::InvalidLocation );
-			m_result = ast::expr::makeAssign( type
+			m_result = m_exprCache.makeAssign( type
 				, doSubmit( ident.get() )
 				, std::move( numTasks ) );
 		}
@@ -278,7 +291,7 @@ namespace spirv
 				uint32_t index = 0u;
 				for ( auto mbr : *getStructType( rayDesc->getType() ) )
 				{
-					args.push_back( ast::expr::makeMbrSelect( ExprCloner::submit( rayDesc ), index++, 0u ) );
+					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index++, 0u ) );
 				}
 				// Move the RayPayload back to last parameter.
 				args.push_back( std::move( payLoad ) );
@@ -289,7 +302,7 @@ namespace spirv
 				args.pop_back();
 			}
 
-			m_result = ast::expr::makeIntrinsicCall( expr->getType()
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) );
 		}
@@ -297,7 +310,9 @@ namespace spirv
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
-		m_result = m_adaptationData.config.processPendingMbr( expr->getOuterExpr()
+		TraceFunc;
+		m_result = m_adaptationData.config.processPendingMbr( m_exprCache
+			, expr->getOuterExpr()
 			, expr->getMemberIndex()
 			, *expr
 			, *this
@@ -305,7 +320,7 @@ namespace spirv
 
 		if ( !m_result )
 		{
-			m_result = ast::expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
+			m_result = m_exprCache.makeMbrSelect( doSubmit( expr->getOuterExpr() )
 				, expr->getMemberIndex()
 				, expr->getMemberFlags() );
 		}
@@ -321,9 +336,10 @@ namespace spirv
 			{
 				auto type = m_result->getType();
 				assert( type->getKind() == ast::type::Kind::eArray );
-				m_result = ast::expr::makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
+				m_result = m_exprCache.makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
 					, std::move( m_result )
-					, m_adaptationData.config.processPending( ast::Builtin::eInvocationID
+					, m_adaptationData.config.processPending( m_exprCache
+						, ast::Builtin::eInvocationID
 						, *this
 						, m_ioDeclarations ) );
 			}
@@ -332,11 +348,13 @@ namespace spirv
 
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
-		m_result = ast::expr::makeEmitVertex( m_cache );
+		TraceFunc;
+		m_result = makeEmitVertex( m_exprCache, m_typesCache );
 	}
 
 	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
+		TraceFunc;
 		auto kind = expr->getCombinedImageAccess();
 		IntrinsicConfig config;
 		getSpirVConfig( kind, config );
@@ -346,7 +364,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg.get() ) );
+			args.emplace_back( doSubmit( arg ) );
 		}
 
 		if ( getBias( kind ) == spv::ImageOperandsBiasMask )
@@ -367,7 +385,7 @@ namespace spirv
 		}
 #endif
 
-		m_result = ast::expr::makeCombinedImageAccessCall( returnType
+		m_result = m_exprCache.makeCombinedImageAccessCall( returnType
 			, kind
 			, std::move( args ) );
 	}

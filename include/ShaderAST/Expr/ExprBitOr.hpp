@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API BitOr( type::TypePtr type
+		SDAST_API BitOr( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using BitOrPtr = std::unique_ptr< BitOr >;
-
-	inline BitOrPtr makeBitOr( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< BitOr >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

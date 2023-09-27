@@ -24,6 +24,7 @@ namespace hlsl
 			, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 			, std::string & result );
 		std::string doSubmit( ast::expr::Expr * expr );
+		std::string doSubmit( ast::expr::ExprPtr const & expr );
 		void wrap( ast::expr::Expr * expr );
 		void visitAssignmentExpr( ast::expr::Binary * expr );
 
@@ -47,7 +48,7 @@ namespace hlsl
 		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
 		void visitFnCallExpr( ast::expr::FnCall * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
-		void visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )override;
+		void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override;
 		void visitInitExpr( ast::expr::Init * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
 		void visitLiteralExpr( ast::expr::Literal * expr )override;

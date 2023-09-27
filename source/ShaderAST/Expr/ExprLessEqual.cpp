@@ -8,10 +8,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	LessEqual::LessEqual( type::TypePtr type
+	LessEqual::LessEqual( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type )
+		: Binary{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eLessEqual }

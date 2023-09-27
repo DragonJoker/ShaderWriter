@@ -11,43 +11,35 @@ namespace ast::expr
 {
 	namespace details
 	{
-		void getCache( type::TypesCache *& result
+		void getExprCache( ExprCache *& result
 			, Expr const & expr )
 		{
-			result = &expr.getCache();
+			result = &expr.getExprCache();
 		}
 
-		void getCache( type::TypesCache *& result
-			, ExprPtr const & expr )
-		{
-			result = &expr->getCache();
-		}
-
-		void getCache( type::TypesCache *& result
+		void getExprCache( ExprCache *& result
 			, ExprList const & list )
 		{
 			assert( !list.empty() );
-			result = &list[0]->getCache();
+			result = &list[0]->getExprCache();
+		}
+
+		void getTypesCache( type::TypesCache *& result
+			, Expr const & expr )
+		{
+			result = &expr.getTypesCache();
+		}
+
+		void getTypesCache( type::TypesCache *& result
+			, ExprList const & list )
+		{
+			assert( !list.empty() );
+			result = &list[0]->getTypesCache();
 		}
 
 		bool isConstant( Expr const & expr )
 		{
 			return expr.isConstant();
-		}
-
-		bool isConstant( ExprPtr const & expr )
-		{
-			return expr->isConstant();
-		}
-
-		bool isConstant( Identifier const & expr )
-		{
-			return expr.isConstant();
-		}
-
-		bool isConstant( IdentifierPtr const & expr )
-		{
-			return expr->isConstant();
 		}
 
 		bool isConstant( ExprList const & list )

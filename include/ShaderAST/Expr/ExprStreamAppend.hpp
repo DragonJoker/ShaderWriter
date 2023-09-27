@@ -13,19 +13,12 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API StreamAppend( type::TypePtr type
+		SDAST_API StreamAppend( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr operand );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using StreamAppendPtr = std::unique_ptr< StreamAppend >;
-
-	inline StreamAppendPtr makeStreamAppend( ExprPtr operand )
-	{
-		auto type = operand->getType();
-		return std::make_unique< StreamAppend >( std::move( type )
-			, std::move( operand ) );
-	}
 }
 
 #endif

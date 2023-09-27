@@ -17,19 +17,23 @@ namespace spirv
 		friend struct IOMapping;
 
 	public:
-		static ast::expr::ExprPtr submit( ast::expr::Expr * expr
+		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
+			, ast::expr::Expr * expr
 			, ast::stmt::Container * container
 			, ast::stmt::Container * ioDeclarations
 			, AdaptationData & adaptationData );
 
 	private:
-		ExprAdapter( ast::type::TypesCache & cache
+		ExprAdapter( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
 			, ast::stmt::Container * container
 			, ast::stmt::Container * ioDeclarations
 			, AdaptationData & adaptationData
 			, ast::expr::ExprPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 		void visitAssignExpr( ast::expr::Assign * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
@@ -38,7 +42,7 @@ namespace spirv
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 
 	private:
-		ast::type::TypesCache & m_cache;
+		ast::type::TypesCache & m_typesCache;
 		ast::stmt::Container * m_container;
 		ast::stmt::Container * m_ioDeclarations;
 		AdaptationData & m_adaptationData;

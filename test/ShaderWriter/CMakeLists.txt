@@ -24,13 +24,17 @@ set( TEST_WRITER_COMMON_SOURCE_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.cpp
 )
 add_library( TestWriterCommon
-	STATIC
+	SHARED
 	${TEST_WRITER_COMMON_HEADER_FILES}
 	${TEST_WRITER_COMMON_SOURCE_FILES}
 )
 add_library( sdw::test::WriterCommon
 	ALIAS
 	TestWriterCommon
+)
+target_sources( TestWriterCommon
+	PRIVATE
+		${SDW_EDITORCONFIG_FILE}
 )
 target_link_libraries( TestWriterCommon
 	PUBLIC
@@ -57,30 +61,30 @@ if ( SDW_TESTS_ENABLE_VALIDATION )
 		AND ( OpenGL_FOUND OR OPENGL_FOUND )
 		AND ( WIN32 ) )
 		if ( WIN32 )
-			target_link_libraries( TestWriterCommon PUBLIC OpenGL::GL )
+			target_link_libraries( TestWriterCommon PRIVATE OpenGL::GL )
 		else ()
 			find_package( X11 )
-			target_link_libraries( TestWriterCommon PUBLIC ${X11_X11_LIB} OpenGL::GLX OpenGL::OpenGL )
+			target_link_libraries( TestWriterCommon PRIVATE ${X11_X11_LIB} OpenGL::GLX OpenGL::OpenGL )
 		endif ()
-		target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasOpenGL=1 )
+		target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasOpenGL=1 )
 	endif ()
 
 	if ( ( TARGET CompilerSpirV )
 		AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
-		target_include_directories( TestWriterCommon PUBLIC ${Vulkan_INCLUDE_DIR} )
-		target_link_libraries( TestWriterCommon PUBLIC ${Vulkan_LIBRARY} )
-		target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasVulkan=1 )
+		target_include_directories( TestWriterCommon PRIVATE ${Vulkan_INCLUDE_DIR} )
+		target_link_libraries( TestWriterCommon PRIVATE ${Vulkan_LIBRARY} )
+		target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasVulkan=1 )
 		if ( SDW_BUILD_VULKAN_LAYER )
-			target_link_libraries( TestWriterCommon PUBLIC sdw::VulkanLayer )
+			target_link_libraries( TestWriterCommon PRIVATE sdw::VulkanLayer )
 		endif ()
 	endif ()
 
 	if ( ( TARGET CompilerHlsl ) AND WIN32 )
-		target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasDirect3D11=1 )
+		target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasDirect3D11=1 )
 		find_package( DXC )
 		if ( DXC_FOUND )
-			target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasDXC=1 )
-			target_link_libraries( TestWriterCommon PUBLIC DXC::dxc )
+			target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasDXC=1 )
+			target_link_libraries( TestWriterCommon PRIVATE DXC::dxc )
 		endif ()
 	endif ()
 endif ()
@@ -93,14 +97,14 @@ find_package( spirv_cross_core CONFIG )
 find_package( spirv_cross_glsl CONFIG )
 find_package( spirv_cross_hlsl CONFIG )
 if ( spirv_cross_core AND spirv_cross_glsl AND spirv_cross_hlsl )
-	target_link_libraries( TestWriterCommon PUBLIC spirv-cross-core spirv-cross-glsl spirv-cross-hlsl )
-	target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasSpirVCross=1 )
+	target_link_libraries( TestWriterCommon PRIVATE spirv-cross-core spirv-cross-glsl spirv-cross-hlsl )
+	target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasSpirVCross=1 )
 endif ()
 
 find_package( SPIRV-Tools CONFIG )
 if ( SPIRV-Tools_FOUND )
-	target_link_libraries( TestWriterCommon PUBLIC SPIRV-Tools-static )
-	target_compile_definitions( TestWriterCommon PUBLIC SDW_Test_HasSpirVTools=1 )
+	target_link_libraries( TestWriterCommon PRIVATE SPIRV-Tools-static )
+	target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasSpirVTools=1 )
 endif ()
 
 set( TargetLinkLibraries
@@ -246,6 +250,10 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	add_executable( ${REAL_TEST_NAME}
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
+	)
+	target_sources( ${REAL_TEST_NAME} 
+		PRIVATE
+			${SDW_EDITORCONFIG_FILE}
 	)
 	target_link_libraries( ${REAL_TEST_NAME} PRIVATE
 		sdw::test::WriterCommon

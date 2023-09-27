@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		SDAST_API XorAssign( type::TypePtr type
+		SDAST_API XorAssign( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using XorAssignPtr = std::unique_ptr< XorAssign >;
-
-	inline XorAssignPtr makeXorAssign( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< XorAssign >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

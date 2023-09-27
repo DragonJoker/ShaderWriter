@@ -81,6 +81,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Expr/ExprBitNot.hpp
 	${INCLUDE_DIR}/Expr/ExprBitOr.hpp
 	${INCLUDE_DIR}/Expr/ExprBitXor.hpp
+	${INCLUDE_DIR}/Expr/ExprCache.hpp
 	${INCLUDE_DIR}/Expr/ExprCast.hpp
 	${INCLUDE_DIR}/Expr/ExprCombinedImageAccessCall.hpp
 	${INCLUDE_DIR}/Expr/ExprComma.hpp
@@ -154,6 +155,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Expr/ExprBitNot.cpp
 	${SOURCE_DIR}/Expr/ExprBitOr.cpp
 	${SOURCE_DIR}/Expr/ExprBitXor.cpp
+	${SOURCE_DIR}/Expr/ExprCache.cpp
 	${SOURCE_DIR}/Expr/ExprCast.cpp
 	${SOURCE_DIR}/Expr/ExprCombinedImageAccessCall.cpp
 	${SOURCE_DIR}/Expr/ExprComma.cpp
@@ -613,6 +615,10 @@ endif ()
 add_library( sdw::${_FOLDER_NAME}
 	ALIAS
 	${PROJECT_NAME}
+)
+target_sources( ${PROJECT_NAME} 
+	PRIVATE
+		${SDW_EDITORCONFIG_FILE}
 )
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES

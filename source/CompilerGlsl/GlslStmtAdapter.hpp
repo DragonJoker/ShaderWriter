@@ -64,17 +64,20 @@ namespace glsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::type::TypesCache & cache
+		static ast::stmt::ContainerPtr submit( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
 			, ast::stmt::Container * container
 			, AdaptationData & adaptationData );
 
 	private:
-		StmtAdapter( ast::type::TypesCache & cache
+		StmtAdapter( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * globalsCont
 			, ast::stmt::ContainerPtr & result );
 
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
+		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;
@@ -151,7 +154,7 @@ namespace glsl
 		void doProcessMeshOutputs();
 
 	private:
-		ast::type::TypesCache & m_cache;
+		ast::type::TypesCache & m_typesCache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::ContainerPtr m_entryPointFinish;
 		ast::stmt::Container * m_globalsCont;

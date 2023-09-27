@@ -39,7 +39,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_ctrlExpr{};
 		ElsePtr m_else;
 		ElseIfList m_elseIfs;
 	};

@@ -17,7 +17,8 @@ namespace spirv
 		: public ast::stmt::Visitor
 	{
 	public:
-		static Module submit( ast::type::TypesCache & cache
+		static Module submit( ast::expr::ExprCache & exprCache
+			, ast::type::TypesCache & typesCache
 			, ast::stmt::Stmt * stmt
 			, ast::ShaderStage type
 			, ModuleConfig const & moduleConfig
@@ -26,7 +27,8 @@ namespace spirv
 			, ShaderActions actions );
 
 	private:
-		StmtVisitor( Module & result
+		StmtVisitor( ast::expr::ExprCache & exprCache
+			, Module & result
 			, ast::ShaderStage type
 			, ModuleConfig const & moduleConfig
 			, spirv::PreprocContext context
@@ -106,6 +108,7 @@ namespace spirv
 			spv::Id breakLabel;
 			spv::Id continueLabel;
 		};
+		ast::expr::ExprCache & m_exprCache;
 		ModuleConfig const & m_moduleConfig;
 		spirv::PreprocContext m_context;
 		ShaderActions m_actions;

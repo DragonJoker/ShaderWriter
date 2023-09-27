@@ -5,8 +5,8 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	AccelerationStructure::AccelerationStructure( TypesCache & cache )
-		: Type{ cache, Kind::eAccelerationStructure }
+	AccelerationStructure::AccelerationStructure( TypesCache & typesCache )
+		: Type{ typesCache, Kind::eAccelerationStructure }
 	{
 	}
 }

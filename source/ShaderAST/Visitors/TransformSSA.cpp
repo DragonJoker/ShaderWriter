@@ -47,7 +47,7 @@ namespace ast
 			}
 		}
 
-		static ast::type::TypePtr getExpectedReturnType( ast::expr::ImageAccessCall * expr )
+		static ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall * expr )
 		{
 			auto result = expr->getType();
 
@@ -59,7 +59,7 @@ namespace ast
 
 				if ( components != 4u )
 				{
-					result = result->getCache().getVec4Type( scalar );
+					result = result->getTypesCache().getVec4Type( scalar );
 				}
 			}
 
@@ -563,85 +563,89 @@ namespace ast
 			}
 		}
 
-		static expr::ExprPtr makeOne( type::TypesCache & cache
+		static expr::ExprPtr makeOne( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, type::Kind scalarType )
 		{
 			switch ( scalarType )
 			{
 			case ast::type::Kind::eInt8:
-				return ast::expr::makeLiteral( cache, int8_t( 1 ) );
+				return exprCache.makeLiteral( typesCache, int8_t( 1 ) );
 			case ast::type::Kind::eInt16:
-				return ast::expr::makeLiteral( cache, int16_t( 1 ) );
+				return exprCache.makeLiteral( typesCache, int16_t( 1 ) );
 			case ast::type::Kind::eInt32:
-				return ast::expr::makeLiteral( cache, 1 );
+				return exprCache.makeLiteral( typesCache, 1 );
 			case ast::type::Kind::eInt64:
-				return ast::expr::makeLiteral( cache, 1ll );
+				return exprCache.makeLiteral( typesCache, 1ll );
 			case ast::type::Kind::eUInt8:
-				return ast::expr::makeLiteral( cache, uint8_t( 1u ) );
+				return exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
 			case ast::type::Kind::eUInt16:
-				return ast::expr::makeLiteral( cache, uint16_t( 1u ) );
+				return exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
 			case ast::type::Kind::eUInt32:
-				return ast::expr::makeLiteral( cache, 1u );
+				return exprCache.makeLiteral( typesCache, 1u );
 			case ast::type::Kind::eUInt64:
-				return ast::expr::makeLiteral( cache, 1ull );
+				return exprCache.makeLiteral( typesCache, 1ull );
 			case ast::type::Kind::eFloat:
-				return ast::expr::makeLiteral( cache, 1.0f );
+				return exprCache.makeLiteral( typesCache, 1.0f );
 			case ast::type::Kind::eDouble:
-				return ast::expr::makeLiteral( cache, 1.0 );
+				return exprCache.makeLiteral( typesCache, 1.0 );
 			default:
 				AST_Failure( "Unsupported scalar type for literal creation." );
 				return nullptr;
 			}
 		}
 
-		static expr::ExprPtr makeOne( type::TypePtr type )
+		static expr::ExprPtr makeOne( expr::ExprCache & exprCache
+			, type::TypePtr type )
 		{
-			return makeOne( type->getCache(), type->getKind() );
+			return makeOne( exprCache, type->getTypesCache(), type->getKind() );
 		}
 
-		static expr::ExprPtr makeZero( type::TypesCache & cache
+		static expr::ExprPtr makeZero( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, type::Kind scalarType )
 		{
 			switch ( scalarType )
 			{
 			case ast::type::Kind::eInt8:
-				return ast::expr::makeLiteral( cache, int8_t( 0 ) );
+				return exprCache.makeLiteral( typesCache, int8_t( 0 ) );
 			case ast::type::Kind::eInt16:
-				return ast::expr::makeLiteral( cache, int16_t( 0 ) );
+				return exprCache.makeLiteral( typesCache, int16_t( 0 ) );
 			case ast::type::Kind::eInt32:
-				return ast::expr::makeLiteral( cache, 0 );
+				return exprCache.makeLiteral( typesCache, 0 );
 			case ast::type::Kind::eInt64:
-				return ast::expr::makeLiteral( cache, 0ll );
+				return exprCache.makeLiteral( typesCache, 0ll );
 			case ast::type::Kind::eUInt8:
-				return ast::expr::makeLiteral( cache, uint8_t( 0u ) );
+				return exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
 			case ast::type::Kind::eUInt16:
-				return ast::expr::makeLiteral( cache, uint16_t( 0u ) );
+				return exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
 			case ast::type::Kind::eUInt32:
-				return ast::expr::makeLiteral( cache, 0u );
+				return exprCache.makeLiteral( typesCache, 0u );
 			case ast::type::Kind::eUInt64:
-				return ast::expr::makeLiteral( cache, 0ull );
+				return exprCache.makeLiteral( typesCache, 0ull );
 			case ast::type::Kind::eFloat:
-				return ast::expr::makeLiteral( cache, 0.0f );
+				return exprCache.makeLiteral( typesCache, 0.0f );
 			case ast::type::Kind::eDouble:
-				return ast::expr::makeLiteral( cache, 0.0 );
+				return exprCache.makeLiteral( typesCache, 0.0 );
 			default:
 				AST_Failure( "Unsupported scalar type for literal creation." );
 				return nullptr;
 			}
 		}
 
-		static ast::expr::ExprPtr makeToBoolCast( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr makeToBoolCast( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, ast::expr::ExprPtr expr )
 		{
 			auto componentCount = getComponentCount( expr->getType()->getKind() );
-			ast::expr::ExprPtr result;
+			ast::expr::ExprPtr result{};
 			auto type = expr->getType()->getKind();
 
 			if ( componentCount == 1u )
 			{
-				result = ast::expr::makeNotEqual( cache
+				result = exprCache.makeNotEqual( typesCache
 					, std::move( expr )
-					, makeZero( cache, type ) );
+					, makeZero( exprCache, typesCache, type ) );
 			}
 			else
 			{
@@ -650,12 +654,12 @@ namespace ast
 
 				for ( auto i = 0u; i < componentCount; ++i )
 				{
-					args.emplace_back( ast::expr::makeNotEqual( cache
-						, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-						, makeZero( cache, type ) ) );
+					args.emplace_back( exprCache.makeNotEqual( typesCache
+						, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
+						, makeZero( exprCache, typesCache, type ) ) );
 				}
 
-				result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+				result = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount )
 					, ast::type::Kind::eBoolean
 					, std::move( args ) );
 			}
@@ -663,36 +667,37 @@ namespace ast
 			return result;
 		}
 
-		static ast::expr::ExprPtr makeFromBoolCast( ast::type::TypesCache & cache
+		static ast::expr::ExprPtr makeFromBoolCast( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, ast::expr::ExprPtr expr
 			, ast::type::Kind dstScalarType )
 		{
 			auto componentCount = getComponentCount( expr->getType()->getKind() );
-			ast::expr::ExprPtr result;
+			ast::expr::ExprPtr result{};
 
 			if ( componentCount == 1u )
 			{
-				auto scalarType = cache.getBasicType( dstScalarType );
-				result = ast::expr::makeQuestion( scalarType
+				auto scalarType = typesCache.getBasicType( dstScalarType );
+				result = exprCache.makeQuestion( scalarType
 					, std::move( expr )
-					, makeOne( cache, dstScalarType )
-					, makeZero( cache, dstScalarType ) );
+					, makeOne( exprCache, typesCache, dstScalarType )
+					, makeZero( exprCache, typesCache, dstScalarType ) );
 			}
 			else
 			{
 				ast::expr::ExprList args;
 				auto newExpr = std::move( expr );
-				auto scalarType = cache.getBasicType( dstScalarType );
+				auto scalarType = typesCache.getBasicType( dstScalarType );
 
 				for ( auto i = 0u; i < componentCount; ++i )
 				{
-					args.emplace_back( ast::expr::makeQuestion( scalarType
-						, ast::expr::makeSwizzle( ast::ExprCloner::submit( newExpr.get() ), ast::expr::SwizzleKind::fromOffset( i ) )
-						, makeOne( cache, dstScalarType )
-						, makeZero( cache, dstScalarType ) ) );
+					args.emplace_back( exprCache.makeQuestion( scalarType
+						, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
+						, makeOne( exprCache, typesCache, dstScalarType )
+						, makeZero( exprCache, typesCache, dstScalarType ) ) );
 				}
 
-				result = ast::expr::makeCompositeConstruct( ast::expr::CompositeType( componentCount )
+				result = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount )
 					, dstScalarType
 					, std::move( args ) );
 			}
@@ -705,13 +710,14 @@ namespace ast
 		{
 		public:
 			static expr::ExprPtr submit( expr::Expr * expr
-				, type::TypesCache & cache
+				, expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, stmt::Container * container
 				, bool isParam
 				, SSAData & data )
 			{
-				expr::ExprPtr result;
-				ExprSSAiser vis{ data, cache, container, isParam, result };
+				expr::ExprPtr result{};
+				ExprSSAiser vis{ data, exprCache, typesCache, container, isParam, result };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
@@ -724,13 +730,15 @@ namespace ast
 
 		private:
 			ExprSSAiser( SSAData & data
-				, type::TypesCache & cache
+				, expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, stmt::Container * container
 				, bool isParam
 				, expr::ExprPtr & result )
 				: SimpleVisitor{}
 				, m_data{ data }
-				, m_cache{ cache }
+				, m_exprCache{ exprCache }
+				, m_typesCache{ typesCache }
 				, m_container{ container }
 				, m_isParam{ isParam }
 				, m_result{ result }
@@ -740,10 +748,11 @@ namespace ast
 		protected:
 			void visitUnaryExpr( expr::Unary * expr )override
 			{
+				TraceFunc
 				switch ( expr->getKind() )
 				{
 				case expr::Kind::eCopy:
-					m_result = std::make_unique< ast::expr::Copy >( doSubmit( expr->getOperand() ) );
+					m_result = m_exprCache.makeCopy( doSubmit( expr->getOperand() ) );
 					break;
 				case expr::Kind::eBitNot:
 					doProcessUnExprT< expr::BitNot >( expr );
@@ -764,7 +773,7 @@ namespace ast
 					doProcessPrePostIncDecExprT< expr::Add >( expr, true );
 					break;
 				case expr::Kind::eUnaryMinus:
-					m_result = expr::makeUnaryMinus( doSubmit( expr->getOperand() ) );
+					m_result = m_exprCache.makeUnaryMinus( doSubmit( expr->getOperand() ) );
 					break;
 				case expr::Kind::eUnaryPlus:
 					m_result = doSubmit( expr->getOperand() );
@@ -782,6 +791,7 @@ namespace ast
 
 			void visitBinaryExpr( expr::Binary * expr )override
 			{
+				TraceFunc
 				switch ( expr->getKind() )
 				{
 				case expr::Kind::eArrayAccess:
@@ -870,17 +880,19 @@ namespace ast
 
 			void visitAddAssignExpr( expr::AddAssign * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eAdd
 					, expr->getType()
 					, expr->getLHS()
 					, expr->getRHS() );
-				m_result = expr::makeAssign( expr->getType()
+				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
 			}
 
 			void visitAddExpr( expr::Add * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eAdd
 					, expr->getType()
 					, expr->getLHS()
@@ -889,6 +901,7 @@ namespace ast
 
 			void visitCastExpr( ast::expr::Cast * expr )override
 			{
+				TraceFunc
 				auto dstScalarType = getScalarType( expr->getType()->getKind() );
 				auto srcScalarType = getScalarType( expr->getOperand()->getType()->getKind() );
 #if !defined( NDEBUG )
@@ -901,7 +914,7 @@ namespace ast
 				{
 					// Conversion to bool scalar or vector type.
 					assert( dstComponents == srcComponents );
-					m_result = makeToBoolCast( m_cache
+					m_result = makeToBoolCast( m_exprCache, m_typesCache
 						, doSubmit( expr->getOperand() ) );
 				}
 				else if ( srcScalarType == ast::type::Kind::eBoolean
@@ -909,30 +922,32 @@ namespace ast
 				{
 					// Conversion from bool scalar or vector type.
 					assert( dstComponents == srcComponents );
-					m_result = makeFromBoolCast( m_cache
+					m_result = makeFromBoolCast( m_exprCache, m_typesCache
 						, doSubmit( expr->getOperand() )
 						, dstScalarType );
 				}
 				else
 				{
-					m_result = expr::makeCast( expr->getType()
+					m_result = m_exprCache.makeCast( expr->getType()
 						, doSubmit( expr->getOperand() ) );
 				}
 			}
 
 			void visitDivideAssignExpr( expr::DivideAssign * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eDivide
 					, expr->getType()
 					, expr->getLHS()
 					, expr->getRHS() );
-				m_result = expr::makeAssign( expr->getType()
+				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
 			}
 
 			void visitDivideExpr( expr::Divide * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eDivide
 					, expr->getType()
 					, expr->getLHS()
@@ -941,17 +956,19 @@ namespace ast
 
 			void visitMinusAssignExpr( expr::MinusAssign * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eMinus
 					, expr->getType()
 					, expr->getLHS()
 					, expr->getRHS() );
-				m_result = expr::makeAssign( expr->getType()
+				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
 			}
 
 			void visitMinusExpr( expr::Minus * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eMinus
 					, expr->getType()
 					, expr->getLHS()
@@ -960,17 +977,19 @@ namespace ast
 
 			void visitTimesAssignExpr( expr::TimesAssign * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eTimes
 					, expr->getType()
 					, expr->getLHS()
 					, expr->getRHS() );
-				m_result = expr::makeAssign( expr->getType()
+				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
 			}
 
 			void visitTimesExpr( expr::Times * expr )override
 			{
+				TraceFunc
 				m_result = doWriteBinaryOperation( expr::Kind::eTimes
 					, expr->getType()
 					, expr->getLHS()
@@ -979,28 +998,30 @@ namespace ast
 
 			void visitAggrInitExpr( expr::AggrInit * expr )override
 			{
+				TraceFunc
 				expr::ExprList initialisers;
 
 				for ( auto & init : expr->getInitialisers() )
 				{
-					initialisers.push_back( doSubmit( init.get() ) );
+					initialisers.push_back( doSubmit( init ) );
 					assert( initialisers.back() );
 				}
 
 				if ( expr->getIdentifier() )
 				{
-					m_result = expr::makeAggrInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
+					m_result = m_exprCache.makeAggrInit( m_exprCache.makeIdentifier( m_typesCache, expr->getIdentifier()->getVariable() )
 						, std::move( initialisers ) );
 				}
 				else
 				{
-					m_result = expr::makeAggrInit( expr->getType()
+					m_result = m_exprCache.makeAggrInit( expr->getType()
 						, std::move( initialisers ) );
 				}
 			}
 
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
 			{
+				TraceFunc
 				ast::expr::ExprList args;
 
 				if ( expr->getArgList().size() == 1u
@@ -1009,7 +1030,7 @@ namespace ast
 					auto & arg = *expr->getArgList().front();
 					auto argType = arg.getType();
 					ast::var::VariablePtr alias;
-					ast::expr::ExprPtr argAlias;
+					ast::expr::ExprPtr argAlias{};
 					doMakeAlias( doSubmit( &arg ), false, argAlias, alias );
 
 					if ( isVectorType( argType->getKind() ) )
@@ -1038,12 +1059,12 @@ namespace ast
 
 				if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
 				{
-					m_result = ast::expr::makeCompositeConstruct( std::move( args.front() )
+					m_result = m_exprCache.makeCompositeConstruct( std::move( args.front() )
 						, std::move( args.back() ) );
 				}
 				else
 				{
-					m_result = ast::expr::makeCompositeConstruct( expr->getComposite()
+					m_result = m_exprCache.makeCompositeConstruct( expr->getComposite()
 						, expr->getComponent()
 						, std::move( args ) );
 				}
@@ -1051,11 +1072,12 @@ namespace ast
 
 			void visitFnCallExpr( expr::FnCall * expr )override
 			{
+				TraceFunc
 				ast::expr::ExprList args;
 
 				struct OutputParam
 				{
-					ast::expr::ExprPtr param;
+					ast::expr::ExprPtr param{};
 					ast::var::VariablePtr alias;
 				};
 				std::vector< OutputParam > outputParams;
@@ -1072,8 +1094,8 @@ namespace ast
 						if ( arg->getKind() == ast::expr::Kind::eArrayAccess )
 						{
 							ast::var::VariablePtr alias;
-							auto newExpr = doSubmit( arg.get() );
-							ast::expr::ExprPtr aliasExpr;
+							auto newExpr = doSubmit( arg );
+							ast::expr::ExprPtr aliasExpr{};
 
 							if ( doMakeAlias( std::move( newExpr ), true, aliasExpr, alias ) )
 							{
@@ -1095,41 +1117,41 @@ namespace ast
 							if ( param->isOutputParam()
 								&& alias )
 							{
-								outputParams.push_back( { doSubmit( arg.get() ), alias } );
+								outputParams.push_back( { doSubmit( arg ), alias } );
 							}
 						}
 						else
 						{
 							// Images/Samplers/Textures are uniform constant pointers.
-							args.emplace_back( doSubmit( arg.get() ) );
+							args.emplace_back( doSubmit( arg ) );
 						}
 					}
 					else
 					{
-						ast::expr::ExprPtr aliasExpr;
+						ast::expr::ExprPtr aliasExpr{};
 						ast::var::VariablePtr alias;
-						doMakeAlias( doSubmit( arg.get() ), true, aliasExpr, alias );
+						doMakeAlias( doSubmit( arg ), true, aliasExpr, alias );
 						args.emplace_back( std::move( aliasExpr ) );
 
 						if ( param->isOutputParam()
 							&& alias )
 						{
-							outputParams.push_back( { doSubmit( arg.get() ), alias } );
+							outputParams.push_back( { doSubmit( arg ), alias } );
 						}
 					}
 				}
 
 				if ( expr->isMember() )
 				{
-					m_result = ast::expr::makeMemberFnCall( expr->getType()
-						, std::make_unique< ast::expr::Identifier >( *expr->getFn() )
+					m_result = m_exprCache.makeMemberFnCall( expr->getType()
+						, m_exprCache.makeIdentifier( *expr->getFn() )
 						, doSubmit( expr->getInstance() )
 						, std::move( args ) );
 				}
 				else
 				{
-					m_result = ast::expr::makeFnCall( expr->getType()
-						, std::make_unique< ast::expr::Identifier >( *expr->getFn() )
+					m_result = m_exprCache.makeFnCall( expr->getType()
+						, m_exprCache.makeIdentifier( *expr->getFn() )
 						, std::move( args ) );
 				}
 
@@ -1138,7 +1160,7 @@ namespace ast
 					// Store function result into a return alias, that will be the final result.
 					auto var = doCreateAliasVar( expr->getType()
 						, std::move( m_result ) );
-					m_result = ast::expr::makeIdentifier( m_cache, var );
+					m_result = m_exprCache.makeIdentifier( m_typesCache, var );
 				}
 				else
 				{
@@ -1147,30 +1169,32 @@ namespace ast
 
 				for ( auto & var : outputParams )
 				{
-					doAddStmt( ast::stmt::makeSimple( ast::expr::makeAssign( var.alias->getType()
+					doAddStmt( ast::stmt::makeSimple( m_exprCache.makeAssign( var.alias->getType()
 						, std::move( var.param )
-						, ast::expr::makeIdentifier( m_cache, var.alias ) ) ) );
+						, m_exprCache.makeIdentifier( m_typesCache, var.alias ) ) ) );
 				}
 			}
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
-				m_result = expr::makeIdentifier( expr->getCache()
+				TraceFunc
+				m_result = m_exprCache.makeIdentifier( expr->getTypesCache()
 					, expr->getVariable() );
 			}
 
-			void visitImageAccessCallExpr( expr::ImageAccessCall * expr )override
+			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
 			{
+				TraceFunc
 				ast::expr::ExprList args;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					args.emplace_back( doSubmit( arg.get() ) );
+					args.emplace_back( doSubmit( arg ) );
 				}
 
 				auto dstType = expr->getType();
 				auto srcType = getExpectedReturnType( expr );
-				m_result = ast::expr::makeImageAccessCall( srcType
+				m_result = m_exprCache.makeStorageImageAccessCall( srcType
 					, expr->getImageAccess()
 					, std::move( args ) );
 
@@ -1181,17 +1205,17 @@ namespace ast
 
 					if ( dstCount == 1u )
 					{
-						m_result = ast::expr::makeSwizzle( std::move( m_result )
+						m_result = m_exprCache.makeSwizzle( std::move( m_result )
 							, ast::expr::SwizzleKind::e0 );
 					}
 					else if ( dstCount == 2u )
 					{
-						m_result = ast::expr::makeSwizzle( std::move( m_result )
+						m_result = m_exprCache.makeSwizzle( std::move( m_result )
 							, ast::expr::SwizzleKind::e01 );
 					}
 					else if ( dstCount == 3u )
 					{
-						m_result = ast::expr::makeSwizzle( std::move( m_result )
+						m_result = m_exprCache.makeSwizzle( std::move( m_result )
 							, ast::expr::SwizzleKind::e012 );
 					}
 				}
@@ -1201,32 +1225,34 @@ namespace ast
 					auto type = m_result->getType();
 					auto alias = doCreateAliasVar( type
 						, std::move( m_result ) );
-					m_result = ast::expr::makeIdentifier( m_cache, alias );
+					m_result = m_exprCache.makeIdentifier( m_typesCache, alias );
 				}
 			}
 
 			void visitInitExpr( expr::Init * expr )override
 			{
+				TraceFunc
 				if ( expr->getInitialiser()->isConstant() )
 				{
-					m_result = expr::makeInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
+					m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, expr->getIdentifier()->getVariable() )
 						, doSubmit( expr->getInitialiser() ) );
 				}
 				else
 				{
-					expr::ExprPtr aliasExpr;
+					expr::ExprPtr aliasExpr{};
 					var::VariablePtr alias;
 					doMakeAlias( doSubmit( expr->getInitialiser() )
 						, m_isParam
 						, aliasExpr
 						, alias );
-					m_result = expr::makeInit( expr::makeIdentifier( m_cache, expr->getIdentifier()->getVariable() )
+					m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, expr->getIdentifier()->getVariable() )
 						, std::move( aliasExpr ) );
 				}
 			}
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
 			{
+				TraceFunc
 				auto intrinsic = expr->getIntrinsic();
 
 				if ( intrinsic >= expr::Intrinsic::eMatrixCompMult2x2F
@@ -1247,7 +1273,7 @@ namespace ast
 						args.emplace_back( doSubmit( arg ) );
 					}
 
-					m_result = expr::makeIntrinsicCall( expr->getType()
+					m_result = m_exprCache.makeIntrinsicCall( expr->getType()
 						, expr->getIntrinsic()
 						, std::move( args ) );
 				}
@@ -1255,12 +1281,14 @@ namespace ast
 
 			void visitLiteralExpr( expr::Literal * expr )override
 			{
-				m_result = std::make_unique< expr::Literal >( *expr );
+				TraceFunc
+				m_result = m_exprCache.makeLiteral( *expr );
 			}
 
 			void visitMbrSelectExpr( expr::MbrSelect * expr )override
 			{
-				m_result = expr::makeMbrSelect( doSubmit( expr->getOuterExpr() )
+				TraceFunc
+				m_result = m_exprCache.makeMbrSelect( doSubmit( expr->getOuterExpr() )
 					, expr->getMemberIndex()
 					, expr->getMemberFlags() );
 			}
@@ -1272,7 +1300,7 @@ namespace ast
 
 				if ( condComponents == opsComponents )
 				{
-					m_result = expr::makeQuestion( expr->getType()
+					m_result = m_exprCache.makeQuestion( expr->getType()
 						, doSubmit( expr->getCtrlExpr() )
 						, doSubmit( expr->getTrueExpr() )
 						, doSubmit( expr->getFalseExpr() ) );
@@ -1281,17 +1309,17 @@ namespace ast
 				{
 					assert( condComponents == 1u );
 					ast::expr::ExprList args;
-					expr::ExprPtr argAlias;
+					expr::ExprPtr argAlias{};
 					ast::var::VariablePtr alias;
 					doMakeAlias( doSubmit( expr->getCtrlExpr() )
 						, false
 						, argAlias
 						, alias );
 					args.emplace_back( std::move( argAlias ) );
-					m_result = ast::expr::makeQuestion( expr->getType()
-						, doSubmit( ast::expr::makeCompositeConstruct( getCompositeType( opsComponents )
+					m_result = m_exprCache.makeQuestion( expr->getType()
+						, doSubmit( m_exprCache.makeCompositeConstruct( getCompositeType( opsComponents )
 							, expr->getCtrlExpr()->getType()->getKind()
-							, std::move( args ) ).get() )
+							, std::move( args ) ) )
 						, doSubmit( expr->getTrueExpr() )
 						, doSubmit( expr->getFalseExpr() ) );
 				}
@@ -1299,21 +1327,25 @@ namespace ast
 
 			void visitStreamAppendExpr( expr::StreamAppend * expr )override
 			{
-				m_result = expr::makeStreamAppend( doSubmit( expr->getOperand() ) );
+				TraceFunc
+				m_result = m_exprCache.makeStreamAppend( doSubmit( expr->getOperand() ) );
 			}
 
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
-				m_result = expr::makeSwitchCase( std::make_unique< expr::Literal >( *expr->getLabel() ) );
+				TraceFunc
+				m_result = m_exprCache.makeSwitchCase( m_exprCache.makeLiteral( *expr->getLabel() ) );
 			}
 
 			void visitSwitchTestExpr( expr::SwitchTest * expr )override
 			{
-				m_result = expr::makeSwitchTest( doSubmit( expr->getValue() ) );
+				TraceFunc
+				m_result = m_exprCache.makeSwitchTest( doSubmit( expr->getValue() ) );
 			}
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
+				TraceFunc
 				auto outerComponentsCount = getComponentCount( expr->getOuterExpr()->getType()->getKind() );
 				auto innerComponentsCount = getComponentCount( expr->getType()->getKind() );
 				m_result = doSubmit( expr->getOuterExpr() );
@@ -1325,13 +1357,14 @@ namespace ast
 						&& expr->getSwizzle() != ast::expr::SwizzleKind::e012
 						&& expr->getSwizzle() != ast::expr::SwizzleKind::e0123 ) )
 				{
-					m_result = expr::makeSwizzle( std::move( m_result )
+					m_result = m_exprCache.makeSwizzle( std::move( m_result )
 						, expr->getSwizzle() );
 				}
 			}
 
 			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
 			{
+				TraceFunc
 				auto kind = expr->getCombinedImageAccess();
 				auto returnComponentsCount = getReturnComponentCount( kind );
 				auto returnType = expr->getType();
@@ -1340,7 +1373,7 @@ namespace ast
 				if ( returnComponentsCount != InvalidComponentCount && returnComponentsCount != count )
 				{
 					assert( returnComponentsCount > count );
-					returnType = m_cache.getVector( getScalarType( returnType->getKind() ), returnComponentsCount );
+					returnType = m_typesCache.getVector( getScalarType( returnType->getKind() ), returnComponentsCount );
 				}
 
 				ast::expr::ExprList args;
@@ -1350,7 +1383,7 @@ namespace ast
 					args.emplace_back( doSubmit( arg ) );
 				}
 
-				m_result = ast::expr::makeCombinedImageAccessCall( returnType
+				m_result = m_exprCache.makeCombinedImageAccessCall( returnType
 						, kind
 						, std::move( args ) );
 
@@ -1374,13 +1407,13 @@ namespace ast
 						break;
 					}
 
-					m_result = ast::expr::makeSwizzle( std::move( m_result ), swizzleKind );
+					m_result = m_exprCache.makeSwizzle( std::move( m_result ), swizzleKind );
 				}
 
 				auto type = m_result->getType();
 				auto alias = doCreateAliasVar( type
 					, std::move( m_result ) );
-				m_result = ast::expr::makeIdentifier( m_cache, alias );
+				m_result = m_exprCache.makeIdentifier( m_typesCache, alias );
 			}
 
 		private:
@@ -1388,6 +1421,7 @@ namespace ast
 				, expr::ExprPtr aliasedExpr
 				, uint64_t flags )
 			{
+				TraceFunc
 				auto kind = getNonArrayKind( type );
 				auto result = var::makeVariable( ++m_data.nextVarId
 					, type
@@ -1404,13 +1438,13 @@ namespace ast
 
 				if ( flags & uint64_t( var::Flag::eAlias ) )
 				{
-					doAddStmt( stmt::makeSimple( expr::makeAlias( result->getType()
-						, expr::makeIdentifier( m_cache, result )
+					doAddStmt( stmt::makeSimple( m_exprCache.makeAlias( result->getType()
+						, m_exprCache.makeIdentifier( m_typesCache, result )
 						, std::move( aliasedExpr ) ) ) );
 				}
 				else
 				{
-					doAddStmt( stmt::makeSimple( expr::makeInit( expr::makeIdentifier( m_cache, result )
+					doAddStmt( stmt::makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, result )
 						, std::move( aliasedExpr ) ) ) );
 				}
 
@@ -1420,6 +1454,7 @@ namespace ast
 			var::VariablePtr doCreateAliasVar( type::TypePtr type
 				, expr::ExprPtr aliasedExpr )
 			{
+				TraceFunc
 				return doCreateVar( type
 					, std::move( aliasedExpr )
 					, ( var::Flag::eTemp | var::Flag::eAlias ) );
@@ -1431,6 +1466,7 @@ namespace ast
 				, var::VariablePtr & alias
 				, bool force = false )
 			{
+				TraceFunc
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier
 					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isAlias() )
 				{
@@ -1453,34 +1489,35 @@ namespace ast
 				auto type = expr->getType();
 				alias = doCreateAliasVar( type
 					, std::move( expr ) );
-				aliasExpr = expr::makeIdentifier( m_cache, alias );
+				aliasExpr = m_exprCache.makeIdentifier( m_typesCache, alias );
 				return true;
 			}
 
 			expr::ExprPtr doSubmit( expr::Expr * expr )
 			{
-				return submit( expr, m_cache, m_container, m_isParam, m_data );
+				return submit( expr, m_exprCache, m_typesCache, m_container, m_isParam, m_data );
 			}
 
 			expr::ExprPtr doSubmit( expr::ExprPtr const & expr )
 			{
-				return doSubmit( expr.get() );
+				return submit( expr.get(), m_exprCache, m_typesCache, m_container, m_isParam, m_data );
 			}
 
 			template< typename ExprT >
 			void doProcessAssignBinExprT( expr::Binary * expr )
 			{
-				expr::ExprPtr aliasExpr;
+				TraceFunc
+				expr::ExprPtr aliasExpr{};
 				var::VariablePtr alias;
 				auto lhs = doSubmit( expr->getLHS() );
-				doMakeAlias( std::make_unique< ExprT >( expr->getType()
+				doMakeAlias( m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( lhs )
 					, doSubmit( expr->getRHS() ) )
 					, false
 					, aliasExpr
 					, alias
 					, true );
-				doAddStmt( stmt::makeSimple( expr::makeAssign( lhs->getType()
+				doAddStmt( stmt::makeSimple( m_exprCache.makeAssign( lhs->getType()
 					, doSubmit( lhs )
 					, std::move( aliasExpr ) ) ) );
 				m_result = std::move( lhs );
@@ -1489,16 +1526,17 @@ namespace ast
 			template< typename ExprT >
 			void doProcessAssignUnExprT( expr::Binary * expr )
 			{
-				expr::ExprPtr aliasExpr;
+				TraceFunc
+				expr::ExprPtr aliasExpr{};
 				var::VariablePtr alias;
 				auto lhs = doSubmit( expr->getLHS() );
-				doMakeAlias( std::make_unique< ExprT >( expr->getType()
+				doMakeAlias( m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( expr->getLHS() ) )
 					, false
 					, aliasExpr
 					, alias
 					, true );
-				doAddStmt( stmt::makeSimple( expr::makeAssign( lhs->getType()
+				doAddStmt( stmt::makeSimple( m_exprCache.makeAssign( lhs->getType()
 					, doSubmit( lhs )
 					, std::move( aliasExpr ) ) ) );
 				m_result = std::move( lhs );
@@ -1507,7 +1545,8 @@ namespace ast
 			template< typename ExprT >
 			void doProcessBinExprT( expr::Binary * expr )
 			{
-				m_result = std::make_unique< ExprT >( expr->getType()
+				TraceFunc
+				m_result = m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, doSubmit( expr->getRHS() ) );
 			}
@@ -1515,7 +1554,8 @@ namespace ast
 			template< typename ExprT >
 			void doProcessUnExprT( expr::Unary * expr )
 			{
-				m_result = std::make_unique< ExprT >( expr->getType()
+				TraceFunc
+				m_result = m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( expr->getOperand() ) );
 			}
 
@@ -1523,6 +1563,7 @@ namespace ast
 			void doProcessPrePostIncDecExprT( expr::Unary * expr
 				, bool isPre )
 			{
+				TraceFunc
 				var::VariablePtr opAlias;
 				auto lhs = doSubmit( expr->getOperand() );
 
@@ -1533,16 +1574,16 @@ namespace ast
 						, uint32_t( var::Flag::eTemp ) );
 				}
 
-				expr::ExprPtr aliasExpr;
+				expr::ExprPtr aliasExpr{};
 				var::VariablePtr alias;
-				doMakeAlias( std::make_unique< ExprT >( expr->getType()
+				doMakeAlias( m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( lhs )
-					, makeOne( expr->getType() ) )
+					, makeOne( m_exprCache, expr->getType() ) )
 					, false
 					, aliasExpr
 					, alias
 					, true );
-				doAddStmt( stmt::makeSimple( expr::makeAssign( lhs->getType()
+				doAddStmt( stmt::makeSimple( m_exprCache.makeAssign( lhs->getType()
 					, doSubmit( lhs )
 					, std::move( aliasExpr ) ) ) );
 
@@ -1552,13 +1593,14 @@ namespace ast
 				}
 				else
 				{
-					m_result = expr::makeIdentifier( m_cache, opAlias );
+					m_result = m_exprCache.makeIdentifier( m_typesCache, opAlias );
 				}
 			}
 
 			type::TypePtr doPromoteScalar( expr::ExprPtr & lhs
 				, expr::ExprPtr & rhs )
 			{
+				TraceFunc
 				auto lhsScalar = isScalarType( lhs->getType()->getKind() );
 				auto rhsScalar = isScalarType( rhs->getType()->getKind() );
 				auto result = lhs->getType();
@@ -1575,17 +1617,18 @@ namespace ast
 						result = rhs->getType();
 						expr::ExprList args;
 						auto count = getComponentCount( result->getKind() );
-						expr::ExprPtr alias;
+						expr::ExprPtr alias{};
 						var::VariablePtr aliasVar;
-						doMakeAlias( doSubmit( lhs.get() ), false, alias, aliasVar );
+						doMakeAlias( doSubmit( lhs ), false, alias, aliasVar );
 
 						for ( auto i = 0u; i < count; ++i )
 						{
-							args.emplace_back( doSubmit( alias.get() ) );
+							args.emplace_back( doSubmit( alias ) );
 						}
 
-						lhs = expr::makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
-							, args.back()->getType()->getKind()
+						auto kind = args.back()->getType()->getKind();
+						lhs = m_exprCache.makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
+							, kind
 							, std::move( args ) );
 					}
 					else if ( rhsScalar )
@@ -1593,17 +1636,18 @@ namespace ast
 						result = lhs->getType();
 						expr::ExprList args;
 						auto count = getComponentCount( result->getKind() );
-						expr::ExprPtr alias;
+						expr::ExprPtr alias{};
 						var::VariablePtr aliasVar;
-						doMakeAlias( doSubmit( rhs.get() ), false, alias, aliasVar );
+						doMakeAlias( doSubmit( rhs ), false, alias, aliasVar );
 
 						for ( auto i = 0u; i < count; ++i )
 						{
-							args.emplace_back( doSubmit( alias.get() ) );
+							args.emplace_back( doSubmit( alias ) );
 						}
 
-						rhs = expr::makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
-							, args.back()->getType()->getKind()
+						auto kind = args.back()->getType()->getKind();
+						rhs = m_exprCache.makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
+							, kind
 							, std::move( args ) );
 					}
 				}
@@ -1616,6 +1660,7 @@ namespace ast
 				, expr::Expr * lhs
 				, expr::Expr * rhs )
 			{
+				TraceFunc
 				bool needMatchingVectors;
 				bool switchParams;
 				auto forceRhsType = isMatrixTimesVector( operation
@@ -1636,7 +1681,7 @@ namespace ast
 				auto lhsExpr = doSubmit( lhs );
 				auto rhsExpr = doSubmit( rhs );
 				auto type = lhsExpr->getType();
-				expr::ExprPtr result;
+				expr::ExprPtr result{};
 
 				if ( lhsMat || rhsMat )
 				{
@@ -1661,7 +1706,7 @@ namespace ast
 							, rhsExpr.get() );
 						break;
 					case expr::Kind::eTimes:
-						result = expr::makeTimes( type
+						result = m_exprCache.makeTimes( type
 							, std::move( lhsExpr )
 							, std::move( rhsExpr ) );
 						break;
@@ -1682,22 +1727,22 @@ namespace ast
 					switch ( operation )
 					{
 					case expr::Kind::eAdd:
-						result = expr::makeAdd( type
+						result = m_exprCache.makeAdd( type
 							, std::move( lhsExpr )
 							, std::move( rhsExpr ) );
 						break;
 					case expr::Kind::eDivide:
-						result = expr::makeDivide( type
+						result = m_exprCache.makeDivide( type
 							, std::move( lhsExpr )
 							, std::move( rhsExpr ) );
 						break;
 					case expr::Kind::eMinus:
-						result = expr::makeMinus( type
+						result = m_exprCache.makeMinus( type
 							, std::move( lhsExpr )
 							, std::move( rhsExpr ) );
 						break;
 					case expr::Kind::eTimes:
-						result = expr::makeTimes( type
+						result = m_exprCache.makeTimes( type
 							, std::move( lhsExpr )
 							, std::move( rhsExpr ) );
 						break;
@@ -1715,6 +1760,7 @@ namespace ast
 				, expr::Expr * lhs
 				, expr::Expr * rhs )
 			{
+				TraceFunc
 				// one time set up...
 				auto lhsType = lhs->getType();
 				auto rhsType = rhs->getType();
@@ -1727,7 +1773,7 @@ namespace ast
 				auto numCols = lhsMat ? lhsColumns : rhsColumns;
 				auto numRows = lhsMat ? lhsRows : rhsRows;
 				auto scalarType = getScalarType( resType->getKind() );
-				auto vecType = m_cache.getVector( scalarType, numRows );
+				auto vecType = m_typesCache.getVector( scalarType, numRows );
 				expr::CompositeType composite;
 
 				switch ( numRows )
@@ -1746,7 +1792,7 @@ namespace ast
 					break;
 				}
 
-				expr::ExprPtr smearVec;
+				expr::ExprPtr smearVec{};
 
 				if ( isScalarType( lhsType->getKind() ) )
 				{
@@ -1758,7 +1804,7 @@ namespace ast
 					{
 						expr::ExprList params;
 						params.emplace_back( doSubmit( lhs ) );
-						smearVec = expr::makeCompositeConstruct( composite
+						smearVec = m_exprCache.makeCompositeConstruct( composite
 							, lhsType->getKind()
 							, std::move( params ) );
 					}
@@ -1773,7 +1819,7 @@ namespace ast
 					{
 						expr::ExprList params;
 						params.emplace_back( doSubmit( rhs ) );
-						smearVec = expr::makeCompositeConstruct( composite
+						smearVec = m_exprCache.makeCompositeConstruct( composite
 							, rhsType->getKind()
 							, std::move( params ) );
 					}
@@ -1787,31 +1833,31 @@ namespace ast
 					std::vector<unsigned int> indexes;
 					indexes.push_back( c );
 					auto lhsVec = lhsMat
-						? expr::makeArrayAccess( vecType, doSubmit( lhs ), expr::makeLiteral( m_cache, c ) )
-						: ExprCloner::submit( smearVec.get() );
+						? m_exprCache.makeArrayAccess( vecType, doSubmit( lhs ), m_exprCache.makeLiteral( m_typesCache, c ) )
+						: ExprCloner::submit( m_exprCache, smearVec );
 					auto rhsVec = rhsMat
-						? expr::makeArrayAccess( vecType, doSubmit( rhs ), expr::makeLiteral( m_cache, c ) )
-						: ExprCloner::submit( smearVec.get() );
+						? m_exprCache.makeArrayAccess( vecType, doSubmit( rhs ), m_exprCache.makeLiteral( m_typesCache, c ) )
+						: ExprCloner::submit( m_exprCache, smearVec );
 
 					switch ( operation )
 					{
 					case expr::Kind::eAdd:
-						args.emplace_back( expr::makeAdd( vecType
+						args.emplace_back( m_exprCache.makeAdd( vecType
 							, std::move( lhsVec )
 							, std::move( rhsVec ) ) );
 						break;
 					case expr::Kind::eDivide:
-						args.emplace_back( expr::makeDivide( vecType
+						args.emplace_back( m_exprCache.makeDivide( vecType
 							, std::move( lhsVec )
 							, std::move( rhsVec ) ) );
 						break;
 					case expr::Kind::eMinus:
-						args.emplace_back( expr::makeMinus( vecType
+						args.emplace_back( m_exprCache.makeMinus( vecType
 							, std::move( lhsVec )
 							, std::move( rhsVec ) ) );
 						break;
 					case expr::Kind::eTimes:
-						args.emplace_back( expr::makeTimes( vecType
+						args.emplace_back( m_exprCache.makeTimes( vecType
 							, std::move( lhsVec )
 							, std::move( rhsVec ) ) );
 						break;
@@ -1898,7 +1944,7 @@ namespace ast
 				// put the pieces together
 				if ( composite != expr::CompositeType::eScalar )
 				{
-					return expr::makeCompositeConstruct( composite
+					return m_exprCache.makeCompositeConstruct( composite
 						, scalarType
 						, std::move( args ) );
 				}
@@ -1912,22 +1958,23 @@ namespace ast
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
 			{
+				TraceFunc
 				auto count = getComponentCount( destKind );
 
 				for ( auto i = 0u; i < count; ++i )
 				{
-					args.emplace_back( ast::expr::makeSwizzle( doSubmit( newArg.get() )
+					args.emplace_back( m_exprCache.makeSwizzle( doSubmit( newArg )
 						, ast::expr::SwizzleKind::fromOffset( i ) ) );
 				}
 
 				if ( newArg->getType()->getKind() != expr->getType()->getKind() )
 				{
-					auto dstType = m_cache.getBasicType( getScalarType( expr->getType()->getKind() ) );
+					auto dstType = m_typesCache.getBasicType( getScalarType( expr->getType()->getKind() ) );
 
 					for ( auto & arg : args )
 					{
-						arg = doSubmit( ast::expr::makeCast( dstType
-							, std::move( arg ) ).get() );
+						arg = doSubmit( m_exprCache.makeCast( dstType
+							, std::move( arg ) ) );
 					}
 				}
 			}
@@ -1937,6 +1984,7 @@ namespace ast
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
 			{
+				TraceFunc
 				auto scalarType = getScalarType( destKind );
 				auto srcColumnCount = getComponentCount( newArg->getType()->getKind() );
 				auto srcRowCount = getComponentCount( getComponentType( newArg->getType()->getKind() ) );
@@ -1946,13 +1994,13 @@ namespace ast
 
 				for ( auto col = 0u; col < minColumnCount; ++col )
 				{
-					auto arrayAccess = ast::expr::makeArrayAccess( m_cache.getVector( scalarType, srcRowCount )
-						, doSubmit( newArg.get() )
-						, ast::expr::makeLiteral( m_cache, col ) );
+					auto arrayAccess = m_exprCache.makeArrayAccess( m_typesCache.getVector( scalarType, srcRowCount )
+						, doSubmit( newArg )
+						, m_exprCache.makeLiteral( m_typesCache, col ) );
 
 					if ( dstRowCount < srcRowCount )
 					{
-						args.emplace_back( ast::expr::makeSwizzle( std::move( arrayAccess )
+						args.emplace_back( m_exprCache.makeSwizzle( std::move( arrayAccess )
 							, getSwizzleComponents( dstRowCount ) ) );
 					}
 					else if ( dstRowCount == srcRowCount )
@@ -1968,15 +2016,15 @@ namespace ast
 						{
 							if ( row == col )
 							{
-								compositeArgs.emplace_back( makeOne( m_cache, scalarType ) );
+								compositeArgs.emplace_back( makeOne( m_exprCache, m_typesCache, scalarType ) );
 							}
 							else
 							{
-								compositeArgs.emplace_back( makeZero( m_cache, scalarType ) );
+								compositeArgs.emplace_back( makeZero( m_exprCache, m_typesCache, scalarType ) );
 							}
 						}
 
-						args.emplace_back( ast::expr::makeCompositeConstruct( getCompositeType( dstRowCount )
+						args.emplace_back( m_exprCache.makeCompositeConstruct( getCompositeType( dstRowCount )
 							, scalarType
 							, std::move( compositeArgs ) ) );
 					}
@@ -1990,11 +2038,12 @@ namespace ast
 			void doConstructOther( ast::expr::CompositeConstruct * expr
 				, ast::expr::ExprList & args )
 			{
+				TraceFunc
 				auto scalarType = getScalarType( expr->getComponent() );
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					auto newArg = doSubmit( arg.get() );
+					auto newArg = doSubmit( arg );
 
 					if ( isScalarType( newArg->getType()->getKind() ) )
 					{
@@ -2002,7 +2051,7 @@ namespace ast
 
 						if ( argTypeKind != scalarType )
 						{
-							newArg = ast::expr::makeCast( m_cache.getBasicType( scalarType )
+							newArg = m_exprCache.makeCast( m_typesCache.getBasicType( scalarType )
 								, std::move( newArg ) );
 						}
 					}
@@ -2013,6 +2062,7 @@ namespace ast
 
 			void doAddStmt( stmt::StmtPtr stmt )
 			{
+				TraceFunc
 				if ( stmt->getKind() == stmt::Kind::eSimple )
 				{
 					auto expr = static_cast< stmt::Simple const & >( *stmt ).getExpr();
@@ -2028,7 +2078,8 @@ namespace ast
 
 		private:
 			SSAData & m_data;
-			type::TypesCache & m_cache;
+			expr::ExprCache & m_exprCache;
+			type::TypesCache & m_typesCache;
 			stmt::Container * m_container;
 			bool m_isParam;
 			expr::ExprPtr & m_result;
@@ -2039,22 +2090,24 @@ namespace ast
 		{
 		public:
 			static stmt::ContainerPtr submit( stmt::Container * stmt
-				, type::TypesCache & cache
+				, expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, SSAData & data )
 			{
 				stmt::ContainerPtr result = stmt::makeContainer();
-				StmtSSAiser vis{ data, cache, result };
+				StmtSSAiser vis{ data, exprCache, typesCache, result };
 				stmt->accept( &vis );
 				return result;
 			}
 
 		private:
 			StmtSSAiser( SSAData & data
-				, type::TypesCache & cache
+				, expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
 				, stmt::ContainerPtr & result )
-				: StmtCloner{ result }
+				: StmtCloner{ exprCache, result }
 				, m_data{ data }
-				, m_cache{ cache }
+				, m_typesCache{ typesCache }
 			{
 			}
 
@@ -2062,7 +2115,8 @@ namespace ast
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				return ExprSSAiser::submit( expr
-					, m_cache
+					, m_exprCache
+					, m_typesCache
 					, m_current
 					, false
 					, m_data );
@@ -2080,12 +2134,12 @@ namespace ast
 
 			void visitIfStmt( ast::stmt::If * stmt )override
 			{
+				TraceFunc
 				auto save = m_current;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
-				auto & cache = ctrlExpr->getCache();
 				auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
 				auto cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
-					? makeToBoolCast( cache, std::move( ctrlExpr ) )
+					? makeToBoolCast( m_exprCache, m_typesCache, std::move( ctrlExpr ) )
 					: std::move( ctrlExpr ) );
 				m_current = cont.get();
 				visitContainerStmt( stmt );
@@ -2120,7 +2174,7 @@ namespace ast
 						ctrlExpr = doSubmit( elseIf->getCtrlExpr() );
 						scalarType = getScalarType( ctrlExpr->getType()->getKind() );
 						cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
-							? makeToBoolCast( cache, std::move( ctrlExpr ) )
+							? makeToBoolCast( m_exprCache, m_typesCache, std::move( ctrlExpr ) )
 							: std::move( ctrlExpr ) );
 						m_current = cont.get();
 						visitContainerStmt( elseIf.get() );
@@ -2142,6 +2196,7 @@ namespace ast
 
 			void visitForStmt( stmt::For * stmt )override
 			{
+				TraceFunc
 				auto block = stmt::makeCompound();
 				auto save = m_current;
 				m_current = block.get();
@@ -2164,6 +2219,7 @@ namespace ast
 
 			void visitWhileStmt( stmt::While * stmt )override
 			{
+				TraceFunc
 				auto ifStmt = stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
 				{
 					// Do ... while content
@@ -2179,38 +2235,43 @@ namespace ast
 
 			void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override
 			{
+				TraceFunc
 				m_fragmentLayoutStmt = stmt;
 			}
 
 			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
 			{
+				TraceFunc
 				m_outputGeometryLayoutStmt = stmt;
 			}
 
 			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
 			{
+				TraceFunc
 				m_inputGeometryLayoutStmt = stmt;
 			}
 
 			void visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout * stmt )override
 			{
+				TraceFunc
 				m_outputTessCtrlLayoutStmt = stmt;
 			}
 
 			void visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )override
 			{
+				TraceFunc
 				m_intputTessEvalLayoutStmt = stmt;
 			}
 
 			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
+				TraceFunc
 				if ( stmt->isEntryPoint() )
 				{
 					if ( stmt->getType()->size() < 2u
 						&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
 					{
 						auto funcType = stmt->getType();
-						auto & cache = funcType->getCache();
 						auto inType = type::makeGeometryInputType( m_inputGeometryLayoutStmt->getType()
 							, m_inputGeometryLayoutStmt->getLayout() );
 						auto outType = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
@@ -2224,7 +2285,8 @@ namespace ast
 							, outType
 							, var::Flag::eInputParam | var::Flag::eOutputParam | var::Flag::eShaderOutput ) );
 
-						funcType = cache.getFunction( funcType->getReturnType()
+						auto & typesCache = funcType->getTypesCache();
+						funcType = typesCache.getFunction( funcType->getReturnType()
 							, std::move( parameters ) );
 						auto save = m_current;
 						auto cont = stmt::makeFunctionDecl( funcType
@@ -2249,6 +2311,7 @@ namespace ast
 		private:
 			void doAddStmt( stmt::StmtPtr stmt )
 			{
+				TraceFunc
 				if ( stmt->getKind() == stmt::Kind::eSimple )
 				{
 					auto expr = static_cast< stmt::Simple const & >( *stmt ).getExpr();
@@ -2264,7 +2327,7 @@ namespace ast
 
 		private:
 			SSAData & m_data;
-			type::TypesCache & m_cache;
+			type::TypesCache & m_typesCache;
 			stmt::FragmentLayout * m_fragmentLayoutStmt{};
 			stmt::OutputGeometryLayout * m_outputGeometryLayoutStmt{};
 			stmt::InputGeometryLayout * m_inputGeometryLayoutStmt{};
@@ -2273,10 +2336,11 @@ namespace ast
 		};
 	}
 
-	stmt::ContainerPtr transformSSA( type::TypesCache & cache
+	stmt::ContainerPtr transformSSA( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
 		, stmt::Container * container
 		, SSAData & ssaData )
 	{
-		return ssa::StmtSSAiser::submit( container, cache, ssaData );
+		return ssa::StmtSSAiser::submit( container, exprCache, typesCache, ssaData );
 	}
 }

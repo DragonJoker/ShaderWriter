@@ -13,10 +13,12 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API Unary( type::TypePtr type
+		SDAST_API Unary( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr operand
 			, Kind kind );
-		SDAST_API Unary( ExprPtr operand
+		SDAST_API Unary( ExprCache & exprCache
+			, ExprPtr operand
 			, Kind kind );
 
 		inline Expr * getOperand()const
@@ -25,7 +27,7 @@ namespace ast::expr
 		}
 
 	private:
-		ExprPtr m_operand;
+		ExprPtr m_operand{};
 	};
 }
 

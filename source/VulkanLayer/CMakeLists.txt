@@ -54,6 +54,10 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 		ALIAS
 		${PROJECT_NAME}
 	)
+	target_sources( ${PROJECT_NAME} 
+		PRIVATE
+			${SDW_EDITORCONFIG_FILE}
+	)
 	target_compile_definitions( ${PROJECT_NAME}
 		PUBLIC
 			${_FOLDER_NAME}_Static

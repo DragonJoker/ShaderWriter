@@ -17,9 +17,10 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API IntrinsicCall( type::TypePtr type
+		SDAST_API IntrinsicCall( ExprCache & exprCache
+			, type::TypePtr type
 			, Intrinsic intrinsic
-			, ExprList && argList );
+			, ExprList argList );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -37,28 +38,6 @@ namespace ast::expr
 		Intrinsic m_intrinsic;
 		ExprList m_argList;
 	};
-	using IntrinsicCallPtr = std::unique_ptr< IntrinsicCall >;
-
-	inline IntrinsicCallPtr makeIntrinsicCall( type::TypePtr type
-		, Intrinsic intrinsic
-		, ExprList && argList )
-	{
-		return std::make_unique< IntrinsicCall >( std::move( type )
-			, intrinsic
-			, std::move( argList ) );
-	}
-
-	template< typename ... Params >
-	inline IntrinsicCallPtr makeIntrinsicCall( type::TypePtr type
-		, Intrinsic intrinsic
-		, Params ... args )
-	{
-		ExprList argList;
-		helpers::fillArgsListRec( argList, std::forward< Params >( args )... );
-		return makeIntrinsicCall( std::move( type )
-			, intrinsic
-			, std::move( argList ) );
-	}
 
 	// Shader Invocation and Memory Control Functions
 
@@ -72,17 +51,11 @@ namespace ast::expr
 	*@param[in] semantics
 	*	type::memorysemantics
 	*/
-	inline IntrinsicCallPtr makeControlBarrier( type::TypesCache & cache
+	SDAST_API IntrinsicCallPtr makeControlBarrier( ExprCache & exprCache
+		, type::TypesCache & typesCache
 		, type::Scope executionScope
 		, type::Scope memoryScope
-		, type::MemorySemantics semantics )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eControlBarrier
-			, makeLiteral( cache, uint32_t( executionScope ) )
-			, makeLiteral( cache, uint32_t( memoryScope ) )
-			, makeLiteral( cache, uint32_t( semantics ) ) );
-	}
+		, type::MemorySemantics semantics );
 	/**
 	*@return
 	*	void
@@ -91,15 +64,10 @@ namespace ast::expr
 	*@param[in] semantics
 	*	type::memorysemantics
 	*/
-	inline IntrinsicCallPtr makeMemoryBarrier( type::TypesCache & cache
+	SDAST_API IntrinsicCallPtr makeMemoryBarrier( ExprCache & exprCache
+		, type::TypesCache & typesCache
 		, type::Scope memoryScope
-		, type::MemorySemantics semantics )
-	{
-		return makeIntrinsicCall( cache.getBasicType( type::Kind::eVoid )
-			, Intrinsic::eMemoryBarrier
-			, makeLiteral( cache, uint32_t( memoryScope ) )
-			, makeLiteral( cache, uint32_t( semantics ) ) );
-	}
+		, type::MemorySemantics semantics );
 }
 
 #endif

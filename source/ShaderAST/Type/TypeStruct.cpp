@@ -446,9 +446,9 @@ namespace ast::type
 
 	//*************************************************************************
 
-	Struct::Struct( TypesCache & cache
+	Struct::Struct( TypesCache & typesCache
 		, Struct const & rhs )
-		: Type{ cache, Kind::eStruct }
+		: Type{ typesCache, Kind::eStruct }
 		, m_name{ rhs.getName() }
 		, m_layout{ rhs.m_layout }
 		, m_flag{ rhs.m_flag }
@@ -456,11 +456,11 @@ namespace ast::type
 		doCopyMembers( rhs );
 	}
 
-	Struct::Struct( TypesCache & cache
+	Struct::Struct( TypesCache & typesCache
 		, Struct * parent
 		, uint32_t index
 		, Struct const & copy )
-		: Type{ cache, parent, index, copy }
+		: Type{ typesCache, parent, index, copy }
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
 		, m_flag{ copy.m_flag }
@@ -469,20 +469,20 @@ namespace ast::type
 	}
 
 
-	Struct::Struct( TypesCache & cache
+	Struct::Struct( TypesCache & typesCache
 		, Struct & parent
 		, uint32_t index
 		, Struct const & copy )
-		: Struct{ cache, &parent, index, copy }
+		: Struct{ typesCache, &parent, index, copy }
 	{
 	}
 
-	Struct::Struct( TypesCache & cache
+	Struct::Struct( TypesCache & typesCache
 		, MemoryLayout layout
 		, std::string name
 		, var::Flag flag
 		, Kind kind )
-		: Type{ cache, kind }
+		: Type{ typesCache, kind }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 		, m_flag{ flag }
@@ -562,7 +562,7 @@ namespace ast::type
 	{
 		return std::shared_ptr< Struct >( new Struct
 			{
-				getCache(),
+				getTypesCache(),
 				parent,
 				index,
 				*this,
@@ -634,18 +634,18 @@ namespace ast::type
 
 	//*************************************************************************
 
-	BaseStruct::BaseStruct( TypesCache & cache
+	BaseStruct::BaseStruct( TypesCache & typesCache
 		, MemoryLayout layout
 		, std::string name
 		, Kind kind )
-		: Struct{ cache, layout, std::move( name ), {}, kind }
+		: Struct{ typesCache, layout, std::move( name ), {}, kind }
 	{
 	}
 
-	BaseStruct::BaseStruct( TypesCache & cache
+	BaseStruct::BaseStruct( TypesCache & typesCache
 		, MemoryLayout layout
 		, std::string name )
-		: BaseStruct{ cache, layout, std::move( name ), Kind::eStruct }
+		: BaseStruct{ typesCache, layout, std::move( name ), Kind::eStruct }
 	{
 	}
 
@@ -661,17 +661,17 @@ namespace ast::type
 		}
 
 		TypePtr mbrType;
-		auto type = getCache().getBasicType( kind );
+		auto type = getTypesCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( type
+			mbrType = getTypesCache().getMemberType( type
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -690,17 +690,17 @@ namespace ast::type
 		}
 
 		TypePtr mbrType;
-		auto type = getCache().getBasicType( kind );
+		auto type = getTypesCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( type
+			mbrType = getTypesCache().getMemberType( type
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -763,7 +763,7 @@ namespace ast::type
 			return Struct::Member{};
 		}
 
-		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+		auto mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 			, *this
 			, uint32_t( size() ) );
 		return doCreateMember( mbrType, std::move( name ) );
@@ -829,15 +829,15 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+			mbrType = getTypesCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getCache().getMemberType( mbrType
+			mbrType = getTypesCache().getStruct( type->getMemoryLayout(), type->getName() );
+			mbrType = getTypesCache().getMemberType( mbrType
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -869,19 +869,19 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getIOStruct( type->getMemoryLayout()
+			mbrType = getTypesCache().getIOStruct( type->getMemoryLayout()
 				, type->getName()
 				, ast::var::Flag( type->getFlag() ) );
-			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getIOStruct( type->getMemoryLayout()
+			mbrType = getTypesCache().getIOStruct( type->getMemoryLayout()
 				, type->getName()
 				, ast::var::Flag( type->getFlag() ) );
-			mbrType = getCache().getMemberType( mbrType
+			mbrType = getTypesCache().getMemberType( mbrType
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -929,11 +929,11 @@ namespace ast::type
 
 	//*************************************************************************
 
-	IOStruct::IOStruct( TypesCache & cache
+	IOStruct::IOStruct( TypesCache & typesCache
 		, MemoryLayout layout
 		, std::string name
 		, var::Flag flag )
-		: Struct{ cache, layout, std::move( name ), flag }
+		: Struct{ typesCache, layout, std::move( name ), flag }
 	{
 	}
 
@@ -943,17 +943,17 @@ namespace ast::type
 		, uint32_t index )
 	{
 		TypePtr mbrType;
-		auto type = getCache().getBasicType( kind );
+		auto type = getTypesCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( type
+			mbrType = getTypesCache().getMemberType( type
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -970,13 +970,13 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( type
+			mbrType = getTypesCache().getMemberType( type
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -996,17 +996,17 @@ namespace ast::type
 		}
 
 		TypePtr mbrType;
-		auto type = getCache().getBasicType( kind );
+		auto type = getTypesCache().getBasicType( kind );
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( type
+			mbrType = getTypesCache().getMemberType( type
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -1055,7 +1055,7 @@ namespace ast::type
 			return;
 		}
 
-		auto mbrType = getCache().getMemberType( getCache().getArray( type, arraySize )
+		auto mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 			, *this
 			, uint32_t( size() ) );
 		doCreateMember( mbrType, std::move( name ), location );
@@ -1110,13 +1110,13 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getCache().getMemberType( getCache().getArray( mbrType, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getCache().getMemberType( mbrType
+			mbrType = getTypesCache().getMemberType( mbrType
 				, *this
 				, uint32_t( size() ) );
 		}
@@ -1164,8 +1164,8 @@ namespace ast::type
 
 	//*************************************************************************
 
-	RayDesc::RayDesc( TypesCache & cache )
-		: BaseStruct{ cache, MemoryLayout::eC, "RayDesc", Kind::eRayDesc }
+	RayDesc::RayDesc( TypesCache & typesCache )
+		: BaseStruct{ typesCache, MemoryLayout::eC, "RayDesc", Kind::eRayDesc }
 	{
 		declMember( "Origin", Kind::eVec3F );
 		declMember( "TMin", Kind::eFloat );

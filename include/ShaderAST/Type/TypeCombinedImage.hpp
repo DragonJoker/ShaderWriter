@@ -16,7 +16,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API CombinedImage( TypesCache & cache
+		SDAST_API CombinedImage( TypesCache & typesCache
 			, ImageConfiguration config
 			, bool isComparison );
 

@@ -16,29 +16,31 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	ast::stmt::ContainerPtr StmtAdapter::submit( HlslShader & shader
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::expr::ExprCache & exprCache
+		, HlslShader & shader
 		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData )
 	{
 		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ shader, intrinsicsConfig, writerConfig, adaptationData, result };
+		StmtAdapter vis{ exprCache, shader, intrinsicsConfig, writerConfig, adaptationData, result };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( HlslShader & shader
+	StmtAdapter::StmtAdapter( ast::expr::ExprCache & exprCache
+		, HlslShader & shader
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
 		, ast::stmt::ContainerPtr & result )
-		: StmtCloner{ result }
+		: StmtCloner{ exprCache, result }
 		, m_intrinsicsConfig{ intrinsicsConfig }
 		, m_writerConfig{ writerConfig }
 		, m_adaptationData{ adaptationData }
 		, m_shader{ shader }
-		, m_cache{ shader.getTypesCache() }
+		, m_typesCache{ shader.getTypesCache() }
 	{
 		m_declaredStructs.insert( "RayDesc" );
 		auto cont = ast::stmt::makeContainer();
@@ -55,7 +57,8 @@ namespace hlsl
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( m_cache
+		return ExprAdapter::submit( m_exprCache
+			, m_typesCache
 			, expr
 			, m_current
 			, m_intrinsicsConfig
@@ -63,6 +66,11 @@ namespace hlsl
 			, m_adaptationData
 			, m_intrinsics
 			, false );
+	}
+
+	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		return doSubmit( expr.get() );
 	}
 
 	void StmtAdapter::linkVars( ast::var::VariablePtr textureSampler
@@ -118,7 +126,7 @@ namespace hlsl
 							, ast::var::Flag::eShaderInput | ast::var::Flag::eInputParam | ( *it )->getFlags() );
 						params.push_back( var );
 						m_adaptationData.replacedVars.emplace( *it
-							, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, var )
+							, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, var )
 								, 0u
 								, var->getFlags() ) );
 					}
@@ -130,7 +138,7 @@ namespace hlsl
 					++it;
 				}
 
-				auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
+				auto cont = ast::stmt::makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
 					, stmt->getName()
 					, stmt->getFlags() );
 				m_current = cont.get();
@@ -161,7 +169,7 @@ namespace hlsl
 
 				m_adaptationData.updateCurrentEntryPoint( stmt );
 
-				auto & cache = stmt->getType()->getCache();
+				auto & typesCache = stmt->getType()->getTypesCache();
 				// Write function content into a temporary container, registering I/O.
 				auto cont = ast::stmt::makeContainer();
 				auto save = m_current;
@@ -172,7 +180,7 @@ namespace hlsl
 				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
 				ast::var::VariableList parameters;
 				auto retType = m_adaptationData.fillParameters( parameters, *m_current );
-				auto mainCont = ast::stmt::makeFunctionDecl( cache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
+				auto mainCont = ast::stmt::makeFunctionDecl( typesCache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
 					, parameters )
 					, stmt->getName()
 					, stmt->getFlags() );
@@ -221,7 +229,7 @@ namespace hlsl
 				, var->getName()
 				, var->getFlags() );
 			m_adaptationData.replacedVars.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, replVar )
+				, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, replVar )
 					, 0u
 					, replVar->getFlags() ) );
 			var = replVar;
@@ -261,7 +269,7 @@ namespace hlsl
 				, var->getName()
 				, var->getFlags() );
 			m_adaptationData.replacedVars.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, replVar )
+				, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, replVar )
 					, 0u
 					, replVar->getFlags() ) );
 			var = replVar;
@@ -302,7 +310,7 @@ namespace hlsl
 				, var->getName()
 				, var->getFlags() );
 			m_adaptationData.replacedVars.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeIdentifier( m_cache, replVar )
+				, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, replVar )
 					, 0u
 					, replVar->getFlags() ) );
 			var = replVar;
@@ -362,16 +370,16 @@ namespace hlsl
 		{
 			auto arrayType = std::static_pointer_cast< ast::type::Array >( originalVar->getType() );
 			auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( arrayType->getType() );
-			imageType = m_cache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
+			imageType = m_typesCache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
 			config = realSampledType->getConfig();
 
 			if ( !m_intrinsicsConfig.requiresShadowSampler )
 			{
-				samplerType = m_cache.getArray( m_cache.getSampler( false ), arrayType->getArraySize() );
+				samplerType = m_typesCache.getArray( m_typesCache.getSampler( false ), arrayType->getArraySize() );
 			}
 			else
 			{
-				samplerType = m_cache.getArray( realSampledType->getSamplerType(), arrayType->getArraySize() );
+				samplerType = m_typesCache.getArray( realSampledType->getSamplerType(), arrayType->getArraySize() );
 			}
 		}
 		else
@@ -382,7 +390,7 @@ namespace hlsl
 
 			if ( !m_intrinsicsConfig.requiresShadowSampler )
 			{
-				samplerType = m_cache.getSampler( false );
+				samplerType = m_typesCache.getSampler( false );
 			}
 			else
 			{
@@ -448,12 +456,12 @@ namespace hlsl
 			assert( curStmt->getKind() == ast::stmt::Kind::eVariableDecl );
 			auto var = static_cast< ast::stmt::VariableDecl const & >( *curStmt ).getVariable();
 			m_adaptationData.replacedVars.emplace( var
-				, ast::expr::makeMbrSelect( ast::expr::makeArrayAccess( ssboVar->getType()
-						, ast::expr::makeIdentifier( m_cache
+				, m_exprCache.makeMbrSelect( m_exprCache.makeArrayAccess( ssboVar->getType()
+						, m_exprCache.makeIdentifier( m_typesCache
 							, ast::var::makeVariable( ++m_adaptationData.nextVarId
-								, m_cache.getArray( ssboVar->getType(), 1u )
+								, m_typesCache.getArray( ssboVar->getType(), 1u )
 								, ssboVar->getName() ) )
-						, ast::expr::makeLiteral( m_cache, 0 ) )
+						, m_exprCache.makeLiteral( m_typesCache, 0 ) )
 					, mbrIndex++
 					, uint64_t( ast::var::Flag::eUniform ) ) );
 		}
@@ -494,7 +502,7 @@ namespace hlsl
 	{
 		assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
 		ast::var::VariableList mainParameters;
-		ast::type::TypePtr mainRetType = m_cache.getVoid();
+		ast::type::TypePtr mainRetType = m_typesCache.getVoid();
 		auto retType = m_adaptationData.fillParameters( mainParameters, *m_current );
 
 		if ( retType )
@@ -502,16 +510,16 @@ namespace hlsl
 			mainRetType = retType;
 		}
 
-		auto cont = ast::stmt::makeFunctionDecl( m_cache.getFunction( mainRetType, mainParameters )
+		auto cont = ast::stmt::makeFunctionDecl( m_typesCache.getFunction( mainRetType, mainParameters )
 			, stmt->getName()
 			, stmt->getFlags() );
 		cont->addStmt( m_adaptationData.writeLocalesBegin() );
 
 		// Call SDW_main function.
-		cont->addStmt( ast::stmt::makeSimple( ast::expr::makeFnCall( m_cache.getVoid()
-			, ast::expr::makeIdentifier( m_cache
+		cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
+			, m_exprCache.makeIdentifier( m_typesCache
 				, ast::var::makeFunction( ++m_adaptationData.nextVarId
-					, m_cache.getFunction( m_cache.getVoid(), ast::var::VariableList{} )
+					, m_typesCache.getFunction( m_typesCache.getVoid(), ast::var::VariableList{} )
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
@@ -541,7 +549,7 @@ namespace hlsl
 			}
 		}
 
-		return ast::stmt::makeFunctionDecl( m_cache.getFunction( stmt->getType()->getReturnType(), params )
+		return ast::stmt::makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
 			, stmt->getName()
 			, stmt->getFlags() );
 	}

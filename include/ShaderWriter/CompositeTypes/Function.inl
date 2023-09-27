@@ -281,10 +281,11 @@ namespace sdw
 				expr::ExprList args;
 				bool isEnabled = true;
 				getFunctionCallParamsRec( writer, args, isEnabled, params... );
-				auto & cache = getTypesCache( writer );
+				auto & exprCache = getExprCache( writer );
+				auto & typesCache = getTypesCache( writer );
 				return ReturnWrapperT< ReturnT >{ writer
-					, sdw::makeFnCall( ReturnT::makeType( cache )
-						, sdw::makeIdent( cache, var::makeFunction( getNextVarId( writer ), type, std::move( name ) ) )
+					, sdw::makeFnCall( ReturnT::makeType( typesCache )
+						, sdw::makeIdent( exprCache, typesCache, var::makeFunction( getNextVarId( writer ), type, std::move( name ) ) )
 						, std::move( args ) )
 					, isEnabled };
 			}

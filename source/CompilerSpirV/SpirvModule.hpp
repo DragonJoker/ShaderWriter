@@ -28,7 +28,7 @@ namespace spirv
 	class Module
 	{
 	public:
-		SDWSPIRV_API Module( ast::type::TypesCache & cache
+		SDWSPIRV_API Module( ast::type::TypesCache & typesCache
 			, SpirVConfig const & spirvConfig
 			, spv::AddressingModel addressingModel
 			, spv::MemoryModel memoryModel
@@ -169,9 +169,9 @@ namespace spirv
 		SDWSPIRV_API Block newBlock();
 		SDWSPIRV_API void endFunction();
 
-		inline ast::type::TypesCache & getCache()
+		inline ast::type::TypesCache & getTypesCache()
 		{
-			return *m_cache;
+			return *m_typesCache;
 		}
 
 	public:
@@ -259,7 +259,7 @@ namespace spirv
 
 	private:
 		uint32_t m_version;
-		ast::type::TypesCache * m_cache;
+		ast::type::TypesCache * m_typesCache;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
 		std::map< ast::type::TypePtr, ValueId > m_registeredTypes;

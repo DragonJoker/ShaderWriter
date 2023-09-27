@@ -6,8 +6,10 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Copy::Copy( ExprPtr op )
-		: Unary{ std::move( op )
+	Copy::Copy( ExprCache & exprCache
+		, ExprPtr op )
+		: Unary{ exprCache
+			, std::move( op )
 			, Kind::eCopy }
 	{
 	}

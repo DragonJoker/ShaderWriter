@@ -7,11 +7,13 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Assign::Assign( type::TypePtr type
+	Assign::Assign( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs
 		, Kind kind )
-		: Binary{ std::move( type )
+		: Binary{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, kind }

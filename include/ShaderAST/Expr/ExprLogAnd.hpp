@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Binary
 	{
 	public:
-		SDAST_API LogAnd( type::TypePtr type
+		SDAST_API LogAnd( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using LogAndPtr = std::unique_ptr< LogAnd >;
-
-	inline LogAndPtr makeLogAnd( type::TypesCache & cache
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< LogAnd >( cache.getBool()
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

@@ -13,7 +13,7 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		SDAST_API explicit AccelerationStructure( TypesCache & cache );
+		SDAST_API explicit AccelerationStructure( TypesCache & typesCache );
 	};
 	using AccelerationStructurePtr = std::shared_ptr< AccelerationStructure >;
 }

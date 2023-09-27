@@ -7,9 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Cast::Cast( type::TypePtr dstType
+	Cast::Cast( ExprCache & exprCache
+		, type::TypePtr dstType
 		, ExprPtr operand )
-		: Unary{ std::move( dstType )
+		: Unary{ exprCache
+			, std::move( dstType )
 			, std::move( operand )
 			, Kind::eCast }
 	{

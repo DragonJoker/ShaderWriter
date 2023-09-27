@@ -87,12 +87,14 @@ namespace ast::expr
 	{
 	public:
 		SDAST_API Expr( Expr const & ) = default;
-		SDAST_API Expr & operator=( Expr const & ) = default;
-		SDAST_API Expr( Expr && ) = default;
+		SDAST_API Expr & operator=( Expr const & )noexcept = default;
+		SDAST_API Expr( Expr && )noexcept = default;
 		SDAST_API Expr & operator=( Expr && ) = default;
-		SDAST_API virtual ~Expr() = default;
+		SDAST_API virtual ~Expr()noexcept = default;
 
-		SDAST_API Expr( type::TypesCache & cache
+		SDAST_API Expr( ExprCache & exprCache
+			, size_t size
+			, type::TypesCache & typesCache
 			, type::TypePtr type
 			, Kind kind
 			, Flag flag = Flag::eNone );
@@ -103,27 +105,32 @@ namespace ast::expr
 		{
 		}
 
-		inline Kind getKind()const
+		inline Kind getKind()const noexcept
 		{
 			return m_kind;
 		}
 
-		inline uint32_t getFlags()const
+		inline uint32_t getFlags()const noexcept
 		{
 			return m_flags;
 		}
 
-		inline type::TypesCache & getCache()const
+		inline ExprCache & getExprCache()const noexcept
 		{
-			return *m_cache;
+			return *m_exprCache;
 		}
 
-		inline type::TypePtr getType()const
+		inline type::TypesCache & getTypesCache()const noexcept
+		{
+			return *m_typesCache;
+		}
+
+		inline type::TypePtr getType()const noexcept
 		{
 			return m_type;
 		}
 
-		inline void updateFlag( Flag flag, bool set = true )
+		inline void updateFlag( Flag flag, bool set = true )noexcept
 		{
 			if ( set )
 			{
@@ -135,39 +142,48 @@ namespace ast::expr
 			}
 		}
 
-		inline bool isSpecialisationConstant()const
+		inline bool isSpecialisationConstant()const noexcept
 		{
 			return hasFlag( Flag::eSpecialisationConstant );
 		}
 
-		inline bool isConstant()const
+		inline bool isConstant()const noexcept
 		{
 			return hasFlag( Flag::eConstant );
 		}
 
-		inline bool isImplicit()const
+		inline bool isImplicit()const noexcept
 		{
 			return hasFlag( Flag::eImplicit );
 		}
 
-		inline bool isNonUniform()const
+		inline bool isNonUniform()const noexcept
 		{
 			return hasFlag( Flag::eNonUniform );
 		}
 
-		inline bool isDummy()const
+		inline bool isDummy()const noexcept
 		{
 			return hasFlag( Flag::eDummy );
 		}
 
 	private:
-		inline bool hasFlag( Flag flag )const
+		friend class ExprCache;
+
+		size_t getSize()const noexcept
+		{
+			return m_size;
+		}
+
+		inline bool hasFlag( Flag flag )const noexcept
 		{
 			return Flag( m_flags & uint32_t( flag ) ) == flag;
 		}
 
 	private:
-		type::TypesCache * m_cache;
+		ExprCache * m_exprCache;
+		type::TypesCache * m_typesCache;
+		size_t m_size;
 		Kind m_kind;
 		type::TypePtr m_type;
 		uint32_t m_flags;

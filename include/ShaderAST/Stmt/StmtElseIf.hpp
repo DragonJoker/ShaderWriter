@@ -29,7 +29,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_ctrlExpr;
+		expr::ExprPtr m_ctrlExpr{};
 	};
 	using ElseIfPtr = std::unique_ptr< ElseIf >;
 	using ElseIfList = std::vector< ElseIfPtr >;

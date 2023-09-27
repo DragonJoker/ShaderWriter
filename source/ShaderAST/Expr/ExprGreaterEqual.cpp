@@ -7,10 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	GreaterEqual::GreaterEqual( type::TypePtr type
+	GreaterEqual::GreaterEqual( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type )
+		: Binary{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eGreaterEqual }

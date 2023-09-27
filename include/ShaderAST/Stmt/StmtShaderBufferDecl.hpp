@@ -52,14 +52,14 @@ namespace ast::stmt
 	};
 	using ShaderBufferDeclPtr = std::unique_ptr< ShaderBufferDecl >;
 
-	inline ShaderBufferDeclPtr makeShaderBufferDecl( type::TypesCache & cache
+	inline ShaderBufferDeclPtr makeShaderBufferDecl( type::TypesCache & typesCache
 		, std::string const & ssboName
 		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet
 		, uint32_t nextVarId )
 	{
-		auto type = cache.getStruct( layout, ssboName );
+		auto type = typesCache.getStruct( layout, ssboName );
 		assert( type != nullptr );
 		return std::make_unique< ShaderBufferDecl >( var::makeVariable( nextVarId, type, ssboName + "_data" )
 			, bindingPoint

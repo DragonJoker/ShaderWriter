@@ -115,6 +115,11 @@ namespace glsl
 		return submit( expr, m_writerConfig, m_aliases );
 	}
 
+	std::string ExprVisitor::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		return doSubmit( expr.get() );
+	}
+
 	void ExprVisitor::wrap( ast::expr::Expr * expr )
 	{
 		bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
@@ -260,7 +265,7 @@ namespace glsl
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			m_result += sep + doSubmit( init.get() );
+			m_result += sep + doSubmit( init );
 			sep = ", ";
 		}
 
@@ -300,7 +305,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 
@@ -343,7 +348,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 
@@ -364,7 +369,7 @@ namespace glsl
 		}
 	}
 
-	void ExprVisitor::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprVisitor::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
 		m_result += getGlslName( expr->getImageAccess() ) + "(";
 		std::string sep;
@@ -372,7 +377,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 
@@ -496,7 +501,7 @@ namespace glsl
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				m_result += doSubmit( arg.get() );
+				m_result += doSubmit( arg );
 				sep = ", ";
 			}
 
@@ -615,7 +620,7 @@ namespace glsl
 		for ( auto & arg : expr->getArgList() )
 		{
 			m_result += sep;
-			m_result += doSubmit( arg.get() );
+			m_result += doSubmit( arg );
 			sep = ", ";
 		}
 

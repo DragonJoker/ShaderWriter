@@ -7,10 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	LogOr::LogOr( type::TypePtr type
+	LogOr::LogOr( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Binary{ std::move( type )
+		: Binary{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eLogOr }

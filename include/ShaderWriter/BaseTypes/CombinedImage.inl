@@ -1457,9 +1457,10 @@ namespace sdw
 			static_assert( CombinedImageAccessT != expr::CombinedImageAccess::eInvalid );
 			static_assert( CombinedImageAccessT != expr::CombinedImageAccess::eUndefined );
 
-			auto & cache = findTypesCache( image, params... );
+			auto & exprCache = findExprCache( image, params... );
+			auto & typesCache = findTypesCache( image, params... );
 			return ReturnWrapperT< ReturnT >{ findWriterMandat( image, params... )
-				, expr::makeCombinedImageAccessCall( ReturnT::makeType( cache )
+				, exprCache.makeCombinedImageAccessCall( ReturnT::makeType( typesCache )
 					, CombinedImageAccessT
 					, makeExpr( image )
 					, makeExpr( params )... )

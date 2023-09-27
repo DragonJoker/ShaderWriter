@@ -15,12 +15,14 @@ namespace ast
 		: public StmtCloner
 	{
 	public:
-		SDAST_API static stmt::ContainerPtr submit( type::TypesCache & cache
+		SDAST_API static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, stmt::Container * container
 			, SpecialisationInfo const & specialisation );
 
 	private:
-		SDAST_API StmtSpecialiser( type::TypesCache & cache
+		SDAST_API StmtSpecialiser( expr::ExprCache & exprCache
+			, type::TypesCache & typesCache
 			, SpecialisationInfo const & specialisation
 			, stmt::ContainerPtr & result );
 
@@ -29,7 +31,7 @@ namespace ast
 		SDAST_API void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override;
 
 	private:
-		type::TypesCache & m_cache;
+		type::TypesCache & m_typesCache;
 		SpecialisationInfo const & m_specialisation;
 		std::map< var::VariablePtr, expr::LiteralPtr > m_specialisations;
 	};

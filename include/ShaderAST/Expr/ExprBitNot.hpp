@@ -13,19 +13,12 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API BitNot( type::TypePtr type
+		SDAST_API BitNot( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr operand );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using BitNotPtr = std::unique_ptr< BitNot >;
-
-	inline BitNotPtr makeBitNot( ExprPtr operand )
-	{
-		auto type = operand->getType();
-		return std::make_unique< BitNot >( std::move( type )
-			, std::move( operand ) );
-	}
 }
 
 #endif

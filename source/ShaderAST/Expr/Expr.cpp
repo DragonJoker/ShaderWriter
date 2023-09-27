@@ -7,11 +7,15 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	Expr::Expr( type::TypesCache & cache
+	Expr::Expr( ExprCache & exprCache
+		, size_t size
+		, type::TypesCache & typesCache
 		, type::TypePtr type
 		, Kind kind
 		, Flag flag )
-		: m_cache{ &cache }
+		: m_exprCache{ &exprCache }
+		, m_typesCache{ &typesCache }
+		, m_size{ size }
 		, m_kind{ kind }
 		, m_type{ std::move( type ) }
 		, m_flags{ uint32_t( flag ) }
@@ -20,6 +24,6 @@ namespace ast::expr
 
 	ExprPtr Expr::clone()
 	{
-		return ExprCloner::submit( this );
+		return ExprCloner::submit( *m_exprCache, this );
 	}
 }

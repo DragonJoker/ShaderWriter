@@ -9,33 +9,36 @@ namespace ast::expr
 {
 	namespace
 	{
-		type::TypePtr getSwizzleType( type::TypesCache & cache
+		type::TypePtr getSwizzleType( type::TypesCache & typesCache
 			, type::Kind outer
 			, SwizzleKind swizzle )
 		{
 			if ( swizzle.isOneComponent() )
 			{
-				return cache.getBasicType( getScalarType( outer ) );
+				return typesCache.getBasicType( getScalarType( outer ) );
 			}
 
 			if ( swizzle.isTwoComponents() )
 			{
-				return cache.getVec2Type( getScalarType( outer ) );
+				return typesCache.getVec2Type( getScalarType( outer ) );
 			}
 
 			if ( swizzle.isThreeComponents() )
 			{
-				return cache.getVec3Type( getScalarType( outer ) );
+				return typesCache.getVec3Type( getScalarType( outer ) );
 			}
 
-			return cache.getVec4Type( getScalarType( outer ) );
+			return typesCache.getVec4Type( getScalarType( outer ) );
 		}
 	}
 
-	Swizzle::Swizzle( ExprPtr outer
+	Swizzle::Swizzle( ExprCache & exprCache
+		, ExprPtr outer
 		, SwizzleKind swizzle )
-		: Expr{ getExprTypesCache( outer )
-			, getSwizzleType( outer->getCache(), outer->getType()->getKind(), swizzle )
+		: Expr{ exprCache
+			, sizeof( Swizzle )
+			, getExprTypesCache( outer )
+			, getSwizzleType( outer->getTypesCache(), outer->getType()->getKind(), swizzle )
 			, Kind::eSwizzle
 			, ( isExprConstant( outer ) ? Flag::eConstant : Flag::eNone ) }
 		, m_outer{ std::move( outer ) }

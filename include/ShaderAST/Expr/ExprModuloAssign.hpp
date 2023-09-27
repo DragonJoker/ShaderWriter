@@ -13,22 +13,13 @@ namespace ast::expr
 		: public Assign
 	{
 	public:
-		SDAST_API ModuloAssign( type::TypePtr type
+		SDAST_API ModuloAssign( ExprCache & exprCache
+			, type::TypePtr type
 			, ExprPtr lhs
 			, ExprPtr rhs );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using ModuloAssignPtr = std::unique_ptr< ModuloAssign >;
-
-	inline ModuloAssignPtr makeModuloAssign( type::TypePtr type
-		, ExprPtr lhs
-		, ExprPtr rhs )
-	{
-		return std::make_unique< ModuloAssign >( std::move( type )
-			, std::move( lhs )
-			, std::move( rhs ) );
-	}
 }
 
 #endif

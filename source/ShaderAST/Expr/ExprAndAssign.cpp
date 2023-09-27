@@ -7,10 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
-	AndAssign::AndAssign( type::TypePtr type
+	AndAssign::AndAssign( ExprCache & exprCache
+		, type::TypePtr type
 		, ExprPtr lhs
 		, ExprPtr rhs )
-		: Assign{ std::move( type )
+		: Assign{ exprCache
+			, std::move( type )
 			, std::move( lhs )
 			, std::move( rhs )
 			, Kind::eAndAssign }

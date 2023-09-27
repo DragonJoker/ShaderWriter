@@ -13,7 +13,8 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API explicit SwitchTest( ExprPtr value );
+		SDAST_API explicit SwitchTest( ExprCache & exprCache
+			, ExprPtr value );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -23,14 +24,8 @@ namespace ast::expr
 		}
 
 	private:
-		ExprPtr m_value;
+		ExprPtr m_value{};
 	};
-	using SwitchTestPtr = std::unique_ptr< SwitchTest >;
-
-	inline SwitchTestPtr makeSwitchTest( ExprPtr value )
-	{
-		return std::make_unique< SwitchTest >( std::move( value ) );
-	}
 }
 
 #endif

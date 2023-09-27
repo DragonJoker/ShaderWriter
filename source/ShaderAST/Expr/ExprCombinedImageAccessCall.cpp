@@ -9,10 +9,16 @@ namespace ast::expr
 {
 	//*********************************************************************************************
 
-	CombinedImageAccessCall::CombinedImageAccessCall( type::TypePtr type
+	CombinedImageAccessCall::CombinedImageAccessCall( ExprCache & exprCache
+		, type::TypePtr type
 		, CombinedImageAccess textureAccess
-		, ExprList && argList )
-		: Expr{ getExprTypesCache( argList ), std::move( type ), Kind::eCombinedImageAccessCall, Flag::eNone }
+		, ExprList argList )
+		: Expr{ exprCache
+			, sizeof( CombinedImageAccessCall )
+			, getExprTypesCache( argList )
+			, std::move( type )
+			, Kind::eCombinedImageAccessCall
+			, Flag::eNone }
 		, m_textureAccess{ textureAccess }
 		, m_argList{ std::move( argList ) }
 	{

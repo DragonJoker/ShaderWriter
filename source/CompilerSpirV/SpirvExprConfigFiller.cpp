@@ -155,13 +155,6 @@ namespace spirv
 		}
 	}
 
-	void ExprConfigFiller::submit( ast::expr::ExprPtr const & expr
-		, ModuleConfig & config )
-	{
-		submit( expr.get()
-			, config );
-	}
-
 	ExprConfigFiller::ExprConfigFiller( ModuleConfig & config )
 		: ast::expr::SimpleVisitor{}
 		, m_config{ config }
@@ -171,6 +164,11 @@ namespace spirv
 	void ExprConfigFiller::doSubmit( ast::expr::Expr * expr )
 	{
 		submit( expr, m_config );
+	}
+
+	void ExprConfigFiller::doSubmit( ast::expr::ExprPtr const & expr )
+	{
+		doSubmit( expr.get() );
 	}
 
 	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
@@ -197,7 +195,7 @@ namespace spirv
 
 		for ( auto & init : expr->getInitialisers() )
 		{
-			doSubmit( init.get() );
+			doSubmit( init );
 		}
 	}
 
@@ -207,7 +205,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 
@@ -233,17 +231,17 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 	}
 
-	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::ImageAccessCall * expr )
+	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
 		checkType( expr, m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 
 		auto kind = expr->getImageAccess();
@@ -296,7 +294,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 		}
 
 		auto kind = expr->getIntrinsic();
@@ -322,7 +320,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			doSubmit( arg.get() );
+			doSubmit( arg );
 
 			if ( arg->isNonUniform() )
 			{

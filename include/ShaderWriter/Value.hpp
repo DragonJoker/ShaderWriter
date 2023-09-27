@@ -18,7 +18,7 @@ namespace sdw
 			, bool enabled );
 
 		SDW_API virtual ~Value() = default;
-		SDW_API Value( Value && rhs ) = default;
+		SDW_API Value( Value && rhs );
 		SDW_API Value( Value const & rhs );
 		SDW_API Value & operator=( Value && rhs ) = default;
 		SDW_API Value & operator=( Value const & rhs );
@@ -61,7 +61,7 @@ namespace sdw
 				&& ( typeEnumV< OutputT > != getComponentType( result->getType()->getKind() ) )
 				&& ( CountT > getComponentCount( result->getType()->getKind() ) ) )
 			{
-				auto & cache = result->getCache();
+				auto & cache = result->getTypesCache();
 				result = sdw::makeCast( cache.getBasicType( typeEnumV< OutputT > )
 					, std::move( result ) );
 			}
@@ -176,6 +176,8 @@ namespace sdw
 	inline ShaderWriter * findWriter( ValuesT && ... values );
 	template< typename ... ValuesT >
 	inline ShaderWriter & findWriterMandat( ValuesT && ... values );
+	template< typename ... ValuesT >
+	inline ast::expr::ExprCache & findExprCache( ValuesT const & ... values );
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values );
 

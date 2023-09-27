@@ -14,10 +14,12 @@ namespace ast::expr
 		: public Expr
 	{
 	public:
-		SDAST_API CompositeConstruct( CompositeType composite
+		SDAST_API CompositeConstruct( ExprCache & exprCache
+			, CompositeType composite
 			, type::Kind component
-			, ExprList && argList );
-		SDAST_API CompositeConstruct( ExprPtr image
+			, ExprList argList );
+		SDAST_API CompositeConstruct( ExprCache & exprCache
+			, ExprPtr image
 			, ExprPtr sampler );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -42,33 +44,16 @@ namespace ast::expr
 		type::Kind m_component;
 		ExprList m_argList;
 	};
-	using CompositeConstructPtr = std::unique_ptr< CompositeConstruct >;
 
 	uint32_t getComponentCount( CompositeType value );
-	type::TypePtr getCompositeType( type::TypesCache & cache
+	type::TypePtr getCompositeType( type::TypesCache & typesCache
 		, CompositeType composite
 		, type::Kind component );
-	type::TypePtr getCompositeType( type::TypesCache & cache
+	type::TypePtr getCompositeType( type::TypesCache & typesCache
 		, type::ImageConfiguration config
 		, bool isComparison );
 	type::TypePtr getCombinedType( type::TypePtr image
 		, type::TypePtr sampler );
-
-	inline CompositeConstructPtr makeCompositeConstruct( CompositeType composite
-		, type::Kind component
-		, ExprList && argList )
-	{
-		return std::make_unique< CompositeConstruct >( composite
-			, component
-			, std::move( argList ) );
-	}
-
-	inline CompositeConstructPtr makeCompositeConstruct( ExprPtr image
-		, ExprPtr sampler )
-	{
-		return std::make_unique< CompositeConstruct >( std::move( image )
-			, std::move( sampler ) );
-	}
 }
 
 #endif

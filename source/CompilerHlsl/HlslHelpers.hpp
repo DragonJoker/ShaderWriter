@@ -122,12 +122,14 @@ namespace hlsl
 			PendingIO io;
 		};
 
-		IOMapping( HlslShader & pshader
+		IOMapping( ast::expr::ExprCache & exprCache
+			, HlslShader & pshader
 			, IOMappingMode pmode
 			, bool pisInput
 			, bool pisPatch
 			, std::string const & infix );
 
+		ast::expr::ExprCache & exprCache;
 		HlslShader * shader;
 		ast::ShaderStage stage;
 		bool isInput;
@@ -210,7 +212,8 @@ namespace hlsl
 	{
 		friend struct AdaptationData;
 
-		Routine( HlslShader & pshader
+		Routine( ast::expr::ExprCache & exprCache
+			, HlslShader & pshader
 			, AdaptationData * pparent
 			, bool pisMain
 			, std::string const & name );
@@ -228,6 +231,7 @@ namespace hlsl
 		void initialiseLFOutput( ast::var::VariablePtr var
 			, ast::type::MeshPrimitiveOutput const & meshType );
 
+		ast::expr::ExprCache & exprCache;
 		HlslShader * shader;
 		AdaptationData * parent;
 		bool isMain;
@@ -330,7 +334,8 @@ namespace hlsl
 
 	struct AdaptationData
 	{
-		explicit AdaptationData( HlslShader & shader );
+		explicit AdaptationData( ast::expr::ExprCache & exprCache
+			, HlslShader & shader );
 
 		void addEntryPoint( ast::stmt::FunctionDecl const & stmt );
 		void updateCurrentEntryPoint( ast::stmt::FunctionDecl const * stmt );
@@ -475,6 +480,7 @@ namespace hlsl
 			, uint32_t mbrLocation );
 
 	private:
+		ast::expr::ExprCache & exprCache;
 		IOMapping m_highFreqInputs;
 		std::unique_ptr< IOMapping > m_patchInputs;
 		RoutineMap m_routines;

@@ -25,7 +25,7 @@ namespace ast::stmt
 		}
 
 	private:
-		expr::ExprPtr m_expr;
+		expr::ExprPtr m_expr{};
 	};
 	using ReturnPtr = std::unique_ptr< Return >;
 

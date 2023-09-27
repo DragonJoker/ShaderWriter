@@ -309,6 +309,20 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename ... ValuesT >
+	inline ast::expr::ExprCache & findExprCache( ValuesT const & ... values )
+	{
+		ShaderWriter & writer = findWriterMandat( values... );
+		return getExprCache( writer );
+	}
+
+	inline ast::expr::ExprCache & findExprCache( ShaderWriter const & value )
+	{
+		return sdw::getExprCache( value );
+	}
+
+	//***********************************************************************************************
+
+	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values )
 	{
 		ShaderWriter * writer = findWriter( values... );
@@ -322,7 +336,7 @@ namespace sdw
 		assert( type );
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnull-dereference"
-		return type->getCache();
+		return type->getTypesCache();
 #pragma GCC diagnostic pop
 	}
 

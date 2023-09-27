@@ -7,11 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	SampledImage::SampledImage( TypesCache & cache
+	SampledImage::SampledImage( TypesCache & typesCache
 		, ImageConfiguration config
 		, Trinary comparison )
-		: Type{ cache, Kind::eSampledImage }
-		, m_imageType{ cache.getImage( std::move( config ) ) }
+		: Type{ typesCache, Kind::eSampledImage }
+		, m_imageType{ typesCache.getImage( std::move( config ) ) }
 		, m_depth{ comparison }
 	{
 	}

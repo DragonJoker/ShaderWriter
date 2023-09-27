@@ -214,7 +214,7 @@ namespace sdw
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_writer ), m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( getExprCache( m_writer ), getTypesCache( m_writer ), m_ssboVar )
 					, 0u
 					, m_dataVar->getFlags() )
 				, makeExpr( m_writer, index ) )
@@ -226,7 +226,7 @@ namespace sdw
 	{
 		return InstanceT{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
-				, sdw::makeMbrSelect( sdw::makeIdent( getTypesCache( m_writer ), m_ssboVar )
+				, sdw::makeMbrSelect( sdw::makeIdent( getExprCache( m_writer ), getTypesCache( m_writer ), m_ssboVar )
 					, 0u
 					, m_dataVar->getFlags() )
 				, makeExpr( m_writer, index ) )

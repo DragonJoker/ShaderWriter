@@ -13,16 +13,11 @@ namespace ast::expr
 		: public Unary
 	{
 	public:
-		SDAST_API explicit Copy( ExprPtr op );
+		SDAST_API explicit Copy( ExprCache & exprCache
+			, ExprPtr op );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using CopyPtr = std::unique_ptr< Copy >;
-
-	inline CopyPtr makeCopy( ExprPtr op )
-	{
-		return std::make_unique< Copy >( std::move( op ) );
-	}
 }
 
 #endif
