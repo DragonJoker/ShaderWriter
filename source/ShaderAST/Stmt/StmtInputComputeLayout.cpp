@@ -12,7 +12,7 @@ namespace ast::stmt
 		, uint32_t workGroupsX
 		, uint32_t workGroupsY
 		, uint32_t workGroupsZ )
-		: Stmt{ stmtCache, sizeof( InputGeometryLayout ), Kind::eInputComputeLayout }
+		: Stmt{ stmtCache, sizeof( InputComputeLayout ), Kind::eInputComputeLayout }
 		, m_type{ type }
 		, m_workGroupsX{ workGroupsX }
 		, m_workGroupsY{ workGroupsY }

@@ -131,7 +131,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API ComputeWriter();
+		SDW_API explicit ComputeWriter( ShaderAllocator * allocator = nullptr );
 
 		SDW_API void implementMain( uint32_t localSizeX
 			, ComputeMainFuncT< VoidT > const & function );

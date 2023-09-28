@@ -26,6 +26,7 @@ target_include_directories( TestCommon
 target_link_libraries( TestCommon
 	PUBLIC
 		sdw::ShaderAST
+	PRIVATE
 		${SDW_EXPORTERS_LIST}
 )
 if ( NOT WIN32 )

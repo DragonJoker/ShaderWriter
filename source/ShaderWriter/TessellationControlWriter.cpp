@@ -118,8 +118,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	TessellationControlWriter::TessellationControlWriter()
-		: ShaderWriter{ ast::ShaderStage::eTessellationControl }
+	TessellationControlWriter::TessellationControlWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eTessellationControl, allocator }
 	{
 	}
 }

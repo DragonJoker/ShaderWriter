@@ -834,7 +834,7 @@ namespace
 		testBegin( "pointX" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -857,7 +857,7 @@ namespace
 		testBegin( "point" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
@@ -881,7 +881,7 @@ namespace
 		testBegin( "lineX" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -904,7 +904,7 @@ namespace
 		testBegin( "line" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
@@ -928,7 +928,7 @@ namespace
 		testBegin( "triangleX" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -952,7 +952,7 @@ namespace
 		testBegin( "triangle" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
@@ -976,7 +976,7 @@ namespace
 		testBegin( "oneTriangle" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			const auto vertices = writer.declConstantArray< Vec3 >( "vertices"
 				, std::vector< Vec3 >{ vec3( -1.0_f, -1.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 1.0_f, -1.0_f, 0.0_f ) } );
 			const auto colors = writer.declConstantArray< Vec3 >( "colors"
@@ -1017,7 +1017,7 @@ namespace
 		testBegin( "taskPayload" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< payload::PayloadT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXTT< payload::PayloadT >{ writer }
 				, MeshVertexListOut{ writer, 3u }
@@ -1045,7 +1045,7 @@ namespace
 		using namespace sdw;
 		using namespace render;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 
 			auto Globals = writer.declUniformBuffer( "bufferGlobals", 0u, 0u );
 			auto globals = Globals.declMember< Constants >( "globals" );
@@ -1161,7 +1161,7 @@ namespace
 		using namespace sdw;
 		using namespace instancing;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 
 			auto Globals = writer.declUniformBuffer( "bufferGlobals", 0u, 0u );
 			auto globals = Globals.declMember< Constants >( "globals" );
@@ -1322,7 +1322,7 @@ namespace
 		using namespace sdw;
 		using namespace cull;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
 			auto constants = Globals.declMember< Constants >( "constants" );
@@ -1353,7 +1353,7 @@ namespace
 		using namespace sdw;
 		using namespace cull;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
 			auto constants = Globals.declMember< Constants >( "constants" );
@@ -1495,7 +1495,7 @@ namespace
 		using namespace sdw;
 		using namespace cull;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
 			auto constants = Globals.declMember< Constants >( "constants" );
@@ -1627,7 +1627,7 @@ namespace
 		testBegin( "subgroupPointX" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -1650,7 +1650,7 @@ namespace
 		testBegin( "subgroupPoint" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
@@ -1674,7 +1674,7 @@ namespace
 		testBegin( "subgroupLineX" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -1697,7 +1697,7 @@ namespace
 		testBegin( "subgroupLine" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
@@ -1721,7 +1721,7 @@ namespace
 		testBegin( "subgroupTriangleX" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -1745,7 +1745,7 @@ namespace
 		testBegin( "subgroupTriangle" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }

@@ -181,7 +181,7 @@ namespace
 		testBegin( "simple" );
 		using namespace sdw;
 		{
-			RayIntersectionWriter writer;
+			sdw::RayIntersectionWriter writer{ &testCounts.allocator };
 
 			writer.declType< Ray >();
 			writer.declType< Aabb >();

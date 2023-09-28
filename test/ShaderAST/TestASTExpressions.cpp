@@ -9,7 +9,7 @@ namespace
 	{
 		testBegin( "testExprLiteral" );
 		{
-			ast::expr::ExprCache exprCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto expr = exprCache.makeLiteral( typesCache, false );
 
@@ -20,7 +20,7 @@ namespace
 			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		}
 		{
-			ast::expr::ExprCache exprCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto expr = exprCache.makeLiteral( typesCache, 1.0f );
 
@@ -31,7 +31,7 @@ namespace
 			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		}
 		{
-			ast::expr::ExprCache exprCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto expr = exprCache.makeLiteral( typesCache, 10 );
 
@@ -42,7 +42,7 @@ namespace
 			testCounts << "ExprLiteral: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		}
 		{
-			ast::expr::ExprCache exprCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto expr = exprCache.makeLiteral( typesCache, 10u );
 
@@ -58,8 +58,8 @@ namespace
 	void testExprIdentifier( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprIdentifier" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto expr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "var0" ) );
 
 		require( expr->getKind() == ast::expr::Kind::eIdentifier );
@@ -73,8 +73,8 @@ namespace
 	void testExprAdd( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprAdd" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeAdd( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -98,8 +98,8 @@ namespace
 	void testExprMinus( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprMinus" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeMinus( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -123,8 +123,8 @@ namespace
 	void testExprTimes( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprTimes" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeTimes( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -148,8 +148,8 @@ namespace
 	void testExprDivide( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprTimes" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr= exprCache.makeDivide( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -173,8 +173,8 @@ namespace
 	void testExprBitAnd( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprBitAnd" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeBitAnd( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -198,8 +198,8 @@ namespace
 	void testExprBitNot( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprBitNot" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makeBitNot( std::move( op ) );
 
@@ -217,8 +217,8 @@ namespace
 	void testExprBitOr( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprBitOr" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeBitOr( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -242,8 +242,8 @@ namespace
 	void testExprBitXor( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprBitXor" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeBitXor( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -267,8 +267,8 @@ namespace
 	void testExprLogAnd( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLogAnd" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeLogAnd( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -292,8 +292,8 @@ namespace
 	void testExprLogNot( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLogNot" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makeLogNot( typesCache, std::move( op ) );
 
@@ -311,8 +311,8 @@ namespace
 	void testExprLogOr( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLogOr" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeLogOr( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -336,8 +336,8 @@ namespace
 	void testExprModulo( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprModulo" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeModulo( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -361,8 +361,8 @@ namespace
 	void testExprLShift( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLShift" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeLShift( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -386,8 +386,8 @@ namespace
 	void testExprRShift( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprRShift" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeRShift( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -411,8 +411,8 @@ namespace
 	void testExprComma( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprComma" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeComma( std::move( lhs ), std::move( rhs ) );
@@ -436,8 +436,8 @@ namespace
 	void testExprArrayAccess( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprArrayAccess" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getArray( typesCache.getInt32() ), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeArrayAccess( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -461,8 +461,8 @@ namespace
 	void testExprAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -486,8 +486,8 @@ namespace
 	void testExprAddAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprAddAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeAddAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -511,8 +511,8 @@ namespace
 	void testExprDivideAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprDivideAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeDivideAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -536,8 +536,8 @@ namespace
 	void testExprMinusAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprMinusAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeMinusAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -561,8 +561,8 @@ namespace
 	void testExprTimesAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprTimesAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeTimesAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -586,8 +586,8 @@ namespace
 	void testExprModuloAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprModuloAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeModuloAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -611,8 +611,8 @@ namespace
 	void testExprLShiftAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLShiftAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeLShiftAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -636,8 +636,8 @@ namespace
 	void testExprRShiftAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprRShiftAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeRShiftAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -661,8 +661,8 @@ namespace
 	void testExprAndAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprAndAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeAndAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -686,8 +686,8 @@ namespace
 	void testExprOrAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprOrAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeOrAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -711,8 +711,8 @@ namespace
 	void testExprXorAssign( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprXorAssign" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeXorAssign( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
@@ -736,8 +736,8 @@ namespace
 	void testExprEqual( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprEqual" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeEqual( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -761,8 +761,8 @@ namespace
 	void testExprGreater( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprGreater" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeGreater( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -786,8 +786,8 @@ namespace
 	void testExprGreaterEqual( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprGreaterEqual" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeGreaterEqual( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -811,8 +811,8 @@ namespace
 	void testExprLess( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLess" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeLess( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -836,8 +836,8 @@ namespace
 	void testExprLessEqual( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprLessEqual" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeLessEqual( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -861,8 +861,8 @@ namespace
 	void testExprNotEqual( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprNotEqual" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeNotEqual( typesCache, std::move( lhs ), std::move( rhs ) );
@@ -886,8 +886,8 @@ namespace
 	void testExprPostDecrement( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprPostDecrement" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makePostDecrement( std::move( op ) );
 
@@ -905,8 +905,8 @@ namespace
 	void testExprPostIncrement( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprPostIncrement" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makePostIncrement( std::move( op ) );
 
@@ -924,8 +924,8 @@ namespace
 	void testExprPreDecrement( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprPreDecrement" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makePreDecrement( std::move( op ) );
 
@@ -943,8 +943,8 @@ namespace
 	void testExprPreIncrement( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprPreIncrement" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makePreIncrement( std::move( op ) );
 
@@ -962,8 +962,8 @@ namespace
 	void testExprUnaryMinus( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprUnaryMinus" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makeUnaryMinus( std::move( op ) );
 
@@ -981,8 +981,8 @@ namespace
 	void testExprUnaryPlus( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprUnaryPlus" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makeUnaryPlus( std::move( op ) );
 
@@ -1000,8 +1000,8 @@ namespace
 	void testExprCast( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprCast" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "op" ) );
 		auto expr = exprCache.makeCast( typesCache.getFloat(), std::move( op ) );
 
@@ -1019,8 +1019,8 @@ namespace
 	void testExprCompositeConstruct( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprCompositeConstruct" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		ast::expr::ExprList args;
 		args.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getVec4F(), "c1" ) ) );
 		args.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getVec4F(), "c2" ) ) );
@@ -1043,8 +1043,8 @@ namespace
 		testBegin( "testExprFnCall" );
 		{
 			ast::expr::ExprList argList;
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			auto functionType = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{} );
 			auto funcName = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, functionType, "func" ) );
 			auto expr = exprCache.makeFnCall( typesCache.getInt32(), std::move( funcName ), std::move( argList ) );
@@ -1060,8 +1060,8 @@ namespace
 			testCounts << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		}
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( exprCache.makeLiteral( typesCache, 10 ) );
 			auto functionType = typesCache.getFunction( typesCache.getInt32()
@@ -1087,8 +1087,8 @@ namespace
 			testCounts << "ExprFnCall: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		}
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( exprCache.makeLiteral( typesCache, 10 ) );
 			argList.emplace_back( exprCache.makeLiteral( typesCache, 1.0f ) );
@@ -1127,8 +1127,8 @@ namespace
 	{
 		testBegin( "testExprIntrinsicCall" );
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "x" ) ) );
 			auto expr = exprCache.makeIntrinsicCall( typesCache.getInt32(), ast::expr::Intrinsic::eAbs1I, std::move( argList ) );
@@ -1146,12 +1146,12 @@ namespace
 		testEnd();
 	}
 
-	void testExprImageAccessCall( test::TestCounts & testCounts )
+	void testExprStorageImageAccessCall( test::TestCounts & testCounts )
 	{
-		testBegin( "testExprImageAccessCall" );
+		testBegin( "testExprStorageImageAccessCall" );
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getImage( config ), "x" ) ) );
@@ -1174,8 +1174,8 @@ namespace
 	{
 		testBegin( "testExprCombinedImageAccessCall" );
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getCombinedImage( config ), "x" ) ) );
@@ -1198,8 +1198,8 @@ namespace
 	{
 		testBegin( "testExprAggrInit" );
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getArray( typesCache.getInt32(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			auto expr = exprCache.makeAggrInit( std::move( lhs ), std::move( rhs ) );
@@ -1218,8 +1218,8 @@ namespace
 			testCounts << "ExprAggrInit (empty): " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		}
 		{
-			ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 			auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getArray( typesCache.getInt32(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			rhs.emplace_back( exprCache.makeLiteral( typesCache, 10 ) );
@@ -1258,8 +1258,8 @@ namespace
 	void testExprInit( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprInit" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeInit( std::move( lhs ), std::move( rhs ) );
@@ -1282,8 +1282,8 @@ namespace
 	void testExprMbrSelect( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprMbrSelect" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto type = typesCache.getStruct( ast::type::MemoryLayout::eStd140, "outer" );
 		type->declMember( "inner", typesCache.getInt32() );
 		auto outerVar = ast::var::makeVariable( ++testCounts.nextVarId, type, "outerVar" );
@@ -1305,8 +1305,8 @@ namespace
 	void testExprQuestion( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprQuestion" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto ctrlExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ctrl" ) );
 		auto trueExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( 2u, typesCache.getInt32(), "lhs" ) );
 		auto falseExpr = exprCache.makeLiteral( typesCache, 10 );
@@ -1336,8 +1336,8 @@ namespace
 	void testExprSwitchCase( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprSwitchCase" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto label = exprCache.makeLiteral( typesCache, 10 );
 		auto expr = exprCache.makeSwitchCase( std::move( label ) );
 
@@ -1355,8 +1355,8 @@ namespace
 	void testExprSwitchTest( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprSwitchTest" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto expr = exprCache.makeSwitchTest( std::move( value ) );
 
@@ -1374,8 +1374,8 @@ namespace
 	void testExprCopy( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprCopy" );
-		ast::expr::ExprCache exprCache;
-			ast::type::TypesCache typesCache;
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
 		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "operand" ) );
 		auto expr = exprCache.makeCopy( std::move( value ) );
 
@@ -1385,65 +1385,120 @@ namespace
 		testCounts << "ExprCopyTest: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
 		testEnd();
 	}
+
+	void testExprAlias( test::TestCounts & testCounts )
+	{
+		testBegin( "testExprAlias" );
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		auto ident = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "operand" ) );
+		auto lit = exprCache.makeLiteral( typesCache, 1 );
+		auto expr = exprCache.makeAlias( typesCache.getInt32(), std::move( ident ), std::move( lit ) );
+
+		require( expr->getKind() == ast::expr::Kind::eAlias );
+		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
+		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+		testCounts << "ExprAliasTest: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
+		testEnd();
+	}
+
+	void testExprStreamAppend( test::TestCounts & testCounts )
+	{
+		testBegin( "testExprStreamAppend" );
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "operand" ) );
+		auto expr = exprCache.makeStreamAppend( std::move( value ) );
+
+		require( expr->getKind() == ast::expr::Kind::eStreamAppend );
+		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
+		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+		testCounts << "ExprStramAppendTest: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
+		testEnd();
+	}
+
+	void testExprSwizzle( test::TestCounts & testCounts )
+	{
+		testBegin( "testExprSwizzle" );
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getVec4F(), "operand" ) );
+		auto expr = exprCache.makeSwizzle( std::move( value ), ast::expr::SwizzleKind::e03 );
+
+		require( expr->getKind() == ast::expr::Kind::eSwizzle );
+		require( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier );
+		require( expr->getOuterExpr()->getType()->getKind() == ast::type::Kind::eVec4F );
+		check( expr->getType()->getKind() == ast::type::Kind::eVec2F );
+		check( expr->getSwizzle() == ast::expr::SwizzleKind::e03 );
+
+		testCounts << "ExprSwizzleTest: " << ast::debug::ExprVisitor::submit( expr ) << test::endl;
+		testEnd();
+	}
 }
 
 testSuiteMain( TestASTExpressions )
 {
 	testSuiteBegin();
-	testExprLiteral( testCounts );
-	testExprIdentifier( testCounts );
 	testExprAdd( testCounts );
-	testExprMinus( testCounts );
-	testExprTimes( testCounts );
-	testExprDivide( testCounts );
+	testExprAddAssign( testCounts );
+	testExprAggrInit( testCounts );
+	testExprAlias( testCounts );
+	testExprAndAssign( testCounts );
+	testExprArrayAccess( testCounts );
+	testExprAssign( testCounts );
 	testExprBitAnd( testCounts );
 	testExprBitNot( testCounts );
 	testExprBitOr( testCounts );
 	testExprBitXor( testCounts );
+	testExprCast( testCounts );
+	testExprCombinedImageAccessCall( testCounts );
+	testExprComma( testCounts );
+	testExprCompositeConstruct( testCounts );
+	testExprCopy( testCounts );
+	testExprDivide( testCounts );
+	testExprDivideAssign( testCounts );
+	testExprEqual( testCounts );
+	testExprFnCall( testCounts );
+	testExprGreater( testCounts );
+	testExprGreaterEqual( testCounts );
+	testExprIdentifier( testCounts );
+	testExprInit( testCounts );
+	testExprIntrinsicCall( testCounts );
+	testExprLess( testCounts );
+	testExprLessEqual( testCounts );
+	testExprLiteral( testCounts );
 	testExprLogAnd( testCounts );
 	testExprLogNot( testCounts );
 	testExprLogOr( testCounts );
-	testExprModulo( testCounts );
 	testExprLShift( testCounts );
-	testExprRShift( testCounts );
-	testExprComma( testCounts );
-	testExprArrayAccess( testCounts );
-	testExprAssign( testCounts );
-	testExprAddAssign( testCounts );
-	testExprDivideAssign( testCounts );
-	testExprMinusAssign( testCounts );
-	testExprTimesAssign( testCounts );
-	testExprModuloAssign( testCounts );
 	testExprLShiftAssign( testCounts );
-	testExprRShiftAssign( testCounts );
-	testExprAndAssign( testCounts );
-	testExprOrAssign( testCounts );
-	testExprXorAssign( testCounts );
-	testExprEqual( testCounts );
-	testExprGreater( testCounts );
-	testExprGreaterEqual( testCounts );
-	testExprLess( testCounts );
-	testExprLessEqual( testCounts );
+	testExprMbrSelect( testCounts );
+	testExprMinus( testCounts );
+	testExprMinusAssign( testCounts );
+	testExprModulo( testCounts );
+	testExprModuloAssign( testCounts );
 	testExprNotEqual( testCounts );
+	testExprOrAssign( testCounts );
 	testExprPostDecrement( testCounts );
 	testExprPostIncrement( testCounts );
 	testExprPreDecrement( testCounts );
 	testExprPreIncrement( testCounts );
-	testExprUnaryMinus( testCounts );
-	testExprUnaryPlus( testCounts );
-	testExprCast( testCounts );
-	testExprCompositeConstruct( testCounts );
-	testExprFnCall( testCounts );
-	testExprIntrinsicCall( testCounts );
-	testExprCombinedImageAccessCall( testCounts );
-	testExprImageAccessCall( testCounts );
-	testExprInit( testCounts );
-	testExprAggrInit( testCounts );
-	testExprMbrSelect( testCounts );
 	testExprQuestion( testCounts );
+	testExprRShift( testCounts );
+	testExprRShiftAssign( testCounts );
+	testExprStorageImageAccessCall( testCounts );
+	testExprStreamAppend( testCounts );
 	testExprSwitchCase( testCounts );
 	testExprSwitchTest( testCounts );
-	testExprCopy( testCounts );
+	testExprSwizzle( testCounts );
+	testExprTimes( testCounts );
+	testExprTimesAssign( testCounts );
+	testExprUnaryMinus( testCounts );
+	testExprUnaryPlus( testCounts );
+	testExprXorAssign( testCounts );
 	testSuiteEnd();
 }
 

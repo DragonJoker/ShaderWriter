@@ -20,6 +20,8 @@ namespace sdw
 		SDW_API ~AccelerationStructure()override = default;
 		SDW_API AccelerationStructure( AccelerationStructure && rhs ) = default;
 		SDW_API AccelerationStructure( AccelerationStructure const & rhs ) = default;
+		SDW_API AccelerationStructure & operator=( AccelerationStructure && rhs ) = default;
+		SDW_API AccelerationStructure & operator=( AccelerationStructure const & rhs ) = default;
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};

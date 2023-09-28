@@ -30,8 +30,9 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	ShaderWriter::ShaderWriter( ast::ShaderStage type )
-		: m_shader{ std::make_unique< Shader >( type ) }
+	ShaderWriter::ShaderWriter( ast::ShaderStage type
+		, ShaderAllocator * allocator )
+		: m_shader{ std::make_unique< Shader >( type, allocator ) }
 	{
 		if ( doGetCurrentWriter() )
 		{

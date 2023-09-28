@@ -59,7 +59,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API RayMissWriter();
+		SDW_API explicit RayMissWriter( ShaderAllocator * allocator = nullptr );
 
 		template< typename PayloadT >
 		void implementMainT( uint32_t payloadLocation

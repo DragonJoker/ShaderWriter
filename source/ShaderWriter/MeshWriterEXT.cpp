@@ -155,8 +155,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	MeshWriterEXT::MeshWriterEXT()
-		: ShaderWriter{ ast::ShaderStage::eMesh }
+	MeshWriterEXT::MeshWriterEXT( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eMesh, allocator }
 	{
 	}
 

@@ -332,7 +332,7 @@ namespace
 		testBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -371,7 +371,7 @@ namespace
 		testBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -406,7 +406,7 @@ namespace
 		testBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
@@ -442,7 +442,7 @@ namespace
 		testBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
@@ -478,7 +478,7 @@ namespace
 		testBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -514,7 +514,7 @@ namespace
 		testBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
@@ -551,7 +551,7 @@ namespace
 		testBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, VoidT >( 6u
@@ -589,7 +589,7 @@ namespace
 		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< PositionT, MaxPoints, VoidT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -625,7 +625,7 @@ namespace
 		testBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -663,7 +663,7 @@ namespace
 		testBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -702,7 +702,7 @@ namespace
 		testBegin( "noSpecificIOPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -739,7 +739,7 @@ namespace
 		testBegin( "specificMemberInputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -776,7 +776,7 @@ namespace
 		testBegin( "specificGlobalInputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
@@ -814,7 +814,7 @@ namespace
 		testBegin( "specificMixedInputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
@@ -852,7 +852,7 @@ namespace
 		testBegin( "specificMemberOutputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -890,7 +890,7 @@ namespace
 		testBegin( "specificGlobalOutputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
@@ -929,7 +929,7 @@ namespace
 		testBegin( "specificMixedOutputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementPatchRoutineT< VoidT, MaxPoints, SimplePatchT >( 6u
@@ -969,7 +969,7 @@ namespace
 		testBegin( "specificMemberInAndOutPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			writer.implementPatchRoutineT< PositionT, MaxPoints, SimplePatchT >( 6u
 				, [&]( TessControlPatchRoutineIn in
@@ -1007,7 +1007,7 @@ namespace
 		testBegin( "specificGlobalInAndOutPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -1047,7 +1047,7 @@ namespace
 		testBegin( "specificMixedInAndOutPatch" );
 		using namespace sdw;
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -1089,7 +1089,7 @@ namespace
 		using namespace sdw;
 		{
 			static uint32_t constexpr maxPoints = 3u;
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			// TCS inputs
 			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };

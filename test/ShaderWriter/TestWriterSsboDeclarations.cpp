@@ -14,7 +14,7 @@ namespace
 	{
 		testBegin( "testSsboRaw" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
@@ -54,7 +54,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
@@ -101,7 +101,7 @@ namespace
 	{
 		testBegin( "testSsboRawArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
@@ -141,7 +141,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
@@ -188,7 +188,7 @@ namespace
 	{
 		testBegin( "testSsboRawArrayRuntime" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
@@ -228,7 +228,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
@@ -277,7 +277,7 @@ namespace
 
 		testBegin( "testSsboHelper" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
@@ -311,7 +311,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
@@ -356,7 +356,7 @@ namespace
 
 		testBegin( "testSsboHelperArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
@@ -390,7 +390,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
@@ -435,7 +435,7 @@ namespace
 
 		testBegin( "testSsboHelperArrayRuntime" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
@@ -469,7 +469,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();

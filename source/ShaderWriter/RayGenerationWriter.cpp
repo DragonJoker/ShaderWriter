@@ -47,8 +47,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayGenerationWriter::RayGenerationWriter()
-		: ShaderWriter{ ast::ShaderStage::eRayGeneration }
+	RayGenerationWriter::RayGenerationWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eRayGeneration, allocator }
 	{
 	}
 

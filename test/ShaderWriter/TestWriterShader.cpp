@@ -593,7 +593,7 @@ namespace
 
 		ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PosColT, PosColT >( [&]( VertexInT< PosColT > in
 				, VertexOutT< PosColT > out )
@@ -608,7 +608,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
@@ -639,7 +639,7 @@ namespace
 
 		ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			// Shader constants
 			auto positions = writer.declConstantArray<Vec4>( "positions"
 				, std::vector< Vec4 >
@@ -679,7 +679,7 @@ namespace
 		}
 		{
 			using namespace sdw;
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
@@ -704,7 +704,7 @@ namespace
 
 		ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			// Shader constants
 			auto positions = writer.declConstantArray<Vec4>( "positions"
 				, std::vector< Vec4 >
@@ -742,7 +742,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
@@ -767,7 +767,7 @@ namespace
 
 		ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			// Shader constants
 			auto positions = writer.declConstantArray<Vec2>(
@@ -805,7 +805,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
@@ -831,7 +831,7 @@ namespace
 		ShaderArray shaders;
 		{
 			{
-				sdw::VertexWriter writer;
+				sdw::VertexWriter writer{ &testCounts.allocator };
 				auto drawID = writer.declOutput<UInt>( "drawID", 0 );
 				writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 					{
@@ -842,7 +842,7 @@ namespace
 				shaders.emplace_back( std::move( writer.getShader() ) );
 			}
 			{
-				sdw::FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto drawID = writer.declInput<UInt>( "drawID", 0 );
 				auto fragOutput = writer.declOutput<UInt>( "fragOutput", 0 );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -868,7 +868,7 @@ namespace
 		ShaderArray shaders;
 		{
 			{
-				sdw::VertexWriter writer;
+				sdw::VertexWriter writer{ &testCounts.allocator };
 
 				auto pos = writer.declInput<Vec2>( "pos", 0 );
 				auto uvs = writer.declInput<Vec2>( "uvs", 1 );
@@ -902,7 +902,7 @@ namespace
 					sdw::CombinedImageT<ast::type::ImageFormat::eR32f,
 					ast::type::ImageDim::e2D, false, false, false>;
 
-				sdw::FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 
 				auto fragUv = writer.declInput<Vec2>( "fragUv", 0 );
 				auto fragCol = writer.declInput<Vec4>( "fragCol", 1 );
@@ -938,7 +938,7 @@ namespace
 		testBegin( "arthapzMin" );
 		sdw::ShaderArray shaders;
 		{
-			auto writer = sdw::VertexWriter{};
+			auto writer = sdw::VertexWriter{ &testCounts.allocator };
 
 			writer.implementMainT< PosNmlTexTanT, PosNmlTexTanT >( [&]( sdw::VertexInT< PosNmlTexTanT > in
 				, sdw::VertexOutT< PosNmlTexTanT > out )
@@ -956,7 +956,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			auto writer = sdw::FragmentWriter{};
+			auto writer = sdw::FragmentWriter{ &testCounts.allocator };
 			auto base_color_sampler = writer.declCombinedImg< FImg2DRgba32 >( "base_color_sampler", 0, 2 );
 
 			auto getEmissiveColor = writer.implementFunction< sdw::Vec4 >( "getEmissiveColor"
@@ -989,7 +989,7 @@ namespace
 			+ std::to_string( hasNormalMap ) );
 		sdw::ShaderArray shaders;
 		{
-			auto writer = sdw::VertexWriter{};
+			auto writer = sdw::VertexWriter{ &testCounts.allocator };
 
 			auto camera = sdw::UniformBuffer{ writer, "camera", 0, 0 };
 			camera.declMember<sdw::Vec4>( "camera_position" );
@@ -1025,7 +1025,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			auto writer = sdw::FragmentWriter{};
+			auto writer = sdw::FragmentWriter{ &testCounts.allocator };
 
 			auto camera = sdw::UniformBuffer{ writer, "camera", 0, 0 };
 			camera.declMember<sdw::Vec4>( "position" );
@@ -1114,7 +1114,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto cfg = writer.declUniformBuffer( "Config", 0u, 0u );
 			auto mvps = cfg.declMember< sdw::Mat4 >( "mvps", 6u );
 			auto tiles = cfg.declMember< sdw::Vec4 >( "tiles" );
@@ -1151,7 +1151,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, ColourT >( [&]( sdw::FragmentInT< PositionT > in
 				, sdw::FragmentOutT< ColourT > out )
@@ -1173,7 +1173,7 @@ namespace
 		using namespace sdw;
 		ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, PositionT >( [&]( VertexInT< PositionT > in
 				, VertexOutT< PositionT > out )
@@ -1187,7 +1187,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 
 			UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto mvp = voxelizeUbo.declMember< Mat4 >( "mvp" );
@@ -1225,7 +1225,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
 				, FragmentOutT< ColourT > out )
@@ -1250,7 +1250,7 @@ namespace
 		sdw::ShaderArray shaders;
 
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoxelIOT, VoxelIOT >( [&]( VertexInT< VoxelIOT > in
 				, sdw::VertexOutT< VoxelIOT > out )
@@ -1266,7 +1266,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 
 			sdw::UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
@@ -1398,7 +1398,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			auto pxl_voxelVisibility = writer.declStorageImg< WUImg3DR8 >( "pxl_voxelVisibility", 1u, 1u );
 
@@ -1466,7 +1466,7 @@ namespace
 		static uint32_t constexpr maxPoints = 3u;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< SurfaceT, SurfaceT >( [&]( VertexInT< SurfaceT > in
 				, sdw::VertexOutT< SurfaceT > out )
@@ -1485,7 +1485,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			TessellationControlWriter writer;
+			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
@@ -1635,7 +1635,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
@@ -1759,7 +1759,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< SurfaceT, ColourT >( [&]( FragmentInT< SurfaceT > in
 				, FragmentOutT< ColourT > out )
@@ -1782,7 +1782,7 @@ namespace
 		testBegin( "arraySsboTextureLookup" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto fragUvw = writer.declInput< Vec3 >( "fragUvw", 0u );
 			auto outColor = writer.declOutput< Vec4 >( "outColor", 0u );
 
@@ -1821,7 +1821,7 @@ namespace
 				}
 			};
 
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto color = writer.declOutput< Vec4 >( "color", 0u );
 
 			Pcb pcb{ writer, "pcb" };
@@ -1843,7 +1843,7 @@ namespace
 		std::vector< std::unique_ptr< ast::Shader > > shaders;
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			// Inputs
 			auto position = writer.declInput< Vec3 >( "position", 0u );
@@ -1863,7 +1863,7 @@ namespace
 			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			// Inputs
 			auto vtx_worldPosition = writer.declInput< Vec3 >( "vtx_worldPosition", 0u );

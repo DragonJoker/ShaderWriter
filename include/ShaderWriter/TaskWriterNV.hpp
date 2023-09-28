@@ -32,7 +32,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API TaskWriterNV();
+		SDW_API explicit TaskWriterNV( ShaderAllocator * allocator = nullptr );
 
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void dispatchMesh( UInt numGroups

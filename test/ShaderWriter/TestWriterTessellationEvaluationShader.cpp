@@ -333,7 +333,7 @@ namespace
 		testBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
 				, type::Partitioning::eEqual
@@ -368,7 +368,7 @@ namespace
 		testBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, VoidT >( 6u
 				, type::Partitioning::eEqual
@@ -397,7 +397,7 @@ namespace
 		testBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
@@ -427,7 +427,7 @@ namespace
 		testBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, VoidT >( 6u
@@ -458,7 +458,7 @@ namespace
 		testBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, PositionT >( 6u
 				, type::Partitioning::eEqual
@@ -487,7 +487,7 @@ namespace
 		testBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, VoidT >( 6u
@@ -517,7 +517,7 @@ namespace
 		testBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, VoidT, PositionT >( 6u
@@ -548,7 +548,7 @@ namespace
 		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, MaxPoints, VoidT, PositionT >( 6u
 				, type::Partitioning::eEqual
@@ -578,7 +578,7 @@ namespace
 		testBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -611,7 +611,7 @@ namespace
 		testBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -647,7 +647,7 @@ namespace
 		testBegin( "noSpecificIOPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
 				, type::Partitioning::eEqual
@@ -679,7 +679,7 @@ namespace
 		testBegin( "specificMemberInputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, VoidT >( 6u
 				, type::Partitioning::eEqual
@@ -711,7 +711,7 @@ namespace
 		testBegin( "specificGlobalInputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
@@ -744,7 +744,7 @@ namespace
 		testBegin( "specificMixedInputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, VoidT >( 6u
@@ -778,7 +778,7 @@ namespace
 		testBegin( "specificMemberOutputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, PositionT >( 6u
 				, type::Partitioning::eEqual
@@ -810,7 +810,7 @@ namespace
 		testBegin( "specificGlobalOutputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, VoidT >( 6u
@@ -843,7 +843,7 @@ namespace
 		testBegin( "specificMixedOutputOnlyPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
 			writer.implementMainT< VoidT, MaxPoints, SimplePatchT, PositionT >( 6u
@@ -877,7 +877,7 @@ namespace
 		testBegin( "specificMemberInAndOutPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, MaxPoints, SimplePatchT, PositionT >( 6u
 				, type::Partitioning::eEqual
@@ -910,7 +910,7 @@ namespace
 		testBegin( "specificGlobalInAndOutPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -946,7 +946,7 @@ namespace
 		testBegin( "specificMixedInAndOutPatch" );
 		using namespace sdw;
 		{
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, MaxPoints );
 			auto posoff = writer.declOutputArray< Vec3 >( "posoff", 1u, MaxPoints );
 
@@ -986,7 +986,7 @@ namespace
 		using namespace sdw;
 		{
 			static uint32_t constexpr maxPoints = 3u;
-			TessellationEvaluationWriter writer;
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
 			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );

@@ -86,7 +86,8 @@ namespace sdw
 	class ShaderWriter
 	{
 	protected:
-		SDW_API explicit ShaderWriter( ast::ShaderStage type );
+		SDW_API explicit ShaderWriter( ast::ShaderStage type
+			, ShaderAllocator * allocator = nullptr );
 		SDW_API virtual ~ShaderWriter();
 
 	public:

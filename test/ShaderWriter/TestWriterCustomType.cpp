@@ -177,7 +177,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
 				, VertexOut out )
 				{
@@ -189,7 +189,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.declType< Light >();
 			auto lightUbo = writer.declUniformBuffer<>( "LightUbo", 0u, 0u );
 			auto light = lightUbo.declMember< Light >( "light" );
@@ -216,7 +216,7 @@ namespace
 		testBegin( "lightArrayUbo" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		writer.declType< Light >();
 		auto lightsUbo = writer.declUniformBuffer<>( "LightsUbo", 0u, 0u );
@@ -241,7 +241,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
 				, VertexOut out )
 				{
@@ -253,7 +253,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.declType< Light >();
 			auto lightSsbo = writer.declUniformBuffer<>( "LightSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
 			auto light = lightSsbo.declMember< Light >( "light" );
@@ -280,7 +280,7 @@ namespace
 		testBegin( "lightArraySsbo" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		writer.declType< Light >();
 		auto lightsSsbo = writer.declUniformBuffer<>( "LightsSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
@@ -304,7 +304,7 @@ namespace
 		testBegin( "arraySsboLight" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto lights = writer.declArrayStorageBuffer< Light >( "LightsSsbo", 1u, 0u );
 
@@ -327,7 +327,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
 				, VertexOut out )
 				{
@@ -339,7 +339,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.declType< Light2 >();
 			auto lightUbo = writer.declUniformBuffer<>( "Light2Ubo", 0u, 0u );
 			auto light = lightUbo.declMember< Light2 >( "light" );
@@ -370,7 +370,7 @@ namespace
 		testBegin( "light2ArrayUbo" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		writer.declType< Light2 >();
 		auto lightsUbo = writer.declUniformBuffer<>( "Light2sUbo", 0u, 0u );
@@ -399,7 +399,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexIn in
 				, VertexOut out )
 				{
@@ -411,7 +411,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.declType< Light2 >();
 			auto lightSsbo = writer.declUniformBuffer<>( "Light2Ssbo", 1u, 0u, type::MemoryLayout::eStd140 );
 			auto light = lightSsbo.declMember< Light2 >( "light" );
@@ -442,7 +442,7 @@ namespace
 		testBegin( "light2ArraySsbo" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		writer.declType< Light2 >();
 		auto lightsSsbo = writer.declUniformBuffer<>( "Light2sSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
@@ -470,7 +470,7 @@ namespace
 		testBegin( "arraySsboLight2" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto lights = writer.declArrayStorageBuffer< Light2 >( "Light2sSsbo", 1u, 0u );
 
@@ -494,7 +494,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.declType< Parameterized >( flags );
 			auto paramUbo = writer.declUniformBuffer<>( "ParamUbo", 0u, 0u );
@@ -512,7 +512,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
 				, FragmentOutT< ColourT > out )
 				{
@@ -535,7 +535,7 @@ namespace
 		testBegin( "paramArrayUbo" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 
-		VertexWriter writer;
+		sdw::VertexWriter writer{ &testCounts.allocator };
 
 		writer.declType< Parameterized >( flags );
 		auto paramsUbo = writer.declUniformBuffer<>( "ParamsUbo", 0u, 0u );
@@ -560,7 +560,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.declType< Parameterized >( flags );
 			auto paramSsbo = writer.declUniformBuffer<>( "ParamSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
@@ -578,7 +578,7 @@ namespace
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
 				, FragmentOutT< ColourT > out )
@@ -602,7 +602,7 @@ namespace
 		testBegin( "paramArraySsbo" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 
-		VertexWriter writer;
+		sdw::VertexWriter writer{ &testCounts.allocator };
 
 		writer.declType< Parameterized >( flags );
 		auto paramsSsbo = writer.declUniformBuffer<>( "ParamsSsbo", 1u, 0u, type::MemoryLayout::eStd140 );
@@ -626,7 +626,7 @@ namespace
 		testBegin( "arraySsboParam" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 
-		VertexWriter writer;
+		sdw::VertexWriter writer{ &testCounts.allocator };
 
 		writer.declType< Parameterized >( flags );
 		auto params = writer.declArrayStorageBuffer< Parameterized >( "Light2sSsbo"

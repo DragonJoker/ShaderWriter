@@ -233,7 +233,7 @@ namespace
 		testBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
 				, FragmentOutT< VoidT > out )
@@ -264,7 +264,7 @@ namespace
 		testBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, VoidT >( [&]( FragmentInT< PositionT > in
 				, FragmentOutT< VoidT > out )
@@ -284,7 +284,7 @@ namespace
 		testBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
 
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
@@ -305,7 +305,7 @@ namespace
 		testBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
 
 			writer.implementMainT< PositionT, VoidT >( [&]( FragmentInT< PositionT > in
@@ -326,7 +326,7 @@ namespace
 		testBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
 				, FragmentOutT< ColourT > out )
@@ -346,7 +346,7 @@ namespace
 		testBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto offcol = writer.declOutput< Vec4 >( "offcol", 1u );
 
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
@@ -367,7 +367,7 @@ namespace
 		testBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto offcol = writer.declOutput< Vec4 >( "offcol", 1u );
 
 			writer.implementMainT< VoidT, ColourT >( [&]( FragmentInT< VoidT > in
@@ -389,7 +389,7 @@ namespace
 		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
 				, FragmentOutT< ColourT > out )
@@ -409,7 +409,7 @@ namespace
 		testBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
 			auto offcol = writer.declOutput< Vec4 >( "offcol", 1u );
 
@@ -431,7 +431,7 @@ namespace
 		testBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
 			auto offcol = writer.declOutput< Vec4 >( "offcol", 1u );
 
@@ -454,7 +454,7 @@ namespace
 		testBegin( "fragment" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 		// Shader inputs
 		UniformBuffer hdrConfig{ writer, "BufferHdrConfig", 0u, 0u };
 		auto c3d_exposure = hdrConfig.declMember< Float >( "c3d_exposure" );
@@ -533,7 +533,7 @@ namespace
 	{
 		testBegin( "radianceComputer" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		// Inputs
 		auto c3d_mapEnvironment = writer.declCombinedImg< FImgCubeRgba32 >( "c3d_mapEnvironment", 1u, 0u );
@@ -592,7 +592,7 @@ namespace
 		testBegin( name );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto tex = writer.declInput< Vec2 >( "tex", 0u );
 			auto r = writer.declInput< Float >( "r", 1u );
 			auto d = writer.declInput< Vec2 >( "d", 2u );
@@ -615,7 +615,7 @@ namespace
 	{
 		testBegin( "skybox" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		// Shader inputs
 		UniformBuffer hdrConfig{ writer, "BufferHdrConfig", 0u, 0u };
@@ -653,7 +653,7 @@ namespace
 		testBegin( "reference" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 		auto color1 = writer.declInput< Vec4 >( "color1", 0u );
 		auto multiplier = writer.declInput< Vec4 >( "multiplier", 1u );
 		auto color2 = writer.declInput< Vec4 >( "color2", 2u );
@@ -706,7 +706,7 @@ namespace
 		testBegin( "terminate" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
 
 		writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
@@ -730,7 +730,7 @@ namespace
 		testBegin( "demote" );
 		using namespace sdw;
 
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
 
 		writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in

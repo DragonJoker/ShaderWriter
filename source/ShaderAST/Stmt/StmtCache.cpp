@@ -73,8 +73,8 @@ namespace ast::stmt
 
 	//*********************************************************************************************
 
-	StmtCache::StmtCache( CacheMode cacheMode )
-		: m_cacheMode{ cacheMode }
+	StmtCache::StmtCache( ShaderAllocatorBlock & allocator )
+		: m_allocator{ allocator }
 	{
 	}
 
@@ -536,30 +536,9 @@ namespace ast::stmt
 		return makeStmt< While >( std::move( ctrlExpr ) );
 	}
 
-	void * StmtCache::allocStmt( size_t size )
+	void StmtCache::freeStmt( Stmt * stmt )noexcept
 	{
-		if ( m_cacheMode == CacheMode::eNone )
-		{
-			return malloc( size );
-		}
-
-		if ( !m_currentMemory
-			|| size > m_currentMemory->data->size() - m_currentMemory->index )
-		{
-			m_currentMemory = &m_memory.emplace_back();
-		}
-
-		auto result = m_currentMemory->data->data() + m_currentMemory->index;
-		m_currentMemory->index += size;
-		return result;
-	}
-
-	void StmtCache::freeStmt( Stmt * stmt )
-	{
-		if ( m_cacheMode == CacheMode::eNone )
-		{
-			stmt->~Stmt();
-			free( stmt );
-		}
+		stmt->~Stmt();
+		m_allocator.deallocate( stmt, stmt->getSize() );
 	}
 }

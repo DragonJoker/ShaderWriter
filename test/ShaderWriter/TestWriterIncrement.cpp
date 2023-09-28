@@ -8,7 +8,7 @@ namespace
 		testBegin( "singlePostIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -27,7 +27,7 @@ namespace
 		testBegin( "singlePreIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -46,7 +46,7 @@ namespace
 		testBegin( "assignPostIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -64,7 +64,7 @@ namespace
 		testBegin( "assignPreIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -82,7 +82,7 @@ namespace
 		testBegin( "condPostIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -104,7 +104,7 @@ namespace
 		testBegin( "condPreIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -126,7 +126,7 @@ namespace
 		testBegin( "loopPostIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -159,7 +159,7 @@ namespace
 		testBegin( "loopPreIncrement" );
 		using namespace sdw;
 
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{

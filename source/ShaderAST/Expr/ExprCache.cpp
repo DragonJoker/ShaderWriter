@@ -77,8 +77,8 @@ namespace ast::expr
 
 	//*********************************************************************************************
 
-	ExprCache::ExprCache( CacheMode cacheMode )
-		: m_cacheMode{ cacheMode }
+	ExprCache::ExprCache( ShaderAllocatorBlock & allocator )
+		: m_allocator{ allocator }
 	{
 	}
 
@@ -137,6 +137,7 @@ namespace ast::expr
 		, ExprPtr rhs )
 	{
 		assert( lhs->getType()->getKind() == type::Kind::eArray
+			|| lhs->getType()->getKind() == type::Kind::eImage
 			|| lhs->getType()->getKind() == type::Kind::eGeometryInput
 			|| lhs->getType()->getKind() == type::Kind::eTessellationControlInput
 			|| lhs->getType()->getKind() == type::Kind::eTessellationControlOutput
@@ -718,31 +719,10 @@ namespace ast::expr
 		return makeExpr< LogOr >( type, std::move( lhs ), std::move( rhs ) );
 	}
 
-	void * ExprCache::allocExpr( size_t size )
+	void ExprCache::freeExpr( Expr * expr )noexcept
 	{
-		if ( m_cacheMode == CacheMode::eNone )
-		{
-			return malloc( size );
-		}
-
-		if ( !m_currentMemory
-			|| size > m_currentMemory->data->size() - m_currentMemory->index )
-		{
-			m_currentMemory = &m_memory.emplace_back();
-		}
-
-		auto result = m_currentMemory->data->data() + m_currentMemory->index;
-		m_currentMemory->index += size;
-		return result;
-	}
-
-	void ExprCache::freeExpr( Expr * expr )
-	{
-		if ( m_cacheMode == CacheMode::eNone )
-		{
-			expr->~Expr();
-			free( expr );
-		}
+		expr->~Expr();
+		m_allocator.deallocate( expr, expr->getSize() );
 	}
 
 	//*********************************************************************************************

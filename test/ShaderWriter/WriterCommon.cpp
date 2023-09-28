@@ -423,6 +423,7 @@ namespace test
 					try
 					{
 						auto cfg = getGlslConfig( glsl::v4_6 );
+						cfg.allocator = &testCounts.allocator;
 						auto glslangSpirv = compileGlslToSpv( shader.getType()
 							, glsl::compileGlsl( shader
 							, specialisation
@@ -523,6 +524,7 @@ namespace test
 			{
 				std::string errors;
 				auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
+				config.allocator = &testCounts.allocator;
 
 				if ( isRayTraceStage( shader.getType() )
 					|| shader.getType() == ast::ShaderStage::eMesh
@@ -690,7 +692,9 @@ namespace test
 					hlsl = hlsl::compileHlsl( shader
 						, specialisation
 						, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex )
-							, shader.getType() } );
+							, shader.getType()
+							, false
+							, &testCounts.allocator } );
 				}
 				catch ( std::exception & exc )
 				{
@@ -830,7 +834,9 @@ namespace test
 							config.availableExtensions = &extensions;
 						}
 
-						auto textSpirv = spirv::writeSpirv( shader, config );
+						config.allocator = &testCounts.allocator;
+						auto module = spirv::compileSpirV( shader, config );
+						auto textSpirv = spirv::writeModule( *module );
 
 						if ( textSpirv.empty() )
 						{
@@ -843,7 +849,7 @@ namespace test
 
 						try
 						{
-							spirv = spirv::serialiseSpirv( shader, config );
+							spirv = spirv::serialiseModule( *module );
 							success();
 						}
 						catch ( ... )
@@ -1034,15 +1040,21 @@ namespace test
 						{
 							spirv::SpirVConfig config{};
 							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							config.stmtCache = &testCounts.stmtCache;
+							config.exprCache = &testCounts.exprCache;
 							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 								, shader.getType()
 								, testCounts
 								, true );
+							config.stmtCache = &testCounts.stmtCache;
+							config.exprCache = &testCounts.exprCache;
 							auto textSpirv = spirv::writeSpirv( shader, config );
 							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 							displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
 							auto cfg = getGlslConfig( glsl::v4_6 );
+							cfg.stmtCache = &testCounts.stmtCache;
+							cfg.exprCache = &testCounts.exprCache;
 							auto glslangSpirv = compileGlslToSpv( shader.getType()
 								, glsl::compileGlsl( shader
 									, ast::SpecialisationInfo{}
@@ -1110,15 +1122,21 @@ namespace test
 						{
 							spirv::SpirVConfig config{};
 							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							config.stmtCache = &testCounts.stmtCache;
+							config.exprCache = &testCounts.exprCache;
 							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 								, shader.getType()
 								, testCounts
 								, true );
+							config.stmtCache = &testCounts.stmtCache;
+							config.exprCache = &testCounts.exprCache;
 							auto textSpirv = spirv::writeSpirv( shader, config );
 							displayShader( "SPIR-V", textSpirv, testCounts, true, false );
 							displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
 							auto cfg = getGlslConfig( glsl::v4_6 );
+							cfg.stmtCache = &testCounts.stmtCache;
+							cfg.exprCache = &testCounts.exprCache;
 							auto glslangSpirv = compileGlslToSpv( shader.getType()
 								, glsl::compileGlsl( shader
 									, ast::SpecialisationInfo{}
@@ -1186,11 +1204,15 @@ namespace test
 						{
 							spirv::SpirVConfig config{};
 							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							config.stmtCache = &testCounts.stmtCache;
+							config.exprCache = &testCounts.exprCache;
 							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
 							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
 								, shader.getType()
 								, testCounts
 								, true );
+							config.stmtCache = &testCounts.stmtCache;
+							config.exprCache = &testCounts.exprCache;
 							auto textSpirv = spirv::writeSpirv( shader, config );
 							displayShader( "SPIR-V"
 								, textSpirv
@@ -1203,10 +1225,12 @@ namespace test
 								, true
 								, true );
 							auto cfg = getGlslConfig( glsl::v4_6 );
+							cfg.stmtCache = &testCounts.stmtCache;
+							cfg.exprCache = &testCounts.exprCache;
 							auto glslangSpirv = compileGlslToSpv( shader.getType()
 								, glsl::compileGlsl( shader
 									, ast::SpecialisationInfo{}
-								, cfg ) );
+									, cfg ) );
 							displayShader( "glslang SPIR-V"
 								, spirv::displaySpirv( glslangSpirv )
 								, testCounts
@@ -1275,33 +1299,17 @@ namespace test
 
 		uint32_t TestCounts::getVulkanVersion( uint32_t infoIndex )const
 		{
-			uint32_t ret{};
-
-			if ( spirv )
-			{
-				ret = retrieveVulkanVersion( *this, infoIndex );
-			}
-
-			return ret;
+			return retrieveVulkanVersion( *this, infoIndex );
 		}
 
 		uint32_t TestCounts::getSpirVVersion( uint32_t infoIndex )const
 		{
-			uint32_t ret{ 0x00010300 };
-
-			if ( spirv )
-			{
-				ret = retrieveSPIRVVersion( *this, infoIndex );
-			}
-
-			return ret;
+			return retrieveSPIRVVersion( *this, infoIndex );
 		}
 
 		uint32_t TestCounts::getSpirvInfosSize()const
 		{
-			return spirv
-				? retrieveSpirVInfosSize( *this )
-				: 0u;
+			return retrieveSpirVInfosSize( *this );
 		}
 
 		bool TestCounts::isHlslInitialised( uint32_t infoIndex )const
@@ -1326,21 +1334,12 @@ namespace test
 
 		uint32_t TestCounts::getGlslVersion( uint32_t infoIndex )const
 		{
-			uint32_t ret{ 450u };
-
-			if ( glsl )
-			{
-				ret = retrieveGLSLVersion( *this, infoIndex );
-			}
-
-			return ret;
+			return retrieveGLSLVersion( *this, infoIndex );
 		}
 
 		uint32_t TestCounts::getGlslInfosSize()const
 		{
-			return glsl
-				? retrieveGLSLInfosSize( *this )
-				: 0u;
+			return retrieveGLSLInfosSize( *this );
 		}
 	}
 

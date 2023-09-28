@@ -410,7 +410,7 @@ namespace
 		testBegin( "simple" );
 		using namespace sdw;
 		{
-			RayClosestHitWriter writer;
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
@@ -459,7 +459,7 @@ namespace
 		testBegin( "vecTimesMtx" );
 		using namespace sdw;
 		{
-			RayClosestHitWriter writer;
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
@@ -508,7 +508,7 @@ namespace
 		testBegin( "nonUniform" );
 		using namespace sdw;
 		{
-			RayClosestHitWriter writer;
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
@@ -544,7 +544,7 @@ namespace
 		testBegin( "wavefrontLighting" );
 		using namespace sdw;
 		{
-			RayClosestHitWriter writer;
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
@@ -677,7 +677,7 @@ namespace
 		testBegin( "basicExecCallable" );
 		using namespace sdw;
 		{
-			RayClosestHitWriter writer;
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 
@@ -793,7 +793,7 @@ namespace
 		testBegin( "execCallable" );
 		using namespace sdw;
 		{
-			RayClosestHitWriter writer;
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 

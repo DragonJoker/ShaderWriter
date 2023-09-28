@@ -48,7 +48,7 @@ namespace
 	{
 		testBegin( "emptyMain" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 			{
@@ -65,7 +65,7 @@ namespace
 	{
 		testBegin( "builtins" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 			{
@@ -88,7 +88,7 @@ namespace
 	{
 		testBegin( "readWorkGroupSize" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
 			{
@@ -107,7 +107,7 @@ namespace
 	{
 		testBegin( "compute" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
@@ -136,7 +136,7 @@ namespace
 	{
 		testBegin( "swizzles" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto c3d_mapDepth = writer.declCombinedImg< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
 
@@ -186,7 +186,7 @@ namespace
 	{
 		testBegin( "conversions" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
@@ -213,7 +213,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto kernelImage =
 				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
 
@@ -249,7 +249,7 @@ namespace
 			};
 
 			using namespace sdw;
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			// Inputs
 			sdw::UniformBuffer voxelizer{ writer
@@ -343,7 +343,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto srcImage = writer.declStorageImg<RFImg2DRgba32>( "srcImage", 0, 0 );
 			auto dstImage = writer.declStorageImgArray<RWFImg2DRgba32>( "dstImage", 1, 0, 4u );
 
@@ -398,7 +398,7 @@ namespace
 		using namespace sdw;
 		ShaderArray shaders;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			auto foo = writer.implementFunction< sdw::Vec4 >( "foo"
 				, [&]( Vec3 const & t
@@ -430,7 +430,7 @@ namespace
 	{
 		testBegin( "subgroupEmptyMain" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
 			{
@@ -447,7 +447,7 @@ namespace
 	{
 		testBegin( "subgroupBuiltins" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
 			{
@@ -478,7 +478,7 @@ namespace
 	{
 		testBegin( "subgroupCompute" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
 		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
 
@@ -508,7 +508,7 @@ namespace
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto kernelImage =
 				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
 
@@ -533,21 +533,21 @@ namespace
 sdwTestSuiteMain( TestWriterComputeShader )
 {
 	sdwTestSuiteBegin();
-	//emptyMain( testCounts );
-	//builtins( testCounts );
-	//readWorkGroupSize( testCounts );
-	//compute( testCounts );
-	//swizzles( testCounts );
-	//conversions( testCounts );
-	//simpleStore( testCounts );
-	//voxelToTexture( testCounts );
-	//imageArray( testCounts );
-	//accessChainAlias( testCounts );
-	//duplicateLoadTest( testCounts );
-	//subgroupEmptyMain( testCounts );
+	emptyMain( testCounts );
+	builtins( testCounts );
+	readWorkGroupSize( testCounts );
+	compute( testCounts );
+	swizzles( testCounts );
+	conversions( testCounts );
+	simpleStore( testCounts );
+	voxelToTexture( testCounts );
+	imageArray( testCounts );
+	accessChainAlias( testCounts );
+	duplicateLoadTest( testCounts );
+	subgroupEmptyMain( testCounts );
 	subgroupBuiltins( testCounts );
-	//subgroupCompute( testCounts );
-	//subgroupSimpleStore( testCounts );
+	subgroupCompute( testCounts );
+	subgroupSimpleStore( testCounts );
 	sdwTestSuiteEnd();
 }
 

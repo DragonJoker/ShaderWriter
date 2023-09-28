@@ -253,7 +253,7 @@ namespace
 		testBegin( "simple" );
 		using namespace sdw;
 		{
-			RayAnyHitWriter writer;
+			sdw::RayAnyHitWriter writer{ &testCounts.allocator };
 
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 

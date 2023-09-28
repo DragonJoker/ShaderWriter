@@ -140,8 +140,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	TaskWriterEXT::TaskWriterEXT()
-		: ShaderWriter{ ast::ShaderStage::eTask }
+	TaskWriterEXT::TaskWriterEXT( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eTask, allocator }
 	{
 	}
 

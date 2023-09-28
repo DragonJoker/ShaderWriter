@@ -243,7 +243,7 @@ namespace
 		testBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
 				, VertexOutT< VoidT > out )
@@ -267,7 +267,7 @@ namespace
 		testBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, VoidT >( [&]( VertexInT< PositionT > in
 				, VertexOutT< VoidT > out )
@@ -286,7 +286,7 @@ namespace
 		testBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto position = writer.declInput< Vec3 >( "position", 0u );
 
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
@@ -306,7 +306,7 @@ namespace
 		testBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto offset = writer.declInput< Vec3 >( "offset", 1u );
 
 			writer.implementMainT< PositionT, VoidT >( [&]( VertexInT< PositionT > in
@@ -326,7 +326,7 @@ namespace
 		testBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< VoidT, PositionT >( [&]( VertexInT< VoidT > in
 				, VertexOutT< PositionT > out )
@@ -346,7 +346,7 @@ namespace
 		testBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto position = writer.declOutput< Vec3 >( "position", 0u );
 
 			writer.implementMainT< VoidT, VoidT >( [&]( VertexInT< VoidT > in
@@ -367,7 +367,7 @@ namespace
 		testBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto offset = writer.declOutput< Vec3 >( "offset", 1u );
 
 			writer.implementMainT< VoidT, PositionT >( [&]( VertexInT< VoidT > in
@@ -389,7 +389,7 @@ namespace
 		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< PositionT, PositionT >( [&]( VertexInT< PositionT > in
 				, VertexOutT< PositionT > out )
@@ -409,7 +409,7 @@ namespace
 		testBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto inPosition = writer.declInput< Vec3 >( "inPosition", 0u );
 			auto outPosition = writer.declOutput< Vec3 >( "outPosition", 0u );
 
@@ -431,7 +431,7 @@ namespace
 		testBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto inOffset = writer.declInput< Vec3 >( "inOffset", 1u );
 			auto outOffset = writer.declOutput< Vec3 >( "outOffset", 1u );
 
@@ -453,7 +453,7 @@ namespace
 	{
 		testBegin( "vertex" );
 		using namespace sdw;
-		VertexWriter writer;
+		sdw::VertexWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< PosTexT, PosTexT >( [&]( sdw::VertexInT< PosTexT > in
 			, sdw::VertexOutT< PosTexT > out )
@@ -539,7 +539,7 @@ namespace
 		using namespace sdw;
 		{
 			using namespace sdw;
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			// Shader constants
 			auto constVec = writer.declConstant( "constVec"
@@ -563,7 +563,7 @@ namespace
 		using namespace sdw;
 		using namespace posOff;
 		{
-			VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 
 			float w = 300;
 			float h = 200;

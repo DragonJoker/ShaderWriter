@@ -18,53 +18,90 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	void ModuleDeleter::operator()( Module * module )
 	{
-		spirv::Module compileSpirV( ast::Shader const & shader
-			, SpirVConfig & config )
+		delete module;
+	}
+
+	ModulePtr compileSpirV( ast::Shader const & shader
+		, SpirVConfig & config )
+	{
+		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
+		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
+		ast::stmt::StmtCache compileStmtCache{ *allocator };
+		ast::expr::ExprCache compileExprCache{ *allocator };
+		ast::SSAData ssaData;
+		ssaData.nextVarId = shader.getData().nextVarId;
+		auto statements = ast::transformSSA( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, shader.getStatements()
+			, ssaData );
+		statements = ast::simplify( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, statements.get() );
+		ModuleConfig moduleConfig{ config
+			, shader.getTypesCache()
+			, shader.getType()
+			, ssaData.nextVarId
+			, ssaData.aliasId };
+		spirv::StmtConfigFiller::submit( statements.get()
+			, moduleConfig );
+		spirv::PreprocContext context{};
+		AdaptationData adaptationData{ context, std::move( moduleConfig ) };
+		statements = spirv::StmtAdapter::submit( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, statements.get()
+			, adaptationData );
+		// Simplify again, since adaptation can introduce complexity
+		statements = ast::simplify( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, statements.get() );
+		auto actions = listActions( statements.get() );
+		return spirv::StmtVisitor::submit( compileExprCache
+			, shader.getTypesCache()
+			, statements.get()
+			, shader.getType()
+			, adaptationData.config
+			, std::move( context )
+			, config
+			, std::move( actions ) );
+	}
+
+	std::string writeModule( Module const & module
+		, bool writeHeader )
+	{
+		std::string result;
+
+		try
 		{
-			ast::stmt::StmtCache compileStmtCache{ ast::CacheMode::eArena };
-			ast::expr::ExprCache compileExprCache{ ast::CacheMode::eArena };
-			ast::SSAData ssaData;
-			ssaData.nextVarId = shader.getData().nextVarId;
-			auto statements = ast::transformSSA( compileStmtCache
-				, compileExprCache
-				, shader.getTypesCache()
-				, shader.getStatements()
-				, ssaData );
-			statements = ast::simplify( compileStmtCache
-				, compileExprCache
-				, shader.getTypesCache()
-				, statements.get() );
-			ModuleConfig moduleConfig{ config
-				, shader.getTypesCache()
-				, shader.getType()
-				, ssaData.nextVarId
-				, ssaData.aliasId };
-			spirv::StmtConfigFiller::submit( statements.get()
-				, moduleConfig );
-			spirv::PreprocContext context{};
-			AdaptationData adaptationData{ context, std::move( moduleConfig ) };
-			statements = spirv::StmtAdapter::submit( compileStmtCache
-				, compileExprCache
-				, shader.getTypesCache()
-				, statements.get()
-				, adaptationData );
-			// Simplify again, since adaptation can introduce complexity
-			statements = ast::simplify( compileStmtCache
-				, compileExprCache
-				, shader.getTypesCache()
-				, statements.get() );
-			auto actions = listActions( statements.get() );
-			return spirv::StmtVisitor::submit( compileExprCache
-				, shader.getTypesCache()
-				, statements.get()
-				, shader.getType()
-				, adaptationData.config
-				, std::move( context )
-				, config
-				, std::move( actions ) );
+			result = Module::write( module, writeHeader );
 		}
+		catch ( std::exception & exc )
+		{
+			std::cerr << exc.what() << std::endl;
+		}
+
+		return result;
+	}
+
+	std::vector< uint32_t > serialiseModule( Module const & module )
+	{
+		std::vector< uint32_t > result;
+
+		try
+		{
+			result = Module::serialize( module );
+		}
+		catch ( std::exception & exc )
+		{
+			std::cerr << exc.what() << std::endl;
+		}
+
+		return result;
 	}
 
 	std::string writeSpirv( ast::Shader const & shader
@@ -76,7 +113,7 @@ namespace spirv
 		try
 		{
 			auto module = compileSpirV( shader, config );
-			result = Module::write( module, writeHeader );
+			result = Module::write( *module, writeHeader );
 		}
 		catch ( std::exception & exc )
 		{
@@ -94,7 +131,7 @@ namespace spirv
 		try
 		{
 			auto module = compileSpirV( shader, config );
-			result = Module::serialize( module );
+			result = Module::serialize( *module );
 		}
 		catch ( std::exception & exc )
 		{

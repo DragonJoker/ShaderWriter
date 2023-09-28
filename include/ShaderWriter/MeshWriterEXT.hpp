@@ -331,7 +331,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API MeshWriterEXT();
+		SDW_API explicit MeshWriterEXT( ShaderAllocator * allocator = nullptr );
 		/**
 		*	Points
 		*/

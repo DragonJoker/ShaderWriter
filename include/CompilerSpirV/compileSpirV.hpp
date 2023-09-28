@@ -119,10 +119,24 @@ namespace spirv
 	{
 		uint32_t specVersion{ v1_1 };
 		SpirVExtensionSet * availableExtensions{};
+		ast::ShaderAllocator * allocator{};
 		// Filled by writeSpirv/serialiseSpirv
 		uint32_t requiredVersion{ vUnk };
 		SpirVExtensionSet requiredExtensions{};
 	};
+
+	class Module;
+	struct ModuleDeleter
+	{
+		SDWSPIRV_API void operator()( Module * module );
+	};
+	using ModulePtr = std::unique_ptr< Module, ModuleDeleter >;
+
+	SDWSPIRV_API ModulePtr compileSpirV( ast::Shader const & shader
+		, SpirVConfig & config );
+	SDWSPIRV_API std::string writeModule( Module const & module
+		, bool writeHeader = true );
+	SDWSPIRV_API std::vector< uint32_t > serialiseModule( Module const & module );
 
 	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
 		, SpirVConfig & config

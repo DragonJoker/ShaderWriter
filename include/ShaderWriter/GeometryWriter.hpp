@@ -142,7 +142,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API GeometryWriter();
+		SDW_API explicit GeometryWriter( ShaderAllocator * allocator = nullptr );
 		/**
 		*name
 		*	Entry point declaration.
