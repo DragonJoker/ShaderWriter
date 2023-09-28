@@ -45,8 +45,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	CallableWriter::CallableWriter()
-		: ShaderWriter{ ast::ShaderStage::eCallable }
+	CallableWriter::CallableWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eCallable, allocator }
 	{
 	}
 }

@@ -107,8 +107,10 @@ namespace hlsl
 		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
-		ast::stmt::StmtCache compileStmtCache{ ast::CacheMode::eArena };
-		ast::expr::ExprCache compileExprCache{ ast::CacheMode::eArena };
+		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
+		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
+		ast::stmt::StmtCache compileStmtCache{ *allocator };
+		ast::expr::ExprCache compileExprCache{ *allocator };
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()

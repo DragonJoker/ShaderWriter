@@ -104,8 +104,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayClosestHitWriter::RayClosestHitWriter()
-		: ShaderWriter{ ast::ShaderStage::eRayClosestHit }
+	RayClosestHitWriter::RayClosestHitWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eRayClosestHit, allocator }
 	{
 	}
 }

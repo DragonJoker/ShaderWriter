@@ -15,7 +15,7 @@ namespace
 		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::CombinedImage > )
 			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u );
@@ -39,7 +39,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
@@ -63,7 +63,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 1u, .set = 1u } );
@@ -87,7 +87,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 2u, .set = 2u }, 6u );
@@ -111,7 +111,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, false );
@@ -133,7 +133,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, 6u, false );
@@ -155,7 +155,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
 			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 1u, 1u, true );
@@ -180,7 +180,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
 			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u, true );
@@ -205,7 +205,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_T";
 			auto value = writer.declCombinedImg< sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > >( name, 1u, 1u );
@@ -229,7 +229,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_T";
 			auto value = writer.declCombinedImgArray< sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > >( name, 2u, 2u, 6u );

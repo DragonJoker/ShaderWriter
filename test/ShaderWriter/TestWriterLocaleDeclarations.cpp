@@ -8,7 +8,7 @@ namespace
 	{
 		testBegin( "testLocale" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValue";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
@@ -26,7 +26,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueAssigned";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
@@ -44,7 +44,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray12";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
@@ -62,7 +62,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray3";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
@@ -80,7 +80,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -98,7 +98,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -116,7 +116,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -134,7 +134,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -152,7 +152,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -170,7 +170,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValue_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
@@ -189,7 +189,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray12_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
@@ -208,7 +208,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "LocaleValueArray3_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >

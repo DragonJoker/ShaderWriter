@@ -135,6 +135,7 @@ namespace glsl
 		bool hasShaderStorageBuffers{ false };
 		bool hasDescriptorSets{ false };
 		bool hasBaseInstance{ false };
+		ast::ShaderAllocator * allocator{};
 		// Filled by writeSpirv/serialiseSpirv
 		uint32_t requiredVersion{ vUnk };
 		GlslExtensionSet requiredExtensions{};

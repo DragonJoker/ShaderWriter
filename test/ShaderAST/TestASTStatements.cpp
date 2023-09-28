@@ -13,8 +13,8 @@ namespace
 	void testSimple( test::TestCounts & testCounts )
 	{
 		testBegin( "testSimple" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
@@ -30,7 +30,7 @@ namespace
 	{
 		testBegin( "testContainer" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeContainer();
 			testCounts << "StmtContainer (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -39,8 +39,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) );
 			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) );
@@ -59,7 +59,7 @@ namespace
 	{
 		testBegin( "testCompound" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeCompound();
 			testCounts << "StmtCompound (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -68,8 +68,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) );
 			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) );
@@ -87,7 +87,7 @@ namespace
 	void testComment( test::TestCounts & testCounts )
 	{
 		testBegin( "testComment" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeComment( "Coin glop miaou !!" );
 		testCounts << "StmtComment:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -100,7 +100,7 @@ namespace
 	void testVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		testCounts << "StmtVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -114,7 +114,7 @@ namespace
 	void testPerVertexDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testPerVertexDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePerVertexDecl( ast::stmt::PerVertexDecl::Source::eTessellationControlInput
 			, typesCache.getInt32() );
@@ -129,7 +129,7 @@ namespace
 	void testInOutVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInOutVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput ), 1u );
 		testCounts << "StmtInOutVariableDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -144,7 +144,7 @@ namespace
 	void testInOutStreamVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutStreamVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInOutStreamVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eGeometryStream )
 			, 1u
@@ -163,7 +163,7 @@ namespace
 	void testInOutBlendVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutBlendVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInOutBlendVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eBlendIndex )
 			, 1u
@@ -182,8 +182,8 @@ namespace
 	void testSpecialisationConstantDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testSpecialisationConstantDecl" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeSpecialisationConstantDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eBlendIndex )
 			, 1u
@@ -204,7 +204,7 @@ namespace
 	{
 		testBegin( "testConstantBufferDecl" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
 			testCounts << "StmtConstantBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -215,7 +215,7 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) ) );
@@ -234,7 +234,7 @@ namespace
 	{
 		testBegin( "testPushConstantsBufferDecl" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makePushConstantsBufferDecl( "Buffer", ast::type::MemoryLayout::eC );
 			testCounts << "StmtPushConstantsBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -244,7 +244,7 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makePushConstantsBufferDecl( "Buffer", ast::type::MemoryLayout::eC );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) ) );
@@ -262,7 +262,7 @@ namespace
 	{
 		testBegin( "testShaderBufferDecl" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeShaderBufferDecl( typesCache, "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u, ++testCounts.nextVarId );
 			testCounts << "StmtShaderBufferDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -273,7 +273,7 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeShaderBufferDecl( typesCache, "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u, ++testCounts.nextVarId );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) ) );
@@ -292,7 +292,7 @@ namespace
 	{
 		testBegin( "testShaderStructBufferDecl" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto baseType = typesCache.getStruct( ast::type::MemoryLayout::eStd430, "BaseType" );
 			auto array = typesCache.getArray( baseType );
@@ -308,7 +308,7 @@ namespace
 			check( stmt->getDescriptorSet() == 2u );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto baseType = typesCache.getStruct( ast::type::MemoryLayout::eStd430, "BaseType" );
 			baseType->declMember( "i", typesCache.getInt32() );
@@ -331,7 +331,7 @@ namespace
 	void testSamplerDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testSamplerDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeSamplerDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getSampler(), "lhs" ), 1u, 2u );
 		testCounts << "StmtSamplerDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -347,7 +347,7 @@ namespace
 	void testImageDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testImageDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		ast::type::ImageConfiguration config{};
 		auto stmt = stmtCache.makeImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getImage( config ), "lhs" ), 1u, 2u );
@@ -364,7 +364,7 @@ namespace
 	void testSampledImageDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testSampledImageDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		ast::type::ImageConfiguration config{};
 		auto stmt = stmtCache.makeSampledImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getSampledImage( config ), "lhs" ), 1u, 2u );
@@ -378,10 +378,10 @@ namespace
 		testEnd();
 	}
 
-	void testTextureDecl( test::TestCounts & testCounts )
+	void testCombinedImageDecl( test::TestCounts & testCounts )
 	{
-		testBegin( "testTextureDecl" );
-		ast::stmt::StmtCache stmtCache;
+		testBegin( "testCombinedImageDecl" );
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		ast::type::ImageConfiguration config{};
 		auto stmt = stmtCache.makeCombinedImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getCombinedImage( config, true ), "lhs" ), 1u, 2u );
@@ -399,7 +399,7 @@ namespace
 	{
 		testBegin( "testFunctionDecl" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), {} ), "foo" );
 			testCounts << "StmtFunctionDecl (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -410,7 +410,7 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" );
 			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -421,7 +421,7 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" );
 			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -432,8 +432,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), {} ), "foo" );
 			stmt->addStmt( stmtCache.makeReturn( exprCache.makeLiteral( typesCache, 10 ) ) );
@@ -445,8 +445,8 @@ namespace
 			check( stmt->size() == 1u );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" );
 			stmt->addStmt( stmtCache.makeReturn(
@@ -461,8 +461,8 @@ namespace
 			check( stmt->size() == 1u );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" );
 			stmt->addStmt( stmtCache.makeReturn(
@@ -483,7 +483,7 @@ namespace
 	{
 		testBegin( "testStructureDecl" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getStruct( ast::type::MemoryLayout::eStd140, "MyStruct" );
 			auto stmt = stmtCache.makeStructureDecl( type );
@@ -494,7 +494,7 @@ namespace
 			check( stmt->getType()->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getStruct( ast::type::MemoryLayout::eStd140, "MyStruct" );
 			type->declMember( "i", typesCache.getInt32() );
@@ -513,8 +513,8 @@ namespace
 	{
 		testBegin( "testIf" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			testCounts << "StmtIf (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -525,8 +525,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) );
 			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) );
@@ -547,8 +547,8 @@ namespace
 	{
 		testBegin( "testElse" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -560,8 +560,8 @@ namespace
 			check( elseStmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -583,8 +583,8 @@ namespace
 	{
 		testBegin( "testElseIf" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -596,8 +596,8 @@ namespace
 			check( elseIfStmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -619,8 +619,8 @@ namespace
 	{
 		testBegin( "testElseIf" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -630,8 +630,8 @@ namespace
 			testCounts << "StmtElse (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -653,8 +653,8 @@ namespace
 	{
 		testBegin( "testWhile" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeWhile( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			testCounts << "StmtWhile (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -665,8 +665,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) );
 			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) );
@@ -687,8 +687,8 @@ namespace
 	{
 		testBegin( "testFor" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto k = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "k" );
 			auto stmt = stmtCache.makeFor( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 0 ) )
@@ -706,8 +706,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) );
 			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) );
@@ -735,8 +735,8 @@ namespace
 	{
 		testBegin( "testDoWhile" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeDoWhile( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			testCounts << "StmtDoWhile (empty):\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -747,8 +747,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) );
 			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) );
@@ -769,8 +769,8 @@ namespace
 	{
 		testBegin( "testSwitch" );
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeIdentifier( typesCache, i ) ) );
@@ -781,8 +781,8 @@ namespace
 			check( stmt->empty() );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeIdentifier( typesCache, i ) ) );
@@ -795,8 +795,8 @@ namespace
 			check( stmt->size() == 2u );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
@@ -821,7 +821,7 @@ namespace
 	{
 		testBegin( "testReturn" );
 		{
-			ast::stmt::StmtCache stmtCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeReturn();
 			testCounts << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -829,8 +829,8 @@ namespace
 			require( stmt->getKind() == ast::stmt::Kind::eReturn );
 		}
 		{
-			ast::stmt::StmtCache stmtCache;
-			ast::expr::ExprCache exprCache;
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeReturn( exprCache.makeLiteral( typesCache, 10 ) );
 			testCounts << "StmtReturn:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -844,7 +844,7 @@ namespace
 	void testDemote( test::TestCounts & testCounts )
 	{
 		testBegin( "testDemote" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeDemote();
 		testCounts << "StmtDemote:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -856,7 +856,7 @@ namespace
 	void testTerminateInvocation( test::TestCounts & testCounts )
 	{
 		testBegin( "testTerminateInvocation" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeTerminateInvocation();
 		testCounts << "StmtTerminateInvocation:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -868,7 +868,7 @@ namespace
 	void testInputGeometryLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputGeometryLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInputGeometryLayout( typesCache.getVoid()
 			, ast::type::InputLayout::eLineStripWithAdjacency );
@@ -883,7 +883,7 @@ namespace
 	void testOutputGeometryLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testOutputGeometryLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeOutputGeometryLayout( typesCache.getVoid()
 			, ast::type::OutputLayout::eTriangleStrip
@@ -900,7 +900,7 @@ namespace
 	void testOutputMeshLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testOutputMeshLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeOutputMeshLayout( typesCache.getVoid()
 			, ast::type::OutputTopology::eTriangle
@@ -919,7 +919,7 @@ namespace
 	void testInputComputeLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputComputeLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInputComputeLayout( typesCache.getVoid(), 16, 32, 64 );
 		testCounts << "StmtInputComputeLayout:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -935,8 +935,8 @@ namespace
 	void testPreprocDefine( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocDefine" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocDefine( 1u, "DefineIt", exprCache.makeLiteral( typesCache, 1 ) );
 		testCounts << "PreprocDefine:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -950,8 +950,8 @@ namespace
 	void testPreprocIf( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocIf" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsDefined" ) ) );
 		testCounts << "PreprocIf:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -965,8 +965,8 @@ namespace
 	void testPreprocElif( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocElif" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto ifStmt = stmtCache.makePreprocIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsNotDefined" ) ) );
 		auto stmt = ifStmt->createElif( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsDefined" ) ) );
@@ -981,8 +981,8 @@ namespace
 	void testPreprocElse( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocElse" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto ifStmt = stmtCache.makePreprocIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsDefined" ) ) );
 		auto stmt = ifStmt->createElse();
@@ -995,8 +995,8 @@ namespace
 	void testPreprocIfDef( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocIfDef" );
-		ast::stmt::StmtCache stmtCache;
-		ast::expr::ExprCache exprCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocIfDef( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "IsItDefined" ) ) );
 		testCounts << "PreprocIfDef:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1010,7 +1010,7 @@ namespace
 	void testPreprocEndif( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocEndif" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocEndif();
 		testCounts << "PreprocEndif:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1022,7 +1022,7 @@ namespace
 	void testPreprocExtension( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocExtension" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocExtension( "GL_arb_coin", ast::stmt::PreprocExtension::ExtStatus::eEnabled );
 		testCounts << "PreprocExtension:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1036,7 +1036,7 @@ namespace
 	void testPreprocVersion( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocVersion" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocVersion( "430 core" );
 		testCounts << "PreprocVersion:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1049,7 +1049,7 @@ namespace
 	void testFragmentLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testFragmentLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeFragmentLayout( typesCache.getVoid()
 				, ast::FragmentOrigin::eLowerLeft
@@ -1065,7 +1065,7 @@ namespace
 	void testOutputTessellationControlLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testOutputTessellationControlLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeOutputTessellationControlLayout( typesCache.getVoid()
 			, ast::type::PatchDomain::eQuads
@@ -1087,7 +1087,7 @@ namespace
 	void testInputTessellationEvaluationLayout( test::TestCounts & testCounts )
 	{
 		testBegin( "testInputTessellationEvaluationLayout" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInputTessellationEvaluationLayout( typesCache.getVoid()
 			, ast::type::PatchDomain::eQuads
@@ -1105,7 +1105,7 @@ namespace
 	void testAccelerationStructureDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testAccelerationStructureDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeAccelerationStructureDecl( i
@@ -1124,7 +1124,7 @@ namespace
 	void testInOutRayPayloadVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutRayPayloadVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeInOutRayPayloadVariableDecl( i
@@ -1141,7 +1141,7 @@ namespace
 	void testHitAttributeVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testHitAttributeVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeHitAttributeVariableDecl( i );
@@ -1156,7 +1156,7 @@ namespace
 	void testInOutCallableDataVariableDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testInOutCallableDataVariableDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeInOutCallableDataVariableDecl( i
@@ -1173,7 +1173,7 @@ namespace
 	void testBufferReferenceDecl( test::TestCounts & testCounts )
 	{
 		testBegin( "testBufferReferenceDecl" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeBufferReferenceDecl( typesCache.getInt32() );
 		testCounts << "StmtBufferReferenceDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1186,7 +1186,7 @@ namespace
 	void testTerminateRay( test::TestCounts & testCounts )
 	{
 		testBegin( "testTerminateRay" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeTerminateRay();
 		testCounts << "StmtTerminateRay:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1198,7 +1198,7 @@ namespace
 	void testIgnoreIntersection( test::TestCounts & testCounts )
 	{
 		testBegin( "testIgnoreIntersection" );
-		ast::stmt::StmtCache stmtCache;
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeIgnoreIntersection();
 		testCounts << "StmtIgnoreIntersection:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
@@ -1206,64 +1206,138 @@ namespace
 		require( stmt->getKind() == ast::stmt::Kind::eIgnoreIntersection );
 		testEnd();
 	}
+
+	void testBreak( test::TestCounts & testCounts )
+	{
+		testBegin( "testBreak" );
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		{
+			auto stmt = stmtCache.makeBreak( true );
+			testCounts << "StmtBreak:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+			require( stmt->getKind() == ast::stmt::Kind::eBreak );
+			require( stmt->isSwitchCaseBreak() );
+		}
+		{
+			auto stmt = stmtCache.makeBreak( false );
+			testCounts << "StmtBreak:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+			require( stmt->getKind() == ast::stmt::Kind::eBreak );
+			require( !stmt->isSwitchCaseBreak() );
+		}
+		testEnd();
+	}
+
+	void testContinue( test::TestCounts & testCounts )
+	{
+		testBegin( "testContinue" );
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		auto stmt = stmtCache.makeContinue();
+		testCounts << "StmtContinue:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eContinue );
+		testEnd();
+	}
+
+	void testDispatchMesh( test::TestCounts & testCounts )
+	{
+		testBegin( "testDispatchMesh" );
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		auto numGroupsX = exprCache.makeLiteral( typesCache, 16u );
+		auto numGroupsY = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "numGroupsY" ) );
+		auto numGroupsZ = exprCache.makeLiteral( typesCache, 32u );
+		auto payload = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getTaskPayload( typesCache.getUInt32() ), "payload" ) );
+		auto stmt = stmtCache.makeDispatchMesh( std::move( numGroupsX ), std::move( numGroupsY ), std::move( numGroupsZ ), std::move( payload ) );
+		testCounts << "StmtDispatchMesh:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::eDispatchMesh );
+		require( stmt->getNumGroupsX()->getKind() == ast::expr::Kind::eLiteral );
+		require( stmt->getNumGroupsY()->getKind() == ast::expr::Kind::eIdentifier );
+		require( static_cast< ast::expr::Identifier const & >( *stmt->getNumGroupsY() ).getVariable()->getName() == "numGroupsY" );
+		require( stmt->getNumGroupsZ()->getKind() == ast::expr::Kind::eLiteral );
+		require( stmt->getPayload()->getKind() == ast::expr::Kind::eIdentifier );
+		require( static_cast< ast::expr::Identifier const & >( *stmt->getPayload() ).getVariable()->getName() == "payload" );
+		testEnd();
+	}
+
+	void testPerPrimitiveDecl( test::TestCounts & testCounts )
+	{
+		testBegin( "testPerPrimitiveDecl" );
+		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+		ast::type::TypesCache typesCache;
+		auto stmt = stmtCache.makePerPrimitiveDecl( typesCache.getInt32() );
+		testCounts << "StmtPerPrimitiveDecl:\n" << ast::debug::StmtVisitor::submit( stmt.get() ) << test::endl;
+
+		require( stmt->getKind() == ast::stmt::Kind::ePerPrimitiveDecl );
+		check( stmt->getType()->getKind() == ast::type::Kind::eInt32 );
+		testEnd();
+	}
 }
 
 testSuiteMain( TestASTStatements )
 {
 	testSuiteBegin();
-	testSimple( testCounts );
-	testContainer( testCounts );
-	testCompound( testCounts );
+	testPreprocDefine( testCounts );
+	testPreprocElif( testCounts );
+	testPreprocElse( testCounts );
+	testPreprocEndif( testCounts );
+	testPreprocExtension( testCounts );
+	testPreprocIf( testCounts );
+	testPreprocIfDef( testCounts );
+	testPreprocVersion( testCounts );
+	testAccelerationStructureDecl( testCounts );
+	testBreak( testCounts );
+	testBufferReferenceDecl( testCounts );
+	testCombinedImageDecl( testCounts );
 	testComment( testCounts );
-	testVariableDecl( testCounts );
-	testPerVertexDecl( testCounts );
-	testInOutVariableDecl( testCounts );
-	testInOutStreamVariableDecl( testCounts );
-	testInOutBlendVariableDecl( testCounts );
-	testSpecialisationConstantDecl( testCounts );
+	testCompound( testCounts );
 	testConstantBufferDecl( testCounts );
-	testPushConstantsBufferDecl( testCounts );
-	testShaderBufferDecl( testCounts );
-	testShaderStructBufferDecl( testCounts );
-	testSamplerDecl( testCounts );
-	testSampledImageDecl( testCounts );
-	testImageDecl( testCounts );
-	testTextureDecl( testCounts );
-	testFunctionDecl( testCounts );
-	testStructureDecl( testCounts );
-	testIf( testCounts );
+	testContainer( testCounts );
+	testContinue( testCounts );
+	testDemote( testCounts );
+	testDispatchMesh( testCounts );
+	testDoWhile( testCounts );
 	testElse( testCounts );
 	testElseIf( testCounts );
 	testElseIfElse( testCounts );
-	testWhile( testCounts );
 	testFor( testCounts );
-	testDoWhile( testCounts );
-	testSwitch( testCounts );
-	testReturn( testCounts );
-	testDemote( testCounts );
-	testTerminateInvocation( testCounts );
+	testFragmentLayout( testCounts );
+	testFunctionDecl( testCounts );
+	testHitAttributeVariableDecl( testCounts );
+	testIf( testCounts );
+	testIgnoreIntersection( testCounts );
+	testImageDecl( testCounts );
+	testInOutBlendVariableDecl( testCounts );
+	testInOutCallableDataVariableDecl( testCounts );
+	testInOutRayPayloadVariableDecl( testCounts );
+	testInOutStreamVariableDecl( testCounts );
+	testInOutVariableDecl( testCounts );
+	testInputComputeLayout( testCounts );
 	testInputGeometryLayout( testCounts );
+	testInputTessellationEvaluationLayout( testCounts );
 	testOutputGeometryLayout( testCounts );
 	testOutputMeshLayout( testCounts );
-	testInputComputeLayout( testCounts );
-	testPreprocDefine( testCounts );
-	testPreprocIf( testCounts );
-	testPreprocElif( testCounts );
-	testPreprocElse( testCounts );
-	testPreprocIfDef( testCounts );
-	testPreprocEndif( testCounts );
-	testPreprocExtension( testCounts );
-	testPreprocVersion( testCounts );
-	testFragmentLayout( testCounts );
 	testOutputTessellationControlLayout( testCounts );
-	testInputTessellationEvaluationLayout( testCounts );
-	testAccelerationStructureDecl( testCounts );
-	testInOutRayPayloadVariableDecl( testCounts );
-	testHitAttributeVariableDecl( testCounts );
-	testInOutCallableDataVariableDecl( testCounts );
-	testBufferReferenceDecl( testCounts );
+	testPerPrimitiveDecl( testCounts );
+	testPerVertexDecl( testCounts );
+	testPushConstantsBufferDecl( testCounts );
+	testReturn( testCounts );
+	testSampledImageDecl( testCounts );
+	testSamplerDecl( testCounts );
+	testShaderBufferDecl( testCounts );
+	testShaderStructBufferDecl( testCounts );
+	testSimple( testCounts );
+	testSpecialisationConstantDecl( testCounts );
+	testStructureDecl( testCounts );
+	testSwitch( testCounts );
+	testTerminateInvocation( testCounts );
 	testTerminateRay( testCounts );
-	testIgnoreIntersection( testCounts );
+	testVariableDecl( testCounts );
+	testWhile( testCounts );
 	testSuiteEnd();
 }
 

@@ -5,8 +5,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	TaskWriterNV::TaskWriterNV()
-		: ShaderWriter{ ast::ShaderStage::eTaskNV }
+	TaskWriterNV::TaskWriterNV( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eTaskNV, allocator }
 	{
 	}
 

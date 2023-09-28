@@ -12,7 +12,7 @@ namespace
 	{
 		testBegin( "testShaderOutputBase" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_0";
 			auto value = writer.declOutput< T >( name, 0u );
@@ -35,7 +35,7 @@ namespace
 	{
 		testBegin( "testShaderOutputArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_1";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u );
@@ -58,7 +58,7 @@ namespace
 	{
 		testBegin( "testShaderOutputOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutput< T >( "value", 0u, false );
@@ -80,7 +80,7 @@ namespace
 	{
 		testBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutputArray< T >( "value", 1u, 6u, false );
@@ -102,7 +102,7 @@ namespace
 	{
 		testBegin( "testShaderOutputOptionalEnabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_0_opt";
 			auto value = writer.declOutput< T >( name, 0u, true );
@@ -126,7 +126,7 @@ namespace
 	{
 		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::VertexWriter writer;
+			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_1_opt";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u, true );
@@ -150,7 +150,7 @@ namespace
 	{
 		testBegin( "testShaderBlendOutput" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "BlendOutputValue_0";
 			auto value = writer.declBlendOutput< T >( name, 0u, 1u );
@@ -175,7 +175,7 @@ namespace
 	{
 		testBegin( "testShaderStreamOutput" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "StreamOutputValue_0";
 			auto value = writer.declStreamOutput< T >( name, 0u, 1u );

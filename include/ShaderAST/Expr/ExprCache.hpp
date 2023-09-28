@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___AST_ExprCache_H___
 #pragma once
 
+#include "ShaderAST/ShaderAllocator.hpp"
 #include "ShaderAST/Type/TypeCache.hpp"
 #include "ShaderAST/Expr/EnumCombinedImageAccess.hpp"
 #include "ShaderAST/Expr/EnumIntrinsic.hpp"
@@ -16,21 +17,12 @@ See LICENSE file in root folder
 #include <unordered_map>
 #include <vector>
 
-namespace ast
-{
-	enum class CacheMode
-	{
-		eNone,
-		eArena
-	};
-}
-
 namespace ast::expr
 {
 	class ExprCache
 	{
 	public:
-		SDAST_API ExprCache( CacheMode cacheMode = CacheMode::eArena );
+		SDAST_API ExprCache( ShaderAllocatorBlock & allocator );
 		SDAST_API ~ExprCache() = default;
 
 		SDAST_API AddPtr makeAdd( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );
@@ -158,31 +150,17 @@ namespace ast::expr
 			, typename ... ParamsT >
 		std::unique_ptr< ExprT, DeleteExpr > makeExpr( ParamsT && ... params )
 		{
-			auto mem = allocExpr( sizeof( ExprT ) );
+			auto mem = m_allocator.allocate( sizeof( ExprT ) );
 			return std::unique_ptr< ExprT, DeleteExpr >{ new ( mem )ExprT{ *this, std::forward< ParamsT >( params )... } };
 		}
 
 	private:
 		friend struct DeleteExpr;
 
-		SDAST_API void * allocExpr( size_t size );
-		void freeExpr( Expr * expr );
+		void freeExpr( Expr * expr )noexcept;
 
 	private:
-		CacheMode m_cacheMode{};
-
-		struct Memory
-		{
-			Memory()
-				: data{ std::make_unique< std::vector< std::byte > >( 1024 * 1024 ) }
-			{
-			}
-
-			std::unique_ptr< std::vector< std::byte > > data;
-			size_t index{};
-		};
-		std::vector< Memory > m_memory;
-		Memory * m_currentMemory{};
+		ShaderAllocatorBlock & m_allocator;
 	};
 }
 

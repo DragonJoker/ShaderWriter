@@ -452,7 +452,7 @@ namespace
 		testBegin( "basicX" );
 		using namespace sdw;
 		{
-			TaskWriterEXT writer;
+			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
 				, [&]( TaskIn in
@@ -475,7 +475,7 @@ namespace
 		testBegin( "cullMeshlet" );
 		using namespace sdw;
 		{
-			TaskWriterEXT writer;
+			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			auto Globals = writer.declUniformBuffer( "bufferConstants", 0u, 0u );
 			auto constants = Globals.declMember< Constants >( "constants" );
 			Globals.end();
@@ -623,7 +623,7 @@ namespace
 		testBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
 		{
-			TaskWriterEXT writer;
+			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
 			, [&]( TaskSubgroupIn in
@@ -646,7 +646,7 @@ namespace
 		testBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;
 		{
-			TaskWriterEXT writer;
+			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
 			, [&]( TaskSubgroupIn in

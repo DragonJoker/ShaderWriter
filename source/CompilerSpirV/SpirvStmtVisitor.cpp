@@ -71,7 +71,7 @@ namespace spirv
 		}
 	}
 
-	Module StmtVisitor::submit( ast::expr::ExprCache & exprCache
+	ModulePtr StmtVisitor::submit( ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::stmt::Stmt * stmt
 		, ast::ShaderStage type
@@ -80,12 +80,12 @@ namespace spirv
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
 	{
-		Module result{ typesCache
+		auto result = ModulePtr{ new Module{ typesCache
 			, spirvConfig
 			, moduleConfig.addressingModel
 			, getMemoryModel()
-			, getExecutionModel( type ) };
-		StmtVisitor vis{ exprCache, result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
+			, getExecutionModel( type ) } };
+		StmtVisitor vis{ exprCache, *result, type, moduleConfig, std::move( context ), spirvConfig, std::move( actions ) };
 		stmt->accept( &vis );
 		return result;
 	}

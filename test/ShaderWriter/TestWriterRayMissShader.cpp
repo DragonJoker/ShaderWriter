@@ -42,7 +42,7 @@ namespace
 		testBegin( "simple" );
 		using namespace sdw;
 		{
-			RayMissWriter writer;
+			sdw::RayMissWriter writer{ &testCounts.allocator };
 
 			auto ubo = writer.declUniformBuffer( "GlobalUniforms", 2u, 0u );
 			auto clearColor = ubo.declMember< Vec4 >( "clearColor" );

@@ -51,6 +51,11 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	class ShaderAllocator;
+	class ShaderAllocatorBlock;
+
+	using ShaderAllocatorBlockPtr = std::unique_ptr< ShaderAllocatorBlock >;
+
 	enum class ShaderStage
 	{
 		eVertex,

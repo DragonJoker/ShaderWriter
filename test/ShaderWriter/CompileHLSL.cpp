@@ -333,6 +333,12 @@ namespace test
 
 namespace test
 {
+	static std::vector< uint32_t > const & getShaderModels()
+	{
+		static std::vector< uint32_t > shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u };
+		return shaderModels;
+	}
+
 	bool retrieveIsHLSLInitialised( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
@@ -342,12 +348,12 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return 6u;
+		return getShaderModels()[infoIndex];
 	}
 
 	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-		return 0u;
+		return uint32_t( getShaderModels().size() );
 	}
 
 	bool createHLSLContext( sdw_test::TestCounts & testCounts )

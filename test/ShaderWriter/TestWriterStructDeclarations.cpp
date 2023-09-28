@@ -11,7 +11,7 @@ namespace
 	{
 		testBegin( "testStruct" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnumV< T > ) };
@@ -46,7 +46,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnumV< T > ) };

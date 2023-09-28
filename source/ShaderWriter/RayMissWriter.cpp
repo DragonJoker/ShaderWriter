@@ -66,8 +66,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayMissWriter::RayMissWriter()
-		: ShaderWriter{ ast::ShaderStage::eRayMiss }
+	RayMissWriter::RayMissWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eRayMiss, allocator }
 	{
 	}
 }

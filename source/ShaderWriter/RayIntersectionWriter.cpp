@@ -100,8 +100,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayIntersectionWriter::RayIntersectionWriter()
-		: ShaderWriter{ ast::ShaderStage::eRayIntersection }
+	RayIntersectionWriter::RayIntersectionWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eRayIntersection, allocator }
 	{
 	}
 

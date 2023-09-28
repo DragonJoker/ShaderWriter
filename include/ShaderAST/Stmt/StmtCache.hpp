@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___AST_StmtCache_H___
 #pragma once
 
+#include "ShaderAST/ShaderAllocator.hpp"
 #include "ShaderAST/Expr/ExprCache.hpp"
 #include "ShaderAST/Stmt/PreprocExtension.hpp"
 #include "ShaderAST/Stmt/StmtFunctionDecl.hpp"
@@ -18,7 +19,7 @@ namespace ast::stmt
 	class StmtCache
 	{
 	public:
-		SDAST_API StmtCache( CacheMode cacheMode = CacheMode::eArena );
+		SDAST_API StmtCache( ShaderAllocatorBlock & allocator );
 		SDAST_API ~StmtCache() = default;
 
 		SDAST_API PreprocDefinePtr makePreprocDefine( EntityName nameId, std::string name, expr::ExprPtr expr );
@@ -88,31 +89,17 @@ namespace ast::stmt
 		template< typename StmtT, typename ... ParamsT >
 		std::unique_ptr< StmtT, DeleteStmt > makeStmt( ParamsT && ... params )
 		{
-			auto mem = allocStmt( sizeof( StmtT ) );
+			auto mem = m_allocator.allocate( sizeof( StmtT ) );
 			return std::unique_ptr< StmtT, DeleteStmt >{ new ( mem )StmtT{ *this, std::forward< ParamsT >( params )... } };
 		}
 
 	private:
 		friend struct DeleteStmt;
 
-		SDAST_API void * allocStmt( size_t size );
-		void freeStmt( Stmt * stmt );
+		void freeStmt( Stmt * stmt )noexcept;
 
 	private:
-		CacheMode m_cacheMode{};
-
-		struct Memory
-		{
-			Memory()
-				: data{ std::make_unique< std::vector< std::byte > >( 1024 * 1024 ) }
-			{
-			}
-
-			std::unique_ptr< std::vector< std::byte > > data;
-			size_t index{};
-		};
-		std::vector< Memory > m_memory;
-		Memory * m_currentMemory{};
+		ShaderAllocatorBlock & m_allocator;
 	};
 }
 

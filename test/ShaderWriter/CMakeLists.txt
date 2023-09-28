@@ -48,6 +48,8 @@ target_link_libraries( TestWriterCommon
 		glslang::SPIRV
 		glslang::SPVRemapper
 		Threads::Threads
+	PRIVATE
+		${SDW_EXPORTERS_LIST}
 )
 target_add_compilation_flags( TestWriterCommon )
 

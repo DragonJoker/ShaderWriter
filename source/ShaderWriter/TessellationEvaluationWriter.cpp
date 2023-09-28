@@ -46,8 +46,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	TessellationEvaluationWriter::TessellationEvaluationWriter()
-		: ShaderWriter{ ast::ShaderStage::eTessellationEvaluation }
+	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eTessellationEvaluation, allocator }
 	{
 	}
 

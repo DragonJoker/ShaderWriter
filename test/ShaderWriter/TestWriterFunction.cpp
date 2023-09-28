@@ -87,7 +87,7 @@ namespace
 	{
 		testBegin( "testSingleInParamLiteral" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -112,7 +112,7 @@ namespace
 	{
 		testBegin( "testSingleInParamConstant" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -137,7 +137,7 @@ namespace
 	{
 		testBegin( "testSingleInParamConstantArray" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 		auto c = writer.declConstantArray< ValueT >( "c"
 			, std::vector< ValueT >{ test::getDefault< ValueT >( writer )
 				, test::getDefault< ValueT >( writer ) } );
@@ -164,7 +164,7 @@ namespace
 	{
 		testBegin( "testSingleInParamVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -190,7 +190,7 @@ namespace
 	{
 		testBegin( "testSingleInParamArrayVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -217,7 +217,7 @@ namespace
 	{
 		testBegin( "testSingleInParamInputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto inpa = writer.declInput< ValueT >( "inpa", 0 );
 
@@ -244,7 +244,7 @@ namespace
 	{
 		testBegin( "testSingleInParamOutputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto outa = writer.declOutput< ValueT >( "outa", 0 );
 
@@ -272,7 +272,7 @@ namespace
 	{
 		testBegin( "testSingleInParamUniformVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		UniformBuffer buffer{ writer, "MyUbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
@@ -302,7 +302,7 @@ namespace
 	{
 		testBegin( "testSingleInParamStorageVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
@@ -332,7 +332,7 @@ namespace
 	{
 		testBegin( "testSingleInParamStructMember" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		Struct st{ writer, "St" };
 		st.declMember< ValueT >( "v" );
@@ -363,7 +363,7 @@ namespace
 	{
 		testBegin( "testSingleOutParamVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -389,7 +389,7 @@ namespace
 	{
 		testBegin( "testSingleOutParamArrayVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -416,7 +416,7 @@ namespace
 	{
 		testBegin( "testSingleOutParamOutputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto outa = writer.declOutput< ValueT >( "outa", 0 );
 
@@ -443,7 +443,7 @@ namespace
 	{
 		testBegin( "testSingleOutParamUniformVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
@@ -473,7 +473,7 @@ namespace
 	{
 		testBegin( "testSingleOutParamStructMember" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		Struct st{ writer, "St" };
 		st.declMember< ValueT >( "v" );
@@ -504,7 +504,7 @@ namespace
 	{
 		testBegin( "testSingleInOutParamVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -530,7 +530,7 @@ namespace
 	{
 		testBegin( "testSingleInOutParamArrayVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( ValueT p )
@@ -557,7 +557,7 @@ namespace
 	{
 		testBegin( "testSingleInOutParamOutputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto outa = writer.declOutput< ValueT >( "outa", 0 );
 
@@ -585,7 +585,7 @@ namespace
 	{
 		testBegin( "testSingleInOutParamUniformVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v" );
@@ -615,7 +615,7 @@ namespace
 	{
 		testBegin( "testSingleInOutParamStructMember" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		Struct st{ writer, "St" };
 		st.declMember< ValueT >( "v" );
@@ -646,7 +646,7 @@ namespace
 	{
 		testBegin( "testArrayInParamLiteral" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( Array< ValueT > p )
@@ -675,7 +675,7 @@ namespace
 	{
 		testBegin( "testArrayInParamConstant" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( Array< ValueT > p )
@@ -705,7 +705,7 @@ namespace
 	{
 		testBegin( "testArrayInParamVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( Array< ValueT > p )
@@ -735,7 +735,7 @@ namespace
 	{
 		testBegin( "testArrayInParamInputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto inpa = writer.declInputArray< ValueT >( "inpa", 0, 4u );
 
@@ -766,7 +766,7 @@ namespace
 	{
 		testBegin( "testArrayInParamInputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto outa = writer.declOutputArray< ValueT >( "inpa", 0, 4u );
 
@@ -801,7 +801,7 @@ namespace
 	{
 		testBegin( "testArrayInParamUniformVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		UniformBuffer buffer{ writer, "MyUbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v", 4u );
@@ -835,7 +835,7 @@ namespace
 	{
 		testBegin( "testArrayInParamStorageVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v", 4u );
@@ -869,7 +869,7 @@ namespace
 	{
 		testBegin( "testArrayInParamStructMember" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		Struct st{ writer, "St" };
 		st.declMember< ValueT >( "v", 4u );
@@ -904,7 +904,7 @@ namespace
 	{
 		testBegin( "testArrayOutParamVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( Array< ValueT > p )
@@ -934,7 +934,7 @@ namespace
 	{
 		testBegin( "testArrayOutParamOutputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto outa = writer.declOutputArray< ValueT >( "inpa", 0, 4u );
 
@@ -965,7 +965,7 @@ namespace
 	{
 		testBegin( "testArrayOutParamStorageVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		auto uv = buffer.declMember< ValueT >( "v", 4u );
@@ -995,7 +995,7 @@ namespace
 	{
 		testBegin( "testArrayOutParamStructMember" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		Struct st{ writer, "St" };
 		st.declMember< ValueT >( "v", 4u );
@@ -1030,7 +1030,7 @@ namespace
 	{
 		testBegin( "testArrayInOutParamVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto test = writer.implementFunction< sdw::Void >( "test"
 			, [&]( Array< ValueT > p )
@@ -1060,7 +1060,7 @@ namespace
 	{
 		testBegin( "testArrayInOutParamOutputVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto outa = writer.declOutputArray< ValueT >( "inpa", 0, 4u );
 
@@ -1091,7 +1091,7 @@ namespace
 	{
 		testBegin( "testArrayInOutParamStorageVariable" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
 		buffer.declMember< ValueT >( "v", 4u );
@@ -1125,7 +1125,7 @@ namespace
 	{
 		testBegin( "testArrayInOutParamStructMember" + ast::debug::getName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		Struct st{ writer, "St" };
 		st.declMember< ValueT >( "v", 4u );
@@ -1159,7 +1159,7 @@ namespace
 	{
 		testBegin( "paramInArray" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 		
 		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
 			, [&]( Array< Vec4 > const & p )
@@ -1182,7 +1182,7 @@ namespace
 	{
 		testBegin( "paramInOutVec4" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
 			, [&]( Vec4 p )
@@ -1206,7 +1206,7 @@ namespace
 	{
 		testBegin( "paramInMat4InVec4" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
@@ -1239,7 +1239,7 @@ namespace
 	{
 		testBegin( "paramInStInVec4" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto st = St::declare( writer );
 
@@ -1273,7 +1273,7 @@ namespace
 	{
 		testBegin( "paramInSpImgInVec2" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
 
@@ -1301,7 +1301,7 @@ namespace
 	{
 		testBegin( "paramInVec4Ass" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
 			, [&]( Vec2 const & e )
@@ -1326,7 +1326,7 @@ namespace
 	{
 		testBegin( "params" );
 		using namespace sdw;
-		FragmentWriter writer;
+		sdw::FragmentWriter writer{ &testCounts.allocator };
 
 		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
@@ -1418,7 +1418,7 @@ namespace
 	{
 		testBegin( "arrayAccessInOut" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
 			, [&]( Array< Vec4 > const & pp
@@ -1449,7 +1449,7 @@ namespace
 	{
 		testBegin( "vecAccessInIndex" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto foo01 = writer.implementFunction< Float >( "foo01"
 			, [&]( Float const & d 
@@ -1476,7 +1476,7 @@ namespace
 	{
 		testBegin( "rImageParamForward" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto s = writer.declStorageImg< RFImg3DRgba32 >( "s", 0u, 0u );
 
@@ -1511,7 +1511,7 @@ namespace
 	{
 		testBegin( "wImageParamForward" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto s = writer.declStorageImg< WFImg3DRgba32 >( "s", 0u, 0u );
 
@@ -1546,7 +1546,7 @@ namespace
 	{
 		testBegin( "rwImageParamForward" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto s = writer.declStorageImg< RWFImg3DRgba32 >( "s", 0u, 0u );
 
@@ -1581,7 +1581,7 @@ namespace
 	{
 		testBegin( "structInParam" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		St::declare( writer );
 
@@ -1609,7 +1609,7 @@ namespace
 	{
 		testBegin( "structInParamForward" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		St::declare( writer );
 		St2::declare( writer );
@@ -1645,7 +1645,7 @@ namespace
 	{
 		testBegin( "paramInWhile" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto foo01 = writer.implementFunction< Float >( "foo01"
 			, [&]( Float test
@@ -1678,7 +1678,7 @@ namespace
 	{
 		testBegin( "paramMbrAccessInWhile" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		St::declare( writer );
 
@@ -1725,7 +1725,7 @@ namespace
 	{
 		testBegin( "removeGamma" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
 			, [&]( Float const & gamma
@@ -1758,7 +1758,7 @@ namespace
 	{
 		testBegin( "returns" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		St::declare( writer );
 		St2::declare( writer );
@@ -1818,7 +1818,7 @@ namespace
 	{
 		testBegin( "returnAfterWhile" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto foo01 = writer.implementFunction< Vec2 >( "foo01"
 			, [&]( Vec2 const & texcoord
@@ -1860,7 +1860,7 @@ namespace
 	{
 		testBegin( "fog" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
 			, [&]( Vec4 const & colour
@@ -1903,7 +1903,7 @@ namespace
 	{
 		testBegin( "nestedFunctionDecl" );
 		using namespace sdw;
-		ComputeWriter writer;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{

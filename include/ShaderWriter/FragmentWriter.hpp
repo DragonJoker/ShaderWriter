@@ -91,7 +91,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API FragmentWriter();
+		SDW_API explicit FragmentWriter( ShaderAllocator * allocator = nullptr );
 		/**
 		*name
 		*	Entry point declaration.

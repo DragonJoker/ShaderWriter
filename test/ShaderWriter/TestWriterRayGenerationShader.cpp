@@ -11,7 +11,7 @@ namespace
 		testBegin( "noPayload" );
 		using namespace sdw;
 		{
-			RayGenerationWriter writer;
+			sdw::RayGenerationWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 			auto image = writer.declStorageImg< WFImg2DRgba32 >( "image", 1u, 0u );
@@ -32,7 +32,7 @@ namespace
 		testBegin( "simple" );
 		using namespace sdw;
 		{
-			RayGenerationWriter writer;
+			sdw::RayGenerationWriter writer{ &testCounts.allocator };
 
 			auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
 			auto image = writer.declStorageImg< WFImg2DRgba32 >( "image", 1u, 0u );

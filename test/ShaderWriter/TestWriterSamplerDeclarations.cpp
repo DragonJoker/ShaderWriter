@@ -37,7 +37,7 @@ namespace
 
 		testBegin( "testSampler" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSampler< ComparisonT >( name
@@ -58,7 +58,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSampler< ComparisonT >( name
@@ -92,7 +92,7 @@ namespace
 
 		testBegin( "testSamplerOptionalDisabled" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto name = "Value_dis";
@@ -114,7 +114,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto name = "Value_dis";
@@ -149,7 +149,7 @@ namespace
 
 		testBegin( "testSamplerOptionalEnabled" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
 			auto value = writer.declSampler< ComparisonT >( name
@@ -172,7 +172,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
 			auto value = writer.declSampler< ComparisonT >( name
@@ -208,7 +208,7 @@ namespace
 
 		testBegin( "testSamplerType" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSampler< sdw::SamplerT< ComparisonT > >( name
@@ -229,7 +229,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSampler< sdw::SamplerT< ComparisonT > >( name
@@ -263,7 +263,7 @@ namespace
 
 		testBegin( "testSamplerArray" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSamplerArray< ComparisonT >( name
@@ -287,7 +287,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSamplerArray< ComparisonT >( name
@@ -324,7 +324,7 @@ namespace
 
 		testBegin( "testSamplerArrayOptionalDisabled" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto name = "Value_dis";
@@ -349,7 +349,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto name = "Value_dis";
@@ -387,7 +387,7 @@ namespace
 
 		testBegin( "testSamplerArrayOptionalEnabled" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
 			auto value = writer.declSamplerArray< ComparisonT >( name
@@ -413,7 +413,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
 			auto value = writer.declSamplerArray< ComparisonT >( name
@@ -452,7 +452,7 @@ namespace
 
 		testBegin( "testSamplerArrayType" + nameBase );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSamplerArray< sdw::SamplerT< ComparisonT > >( name
@@ -476,7 +476,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
 			auto value = writer.declSamplerArray< sdw::SamplerT< ComparisonT > >( name

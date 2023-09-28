@@ -17,7 +17,7 @@ namespace spirv
 		: public ast::stmt::Visitor
 	{
 	public:
-		static Module submit( ast::expr::ExprCache & exprCache
+		static ModulePtr submit( ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, ast::stmt::Stmt * stmt
 			, ast::ShaderStage type

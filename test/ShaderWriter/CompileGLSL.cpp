@@ -952,21 +952,34 @@ namespace test
 
 namespace test
 {
+	static std::vector< uint32_t > getShaderModels()
+	{
+		static const std::vector< uint32_t > glslVersions{ 330u
+			, 400u
+			, 410u
+			, 420u
+			, 430u
+			, 440u
+			, 450u
+			, 460u };
+		return glslVersions;
+	}
+
 	bool retrieveIsGLSLInitialised( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return false;
+		return true;
 	}
 
 	uint32_t retrieveGLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-		return 0u;
+		return uint32_t( getShaderModels().size() );
 	}
 
 	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return 450u;
+		return getShaderModels()[infoIndex];
 	}
 
 	bool createGLSLContext( sdw_test::TestCounts & testCounts )

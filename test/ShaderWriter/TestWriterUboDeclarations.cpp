@@ -15,7 +15,7 @@ namespace
 	{
 		testBegin( "testUboRaw" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
@@ -52,7 +52,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
@@ -96,7 +96,7 @@ namespace
 	{
 		testBegin( "testUboRawArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
@@ -133,7 +133,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
@@ -177,7 +177,7 @@ namespace
 	{
 		testBegin( "testUboRawOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
@@ -216,7 +216,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
@@ -262,7 +262,7 @@ namespace
 	{
 		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
@@ -301,7 +301,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
@@ -347,7 +347,7 @@ namespace
 	{
 		testBegin( "testUboRawOptionalEnabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
@@ -386,7 +386,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
@@ -432,7 +432,7 @@ namespace
 	{
 		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
@@ -471,7 +471,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
@@ -519,7 +519,7 @@ namespace
 
 		testBegin( "testUboHelper" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
@@ -550,7 +550,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
@@ -592,7 +592,7 @@ namespace
 
 		testBegin( "testUboHelperArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
@@ -623,7 +623,7 @@ namespace
 			}
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();

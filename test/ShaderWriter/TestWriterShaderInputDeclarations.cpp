@@ -13,7 +13,7 @@ namespace
 	{
 		testBegin( "testShaderInput" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_0";
 			auto value = writer.declInput< T >( name, 0u );
@@ -29,7 +29,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_1";
 			auto value = writer.declInputArray< T >( name, 1u, 6u );
@@ -45,7 +45,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declInput< T >( "value", 0u, false );
@@ -60,7 +60,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declInputArray< T >( "value", 1u, 6u, false );
@@ -75,7 +75,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_0_opt";
 			auto value = writer.declInput< T >( name, 0u, true );
@@ -92,7 +92,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_1_opt";
 			auto value = writer.declInputArray< T >( name, 1u, 6u, true );

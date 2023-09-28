@@ -62,7 +62,7 @@ namespace
 		testBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< 1u, PointList, PointStream >( [&]( GeometryIn in
 				, PointList list
@@ -91,7 +91,7 @@ namespace
 		testBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleList = sdw::TriangleListT< PositionT >;
 
 			writer.implementMainT< 3u, MyTriangleList, TriangleStream >( [&]( GeometryIn in
@@ -122,7 +122,7 @@ namespace
 		testBegin( "specificGlobalOnly" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleList = sdw::TriangleListT< VoidT >;
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
 
@@ -154,7 +154,7 @@ namespace
 		testBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleList = sdw::TriangleListT< PositionT >;
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
 
@@ -186,7 +186,7 @@ namespace
 		testBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 
 			writer.implementMainT< 3u, TriangleList, MyTriangleStream >( [&]( GeometryIn in
@@ -222,7 +222,7 @@ namespace
 		testBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleList = sdw::TriangleListT< PositionT >;
 			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 
@@ -259,7 +259,7 @@ namespace
 		testBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleList = sdw::TriangleListT< VoidT >;
 			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );
@@ -297,7 +297,7 @@ namespace
 		testBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
-			GeometryWriter writer;
+			sdw::GeometryWriter writer{ &testCounts.allocator };
 			using MyTriangleList = sdw::TriangleListT< PositionT >;
 			using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
 			auto offset = writer.declInputArray< Vec3 >( "offset", 1u, 3u );

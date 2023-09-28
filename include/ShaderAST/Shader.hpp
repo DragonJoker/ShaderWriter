@@ -70,7 +70,8 @@ namespace ast
 	class Shader
 	{
 	public:
-		SDAST_API explicit Shader( ast::ShaderStage type );
+		SDAST_API explicit Shader( ast::ShaderStage type
+			, ShaderAllocator * allocator = nullptr );
 		SDAST_API void push( stmt::Container * container
 			, ast::var::VariableList vars );
 		SDAST_API void pop();
@@ -304,6 +305,11 @@ namespace ast
 			return *m_stmtCache;
 		}
 
+		ShaderAllocatorBlock & getAllocator()const
+		{
+			return *m_allocator;
+		}
+
 		ShaderData const & getData()const
 		{
 			return m_data;
@@ -319,6 +325,8 @@ namespace ast
 			stmt::Container * container;
 		};
 		ast::ShaderStage m_type;
+		std::unique_ptr< ShaderAllocator > m_ownAllocator;
+		ShaderAllocatorBlockPtr m_allocator;
 		std::unique_ptr< ast::type::TypesCache > m_typesCache;
 		std::unique_ptr< ast::stmt::StmtCache > m_stmtCache;
 		std::unique_ptr< ast::expr::ExprCache > m_exprCache;

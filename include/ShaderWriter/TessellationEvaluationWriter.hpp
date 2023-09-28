@@ -164,7 +164,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API TessellationEvaluationWriter();
+		SDW_API explicit TessellationEvaluationWriter( ShaderAllocator * allocator = nullptr );
 		
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT

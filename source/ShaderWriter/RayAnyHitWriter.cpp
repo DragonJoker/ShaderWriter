@@ -107,8 +107,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayAnyHitWriter::RayAnyHitWriter()
-		: ShaderWriter{ ast::ShaderStage::eRayAnyHit }
+	RayAnyHitWriter::RayAnyHitWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eRayAnyHit, allocator }
 	{
 	}
 

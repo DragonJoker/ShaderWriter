@@ -7,10 +7,12 @@ set( SOURCE_DIR ${SDW_SOURCE_DIR}/source/${_FOLDER_NAME} )
 set( ${PROJECT_NAME}_HEADER_FILES
 	${INCLUDE_DIR}/BoInfo.hpp
 	${INCLUDE_DIR}/Shader.hpp
+	${INCLUDE_DIR}/ShaderAllocator.hpp
 	${INCLUDE_DIR}/ShaderASTPrerequisites.hpp
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
 	${SOURCE_DIR}/Shader.cpp
+	${SOURCE_DIR}/ShaderAllocator.cpp
 	${SOURCE_DIR}/ShaderASTPrerequisites.cpp
 )
 set( ${PROJECT_NAME}_NATVIS_FILES

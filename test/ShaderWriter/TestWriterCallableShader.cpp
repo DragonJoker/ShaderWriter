@@ -57,7 +57,7 @@ namespace
 		testBegin( "lightInf" );
 		using namespace sdw;
 		{
-			CallableWriter writer;
+			sdw::CallableWriter writer{ &testCounts.allocator };
 
 			auto constants = writer.declPushConstantsBuffer( "constants" );
 			auto clearColor = constants.declMember< Vec4 >( "clearColor" );
@@ -89,7 +89,7 @@ namespace
 		testBegin( "lightPoint" );
 		using namespace sdw;
 		{
-			CallableWriter writer;
+			sdw::CallableWriter writer{ &testCounts.allocator };
 
 			auto constants = writer.declPushConstantsBuffer( "constants" );
 			auto clearColor = constants.declMember< Vec4 >( "clearColor" );
@@ -122,7 +122,7 @@ namespace
 		testBegin( "lightSpot" );
 		using namespace sdw;
 		{
-			CallableWriter writer;
+			sdw::CallableWriter writer{ &testCounts.allocator };
 
 			auto constants = writer.declPushConstantsBuffer( "constants" );
 			auto clearColor = constants.declMember< Vec4 >( "clearColor" );

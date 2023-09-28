@@ -46,8 +46,8 @@ namespace sdw
 
 	//*************************************************************************
 
-	GeometryWriter::GeometryWriter()
-		: ShaderWriter{ ast::ShaderStage::eGeometry }
+	GeometryWriter::GeometryWriter( ShaderAllocator * allocator )
+		: ShaderWriter{ ast::ShaderStage::eGeometry, allocator }
 	{
 	}
 

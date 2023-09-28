@@ -44,6 +44,7 @@ namespace hlsl
 		uint32_t shaderModel{ v5_0 };
 		ast::ShaderStage shaderStage;
 		bool flipVertY{ false };
+		ast::ShaderAllocator * allocator{};
 	};
 
 	SDWHLSL_API std::string compileHlsl( ast::Shader const & shader

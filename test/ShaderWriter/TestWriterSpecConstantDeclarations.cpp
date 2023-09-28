@@ -8,7 +8,7 @@ namespace
 	{
 		testBegin( "testSpecConstant" + ast::debug::getName( sdw::typeEnumV< T > ) );
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "SpecConstantValue_0";
 			auto value = writer.declSpecConstant( name, 0u, T{} );
@@ -30,7 +30,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declSpecConstant( "value", 1u, T{}, false );
@@ -47,7 +47,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
-			sdw::FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "SpecConstantValue_2_opt";
 			auto value = writer.declSpecConstant( name, 2u, T{}, true );

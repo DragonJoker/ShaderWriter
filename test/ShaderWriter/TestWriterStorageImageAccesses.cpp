@@ -26,7 +26,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				ComputeWriter writer;
+				sdw::ComputeWriter writer{ &testCounts.allocator };
 				auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 				writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 					{
@@ -69,7 +69,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -115,7 +115,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -171,7 +171,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -229,7 +229,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -308,7 +308,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -382,7 +382,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -456,7 +456,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -530,7 +530,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -604,7 +604,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -679,7 +679,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{
@@ -758,7 +758,7 @@ namespace
 				testBegin( name );
 				using namespace sdw;
 				{
-					ComputeWriter writer;
+					sdw::ComputeWriter writer{ &testCounts.allocator };
 					auto s = writer.declStorageImg< FormatT, AccessT, DimT, ArrayedT, MsT >( "s", 0u, 0u );
 					writer.implementMainT< sdw::VoidT >( 1u, [&]( sdw::ComputeInT< sdw::VoidT > in )
 						{

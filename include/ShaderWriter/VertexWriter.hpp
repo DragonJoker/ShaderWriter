@@ -78,7 +78,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API VertexWriter();
+		SDW_API explicit VertexWriter( ShaderAllocator * allocator = nullptr );
 
 		SDW_API void implementMain( VertexMainFuncT< VoidT, VoidT > const & function );
 

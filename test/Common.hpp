@@ -1,6 +1,8 @@
 #pragma once
 
+#include <ShaderAST/Expr/ExprCache.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
@@ -64,6 +66,8 @@ namespace test
 		std::string sout;
 		TestStringStreams streams;
 		uint32_t nextVarId{};
+		ast::ShaderAllocator allocator;
+		ast::ShaderAllocatorBlockPtr allocatorBlock;
 
 		void incIndent()
 		{
@@ -181,6 +185,7 @@ namespace test
 
 		std::atomic_uint32_t totalCount{ 0u };
 		std::atomic_uint32_t errorCount{ 0u };
+		std::atomic_uint32_t totalMemory{ 0u };
 
 	private:
 		struct TestSuiteRun

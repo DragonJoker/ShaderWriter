@@ -381,6 +381,7 @@ namespace test
 			std::cout << "Total checks count: " << totalCount << std::endl;
 		}
 
+		std::cout << "Total memory spent: " << totalMemory << " bytes " << endl;
 		tcout.reset();
 	}
 
@@ -414,6 +415,7 @@ namespace test
 					{
 						run->testCount->initialise();
 						auto result = run->launch( *this, *run->testCount );
+						auto memory = run->testCount->allocator.report();
 
 						if ( run->name != this->suiteName )
 						{
@@ -430,8 +432,11 @@ namespace test
 								( *run->testCount ) << run->name << " ended cleanly." << endl;
 								( *run->testCount ) << "Total Checks count: " << result.totalCount << endl;
 							}
+
+							( *run->testCount ) << "Total memory spent: " << memory << " bytes" << endl;
 						}
 
+						totalMemory += uint32_t( memory );
 						std::cout << run->testCount->streams.cout.str();
 					} };
 			}
@@ -452,6 +457,7 @@ namespace test
 	TestCounts::TestCounts( TestSuite & parent )
 		: sout{ "" }
 		, streams{ sout }
+		, allocatorBlock{ allocator.getBlock() }
 		, suite{ parent }
 	{
 	}

@@ -219,7 +219,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API TessellationControlWriter();
+		SDW_API explicit TessellationControlWriter( ShaderAllocator * allocator = nullptr );
 		/**
 		*name
 		*	Patch routine declaration.

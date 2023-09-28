@@ -14,7 +14,7 @@ namespace
 		testBegin( "testDegrees" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -41,7 +41,7 @@ namespace
 		testBegin( "testRadians" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -68,7 +68,7 @@ namespace
 		testBegin( "testCosh" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -95,7 +95,7 @@ namespace
 		testBegin( "testSinh" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -122,7 +122,7 @@ namespace
 		testBegin( "testTanh" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -149,7 +149,7 @@ namespace
 		testBegin( "testCos" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -176,7 +176,7 @@ namespace
 		testBegin( "testSin" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -203,7 +203,7 @@ namespace
 		testBegin( "testTan" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -230,7 +230,7 @@ namespace
 		testBegin( "testACos" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -257,7 +257,7 @@ namespace
 		testBegin( "testASin" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -284,7 +284,7 @@ namespace
 		testBegin( "testATan" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -311,7 +311,7 @@ namespace
 		testBegin( "testACosh" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -338,7 +338,7 @@ namespace
 		testBegin( "testASinh" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -365,7 +365,7 @@ namespace
 		testBegin( "testATanh" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -392,7 +392,7 @@ namespace
 		testBegin( "testPow" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -420,7 +420,7 @@ namespace
 		testBegin( "testExp" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -447,7 +447,7 @@ namespace
 		testBegin( "testLog" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -474,7 +474,7 @@ namespace
 		testBegin( "testExp2_" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -501,7 +501,7 @@ namespace
 		testBegin( "testLog2_" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -528,7 +528,7 @@ namespace
 		testBegin( "testSqrt" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -559,7 +559,7 @@ namespace
 		testBegin( "testInverseSqrt" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -590,7 +590,7 @@ namespace
 		testBegin( "testAbs" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -625,7 +625,7 @@ namespace
 		testBegin( "testSign" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -660,7 +660,7 @@ namespace
 		testBegin( "testFloor" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -691,7 +691,7 @@ namespace
 		testBegin( "testTrunc" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -722,7 +722,7 @@ namespace
 		testBegin( "testRound" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -753,7 +753,7 @@ namespace
 		testBegin( "testRoundEven" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -784,7 +784,7 @@ namespace
 		testBegin( "testCeil" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -815,7 +815,7 @@ namespace
 		testBegin( "testFract" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -846,7 +846,7 @@ namespace
 		testBegin( "testMod" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -878,7 +878,7 @@ namespace
 		testBegin( "testModf" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -910,7 +910,7 @@ namespace
 		testBegin( "testMin" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -950,7 +950,7 @@ namespace
 		testBegin( "testMax" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -990,7 +990,7 @@ namespace
 		testBegin( "testClamp" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1023,7 +1023,7 @@ namespace
 		testBegin( "testMix" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1056,7 +1056,7 @@ namespace
 		testBegin( "testStep" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1088,7 +1088,7 @@ namespace
 		testBegin( "testSmoothStep" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1122,7 +1122,7 @@ namespace
 		testBegin( "testIsnan" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1154,7 +1154,7 @@ namespace
 		testBegin( "testIsinf" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1185,7 +1185,7 @@ namespace
 		testBegin( "testFloatBitsToInt" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1213,7 +1213,7 @@ namespace
 		testBegin( "testFloatBitsToUInt" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1241,7 +1241,7 @@ namespace
 		testBegin( "testIntBitsToFloat" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1269,7 +1269,7 @@ namespace
 		testBegin( "testUIntBitsToFloat" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1297,7 +1297,7 @@ namespace
 		testBegin( "testFma" + name );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1330,7 +1330,7 @@ namespace
 		testBegin( "testFrexp" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1362,7 +1362,7 @@ namespace
 		testBegin( "testLdexp" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1392,7 +1392,7 @@ namespace
 		testBegin( "testPackDouble2x32" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< UVec2 >( "v" );
@@ -1410,7 +1410,7 @@ namespace
 		testBegin( "testPackHalf2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
@@ -1428,7 +1428,7 @@ namespace
 		testBegin( "testPackSnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
@@ -1446,7 +1446,7 @@ namespace
 		testBegin( "testPackUnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< Vec2 >( "v" );
@@ -1464,7 +1464,7 @@ namespace
 		testBegin( "testPackSnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
@@ -1482,7 +1482,7 @@ namespace
 		testBegin( "testPackUnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< Vec4 >( "v" );
@@ -1500,7 +1500,7 @@ namespace
 		testBegin( "testUnpackDouble2x32" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< Double >( "v" );
@@ -1518,7 +1518,7 @@ namespace
 		testBegin( "testUnpackHalf2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< UInt >( "v" );
@@ -1536,7 +1536,7 @@ namespace
 		testBegin( "testUnpackSnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< UInt >( "v" );
@@ -1554,7 +1554,7 @@ namespace
 		testBegin( "testUnpackUnorm2x16" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< UInt >( "v" );
@@ -1572,7 +1572,7 @@ namespace
 		testBegin( "testUnpackSnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< UInt >( "v" );
@@ -1590,7 +1590,7 @@ namespace
 		testBegin( "testUnpackUnorm4x8" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< UInt >( "v" );
@@ -1611,7 +1611,7 @@ namespace
 		testBegin( "testLength" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1643,7 +1643,7 @@ namespace
 		testBegin( "testDistance" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1676,7 +1676,7 @@ namespace
 		testBegin( "testDot" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1707,7 +1707,7 @@ namespace
 		testBegin( "testCross" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1734,7 +1734,7 @@ namespace
 		testBegin( "testNormalize" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1766,7 +1766,7 @@ namespace
 		testBegin( "testFaceForward" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1800,7 +1800,7 @@ namespace
 		testBegin( "testReflect" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1833,7 +1833,7 @@ namespace
 		testBegin( "testRefract" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -1866,7 +1866,7 @@ namespace
 		testBegin( "testMatrixCompMult" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -1909,7 +1909,7 @@ namespace
 		testBegin( "testMatrixMult" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -1940,7 +1940,7 @@ namespace
 		testBegin( "testOuterProduct" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< LhsT >( "lhs" );
@@ -1983,7 +1983,7 @@ namespace
 		testBegin( "testTranspose" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto v = writer.declLocale< ValueT >( "v" );
@@ -2026,7 +2026,7 @@ namespace
 		testBegin( "testDeterminant" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< ValueT >( "m" );
@@ -2055,7 +2055,7 @@ namespace
 		testBegin( "testInverse" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto m = writer.declLocale< ValueT >( "m" );
@@ -2084,7 +2084,7 @@ namespace
 		testBegin( "testLessThan" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -2121,7 +2121,7 @@ namespace
 		testBegin( "testLessThanEqual" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -2158,7 +2158,7 @@ namespace
 		testBegin( "testGreaterThan" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -2195,7 +2195,7 @@ namespace
 		testBegin( "testGreaterThanEqual" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -2232,7 +2232,7 @@ namespace
 		testBegin( "testEqual" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -2269,7 +2269,7 @@ namespace
 		testBegin( "testNotEqual" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto lhs = writer.declLocale< ValueT >( "lhs" );
@@ -2306,7 +2306,7 @@ namespace
 		testBegin( "testAll" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
@@ -2333,7 +2333,7 @@ namespace
 		testBegin( "testAny" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
@@ -2360,7 +2360,7 @@ namespace
 		testBegin( "testNot" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto operand = writer.declLocale< ValueT >( "operand" );
@@ -2387,7 +2387,7 @@ namespace
 		testBegin( "testUaddCarry" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2418,7 +2418,7 @@ namespace
 		testBegin( "testUsubBorrow" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2449,7 +2449,7 @@ namespace
 		testBegin( "testUmulExtended" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2480,7 +2480,7 @@ namespace
 		testBegin( "testImulExtended" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2511,7 +2511,7 @@ namespace
 		testBegin( "testBitfieldExtract" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2545,7 +2545,7 @@ namespace
 		testBegin( "testBitfieldInsert" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2580,7 +2580,7 @@ namespace
 		testBegin( "testBitfieldReverse" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2612,7 +2612,7 @@ namespace
 		testBegin( "testBitCount" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2644,7 +2644,7 @@ namespace
 		testBegin( "testFindLSB" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2676,7 +2676,7 @@ namespace
 		testBegin( "testFindMSB" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
 				{
 					auto x = writer.declLocale< ValueT >( "x" );
@@ -2709,7 +2709,7 @@ namespace
 		testBegin( "testAtomicAdd" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2745,7 +2745,7 @@ namespace
 		testBegin( "testAtomicMin" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2778,7 +2778,7 @@ namespace
 		testBegin( "testAtomicMax" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2811,7 +2811,7 @@ namespace
 		testBegin( "testAtomicAnd" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2844,7 +2844,7 @@ namespace
 		testBegin( "testAtomicOr" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2877,7 +2877,7 @@ namespace
 		testBegin( "testAtomicXor" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2911,7 +2911,7 @@ namespace
 		testBegin( "testAtomicExchange" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2947,7 +2947,7 @@ namespace
 		testBegin( "testAtomicCompSwap" ) + name;
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			std::string const mbrName = "member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< ValueT >( mbrName );
@@ -2981,7 +2981,7 @@ namespace
 		testBegin( "testDFdx" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3008,7 +3008,7 @@ namespace
 		testBegin( "testDFdxCoarse" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3035,7 +3035,7 @@ namespace
 		testBegin( "testDFdxFine" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3062,7 +3062,7 @@ namespace
 		testBegin( "testDFdy" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3089,7 +3089,7 @@ namespace
 		testBegin( "testDFdyCoarse" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3116,7 +3116,7 @@ namespace
 		testBegin( "testDFdyFine" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3143,7 +3143,7 @@ namespace
 		testBegin( "testFwidth" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
 					auto v1 = writer.declLocale< ValueT >( "v1" );
@@ -3170,7 +3170,7 @@ namespace
 		testBegin( "testInterpolateAtCentroid" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto inputs = writer.declInput< ValueT >( "inputs", 0u );
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
@@ -3197,7 +3197,7 @@ namespace
 		testBegin( "testInterpolateAtSample" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto inputs = writer.declInput< ValueT >( "inputs", 0u );
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
@@ -3224,7 +3224,7 @@ namespace
 		testBegin( "testInterpolateAtOffset" ) + name;
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto inputs = writer.declInput< ValueT >( "inputs", 0u );
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentIn, FragmentOut )
 				{
@@ -3249,7 +3249,7 @@ namespace
 		testBegin( "testBarrier" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3299,7 +3299,7 @@ namespace
 		testBegin( "testMemoryBarrier" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3318,7 +3318,7 @@ namespace
 		testBegin( "testMemoryBarrierBuffer" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3337,7 +3337,7 @@ namespace
 		testBegin( "testMemoryBarrierShared" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3356,7 +3356,7 @@ namespace
 		testBegin( "testMemoryBarrierImage" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3375,7 +3375,7 @@ namespace
 		testBegin( "testGroupMemoryBarrier" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3445,7 +3445,7 @@ namespace
 		testBegin( "testSetMeshOutputCountsNV" );
 		using namespace sdw;
 		{
-			MeshWriterNV writer;
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u
 				, 64u
 				, 126u
@@ -3469,7 +3469,7 @@ namespace
 		testBegin( "testSetMeshOutputCounts" );
 		using namespace sdw;
 		{
-			MeshWriterEXT writer;
+			sdw::MeshWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
@@ -3495,7 +3495,7 @@ namespace
 		testBegin( "testDispatchMeshNV" );
 		using namespace sdw;
 		{
-			TaskWriterNV writer;
+			sdw::TaskWriterNV writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u
 				, TaskPayloadOutNVT< PayloadT >{ writer }
 				, [&]( TaskIn in
@@ -3515,7 +3515,7 @@ namespace
 		testBegin( "testDispatchMesh" );
 		using namespace sdw;
 		{
-			TaskWriterEXT writer;
+			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
 				, [&]( TaskIn in
@@ -3537,7 +3537,7 @@ namespace
 		testBegin( "testHelperInvocation" );
 		using namespace sdw;
 		{
-			FragmentWriter writer;
+			sdw::FragmentWriter writer{ &testCounts.allocator };
 
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -3556,7 +3556,7 @@ namespace
 		testBegin( "testSubgroupBarrier" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3575,7 +3575,7 @@ namespace
 		testBegin( "testSubgroupMemoryBarrier" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3594,7 +3594,7 @@ namespace
 		testBegin( "testSubgroupMemoryBarrierBuffer" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3613,7 +3613,7 @@ namespace
 		testBegin( "testSubgroupMemoryBarrierShared" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3632,7 +3632,7 @@ namespace
 		testBegin( "testSubgroupMemoryBarrierImage" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3651,7 +3651,7 @@ namespace
 		testBegin( "testSubgroupElect" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3670,7 +3670,7 @@ namespace
 		testBegin( "testSubgroupAll" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3691,7 +3691,7 @@ namespace
 		testBegin( "testSubgroupAny" );
 		using namespace sdw;
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 
 			writer.implementMain( 32u
 				, [&]( sdw::ComputeIn in )
@@ -3714,7 +3714,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupAllEqual" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3760,7 +3760,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBroadcast" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3806,7 +3806,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBroadcastFirst" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3850,7 +3850,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallot" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3870,7 +3870,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInverseBallot" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3890,7 +3890,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallotBitExtract" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3910,7 +3910,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallotBitCount" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3930,7 +3930,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallotInclusiveBitCount" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3950,7 +3950,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallotExclusiveBitCount" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3970,7 +3970,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallotFindLSB" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -3990,7 +3990,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupBallotFindLSB" );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4012,7 +4012,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupShuffle" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4058,7 +4058,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupShuffleXor" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4104,7 +4104,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupShuffleUp" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4150,7 +4150,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupShuffleDown" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4196,7 +4196,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupAdd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4238,7 +4238,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveAdd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4280,7 +4280,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveAdd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4322,7 +4322,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterAdd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4364,7 +4364,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupMul" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4406,7 +4406,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveMul" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4448,7 +4448,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveMul" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4490,7 +4490,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterMul" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4532,7 +4532,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupMin" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4574,7 +4574,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveMin" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4616,7 +4616,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveMin" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4658,7 +4658,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterMin" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4700,7 +4700,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupMax" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4742,7 +4742,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveMax" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4784,7 +4784,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveMax" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4826,7 +4826,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterMax" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4868,7 +4868,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupAnd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4906,7 +4906,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveAnd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4944,7 +4944,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveAnd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -4982,7 +4982,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterAnd" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5020,7 +5020,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupOr" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5058,7 +5058,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveOr" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5096,7 +5096,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveOr" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5134,7 +5134,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterOr" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5172,7 +5172,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupXor" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5210,7 +5210,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupInclusiveXor" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5248,7 +5248,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupExclusiveXor" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5286,7 +5286,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupClusterXor" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5324,7 +5324,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupQuadBroadcast" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5370,7 +5370,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupQuadSwapHorizontal" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5416,7 +5416,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupQuadSwapVertical" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
@@ -5462,7 +5462,7 @@ namespace
 		using namespace sdw;
 		testBegin( "testSubgroupQuadSwapDiagonal" + name );
 		{
-			ComputeWriter writer;
+			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{

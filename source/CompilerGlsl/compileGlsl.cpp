@@ -153,17 +153,19 @@ namespace glsl
 
 	std::string compileGlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
-		, GlslConfig & writerConfig )
+		, GlslConfig & config )
 	{
-		writerConfig.shaderStage = shader.getType();
+		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
 		auto intrinsics = glsl::StmtConfigFiller::submit( shader.getType()
 			, shader.getStatements() );
-		checkConfig( writerConfig, intrinsics );
+		checkConfig( config, intrinsics );
 
-		ast::stmt::StmtCache compileStmtCache{ ast::CacheMode::eArena };
-		ast::expr::ExprCache compileExprCache{ ast::CacheMode::eArena };
+		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
+		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
+		ast::stmt::StmtCache compileStmtCache{ *allocator };
+		ast::expr::ExprCache compileExprCache{ *allocator };
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
@@ -174,7 +176,7 @@ namespace glsl
 			, shader.getTypesCache()
 			, statements.get() );
 		glsl::AdaptationData adaptationData{ shader.getType()
-			, writerConfig
+			, config
 			, std::move( intrinsics )
 			, ssaData.nextVarId };
 		statements = glsl::StmtAdapter::submit( compileStmtCache
@@ -193,6 +195,6 @@ namespace glsl
 			, statements.get()
 			, specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return glsl::StmtVisitor::submit( writerConfig, aliases, statements.get() );
+		return glsl::StmtVisitor::submit( config, aliases, statements.get() );
 	}
 }

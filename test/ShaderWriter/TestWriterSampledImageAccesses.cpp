@@ -67,7 +67,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -105,7 +105,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -170,7 +170,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -212,7 +212,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -274,7 +274,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -314,7 +314,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -375,7 +375,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -415,7 +415,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -481,7 +481,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -522,7 +522,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -587,7 +587,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -631,7 +631,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -696,7 +696,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -738,7 +738,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -802,7 +802,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -844,7 +844,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -907,7 +907,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -949,7 +949,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1015,7 +1015,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1058,7 +1058,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1121,7 +1121,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1161,7 +1161,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1224,7 +1224,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1266,7 +1266,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1334,7 +1334,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1378,7 +1378,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1445,7 +1445,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1492,7 +1492,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1557,7 +1557,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1600,7 +1600,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1665,7 +1665,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1710,7 +1710,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1775,7 +1775,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1818,7 +1818,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1879,7 +1879,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1922,7 +1922,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -1977,7 +1977,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -2022,7 +2022,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
@@ -2086,7 +2086,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
@@ -2131,7 +2131,7 @@ namespace
 			testBegin( name );
 			using namespace sdw;
 			{
-				FragmentWriter writer;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
 				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
