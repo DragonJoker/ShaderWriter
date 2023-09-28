@@ -3,14 +3,16 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Stmt/StmtIf.hpp"
 
+#include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Stmt/StmtVisitor.hpp"
 
 #include <stdexcept>
 
 namespace ast::stmt
 {
-	If::If( expr::ExprPtr ctrlExpr )
-		: Compound{ Kind::eIf }
+	If::If( StmtCache & stmtCache
+		, expr::ExprPtr ctrlExpr )
+		: Compound{ stmtCache, sizeof( If ), Kind::eIf }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}
@@ -22,13 +24,13 @@ namespace ast::stmt
 			throw std::runtime_error{ "Else is already defined for this If." };
 		}
 
-		m_else.reset( new Else );
+		m_else = getStmtCache().makeElse();
 		return m_else.get();
 	}
 
 	ElseIf * If::createElseIf( expr::ExprPtr ctrlExpr )
 	{
-		m_elseIfs.emplace_back( std::unique_ptr< ElseIf >( new ElseIf{ std::move( ctrlExpr ) } ) );
+		m_elseIfs.emplace_back( getStmtCache().makeElseIf( std::move( ctrlExpr ) ) );
 		return m_elseIfs.back().get();
 	}
 

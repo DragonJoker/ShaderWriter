@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit Return( expr::ExprPtr expr );
+		SDAST_API explicit Return( StmtCache & stmtCache
+			, expr::ExprPtr expr );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -27,17 +28,6 @@ namespace ast::stmt
 	private:
 		expr::ExprPtr m_expr{};
 	};
-	using ReturnPtr = std::unique_ptr< Return >;
-
-	inline ReturnPtr makeReturn()
-	{
-		return std::make_unique< Return >( nullptr );
-	}
-
-	inline ReturnPtr makeReturn( expr::ExprPtr expr )
-	{
-		return std::make_unique< Return >( std::move( expr ) );
-	}
 }
 
 #endif

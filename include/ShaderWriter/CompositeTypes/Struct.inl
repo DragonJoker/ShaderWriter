@@ -13,7 +13,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( *m_writer, sdw::makeVariableDecl( var ) );
+			addStmt( *m_writer, makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
 
 		return InstanceT{ *m_writer
@@ -75,13 +75,13 @@ namespace sdw
 		, m_shader{ &sdw::getShader( *m_writer ) }
 		, m_type{ std::move( type ) }
 	{
-		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
+		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
 	}
 
 	template< var::Flag FlagT >
 	void IOStructT< FlagT >::end()
 	{
-		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
+		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
 	}
 
 	template< var::Flag FlagT >

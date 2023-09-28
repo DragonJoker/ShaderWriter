@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 #include "ShaderAST/Expr/ExprLiteral.hpp"
+#include "ShaderAST/Stmt/StmtCache.hpp"
 
 namespace ast
 {
@@ -817,35 +818,38 @@ namespace ast
 			: public StmtCloner
 		{
 		public:
-			static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+			static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
+				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, stmt::Container * stmt )
 			{
 				std::map< var::VariablePtr, expr::Literal * > literalVars;
 				std::vector< stmt::Container * > contStack;
-				return submit( exprCache, typesCache, stmt, contStack, literalVars );
+				return submit( stmtCache, exprCache, typesCache, stmt, contStack, literalVars );
 			}
 
 		private:
-			static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+			static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
+				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, stmt::Container * stmt
 				, std::vector< stmt::Container * > & contStack
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars )
 			{
-				auto result = stmt::makeContainer();
-				StmtSimplifier vis{ exprCache, typesCache, contStack, literalVars, result };
+				auto result = stmtCache.makeContainer();
+				StmtSimplifier vis{ stmtCache, exprCache, typesCache, contStack, literalVars, result };
 				stmt->accept( &vis );
 				return result;
 			}
 
 		private:
-			StmtSimplifier( expr::ExprCache & exprCache
+			StmtSimplifier( stmt::StmtCache & stmtCache
+				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, std::vector< stmt::Container * > & contStack
 				, std::map< var::VariablePtr, expr::Literal * > & literalVars
 				, stmt::ContainerPtr & result )
-				: StmtCloner{ exprCache, result }
+				: StmtCloner{ stmtCache, exprCache, result }
 				, m_typesCache{ typesCache }
 				, m_contStack{ contStack }
 				, m_literalVars{ literalVars }
@@ -877,14 +881,14 @@ namespace ast
 				}
 
 				auto save = m_current;
-				auto cont = stmt::makeContainer();
+				auto cont = m_stmtCache.makeContainer();
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 				m_current = save;
 
 				if ( cont->empty() )
 				{
-					auto ifStmt = stmt::makeIf( m_exprCache.makeLogNot( m_typesCache
+					auto ifStmt = m_stmtCache.makeIf( m_exprCache.makeLogNot( m_typesCache
 						, std::move( ctrlExpr ) ) );
 
 					m_ifStmts.push_back( ifStmt.get() );
@@ -894,7 +898,7 @@ namespace ast
 				}
 				else
 				{
-					auto ifStmt = stmt::makeIf( std::move( ctrlExpr ) );
+					auto ifStmt = m_stmtCache.makeIf( std::move( ctrlExpr ) );
 					m_current = ifStmt.get();
 					visitContainerStmt( cont.get() );
 					m_current = save;
@@ -938,7 +942,7 @@ namespace ast
 				else
 				{
 					auto save = m_current;
-					auto cont = stmt::makeContainer();
+					auto cont = m_stmtCache.makeContainer();
 					m_current = cont.get();
 					visitContainerStmt( stmt );
 					m_current = save;
@@ -947,7 +951,7 @@ namespace ast
 					{
 						auto elseStmt = m_ifStmts.back()->createElse();
 						m_current = elseStmt;
-						auto ifStmt = stmt::makeIf( m_exprCache.makeLogNot( m_typesCache
+						auto ifStmt = m_stmtCache.makeIf( m_exprCache.makeLogNot( m_typesCache
 							, std::move( ctrlExpr ) ) );
 
 						m_ifStmts.push_back( ifStmt.get() );
@@ -988,7 +992,7 @@ namespace ast
 				else
 				{
 					auto save = m_current;
-					auto cont = stmt::makeContainer();
+					auto cont = m_stmtCache.makeContainer();
 					m_current = cont.get();
 					visitContainerStmt( stmt );
 					m_current = save;
@@ -1068,10 +1072,11 @@ namespace ast
 		};
 	}
 
-	stmt::ContainerPtr simplify( expr::ExprCache & exprCache
+	stmt::ContainerPtr simplify( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * stmt )
 	{
-		return simpl::StmtSimplifier::submit( exprCache, typesCache, stmt );
+		return simpl::StmtSimplifier::submit( stmtCache, exprCache, typesCache, stmt );
 	}
 }

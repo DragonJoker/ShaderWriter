@@ -64,13 +64,15 @@ namespace glsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::expr::ExprCache & exprCache
+		static ast::stmt::ContainerPtr submit( ast::stmt::StmtCache & stmtCache
+			,  ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, ast::stmt::Container * container
 			, AdaptationData & adaptationData );
 
 	private:
-		StmtAdapter( ast::expr::ExprCache & exprCache
+		StmtAdapter( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * globalsCont

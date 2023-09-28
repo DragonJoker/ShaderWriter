@@ -221,7 +221,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutBlendVariableDecl( var
+			addStmt( makeInOutBlendVariableDecl( getStmtCache()
+				, var
 				, location
 				, blendIndex ) );
 		}
@@ -272,7 +273,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutBlendVariableDecl( var
+			addStmt( makeInOutBlendVariableDecl( getStmtCache()
+				, var
 				, location
 				, blendIndex ) );
 		}

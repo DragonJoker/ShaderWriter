@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Loop
 	{
 	public:
-		SDAST_API explicit While( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit While( StmtCache & stmtCache
+			, expr::ExprPtr ctrlExpr );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -27,12 +28,6 @@ namespace ast::stmt
 	private:
 		expr::ExprPtr m_ctrlExpr{};
 	};
-	using WhilePtr = std::unique_ptr< While >;
-
-	inline WhilePtr makeWhile( expr::ExprPtr ctrlExpr )
-	{
-		return std::make_unique< While >( std::move( ctrlExpr ) );
-	}
 }
 
 #endif

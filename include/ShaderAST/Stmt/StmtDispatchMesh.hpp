@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API DispatchMesh( expr::ExprPtr numGroupsX
+		SDAST_API DispatchMesh( StmtCache & stmtCache
+			, expr::ExprPtr numGroupsX
 			, expr::ExprPtr numGroupsY
 			, expr::ExprPtr numGroupsZ
 			, expr::ExprPtr payload );
@@ -46,18 +47,6 @@ namespace ast::stmt
 		expr::ExprPtr m_numGroupsZ{};
 		expr::ExprPtr m_payload{};
 	};
-	using DispatchMeshPtr = std::unique_ptr< DispatchMesh >;
-
-	inline DispatchMeshPtr makeDispatchMesh( expr::ExprPtr numGroupsX
-		, expr::ExprPtr numGroupsY
-		, expr::ExprPtr numGroupsZ
-		, expr::ExprPtr payload )
-	{
-		return std::make_unique< DispatchMesh >( std::move( numGroupsX )
-			, std::move( numGroupsY )
-			, std::move( numGroupsZ )
-			, std::move( payload ) );
-	}
 }
 
 #endif

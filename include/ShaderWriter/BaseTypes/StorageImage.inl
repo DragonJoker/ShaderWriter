@@ -915,10 +915,11 @@ namespace sdw
 			if ( areOptionalEnabled( image, params... ) )
 			{
 				addStmt( writer
-					, makeSimple( getExprCache( writer ).makeStorageImageAccessCall( Void::makeType( typesCache )
-						, ImageAccessT
-						, makeExpr( image )
-						, makeExpr( params )... ) ) );
+					, sdw::makeSimple( getStmtCache( writer )
+						, getExprCache( writer ).makeStorageImageAccessCall( Void::makeType( typesCache )
+							, ImageAccessT
+							, makeExpr( image )
+							, makeExpr( params )... ) ) );
 			}
 		}
 
@@ -2059,9 +2060,10 @@ namespace sdw
 		if ( areOptionalEnabled( *this, rhs ) )
 		{
 			addStmt( shader
-				, makeSimple( makeAssign( getExpr()->getType()
-					, makeExpr( shader, getExpr() )
-					, makeExpr( shader, rhs ) ) ) );
+				, sdw::makeSimple( getStmtCache( shader )
+					, sdw::makeAssign( getExpr()->getType()
+						, makeExpr( shader, getExpr() )
+						, makeExpr( shader, rhs ) ) ) );
 		}
 
 		return *this;

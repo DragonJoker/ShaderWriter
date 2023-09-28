@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit Break( bool switchCaseBreak );
+		SDAST_API explicit Break( StmtCache & stmtCache
+			, bool switchCaseBreak );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -25,12 +26,6 @@ namespace ast::stmt
 	private:
 		bool m_switchCaseBreak;
 	};
-	using BreakPtr = std::unique_ptr< Break >;
-
-	inline BreakPtr makeBreak( bool switchCaseBreak )
-	{
-		return std::make_unique< Break >( switchCaseBreak );
-	}
 }
 
 #endif

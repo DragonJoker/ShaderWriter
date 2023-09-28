@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PreprocVersion::PreprocVersion( std::string name )
-		: Stmt{ Kind::ePreprocVersion }
+	PreprocVersion::PreprocVersion( StmtCache & stmtCache
+		, std::string name )
+		: Stmt{ stmtCache, sizeof( PreprocVersion ), Kind::ePreprocVersion }
 		, m_name{ std::move( name ) }
 	{
 	}

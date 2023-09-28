@@ -3,22 +3,26 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/CloneStmt.hpp"
 
+#include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 
 namespace ast
 {
-	stmt::ContainerPtr StmtCloner::submit( expr::ExprCache & exprCache
+	stmt::ContainerPtr StmtCloner::submit( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, stmt::Container * stmt )
 	{
-		stmt::ContainerPtr result = stmt::makeContainer();
-		StmtCloner vis{ exprCache, result };
+		stmt::ContainerPtr result = stmtCache.makeContainer();
+		StmtCloner vis{ stmtCache, exprCache, result };
 		stmt->accept( &vis );
 		return result;
 	}
 
-	StmtCloner::StmtCloner( expr::ExprCache & exprCache
+	StmtCloner::StmtCloner( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, stmt::ContainerPtr & result )
-		: m_exprCache{ exprCache }
+		: m_stmtCache{ stmtCache }
+		, m_exprCache{ exprCache }
 		, m_result{ result }
 		, m_current{ m_result.get() }
 	{
@@ -46,7 +50,7 @@ namespace ast
 	void StmtCloner::visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeAccelerationStructureDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeAccelerationStructureDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}
@@ -54,26 +58,26 @@ namespace ast
 	void StmtCloner::visitBreakStmt( stmt::Break * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeBreak( stmt->isSwitchCaseBreak() ) );
+		m_current->addStmt( m_stmtCache.makeBreak( stmt->isSwitchCaseBreak() ) );
 	}
 
 	void StmtCloner::visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeBufferReferenceDecl( stmt->getType() ) );
+		m_current->addStmt( m_stmtCache.makeBufferReferenceDecl( stmt->getType() ) );
 	}
 
 	void StmtCloner::visitContinueStmt( stmt::Continue * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeContinue() );
+		m_current->addStmt( m_stmtCache.makeContinue() );
 	}
 
 	void StmtCloner::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeConstantBufferDecl( stmt->getName()
+		auto cont = m_stmtCache.makeConstantBufferDecl( stmt->getName()
 			, stmt->getMemoryLayout()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
@@ -86,20 +90,20 @@ namespace ast
 	void StmtCloner::visitDemoteStmt( stmt::Demote * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeDemote() );
+		m_current->addStmt( m_stmtCache.makeDemote() );
 	}
 
 	void StmtCloner::visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeTerminateInvocation() );
+		m_current->addStmt( m_stmtCache.makeTerminateInvocation() );
 	}
 
 	void StmtCloner::visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makePushConstantsBufferDecl( stmt->getName(), stmt->getMemoryLayout() );
+		auto cont = m_stmtCache.makePushConstantsBufferDecl( stmt->getName(), stmt->getMemoryLayout() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -109,14 +113,14 @@ namespace ast
 	void StmtCloner::visitCommentStmt( stmt::Comment * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeComment( stmt->getText() ) );
+		m_current->addStmt( m_stmtCache.makeComment( stmt->getText() ) );
 	}
 
 	void StmtCloner::visitCompoundStmt( stmt::Compound * stmt )
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeCompound();
+		auto cont = m_stmtCache.makeCompound();
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -126,7 +130,7 @@ namespace ast
 	void StmtCloner::visitDispatchMeshStmt( stmt::DispatchMesh * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeDispatchMesh( doSubmit( stmt->getNumGroupsX() )
+		m_current->addStmt( m_stmtCache.makeDispatchMesh( doSubmit( stmt->getNumGroupsX() )
 			, doSubmit( stmt->getNumGroupsY() )
 			, doSubmit( stmt->getNumGroupsZ() )
 			, doSubmit( stmt->getPayload() ) ) );
@@ -136,7 +140,7 @@ namespace ast
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
+		auto cont = m_stmtCache.makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -167,7 +171,7 @@ namespace ast
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeFor( doSubmit( stmt->getInitExpr() )
+		auto cont = m_stmtCache.makeFor( doSubmit( stmt->getInitExpr() )
 			, doSubmit( stmt->getCtrlExpr() )
 			, doSubmit( stmt->getIncrExpr() ) );
 		m_current = cont.get();
@@ -179,7 +183,7 @@ namespace ast
 	void StmtCloner::visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeFragmentLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeFragmentLayout( stmt->getType()
 			, stmt->getFragmentOrigin()
 			, stmt->getFragmentCenter() ) );
 	}
@@ -188,7 +192,7 @@ namespace ast
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeFunctionDecl( stmt->getType()
+		auto cont = m_stmtCache.makeFunctionDecl( stmt->getType()
 			, stmt->getName()
 			, stmt->getFlags() );
 		m_current = cont.get();
@@ -200,14 +204,14 @@ namespace ast
 	void StmtCloner::visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
+		m_current->addStmt( m_stmtCache.makeHitAttributeVariableDecl( stmt->getVariable() ) );
 	}
 
 	void StmtCloner::visitIfStmt( stmt::If * stmt )
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
+		auto cont = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -230,7 +234,7 @@ namespace ast
 	void StmtCloner::visitImageDeclStmt( stmt::ImageDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeImageDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}
@@ -238,27 +242,27 @@ namespace ast
 	void StmtCloner::visitIgnoreIntersectionStmt( stmt::IgnoreIntersection * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeIgnoreIntersection() );
+		m_current->addStmt( m_stmtCache.makeIgnoreIntersection() );
 	}
 
 	void StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( stmt->getVariable()
 			, stmt->getLocation() ) );
 	}
 
 	void StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( stmt->getVariable()
 			, stmt->getLocation() ) );
 	}
 
 	void StmtCloner::visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeInOutVariableDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeInOutVariableDecl( stmt->getVariable()
 			, stmt->getLocation()
 			, stmt->getStreamIndex()
 			, stmt->getBlendIndex() ) );
@@ -267,7 +271,7 @@ namespace ast
 	void StmtCloner::visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeInputComputeLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeInputComputeLayout( stmt->getType()
 			, stmt->getWorkGroupsX()
 			, stmt->getWorkGroupsY()
 			, stmt->getWorkGroupsZ() ) );
@@ -276,14 +280,14 @@ namespace ast
 	void StmtCloner::visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeInputGeometryLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeInputGeometryLayout( stmt->getType()
 			, stmt->getLayout() ) );
 	}
 
 	void StmtCloner::visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeOutputGeometryLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeOutputGeometryLayout( stmt->getType()
 			, stmt->getLayout()
 			, stmt->getPrimCount() ) );
 	}
@@ -291,7 +295,7 @@ namespace ast
 	void StmtCloner::visitOutputMeshLayoutStmt( stmt::OutputMeshLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeOutputMeshLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeOutputMeshLayout( stmt->getType()
 			, stmt->getTopology()
 			, stmt->getMaxVertices()
 			, stmt->getMaxPrimitives() ) );
@@ -300,7 +304,7 @@ namespace ast
 	void StmtCloner::visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeInputTessellationEvaluationLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeInputTessellationEvaluationLayout( stmt->getType()
 			, stmt->getDomain()
 			, stmt->getPartitioning()
 			, stmt->getPrimitiveOrdering() ) );
@@ -309,7 +313,7 @@ namespace ast
 	void StmtCloner::visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeOutputTessellationControlLayout( stmt->getType()
+		m_current->addStmt( m_stmtCache.makeOutputTessellationControlLayout( stmt->getType()
 			, stmt->getDomain()
 			, stmt->getPartitioning()
 			, stmt->getTopology()
@@ -320,13 +324,13 @@ namespace ast
 	void StmtCloner::visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makePerPrimitiveDecl( stmt->getType() ) );
+		m_current->addStmt( m_stmtCache.makePerPrimitiveDecl( stmt->getType() ) );
 	}
 
 	void StmtCloner::visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makePerVertexDecl( stmt->getSource()
+		m_current->addStmt( m_stmtCache.makePerVertexDecl( stmt->getSource()
 			, stmt->getType() ) );
 	}
 
@@ -335,18 +339,18 @@ namespace ast
 		TraceFunc
 		if ( stmt->getExpr() )
 		{
-			m_current->addStmt( stmt::makeReturn( doSubmit( stmt->getExpr() ) ) );
+			m_current->addStmt( m_stmtCache.makeReturn( doSubmit( stmt->getExpr() ) ) );
 		}
 		else
 		{
-			m_current->addStmt( stmt::makeReturn() );
+			m_current->addStmt( m_stmtCache.makeReturn() );
 		}
 	}
 
 	void StmtCloner::visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeSampledImageDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeSampledImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}
@@ -354,7 +358,7 @@ namespace ast
 	void StmtCloner::visitCombinedImageDeclStmt( stmt::CombinedImageDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeCombinedImageDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeCombinedImageDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}
@@ -362,7 +366,7 @@ namespace ast
 	void StmtCloner::visitSamplerDeclStmt( stmt::SamplerDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeSamplerDecl( stmt->getVariable()
+		m_current->addStmt( m_stmtCache.makeSamplerDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}
@@ -371,7 +375,7 @@ namespace ast
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeShaderBufferDecl( stmt->getVariable()
+		auto cont = m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() );
 		m_current = cont.get();
@@ -383,7 +387,7 @@ namespace ast
 	void StmtCloner::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+		m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
 			, stmt->getSsboInstance()
 			, stmt->getData()
 			, stmt->getBindingPoint()
@@ -397,14 +401,14 @@ namespace ast
 
 		if ( expr )
 		{
-			m_current->addStmt( stmt::makeSimple( std::move( expr ) ) );
+			m_current->addStmt( m_stmtCache.makeSimple( std::move( expr ) ) );
 		}
 	}
 
 	void StmtCloner::visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )
 	{
 		TraceFunc
-		m_result->addStmt( stmt::makeSpecialisationConstantDecl( stmt->getVariable()
+		m_result->addStmt( m_stmtCache.makeSpecialisationConstantDecl( stmt->getVariable()
 			, stmt->getLocation()
 			, m_exprCache.makeLiteral( *stmt->getValue() ) ) );
 	}
@@ -412,7 +416,7 @@ namespace ast
 	void StmtCloner::visitStructureDeclStmt( stmt::StructureDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeStructureDecl( stmt->getType() ) );
+		m_current->addStmt( m_stmtCache.makeStructureDecl( stmt->getType() ) );
 	}
 
 	void StmtCloner::visitSwitchCaseStmt( stmt::SwitchCase * stmt )
@@ -439,7 +443,7 @@ namespace ast
 	{
 		TraceFunc
 		auto save = m_current;
-		auto cont = stmt::makeSwitch( m_exprCache.makeSwitchTest( doSubmit( stmt->getTestExpr()->getValue() ) ) );
+		auto cont = m_stmtCache.makeSwitch( m_exprCache.makeSwitchTest( doSubmit( stmt->getTestExpr()->getValue() ) ) );
 		m_switchStmts.push_back( cont.get() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
@@ -451,19 +455,19 @@ namespace ast
 	void StmtCloner::visitTerminateRayStmt( stmt::TerminateRay * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeTerminateRay() );
+		m_current->addStmt( m_stmtCache.makeTerminateRay() );
 	}
 
 	void StmtCloner::visitVariableDeclStmt( stmt::VariableDecl * stmt )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makeVariableDecl( stmt->getVariable() ) );
+		m_current->addStmt( m_stmtCache.makeVariableDecl( stmt->getVariable() ) );
 	}
 
 	void StmtCloner::visitWhileStmt( stmt::While * stmt )
 	{
 		TraceFunc
-		auto cont = stmt::makeWhile( doSubmit( stmt->getCtrlExpr() ) );
+		auto cont = m_stmtCache.makeWhile( doSubmit( stmt->getCtrlExpr() ) );
 
 		auto save = m_current;
 		m_current = cont.get();
@@ -475,7 +479,7 @@ namespace ast
 	void StmtCloner::visitPreprocDefine( stmt::PreprocDefine * preproc )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makePreprocDefine( preproc->getId()
+		m_current->addStmt( m_stmtCache.makePreprocDefine( preproc->getId()
 			, preproc->getName()
 			, doSubmit( preproc->getExpr() ) ) );
 	}
@@ -523,20 +527,20 @@ namespace ast
 	void StmtCloner::visitPreprocEndif( stmt::PreprocEndif * preproc )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makePreprocEndif() );
+		m_current->addStmt( m_stmtCache.makePreprocEndif() );
 	}
 
 	void StmtCloner::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makePreprocExtension( preproc->getName()
+		m_current->addStmt( m_stmtCache.makePreprocExtension( preproc->getName()
 			, preproc->getStatus() ) );
 	}
 
 	void StmtCloner::visitPreprocIf( stmt::PreprocIf * preproc )
 	{
 		TraceFunc
-		auto cont = stmt::makePreprocIf( doSubmit( preproc->getCtrlExpr() ) );
+		auto cont = m_stmtCache.makePreprocIf( doSubmit( preproc->getCtrlExpr() ) );
 		m_preprocIfStmts.push_back( cont.get() );
 		m_preprocIfDefs.push_back( false );
 
@@ -562,7 +566,7 @@ namespace ast
 	void StmtCloner::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
 	{
 		TraceFunc
-		auto cont = stmt::makePreprocIfDef( m_exprCache.makeIdentifier( preproc->getIdentExpr()->getTypesCache(), preproc->getIdentExpr()->getVariable() ) );
+		auto cont = m_stmtCache.makePreprocIfDef( m_exprCache.makeIdentifier( preproc->getIdentExpr()->getTypesCache(), preproc->getIdentExpr()->getVariable() ) );
 		m_preprocIfDefStmts.push_back( cont.get() );
 		m_preprocIfDefs.push_back( true );
 
@@ -588,6 +592,6 @@ namespace ast
 	void StmtCloner::visitPreprocVersion( stmt::PreprocVersion * preproc )
 	{
 		TraceFunc
-		m_current->addStmt( stmt::makePreprocVersion( preproc->getName() ) );
+		m_current->addStmt( m_stmtCache.makePreprocVersion( preproc->getName() ) );
 	}
 }

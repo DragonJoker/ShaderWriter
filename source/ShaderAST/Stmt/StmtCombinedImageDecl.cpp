@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	CombinedImageDecl::CombinedImageDecl( var::VariablePtr variable
+	CombinedImageDecl::CombinedImageDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Stmt{ Kind::eCombinedImageDecl }
+		: Stmt{ stmtCache, sizeof( CombinedImageDecl ), Kind::eCombinedImageDecl }
 		, m_variable{ std::move( variable ) }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }

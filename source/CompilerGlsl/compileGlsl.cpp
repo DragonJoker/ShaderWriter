@@ -162,27 +162,33 @@ namespace glsl
 			, shader.getStatements() );
 		checkConfig( writerConfig, intrinsics );
 
-		ast::expr::ExprCache compileCache{};
-		auto statements = ast::transformSSA( compileCache
+		ast::stmt::StmtCache compileStmtCache{ ast::CacheMode::eArena };
+		ast::expr::ExprCache compileExprCache{ ast::CacheMode::eArena };
+		auto statements = ast::transformSSA( compileStmtCache
+			, compileExprCache
 			, shader.getTypesCache()
 			, shader.getStatements()
 			, ssaData );
-		statements = ast::simplify( compileCache
+		statements = ast::simplify( compileStmtCache
+			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );
 		glsl::AdaptationData adaptationData{ shader.getType()
 			, writerConfig
 			, std::move( intrinsics )
 			, ssaData.nextVarId };
-		statements = glsl::StmtAdapter::submit( compileCache
+		statements = glsl::StmtAdapter::submit( compileStmtCache
+			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get()
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
-		statements = ast::simplify( compileCache
+		statements = ast::simplify( compileStmtCache
+			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );
-		statements = ast::StmtSpecialiser::submit( compileCache
+		statements = ast::StmtSpecialiser::submit( compileStmtCache
+			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get()
 			, specialisation );

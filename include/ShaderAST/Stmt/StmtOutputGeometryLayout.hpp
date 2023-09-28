@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API OutputGeometryLayout( type::TypePtr type
+		SDAST_API OutputGeometryLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, type::OutputLayout layout
 			, uint32_t primCount );
 
@@ -41,16 +42,6 @@ namespace ast::stmt
 		type::OutputLayout m_layout;
 		uint32_t m_primCount;
 	};
-	using OutputGeometryLayoutPtr = std::unique_ptr< OutputGeometryLayout >;
-
-	inline OutputGeometryLayoutPtr makeOutputGeometryLayout( type::TypePtr type
-		, type::OutputLayout layout
-		, uint32_t primCount )
-	{
-		return std::make_unique< OutputGeometryLayout >( std::move( type )
-			, layout
-			, primCount );
-	}
 }
 
 #endif

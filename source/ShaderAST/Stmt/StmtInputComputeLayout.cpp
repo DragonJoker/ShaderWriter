@@ -7,11 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InputComputeLayout::InputComputeLayout( type::TypePtr type
+	InputComputeLayout::InputComputeLayout( StmtCache & stmtCache
+		, type::TypePtr type
 		, uint32_t workGroupsX
 		, uint32_t workGroupsY
 		, uint32_t workGroupsZ )
-		: Stmt{ Kind::eInputComputeLayout }
+		: Stmt{ stmtCache, sizeof( InputGeometryLayout ), Kind::eInputComputeLayout }
 		, m_type{ type }
 		, m_workGroupsX{ workGroupsX }
 		, m_workGroupsY{ workGroupsY }

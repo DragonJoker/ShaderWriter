@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Break::Break( bool switchCaseBreak )
-		: Stmt{ Kind::eBreak }
+	Break::Break( StmtCache & stmtCache
+		, bool switchCaseBreak )
+		: Stmt{ stmtCache, sizeof( Break ), Kind::eBreak }
 		, m_switchCaseBreak{ switchCaseBreak }
 	{
 	}

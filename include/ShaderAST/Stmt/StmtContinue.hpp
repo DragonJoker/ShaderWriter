@@ -13,16 +13,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API Continue();
+		SDAST_API Continue( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using ContinuePtr = std::unique_ptr< Continue >;
-
-	inline ContinuePtr makeContinue()
-	{
-		return std::make_unique< Continue >();
-	}
 }
 
 #endif

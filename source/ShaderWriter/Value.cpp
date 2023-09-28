@@ -87,7 +87,8 @@ namespace sdw
 				{
 					ShaderWriter & writer = findWriterMandat( *this, rhs );
 					addStmt( writer
-						, sdw::makeSimple( sdw::makeAssign( getType()
+						, sdw::makeSimple( getStmtCache( writer )
+							, sdw::makeAssign( getType()
 							, makeExpr( writer, *this )
 							, makeExpr( writer, rhs ) ) ) );
 				}
@@ -109,7 +110,8 @@ namespace sdw
 				{
 					ShaderWriter & writer = findWriterMandat( *this, rhs );
 					addStmt( writer
-						, sdw::makeSimple( sdw::makeAssign( getType()
+						, sdw::makeSimple( getStmtCache( writer )
+							, sdw::makeAssign( getType()
 							, makeExpr( writer, *this )
 							, std::move( rhs.m_expr ) ) ) );
 				}

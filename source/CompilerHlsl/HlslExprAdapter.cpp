@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "HlslStorageImageAccessConfig.hpp"
 #include "HlslCombinedImageAccessConfig.hpp"
 
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
@@ -414,7 +415,8 @@ namespace hlsl
 		}
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::expr::ExprPtr ExprAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::expr::Expr * expr
 		, ast::stmt::Container * container
@@ -425,7 +427,8 @@ namespace hlsl
 		, bool preventVarTypeReplacement )
 	{
 		ast::expr::ExprPtr result{};
-		ExprAdapter vis{ exprCache
+		ExprAdapter vis{ stmtCache
+			, exprCache
 			, typesCache
 			, result
 			, container
@@ -438,7 +441,8 @@ namespace hlsl
 		return result;
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::expr::ExprPtr ExprAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr const & expr
 		, ast::stmt::Container * container
@@ -448,7 +452,8 @@ namespace hlsl
 		, ast::stmt::Container * intrinsics
 		, bool preventVarTypeReplacement )
 	{
-		return submit( exprCache
+		return submit( stmtCache
+			, exprCache
 			, typesCache
 			, expr.get()
 			, container
@@ -459,7 +464,8 @@ namespace hlsl
 			, preventVarTypeReplacement );
 	}
 
-	ExprAdapter::ExprAdapter( ast::expr::ExprCache & exprCache
+	ExprAdapter::ExprAdapter( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr & result
 		, ast::stmt::Container * container
@@ -469,6 +475,7 @@ namespace hlsl
 		, ast::stmt::Container * intrinsics
 		, bool preventVarTypeReplacement )
 		: ExprCloner{ exprCache, result }
+		, m_stmtCache{ stmtCache }
 		, m_typesCache{ typesCache }
 		, m_container{ container }
 		, m_intrinsicsConfig{ intrinsicsConfig }
@@ -482,7 +489,8 @@ namespace hlsl
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result{};
-		ExprAdapter vis{ m_exprCache
+		ExprAdapter vis{ m_stmtCache
+			, m_exprCache
 			, m_typesCache
 			, result
 			, m_container
@@ -876,7 +884,7 @@ namespace hlsl
 			// GLSL atomics return the old value, while in HLSL it is the last parameter
 			// Hence, we first create the output value variable.
 			auto aliasVar = doMakeAlias( expr->getType() );
-			m_container->addStmt( ast::stmt::makeVariableDecl( aliasVar ) );
+			m_container->addStmt( m_stmtCache.makeVariableDecl( aliasVar ) );
 			// We then parse the parameters.
 			ast::expr::ExprList args;
 
@@ -888,7 +896,7 @@ namespace hlsl
 			// We add the created output alias to the parameters list.
 			args.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
 			// We add the call to the intrinsic, and add it to the container
-			m_container->addStmt( ast::stmt::makeSimple( m_exprCache.makeIntrinsicCall( expr->getType()
+			m_container->addStmt( m_stmtCache.makeSimple( m_exprCache.makeIntrinsicCall( expr->getType()
 				, expr->getIntrinsic()
 				, std::move( args ) ) ) );
 			// The resulting expression is now the alias.
@@ -1325,7 +1333,7 @@ namespace hlsl
 				, "image" );
 			parameters.emplace_back( image );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_typesCache.getUInt32();
 			ast::expr::CompositeType composite{};
 
@@ -1335,33 +1343,33 @@ namespace hlsl
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eScalar;
 				break;
 			case 2:
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimY" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec2;
 				break;
 			case 3:
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimY" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimZ" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec3;
 				break;
 			}
@@ -1380,11 +1388,11 @@ namespace hlsl
 				auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dummy" );
-				cont->addStmt( ast::stmt::makeVariableDecl( var ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( var ) );
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, var ) );
 			}
 
-			cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
+			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
 					, m_typesCache.getFunction( m_typesCache.getVoid(), resVars )
 					, "GetDimensions" ) )
@@ -1402,11 +1410,11 @@ namespace hlsl
 
 			if ( composite == ast::expr::CompositeType::eScalar )
 			{
-				cont->addStmt( ast::stmt::makeReturn( std::move( resArgs.back() ) ) );
+				cont->addStmt( m_stmtCache.makeReturn( std::move( resArgs.back() ) ) );
 			}
 			else
 			{
-				cont->addStmt( ast::stmt::makeReturn( m_exprCache.makeCompositeConstruct( composite
+				cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeCompositeConstruct( composite
 					, ast::type::Kind::eInt32
 					, std::move( resArgs ) ) ) );
 			}
@@ -1489,10 +1497,10 @@ namespace hlsl
 				, dataType
 				, "data" ) );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 			// Function content
 			//	image[coord] = data
-			cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeAssign( dataType
+			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( dataType
 				, m_exprCache.makeArrayAccess( m_typesCache.getSampledType( config.format )
 					, m_exprCache.makeIdentifier( m_typesCache, parameters[0] )
 					, m_exprCache.makeIdentifier( m_typesCache, parameters[1] ) )
@@ -1543,12 +1551,12 @@ namespace hlsl
 			parameters.emplace_back( coord );
 			parameters.emplace_back( data );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 			// Function content
 			auto res = ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, dataType
 				, "res" );
-			cont->addStmt( ast::stmt::makeVariableDecl( res ) );
+			cont->addStmt( m_stmtCache.makeVariableDecl( res ) );
 
 			//	The call to Interlocked<name>
 			ast::expr::ExprList callArgs;
@@ -1568,14 +1576,14 @@ namespace hlsl
 				, callArgs.back()->getType()
 				, "p2" ) );
 
-			cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
+			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
 					, m_typesCache.getFunction( m_typesCache.getVoid(), callParameters )
 					, "Interlocked" + name ) )
 				, std::move( callArgs ) ) ) );
 
 			//	The return statement
-			cont->addStmt( ast::stmt::makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
+			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
 
 			it = imageAtomicFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
@@ -1658,12 +1666,12 @@ namespace hlsl
 			parameters.emplace_back( compare );
 			parameters.emplace_back( data );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 			// Function content
 			auto res = ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, dataType
 				, "res" );
-			cont->addStmt( ast::stmt::makeVariableDecl( res ) );
+			cont->addStmt( m_stmtCache.makeVariableDecl( res ) );
 
 			//	The call to InterlockedCompareExchange
 			ast::expr::ExprList callArgs;
@@ -1687,14 +1695,14 @@ namespace hlsl
 				, callArgs.back()->getType()
 				, "p3" ) );
 
-			cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
+			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
 					, m_typesCache.getFunction( expr->getType(), callParameters )
 					, "InterlockedCompareExchange" ) )
 				, std::move( callArgs ) ) ) );
 
 			//	The return statement
-			cont->addStmt( ast::stmt::makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
+			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
 
 			it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
@@ -1740,7 +1748,7 @@ namespace hlsl
 			}
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_typesCache.getUInt32();
 			ast::var::VariableList resVars;
 			ast::expr::CompositeType composite{};
@@ -1751,33 +1759,33 @@ namespace hlsl
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eScalar;
 				break;
 			case 2:
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimY" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec2;
 				break;
 			case 3:
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimY" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimZ" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec3;
 				break;
 			}
@@ -1815,14 +1823,14 @@ namespace hlsl
 				auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "levels" );
-				cont->addStmt( ast::stmt::makeVariableDecl( var ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( var ) );
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, var ) );
 				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, callArgs.back()->getType()
 					, "p" + std::to_string( index++ ) ) );
 			}
 
-			cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
+			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache
 					, ast::var::makeFunction( ++m_adaptationData.nextVarId
 						, m_typesCache.getFunction( expr->getType(), callParameters )
@@ -1841,11 +1849,11 @@ namespace hlsl
 
 			if ( composite == ast::expr::CompositeType::eScalar )
 			{
-				cont->addStmt( ast::stmt::makeReturn( std::move( resArgs.back() ) ) );
+				cont->addStmt( m_stmtCache.makeReturn( std::move( resArgs.back() ) ) );
 			}
 			else
 			{
-				cont->addStmt( ast::stmt::makeReturn( m_exprCache.makeCompositeConstruct( composite
+				cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeCompositeConstruct( composite
 					, ast::type::Kind::eInt32
 					, std::move( resArgs ) ) ) );
 			}
@@ -1895,7 +1903,7 @@ namespace hlsl
 			parameters.emplace_back( coord );
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 
 			// The call to image.CalculateLevelOfDetail
 			ast::expr::ExprList callArgs;
@@ -1920,7 +1928,7 @@ namespace hlsl
 				, std::move( callArgs ) ) );
 			resArgs.emplace_back( m_exprCache.makeLiteral( m_typesCache, 0.0f ) );
 
-			cont->addStmt( ast::stmt::makeReturn( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2
+			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2
 				, ast::type::Kind::eFloat
 				, std::move( resArgs ) ) ) );
 
@@ -1961,7 +1969,7 @@ namespace hlsl
 			parameters.emplace_back( image );
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = ast::stmt::makeFunctionDecl( functionType, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
 			ast::type::TypePtr uintType = m_typesCache.getUInt32();
 			ast::var::VariableList resVars;
 
@@ -1971,13 +1979,13 @@ namespace hlsl
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				if ( config.isArrayed )
 				{
 					resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 						, uintType
 						, "dimY" ) );
-					cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+					cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				}
 				break;
 			case ast::type::ImageDim::e2D:
@@ -1986,32 +1994,32 @@ namespace hlsl
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimY" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				if ( config.isArrayed )
 				{
 					resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 						, uintType
 						, "dimZ" ) );
-					cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+					cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				}
 				break;
 			case ast::type::ImageDim::e3D:
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimX" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimY" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 					, uintType
 					, "dimZ" ) );
-				cont->addStmt( ast::stmt::makeVariableDecl( resVars.back() ) );
+				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				break;
 			default:
 				break;
@@ -2041,13 +2049,13 @@ namespace hlsl
 			auto levels = ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, uintType
 				, "levels" );
-			cont->addStmt( ast::stmt::makeVariableDecl( levels ) );
+			cont->addStmt( m_stmtCache.makeVariableDecl( levels ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, levels ) );
 			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, callArgs.back()->getType()
 				, "p" + std::to_string( index++ ) ) );
 
-			cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
+			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache
 					, ast::var::makeFunction( ++m_adaptationData.nextVarId
 						, m_typesCache.getFunction( expr->getType(), callParameters )
@@ -2056,7 +2064,7 @@ namespace hlsl
 				, std::move( callArgs ) ) ) );
 
 			// The return statement
-			cont->addStmt( ast::stmt::makeReturn( m_exprCache.makeIdentifier( m_typesCache, levels ) ) );
+			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, levels ) ) );
 
 			it = m_adaptationData.funcs.imageLevelsFuncs.emplace( funcName, functionType ).first;
 			m_intrinsics->addStmt( std::move( cont ) );

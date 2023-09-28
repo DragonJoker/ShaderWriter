@@ -341,9 +341,10 @@ namespace hlsl
 		void updateCurrentEntryPoint( ast::stmt::FunctionDecl const * stmt );
 		void initialiseEntryPoint( ast::stmt::FunctionDecl const & stmt );
 
-		ast::stmt::ContainerPtr writeGlobals( std::unordered_set< std::string > & declaredStructs );
-		ast::stmt::ContainerPtr writeLocalesBegin();
-		ast::stmt::ContainerPtr writeLocalesEnd();
+		ast::stmt::ContainerPtr writeGlobals( ast::stmt::StmtCache & stmtCache
+			, std::unordered_set< std::string > & declaredStructs );
+		ast::stmt::ContainerPtr writeLocalesBegin( ast::stmt::StmtCache & stmtCache );
+		ast::stmt::ContainerPtr writeLocalesEnd( ast::stmt::StmtCache & stmtCache );
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
 			, ast::stmt::Container & stmt );
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );

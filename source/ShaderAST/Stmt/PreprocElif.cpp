@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PreprocElif::PreprocElif( expr::ExprPtr ctrlExpr )
-		: Container{ Kind::ePreprocElif }
+	PreprocElif::PreprocElif( StmtCache & stmtCache
+		, expr::ExprPtr ctrlExpr )
+		: Container{ stmtCache, sizeof( PreprocElif ), Kind::ePreprocElif }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}

@@ -15,7 +15,8 @@ namespace ast
 		uint32_t aliasId{};
 	};
 
-	SDAST_API stmt::ContainerPtr transformSSA( expr::ExprCache & exprCache
+	SDAST_API stmt::ContainerPtr transformSSA( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * container
 		, SSAData & ssaData );

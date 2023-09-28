@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API OutputMeshLayout( type::TypePtr type
+		SDAST_API OutputMeshLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, type::OutputTopology topology
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives );
@@ -48,18 +49,6 @@ namespace ast::stmt
 		uint32_t m_maxVertices;
 		uint32_t m_maxPrimitives;
 	};
-	using OutputMeshLayoutPtr = std::unique_ptr< OutputMeshLayout >;
-
-	inline OutputMeshLayoutPtr makeOutputMeshLayout( type::TypePtr type
-		, type::OutputTopology topology
-		, uint32_t maxVertices
-		, uint32_t maxPrimitives )
-	{
-		return std::make_unique< OutputMeshLayout >( std::move( type )
-			, topology
-			, maxVertices
-			, maxPrimitives );
-	}
 }
 
 #endif

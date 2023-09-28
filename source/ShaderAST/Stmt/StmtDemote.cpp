@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Demote::Demote()
-		: Stmt{ Kind::eDemote }
+	Demote::Demote( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( Demote ), Kind::eDemote }
 	{
 	}
 

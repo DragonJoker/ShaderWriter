@@ -16,9 +16,11 @@ namespace ast::stmt
 	{
 		friend class PreprocIf;
 		friend class PreprocIfDef;
+		friend class StmtCache;
 
 	private:
-		SDAST_API explicit PreprocElif( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit PreprocElif( StmtCache & stmtCache
+			, expr::ExprPtr ctrlExpr );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -31,7 +33,6 @@ namespace ast::stmt
 	private:
 		expr::ExprPtr m_ctrlExpr{};
 	};
-	using PreprocElifPtr = std::unique_ptr< PreprocElif >;
 }
 
 #endif

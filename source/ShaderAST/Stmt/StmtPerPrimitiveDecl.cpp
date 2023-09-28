@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PerPrimitiveDecl::PerPrimitiveDecl( type::TypePtr type )
-		: Stmt{ Kind::ePerPrimitiveDecl }
+	PerPrimitiveDecl::PerPrimitiveDecl( StmtCache & stmtCache
+		, type::TypePtr type )
+		: Stmt{ stmtCache, sizeof( PerPrimitiveDecl ), Kind::ePerPrimitiveDecl }
 		, m_type{ type }
 	{
 	}

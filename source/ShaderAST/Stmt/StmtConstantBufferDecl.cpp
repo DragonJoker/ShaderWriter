@@ -7,11 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	ConstantBufferDecl::ConstantBufferDecl( std::string name
+	ConstantBufferDecl::ConstantBufferDecl( StmtCache & stmtCache
+		, std::string name
 		, type::MemoryLayout layout
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Compound{ Kind::eConstantBufferDecl }
+		: Compound{ stmtCache, sizeof( ConstantBufferDecl ), Kind::eConstantBufferDecl }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 		, m_bindingPoint{ bindingPoint }

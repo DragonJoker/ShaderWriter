@@ -7,13 +7,14 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	OutputTessellationControlLayout::OutputTessellationControlLayout( type::TypePtr type
+	OutputTessellationControlLayout::OutputTessellationControlLayout( StmtCache & stmtCache
+		, type::TypePtr type
 		, type::PatchDomain domain
 		, type::Partitioning partitioning
 		, type::OutputTopology topology
 		, type::PrimitiveOrdering order
 		, uint32_t outputVertices )
-		: Stmt{ Kind::eOutputTessellationControlLayout }
+		: Stmt{ stmtCache, sizeof( OutputTessellationControlLayout ), Kind::eOutputTessellationControlLayout }
 		, m_type{ std::move( type ) }
 		, m_domain{ domain }
 		, m_partitioning{ partitioning }

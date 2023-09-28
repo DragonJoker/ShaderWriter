@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	StructureDecl::StructureDecl( type::StructPtr type )
-		: Stmt{ Kind::eStructureDecl }
+	StructureDecl::StructureDecl( StmtCache & stmtCache
+		, type::StructPtr type )
+		: Stmt{ stmtCache, sizeof( StructureDecl ), Kind::eStructureDecl }
 		, m_type{ std::move( type ) }
 	{
 	}

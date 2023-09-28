@@ -7,14 +7,15 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	SwitchCase::SwitchCase( expr::SwitchCasePtr caseExpr )
-		: Compound{ Kind::eSwitchCase }
+	SwitchCase::SwitchCase( StmtCache & stmtCache
+		, expr::SwitchCasePtr caseExpr )
+		: Compound{ stmtCache, sizeof( SwitchCase ), Kind::eSwitchCase }
 		, m_caseExpr{ std::move( caseExpr ) }
 	{
 	}
 
-	SwitchCase::SwitchCase()
-		: Compound{ Kind::eSwitchCase }
+	SwitchCase::SwitchCase( StmtCache & stmtCache )
+		: Compound{ stmtCache, sizeof( SwitchCase ), Kind::eSwitchCase }
 	{
 	}
 

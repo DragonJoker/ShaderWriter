@@ -18,7 +18,8 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API explicit Switch( expr::SwitchTestPtr testExpr );
+		SDAST_API explicit Switch( StmtCache & stmtCache
+			, expr::SwitchTestPtr testExpr );
 
 		SDAST_API SwitchCase * createCase( expr::SwitchCasePtr label );
 		SDAST_API SwitchCase * createDefault();
@@ -36,12 +37,6 @@ namespace ast::stmt
 	private:
 		expr::SwitchTestPtr m_testExpr{};
 	};
-	using SwitchPtr = std::unique_ptr< Switch >;
-
-	inline SwitchPtr makeSwitch( expr::SwitchTestPtr testExpr )
-	{
-		return std::make_unique< Switch >( std::move( testExpr ) );
-	}
 }
 
 #endif

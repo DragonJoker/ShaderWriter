@@ -9,7 +9,6 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	using StmtList = std::vector< StmtPtr >;
 }
 
 #endif

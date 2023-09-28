@@ -373,25 +373,133 @@ namespace ast
 	namespace stmt
 	{
 		class Stmt;
+		class StmtCache;
 		class Visitor;
 
-		class DispatchMesh;
-		class DoWhile;
-		class ElseIf;
-		class For;
-		class If;
 		class PreprocDefine;
 		class PreprocElif;
+		class PreprocElse;
+		class PreprocEndif;
+		class PreprocExtension;
 		class PreprocIf;
 		class PreprocIfDef;
+		class PreprocVersion;
+		class AccelerationStructureDecl;
+		class Break;
+		class BufferReferenceDecl;
+		class CombinedImageDecl;
+		class Comment;
+		class Compound;
+		class ConstantBufferDecl;
+		class Container;
+		class Continue;
+		class Demote;
+		class DispatchMesh;
+		class DoWhile;
+		class Else;
+		class ElseIf;
+		class For;
+		class FragmentLayout;
+		class FunctionDecl;
+		class HitAttributeVariableDecl;
+		class If;
+		class IgnoreIntersection;
+		class ImageDecl;
+		class InOutCallableDataVariableDecl;
+		class InOutRayPayloadVariableDecl;
+		class InOutVariableDecl;
+		class InputComputeLayout;
+		class InputGeometryLayout;
+		class InputTessellationEvaluationLayout;
+		class OutputGeometryLayout;
+		class OutputMeshLayout;
+		class OutputTessellationControlLayout;
+		class PerPrimitiveDecl;
+		class PerVertexDecl;
+		class PushConstantsBufferDecl;
 		class Return;
+		class SampledImageDecl;
+		class SamplerDecl;
+		class ShaderBufferDecl;
+		class ShaderStructBufferDecl;
 		class Simple;
 		class SpecialisationConstantDecl;
+		class StructureDecl;
 		class Switch;
 		class SwitchCase;
+		class TerminateInvocation;
+		class TerminateRay;
+		class VariableDecl;
 		class While;
 
-		using StmtPtr = std::unique_ptr< Stmt >;
+		struct DeleteStmt
+		{
+			SDAST_API void operator()( Stmt * stmt )noexcept;
+		};
+
+		template< typename StmtT >
+		using StmtPtrT = std::unique_ptr< StmtT, DeleteStmt >;
+
+		using StmtPtr = StmtPtrT< Stmt >;
+		using PreprocDefinePtr = StmtPtrT< PreprocDefine >;
+		using PreprocElifPtr = StmtPtrT< PreprocElif >;
+		using PreprocElsePtr = StmtPtrT< PreprocElse >;
+		using PreprocEndifPtr = StmtPtrT< PreprocEndif >;
+		using PreprocExtensionPtr = StmtPtrT< PreprocExtension >;
+		using PreprocIfPtr = StmtPtrT< PreprocIf >;
+		using PreprocIfDefPtr = StmtPtrT< PreprocIfDef >;
+		using PreprocVersionPtr = StmtPtrT< PreprocVersion >;
+		using AccelerationStructureDeclPtr = StmtPtrT< AccelerationStructureDecl >;
+		using BreakPtr = StmtPtrT< Break >;
+		using BufferReferenceDeclPtr = StmtPtrT< BufferReferenceDecl >;
+		using CombinedImageDeclPtr = StmtPtrT< CombinedImageDecl >;
+		using CommentPtr = StmtPtrT< Comment >;
+		using CompoundPtr = StmtPtrT< Compound >;
+		using ConstantBufferDeclPtr = StmtPtrT< ConstantBufferDecl >;
+		using ContainerPtr = StmtPtrT< Container >;
+		using ContinuePtr = StmtPtrT< Continue >;
+		using DemotePtr = StmtPtrT< Demote >;
+		using DispatchMeshPtr = StmtPtrT< DispatchMesh >;
+		using DoWhilePtr = StmtPtrT< DoWhile >;
+		using ElsePtr = StmtPtrT< Else >;
+		using ElseIfPtr = StmtPtrT< ElseIf >;
+		using ForPtr = StmtPtrT< For >;
+		using FragmentLayoutPtr = StmtPtrT< FragmentLayout >;
+		using FunctionDeclPtr = StmtPtrT< FunctionDecl >;
+		using HitAttributeVariableDeclPtr = StmtPtrT< HitAttributeVariableDecl >;
+		using IfPtr = StmtPtrT< If >;
+		using IgnoreIntersectionPtr = StmtPtrT< IgnoreIntersection >;
+		using ImageDeclPtr = StmtPtrT< ImageDecl >;
+		using InOutCallableDataVariableDeclPtr = StmtPtrT< InOutCallableDataVariableDecl >;
+		using InOutRayPayloadVariableDeclPtr = StmtPtrT< InOutRayPayloadVariableDecl >;
+		using InOutVariableDeclPtr = StmtPtrT< InOutVariableDecl >;
+		using InputComputeLayoutPtr = StmtPtrT< InputComputeLayout >;
+		using InputGeometryLayoutPtr = StmtPtrT< InputGeometryLayout >;
+		using InputTessellationEvaluationLayoutPtr = StmtPtrT< InputTessellationEvaluationLayout >;
+		using OutputGeometryLayoutPtr = StmtPtrT< OutputGeometryLayout >;
+		using OutputMeshLayoutPtr = StmtPtrT< OutputMeshLayout >;
+		using OutputTessellationControlLayoutPtr = StmtPtrT< OutputTessellationControlLayout >;
+		using PerPrimitiveDeclPtr = StmtPtrT< PerPrimitiveDecl >;
+		using PerVertexDeclPtr = StmtPtrT< PerVertexDecl >;
+		using PushConstantsBufferDeclPtr = StmtPtrT< PushConstantsBufferDecl >;
+		using ReturnPtr = StmtPtrT< Return >;
+		using SampledImageDeclPtr = StmtPtrT< SampledImageDecl >;
+		using SamplerDeclPtr = StmtPtrT< SamplerDecl >;
+		using ShaderBufferDeclPtr = StmtPtrT< ShaderBufferDecl >;
+		using ShaderStructBufferDeclPtr = StmtPtrT< ShaderStructBufferDecl >;
+		using SimplePtr = StmtPtrT< Simple >;
+		using SpecialisationConstantDeclPtr = StmtPtrT< SpecialisationConstantDecl >;
+		using StructureDeclPtr = StmtPtrT< StructureDecl >;
+		using SwitchPtr = StmtPtrT< Switch >;
+		using SwitchCasePtr = StmtPtrT< SwitchCase >;
+		using TerminateInvocationPtr = StmtPtrT< TerminateInvocation >;
+		using TerminateRayPtr = StmtPtrT< TerminateRay >;
+		using VariableDeclPtr = StmtPtrT< VariableDecl >;
+		using WhilePtr = StmtPtrT< While >;
+
+		using StmtList = std::vector< StmtPtr >;
+		using ElseIfList = std::vector< ElseIfPtr >;
+
 		using VisitorPtr = Visitor * ;
 	}
 	namespace var

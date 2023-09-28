@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	HitAttributeVariableDecl::HitAttributeVariableDecl( var::VariablePtr variable )
-		: Stmt{ Kind::eHitAttributeVariableDecl }
+	HitAttributeVariableDecl::HitAttributeVariableDecl( StmtCache & stmtCache
+		, var::VariablePtr variable )
+		: Stmt{ stmtCache, sizeof( HitAttributeVariableDecl ), Kind::eHitAttributeVariableDecl }
 		, m_variable{ std::move( variable ) }
 	{
 	}

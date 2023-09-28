@@ -19,7 +19,8 @@ namespace sdw
 	Void::Void( ReturnWrapperT< Void > && rhs )
 		: Void{ *rhs.getWriter(), makeExpr( rhs ), rhs.isEnabled() }
 	{
-		addStmt( *this->getWriter(), makeSimple( makeExpr( *this ) ) );
+		addStmt( *this->getWriter(), sdw::makeSimple( getStmtCache( m_writer )
+			, makeExpr( *this ) ) );
 	}
 
 	Void::Void()

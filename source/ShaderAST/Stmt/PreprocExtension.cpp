@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PreprocExtension::PreprocExtension( std::string name
+	PreprocExtension::PreprocExtension( StmtCache & stmtCache
+		, std::string name
 		, ExtStatus status )
-		: Stmt{ Kind::ePreprocExtension }
+		: Stmt{ stmtCache, sizeof( PreprocExtension ), Kind::ePreprocExtension }
 		, m_name{ std::move( name ) }
 		, m_status{ status }
 	{

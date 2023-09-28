@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	TerminateRay::TerminateRay()
-		: Stmt{ Kind::eTerminateRay }
+	TerminateRay::TerminateRay( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( TerminateRay ), Kind::eTerminateRay }
 	{
 	}
 

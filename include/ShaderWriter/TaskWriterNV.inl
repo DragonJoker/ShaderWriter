@@ -33,9 +33,10 @@ namespace sdw
 	void TaskWriterNV::dispatchMesh( UInt numGroups
 		, TaskPayloadOutNVT< PayloadT > const & payload )
 	{
-		addStmt( sdw::makeSimple( sdw::makeDispatchMeshNV( getTypesCache()
-			, makeExpr( payload )
-			, makeExpr( numGroups ) ) ) );
+		addStmt( sdw::makeSimple( getStmtCache()
+			, sdw::makeDispatchMeshNV( getTypesCache()
+				, makeExpr( payload )
+				, makeExpr( numGroups ) ) ) );
 	}
 
 	//*************************************************************************

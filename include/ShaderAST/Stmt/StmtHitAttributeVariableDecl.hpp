@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit HitAttributeVariableDecl( var::VariablePtr variable );
+		SDAST_API explicit HitAttributeVariableDecl( StmtCache & stmtCache
+			, var::VariablePtr variable );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -25,12 +26,6 @@ namespace ast::stmt
 	private:
 		var::VariablePtr m_variable;
 	};
-	using HitAttributeVariableDeclPtr = std::unique_ptr< HitAttributeVariableDecl >;
-
-	inline HitAttributeVariableDeclPtr makeHitAttributeVariableDecl( var::VariablePtr variable )
-	{
-		return std::make_unique< HitAttributeVariableDecl >( std::move( variable ) );
-	}
 }
 
 #endif

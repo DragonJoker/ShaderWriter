@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Loop
 	{
 	public:
-		SDAST_API For( expr::ExprPtr initExpr
+		SDAST_API For( StmtCache & stmtCache
+			, expr::ExprPtr initExpr
 			, expr::ExprPtr ctrlExpr
 			, expr::ExprPtr incrExpr );
 
@@ -41,16 +42,6 @@ namespace ast::stmt
 		expr::ExprPtr m_ctrlExpr{};
 		expr::ExprPtr m_incrExpr{};
 	};
-	using ForPtr = std::unique_ptr< For >;
-
-	inline ForPtr makeFor( expr::ExprPtr initExpr
-		, expr::ExprPtr ctrlExpr
-		, expr::ExprPtr incrExpr )
-	{
-		return std::make_unique< For >( std::move( initExpr )
-			, std::move( ctrlExpr ) 
-			, std::move( incrExpr ) );
-	}
 }
 
 #endif

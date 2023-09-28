@@ -36,7 +36,7 @@ namespace sdw
 
 			if ( enabled )
 			{
-				sdw::addStmt( writer, sdw::makeStructDecl( result ) );
+				sdw::addStmt( writer, makeStructureDecl( getStmtCache( writer ), result ) );
 			}
 
 			return result;
@@ -70,7 +70,8 @@ namespace sdw
 		if ( isEnabled() )
 		{
 			addStmt( m_writer
-				, sdw::makeShaderStructBufferDecl( m_name
+				, makeShaderStructBufferDecl( getStmtCache( m_writer )
+					, m_name
 					, m_ssboVar
 					, m_dataVar
 					, bind
@@ -105,7 +106,8 @@ namespace sdw
 		if ( isEnabled() )
 		{
 			addStmt( m_writer
-				, sdw::makeShaderStructBufferDecl( m_name
+				, makeShaderStructBufferDecl( getStmtCache( m_writer )
+					, m_name
 					, m_ssboVar
 					, m_dataVar
 					, bind
@@ -155,8 +157,9 @@ namespace sdw
 		if ( isEnabled() )
 		{
 			addStmt( m_writer
-				, sdw::makeSimple( sdw::makeInit( sdw::registerName( m_writer, m_name, m_interface.getType() )
-					, std::move( addressExpr ) ) ) );
+				, sdw::makeSimple( getStmtCache( m_writer )
+					, sdw::makeInit( sdw::registerName( m_writer, m_name, m_interface.getType() )
+						, std::move( addressExpr ) ) ) );
 			registerSsbo( m_writer, m_name, m_info );
 		}
 	}

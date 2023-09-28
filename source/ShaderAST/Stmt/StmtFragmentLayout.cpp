@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	FragmentLayout::FragmentLayout( type::TypePtr type
+	FragmentLayout::FragmentLayout( StmtCache & stmtCache
+		, type::TypePtr type
 		, FragmentOrigin origin
 		, FragmentCenter center )
-		: Stmt{ Kind::eFragmentLayout }
+		: Stmt{ stmtCache, sizeof( FragmentLayout ), Kind::eFragmentLayout }
 		, m_type{ type }
 		, m_origin{ origin }
 		, m_center{ center }

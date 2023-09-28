@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Loop
 	{
 	public:
-		SDAST_API explicit DoWhile( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit DoWhile( StmtCache & stmtCache
+			, expr::ExprPtr ctrlExpr );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -27,12 +28,6 @@ namespace ast::stmt
 	private:
 		expr::ExprPtr m_ctrlExpr{};
 	};
-	using DoWhilePtr = std::unique_ptr< DoWhile >;
-
-	inline DoWhilePtr makeDoWhile( expr::ExprPtr ctrlExpr )
-	{
-		return std::make_unique< DoWhile >( std::move( ctrlExpr ) );
-	}
 }
 
 #endif

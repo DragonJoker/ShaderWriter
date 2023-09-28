@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit VariableDecl( var::VariablePtr variable );
+		SDAST_API explicit VariableDecl( StmtCache & stmtCache
+			, var::VariablePtr variable );
 
 		SDAST_API bool isMember()const;
 
@@ -27,12 +28,6 @@ namespace ast::stmt
 	private:
 		var::VariablePtr m_variable;
 	};
-	using VariableDeclPtr = std::unique_ptr< VariableDecl >;
-
-	inline std::unique_ptr< VariableDecl > makeVariableDecl( var::VariablePtr variable )
-	{
-		return std::make_unique< VariableDecl >( std::move( variable ) );
-	}
 }
 
 #endif

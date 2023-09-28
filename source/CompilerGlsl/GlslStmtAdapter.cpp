@@ -16,18 +16,19 @@ namespace glsl
 {
 	namespace
 	{
-		void doEnableExtension( ast::stmt::ContainerPtr & cont
+		static void doEnableExtension( ast::stmt::StmtCache & stmtCache
+			, ast::stmt::ContainerPtr & cont
 			, GlslExtension const & extension
 			, uint32_t shaderVersion )
 		{
 			if ( extension.coreVersion > shaderVersion )
 			{
-				cont->addStmt( ast::stmt::makePreprocExtension( extension.name
+				cont->addStmt( stmtCache.makePreprocExtension( extension.name
 					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
 		}
 
-		ast::stmt::PerVertexDecl::Source getPerVertexSource( ast::ShaderStage stage
+		static ast::stmt::PerVertexDecl::Source getPerVertexSource( ast::ShaderStage stage
 			, bool isInput )
 		{
 			switch ( stage )
@@ -68,7 +69,7 @@ namespace glsl
 			}
 		}
 
-		ast::type::StructPtr getPerVertexBaseType( ast::type::TypesCache & typesCache
+		static ast::type::StructPtr getPerVertexBaseType( ast::type::TypesCache & typesCache
 			, bool isInput )
 		{
 			auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
@@ -94,7 +95,7 @@ namespace glsl
 			return result;
 		}
 
-		ast::type::ArrayPtr getPerVertexArrayType( ast::type::TypesCache & typesCache
+		static ast::type::ArrayPtr getPerVertexArrayType( ast::type::TypesCache & typesCache
 			, uint32_t count
 			, bool isInput )
 		{
@@ -102,7 +103,7 @@ namespace glsl
 				, count );
 		}
 
-		ast::type::StructPtr getMeshNVPerVertexBaseType( ast::type::TypesCache & typesCache
+		static ast::type::StructPtr getMeshNVPerVertexBaseType( ast::type::TypesCache & typesCache
 			, bool isInput )
 		{
 			auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
@@ -137,7 +138,7 @@ namespace glsl
 			return result;
 		}
 
-		ast::type::ArrayPtr getMeshNVPerVertexArrayType( ast::type::TypesCache & typesCache
+		static ast::type::ArrayPtr getMeshNVPerVertexArrayType( ast::type::TypesCache & typesCache
 			, uint32_t count
 			, bool isInput )
 		{
@@ -145,7 +146,7 @@ namespace glsl
 				, count );
 		}
 
-		ast::type::StructPtr getMeshPerVertexBaseType( ast::type::TypesCache & typesCache
+		static ast::type::StructPtr getMeshPerVertexBaseType( ast::type::TypesCache & typesCache
 			, bool isInput )
 		{
 			auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
@@ -180,7 +181,7 @@ namespace glsl
 			return result;
 		}
 
-		ast::type::ArrayPtr getMeshPerVertexArrayType( ast::type::TypesCache & typesCache
+		static ast::type::ArrayPtr getMeshPerVertexArrayType( ast::type::TypesCache & typesCache
 			, uint32_t count
 			, bool isInput )
 		{
@@ -188,7 +189,7 @@ namespace glsl
 				, count );
 		}
 
-		ast::type::TypePtr getPerVertexType( ast::type::TypesCache & typesCache
+		static ast::type::TypePtr getPerVertexType( ast::type::TypesCache & typesCache
 			, ast::ShaderStage stage
 			, bool isInput
 			, uint32_t maxPoint
@@ -250,7 +251,7 @@ namespace glsl
 			}
 		}
 
-		ast::type::StructPtr getPerPrimitiveNVBaseType( ast::type::TypesCache & typesCache
+		static ast::type::StructPtr getPerPrimitiveNVBaseType( ast::type::TypesCache & typesCache
 			, bool isInput )
 		{
 			auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
@@ -282,7 +283,7 @@ namespace glsl
 			return result;
 		}
 
-		ast::type::ArrayPtr getPerPrimitiveNVArrayType( ast::type::TypesCache & typesCache
+		static ast::type::ArrayPtr getPerPrimitiveNVArrayType( ast::type::TypesCache & typesCache
 			, uint32_t count
 			, bool isInput )
 		{
@@ -290,7 +291,7 @@ namespace glsl
 				, count );
 		}
 
-		ast::type::StructPtr getPerPrimitiveBaseType( ast::type::TypesCache & typesCache
+		static ast::type::StructPtr getPerPrimitiveBaseType( ast::type::TypesCache & typesCache
 			, bool isInput )
 		{
 			auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
@@ -325,7 +326,7 @@ namespace glsl
 			return result;
 		}
 
-		ast::type::ArrayPtr getPerPrimitiveArrayType( ast::type::TypesCache & typesCache
+		static ast::type::ArrayPtr getPerPrimitiveArrayType( ast::type::TypesCache & typesCache
 			, uint32_t count
 			, bool isInput )
 		{
@@ -333,7 +334,7 @@ namespace glsl
 				, count );
 		}
 
-		ast::type::TypePtr getPerPrimitiveType( ast::type::TypesCache & typesCache
+		static ast::type::TypePtr getPerPrimitiveType( ast::type::TypesCache & typesCache
 			, ast::ShaderStage stage
 			, bool isInput
 			, uint32_t maxPrimitives )
@@ -375,12 +376,13 @@ namespace glsl
 		}
 	}
 
-	ast::stmt::ContainerPtr StmtAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::stmt::Container * container
 		, AdaptationData & adaptationData )
 	{
-		auto result = ast::stmt::makeContainer();
+		auto result = stmtCache.makeContainer();
 		auto it = std::find_if ( container->begin()
 			, container->end()
 			, []( ast::stmt::StmtPtr const & lookup )
@@ -390,28 +392,29 @@ namespace glsl
 
 		if ( it == container->end() )
 		{
-			result->addStmt( ast::stmt::makePreprocVersion( writeValue( adaptationData.writerConfig.wantedVersion ) ) );
+			result->addStmt( stmtCache.makePreprocVersion( writeValue( adaptationData.writerConfig.wantedVersion ) ) );
 
 			for ( auto & extension : adaptationData.intrinsicsConfig.requiredExtensions )
 			{
-				doEnableExtension( result, extension, adaptationData.writerConfig.wantedVersion );
+				doEnableExtension( stmtCache, result, extension, adaptationData.writerConfig.wantedVersion );
 			}
 		}
 
-		StmtAdapter vis{ exprCache, typesCache, adaptationData, result.get(), result };
+		StmtAdapter vis{ stmtCache, exprCache, typesCache, adaptationData, result.get(), result };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( ast::expr::ExprCache & exprCache
+	StmtAdapter::StmtAdapter( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * globalsCont
 		, ast::stmt::ContainerPtr & result )
-		: ast::StmtCloner{ exprCache, result }
+		: ast::StmtCloner{ stmtCache, exprCache, result }
 		, m_typesCache{ typesCache }
 		, m_adaptationData{ adaptationData }
-		, m_entryPointFinish{ ast::stmt::makeContainer() }
+		, m_entryPointFinish{ m_stmtCache.makeContainer() }
 		, m_globalsCont{ globalsCont }
 	{
 		if ( m_adaptationData.intrinsicsConfig.requiresRayDescDecl )
@@ -422,7 +425,8 @@ namespace glsl
 	
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( m_exprCache
+		return ExprAdapter::submit( m_stmtCache
+			, m_exprCache
 			, m_typesCache
 			, expr
 			, m_adaptationData
@@ -449,7 +453,7 @@ namespace glsl
 		else
 		{
 			auto save = m_current;
-			auto cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
+			auto cont = m_stmtCache.makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
 				, stmt->getBindingPoint()
 				, InvalidIndex );
@@ -572,7 +576,7 @@ namespace glsl
 	{
 		auto var = stmt->getVariable();
 		declareType( var->getType() );
-		m_globalsCont->addStmt( ast::stmt::makeHitAttributeVariableDecl( var ) );
+		m_globalsCont->addStmt( m_stmtCache.makeHitAttributeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::visitImageDeclStmt( ast::stmt::ImageDecl * stmt )
@@ -583,7 +587,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( ast::stmt::makeImageDecl( stmt->getVariable()
+			m_current->addStmt( m_stmtCache.makeImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, InvalidIndex ) );
 		}
@@ -597,7 +601,7 @@ namespace glsl
 		if ( var->isCallableData() )
 		{
 			var->updateFlag( ast::var::Flag::eShaderOutput );
-			m_globalsCont->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( var
+			m_globalsCont->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( var
 				, stmt->getLocation() ) );
 		}
 		else
@@ -614,7 +618,7 @@ namespace glsl
 		if ( var->isRayPayload() )
 		{
 			var->updateFlag( ast::var::Flag::eShaderOutput );
-			m_globalsCont->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( var
+			m_globalsCont->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( var
 				, stmt->getLocation() ) );
 		}
 		else
@@ -666,13 +670,13 @@ namespace glsl
 
 		if ( m_adaptationData.writerConfig.vulkanGlsl )
 		{
-			cont = ast::stmt::makePushConstantsBufferDecl( stmt->getName()
+			cont = m_stmtCache.makePushConstantsBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout() );
 		}
 		else
 		{
 			// PCB are not supported, implement them as UBO.
-			cont = ast::stmt::makeConstantBufferDecl( stmt->getName()
+			cont = m_stmtCache.makeConstantBufferDecl( stmt->getName()
 				, stmt->getMemoryLayout()
 				, InvalidIndex
 				, InvalidIndex );
@@ -694,7 +698,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( ast::stmt::makeCombinedImageDecl( stmt->getVariable()
+			m_current->addStmt( m_stmtCache.makeCombinedImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, InvalidIndex ) );
 		}
@@ -708,7 +712,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( ast::stmt::makeSampledImageDecl( stmt->getVariable()
+			m_current->addStmt( m_stmtCache.makeSampledImageDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, InvalidIndex ) );
 		}
@@ -729,7 +733,7 @@ namespace glsl
 		else
 		{
 			auto save = m_current;
-			auto cont = ast::stmt::makeShaderBufferDecl( stmt->getVariable()
+			auto cont = m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
 				, stmt->getBindingPoint()
 				, InvalidIndex );
 			m_current = cont.get();
@@ -755,7 +759,7 @@ namespace glsl
 		}
 		else
 		{
-			m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+			m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
 				, stmt->getSsboInstance()
 				, stmt->getData()
 				, stmt->getBindingPoint()
@@ -778,7 +782,7 @@ namespace glsl
 			var = m_adaptationData.aliases.emplace( var
 				, ast::var::makeVariable( { ++m_adaptationData.nextVarId, "pcb_" + var->getName() }
 					, var->getType() ) ).first->second;
-			m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+			m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 		}
 		else
 		{
@@ -788,8 +792,8 @@ namespace glsl
 
 	void StmtAdapter::visitPreprocVersion( ast::stmt::PreprocVersion * preproc )
 	{
-		m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
-		auto cont = ast::stmt::makeContainer();
+		m_result->addStmt( m_stmtCache.makePreprocVersion( preproc->getName() ) );
+		auto cont = m_stmtCache.makeContainer();
 		compileGlslTextureAccessFunctions( cont.get(), m_adaptationData.intrinsicsConfig );
 
 		if ( !cont->empty() )
@@ -806,7 +810,7 @@ namespace glsl
 				&& type->getKind() != ast::type::Kind::eTaskPayloadInNV
 				&& m_declaredStructs.insert( structType->getName() ).second )
 			{
-				m_globalsCont->addStmt( ast::stmt::makeStructureDecl( structType ) );
+				m_globalsCont->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 			}
 		}
 	}
@@ -826,7 +830,7 @@ namespace glsl
 				, true );
 		}
 
-		m_current->addStmt( ast::stmt::makeFragmentLayout( type
+		m_current->addStmt( m_stmtCache.makeFragmentLayout( type
 			, fragType.getOrigin()
 			, fragType.getCenter() ) );
 	}
@@ -846,7 +850,7 @@ namespace glsl
 				, true );
 		}
 
-		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+		m_current->addStmt( m_stmtCache.makeOutputGeometryLayout( type
 			, geomType.getLayout()
 			, geomType.getCount() ) );
 	}
@@ -867,7 +871,7 @@ namespace glsl
 				, true );
 		}
 
-		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
+		m_current->addStmt( m_stmtCache.makeInputGeometryLayout( type
 			, geomType.getLayout() ) );
 	}
 
@@ -887,7 +891,7 @@ namespace glsl
 				, true );
 		}
 
-		m_current->addStmt( ast::stmt::makeOutputTessellationControlLayout( type
+		m_current->addStmt( m_stmtCache.makeOutputTessellationControlLayout( type
 			, tessType.getDomain()
 			, tessType.getPartitioning()
 			, tessType.getTopology()
@@ -960,7 +964,7 @@ namespace glsl
 			{
 				io.othersStructs.emplace( structType, othersVar );
 				declareType( outStructType );
-				m_current->addStmt( ast::stmt::makeInOutVariableDecl( othersVar
+				m_current->addStmt( m_stmtCache.makeInOutVariableDecl( othersVar
 					, patchType.getLocation() ) );
 				io.setMainVar( var );
 			}
@@ -1036,7 +1040,7 @@ namespace glsl
 			{
 				io.othersStructs.emplace( structType, othersVar );
 				declareType( outStructType );
-				m_current->addStmt( ast::stmt::makeInOutVariableDecl( othersVar
+				m_current->addStmt( m_stmtCache.makeInOutVariableDecl( othersVar
 					, patchType.getLocation() ) );
 				io.setMainVar( var );
 			}
@@ -1081,7 +1085,7 @@ namespace glsl
 				, true );
 		}
 
-		m_current->addStmt( ast::stmt::makeInputTessellationEvaluationLayout( tessType.getType()
+		m_current->addStmt( m_stmtCache.makeInputTessellationEvaluationLayout( tessType.getType()
 			, tessType.getDomain()
 			, tessType.getPartitioning()
 			, tessType.getPrimitiveOrdering() ) );
@@ -1097,7 +1101,7 @@ namespace glsl
 		if ( m_meshPrimType )
 		{
 			doProcessMeshOutputs();
-			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+			m_current->addStmt( m_stmtCache.makeOutputMeshLayout( meshType.getType()
 				, m_meshPrimType->getTopology()
 				, m_maxPoint
 				, m_maxPrimitives ) );
@@ -1114,7 +1118,7 @@ namespace glsl
 		if ( m_meshVtxType )
 		{
 			doProcessMeshOutputs();
-			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+			m_current->addStmt( m_stmtCache.makeOutputMeshLayout( meshType.getType()
 				, meshType.getTopology()
 				, m_maxPoint
 				, m_maxPrimitives ) );
@@ -1124,25 +1128,25 @@ namespace glsl
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayloadNV const & meshType )
 	{
-		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayload const & meshType )
 	{
-		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayloadInNV const & meshType )
 	{
-		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
 		, ast::type::TaskPayloadIn const & meshType )
 	{
-		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::doProcess( ast::var::VariablePtr var
@@ -1162,14 +1166,14 @@ namespace glsl
 
 		if ( isMeshNVStage( m_adaptationData.stage ) )
 		{
-			m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
+			m_current->addStmt( m_stmtCache.makeInputComputeLayout( compType.getType()
 				, compType.getLocalSizeX() * compType.getLocalSizeY() * compType.getLocalSizeZ()
 				, 1u
 				, 1u ) );
 		}
 		else
 		{
-			m_current->addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
+			m_current->addStmt( m_stmtCache.makeInputComputeLayout( compType.getType()
 				, compType.getLocalSizeX()
 				, compType.getLocalSizeY()
 				, compType.getLocalSizeZ() ) );
@@ -1299,7 +1303,7 @@ namespace glsl
 
 					if ( declVar && mbr.builtin == ast::Builtin::eNone )
 					{
-						m_current->addStmt( ast::stmt::makeInOutVariableDecl( mbrVar
+						m_current->addStmt( m_stmtCache.makeInOutVariableDecl( mbrVar
 							, mbr.location ) );
 					}
 				}
@@ -1311,7 +1315,7 @@ namespace glsl
 	{
 		auto funcType = m_typesCache.getFunction( m_typesCache.getVoid(), {} );
 		auto save = m_current;
-		auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
+		auto cont = m_stmtCache.makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 
@@ -1343,7 +1347,7 @@ namespace glsl
 				, isInput
 				, m_maxPoint
 				, m_inputLayout );
-			m_current->addStmt( ast::stmt::makePerVertexDecl( getPerVertexSource( m_adaptationData.writerConfig.shaderStage
+			m_current->addStmt( m_stmtCache.makePerVertexDecl( getPerVertexSource( m_adaptationData.writerConfig.shaderStage
 					, isInput )
 				, type ) );
 
@@ -1377,7 +1381,7 @@ namespace glsl
 				, m_adaptationData.writerConfig.shaderStage
 				, isInput
 				, m_maxPrimitives );
-			m_current->addStmt( ast::stmt::makePerPrimitiveDecl( type ) );
+			m_current->addStmt( m_stmtCache.makePerPrimitiveDecl( type ) );
 
 			if ( isInput )
 			{

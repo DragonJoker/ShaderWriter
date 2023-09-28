@@ -13,16 +13,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API TerminateInvocation();
+		SDAST_API TerminateInvocation( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using TerminateInvocationPtr = std::unique_ptr< TerminateInvocation >;
-
-	inline TerminateInvocationPtr makeTerminateInvocation()
-	{
-		return std::make_unique< TerminateInvocation >();
-	}
 }
 
 #endif

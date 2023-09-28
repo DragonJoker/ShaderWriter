@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit Comment( std::string text );
+		SDAST_API explicit Comment( StmtCache & stmtCache
+			, std::string text );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -25,12 +26,6 @@ namespace ast::stmt
 	private:
 		std::string m_text;
 	};
-	using CommentPtr = std::unique_ptr< Comment >;
-
-	inline CommentPtr makeComment( std::string text )
-	{
-		return std::make_unique< Comment >( std::move( text ) );
-	}
 }
 
 #endif

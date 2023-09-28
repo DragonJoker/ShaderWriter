@@ -21,7 +21,8 @@ namespace ast::stmt
 		};
 
 	public:
-		SDAST_API PreprocExtension( std::string name
+		SDAST_API PreprocExtension( StmtCache & stmtCache
+			, std::string name
 			, ExtStatus status );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -40,14 +41,6 @@ namespace ast::stmt
 		std::string m_name;
 		ExtStatus m_status;
 	};
-	using PreprocExtensionPtr = std::unique_ptr< PreprocExtension >;
-
-	inline PreprocExtensionPtr makePreprocExtension( std::string name
-		, PreprocExtension::ExtStatus status )
-	{
-		return std::make_unique< PreprocExtension >( std::move( name )
-			, status );
-	}
 }
 
 #endif

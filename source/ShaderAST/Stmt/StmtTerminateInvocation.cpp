@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	TerminateInvocation::TerminateInvocation()
-		: Stmt{ Kind::eTerminateInvocation }
+	TerminateInvocation::TerminateInvocation( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( TerminateInvocation ), Kind::eTerminateInvocation }
 	{
 	}
 

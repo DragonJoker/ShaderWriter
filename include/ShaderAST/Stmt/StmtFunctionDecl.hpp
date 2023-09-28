@@ -21,7 +21,8 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API FunctionDecl( type::FunctionPtr type
+		SDAST_API FunctionDecl( StmtCache & stmtCache
+			, type::FunctionPtr type
 			, std::string name
 			, uint32_t flags );
 
@@ -65,25 +66,6 @@ namespace ast::stmt
 		std::string m_name;
 		uint32_t m_flags;
 	};
-	using FunctionDeclPtr = std::unique_ptr< FunctionDecl >;
-
-	inline FunctionDeclPtr makeFunctionDecl( type::FunctionPtr type
-		, std::string name
-		, FunctionFlag flag = {} )
-	{
-		return std::make_unique< FunctionDecl >( std::move( type )
-			, std::move( name )
-			, uint32_t( flag ) );
-	}
-
-	inline FunctionDeclPtr makeFunctionDecl( type::FunctionPtr type
-		, std::string name
-		, uint32_t flags )
-	{
-		return std::make_unique< FunctionDecl >( std::move( type )
-			, std::move( name )
-			, flags );
-	}
 
 	inline uint32_t operator|( FunctionFlag const lhs
 		, FunctionFlag const rhs )

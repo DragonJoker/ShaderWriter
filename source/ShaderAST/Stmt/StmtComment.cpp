@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Comment::Comment( std::string text )
-		: Stmt{ Kind::eComment }
+	Comment::Comment( StmtCache & stmtCache
+		, std::string text )
+		: Stmt{ stmtCache, sizeof( Comment ), Kind::eComment }
 		, m_text{ std::move( text ) }
 	{
 	}

@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API SampledImageDecl( var::VariablePtr variable
+		SDAST_API SampledImageDecl( StmtCache & stmtCache
+			, var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
@@ -39,16 +40,6 @@ namespace ast::stmt
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
-	using SampledImageDeclPtr = std::unique_ptr< SampledImageDecl >;
-
-	inline SampledImageDeclPtr makeSampledImageDecl( var::VariablePtr variable
-		, uint32_t bindingPoint
-		, uint32_t bindingSet )
-	{
-		return std::make_unique< SampledImageDecl >( std::move( variable )
-			, bindingPoint
-			, bindingSet );
-	}
 }
 
 #endif

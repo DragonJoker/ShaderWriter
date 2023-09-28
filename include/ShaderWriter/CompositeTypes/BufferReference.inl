@@ -26,11 +26,11 @@ namespace sdw
 			{
 				if ( auto inner = getStructType( getNonArrayType( structType->front().type ) ) )
 				{
-					sdw::addStmt( writer, sdw::makeStructDecl( inner ) );
+					sdw::addStmt( writer, makeStructureDecl( getStmtCache( writer ), inner ) );
 				}
 			}
 
-			sdw::addStmt( writer, sdw::makeBufferReferenceDecl( m_pointer ) );
+			sdw::addStmt( writer, makeBufferReferenceDecl( getStmtCache( writer ), m_pointer ) );
 		}
 	}
 

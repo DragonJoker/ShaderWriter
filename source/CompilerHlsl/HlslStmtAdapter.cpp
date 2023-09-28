@@ -16,26 +16,28 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	ast::stmt::ContainerPtr StmtAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, HlslShader & shader
 		, ast::stmt::Container * container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData )
 	{
-		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ exprCache, shader, intrinsicsConfig, writerConfig, adaptationData, result };
+		auto result = stmtCache.makeContainer();
+		StmtAdapter vis{ stmtCache, exprCache, shader, intrinsicsConfig, writerConfig, adaptationData, result };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( ast::expr::ExprCache & exprCache
+	StmtAdapter::StmtAdapter( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, HlslShader & shader
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData
 		, ast::stmt::ContainerPtr & result )
-		: StmtCloner{ exprCache, result }
+		: StmtCloner{ stmtCache, exprCache, result }
 		, m_intrinsicsConfig{ intrinsicsConfig }
 		, m_writerConfig{ writerConfig }
 		, m_adaptationData{ adaptationData }
@@ -43,21 +45,22 @@ namespace hlsl
 		, m_typesCache{ shader.getTypesCache() }
 	{
 		m_declaredStructs.insert( "RayDesc" );
-		auto cont = ast::stmt::makeContainer();
+		auto cont = m_stmtCache.makeContainer();
 		compileHlslIntrinsicFunctions( cont.get(), m_intrinsicsConfig );
 		compileHlslTextureAccessFunctions( cont.get(), m_intrinsicsConfig );
 		compileHlslImageAccessFunctions( cont.get(), m_intrinsicsConfig );
 		m_intrinsics = cont.get();
 		m_current->addStmt( std::move( cont ) );
 
-		cont = ast::stmt::makeContainer();
+		cont = m_stmtCache.makeContainer();
 		m_inOutDeclarations = cont.get();
 		m_current->addStmt( std::move( cont ) );
 	}
 
 	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::Expr * expr )
 	{
-		return ExprAdapter::submit( m_exprCache
+		return ExprAdapter::submit( m_stmtCache
+			, m_exprCache
 			, m_typesCache
 			, expr
 			, m_current
@@ -115,7 +118,7 @@ namespace hlsl
 						if ( !structType->hasMember( "d" ) )
 						{
 							structType->declMember( "d", hitAttrType.getDataType() );
-							m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+							m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 						}
 
 						auto newType = m_rtCache.getHitAttribute( structType );
@@ -138,7 +141,7 @@ namespace hlsl
 					++it;
 				}
 
-				auto cont = ast::stmt::makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
+				auto cont = m_stmtCache.makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
 					, stmt->getName()
 					, stmt->getFlags() );
 				m_current = cont.get();
@@ -161,7 +164,7 @@ namespace hlsl
 					{
 						// HLSL Amplification payload must be declared as a global.
 						declareType( type );
-						m_inOutDeclarations->addStmt( ast::stmt::makeVariableDecl( *it ) );
+						m_inOutDeclarations->addStmt( m_stmtCache.makeVariableDecl( *it ) );
 					}
 
 					++it;
@@ -171,22 +174,22 @@ namespace hlsl
 
 				auto & typesCache = stmt->getType()->getTypesCache();
 				// Write function content into a temporary container, registering I/O.
-				auto cont = ast::stmt::makeContainer();
+				auto cont = m_stmtCache.makeContainer();
 				auto save = m_current;
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 				m_current = save;
 				// Write main function, with only used parameters.
-				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_declaredStructs ) );
+				m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_stmtCache, m_declaredStructs ) );
 				ast::var::VariableList parameters;
 				auto retType = m_adaptationData.fillParameters( parameters, *m_current );
-				auto mainCont = ast::stmt::makeFunctionDecl( typesCache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
+				auto mainCont = m_stmtCache.makeFunctionDecl( typesCache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
 					, parameters )
 					, stmt->getName()
 					, stmt->getFlags() );
-				mainCont->addStmt( m_adaptationData.writeLocalesBegin() );
+				mainCont->addStmt( m_adaptationData.writeLocalesBegin( m_stmtCache ) );
 				mainCont->addStmt( std::move( cont ) );
-				mainCont->addStmt( m_adaptationData.writeLocalesEnd() );
+				mainCont->addStmt( m_adaptationData.writeLocalesEnd( m_stmtCache ) );
 				m_current->addStmt( std::move( mainCont ) );
 				m_adaptationData.updateCurrentEntryPoint( nullptr );
 			}
@@ -219,7 +222,7 @@ namespace hlsl
 			if ( !structType->hasMember( "d" ) )
 			{
 				structType->declMember( "d", hitAttrType.getDataType() );
-				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+				m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 			}
 
 			auto newType = m_rtCache.getHitAttribute( structType );
@@ -237,7 +240,7 @@ namespace hlsl
 
 		if ( m_writerConfig.shaderStage == ast::ShaderStage::eRayIntersection )
 		{
-			m_current->addStmt( ast::stmt::makeHitAttributeVariableDecl( var ) );
+			m_current->addStmt( m_stmtCache.makeHitAttributeVariableDecl( var ) );
 		}
 	}
 
@@ -258,7 +261,7 @@ namespace hlsl
 			if ( !structType->hasMember( "d" ) )
 			{
 				structType->declMember( "d", callDataType.getDataType() );
-				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+				m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 			}
 
 			auto newType = m_rtCache.getCallableData( structType
@@ -277,7 +280,7 @@ namespace hlsl
 
 		if ( stmt->getVariable()->isCallableData() )
 		{
-			m_current->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( var
+			m_current->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( var
 				, stmt->getLocation() ) );
 		}
 	}
@@ -299,7 +302,7 @@ namespace hlsl
 			if ( !structType->hasMember( "d" ) )
 			{
 				structType->declMember( "d", rayPayloadType.getDataType() );
-				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+				m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 			}
 
 			auto newType = m_rtCache.getRayPayload( structType
@@ -318,7 +321,7 @@ namespace hlsl
 
 		if ( var->isRayPayload() )
 		{
-			m_current->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( var
+			m_current->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( var
 				, stmt->getLocation() ) );
 		}
 	}
@@ -406,7 +409,7 @@ namespace hlsl
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
 			textureVar->updateFlag( ast::var::Flag::eImplicit );
-			m_current->addStmt( ast::stmt::makeImageDecl( textureVar
+			m_current->addStmt( m_stmtCache.makeImageDecl( textureVar
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() ) );
 		}
@@ -418,7 +421,7 @@ namespace hlsl
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
 			textureVar->updateFlag( ast::var::Flag::eImplicit );
-			m_current->addStmt( ast::stmt::makeImageDecl( textureVar
+			m_current->addStmt( m_stmtCache.makeImageDecl( textureVar
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() ) );
 
@@ -428,7 +431,7 @@ namespace hlsl
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() );
 			samplerVar->updateFlag( ast::var::Flag::eImplicit );
-			m_current->addStmt( ast::stmt::makeSamplerDecl( samplerVar
+			m_current->addStmt( m_stmtCache.makeSamplerDecl( samplerVar
 				, stmt->getBindingPoint()
 				, stmt->getDescriptorSet() ) );
 
@@ -442,7 +445,7 @@ namespace hlsl
 		auto ssboVar = stmt->getVariable();
 		declareType( ssboVar->getType() );
 		m_adaptationData.ssboList.push_back( ssboVar );
-		m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+		m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
 			, ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, ssboVar->getType()
 				, ssboVar->getName() + "Inst" )
@@ -471,7 +474,7 @@ namespace hlsl
 	{
 		declareType( stmt->getData()->getType() );
 		m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
-		m_current->addStmt( ast::stmt::makeShaderStructBufferDecl( stmt->getSsboName()
+		m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
 			, stmt->getSsboInstance()
 			, stmt->getData()
 			, stmt->getBindingPoint()
@@ -487,7 +490,7 @@ namespace hlsl
 	{
 		auto var = stmt->getVariable();
 		declareType( var->getType() );
-		m_current->addStmt( ast::stmt::makeVariableDecl( var ) );
+		m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 	}
 
 	void StmtAdapter::visitPreprocExtension( ast::stmt::PreprocExtension * preproc )
@@ -510,20 +513,20 @@ namespace hlsl
 			mainRetType = retType;
 		}
 
-		auto cont = ast::stmt::makeFunctionDecl( m_typesCache.getFunction( mainRetType, mainParameters )
+		auto cont = m_stmtCache.makeFunctionDecl( m_typesCache.getFunction( mainRetType, mainParameters )
 			, stmt->getName()
 			, stmt->getFlags() );
-		cont->addStmt( m_adaptationData.writeLocalesBegin() );
+		cont->addStmt( m_adaptationData.writeLocalesBegin( m_stmtCache ) );
 
 		// Call SDW_main function.
-		cont->addStmt( ast::stmt::makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
+		cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
 			, m_exprCache.makeIdentifier( m_typesCache
 				, ast::var::makeFunction( ++m_adaptationData.nextVarId
 					, m_typesCache.getFunction( m_typesCache.getVoid(), ast::var::VariableList{} )
 					, "SDW_" + stmt->getName() ) )
 			, ast::expr::ExprList{} ) ) );
 
-		cont->addStmt( m_adaptationData.writeLocalesEnd() );
+		cont->addStmt( m_adaptationData.writeLocalesEnd( m_stmtCache ) );
 
 		m_current->addStmt( std::move( cont ) );
 	}
@@ -549,7 +552,7 @@ namespace hlsl
 			}
 		}
 
-		return ast::stmt::makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
+		return m_stmtCache.makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
 			, stmt->getName()
 			, stmt->getFlags() );
 	}
@@ -560,7 +563,7 @@ namespace hlsl
 		{
 			if ( m_declaredStructs.insert( structType->getName() ).second )
 			{
-				m_inOutDeclarations->addStmt( ast::stmt::makeStructureDecl( structType ) );
+				m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 			}
 		}
 	}

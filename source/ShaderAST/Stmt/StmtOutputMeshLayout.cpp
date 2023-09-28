@@ -7,11 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	OutputMeshLayout::OutputMeshLayout( type::TypePtr type
+	OutputMeshLayout::OutputMeshLayout( StmtCache & stmtCache
+		, type::TypePtr type
 		, type::OutputTopology topology
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives )
-		: Stmt{ Kind::eOutputMeshLayout }
+		: Stmt{ stmtCache, sizeof( OutputMeshLayout ), Kind::eOutputMeshLayout }
 		, m_type{ std::move( type ) }
 		, m_topology{ topology }
 		, m_maxVertices{ maxVertices }

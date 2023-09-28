@@ -14,7 +14,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit BufferReferenceDecl( type::TypePtr type );
+		SDAST_API explicit BufferReferenceDecl( StmtCache & stmtCache
+			, type::TypePtr type );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -26,12 +27,6 @@ namespace ast::stmt
 	private:
 		type::TypePtr m_type;
 	};
-	using BufferReferenceDeclPtr = std::unique_ptr< BufferReferenceDecl >;
-
-	inline BufferReferenceDeclPtr makeBufferReferenceDecl( type::TypePtr type )
-	{
-		return std::make_unique< BufferReferenceDecl >( std::move( type ) );
-	}
 }
 
 #endif

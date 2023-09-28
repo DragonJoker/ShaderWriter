@@ -17,7 +17,8 @@ namespace ast::stmt
 	public:
 		static constexpr uint32_t Uninit = ~( 0u );
 
-		SDAST_API InputComputeLayout( type::TypePtr type
+		SDAST_API InputComputeLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, uint32_t workGroupsX
 			, uint32_t workGroupsY 
 			, uint32_t workGroupsZ );
@@ -50,18 +51,6 @@ namespace ast::stmt
 		uint32_t m_workGroupsY{ Uninit };
 		uint32_t m_workGroupsZ{ Uninit };
 	};
-	using InputComputeLayoutPtr = std::unique_ptr< InputComputeLayout >;
-
-	inline InputComputeLayoutPtr makeInputComputeLayout( type::TypePtr type
-		, uint32_t workGroupsX
-		, uint32_t workGroupsY
-		, uint32_t workGroupsZ )
-	{
-		return std::make_unique< InputComputeLayout >( type
-			, workGroupsX
-			, workGroupsY
-			, workGroupsZ );
-	}
 }
 
 #endif

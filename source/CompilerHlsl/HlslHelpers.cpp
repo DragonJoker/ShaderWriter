@@ -266,7 +266,7 @@ namespace hlsl
 		{
 			if ( declaredStructs.emplace( structType->getName() ).second )
 			{
-				stmt.addStmt( ast::stmt::makeStructureDecl( structType ) );
+				stmt.addStmt( stmt.getStmtCache().makeStructureDecl( structType ) );
 			}
 		}
 
@@ -1573,7 +1573,7 @@ namespace hlsl
 			{
 				for ( auto & builtin : unsupportedBuiltins )
 				{
-					stmt.addStmt( ast::stmt::makeVariableDecl( ast::var::makeVariable( builtin->getEntityName()
+					stmt.addStmt( stmt.getStmtCache().makeVariableDecl( ast::var::makeVariable( builtin->getEntityName()
 						, builtin->getType()
 						, builtin->getFlags() | ast::var::Flag::eStatic ) ) );
 				}
@@ -1608,14 +1608,14 @@ namespace hlsl
 		case hlsl::IOMappingMode::eLocalReturn:
 			if ( !paramStruct->empty() )
 			{
-				stmt.addStmt( ast::stmt::makeVariableDecl( paramVar ) );
+				stmt.addStmt( stmt.getStmtCache().makeVariableDecl( paramVar ) );
 			}
 			break;
 		case hlsl::IOMappingMode::eLocalSeparateVar:
 			if ( separateVar && !isInput )
 			{
 				assert( mainVar == separateVar );
-				stmt.addStmt( ast::stmt::makeVariableDecl( separateVar ) );
+				stmt.addStmt( stmt.getStmtCache().makeVariableDecl( separateVar ) );
 			}
 			break;
 		}
@@ -1633,7 +1633,7 @@ namespace hlsl
 		case hlsl::IOMappingMode::eLocalReturn:
 			if ( !paramStruct->empty() )
 			{
-				stmt.addStmt( ast::stmt::makeReturn( exprCache.makeIdentifier( typesCache
+				stmt.addStmt( stmt.getStmtCache().makeReturn( exprCache.makeIdentifier( typesCache
 					, paramVar ) ) );
 			}
 			break;
@@ -1672,7 +1672,7 @@ namespace hlsl
 		if ( paramVar->getType()->getKind() == ast::type::Kind::eComputeInput )
 		{
 			auto & compType = static_cast< ast::type::ComputeInput const & >( *paramVar->getType() );
-			stmt.addStmt( ast::stmt::makeInputComputeLayout( compType.getType()
+			stmt.addStmt( stmt.getStmtCache().makeInputComputeLayout( compType.getType()
 				, compType.getLocalSizeX()
 				, compType.getLocalSizeY()
 				, compType.getLocalSizeZ() ) );
@@ -2735,9 +2735,10 @@ namespace hlsl
 		}
 	}
 
-	ast::stmt::ContainerPtr AdaptationData::writeGlobals( std::unordered_set< std::string > & declaredStructs )
+	ast::stmt::ContainerPtr AdaptationData::writeGlobals( ast::stmt::StmtCache & stmtCache
+		, std::unordered_set< std::string > & declaredStructs )
 	{
-		auto cont = ast::stmt::makeContainer();
+		auto cont = stmtCache.makeContainer();
 		assert( m_currentRoutine );
 
 		if ( m_currentRoutine == m_mainEntryPoint )
@@ -2757,9 +2758,9 @@ namespace hlsl
 		return cont;
 	}
 
-	ast::stmt::ContainerPtr AdaptationData::writeLocalesBegin()
+	ast::stmt::ContainerPtr AdaptationData::writeLocalesBegin( ast::stmt::StmtCache & stmtCache )
 	{
-		auto cont = ast::stmt::makeContainer();
+		auto cont = stmtCache.makeContainer();
 		assert( m_currentRoutine );
 
 		if ( m_currentRoutine == m_mainEntryPoint )
@@ -2776,9 +2777,9 @@ namespace hlsl
 		return cont;
 	}
 
-	ast::stmt::ContainerPtr AdaptationData::writeLocalesEnd()
+	ast::stmt::ContainerPtr AdaptationData::writeLocalesEnd( ast::stmt::StmtCache & stmtCache )
 	{
-		auto cont = ast::stmt::makeContainer();
+		auto cont = stmtCache.makeContainer();
 		assert( m_currentRoutine );
 
 		if ( m_currentRoutine == m_mainEntryPoint )
@@ -3149,7 +3150,7 @@ namespace hlsl
 		if ( stmt
 			&& m_declaredStructs.emplace( structType ).second )
 		{
-			stmt->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			stmt->addStmt( stmt->getStmtCache().makeStructureDecl( structType ) );
 		}
 	}
 

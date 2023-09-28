@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/Boolean.hpp"
 
+#include <ShaderAST/Stmt/StmtCache.hpp>
+
 namespace sdw
 {
 	//*************************************************************************
@@ -33,7 +35,8 @@ namespace sdw
 	{
 		ShaderWriter & writer = findWriterMandat( *this, rhs );
 		addStmt( writer
-			, sdw::makeSimple( sdw::makeAssign( getType()
+			, sdw::makeSimple( getStmtCache( m_writer )
+				, sdw::makeAssign( getType()
 				, makeExpr( writer, *this )
 				, makeExpr( writer, rhs ) ) ) );
 		return *this;

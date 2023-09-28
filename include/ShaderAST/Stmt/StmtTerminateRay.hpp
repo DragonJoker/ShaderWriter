@@ -15,16 +15,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API TerminateRay();
+		SDAST_API TerminateRay( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using TerminateRayPtr = std::unique_ptr< TerminateRay >;
-
-	inline TerminateRayPtr makeTerminateRay()
-	{
-		return std::make_unique< TerminateRay >();
-	}
 }
 
 #endif

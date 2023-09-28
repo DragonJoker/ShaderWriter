@@ -26,11 +26,11 @@ namespace sdw
 	{
 		if ( auto structType = getStructType( this->getType() ) )
 		{
-			addGlobalStmt( writer, sdw::makeStructDecl( structType ) );
+			addGlobalStmt( writer, makeStructureDecl( getStmtCache( writer ), structType ) );
 		}
 
 		addGlobalStmt( writer
-			, sdw::makeInOutCallableDataVariableDecl( ast::findIdentifier( this->getExpr() )->getVariable(), location ) );
+			, makeInOutCallableDataVariableDecl( getStmtCache( writer ), ast::findIdentifier( this->getExpr() )->getVariable(), location ) );
 	}
 
 	template< ast::var::Flag FlagT, typename ValueT >

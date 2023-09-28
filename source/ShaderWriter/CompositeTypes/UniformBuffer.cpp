@@ -20,7 +20,7 @@ namespace sdw
 		, bool enabled )
 		: m_writer{ writer }
 		, m_shader{ m_writer.getShader() }
-		, m_stmt{ stmt::makeConstantBufferDecl( variableName, layout, bind, set ) }
+		, m_stmt{ getStmtCache( m_writer ).makeConstantBufferDecl( variableName, layout, bind, set ) }
 		, m_name{ std::move( variableName ) }
 		, m_interface{ m_writer.getTypesCache(), layout, std::move( blockName ) }
 		, m_info{ m_interface.getType(), bind, set }
@@ -47,7 +47,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
+			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
 
 		return StructInstance{ m_writer
@@ -65,7 +65,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
+			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
 
 		return Array< StructInstance >{ m_writer

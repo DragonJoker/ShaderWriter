@@ -15,13 +15,15 @@ namespace ast
 		: public StmtCloner
 	{
 	public:
-		SDAST_API static stmt::ContainerPtr submit( expr::ExprCache & exprCache
+		SDAST_API static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
+			, expr::ExprCache & exprCache
 			, type::TypesCache & typesCache
 			, stmt::Container * container
 			, SpecialisationInfo const & specialisation );
 
 	private:
-		SDAST_API StmtSpecialiser( expr::ExprCache & exprCache
+		SDAST_API StmtSpecialiser( stmt::StmtCache & stmtCache
+			, expr::ExprCache & exprCache
 			, type::TypesCache & typesCache
 			, SpecialisationInfo const & specialisation
 			, stmt::ContainerPtr & result );

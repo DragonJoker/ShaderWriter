@@ -976,6 +976,11 @@ namespace sdw
 			return *m_shader;
 		}
 
+		inline ast::stmt::StmtCache & getStmtCache()const
+		{
+			return m_shader->getStmtCache();
+		}
+
 		inline ast::expr::ExprCache & getExprCache()const
 		{
 			return m_shader->getExprCache();

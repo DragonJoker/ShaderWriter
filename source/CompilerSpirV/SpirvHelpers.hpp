@@ -181,7 +181,7 @@ namespace spirv
 		void fillModule( Module & module )const;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
-		ast::stmt::ContainerPtr declare();
+		ast::stmt::ContainerPtr declare( ast::stmt::StmtCache & stmtCache );
 		void addInputVar( ast::var::VariablePtr var
 			, uint32_t location );
 		void addOutputVar( ast::var::VariablePtr var

@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Continue::Continue()
-		: Stmt{ Kind::eContinue }
+	Continue::Continue( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( Continue ), Kind::eContinue }
 	{
 	}
 

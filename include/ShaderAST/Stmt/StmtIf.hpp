@@ -16,7 +16,8 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API explicit If( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit If( StmtCache & stmtCache
+			, expr::ExprPtr ctrlExpr );
 
 		SDAST_API Else * createElse();
 		SDAST_API ElseIf * createElseIf( expr::ExprPtr ctrlExpr );
@@ -43,12 +44,6 @@ namespace ast::stmt
 		ElsePtr m_else;
 		ElseIfList m_elseIfs;
 	};
-	using IfPtr = std::unique_ptr< If >;
-
-	inline IfPtr makeIf( expr::ExprPtr ctrlExpr )
-	{
-		return std::make_unique< If >( std::move( ctrlExpr ) );
-	}
 }
 
 #endif

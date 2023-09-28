@@ -24,12 +24,12 @@ namespace sdw
 		, m_shader{ &m_writer->getShader() }
 		, m_type{ std::move( type ) }
 	{
-		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
+		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
 	}
 
 	void Struct::end()
 	{
-		addStmt( *m_writer, sdw::makeStructDecl( m_type ) );
+		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
 	}
 
 	bool Struct::hasMember( std::string name )const

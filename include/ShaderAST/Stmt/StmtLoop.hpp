@@ -13,7 +13,9 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API explicit Loop( Kind kind );
+		SDAST_API explicit Loop( StmtCache & stmtCache
+			, size_t size
+			, Kind kind );
 	};
 }
 

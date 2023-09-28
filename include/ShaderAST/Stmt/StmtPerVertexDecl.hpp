@@ -27,7 +27,8 @@ namespace ast::stmt
 		};
 
 	public:
-		SDAST_API PerVertexDecl( Source source
+		SDAST_API PerVertexDecl( StmtCache & stmtCache
+			, Source source
 			, type::TypePtr type );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -46,14 +47,6 @@ namespace ast::stmt
 		Source m_source;
 		type::TypePtr m_type;
 	};
-	using PerVertexDeclPtr = std::unique_ptr< PerVertexDecl >;
-
-	inline PerVertexDeclPtr makePerVertexDecl( PerVertexDecl::Source source
-		, type::TypePtr type )
-	{
-		return std::make_unique< PerVertexDecl >( source
-			, std::move( type ) );
-	}
 }
 
 #endif

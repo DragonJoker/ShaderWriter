@@ -14,7 +14,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API SpecialisationConstantDecl( var::VariablePtr variable
+		SDAST_API SpecialisationConstantDecl( StmtCache & stmtCache
+			, var::VariablePtr variable
 			, uint32_t location
 			, expr::LiteralPtr value );
 
@@ -40,16 +41,6 @@ namespace ast::stmt
 		uint32_t m_location;
 		expr::LiteralPtr m_value{};
 	};
-	using SpecialisationConstantDeclPtr = std::unique_ptr< SpecialisationConstantDecl >;
-
-	inline SpecialisationConstantDeclPtr makeSpecialisationConstantDecl( var::VariablePtr variable
-		, uint32_t location
-		, expr::LiteralPtr value )
-	{
-		return std::make_unique< SpecialisationConstantDecl >( std::move( variable )
-			, location
-			, std::move( value ) );
-	}
 }
 
 #endif
