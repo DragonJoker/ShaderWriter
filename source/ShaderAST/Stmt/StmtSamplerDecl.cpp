@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	SamplerDecl::SamplerDecl( var::VariablePtr variable
+	SamplerDecl::SamplerDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Stmt{ Kind::eSamplerDecl }
+		: Stmt{ stmtCache, sizeof( SamplerDecl ), Kind::eSamplerDecl }
 		, m_variable{ std::move( variable ) }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }

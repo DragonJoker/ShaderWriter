@@ -23,14 +23,17 @@ namespace spirv
 		spirv::Module compileSpirV( ast::Shader const & shader
 			, SpirVConfig & config )
 		{
-			ast::expr::ExprCache compileCache{ ast::expr::CacheMode::eArena };
+			ast::stmt::StmtCache compileStmtCache{ ast::CacheMode::eArena };
+			ast::expr::ExprCache compileExprCache{ ast::CacheMode::eArena };
 			ast::SSAData ssaData;
 			ssaData.nextVarId = shader.getData().nextVarId;
-			auto statements = ast::transformSSA( compileCache
+			auto statements = ast::transformSSA( compileStmtCache
+				, compileExprCache
 				, shader.getTypesCache()
 				, shader.getStatements()
 				, ssaData );
-			statements = ast::simplify( compileCache
+			statements = ast::simplify( compileStmtCache
+				, compileExprCache
 				, shader.getTypesCache()
 				, statements.get() );
 			ModuleConfig moduleConfig{ config
@@ -42,16 +45,18 @@ namespace spirv
 				, moduleConfig );
 			spirv::PreprocContext context{};
 			AdaptationData adaptationData{ context, std::move( moduleConfig ) };
-			statements = spirv::StmtAdapter::submit( compileCache
+			statements = spirv::StmtAdapter::submit( compileStmtCache
+				, compileExprCache
 				, shader.getTypesCache()
 				, statements.get()
 				, adaptationData );
 			// Simplify again, since adaptation can introduce complexity
-			statements = ast::simplify( compileCache
+			statements = ast::simplify( compileStmtCache
+				, compileExprCache
 				, shader.getTypesCache()
 				, statements.get() );
 			auto actions = listActions( statements.get() );
-			return spirv::StmtVisitor::submit( compileCache
+			return spirv::StmtVisitor::submit( compileExprCache
 				, shader.getTypesCache()
 				, statements.get()
 				, shader.getType()

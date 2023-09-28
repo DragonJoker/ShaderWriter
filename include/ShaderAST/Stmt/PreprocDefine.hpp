@@ -13,13 +13,15 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API PreprocDefine( EntityName nameId
+		SDAST_API PreprocDefine( StmtCache & stmtCache
+			, EntityName nameId
 			, expr::ExprPtr expr );
 
-		PreprocDefine( uint32_t id
+		PreprocDefine( StmtCache & stmtCache
+			, uint32_t id
 			, std::string name
 			, expr::ExprPtr expr )
-			: PreprocDefine{ { id, std::move( name ) }, std::move( expr ) }
+			: PreprocDefine{ stmtCache, { id, std::move( name ) }, std::move( expr ) }
 		{
 		}
 
@@ -44,23 +46,6 @@ namespace ast::stmt
 		EntityName m_nameId;
 		expr::ExprPtr m_expr{};
 	};
-	using PreprocDefinePtr = std::unique_ptr< PreprocDefine >;
-
-	inline PreprocDefinePtr makePreprocDefine( EntityName nameId
-		, std::string name
-		, expr::ExprPtr expr )
-	{
-		return std::make_unique< PreprocDefine >( std::move( nameId )
-			, std::move( expr ) );
-	}
-
-	inline PreprocDefinePtr makePreprocDefine( uint32_t id
-		, std::string name
-		, expr::ExprPtr expr )
-	{
-		return std::make_unique< PreprocDefine >( EntityName{ id, std::move( name ) }
-			, std::move( expr ) );
-	}
 }
 
 #endif

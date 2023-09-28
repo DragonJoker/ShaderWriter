@@ -16,14 +16,14 @@ namespace ast::stmt
 	{
 		friend class PreprocIf;
 		friend class PreprocIfDef;
+		friend class StmtCache;
 
 	private:
-		SDAST_API PreprocElse();
+		SDAST_API PreprocElse( StmtCache & stmtCache );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using PreprocElsePtr = std::unique_ptr< PreprocElse >;
 }
 
 #endif

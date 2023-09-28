@@ -7,12 +7,13 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	ShaderStructBufferDecl::ShaderStructBufferDecl( std::string ssboName
+	ShaderStructBufferDecl::ShaderStructBufferDecl( StmtCache & stmtCache
+		, std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Stmt{ Kind::eShaderStructBufferDecl }
+		: Stmt{ stmtCache, sizeof( ShaderStructBufferDecl ), Kind::eShaderStructBufferDecl }
 		, m_ssboName{ std::move( ssboName ) }
 		, m_ssboInstance{ std::move( ssboInstance ) }
 		, m_data{ std::move( data ) }

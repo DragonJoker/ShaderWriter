@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API FragmentLayout( type::TypePtr type
+		SDAST_API FragmentLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, FragmentOrigin origin
 			, FragmentCenter center );
 
@@ -41,16 +42,6 @@ namespace ast::stmt
 		FragmentOrigin m_origin{ FragmentOrigin::eUpperLeft };
 		FragmentCenter m_center{ FragmentCenter::eHalfPixel };
 	};
-	using FragmentLayoutPtr = std::unique_ptr< FragmentLayout >;
-
-	inline FragmentLayoutPtr makeFragmentLayout( type::TypePtr type
-		, FragmentOrigin origin
-		, FragmentCenter center )
-	{
-		return std::make_unique< FragmentLayout >( type
-			, origin
-			, center );
-	}
 }
 
 #endif

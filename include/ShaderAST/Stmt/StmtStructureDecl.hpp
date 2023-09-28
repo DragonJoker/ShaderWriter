@@ -16,7 +16,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit StructureDecl( type::StructPtr type );
+		SDAST_API explicit StructureDecl( StmtCache & stmtCache
+			, type::StructPtr type );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -28,12 +29,6 @@ namespace ast::stmt
 	private:
 		type::StructPtr m_type;
 	};
-	using StructureDeclPtr = std::unique_ptr< StructureDecl >;
-
-	inline StructureDeclPtr makeStructureDecl( type::StructPtr type )
-	{
-		return std::make_unique< StructureDecl >( std::move( type ) );
-	}
 }
 
 #endif

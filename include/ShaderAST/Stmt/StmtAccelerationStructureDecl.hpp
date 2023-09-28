@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API AccelerationStructureDecl( var::VariablePtr variable
+		SDAST_API AccelerationStructureDecl( StmtCache & stmtCache
+			, var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
@@ -39,16 +40,6 @@ namespace ast::stmt
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
-	using AccelerationStructureDeclPtr = std::unique_ptr< AccelerationStructureDecl >;
-
-	inline AccelerationStructureDeclPtr makeAccelerationStructureDecl( var::VariablePtr variable
-		, uint32_t bindingPoint
-		, uint32_t bindingSet )
-	{
-		return std::make_unique< AccelerationStructureDecl >( std::move( variable )
-			, bindingPoint
-			, bindingSet );
-	}
 }
 
 #endif

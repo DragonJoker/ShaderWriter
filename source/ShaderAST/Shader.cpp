@@ -44,8 +44,9 @@ namespace ast
 	Shader::Shader( ast::ShaderStage type )
 		: m_type{ type }
 		, m_typesCache{ std::make_unique< ast::type::TypesCache >() }
+		, m_stmtCache{ std::make_unique< ast::stmt::StmtCache >() }
 		, m_exprCache{ std::make_unique< ast::expr::ExprCache >() }
-		, m_container{ stmt::makeContainer() }
+		, m_container{ m_stmtCache->makeContainer() }
 	{
 		push( m_container.get(), ast::var::VariableList{} );
 	}

@@ -16,9 +16,11 @@ namespace ast::stmt
 		: public Compound
 	{
 		friend class If;
+		friend class StmtCache;
 
 	private:
-		SDAST_API explicit ElseIf( expr::ExprPtr ctrlExpr );
+		SDAST_API explicit ElseIf( StmtCache & stmtCache
+			, expr::ExprPtr ctrlExpr );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -31,8 +33,6 @@ namespace ast::stmt
 	private:
 		expr::ExprPtr m_ctrlExpr{};
 	};
-	using ElseIfPtr = std::unique_ptr< ElseIf >;
-	using ElseIfList = std::vector< ElseIfPtr >;
 }
 
 #endif

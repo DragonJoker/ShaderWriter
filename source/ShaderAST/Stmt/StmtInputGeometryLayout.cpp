@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InputGeometryLayout::InputGeometryLayout( type::TypePtr type
+	InputGeometryLayout::InputGeometryLayout( StmtCache & stmtCache
+		, type::TypePtr type
 		, type::InputLayout layout )
-		: Stmt{ Kind::eInputGeometryLayout }
+		: Stmt{ stmtCache, sizeof( InputGeometryLayout ), Kind::eInputGeometryLayout }
 		, m_type{ std::move( type ) }
 		, m_layout{ layout }
 	{

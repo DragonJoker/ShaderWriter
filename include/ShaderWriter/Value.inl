@@ -385,9 +385,10 @@ namespace sdw
 			}
 
 			addStmt( writer
-				, sdw::makeSimple( creator( ReturnT::makeType( getTypesCache( writer ) )
-					, std::move( lhsExpr )
-					, std::move( rhsExpr ) ) ) );
+				, sdw::makeSimple( getStmtCache( writer )
+					, creator( ReturnT::makeType( getTypesCache( writer ) )
+						, std::move( lhsExpr )
+						, std::move( rhsExpr ) ) ) );
 		}
 	}
 

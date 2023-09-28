@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	VariableDecl::VariableDecl( var::VariablePtr variable )
-		: Stmt{ Kind::eVariableDecl }
+	VariableDecl::VariableDecl( StmtCache & stmtCache
+		, var::VariablePtr variable )
+		: Stmt{ stmtCache, sizeof( VariableDecl ), Kind::eVariableDecl }
 		, m_variable{ std::move( variable ) }
 	{
 	}

@@ -15,7 +15,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
+			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
 
 		return ValueT{ m_writer
@@ -37,7 +37,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
+			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
 
 		return Array< ValueT >{ m_writer
@@ -58,7 +58,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( stmt::makeVariableDecl( var ) );
+			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
 
 		return Array< ValueT >{ m_writer

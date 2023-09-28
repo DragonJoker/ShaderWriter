@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	AccelerationStructureDecl::AccelerationStructureDecl( var::VariablePtr variable
+	AccelerationStructureDecl::AccelerationStructureDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Stmt{ Kind::eAccelerationStructureDecl }
+		: Stmt{ stmtCache, sizeof( AccelerationStructureDecl ), Kind::eAccelerationStructureDecl }
 		, m_variable{ std::move( variable ) }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }

@@ -17,10 +17,12 @@ namespace ast::stmt
 		: public Compound
 	{
 		friend class Switch;
+		friend class StmtCache;
 
 	private:
-		SDAST_API explicit SwitchCase( expr::SwitchCasePtr caseExpr );
-		SDAST_API SwitchCase();
+		SDAST_API explicit SwitchCase( StmtCache & stmtCache
+			, expr::SwitchCasePtr caseExpr );
+		SDAST_API SwitchCase( StmtCache & stmtCache );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -33,7 +35,6 @@ namespace ast::stmt
 	private:
 		expr::SwitchCasePtr m_caseExpr{};
 	};
-	using SwitchCasePtr = std::unique_ptr< SwitchCase >;
 }
 
 #endif

@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API InputTessellationEvaluationLayout( type::TypePtr type
+		SDAST_API InputTessellationEvaluationLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, type::PatchDomain domain
 			, type::Partitioning partitioning
 			, type::PrimitiveOrdering order );
@@ -48,18 +49,6 @@ namespace ast::stmt
 		type::Partitioning m_partitioning;
 		type::PrimitiveOrdering m_order;
 	};
-	using InputTessellationEvaluationLayoutPtr = std::unique_ptr< InputTessellationEvaluationLayout >;
-
-	inline InputTessellationEvaluationLayoutPtr makeInputTessellationEvaluationLayout( type::TypePtr type
-		, type::PatchDomain domain
-		, type::Partitioning partitioning
-		, type::PrimitiveOrdering order )
-	{
-		return std::make_unique< InputTessellationEvaluationLayout >( std::move( type )
-			, domain
-			, partitioning
-			, order );
-	}
 }
 
 #endif

@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprNotEqual.hpp>
 #include <ShaderAST/Expr/ExprQuestion.hpp>
 #include <ShaderAST/Expr/ExprSwizzle.hpp>
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Stmt/StmtStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtVariableDecl.hpp>
@@ -1060,7 +1061,7 @@ namespace spirv
 					, type
 					, flags );
 				m_processed.push_back( it->second );
-				cont->addStmt( ast::stmt::makeInOutVariableDecl( it->second
+				cont->addStmt( cont->getStmtCache().makeInOutVariableDecl( it->second
 					, location ) );
 			}
 
@@ -1077,7 +1078,7 @@ namespace spirv
 				, type
 				, flags );
 			m_processed.push_back( it->second );
-			cont->addStmt( ast::stmt::makeInOutVariableDecl( it->second
+			cont->addStmt( cont->getStmtCache().makeInOutVariableDecl( it->second
 				, location ) );
 		}
 
@@ -1604,9 +1605,9 @@ namespace spirv
 		}
 	}
 
-	ast::stmt::ContainerPtr ModuleConfig::declare()
+	ast::stmt::ContainerPtr ModuleConfig::declare( ast::stmt::StmtCache & stmtCache )
 	{
-		auto cont = ast::stmt::makeContainer();
+		auto cont = stmtCache.makeContainer();
 		inputs.declare( *cont );
 		outputs.declare( *cont );
 		return cont;

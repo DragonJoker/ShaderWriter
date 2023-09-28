@@ -3,28 +3,31 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/StmtSpecialiser.hpp"
 
+#include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/ExprSpecialiser.hpp"
 
 #include <algorithm>
 
 namespace ast
 {
-	stmt::ContainerPtr StmtSpecialiser::submit( expr::ExprCache & exprCache
+	stmt::ContainerPtr StmtSpecialiser::submit( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * container
 		, SpecialisationInfo const & specialisation )
 	{
-		auto result = stmt::makeContainer();
-		StmtSpecialiser vis{ exprCache, typesCache, specialisation, result };
+		auto result = stmtCache.makeContainer();
+		StmtSpecialiser vis{ stmtCache, exprCache, typesCache, specialisation, result };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtSpecialiser::StmtSpecialiser( expr::ExprCache & exprCache
+	StmtSpecialiser::StmtSpecialiser( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, SpecialisationInfo const & specialisation
 		, stmt::ContainerPtr & result )
-		: StmtCloner{ exprCache, result }
+		: StmtCloner{ stmtCache, exprCache, result }
 		, m_typesCache{ typesCache }
 		, m_specialisation{ specialisation }
 	{

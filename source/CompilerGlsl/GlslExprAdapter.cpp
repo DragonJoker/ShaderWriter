@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include "GlslCombinedImageAccessConfig.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 
@@ -144,33 +145,37 @@ namespace glsl
 		}
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::expr::ExprPtr ExprAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::expr::Expr * expr
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container )
 	{
 		ast::expr::ExprPtr result{};
-		ExprAdapter vis{ exprCache, typesCache, adaptationData, container, result };
+		ExprAdapter vis{ stmtCache, exprCache, typesCache, adaptationData, container, result };
 		expr->accept( &vis );
 		return result;
 	}
 
-	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::expr::ExprPtr ExprAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::expr::ExprPtr const & expr
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container )
 	{
-		return submit( exprCache, typesCache, expr.get(), adaptationData, container );
+		return submit( stmtCache, exprCache, typesCache, expr.get(), adaptationData, container );
 	}
 
-	ExprAdapter::ExprAdapter( ast::expr::ExprCache & exprCache
+	ExprAdapter::ExprAdapter( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, AdaptationData & adaptationData
 		, ast::stmt::Container * container
 		, ast::expr::ExprPtr & result )
 		: ExprCloner{ exprCache, result }
+		, m_stmtCache{ stmtCache }
 		, m_typesCache{ typesCache }
 		, m_adaptationData{ adaptationData }
 		, m_container{ container }
@@ -180,7 +185,7 @@ namespace glsl
 	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
 	{
 		ast::expr::ExprPtr result{};
-		ExprAdapter vis{ m_exprCache, m_typesCache, m_adaptationData, m_container, result };
+		ExprAdapter vis{ m_stmtCache, m_exprCache, m_typesCache, m_adaptationData, m_container, result };
 		expr->accept( &vis );
 
 		if ( expr->isNonUniform() )
@@ -276,7 +281,7 @@ namespace glsl
 
 						if ( componentCount >= 2u )
 						{
-							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+							m_container->addStmt( m_stmtCache.makeSimple( std::move( m_result ) ) );
 							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 								, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
 								, m_exprCache.makeAdd( m_typesCache.getUInt32()
@@ -290,7 +295,7 @@ namespace glsl
 
 						if ( componentCount >= 3u )
 						{
-							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+							m_container->addStmt( m_stmtCache.makeSimple( std::move( m_result ) ) );
 							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 								, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
 								, m_exprCache.makeAdd( m_typesCache.getUInt32()

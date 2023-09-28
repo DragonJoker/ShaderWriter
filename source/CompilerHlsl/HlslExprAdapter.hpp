@@ -19,7 +19,8 @@ namespace hlsl
 		friend struct Routine;
 
 	public:
-		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
+		static ast::expr::ExprPtr submit( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, ast::expr::Expr * expr
 			, ast::stmt::Container * container
@@ -28,7 +29,8 @@ namespace hlsl
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * intrinsics
 			, bool preventVarTypeReplacement );
-		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
+		static ast::expr::ExprPtr submit( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, ast::expr::ExprPtr const & expr
 			, ast::stmt::Container * container
@@ -39,7 +41,8 @@ namespace hlsl
 			, bool preventVarTypeReplacement );
 
 	private:
-		ExprAdapter( ast::expr::ExprCache & exprCache
+		ExprAdapter( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, ast::expr::ExprPtr & result
 			, ast::stmt::Container * container
@@ -105,6 +108,7 @@ namespace hlsl
 			, ast::expr::Expr & packed );
 
 	private:
+		ast::stmt::StmtCache & m_stmtCache;
 		ast::type::TypesCache & m_typesCache;
 		ast::stmt::Container * m_container;
 		IntrinsicsConfig const & m_intrinsicsConfig;

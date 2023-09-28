@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Simple::Simple( expr::ExprPtr expr )
-		: Stmt{ Kind::eSimple }
+	Simple::Simple( StmtCache & stmtCache
+		, expr::ExprPtr expr )
+		: Stmt{ stmtCache, sizeof( Simple ), Kind::eSimple }
 		, m_expr{ std::move( expr ) }
 	{
 	}

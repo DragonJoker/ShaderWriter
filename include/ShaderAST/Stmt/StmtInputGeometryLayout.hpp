@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API InputGeometryLayout( type::TypePtr type
+		SDAST_API InputGeometryLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, type::InputLayout layout );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -34,14 +35,6 @@ namespace ast::stmt
 		type::TypePtr m_type;
 		type::InputLayout m_layout;
 	};
-	using InputGeometryLayoutPtr = std::unique_ptr< InputGeometryLayout >;
-
-	inline InputGeometryLayoutPtr makeInputGeometryLayout( type::TypePtr type
-		, type::InputLayout layout )
-	{
-		return std::make_unique< InputGeometryLayout >( std::move( type )
-			, layout );
-	}
 }
 
 #endif

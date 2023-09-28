@@ -16,7 +16,8 @@ namespace ast::stmt
 		: public Container
 	{
 	public:
-		SDAST_API explicit PreprocIfDef( expr::IdentifierPtr identExpr );
+		SDAST_API explicit PreprocIfDef( StmtCache & stmtCache
+			, expr::IdentifierPtr identExpr );
 
 		SDAST_API PreprocElse * createElse();
 		SDAST_API PreprocElif * createElif( expr::ExprPtr ctrlExpr );
@@ -43,12 +44,6 @@ namespace ast::stmt
 		PreprocElsePtr m_else;
 		StmtList m_elifs;
 	};
-	using PreprocIfDefPtr = std::unique_ptr< PreprocIfDef >;
-
-	inline PreprocIfDefPtr makePreprocIfDef( expr::IdentifierPtr identExpr )
-	{
-		return std::make_unique< PreprocIfDef >( std::move( identExpr ) );
-	}
 }
 
 #endif

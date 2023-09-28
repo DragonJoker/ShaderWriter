@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit PreprocVersion( std::string name );
+		SDAST_API explicit PreprocVersion( StmtCache & stmtCache
+			, std::string name );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -25,12 +26,6 @@ namespace ast::stmt
 	private:
 		std::string m_name;
 	};
-	using PreprocVersionPtr = std::unique_ptr< PreprocVersion >;
-
-	inline PreprocVersionPtr makePreprocVersion( std::string name )
-	{
-		return std::make_unique< PreprocVersion >( std::move( name ) );
-	}
 }
 
 #endif

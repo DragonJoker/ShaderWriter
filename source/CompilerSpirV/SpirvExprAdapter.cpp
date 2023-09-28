@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include "SpirvMakeAccessChain.hpp"
 
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
@@ -156,7 +157,7 @@ namespace spirv
 
 						if ( componentCount >= 2u )
 						{
-							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+							m_container->addStmt( m_container->getStmtCache().makeSimple( std::move( m_result ) ) );
 							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 								, ExprCloner::submit( m_exprCache, builtinExpr )
 								, m_exprCache.makeAdd( m_typesCache.getUInt32()
@@ -170,7 +171,7 @@ namespace spirv
 
 						if ( componentCount >= 3u )
 						{
-							m_container->addStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+							m_container->addStmt( m_container->getStmtCache().makeSimple( std::move( m_result ) ) );
 							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 								, ExprCloner::submit( m_exprCache, builtinExpr )
 								, m_exprCache.makeAdd( m_typesCache.getUInt32()

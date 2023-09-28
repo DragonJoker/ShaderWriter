@@ -7,13 +7,15 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Compound::Compound( Kind kind )
-		: Container{ kind }
+	Compound::Compound( StmtCache & stmtCache
+		, size_t size
+		, Kind kind )
+		: Container{ stmtCache, size, kind }
 	{
 	}
 	
-	Compound::Compound()
-		: Compound{ Kind::eCompound }
+	Compound::Compound( StmtCache & stmtCache )
+		: Compound{ stmtCache, sizeof( Compound ), Kind::eCompound }
 	{
 	}
 

@@ -26,7 +26,7 @@ namespace sdw
 	{
 		auto result = TypeT::makeType( getTypesCache()
 			, std::forward< ParamsT >( params )... );
-		addGlobalStmt( sdw::makeStructDecl( result ) );
+		addGlobalStmt( makeStructureDecl( getStmtCache(), result ) );
 		return result;
 	}
 	/**@}*/
@@ -185,7 +185,7 @@ namespace sdw
 	template< typename RetType >
 	void ShaderWriter::returnStmt( RetType const & value )
 	{
-		addStmt( sdw::makeReturn( makeExpr( *this, value ) ) );
+		addStmt( makeReturn( getStmtCache(), makeExpr( *this, value ) ) );
 	}
 
 	template< typename ExprType >
@@ -263,8 +263,9 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeConstExpr( *this, rhs ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeConstExpr( *this, rhs ) ) ) );
 		}
 
 		return T{ *this
@@ -290,8 +291,9 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
-				, makeConstExpr( *this, rhs ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeAggrInit( var
+					, makeConstExpr( *this, rhs ) ) ) );
 		}
 
 		return Array< T >{ *this
@@ -329,7 +331,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSamplerDecl( var
+			addStmt( makeSamplerDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -369,7 +372,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSamplerDecl( var
+			addStmt( makeSamplerDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -515,7 +519,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSampledImgDecl( var
+			addStmt( makeSampledImageDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -561,7 +566,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSampledImgDecl( var
+			addStmt( makeSampledImageDecl( getStmtCache()
+				 ,var
 				, binding
 				, set ) );
 		}
@@ -729,7 +735,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeCombinedImageDecl( var
+			addStmt( makeCombinedImageDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -777,7 +784,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeCombinedImageDecl( var
+			addStmt( makeCombinedImageDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -952,7 +960,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeImageDecl( var
+			addStmt( makeImageDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -1000,7 +1009,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeImageDecl( var
+			addStmt( makeImageDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}
@@ -1188,7 +1198,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutVariableDecl( var
+			addStmt( makeInOutVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1234,7 +1244,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutVariableDecl( var
+			addStmt( makeInOutVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1280,15 +1290,16 @@ namespace sdw
 				, location
 				, attributes
 				, type );
-			addStmt( sdw::makeInOutVariableDecl( var
+			addStmt( makeInOutVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 		else
 		{
 			var = registerStaticConstant( std::move( name )
 				, type );
-			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeConstExpr( *this, defaultValue ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeConstExpr( *this, defaultValue ) ) ) );
 		}
 
 		return T{ *this
@@ -1337,15 +1348,16 @@ namespace sdw
 				, location
 				, attributes
 				, type );
-			addStmt( sdw::makeInOutVariableDecl( var
+			addStmt( makeInOutVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 		else
 		{
 			var = registerStaticConstant( std::move( name )
 				, type );
-			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
-				, makeConstExpr( *this, defaultValue ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeAggrInit( var
+					, makeConstExpr( *this, defaultValue ) ) ) );
 		}
 
 		return Array< T >{ *this
@@ -1373,7 +1385,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addGlobalStmt( sdw::makeVariableDecl( var ) );
+			addGlobalStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return T{ *this
@@ -1396,7 +1408,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addGlobalStmt( sdw::makeVariableDecl( var ) );
+			addGlobalStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return Array< T >{ *this
@@ -1420,7 +1432,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addGlobalStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( makeStructureDecl( getStmtCache(), structType ) );
 		}
 
 		auto var = registerName( std::move( name )
@@ -1429,7 +1441,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutRayPayloadVariableDecl( var
+			addStmt( makeInOutRayPayloadVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1447,7 +1459,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addGlobalStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( makeStructureDecl( getStmtCache(), structType ) );
 		}
 
 		auto var = registerInOut( std::move( name )
@@ -1456,7 +1468,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutRayPayloadVariableDecl( var
+			addStmt( makeInOutRayPayloadVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1474,7 +1486,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addGlobalStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( makeStructureDecl( getStmtCache(), structType ) );
 		}
 
 		auto var = registerName( std::move( name )
@@ -1483,7 +1495,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutCallableDataVariableDecl( var
+			addStmt( makeInOutCallableDataVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1501,7 +1513,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addGlobalStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( makeStructureDecl( getStmtCache(), structType ) );
 		}
 
 		auto var = registerInOut( std::move( name )
@@ -1510,7 +1522,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutCallableDataVariableDecl( var
+			addStmt( makeInOutCallableDataVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1527,7 +1539,7 @@ namespace sdw
 
 		if ( auto structType = getStructType( type ) )
 		{
-			addGlobalStmt( sdw::makeStructDecl( structType ) );
+			addGlobalStmt( makeStructureDecl( getStmtCache(), structType ) );
 		}
 
 		auto var = registerInOut( std::move( name )
@@ -1536,7 +1548,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeHitAttributeVariableDecl( var ) );
+			addStmt( makeHitAttributeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return HitAttributeT< T >{ *this
@@ -1750,7 +1762,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutVariableDecl( var
+			addStmt( makeInOutVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1796,7 +1808,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeInOutVariableDecl( var
+			addStmt( makeInOutVariableDecl( getStmtCache(), var
 				, location ) );
 		}
 
@@ -1830,7 +1842,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeVariableDecl( var ) );
+			addStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return T{ *this
@@ -1857,8 +1869,9 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeExpr( *this, rhs ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeExpr( *this, rhs ) ) ) );
 		}
 
 		return T{ *this
@@ -1877,7 +1890,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeVariableDecl( var ) );
+			addStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return T{ *this
@@ -1896,12 +1909,13 @@ namespace sdw
 
 		if ( !enabled )
 		{
-			addStmt( sdw::makeVariableDecl( var ) );
+			addStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 		else
 		{
-			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeConstExpr( *this, defaultValue ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeConstExpr( *this, defaultValue ) ) ) );
 		}
 
 		return T{ *this
@@ -1921,7 +1935,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeVariableDecl( var ) );
+			addStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return Array< T >{ *this
@@ -1948,8 +1962,9 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
-				, makeExpr( *this, rhs ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeAggrInit( var
+					, makeExpr( *this, rhs ) ) ) );
 		}
 
 		return Array< T >{ *this
@@ -1976,8 +1991,9 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( sdw::makeInit( var
-				, makeExpr( *this, rhs ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeExpr( *this, rhs ) ) ) );
 		}
 
 		return Array< T >{ *this
@@ -1998,12 +2014,13 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeVariableDecl( var ) );
+			addStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 		else
 		{
-			addStmt( sdw::makeSimple( sdw::makeAggrInit( var
-				, makeConstExpr( *this, defaultValue ) ) ) );
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeAggrInit( var
+					, makeConstExpr( *this, defaultValue ) ) ) );
 		}
 
 		return Array< T >{ *this
@@ -2047,7 +2064,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeVariableDecl( var ) );
+			addStmt( makeVariableDecl( getStmtCache(), var ) );
 		}
 
 		return std::make_unique< DerivedT >( *this

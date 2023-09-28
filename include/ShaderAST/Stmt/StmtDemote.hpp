@@ -13,16 +13,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API Demote();
+		SDAST_API Demote( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using DemotePtr = std::unique_ptr< Demote >;
-
-	inline DemotePtr makeDemote()
-	{
-		return std::make_unique< Demote >();
-	}
 }
 
 #endif

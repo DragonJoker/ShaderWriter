@@ -13,16 +13,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API PreprocEndif();
+		SDAST_API PreprocEndif( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using PreprocEndifPtr = std::unique_ptr< PreprocEndif >;
-
-	inline PreprocEndifPtr makePreprocEndif()
-	{
-		return std::make_unique< PreprocEndif >();
-	}
 }
 
 #endif

@@ -15,16 +15,10 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API IgnoreIntersection();
+		SDAST_API IgnoreIntersection( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using IgnoreIntersectionPtr = std::unique_ptr< IgnoreIntersection >;
-
-	inline IgnoreIntersectionPtr makeIgnoreIntersection()
-	{
-		return std::make_unique< IgnoreIntersection >();
-	}
 }
 
 #endif

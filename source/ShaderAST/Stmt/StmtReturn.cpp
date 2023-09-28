@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Return::Return( expr::ExprPtr expr )
-		: Stmt{ Kind::eReturn }
+	Return::Return( StmtCache & stmtCache
+		, expr::ExprPtr expr )
+		: Stmt{ stmtCache, sizeof( Return ), Kind::eReturn }
 		, m_expr{ std::move( expr ) }
 	{
 	}

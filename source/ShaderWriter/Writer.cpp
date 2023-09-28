@@ -129,23 +129,23 @@ namespace sdw
 	void ShaderWriter::demote()
 	{
 		assert( m_shader->getType() == ast::ShaderStage::eFragment );
-		addStmt( stmt::makeDemote() );
+		addStmt( getStmtCache().makeDemote() );
 	}
 
 	void ShaderWriter::terminate()
 	{
 		assert( m_shader->getType() == ast::ShaderStage::eFragment );
-		addStmt( stmt::makeTerminateInvocation() );
+		addStmt( getStmtCache().makeTerminateInvocation() );
 	}
 
 	void ShaderWriter::returnStmt()
 	{
-		addStmt( stmt::makeReturn() );
+		addStmt( makeReturn( getStmtCache() ) );
 	}
 
 	void ShaderWriter::pushScope()
 	{
-		doPushScope( stmt::makeContainer() );
+		doPushScope( getStmtCache().makeContainer() );
 	}
 
 	void ShaderWriter::popScope()
@@ -170,7 +170,7 @@ namespace sdw
 		, expr::ExprPtr incr
 		, std::function< void() > function )
 	{
-		doPushScope( stmt::makeFor( makeExpr( *this, init )
+		doPushScope( getStmtCache().makeFor( makeExpr( *this, init )
 			, makeExpr( *this, cond )
 			, makeExpr( *this, incr ) ) );
 		function();
@@ -180,7 +180,7 @@ namespace sdw
 	void ShaderWriter::doWhileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		doPushScope( stmt::makeDoWhile( std::move( condition ) ) );
+		doPushScope( getStmtCache().makeDoWhile( std::move( condition ) ) );
 		function();
 		popScope();
 	}
@@ -194,7 +194,7 @@ namespace sdw
 	void ShaderWriter::whileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		doPushScope( stmt::makeWhile( std::move( condition ) ) );
+		doPushScope( getStmtCache().makeWhile( std::move( condition ) ) );
 		function();
 		popScope();
 	}
@@ -208,7 +208,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeIf( std::move( condition ) );
+		auto stmt = getStmtCache().makeIf( std::move( condition ) );
 		m_ifStmt.push_back( stmt.get() );
 		doPushScope( std::move( stmt ) );
 		function();
@@ -255,7 +255,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::switchStmt( expr::ExprPtr value
 		, std::function< void() > function )
 	{
-		auto stmt = stmt::makeSwitch( getExprCache().makeSwitchTest( std::move( value ) ) );
+		auto stmt = getStmtCache().makeSwitch( getExprCache().makeSwitchTest( std::move( value ) ) );
 		m_switchStmt.push_back( stmt.get() );
 		doPushScope( std::move( stmt ) );
 		function();
@@ -280,17 +280,17 @@ namespace sdw
 
 	void ShaderWriter::caseBreakStmt()
 	{
-		addStmt( ast::stmt::makeBreak( true ) );
+		addStmt( getStmtCache().makeBreak( true ) );
 	}
 
 	void ShaderWriter::loopBreakStmt()
 	{
-		addStmt( ast::stmt::makeBreak( false ) );
+		addStmt( getStmtCache().makeBreak( false ) );
 	}
 
 	void ShaderWriter::loopContinueStmt()
 	{
-		addStmt( ast::stmt::makeContinue() );
+		addStmt( getStmtCache().makeContinue() );
 	}
 
 #pragma region Constant declaration
@@ -372,7 +372,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -394,7 +395,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -416,7 +418,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -438,7 +441,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -460,7 +464,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -482,7 +487,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -504,7 +510,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -526,7 +533,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -548,7 +556,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -570,7 +579,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -592,7 +602,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSpecConstantDecl( var
+			addStmt( makeSpecialisationConstantDecl( getStmtCache()
+				, var
 				, location
 				, getExprCache().makeLiteral( getTypesCache(), rhs ) ) );
 		}
@@ -615,7 +626,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeAccelerationStructureDecl( var
+			addStmt( makeAccelerationStructureDecl( getStmtCache()
+				, var
 				, binding
 				, set ) );
 		}

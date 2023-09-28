@@ -23,11 +23,11 @@ namespace sdw
 	{
 		if ( auto structType = getStructType( this->getType() ) )
 		{
-			addStmt( writer, sdw::makeStructDecl( structType ) );
+			addStmt( writer, makeStructureDecl( getStmtCache( writer ), structType ) );
 		}
 
 		addStmt( writer
-			, sdw::makeHitAttributeVariableDecl( ast::findIdentifier( this->getExpr() )->getVariable() ) );
+			, makeHitAttributeVariableDecl( getStmtCache( writer ), ast::findIdentifier( this->getExpr() )->getVariable() ) );
 	}
 
 	template< typename ValueT >

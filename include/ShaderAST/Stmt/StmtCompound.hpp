@@ -13,19 +13,15 @@ namespace ast::stmt
 		: public Container
 	{
 	protected:
-		SDAST_API explicit Compound( Kind kind );
+		SDAST_API explicit Compound( StmtCache & stmtCache
+			, size_t size
+			, Kind kind );
 
 	public:
-		SDAST_API Compound();
+		SDAST_API Compound( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using CompoundPtr = std::unique_ptr< Compound >;
-
-	inline std::unique_ptr< Compound > makeCompound()
-	{
-		return std::make_unique< Compound >();
-	}
 }
 
 #endif

@@ -21,7 +21,8 @@ namespace sdw
 
 		if ( writeStmt )
 		{
-			getShader()->addStmt( sdw::makeSimple( makeExpr( *this ) ) );
+			getShader()->addStmt( sdw::makeSimple( getStmtCache( m_writer )
+				, makeExpr( *this ) ) );
 		}
 	}
 

@@ -15,19 +15,22 @@ namespace glsl
 		: public ast::ExprCloner
 	{
 	public:
-		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
+		static ast::expr::ExprPtr submit( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, ast::expr::Expr * expr
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * container );
-		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
+		static ast::expr::ExprPtr submit( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & cache
 			, ast::expr::ExprPtr const & expr
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * container );
 
 	private:
-		ExprAdapter( ast::expr::ExprCache & exprCache
+		ExprAdapter( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
 			, AdaptationData & adaptationData
 			, ast::stmt::Container * container
@@ -59,6 +62,7 @@ namespace glsl
 			, uint64_t mbrFlags );
 
 	private:
+		ast::stmt::StmtCache & m_stmtCache;
 		ast::type::TypesCache & m_typesCache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_container;

@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	IgnoreIntersection::IgnoreIntersection()
-		: Stmt{ Kind::eIgnoreIntersection }
+	IgnoreIntersection::IgnoreIntersection( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( IgnoreIntersection ), Kind::eIgnoreIntersection }
 	{
 	}
 

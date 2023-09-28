@@ -14,7 +14,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit PerPrimitiveDecl( type::TypePtr type );
+		SDAST_API explicit PerPrimitiveDecl( StmtCache & stmtCache
+			, type::TypePtr type );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -26,12 +27,6 @@ namespace ast::stmt
 	private:
 		type::TypePtr m_type;
 	};
-	using PerPrimitiveDeclPtr = std::unique_ptr< PerPrimitiveDecl >;
-
-	inline PerPrimitiveDeclPtr makePerPrimitiveDecl( type::TypePtr type )
-	{
-		return std::make_unique< PerPrimitiveDecl >( std::move( type ) );
-	}
 }
 
 #endif

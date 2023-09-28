@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InOutRayPayloadVariableDecl::InOutRayPayloadVariableDecl( var::VariablePtr variable
+	InOutRayPayloadVariableDecl::InOutRayPayloadVariableDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t location )
-		: Stmt{ Kind::eInOutRayPayloadVariableDecl }
+		: Stmt{ stmtCache, sizeof( InOutRayPayloadVariableDecl ), Kind::eInOutRayPayloadVariableDecl }
 		, m_variable{ std::move( variable ) }
 		, m_location{ location }
 	{

@@ -16,7 +16,8 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API PushConstantsBufferDecl( std::string name
+		SDAST_API PushConstantsBufferDecl( StmtCache & stmtCache
+			, std::string name
 			, type::MemoryLayout layout );
 		SDAST_API void add( VariableDeclPtr decl );
 
@@ -39,14 +40,6 @@ namespace ast::stmt
 		std::string m_name;
 		type::MemoryLayout m_layout;
 	};
-	using PushConstantsBufferDeclPtr = std::unique_ptr< PushConstantsBufferDecl >;
-
-	inline PushConstantsBufferDeclPtr makePushConstantsBufferDecl( std::string name
-		, type::MemoryLayout layout )
-	{
-		return std::make_unique< PushConstantsBufferDecl >( std::move( name )
-			, layout );
-	}
 }
 
 #endif

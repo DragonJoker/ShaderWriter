@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API InOutRayPayloadVariableDecl( var::VariablePtr variable
+		SDAST_API InOutRayPayloadVariableDecl( StmtCache & stmtCache
+			, var::VariablePtr variable
 			, uint32_t location );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -32,14 +33,6 @@ namespace ast::stmt
 		var::VariablePtr m_variable;
 		uint32_t m_location;
 	};
-	using InOutRayPayloadVariableDeclPtr = std::unique_ptr< InOutRayPayloadVariableDecl >;
-
-	inline InOutRayPayloadVariableDeclPtr makeInOutRayPayloadVariableDecl( var::VariablePtr variable
-		, uint32_t location )
-	{
-		return std::make_unique< InOutRayPayloadVariableDecl >( std::move( variable )
-			, location );
-	}
 }
 
 #endif

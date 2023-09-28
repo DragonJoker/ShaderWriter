@@ -72,17 +72,34 @@ namespace ast::stmt
 	class Stmt
 	{
 	public:
-		SDAST_API explicit Stmt( Kind kind );
+		SDAST_API explicit Stmt( StmtCache & stmtCache
+			, size_t size
+			, Kind kind );
 		SDAST_API virtual ~Stmt()noexcept = default;
 
 		SDAST_API virtual void accept( VisitorPtr ) = 0;
 
-		inline Kind getKind()const
+		Kind getKind()const
 		{
 			return m_kind;
 		}
 
+		StmtCache & getStmtCache()const noexcept
+		{
+			return m_stmtCache;
+		}
+
 	private:
+		friend class StmtCache;
+
+		size_t getSize()const noexcept
+		{
+			return m_size;
+		}
+
+	private:
+		StmtCache & m_stmtCache;
+		size_t m_size;
 		Kind m_kind;
 	};
 }

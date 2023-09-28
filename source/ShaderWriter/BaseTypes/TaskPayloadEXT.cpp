@@ -21,7 +21,8 @@ namespace sdw
 		, UInt32 taskCountY
 		, UInt32 taskCountZ )const
 	{
-		getWriter()->addStmt( makeDispatchMesh( makeExpr( taskCountX )
+		getWriter()->addStmt( makeDispatchMesh( getStmtCache( m_plWriter )
+			, makeExpr( taskCountX )
 			, makeExpr( taskCountY )
 			, makeExpr( taskCountZ )
 			, makeExpr( *this ) ) );

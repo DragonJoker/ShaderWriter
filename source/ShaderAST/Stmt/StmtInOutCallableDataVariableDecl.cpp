@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InOutCallableDataVariableDecl::InOutCallableDataVariableDecl( var::VariablePtr variable
+	InOutCallableDataVariableDecl::InOutCallableDataVariableDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t location )
-		: Stmt{ Kind::eInOutCallableDataVariableDecl }
+		: Stmt{ stmtCache, sizeof( InOutCallableDataVariableDecl ), Kind::eInOutCallableDataVariableDecl }
 		, m_variable{ std::move( variable ) }
 		, m_location{ location }
 	{

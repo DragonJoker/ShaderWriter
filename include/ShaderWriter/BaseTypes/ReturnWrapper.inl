@@ -35,7 +35,8 @@ namespace sdw
 			if ( expr->getKind() != ast::expr::Kind::eIdentifier
 				&& expr->getKind() != ast::expr::Kind::eLiteral )
 			{
-				addStmt( *this->getWriter(), makeSimple( std::move( expr ) ) );
+				addStmt( *this->getWriter()
+					, sdw::makeSimple( getStmtCache( *this->getWriter() ), std::move( expr ) ) );
 			}
 		}
 	}

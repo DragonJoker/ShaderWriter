@@ -105,6 +105,31 @@ namespace sdw
 		return ++shader.getData().nextVarId;
 	}
 
+	ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer )
+	{
+		return writer.getStmtCache();
+	}
+
+	ast::stmt::StmtCache & getStmtCache( ShaderWriter * writer )
+	{
+		return writer->getStmtCache();
+	}
+
+	ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer )
+	{
+		return writer.getStmtCache();
+	}
+
+	ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer )
+	{
+		return writer->getStmtCache();
+	}
+
+	ast::stmt::StmtCache & getStmtCache( Shader const & shader )
+	{
+		return shader.getStmtCache();
+	}
+
 	expr::ExprCache & getExprCache( ShaderWriter & writer )
 	{
 		return writer.getExprCache();
@@ -842,181 +867,209 @@ namespace sdw
 			, std::move( numTasks ) );
 	}
 
-	stmt::StmtPtr makeSimple( expr::ExprPtr expr )
+	stmt::StmtPtr makeSimple( stmt::StmtCache & stmtCache
+		, expr::ExprPtr expr )
 	{
-		return stmt::makeSimple( std::move( expr ) );
+		return stmtCache.makeSimple( std::move( expr ) );
 	}
 
-	stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
+	stmt::StmtPtr makePerVertexDecl( stmt::StmtCache & stmtCache
+		, stmt::PerVertexDecl::Source source
 		, type::TypePtr type )
 	{
-		return stmt::makePerVertexDecl( source, std::static_pointer_cast< type::Struct >( type ) );
+		return stmtCache.makePerVertexDecl( source, std::static_pointer_cast< type::Struct >( type ) );
 	}
 
-	stmt::StmtPtr makeStructDecl( type::StructPtr type )
+	stmt::StmtPtr makeStructureDecl( stmt::StmtCache & stmtCache
+		, type::StructPtr type )
 	{
-		return stmt::makeStructureDecl( std::move( type ) );
+		return stmtCache.makeStructureDecl( std::move( type ) );
 	}
 
-	stmt::StmtPtr makeShaderStructBufferDecl( std::string ssboName
+	stmt::StmtPtr makeShaderStructBufferDecl( stmt::StmtCache & stmtCache
+		, std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeShaderStructBufferDecl( std::move( ssboName )
+		return stmtCache.makeShaderStructBufferDecl( std::move( ssboName )
 			, ssboInstance
 			, data
 			, bindingPoint
 			, bindingSet );
 	}
 
-	stmt::StmtPtr makeBufferReferenceDecl( type::TypePtr type )
+	stmt::StmtPtr makeBufferReferenceDecl( stmt::StmtCache & stmtCache
+		, type::TypePtr type )
 	{
-		return stmt::makeBufferReferenceDecl( type );
+		return stmtCache.makeBufferReferenceDecl( type );
 	}
 
-	stmt::StmtPtr makeReturn( expr::ExprPtr expr )
+	stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache
+		, expr::ExprPtr expr )
 	{
-		return stmt::makeReturn( std::move( expr ) );
+		return stmtCache.makeReturn( std::move( expr ) );
 	}
 
-	stmt::StmtPtr makePreprocDefine( Shader & shader
+	stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache )
+	{
+		return stmtCache.makeReturn();
+	}
+
+	stmt::StmtPtr makePreprocDefine( stmt::StmtCache & stmtCache
+		, Shader & shader
 		, std::string name
 		, expr::ExprPtr expr )
 	{
-		return stmt::makePreprocDefine( getNextVarId( shader )
+		return stmtCache.makePreprocDefine( getNextVarId( shader )
 			, std::move( name )
 			, std::move( expr ) );
 	}
 
-	stmt::StmtPtr makeVariableDecl( var::VariablePtr var )
+	stmt::StmtPtr makeVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var )
 	{
-		return stmt::makeVariableDecl( std::move( var ) );
+		return stmtCache.makeVariableDecl( std::move( var ) );
 	}
 
-	stmt::StmtPtr makeHitAttributeVariableDecl( var::VariablePtr var )
+	stmt::StmtPtr makeHitAttributeVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var )
 	{
-		return stmt::makeHitAttributeVariableDecl( std::move( var ) );
+		return stmtCache.makeHitAttributeVariableDecl( std::move( var ) );
 	}
 
-	stmt::StmtPtr makeInOutCallableDataVariableDecl( var::VariablePtr var
+	stmt::StmtPtr makeInOutCallableDataVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location )
 	{
-		return stmt::makeInOutCallableDataVariableDecl( std::move( var )
+		return stmtCache.makeInOutCallableDataVariableDecl( std::move( var )
 			, location );
 	}
 
-	stmt::StmtPtr makeInOutRayPayloadVariableDecl( var::VariablePtr var
+	stmt::StmtPtr makeInOutRayPayloadVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location )
 	{
-		return stmt::makeInOutRayPayloadVariableDecl( std::move( var )
+		return stmtCache.makeInOutRayPayloadVariableDecl( std::move( var )
 			, location );
 	}
 
-	stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+	stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location )
 	{
-		return stmt::makeInOutVariableDecl( std::move( var )
+		return stmtCache.makeInOutVariableDecl( std::move( var )
 			, location );
 	}
 
-	stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+	stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint32_t blendIndex )
 	{
-		return stmt::makeInOutVariableDecl( std::move( var )
+		return stmtCache.makeInOutVariableDecl( std::move( var )
 			, location
 			, streamIndex
 			, blendIndex );
 	}
 
-	stmt::StmtPtr makeInOutStreamVariableDecl( var::VariablePtr var
+	stmt::StmtPtr makeInOutStreamVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, uint32_t streamIndex )
 	{
-		return stmt::makeInOutStreamVariableDecl( std::move( var )
+		return stmtCache.makeInOutStreamVariableDecl( std::move( var )
 			, location
 			, streamIndex );
 	}
 
-	stmt::StmtPtr makeInOutBlendVariableDecl( var::VariablePtr var
+	stmt::StmtPtr makeInOutBlendVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, uint32_t blendIndex )
 	{
-		return stmt::makeInOutBlendVariableDecl( std::move( var )
+		return stmtCache.makeInOutBlendVariableDecl( std::move( var )
 			, location
 			, blendIndex );
 	}
 
-	stmt::StmtPtr makeSpecConstantDecl( var::VariablePtr var
+	stmt::StmtPtr makeSpecialisationConstantDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, expr::LiteralPtr literal )
 	{
-		return stmt::makeSpecialisationConstantDecl( std::move( var )
+		return stmtCache.makeSpecialisationConstantDecl( std::move( var )
 			, location
 			, std::move( literal ) );
 	}
 
-	stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
+	stmt::StmtPtr makeSampledImageDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeSampledImageDecl( std::move( var )
+		return stmtCache.makeSampledImageDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}
 
-	stmt::StmtPtr makeCombinedImageDecl( var::VariablePtr var
+	stmt::StmtPtr makeCombinedImageDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeCombinedImageDecl( std::move( var )
+		return stmtCache.makeCombinedImageDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}
 
-	stmt::StmtPtr makeImageDecl( var::VariablePtr var
+	stmt::StmtPtr makeImageDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeImageDecl( std::move( var )
+		return stmtCache.makeImageDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}
 
-	stmt::StmtPtr makeAccelerationStructureDecl( var::VariablePtr var
+	stmt::StmtPtr makeAccelerationStructureDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeAccelerationStructureDecl( std::move( var )
+		return stmtCache.makeAccelerationStructureDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}
 
-	stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
+	stmt::StmtPtr makeSamplerDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmt::makeSamplerDecl( std::move( var )
+		return stmtCache.makeSamplerDecl( std::move( var )
 			, bindingPoint
 			, bindingSet );
 	}
 
-	stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type
+	stmt::ContainerPtr makeFunctionDecl( stmt::StmtCache & stmtCache
+		, type::FunctionPtr type
 		, std::string name )
 	{
-		return stmt::makeFunctionDecl( std::move( type )
+		return stmtCache.makeFunctionDecl( std::move( type )
 			, std::move( name ) );
 	}
 
-	stmt::StmtPtr makeDispatchMesh( expr::ExprPtr numGroupsX
+	stmt::StmtPtr makeDispatchMesh( stmt::StmtCache & stmtCache
+		, expr::ExprPtr numGroupsX
 		, expr::ExprPtr numGroupsY
 		, expr::ExprPtr numGroupsZ
 		, expr::ExprPtr payload )
 	{
-		return stmt::makeDispatchMesh( std::move( numGroupsX )
+		return stmtCache.makeDispatchMesh( std::move( numGroupsX )
 			, std::move( numGroupsY )
 			, std::move( numGroupsZ )
 			, std::move( payload ) );

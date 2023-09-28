@@ -14,14 +14,14 @@ namespace ast::stmt
 		: public Compound
 	{
 		friend class If;
+		friend class StmtCache;
 
 	private:
-		SDAST_API Else();
+		SDAST_API Else( StmtCache & stmtCache );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;
 	};
-	using ElsePtr = std::unique_ptr< Else >;
 }
 
 #endif

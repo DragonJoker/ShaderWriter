@@ -7,8 +7,15 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Container::Container( Kind kind )
-		: Stmt{ kind }
+	Container::Container( StmtCache & stmtCache
+		, size_t size
+		, Kind kind )
+		: Stmt{ stmtCache, size, kind }
+	{
+	}
+
+	Container::Container( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( Container ), Kind::eContainer }
 	{
 	}
 

@@ -43,6 +43,11 @@ namespace sdw
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API uint32_t getNextVarId( ShaderWriter & writer );
 	SDW_API uint32_t getNextVarId( Shader & shader );
+	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer );
+	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter * writer );
+	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
+	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer );
+	SDW_API ast::stmt::StmtCache & getStmtCache( Shader const & shader );
 	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter & writer );
 	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter const & writer );
 	SDW_API ast::expr::ExprCache & getExprCache( Shader const & shader );
@@ -260,59 +265,83 @@ namespace sdw
 		, expr::ExprPtr payload
 		, expr::ExprPtr numTasks );
 
-	SDW_API stmt::StmtPtr makeSimple( expr::ExprPtr expr );
-	SDW_API stmt::StmtPtr makePerVertexDecl( stmt::PerVertexDecl::Source source
+	SDW_API stmt::StmtPtr makeSimple( stmt::StmtCache & stmtCache
+		, expr::ExprPtr expr );
+	SDW_API stmt::StmtPtr makePerVertexDecl( stmt::StmtCache & stmtCache
+		, stmt::PerVertexDecl::Source source
 		, type::TypePtr type );
-	SDW_API stmt::StmtPtr makeStructDecl( type::StructPtr type );
-	SDW_API stmt::StmtPtr makeShaderStructBufferDecl( std::string ssboName
+	SDW_API stmt::StmtPtr makeStructureDecl( stmt::StmtCache & stmtCache
+		, type::StructPtr type );
+	SDW_API stmt::StmtPtr makeShaderStructBufferDecl( stmt::StmtCache & stmtCache
+		, std::string ssboName
 		, var::VariablePtr ssboInstance
 		, var::VariablePtr data
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::StmtPtr makeBufferReferenceDecl( type::TypePtr type );
-	SDW_API stmt::StmtPtr makeReturn( expr::ExprPtr expr );
-	SDW_API stmt::StmtPtr makePreprocDefine( Shader & shader
+	SDW_API stmt::StmtPtr makeBufferReferenceDecl( stmt::StmtCache & stmtCache
+		, type::TypePtr type );
+	SDW_API stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache
+		, expr::ExprPtr expr );
+	SDW_API stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache );
+	SDW_API stmt::StmtPtr makePreprocDefine( stmt::StmtCache & stmtCache
+		, Shader & shader
 		, std::string name
 		, expr::ExprPtr expr );
-	SDW_API stmt::StmtPtr makeVariableDecl( var::VariablePtr var );
-	SDW_API stmt::StmtPtr makeHitAttributeVariableDecl( var::VariablePtr var );
-	SDW_API stmt::StmtPtr makeInOutCallableDataVariableDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var );
+	SDW_API stmt::StmtPtr makeHitAttributeVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var );
+	SDW_API stmt::StmtPtr makeInOutCallableDataVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location );
-	SDW_API stmt::StmtPtr makeInOutRayPayloadVariableDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeInOutRayPayloadVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location );
-	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location );
-	SDW_API stmt::StmtPtr makeInOutVariableDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, uint32_t streamIndex
 		, uint32_t blendIndex );
-	SDW_API stmt::StmtPtr makeInOutStreamVariableDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeInOutStreamVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, uint32_t streamIndex );
-	SDW_API stmt::StmtPtr makeInOutBlendVariableDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeInOutBlendVariableDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, uint32_t blendIndex );
-	SDW_API stmt::StmtPtr makeSpecConstantDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeSpecialisationConstantDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t location
 		, expr::LiteralPtr literal );
-	SDW_API stmt::StmtPtr makeSampledImgDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeSampledImageDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::StmtPtr makeCombinedImageDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeCombinedImageDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::StmtPtr makeImageDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeImageDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::StmtPtr makeAccelerationStructureDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeAccelerationStructureDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::StmtPtr makeSamplerDecl( var::VariablePtr var
+	SDW_API stmt::StmtPtr makeSamplerDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::ContainerPtr makeFuncDecl( type::FunctionPtr type
+	SDW_API stmt::ContainerPtr makeFunctionDecl( stmt::StmtCache & stmtCache
+		, type::FunctionPtr type
 		, std::string name );
-	SDW_API stmt::StmtPtr makeDispatchMesh( expr::ExprPtr numGroupsX
+	SDW_API stmt::StmtPtr makeDispatchMesh( stmt::StmtCache & stmtCache
+		, expr::ExprPtr numGroupsX
 		, expr::ExprPtr numGroupsY
 		, expr::ExprPtr numGroupsZ
 		, expr::ExprPtr payload );
@@ -355,6 +384,16 @@ namespace sdw
 	SDW_API var::VariablePtr getMemberVar( ShaderWriter & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name );
+
+	template< typename StmtT >
+	void addStmt( ShaderWriter & writer
+		, stmt::StmtPtrT< StmtT > stmt )
+	{
+#pragma warning( push )
+#pragma warning( disable: 4946 )
+		addStmt( writer, stmt::StmtPtr{ reinterpret_cast< stmt::Stmt * >( stmt.release() ) } );
+#pragma warning( pop )
+	}
 }
 
 #include "Helpers.inl"

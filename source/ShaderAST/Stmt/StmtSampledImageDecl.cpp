@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	SampledImageDecl::SampledImageDecl( var::VariablePtr variable
+	SampledImageDecl::SampledImageDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Stmt{ Kind::eSampledImageDecl }
+		: Stmt{ stmtCache, sizeof( SampledImageDecl ), Kind::eSampledImageDecl }
 		, m_variable{ std::move( variable ) }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }

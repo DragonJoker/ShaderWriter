@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API explicit Simple( expr::ExprPtr expr );
+		SDAST_API explicit Simple( StmtCache & stmtCache
+			, expr::ExprPtr expr );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
@@ -27,12 +28,6 @@ namespace ast::stmt
 	private:
 		expr::ExprPtr m_expr{};
 	};
-	using SimplePtr = std::unique_ptr< Simple >;
-
-	inline SimplePtr makeSimple( expr::ExprPtr expr )
-	{
-		return std::make_unique< Simple >( std::move( expr ) );
-	}
 }
 
 #endif

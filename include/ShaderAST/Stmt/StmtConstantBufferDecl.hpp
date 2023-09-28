@@ -16,7 +16,8 @@ namespace ast::stmt
 		: public Compound
 	{
 	public:
-		SDAST_API ConstantBufferDecl( std::string name
+		SDAST_API ConstantBufferDecl( StmtCache & stmtCache
+			, std::string name
 			, type::MemoryLayout layout
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
@@ -53,18 +54,6 @@ namespace ast::stmt
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};
-	using ConstantBufferDeclPtr = std::unique_ptr< ConstantBufferDecl >;
-
-	inline ConstantBufferDeclPtr makeConstantBufferDecl( std::string name
-		, type::MemoryLayout layout
-		, uint32_t bindingPoint
-		, uint32_t bindingSet )
-	{
-		return std::make_unique< ConstantBufferDecl >( std::move( name )
-			, layout
-			, bindingPoint
-			, bindingSet );
-	}
 }
 
 #endif

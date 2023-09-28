@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	ShaderBufferDecl::ShaderBufferDecl( var::VariablePtr variable
+	ShaderBufferDecl::ShaderBufferDecl( StmtCache & stmtCache
+		, var::VariablePtr variable
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
-		: Compound{ Kind::eShaderBufferDecl }
+		: Compound{ stmtCache, sizeof( ShaderBufferDecl ), Kind::eShaderBufferDecl }
 		, m_variable{ std::move( variable ) }
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }

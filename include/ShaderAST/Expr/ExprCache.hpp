@@ -16,92 +16,21 @@ See LICENSE file in root folder
 #include <unordered_map>
 #include <vector>
 
-namespace ast::expr
+namespace ast
 {
-	namespace details
-	{
-		class BuddyAllocator
-		{
-		private:
-			using PointerType = std::byte *;
-
-		public:
-			/**
-			*	Constructor.
-			*\param[in]	numLevels
-			*	The allocator maximum tree size.
-			*\param[in]	minBlockSize
-			*	The minimum size for a block.
-			*/
-			BuddyAllocator( uint32_t numLevels
-				, uint32_t minBlockSize );
-			/**
-			*	Reports memory leaks.
-			*/
-			~BuddyAllocator();
-			/**
-			*\param[in]	size
-			*	The requested memory size.
-			*\return
-			*	\p true if there is enough remaining memory for given size.
-			*/
-			bool hasAvailable( size_t size )const;
-			/**
-			*	Allocates memory.
-			*\param[in]	size
-			*	The requested memory size.
-			*\return
-			*	The memory chunk.
-			*/
-			PointerType allocate( size_t size );
-			/**
-			*	Deallocates memory.
-			*\param[in]	pointer
-			*	The memory chunk.
-			*/
-			bool deallocate( PointerType pointer );
-			/**
-			*\return
-			*	The pool total size.
-			*/
-			size_t getTotalSize()const;
-
-			size_t getAlignSize()const;
-			PointerType getPointer( uint32_t offset );
-			size_t getOffset( PointerType pointer )const;
-
-		private:
-			uint32_t doGetLevel( size_t size )const;
-			size_t doGetLevelSize( uint32_t level )const;
-			PointerType doAllocate( uint32_t level );
-			void doMergeLevel( PointerType const & block
-				, uint32_t index
-				, uint32_t level );
-
-		private:
-			using FreeList = std::list< PointerType >;
-			using PointerLevel = std::pair< size_t, uint32_t >;
-
-		private:
-			std::vector< std::byte > m_memory;
-			uint32_t m_numLevels;
-			uint32_t m_minBlockSize;
-			std::vector< FreeList > m_freeLists;
-			std::vector< PointerLevel > m_allocated;
-		};
-	}
-
 	enum class CacheMode
 	{
 		eNone,
-		eArena,
-		eBuddy
+		eArena
 	};
+}
 
+namespace ast::expr
+{
 	class ExprCache
 	{
 	public:
-		SDAST_API ExprCache( CacheMode cacheMode = CacheMode::eBuddy );
+		SDAST_API ExprCache( CacheMode cacheMode = CacheMode::eArena );
 		SDAST_API ~ExprCache() = default;
 
 		SDAST_API AddPtr makeAdd( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );
@@ -241,7 +170,6 @@ namespace ast::expr
 
 	private:
 		CacheMode m_cacheMode{};
-		std::unordered_map< size_t, std::unique_ptr< details::BuddyAllocator > > m_pools;
 
 		struct Memory
 		{

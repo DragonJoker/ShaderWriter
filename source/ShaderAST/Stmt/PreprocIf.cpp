@@ -3,14 +3,16 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Stmt/PreprocIf.hpp"
 
+#include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Stmt/StmtVisitor.hpp"
 
 #include <stdexcept>
 
 namespace ast::stmt
 {
-	PreprocIf::PreprocIf( expr::ExprPtr ctrlExpr )
-		: Container{ Kind::ePreprocIf }
+	PreprocIf::PreprocIf( StmtCache & stmtCache
+		, expr::ExprPtr ctrlExpr )
+		: Container{ stmtCache, sizeof( PreprocIf ), Kind::ePreprocIf }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 	{
 	}
@@ -22,13 +24,13 @@ namespace ast::stmt
 			throw std::runtime_error{ "Else is already defined for this If." };
 		}
 
-		m_else.reset( new PreprocElse );
+		m_else = getStmtCache().makePreprocElse();
 		return m_else.get();
 	}
 
 	PreprocElif * PreprocIf::createElif( expr::ExprPtr ctrlExpr )
 	{
-		m_elifs.emplace_back( std::unique_ptr< PreprocElif >( new PreprocElif{ std::move( ctrlExpr ) } ) );
+		m_elifs.emplace_back( getStmtCache().makePreprocElif( std::move( ctrlExpr ) ) );
 		return static_cast< PreprocElif * >( m_elifs.back().get() );
 	}
 

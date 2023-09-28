@@ -5,8 +5,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	Loop::Loop( Kind kind)
-		: Compound{ kind }
+	Loop::Loop( StmtCache & stmtCache
+		, size_t size
+		, Kind kind )
+		: Compound{ stmtCache, size, kind }
 	{
 	}
 }

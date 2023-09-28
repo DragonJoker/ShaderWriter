@@ -17,7 +17,8 @@ namespace hlsl
 		: public ast::StmtCloner
 	{
 	public:
-		static ast::stmt::ContainerPtr submit( ast::expr::ExprCache & exprCache
+		static ast::stmt::ContainerPtr submit( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, HlslShader & shader
 			, ast::stmt::Container * container
 			, IntrinsicsConfig const & intrinsicsConfig
@@ -25,7 +26,8 @@ namespace hlsl
 			, AdaptationData & adaptationData );
 
 	private:
-		StmtAdapter( ast::expr::ExprCache & exprCache
+		StmtAdapter( ast::stmt::StmtCache & stmtCache
+			, ast::expr::ExprCache & exprCache
 			, HlslShader & shader
 			, IntrinsicsConfig const & intrinsicsConfig
 			, HlslConfig const & writerConfig

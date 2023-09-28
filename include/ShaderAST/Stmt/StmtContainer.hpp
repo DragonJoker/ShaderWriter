@@ -12,8 +12,14 @@ namespace ast::stmt
 	class Container
 		: public Stmt
 	{
+	protected:
+		SDAST_API explicit Container( StmtCache & stmtCache
+			, size_t size
+			, Kind kind );
+
 	public:
-		SDAST_API explicit Container( Kind kind = Kind::eContainer );
+		SDAST_API explicit Container( StmtCache & stmtCache );
+
 		SDAST_API void addStmt( StmtPtr stmt );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -46,12 +52,6 @@ namespace ast::stmt
 	private:
 		StmtList m_statements;
 	};
-	using ContainerPtr = std::unique_ptr< Container >;
-
-	inline std::unique_ptr< Container > makeContainer()
-	{
-		return std::make_unique< Container >();
-	}
 }
 
 #endif

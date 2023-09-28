@@ -7,8 +7,8 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PreprocEndif::PreprocEndif()
-		: Stmt{ Kind::ePreprocEndif }
+	PreprocEndif::PreprocEndif( StmtCache & stmtCache )
+		: Stmt{ stmtCache, sizeof( PreprocEndif ), Kind::ePreprocEndif }
 	{
 	}
 

@@ -7,8 +7,9 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	BufferReferenceDecl::BufferReferenceDecl( type::TypePtr type )
-		: Stmt{ Kind::eBufferReferenceDecl }
+	BufferReferenceDecl::BufferReferenceDecl( StmtCache & stmtCache
+		, type::TypePtr type )
+		: Stmt{ stmtCache, sizeof( BufferReferenceDecl ), Kind::eBufferReferenceDecl }
 		, m_type{ std::move( type ) }
 	{
 	}

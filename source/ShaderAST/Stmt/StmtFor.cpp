@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	For::For( expr::ExprPtr initExpr
+	For::For( StmtCache & stmtCache
+		, expr::ExprPtr initExpr
 		, expr::ExprPtr ctrlExpr
 		, expr::ExprPtr incrExpr )
-		: Loop{ Kind::eFor }
+		: Loop{ stmtCache, sizeof( For ), Kind::eFor }
 		, m_initExpr{ std::move( initExpr ) }
 		, m_ctrlExpr{ std::move( ctrlExpr ) }
 		, m_incrExpr{ std::move( incrExpr ) }

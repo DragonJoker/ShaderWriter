@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #include "HlslStorageImageAccessFunctions.hpp"
 #include "HlslExprAdapter.hpp"
 
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 #include <ShaderAST/Stmt/StmtComment.hpp>
 
@@ -14,30 +15,32 @@ namespace hlsl
 	{
 		inline void writeImageSamples2DMS( ast::stmt::Container * container, std::string const & type )
 		{
-			auto cont = ast::stmt::makeContainer();
-			cont->addStmt( ast::stmt::makeComment( "int SDW_imageSamples(" + type + " image)" ) );
-			cont->addStmt( ast::stmt::makeComment( "{" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint dumpX;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint dumpY;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint res;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	image.GetDimensions(dumpX, dumpY, res);" ) );
-			cont->addStmt( ast::stmt::makeComment( "	return int(res);" ) );
-			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			auto & stmtCache = container->getStmtCache();
+			auto cont = stmtCache.makeContainer();
+			cont->addStmt( stmtCache.makeComment( "int SDW_imageSamples(" + type + " image)" ) );
+			cont->addStmt( stmtCache.makeComment( "{" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint dumpX;" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint dumpY;" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint res;" ) );
+			cont->addStmt( stmtCache.makeComment( "	image.GetDimensions(dumpX, dumpY, res);" ) );
+			cont->addStmt( stmtCache.makeComment( "	return int(res);" ) );
+			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
 
 		inline void writeImageSamples2DMSArray( ast::stmt::Container * container, std::string const & type )
 		{
-			auto cont = ast::stmt::makeContainer();
-			cont->addStmt( ast::stmt::makeComment( "int SDW_imageSamples(" + type + " image)" ) );
-			cont->addStmt( ast::stmt::makeComment( "{" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint dumpX;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint dumpY;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint dumpZ;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	uint res;" ) );
-			cont->addStmt( ast::stmt::makeComment( "	image.GetDimensions(dumpX, dumpY, dumpZ, res);" ) );
-			cont->addStmt( ast::stmt::makeComment( "	return int(res);" ) );
-			cont->addStmt( ast::stmt::makeComment( "}" ) );
+			auto & stmtCache = container->getStmtCache();
+			auto cont = stmtCache.makeContainer();
+			cont->addStmt( stmtCache.makeComment( "int SDW_imageSamples(" + type + " image)" ) );
+			cont->addStmt( stmtCache.makeComment( "{" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint dumpX;" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint dumpY;" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint dumpZ;" ) );
+			cont->addStmt( stmtCache.makeComment( "	uint res;" ) );
+			cont->addStmt( stmtCache.makeComment( "	image.GetDimensions(dumpX, dumpY, dumpZ, res);" ) );
+			cont->addStmt( stmtCache.makeComment( "	return int(res);" ) );
+			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
 	}

@@ -8,7 +8,8 @@ namespace sdw
 		, UInt numGroupsZ
 		, TaskPayloadOutEXTT< PayloadT > const & payload )
 	{
-		addStmt( makeDispatchMesh( makeExpr( numGroupsX )
+		addStmt( makeDispatchMesh( getStmtCache()
+			, makeExpr( numGroupsX )
 			, makeExpr( numGroupsY )
 			, makeExpr( numGroupsZ )
 			, makeExpr( payload ) ) );

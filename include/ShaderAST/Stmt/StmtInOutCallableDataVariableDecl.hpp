@@ -13,7 +13,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API InOutCallableDataVariableDecl( var::VariablePtr variable
+		SDAST_API InOutCallableDataVariableDecl( StmtCache & stmtCache
+			, var::VariablePtr variable
 			, uint32_t location );
 
 		SDAST_API void accept( VisitorPtr vis )override;
@@ -32,14 +33,6 @@ namespace ast::stmt
 		var::VariablePtr m_variable;
 		uint32_t m_location;
 	};
-	using InOutCallableDataVariableDeclPtr = std::unique_ptr< InOutCallableDataVariableDecl >;
-
-	inline InOutCallableDataVariableDeclPtr makeInOutCallableDataVariableDecl( var::VariablePtr variable
-		, uint32_t location )
-	{
-		return std::make_unique< InOutCallableDataVariableDecl >( std::move( variable )
-			, location );
-	}
 }
 
 #endif

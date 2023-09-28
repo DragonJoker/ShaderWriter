@@ -244,6 +244,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtAccelerationStructureDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtBreak.hpp
 	${INCLUDE_DIR}/Stmt/StmtBufferReferenceDecl.hpp
+	${INCLUDE_DIR}/Stmt/StmtCache.hpp
 	${INCLUDE_DIR}/Stmt/StmtCombinedImageDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtComment.hpp
 	${INCLUDE_DIR}/Stmt/StmtCompound.hpp
@@ -305,6 +306,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtAccelerationStructureDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtBreak.cpp
 	${SOURCE_DIR}/Stmt/StmtBufferReferenceDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtCache.cpp
 	${SOURCE_DIR}/Stmt/StmtCombinedImageDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtComment.cpp
 	${SOURCE_DIR}/Stmt/StmtCompound.cpp

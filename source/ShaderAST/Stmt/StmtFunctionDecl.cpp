@@ -7,10 +7,11 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	FunctionDecl::FunctionDecl( type::FunctionPtr type
+	FunctionDecl::FunctionDecl( StmtCache & stmtCache
+		, type::FunctionPtr type
 		, std::string name
 		, uint32_t flags )
-		: Compound{ Kind::eFunctionDecl }
+		: Compound{ stmtCache, sizeof( FunctionDecl ), Kind::eFunctionDecl }
 		, m_type{ std::move( type ) }
 		, m_name{ std::move( name ) }
 		, m_flags{ flags }

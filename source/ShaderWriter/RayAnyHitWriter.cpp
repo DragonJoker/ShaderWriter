@@ -114,11 +114,11 @@ namespace sdw
 
 	void RayAnyHitWriter::ignoreIntersection()
 	{
-		addStmt( stmt::makeIgnoreIntersection() );
+		addStmt( getStmtCache().makeIgnoreIntersection() );
 	}
 
 	void RayAnyHitWriter::terminateRay()
 	{
-		addStmt( stmt::makeTerminateRay() );
+		addStmt( getStmtCache().makeTerminateRay() );
 	}
 }

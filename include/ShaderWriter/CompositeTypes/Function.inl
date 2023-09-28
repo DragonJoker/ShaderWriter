@@ -353,7 +353,7 @@ namespace sdw
 	{
 		auto & cache = getTypesCache( writer );
 		getFunctionHeaderArgsRec( args, std::forward< ParamsT >( params )... );
-		return stmt::makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
+		return getStmtCache( writer ).makeFunctionDecl( cache.getFunction( ReturnT::makeType( cache ), args )
 			, std::move( name )
 			, flag );
 	}
@@ -365,7 +365,7 @@ namespace sdw
 		, stmt::FunctionFlag flag )
 	{
 		auto & cache = getTypesCache( writer );
-		return stmt::makeFunctionDecl( cache.getFunction( cache.getVoid(), args )
+		return getStmtCache( writer ).makeFunctionDecl( cache.getFunction( cache.getVoid(), args )
 			, std::move( name )
 			, flag );
 	}

@@ -12,26 +12,28 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	ast::stmt::ContainerPtr StmtAdapter::submit( ast::expr::ExprCache & exprCache
+	ast::stmt::ContainerPtr StmtAdapter::submit( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::stmt::Container * container
 		, AdaptationData & adaptationData )
 	{
-		auto result = ast::stmt::makeContainer();
-		StmtAdapter vis{ exprCache, typesCache, result, adaptationData };
+		auto result = stmtCache.makeContainer();
+		StmtAdapter vis{ stmtCache, exprCache, typesCache, result, adaptationData };
 		container->accept( &vis );
 		return result;
 	}
 
-	StmtAdapter::StmtAdapter( ast::expr::ExprCache & exprCache
+	StmtAdapter::StmtAdapter( ast::stmt::StmtCache & stmtCache
+		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::stmt::ContainerPtr & result
 		, AdaptationData & adaptationData )
-		: StmtCloner{ exprCache, result }
+		: StmtCloner{ stmtCache, exprCache, result }
 		, m_typesCache{ typesCache }
 		, m_adaptationData{ adaptationData }
 	{
-		auto cont = ast::stmt::makeContainer();
+		auto cont = m_stmtCache.makeContainer();
 		m_ioDeclarations = cont.get();
 		m_current->addStmt( std::move( cont ) );
 	}
@@ -61,7 +63,7 @@ namespace spirv
 		TraceFunc;
 		assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 		auto save = m_current;
-		auto cont = ast::stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
+		auto cont = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -101,20 +103,20 @@ namespace spirv
 	void StmtAdapter::visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )
 	{
 		TraceFunc;
-		m_ioDeclarations->addStmt( ast::stmt::makeHitAttributeVariableDecl( stmt->getVariable() ) );
+		m_ioDeclarations->addStmt( m_stmtCache.makeHitAttributeVariableDecl( stmt->getVariable() ) );
 	}
 
 	void StmtAdapter::visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )
 	{
 		TraceFunc;
-		m_ioDeclarations->addStmt( ast::stmt::makeInOutCallableDataVariableDecl( stmt->getVariable()
+		m_ioDeclarations->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( stmt->getVariable()
 			, stmt->getLocation() ) );
 	}
 
 	void StmtAdapter::visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )
 	{
 		TraceFunc;
-		m_ioDeclarations->addStmt( ast::stmt::makeInOutRayPayloadVariableDecl( stmt->getVariable()
+		m_ioDeclarations->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( stmt->getVariable()
 			, stmt->getLocation() ) );
 	}
 
@@ -258,7 +260,7 @@ namespace spirv
 	{
 		TraceFunc;
 		auto type = compType.getType();
-		m_current->addStmt( ast::stmt::makeInputComputeLayout( type
+		m_current->addStmt( m_stmtCache.makeInputComputeLayout( type
 			, compType.getLocalSizeX()
 			, compType.getLocalSizeY()
 			, compType.getLocalSizeZ() ) );
@@ -269,7 +271,7 @@ namespace spirv
 	{
 		TraceFunc;
 		auto type = fragType.getType();
-		m_current->addStmt( ast::stmt::makeFragmentLayout( type
+		m_current->addStmt( m_stmtCache.makeFragmentLayout( type
 			, fragType.getOrigin()
 			, fragType.getCenter() ) );
 	}
@@ -279,7 +281,7 @@ namespace spirv
 	{
 		TraceFunc;
 		auto type = geomType.getType();
-		m_current->addStmt( ast::stmt::makeOutputGeometryLayout( type
+		m_current->addStmt( m_stmtCache.makeOutputGeometryLayout( type
 			, geomType.getLayout()
 			, geomType.getCount() ) );
 	}
@@ -289,7 +291,7 @@ namespace spirv
 	{
 		TraceFunc;
 		auto type = geomType.getType();
-		m_current->addStmt( ast::stmt::makeInputGeometryLayout( type
+		m_current->addStmt( m_stmtCache.makeInputGeometryLayout( type
 			, geomType.getLayout() ) );
 	}
 
@@ -299,7 +301,7 @@ namespace spirv
 	{
 		TraceFunc;
 		auto type = tessType.getType();
-		m_current->addStmt( ast::stmt::makeOutputTessellationControlLayout( type
+		m_current->addStmt( m_stmtCache.makeOutputTessellationControlLayout( type
 			, tessType.getDomain()
 			, tessType.getPartitioning()
 			, tessType.getTopology()
@@ -318,7 +320,7 @@ namespace spirv
 		, ast::type::TessellationEvaluationInput const & tessType )
 	{
 		TraceFunc;
-		m_current->addStmt( ast::stmt::makeInputTessellationEvaluationLayout( tessType.getType()
+		m_current->addStmt( m_stmtCache.makeInputTessellationEvaluationLayout( tessType.getType()
 			, tessType.getDomain()
 			, tessType.getPartitioning()
 			, tessType.getPrimitiveOrdering() ) );
@@ -332,7 +334,7 @@ namespace spirv
 
 		if ( m_maxPrimitives )
 		{
-			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+			m_current->addStmt( m_stmtCache.makeOutputMeshLayout( meshType.getType()
 				, m_topology
 				, m_maxVertices
 				, m_maxPrimitives ) );
@@ -348,7 +350,7 @@ namespace spirv
 
 		if ( m_maxVertices )
 		{
-			m_current->addStmt( ast::stmt::makeOutputMeshLayout( meshType.getType()
+			m_current->addStmt( m_stmtCache.makeOutputMeshLayout( meshType.getType()
 				, meshType.getTopology()
 				, m_maxVertices
 				, m_maxPrimitives ) );
@@ -387,7 +389,7 @@ namespace spirv
 
 		if ( !getStructType( var->getType() )->empty() )
 		{
-			m_current->addStmt( ast::stmt::makeInOutVariableDecl( var, patchType.getLocation() ) );
+			m_current->addStmt( m_stmtCache.makeInOutVariableDecl( var, patchType.getLocation() ) );
 		}
 	}
 
@@ -400,7 +402,7 @@ namespace spirv
 
 		if ( !getStructType( var->getType() )->empty() )
 		{
-			m_current->addStmt( ast::stmt::makeInOutVariableDecl( var, patchType.getLocation() ) );
+			m_current->addStmt( m_stmtCache.makeInOutVariableDecl( var, patchType.getLocation() ) );
 		}
 	}
 
@@ -411,7 +413,7 @@ namespace spirv
 		auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
 		doProcessInOut( stmt->getType(), true );
 		auto save = m_current;
-		auto cont = ast::stmt::makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
+		auto cont = m_stmtCache.makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 
@@ -430,7 +432,7 @@ namespace spirv
 	{
 		TraceFunc;
 		auto save = m_current;
-		auto cont = ast::stmt::makeContainer();
+		auto cont = m_stmtCache.makeContainer();
 		m_current = cont.get();
 		visitContainerStmt( stmt );
 		m_current = save;
@@ -504,7 +506,7 @@ namespace spirv
 		TraceFunc;
 		if ( m_declaredStructs.emplace( structType ).second )
 		{
-			m_current->addStmt( ast::stmt::makeStructureDecl( structType ) );
+			m_current->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 		}
 	}
 }

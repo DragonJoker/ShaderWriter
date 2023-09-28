@@ -7,11 +7,12 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	InputTessellationEvaluationLayout::InputTessellationEvaluationLayout( type::TypePtr type
+	InputTessellationEvaluationLayout::InputTessellationEvaluationLayout( StmtCache & stmtCache
+		, type::TypePtr type
 		, type::PatchDomain domain
 		, type::Partitioning partitioning
 		, type::PrimitiveOrdering order )
-		: Stmt{ Kind::eInputTessellationEvaluationLayout }
+		: Stmt{ stmtCache, sizeof( InputTessellationEvaluationLayout ), Kind::eInputTessellationEvaluationLayout }
 		, m_type{ std::move( type ) }
 		, m_domain{ domain }
 		, m_partitioning{ partitioning }

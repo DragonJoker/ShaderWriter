@@ -7,9 +7,10 @@ See LICENSE file in root folder
 
 namespace ast::stmt
 {
-	PerVertexDecl::PerVertexDecl( PerVertexDecl::Source source
+	PerVertexDecl::PerVertexDecl( StmtCache & stmtCache
+		, PerVertexDecl::Source source
 		, type::TypePtr type )
-		: Stmt{ Kind::ePerVertexDecl }
+		: Stmt{ stmtCache, sizeof( PerVertexDecl ), Kind::ePerVertexDecl }
 		, m_source{ source }
 		, m_type{ type }
 	{

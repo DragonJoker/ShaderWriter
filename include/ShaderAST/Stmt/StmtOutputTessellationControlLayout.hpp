@@ -15,7 +15,8 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API OutputTessellationControlLayout( type::TypePtr type
+		SDAST_API OutputTessellationControlLayout( StmtCache & stmtCache
+			, type::TypePtr type
 			, type::PatchDomain domain
 			, type::Partitioning partitioning
 			, type::OutputTopology topology
@@ -62,22 +63,6 @@ namespace ast::stmt
 		type::PrimitiveOrdering m_order;
 		uint32_t m_outputVertices;
 	};
-	using OutputTessellationControlLayoutPtr = std::unique_ptr< OutputTessellationControlLayout >;
-
-	inline OutputTessellationControlLayoutPtr makeOutputTessellationControlLayout( type::TypePtr type
-		, type::PatchDomain domain
-		, type::Partitioning partitioning
-		, type::OutputTopology topology
-		, type::PrimitiveOrdering order
-		, uint32_t outputVertices )
-	{
-		return std::make_unique< OutputTessellationControlLayout >( std::move( type )
-			, domain
-			, partitioning
-			, topology
-			, order
-			, outputVertices );
-	}
 }
 
 #endif

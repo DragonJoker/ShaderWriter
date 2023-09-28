@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/TransformSSA.hpp"
 
+#include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 #include "ShaderAST/Visitors/CloneStmt.hpp"
 #include "ShaderAST/Visitors/GetExprName.hpp"
@@ -710,6 +711,7 @@ namespace ast
 		{
 		public:
 			static expr::ExprPtr submit( expr::Expr * expr
+				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, stmt::Container * container
@@ -717,7 +719,7 @@ namespace ast
 				, SSAData & data )
 			{
 				expr::ExprPtr result{};
-				ExprSSAiser vis{ data, exprCache, typesCache, container, isParam, result };
+				ExprSSAiser vis{ data, stmtCache, exprCache, typesCache, container, isParam, result };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
@@ -730,6 +732,7 @@ namespace ast
 
 		private:
 			ExprSSAiser( SSAData & data
+				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, stmt::Container * container
@@ -737,6 +740,7 @@ namespace ast
 				, expr::ExprPtr & result )
 				: SimpleVisitor{}
 				, m_data{ data }
+				, m_stmtCache{ stmtCache }
 				, m_exprCache{ exprCache }
 				, m_typesCache{ typesCache }
 				, m_container{ container }
@@ -1164,12 +1168,12 @@ namespace ast
 				}
 				else
 				{
-					doAddStmt( ast::stmt::makeSimple( std::move( m_result ) ) );
+					doAddStmt( m_stmtCache.makeSimple( std::move( m_result ) ) );
 				}
 
 				for ( auto & var : outputParams )
 				{
-					doAddStmt( ast::stmt::makeSimple( m_exprCache.makeAssign( var.alias->getType()
+					doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( var.alias->getType()
 						, std::move( var.param )
 						, m_exprCache.makeIdentifier( m_typesCache, var.alias ) ) ) );
 				}
@@ -1438,13 +1442,13 @@ namespace ast
 
 				if ( flags & uint64_t( var::Flag::eAlias ) )
 				{
-					doAddStmt( stmt::makeSimple( m_exprCache.makeAlias( result->getType()
+					doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAlias( result->getType()
 						, m_exprCache.makeIdentifier( m_typesCache, result )
 						, std::move( aliasedExpr ) ) ) );
 				}
 				else
 				{
-					doAddStmt( stmt::makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, result )
+					doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, result )
 						, std::move( aliasedExpr ) ) ) );
 				}
 
@@ -1495,12 +1499,12 @@ namespace ast
 
 			expr::ExprPtr doSubmit( expr::Expr * expr )
 			{
-				return submit( expr, m_exprCache, m_typesCache, m_container, m_isParam, m_data );
+				return submit( expr, m_stmtCache, m_exprCache, m_typesCache, m_container, m_isParam, m_data );
 			}
 
 			expr::ExprPtr doSubmit( expr::ExprPtr const & expr )
 			{
-				return submit( expr.get(), m_exprCache, m_typesCache, m_container, m_isParam, m_data );
+				return submit( expr.get(), m_stmtCache, m_exprCache, m_typesCache, m_container, m_isParam, m_data );
 			}
 
 			template< typename ExprT >
@@ -1517,7 +1521,7 @@ namespace ast
 					, aliasExpr
 					, alias
 					, true );
-				doAddStmt( stmt::makeSimple( m_exprCache.makeAssign( lhs->getType()
+				doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( lhs->getType()
 					, doSubmit( lhs )
 					, std::move( aliasExpr ) ) ) );
 				m_result = std::move( lhs );
@@ -1536,7 +1540,7 @@ namespace ast
 					, aliasExpr
 					, alias
 					, true );
-				doAddStmt( stmt::makeSimple( m_exprCache.makeAssign( lhs->getType()
+				doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( lhs->getType()
 					, doSubmit( lhs )
 					, std::move( aliasExpr ) ) ) );
 				m_result = std::move( lhs );
@@ -1583,7 +1587,7 @@ namespace ast
 					, aliasExpr
 					, alias
 					, true );
-				doAddStmt( stmt::makeSimple( m_exprCache.makeAssign( lhs->getType()
+				doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( lhs->getType()
 					, doSubmit( lhs )
 					, std::move( aliasExpr ) ) ) );
 
@@ -2078,6 +2082,7 @@ namespace ast
 
 		private:
 			SSAData & m_data;
+			stmt::StmtCache & m_stmtCache;
 			expr::ExprCache & m_exprCache;
 			type::TypesCache & m_typesCache;
 			stmt::Container * m_container;
@@ -2090,22 +2095,24 @@ namespace ast
 		{
 		public:
 			static stmt::ContainerPtr submit( stmt::Container * stmt
+				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, SSAData & data )
 			{
-				stmt::ContainerPtr result = stmt::makeContainer();
-				StmtSSAiser vis{ data, exprCache, typesCache, result };
+				stmt::ContainerPtr result = stmtCache.makeContainer();
+				StmtSSAiser vis{ data, stmtCache, exprCache, typesCache, result };
 				stmt->accept( &vis );
 				return result;
 			}
 
 		private:
 			StmtSSAiser( SSAData & data
+				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, stmt::ContainerPtr & result )
-				: StmtCloner{ exprCache, result }
+				: StmtCloner{ stmtCache, exprCache, result }
 				, m_data{ data }
 				, m_typesCache{ typesCache }
 			{
@@ -2115,6 +2122,7 @@ namespace ast
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				return ExprSSAiser::submit( expr
+					, m_stmtCache
 					, m_exprCache
 					, m_typesCache
 					, m_current
@@ -2138,7 +2146,7 @@ namespace ast
 				auto save = m_current;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
 				auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
-				auto cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
+				auto cont = m_stmtCache.makeIf( ( scalarType != ast::type::Kind::eBoolean )
 					? makeToBoolCast( m_exprCache, m_typesCache, std::move( ctrlExpr ) )
 					: std::move( ctrlExpr ) );
 				m_current = cont.get();
@@ -2173,7 +2181,7 @@ namespace ast
 						auto & elseIf = *it;
 						ctrlExpr = doSubmit( elseIf->getCtrlExpr() );
 						scalarType = getScalarType( ctrlExpr->getType()->getKind() );
-						cont = ast::stmt::makeIf( ( scalarType != ast::type::Kind::eBoolean )
+						cont = m_stmtCache.makeIf( ( scalarType != ast::type::Kind::eBoolean )
 							? makeToBoolCast( m_exprCache, m_typesCache, std::move( ctrlExpr ) )
 							: std::move( ctrlExpr ) );
 						m_current = cont.get();
@@ -2197,18 +2205,18 @@ namespace ast
 			void visitForStmt( stmt::For * stmt )override
 			{
 				TraceFunc
-				auto block = stmt::makeCompound();
+				auto block = m_stmtCache.makeCompound();
 				auto save = m_current;
 				m_current = block.get();
-				m_current->addStmt( stmt::makeSimple( doSubmit( stmt->getInitExpr() ) ) );
-				auto ifStmt = stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
+				m_current->addStmt( m_stmtCache.makeSimple( doSubmit( stmt->getInitExpr() ) ) );
+				auto ifStmt = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 				{
 					// Do ... while content
-					auto doWhileContent = stmt::makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
+					auto doWhileContent = m_stmtCache.makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
 					auto save2 = m_current;
 					m_current = doWhileContent.get();
 					visitContainerStmt( stmt );
-					doAddStmt( stmt::makeSimple( doSubmit( stmt->getIncrExpr() ) ) );
+					doAddStmt( m_stmtCache.makeSimple( doSubmit( stmt->getIncrExpr() ) ) );
 					m_current = save2;
 					ifStmt->addStmt( std::move( doWhileContent ) );
 				}
@@ -2220,10 +2228,10 @@ namespace ast
 			void visitWhileStmt( stmt::While * stmt )override
 			{
 				TraceFunc
-				auto ifStmt = stmt::makeIf( doSubmit( stmt->getCtrlExpr() ) );
+				auto ifStmt = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 				{
 					// Do ... while content
-					auto doWhileContent = stmt::makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
+					auto doWhileContent = m_stmtCache.makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
 					auto save = m_current;
 					m_current = doWhileContent.get();
 					visitContainerStmt( stmt );
@@ -2289,7 +2297,7 @@ namespace ast
 						funcType = typesCache.getFunction( funcType->getReturnType()
 							, std::move( parameters ) );
 						auto save = m_current;
-						auto cont = stmt::makeFunctionDecl( funcType
+						auto cont = m_stmtCache.makeFunctionDecl( funcType
 							, stmt->getName()
 							, stmt->getFlags() );
 						m_current = cont.get();
@@ -2336,11 +2344,12 @@ namespace ast
 		};
 	}
 
-	stmt::ContainerPtr transformSSA( expr::ExprCache & exprCache
+	stmt::ContainerPtr transformSSA( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * container
 		, SSAData & ssaData )
 	{
-		return ssa::StmtSSAiser::submit( container, exprCache, typesCache, ssaData );
+		return ssa::StmtSSAiser::submit( container, stmtCache, exprCache, typesCache, ssaData );
 	}
 }
