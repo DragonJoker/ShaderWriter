@@ -35,7 +35,7 @@ namespace ast
 
 	expr::ExprPtr StmtCloner::doSubmit( expr::ExprPtr const & expr )
 	{
-		return doSubmit( expr );
+		return doSubmit( expr.get() );
 	}
 
 	void StmtCloner::visitContainerStmt( stmt::Container * cont )

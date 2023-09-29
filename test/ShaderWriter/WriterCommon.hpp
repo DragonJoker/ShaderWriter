@@ -51,7 +51,7 @@ namespace test
 			: test::TestCounts
 		{
 			SDWTest_API TestCounts( test::TestSuite & suite );
-			SDWTest_API ~TestCounts()noexcept = default;
+			SDWTest_API ~TestCounts()noexcept override = default;
 
 			bool isSpirVInitialised( uint32_t infoIndex )const;
 			bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;

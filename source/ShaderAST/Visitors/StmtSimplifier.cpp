@@ -193,6 +193,8 @@ namespace ast
 			}
 
 		private:
+			using ast::ExprCloner::doSubmit;
+
 			expr::ExprPtr doSubmit( expr::Expr * expr
 				, bool & allLiterals )
 			{
@@ -211,11 +213,6 @@ namespace ast
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				return doSubmit( expr, m_allLiterals );
-			}
-
-			expr::ExprPtr doSubmit( expr::ExprPtr expr )
-			{
-				return doSubmit( expr.get() );
 			}
 
 			void visitUnaryExpr( expr::Unary * expr )
@@ -855,6 +852,8 @@ namespace ast
 				, m_literalVars{ literalVars }
 			{
 			}
+
+			using ast::StmtCloner::doSubmit;
 
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{

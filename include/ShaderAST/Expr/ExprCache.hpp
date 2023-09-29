@@ -22,7 +22,7 @@ namespace ast::expr
 	class ExprCache
 	{
 	public:
-		SDAST_API ExprCache( ShaderAllocatorBlock & allocator );
+		SDAST_API explicit ExprCache( ShaderAllocatorBlock & allocator );
 		SDAST_API ~ExprCache() = default;
 
 		SDAST_API AddPtr makeAdd( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );

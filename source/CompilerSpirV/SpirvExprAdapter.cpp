@@ -80,11 +80,6 @@ namespace spirv
 		return result;
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::ExprPtr const & expr )
-	{
-		return doSubmit( expr.get() );
-	}
-
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
 	{
 		TraceFunc;

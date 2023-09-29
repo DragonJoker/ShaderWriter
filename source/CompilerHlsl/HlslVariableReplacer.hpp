@@ -24,6 +24,7 @@ namespace hlsl
 			, ast::var::VariablePtr origin
 			, ast::var::VariablePtr replacement );
 
+		using ast::ExprCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 
