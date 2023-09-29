@@ -432,11 +432,6 @@ namespace glsl
 			, m_adaptationData
 			, m_current );
 	}
-	
-	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::ExprPtr const & expr )
-	{
-		return doSubmit( expr.get() );
-	}
 
 	void StmtAdapter::visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )
 	{

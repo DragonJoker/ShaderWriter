@@ -22,11 +22,10 @@ namespace ast
 		SDAST_API explicit ExprCloner( expr::ExprCache & exprCache
 			, expr::ExprPtr & result );
 
-	private:
-		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );
-		SDAST_API virtual expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
-
 	protected:
+		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );
+		SDAST_API expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
+
 		SDAST_API void visitAddExpr( expr::Add * expr )override;
 		SDAST_API void visitAddAssignExpr( expr::AddAssign * expr )override;
 		SDAST_API void visitAggrInitExpr( expr::AggrInit * expr )override;

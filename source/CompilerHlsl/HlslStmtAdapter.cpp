@@ -71,11 +71,6 @@ namespace hlsl
 			, false );
 	}
 
-	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::ExprPtr const & expr )
-	{
-		return doSubmit( expr.get() );
-	}
-
 	void StmtAdapter::linkVars( ast::var::VariablePtr textureSampler
 		, ast::var::VariablePtr texture
 		, ast::var::VariablePtr sampler )

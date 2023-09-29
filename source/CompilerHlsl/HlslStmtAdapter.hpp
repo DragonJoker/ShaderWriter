@@ -34,8 +34,8 @@ namespace hlsl
 			, AdaptationData & adaptationData
 			, ast::stmt::ContainerPtr & result );
 
+		using ast::StmtCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 
 		void linkVars( ast::var::VariablePtr textureSampler
 			, ast::var::VariablePtr texture

@@ -19,7 +19,7 @@ namespace ast::stmt
 	class StmtCache
 	{
 	public:
-		SDAST_API StmtCache( ShaderAllocatorBlock & allocator );
+		SDAST_API explicit StmtCache( ShaderAllocatorBlock & allocator );
 		SDAST_API ~StmtCache() = default;
 
 		SDAST_API PreprocDefinePtr makePreprocDefine( EntityName nameId, std::string name, expr::ExprPtr expr );

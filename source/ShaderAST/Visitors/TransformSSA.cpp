@@ -1504,7 +1504,7 @@ namespace ast
 
 			expr::ExprPtr doSubmit( expr::ExprPtr const & expr )
 			{
-				return submit( expr.get(), m_stmtCache, m_exprCache, m_typesCache, m_container, m_isParam, m_data );
+				return doSubmit( expr.get() );
 			}
 
 			template< typename ExprT >
@@ -2119,6 +2119,8 @@ namespace ast
 			}
 
 		protected:
+			using ast::StmtCloner::doSubmit;
+
 			expr::ExprPtr doSubmit( expr::Expr * expr )override
 			{
 				return ExprSSAiser::submit( expr

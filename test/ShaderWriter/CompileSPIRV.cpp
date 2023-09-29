@@ -2,9 +2,17 @@
 
 #include <ShaderAST/Shader.hpp>
 
-#if SDW_Test_HasVulkan
-
 #pragma warning( disable: 5262 )
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverloaded-virtual"
+#pragma GCC diagnostic ignored "-Wtype-limits"
+#if SDW_Test_HasSpirVTools
+#	include "spirv-tools/libspirv.hpp"
+#endif
+#pragma GCC diagnostic pop
+
+#if SDW_Test_HasVulkan
 
 #include "./vulkan/vulkan.h"
 
@@ -19,16 +27,60 @@
 #include <sstream>
 #include <iterator>
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Woverloaded-virtual"
-#pragma GCC diagnostic ignored "-Wtype-limits"
-#if SDW_Test_HasSpirVTools
-#	include "spirv-tools/libspirv.hpp"
 #endif
-#pragma GCC diagnostic pop
 
 namespace test
 {
+	namespace sdw_test
+	{
+		static constexpr uint32_t makeVkVersion( uint32_t variant, uint32_t major, uint32_t minor, uint32_t patch )
+		{
+			return ( ( ( uint32_t( variant ) ) << 29 )
+				| ( ( uint32_t( major ) ) << 22 )
+				| ( ( uint32_t( minor ) ) << 12 )
+				| ( uint32_t( patch ) ) );
+		}
+
+		static constexpr uint32_t spv1_0 = 0x00010000u;
+		static constexpr uint32_t spv1_1 = 0x00010100u;
+		static constexpr uint32_t spv1_2 = 0x00010200u;
+		static constexpr uint32_t spv1_3 = 0x00010300u;
+		static constexpr uint32_t spv1_4 = 0x00010400u;
+		static constexpr uint32_t spv1_5 = 0x00010500u;
+		static constexpr uint32_t spv1_6 = 0x00010600u;
+
+		static constexpr uint32_t vk1_0 = makeVkVersion( 0, 1, 0, 0 );
+		static constexpr uint32_t vk1_1 = makeVkVersion( 0, 1, 1, 0 );
+		static constexpr uint32_t vk1_2 = makeVkVersion( 0, 1, 2, 0 );
+		static constexpr uint32_t vk1_3 = makeVkVersion( 0, 1, 3, 0 );
+
+		static uint32_t getMaxSpvVersion( uint32_t vkVersion )
+		{
+			uint32_t result{ spv1_0 };
+
+			if ( vkVersion >= vk1_3 )
+			{
+				result = spv1_6;
+			}
+			else if ( vkVersion >= vk1_2 )
+			{
+				result = spv1_5;
+			}
+			else if ( vkVersion >= vk1_1 )
+			{
+				result = spv1_3;
+			}
+			else if ( vkVersion >= vk1_0 )
+			{
+				result = spv1_0;
+			}
+
+			return result;
+		}
+	}
+
+#if SDW_Test_HasVulkan
+
 	namespace
 	{
 		struct LayerProperties
@@ -696,43 +748,6 @@ namespace test
 
 	namespace sdw_test
 	{
-		static constexpr uint32_t spv1_0 = 0x00010000u;
-		static constexpr uint32_t spv1_1 = 0x00010100u;
-		static constexpr uint32_t spv1_2 = 0x00010200u;
-		static constexpr uint32_t spv1_3 = 0x00010300u;
-		static constexpr uint32_t spv1_4 = 0x00010400u;
-		static constexpr uint32_t spv1_5 = 0x00010500u;
-		static constexpr uint32_t spv1_6 = 0x00010600u;
-
-		static constexpr uint32_t vk1_0 = VK_MAKE_API_VERSION( 0, 1, 0, 0 );
-		static constexpr uint32_t vk1_1 = VK_MAKE_API_VERSION( 0, 1, 1, 0 );
-		static constexpr uint32_t vk1_2 = VK_MAKE_API_VERSION( 0, 1, 2, 0 );
-		static constexpr uint32_t vk1_3 = VK_MAKE_API_VERSION( 0, 1, 3, 0 );
-
-		static uint32_t getMaxSpvVersion( uint32_t vkVersion )
-		{
-			uint32_t result{ spv1_0 };
-
-			if ( vkVersion >= vk1_3 )
-			{
-				result = spv1_6;
-			}
-			else if ( vkVersion >= vk1_2 )
-			{
-				result = spv1_5;
-			}
-			else if ( vkVersion >= vk1_1 )
-			{
-				result = spv1_3;
-			}
-			else if ( vkVersion >= vk1_0 )
-			{
-				result = spv1_0;
-			}
-
-			return result;
-		}
-
 		struct SPIRVContext
 		{
 			SPIRVContext()
@@ -1355,96 +1370,41 @@ namespace test
 	}
 
 #endif
-}
 
 #else
 
-#if SDW_Test_HasSpirVTools
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Woverloaded-virtual"
-#pragma GCC diagnostic ignored "-Wtype-limits"
-#if SDW_Test_HasSpirVTools
-#	include "spirv-tools/libspirv.hpp"
-#endif
-#pragma GCC diagnostic pop
-#endif
-
-namespace test
-{
-	static constexpr uint32_t makeVkVersion( uint32_t variant, uint32_t major, uint32_t minor, uint32_t patch )
+	namespace sdw_test
 	{
-		return ( ( ( ( uint32_t )( variant ) ) << 29 )
-			| ( ( ( uint32_t )( major ) ) << 22 )
-			| ( ( ( uint32_t )( minor ) ) << 12 )
-			| ( ( uint32_t )( patch ) ) );
-	}
-
-	static constexpr uint32_t spv1_0 = 0x00010000u;
-	static constexpr uint32_t spv1_1 = 0x00010100u;
-	static constexpr uint32_t spv1_2 = 0x00010200u;
-	static constexpr uint32_t spv1_3 = 0x00010300u;
-	static constexpr uint32_t spv1_4 = 0x00010400u;
-	static constexpr uint32_t spv1_5 = 0x00010500u;
-	static constexpr uint32_t spv1_6 = 0x00010600u;
-
-	static constexpr uint32_t vk1_0 = makeVkVersion( 0, 1, 0, 0 );
-	static constexpr uint32_t vk1_1 = makeVkVersion( 0, 1, 1, 0 );
-	static constexpr uint32_t vk1_2 = makeVkVersion( 0, 1, 2, 0 );
-	static constexpr uint32_t vk1_3 = makeVkVersion( 0, 1, 3, 0 );
-
-	static uint32_t getMaxSpvVersion( uint32_t vkVersion )
-	{
-		uint32_t result{ spv1_0 };
-
-		if ( vkVersion >= vk1_3 )
+		static std::vector< std::pair< uint32_t, uint32_t > > const & getShaderModels()
 		{
-			result = spv1_6;
-		}
-		else if ( vkVersion >= vk1_2 )
-		{
-			result = spv1_5;
-		}
-		else if ( vkVersion >= vk1_1 )
-		{
-			result = spv1_3;
-		}
-		else if ( vkVersion >= vk1_0 )
-		{
-			result = spv1_0;
-		}
-
-		return result;
-	}
-
-	static std::vector< std::pair< uint32_t, uint32_t > > const & getShaderModels()
-	{
-		static std::vector< std::pair< uint32_t, uint32_t > > shaderModels = []()
-		{
-			static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
-			static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
-
-			uint32_t maxApiVersion{ vk1_3 };
-			std::vector< std::pair< uint32_t, uint32_t > > result;
-
-			for ( auto vkV : vkVersions )
+			static std::vector< std::pair< uint32_t, uint32_t > > shaderModels = []()
 			{
-				if ( vkV <= maxApiVersion )
-				{
-					auto maxSpvVersion = getMaxSpvVersion( vkV );
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
 
-					for ( auto it = spvVersions.begin(); it != spvVersions.end(); ++it )
+				uint32_t maxApiVersion{ vk1_3 };
+				std::vector< std::pair< uint32_t, uint32_t > > result;
+
+				for ( auto vkV : vkVersions )
+				{
+					if ( vkV <= maxApiVersion )
 					{
-						if ( *it <= maxSpvVersion )
+						auto maxSpvVersion = getMaxSpvVersion( vkV );
+
+						for ( auto it = spvVersions.begin(); it != spvVersions.end(); ++it )
 						{
-							result.emplace_back( vkV, *it );
+							if ( *it <= maxSpvVersion )
+							{
+								result.emplace_back( vkV, *it );
+							}
 						}
 					}
 				}
-			}
 
-			return result;
-		}();
-		return shaderModels;
+				return result;
+			}();
+			return shaderModels;
+		}
 	}
 
 	bool retrieveIsSpirVInitialised( sdw_test::TestCounts const & testCounts
@@ -1456,18 +1416,18 @@ namespace test
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return getShaderModels()[infoIndex].first;
+		return sdw_test::getShaderModels()[infoIndex].first;
 	}
 
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return getShaderModels()[infoIndex].second;
+		return sdw_test::getShaderModels()[infoIndex].second;
 	}
 
 	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-		return uint32_t( getShaderModels().size() );
+		return uint32_t( sdw_test::getShaderModels().size() );
 	}
 
 	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
@@ -1478,19 +1438,19 @@ namespace test
 
 		switch ( spvVersion )
 		{
-		case spv1_0:
+		case sdw_test::spv1_0:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_0;
-		case spv1_1:
+		case sdw_test::spv1_1:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_1;
-		case spv1_2:
+		case sdw_test::spv1_2:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_2;
-		case spv1_3:
+		case sdw_test::spv1_3:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_3;
-		case spv1_4:
+		case sdw_test::spv1_4:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_4;
-		case spv1_5:
+		case sdw_test::spv1_5:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_5;
-		case spv1_6:
+		case sdw_test::spv1_6:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_6;
 		default:
 			return spv_target_env::SPV_ENV_UNIVERSAL_1_6;
@@ -1526,6 +1486,6 @@ namespace test
 	{
 	}
 #endif
-}
 
 #endif
+}

@@ -52,8 +52,8 @@ namespace hlsl
 			, ast::stmt::Container * intrinsics
 			, bool preventVarTypeReplacement );
 
+		using ast::ExprCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;
 		void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;

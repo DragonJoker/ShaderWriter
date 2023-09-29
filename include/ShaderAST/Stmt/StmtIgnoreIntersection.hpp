@@ -15,7 +15,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		SDAST_API IgnoreIntersection( StmtCache & stmtCache );
+		SDAST_API explicit IgnoreIntersection( StmtCache & stmtCache );
 
 		SDAST_API void accept( VisitorPtr vis )override;
 	};

@@ -77,7 +77,7 @@ namespace sdw
 		: public ShaderWriter
 	{
 	public:
-		SDW_API RayIntersectionWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayIntersectionWriter( ShaderAllocator * allocator = nullptr );
 
 		SDW_API void implementMain( RayIntersectionMainFunc const & function );
 	};

@@ -78,8 +78,8 @@ namespace glsl
 			, ast::stmt::Container * globalsCont
 			, ast::stmt::ContainerPtr & result );
 
+		using ast::StmtCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 
 		void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override;
 		void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override;

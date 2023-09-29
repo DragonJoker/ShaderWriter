@@ -36,8 +36,8 @@ namespace glsl
 			, ast::stmt::Container * container
 			, ast::expr::ExprPtr & result );
 
+		using ast::ExprCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 		void visitAssignExpr( ast::expr::Assign * expr )override;
 		void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;

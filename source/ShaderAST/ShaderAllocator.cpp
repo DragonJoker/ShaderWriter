@@ -4,7 +4,6 @@ See LICENSE file in root folder
 #include "ShaderAST/ShaderAllocator.hpp"
 
 #include <iostream>
-#include <span>
 
 namespace ast
 {
@@ -147,7 +146,7 @@ namespace ast
 		{
 			if ( level == 0 )
 			{
-				return { nullptr };
+				return nullptr;
 			}
 
 			auto buddy = doAllocate( level - 1 );
@@ -347,9 +346,9 @@ namespace ast
 
 		if ( currentIt != m_memory.end() )
 		{
-			for ( auto & memory : std::span{ currentIt, m_memory.end() } )
+			for ( auto it = currentIt; it != m_memory.end(); ++it )
 			{
-				result += memory.offset;
+				result += it->offset;
 			}
 		}
 

@@ -42,9 +42,9 @@ namespace spirv
 			, ast::type::TypesCache & typesCache
 			, ast::stmt::ContainerPtr & result
 			, AdaptationData & adaptationData );
-		
+
+		using ast::StmtCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 
 		void visitElseIfStmt( ast::stmt::ElseIf * stmt )override;
 		void visitElseStmt( ast::stmt::Else * stmt )override;

@@ -52,7 +52,7 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/external/vcpkg/scripts/buildsystems/vcpkg.cmake -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DSDW_ALL_TESTS=OFF
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
     - name: Build
       if: (steps.configure.conclusion == 'success')
       id: build
@@ -72,7 +72,7 @@ jobs:
       shell: bash
       run: |
         cmake --install . --config ${{ matrix.buildType }}
-        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
+        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/ShaderWriter/
     - name: Clean build folder
       if: (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
@@ -125,7 +125,7 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/external/vcpkg/scripts/buildsystems/vcpkg.cmake -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DSDW_ALL_TESTS=OFF
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
     - name: Build
       if: (steps.configure.conclusion == 'success')
       id: build
@@ -139,7 +139,7 @@ jobs:
       shell: bash
       run: |
         cmake --install . --config ${{ matrix.buildType }}
-        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
+        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/ShaderWriter/
     - name: Clean build folder
       if: (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
@@ -199,7 +199,7 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} -DCMAKE_TOOLCHAIN_FILE=$GITHUB_WORKSPACE/external/vcpkg/scripts/buildsystems/vcpkg.cmake -DSDW_UNITY_BUILD=ON -DCMAKE_INSTALL_PREFIX=$GITHUB_WORKSPACE/package/shaderwriter -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DSDW_GENERATE_SOURCE=OFF -DSDW_BUILD_TESTS=ON -DSDW_TESTS_ENABLE_VALIDATION=OFF -DSDW_ALL_TESTS=OFF
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
     - name: Build
       if: (steps.configure.conclusion == 'success')
       id: build
@@ -219,7 +219,7 @@ jobs:
       shell: bash
       run: |
         cmake --install . --config ${{ matrix.buildType }}
-        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/shaderwriter/
+        7z a $GITHUB_WORKSPACE/ShaderWriter-${{ matrix.os[1] }}.zip $GITHUB_WORKSPACE/package/ShaderWriter/
     - name: Clean build folder
       if: (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}

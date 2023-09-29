@@ -24,7 +24,7 @@ namespace ast
 
 	protected:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr * expr );
-		SDAST_API virtual expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
+		SDAST_API expr::ExprPtr doSubmit( expr::ExprPtr const & expr );
 
 		SDAST_API void visitContainerStmt( stmt::Container * cont )override;
 		SDAST_API void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override;

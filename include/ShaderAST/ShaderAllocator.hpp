@@ -7,7 +7,9 @@ See LICENSE file in root folder
 
 #include "ShaderASTPrerequisites.hpp"
 
+#include <list>
 #include <memory>
+#include <unordered_map>
 #include <vector>
 
 namespace ast
@@ -122,7 +124,7 @@ namespace ast
 		friend class ShaderAllocatorBlock;
 
 	public:
-		SDAST_API ShaderAllocator( AllocationMode allocationMode = AllocationMode::eFragmented );
+		SDAST_API explicit ShaderAllocator( AllocationMode allocationMode = AllocationMode::eFragmented );
 		SDAST_API ~ShaderAllocator() = default;
 
 		SDAST_API void * allocate( size_t size );

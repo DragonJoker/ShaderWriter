@@ -164,7 +164,6 @@ namespace spirv
 		private:
 			ast::type::TypePtr type;
 			ast::var::VariablePtr var;
-			ast::expr::Expr * expr{};
 		};
 
 		auto module = spirv::Module::deserialize( spirv );

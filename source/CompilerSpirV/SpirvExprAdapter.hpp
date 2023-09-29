@@ -32,8 +32,8 @@ namespace spirv
 			, AdaptationData & adaptationData
 			, ast::expr::ExprPtr & result );
 
+		using ast::ExprCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		ast::expr::ExprPtr doSubmit( ast::expr::ExprPtr const & expr )override;
 		void visitAssignExpr( ast::expr::Assign * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;

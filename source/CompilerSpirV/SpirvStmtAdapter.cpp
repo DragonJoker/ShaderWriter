@@ -43,11 +43,6 @@ namespace spirv
 		return ExprAdapter::submit( m_exprCache, m_typesCache, expr, m_current, m_ioDeclarations, m_adaptationData );
 	}
 
-	ast::expr::ExprPtr StmtAdapter::doSubmit( ast::expr::ExprPtr const & expr )
-	{
-		return doSubmit( expr.get() );
-	}
-
 	void StmtAdapter::visitElseIfStmt( ast::stmt::ElseIf * stmt )
 	{
 		AST_Failure( "Unexpected ElseIf statement." );

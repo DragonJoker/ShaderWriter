@@ -13,7 +13,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	protected:
-		SDAST_API explicit Container( StmtCache & stmtCache
+		SDAST_API Container( StmtCache & stmtCache
 			, size_t size
 			, Kind kind );
 

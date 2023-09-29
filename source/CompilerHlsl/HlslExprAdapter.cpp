@@ -503,11 +503,6 @@ namespace hlsl
 		return result;
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::ExprPtr const & expr )
-	{
-		return doSubmit( expr.get() );
-	}
-
 	void ExprAdapter::visitArrayAccessExpr( ast::expr::ArrayAccess * expr )
 	{
 		auto arrayIndex = doSubmit( expr->getRHS() );
