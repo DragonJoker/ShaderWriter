@@ -554,7 +554,6 @@ namespace test
 					|| shader.getType() == ast::ShaderStage::eTask
 					|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
 				{
-					testCounts << "COIN !!";
 					try
 					{
 						compileGlslToSpv( shader.getType(), glsl, 150 );
@@ -567,7 +566,6 @@ namespace test
 				}
 				else
 				{
-					testCounts << "GLOP !!";
 					isCompiled = compileGlsl( glsl
 						, shader.getType()
 						, errors

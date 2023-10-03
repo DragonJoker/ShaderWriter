@@ -74,6 +74,21 @@ namespace ast
 
 				registerVariable( var );
 			}
+
+			// Add variables from previous scopes to current scope.
+			it = m_blocks.begin();
+			auto end = m_blocks.begin() + ptrdiff_t( m_blocks.size() - 1 );
+			auto & block = m_blocks.back();
+
+			while ( it != end )
+			{
+				for ( auto var : it->registered )
+				{
+					block.registered.insert( var );
+				}
+
+				++it;
+			}
 		}
 	}
 

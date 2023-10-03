@@ -349,16 +349,13 @@ namespace spirv
 			{
 				result = spv::StorageClassStorageBuffer;
 			}
+			else if ( var->isConstant() )
+			{
+				result = spv::StorageClassUniformConstant;
+			}
 			else
 			{
-				if ( var->isConstant() )
-				{
-					result = spv::StorageClassUniformConstant;
-				}
-				else
-				{
-					result = spv::StorageClassUniform;
-				}
+				result = spv::StorageClassUniform;
 			}
 		}
 		else if ( var->isUniform() )
@@ -409,7 +406,7 @@ namespace spirv
 		{
 			result = spv::StorageClassPushConstant;
 		}
-		else if ( var->isStatic() && var->isConstant() )
+		else if ( var->isStatic() )
 		{
 			result = spv::StorageClassPrivate;
 		}
