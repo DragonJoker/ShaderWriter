@@ -5267,6 +5267,136 @@ namespace ast::expr
 			result = "SUBGROUPQUADSWAPDIAGONAL4D";
 			break;
 
+
+	//Shader Invocation Group Functions
+		case Intrinsic::eReadInvocation1F:
+			result = "READINVOCATION1F";
+			break;
+
+		case Intrinsic::eReadInvocation2F:
+			result = "READINVOCATION2F";
+			break;
+
+		case Intrinsic::eReadInvocation3F:
+			result = "READINVOCATION3F";
+			break;
+
+		case Intrinsic::eReadInvocation4F:
+			result = "READINVOCATION4F";
+			break;
+
+		case Intrinsic::eReadInvocation1I:
+			result = "READINVOCATION1I";
+			break;
+
+		case Intrinsic::eReadInvocation2I:
+			result = "READINVOCATION2I";
+			break;
+
+		case Intrinsic::eReadInvocation3I:
+			result = "READINVOCATION3I";
+			break;
+
+		case Intrinsic::eReadInvocation4I:
+			result = "READINVOCATION4I";
+			break;
+
+		case Intrinsic::eReadInvocation1U:
+			result = "READINVOCATION1U";
+			break;
+
+		case Intrinsic::eReadInvocation2U:
+			result = "READINVOCATION2U";
+			break;
+
+		case Intrinsic::eReadInvocation3U:
+			result = "READINVOCATION3U";
+			break;
+
+		case Intrinsic::eReadInvocation4U:
+			result = "READINVOCATION4U";
+			break;
+
+		case Intrinsic::eReadInvocation1D:
+			result = "READINVOCATION1D";
+			break;
+
+		case Intrinsic::eReadInvocation2D:
+			result = "READINVOCATION2D";
+			break;
+
+		case Intrinsic::eReadInvocation3D:
+			result = "READINVOCATION3D";
+			break;
+
+		case Intrinsic::eReadInvocation4D:
+			result = "READINVOCATION4D";
+			break;
+
+		case Intrinsic::eReadFirstInvocation1F:
+			result = "READFIRSTINVOCATION1F";
+			break;
+
+		case Intrinsic::eReadFirstInvocation2F:
+			result = "READFIRSTINVOCATION2F";
+			break;
+
+		case Intrinsic::eReadFirstInvocation3F:
+			result = "READFIRSTINVOCATION3F";
+			break;
+
+		case Intrinsic::eReadFirstInvocation4F:
+			result = "READFIRSTINVOCATION4F";
+			break;
+
+		case Intrinsic::eReadFirstInvocation1I:
+			result = "READFIRSTINVOCATION1I";
+			break;
+
+		case Intrinsic::eReadFirstInvocation2I:
+			result = "READFIRSTINVOCATION2I";
+			break;
+
+		case Intrinsic::eReadFirstInvocation3I:
+			result = "READFIRSTINVOCATION3I";
+			break;
+
+		case Intrinsic::eReadFirstInvocation4I:
+			result = "READFIRSTINVOCATION4I";
+			break;
+
+		case Intrinsic::eReadFirstInvocation1U:
+			result = "READFIRSTINVOCATION1U";
+			break;
+
+		case Intrinsic::eReadFirstInvocation2U:
+			result = "READFIRSTINVOCATION2U";
+			break;
+
+		case Intrinsic::eReadFirstInvocation3U:
+			result = "READFIRSTINVOCATION3U";
+			break;
+
+		case Intrinsic::eReadFirstInvocation4U:
+			result = "READFIRSTINVOCATION4U";
+			break;
+
+		case Intrinsic::eReadFirstInvocation1D:
+			result = "READFIRSTINVOCATION1D";
+			break;
+
+		case Intrinsic::eReadFirstInvocation2D:
+			result = "READFIRSTINVOCATION2D";
+			break;
+
+		case Intrinsic::eReadFirstInvocation3D:
+			result = "READFIRSTINVOCATION3D";
+			break;
+
+		case Intrinsic::eReadFirstInvocation4D:
+			result = "READFIRSTINVOCATION4D";
+			break;
+
 		default:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}

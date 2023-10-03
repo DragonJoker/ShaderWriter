@@ -412,7 +412,7 @@ namespace spirv
 	using GroupNonUniformBroadcastFirstInstruction = InstructionT< spv::OpGroupNonUniformBroadcastFirst, true, true, 2u, false, false >;
 	using GroupNonUniformBallotInstruction = InstructionT< spv::OpGroupNonUniformBallot, true, true, 2u, false, false >;
 	using GroupNonUniformInverseBallotInstruction = InstructionT< spv::OpGroupNonUniformInverseBallot, true, true, 2u, false, false >;
-	using GroupNonUniformBallotBitExtractInstruction = InstructionT< spv::OpGroupNonUniformBallotBitExtract, true, true, 2u, false, false >;
+	using GroupNonUniformBallotBitExtractInstruction = InstructionT< spv::OpGroupNonUniformBallotBitExtract, true, true, 3u, false, false >;
 	using GroupNonUniformBallotBitCountInstruction = InstructionT< spv::OpGroupNonUniformBallotBitCount, true, true, 3u, false, false >;
 	using GroupNonUniformBallotFindLSBInstruction = InstructionT< spv::OpGroupNonUniformBallotFindLSB, true, true, 2u, false, false >;
 	using GroupNonUniformBallotFindMSBInstruction = InstructionT< spv::OpGroupNonUniformBallotFindMSB, true, true, 2u, false, false >;
