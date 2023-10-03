@@ -61,8 +61,6 @@ See LICENSE file in root folder
 #include "ShaderAST/Expr/ExprUnaryPlus.hpp"
 #include "ShaderAST/Expr/ExprXorAssign.hpp"
 
-#include <iostream>
-
 namespace ast::expr
 {
 	//*********************************************************************************************

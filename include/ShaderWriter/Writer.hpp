@@ -952,6 +952,72 @@ namespace sdw
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
+#pragma region Global variables declaration
+		/**
+		*name
+		*	Global variables declaration.
+		*/
+		/**@{*/
+		template< typename InstanceT >
+		inline InstanceT declGlobal( std::string name
+			, Struct const & type
+			, bool enabled = true );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, bool enabled = true );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, T const & rhs );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, T const & rhs
+			, bool enabled );
+		template< typename T, typename ... ParamsT >
+		inline T declGlobal( std::string name
+			, bool enabled
+			, ParamsT && ... params );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, bool enabled
+			, T const & defaultValue );
+		template< typename T >
+		inline Array< T > declGlobalArray( std::string name
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declGlobalArray( std::string name
+			, uint32_t dimension
+			, std::vector< T > const & rhs
+			, bool enabled = true );
+		template< typename T >
+		inline Array< T > declGlobal( std::string name
+			, Array< T > const & rhs );
+		template< typename T >
+		inline Array< T > declGlobal( std::string name
+			, Array< T > const & rhs
+			, bool enabled );
+		template< typename T >
+		inline Array< T > declGlobalArray( std::string name
+			, uint32_t dimension
+			, bool enabled
+			, std::vector< T > const & defaultValue );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, ReturnWrapperT< T > rhs
+			, bool enabled = true );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, DefaultedT< T > rhs
+			, bool enabled = true );
+		template< typename T >
+		inline T declGlobal( std::string name
+			, bool enabled
+			, ReturnWrapperT< T > defaultValue );
+		template< typename BaseT, typename DerivedT >
+		inline std::unique_ptr< BaseT > declDerivedGlobal( std::string name
+			, bool enabled = true );
+		/**@}*/
+#pragma endregion
 #pragma region Already declared variable getters
 		/**
 		*name

@@ -2073,6 +2073,270 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region Global variables declaration
+	/**
+	*name
+	*	Global variables declaration.
+	*/
+	/**@{*/
+	template< typename InstanceT >
+	inline InstanceT ShaderWriter::declGlobal( std::string name
+		, Struct const & type
+		, bool enabled )
+	{
+		return type.getInstance< InstanceT >( std::move( name ), enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, bool enabled )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, T const & rhs )
+	{
+		return declGlobal( std::move( name ), rhs, rhs.isEnabled() );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, T const & rhs
+		, bool enabled )
+	{
+		auto type = rhs.getType();
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+		enabled = enabled && isOptionalEnabled( rhs );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeExpr( *this, rhs ) ) ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T, typename ... ParamsT >
+	inline T ShaderWriter::declGlobal( std::string name
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		auto type = T::makeType( getTypesCache(), std::forward< ParamsT >( params )... );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, bool enabled
+		, T const & defaultValue )
+	{
+		auto type = T::makeType( getTypesCache() );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( !enabled )
+		{
+			addStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+		else
+		{
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeConstExpr( *this, defaultValue ) ) ) );
+		}
+
+		return T{ *this
+			, makeExpr( *this, var )
+			, true };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declGlobalArray( std::string name
+		, uint32_t dimension
+		, bool enabled )
+	{
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declGlobalArray( std::string name
+		, uint32_t dimension
+		, std::vector< T > const & rhs
+		, bool enabled )
+	{
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+		enabled = enabled && std::all_of( rhs.begin()
+			, rhs.end()
+			, []( T const & v )
+			{
+				return isOptionalEnabled( v );
+			} );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeAggrInit( var
+					, makeExpr( *this, rhs ) ) ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declGlobal( std::string name
+		, Array< T > const & rhs )
+	{
+		return declGlobal( std::move( name ), rhs, rhs.isEnabled() );
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declGlobal( std::string name
+		, Array< T > const & rhs
+		, bool enabled )
+	{
+		auto type = rhs.getType();
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+		enabled = enabled && isOptionalEnabled( rhs );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeInit( var
+					, makeExpr( *this, rhs ) ) ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
+
+	template< typename T >
+	inline Array< T > ShaderWriter::declGlobalArray( std::string name
+		, uint32_t dimension
+		, bool enabled
+		, std::vector< T > const & defaultValue )
+	{
+		auto type = Array< T >::makeType( getTypesCache()
+			, dimension );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+		else
+		{
+			addStmt( sdw::makeSimple( getStmtCache()
+				, sdw::makeAggrInit( var
+					, makeConstExpr( *this, defaultValue ) ) ) );
+		}
+
+		return Array< T >{ *this
+			, makeExpr( *this, var )
+			, true };
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, ReturnWrapperT< T > rhs
+		, bool enabled )
+	{
+		enabled = enabled && areOptionalEnabled( rhs );
+		return declGlobal( std::move( name ), T{ std::move( rhs ) }, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, DefaultedT< T > rhs
+		, bool enabled )
+	{
+		enabled = enabled && areOptionalEnabled( rhs );
+		return declGlobal( std::move( name ), T{ std::move( rhs ) }, enabled );
+	}
+
+	template< typename T >
+	inline T ShaderWriter::declGlobal( std::string name
+		, bool enabled
+		, ReturnWrapperT< T > defaultValue )
+	{
+		return declGlobal( std::move( name ), enabled, T{ std::move( defaultValue ) } );
+	}
+
+	template< typename BaseT, typename DerivedT >
+	inline std::unique_ptr< BaseT > ShaderWriter::declDerivedGlobal( std::string name
+		, bool enabled )
+	{
+		auto type = DerivedT::makeType( getTypesCache() );
+		auto var = registerName( std::move( name )
+			, type
+			, uint64_t( ast::var::Flag::eStatic ) );
+
+		if ( enabled )
+		{
+			addStmt( sdw::makeVariableDecl( getStmtCache(), var ) );
+		}
+
+		return std::make_unique< DerivedT >( *this
+			, makeExpr( *this, var )
+			, enabled );
+	}
+	/**@}*/
+#pragma endregion
 #pragma region Already declared variable getters
 	namespace details
 	{
