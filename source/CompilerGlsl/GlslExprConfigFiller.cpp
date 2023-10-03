@@ -254,6 +254,12 @@ namespace glsl
 			m_config.requiredExtensions.insert( KHR_shader_subgroup );
 			m_config.requiredExtensions.insert( KHR_shader_subgroup_quad );
 		}
+		else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eReadInvocation1F
+			&& expr->getIntrinsic() <= ast::expr::Intrinsic::eReadFirstInvocation4D )
+		{
+			m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+			m_config.requiredExtensions.insert( ARB_shader_ballot );
+		}
 		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier
 			|| expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
 		{

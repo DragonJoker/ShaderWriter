@@ -22865,6 +22865,568 @@ namespace ast::expr
 			, Intrinsic::eSubgroupQuadSwapDiagonal4D
 			, std::move( value ) );
 	}
+	//Shader Invocation Group Functions
+
+	/**
+	*@return
+	*	float
+	*@param[in] value
+	*	float
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation1F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eFloat );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eReadInvocation1F
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec2f
+	*@param[in] value
+	*	vec2f
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation2F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2F )
+			, Intrinsic::eReadInvocation2F
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] value
+	*	vec3f
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation3F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eReadInvocation3F
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec4f
+	*@param[in] value
+	*	vec4f
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation4F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4F )
+			, Intrinsic::eReadInvocation4F
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	int32
+	*@param[in] value
+	*	int32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation1I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eInt32 )
+			, Intrinsic::eReadInvocation1I
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec2i32
+	*@param[in] value
+	*	vec2i32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation2I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2I32 )
+			, Intrinsic::eReadInvocation2I
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec3i32
+	*@param[in] value
+	*	vec3i32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation3I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3I32 )
+			, Intrinsic::eReadInvocation3I
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec4i32
+	*@param[in] value
+	*	vec4i32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation4I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4I32 )
+			, Intrinsic::eReadInvocation4I
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	uint32
+	*@param[in] value
+	*	uint32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation1U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt32 )
+			, Intrinsic::eReadInvocation1U
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec2u32
+	*@param[in] value
+	*	vec2u32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation2U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2U32 )
+			, Intrinsic::eReadInvocation2U
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec3u32
+	*@param[in] value
+	*	vec3u32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation3U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3U32 )
+			, Intrinsic::eReadInvocation3U
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec4u32
+	*@param[in] value
+	*	vec4u32
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation4U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4U32 )
+			, Intrinsic::eReadInvocation4U
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	double
+	*@param[in] value
+	*	double
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation1D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eDouble );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eDouble )
+			, Intrinsic::eReadInvocation1D
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec2d
+	*@param[in] value
+	*	vec2d
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation2D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2D )
+			, Intrinsic::eReadInvocation2D
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec3d
+	*@param[in] value
+	*	vec3d
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation3D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3D )
+			, Intrinsic::eReadInvocation3D
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	vec4d
+	*@param[in] value
+	*	vec4d
+	*@param[in] invocationIndex
+	*	uint
+	*/
+	inline IntrinsicCallPtr makeReadInvocation4D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value
+		, ExprPtr invocationIndex )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
+		assert( invocationIndex->getType()->getRawKind() == type::Kind::eUInt );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4D )
+			, Intrinsic::eReadInvocation4D
+			, std::move( value )
+			, std::move( invocationIndex ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param[in] value
+	*	float
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation1F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eFloat )
+			, Intrinsic::eReadFirstInvocation1F
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec2f
+	*@param[in] value
+	*	vec2f
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation2F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2F );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2F )
+			, Intrinsic::eReadFirstInvocation2F
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec3f
+	*@param[in] value
+	*	vec3f
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation3F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3F );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3F )
+			, Intrinsic::eReadFirstInvocation3F
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec4f
+	*@param[in] value
+	*	vec4f
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation4F( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4F );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4F )
+			, Intrinsic::eReadFirstInvocation4F
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	int32
+	*@param[in] value
+	*	int32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation1I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eInt32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eInt32 )
+			, Intrinsic::eReadFirstInvocation1I
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec2i32
+	*@param[in] value
+	*	vec2i32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation2I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2I32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2I32 )
+			, Intrinsic::eReadFirstInvocation2I
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec3i32
+	*@param[in] value
+	*	vec3i32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation3I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3I32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3I32 )
+			, Intrinsic::eReadFirstInvocation3I
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec4i32
+	*@param[in] value
+	*	vec4i32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation4I( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4I32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4I32 )
+			, Intrinsic::eReadFirstInvocation4I
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	uint32
+	*@param[in] value
+	*	uint32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation1U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eUInt32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eUInt32 )
+			, Intrinsic::eReadFirstInvocation1U
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec2u32
+	*@param[in] value
+	*	vec2u32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation2U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2U32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2U32 )
+			, Intrinsic::eReadFirstInvocation2U
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec3u32
+	*@param[in] value
+	*	vec3u32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation3U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3U32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3U32 )
+			, Intrinsic::eReadFirstInvocation3U
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec4u32
+	*@param[in] value
+	*	vec4u32
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation4U( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4U32 );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4U32 )
+			, Intrinsic::eReadFirstInvocation4U
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	double
+	*@param[in] value
+	*	double
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation1D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eDouble );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eDouble )
+			, Intrinsic::eReadFirstInvocation1D
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec2d
+	*@param[in] value
+	*	vec2d
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation2D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec2D );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec2D )
+			, Intrinsic::eReadFirstInvocation2D
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec3d
+	*@param[in] value
+	*	vec3d
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation3D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec3D );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec3D )
+			, Intrinsic::eReadFirstInvocation3D
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	vec4d
+	*@param[in] value
+	*	vec4d
+	*/
+	inline IntrinsicCallPtr makeReadFirstInvocation4D( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		assert( value->getType()->getRawKind() == type::Kind::eVec4D );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVec4D )
+			, Intrinsic::eReadFirstInvocation4D
+			, std::move( value ) );
+	}
 }
 
 #endif

@@ -3090,6 +3090,12 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseXor > >( returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformLogicalXor:
 			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalXor > >( returnTypeId, resultId, operands );
+		case spv::OpSubgroupBallotKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupBallotKHR > >( returnTypeId, resultId, operands );
+		case spv::OpSubgroupReadInvocationKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupReadInvocationKHR > >( returnTypeId, resultId, operands );
+		case spv::OpSubgroupFirstInvocationKHR:
+			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupFirstInvocationKHR > >( returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadBroadcast:
 			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadSwap:

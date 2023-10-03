@@ -5500,6 +5500,90 @@ namespace
 		testSubgroupQuadSwapDiagonalT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupQuadSwapDiagonalT< sdw::BVec4 >( "4B", testCounts );
 	}
+
+	template< typename ValueT >
+	void testReadInvocationT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testReadInvocation" + name );
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, readInvocation( op, 1_u ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testReadInvocation( test::sdw_test::TestCounts & testCounts )
+	{
+		testReadInvocationT< sdw::Float >( "1F", testCounts );
+		testReadInvocationT< sdw::Vec2 >( "2F", testCounts );
+		testReadInvocationT< sdw::Vec3 >( "3F", testCounts );
+		testReadInvocationT< sdw::Vec4 >( "4F", testCounts );
+		testReadInvocationT< sdw::Double >( "1D", testCounts );
+		testReadInvocationT< sdw::DVec2 >( "2D", testCounts );
+		testReadInvocationT< sdw::DVec3 >( "3D", testCounts );
+		testReadInvocationT< sdw::DVec4 >( "4D", testCounts );
+		testReadInvocationT< sdw::Int >( "1I", testCounts );
+		testReadInvocationT< sdw::IVec2 >( "2I", testCounts );
+		testReadInvocationT< sdw::IVec3 >( "3I", testCounts );
+		testReadInvocationT< sdw::IVec4 >( "4I", testCounts );
+		testReadInvocationT< sdw::UInt >( "1U", testCounts );
+		testReadInvocationT< sdw::UVec2 >( "2U", testCounts );
+		testReadInvocationT< sdw::UVec3 >( "3U", testCounts );
+		testReadInvocationT< sdw::UVec4 >( "4U", testCounts );
+	}
+
+	template< typename ValueT >
+	void testReadFirstInvocationT( std::string const & name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		using namespace sdw;
+		testBegin( "testReadFirstInvocation" + name );
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn )
+				{
+					auto op = writer.declLocale< ValueT >( "op"
+						, test::getDefault< ValueT >( writer ) );
+					auto res = writer.declLocale( "res"
+						, readFirstInvocation( op ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		testEnd();
+	}
+
+	void testReadFirstInvocation( test::sdw_test::TestCounts & testCounts )
+	{
+		testReadFirstInvocationT< sdw::Float >( "1F", testCounts );
+		testReadFirstInvocationT< sdw::Vec2 >( "2F", testCounts );
+		testReadFirstInvocationT< sdw::Vec3 >( "3F", testCounts );
+		testReadFirstInvocationT< sdw::Vec4 >( "4F", testCounts );
+		testReadFirstInvocationT< sdw::Double >( "1D", testCounts );
+		testReadFirstInvocationT< sdw::DVec2 >( "2D", testCounts );
+		testReadFirstInvocationT< sdw::DVec3 >( "3D", testCounts );
+		testReadFirstInvocationT< sdw::DVec4 >( "4D", testCounts );
+		testReadFirstInvocationT< sdw::Int >( "1I", testCounts );
+		testReadFirstInvocationT< sdw::IVec2 >( "2I", testCounts );
+		testReadFirstInvocationT< sdw::IVec3 >( "3I", testCounts );
+		testReadFirstInvocationT< sdw::IVec4 >( "4I", testCounts );
+		testReadFirstInvocationT< sdw::UInt >( "1U", testCounts );
+		testReadFirstInvocationT< sdw::UVec2 >( "2U", testCounts );
+		testReadFirstInvocationT< sdw::UVec3 >( "3U", testCounts );
+		testReadFirstInvocationT< sdw::UVec4 >( "4U", testCounts );
+	}
 }
 
 sdwTestSuiteMain( TestWriterIntrinsics )
@@ -5687,6 +5771,8 @@ sdwTestSuiteMain( TestWriterIntrinsics )
 	testSubgroupQuadSwapHorizontal( testCounts );
 	testSubgroupQuadSwapVertical( testCounts );
 	testSubgroupQuadSwapDiagonal( testCounts );
+	testReadInvocation( testCounts );
+	testReadFirstInvocation( testCounts );
 	sdwTestSuiteEnd();
 }
 

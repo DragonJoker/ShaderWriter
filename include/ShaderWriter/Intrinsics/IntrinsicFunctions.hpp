@@ -2718,6 +2718,54 @@ namespace sdw
 	SDW_API RetDVec4 subgroupQuadSwapDiagonal( DVec4 const value );
 	/**@}*/
 #pragma endregion
+#pragma region readInvocation
+	/**
+	*name
+	*	readInvocation
+	*/
+	/**@{*/
+	SDW_API RetFloat readInvocation( Float const value, UInt const invocationIndex );
+	SDW_API RetVec2 readInvocation( Vec2 const value, UInt const invocationIndex );
+	SDW_API RetVec3 readInvocation( Vec3 const value, UInt const invocationIndex );
+	SDW_API RetVec4 readInvocation( Vec4 const value, UInt const invocationIndex );
+	SDW_API RetInt32 readInvocation( Int32 const value, UInt const invocationIndex );
+	SDW_API RetI32Vec2 readInvocation( I32Vec2 const value, UInt const invocationIndex );
+	SDW_API RetI32Vec3 readInvocation( I32Vec3 const value, UInt const invocationIndex );
+	SDW_API RetI32Vec4 readInvocation( I32Vec4 const value, UInt const invocationIndex );
+	SDW_API RetUInt32 readInvocation( UInt32 const value, UInt const invocationIndex );
+	SDW_API RetU32Vec2 readInvocation( U32Vec2 const value, UInt const invocationIndex );
+	SDW_API RetU32Vec3 readInvocation( U32Vec3 const value, UInt const invocationIndex );
+	SDW_API RetU32Vec4 readInvocation( U32Vec4 const value, UInt const invocationIndex );
+	SDW_API RetDouble readInvocation( Double const value, UInt const invocationIndex );
+	SDW_API RetDVec2 readInvocation( DVec2 const value, UInt const invocationIndex );
+	SDW_API RetDVec3 readInvocation( DVec3 const value, UInt const invocationIndex );
+	SDW_API RetDVec4 readInvocation( DVec4 const value, UInt const invocationIndex );
+	/**@}*/
+#pragma endregion
+#pragma region readFirstInvocation
+	/**
+	*name
+	*	readFirstInvocation
+	*/
+	/**@{*/
+	SDW_API RetFloat readFirstInvocation( Float const value );
+	SDW_API RetVec2 readFirstInvocation( Vec2 const value );
+	SDW_API RetVec3 readFirstInvocation( Vec3 const value );
+	SDW_API RetVec4 readFirstInvocation( Vec4 const value );
+	SDW_API RetInt32 readFirstInvocation( Int32 const value );
+	SDW_API RetI32Vec2 readFirstInvocation( I32Vec2 const value );
+	SDW_API RetI32Vec3 readFirstInvocation( I32Vec3 const value );
+	SDW_API RetI32Vec4 readFirstInvocation( I32Vec4 const value );
+	SDW_API RetUInt32 readFirstInvocation( UInt32 const value );
+	SDW_API RetU32Vec2 readFirstInvocation( U32Vec2 const value );
+	SDW_API RetU32Vec3 readFirstInvocation( U32Vec3 const value );
+	SDW_API RetU32Vec4 readFirstInvocation( U32Vec4 const value );
+	SDW_API RetDouble readFirstInvocation( Double const value );
+	SDW_API RetDVec2 readFirstInvocation( DVec2 const value );
+	SDW_API RetDVec3 readFirstInvocation( DVec3 const value );
+	SDW_API RetDVec4 readFirstInvocation( DVec4 const value );
+	/**@}*/
+#pragma endregion
 }
 
 #endif

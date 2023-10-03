@@ -1847,7 +1847,45 @@ namespace glsl
 			result = "subgroupQuadSwapDiagonal";
 			break;
 
+		case ast::expr::Intrinsic::eReadInvocation1F:
+		case ast::expr::Intrinsic::eReadInvocation2F:
+		case ast::expr::Intrinsic::eReadInvocation3F:
+		case ast::expr::Intrinsic::eReadInvocation4F:
+		case ast::expr::Intrinsic::eReadInvocation1I:
+		case ast::expr::Intrinsic::eReadInvocation2I:
+		case ast::expr::Intrinsic::eReadInvocation3I:
+		case ast::expr::Intrinsic::eReadInvocation4I:
+		case ast::expr::Intrinsic::eReadInvocation1U:
+		case ast::expr::Intrinsic::eReadInvocation2U:
+		case ast::expr::Intrinsic::eReadInvocation3U:
+		case ast::expr::Intrinsic::eReadInvocation4U:
+			result = "readInvocationARB";
+			break;
+
+		case ast::expr::Intrinsic::eReadFirstInvocation1F:
+		case ast::expr::Intrinsic::eReadFirstInvocation2F:
+		case ast::expr::Intrinsic::eReadFirstInvocation3F:
+		case ast::expr::Intrinsic::eReadFirstInvocation4F:
+		case ast::expr::Intrinsic::eReadFirstInvocation1I:
+		case ast::expr::Intrinsic::eReadFirstInvocation2I:
+		case ast::expr::Intrinsic::eReadFirstInvocation3I:
+		case ast::expr::Intrinsic::eReadFirstInvocation4I:
+		case ast::expr::Intrinsic::eReadFirstInvocation1U:
+		case ast::expr::Intrinsic::eReadFirstInvocation2U:
+		case ast::expr::Intrinsic::eReadFirstInvocation3U:
+		case ast::expr::Intrinsic::eReadFirstInvocation4U:
+			result = "readFirstInvocationARB";
+			break;
+
 		default:
+		case ast::expr::Intrinsic::eReadInvocation1D:
+		case ast::expr::Intrinsic::eReadInvocation2D:
+		case ast::expr::Intrinsic::eReadInvocation3D:
+		case ast::expr::Intrinsic::eReadInvocation4D:
+		case ast::expr::Intrinsic::eReadFirstInvocation1D:
+		case ast::expr::Intrinsic::eReadFirstInvocation2D:
+		case ast::expr::Intrinsic::eReadFirstInvocation3D:
+		case ast::expr::Intrinsic::eReadFirstInvocation4D:
 			throw std::runtime_error{ "Unsupported Intrinsic type." };
 		}
 

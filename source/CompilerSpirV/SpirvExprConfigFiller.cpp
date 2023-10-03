@@ -110,6 +110,11 @@ namespace spirv
 			{
 				config.registerCapability( spv::CapabilityGroupNonUniformQuad );
 			}
+			else if ( kind >= ast::expr::Intrinsic::eReadInvocation1F
+				&& kind <= ast::expr::Intrinsic::eReadFirstInvocation4D )
+			{
+				config.registerCapability( spv::CapabilitySubgroupBallotKHR );
+			}
 			else if ( kind >= ast::expr::Intrinsic::eControlBarrier
 				&& kind <= ast::expr::Intrinsic::eMemoryBarrier )
 			{

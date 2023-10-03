@@ -13151,4 +13151,308 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region readInvocation
+	/**
+	*name
+	*	readInvocation
+	*/
+	/**@{*/
+	RetFloat readInvocation( Float const value
+		, UInt const invocationIndex )
+	{
+		return RetFloat{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation1F( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetVec2 readInvocation( Vec2 const value
+		, UInt const invocationIndex )
+	{
+		return RetVec2{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation2F( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetVec3 readInvocation( Vec3 const value
+		, UInt const invocationIndex )
+	{
+		return RetVec3{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation3F( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetVec4 readInvocation( Vec4 const value
+		, UInt const invocationIndex )
+	{
+		return RetVec4{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation4F( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetInt32 readInvocation( Int32 const value
+		, UInt const invocationIndex )
+	{
+		return RetInt32{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation1I( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetI32Vec2 readInvocation( I32Vec2 const value
+		, UInt const invocationIndex )
+	{
+		return RetI32Vec2{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation2I( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetI32Vec3 readInvocation( I32Vec3 const value
+		, UInt const invocationIndex )
+	{
+		return RetI32Vec3{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation3I( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetI32Vec4 readInvocation( I32Vec4 const value
+		, UInt const invocationIndex )
+	{
+		return RetI32Vec4{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation4I( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetUInt32 readInvocation( UInt32 const value
+		, UInt const invocationIndex )
+	{
+		return RetUInt32{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation1U( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetU32Vec2 readInvocation( U32Vec2 const value
+		, UInt const invocationIndex )
+	{
+		return RetU32Vec2{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation2U( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetU32Vec3 readInvocation( U32Vec3 const value
+		, UInt const invocationIndex )
+	{
+		return RetU32Vec3{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation3U( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetU32Vec4 readInvocation( U32Vec4 const value
+		, UInt const invocationIndex )
+	{
+		return RetU32Vec4{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation4U( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetDouble readInvocation( Double const value
+		, UInt const invocationIndex )
+	{
+		return RetDouble{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation1D( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetDVec2 readInvocation( DVec2 const value
+		, UInt const invocationIndex )
+	{
+		return RetDVec2{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation2D( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetDVec3 readInvocation( DVec3 const value
+		, UInt const invocationIndex )
+	{
+		return RetDVec3{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation3D( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	RetDVec4 readInvocation( DVec4 const value
+		, UInt const invocationIndex )
+	{
+		return RetDVec4{ *findWriter( value, invocationIndex )
+			, expr::makeReadInvocation4D( findExprCache( value, invocationIndex )
+				, findTypesCache( value, invocationIndex )
+				, makeExpr( value )
+				, makeExpr( invocationIndex ) )
+			, areOptionalEnabled( value, invocationIndex ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region readFirstInvocation
+	/**
+	*name
+	*	readFirstInvocation
+	*/
+	/**@{*/
+	RetFloat readFirstInvocation( Float const value )
+	{
+		return RetFloat{ *findWriter( value )
+			, expr::makeReadFirstInvocation1F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetVec2 readFirstInvocation( Vec2 const value )
+	{
+		return RetVec2{ *findWriter( value )
+			, expr::makeReadFirstInvocation2F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetVec3 readFirstInvocation( Vec3 const value )
+	{
+		return RetVec3{ *findWriter( value )
+			, expr::makeReadFirstInvocation3F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetVec4 readFirstInvocation( Vec4 const value )
+	{
+		return RetVec4{ *findWriter( value )
+			, expr::makeReadFirstInvocation4F( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetInt32 readFirstInvocation( Int32 const value )
+	{
+		return RetInt32{ *findWriter( value )
+			, expr::makeReadFirstInvocation1I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetI32Vec2 readFirstInvocation( I32Vec2 const value )
+	{
+		return RetI32Vec2{ *findWriter( value )
+			, expr::makeReadFirstInvocation2I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetI32Vec3 readFirstInvocation( I32Vec3 const value )
+	{
+		return RetI32Vec3{ *findWriter( value )
+			, expr::makeReadFirstInvocation3I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetI32Vec4 readFirstInvocation( I32Vec4 const value )
+	{
+		return RetI32Vec4{ *findWriter( value )
+			, expr::makeReadFirstInvocation4I( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetUInt32 readFirstInvocation( UInt32 const value )
+	{
+		return RetUInt32{ *findWriter( value )
+			, expr::makeReadFirstInvocation1U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetU32Vec2 readFirstInvocation( U32Vec2 const value )
+	{
+		return RetU32Vec2{ *findWriter( value )
+			, expr::makeReadFirstInvocation2U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetU32Vec3 readFirstInvocation( U32Vec3 const value )
+	{
+		return RetU32Vec3{ *findWriter( value )
+			, expr::makeReadFirstInvocation3U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetU32Vec4 readFirstInvocation( U32Vec4 const value )
+	{
+		return RetU32Vec4{ *findWriter( value )
+			, expr::makeReadFirstInvocation4U( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetDouble readFirstInvocation( Double const value )
+	{
+		return RetDouble{ *findWriter( value )
+			, expr::makeReadFirstInvocation1D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetDVec2 readFirstInvocation( DVec2 const value )
+	{
+		return RetDVec2{ *findWriter( value )
+			, expr::makeReadFirstInvocation2D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetDVec3 readFirstInvocation( DVec3 const value )
+	{
+		return RetDVec3{ *findWriter( value )
+			, expr::makeReadFirstInvocation3D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	RetDVec4 readFirstInvocation( DVec4 const value )
+	{
+		return RetDVec4{ *findWriter( value )
+			, expr::makeReadFirstInvocation4D( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
 }
