@@ -24,6 +24,11 @@ namespace spirv
 
 		bool needsStoreOnPromote()const;
 
+		ValueId const * operator->()const
+		{
+			return &id;
+		}
+
 		ValueId id;
 		bool isAlias;
 		bool isParam;
@@ -38,19 +43,21 @@ namespace spirv
 		Block & operator=( Block const & rhs ) = delete;
 		SDWSPIRV_API Block( Block && rhs );
 		SDWSPIRV_API Block & operator=( Block && rhs );
-		SDWSPIRV_API explicit Block( spv::Id plabel = {} );
+		SDWSPIRV_API explicit Block( ast::ShaderAllocatorBlock * alloc
+			, spv::Id plabel = {} );
 
-		SDWSPIRV_API static Block deserialize( InstructionPtr firstInstruction
-			, InstructionListIt & buffer
-			, InstructionListIt const & end );
+		SDWSPIRV_API static Block deserialize( ast::ShaderAllocatorBlock * alloc
+			, InstructionPtr firstInstruction
+			, InstructionList::iterator & buffer
+			, InstructionList::iterator const & end );
 
 		// Serialisable.
 		spv::Id label{};
-		InstructionList instructions{};
+		InstructionList instructions;
 		InstructionPtr blockEnd{};
 		// Used during construction.
-		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > accessChains{};
-		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > vectorShuffles{};
+		UnorderedMap< ValueIdList, ValueId, ValueIdListHasher > accessChains;
+		UnorderedMap< ValueIdList, ValueId, ValueIdListHasher > vectorShuffles;
 		bool isInterrupted{};
 	};
 }

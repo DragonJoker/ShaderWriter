@@ -5,8 +5,18 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	Function Function::deserialize( InstructionListIt & buffer
-		, InstructionListIt const & end )
+	Function::Function( ast::ShaderAllocatorBlock * alloc )
+		: declaration{ ModuleAllocatorT< InstructionPtr >{ alloc } }
+		, cfg{ alloc }
+		, variables{ ModuleAllocatorT< InstructionPtr >{ alloc } }
+		, promotedParams{ ModuleAllocatorT< InstructionPtr >{ alloc } }
+		, registeredVariables{ ModuleMapAllocatorT< std::string, VariableInfo >{ alloc } }
+	{
+	}
+
+	Function Function::deserialize( ast::ShaderAllocatorBlock * alloc
+		, InstructionList::iterator & buffer
+		, InstructionList::iterator const & end )
 	{
 		auto popValue = [&buffer]()
 		{
@@ -21,7 +31,7 @@ namespace spirv
 				|| opCode == spv::OpVariable;
 		};
 
-		Function result;
+		Function result{ alloc };
 
 		while ( buffer != end )
 		{
@@ -33,7 +43,7 @@ namespace spirv
 			}
 			else
 			{
-				result.cfg.blocks.emplace_back( Block::deserialize( std::move( instruction ), buffer, end ) );
+				result.cfg.blocks.emplace_back( Block::deserialize( alloc, std::move( instruction ), buffer, end ) );
 			}
 		}
 		

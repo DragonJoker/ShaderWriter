@@ -52,7 +52,8 @@ namespace spirv
 
 	struct IOMapping
 	{
-		IOMapping( ast::type::TypesCache & typesCache
+		IOMapping( ast::ShaderAllocatorBlock * alloc
+			, ast::type::TypesCache & typesCache
 			, ast::ShaderStage stage
 			, bool isInput
 			, uint32_t & nextVarId );
@@ -62,8 +63,8 @@ namespace spirv
 		bool isInput;
 		uint32_t * nextVarId;
 		using VarMbrsIndex = std::pair< ast::var::VariablePtr, uint32_t >;
-		std::map< ast::var::VariablePtr, VarMbrsIndex > splitVarsBuiltins{};
-		std::map< ast::var::VariablePtr, VarMbrsIndex > splitVarsOthers{};
+		Map< ast::var::VariablePtr, VarMbrsIndex > splitVarsBuiltins;
+		Map< ast::var::VariablePtr, VarMbrsIndex > splitVarsOthers;
 
 		void declare( ast::stmt::Container & stmt );
 
@@ -136,16 +137,16 @@ namespace spirv
 				return lhs.id < rhs.id;
 			}
 		};
-		std::map< ast::EntityName, PendingIO, MapComp > m_pending;
+		Map< ast::EntityName, PendingIO, MapComp > m_pending;
 		struct PendingMbrIO
 		{
 			ast::var::VariablePtr outer;
 			uint32_t index;
 			PendingIO io;
 		};
-		std::vector< PendingMbrIO > m_pendingMbr;
-		std::map< ast::Builtin, ast::var::VariablePtr > m_processedBuiltins;
-		std::map< std::string, ast::var::VariablePtr > m_processedIOs;
+		Vector< PendingMbrIO > m_pendingMbr;
+		Map< ast::Builtin, ast::var::VariablePtr > m_processedBuiltins;
+		Map< std::string, ast::var::VariablePtr > m_processedIOs;
 		ast::var::VariableList m_processed;
 	};
 
@@ -153,7 +154,8 @@ namespace spirv
 
 	struct ModuleConfig
 	{
-		ModuleConfig( SpirVConfig & pspirvConfig
+		ModuleConfig( ast::ShaderAllocatorBlock * alloc
+			, SpirVConfig & pspirvConfig
 			, ast::type::TypesCache & typesCache
 			, ast::ShaderStage pstage
 			, uint32_t pnextVarId
@@ -161,9 +163,12 @@ namespace spirv
 			: nextVarId{ pnextVarId }
 			, aliasId{ paliasId }
 			, stage{ pstage }
+			, executionModes{ alloc }
 			, spirvConfig{ pspirvConfig }
-			, inputs{ typesCache, stage, true, nextVarId }
-			, outputs{ typesCache, stage, false, nextVarId }
+			, inputs{ alloc, typesCache, stage, true, nextVarId }
+			, outputs{ alloc, typesCache, stage, false, nextVarId }
+			, requiredCapabilities{ alloc }
+			, requiredExtensions{}
 		{
 		}
 
@@ -172,7 +177,7 @@ namespace spirv
 		ast::ShaderStage stage;
 		spv::AddressingModel addressingModel{ spv::AddressingModelLogical };
 		
-		std::set< spv::ExecutionMode > executionModes;
+		Set< spv::ExecutionMode > executionModes;
 
 		void registerCapability( spv::Capability capability );
 		bool registerExtension( SpirVExtension extension
@@ -418,7 +423,7 @@ namespace spirv
 		SpirVConfig & spirvConfig;
 		IOMapping inputs;
 		IOMapping outputs;
-		std::set< spv::Capability > requiredCapabilities;
+		Set< spv::Capability > requiredCapabilities;
 		SpirVExtensionSet requiredExtensions;
 	};
 
@@ -451,8 +456,14 @@ namespace spirv
 
 	struct PreprocContext
 	{
-		std::map< uint32_t, ast::expr::ExprPtr > constExprs;
-		std::map< uint32_t, ast::expr::ExprList > constAggrExprs;
+		PreprocContext( ast::ShaderAllocatorBlock * alloc )
+			: constExprs{ alloc }
+			, constAggrExprs{ alloc }
+		{
+		}
+
+		Map< uint32_t, ast::expr::ExprPtr > constExprs;
+		Map< uint32_t, ast::expr::ExprList > constAggrExprs;
 		ValueId workGroupSizeExpr;
 	};
 
@@ -460,59 +471,72 @@ namespace spirv
 		, ModuleConfig & config );
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, spv::ExecutionModel executionModel
-		, std::vector< spv::Decoration > & additionalDecorations );
+		, Vector< spv::Decoration > & additionalDecorations );
 	spv::MemoryModel getMemoryModel();
 	spv::ExecutionModel getExecutionModel( ast::ShaderStage kind );
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
 	std::string getName( spv::Capability value );
-	ValueIdList makeBinOpOperands( ast::expr::Kind exprKind
+	ValueIdList makeBinOpOperands( ast::ShaderAllocatorBlock * alloc
+		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
 		, ValueId lhs
 		, ValueId rhs );
-	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
+	InstructionPtr makeImageTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ast::type::ImageConfiguration const & config
 		, ast::type::Trinary isComparison
 		, ValueId resultId
 		, ValueId sampledTypeId );
-	InstructionPtr makeAccelerationStructureTypeInstruction( ValueId resultId );
-	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
+	InstructionPtr makeAccelerationStructureTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId resultId );
+	InstructionPtr makeBaseTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ast::type::Kind kind
 		, ValueId id );
-	InstructionPtr makeIntrinsicInstruction( spv::Op op
+	InstructionPtr makeIntrinsicInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, spv::Op op
 		, ValueIdList const & operands );
-	InstructionPtr makeIntrinsicInstruction( ValueId returnTypeId
+	InstructionPtr makeIntrinsicInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands );
-	InstructionPtr makeSampledImageAccessInstruction( ValueId returnTypeId
+	InstructionPtr makeSampledImageAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands );
-	InstructionPtr makeTextureAccessInstruction( ValueId returnTypeId
+	InstructionPtr makeTextureAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands );
-	InstructionPtr makeImageAccessInstruction( ValueId returnTypeId
+	InstructionPtr makeImageAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands );
-	InstructionPtr makeCastInstruction( ValueId returnTypeId
+	InstructionPtr makeCastInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueId operandId );
-	InstructionPtr makeUnInstruction( ValueId returnTypeId
+	InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind typeKind
 		, ValueId operand );
-	InstructionPtr makeBinInstruction( ValueId returnTypeId
+	InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
 		, ValueId lhs
 		, ValueId rhs );
-	InstructionPtr makeVariableInstruction( ValueId typeId
+	InstructionPtr makeVariableInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId typeId
 		, ValueId varId
 		, ValueId initialiser = {} );
 	ast::expr::ExprPtr makeZero( ast::expr::ExprCache & exprCache
@@ -531,7 +555,8 @@ namespace spirv
 	bool isPointerParam( ast::type::TypePtr type
 		, bool isOutputParam );
 	bool isPointerParam( ast::var::Variable const & param );
-	void insertCapability( InstructionList & capabilities
+	void insertCapability( Map< std::string, Vector< uint32_t > > & nameCache
+		, InstructionList & capabilities
 		, spv::Capability capa );
 	void decorateVar( ast::var::Variable const & var
 		, ValueId varId

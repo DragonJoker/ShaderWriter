@@ -47,7 +47,7 @@ namespace spirv
 			ast::expr::Kind kind;
 			ast::expr::Expr * expr{};
 		};
-		using AccessChainExprArray = std::vector< AccessChainExpr >;
+		using AccessChainExprArray = Vector< AccessChainExpr >;
 
 		class AccessChainLineariser
 			: public ast::expr::SimpleVisitor
@@ -89,7 +89,7 @@ namespace spirv
 				, ast::expr::ExprList & idents
 				, bool parsingMbrSelect )
 			{
-				AccessChainExprArray result;
+				AccessChainExprArray result{ &exprCache.getAllocator() };
 				AccessChainLineariser vis{ exprCache
 					, typesCache
 					, kind
@@ -247,7 +247,7 @@ namespace spirv
 				, Module & module
 				, Block & currentBlock )
 			{
-				ValueIdList result;
+				ValueIdList result{ &exprCache.getAllocator() };
 				assert( exprs.size() >= 2u );
 				auto it = exprs.begin();
 				result.push_back( submit( exprCache
@@ -611,7 +611,8 @@ namespace spirv
 				// Reserve the ID for the result.
 				ValueId resultId{ module.getIntermediateResult(), pointerTypeId.type };
 				// Write access chain => resultId = pointerTypeId( outer.members + index ).
-				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
+				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.nameCache
+					, pointerTypeId
 					, resultId
 					, accessChain ) );
 				it = currentBlock.accessChains.emplace( accessChain, resultId ).first;
@@ -639,9 +640,10 @@ namespace spirv
 			auto pointerTypeId = module.registerPointerType( rawTypeId
 				, storageClass );
 			// Reserve the ID for the result.
-			ValueId result{ module.getIntermediateResult(), pointerTypeId.type };
+			ValueId result{ module.getIntermediateResult(), pointerTypeId->type };
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).
-			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( pointerTypeId
+			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.nameCache
+				, pointerTypeId.id
 				, result
 				, accessChain ) );
 			return result;
@@ -687,28 +689,30 @@ namespace spirv
 				, currentBlock
 				, module )
 			, currentBlock );
-		ValueId result{ 0u, typeId.type };
-		auto swizzleComponents = convert( getSwizzleComponents( expr->getSwizzle() ) );
+		ValueId result{ 0u, typeId->type };
+		auto swizzleComponents = convert( getSwizzleComponents( module.allocator, expr->getSwizzle() ) );
 
 		if ( swizzleComponents.size() == 1u )
 		{
-			ValueIdList extract;
+			ValueIdList extract{ &exprCache.getAllocator() };
 			extract.push_back( outerId );
 			extract.push_back( swizzleComponents.front() );
-			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
-			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( typeId
+			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId->type };
+			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( module.nameCache
+				, typeId.id
 				, intermediateId
 				, extract ) );
 			result = intermediateId;
 		}
 		else
 		{
-			ValueIdList shuffle;
+			ValueIdList shuffle{ &exprCache.getAllocator() };
 			shuffle.push_back( outerId );
 			shuffle.push_back( outerId );
 			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
-			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId.type };
-			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( typeId
+			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId->type };
+			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( module.nameCache
+				, typeId.id
 				, intermediateId
 				, shuffle ) );
 			result = intermediateId;

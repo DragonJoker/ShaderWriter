@@ -109,8 +109,8 @@ namespace ast
 		SDAST_API ShaderAllocatorBlock & operator=( ShaderAllocatorBlock && rhs )noexcept;
 		SDAST_API ~ShaderAllocatorBlock()noexcept;
 
-		SDAST_API void * allocate( size_t size );
-		SDAST_API void deallocate( void * mem, size_t size )noexcept;
+		SDAST_API void * allocate( size_t size, size_t count = 1u );
+		SDAST_API void deallocate( void * mem, size_t size, size_t count = 1u )noexcept;
 
 		SDAST_API size_t report()const;
 
@@ -127,8 +127,8 @@ namespace ast
 		SDAST_API explicit ShaderAllocator( AllocationMode allocationMode = AllocationMode::eFragmented );
 		SDAST_API ~ShaderAllocator() = default;
 
-		SDAST_API void * allocate( size_t size );
-		SDAST_API void deallocate( void * mem, size_t size )noexcept;
+		SDAST_API void * allocate( size_t size, size_t count = 1u );
+		SDAST_API void deallocate( void * mem, size_t size, size_t count = 1u )noexcept;
 
 		SDAST_API MemoryCursor getCursor()const noexcept;
 		SDAST_API size_t getMemDiff( MemoryCursor const & cursor )const noexcept;
@@ -144,8 +144,8 @@ namespace ast
 		{
 			static size_t constexpr BlockAllocSize = 1024 * 1024;
 
-			Memory()
-				: data{ std::make_unique< std::vector< std::byte > >( BlockAllocSize ) }
+			Memory( size_t size = BlockAllocSize )
+				: data{ std::make_unique< std::vector< std::byte > >( std::max( size, BlockAllocSize ) ) }
 			{
 			}
 

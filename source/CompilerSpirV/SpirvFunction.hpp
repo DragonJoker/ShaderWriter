@@ -31,49 +31,68 @@ namespace spirv
 		{
 		}
 
+		Variable( ast::ShaderAllocatorBlock * alloc )
+			: decorations{ ModuleAllocatorT< spv::Id >{ alloc } }
+		{
+		}
+
 		ast::var::VariablePtr var;
 		IdList decorations;
 	};
 
 	using VariablePtr = std::shared_ptr< Variable >;
-	using VariableArray = std::vector< VariablePtr >;
+	using VariableArray = Vector< VariablePtr >;
 
 	struct VarUsage
 	{
+		VarUsage( ast::ShaderAllocatorBlock * alloc )
+			: use{ ModuleAllocatorT< VariablePtr >{ alloc } }
+		{
+		}
+
 		VariableArray use;
 		VariablePtr set;
 	};
 
-	using VarUsageArray = std::vector< VarUsage >;
-	using UsedVars = std::set< VariablePtr >;
+	using VarUsageArray = Vector< VarUsage >;
+	using UsedVars = Set< VariablePtr >;
 
 	struct BlockStruct
 	{
-		explicit BlockStruct( BlockType ptype )
+		explicit BlockStruct( ast::ShaderAllocatorBlock * alloc
+			, BlockType ptype )
 			: type{ ptype }
+			, usages{ ModuleAllocatorT< VarUsage >{ alloc } }
+			, ownVars{ ModuleAllocatorT< VariablePtr >{ alloc } }
 			, allVars{ &ownVars }
 		{
 		}
 
 		BlockType type{};
-		VarUsageArray usages{};
-		VariableArray ownVars{};
+		VarUsageArray usages;
+		VariableArray ownVars;
 		VariableArray * allVars{};
 	};
 
 	using BlockStructPtr = std::unique_ptr< BlockStruct >;
-	using BlockStructMap = std::map< uint32_t, BlockStructPtr >;
+	using BlockStructMap = Map< uint32_t, BlockStructPtr >;
 
-	using TypeMap = std::map< uint32_t, ast::type::TypePtr >;
+	using TypeMap = Map< uint32_t, ast::type::TypePtr >;
 
 	struct ModuleStruct
 	{
+		ModuleStruct( ast::ShaderAllocatorBlock * alloc )
+			: types{ ModuleMapAllocatorT< uint32_t, ast::type::TypePtr >{ alloc } }
+			, functionScopes{ ModuleMapAllocatorT< uint32_t, BlockStructPtr >{ alloc } }
+		{
+		}
+
 		TypeMap types;
 		BlockStructPtr globalScope;
 		BlockStructMap functionScopes;
 	};
 
-	using IdSet = std::set< spv::Id >;
+	using IdSet = Set< spv::Id >;
 
 	struct Parameter
 	{
@@ -81,11 +100,16 @@ namespace spirv
 		spv::Id type;
 	};
 
-	using ParameterList = std::vector< Parameter >;
-	using BlockList = std::vector< Block >;
+	using ParameterList = Vector< Parameter >;
+	using BlockList = Vector< Block >;
 
 	struct ControlFlowGraph
 	{
+		ControlFlowGraph( ast::ShaderAllocatorBlock * alloc )
+			: blocks{ ModuleAllocatorT< Block >{ alloc } }
+		{
+		}
+
 		BlockList blocks;
 	};
 
@@ -95,10 +119,11 @@ namespace spirv
 		Function & operator=( Function const & rhs ) = delete;
 		SDWSPIRV_API Function( Function && rhs ) = default;
 		SDWSPIRV_API Function & operator=( Function && rhs ) = default;
-		SDWSPIRV_API Function() = default;
 
-		SDWSPIRV_API static Function deserialize( InstructionListIt & buffer
-			, InstructionListIt const & end );
+		SDWSPIRV_API Function( ast::ShaderAllocatorBlock * alloc );
+		SDWSPIRV_API static Function deserialize( ast::ShaderAllocatorBlock * alloc
+			, InstructionList::iterator & buffer
+			, InstructionList::iterator const & end );
 
 		// Serialisable.
 		InstructionList declaration;
@@ -106,8 +131,10 @@ namespace spirv
 		// Used during construction.
 		InstructionList variables;
 		InstructionList promotedParams;
-		std::map< std::string, VariableInfo > registeredVariables;
+		Map< std::string, VariableInfo > registeredVariables;
 	};
+
+	using FunctionList = Vector< Function >;
 }
 
 #endif

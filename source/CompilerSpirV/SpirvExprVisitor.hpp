@@ -199,8 +199,8 @@ namespace spirv
 		void handleBarrierIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleSubgroupIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
 		void handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr );
-		ValueId getUnsignedExtendedResultTypeId( uint32_t count );
-		ValueId getSignedExtendedResultTypeId( uint32_t count );
+		TypeId getUnsignedExtendedResultTypeId( uint32_t count );
+		TypeId getSignedExtendedResultTypeId( uint32_t count );
 		ValueId getVariablePointer( ast::expr::Expr * expr );
 		ValueId loadVariable( ValueId varId );
 		void storeVariable( ValueId varId, ValueId valId );
@@ -232,6 +232,7 @@ namespace spirv
 		Block & m_currentBlock;
 		Module & m_module;
 		bool & m_allLiterals;
+		ast::ShaderAllocatorBlock * m_allocator;
 		ValueId m_initialiser;
 		bool m_hasFuncInit{ false };
 		bool m_isAlias;

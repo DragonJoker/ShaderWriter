@@ -521,7 +521,7 @@ namespace spirv
 		case spv::OpMemberName:
 			return "MemberName";
 		case spv::OpString:
-			return "String";
+			return "std::string";
 		case spv::OpLine:
 			return "Line";
 		case spv::OpExtension:

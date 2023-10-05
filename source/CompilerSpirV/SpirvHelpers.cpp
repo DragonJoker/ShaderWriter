@@ -108,10 +108,11 @@ namespace spirv
 				std::swap( lhs, rhs );
 			}
 
-			operands = makeOperands( lhs, rhs );
+			operands = makeOperands( operands.get_allocator().getAllocator(), lhs, rhs );
 		}
 
-		InstructionPtr makeUnInstruction( spv::Op op
+		InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+			, spv::Op op
 			, ValueId returnTypeId
 			, ValueId resultId
 			, ValueId operandId )
@@ -119,13 +120,13 @@ namespace spirv
 			switch ( op )
 			{
 			case spv::OpNot:
-				return makeInstruction< UnInstructionT< spv::OpNot > >( returnTypeId, resultId, operandId );
+				return makeInstruction< UnInstructionT< spv::OpNot > >( nameCache, returnTypeId, resultId, operandId );
 			case spv::OpLogicalNot:
-				return makeInstruction< UnInstructionT< spv::OpLogicalNot > >( returnTypeId, resultId, operandId );
+				return makeInstruction< UnInstructionT< spv::OpLogicalNot > >( nameCache, returnTypeId, resultId, operandId );
 			case spv::OpFNegate:
-				return makeInstruction< UnInstructionT< spv::OpFNegate > >( returnTypeId, resultId, operandId );
+				return makeInstruction< UnInstructionT< spv::OpFNegate > >( nameCache, returnTypeId, resultId, operandId );
 			case spv::OpSNegate:
-				return makeInstruction< UnInstructionT< spv::OpSNegate > >( returnTypeId, resultId, operandId );
+				return makeInstruction< UnInstructionT< spv::OpSNegate > >( nameCache, returnTypeId, resultId, operandId );
 			default:
 				AST_Failure( "Unexpected unary operation Op" );
 			}
@@ -133,7 +134,8 @@ namespace spirv
 			return nullptr;
 		}
 
-		InstructionPtr makeBinInstruction( spv::Op op
+		InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+			, spv::Op op
 			, ValueId returnTypeId
 			, ValueId resultId
 			, ValueIdList const & operands )
@@ -141,93 +143,93 @@ namespace spirv
 			switch ( op )
 			{
 			case spv::OpFAdd:
-				return makeInstruction< BinInstructionT< spv::OpFAdd > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFAdd > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpIAdd:
-				return makeInstruction< BinInstructionT< spv::OpIAdd > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpIAdd > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFSub:
-				return makeInstruction< BinInstructionT< spv::OpFSub > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFSub > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpISub:
-				return makeInstruction< BinInstructionT< spv::OpISub > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpISub > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFMul:
-				return makeInstruction< BinInstructionT< spv::OpFMul > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFMul > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpIMul:
-				return makeInstruction< BinInstructionT< spv::OpIMul > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpIMul > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFDiv:
-				return makeInstruction< BinInstructionT< spv::OpFDiv > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFDiv > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpSDiv:
-				return makeInstruction< BinInstructionT< spv::OpSDiv > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpSDiv > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpUDiv:
-				return makeInstruction< BinInstructionT< spv::OpUDiv > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpUDiv > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFMod:
-				return makeInstruction< BinInstructionT< spv::OpFMod > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFMod > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpSMod:
-				return makeInstruction< BinInstructionT< spv::OpSMod > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpSMod > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpUMod:
-				return makeInstruction< BinInstructionT< spv::OpUMod > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpUMod > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpMatrixTimesMatrix:
-				return makeInstruction< BinInstructionT< spv::OpMatrixTimesMatrix > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpMatrixTimesMatrix > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpMatrixTimesVector:
-				return makeInstruction< BinInstructionT< spv::OpMatrixTimesVector > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpMatrixTimesVector > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpMatrixTimesScalar:
-				return makeInstruction< BinInstructionT< spv::OpMatrixTimesScalar > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpMatrixTimesScalar > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpVectorTimesMatrix:
-				return makeInstruction< BinInstructionT< spv::OpVectorTimesMatrix > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpVectorTimesMatrix > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpVectorTimesScalar:
-				return makeInstruction< BinInstructionT< spv::OpVectorTimesScalar > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpVectorTimesScalar > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpShiftLeftLogical:
-				return makeInstruction< BinInstructionT< spv::OpShiftLeftLogical > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpShiftLeftLogical > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpShiftRightLogical:
-				return makeInstruction< BinInstructionT< spv::OpShiftRightLogical > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpShiftRightLogical > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpBitwiseAnd:
-				return makeInstruction< BinInstructionT< spv::OpBitwiseAnd > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpBitwiseAnd > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpNot:
-				return makeInstruction< BinInstructionT< spv::OpNot > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpNot > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpBitwiseOr:
-				return makeInstruction< BinInstructionT< spv::OpBitwiseOr > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpBitwiseOr > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpBitwiseXor:
-				return makeInstruction< BinInstructionT< spv::OpBitwiseXor > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpBitwiseXor > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpLogicalAnd:
-				return makeInstruction< BinInstructionT< spv::OpLogicalAnd > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpLogicalAnd > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpLogicalOr:
-				return makeInstruction< BinInstructionT< spv::OpLogicalOr > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpLogicalOr > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpStore:
-				return makeInstruction< BinInstructionT< spv::OpStore > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpStore > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFOrdEqual:
-				return makeInstruction< BinInstructionT< spv::OpFOrdEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFOrdEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpLogicalEqual:
-				return makeInstruction< BinInstructionT< spv::OpLogicalEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpLogicalEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpIEqual:
-				return makeInstruction< BinInstructionT< spv::OpIEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpIEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFOrdNotEqual:
-				return makeInstruction< BinInstructionT< spv::OpFOrdNotEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFOrdNotEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpLogicalNotEqual:
-				return makeInstruction< BinInstructionT< spv::OpLogicalNotEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpLogicalNotEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpINotEqual:
-				return makeInstruction< BinInstructionT< spv::OpINotEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpINotEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFOrdGreaterThan:
-				return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThan > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThan > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpSGreaterThan:
-				return makeInstruction< BinInstructionT< spv::OpSGreaterThan > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpSGreaterThan > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpUGreaterThan:
-				return makeInstruction< BinInstructionT< spv::OpUGreaterThan > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpUGreaterThan > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFOrdGreaterThanEqual:
-				return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThanEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFOrdGreaterThanEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpSGreaterThanEqual:
-				return makeInstruction< BinInstructionT< spv::OpSGreaterThanEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpSGreaterThanEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpUGreaterThanEqual:
-				return makeInstruction< BinInstructionT< spv::OpUGreaterThanEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpUGreaterThanEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFOrdLessThan:
-				return makeInstruction< BinInstructionT< spv::OpFOrdLessThan > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFOrdLessThan > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpSLessThan:
-				return makeInstruction< BinInstructionT< spv::OpSLessThan > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpSLessThan > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpULessThan:
-				return makeInstruction< BinInstructionT< spv::OpULessThan > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpULessThan > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpFOrdLessThanEqual:
-				return makeInstruction< BinInstructionT< spv::OpFOrdLessThanEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpFOrdLessThanEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpSLessThanEqual:
-				return makeInstruction< BinInstructionT< spv::OpSLessThanEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpSLessThanEqual > >( nameCache, returnTypeId, resultId, operands );
 			case spv::OpULessThanEqual:
-				return makeInstruction< BinInstructionT< spv::OpULessThanEqual > >( returnTypeId, resultId, operands );
+				return makeInstruction< BinInstructionT< spv::OpULessThanEqual > >( nameCache, returnTypeId, resultId, operands );
 			default:
 				AST_Failure( "Unexpected binary operation Op" );
 			}
@@ -714,7 +716,8 @@ namespace spirv
 
 	//*********************************************************************************************
 
-	IOMapping::IOMapping( ast::type::TypesCache & ptypesCache
+	IOMapping::IOMapping( ast::ShaderAllocatorBlock * alloc
+		, ast::type::TypesCache & ptypesCache
 		, ast::ShaderStage pstage
 		, bool pisInput
 		, uint32_t & pnextVarId )
@@ -722,6 +725,12 @@ namespace spirv
 		, stage{ pstage }
 		, isInput{ pisInput }
 		, nextVarId{ &pnextVarId }
+		, splitVarsBuiltins{ alloc }
+		, splitVarsOthers{ alloc }
+		, m_pending{ alloc }
+		, m_pendingMbr{ alloc }
+		, m_processedBuiltins{ alloc }
+		, m_processedIOs{ alloc }
 	{
 	}
 
@@ -1501,7 +1510,7 @@ namespace spirv
 	{
 		for ( auto & capability : requiredCapabilities )
 		{
-			insertCapability( module.capabilities, capability );
+			insertCapability( module.nameCache, module.capabilities, capability );
 		}
 
 		for ( auto & extension : requiredExtensions )
@@ -2076,7 +2085,7 @@ namespace spirv
 
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, spv::ExecutionModel executionModel
-		, std::vector< spv::Decoration > & additionalDecorations )
+		, Vector< spv::Decoration > & additionalDecorations )
 	{
 		switch ( builtin )
 		{
@@ -2782,24 +2791,26 @@ namespace spirv
 
 	//*************************************************************************
 
-	ValueIdList makeBinOpOperands( ast::expr::Kind exprKind
+	ValueIdList makeBinOpOperands( ast::ShaderAllocatorBlock * alloc
+		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
 		, ast::type::Kind rhsTypeKind
 		, ValueId lhs
 		, ValueId rhs )
 	{
-		ValueIdList result;
+		ValueIdList result{ alloc };
 		spv::Op opCode;
 		getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, result, opCode );
-		return makeOperands( ValueId{ spv::Id( opCode ) }, result );
+		return makeOperands( alloc, ValueId{ spv::Id( opCode ) }, result );
 	}
 
-	InstructionPtr makeImageTypeInstruction( ast::type::ImageConfiguration const & config
+	InstructionPtr makeImageTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ast::type::ImageConfiguration const & config
 		, ast::type::Trinary isComparison
 		, ValueId resultId
 		, ValueId sampledTypeId )
 	{
-		ValueIdList operands;
+		ValueIdList operands{ nameCache.get_allocator() };
 		operands.push_back( sampledTypeId );
 		operands.push_back( { spv::Id( config.dimension ) } );
 		operands.push_back( { isComparison == ast::type::Trinary::eTrue
@@ -2818,16 +2829,17 @@ namespace spirv
 		// Only available in kernel mode.
 		// operands.push_back( uint32_t( config.accessKind ) );
 
-		return makeInstruction< ImageTypeInstruction >( resultId
-			, operands );
+		return makeInstruction< ImageTypeInstruction >( nameCache, resultId, operands );
 	}
 
-	InstructionPtr makeAccelerationStructureTypeInstruction( ValueId resultId )
+	InstructionPtr makeAccelerationStructureTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId resultId )
 	{
-		return makeInstruction< AccelerationStructureTypeInstruction >( resultId );
+		return makeInstruction< AccelerationStructureTypeInstruction >( nameCache, resultId );
 	}
 
-	InstructionPtr makeBaseTypeInstruction( ast::type::Kind kind
+	InstructionPtr makeBaseTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ast::type::Kind kind
 		, ValueId id )
 	{
 		assert( !id.isPointer() );
@@ -2837,31 +2849,31 @@ namespace spirv
 		switch ( kind )
 		{
 		case ast::type::Kind::eVoid:
-			return makeInstruction< VoidTypeInstruction >( id );
+			return makeInstruction< VoidTypeInstruction >( nameCache, id );
 		case ast::type::Kind::eBoolean:
-			return makeInstruction< BooleanTypeInstruction >( id );
+			return makeInstruction< BooleanTypeInstruction >( nameCache, id );
 		case ast::type::Kind::eInt8:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 8u }, ValueId{ 1u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 8u }, ValueId{ 1u } );
 		case ast::type::Kind::eInt16:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 16u }, ValueId{ 1u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 16u }, ValueId{ 1u } );
 		case ast::type::Kind::eInt32:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 1u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 32u }, ValueId{ 1u } );
 		case ast::type::Kind::eInt64:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 64u }, ValueId{ 1u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 64u }, ValueId{ 1u } );
 		case ast::type::Kind::eUInt8:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 8u }, ValueId{ 0u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 8u }, ValueId{ 0u } );
 		case ast::type::Kind::eUInt16:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 16u }, ValueId{ 0u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 16u }, ValueId{ 0u } );
 		case ast::type::Kind::eUInt32:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 32u }, ValueId{ 0u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 32u }, ValueId{ 0u } );
 		case ast::type::Kind::eUInt64:
-			return makeInstruction< IntTypeInstruction >( id, ValueId{ 64u }, ValueId{ 0u } );
+			return makeInstruction< IntTypeInstruction >( nameCache, id, ValueId{ 64u }, ValueId{ 0u } );
 		case ast::type::Kind::eFloat:
-			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 32u } );
+			return makeInstruction< FloatTypeInstruction >( nameCache, id, ValueId{ 32u } );
 		case ast::type::Kind::eDouble:
-			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 64u } );
+			return makeInstruction< FloatTypeInstruction >( nameCache, id, ValueId{ 64u } );
 		case ast::type::Kind::eHalf:
-			return makeInstruction< FloatTypeInstruction >( id, ValueId{ 16u } );
+			return makeInstruction< FloatTypeInstruction >( nameCache, id, ValueId{ 16u } );
 		default:
 			AST_Failure( "Unexpected type kind" );
 		}
@@ -2869,35 +2881,36 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeIntrinsicInstruction( spv::Op op
+	InstructionPtr makeIntrinsicInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, spv::Op op
 		, ValueIdList const & operands )
 	{
 		switch ( op )
 		{
 		case spv::OpEmitStreamVertex:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitStreamVertex > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitStreamVertex > >( nameCache, operands );
 		case spv::OpEndStreamPrimitive:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndStreamPrimitive > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndStreamPrimitive > >( nameCache, operands );
 		case spv::OpEmitVertex:
 			assert( operands.empty() );
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitVertex > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitVertex > >( nameCache, operands );
 		case spv::OpEndPrimitive:
 			assert( operands.empty() );
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndPrimitive > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndPrimitive > >( nameCache, operands );
 		case spv::OpControlBarrier:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpControlBarrier > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpControlBarrier > >( nameCache, operands );
 		case spv::OpMemoryBarrier:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpMemoryBarrier > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpMemoryBarrier > >( nameCache, operands );
 		case spv::OpExecuteCallableKHR:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpExecuteCallableKHR > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpExecuteCallableKHR > >( nameCache, operands );
 		case spv::OpTraceRayKHR:
-			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( operands );
+			return makeInstruction< VoidIntrinsicInstructionT< spv::OpTraceRayKHR > >( nameCache, operands );
 		case spv::OpWritePackedPrimitiveIndices4x8NV:
-			return makeInstruction< WritePackedPrimitiveIndices4x8Instruction >( operands );
+			return makeInstruction< WritePackedPrimitiveIndices4x8Instruction >( nameCache, operands );
 		case spv::OpSetMeshOutputsEXT:
-			return makeInstruction< SetMeshOutputsInstruction >( operands );
+			return makeInstruction< SetMeshOutputsInstruction >( nameCache, operands );
 		case spv::OpEmitMeshTasksEXT:
-			return makeInstruction< EmitMeshTasksInstruction >( operands );
+			return makeInstruction< EmitMeshTasksInstruction >( nameCache, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
@@ -2905,7 +2918,8 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeIntrinsicInstruction( ValueId returnTypeId
+	InstructionPtr makeIntrinsicInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands )
@@ -2913,193 +2927,193 @@ namespace spirv
 		switch ( op )
 		{
 		case spv::OpFMod:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFMod > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFMod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpIsNan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpIsNan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpIsNan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpIsInf:
-			return makeInstruction< IntrinsicInstructionT< spv::OpIsInf > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpIsInf > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpBitcast:
-			return makeInstruction< IntrinsicInstructionT< spv::OpBitcast > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpBitcast > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDot:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDot > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDot > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpMatrixTimesMatrix:
-			return makeInstruction< IntrinsicInstructionT< spv::OpMatrixTimesMatrix > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpMatrixTimesMatrix > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpOuterProduct:
-			return makeInstruction< IntrinsicInstructionT< spv::OpOuterProduct > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpOuterProduct > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpTranspose:
-			return makeInstruction< IntrinsicInstructionT< spv::OpTranspose > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpTranspose > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFOrdLessThan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdLessThan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdLessThan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSLessThan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSLessThan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSLessThan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpULessThan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpULessThan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpULessThan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFOrdLessThanEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdLessThanEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdLessThanEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSLessThanEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSLessThanEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSLessThanEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpULessThanEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpULessThanEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpULessThanEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFOrdGreaterThan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdGreaterThan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdGreaterThan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSGreaterThan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSGreaterThan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSGreaterThan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpUGreaterThan:
-			return makeInstruction< IntrinsicInstructionT< spv::OpUGreaterThan > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpUGreaterThan > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFOrdGreaterThanEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdGreaterThanEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdGreaterThanEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSGreaterThanEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSGreaterThanEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSGreaterThanEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpUGreaterThanEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpUGreaterThanEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpUGreaterThanEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFOrdEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpIEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpIEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpIEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFOrdNotEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdNotEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFOrdNotEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpINotEqual:
-			return makeInstruction< IntrinsicInstructionT< spv::OpINotEqual > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpINotEqual > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAll:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAll > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAll > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAny:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAny > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAny > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpLogicalNot:
-			return makeInstruction< IntrinsicInstructionT< spv::OpLogicalNot > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpLogicalNot > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpIAddCarry:
-			return makeInstruction< IntrinsicInstructionT< spv::OpIAddCarry > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpIAddCarry > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpISubBorrow:
-			return makeInstruction< IntrinsicInstructionT< spv::OpISubBorrow > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpISubBorrow > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpUMulExtended:
-			return makeInstruction< IntrinsicInstructionT< spv::OpUMulExtended > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpUMulExtended > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSMulExtended:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSMulExtended > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSMulExtended > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpBitFieldSExtract:
-			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldSExtract > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldSExtract > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpBitFieldUExtract:
-			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldUExtract > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldUExtract > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpBitFieldInsert:
-			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldInsert > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpBitFieldInsert > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpBitReverse:
-			return makeInstruction< IntrinsicInstructionT< spv::OpBitReverse > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpBitReverse > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpBitCount:
-			return makeInstruction< IntrinsicInstructionT< spv::OpBitCount > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpBitCount > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicIAdd:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicIAdd > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicIAdd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicFAddEXT:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicFAddEXT > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicFAddEXT > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicSMin:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicSMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicSMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicUMin:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicUMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicUMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicSMax:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicSMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicSMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicUMax:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicUMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicUMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicAnd:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicAnd > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicAnd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicOr:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicOr > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicOr > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicXor:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicXor > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicXor > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicExchange:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicExchange > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicExchange > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicCompareExchange:
-			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicCompareExchange > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpAtomicCompareExchange > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDPdx:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDPdx > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDPdx > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDPdxCoarse:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDPdxCoarse > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDPdxCoarse > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDPdxFine:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDPdxFine > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDPdxFine > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDPdy:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDPdy > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDPdy > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDPdyCoarse:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyCoarse > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyCoarse > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpDPdyFine:
-			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyFine > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyFine > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFwidth:
-			return makeInstruction< IntrinsicInstructionT< spv::OpFwidth > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpFwidth > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpExecuteCallableKHR:
-			return makeInstruction< IntrinsicInstructionT< spv::OpExecuteCallableKHR > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpExecuteCallableKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpReportIntersectionKHR:
-			return makeInstruction< IntrinsicInstructionT< spv::OpReportIntersectionKHR > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpReportIntersectionKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpIsHelperInvocationEXT:
-			return makeInstruction< IntrinsicInstructionT< spv::OpIsHelperInvocationEXT > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpIsHelperInvocationEXT > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformElect:
-			return makeInstruction< GroupNonUniformElectInstruction >( returnTypeId, resultId, operands.front() );
+			return makeInstruction< GroupNonUniformElectInstruction >( nameCache, returnTypeId, resultId, operands.front() );
 		case spv::OpGroupNonUniformAll:
-			return makeInstruction< GroupNonUniformAllInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformAllInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformAny:
-			return makeInstruction< GroupNonUniformAnyInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformAnyInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformAllEqual:
-			return makeInstruction< GroupNonUniformAllEqualInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformAllEqualInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBroadcast:
-			return makeInstruction< GroupNonUniformBroadcastInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBroadcastInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBroadcastFirst:
-			return makeInstruction< GroupNonUniformBroadcastFirstInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBroadcastFirstInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBallot:
-			return makeInstruction< GroupNonUniformBallotInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBallotInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformInverseBallot:
-			return makeInstruction< GroupNonUniformInverseBallotInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformInverseBallotInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBallotBitExtract:
-			return makeInstruction< GroupNonUniformBallotBitExtractInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBallotBitExtractInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBallotBitCount:
-			return makeInstruction< GroupNonUniformBallotBitCountInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBallotBitCountInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBallotFindLSB:
-			return makeInstruction< GroupNonUniformBallotFindLSBInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBallotFindLSBInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBallotFindMSB:
-			return makeInstruction< GroupNonUniformBallotFindMSBInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformBallotFindMSBInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformShuffle:
-			return makeInstruction< GroupNonUniformShuffleInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformShuffleInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformShuffleXor:
-			return makeInstruction< GroupNonUniformShuffleXorInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformShuffleXorInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformShuffleUp:
-			return makeInstruction< GroupNonUniformShuffleUpInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformShuffleUpInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformShuffleDown:
-			return makeInstruction< GroupNonUniformShuffleDownInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformShuffleDownInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformFAdd:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFAdd > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFAdd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformIAdd:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformIAdd > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformIAdd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformFMul:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMul > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMul > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformIMul:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformIMul > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformIMul > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformFMin:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformSMin:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformSMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformSMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformUMin:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformUMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformUMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformFMax:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformFMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformSMax:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformSMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformSMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformUMax:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformUMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformUMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBitwiseAnd:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseAnd > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseAnd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformLogicalAnd:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalAnd > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalAnd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBitwiseOr:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseOr > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseOr > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformLogicalOr:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalOr > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalOr > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformBitwiseXor:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseXor > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseXor > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformLogicalXor:
-			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalXor > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpGroupNonUniformLogicalXor > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSubgroupBallotKHR:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupBallotKHR > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupBallotKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSubgroupReadInvocationKHR:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupReadInvocationKHR > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupReadInvocationKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpSubgroupFirstInvocationKHR:
-			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupFirstInvocationKHR > >( returnTypeId, resultId, operands );
+			return makeInstruction< IntrinsicInstructionT< spv::OpSubgroupFirstInvocationKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadBroadcast:
-			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadSwap:
-			return makeInstruction< GroupNonUniformQuadSwapInstruction >( returnTypeId, resultId, operands );
+			return makeInstruction< GroupNonUniformQuadSwapInstruction >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
@@ -3107,7 +3121,8 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeSampledImageAccessInstruction( ValueId returnTypeId
+	InstructionPtr makeSampledImageAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands )
@@ -3115,25 +3130,25 @@ namespace spirv
 		switch ( op )
 		{
 		case spv::OpImageSampleImplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleDrefImplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleDrefImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleDrefImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjImplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjDrefImplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleExplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleDrefExplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleDrefExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleDrefExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjExplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjDrefExplicitLod:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageGather:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageGather > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageGather > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageDrefGather:
-			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageDrefGather > >( returnTypeId, resultId, operands );
+			return makeInstruction< SampledImageAccessInstructionT< spv::OpImageDrefGather > >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected texture access Op" );
 		}
@@ -3141,7 +3156,8 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeTextureAccessInstruction( ValueId returnTypeId
+	InstructionPtr makeTextureAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands )
@@ -3149,35 +3165,35 @@ namespace spirv
 		switch ( op )
 		{
 		case spv::OpImageQuerySizeLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageQuerySizeLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageQuerySizeLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageQuerySize:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageQuerySize > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageQuerySize > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageQueryLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageQueryLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageQueryLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageQueryLevels:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageQueryLevels > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageQueryLevels > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleImplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleDrefImplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleDrefImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleDrefImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjImplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjDrefImplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjDrefImplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleExplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleDrefExplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleDrefExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleDrefExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjExplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageSampleProjDrefExplicitLod:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageSampleProjDrefExplicitLod > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageFetch:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageFetch > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageFetch > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageGather:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageGather > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageGather > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageDrefGather:
-			return makeInstruction< TextureAccessInstructionT< spv::OpImageDrefGather > >( returnTypeId, resultId, operands );
+			return makeInstruction< TextureAccessInstructionT< spv::OpImageDrefGather > >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected texture access Op" );
 		}
@@ -3185,7 +3201,8 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeImageAccessInstruction( ValueId returnTypeId
+	InstructionPtr makeImageAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueIdList const & operands )
@@ -3193,36 +3210,36 @@ namespace spirv
 		switch ( op )
 		{
 		case spv::OpImageQuerySize:
-			return makeInstruction< ImageAccessInstructionT< spv::OpImageQuerySize > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpImageQuerySize > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageQuerySamples:
-			return makeInstruction< ImageAccessInstructionT< spv::OpImageQuerySamples > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpImageQuerySamples > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageRead:
-			return makeInstruction< ImageAccessInstructionT< spv::OpImageRead > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpImageRead > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageWrite:
 			AST_Failure( "OpImageWrite has its own instruction type: ImageStoreInstruction, use makeInstruction" );
-			return makeInstruction< VariadicInstructionT< spv::OpImageWrite, false, false > >( operands );
+			return makeInstruction< VariadicInstructionT< spv::OpImageWrite, false, false > >( nameCache, operands );
 		case spv::OpAtomicIAdd:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicIAdd > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicIAdd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicUMin:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicUMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicUMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicSMin:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicSMin > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicSMin > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicUMax:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicUMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicUMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicSMax:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicSMax > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicSMax > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicAnd:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicAnd > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicAnd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicOr:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicOr > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicOr > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicXor:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicXor > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicXor > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicExchange:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicExchange > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicExchange > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicCompareExchange:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicCompareExchange > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicCompareExchange > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicFAddEXT:
-			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicFAddEXT > >( returnTypeId, resultId, operands );
+			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicFAddEXT > >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected image access Op" );
 		}
@@ -3230,7 +3247,8 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeCastInstruction( ValueId returnTypeId
+	InstructionPtr makeCastInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
 		, ValueId operandId )
@@ -3238,25 +3256,25 @@ namespace spirv
 		switch ( op )
 		{
 		case spv::OpFConvert:
-			return makeInstruction< UnInstructionT< spv::OpFConvert > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpFConvert > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertFToS:
-			return makeInstruction< UnInstructionT< spv::OpConvertFToS > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpConvertFToS > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertFToU:
-			return makeInstruction< UnInstructionT< spv::OpConvertFToU > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpConvertFToU > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertSToF:
-			return makeInstruction< UnInstructionT< spv::OpConvertSToF > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpConvertSToF > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertUToF:
-			return makeInstruction< UnInstructionT< spv::OpConvertUToF > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpConvertUToF > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpBitcast:
-			return makeInstruction< UnInstructionT< spv::OpBitcast > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpBitcast > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpUConvert:
-			return makeInstruction< UnInstructionT< spv::OpUConvert > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpUConvert > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpSConvert:
-			return makeInstruction< UnInstructionT< spv::OpSConvert > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpSConvert > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertUToAccelerationStructureKHR:
-			return makeInstruction< UnInstructionT< spv::OpConvertUToAccelerationStructureKHR > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpConvertUToAccelerationStructureKHR > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertUToPtr:
-			return makeInstruction< UnInstructionT< spv::OpConvertUToPtr > >( returnTypeId, resultId, operandId );
+			return makeInstruction< UnInstructionT< spv::OpConvertUToPtr > >( nameCache, returnTypeId, resultId, operandId );
 		default:
 			AST_Failure( "Unexpected cast Op" );
 		}
@@ -3264,19 +3282,22 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeUnInstruction( ValueId returnTypeId
+	InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId returnTypeId
 		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind typeKind
 		, ValueId operandId )
 	{
-		return makeUnInstruction( getUnOpCode( exprKind, typeKind )
+		return makeUnInstruction( nameCache
+			, getUnOpCode( exprKind, typeKind )
 			, returnTypeId
 			, resultId
 			, operandId );
 	}
 
-	InstructionPtr makeBinInstruction( ValueId typeId
+	InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId typeId
 		, ValueId resultId
 		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
@@ -3284,7 +3305,7 @@ namespace spirv
 		, ValueId lhs
 		, ValueId rhs )
 	{
-		ValueIdList operands;
+		ValueIdList operands{ nameCache.get_allocator() };
 		spv::Op opCode;
 		getBinOpOperands( exprKind
 			, lhsTypeKind
@@ -3293,27 +3314,31 @@ namespace spirv
 			, rhs
 			, operands
 			, opCode );
-		return makeBinInstruction( opCode
+		return makeBinInstruction( nameCache
+			, opCode
 			, typeId
 			, resultId
 			, operands );
 	}
 
-	InstructionPtr makeVariableInstruction( ValueId typeId
+	InstructionPtr makeVariableInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, ValueId typeId
 		, ValueId varId
 		, ValueId initialiser )
 	{
 		if ( initialiser )
 		{
-			return makeInstruction< VariableInstruction >( typeId
+			return makeInstruction< VariableInstruction >( nameCache
+				, typeId
 				, varId
 				, ValueId{ spv::Id( convert( varId.getStorage() ) ) }
 				, initialiser );
 		}
 
-		return makeInstruction< VariableInstruction >( typeId
-				, varId
-				, ValueId{ spv::Id( convert( varId.getStorage() ) ) } );
+		return makeInstruction< VariableInstruction >( nameCache
+			, typeId
+			, varId
+			, ValueId{ spv::Id( convert( varId.getStorage() ) ) } );
 	}
 
 	ast::expr::ExprPtr makeZero( ast::expr::ExprCache & exprCache
@@ -3469,7 +3494,8 @@ namespace spirv
 			, param.isOutputParam() );
 	}
 
-	void insertCapability( InstructionList & capabilities
+	void insertCapability( Map< std::string, Vector< uint32_t > > & nameCache
+		, InstructionList & capabilities
 		, spv::Capability capa )
 	{
 		auto it = std::find_if( capabilities.begin()
@@ -3481,7 +3507,8 @@ namespace spirv
 
 		if ( it == capabilities.end() )
 		{
-			capabilities.push_back( makeInstruction< CapabilityInstruction >( ValueId{ spv::Id( capa ) } ) );
+			capabilities.push_back( makeInstruction< CapabilityInstruction >( nameCache
+				, ValueId{ spv::Id( capa ) } ) );
 		}
 	}
 
