@@ -93,6 +93,11 @@ namespace ast::stmt
 			return std::unique_ptr< StmtT, DeleteStmt >{ new ( mem )StmtT{ *this, std::forward< ParamsT >( params )... } };
 		}
 
+		ShaderAllocatorBlock & getAllocator()const
+		{
+			return m_allocator;
+		}
+
 	private:
 		friend struct DeleteStmt;
 

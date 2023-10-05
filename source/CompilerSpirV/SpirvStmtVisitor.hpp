@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "CompilerSpirV/SpirvCountActions.hpp"
 #include "CompilerSpirV/SpirvHelpers.hpp"
 #include "CompilerSpirV/SpirvModule.hpp"
+#include "CompilerSpirV/SpirvStmtDebugVisitor.hpp"
 
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 
@@ -109,13 +110,14 @@ namespace spirv
 			spv::Id continueLabel;
 		};
 		ast::expr::ExprCache & m_exprCache;
+		ast::ShaderAllocatorBlock * m_allocator;
 		ModuleConfig const & m_moduleConfig;
 		spirv::PreprocContext m_context;
 		ShaderActions m_actions;
 		Module & m_result;
 		Block m_currentBlock;
 		Function * m_function{ nullptr };
-		std::vector< Control > m_controlBlocks;
+		Vector< Control > m_controlBlocks;
 		uint32_t m_ifStmts{ 0u };
 		ValueIdList m_inputs;
 		ValueIdList m_outputs;

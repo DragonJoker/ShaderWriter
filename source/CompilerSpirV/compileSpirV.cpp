@@ -23,13 +23,12 @@ namespace spirv
 		delete module;
 	}
 
-	ModulePtr compileSpirV( ast::Shader const & shader
+	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, SpirVConfig & config )
 	{
-		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
-		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
-		ast::stmt::StmtCache compileStmtCache{ *allocator };
-		ast::expr::ExprCache compileExprCache{ *allocator };
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
 		auto statements = ast::transformSSA( compileStmtCache
@@ -41,14 +40,15 @@ namespace spirv
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );
-		ModuleConfig moduleConfig{ config
+		ModuleConfig moduleConfig{ &allocator
+			, config
 			, shader.getTypesCache()
 			, shader.getType()
 			, ssaData.nextVarId
 			, ssaData.aliasId };
 		spirv::StmtConfigFiller::submit( statements.get()
 			, moduleConfig );
-		spirv::PreprocContext context{};
+		spirv::PreprocContext context{ &allocator };
 		AdaptationData adaptationData{ context, std::move( moduleConfig ) };
 		statements = spirv::StmtAdapter::submit( compileStmtCache
 			, compileExprCache
@@ -90,11 +90,12 @@ namespace spirv
 
 	std::vector< uint32_t > serialiseModule( Module const & module )
 	{
-		std::vector< uint32_t > result;
+		std::vector< uint32_t > result{};
 
 		try
 		{
-			result = Module::serialize( module );
+			auto spirv = Module::serialize( module );
+			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
 		catch ( std::exception & exc )
 		{
@@ -108,11 +109,13 @@ namespace spirv
 		, SpirVConfig & config
 		, bool writeHeader )
 	{
+		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
+		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
 		std::string result;
 
 		try
 		{
-			auto module = compileSpirV( shader, config );
+			auto module = compileSpirV( *allocator, shader, config );
 			result = Module::write( *module, writeHeader );
 		}
 		catch ( std::exception & exc )
@@ -126,12 +129,15 @@ namespace spirv
 	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
 		, SpirVConfig & config )
 	{
+		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
+		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
 		std::vector< uint32_t > result;
 
 		try
 		{
-			auto module = compileSpirV( shader, config );
-			result = Module::serialize( *module );
+			auto module = compileSpirV( *allocator, shader, config );
+			auto spirv = Module::serialize( *module );
+			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
 		catch ( std::exception & exc )
 		{
@@ -141,13 +147,15 @@ namespace spirv
 		return result;
 	}
 
-	std::string displaySpirv( std::vector< uint32_t > const & spirv )
+	std::string displaySpirv( ast::ShaderAllocatorBlock & allocator
+		, std::vector< uint32_t > const & spirv )
 	{
-		auto module = spirv::Module::deserialize( spirv );
+		auto module = spirv::Module::deserialize( &allocator, spirv );
 		return spirv::Module::write( module, true );
 	}
 
-	ast::Shader parseSpirv( ast::ShaderStage stage
+	ast::Shader parseSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::ShaderStage stage
 		, std::vector< uint32_t > const & spirv )
 	{
 		struct Entity
@@ -166,10 +174,10 @@ namespace spirv
 			ast::var::VariablePtr var;
 		};
 
-		auto module = spirv::Module::deserialize( spirv );
+		auto module = spirv::Module::deserialize( &allocator, spirv );
 		ast::Shader result{ stage };
-		std::map< uint32_t, std::string > names;
-		std::map< uint32_t, std::map< uint32_t, std::string > > mbrNames;
+		Map< uint32_t, std::string > names{ module.allocator };
+		Map< uint32_t, Map< uint32_t, std::string > > mbrNames{ module.allocator };
 
 		// Gather names
 		for ( auto & instruction : module.debug )
@@ -183,7 +191,7 @@ namespace spirv
 				break;
 			case spv::OpMemberName:
 				{
-					auto it = mbrNames.emplace( *instruction->returnTypeId, std::map< uint32_t, std::string >{} ).first;
+					auto it = mbrNames.emplace( *instruction->returnTypeId, Map< uint32_t, std::string >{ module.allocator } ).first;
 					it->second.emplace( *instruction->resultId, *instruction->name );
 				}
 				break;

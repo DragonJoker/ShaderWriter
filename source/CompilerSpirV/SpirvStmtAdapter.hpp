@@ -106,13 +106,13 @@ namespace spirv
 		ast::type::TypesCache & m_typesCache;
 		AdaptationData & m_adaptationData;
 		ast::stmt::Container * m_ioDeclarations;
-		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
+		UnorderedSet< ast::type::StructPtr > m_declaredStructs;
 		struct PendingFunction
 		{
 			ast::type::FunctionPtr funcType;
 			ast::stmt::ContainerPtr statements;
 		};
-		std::map< std::string, PendingFunction > m_pending;
+		Map< std::string, PendingFunction > m_pending;
 		ast::type::OutputTopology m_topology;
 		uint32_t m_maxVertices{};
 		uint32_t m_maxPrimitives{};

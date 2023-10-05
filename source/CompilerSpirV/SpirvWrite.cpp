@@ -1655,7 +1655,13 @@ namespace spirv
 
 		struct NameCache
 		{
-			using IdNames = std::map< spv::Id, std::string >;
+			using IdNames = Map< spv::Id, std::string >;
+
+			NameCache( ast::ShaderAllocatorBlock * alloc )
+				: names{ alloc }
+				, types{ alloc }
+			{
+			}
 
 			void add( spv::Id id, std::string name )
 			{
@@ -3075,7 +3081,7 @@ namespace spirv
 		}
 
 		template< typename Type >
-		std::ostream & writeInstructions( std::vector< Type > const & instructions
+		std::ostream & writeInstructions( Vector< Type > const & instructions
 			, NameCache & names
 			, std::ostream & ( *writer )( Type const &, NameCache &, std::ostream & )
 			, std::ostream & stream )
@@ -3138,7 +3144,7 @@ namespace spirv
 			, NameCache & names
 			, std::ostream & stream )
 		{
-			return stream;
+			return writeExtension( instruction, names, stream );
 		}
 
 		std::ostream & writeMemoryModel( spirv::InstructionPtr const & instruction
@@ -3209,7 +3215,7 @@ namespace spirv
 			, bool doWriteHeader
 			, std::ostream & stream )
 		{
-			NameCache names;
+			NameCache names{ module.allocator };
 
 			if ( doWriteHeader )
 			{

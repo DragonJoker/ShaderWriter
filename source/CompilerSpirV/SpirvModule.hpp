@@ -14,8 +14,6 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	using FunctionList = std::vector< Function >;
-
 	struct Header
 	{
 		uint32_t magic;
@@ -27,13 +25,18 @@ namespace spirv
 
 	class Module
 	{
+	private:
+		Module( ast::ShaderAllocatorBlock * alloc );
+
 	public:
-		SDWSPIRV_API Module( ast::type::TypesCache & typesCache
+		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
+			, ast::type::TypesCache & typesCache
 			, SpirVConfig const & spirvConfig
 			, spv::AddressingModel addressingModel
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel );
-		SDWSPIRV_API Module( Header const & header
+		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
+			, Header const & header
 			, InstructionList instructions );
 
 		uint32_t getVersion()const
@@ -41,15 +44,16 @@ namespace spirv
 			return m_version;
 		}
 
-		SDWSPIRV_API static Module deserialize( UInt32List const & spirv );
-		SDWSPIRV_API static std::vector< uint32_t > serialize( spirv::Module const & module );
+		SDWSPIRV_API static Module deserialize( ast::ShaderAllocatorBlock * allocator
+			, std::vector< uint32_t > const & spirv );
+		SDWSPIRV_API static Vector< uint32_t > serialize( spirv::Module const & module );
 		SDWSPIRV_API static std::string write( spirv::Module const & module
 			, bool writeHeader );
 
-		SDWSPIRV_API ValueId registerType( ast::type::TypePtr type );
-		SDWSPIRV_API ValueId registerImageType( ast::type::ImagePtr image
+		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type );
+		SDWSPIRV_API TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
-		SDWSPIRV_API ValueId registerPointerType( ValueId type
+		SDWSPIRV_API TypeId registerPointerType( TypeId type
 			, spv::StorageClass storage
 			, bool isForward = false );
 		SDWSPIRV_API void decorate( ValueId id
@@ -90,10 +94,10 @@ namespace spirv
 		SDWSPIRV_API ValueId registerLiteral( int8_t value );
 		SDWSPIRV_API ValueId registerLiteral( int16_t value );
 		SDWSPIRV_API ValueId registerLiteral( int32_t value );
-		SDWSPIRV_API ValueId registerLiteral( int64_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint8_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint16_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint32_t value );
+		SDWSPIRV_API ValueId registerLiteral( int64_t value );
 		SDWSPIRV_API ValueId registerLiteral( uint64_t value );
 		SDWSPIRV_API ValueId registerLiteral( float value );
 		SDWSPIRV_API ValueId registerLiteral( double value );
@@ -164,10 +168,12 @@ namespace spirv
 			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
 
 		SDWSPIRV_API Function * beginFunction( std::string name
-			, ValueId retType
+			, TypeId retType
 			, ast::var::VariableList const & params );
 		SDWSPIRV_API Block newBlock();
 		SDWSPIRV_API void endFunction();
+
+		SDWSPIRV_API spv::Id getNextId();
 
 		inline ast::type::TypesCache & getTypesCache()
 		{
@@ -175,6 +181,8 @@ namespace spirv
 		}
 
 	public:
+		ast::ShaderAllocatorBlock * allocator;
+		Map< std::string, Vector< uint32_t > > nameCache;
 		IdList header;
 		InstructionList capabilities;
 		InstructionList extensions;
@@ -190,40 +198,40 @@ namespace spirv
 		InstructionList * variables;
 
 	private:
-		ValueId doRegisterNonArrayType( ast::type::TypePtr type
+		TypeId doRegisterNonArrayType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerType( ast::type::TypePtr type
+			, TypeId parentId );
+		TypeId registerType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId
+			, TypeId parentId
 			, uint32_t arrayStride );
-		ValueId registerBaseType( ast::type::Kind kind
+		TypeId registerBaseType( ast::type::Kind kind
 			, uint32_t mbrIndex
-			, ValueId parentId
+			, TypeId parentId
 			, uint32_t arrayStride );
-		ValueId registerBaseType( ast::type::StructPtr type
+		TypeId registerBaseType( ast::type::StructPtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerBaseType( ast::type::SamplerPtr type
+			, TypeId parentId );
+		TypeId registerBaseType( ast::type::SamplerPtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerBaseType( ast::type::CombinedImagePtr type
+			, TypeId parentId );
+		TypeId registerBaseType( ast::type::CombinedImagePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerBaseType( ast::type::ImagePtr type
+			, TypeId parentId );
+		TypeId registerBaseType( ast::type::ImagePtr type
 			, ast::type::Trinary isComparison );
-		ValueId registerBaseType( ast::type::ImagePtr type
+		TypeId registerBaseType( ast::type::ImagePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerBaseType( ast::type::SampledImagePtr type
+			, TypeId parentId );
+		TypeId registerBaseType( ast::type::SampledImagePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerBaseType( ast::type::AccelerationStructurePtr type
+			, TypeId parentId );
+		TypeId registerBaseType( ast::type::AccelerationStructurePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId );
-		ValueId registerBaseType( ast::type::TypePtr type
+			, TypeId parentId );
+		TypeId registerBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, ValueId parentId
+			, TypeId parentId
 			, uint32_t arrayStride );
 		void replaceDecoration( ValueId id
 			, spv::Decoration oldDecoration
@@ -244,7 +252,6 @@ namespace spirv
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
 		InstructionList * selectInstructionsList( spv::Op opCode );
-		spv::Id getNextId();
 		void addDebug( std::string const & name
 			, ValueId id );
 		void addBuiltin( ast::Builtin builtin
@@ -254,49 +261,52 @@ namespace spirv
 			, uint32_t mbrIndex );
 		void addVariable( std::string name
 			, ValueId varId
-			, std::map< std::string, VariableInfo >::iterator & it
+			, Map< std::string, VariableInfo >::iterator & it
 			, ValueId initialiser );
+
+	private:
+		using DecorationMap = UnorderedMap< ValueIdList, size_t, ValueIdListHasher >;
+		using DecorationMapIdMap = Map< ValueId, DecorationMap >;
+		using DecorationMapMbrMap = UnorderedMap< ValueIdList, DecorationMap, ValueIdListHasher >;
 
 	private:
 		uint32_t m_version;
 		ast::type::TypesCache * m_typesCache;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
-		std::map< ast::type::TypePtr, ValueId > m_registeredTypes;
-		std::map< ast::type::TypePtr, ValueId > m_registeredMemberTypes;
-		std::map< std::string, VariableInfo > m_registeredVariables;
-		std::unordered_map< ValueId, std::unordered_map< ValueId, ValueId, ValueIdHasher >, ValueIdHasher > m_registeredSamplerImages;
-		std::unordered_map< size_t, ValueId > m_registeredImageTypes;
-		std::map< std::string, VariableInfo > * m_currentScopeVariables;
-		std::unordered_map< ValueId, ValueId, ValueIdHasher > m_registeredVariablesTypes;
-		std::map< std::string, std::pair< ValueId, ValueId > > m_registeredMemberVariables;
-		std::map< uint64_t, ValueId > m_registeredPointerTypes;
-		std::map< uint64_t, ValueId > m_registeredForwardPointerTypes;
-		std::unordered_map< ValueIdList, ValueId, ValueIdListHasher > m_registeredFunctionTypes;
-		std::map< bool, ValueId > m_registeredBoolConstants;
-		std::map< int8_t, ValueId > m_registeredInt8Constants;
-		std::map< int16_t, ValueId > m_registeredInt16Constants;
-		std::map< int32_t, ValueId > m_registeredInt32Constants;
-		std::map< int64_t, ValueId > m_registeredInt64Constants;
-		std::map< uint8_t, ValueId > m_registeredUInt8Constants;
-		std::map< uint16_t, ValueId > m_registeredUInt16Constants;
-		std::map< uint32_t, ValueId > m_registeredUInt32Constants;
-		std::map< uint64_t, ValueId > m_registeredUInt64Constants;
-		std::map< float, ValueId > m_registeredFloatConstants;
-		std::map< double, ValueId > m_registeredDoubleConstants;
-		std::vector< std::pair< ValueIdList, ValueId > > m_registeredCompositeConstants;
-		std::unordered_map< ValueId, ast::type::TypePtr, ValueIdHasher > m_registeredConstants;
-		std::unordered_set< spv::Id > m_intermediates;
-		std::unordered_set< spv::Id > m_freeIntermediates;
-		std::unordered_map< spv::Id, ValueId > m_busyIntermediates;
+		Map< ast::type::TypePtr, TypeId > m_registeredTypes;
+		Map< ast::type::TypePtr, TypeId > m_registeredMemberTypes;
+		Map< std::string, VariableInfo > m_registeredVariables;
+		UnorderedMap< ValueId, UnorderedMap< ValueId, ValueId, ValueIdHasher >, ValueIdHasher > m_registeredSamplerImages;
+		UnorderedMap< size_t, TypeId > m_registeredImageTypes;
+		Map< std::string, VariableInfo > * m_currentScopeVariables;
+		UnorderedMap< ValueId, TypeId, ValueIdHasher > m_registeredVariablesTypes;
+		Map< std::string, std::pair< ValueId, ValueId > > m_registeredMemberVariables;
+		Map< uint64_t, TypeId > m_registeredPointerTypes;
+		Map< uint64_t, TypeId > m_registeredForwardPointerTypes;
+		UnorderedMap< TypeIdList, TypeId, TypeIdListHasher > m_registeredFunctionTypes;
+		Map< bool, ValueId > m_registeredBoolConstants;
+		Map< int8_t, ValueId > m_registeredInt8Constants;
+		Map< int16_t, ValueId > m_registeredInt16Constants;
+		Map< int32_t, ValueId > m_registeredInt32Constants;
+		Map< int64_t, ValueId > m_registeredInt64Constants;
+		Map< uint8_t, ValueId > m_registeredUInt8Constants;
+		Map< uint16_t, ValueId > m_registeredUInt16Constants;
+		Map< uint32_t, ValueId > m_registeredUInt32Constants;
+		Map< uint64_t, ValueId > m_registeredUInt64Constants;
+		Map< float, ValueId > m_registeredFloatConstants;
+		Map< double, ValueId > m_registeredDoubleConstants;
+		Vector< std::pair< ValueIdList, ValueId > > m_registeredCompositeConstants;
+		UnorderedMap< ValueId, ast::type::TypePtr, ValueIdHasher > m_registeredConstants;
+		UnorderedSet< spv::Id > m_intermediates;
+		UnorderedSet< spv::Id > m_freeIntermediates;
+		UnorderedMap< spv::Id, ValueId > m_busyIntermediates;
 		spv::ExecutionModel m_model;
 		InstructionList m_pendingExecutionModes;
 		ValueIdSet m_entryPointIO;
-		using DecorationMap = std::unordered_map< ValueIdList, size_t, ValueIdListHasher >;
-		using DecorationMapIdMap = std::map< ValueId, DecorationMap >;
 		DecorationMapIdMap varDecorations;
-		using DecorationMapMbrMap = std::unordered_map< ValueIdList, DecorationMap, ValueIdListHasher >;
 		DecorationMapMbrMap mbrDecorations;
+		ValueId m_glslStd450{};
 	};
 }
 

@@ -32,6 +32,8 @@ namespace spirv
 		: StmtCloner{ stmtCache, exprCache, result }
 		, m_typesCache{ typesCache }
 		, m_adaptationData{ adaptationData }
+		, m_declaredStructs{ &stmtCache.getAllocator() }
+		, m_pending{ &stmtCache.getAllocator() }
 	{
 		auto cont = m_stmtCache.makeContainer();
 		m_ioDeclarations = cont.get();

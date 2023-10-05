@@ -12,7 +12,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	std::vector< uint32_t > serialize( spirv::Module const & module );
+	Vector< uint32_t > serialize( spirv::Module const & module );
 }
 
 #endif

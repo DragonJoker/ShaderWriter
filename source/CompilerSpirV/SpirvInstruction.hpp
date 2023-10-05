@@ -75,8 +75,8 @@ namespace spirv
 		spv::Op op;
 	};
 
-	using IdList = std::vector< spv::Id >;
-	using UInt32List = std::vector< uint32_t >;
+	using IdList = Vector< spv::Id >;
+	using UInt32List = Vector< uint32_t >;
 	using UInt32ListIt = UInt32List::iterator;
 	using UInt32ListCIt = UInt32List::const_iterator;
 
@@ -117,14 +117,14 @@ namespace spirv
 		return lhs.id < rhs.id;
 	}
 
-	using ValueIdList = std::vector< ValueId >;
-	using ValueIdSet = std::set< ValueId >;
+	using ValueIdList = Vector< ValueId >;
+	using ValueIdSet = Set< ValueId >;
 
 	struct ValueIdHasher
 	{
 		SDWSPIRV_API size_t operator()( ValueId const & value )const;
 	};
-	
+
 	struct ValueIdListHasher
 	{
 		SDWSPIRV_API size_t operator()( ValueIdList const & value )const;
@@ -135,8 +135,71 @@ namespace spirv
 		SDWSPIRV_API size_t operator()( IdList const & value )const;
 	};
 
+	struct TypeId
+	{
+		ValueId id;
+		ValueId debug;
+
+		explicit TypeId( spv::Id pid = 0u, ast::type::TypePtr type = nullptr )
+			: id{ pid, type }
+			, debug{ 0u, type }
+		{
+		}
+
+		explicit TypeId( ValueId pid )
+			: TypeId{ pid.id, pid.type }
+		{
+		}
+
+		bool isPointer()const
+		{
+			return id.type
+				&& id.type->getKind() == ast::type::Kind::ePointer;
+		}
+
+		ast::type::Storage getStorage()const
+		{
+			return ( isPointer()
+				? static_cast< ast::type::Pointer const & >( *id.type ).getStorage()
+				: ast::type::Storage::eMax );
+		}
+
+		explicit operator bool()const
+		{
+			return id.id != 0u;
+		}
+
+		ValueId const * operator->()const
+		{
+			return &id;
+		}
+	};
+
+	inline bool operator==( TypeId const & lhs, TypeId const & rhs )
+	{
+		return lhs.id == rhs.id;
+	}
+
+	inline bool operator<( TypeId const & lhs, TypeId const & rhs )
+	{
+		return lhs.id < rhs.id;
+	}
+
+	using TypeIdList = Vector< TypeId >;
+
+	struct TypeIdHasher
+	{
+		SDWSPIRV_API size_t operator()( TypeId const & value )const;
+	};
+
+	struct TypeIdListHasher
+	{
+		SDWSPIRV_API size_t operator()( TypeIdList const & value )const;
+	};
+
 	SDWSPIRV_API IdList convert( ValueIdList const & in );
 	SDWSPIRV_API ValueIdList convert( IdList const & in );
+	SDWSPIRV_API ValueIdList convert( TypeIdList const & in );
 	SDWSPIRV_API ast::type::Storage convert( spv::StorageClass in );
 	SDWSPIRV_API spv::StorageClass convert( ast::type::Storage in );
 
@@ -165,7 +228,7 @@ namespace spirv
 			return result;
 		}
 		
-		InstructionPtr popInstruction();
+		InstructionPtr popInstruction( ast::ShaderAllocatorBlock * alloc );
 	};
 	using BufferCIt = BufferItT< UInt32ListCIt >;
 	using BufferIt = BufferItT< UInt32ListIt >;
@@ -181,29 +244,49 @@ namespace spirv
 			bool hasName;
 			bool hasLabels;
 		};
-		SDWSPIRV_API explicit Instruction( Configuration const & config
+		SDWSPIRV_API explicit Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+			, Configuration const & config
+			, spv::Op op
+			, Optional< ValueId > returnTypeId
+			, Optional< ValueId > resultId
+			, IdList operands
+			, Optional< std::string > name = nullopt
+			, Optional< Map< int32_t, spv::Id > > labels = nullopt );
+		SDWSPIRV_API explicit Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+			, Configuration const & config
+			, spv::Op op
+			, Optional< ValueId > returnTypeId
+			, Optional< ValueId > resultId
+			, ValueIdList operands
+			, Optional< std::string > name = nullopt
+			, Optional< Map< int32_t, spv::Id > > labels = nullopt );
+		SDWSPIRV_API explicit Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+			, Configuration const & config
 			, spv::Op op = spv::OpNop
 			, Optional< ValueId > returnTypeId = nullopt
-			, Optional< ValueId > resultId = nullopt
-			, ValueIdList operands = ValueIdList{}
-			, Optional< std::string > name = nullopt
-			, Optional< std::map< int32_t, spv::Id > > labels = nullopt );
-		SDWSPIRV_API Instruction( Configuration const & config
+			, Optional< ValueId > resultId = nullopt );
+		SDWSPIRV_API Instruction( ast::ShaderAllocatorBlock * alloc
+			, Configuration const & config
 			, Op op
 			, BufferIt & buffer );
-		SDWSPIRV_API Instruction( Configuration const & config
+		SDWSPIRV_API Instruction( ast::ShaderAllocatorBlock * alloc
+			, Configuration const & config
 			, Op op
 			, BufferCIt & buffer );
-		SDWSPIRV_API Instruction( Configuration const & config
+		SDWSPIRV_API Instruction( ast::ShaderAllocatorBlock * alloc
+			, Configuration const & config
 			, spv::Op op
 			, BufferIt & buffer );
-		SDWSPIRV_API Instruction( Configuration const & config
+		SDWSPIRV_API Instruction( ast::ShaderAllocatorBlock * alloc
+			, Configuration const & config
 			, spv::Op op
 			, BufferCIt & buffer );
 		SDWSPIRV_API static void serialize( UInt32List & buffer
 			, Instruction const & instruction );
-		SDWSPIRV_API static InstructionPtr deserialize( BufferCIt & buffer );
-		SDWSPIRV_API static InstructionPtr deserialize( BufferIt & buffer );
+		SDWSPIRV_API static InstructionPtr deserialize( ast::ShaderAllocatorBlock * alloc
+			, BufferCIt & buffer );
+		SDWSPIRV_API static InstructionPtr deserialize( ast::ShaderAllocatorBlock * alloc
+			, BufferIt & buffer );
 		SDWSPIRV_API virtual ~Instruction();
 
 		// Serialisable.
@@ -215,12 +298,11 @@ namespace spirv
 		// Used during construction.
 		Configuration const & config;
 		Optional< std::string > name;
-		Optional< std::map< int32_t, spv::Id > > labels;
+		Optional< Map< int32_t, spv::Id > > labels;
 	};
 
 	using InstructionPtr = std::unique_ptr< Instruction >;
-	using InstructionList = std::vector< InstructionPtr >;
-	using InstructionListIt = InstructionList::iterator;
+	using InstructionList = Vector< InstructionPtr >;
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
@@ -258,13 +340,19 @@ namespace spirv
 		static bool constexpr HasLabels = HasLabelsT;
 		static Configuration const Config;
 
-		inline explicit InstructionT( Optional< ValueId > preturnTypeId = nullopt
-			, Optional< ValueId > presultId = nullopt
-			, ValueIdList poperands = ValueIdList{}
+		inline explicit InstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+			, Optional< ValueId > preturnTypeId
+			, Optional< ValueId > presultId
+			, ValueIdList poperands
 			, Optional< std::string > pname = nullopt
-			, Optional< std::map< int32_t, spv::Id > > plabels = nullopt );
-		inline explicit InstructionT( BufferIt & buffer );
-		inline explicit InstructionT( BufferCIt & buffer );
+			, Optional< Map< int32_t, spv::Id > > plabels = nullopt );
+		inline explicit InstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+			, Optional< ValueId > preturnTypeId = nullopt
+			, Optional< ValueId > presultId = nullopt );
+		inline explicit InstructionT( ast::ShaderAllocatorBlock * alloc
+			, BufferIt & buffer );
+		inline explicit InstructionT( ast::ShaderAllocatorBlock * alloc
+			, BufferCIt & buffer );
 	};
 
 	template< spv::Op OperatorT
@@ -281,11 +369,17 @@ namespace spirv
 	struct VariadicInstructionT
 		: public InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >
 	{
-		inline explicit VariadicInstructionT( Optional< ValueId > preturnTypeId = nullopt
-			, Optional< ValueId > presultId = nullopt
-			, ValueIdList poperands = ValueIdList{} );
-		inline explicit VariadicInstructionT( BufferIt & buffer );
-		inline explicit VariadicInstructionT( BufferCIt & buffer );
+		inline explicit VariadicInstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+			, Optional< ValueId > preturnTypeId
+			, Optional< ValueId > presultId
+			, ValueIdList poperands );
+		inline explicit VariadicInstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+			, Optional< ValueId > preturnTypeId = nullopt
+			, Optional< ValueId > presultId = nullopt );
+		inline explicit VariadicInstructionT( ast::ShaderAllocatorBlock * alloc
+			, BufferIt & buffer );
+		inline explicit VariadicInstructionT( ast::ShaderAllocatorBlock * alloc
+			, BufferCIt & buffer );
 	};
 
 	template< spv::Op OperatorT >
@@ -326,7 +420,8 @@ namespace spirv
 	struct InstructionTMaker;
 
 	template< typename InstructionType, typename ... Params >
-	inline std::unique_ptr< InstructionType > makeInstruction( Params && ... params );
+	inline std::unique_ptr< InstructionType > makeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, Params && ... params );
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT

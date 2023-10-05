@@ -254,14 +254,14 @@ namespace ast
 		}
 	}
 
-	void * ShaderAllocatorBlock::allocate( size_t size )
+	void * ShaderAllocatorBlock::allocate( size_t size, size_t count )
 	{
-		return m_allocator->allocate( size );
+		return m_allocator->allocate( size, count );
 	}
 
-	void ShaderAllocatorBlock::deallocate( void * mem, size_t size )noexcept
+	void ShaderAllocatorBlock::deallocate( void * mem, size_t size, size_t count )noexcept
 	{
-		m_allocator->deallocate( mem, size );
+		m_allocator->deallocate( mem, size, count );
 	}
 
 	size_t ShaderAllocatorBlock::report()const
@@ -277,30 +277,46 @@ namespace ast
 	{
 	}
 
-	void * ShaderAllocator::allocate( size_t size )
+	void * ShaderAllocator::allocate( size_t size, size_t count )
 	{
+		auto wholeSize = size * count;
+
 		if ( m_allocationMode == AllocationMode::eNone )
 		{
-			return malloc( size );
+			return malloc( wholeSize );
 		}
 
 		if ( m_allocationMode == AllocationMode::eIncremental )
 		{
-			if ( size > m_currentMemory->data->size() - m_currentMemory->offset )
+			if ( wholeSize > m_currentMemory->data->size() - m_currentMemory->offset )
 			{
 				if ( m_pending.empty() )
 				{
-					m_currentMemory = &m_memory.emplace_back();
+					m_currentMemory = &m_memory.emplace_back( wholeSize );
 				}
 				else
 				{
-					m_currentMemory = &m_memory.emplace_back( std::move( m_pending.back() ) );
-					m_pending.pop_back();
+					auto it = std::find_if( m_pending.begin()
+						, m_pending.end()
+						, [wholeSize]( Memory const & lookup )
+						{
+							return wholeSize <= lookup.data->size() - lookup.offset;
+						} );
+
+					if ( it == m_pending.end() )
+					{
+						m_currentMemory = &m_memory.emplace_back( wholeSize );
+					}
+					else
+					{
+						m_currentMemory = &m_memory.emplace_back( std::move( *it ) );
+						m_pending.erase( it );
+					}
 				}
 			}
 
 			auto result = m_currentMemory->data->data() + m_currentMemory->offset;
-			m_currentMemory->offset += size;
+			m_currentMemory->offset += wholeSize;
 			m_maxAllocated = std::max( m_maxAllocated
 				, std::distance( m_memory.data(), m_currentMemory ) * Memory::BlockAllocSize + m_currentMemory->offset );
 			return result;
@@ -314,12 +330,12 @@ namespace ast
 		}
 
 		auto & buddy = *it->second;
-		auto result = buddy.allocate( size );
+		auto result = buddy.allocate( wholeSize );
 		assert( result != nullptr );
 		return result;
 	}
 
-	void ShaderAllocator::deallocate( void * mem, size_t size )noexcept
+	void ShaderAllocator::deallocate( void * mem, size_t size, size_t count )noexcept
 	{
 		if ( m_allocationMode == AllocationMode::eNone )
 		{

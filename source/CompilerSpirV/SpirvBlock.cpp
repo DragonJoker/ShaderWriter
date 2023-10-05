@@ -50,14 +50,19 @@ namespace spirv
 		return *this;
 	}
 
-	Block::Block( spv::Id plabel )
+	Block::Block( ast::ShaderAllocatorBlock * alloc
+		, spv::Id plabel )
 		: label{ plabel }
+		, instructions{ alloc }
+		, accessChains{ ModuleMapAllocatorT< ValueIdList, ValueId >{ alloc } }
+		, vectorShuffles{ ModuleMapAllocatorT< ValueIdList, ValueId >{ alloc } }
 	{
 	}
 
-	Block Block::deserialize( InstructionPtr firstInstruction
-		, InstructionListIt & buffer
-		, InstructionListIt const & end )
+	Block Block::deserialize( ast::ShaderAllocatorBlock * alloc
+		, InstructionPtr firstInstruction
+		, InstructionList::iterator & buffer
+		, InstructionList::iterator const & end )
 	{
 		auto popValue = [&buffer]()
 		{
@@ -73,7 +78,7 @@ namespace spirv
 		};
 
 		spv::Op op = spv::OpNop;
-		Block result;
+		Block result{ alloc };
 		result.label = firstInstruction->resultId.value();
 		result.instructions.emplace_back( std::move( firstInstruction ) );
 

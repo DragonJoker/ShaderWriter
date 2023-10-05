@@ -15,10 +15,11 @@ namespace spirv
 	namespace
 	{
 		template< typename IterT >
-		UInt32List deserializePackedName( BufferItT< IterT > & buffer )
+		UInt32List deserializePackedName( ast::ShaderAllocatorBlock * alloc
+			, BufferItT< IterT > & buffer )
 		{
 			auto value = buffer.popValue();
-			UInt32List result;
+			UInt32List result{ alloc };
 
 			while ( ( value & 0xFF000000 ) != 0u )
 			{
@@ -30,14 +31,14 @@ namespace spirv
 			return result;
 		}
 
-		std::vector< uint32_t > const & packString( std::string const & name )
+		Vector< uint32_t > const & packString( Map< std::string, Vector< uint32_t > > & nameCache
+			, std::string const & name )
 		{
-			static std::map < std::string, std::vector< uint32_t > > cache;
-			auto it = cache.find( name );
+			auto it = nameCache.find( name );
 
-			if ( it == cache.end() )
+			if ( it == nameCache.end() )
 			{
-				std::vector< uint32_t > packed;
+				Vector< uint32_t > packed{ nameCache.get_allocator() };
 				uint32_t word{ 0u };
 				uint32_t offset{ 0u };
 				size_t i = 0u;
@@ -67,15 +68,15 @@ namespace spirv
 					packed.push_back( 0u );
 				}
 
-				it = cache.emplace( name, packed ).first;
+				it = nameCache.emplace( name, packed ).first;
 			}
 
 			return it->second;
 		}
 
-		std::string unpackString( std::vector< uint32_t > const & packed )
+		std::string unpackString( Vector< uint32_t > const & packed )
 		{
-			std::string result;
+			std::string result{};
 
 			for ( auto w : packed )
 			{
@@ -591,9 +592,35 @@ namespace spirv
 
 	//*************************************************************************
 
+	size_t TypeIdHasher::operator()( TypeId const & value )const
+	{
+		auto hash = std::hash< spv::Id >{}( value.id.id );
+		ast::type::hashCombine( hash, value.id.isPointer() );
+		return hash;
+	}
+
+	//*************************************************************************
+
+	size_t TypeIdListHasher::operator()( TypeIdList const & value )const
+	{
+		assert( !value.empty() );
+		auto hash = TypeIdHasher{}( value[0] );
+
+		std::for_each( value.begin() + 1u
+			, value.end()
+			, [&hash]( TypeId const & id )
+			{
+				ast::type::hashCombine( hash, TypeIdHasher{}( id ) );
+			} );
+
+		return hash;
+	}
+
+	//*************************************************************************
+
 	IdList convert( ValueIdList const & in )
 	{
-		IdList result;
+		IdList result{ in.get_allocator() };
 		result.reserve( in.size() );
 
 		for ( auto & v : in )
@@ -606,12 +633,25 @@ namespace spirv
 
 	ValueIdList convert( IdList const & in )
 	{
-		ValueIdList result;
+		ValueIdList result{ in.get_allocator() };
 		result.reserve( in.size() );
 
 		for ( auto & v : in )
 		{
 			result.push_back( { v } );
+		}
+
+		return result;
+	}
+
+	ValueIdList convert( TypeIdList const & in )
+	{
+		ValueIdList result{ in.get_allocator() };
+		result.reserve( in.size() );
+
+		for ( auto & v : in )
+		{
+			result.push_back( v.id );
 		}
 
 		return result;
@@ -727,24 +767,25 @@ namespace spirv
 
 	//*************************************************************************
 
-	Instruction::Instruction( Configuration const & pconfig
+	Instruction::Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, Configuration const & pconfig
 		, spv::Op pop
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
-		, ValueIdList poperands
+		, IdList poperands
 		, Optional< std::string > pname
-		, Optional< std::map< int32_t, spv::Id > > plabels )
+		, Optional< Map< int32_t, spv::Id > > plabels )
 		: returnTypeId{ preturnTypeId ? Optional< spv::Id >{ preturnTypeId->id } : std::nullopt }
 		, resultId{ presultId ? Optional< spv::Id >{ presultId->id } : std::nullopt }
-		, operands{ convert( poperands ) }
+		, operands{ poperands }
 		, packedName{ nullopt }
 		, config{ pconfig }
 		, name{ std::move( pname ) }
-		, labels{ plabels }
+		, labels{ std::move( plabels ) }
 	{
 		if ( bool( name ) )
 		{
-			packedName = packString( name.value() );
+			packedName = packString( nameCache, name.value() );
 		}
 
 		op.op = pop;
@@ -758,10 +799,45 @@ namespace spirv
 		assertType( *this, config );
 	}
 
-	Instruction::Instruction( Configuration const & pconfig
+	Instruction::Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, Configuration const & pconfig
+		, spv::Op pop
+		, Optional< ValueId > preturnTypeId
+		, Optional< ValueId > presultId
+		, ValueIdList poperands
+		, Optional< std::string > pname
+		, Optional< Map< int32_t, spv::Id > > plabels )
+		: Instruction{ nameCache
+			, pconfig
+			, pop
+			, preturnTypeId
+			, presultId
+			, convert( poperands )
+			, std::move( pname )
+			, std::move( plabels ) }
+	{
+	}
+
+	Instruction::Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+		, Configuration const & pconfig
+		, spv::Op pop
+		, Optional< ValueId > preturnTypeId
+		, Optional< ValueId > presultId )
+		: Instruction{ nameCache
+			, pconfig
+			, pop
+			, preturnTypeId
+			, presultId
+			, IdList{ nameCache.get_allocator() } }
+	{
+	}
+
+	Instruction::Instruction( ast::ShaderAllocatorBlock * alloc
+		, Configuration const & pconfig
 		, Op pop
 		, BufferCIt & buffer )
 		: op{ pop }
+		, operands{ ModuleAllocatorT< spv::Id >{ alloc } }
 		, config{ pconfig }
 	{
 		uint32_t save = buffer.index;
@@ -778,7 +854,7 @@ namespace spirv
 
 		if ( config.hasName )
 		{
-			packedName = deserializePackedName( buffer );
+			packedName = deserializePackedName( alloc, buffer );
 			name = unpackString( packedName.value() );
 		}
 
@@ -799,7 +875,7 @@ namespace spirv
 		else if ( config.hasLabels )
 		{
 			auto count = ( op.opData.opCount - index ) / 2u;
-			labels = std::map< int32_t, spv::Id >{};
+			labels = Map< int32_t, spv::Id >{ alloc };
 
 			for ( auto i = 0u; i < count; ++i )
 			{
@@ -809,10 +885,12 @@ namespace spirv
 		}
 	}
 
-	Instruction::Instruction( Configuration const & pconfig
+	Instruction::Instruction( ast::ShaderAllocatorBlock * alloc
+		, Configuration const & pconfig
 		, Op pop
 		, BufferIt & buffer )
 		: op{ pop }
+		, operands{ ModuleAllocatorT< spv::Id >{ alloc } }
 		, config{ pconfig }
 	{
 		uint32_t save = buffer.index;
@@ -829,7 +907,7 @@ namespace spirv
 
 		if ( config.hasName )
 		{
-			packedName = deserializePackedName( buffer );
+			packedName = deserializePackedName( alloc, buffer );
 			name = unpackString( packedName.value() );
 		}
 
@@ -848,7 +926,7 @@ namespace spirv
 		else if ( config.hasLabels )
 		{
 			auto count = ( op.opData.opCount - index ) / 2u;
-			labels = std::map< int32_t, spv::Id >{};
+			labels = Map< int32_t, spv::Id >{ alloc };
 
 			for ( auto i = 0u; i < count; ++i )
 			{
@@ -858,10 +936,11 @@ namespace spirv
 		}
 	}
 
-	Instruction::Instruction( Configuration const & pconfig
+	Instruction::Instruction( ast::ShaderAllocatorBlock * alloc
+		, Configuration const & pconfig
 		, spv::Op pop
 		, BufferCIt & buffer )
-		: Instruction{ pconfig, makeOp( pop ), buffer }
+		: Instruction{ alloc, pconfig, makeOp( pop ), buffer }
 	{
 		op.opData.opCount = uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
@@ -871,10 +950,11 @@ namespace spirv
 			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
 	}
 
-	Instruction::Instruction( Configuration const & pconfig
+	Instruction::Instruction( ast::ShaderAllocatorBlock * alloc
+		, Configuration const & pconfig
 		, spv::Op pop
 		, BufferIt & buffer )
-		: Instruction{ pconfig, makeOp( pop ), buffer }
+		: Instruction{ alloc, pconfig, makeOp( pop ), buffer }
 	{
 		op.opData.opCount = uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
@@ -936,22 +1016,24 @@ namespace spirv
 		}
 	}
 
-	InstructionPtr Instruction::deserialize( BufferCIt & buffer )
+	InstructionPtr Instruction::deserialize( ast::ShaderAllocatorBlock * alloc
+		, BufferCIt & buffer )
 	{
 		spirv::Op op;
 		op.opValue = buffer.popValue();
 		assert( op.opData.opCode != spv::OpNop );
 		auto & config = getConfig( spv::Op( op.opData.opCode ) );
-		return std::make_unique< Instruction >( config, op, buffer );
+		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
 
-	InstructionPtr Instruction::deserialize( BufferIt & buffer )
+	InstructionPtr Instruction::deserialize( ast::ShaderAllocatorBlock * alloc
+		, BufferIt & buffer )
 	{
 		spirv::Op op;
 		op.opValue = buffer.popValue();
 		assert( op.opData.opCode != spv::OpNop );
 		auto & config = getConfig( spv::Op( op.opData.opCode ) );
-		return std::make_unique< Instruction >( config, op, buffer );
+		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
 
 	//*************************************************************************

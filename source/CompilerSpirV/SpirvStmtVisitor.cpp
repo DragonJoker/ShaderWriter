@@ -80,7 +80,8 @@ namespace spirv
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
 	{
-		auto result = ModulePtr{ new Module{ typesCache
+		auto result = ModulePtr{ new Module{ &exprCache.getAllocator()
+			, typesCache
 			, spirvConfig
 			, moduleConfig.addressingModel
 			, getMemoryModel()
@@ -98,10 +99,15 @@ namespace spirv
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions )
 		: m_exprCache{ exprCache }
+		, m_allocator{ &m_exprCache.getAllocator() }
 		, m_moduleConfig{ moduleConfig }
 		, m_context{ std::move( context ) }
 		, m_actions{ std::move( actions ) }
 		, m_result{ result }
+		, m_currentBlock{ m_allocator }
+		, m_controlBlocks{ m_allocator }
+		, m_inputs{ m_allocator }
+		, m_outputs{ m_allocator }
 	{
 		moduleConfig.fillModule( m_result );
 		VariableInfo info;
@@ -155,7 +161,7 @@ namespace spirv
 	{
 		TraceFunc;
 		interruptBlock( m_currentBlock
-			, makeInstruction< BranchInstruction >( ValueId{ m_controlBlocks.back().breakLabel } )
+			, makeInstruction< BranchInstruction >( m_result.nameCache, ValueId{ m_controlBlocks.back().breakLabel } )
 			, !stmt->isSwitchCaseBreak() );
 	}
 
@@ -163,7 +169,7 @@ namespace spirv
 	{
 		TraceFunc;
 		interruptBlock( m_currentBlock
-			, makeInstruction< BranchInstruction >( ValueId{ m_controlBlocks.back().continueLabel } )
+			, makeInstruction< BranchInstruction >( m_result.nameCache, ValueId{ m_controlBlocks.back().continueLabel } )
 			, true );
 	}
 
@@ -182,12 +188,12 @@ namespace spirv
 		TraceFunc;
 		if ( m_moduleConfig.hasExtension( EXT_demote_to_helper_invocation ) )
 		{
-			m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >() );
+			m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >( m_result.nameCache ) );
 		}
 		else
 		{
 			interruptBlock( m_currentBlock
-				, makeInstruction< KillInstruction >()
+				, makeInstruction< KillInstruction >( m_result.nameCache )
 				, true );
 		}
 	}
@@ -195,7 +201,7 @@ namespace spirv
 	void StmtVisitor::visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )
 	{
 		TraceFunc;
-		ValueIdList operands;
+		ValueIdList operands{ m_allocator };
 		operands.push_back( submitAndLoad( stmt->getNumGroupsX() ) );
 		operands.push_back( submitAndLoad( stmt->getNumGroupsY() ) );
 		operands.push_back( submitAndLoad( stmt->getNumGroupsZ() ) );
@@ -206,7 +212,7 @@ namespace spirv
 		}
 
 		interruptBlock( m_currentBlock
-			, makeInstruction< EmitMeshTasksInstruction >( operands )
+			, makeInstruction< EmitMeshTasksInstruction >( m_result.nameCache, operands )
 			, false );
 	}
 
@@ -216,13 +222,13 @@ namespace spirv
 		if ( m_moduleConfig.hasExtension( KHR_terminate_invocation ) )
 		{
 			interruptBlock( m_currentBlock
-				, makeInstruction< TerminateInvocationInstruction >()
+				, makeInstruction< TerminateInvocationInstruction >( m_result.nameCache )
 				, true );
 		}
 		else
 		{
 			interruptBlock( m_currentBlock
-				, makeInstruction< KillInstruction >()
+				, makeInstruction< KillInstruction >( m_result.nameCache )
 				, true );
 		}
 	}
@@ -265,7 +271,7 @@ namespace spirv
 		TraceFunc;
 		if ( !block.isInterrupted )
 		{
-			block.blockEnd = makeInstruction< BranchInstruction >( ValueId{ nextBlockLabel } );
+			block.blockEnd = makeInstruction< BranchInstruction >( m_result.nameCache, ValueId{ nextBlockLabel } );
 		}
 
 		m_function->cfg.blocks.emplace_back( std::move( block ) );
@@ -279,9 +285,11 @@ namespace spirv
 		TraceFunc;
 		if ( !block.isInterrupted )
 		{
-			block.blockEnd = makeInstruction< BranchConditionalInstruction >( makeOperands( ValueId{ trueBlockLabel }
-				, ValueId{ falseBlockLabel }
-				, ValueId{ mergeBlockLabel } ) );
+			block.blockEnd = makeInstruction< BranchConditionalInstruction >( m_result.nameCache
+				, makeOperands( m_allocator
+					, ValueId{ trueBlockLabel }
+					, ValueId{ falseBlockLabel }
+					, ValueId{ mergeBlockLabel } ) );
 		}
 
 		m_function->cfg.blocks.emplace_back( std::move( block ) );
@@ -294,16 +302,18 @@ namespace spirv
 		auto ifBlock = m_result.newBlock();
 		auto mergeBlock = m_result.newBlock();
 		auto contentBlock = m_result.newBlock();
-		m_controlBlocks.push_back( { mergeBlock.label, ifBlock.label } );
+		m_controlBlocks.push_back( Control{ mergeBlock.label, ifBlock.label } );
 
 		// End current block, to branch to the loop header block.
 		endBlock( m_currentBlock, loopBlock.label );
 
 		// The loop header block, to which continue target will branch, branches to the loop content block.
 		auto loopBlockLabel = loopBlock.label;
-		loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( makeOperands( ValueId{ mergeBlock.label }
-			, ValueId{ ifBlock.label }
-			, ValueId{ 0u } ) ) );
+		loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( m_result.nameCache
+			, makeOperands( m_allocator
+				, ValueId{ mergeBlock.label }
+				, ValueId{ ifBlock.label }
+				, ValueId{ 0u } ) ) );
 		endBlock( loopBlock, contentBlock.label );
 
 		// The current block becomes the loop content block.
@@ -430,18 +440,18 @@ namespace spirv
 		{
 			if ( type->getReturnType()->getKind() == ast::type::Kind::eVoid )
 			{
-				m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >();
+				m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >( m_result.nameCache );
 			}
 			else
 			{
-				auto retId = ValueId{ m_result.getIntermediateResult(), retType.type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< UndefInstruction >( retType, retId ) );
-				m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( retId );
+				auto retId = ValueId{ m_result.getIntermediateResult(), retType->type };
+				m_currentBlock.instructions.emplace_back( makeInstruction< UndefInstruction >( m_result.nameCache, retType.id, retId ) );
+				m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( m_result.nameCache, retId );
 			}
 		}
 
 		m_currentBlock.instructions.emplace_back( std::move( m_currentBlock.blockEnd ) );
-		m_currentBlock.blockEnd = makeInstruction< FunctionEndInstruction >();
+		m_currentBlock.blockEnd = makeInstruction< FunctionEndInstruction >( m_result.nameCache );
 		m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 		m_result.endFunction();
 		m_function = nullptr;
@@ -463,8 +473,8 @@ namespace spirv
 
 		// Retrieve the if false branch block label.
 		// It will be the else block if it exists, or the merge block.
-		BlockList elseIfBlocks;
-		Block elseBlock;
+		BlockList elseIfBlocks{ m_allocator };
+		Block elseBlock{ m_allocator };
 		auto falseBlockLabel = mergeBlock.label;
 		assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 
@@ -476,7 +486,7 @@ namespace spirv
 
 		// End current block, to branch to the if content block (true) or to the false branch block (false).
 		auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getCtrlExpr(), m_context, m_currentBlock, m_result ), m_currentBlock );
-		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
+		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 		endBlock( m_currentBlock, intermediateIfId.id, contentBlock.label, falseBlockLabel );
 
 		// The current block becomes the if content block.
@@ -508,7 +518,7 @@ namespace spirv
 	{
 		TraceFunc;
 		interruptBlock( m_currentBlock
-			, makeInstruction< IgnoreIntersectionInstruction >()
+			, makeInstruction< IgnoreIntersectionInstruction >( m_result.nameCache )
 			, false );
 	}
 
@@ -536,7 +546,7 @@ namespace spirv
 
 		if ( stmt->getLocation() != ast::type::Struct::InvalidLocation )
 		{
-			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+			m_result.decorate( varId, makeIdList( m_allocator, spv::Id( spv::DecorationLocation ), stmt->getLocation() ) );
 		}
 	}
 
@@ -548,7 +558,7 @@ namespace spirv
 
 		if ( stmt->getLocation() != ast::type::Struct::InvalidLocation )
 		{
-			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+			m_result.decorate( varId, makeIdList( m_allocator, spv::Id( spv::DecorationLocation ), stmt->getLocation() ) );
 		}
 	}
 
@@ -560,22 +570,22 @@ namespace spirv
 
 		if ( var->isShaderConstant() )
 		{
-			m_result.decorate( varId, { spv::Id( spv::DecorationSpecId ), stmt->getLocation() } );
+			m_result.decorate( varId, makeIdList( m_allocator, spv::Id( spv::DecorationSpecId ), stmt->getLocation() ) );
 		}
 		else if ( !var->isBuiltin()
 			&& stmt->getLocation() != ast::type::Struct::InvalidLocation )
 		{
-			m_result.decorate( varId, { spv::Id( spv::DecorationLocation ), stmt->getLocation() } );
+			m_result.decorate( varId, makeIdList( m_allocator, spv::Id( spv::DecorationLocation ), stmt->getLocation() ) );
 		}
 
 		if ( var->isBlendIndex() )
 		{
-			m_result.decorate( varId, { spv::Id( spv::DecorationIndex ), stmt->getBlendIndex() } );
+			m_result.decorate( varId, makeIdList( m_allocator, spv::Id( spv::DecorationIndex ), stmt->getBlendIndex() ) );
 		}
 
 		if ( var->isGeometryStream() )
 		{
-			m_result.decorate( varId, { spv::Id( spv::DecorationStream ), stmt->getStreamIndex() } );
+			m_result.decorate( varId, makeIdList( m_allocator, spv::Id( spv::DecorationStream ), stmt->getStreamIndex() ) );
 		}
 	}
 
@@ -593,8 +603,8 @@ namespace spirv
 	{
 		TraceFunc;
 		m_result.registerExecutionMode( spv::ExecutionModeLocalSize
-			, { ValueId{ stmt->getWorkGroupsX() }, ValueId{ stmt->getWorkGroupsY() }, ValueId{ stmt->getWorkGroupsZ() } } );
-		ValueIdList ids;
+			, makeOperands( m_allocator, ValueId{ stmt->getWorkGroupsX() }, ValueId{ stmt->getWorkGroupsY() }, ValueId{ stmt->getWorkGroupsZ() } ) );
+		ValueIdList ids{ m_allocator };
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 		ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
@@ -602,7 +612,7 @@ namespace spirv
 		if ( m_moduleConfig.stage == ast::ShaderStage::eCompute )
 		{
 			m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getTypesCache().getVec3U32() );
-			m_result.decorate( m_context.workGroupSizeExpr, { spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) } );
+			m_result.decorate( m_context.workGroupSizeExpr, makeIdList( m_allocator, spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) ) );
 		}
 	}
 
@@ -675,13 +685,13 @@ namespace spirv
 					, m_result )
 				, m_currentBlock );
 			interruptBlock( m_currentBlock
-				, makeInstruction< ReturnValueInstruction >( result )
+				, makeInstruction< ReturnValueInstruction >( m_result.nameCache, result )
 				, false );
 		}
 		else
 		{
 			interruptBlock( m_currentBlock
-				, makeInstruction< ReturnInstruction >()
+				, makeInstruction< ReturnInstruction >( m_result.nameCache )
 				, false );
 		}
 	}
@@ -755,12 +765,12 @@ namespace spirv
 	void StmtVisitor::visitSwitchStmt( ast::stmt::Switch * stmt )
 	{
 		TraceFunc;
-		std::vector< Block > caseBlocks;
-		std::map< int32_t, spv::Id > caseBlocksIds;
+		Vector< Block > caseBlocks{ m_allocator };
+		Map< int32_t, spv::Id > caseBlocksIds{ m_allocator };
 		auto mergeBlock = m_result.newBlock();
-		m_controlBlocks.push_back( { mergeBlock.label, 0u } );
+		m_controlBlocks.push_back( Control{ mergeBlock.label, 0u } );
 		ast::stmt::SwitchCase * defaultStmt{ nullptr };
-		Block defaultBlock = m_result.newBlock();
+		Block defaultBlock{ m_result.newBlock() };
 
 		for ( auto & it : *stmt )
 		{
@@ -781,8 +791,8 @@ namespace spirv
 		}
 
 		auto selector = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result ), m_currentBlock );
-		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
-		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( ValueIdList{ selector, ValueId{ defaultBlock.label } }, caseBlocksIds );
+		m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
+		m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.nameCache, makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
 		m_currentBlock.isInterrupted = true;
 
 		if ( !caseBlocks.empty() )
@@ -844,7 +854,7 @@ namespace spirv
 	{
 		TraceFunc;
 		interruptBlock( m_currentBlock
-			, makeInstruction< TerminateRayInstruction >()
+			, makeInstruction< TerminateRayInstruction >( m_result.nameCache )
 			, false );
 	}
 

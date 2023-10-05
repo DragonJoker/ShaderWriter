@@ -13,8 +13,10 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	std::vector< uint32_t > getSwizzleComponents( ast::expr::SwizzleKind kind );
-	IdList getSwizzleComponents( ast::expr::SwizzleKind lhsSwizzle
+	Vector< uint32_t > getSwizzleComponents( ast::ShaderAllocatorBlock * allocator
+		, ast::expr::SwizzleKind kind );
+	IdList getSwizzleComponents( ast::ShaderAllocatorBlock * allocator
+		, ast::expr::SwizzleKind lhsSwizzle
 		, ast::expr::SwizzleKind rhsSwizzle
 		, uint32_t componentCount );
 	ast::expr::SwizzleKind getSwizzleComponents( uint32_t count );

@@ -5,6 +5,8 @@ See LICENSE file in root folder
 #define ___SDW_SpirvCountActions_H___
 #pragma once
 
+#include "SpirVStlTypes.hpp"
+
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>
 
@@ -30,8 +32,8 @@ namespace spirv
 		}
 	};
 
-	using FunctionActions = std::map< ast::EntityName, VarActions, EntityNameLess >;
-	using ShaderActions = std::map< std::string, FunctionActions >;
+	using FunctionActions = Map< ast::EntityName, VarActions, EntityNameLess >;
+	using ShaderActions = Map< std::string, FunctionActions >;
 
 	ShaderActions listActions( ast::stmt::Container * container );
 }

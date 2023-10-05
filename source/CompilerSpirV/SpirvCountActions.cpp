@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "SpirvCountActions.hpp"
 
 #include <ShaderAST/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
@@ -208,7 +209,7 @@ namespace spirv
 		public:
 			static ShaderActions submit( ast::stmt::Stmt * stmt )
 			{
-				ShaderActions result;
+				ShaderActions result{ &stmt->getStmtCache().getAllocator() };
 				StmtActionsCounter vis{ result };
 				stmt->accept( &vis );
 				return result;
@@ -270,7 +271,7 @@ namespace spirv
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
 			{
 				assert( m_currentActions == nullptr );
-				FunctionActions actions;
+				FunctionActions actions{ &stmt->getStmtCache().getAllocator() };
 				m_currentActions = &actions;
 				visitContainerStmt( stmt );
 				m_currentActions = nullptr;

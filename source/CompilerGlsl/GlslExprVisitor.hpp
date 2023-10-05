@@ -11,7 +11,6 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-
 	class ExprVisitor
 		: public ast::expr::SimpleVisitor
 	{

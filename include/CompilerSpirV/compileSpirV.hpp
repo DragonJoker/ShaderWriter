@@ -5,21 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_WriterSpirV_H___
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
-
-#include <set>
-#include <vector>
-
-#if defined( CompilerSpirV_Static )
-#	define SDWSPIRV_API
-#elif defined( _WIN32 )
-#	if defined( CompilerSpirV_Exports )
-#		define SDWSPIRV_API __declspec( dllexport )
-#	else
-#		define SDWSPIRV_API __declspec( dllimport )
-#	endif
-#else
-#	define SDWSPIRV_API
-#endif
+#include "SpirVStlTypes.hpp"
 
 namespace spirv
 {
@@ -132,7 +118,8 @@ namespace spirv
 	};
 	using ModulePtr = std::unique_ptr< Module, ModuleDeleter >;
 
-	SDWSPIRV_API ModulePtr compileSpirV( ast::Shader const & shader
+	SDWSPIRV_API ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, SpirVConfig & config );
 	SDWSPIRV_API std::string writeModule( Module const & module
 		, bool writeHeader = true );
@@ -144,7 +131,8 @@ namespace spirv
 	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
 		, SpirVConfig & config );
 	SDWSPIRV_API std::string displaySpirv( std::vector< uint32_t > const & spirv );
-	SDWSPIRV_API ast::Shader parseSpirv( ast::ShaderStage stage
+	SDWSPIRV_API ast::Shader parseSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::ShaderStage stage
 		, std::vector< uint32_t > const & spirv );
 }
 
