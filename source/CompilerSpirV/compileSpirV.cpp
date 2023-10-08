@@ -13,7 +13,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
-#include <ShaderAST/Visitors/StmtSimplifier.hpp>
+#include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
 #include <iostream>

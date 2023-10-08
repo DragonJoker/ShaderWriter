@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "ShaderAST/Visitors/StmtSimplifier.hpp"
+#include "ShaderAST/Visitors/SimplifyStatements.hpp"
 
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 #include "ShaderAST/Expr/ExprLiteral.hpp"
