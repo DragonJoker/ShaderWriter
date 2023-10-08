@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace evlhlp
 	{
 		class ExprEvaluator
 			: public ast::expr::SimpleVisitor
@@ -312,6 +312,6 @@ namespace spirv
 		, ast::expr::Expr * expr
 		, PreprocContext const & context )
 	{
-		return ExprEvaluator::submit( exprCache, expr, context );
+		return evlhlp::ExprEvaluator::submit( exprCache, expr, context );
 	}
 }

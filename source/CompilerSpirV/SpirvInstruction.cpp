@@ -12,10 +12,10 @@ namespace spirv
 {
 	//*************************************************************************
 
-	namespace
+	namespace insthlp
 	{
 		template< typename IterT >
-		UInt32List deserializePackedName( ast::ShaderAllocatorBlock * alloc
+		static UInt32List deserializePackedName( ast::ShaderAllocatorBlock * alloc
 			, BufferItT< IterT > & buffer )
 		{
 			auto value = buffer.popValue();
@@ -31,7 +31,7 @@ namespace spirv
 			return result;
 		}
 
-		Vector< uint32_t > const & packString( Map< std::string, Vector< uint32_t > > & nameCache
+		static Vector< uint32_t > const & packString( Map< std::string, Vector< uint32_t > > & nameCache
 			, std::string const & name )
 		{
 			auto it = nameCache.find( name );
@@ -74,7 +74,7 @@ namespace spirv
 			return it->second;
 		}
 
-		std::string unpackString( Vector< uint32_t > const & packed )
+		static std::string unpackString( Vector< uint32_t > const & packed )
 		{
 			std::string result{};
 
@@ -97,7 +97,7 @@ namespace spirv
 			return std::string{};
 		}
 
-		Instruction::Configuration const & getConfig( spv::Op opCode )
+		static Instruction::Configuration const & getConfig( spv::Op opCode )
 		{
 			static Instruction::Configuration dummy{};
 
@@ -109,6 +109,8 @@ namespace spirv
 				return SourceExtensionInstruction::Config;
 			case spv::OpName:
 				return NameInstruction::Config;
+			case spv::OpString:
+				return StringInstruction::Config;
 			case spv::OpMemberName:
 				return MemberNameInstruction::Config;
 			case spv::OpExtension:
@@ -539,7 +541,7 @@ namespace spirv
 			}
 		}
 
-		Op makeOp( spv::Op op )
+		static Op makeOp( spv::Op op )
 		{
 			Op result{};
 			result.op = op;
@@ -785,7 +787,7 @@ namespace spirv
 	{
 		if ( bool( name ) )
 		{
-			packedName = packString( nameCache, name.value() );
+			packedName = insthlp::packString( nameCache, name.value() );
 		}
 
 		op.op = pop;
@@ -854,8 +856,8 @@ namespace spirv
 
 		if ( config.hasName )
 		{
-			packedName = deserializePackedName( alloc, buffer );
-			name = unpackString( packedName.value() );
+			packedName = insthlp::deserializePackedName( alloc, buffer );
+			name = insthlp::unpackString( packedName.value() );
 		}
 
 		auto index = 1u + buffer.index - save;
@@ -907,8 +909,8 @@ namespace spirv
 
 		if ( config.hasName )
 		{
-			packedName = deserializePackedName( alloc, buffer );
-			name = unpackString( packedName.value() );
+			packedName = insthlp::deserializePackedName( alloc, buffer );
+			name = insthlp::unpackString( packedName.value() );
 		}
 
 		auto index = buffer.index - save;
@@ -940,7 +942,7 @@ namespace spirv
 		, Configuration const & pconfig
 		, spv::Op pop
 		, BufferCIt & buffer )
-		: Instruction{ alloc, pconfig, makeOp( pop ), buffer }
+		: Instruction{ alloc, pconfig, insthlp::makeOp( pop ), buffer }
 	{
 		op.opData.opCount = uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
@@ -954,7 +956,7 @@ namespace spirv
 		, Configuration const & pconfig
 		, spv::Op pop
 		, BufferIt & buffer )
-		: Instruction{ alloc, pconfig, makeOp( pop ), buffer }
+		: Instruction{ alloc, pconfig, insthlp::makeOp( pop ), buffer }
 	{
 		op.opData.opCount = uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
@@ -1022,7 +1024,7 @@ namespace spirv
 		spirv::Op op;
 		op.opValue = buffer.popValue();
 		assert( op.opData.opCode != spv::OpNop );
-		auto & config = getConfig( spv::Op( op.opData.opCode ) );
+		auto & config = insthlp::getConfig( spv::Op( op.opData.opCode ) );
 		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
 
@@ -1032,7 +1034,7 @@ namespace spirv
 		spirv::Op op;
 		op.opValue = buffer.popValue();
 		assert( op.opData.opCode != spv::OpNop );
-		auto & config = getConfig( spv::Op( op.opData.opCode ) );
+		auto & config = insthlp::getConfig( spv::Op( op.opData.opCode ) );
 		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
 

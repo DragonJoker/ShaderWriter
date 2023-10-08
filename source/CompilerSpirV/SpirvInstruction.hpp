@@ -451,6 +451,7 @@ namespace spirv
 	using DecorateInstruction = VariadicInstructionT< spv::OpDecorate, false, false >;
 	using MemberDecorateInstruction = VariadicInstructionT< spv::OpMemberDecorate, false, false >;
 	using NameInstruction = InstructionT< spv::OpName, false, true, 0u, true, false >;
+	using StringInstruction = InstructionT< spv::OpString, false, true, 0u, true, false >;
 	using MemberNameInstruction = InstructionT< spv::OpMemberName, true, true, 0u, true, false >;
 
 	using VoidTypeInstruction = InstructionT< spv::OpTypeVoid, false, true, 0u, false, false >;

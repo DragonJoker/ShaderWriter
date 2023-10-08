@@ -19,9 +19,9 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace adapt
 	{
-		ast::Builtin getBuiltin( ast::expr::MbrSelect * expr )
+		static ast::Builtin getBuiltin( ast::expr::MbrSelect * expr )
 		{
 			auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
 			return mbr.builtin;
@@ -328,7 +328,7 @@ namespace spirv
 				&& arraySize != getArraySize( expr->getType() )
 				&& expr->isShaderOutput()
 				&& ( !expr->isBuiltin()
-					|| isPerVertex( getBuiltin( expr ), m_adaptationData.config.stage ) ) )
+					|| isPerVertex( adapt::getBuiltin( expr ), m_adaptationData.config.stage ) ) )
 			{
 				auto type = m_result->getType();
 				assert( type->getKind() == ast::type::Kind::eArray );

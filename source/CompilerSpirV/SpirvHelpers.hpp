@@ -159,18 +159,7 @@ namespace spirv
 			, ast::type::TypesCache & typesCache
 			, ast::ShaderStage pstage
 			, uint32_t pnextVarId
-			, uint32_t paliasId )
-			: nextVarId{ pnextVarId }
-			, aliasId{ paliasId }
-			, stage{ pstage }
-			, executionModes{ alloc }
-			, spirvConfig{ pspirvConfig }
-			, inputs{ alloc, typesCache, stage, true, nextVarId }
-			, outputs{ alloc, typesCache, stage, false, nextVarId }
-			, requiredCapabilities{ alloc }
-			, requiredExtensions{}
-		{
-		}
+			, uint32_t paliasId );
 
 		uint32_t nextVarId;
 		uint32_t aliasId;
@@ -561,6 +550,9 @@ namespace spirv
 	void decorateVar( ast::var::Variable const & var
 		, ValueId varId
 		, Module & module );
+	spv::StorageClass getStorageClass( uint32_t version
+		, ast::var::VariablePtr var
+		, spv::StorageClass fallback = spv::StorageClassFunction );
 }
 
 #endif

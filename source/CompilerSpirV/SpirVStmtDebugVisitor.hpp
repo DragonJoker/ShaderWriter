@@ -6,21 +6,11 @@ See LICENSE file in root folder
 #pragma once
 
 #include "CompilerSpirV/compileSpirV.hpp"
-
-#include <map>
+#include "CompilerSpirV/SpirVDebugHelpers.hpp"
 
 namespace spirv
 {
-	struct DebugStatement
-	{
-		std::string text{};
-		uint32_t lineBegin{};
-		uint32_t lineEnd{};
-		ast::stmt::Stmt const * stmt{};
-	};
-	using DebugStatements = Vector< DebugStatement >;
-
-	DebugStatements addDebugData( ast::ShaderStage shaderStage
+	debug::DebugStatements addDebugData( ast::ShaderStage shaderStage
 		, ast::stmt::Container * stmt );
 }
 

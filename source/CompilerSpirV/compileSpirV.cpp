@@ -6,6 +6,8 @@ See LICENSE file in root folder
 #include "SpirvCountActions.hpp"
 #include "SpirvStmtAdapter.hpp"
 #include "SpirvStmtConfigFiller.hpp"
+#include "SpirVStmtDebugVisitor.hpp"
+#include "SpirvModule.hpp"
 #include "SpirvStmtVisitor.hpp"
 
 #include <ShaderAST/Shader.hpp>
@@ -61,14 +63,18 @@ namespace spirv
 			, shader.getTypesCache()
 			, statements.get() );
 		auto actions = listActions( statements.get() );
-		return spirv::StmtVisitor::submit( compileExprCache
+		auto debug = config.debug
+			? addDebugData( shader.getType(), statements.get() )
+			: debug::DebugStatements{ std::string{}, debug::DebugStatementsList{ &allocator } };
+		return generateModule( compileExprCache
 			, shader.getTypesCache()
 			, statements.get()
 			, shader.getType()
 			, adaptationData.config
 			, std::move( context )
 			, config
-			, std::move( actions ) );
+			, std::move( actions )
+			, std::move( debug ) );
 	}
 
 	std::string writeModule( Module const & module
