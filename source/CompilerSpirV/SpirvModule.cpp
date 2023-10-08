@@ -296,7 +296,7 @@ namespace spirv
 		, spv::AddressingModel addressingModel
 		, spv::MemoryModel pmemoryModel
 		, spv::ExecutionModel pexecutionModel
-		, debug::DebugStatements const & debugStatements )
+		, glsl::Statements const & debugStatements )
 		: Module{ alloc }
 	{
 		memoryModel = makeInstruction< MemoryModelInstruction >( nameCache
@@ -1768,13 +1768,13 @@ namespace spirv
 		, ast::type::TypePtr type
 		, uint64_t varFlags
 		, ValueId const & variableId
-		, debug::DebugStatement const * debugStatement )
+		, glsl::Statement const * debugStatement )
 	{
 		ValueId result{ 0u, type };
 
 		if ( debugStatement )
 		{
-			assert( debugStatement->type == debug::DebugStatementType::eVariableDecl );
+			assert( debugStatement->type == glsl::StatementType::eVariableDecl );
 			result.id = getNextId();
 			auto nameId = registerString( name );
 			auto typeId = registerType( type );
@@ -1802,14 +1802,14 @@ namespace spirv
 	ValueId Module::registerDebugMemberVariable( std::string const & name
 		, ast::type::TypePtr type
 		, uint64_t varFlags
-		, debug::DebugStatement const * debugStatement )
+		, glsl::Statement const * debugStatement )
 	{
 		ValueId result{ 0u, type };
 
 		if ( debugStatement )
 		{
-			assert( debugStatement->type == debug::DebugStatementType::eVariableDecl
-				|| debugStatement->type == debug::DebugStatementType::eStructureMemberDecl );
+			assert( debugStatement->type == glsl::StatementType::eVariableDecl
+				|| debugStatement->type == glsl::StatementType::eStructureMemberDecl );
 			auto mbrType = type->getParent()->getMember( type->getIndex() );
 
 			result.id = getNextId();
@@ -2156,7 +2156,7 @@ namespace spirv
 					m_voidType = result;
 				}
 
-				auto nameId = registerString( debug::getTypeName( kind ) );
+				auto nameId = registerString( glsl::getTypeName( kind ) );
 				auto sizeId = registerLiteral( debug::getSize( kind ) );
 				auto encodingId = registerLiteral( debug::getEncoding( kind ) );
 				auto flagId = registerLiteral( 0u );
@@ -2212,7 +2212,7 @@ namespace spirv
 		if ( extDebugInfo )
 		{
 			auto tagId = registerLiteral( 0u );
-			auto nameId = registerString( "@" + debug::getTypeName( type ) );
+			auto nameId = registerString( "@" + glsl::getTypeName( type ) );
 			auto lineId = registerLiteral( 0u );
 			auto columnId = registerLiteral( 0u );
 			auto flagId = registerLiteral( 0u );
@@ -2247,7 +2247,7 @@ namespace spirv
 			if ( extDebugInfo )
 			{
 				auto tagId = registerLiteral( 0u );
-				auto nameId = registerString( "@" + debug::getTypeName( type ) );
+				auto nameId = registerString( "@" + glsl::getTypeName( type ) );
 				auto lineId = registerLiteral( 0u );
 				auto columnId = registerLiteral( 0u );
 				auto flagId = registerLiteral( 0u );
@@ -2606,7 +2606,7 @@ namespace spirv
 	}
 
 	void Module::doInitialiseDebug( bool isDebugEnabled
-		, debug::DebugStatements const & debugStatements )
+		, glsl::Statements const & debugStatements )
 	{
 		if ( isDebugEnabled )
 		{

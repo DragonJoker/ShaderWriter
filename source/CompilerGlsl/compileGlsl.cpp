@@ -7,6 +7,8 @@ See LICENSE file in root folder
 #include "GlslStmtConfigFiller.hpp"
 #include "GlslStmtVisitor.hpp"
 
+#include <GlslCommon/GenerateGlslStatements.hpp>
+
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/StmtSpecialiser.hpp>
 #include <ShaderAST/Visitors/StmtSimplifier.hpp>
@@ -195,6 +197,6 @@ namespace glsl
 			, statements.get()
 			, specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return glsl::StmtVisitor::submit( config, aliases, statements.get() );
+		return glsl::generateGlslStatements( config, aliases, statements.get() ).source;
 	}
 }

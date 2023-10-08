@@ -8,8 +8,9 @@ See LICENSE file in root folder
 #include "CompilerSpirV/compileSpirV.hpp"
 #include "CompilerSpirV/SpirvBlock.hpp"
 #include "CompilerSpirV/SpirvCountActions.hpp"
-#include "CompilerSpirV/SpirvDebugHelpers.hpp"
 #include "CompilerSpirV/SpirvHelpers.hpp"
+
+#include <GlslCommon/GlslStatementsHelpers.hpp>
 
 namespace spirv
 {
@@ -21,7 +22,7 @@ namespace spirv
 		, spirv::PreprocContext context
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions
-		, debug::DebugStatements debugStatements );
+		, glsl::Statements debugStatements );
 	ValueId generateModuleExpr( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr * expr
 		, PreprocContext const & context

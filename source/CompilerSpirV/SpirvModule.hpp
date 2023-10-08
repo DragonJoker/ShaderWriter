@@ -6,9 +6,9 @@ See LICENSE file in root folder
 #pragma once
 
 #include "CompilerSpirV/SpirvFunction.hpp"
-#include "CompilerSpirV/SpirVStmtDebugVisitor.hpp"
-
 #include "CompilerSpirV/spirv/NonSemantic.Shader.DebugInfo.100.hpp"
+
+#include <GlslCommon/GlslStatementsHelpers.hpp>
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
@@ -38,7 +38,7 @@ namespace spirv
 			, spv::AddressingModel addressingModel
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel
-			, debug::DebugStatements const & debugStatements );
+			, glsl::Statements const & debugStatements );
 		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
 			, Header const & header
 			, InstructionList instructions );
@@ -197,11 +197,11 @@ namespace spirv
 			, ast::type::TypePtr type
 			, uint64_t varFlags
 			, ValueId const & variableId
-			, debug::DebugStatement const * debugStatement );
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API ValueId registerDebugMemberVariable( std::string const & name
 			, ast::type::TypePtr type
 			, uint64_t varFlags
-			, debug::DebugStatement const * debugStatement );
+			, glsl::Statement const * debugStatement );
 
 		SDWSPIRV_API spv::Id getNextId();
 
@@ -282,7 +282,7 @@ namespace spirv
 		void doInitialiseExtensions( bool enableDebug );
 		void doInitialiseCapacities();
 		void doInitialiseDebug( bool isDebugEnabled
-			, debug::DebugStatements const & debugStatements );
+			, glsl::Statements const & debugStatements );
 		bool doDeserializeInfos( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
