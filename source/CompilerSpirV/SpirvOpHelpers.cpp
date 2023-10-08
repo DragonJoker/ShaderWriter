@@ -7,9 +7,9 @@ namespace spirv
 {
 	//*************************************************************************
 
-	namespace
+	namespace ophlp
 	{
-		bool isFloating( ast::type::Kind kind )
+		static bool isFloating( ast::type::Kind kind )
 		{
 			return kind == ast::type::Kind::eHalf
 				|| kind == ast::type::Kind::eFloat
@@ -42,7 +42,7 @@ namespace spirv
 				|| kind == ast::type::Kind::eMat4x4D;
 		}
 
-		bool isSigned( ast::type::Kind kind )
+		static bool isSigned( ast::type::Kind kind )
 		{
 			return kind == ast::type::Kind::eInt8
 				|| kind == ast::type::Kind::eInt16
@@ -62,7 +62,7 @@ namespace spirv
 				|| kind == ast::type::Kind::eVec4I64;
 		}
 
-		bool isBool( ast::type::Kind kind )
+		static bool isBool( ast::type::Kind kind )
 		{
 			return kind == ast::type::Kind::eBoolean
 				|| kind == ast::type::Kind::eVec2B
@@ -70,21 +70,21 @@ namespace spirv
 				|| kind == ast::type::Kind::eVec4B;
 		}
 
-		bool isAnyBool( ast::type::Kind lhsTypeKind
+		static bool isAnyBool( ast::type::Kind lhsTypeKind
 			, ast::type::Kind rhsTypeKind )
 		{
 			return isBool( lhsTypeKind )
 				|| isBool( rhsTypeKind );
 		}
 
-		bool isAnySigned( ast::type::Kind lhsTypeKind
+		static bool isAnySigned( ast::type::Kind lhsTypeKind
 			, ast::type::Kind rhsTypeKind )
 		{
 			return isSigned( lhsTypeKind )
 				|| isSigned( rhsTypeKind );
 		}
 
-		bool isAnyFloating( ast::type::Kind lhsTypeKind
+		static bool isAnyFloating( ast::type::Kind lhsTypeKind
 			, ast::type::Kind rhsTypeKind )
 		{
 			return isFloating( lhsTypeKind )
@@ -521,7 +521,7 @@ namespace spirv
 		case spv::OpMemberName:
 			return "MemberName";
 		case spv::OpString:
-			return "std::string";
+			return "String";
 		case spv::OpLine:
 			return "Line";
 		case spv::OpExtension:
@@ -1949,13 +1949,13 @@ namespace spirv
 		{
 		case ast::expr::Kind::eAdd:
 		case ast::expr::Kind::eAddAssign:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFAdd
 				: spv::OpIAdd;
 			break;
 		case ast::expr::Kind::eMinus:
 		case ast::expr::Kind::eMinusAssign:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFSub
 				: spv::OpISub;
 			break;
@@ -1971,7 +1971,7 @@ namespace spirv
 					? ( isMatrixType( rhsTypeKind )
 						? spv::OpVectorTimesMatrix
 						: ( isVectorType( rhsTypeKind )
-							? ( isAnyFloating( lhsTypeKind, rhsTypeKind )
+							? ( ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 								? spv::OpFMul
 								: spv::OpIMul )
 							: spv::OpVectorTimesScalar ) )
@@ -1979,7 +1979,7 @@ namespace spirv
 						? spv::OpMatrixTimesScalar
 						: ( isVectorType( rhsTypeKind )
 							? spv::OpVectorTimesScalar
-							: ( isAnyFloating( lhsTypeKind, rhsTypeKind )
+							: ( ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 								? spv::OpFMul
 								: spv::OpIMul ) ) ) );
 			needMatchingVectors = !( ( isFloatType( getScalarType( lhsTypeKind ) ) || isFloatType( getScalarType( rhsTypeKind ) ) )
@@ -1987,17 +1987,17 @@ namespace spirv
 			break;
 		case ast::expr::Kind::eDivide:
 		case ast::expr::Kind::eDivideAssign:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFDiv
-				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
+				: ( ophlp::isAnySigned( lhsTypeKind, rhsTypeKind )
 					? spv::OpSDiv
 					: spv::OpUDiv );
 			break;
 		case ast::expr::Kind::eModulo:
 		case ast::expr::Kind::eModuloAssign:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFMod
-				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
+				: ( ophlp::isAnySigned( lhsTypeKind, rhsTypeKind )
 					? spv::OpSMod
 					: spv::OpUMod );
 			break;
@@ -2051,44 +2051,44 @@ namespace spirv
 			AST_Failure( "Unexpected ast::expr::Kind::eFnCall" );
 			break;
 		case ast::expr::Kind::eEqual:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFOrdEqual
-				: isAnyBool( lhsTypeKind, rhsTypeKind )
+				: ophlp::isAnyBool( lhsTypeKind, rhsTypeKind )
 				? spv::OpLogicalEqual
 				: spv::OpIEqual;
 			break;
 		case ast::expr::Kind::eGreater:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFOrdGreaterThan
-				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
+				: ( ophlp::isAnySigned( lhsTypeKind, rhsTypeKind )
 					? spv::OpSGreaterThan
 					: spv::OpUGreaterThan );
 			break;
 		case ast::expr::Kind::eGreaterEqual:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFOrdGreaterThanEqual
-				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
+				: ( ophlp::isAnySigned( lhsTypeKind, rhsTypeKind )
 					? spv::OpSGreaterThanEqual
 					: spv::OpUGreaterThanEqual );
 			break;
 		case ast::expr::Kind::eLess:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFOrdLessThan
-				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
+				: ( ophlp::isAnySigned( lhsTypeKind, rhsTypeKind )
 					? spv::OpSLessThan
 					: spv::OpULessThan );
 			break;
 		case ast::expr::Kind::eLessEqual:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFOrdLessThanEqual
-				: ( isAnySigned( lhsTypeKind, rhsTypeKind )
+				: ( ophlp::isAnySigned( lhsTypeKind, rhsTypeKind )
 					? spv::OpSLessThanEqual
 					: spv::OpULessThanEqual );
 			break;
 		case ast::expr::Kind::eNotEqual:
-			result = isAnyFloating( lhsTypeKind, rhsTypeKind )
+			result = ophlp::isAnyFloating( lhsTypeKind, rhsTypeKind )
 				? spv::OpFOrdNotEqual
-				: isAnyBool( lhsTypeKind, rhsTypeKind )
+				: ophlp::isAnyBool( lhsTypeKind, rhsTypeKind )
 				? spv::OpLogicalNotEqual
 				: spv::OpINotEqual;
 			break;
@@ -2190,7 +2190,7 @@ namespace spirv
 			AST_Failure( "Unexpected ast::expr::Kind::ePostDecrement" );
 			break;
 		case ast::expr::Kind::eUnaryMinus:
-			result = isFloating( typeKind )
+			result = ophlp::isFloating( typeKind )
 				? spv::OpFNegate
 				: spv::OpSNegate;
 			break;

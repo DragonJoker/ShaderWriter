@@ -120,11 +120,18 @@ namespace spirv
 		SDWSPIRV_API Function( Function && rhs ) = default;
 		SDWSPIRV_API Function & operator=( Function && rhs ) = default;
 
-		SDWSPIRV_API Function( ast::ShaderAllocatorBlock * alloc );
+		SDWSPIRV_API Function( ast::ShaderAllocatorBlock * alloc
+			, ValueId id );
 		SDWSPIRV_API static Function deserialize( ast::ShaderAllocatorBlock * alloc
 			, InstructionList::iterator & buffer
 			, InstructionList::iterator const & end );
 
+		ValueId id{};
+		ValueId debugNameId{};
+		ValueId debugTypeId{};
+		ValueId debugLineId{};
+		ValueId debugColumnId{};
+		ValueId debugFlagId{};
 		// Serialisable.
 		InstructionList declaration;
 		ControlFlowGraph cfg;

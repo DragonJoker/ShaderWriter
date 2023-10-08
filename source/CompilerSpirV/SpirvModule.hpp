@@ -5,7 +5,10 @@ See LICENSE file in root folder
 #define ___SDW_SpirvModule_H___
 #pragma once
 
-#include "SpirvFunction.hpp"
+#include "CompilerSpirV/SpirvFunction.hpp"
+#include "CompilerSpirV/SpirVStmtDebugVisitor.hpp"
+
+#include "CompilerSpirV/spirv/NonSemantic.Shader.DebugInfo.100.hpp"
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
@@ -34,7 +37,8 @@ namespace spirv
 			, SpirVConfig const & spirvConfig
 			, spv::AddressingModel addressingModel
 			, spv::MemoryModel memoryModel
-			, spv::ExecutionModel executionModel );
+			, spv::ExecutionModel executionModel
+			, debug::DebugStatements const & debugStatements );
 		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
 			, Header const & header
 			, InstructionList instructions );
@@ -51,6 +55,9 @@ namespace spirv
 			, bool writeHeader );
 
 		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type );
+		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
+			, uint32_t mbrIndex
+			, TypeId parentId );
 		SDWSPIRV_API TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
 		SDWSPIRV_API TypeId registerPointerType( TypeId type
@@ -128,6 +135,7 @@ namespace spirv
 		SDWSPIRV_API void registerExecutionMode( ast::type::OutputTopology topology
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives );
+		ValueId registerString( std::string const & text );
 		SDWSPIRV_API spv::Id getIntermediateResult();
 		SDWSPIRV_API void lnkIntermediateResult( ValueId intermediate, ValueId var );
 		SDWSPIRV_API void putIntermediateResult( ValueId id );
@@ -162,7 +170,7 @@ namespace spirv
 		SDWSPIRV_API void bindVariable( ValueId varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );
-		SDWSPIRV_API void bindBufferVariable( std::string const & name
+		SDWSPIRV_API ValueId bindBufferVariable( std::string const & name
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet
 			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
@@ -172,6 +180,28 @@ namespace spirv
 			, ast::var::VariableList const & params );
 		SDWSPIRV_API Block newBlock();
 		SDWSPIRV_API void endFunction();
+
+		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
+			, ValueIdList operands );
+		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
+			, Block & block
+			, ValueIdList operands );
+		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
+			, ValueId const & resultId
+			, ValueIdList operands );
+		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
+			, ValueId const & resultId
+			, Block & block
+			, ValueIdList operands );
+		SDWSPIRV_API ValueId registerDebugVariable( std::string const & name
+			, ast::type::TypePtr type
+			, uint64_t varFlags
+			, ValueId const & variableId
+			, debug::DebugStatement const * debugStatement );
+		SDWSPIRV_API ValueId registerDebugMemberVariable( std::string const & name
+			, ast::type::TypePtr type
+			, uint64_t varFlags
+			, debug::DebugStatement const * debugStatement );
 
 		SDWSPIRV_API spv::Id getNextId();
 
@@ -183,6 +213,11 @@ namespace spirv
 	public:
 		ast::ShaderAllocatorBlock * allocator;
 		Map< std::string, Vector< uint32_t > > nameCache;
+		ValueId extGlslStd450{};
+		ValueId extDebugInfo{};
+		ValueId debugSourceId{};
+		ValueId globalScopeId{};
+
 		IdList header;
 		InstructionList capabilities;
 		InstructionList extensions;
@@ -190,9 +225,12 @@ namespace spirv
 		InstructionPtr memoryModel;
 		InstructionPtr entryPoint;
 		InstructionList executionModes;
+		InstructionList debugString;
 		InstructionList debug;
 		InstructionList decorations;
+		InstructionList constantsTypes;
 		InstructionList globalDeclarations;
+		InstructionList debugDeclarations;
 		ModuleStruct structData;
 		FunctionList functions;
 		InstructionList * variables;
@@ -201,65 +239,65 @@ namespace spirv
 		TypeId doRegisterNonArrayType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerType( ast::type::TypePtr type
+		TypeId doRegisterTypeRec( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId
 			, uint32_t arrayStride );
-		TypeId registerBaseType( ast::type::Kind kind
+		TypeId doRegisterBaseType( ast::type::Kind kind
 			, uint32_t mbrIndex
 			, TypeId parentId
 			, uint32_t arrayStride );
-		TypeId registerBaseType( ast::type::StructPtr type
+		TypeId doRegisterBaseType( ast::type::StructPtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerBaseType( ast::type::SamplerPtr type
+		TypeId doRegisterBaseType( ast::type::SamplerPtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerBaseType( ast::type::CombinedImagePtr type
+		TypeId doRegisterBaseType( ast::type::CombinedImagePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerBaseType( ast::type::ImagePtr type
+		TypeId doRegisterBaseType( ast::type::ImagePtr type
 			, ast::type::Trinary isComparison );
-		TypeId registerBaseType( ast::type::ImagePtr type
+		TypeId doRegisterBaseType( ast::type::ImagePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerBaseType( ast::type::SampledImagePtr type
+		TypeId doRegisterBaseType( ast::type::SampledImagePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerBaseType( ast::type::AccelerationStructurePtr type
+		TypeId doRegisterBaseType( ast::type::AccelerationStructurePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
-		TypeId registerBaseType( ast::type::TypePtr type
+		TypeId doRegisterBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId
 			, uint32_t arrayStride );
-		void replaceDecoration( ValueId id
+		void doReplaceDecoration( ValueId id
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
-		void replaceMemberDecoration( ValueId id
+		void doReplaceMemberDecoration( ValueId id
 			, uint32_t index
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
-
-	private:
-		void initialiseHeader( Header const & header );
-		void initialiseExtensions();
-		void initialiseCapacities();
-		bool deserializeInfos( spv::Op opCode
+		void doInitialiseHeader( Header const & header );
+		void doInitialiseExtensions( bool enableDebug );
+		void doInitialiseCapacities();
+		void doInitialiseDebug( bool isDebugEnabled
+			, debug::DebugStatements const & debugStatements );
+		bool doDeserializeInfos( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
-		bool deserializeFuncs( spv::Op opCode
+		bool doDeserializeFuncs( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
-		InstructionList * selectInstructionsList( spv::Op opCode );
-		void addDebug( std::string const & name
+		InstructionList * doSelectInstructionsList( spv::Op opCode );
+		void doAddDebug( std::string const & name
 			, ValueId id );
-		void addBuiltin( ast::Builtin builtin
+		void doAddBuiltin( ast::Builtin builtin
 			, ValueId id );
-		bool addMbrBuiltin( ast::Builtin pbuiltin
+		bool doAddMbrBuiltin( ast::Builtin pbuiltin
 			, ValueId outer
 			, uint32_t mbrIndex );
-		void addVariable( std::string name
+		void doAddVariable( std::string name
 			, ValueId varId
 			, Map< std::string, VariableInfo >::iterator & it
 			, ValueId initialiser );
@@ -306,7 +344,9 @@ namespace spirv
 		ValueIdSet m_entryPointIO;
 		DecorationMapIdMap varDecorations;
 		DecorationMapMbrMap mbrDecorations;
-		ValueId m_glslStd450{};
+		TypeId m_voidType{};
+		ValueId m_currentScopeId{};
+		ValueId m_debugInfoNone{};
 	};
 }
 

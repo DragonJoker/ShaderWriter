@@ -10,7 +10,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace count
 	{
 		class ExprActionsCounter
 			: public ast::expr::SimpleVisitor
@@ -499,6 +499,6 @@ namespace spirv
 
 	ShaderActions listActions( ast::stmt::Container * container )
 	{
-		return StmtActionsCounter::submit( container );
+		return count::StmtActionsCounter::submit( container );
 	}
 }

@@ -3,17 +3,17 @@ See LICENSE file in root folder
 */
 #include "SpirvMakeAccessChain.hpp"
 
-#include "SpirvExprVisitor.hpp"
-
 #include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvHelpers.hpp"
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvIntrinsicNames.hpp"
+#include "SpirvStmtVisitor.hpp"
 #include "SpirvStorageImageAccessConfig.hpp"
 #include "SpirvStorageImageAccessNames.hpp"
 #include "SpirvCombinedImageAccessConfig.hpp"
 #include "SpirvCombinedImageAccessNames.hpp"
 
+#include <ShaderAST/Expr/ExprVisitor.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <numeric>
@@ -21,15 +21,15 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace acnhlp
 	{
-		bool isBuiltIn( ast::expr::Expr * expr )
+		static bool isBuiltIn( ast::expr::Expr * expr )
 		{
 			return expr->getKind() == ast::expr::Kind::eIdentifier
 				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
 		}
 
-		bool isAccessChain( ast::expr::Expr * expr
+		static bool isAccessChain( ast::expr::Expr * expr
 			, bool isFromArray )
 		{
 			return expr->getKind() == ast::expr::Kind::eArrayAccess
@@ -346,12 +346,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				m_result = ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_module );
+				m_result = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				m_result = ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_module );
+				m_result = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -411,7 +411,7 @@ namespace spirv
 					if ( it != m_context.constAggrExprs.end() )
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
-						m_result = m_module.loadVariable( ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_module ), m_currentBlock );
+						m_result = m_module.loadVariable( generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module ), m_currentBlock );
 						m_result = m_module.registerVariable( var->getName()
 							, var->getBuiltin()
 							, getStorageClass( m_module.getVersion(), var )
@@ -592,7 +592,7 @@ namespace spirv
 
 #define SPIRV_CacheAccessChains 0
 
-		ValueId writeAccessChain( Block & currentBlock
+		static ValueId writeAccessChain( Block & currentBlock
 			, ValueIdList const & accessChain
 			, ast::expr::Expr * expr
 			, Module & module )
@@ -654,7 +654,7 @@ namespace spirv
 
 	bool isAccessChain( ast::expr::Expr * expr )
 	{
-		return isAccessChain( expr, false );
+		return acnhlp::isAccessChain( expr, false );
 	}
 
 	ValueId makeAccessChain( ast::expr::ExprCache & exprCache
@@ -665,13 +665,13 @@ namespace spirv
 	{
 		// Create Access Chain.
 		ast::expr::ExprList idents;
-		auto accessChainExprs = AccessChainLineariser::submit( exprCache, expr->getTypesCache(), expr, idents );
-		auto accessChain = AccessChainCreator::submit( exprCache
+		auto accessChainExprs = acnhlp::AccessChainLineariser::submit( exprCache, expr->getTypesCache(), expr, idents );
+		auto accessChain = acnhlp::AccessChainCreator::submit( exprCache
 			, accessChainExprs
 			, context
 			, module
 			, currentBlock );
-		return writeAccessChain( currentBlock
+		return acnhlp::writeAccessChain( currentBlock
 			, accessChain
 			, expr
 			, module );
@@ -684,7 +684,7 @@ namespace spirv
 		, Block & currentBlock )
 	{
 		auto typeId = module.registerType( expr->getType() );
-		auto outerId = module.loadVariable( ExprVisitor::submit( exprCache, expr->getOuterExpr()
+		auto outerId = module.loadVariable( generateModuleExpr( exprCache, expr->getOuterExpr()
 				, context
 				, currentBlock
 				, module )

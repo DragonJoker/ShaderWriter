@@ -10,16 +10,16 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace conffill
 	{
-		void checkType( ast::expr::Expr * expr
+		static void checkType( ast::expr::Expr * expr
 			, ModuleConfig & config )
 		{
 			checkType( expr->getType()
 				, config );
 		}
 
-		void checkType( ast::expr::IntrinsicCall * expr
+		static void checkType( ast::expr::IntrinsicCall * expr
 			, ModuleConfig & config )
 		{
 			checkType( expr->getType()
@@ -178,20 +178,20 @@ namespace spirv
 
 	void ExprConfigFiller::visitUnaryExpr( ast::expr::Unary * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getOperand() );
 	}
 
 	void ExprConfigFiller::visitBinaryExpr( ast::expr::Binary * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getLHS() );
 		doSubmit( expr->getRHS() );
 	}
 
 	void ExprConfigFiller::visitAggrInitExpr( ast::expr::AggrInit * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 
 		if ( expr->getIdentifier() )
 		{
@@ -206,7 +206,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{
@@ -216,7 +216,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getOuterExpr() );
 
 		if ( expr->isBuiltin() )
@@ -231,7 +231,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getFn() );
 
 		for ( auto & arg : expr->getArgList() )
@@ -242,7 +242,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{
@@ -295,7 +295,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{
@@ -321,7 +321,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 
 		for ( auto & arg : expr->getArgList() )
 		{
@@ -373,24 +373,24 @@ namespace spirv
 
 	void ExprConfigFiller::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 	}
 
 	void ExprConfigFiller::visitInitExpr( ast::expr::Init * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getIdentifier() );
 		doSubmit( expr->getInitialiser() );
 	}
 
 	void ExprConfigFiller::visitLiteralExpr( ast::expr::Literal * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 	}
 
 	void ExprConfigFiller::visitQuestionExpr( ast::expr::Question * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getCtrlExpr() );
 		doSubmit( expr->getTrueExpr() );
 		doSubmit( expr->getFalseExpr() );
@@ -413,7 +413,7 @@ namespace spirv
 
 	void ExprConfigFiller::visitSwizzleExpr( ast::expr::Swizzle * expr )
 	{
-		checkType( expr, m_config );
+		conffill::checkType( expr, m_config );
 		doSubmit( expr->getOuterExpr() );
 	}
 }

@@ -8,9 +8,9 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace
+	namespace swzcmp
 	{
-		Vector< uint32_t > getSwizzle2Components( ast::ShaderAllocatorBlock * allocator
+		static Vector< uint32_t > getSwizzle2Components( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind swizzle )
 		{
 			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
@@ -25,7 +25,7 @@ namespace spirv
 			}
 		}
 
-		Vector< uint32_t > getSwizzle3Components( ast::ShaderAllocatorBlock * allocator
+		static Vector< uint32_t > getSwizzle3Components( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind swizzle )
 		{
 			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
@@ -48,7 +48,7 @@ namespace spirv
 			}
 		}
 
-		Vector< uint32_t > getSwizzle4Components( ast::ShaderAllocatorBlock * allocator
+		static Vector< uint32_t > getSwizzle4Components( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind swizzle )
 		{
 			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
@@ -105,7 +105,7 @@ namespace spirv
 			}
 		}
 
-		IdList fillVec2Swizzle( ast::ShaderAllocatorBlock * allocator
+		static IdList fillVec2Swizzle( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind lhsSwizzle
 			, ast::expr::SwizzleKind rhsSwizzle )
 		{
@@ -148,7 +148,7 @@ namespace spirv
 			return result;
 		}
 
-		IdList fillVec3Swizzle( ast::ShaderAllocatorBlock * allocator
+		static IdList fillVec3Swizzle( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind lhsSwizzle
 			, ast::expr::SwizzleKind rhsSwizzle )
 		{
@@ -228,7 +228,7 @@ namespace spirv
 			return result;
 		}
 
-		IdList fillVec4Swizzle( ast::ShaderAllocatorBlock * allocator
+		static IdList fillVec4Swizzle( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind lhsSwizzle
 			, ast::expr::SwizzleKind rhsSwizzle )
 		{
@@ -441,7 +441,7 @@ namespace spirv
 			return result;
 		}
 
-		IdList fillSwizzle( ast::ShaderAllocatorBlock * allocator
+		static IdList fillSwizzle( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind lhsSwizzle
 			, ast::expr::SwizzleKind rhsSwizzle
 			, uint32_t count )
@@ -1164,7 +1164,7 @@ namespace spirv
 		, ast::expr::SwizzleKind rhsSwizzle
 		, uint32_t componentCount )
 	{
-		return fillSwizzle( allocator, lhsSwizzle, rhsSwizzle, componentCount );
+		return swzcmp::fillSwizzle( allocator, lhsSwizzle, rhsSwizzle, componentCount );
 	}
 
 	ast::expr::SwizzleKind getSwizzleComponents( uint32_t count )

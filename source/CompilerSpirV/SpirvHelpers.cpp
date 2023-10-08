@@ -25,9 +25,9 @@ namespace spirv
 {
 	//*************************************************************************
 
-	namespace
+	namespace hlp
 	{
-		spv::ImageFormat getImageFormat( ast::type::ImageFormat value )
+		static spv::ImageFormat getImageFormat( ast::type::ImageFormat value )
 		{
 			switch ( value )
 			{
@@ -87,7 +87,7 @@ namespace spirv
 			}
 		}
 
-		void getBinOpOperands( ast::expr::Kind exprKind
+		static void getBinOpOperands( ast::expr::Kind exprKind
 			, ast::type::Kind lhsTypeKind
 			, ast::type::Kind rhsTypeKind
 			, ValueId lhs
@@ -111,7 +111,7 @@ namespace spirv
 			operands = makeOperands( operands.get_allocator().getAllocator(), lhs, rhs );
 		}
 
-		InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		static InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
 			, spv::Op op
 			, ValueId returnTypeId
 			, ValueId resultId
@@ -134,7 +134,7 @@ namespace spirv
 			return nullptr;
 		}
 
-		InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		static InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
 			, spv::Op op
 			, ValueId returnTypeId
 			, ValueId resultId
@@ -237,7 +237,7 @@ namespace spirv
 			return nullptr;
 		}
 
-		bool isShaderInput( ast::Builtin builtin
+		static bool isShaderInput( ast::Builtin builtin
 			, ast::ShaderStage type )
 		{
 			return
@@ -301,7 +301,7 @@ namespace spirv
 				|| isRayTraceStage( type );
 		}
 
-		bool isShaderOutput( ast::Builtin builtin
+		static bool isShaderOutput( ast::Builtin builtin
 			, ast::ShaderStage type )
 		{
 			return
@@ -344,24 +344,24 @@ namespace spirv
 						|| builtin == ast::Builtin::eViewportMaskNV ) );
 		}
 
-		uint32_t getMajor( uint32_t spvVersion )
+		static uint32_t getMajor( uint32_t spvVersion )
 		{
 			return ( spvVersion >> 16u );
 		}
 
-		uint32_t getMinor( uint32_t spvVersion )
+		static uint32_t getMinor( uint32_t spvVersion )
 		{
 			return ( ( spvVersion >> 8u ) & 0xFF );
 		}
 
-		std::string printSpvVersion( uint32_t spvVersion )
+		static std::string printSpvVersion( uint32_t spvVersion )
 		{
 			std::stringstream stream;
 			stream << getMajor( spvVersion ) << "." << getMinor( spvVersion );
 			return stream.str();
 		}
 
-		void checkType( ast::type::Kind kind
+		static void checkType( ast::type::Kind kind
 			, ModuleConfig & config )
 		{
 			if ( isDoubleType( kind ) )
@@ -399,7 +399,7 @@ namespace spirv
 			}
 		}
 
-		void checkType( ast::type::ImageConfiguration const & image
+		static void checkType( ast::type::ImageConfiguration const & image
 			, uint32_t arraySize
 			, bool sampled
 			, ModuleConfig & config )
@@ -452,21 +452,21 @@ namespace spirv
 			}
 		}
 
-		void checkType( ast::type::Image const & type
+		static void checkType( ast::type::Image const & type
 			, uint32_t arraySize
 			, ModuleConfig & config )
 		{
 			checkType( type.getConfig(), arraySize, false, config );
 		}
 
-		void checkType( ast::type::SampledImage const & type
+		static void checkType( ast::type::SampledImage const & type
 			, uint32_t arraySize
 			, ModuleConfig & config )
 		{
 			checkType( type.getConfig(), arraySize, true, config );
 		}
 
-		void checkType( ast::type::CombinedImage const & type
+		static void checkType( ast::type::CombinedImage const & type
 			, uint32_t arraySize
 			, ModuleConfig & config )
 		{
@@ -486,19 +486,19 @@ namespace spirv
 				switch ( type->getRawKind() )
 				{
 				case ast::type::Kind::eImage:
-					checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
+					hlp::checkType( static_cast< ast::type::Image const & >( *type ), arraySize, config );
 					break;
 				case ast::type::Kind::eCombinedImage:
-					checkType( static_cast< ast::type::CombinedImage const & >( *type ), arraySize, config );
+					hlp::checkType( static_cast< ast::type::CombinedImage const & >( *type ), arraySize, config );
 					break;
 				case ast::type::Kind::eSampledImage:
-					checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
+					hlp::checkType( static_cast< ast::type::SampledImage const & >( *type ), arraySize, config );
 					break;
 				case ast::type::Kind::eSampler:
 				case ast::type::Kind::eAccelerationStructure:
 					return;
 				default:
-					checkType( type->getKind(), config );
+					hlp::checkType( type->getKind(), config );
 					break;
 				}
 			} );
@@ -1004,10 +1004,10 @@ namespace spirv
 	{
 		if ( isInput )
 		{
-			return isShaderInput( builtin, stage );
+			return hlp::isShaderInput( builtin, stage );
 		}
 
-		return isShaderOutput( builtin, stage );
+		return hlp::isShaderOutput( builtin, stage );
 	}
 
 	PendingResult IOMapping::processPendingType( ast::type::TypePtr type
@@ -1112,6 +1112,28 @@ namespace spirv
 	}
 
 	//*************************************************************************
+
+	ModuleConfig::ModuleConfig( ast::ShaderAllocatorBlock * alloc
+		, SpirVConfig & pspirvConfig
+		, ast::type::TypesCache & typesCache
+		, ast::ShaderStage pstage
+		, uint32_t pnextVarId
+		, uint32_t paliasId )
+		: nextVarId{ pnextVarId }
+		, aliasId{ paliasId }
+		, stage{ pstage }
+		, executionModes{ alloc }
+		, spirvConfig{ pspirvConfig }
+		, inputs{ alloc, typesCache, stage, true, nextVarId }
+		, outputs{ alloc, typesCache, stage, false, nextVarId }
+		, requiredCapabilities{ alloc }
+		, requiredExtensions{}
+	{
+		if ( spirvConfig.debug )
+		{
+			registerExtension( KHR_non_semantic_info );
+		}
+	}
 
 	void ModuleConfig::registerCapability( spv::Capability capability )
 	{
@@ -1478,14 +1500,14 @@ namespace spirv
 		{
 			if ( extension.isMarker )
 			{
-				throw std::runtime_error{ "SPIR-V specification version (" + printSpvVersion( spirvConfig.specVersion )
+				throw std::runtime_error{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
 					+ ") doesn't support [" + extension.name
-					+ "] (required version: " + printSpvVersion( extension.specVersion ) + ")" };
+					+ "] (required version: " + hlp::printSpvVersion( extension.specVersion ) + ")" };
 			}
 
-			throw std::runtime_error{ "SPIR-V specification version (" + printSpvVersion( spirvConfig.specVersion )
+			throw std::runtime_error{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
 				+ ") doesn't support extension [" + extension.name
-				+ "] (required version: " + printSpvVersion( extension.specVersion ) + ")" };
+				+ "] (required version: " + hlp::printSpvVersion( extension.specVersion ) + ")" };
 		}
 
 		if ( spirvConfig.availableExtensions )
@@ -1664,7 +1686,7 @@ namespace spirv
 		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
-		if ( isShaderInput( builtin, inputs.stage ) )
+		if ( hlp::isShaderInput( builtin, inputs.stage ) )
 		{
 			return inputs.processPending( exprCache, builtin, adapter, cont );
 		}
@@ -2800,7 +2822,7 @@ namespace spirv
 	{
 		ValueIdList result{ alloc };
 		spv::Op opCode;
-		getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, result, opCode );
+		hlp::getBinOpOperands( exprKind, lhsTypeKind, rhsTypeKind, lhs, rhs, result, opCode );
 		return makeOperands( alloc, ValueId{ spv::Id( opCode ) }, result );
 	}
 
@@ -2825,7 +2847,7 @@ namespace spirv
 			: ( isComparison == ast::type::Trinary::eFalse
 				? 2u
 				: 0u ) } );
-		operands.push_back( { uint32_t( getImageFormat( config.format ) ) } );
+		operands.push_back( { uint32_t( hlp::getImageFormat( config.format ) ) } );
 		// Only available in kernel mode.
 		// operands.push_back( uint32_t( config.accessKind ) );
 
@@ -3289,7 +3311,7 @@ namespace spirv
 		, ast::type::Kind typeKind
 		, ValueId operandId )
 	{
-		return makeUnInstruction( nameCache
+		return hlp::makeUnInstruction( nameCache
 			, getUnOpCode( exprKind, typeKind )
 			, returnTypeId
 			, resultId
@@ -3307,14 +3329,14 @@ namespace spirv
 	{
 		ValueIdList operands{ nameCache.get_allocator() };
 		spv::Op opCode;
-		getBinOpOperands( exprKind
+		hlp::getBinOpOperands( exprKind
 			, lhsTypeKind
 			, rhsTypeKind
 			, lhs
 			, rhs
 			, operands
 			, opCode );
-		return makeBinInstruction( nameCache
+		return hlp::makeBinInstruction( nameCache
 			, opCode
 			, typeId
 			, resultId
@@ -3553,6 +3575,112 @@ namespace spirv
 		{
 			module.decorate( varId, spv::DecorationPerTaskNV );
 		}
+	}
+
+	spv::StorageClass getStorageClass( uint32_t version
+		, ast::var::VariablePtr var
+		, spv::StorageClass fallback )
+	{
+		var = getOutermost( var );
+		spv::StorageClass result = fallback;
+
+		if ( var->isHitAttribute() )
+		{
+			result = spv::StorageClassHitAttributeKHR;
+		}
+		else if ( var->isIncomingCallableData() )
+		{
+			result = spv::StorageClassIncomingCallableDataKHR;
+		}
+		else if ( var->isCallableData() )
+		{
+			result = spv::StorageClassCallableDataKHR;
+		}
+		else if ( var->isIncomingRayPayload() )
+		{
+			result = spv::StorageClassIncomingRayPayloadKHR;
+		}
+		else if ( var->isRayPayload() )
+		{
+			result = spv::StorageClassRayPayloadKHR;
+		}
+		else if ( var->isPerTask() )
+		{
+			result = spv::StorageClassTaskPayloadWorkgroupEXT;
+		}
+		else if ( var->isStorageBuffer() )
+		{
+			if ( version > v1_3 )
+			{
+				result = spv::StorageClassStorageBuffer;
+			}
+			else if ( var->isConstant() )
+			{
+				result = spv::StorageClassUniformConstant;
+			}
+			else
+			{
+				result = spv::StorageClassUniform;
+			}
+		}
+		else if ( var->isUniform() )
+		{
+			if ( var->isConstant() )
+			{
+				result = spv::StorageClassUniformConstant;
+			}
+			else
+			{
+				result = spv::StorageClassUniform;
+			}
+		}
+		else if ( var->isBuiltin() )
+		{
+			if ( var->isShaderInput() )
+			{
+				result = spv::StorageClassInput;
+			}
+			else if ( var->isShaderOutput() )
+			{
+				result = spv::StorageClassOutput;
+			}
+			else
+			{
+				AST_Failure( "Unsupported built-in variable storage." );
+			}
+		}
+		else if ( var->isShaderInput()
+			|| var->isPatchInput() )
+		{
+			result = spv::StorageClassInput;
+		}
+		else if ( var->isShaderOutput()
+			|| var->isPatchOutput() )
+		{
+			result = spv::StorageClassOutput;
+		}
+		else if ( var->isShaderConstant() )
+		{
+			result = spv::StorageClassInput;
+		}
+		else if ( var->isSpecialisationConstant() )
+		{
+			result = spv::StorageClassInput;
+		}
+		else if ( var->isPushConstant() )
+		{
+			result = spv::StorageClassPushConstant;
+		}
+		else if ( var->isStatic() )
+		{
+			result = spv::StorageClassPrivate;
+		}
+		else if ( var->isShared() )
+		{
+			result = spv::StorageClassWorkgroup;
+		}
+
+		return result;
 	}
 
 	//*************************************************************************
