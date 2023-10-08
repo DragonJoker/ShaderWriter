@@ -3,15 +3,14 @@ See LICENSE file in root folder
 */
 #include "CompilerGlsl/compileGlsl.hpp"
 
-#include "GlslStmtAdapter.hpp"
-#include "GlslStmtConfigFiller.hpp"
-#include "GlslStmtVisitor.hpp"
+#include "GlslAdaptStatements.hpp"
+#include "GlslFillConfig.hpp"
 
 #include <GlslCommon/GenerateGlslStatements.hpp>
 
 #include <ShaderAST/Shader.hpp>
-#include <ShaderAST/Visitors/StmtSpecialiser.hpp>
-#include <ShaderAST/Visitors/StmtSimplifier.hpp>
+#include <ShaderAST/Visitors/SimplifyStatements.hpp>
+#include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
 namespace glsl
@@ -160,7 +159,7 @@ namespace glsl
 		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
-		auto intrinsics = glsl::StmtConfigFiller::submit( shader.getType()
+		auto intrinsics = glsl::fillConfig( shader.getType()
 			, shader.getStatements() );
 		checkConfig( config, intrinsics );
 
@@ -181,7 +180,7 @@ namespace glsl
 			, config
 			, std::move( intrinsics )
 			, ssaData.nextVarId };
-		statements = glsl::StmtAdapter::submit( compileStmtCache
+		statements = adaptStatements( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get()
@@ -191,7 +190,7 @@ namespace glsl
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );
-		statements = ast::StmtSpecialiser::submit( compileStmtCache
+		statements = ast::specialiseStatements( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get()

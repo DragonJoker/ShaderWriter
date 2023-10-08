@@ -466,21 +466,19 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Visitors/CloneExpr.hpp
 	${INCLUDE_DIR}/Visitors/CloneStmt.hpp
-	${INCLUDE_DIR}/Visitors/ExprSpecialiser.hpp
 	${INCLUDE_DIR}/Visitors/GetExprName.hpp
 	${INCLUDE_DIR}/Visitors/GetOutermostExpr.hpp
-	${INCLUDE_DIR}/Visitors/StmtSimplifier.hpp
-	${INCLUDE_DIR}/Visitors/StmtSpecialiser.hpp
+	${INCLUDE_DIR}/Visitors/SimplifyStatements.hpp
+	${INCLUDE_DIR}/Visitors/SpecialiseStatements.hpp
 	${INCLUDE_DIR}/Visitors/TransformSSA.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Visitors/CloneExpr.cpp
 	${SOURCE_DIR}/Visitors/CloneStmt.cpp
-	${SOURCE_DIR}/Visitors/ExprSpecialiser.cpp
 	${SOURCE_DIR}/Visitors/GetExprName.cpp
 	${SOURCE_DIR}/Visitors/GetOutermostExpr.cpp
-	${SOURCE_DIR}/Visitors/StmtSimplifier.cpp
-	${SOURCE_DIR}/Visitors/StmtSpecialiser.cpp
+	${SOURCE_DIR}/Visitors/SimplifyStatements.cpp
+	${SOURCE_DIR}/Visitors/SpecialiseStatements.cpp
 	${SOURCE_DIR}/Visitors/TransformSSA.cpp
 )
 source_group( "Header Files\\Visitors"

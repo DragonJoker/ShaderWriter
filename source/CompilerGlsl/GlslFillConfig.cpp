@@ -1,0 +1,986 @@
+/*
+See LICENSE file in root folder
+*/
+#include "GlslFillConfig.hpp"
+
+#include "GlslCombinedImageAccessConfig.hpp"
+#include "GlslHelpers.hpp"
+
+#include <ShaderAST/Shader.hpp>
+#include <ShaderAST/Type/TypeImage.hpp>
+#include <ShaderAST/Type/TypeCombinedImage.hpp>
+#include <ShaderAST/Expr/ExprVisitor.hpp>
+#include <ShaderAST/Stmt/StmtVisitor.hpp>
+
+namespace glsl
+{
+	namespace config
+	{
+		namespace helpers
+		{
+			void checkBuiltin( ast::Builtin builtin
+				, IntrinsicsConfig & config )
+			{
+				switch ( builtin )
+				{
+				case ast::Builtin::eGlobalInvocationID:
+				case ast::Builtin::eLocalInvocationID:
+				case ast::Builtin::eLocalInvocationIndex:
+				case ast::Builtin::eNumWorkGroups:
+				case ast::Builtin::eWorkGroupID:
+					if ( config.stage == ast::ShaderStage::eCompute )
+					{
+						config.requiredExtensions.insert( ARB_compute_shader );
+					}
+					break;
+				case ast::Builtin::eInvocationID:
+					if ( config.stage == ast::ShaderStage::eTessellationControl
+						|| config.stage == ast::ShaderStage::eTessellationEvaluation )
+					{
+						config.requiredExtensions.insert( ARB_tessellation_shader );
+					}
+					else
+					{
+						config.requiredExtensions.insert( ARB_gpu_shader5 );
+					}
+					break;
+				case ast::Builtin::ePrimitiveIDIn:
+					if ( config.stage == ast::ShaderStage::eTessellationControl
+						|| config.stage == ast::ShaderStage::eTessellationEvaluation )
+					{
+						config.requiredExtensions.insert( ARB_tessellation_shader );
+					}
+					else
+					{
+						config.requiredExtensions.insert( NV_gpu_shader5 );
+					}
+					break;
+				case ast::Builtin::eTessLevelInner:
+				case ast::Builtin::eTessLevelOuter:
+				case ast::Builtin::ePatchVerticesIn:
+				case ast::Builtin::eTessCoord:
+					config.requiredExtensions.insert( ARB_tessellation_shader );
+					break;
+				case ast::Builtin::eDrawIndex:
+				case ast::Builtin::eBaseInstance:
+				case ast::Builtin::eBaseVertex:
+					config.requiredExtensions.insert( ARB_shader_draw_parameters );
+					break;
+				case ast::Builtin::eSampleID:
+				case ast::Builtin::eSamplePosition:
+					config.requiredExtensions.insert( ARB_sample_shading );
+					break;
+				case ast::Builtin::eViewportIndex:
+					config.requiredExtensions.insert( ARB_viewport_array );
+					if ( config.stage != ast::ShaderStage::eGeometry )
+					{
+						config.requiredExtensions.insert( ARB_fragment_layer_viewport );
+					}
+					break;
+				case ast::Builtin::eSubgroupSize:
+				case ast::Builtin::eSubgroupMaxSize:
+				case ast::Builtin::eNumSubgroups:
+				case ast::Builtin::eSubgroupID:
+				case ast::Builtin::eSubgroupLocalInvocationID:
+					config.requiredExtensions.insert( KHR_shader_subgroup_basic );
+					break;
+				case ast::Builtin::eSubgroupEqMask:
+				case ast::Builtin::eSubgroupGeMask:
+				case ast::Builtin::eSubgroupGtMask:
+				case ast::Builtin::eSubgroupLeMask:
+				case ast::Builtin::eSubgroupLtMask:
+					config.requiredExtensions.insert( KHR_shader_subgroup_ballot );
+					break;
+				default:
+					break;
+				}
+			}
+
+			void checkBuiltin( ast::var::Variable const & var
+				, IntrinsicsConfig & config )
+			{
+				if ( var.isBuiltin() )
+				{
+					checkBuiltin( var.getBuiltin(), config );
+				}
+			}
+
+			void checkBuiltin( ast::type::Struct const & type
+				, uint32_t index
+				, IntrinsicsConfig & config )
+			{
+				auto mbr = *std::next( type.begin(), ptrdiff_t( index ) );
+
+				if ( mbr.builtin != ast::Builtin::eNone )
+				{
+					checkBuiltin( mbr.builtin, config );
+				}
+			}
+		}
+
+		class ExprConfigFiller
+			: public ast::expr::SimpleVisitor
+		{
+		public:
+			static void submit( ast::expr::Expr * expr
+				, IntrinsicsConfig & config )
+			{
+				ExprConfigFiller vis{ config };
+				expr->accept( &vis );
+			}
+
+			static void submit( ast::expr::ExprPtr const & expr
+				, IntrinsicsConfig & config );
+
+		private:
+			explicit ExprConfigFiller( IntrinsicsConfig & config )
+				: ast::expr::SimpleVisitor{}
+				, m_config{ config }
+			{
+			}
+
+			void doSubmit( ast::expr::Expr * expr )
+			{
+				expr->accept( this );
+
+				if ( expr->isNonUniform() )
+				{
+					m_config.requiredExtensions.insert( EXT_nonuniform_qualifier );
+				}
+			}
+
+			void doSubmit( ast::expr::ExprPtr const & expr )
+			{
+				doSubmit( expr.get() );
+			}
+
+			void visitUnaryExpr( ast::expr::Unary * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getOperand() );
+			}
+
+			void visitBinaryExpr( ast::expr::Binary * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getLHS() );
+				doSubmit( expr->getRHS() );
+			}
+
+			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+			{
+				checkType( expr->getType(), m_config );
+
+				if ( expr->getIdentifier() )
+				{
+					doSubmit( expr->getIdentifier() );
+				}
+
+				for ( auto & init : expr->getInitialisers() )
+				{
+					doSubmit( init );
+				}
+			}
+
+			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+			{
+				checkType( expr->getType(), m_config );
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					doSubmit( arg );
+				}
+			}
+
+			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				helpers::checkBuiltin( *expr->getOuterType(), expr->getMemberIndex(), m_config );
+				doSubmit( expr->getOuterExpr() );
+			}
+
+			void visitFnCallExpr( ast::expr::FnCall * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getFn() );
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					doSubmit( arg );
+				}
+			}
+
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+			{
+				checkType( expr->getType(), m_config );
+
+				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupElect )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_basic );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupAll
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupAllEqual4D )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_vote );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupBroadcast1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupBallotFindMSB )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_ballot );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupShuffle1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupShuffleXor4D )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_shuffle );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupShuffleUp1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupShuffleDown4D )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_shuffle_relative );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupAdd1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupExclusiveXor4B )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_arithmetic );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupClusterAdd1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupClusterXor4B )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_arithmetic );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_clustered );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadBroadcast1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup );
+					m_config.requiredExtensions.insert( KHR_shader_subgroup_quad );
+				}
+				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eReadInvocation1F
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eReadFirstInvocation4D )
+				{
+					m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+					m_config.requiredExtensions.insert( ARB_shader_ballot );
+				}
+				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier
+					|| expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
+				{
+					ast::type::Scope memory;
+					ast::type::MemorySemantics semantics;
+					bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
+
+					if ( isControlBarrier )
+					{
+						if ( expr->getArgList().size() < 3u )
+						{
+							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+						}
+
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+					}
+					else
+					{
+						if ( expr->getArgList().size() < 2u )
+						{
+							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+						}
+
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
+						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+					}
+
+					if ( memory == ast::type::Scope::eWorkgroup )
+					{
+						if ( checkAllMemoryBarrier( semantics ) )
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+						else
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+					}
+					else if ( memory == ast::type::Scope::eSubgroup )
+					{
+						m_config.requiredExtensions.insert( KHR_vulkan_glsl );
+						m_config.requiredExtensions.insert( KHR_shader_subgroup_basic );
+					}
+					else
+					{
+						if ( checkAllMemoryBarrier( semantics ) )
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+						else if ( checkBufferMemoryBarrier( semantics ) )
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+						else if ( checkSharedMemoryBarrier( semantics ) )
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+						else if ( checkImageMemoryBarrier( semantics ) )
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+						else
+						{
+							m_config.requiredExtensions.insert( ARB_compute_shader );
+						}
+					}
+				}
+
+				switch ( expr->getIntrinsic() )
+				{
+				case ast::expr::Intrinsic::eFma1F:
+					m_config.requiresFma1F = true;
+					break;
+				case ast::expr::Intrinsic::eFma2F:
+					m_config.requiresFma2F = true;
+					break;
+				case ast::expr::Intrinsic::eFma3F:
+					m_config.requiresFma3F = true;
+					break;
+				case ast::expr::Intrinsic::eFma4F:
+					m_config.requiresFma4F = true;
+					break;
+				case ast::expr::Intrinsic::eFma1D:
+					m_config.requiresFma1D = true;
+					break;
+				case ast::expr::Intrinsic::eFma2D:
+					m_config.requiresFma2D = true;
+					break;
+				case ast::expr::Intrinsic::eFma3D:
+					m_config.requiresFma3D = true;
+					break;
+				case ast::expr::Intrinsic::eFma4D:
+					m_config.requiresFma4D = true;
+					break;
+				case ast::expr::Intrinsic::eDFdxCoarse1:
+				case ast::expr::Intrinsic::eDFdxCoarse2:
+				case ast::expr::Intrinsic::eDFdxCoarse3:
+				case ast::expr::Intrinsic::eDFdxCoarse4:
+				case ast::expr::Intrinsic::eDFdxFine1:
+				case ast::expr::Intrinsic::eDFdxFine2:
+				case ast::expr::Intrinsic::eDFdxFine3:
+				case ast::expr::Intrinsic::eDFdxFine4:
+				case ast::expr::Intrinsic::eDFdyCoarse1:
+				case ast::expr::Intrinsic::eDFdyCoarse2:
+				case ast::expr::Intrinsic::eDFdyCoarse3:
+				case ast::expr::Intrinsic::eDFdyCoarse4:
+				case ast::expr::Intrinsic::eDFdyFine1:
+				case ast::expr::Intrinsic::eDFdyFine2:
+				case ast::expr::Intrinsic::eDFdyFine3:
+				case ast::expr::Intrinsic::eDFdyFine4:
+					m_config.requiredExtensions.insert( ARB_derivative_control );
+					break;
+				case ast::expr::Intrinsic::eUaddCarry1:
+				case ast::expr::Intrinsic::eUaddCarry2:
+				case ast::expr::Intrinsic::eUaddCarry3:
+				case ast::expr::Intrinsic::eUaddCarry4:
+				case ast::expr::Intrinsic::eUsubBorrow1:
+				case ast::expr::Intrinsic::eUsubBorrow2:
+				case ast::expr::Intrinsic::eUsubBorrow3:
+				case ast::expr::Intrinsic::eUsubBorrow4:
+				case ast::expr::Intrinsic::eUmulExtended1:
+				case ast::expr::Intrinsic::eUmulExtended2:
+				case ast::expr::Intrinsic::eUmulExtended3:
+				case ast::expr::Intrinsic::eUmulExtended4:
+				case ast::expr::Intrinsic::eImulExtended1:
+				case ast::expr::Intrinsic::eImulExtended2:
+				case ast::expr::Intrinsic::eImulExtended3:
+				case ast::expr::Intrinsic::eImulExtended4:
+				case ast::expr::Intrinsic::eBitfieldExtract1I:
+				case ast::expr::Intrinsic::eBitfieldExtract2I:
+				case ast::expr::Intrinsic::eBitfieldExtract3I:
+				case ast::expr::Intrinsic::eBitfieldExtract4I:
+				case ast::expr::Intrinsic::eBitfieldExtract1U:
+				case ast::expr::Intrinsic::eBitfieldExtract2U:
+				case ast::expr::Intrinsic::eBitfieldExtract3U:
+				case ast::expr::Intrinsic::eBitfieldExtract4U:
+				case ast::expr::Intrinsic::eBitfieldInsert1I:
+				case ast::expr::Intrinsic::eBitfieldInsert2I:
+				case ast::expr::Intrinsic::eBitfieldInsert3I:
+				case ast::expr::Intrinsic::eBitfieldInsert4I:
+				case ast::expr::Intrinsic::eBitfieldInsert1U:
+				case ast::expr::Intrinsic::eBitfieldInsert2U:
+				case ast::expr::Intrinsic::eBitfieldInsert3U:
+				case ast::expr::Intrinsic::eBitfieldInsert4U:
+				case ast::expr::Intrinsic::eBitfieldReverse1I:
+				case ast::expr::Intrinsic::eBitfieldReverse2I:
+				case ast::expr::Intrinsic::eBitfieldReverse3I:
+				case ast::expr::Intrinsic::eBitfieldReverse4I:
+				case ast::expr::Intrinsic::eBitfieldReverse1U:
+				case ast::expr::Intrinsic::eBitfieldReverse2U:
+				case ast::expr::Intrinsic::eBitfieldReverse3U:
+				case ast::expr::Intrinsic::eBitfieldReverse4U:
+				case ast::expr::Intrinsic::eBitCount1I:
+				case ast::expr::Intrinsic::eBitCount2I:
+				case ast::expr::Intrinsic::eBitCount3I:
+				case ast::expr::Intrinsic::eBitCount4I:
+				case ast::expr::Intrinsic::eBitCount1U:
+				case ast::expr::Intrinsic::eBitCount2U:
+				case ast::expr::Intrinsic::eBitCount3U:
+				case ast::expr::Intrinsic::eBitCount4U:
+				case ast::expr::Intrinsic::eFindLSB1I:
+				case ast::expr::Intrinsic::eFindLSB2I:
+				case ast::expr::Intrinsic::eFindLSB3I:
+				case ast::expr::Intrinsic::eFindLSB4I:
+				case ast::expr::Intrinsic::eFindLSB1U:
+				case ast::expr::Intrinsic::eFindLSB2U:
+				case ast::expr::Intrinsic::eFindLSB3U:
+				case ast::expr::Intrinsic::eFindLSB4U:
+				case ast::expr::Intrinsic::eFindMSB1I:
+				case ast::expr::Intrinsic::eFindMSB2I:
+				case ast::expr::Intrinsic::eFindMSB3I:
+				case ast::expr::Intrinsic::eFindMSB4I:
+				case ast::expr::Intrinsic::eFindMSB1U:
+				case ast::expr::Intrinsic::eFindMSB2U:
+				case ast::expr::Intrinsic::eFindMSB3U:
+				case ast::expr::Intrinsic::eFindMSB4U:
+				case ast::expr::Intrinsic::eFrexp1F:
+				case ast::expr::Intrinsic::eFrexp2F:
+				case ast::expr::Intrinsic::eFrexp3F:
+				case ast::expr::Intrinsic::eFrexp4F:
+				case ast::expr::Intrinsic::eFrexp1D:
+				case ast::expr::Intrinsic::eFrexp2D:
+				case ast::expr::Intrinsic::eFrexp3D:
+				case ast::expr::Intrinsic::eFrexp4D:
+				case ast::expr::Intrinsic::eLdexp1F:
+				case ast::expr::Intrinsic::eLdexp2F:
+				case ast::expr::Intrinsic::eLdexp3F:
+				case ast::expr::Intrinsic::eLdexp4F:
+				case ast::expr::Intrinsic::eLdexp1D:
+				case ast::expr::Intrinsic::eLdexp2D:
+				case ast::expr::Intrinsic::eLdexp3D:
+				case ast::expr::Intrinsic::eLdexp4D:
+				case ast::expr::Intrinsic::ePackUnorm2x16:
+				case ast::expr::Intrinsic::ePackSnorm4x8:
+				case ast::expr::Intrinsic::ePackUnorm4x8:
+				case ast::expr::Intrinsic::eUnpackUnorm2x16:
+				case ast::expr::Intrinsic::eUnpackSnorm4x8:
+				case ast::expr::Intrinsic::eUnpackUnorm4x8:
+				case ast::expr::Intrinsic::eInterpolateAtCentroid1:
+				case ast::expr::Intrinsic::eInterpolateAtCentroid2:
+				case ast::expr::Intrinsic::eInterpolateAtCentroid3:
+				case ast::expr::Intrinsic::eInterpolateAtCentroid4:
+				case ast::expr::Intrinsic::eInterpolateAtSample1:
+				case ast::expr::Intrinsic::eInterpolateAtSample2:
+				case ast::expr::Intrinsic::eInterpolateAtSample3:
+				case ast::expr::Intrinsic::eInterpolateAtSample4:
+				case ast::expr::Intrinsic::eInterpolateAtOffset1:
+				case ast::expr::Intrinsic::eInterpolateAtOffset2:
+				case ast::expr::Intrinsic::eInterpolateAtOffset3:
+				case ast::expr::Intrinsic::eInterpolateAtOffset4:
+					m_config.requiredExtensions.insert( ARB_gpu_shader5 );
+					break;
+				case ast::expr::Intrinsic::ePackHalf2x16:
+				case ast::expr::Intrinsic::ePackSnorm2x16:
+				case ast::expr::Intrinsic::eUnpackHalf2x16:
+				case ast::expr::Intrinsic::eUnpackSnorm2x16:
+					m_config.requiredExtensions.insert( ARB_shading_language_packing );
+					break;
+				case ast::expr::Intrinsic::eAtomicAdd2H:
+				case ast::expr::Intrinsic::eAtomicAdd4H:
+				case ast::expr::Intrinsic::eAtomicExchange2H:
+				case ast::expr::Intrinsic::eAtomicExchange4H:
+					m_config.requiredExtensions.insert( NV_shader_atomic_fp16_vector );
+					[[fallthrough]];
+				case ast::expr::Intrinsic::eAtomicAddF:
+				case ast::expr::Intrinsic::eAtomicExchangeF:
+					m_config.requiredExtensions.insert( NV_shader_atomic_float );
+					break;
+				case ast::expr::Intrinsic::eTraceRay:
+					m_config.requiresRayDescDecl = true;
+					break;
+				case ast::expr::Intrinsic::eHelperInvocation:
+					break;
+				default:
+					break;
+				}
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					doSubmit( arg );
+				}
+			}
+
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				getGlslConfig( expr->getCombinedImageAccess(), m_config );
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					doSubmit( arg );
+				}
+			}
+
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
+			{
+				checkType( expr->getType(), m_config );
+
+				if ( ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicAdd1DF
+					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicAdd2DMSArrayF )
+					|| ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicExchange1DF
+						&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF ) )
+				{
+					m_config.requiredExtensions.insert( NV_shader_atomic_float );
+
+					for ( auto & arg : expr->getArgList() )
+					{
+						if ( ast::type::getComponentType( arg->getType() ) == ast::type::Kind::eHalf )
+						{
+							m_config.requiredExtensions.insert( NV_shader_atomic_fp16_vector );
+						}
+					}
+				}
+				else if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageSize1DF
+					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageSize2DMSArrayU )
+				{
+					m_config.requiredExtensions.insert( ARB_shader_image_size );
+				}
+
+				for ( auto & arg : expr->getArgList() )
+				{
+					doSubmit( arg );
+				}
+			}
+
+			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				helpers::checkBuiltin( *expr->getVariable(), m_config );
+			}
+
+			void visitInitExpr( ast::expr::Init * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getIdentifier() );
+				doSubmit( expr->getInitialiser() );
+			}
+
+			void visitLiteralExpr( ast::expr::Literal * expr )override
+			{
+				checkType( expr->getType(), m_config );
+			}
+
+			void visitQuestionExpr( ast::expr::Question * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getCtrlExpr() );
+				doSubmit( expr->getTrueExpr() );
+				doSubmit( expr->getFalseExpr() );
+			}
+
+			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getOperand() );
+			}
+
+			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getLabel() );
+			}
+
+			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getValue() );
+			}
+
+			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+			{
+				checkType( expr->getType(), m_config );
+				doSubmit( expr->getOuterExpr() );
+			}
+
+		private:
+			IntrinsicsConfig & m_config;
+		};
+
+		class StmtConfigFiller
+			: public ast::stmt::Visitor
+		{
+		public:
+			static IntrinsicsConfig submit( ast::ShaderStage stage
+				, ast::stmt::Container * container )
+			{
+				IntrinsicsConfig result{ stage };
+
+				if ( isRayTraceStage( stage ) )
+				{
+					result.requiredExtensions.insert( EXT_ray_tracing );
+				}
+
+				if ( isMeshNVStage( stage ) )
+				{
+					result.requiredExtensions.insert( NV_mesh_shader );
+				}
+				else if ( isMeshStage( stage ) )
+				{
+					result.requiredExtensions.insert( EXT_mesh_shader );
+				}
+
+				StmtConfigFiller vis{ result };
+				container->accept( &vis );
+				return result;
+			}
+
+		private:
+			explicit StmtConfigFiller( IntrinsicsConfig & result )
+				: m_result{ result }
+			{
+			}
+
+			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
+			{
+				checkType( stmt->getType(), m_result );
+				m_result.requiredExtensions.insert( EXT_buffer_reference2 );
+				m_result.requiredExtensions.insert( EXT_scalar_block_layout );
+			}
+
+			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitContainerStmt( ast::stmt::Container * cont )override
+			{
+				for ( auto & stmt : *cont )
+				{
+					stmt->accept( this );
+				}
+			}
+
+			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitCompoundStmt( ast::stmt::Compound * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitDoWhileStmt( ast::stmt::DoWhile * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				visitContainerStmt( stmt );
+			}
+
+			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				visitContainerStmt( stmt );
+			}
+
+			void visitElseStmt( ast::stmt::Else * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitForStmt( ast::stmt::For * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getInitExpr(), m_result );
+				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				ExprConfigFiller::submit( stmt->getIncrExpr(), m_result );
+				visitContainerStmt( stmt );
+			}
+
+			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
+			{
+				checkType( stmt->getVariable()->getType(), m_result );
+			}
+
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			{
+				checkType( stmt->getVariable()->getType(), m_result );
+			}
+
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
+			{
+				checkType( stmt->getVariable()->getType(), m_result );
+			}
+
+			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
+			{
+				checkType( stmt->getVariable()->getType(), m_result );
+
+				if ( stmt->getBlendIndex() )
+				{
+					m_result.requiresBlendIndex = true;
+				}
+			}
+
+			void visitIfStmt( ast::stmt::If * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				visitContainerStmt( stmt );
+
+				for ( auto & elseIf : stmt->getElseIfList() )
+				{
+					elseIf->accept( this );
+				}
+
+				if ( stmt->getElse() )
+				{
+					stmt->getElse()->accept( this );
+				}
+			}
+
+			void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override
+			{
+				m_result.requiredExtensions.insert( ARB_shader_image_load_store );
+				auto image = std::static_pointer_cast< ast::type::Image >( stmt->getVariable()->getType() );
+				doParseImageConfig( image->getConfig() );
+			}
+
+			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override
+			{
+				checkType( stmt->getVariable()->getType(), m_result );
+			}
+
+			void visitReturnStmt( ast::stmt::Return * stmt )override
+			{
+				if ( stmt->getExpr() )
+				{
+					ExprConfigFiller::submit( stmt->getExpr(), m_result );
+				}
+			}
+
+			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
+			{
+				auto image = std::static_pointer_cast< ast::type::CombinedImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+				doParseImageConfig( image->getConfig() );
+			}
+
+			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
+			{
+				m_result.requiredExtensions.insert( KHR_vulkan_glsl );
+				m_result.requiresSeparateSamplers = true;
+				auto image = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+				doParseImageConfig( image->getConfig() );
+			}
+
+			void visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )override
+			{
+				m_result.requiredExtensions.insert( KHR_vulkan_glsl );
+				m_result.requiresSeparateSamplers = true;
+			}
+
+			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
+			{
+				m_result.requiredExtensions.insert( ARB_shader_storage_buffer_object );
+
+				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
+				{
+					m_result.requiredExtensions.insert( EXT_scalar_block_layout );
+				}
+
+				visitContainerStmt( stmt );
+			}
+
+			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
+			{
+				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
+				{
+					m_result.requiredExtensions.insert( EXT_scalar_block_layout );
+				}
+
+				m_result.requiredExtensions.insert( ARB_shader_storage_buffer_object );
+
+				for ( auto & type : static_cast< ast::type::Struct const & >( *stmt->getSsboInstance()->getType() ) )
+				{
+					checkType( type.type, m_result );
+				}
+			}
+
+			void visitSimpleStmt( ast::stmt::Simple * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getExpr(), m_result );
+			}
+
+			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
+			{
+				for ( auto & type : *stmt->getType() )
+				{
+					checkType( type.type, m_result );
+				}
+			}
+
+			void visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitSwitchStmt( ast::stmt::Switch * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
+				visitContainerStmt( stmt );
+			}
+
+			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
+			{
+				checkType( stmt->getVariable()->getType(), m_result );
+			}
+
+			void visitWhileStmt( ast::stmt::While * stmt )override
+			{
+				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				visitContainerStmt( stmt );
+			}
+
+			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
+			{
+				ExprConfigFiller::submit( preproc->getExpr(), m_result );
+			}
+
+			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
+			{
+				ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
+				visitContainerStmt( preproc );
+			}
+
+			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
+			{
+				visitContainerStmt( preproc );
+			}
+
+			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
+			{
+				ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
+				visitContainerStmt( preproc );
+			}
+
+			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
+			{
+				visitContainerStmt( preproc );
+			}
+
+			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override
+			{
+			}
+
+			void visitBreakStmt( ast::stmt::Break * cont )override
+			{
+			}
+
+			void visitContinueStmt( ast::stmt::Continue * cont )override
+			{
+			}
+
+			void visitDemoteStmt( ast::stmt::Demote * stmt )override
+			{
+			}
+
+			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
+			{
+			}
+
+			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
+			{
+			}
+
+			void visitCommentStmt( ast::stmt::Comment * stmt )override
+			{
+			}
+
+			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )override
+			{
+			}
+
+			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override
+			{
+			}
+
+			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
+			{
+			}
+
+			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
+			{
+			}
+
+			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override
+			{
+			}
+
+			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
+			{
+			}
+
+			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
+			{
+			}
+
+			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
+			{
+			}
+
+			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
+			{
+			}
+
+			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
+			{
+			}
+
+			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
+			{
+			}
+
+			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
+			{
+			}
+
+			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
+			{
+			}
+
+			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			{
+			}
+
+			void doParseImageConfig( ast::type::ImageConfiguration const & config )
+			{
+				if ( config.dimension == ast::type::ImageDim::eCube
+					&& config.isArrayed )
+				{
+					m_result.requiredExtensions.insert( ARB_texture_cube_map_array );
+				}
+			}
+
+		private:
+			IntrinsicsConfig & m_result;
+		};
+	}
+
+	IntrinsicsConfig fillConfig( ast::ShaderStage stage
+		, ast::stmt::Container * container )
+	{
+		return config::StmtConfigFiller::submit( stage, container );
+	}
+}

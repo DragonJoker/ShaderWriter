@@ -7,8 +7,8 @@ See LICENSE file in root folder
 #include "HlslStmtConfigFiller.hpp"
 #include "HlslStmtVisitor.hpp"
 
-#include <ShaderAST/Visitors/StmtSpecialiser.hpp>
-#include <ShaderAST/Visitors/StmtSimplifier.hpp>
+#include <ShaderAST/Visitors/SimplifyStatements.hpp>
+#include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
 namespace hlsl
@@ -142,7 +142,7 @@ namespace hlsl
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );
-		statements = ast::StmtSpecialiser::submit( compileStmtCache
+		statements = ast::specialiseStatements( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get()
