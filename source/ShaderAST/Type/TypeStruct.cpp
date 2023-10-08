@@ -1557,6 +1557,11 @@ namespace ast::type
 		return nullptr;
 	}
 
+	uint32_t getSize( Kind kind )
+	{
+		return getNaiveSize( kind );
+	}
+
 	uint32_t getSize( Type const & type
 		, MemoryLayout layout )
 	{
