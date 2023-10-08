@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #include "HlslExprAdapter.hpp"
 
 #include "HlslHelpers.hpp"
-#include "HlslVariableReplacer.hpp"
+#include "HlslReplaceVariables.hpp"
 #include "HlslIntrinsicConfig.hpp"
 #include "HlslStorageImageAccessConfig.hpp"
 #include "HlslCombinedImageAccessConfig.hpp"
@@ -715,8 +715,8 @@ namespace hlsl
 
 				if ( m_adaptationData.linkedVars.end() != it )
 				{
-					args.emplace_back( VariableReplacer::submit( m_exprCache, arg.get(), var, it->second.first ) );
-					args.emplace_back( VariableReplacer::submit( m_exprCache, arg.get(), var, it->second.second ) );
+					args.emplace_back( replaceVariables( m_exprCache, arg.get(), var, it->second.first ) );
+					args.emplace_back( replaceVariables( m_exprCache, arg.get(), var, it->second.second ) );
 				}
 				else
 				{

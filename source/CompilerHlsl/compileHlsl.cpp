@@ -3,9 +3,9 @@ See LICENSE file in root folder
 */
 #include "CompilerHlsl/compileHlsl.hpp"
 
-#include "HlslStmtAdapter.hpp"
-#include "HlslStmtConfigFiller.hpp"
-#include "HlslStmtVisitor.hpp"
+#include "HlslFillConfig.hpp"
+#include "HlslGenerateStatements.hpp"
+#include "HlslAdaptStatements.hpp"
 
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
@@ -125,12 +125,12 @@ namespace hlsl
 			, hlslShader };
 		adaptationData.aliasId = ssaData.aliasId;
 		adaptationData.nextVarId = ssaData.nextVarId;
-		auto intrinsicsConfig = hlsl::StmtConfigFiller::submit( hlslShader
+		auto intrinsicsConfig = hlsl::fillConfig( hlslShader
 			, adaptationData
 			, statements.get() );
 		checkConfig( config, intrinsicsConfig );
 
-		statements = hlsl::StmtAdapter::submit( compileStmtCache
+		statements = hlsl::adaptStatements( compileStmtCache
 			, compileExprCache
 			, hlslShader
 			, statements.get()
@@ -148,6 +148,6 @@ namespace hlsl
 			, statements.get()
 			, specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return hlsl::StmtVisitor::submit( config, adaptationData.getRoutines(), aliases, statements.get() );
+		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, statements.get() );
 	}
 }
