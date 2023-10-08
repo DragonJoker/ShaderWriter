@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "SpirvStmtVisitor.hpp"
 
 #include "SpirvGetSwizzleComponents.hpp"
+#include "SpirvDebugHelpers.hpp"
 #include "SpirvHelpers.hpp"
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvIntrinsicNames.hpp"
@@ -2037,7 +2038,7 @@ namespace spirv
 				, spirv::PreprocContext context
 				, SpirVConfig & spirvConfig
 				, ShaderActions actions
-				, debug::DebugStatements debugStatements )
+				, glsl::Statements debugStatements )
 			{
 				auto result = ModulePtr{ new Module{ &exprCache.getAllocator()
 					, typesCache
@@ -2075,7 +2076,7 @@ namespace spirv
 				, spirv::PreprocContext context
 				, SpirVConfig & spirvConfig
 				, ShaderActions actions
-				, debug::DebugStatements debugStatements )
+				, glsl::Statements debugStatements )
 				: m_exprCache{ exprCache }
 				, m_typesCache{ typesCache }
 				, m_allocator{ &m_exprCache.getAllocator() }
@@ -2133,13 +2134,13 @@ namespace spirv
 				return !m_debugStatements.statements.empty();
 			}
 
-			void consumeDebugStatement( [[maybe_unused]] debug::DebugStatementType type )
+			void consumeDebugStatement( [[maybe_unused]] glsl::StatementType type )
 			{
 				if ( isDebugEnabled() )
 				{
 					assert( type == m_currentDebugStatement->type );
 
-					if ( type == debug::DebugStatementType::eScopeLine
+					if ( type == glsl::StatementType::eScopeLine
 						&& m_currentScopeId != m_result.globalScopeId )
 					{
 						auto scopeLineStmt = getCurrentDebugStatement();
@@ -2161,9 +2162,9 @@ namespace spirv
 			}
 
 			void parseScope( ast::stmt::Compound * stmt
-				, debug::DebugStatementType scopeBegin
-				, debug::DebugStatementType scopeLine
-				, debug::DebugStatementType scopeEnd )
+				, glsl::StatementType scopeBegin
+				, glsl::StatementType scopeLine
+				, glsl::StatementType scopeEnd )
 			{
 				if ( isDebugEnabled() )
 				{
@@ -2172,7 +2173,7 @@ namespace spirv
 					consumeDebugStatement( scopeBegin );
 					auto scopeLineId = m_result.registerLiteral( scopeBeginStmt->source.lineStart );
 
-					if ( scopeBegin == debug::DebugStatementType::eFunctionScopeBegin )
+					if ( scopeBegin == glsl::StatementType::eFunctionScopeBegin )
 					{
 						m_currentScopeId = m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Function
 							, debug::makeValueIdList( m_allocator, m_function->debugNameId, m_function->debugTypeId, m_result.debugSourceId, m_function->debugLineId, m_function->debugColumnId, previousScopeId, m_function->debugNameId, m_function->debugFlagId, scopeLineId, m_functionDebugId ) );
@@ -2181,7 +2182,7 @@ namespace spirv
 							, m_currentBlock
 							, debug::makeValueIdList( m_allocator, m_currentScopeId, m_function->id ) );
 					}
-					else if ( scopeBegin == debug::DebugStatementType::eLexicalScopeBegin )
+					else if ( scopeBegin == glsl::StatementType::eLexicalScopeBegin )
 					{
 						auto lineId = m_result.registerLiteral( scopeBeginStmt->source.lineStart );
 						auto columnId = m_result.registerLiteral( scopeBeginStmt->source.columnStart );
@@ -2204,7 +2205,7 @@ namespace spirv
 				}
 			}
 
-			debug::DebugStatement * getCurrentDebugStatement()
+			glsl::Statement * getCurrentDebugStatement()
 			{
 				return m_currentDebugStatement == m_debugStatements.statements.end()
 					? nullptr
@@ -2289,16 +2290,16 @@ namespace spirv
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
 			{
 				TraceFunc;
-				consumeDebugStatement( debug::DebugStatementType::eStructureDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureDecl );
 				parseScope( stmt
-					, debug::DebugStatementType::eStructureScopeBegin
-					, debug::DebugStatementType::eStructureMemberDecl
-					, debug::DebugStatementType::eStructureScopeEnd );
+					, glsl::StatementType::eStructureScopeBegin
+					, glsl::StatementType::eStructureMemberDecl
+					, glsl::StatementType::eStructureScopeEnd );
 				auto variableId = m_result.bindBufferVariable( stmt->getName()
 					, stmt->getBindingPoint()
 					, stmt->getDescriptorSet()
 					, spv::DecorationBlock );
-				consumeDebugStatement( debug::DebugStatementType::eVariableDecl );
+				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitDemoteStmt( ast::stmt::Demote * stmt )override
@@ -2359,12 +2360,12 @@ namespace spirv
 			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
 			{
 				TraceFunc;
-				consumeDebugStatement( debug::DebugStatementType::eStructureDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureDecl );
 				parseScope( stmt
-					, debug::DebugStatementType::eStructureScopeBegin
-					, debug::DebugStatementType::eStructureMemberDecl
-					, debug::DebugStatementType::eStructureScopeEnd );
-				consumeDebugStatement( debug::DebugStatementType::eVariableDecl );
+					, glsl::StatementType::eStructureScopeBegin
+					, glsl::StatementType::eStructureMemberDecl
+					, glsl::StatementType::eStructureScopeEnd );
+				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitCommentStmt( ast::stmt::Comment * stmt )override
@@ -2391,7 +2392,7 @@ namespace spirv
 				endBlock( m_currentBlock, loopBlock.label );
 
 				// The loop header block, to which continue target will branch, branches to the loop content block.
-				consumeDebugStatement( debug::DebugStatementType::eControlBegin );
+				consumeDebugStatement( glsl::StatementType::eControlBegin );
 				auto loopBlockLabel = loopBlock.label;
 				loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( m_result.nameCache
 					, makeOperands( m_allocator
@@ -2405,9 +2406,9 @@ namespace spirv
 
 				// Instructions go to loop content block.
 				parseScope( stmt
-					, debug::DebugStatementType::eLexicalScopeBegin
-					, debug::DebugStatementType::eScopeLine
-					, debug::DebugStatementType::eLexicalScopeEnd );
+					, glsl::StatementType::eLexicalScopeBegin
+					, glsl::StatementType::eScopeLine
+					, glsl::StatementType::eLexicalScopeEnd );
 
 				// Branch current block to the continue target block.
 				endBlock( m_currentBlock, ifBlock.label );
@@ -2419,7 +2420,7 @@ namespace spirv
 				// Current block becomes the merge block.
 				m_controlBlocks.pop_back();
 				m_currentBlock = std::move( mergeBlock );
-				consumeDebugStatement( debug::DebugStatementType::eControlEnd );
+				consumeDebugStatement( glsl::StatementType::eControlEnd );
 			}
 
 			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
@@ -2430,11 +2431,11 @@ namespace spirv
 			void visitElseStmt( ast::stmt::Else * stmt )override
 			{
 				TraceFunc;
-				consumeDebugStatement( debug::DebugStatementType::eControlBegin );
+				consumeDebugStatement( glsl::StatementType::eControlBegin );
 				parseScope( stmt
-					, debug::DebugStatementType::eLexicalScopeBegin
-					, debug::DebugStatementType::eScopeLine
-					, debug::DebugStatementType::eLexicalScopeEnd );
+					, glsl::StatementType::eLexicalScopeBegin
+					, glsl::StatementType::eScopeLine
+					, glsl::StatementType::eLexicalScopeEnd );
 			}
 
 			void visitForStmt( ast::stmt::For * stmt )override
@@ -2469,7 +2470,7 @@ namespace spirv
 					break;
 				}
 
-				consumeDebugStatement( debug::DebugStatementType::eVariableDecl );
+				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
@@ -2523,7 +2524,7 @@ namespace spirv
 				if ( isDebugEnabled() )
 				{
 					auto declStmt = getCurrentDebugStatement();
-					consumeDebugStatement( debug::DebugStatementType::eFunctionDecl );
+					consumeDebugStatement( glsl::StatementType::eFunctionDecl );
 					m_functionDebugId.id = m_result.getNextId();
 					m_function->debugNameId = m_result.registerString( stmt->getName() );
 					m_function->debugLineId = m_result.registerLiteral( declStmt->source.lineStart );
@@ -2534,9 +2535,9 @@ namespace spirv
 				}
 
 				parseScope( stmt
-					, debug::DebugStatementType::eFunctionScopeBegin
-					, debug::DebugStatementType::eScopeLine
-					, debug::DebugStatementType::eFunctionScopeEnd );
+					, glsl::StatementType::eFunctionScopeBegin
+					, glsl::StatementType::eScopeLine
+					, glsl::StatementType::eFunctionScopeEnd );
 
 				if ( stmt->isEntryPoint() )
 				{
@@ -2602,11 +2603,11 @@ namespace spirv
 
 				// The current block becomes the if content block.
 				m_currentBlock = std::move( contentBlock );
-				consumeDebugStatement( debug::DebugStatementType::eControlBegin );
+				consumeDebugStatement( glsl::StatementType::eControlBegin );
 				parseScope( stmt
-					, debug::DebugStatementType::eLexicalScopeBegin
-					, debug::DebugStatementType::eScopeLine
-					, debug::DebugStatementType::eLexicalScopeEnd );
+					, glsl::StatementType::eLexicalScopeBegin
+					, glsl::StatementType::eScopeLine
+					, glsl::StatementType::eLexicalScopeEnd );
 				endBlock( m_currentBlock, mergeBlock.label );
 
 				if ( stmt->getElse() )
@@ -2645,7 +2646,7 @@ namespace spirv
 			{
 				TraceFunc;
 				m_result.registerType( stmt->getType() );
-				consumeDebugStatement( debug::DebugStatementType::eVariableDecl );
+				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )override
@@ -2761,7 +2762,8 @@ namespace spirv
 			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
 			{
 				TraceFunc;
-				consumeSimpleDebugStatement();
+				consumeSimpleDebugStatement(); // topology
+				consumeSimpleDebugStatement(); // max_primitives, max_vertices
 
 				if ( m_moduleConfig.stage == ast::ShaderStage::eMeshNV )
 				{
@@ -2805,6 +2807,7 @@ namespace spirv
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
 			{
 				TraceFunc;
+				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitReturnStmt( ast::stmt::Return * stmt )override
@@ -2865,11 +2868,11 @@ namespace spirv
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
 			{
 				TraceFunc;
-				consumeDebugStatement( debug::DebugStatementType::eStructureDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureDecl );
 				parseScope( stmt
-					, debug::DebugStatementType::eStructureScopeBegin
-					, debug::DebugStatementType::eStructureMemberDecl
-					, debug::DebugStatementType::eStructureScopeEnd );
+					, glsl::StatementType::eStructureScopeBegin
+					, glsl::StatementType::eStructureMemberDecl
+					, glsl::StatementType::eStructureScopeEnd );
 				auto variableId = m_result.bindBufferVariable( stmt->getSsboName()
 					, stmt->getBindingPoint()
 					, stmt->getDescriptorSet()
@@ -2882,11 +2885,11 @@ namespace spirv
 			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
 			{
 				TraceFunc;
-				consumeDebugStatement( debug::DebugStatementType::eStructureDecl );
-				consumeDebugStatement( debug::DebugStatementType::eStructureScopeBegin );
+				consumeDebugStatement( glsl::StatementType::eStructureDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureScopeBegin );
 				visitVariable( stmt->getSsboInstance() );
-				consumeDebugStatement( debug::DebugStatementType::eStructureMemberDecl );
-				consumeDebugStatement( debug::DebugStatementType::eStructureScopeEnd );
+				consumeDebugStatement( glsl::StatementType::eStructureMemberDecl );
+				consumeDebugStatement( glsl::StatementType::eStructureScopeEnd );
 				auto variableId = m_result.bindBufferVariable( stmt->getSsboInstance()->getName()
 					, stmt->getBindingPoint()
 					, stmt->getDescriptorSet()
@@ -2899,7 +2902,13 @@ namespace spirv
 			void visitSimpleStmt( ast::stmt::Simple * stmt )override
 			{
 				TraceFunc;
-				consumeSimpleDebugStatement();
+
+				if ( stmt->getExpr()->getKind() != ast::expr::Kind::eAlias
+					&& stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
+				{
+					consumeSimpleDebugStatement();
+				}
+
 				ExprVisitor::submit( m_exprCache, stmt->getExpr(), m_context, m_currentBlock, m_result );
 			}
 
@@ -2910,8 +2919,8 @@ namespace spirv
 				if ( isDebugEnabled() )
 				{
 					auto declStatement = getCurrentDebugStatement();
-					consumeDebugStatement( debug::DebugStatementType::eStructureDecl );
-					consumeDebugStatement( debug::DebugStatementType::eStructureScopeBegin );
+					consumeDebugStatement( glsl::StatementType::eStructureDecl );
+					consumeDebugStatement( glsl::StatementType::eStructureScopeBegin );
 					auto structType = stmt->getType();
 					auto typeId = m_result.registerType( structType );
 					ValueIdList subTypes{ m_allocator };
@@ -2931,7 +2940,7 @@ namespace spirv
 						auto resultId = m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeMember
 							, debug::makeValueIdList( m_allocator, nameId, subTypeId, m_result.debugSourceId, lineId, columnId, offsetId, sizeId, flagId ) );
 						subTypes.push_back( resultId );
-						consumeDebugStatement( debug::DebugStatementType::eStructureMemberDecl );
+						consumeDebugStatement( glsl::StatementType::eStructureMemberDecl );
 					}
 
 					auto nameId = m_result.registerString( structType->getName() );
@@ -2943,7 +2952,7 @@ namespace spirv
 					m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
 						, typeId.debug
 						, debug::makeValueIdList( m_allocator, nameId, tagId, m_result.debugSourceId, lineId, columnId, m_result.globalScopeId, nameId, sizeId, flagId, subTypes ) );
-					consumeDebugStatement( debug::DebugStatementType::eStructureScopeEnd );
+					consumeDebugStatement( glsl::StatementType::eStructureScopeEnd );
 				}
 
 				m_result.registerType( stmt->getType() );
@@ -2986,8 +2995,8 @@ namespace spirv
 				m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.nameCache, makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
 				m_currentBlock.isInterrupted = true;
 
-				consumeDebugStatement( debug::DebugStatementType::eControlBegin );
-				consumeDebugStatement( debug::DebugStatementType::eLexicalScopeBegin );
+				consumeDebugStatement( glsl::StatementType::eControlBegin );
+				consumeDebugStatement( glsl::StatementType::eLexicalScopeBegin );
 
 				if ( !caseBlocks.empty() )
 				{
@@ -3000,11 +3009,11 @@ namespace spirv
 						auto & caseStmt = static_cast< ast::stmt::SwitchCase & >( *it );
 						m_currentBlock = std::move( caseBlocks[index] );
 
-						consumeDebugStatement( debug::DebugStatementType::eControlBegin );
+						consumeDebugStatement( glsl::StatementType::eControlBegin );
 						parseScope( &caseStmt
-							, debug::DebugStatementType::eLexicalScopeBegin
-							, debug::DebugStatementType::eScopeLine
-							, debug::DebugStatementType::eLexicalScopeEnd );
+							, glsl::StatementType::eLexicalScopeBegin
+							, glsl::StatementType::eScopeLine
+							, glsl::StatementType::eLexicalScopeEnd );
 
 						if ( m_currentBlock.isInterrupted )
 						{
@@ -3039,14 +3048,14 @@ namespace spirv
 
 				if ( defaultStmt )
 				{
-					consumeDebugStatement( debug::DebugStatementType::eControlBegin );
+					consumeDebugStatement( glsl::StatementType::eControlBegin );
 					parseScope( defaultStmt
-						, debug::DebugStatementType::eLexicalScopeBegin
-						, debug::DebugStatementType::eScopeLine
-						, debug::DebugStatementType::eLexicalScopeEnd );
+						, glsl::StatementType::eLexicalScopeBegin
+						, glsl::StatementType::eScopeLine
+						, glsl::StatementType::eLexicalScopeEnd );
 				}
 
-				consumeDebugStatement( debug::DebugStatementType::eLexicalScopeEnd );
+				consumeDebugStatement( glsl::StatementType::eLexicalScopeEnd );
 				endBlock( m_currentBlock, mergeBlock.label );
 
 				m_controlBlocks.pop_back();
@@ -3158,22 +3167,25 @@ namespace spirv
 				, uint64_t varFlags
 				, ValueId variableId )
 			{
-				if ( ( varFlags & uint64_t( ast::var::Flag::eMember ) ) )
+				if ( ( varFlags & uint64_t( ast::var::Flag::eBuiltin ) ) )
 				{
-					m_result.registerDebugMemberVariable( name
-						, type
-						, varFlags
-						, getCurrentDebugStatement() );
-					consumeDebugStatement( debug::DebugStatementType::eVariableDecl );
-				}
-				else
-				{
-					m_result.registerDebugVariable( name
-						, type
-						, varFlags
-						, variableId
-						, getCurrentDebugStatement() );
-					consumeDebugStatement( debug::DebugStatementType::eVariableDecl );
+					if ( ( varFlags & uint64_t( ast::var::Flag::eMember ) ) )
+					{
+						m_result.registerDebugMemberVariable( name
+							, type
+							, varFlags
+							, getCurrentDebugStatement() );
+						consumeDebugStatement( glsl::StatementType::eVariableDecl );
+					}
+					else
+					{
+						m_result.registerDebugVariable( name
+							, type
+							, varFlags
+							, variableId
+							, getCurrentDebugStatement() );
+						consumeDebugStatement( glsl::StatementType::eVariableDecl );
+					}
 				}
 			}
 
@@ -3207,15 +3219,15 @@ namespace spirv
 			spirv::PreprocContext m_context;
 			ShaderActions m_actions;
 			Module & m_result;
-			debug::DebugStatements m_debugStatements;
+			glsl::Statements m_debugStatements;
 			Block m_currentBlock;
 			Function * m_function{ nullptr };
 			Vector< Control > m_controlBlocks;
 			uint32_t m_ifStmts{ 0u };
 			ValueIdList m_inputs;
 			ValueIdList m_outputs;
-			debug::DebugStatementsList::iterator m_currentDebugStatement{};
-			std::vector< debug::DebugStatementType > m_scopeLines{ debug::DebugStatementType::eScopeLine };
+			glsl::StatementsList::iterator m_currentDebugStatement{};
+			std::vector< glsl::StatementType > m_scopeLines{ glsl::StatementType::eScopeLine };
 			ValueId m_functionDebugId{};
 			ValueId m_currentScopeId{};
 		};
@@ -3229,7 +3241,7 @@ namespace spirv
 		, spirv::PreprocContext context
 		, SpirVConfig & spirvConfig
 		, ShaderActions actions
-		, debug::DebugStatements debugStatements )
+		, glsl::Statements debugStatements )
 	{
 		return vishlp::StmtVisitor::submit( exprCache
 			, typesCache

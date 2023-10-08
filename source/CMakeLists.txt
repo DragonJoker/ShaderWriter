@@ -72,6 +72,10 @@ add_subdirectory( ShaderWriter )
 add_subdirectory( VulkanLayer )
 
 if ( SDW_BUILD_EXPORTERS )
+	if ( SDW_BUILD_GLSL OR SDW_BUILD_SPIRV )
+		add_subdirectory( GlslCommon )
+	endif ()
+
 	if ( SDW_BUILD_GLSL )
 		add_subdirectory( CompilerGlsl )
 	endif ()

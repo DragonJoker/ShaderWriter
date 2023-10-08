@@ -24,35 +24,6 @@ namespace glsl
 {
 	static uint32_t constexpr InvalidIndex = ~( 0u );
 
-	std::string getTypeName( ast::type::Kind kind );
-	std::string getTypeName( ast::type::TypePtr type );
-	std::string getTypeArraySize( ast::type::TypePtr type );
-	std::string getInterpolationQualifier( ast::var::Variable const & var );
-	std::string getLocationName( ast::var::Variable const & var );
-	std::string getAccessQualifierName( ast::type::ImageConfiguration const & config );
-	std::string getDirectionName( ast::var::Variable const & var );
-	std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status );
-	std::string getOperatorName( ast::expr::Kind kind );
-	std::string getLayoutName( ast::type::InputLayout layout );
-	std::string getLayoutName( ast::type::OutputLayout layout );
-	std::string getLayoutName( ast::type::PatchDomain value );
-	std::string getLayoutName( ast::type::PrimitiveOrdering value );
-	std::string getLayoutName( ast::type::Partitioning value );
-	std::string getLayoutName( ast::type::OutputTopology value );
-	std::string getCtorName( ast::expr::CompositeType composite
-		, ast::type::Kind component );
-	std::string getCtorName( ast::expr::Expr const & image
-		, ast::expr::Expr const & sampler );
-	bool isUnaryPre( ast::expr::Kind kind );
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config );
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config
-		, bool isComparison );
-	std::string getQualifiedName( ast::type::Kind kind
-		, ast::type::ImageConfiguration const & config
-		, ast::type::Trinary comparison );
-
 	struct IntrinsicsConfig
 	{
 		ast::ShaderStage stage;
@@ -76,40 +47,6 @@ namespace glsl
 	};
 	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );
-
-	template< typename ValueT >
-	std::string writeValue( ValueT const & v )
-	{
-		std::stringstream stream;
-		stream.imbue( std::locale{ "C" } );
-		stream << v;
-		return stream.str();
-	}
-
-	inline bool checkBufferMemoryBarrier( ast::type::MemorySemantics semantics )
-	{
-		return ( semantics & ast::type::MemorySemanticsMask::eUniformMemory ) == ast::type::MemorySemanticsMask::eUniformMemory;
-	}
-
-	inline bool checkSharedMemoryBarrier( ast::type::MemorySemantics semantics )
-	{
-		return ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory;
-	}
-
-	inline bool checkImageMemoryBarrier( ast::type::MemorySemantics semantics )
-	{
-		return ( semantics & ast::type::MemorySemanticsMask::eImageMemory ) == ast::type::MemorySemanticsMask::eImageMemory;
-	}
-
-	inline bool checkAllMemoryBarrier( ast::type::MemorySemantics semantics )
-	{
-		return checkBufferMemoryBarrier( semantics ) && checkSharedMemoryBarrier( semantics ) && checkImageMemoryBarrier( semantics );
-	}
-
-	inline bool checkAnyMemoryBarrier( ast::type::MemorySemantics semantics )
-	{
-		return checkBufferMemoryBarrier( semantics ) || checkSharedMemoryBarrier( semantics ) || checkImageMemoryBarrier( semantics );
-	}
 }
 
 #endif

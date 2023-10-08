@@ -6,12 +6,12 @@ See LICENSE file in root folder
 #include "SpirvCountActions.hpp"
 #include "SpirvStmtAdapter.hpp"
 #include "SpirvStmtConfigFiller.hpp"
-#include "SpirVStmtDebugVisitor.hpp"
 #include "SpirvModule.hpp"
 #include "SpirvStmtVisitor.hpp"
 
-#include <ShaderAST/Shader.hpp>
+#include <GlslCommon/GenerateGlslStatements.hpp>
 
+#include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Visitors/StmtSimplifier.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
@@ -63,9 +63,64 @@ namespace spirv
 			, shader.getTypesCache()
 			, statements.get() );
 		auto actions = listActions( statements.get() );
-		auto debug = config.debug
-			? addDebugData( shader.getType(), statements.get() )
-			: debug::DebugStatements{ std::string{}, debug::DebugStatementsList{ &allocator } };
+		glsl::Statements debug;
+
+		if ( config.debug )
+		{
+			glsl::StmtConfig stmtConfig{ shader.getType()
+				, glsl::v4_6
+				, glsl::GlslExtensionSet{ glsl::ARB_shader_stencil_export
+					, glsl::KHR_vulkan_glsl
+					, glsl::EXT_multiview
+					, glsl::EXT_shader_explicit_arithmetic_types_int8
+					, glsl::EXT_shader_explicit_arithmetic_types_int16
+					, glsl::EXT_shader_explicit_arithmetic_types_int64
+					, glsl::NV_gpu_shader5
+					, glsl::ARB_viewport_array
+					, glsl::ARB_texture_cube_map_array
+					, glsl::ARB_texture_gather
+					, glsl::ARB_gpu_shader_int64
+					, glsl::ARB_compute_shader
+					, glsl::NV_shader_atomic_float
+					, glsl::NV_viewport_array2
+					, glsl::NV_shader_atomic_fp16_vector
+					, glsl::ARB_shader_ballot
+					, glsl::ARB_shader_viewport_layer_array
+					, glsl::NV_stereo_view_rendering
+					, glsl::NVX_multiview_per_view_attributes
+					, glsl::EXT_nonuniform_qualifier
+					, glsl::NV_mesh_shader
+					, glsl::EXT_mesh_shader
+					, glsl::EXT_buffer_reference2
+					, glsl::EXT_shader_atomic_float
+					, glsl::EXT_ray_tracing
+					, glsl::EXT_ray_query
+					, glsl::EXT_scalar_block_layout
+					, glsl::ARB_shader_draw_parameters
+					, glsl::KHR_shader_subgroup
+					, glsl::KHR_shader_subgroup_basic
+					, glsl::KHR_shader_subgroup_vote
+					, glsl::KHR_shader_subgroup_arithmetic
+					, glsl::KHR_shader_subgroup_ballot
+					, glsl::KHR_shader_subgroup_shuffle
+					, glsl::KHR_shader_subgroup_shuffle_relative
+					, glsl::KHR_shader_subgroup_clustered
+					, glsl::KHR_shader_subgroup_quad
+					, glsl::EXT_separate_samplers
+					, glsl::ARB_shading_language_420pack
+					, glsl::ARB_explicit_attrib_location
+					, glsl::ARB_separate_shader_objects }
+				, true
+				, false
+				, false
+				, true
+				, true
+				, true
+				, true
+				, config.allocator };
+			debug = glsl::generateGlslStatements( stmtConfig, statements.get() );
+		}
+
 		return generateModule( compileExprCache
 			, shader.getTypesCache()
 			, statements.get()

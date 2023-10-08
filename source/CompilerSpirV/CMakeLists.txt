@@ -70,6 +70,8 @@ target_sources( ${PROJECT_NAME}
 target_link_libraries( ${PROJECT_NAME}
 	PUBLIC
 		sdw::ShaderAST
+	PRIVATE
+		sdw::GlslCommon
 )
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES

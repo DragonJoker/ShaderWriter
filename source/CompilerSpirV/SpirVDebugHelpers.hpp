@@ -122,48 +122,6 @@ namespace spirv::debug
 		}
 	}
 
-	struct SourceInfo
-	{
-		uint32_t lineStart{ 1u };
-		uint32_t lineEnd{ 1u };
-		uint32_t columnStart{ 1u };
-		uint32_t columnEnd{ 1u };
-		ast::stmt::Stmt const * scope{};
-	};
-
-	enum class DebugStatementType
-	{
-		eNone,
-		eStructureDecl,
-		eStructureMemberDecl,
-		eFunctionDecl,
-		eVariableDecl,
-		eScopeLine,
-		eStructureScopeBegin,
-		eStructureScopeEnd,
-		eFunctionScopeBegin,
-		eFunctionScopeEnd,
-		eLexicalScopeBegin,
-		eLexicalScopeEnd,
-		eControlBegin,
-		eControlEnd,
-	};
-
-	struct DebugStatement
-	{
-		DebugStatementType type{};
-		SourceInfo source{};
-		ast::stmt::Stmt const * stmt{};
-	};
-
-	using DebugStatementsList = Vector< DebugStatement >;
-
-	struct DebugStatements
-	{
-		std::string source;
-		DebugStatementsList statements;
-	};
-
 	template< typename ... Params >
 	inline ValueIdList makeValueIdList( ast::ShaderAllocatorBlock * alloc
 		, Params ... params )
@@ -172,12 +130,6 @@ namespace spirv::debug
 		details::makeValueIdListRec( result, params... );
 		return result;
 	}
-
-	std::string getTypeName( ast::type::Kind kind );
-	std::string getTypeName( ast::type::ImagePtr type );
-	std::string getTypeName( ast::type::CombinedImagePtr type );
-	std::string getTypeName( ast::type::SampledImagePtr type );
-	std::string getTypeName( ast::type::TypePtr type );
 
 	uint32_t getSize( ast::type::Kind kind );
 	uint32_t getEncoding( ast::type::Kind kind );

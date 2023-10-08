@@ -1,4 +1,4 @@
-set( _FOLDER_NAME CompilerGlsl )
+set( _FOLDER_NAME GlslCommon )
 project( ${_FOLDER_NAME} )
 
 set( ${PROJECT_NAME}_VERSION_MAJOR ${VERSION_MAJOR} )
@@ -17,7 +17,6 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/*.hpp
 	${INCLUDE_DIR}/*.inl
 )
-
 file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.h
 	${SOURCE_DIR}/*.hpp
@@ -25,6 +24,27 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.c
 	${SOURCE_DIR}/*.cpp
 )
+
+if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
+	set( SCRIPT_DIR ${SDW_SOURCE_DIR}/scripts/${_FOLDER_NAME} )
+	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
+		${SCRIPT_DIR}/*.py
+	)
+	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
+	add_custom_command( OUTPUT ${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp ${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
+		COMMENT "Generating GlslStorageImageAccessNames.hpp"
+		DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum
+	)
+	source_group( "Script Files" FILES
+		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
+	)
+	source_group( "Header Files" FILES
+		${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
+	)
+endif ()
 
 if ( ${PROJECTS_UNITY_BUILD} )
 	file( GLOB ${PROJECT_NAME}_FOLDER_SRC_FILES
@@ -36,6 +56,7 @@ endif ()
 if ( SDW_BUILD_STATIC )
 	add_library( ${PROJECT_NAME}
 		STATIC
+		${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -48,6 +69,7 @@ if ( SDW_BUILD_STATIC )
 else ()
 	add_library( ${PROJECT_NAME}
 		SHARED
+		${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 		${${PROJECT_NAME}_FOLDER_SCRIPT_FILES}
@@ -71,8 +93,6 @@ target_sources( ${PROJECT_NAME}
 target_link_libraries( ${PROJECT_NAME}
 	PUBLIC
 		sdw::ShaderAST
-	PRIVATE
-		sdw::GlslCommon
 )
 set_target_properties( ${PROJECT_NAME}
 	PROPERTIES
@@ -94,13 +114,6 @@ target_install_headers_ex( ${PROJECT_NAME}
 	ShaderWriter
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}
 )
-if ( PROJECTS_COMPILER_MSVC AND NOT SDW_BUILD_STATIC )
-	install( FILES $<TARGET_PDB_FILE:${PROJECT_NAME}>
-		DESTINATION bin
-		OPTIONAL
-	)
-endif ()
-
 set( SDW_EXPORTERS_LIST
 	${SDW_EXPORTERS_LIST}
 	sdw::${_FOLDER_NAME}
