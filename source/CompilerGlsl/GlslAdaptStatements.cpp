@@ -591,7 +591,8 @@ namespace glsl
 								, it->second.end()
 								, [&mbr]( ast::var::VariablePtr const & lookup )
 								{
-									return lookup->getName() == mbr.name
+									return lookup->getBuiltin() == mbr.builtin
+										|| lookup->getName() == mbr.name
 										|| lookup->getName() == "gl_" + mbr.name;
 								} );
 							assert( mbrIt != it->second.end() );
@@ -1733,18 +1734,7 @@ namespace glsl
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
-
-				if ( m_inPCB )
-				{
-					var = m_adaptationData.aliases.emplace( var
-						, ast::var::makeVariable( { ++m_adaptationData.nextVarId, "pcb_" + var->getName() }
-					, var->getType() ) ).first->second;
-					m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
-				}
-				else
-				{
-					ast::StmtCloner::visitVariableDeclStmt( stmt );
-				}
+				ast::StmtCloner::visitVariableDeclStmt( stmt );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override

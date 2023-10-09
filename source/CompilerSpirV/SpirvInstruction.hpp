@@ -230,8 +230,8 @@ namespace spirv
 		
 		InstructionPtr popInstruction( ast::ShaderAllocatorBlock * alloc );
 	};
-	using BufferCIt = BufferItT< UInt32ListCIt >;
-	using BufferIt = BufferItT< UInt32ListIt >;
+	using BufferCIt = BufferItT< std::vector< uint32_t >::const_iterator >;
+	using BufferIt = BufferItT< std::vector< uint32_t >::iterator >;
 
 	struct Instruction
 	{

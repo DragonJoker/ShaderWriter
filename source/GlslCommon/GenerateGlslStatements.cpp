@@ -14,8 +14,10 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 
+#include <cmath>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
+#pragma warning( disable: 5262 )
 #include <iomanip>
 #include <sstream>
 #pragma warning( pop )
@@ -389,13 +391,6 @@ namespace glsl
 			static std::string getShadow( bool isComparison )
 			{
 				return isComparison
-					? "Shadow"
-					: std::string{};
-			}
-
-			static std::string getShadow( ast::type::Trinary comparison )
-			{
-				return comparison == ast::type::Trinary::eTrue
 					? "Shadow"
 					: std::string{};
 			}
@@ -956,14 +951,6 @@ namespace glsl
 					+ getShadow( isComparison );
 			}
 
-			static std::string getQualifiedName( ast::type::Kind kind
-				, ast::type::ImageConfiguration const & config
-				, ast::type::Trinary comparison )
-			{
-				return getQualifiedName( kind, config )
-					+ getShadow( comparison );
-			}
-
 			static std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status )
 			{
 				std::string result;
@@ -985,17 +972,6 @@ namespace glsl
 				}
 
 				return result;
-			}
-
-			static std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
-				, uint32_t minor = MAIN_VERSION_MINOR
-				, uint32_t build = MAIN_VERSION_BUILD
-				, uint32_t year = MAIN_VERSION_YEAR )
-			{
-				std::stringstream stream;
-				stream.imbue( std::locale{ "C" } );
-				stream << major << "." << minor << "." << build << "-" << year;
-				return stream.str();
 			}
 
 			static void join( std::string & lhs
@@ -1517,9 +1493,27 @@ namespace glsl
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				wrap( expr->getLHS() );
-				m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
-				wrap( expr->getRHS() );
+				if ( ( expr->getKind() == ast::expr::Kind::eEqual
+					|| expr->getKind() == ast::expr::Kind::eNotEqual )
+					&& ast::type::isVectorType( expr->getType() ) )
+				{
+					if ( expr->getKind() == ast::expr::Kind::eNotEqual )
+					{
+						m_result += "!";
+					}
+
+					m_result += "equal(";
+					m_result += doSubmit( expr->getLHS() );
+					m_result += ", ";
+					m_result += doSubmit( expr->getRHS() );
+					m_result += ")";
+				}
+				else
+				{
+					wrap( expr->getLHS() );
+					m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
+					wrap( expr->getRHS() );
+				}
 			}
 
 			void visitAddAssignExpr( ast::expr::AddAssign * expr )override
@@ -1978,8 +1972,8 @@ namespace glsl
 			{
 				return ( var->getOuter()
 					? visitVariable( var->getOuter() ) + "." + var->getName()
-					: ( var->isBuiltin()
-						? helpers::getBuiltinName( var->getBuiltin() )
+					: ( ( var->isBuiltin() && var->getBuiltin() != ast::Builtin::eNone )
+						? helpers::adaptName( helpers::getBuiltinName( var->getBuiltin() ), m_config )
 						: helpers::adaptName( var->getName(), m_config ) ) );
 			}
 
@@ -1996,28 +1990,32 @@ namespace glsl
 		{
 		public:
 			static Statements submit( StmtConfig const & config
+				, bool separateBlockStructs
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 				, ast::stmt::Stmt * stmt )
 			{
 				Statements result{ std::string{}, StatementsList{} };
-				submit( config, aliases, stmt, result );
+				submit( config, separateBlockStructs, aliases, stmt, result );
 				return result;
 			}
 
 		private:
 			static void submit( StmtConfig const & config
+				, bool separateBlockStructs
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 				, ast::stmt::Stmt * stmt
 				, Statements & result )
 			{
-				StmtVisitor vis{ config, aliases, result };
+				StmtVisitor vis{ config, separateBlockStructs, aliases, result };
 				stmt->accept( &vis );
 			}
 
 			StmtVisitor( StmtConfig const & config
+				, bool separateBlockStructs
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 				, Statements & result )
 				: m_config{ config }
+				, m_separateBlockStructs{ separateBlockStructs }
 				, m_aliases{ aliases }
 				, m_result{ result }
 			{
@@ -2073,10 +2071,16 @@ namespace glsl
 				doAddStatement( text + ";", m_scopeLines.back(), stmt );
 			}
 
-			void doAddVariableDeclStatement( std::string const & text
-				, ast::stmt::Stmt * stmt )
+			void doAddVariableDeclStatement( std::string text
+				, ast::stmt::Stmt * stmt
+				, bool addSemiColumn = true )
 			{
-				doAddStatement( text + ";", StatementType::eVariableDecl, stmt );
+				if ( addSemiColumn )
+				{
+					text += ";";
+				}
+
+				doAddStatement( std::move( text ), StatementType::eVariableDecl, stmt );
 			}
 
 			void doBeginScope( ast::stmt::Stmt * stmt
@@ -2090,18 +2094,20 @@ namespace glsl
 			}
 
 			void doEndScope( ast::stmt::Stmt * stmt
-				, StatementType scopeEnd )
+				, StatementType scopeEnd
+				, std::string scopeEndText = std::string{} )
 			{
 				m_indents.pop_back();
 				m_scopeLines.pop_back();
 
-				if ( scopeEnd == StatementType::eStructureDecl )
+				if ( scopeEnd == StatementType::eStructureDecl
+					|| scopeEnd == StatementType::eStructureScopeEnd )
 				{
-					doAddStatement( "};", scopeEnd, stmt, stmt );
+					doAddStatement( "}" + scopeEndText + ";", scopeEnd, stmt, stmt);
 				}
 				else
 				{
-					doAddStatement( "}", scopeEnd, stmt, stmt );
+					doAddStatement( "}" + scopeEndText, scopeEnd, stmt, stmt );
 				}
 
 				m_scopes.pop_back();
@@ -2111,28 +2117,23 @@ namespace glsl
 				, StatementType scopeBegin
 				, StatementType scopeLine
 				, StatementType scopeEnd
-				, std::string preEndLine = std::string{} )
+				, std::string preEndLine = std::string{}
+				, std::string scopeEndText = std::string{} )
 			{
 				doBeginScope( stmt, scopeBegin, scopeLine );
-				visitCompoundStmt( stmt );
+				visitContainerStmt( stmt );
 
 				if ( !preEndLine.empty() )
 				{
 					doAddSimpleStatement( std::move( preEndLine ), stmt );
 				}
 
-				doEndScope( stmt, scopeEnd );
+				doEndScope( stmt, scopeEnd, scopeEndText );
 			}
 
-			void doParseStruct( ast::stmt::Stmt * stmt
+			void doParseStructBlock( ast::stmt::Stmt * stmt
 				, ast::type::Struct const & structType )
 			{
-				if ( structType.empty() )
-				{
-					return;
-				}
-
-				doAddStatement( "struct " + structType.getName(), StatementType::eStructureDecl, stmt );
 				doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
 
 				for ( auto & mbr : structType )
@@ -2155,6 +2156,29 @@ namespace glsl
 				}
 
 				doEndScope( stmt, StatementType::eStructureScopeEnd );
+			}
+			
+			bool hasRuntimeArray( ast::type::Struct const & type )
+			{
+				return type.end() != std::find_if( type.begin()
+					, type.end()
+					, []( ast::type::Struct::Member const & lookup )
+					{
+						return lookup.type->getKind() == ast::type::Kind::eArray
+							&& getArraySize( lookup.type ) == ast::type::UnknownArraySize;
+					} );
+			}
+
+			void doParseStruct( ast::stmt::Stmt * stmt
+				, ast::type::Struct const & structType )
+			{
+				if ( structType.empty()/* || hasRuntimeArray( structType ) */)
+				{
+					return;
+				}
+
+				doAddStatement( "struct " + structType.getName(), StatementType::eStructureDecl, stmt );
+				doParseStructBlock( stmt, structType );
 			}
 
 			void visitContainerStmt( ast::stmt::Container * stmt )override
@@ -2179,16 +2203,31 @@ namespace glsl
 			{
 				if ( !stmt->empty() )
 				{
-					doAddStatement( "struct " + stmt->getName() + "Block", StatementType::eStructureDecl, stmt );
-					doParseScope( stmt
-						, StatementType::eStructureScopeBegin
-						, StatementType::eStructureMemberDecl
-						, StatementType::eStructureScopeEnd );
 					std::string text = "layout(";
 					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
 					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-					text += ") uniform " + stmt->getName() + "Block " + stmt->getName();
-					doAddVariableDeclStatement( std::move( text ), stmt );
+
+					if ( m_separateBlockStructs )
+					{
+						doAddStatement( "struct " + stmt->getName() + "Block", StatementType::eStructureDecl, stmt );
+						doParseScope( stmt
+							, StatementType::eStructureScopeBegin
+							, StatementType::eStructureMemberDecl
+							, StatementType::eStructureScopeEnd );
+						text += ") uniform " + stmt->getName() + "Block " + stmt->getName();
+						doAddVariableDeclStatement( std::move( text ), stmt );
+					}
+					else
+					{
+						text += ") uniform " + stmt->getName() + "Block";
+						doAddVariableDeclStatement( std::move( text ), stmt, false );
+						doParseScope( stmt
+							, StatementType::eStructureScopeBegin
+							, StatementType::eStructureMemberDecl
+							, StatementType::eStructureScopeEnd
+							, std::string{}
+							, stmt->getName() );
+					}
 				}
 			}
 
@@ -2216,28 +2255,36 @@ namespace glsl
 
 			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
 			{
-				if ( m_config.vulkanGlsl )
-				{
-					doAddSimpleStatement( "terminate", stmt );
-				}
-				else
-				{
-					doAddSimpleStatement( "discard", stmt );
-				}
+				doAddSimpleStatement( "discard", stmt );
 			}
 
 			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
 			{
 				if ( !stmt->empty() )
 				{
-					doAddStatement( "struct " + stmt->getName() + "Block", StatementType::eStructureDecl, stmt );
-					doParseScope( stmt
-						, StatementType::eStructureScopeBegin
-						, StatementType::eStructureMemberDecl
-						, StatementType::eStructureScopeEnd );
-					std::string text = "layout(push_constant) ";
-					text += "uniform " + stmt->getName() + "Block " + stmt->getName();
-					doAddVariableDeclStatement( std::move( text ), stmt );
+					if ( m_separateBlockStructs )
+					{
+						doAddStatement( "struct " + stmt->getName() + "Block", StatementType::eStructureDecl, stmt );
+						doParseScope( stmt
+							, StatementType::eStructureScopeBegin
+							, StatementType::eStructureMemberDecl
+							, StatementType::eStructureScopeEnd );
+						std::string text = "layout(push_constant) ";
+						text += "uniform " + stmt->getName() + "Block " + stmt->getName();
+						doAddVariableDeclStatement( std::move( text ), stmt );
+					}
+					else
+					{
+						std::string text = "layout(push_constant) ";
+						text += "uniform " + stmt->getName() + "Block";
+						doAddVariableDeclStatement( std::move( text ), stmt, false );
+						doParseScope( stmt
+							, StatementType::eStructureScopeBegin
+							, StatementType::eStructureMemberDecl
+							, StatementType::eStructureScopeEnd
+							, std::string{}
+							, " " + stmt->getName() );
+					}
 				}
 			}
 
@@ -2247,7 +2294,10 @@ namespace glsl
 
 			void visitCompoundStmt( ast::stmt::Compound * stmt )override
 			{
-				visitContainerStmt( stmt );
+				doParseScope( stmt
+					, StatementType::eLexicalScopeBegin
+					, StatementType::eScopeLine
+					, StatementType::eLexicalScopeEnd );
 			}
 
 			void visitDoWhileStmt( ast::stmt::DoWhile * stmt )override
@@ -2257,11 +2307,11 @@ namespace glsl
 					, StatementType::eLexicalScopeBegin
 					, StatementType::eScopeLine
 					, StatementType::eLexicalScopeEnd );
-				std::string text = "while (";
+				std::string text = "while ";
 
 				if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 				{
-					text += "bool(" + doSubmit( stmt->getCtrlExpr() ) + "));";
+					text += "(bool(" + doSubmit( stmt->getCtrlExpr() ) + "));";
 				}
 				else
 				{
@@ -2690,34 +2740,69 @@ namespace glsl
 
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
 			{
-				doAddStatement( "struct " + stmt->getSsboName() + "Block", StatementType::eStructureDecl, stmt );
-				doParseScope( stmt
-					, StatementType::eStructureScopeBegin
-					, StatementType::eStructureMemberDecl
-					, StatementType::eStructureScopeEnd );
-				std::string text = "layout(";
-				text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-				doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-				text += ") buffer " + stmt->getSsboName() + "Block " + stmt->getSsboName();
-				doAddVariableDeclStatement( std::move( text ), stmt );
+				if ( m_separateBlockStructs )
+				{
+					doAddStatement( "struct " + stmt->getSsboName() + "Block", StatementType::eStructureDecl, stmt );
+					doParseScope( stmt
+						, StatementType::eStructureScopeBegin
+						, StatementType::eStructureMemberDecl
+						, StatementType::eStructureScopeEnd );
+					std::string text = "layout(";
+					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
+					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+					text += ") buffer " + stmt->getSsboName() + "Block " + stmt->getSsboName();
+					doAddVariableDeclStatement( std::move( text ), stmt );
+				}
+				else
+				{
+					std::string text = "layout(";
+					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
+					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+					text += ") buffer " + stmt->getSsboName() + "Buffer";
+					doAddVariableDeclStatement( std::move( text ), stmt, false );
+					doParseScope( stmt
+						, StatementType::eStructureScopeBegin
+						, StatementType::eStructureMemberDecl
+						, StatementType::eStructureScopeEnd
+						, std::string{}
+						, stmt->getSsboName() );
+				}
 			}
 
 			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
 			{
-				doAddStatement( "struct " + stmt->getSsboName(), StatementType::eStructureDecl, stmt );
-				doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
-				auto data = stmt->getData();
-				auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
-				std::string text = getTypeName( arrayType->getType() ) + " " + data->getName();
-				text += helpers::getTypeArraySize( arrayType ) + "";
-				doAddSimpleStatement( std::move( text ), stmt );
-				doEndScope( stmt, StatementType::eStructureScopeEnd );
+				if ( m_separateBlockStructs )
+				{
+					doAddStatement( "struct " + stmt->getSsboName(), StatementType::eStructureDecl, stmt );
+					doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
+					auto data = stmt->getData();
+					auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
+					std::string text = getTypeName( arrayType->getType() ) + " " + data->getName();
+					text += helpers::getTypeArraySize( arrayType );
+					doAddSimpleStatement( std::move( text ), stmt );
+					doEndScope( stmt, StatementType::eStructureScopeEnd );
 
-				text = "layout(";
-				text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-				doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-				text += ") buffer " + stmt->getSsboName() + " " + stmt->getSsboInstance()->getName();
-				doAddVariableDeclStatement( std::move( text ), stmt );
+					text = "layout(";
+					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
+					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+					text += ") buffer " + stmt->getSsboName() + " " + stmt->getSsboInstance()->getName();
+					doAddVariableDeclStatement( std::move( text ), stmt );
+				}
+				else
+				{
+					std::string text = "layout(";
+					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
+					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+					text += ") buffer " + stmt->getSsboName();
+					doAddVariableDeclStatement( std::move( text ), stmt, false );
+					doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
+					auto data = stmt->getData();
+					auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
+					text = getTypeName( arrayType->getType() ) + " " + data->getName();
+					text += helpers::getTypeArraySize( arrayType );
+					doAddSimpleStatement( std::move( text ), stmt );
+					doEndScope( stmt, StatementType::eStructureScopeEnd, " " + stmt->getSsboInstance()->getName() );
+				}
 			}
 
 			void visitSimpleStmt( ast::stmt::Simple * stmt )override
@@ -2739,7 +2824,11 @@ namespace glsl
 
 			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
 			{
-				doParseStruct( stmt, *stmt->getType() );
+				if ( !stmt->getType()->isShaderInput()
+					&& !stmt->getType()->isShaderOutput() )
+				{
+					doParseStruct( stmt, *stmt->getType() );
+				}
 			}
 
 			void visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )override
@@ -2789,9 +2878,11 @@ namespace glsl
 							std::string text = "taskNV";
 							helpers::join( text, helpers::getDirectionName( *var ), " " );
 							text += " ";
-							text += structType->getName();
-							helpers::join( text, var->getName(), " " );
-							doAddVariableDeclStatement( std::move( text ), stmt );
+							text += var->getName() + "Task";
+							doAddVariableDeclStatement( std::move( text ), stmt, false );
+							doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
+							doAddSimpleStatement( structType->getName() + " " + var->getName(), stmt );
+							doEndScope( stmt, StatementType::eStructureScopeEnd );
 						}
 					}
 					else if ( var->isPerTask() )
@@ -2882,15 +2973,15 @@ namespace glsl
 					if ( set != helpers::InvalidIndex
 						&& m_config.wantedVersion >= v4_6 )
 					{
-						result += sep + "set=" + writeValue( set );
+						result += ", set=" + writeValue( set );
 					}
 				}
 			}
 
 		private:
 			StmtConfig const & m_config;
+			bool m_separateBlockStructs{};
 			std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
-			ast::ShaderStage m_shaderStage;
 			std::vector< std::string > m_indents{ std::string{} };
 			Statements & m_result;
 			std::vector< ast::stmt::Stmt * > m_scopes{ nullptr };
@@ -2904,16 +2995,10 @@ namespace glsl
 	}
 
 	Statements generateGlslStatements( StmtConfig const & config
-		, ast::stmt::Container * stmt )
+		, ast::stmt::Container * stmt
+		, bool separateBlockStructs )
 	{
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return generateGlslStatements( config, aliases, stmt );
-	}
-
-	Statements generateGlslStatements( StmtConfig const & config
-		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-		, ast::stmt::Container * stmt )
-	{
-		return gstvis::StmtVisitor::submit( config, aliases, stmt );
+		return gstvis::StmtVisitor::submit( config, separateBlockStructs, aliases, stmt );
 	}
 }

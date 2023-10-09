@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Expr/GetStorageImageAccessName.hpp"
 #include "ShaderAST/Stmt/StmtVisitor.hpp"
 
+#include <cmath>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )
@@ -216,12 +217,6 @@ namespace ast::debug
 				AST_Failure( "Unsupported type::MemoryLayout" );
 				return "Undefined";
 			}
-		}
-
-		static std::string getStructName( type::Struct const & type )
-		{
-			return type.getName()
-				+ "," + getMemoryLayoutName( type.getMemoryLayout() );
 		}
 
 		static std::string computeArray( uint32_t arraySize )
@@ -535,12 +530,6 @@ namespace ast::debug
 		}
 
 		static std::string getTypeName( type::Type const & type );
-
-		static std::string getTypeName( type::Kind kind
-			, uint32_t arraySize )
-		{
-			return getTypeName( kind ) + computeArray( arraySize );
-		}
 
 		static std::string getInputLayoutName( type::InputLayout value )
 		{
@@ -1459,7 +1448,7 @@ namespace ast::debug
 			addStatement( "AccelerationStructure " + helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitBreakStmt( stmt::Break * stmt )
+		void visitBreakStmt( stmt::Break * stmt )override
 		{
 			addStatement( "Break" );
 		}
@@ -1930,19 +1919,9 @@ namespace ast::debug
 
 	private:
 		std::string m_indent;
-		bool m_compoundName{ false };
 		std::string& m_result;
 		std::unordered_set< std::string > m_declaredStructs;
 	};
-
-	namespace helpers
-	{
-		static void declareStruct( type::StructPtr structType
-			, StmtVisitor & stmtVisitor )
-		{
-			stmtVisitor.declareStruct( structType );
-		}
-	}
 
 	std::string displayStatements( stmt::Stmt * stmt )
 	{

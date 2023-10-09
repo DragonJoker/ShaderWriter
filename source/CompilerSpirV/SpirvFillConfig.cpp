@@ -827,7 +827,7 @@ namespace spirv
 				doTraverseType( stmt->getSsboInstance()->getType() );
 			}
 
-			void visitSimpleStmt( ast::stmt::Simple * stmt )
+			void visitSimpleStmt( ast::stmt::Simple * stmt )override
 			{
 				ExprConfigFiller::submit( stmt->getExpr(), m_result );
 				doTraverseType( stmt->getExpr()->getType() );

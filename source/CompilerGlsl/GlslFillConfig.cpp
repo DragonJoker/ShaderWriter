@@ -894,6 +894,7 @@ namespace glsl
 
 			void visitDemoteStmt( ast::stmt::Demote * stmt )override
 			{
+				m_result.requiredExtensions.insert( EXT_demote_to_helper_invocation );
 			}
 
 			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override

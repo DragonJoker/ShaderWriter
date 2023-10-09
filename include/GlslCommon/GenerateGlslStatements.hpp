@@ -8,14 +8,17 @@ See LICENSE file in root folder
 #include "GlslStatementsHelpers.hpp"
 
 #include <map>
+#pragma warning( push )
+#pragma warning( disable: 4365 )
+#pragma warning( disable: 5262 )
+#include <sstream>
+#pragma warning( pop )
 
 namespace glsl
 {
 	SDWGLC_API Statements generateGlslStatements( StmtConfig const & config
-		, ast::stmt::Container * stmt );
-	SDWGLC_API Statements generateGlslStatements( StmtConfig const & config
-		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-		, ast::stmt::Container * stmt );
+		, ast::stmt::Container * stmt
+		, bool separateBlockStructs = false );
 }
 
 #endif
