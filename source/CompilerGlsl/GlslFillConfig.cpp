@@ -18,7 +18,7 @@ namespace glsl
 	{
 		namespace helpers
 		{
-			void checkBuiltin( ast::Builtin builtin
+			static void checkBuiltin( ast::Builtin builtin
 				, IntrinsicsConfig & config )
 			{
 				switch ( builtin )
@@ -96,7 +96,7 @@ namespace glsl
 				}
 			}
 
-			void checkBuiltin( ast::var::Variable const & var
+			static void checkBuiltin( ast::var::Variable const & var
 				, IntrinsicsConfig & config )
 			{
 				if ( var.isBuiltin() )
@@ -105,7 +105,7 @@ namespace glsl
 				}
 			}
 
-			void checkBuiltin( ast::type::Struct const & type
+			static void checkBuiltin( ast::type::Struct const & type
 				, uint32_t index
 				, IntrinsicsConfig & config )
 			{

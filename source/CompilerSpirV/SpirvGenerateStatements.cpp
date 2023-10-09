@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "SpirvStmtVisitor.hpp"
+#include "SpirvGenerateStatements.hpp"
 
 #include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvDebugHelpers.hpp"
@@ -29,330 +29,333 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	namespace vishlp
+	namespace vis
 	{
-		class HasFnCall
-			: public ast::expr::SimpleVisitor
+		namespace helpers
 		{
-		public:
-			static bool submit( ast::expr::Expr * expr )
+			class HasFnCall
+				: public ast::expr::SimpleVisitor
 			{
-				bool result{ false };
-				HasFnCall vis{ result };
-				expr->accept( &vis );
+			public:
+				static bool submit( ast::expr::Expr * expr )
+				{
+					bool result{ false };
+					HasFnCall vis{ result };
+					expr->accept( &vis );
+					return result;
+				}
+
+			private:
+				explicit HasFnCall( bool & result )
+					: m_result{ result }
+				{
+				}
+
+			private:
+				void visitUnaryExpr( ast::expr::Unary * expr )override
+				{
+					expr->getOperand()->accept( this );
+				}
+
+				void visitBinaryExpr( ast::expr::Binary * expr )override
+				{
+					expr->getLHS()->accept( this );
+					expr->getRHS()->accept( this );
+				}
+
+				void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+				{
+					if ( expr->getIdentifier() )
+					{
+						expr->getIdentifier()->accept( this );
+					}
+
+					for ( auto & arg : expr->getInitialisers() )
+					{
+						arg->accept( this );
+					}
+				}
+
+				void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+
+				void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+				{
+					expr->getOuterExpr()->accept( this );
+				}
+
+				void visitFnCallExpr( ast::expr::FnCall * expr )override
+				{
+					expr->getFn()->accept( this );
+
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+
+					m_result = true;
+				}
+
+				void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+
+					m_result = true;
+				}
+
+				void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+
+					m_result = true;
+				}
+
+				void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+
+					m_result = true;
+				}
+
+				void visitIdentifierExpr( ast::expr::Identifier * expr )override
+				{
+				}
+
+				void visitInitExpr( ast::expr::Init * expr )override
+				{
+					expr->getIdentifier()->accept( this );
+					expr->getInitialiser()->accept( this );
+				}
+
+				void visitLiteralExpr( ast::expr::Literal * expr )override
+				{
+				}
+
+				void visitQuestionExpr( ast::expr::Question * expr )override
+				{
+					expr->getCtrlExpr()->accept( this );
+					expr->getTrueExpr()->accept( this );
+					expr->getFalseExpr()->accept( this );
+				}
+
+				void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+				{
+					expr->getOperand()->accept( this );
+				}
+
+				void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+				{
+					expr->getLabel()->accept( this );
+				}
+
+				void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+				{
+					expr->getValue()->accept( this );
+				}
+
+				void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+				{
+					expr->getOuterExpr()->accept( this );
+				}
+
+			private:
+				bool & m_result;
+			};
+
+			static std::string adaptName( std::string const & name )
+			{
+				static std::map< std::string, std::string > const names
+				{
+					{ "gl_InstanceID", "gl_InstanceIndex" },
+					{ "gl_VertexID", "gl_VertexIndex" },
+				};
+
+				auto it = names.find( name );
+
+				if ( it != names.end() )
+				{
+					return it->second;
+				}
+
+				return name;
+			}
+
+			static spv::Op getCastOp( ast::type::Kind src, ast::type::Kind dst )
+			{
+				spv::Op result = spv::OpNop;
+
+				if ( isDoubleType( src ) )
+				{
+					if ( isFloatType( dst ) || isHalfType( dst ) )
+					{
+						result = spv::OpFConvert;
+					}
+					else if ( isSignedIntType( dst ) )
+					{
+						result = spv::OpConvertFToS;
+					}
+					else if ( isUnsignedIntType( dst ) )
+					{
+						result = spv::OpConvertFToU;
+					}
+					else if ( !isDoubleType( dst ) )
+					{
+						AST_Failure( "Unsupported cast expression" );
+					}
+				}
+				else if ( isFloatType( src ) )
+				{
+					if ( isDoubleType( dst ) || isHalfType( dst ) )
+					{
+						result = spv::OpFConvert;
+					}
+					else if ( isSignedIntType( dst ) )
+					{
+						result = spv::OpConvertFToS;
+					}
+					else if ( isUnsignedIntType( dst ) )
+					{
+						result = spv::OpConvertFToU;
+					}
+					else if ( !isFloatType( dst ) )
+					{
+						AST_Failure( "Unsupported cast expression" );
+					}
+				}
+				else if ( isHalfType( src ) )
+				{
+					if ( isDoubleType( dst ) || isFloatType( dst ) )
+					{
+						result = spv::OpFConvert;
+					}
+					else if ( isSignedIntType( dst ) )
+					{
+						result = spv::OpConvertFToS;
+					}
+					else if ( isUnsignedIntType( dst ) )
+					{
+						result = spv::OpConvertFToU;
+					}
+					else if ( !isHalfType( dst ) )
+					{
+						AST_Failure( "Unsupported cast expression" );
+					}
+				}
+				else if ( isSignedIntType( src ) )
+				{
+					if ( isDoubleType( dst )
+						|| isFloatType( dst ) )
+					{
+						result = spv::OpConvertSToF;
+					}
+					else if ( isSignedIntType( dst ) )
+					{
+						if ( dst != src )
+						{
+							result = spv::OpSConvert;
+						}
+					}
+					else if ( isUnsignedIntType( dst ) )
+					{
+						result = spv::OpBitcast;
+					}
+					else if ( !isSignedIntType( dst ) )
+					{
+						AST_Failure( "Unsupported cast expression" );
+					}
+				}
+				else if ( isUnsignedIntType( src ) )
+				{
+					if ( isDoubleType( dst )
+						|| isFloatType( dst ) )
+					{
+						result = spv::OpConvertUToF;
+					}
+					else if ( isSignedIntType( dst ) )
+					{
+						result = spv::OpBitcast;
+					}
+					else if ( isUnsignedIntType( dst ) )
+					{
+						if ( dst != src )
+						{
+							result = spv::OpUConvert;
+						}
+					}
+					else if ( isAccelerationStructureType( dst ) )
+					{
+						result = spv::OpConvertUToAccelerationStructureKHR;
+					}
+					else if ( isPointerType( dst ) )
+					{
+						result = spv::OpConvertUToPtr;
+					}
+					else if ( !isUnsignedIntType( dst ) )
+					{
+						AST_Failure( "Unsupported cast expression" );
+					}
+				}
+				else
+				{
+					AST_Failure( "Unsupported cast expression" );
+				}
+
 				return result;
 			}
 
-		private:
-			explicit HasFnCall( bool & result )
-				: m_result{ result }
+			static int32_t getInt32Value( ast::expr::Literal const & lit )
 			{
+				int32_t result{};
+
+				switch ( lit.getLiteralType() )
+				{
+				case ast::expr::LiteralType::eBool:
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
+					break;
+				case ast::expr::LiteralType::eInt8:
+					result = lit.getValue< ast::expr::LiteralType::eInt8 >();
+					break;
+				case ast::expr::LiteralType::eInt16:
+					result = lit.getValue< ast::expr::LiteralType::eInt16 >();
+					break;
+				case ast::expr::LiteralType::eInt32:
+					result = lit.getValue< ast::expr::LiteralType::eInt32 >();
+					break;
+				case ast::expr::LiteralType::eInt64:
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eInt64 >() );
+					break;
+				case ast::expr::LiteralType::eUInt8:
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt8 >() );
+					break;
+				case ast::expr::LiteralType::eUInt16:
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt16 >() );
+					break;
+				case ast::expr::LiteralType::eUInt32:
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt32 >() );
+					break;
+				case ast::expr::LiteralType::eUInt64:
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt64 >() );
+					break;
+				default:
+					break;
+				}
+
+				return result;
 			}
-
-		private:
-			void visitUnaryExpr( ast::expr::Unary * expr )override
-			{
-				expr->getOperand()->accept( this );
-			}
-
-			void visitBinaryExpr( ast::expr::Binary * expr )override
-			{
-				expr->getLHS()->accept( this );
-				expr->getRHS()->accept( this );
-			}
-
-			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
-			{
-				if ( expr->getIdentifier() )
-				{
-					expr->getIdentifier()->accept( this );
-				}
-
-				for ( auto & arg : expr->getInitialisers() )
-				{
-					arg->accept( this );
-				}
-			}
-
-			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
-			{
-				for ( auto & arg : expr->getArgList() )
-				{
-					arg->accept( this );
-				}
-			}
-
-			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
-			{
-				expr->getOuterExpr()->accept( this );
-			}
-
-			void visitFnCallExpr( ast::expr::FnCall * expr )override
-			{
-				expr->getFn()->accept( this );
-
-				for ( auto & arg : expr->getArgList() )
-				{
-					arg->accept( this );
-				}
-
-				m_result = true;
-			}
-
-			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
-			{
-				for ( auto & arg : expr->getArgList() )
-				{
-					arg->accept( this );
-				}
-
-				m_result = true;
-			}
-
-			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
-			{
-				for ( auto & arg : expr->getArgList() )
-				{
-					arg->accept( this );
-				}
-
-				m_result = true;
-			}
-
-			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
-			{
-				for ( auto & arg : expr->getArgList() )
-				{
-					arg->accept( this );
-				}
-
-				m_result = true;
-			}
-
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
-			{
-			}
-
-			void visitInitExpr( ast::expr::Init * expr )override
-			{
-				expr->getIdentifier()->accept( this );
-				expr->getInitialiser()->accept( this );
-			}
-
-			void visitLiteralExpr( ast::expr::Literal * expr )override
-			{
-			}
-
-			void visitQuestionExpr( ast::expr::Question * expr )override
-			{
-				expr->getCtrlExpr()->accept( this );
-				expr->getTrueExpr()->accept( this );
-				expr->getFalseExpr()->accept( this );
-			}
-
-			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
-			{
-				expr->getOperand()->accept( this );
-			}
-
-			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
-			{
-				expr->getLabel()->accept( this );
-			}
-
-			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
-			{
-				expr->getValue()->accept( this );
-			}
-
-			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
-			{
-				expr->getOuterExpr()->accept( this );
-			}
-
-		private:
-			bool & m_result;
-		};
-
-		static std::string adaptName( std::string const & name )
-		{
-			static std::map< std::string, std::string > const names
-			{
-				{ "gl_InstanceID", "gl_InstanceIndex" },
-				{ "gl_VertexID", "gl_VertexIndex" },
-			};
-
-			auto it = names.find( name );
-
-			if ( it != names.end() )
-			{
-				return it->second;
-			}
-
-			return name;
-		}
-
-		static spv::Op getCastOp( ast::type::Kind src, ast::type::Kind dst )
-		{
-			spv::Op result = spv::OpNop;
-
-			if ( isDoubleType( src ) )
-			{
-				if ( isFloatType( dst ) || isHalfType( dst ) )
-				{
-					result = spv::OpFConvert;
-				}
-				else if ( isSignedIntType( dst ) )
-				{
-					result = spv::OpConvertFToS;
-				}
-				else if ( isUnsignedIntType( dst ) )
-				{
-					result = spv::OpConvertFToU;
-				}
-				else if ( !isDoubleType( dst ) )
-				{
-					AST_Failure( "Unsupported cast expression" );
-				}
-			}
-			else if ( isFloatType( src ) )
-			{
-				if ( isDoubleType( dst ) || isHalfType( dst ) )
-				{
-					result = spv::OpFConvert;
-				}
-				else if ( isSignedIntType( dst ) )
-				{
-					result = spv::OpConvertFToS;
-				}
-				else if ( isUnsignedIntType( dst ) )
-				{
-					result = spv::OpConvertFToU;
-				}
-				else if ( !isFloatType( dst ) )
-				{
-					AST_Failure( "Unsupported cast expression" );
-				}
-			}
-			else if ( isHalfType( src ) )
-			{
-				if ( isDoubleType( dst ) || isFloatType( dst ) )
-				{
-					result = spv::OpFConvert;
-				}
-				else if ( isSignedIntType( dst ) )
-				{
-					result = spv::OpConvertFToS;
-				}
-				else if ( isUnsignedIntType( dst ) )
-				{
-					result = spv::OpConvertFToU;
-				}
-				else if ( !isHalfType( dst ) )
-				{
-					AST_Failure( "Unsupported cast expression" );
-				}
-			}
-			else if ( isSignedIntType( src ) )
-			{
-				if ( isDoubleType( dst )
-					|| isFloatType( dst ) )
-				{
-					result = spv::OpConvertSToF;
-				}
-				else if ( isSignedIntType( dst ) )
-				{
-					if ( dst != src )
-					{
-						result = spv::OpSConvert;
-					}
-				}
-				else if ( isUnsignedIntType( dst ) )
-				{
-					result = spv::OpBitcast;
-				}
-				else if ( !isSignedIntType( dst ) )
-				{
-					AST_Failure( "Unsupported cast expression" );
-				}
-			}
-			else if ( isUnsignedIntType( src ) )
-			{
-				if ( isDoubleType( dst )
-					|| isFloatType( dst ) )
-				{
-					result = spv::OpConvertUToF;
-				}
-				else if ( isSignedIntType( dst ) )
-				{
-					result = spv::OpBitcast;
-				}
-				else if ( isUnsignedIntType( dst ) )
-				{
-					if ( dst != src )
-					{
-						result = spv::OpUConvert;
-					}
-				}
-				else if ( isAccelerationStructureType( dst ) )
-				{
-					result = spv::OpConvertUToAccelerationStructureKHR;
-				}
-				else if ( isPointerType( dst ) )
-				{
-					result = spv::OpConvertUToPtr;
-				}
-				else if ( !isUnsignedIntType( dst ) )
-				{
-					AST_Failure( "Unsupported cast expression" );
-				}
-			}
-			else
-			{
-				AST_Failure( "Unsupported cast expression" );
-			}
-
-			return result;
-		}
-
-		static int32_t getInt32Value( ast::expr::Literal const & lit )
-		{
-			int32_t result{};
-
-			switch ( lit.getLiteralType() )
-			{
-			case ast::expr::LiteralType::eBool:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
-				break;
-			case ast::expr::LiteralType::eInt8:
-				result = lit.getValue< ast::expr::LiteralType::eInt8 >();
-				break;
-			case ast::expr::LiteralType::eInt16:
-				result = lit.getValue< ast::expr::LiteralType::eInt16 >();
-				break;
-			case ast::expr::LiteralType::eInt32:
-				result = lit.getValue< ast::expr::LiteralType::eInt32 >();
-				break;
-			case ast::expr::LiteralType::eInt64:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eInt64 >() );
-				break;
-			case ast::expr::LiteralType::eUInt8:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt8 >() );
-				break;
-			case ast::expr::LiteralType::eUInt16:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt16 >() );
-				break;
-			case ast::expr::LiteralType::eUInt32:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt32 >() );
-				break;
-			case ast::expr::LiteralType::eUInt64:
-				result = int32_t( lit.getValue< ast::expr::LiteralType::eUInt64 >() );
-				break;
-			default:
-				break;
-			}
-
-			return result;
 		}
 
 		class ExprVisitor
@@ -557,7 +560,7 @@ namespace spirv
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
 				auto dstTypeId = m_module.registerType( expr->getType() );
-				auto op = vishlp::getCastOp( expr->getOperand()->getType()->getKind()
+				auto op = helpers::getCastOp( expr->getOperand()->getType()->getKind()
 					, expr->getType()->getKind() );
 
 				if ( op == spv::OpNop )
@@ -1071,7 +1074,7 @@ namespace spirv
 				m_module.registerType( expr->getType() );
 				bool allLiterals = true;
 				auto init = loadVariable( doSubmit( expr->getInitialiser(), allLiterals ) );
-				bool hasFuncInit = vishlp::HasFnCall::submit( expr );
+				bool hasFuncInit = helpers::HasFnCall::submit( expr );
 				initialiseVariable( init
 					, allLiterals
 					, hasFuncInit
@@ -1799,7 +1802,7 @@ namespace spirv
 					{
 						auto var = ident->getVariable();
 						VariableInfo sourceInfo;
-						auto name = vishlp::adaptName( var->getName() );
+						auto name = helpers::adaptName( var->getName() );
 						auto varInfo = m_module.registerVariable( name
 							, var->getBuiltin()
 							, getStorageClass( m_module.getVersion(), var )
@@ -1923,7 +1926,7 @@ namespace spirv
 					&& !isFuncInit )
 				{
 					VariableInfo sourceInfo;
-					m_result = m_module.registerVariable( vishlp::adaptName( var->getName() )
+					m_result = m_module.registerVariable( helpers::adaptName( var->getName() )
 						, var->getBuiltin()
 						, storageClass
 						, var->isAlias()
@@ -1937,7 +1940,7 @@ namespace spirv
 				else if ( var->isAlias()
 					&& !isFuncInit )
 				{
-					m_module.registerAlias( vishlp::adaptName( var->getName() )
+					m_module.registerAlias( helpers::adaptName( var->getName() )
 						, type
 						, init );
 					m_result = init;
@@ -1945,7 +1948,7 @@ namespace spirv
 				else
 				{
 					VariableInfo sourceInfo;
-					auto varInfo = m_module.registerVariable( vishlp::adaptName( var->getName() )
+					auto varInfo = m_module.registerVariable( helpers::adaptName( var->getName() )
 						, var->getBuiltin()
 						, storageClass
 						, false
@@ -1988,7 +1991,7 @@ namespace spirv
 				for ( auto & init : inits )
 				{
 					initialisers.push_back( loadVariable( doSubmit( init.get(), allLiterals ) ) );
-					hasFuncInit = hasFuncInit || vishlp::HasFnCall::submit( init.get() );
+					hasFuncInit = hasFuncInit || helpers::HasFnCall::submit( init.get() );
 				}
 
 				ValueId result{ 0u, type };
@@ -2097,7 +2100,7 @@ namespace spirv
 				{
 					if ( input->getBuiltin() != ast::Builtin::eWorkGroupSize )
 					{
-						m_inputs.push_back( m_result.registerVariable( vishlp::adaptName( input->getName() )
+						m_inputs.push_back( m_result.registerVariable( helpers::adaptName( input->getName() )
 							, input->getBuiltin()
 							, getStorageClass( m_result.getVersion(), input, spv::StorageClassInput )
 							, input->isAlias()
@@ -2110,7 +2113,7 @@ namespace spirv
 
 				for ( auto & output : moduleConfig.getOutputs() )
 				{
-					m_outputs.push_back( m_result.registerVariable( vishlp::adaptName( output->getName() )
+					m_outputs.push_back( m_result.registerVariable( helpers::adaptName( output->getName() )
 						, output->getBuiltin()
 						, getStorageClass( m_result.getVersion(), output, spv::StorageClassOutput )
 						, output->isAlias()
@@ -2980,7 +2983,7 @@ namespace spirv
 					if ( caseStmt.getCaseExpr() )
 					{
 						auto block = m_result.newBlock();
-						caseBlocksIds.emplace( vishlp::getInt32Value( *caseStmt.getCaseExpr()->getLabel() ), block.label );
+						caseBlocksIds.emplace( helpers::getInt32Value( *caseStmt.getCaseExpr()->getLabel() ), block.label );
 						caseBlocks.emplace_back( std::move( block ) );
 					}
 					else
@@ -3243,7 +3246,7 @@ namespace spirv
 		, ShaderActions actions
 		, glsl::Statements debugStatements )
 	{
-		return vishlp::StmtVisitor::submit( exprCache
+		return vis::StmtVisitor::submit( exprCache
 			, typesCache
 			, stmt
 			, type
@@ -3260,7 +3263,7 @@ namespace spirv
 		, Block & currentBlock
 		, Module & module )
 	{
-		return vishlp::ExprVisitor::submit( exprCache
+		return vis::ExprVisitor::submit( exprCache
 			, expr
 			, context
 			, currentBlock

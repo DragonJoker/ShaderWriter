@@ -7,7 +7,7 @@ See LICENSE file in root folder
 #include "SpirvHelpers.hpp"
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvIntrinsicNames.hpp"
-#include "SpirvStmtVisitor.hpp"
+#include "SpirvGenerateStatements.hpp"
 #include "SpirvStorageImageAccessConfig.hpp"
 #include "SpirvStorageImageAccessNames.hpp"
 #include "SpirvCombinedImageAccessConfig.hpp"

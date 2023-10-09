@@ -30,7 +30,7 @@ namespace glsl
 		{
 			static uint32_t constexpr InvalidIndex = ~( 0u );
 
-			std::string adaptName( std::string const & name
+			static std::string adaptName( std::string const & name
 				, StmtConfig const & writerConfig )
 			{
 				if ( writerConfig.vulkanGlsl )
@@ -97,7 +97,7 @@ namespace glsl
 				return name;
 			}
 
-			std::string getBuiltinName( ast::Builtin builtin )
+			static std::string getBuiltinName( ast::Builtin builtin )
 			{
 				switch ( builtin )
 				{
@@ -288,7 +288,7 @@ namespace glsl
 				}
 			}
 
-			std::string getTypeArraySize( ast::type::TypePtr type );
+			static std::string getTypeArraySize( ast::type::TypePtr type );
 
 			static std::string getTypeArraySize( ast::type::ArrayPtr type )
 			{
@@ -400,7 +400,7 @@ namespace glsl
 					: std::string{};
 			}
 
-			std::string getTypeArraySize( ast::type::TypePtr type )
+			static std::string getTypeArraySize( ast::type::TypePtr type )
 			{
 				std::string result;
 
@@ -412,7 +412,7 @@ namespace glsl
 				return result;
 			}
 
-			std::string getInterpolationQualifier( ast::var::Variable const & var )
+			static std::string getInterpolationQualifier( ast::var::Variable const & var )
 			{
 				std::string result;
 
@@ -449,7 +449,7 @@ namespace glsl
 				return result;
 			}
 
-			std::string getLocationName( ast::var::Variable const & var )
+			static std::string getLocationName( ast::var::Variable const & var )
 			{
 				std::string result;
 
@@ -468,7 +468,7 @@ namespace glsl
 				return result;
 			}
 
-			std::string getAccessQualifierName( ast::type::ImageConfiguration const & config )
+			static std::string getAccessQualifierName( ast::type::ImageConfiguration const & config )
 			{
 				std::string result;
 
@@ -488,7 +488,7 @@ namespace glsl
 				return result;
 			}
 
-			std::string getDirectionName( ast::var::Variable const & var )
+			static std::string getDirectionName( ast::var::Variable const & var )
 			{
 				std::string result;
 
@@ -964,7 +964,7 @@ namespace glsl
 					+ getShadow( comparison );
 			}
 
-			std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status )
+			static std::string getStatusName( ast::stmt::PreprocExtension::ExtStatus status )
 			{
 				std::string result;
 
@@ -1339,7 +1339,7 @@ namespace glsl
 				return result;
 			}
 
-			bool isScopeBeginStatement( StatementType value )
+			static bool isScopeBeginStatement( StatementType value )
 			{
 				switch ( value )
 				{
@@ -1365,7 +1365,7 @@ namespace glsl
 				}
 			}
 
-			bool isScopeEndStatement( StatementType value )
+			static bool isScopeEndStatement( StatementType value )
 			{
 				switch ( value )
 				{
@@ -1391,7 +1391,7 @@ namespace glsl
 				}
 			}
 
-			bool isScopeDeclStatement( StatementType value )
+			static bool isScopeDeclStatement( StatementType value )
 			{
 				switch ( value )
 				{

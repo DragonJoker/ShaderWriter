@@ -11,7 +11,7 @@ See LICENSE file in root folder
 #include "HlslShader.hpp"
 #include "HlslStorageImageAccessFunctions.hpp"
 #include "HlslStorageImageAccessConfig.hpp"
-#include "HlslVariableReplacer.hpp"
+#include "HlslReplaceVariables.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
