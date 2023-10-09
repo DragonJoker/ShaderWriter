@@ -366,8 +366,7 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
-				, bool isAlias = false )
+				, Module & module )
 			{
 				bool allLiterals{ false };
 				return submit( exprCache
@@ -375,8 +374,7 @@ namespace spirv
 					, context
 					, currentBlock
 					, module
-					, allLiterals
-					, isAlias );
+					, allLiterals );
 			}
 
 			static ValueId submit( ast::expr::ExprCache & exprCache
@@ -385,8 +383,7 @@ namespace spirv
 				, Block & currentBlock
 				, Module & module
 				, ValueId initialiser
-				, bool hasFuncInit
-				, bool isAlias = false )
+				, bool hasFuncInit )
 			{
 				bool allLiterals{ false };
 				return submit( exprCache
@@ -396,8 +393,7 @@ namespace spirv
 					, module
 					, allLiterals
 					, initialiser
-					, hasFuncInit
-					, isAlias );
+					, hasFuncInit );
 			}
 
 			static ValueId submit( ast::expr::ExprCache & exprCache
@@ -405,8 +401,7 @@ namespace spirv
 				, PreprocContext const & context
 				, Block & currentBlock
 				, Module & module
-				, bool & allLiterals
-				, bool isAlias )
+				, bool & allLiterals )
 			{
 				ValueId result{ 0u, expr->getType() };
 				ExprVisitor vis{ result
@@ -414,8 +409,7 @@ namespace spirv
 					, context
 					, currentBlock
 					, module
-					, allLiterals
-					, isAlias };
+					, allLiterals };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
@@ -433,8 +427,7 @@ namespace spirv
 				, Module & module
 				, bool & allLiterals
 				, ValueId initialiser
-				, bool hasFuncInit
-				, bool isAlias )
+				, bool hasFuncInit )
 			{
 				ValueId result{ 0u, expr->getType() };
 				ExprVisitor vis{ result
@@ -444,8 +437,7 @@ namespace spirv
 					, module
 					, allLiterals
 					, initialiser
-					, hasFuncInit
-					, isAlias };
+					, hasFuncInit };
 				expr->accept( &vis );
 				return result;
 			}
@@ -456,8 +448,7 @@ namespace spirv
 				, PreprocContext const & context
 				, Block & currentBlock
 				, Module & module
-				, bool & allLiterals
-				, bool isAlias )
+				, bool & allLiterals )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
 				, m_result{ result }
@@ -467,7 +458,6 @@ namespace spirv
 				, m_allocator{ module.allocator }
 				, m_initialiser{ 0u }
 				, m_hasFuncInit{ false }
-				, m_isAlias{ isAlias }
 			{
 			}
 
@@ -478,8 +468,7 @@ namespace spirv
 				, Module & module
 				, bool & allLiterals
 				, ValueId initialiser
-				, bool hasFuncInit
-				, bool isAlias )
+				, bool hasFuncInit )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
 				, m_result{ result }
@@ -488,26 +477,25 @@ namespace spirv
 				, m_allLiterals{ allLiterals }
 				, m_initialiser{ initialiser }
 				, m_hasFuncInit{ hasFuncInit }
-				, m_isAlias{ isAlias }
 			{
 			}
 
 			ValueId doSubmit( ast::expr::Expr * expr )
 			{
-				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, false );
+				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module );
 			}
 
 			ValueId doSubmit( ast::expr::Expr * expr
 				, ValueId initialiser
 				, bool hasFuncInit )
 			{
-				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, false );
+				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit );
 			}
 
 			ValueId doSubmit( ast::expr::Expr * expr
 				, bool & allLiterals )
 			{
-				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, allLiterals, false );
+				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, allLiterals );
 			}
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
@@ -1306,8 +1294,7 @@ namespace spirv
 					, expr->getRHS()
 					, m_context
 					, m_currentBlock
-					, m_module
-					, true );
+					, m_module );
 				auto var = expr->getLHS()->getVariable();
 				m_module.registerAlias( var->getName()
 					, var->getType()
@@ -2023,7 +2010,6 @@ namespace spirv
 			ast::ShaderAllocatorBlock * m_allocator;
 			ValueId m_initialiser;
 			bool m_hasFuncInit{ false };
-			bool m_isAlias;
 			std::array< ast::type::BaseStructPtr, 4u > m_unsignedExtendedTypes;
 			std::array< ast::type::BaseStructPtr, 4u > m_signedExtendedTypes;
 			uint32_t m_aliasId{ 1u };
@@ -2051,7 +2037,6 @@ namespace spirv
 					, getExecutionModel( type )
 					, debugStatements } };
 				StmtVisitor vis{ exprCache
-					, typesCache
 					, *result
 					, type
 					, moduleConfig
@@ -2072,7 +2057,6 @@ namespace spirv
 
 		private:
 			StmtVisitor( ast::expr::ExprCache & exprCache
-				, ast::type::TypesCache & typesCache
 				, Module & result
 				, ast::ShaderStage type
 				, ModuleConfig const & moduleConfig
@@ -2081,7 +2065,6 @@ namespace spirv
 				, ShaderActions actions
 				, glsl::Statements debugStatements )
 				: m_exprCache{ exprCache }
-				, m_typesCache{ typesCache }
 				, m_allocator{ &m_exprCache.getAllocator() }
 				, m_moduleConfig{ moduleConfig }
 				, m_context{ std::move( context ) }
@@ -3170,6 +3153,11 @@ namespace spirv
 				, uint64_t varFlags
 				, ValueId variableId )
 			{
+				if ( !isDebugEnabled() )
+				{
+					return;
+				}
+
 				if ( ( varFlags & uint64_t( ast::var::Flag::eBuiltin ) ) )
 				{
 					if ( ( varFlags & uint64_t( ast::var::Flag::eMember ) ) )
@@ -3195,6 +3183,11 @@ namespace spirv
 			void visitDebugVariableDecl( ast::var::VariablePtr variable
 				, ValueId variableId )
 			{
+				if ( !isDebugEnabled() )
+				{
+					return;
+				}
+
 				visitDebugVariableDecl( variable->getName()
 					, variable->getType()
 					, variable->getFlags()
@@ -3216,7 +3209,6 @@ namespace spirv
 
 		private:
 			ast::expr::ExprCache & m_exprCache;
-			ast::type::TypesCache & m_typesCache;
 			ast::ShaderAllocatorBlock * m_allocator;
 			ModuleConfig const & m_moduleConfig;
 			spirv::PreprocContext m_context;

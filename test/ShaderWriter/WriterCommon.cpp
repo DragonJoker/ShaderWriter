@@ -120,6 +120,7 @@ namespace test
 				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int8 );
 				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int16 );
 				result.insert( glsl::EXT_shader_explicit_arithmetic_types_int64 );
+				result.insert( glsl::EXT_demote_to_helper_invocation );
 			}
 
 			return result;

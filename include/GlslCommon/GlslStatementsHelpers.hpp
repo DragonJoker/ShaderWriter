@@ -11,6 +11,11 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
 #include <set>
+#pragma warning( push )
+#pragma warning( disable: 4365 )
+#pragma warning( disable: 5262 )
+#include <sstream>
+#pragma warning( pop )
 
 #if defined( GlslCommon_Static )
 #	define SDWGLC_API
@@ -80,6 +85,7 @@ namespace glsl
 	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int8 );
 	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int16 );
 	makeGlExtension( v1_4, v4_5, vUnk, EXT_shader_explicit_arithmetic_types_int64 );
+	makeGlExtension( v1_4, v4_5, vUnk, EXT_demote_to_helper_invocation );
 	makeGlExtension( v1_5, v1_5, v4_0, ARB_gpu_shader5 );
 	makeGlExtension( v1_5, v1_5, v4_0, ARB_gpu_shader_fp64 );
 	makeGlExtension( v1_5, v1_5, v4_0, ARB_tessellation_shader );
@@ -187,12 +193,6 @@ namespace glsl
 		StatementsList statements;
 	};
 
-	SDWGLC_API std::string getTypeName( ast::type::Kind kind );
-	SDWGLC_API std::string getTypeName( ast::type::ImagePtr type );
-	SDWGLC_API std::string getTypeName( ast::type::CombinedImagePtr type );
-	SDWGLC_API std::string getTypeName( ast::type::SampledImagePtr type );
-	SDWGLC_API std::string getTypeName( ast::type::TypePtr type );
-
 	template< typename ValueT >
 	inline std::string writeValue( ValueT const & v )
 	{
@@ -201,6 +201,12 @@ namespace glsl
 		stream << v;
 		return stream.str();
 	}
+
+	SDWGLC_API std::string getTypeName( ast::type::Kind kind );
+	SDWGLC_API std::string getTypeName( ast::type::ImagePtr type );
+	SDWGLC_API std::string getTypeName( ast::type::CombinedImagePtr type );
+	SDWGLC_API std::string getTypeName( ast::type::SampledImagePtr type );
+	SDWGLC_API std::string getTypeName( ast::type::TypePtr type );
 
 	inline bool checkBufferMemoryBarrier( ast::type::MemorySemantics semantics )
 	{
