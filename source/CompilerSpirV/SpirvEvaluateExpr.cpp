@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include "SpirvExprEvaluator.hpp"
+#include "SpirvEvaluateExpr.hpp"
 
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 

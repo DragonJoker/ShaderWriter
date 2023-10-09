@@ -2,7 +2,7 @@
 See LICENSE file in root folder
 */
 #include "SpirvExprAdapter.hpp"
-#include "SpirvExprEvaluator.hpp"
+#include "SpirvEvaluateExpr.hpp"
 
 #include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvCombinedImageAccessConfig.hpp"

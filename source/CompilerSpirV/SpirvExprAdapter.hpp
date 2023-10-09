@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvExprAdapter_H___
 #pragma once
 
-#include "SpirvStmtAdapter.hpp"
+#include "SpirvAdaptStatements.hpp"
 
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 

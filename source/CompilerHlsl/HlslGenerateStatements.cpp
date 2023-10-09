@@ -24,7 +24,7 @@ namespace hlsl
 	{
 		namespace helpers
 		{
-			std::string removeSemantics( std::string const & name )
+			static std::string removeSemantics( std::string const & name )
 			{
 				auto it = name.find_last_of( ":" );
 
@@ -36,7 +36,7 @@ namespace hlsl
 				return name;
 			}
 
-			bool isNonMatchingOuterProduct( ast::expr::Intrinsic value )
+			static bool isNonMatchingOuterProduct( ast::expr::Intrinsic value )
 			{
 				return value == ast::expr::Intrinsic::eOuterProduct2x3F
 					|| value == ast::expr::Intrinsic::eOuterProduct2x4F
@@ -52,7 +52,7 @@ namespace hlsl
 					|| value == ast::expr::Intrinsic::eOuterProduct4x3D;
 			}
 
-			std::string getName( ast::type::PatchDomain value )
+			static std::string getName( ast::type::PatchDomain value )
 			{
 				switch ( value )
 				{
@@ -68,7 +68,7 @@ namespace hlsl
 				}
 			}
 
-			std::string getName( ast::type::Partitioning value )
+			static std::string getName( ast::type::Partitioning value )
 			{
 				switch ( value )
 				{
@@ -84,7 +84,7 @@ namespace hlsl
 				}
 			}
 
-			std::string getName( ast::type::OutputTopology domain
+			static std::string getName( ast::type::OutputTopology domain
 				, ast::type::PrimitiveOrdering order )
 			{
 				switch ( domain )
@@ -110,7 +110,7 @@ namespace hlsl
 				}
 			}
 
-			std::string getName( ast::type::OutputTopology topology )
+			static std::string getName( ast::type::OutputTopology topology )
 			{
 				switch ( topology )
 				{
@@ -126,7 +126,7 @@ namespace hlsl
 				}
 			}
 
-			std::string writeIOMember( ast::ShaderStage stage
+			static std::string writeIOMember( ast::ShaderStage stage
 				, ast::type::TypePtr type
 				, std::string const & name
 				, ast::Builtin builtin
@@ -192,7 +192,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string writeIOMember( ast::ShaderStage stage
+			static std::string writeIOMember( ast::ShaderStage stage
 				, ast::type::Struct::Member const & member
 				, bool isInput
 				, Semantic & intSem
@@ -209,7 +209,7 @@ namespace hlsl
 					, fltSem ) + ";\n";
 			}
 
-			std::string writeIOMembers( ast::ShaderStage stage
+			static std::string writeIOMembers( ast::ShaderStage stage
 				, std::string const & indent
 				, ast::type::Struct const & structType )
 			{
@@ -239,7 +239,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string writeBaseMember( ast::type::Struct::Member const & member )
+			static std::string writeBaseMember( ast::type::Struct::Member const & member )
 			{
 				std::string result = getTypeName( member.type ) + " ";
 				auto name = member.name;
@@ -261,7 +261,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string writeBaseMembers( std::string const & indent
+			static std::string writeBaseMembers( std::string const & indent
 				, ast::type::Struct const & structType )
 			{
 				std::string result;
@@ -274,7 +274,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string writeMembers( ast::ShaderStage stage
+			static std::string writeMembers( ast::ShaderStage stage
 				, std::string const & indent
 				, ast::type::Struct const & structType )
 			{
@@ -290,7 +290,7 @@ namespace hlsl
 				return writeBaseMembers( indent, structType );
 			}
 
-			std::string writeTessEvalIn( ast::type::TessellationInputPatch const & tesscType
+			static std::string writeTessEvalIn( ast::type::TessellationInputPatch const & tesscType
 				, RoutineMap const & patchRoutines
 				, std::string const & indent )
 			{
@@ -299,7 +299,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string writeTessCtrlOut( ast::type::TessellationControlOutput const & tesscType
+			static std::string writeTessCtrlOut( ast::type::TessellationControlOutput const & tesscType
 				, RoutineMap const & patchRoutines
 				, std::string const & indent )
 			{
@@ -330,7 +330,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string writeMeshPrimOut( RoutineMap const & routines
+			static std::string writeMeshPrimOut( RoutineMap const & routines
 				, std::string const & indent )
 			{
 				auto it = std::find_if( routines.begin()
@@ -349,7 +349,7 @@ namespace hlsl
 				return result;
 			}
 
-			std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
+			static std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
 				, uint32_t minor = MAIN_VERSION_MINOR
 				, uint32_t build = MAIN_VERSION_BUILD
 				, uint32_t year = MAIN_VERSION_YEAR )

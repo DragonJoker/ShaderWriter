@@ -19,7 +19,7 @@ namespace glsl
 	{
 		namespace helpers
 		{
-			ast::expr::ExprPtr swizzleConvert( ast::expr::ExprCache & exprCache
+			static ast::expr::ExprPtr swizzleConvert( ast::expr::ExprCache & exprCache
 				, ast::type::TypePtr dst
 				, ast::type::TypePtr src
 				, ast::expr::ExprPtr expr )
@@ -104,7 +104,7 @@ namespace glsl
 					, swizzle );
 			}
 
-			ast::expr::ExprPtr registerPerVertexBuiltin( ast::expr::ExprCache & exprCache
+			static ast::expr::ExprPtr registerPerVertexBuiltin( ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
 				, ast::Builtin builtin
 				, ast::type::TypePtr type
@@ -126,7 +126,7 @@ namespace glsl
 				return ast::ExprCloner::submit( exprCache, it->second );
 			}
 
-			ast::expr::ExprPtr registerPerPrimitiveBuiltin( ast::expr::ExprCache & exprCache
+			static ast::expr::ExprPtr registerPerPrimitiveBuiltin( ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
 				, ast::Builtin builtin
 				, ast::type::TypePtr type

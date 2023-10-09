@@ -3,11 +3,11 @@ See LICENSE file in root folder
 */
 #include "CompilerSpirV/compileSpirV.hpp"
 
+#include "SpirvAdaptStatements.hpp"
 #include "SpirvCountActions.hpp"
-#include "SpirvStmtAdapter.hpp"
-#include "SpirvStmtConfigFiller.hpp"
+#include "SpirvFillConfig.hpp"
+#include "SpirvGenerateStatements.hpp"
 #include "SpirvModule.hpp"
-#include "SpirvStmtVisitor.hpp"
 
 #include <GlslCommon/GenerateGlslStatements.hpp>
 
@@ -48,11 +48,11 @@ namespace spirv
 			, shader.getType()
 			, ssaData.nextVarId
 			, ssaData.aliasId };
-		spirv::StmtConfigFiller::submit( statements.get()
+		spirv::fillConfig( statements.get()
 			, moduleConfig );
 		spirv::PreprocContext context{ &allocator };
 		AdaptationData adaptationData{ context, std::move( moduleConfig ) };
-		statements = spirv::StmtAdapter::submit( compileStmtCache
+		statements = spirv::adaptStatements( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get()
