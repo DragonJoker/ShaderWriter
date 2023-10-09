@@ -13,8 +13,8 @@ namespace
 		, bool MsT >
 	void testImage( test::sdw_test::TestCounts & testCounts )
 	{
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::StorageImage > )
-			+ sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -289,7 +289,7 @@ namespace
 		, ast::type::AccessKind AccessT >
 	void testImageAccessFormat( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testImage" + ast::debug::getName( FormatT ) );
+		testBegin( "testImage" + ast::debug::getImageFormatName( FormatT ) );
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
 			testImage< FormatT, AccessT, Img1DBase >( testCounts );
@@ -341,11 +341,13 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterStorageImageDeclarations )
+#define testName testConcat( TestWriterStorageImageDeclarations, SDW_TestImageFormat )
+
+sdwTestSuiteMain( testName )
 {
 	sdwTestSuiteBegin();
 	testImageFormat< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
 	sdwTestSuiteEnd();
 }
 
-sdwTestSuiteLaunch( TestWriterStorageImageDeclarations )
+sdwTestSuiteLaunch( testName )

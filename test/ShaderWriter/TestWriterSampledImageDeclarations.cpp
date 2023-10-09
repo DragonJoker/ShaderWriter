@@ -11,9 +11,9 @@ namespace
 		, bool MsT >
 	void testSampledBase( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledBase" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledBase" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -55,9 +55,9 @@ namespace
 		, bool MsT >
 		void testSampledBaseArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledBaseArray" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledBaseArray" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -99,9 +99,9 @@ namespace
 		, bool MsT >
 		void testSampledOptDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledOptDisabled" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledOptDisabled" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -139,9 +139,9 @@ namespace
 		, bool MsT >
 		void testSampledArrayOptDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledArrayOptDisabled" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledArrayOptDisabled" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -179,9 +179,9 @@ namespace
 		, bool MsT >
 		void testSampledOptEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledOptEnabled" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledOptEnabled" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -225,9 +225,9 @@ namespace
 		, bool MsT >
 		void testSampledArrayOptEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledArrayOptEnabled" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledArrayOptEnabled" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -271,9 +271,9 @@ namespace
 		, bool MsT >
 	void testSampledType( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledType" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledType" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
@@ -315,9 +315,9 @@ namespace
 		, bool MsT >
 	void testSampledTypeArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSampledTypeArray" + ast::debug::getName( FormatT ) );
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT );
+		testBegin( "testSampledTypeArray" + ast::debug::getImageFormatName( FormatT ) );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();

@@ -21,2120 +21,2120 @@ namespace ast::expr
 		switch ( value )
 		{
 		case CombinedImageAccess::eUndefined:
-			result = "UNDEFINED";
+			result = "Undefined";
 			break;
 
 		case CombinedImageAccess::eCount:
-			result = "COUNT";
+			result = "Count";
 			break;
 
 		case CombinedImageAccess::eInvalid:
-			result = "INVALID";
+			result = "Invalid";
 			break;
 
 	// Texture Query Functions
 		case CombinedImageAccess::eTextureSize1DF:
-			result = "TEXTURESIZE1DF";
+			result = "TextureSize1DF";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DF:
-			result = "TEXTURESIZE2DF";
+			result = "TextureSize2DF";
 			break;
 
 		case CombinedImageAccess::eTextureSize3DF:
-			result = "TEXTURESIZE3DF";
+			result = "TextureSize3DF";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeF:
-			result = "TEXTURESIZECUBEF";
+			result = "TextureSizeCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DShadowF:
-			result = "TEXTURESIZE1DSHADOWF";
+			result = "TextureSize1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DShadowF:
-			result = "TEXTURESIZE2DSHADOWF";
+			result = "TextureSize2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeShadowF:
-			result = "TEXTURESIZECUBESHADOWF";
+			result = "TextureSizeCubeShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeArrayF:
-			result = "TEXTURESIZECUBEARRAYF";
+			result = "TextureSizeCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeArrayShadowF:
-			result = "TEXTURESIZECUBEARRAYSHADOWF";
+			result = "TextureSizeCubeArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DRectF:
-			result = "TEXTURESIZE2DRECTF";
+			result = "TextureSize2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DRectShadowF:
-			result = "TEXTURESIZE2DRECTSHADOWF";
+			result = "TextureSize2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DArrayF:
-			result = "TEXTURESIZE1DARRAYF";
+			result = "TextureSize1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DArrayF:
-			result = "TEXTURESIZE2DARRAYF";
+			result = "TextureSize2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DArrayShadowF:
-			result = "TEXTURESIZE1DARRAYSHADOWF";
+			result = "TextureSize1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DArrayShadowF:
-			result = "TEXTURESIZE2DARRAYSHADOWF";
+			result = "TextureSize2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureSizeBufferF:
-			result = "TEXTURESIZEBUFFERF";
+			result = "TextureSizeBufferF";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DI:
-			result = "TEXTURESIZE1DI";
+			result = "TextureSize1DI";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DI:
-			result = "TEXTURESIZE2DI";
+			result = "TextureSize2DI";
 			break;
 
 		case CombinedImageAccess::eTextureSize3DI:
-			result = "TEXTURESIZE3DI";
+			result = "TextureSize3DI";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeI:
-			result = "TEXTURESIZECUBEI";
+			result = "TextureSizeCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeArrayI:
-			result = "TEXTURESIZECUBEARRAYI";
+			result = "TextureSizeCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DRectI:
-			result = "TEXTURESIZE2DRECTI";
+			result = "TextureSize2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DArrayI:
-			result = "TEXTURESIZE1DARRAYI";
+			result = "TextureSize1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DArrayI:
-			result = "TEXTURESIZE2DARRAYI";
+			result = "TextureSize2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureSizeBufferI:
-			result = "TEXTURESIZEBUFFERI";
+			result = "TextureSizeBufferI";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DU:
-			result = "TEXTURESIZE1DU";
+			result = "TextureSize1DU";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DU:
-			result = "TEXTURESIZE2DU";
+			result = "TextureSize2DU";
 			break;
 
 		case CombinedImageAccess::eTextureSize3DU:
-			result = "TEXTURESIZE3DU";
+			result = "TextureSize3DU";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeU:
-			result = "TEXTURESIZECUBEU";
+			result = "TextureSizeCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureSizeCubeArrayU:
-			result = "TEXTURESIZECUBEARRAYU";
+			result = "TextureSizeCubeArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DRectU:
-			result = "TEXTURESIZE2DRECTU";
+			result = "TextureSize2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DArrayU:
-			result = "TEXTURESIZE1DARRAYU";
+			result = "TextureSize1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureSize2DArrayU:
-			result = "TEXTURESIZE2DARRAYU";
+			result = "TextureSize2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureSizeBufferU:
-			result = "TEXTURESIZEBUFFERU";
+			result = "TextureSizeBufferU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DF:
-			result = "TEXTUREQUERYLOD1DF";
+			result = "TextureQueryLod1DF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DF:
-			result = "TEXTUREQUERYLOD2DF";
+			result = "TextureQueryLod2DF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod3DF:
-			result = "TEXTUREQUERYLOD3DF";
+			result = "TextureQueryLod3DF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeF:
-			result = "TEXTUREQUERYLODCUBEF";
+			result = "TextureQueryLodCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DArrayF:
-			result = "TEXTUREQUERYLOD1DARRAYF";
+			result = "TextureQueryLod1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DArrayF:
-			result = "TEXTUREQUERYLOD2DARRAYF";
+			result = "TextureQueryLod2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeArrayF:
-			result = "TEXTUREQUERYLODCUBEARRAYF";
+			result = "TextureQueryLodCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DShadowF:
-			result = "TEXTUREQUERYLOD1DSHADOWF";
+			result = "TextureQueryLod1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DShadowF:
-			result = "TEXTUREQUERYLOD2DSHADOWF";
+			result = "TextureQueryLod2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeShadowF:
-			result = "TEXTUREQUERYLODCUBESHADOWF";
+			result = "TextureQueryLodCubeShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DArrayShadowF:
-			result = "TEXTUREQUERYLOD1DARRAYSHADOWF";
+			result = "TextureQueryLod1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DArrayShadowF:
-			result = "TEXTUREQUERYLOD2DARRAYSHADOWF";
+			result = "TextureQueryLod2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeArrayShadowF:
-			result = "TEXTUREQUERYLODCUBEARRAYSHADOWF";
+			result = "TextureQueryLodCubeArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DI:
-			result = "TEXTUREQUERYLOD1DI";
+			result = "TextureQueryLod1DI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DI:
-			result = "TEXTUREQUERYLOD2DI";
+			result = "TextureQueryLod2DI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod3DI:
-			result = "TEXTUREQUERYLOD3DI";
+			result = "TextureQueryLod3DI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeI:
-			result = "TEXTUREQUERYLODCUBEI";
+			result = "TextureQueryLodCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DArrayI:
-			result = "TEXTUREQUERYLOD1DARRAYI";
+			result = "TextureQueryLod1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DArrayI:
-			result = "TEXTUREQUERYLOD2DARRAYI";
+			result = "TextureQueryLod2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeArrayI:
-			result = "TEXTUREQUERYLODCUBEARRAYI";
+			result = "TextureQueryLodCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DU:
-			result = "TEXTUREQUERYLOD1DU";
+			result = "TextureQueryLod1DU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DU:
-			result = "TEXTUREQUERYLOD2DU";
+			result = "TextureQueryLod2DU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod3DU:
-			result = "TEXTUREQUERYLOD3DU";
+			result = "TextureQueryLod3DU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeU:
-			result = "TEXTUREQUERYLODCUBEU";
+			result = "TextureQueryLodCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod1DArrayU:
-			result = "TEXTUREQUERYLOD1DARRAYU";
+			result = "TextureQueryLod1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLod2DArrayU:
-			result = "TEXTUREQUERYLOD2DARRAYU";
+			result = "TextureQueryLod2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLodCubeArrayU:
-			result = "TEXTUREQUERYLODCUBEARRAYU";
+			result = "TextureQueryLodCubeArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DF:
-			result = "TEXTUREQUERYLEVELS1DF";
+			result = "TextureQueryLevels1DF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DF:
-			result = "TEXTUREQUERYLEVELS2DF";
+			result = "TextureQueryLevels2DF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels3DF:
-			result = "TEXTUREQUERYLEVELS3DF";
+			result = "TextureQueryLevels3DF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeF:
-			result = "TEXTUREQUERYLEVELSCUBEF";
+			result = "TextureQueryLevelsCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DArrayF:
-			result = "TEXTUREQUERYLEVELS1DARRAYF";
+			result = "TextureQueryLevels1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DArrayF:
-			result = "TEXTUREQUERYLEVELS2DARRAYF";
+			result = "TextureQueryLevels2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeArrayF:
-			result = "TEXTUREQUERYLEVELSCUBEARRAYF";
+			result = "TextureQueryLevelsCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DShadowF:
-			result = "TEXTUREQUERYLEVELS1DSHADOWF";
+			result = "TextureQueryLevels1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DShadowF:
-			result = "TEXTUREQUERYLEVELS2DSHADOWF";
+			result = "TextureQueryLevels2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeShadowF:
-			result = "TEXTUREQUERYLEVELSCUBESHADOWF";
+			result = "TextureQueryLevelsCubeShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DArrayShadowF:
-			result = "TEXTUREQUERYLEVELS1DARRAYSHADOWF";
+			result = "TextureQueryLevels1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DArrayShadowF:
-			result = "TEXTUREQUERYLEVELS2DARRAYSHADOWF";
+			result = "TextureQueryLevels2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeArrayShadowF:
-			result = "TEXTUREQUERYLEVELSCUBEARRAYSHADOWF";
+			result = "TextureQueryLevelsCubeArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DI:
-			result = "TEXTUREQUERYLEVELS1DI";
+			result = "TextureQueryLevels1DI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DI:
-			result = "TEXTUREQUERYLEVELS2DI";
+			result = "TextureQueryLevels2DI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels3DI:
-			result = "TEXTUREQUERYLEVELS3DI";
+			result = "TextureQueryLevels3DI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeI:
-			result = "TEXTUREQUERYLEVELSCUBEI";
+			result = "TextureQueryLevelsCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DArrayI:
-			result = "TEXTUREQUERYLEVELS1DARRAYI";
+			result = "TextureQueryLevels1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DArrayI:
-			result = "TEXTUREQUERYLEVELS2DARRAYI";
+			result = "TextureQueryLevels2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeArrayI:
-			result = "TEXTUREQUERYLEVELSCUBEARRAYI";
+			result = "TextureQueryLevelsCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DU:
-			result = "TEXTUREQUERYLEVELS1DU";
+			result = "TextureQueryLevels1DU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DU:
-			result = "TEXTUREQUERYLEVELS2DU";
+			result = "TextureQueryLevels2DU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels3DU:
-			result = "TEXTUREQUERYLEVELS3DU";
+			result = "TextureQueryLevels3DU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeU:
-			result = "TEXTUREQUERYLEVELSCUBEU";
+			result = "TextureQueryLevelsCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels1DArrayU:
-			result = "TEXTUREQUERYLEVELS1DARRAYU";
+			result = "TextureQueryLevels1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevels2DArrayU:
-			result = "TEXTUREQUERYLEVELS2DARRAYU";
+			result = "TextureQueryLevels2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureQueryLevelsCubeArrayU:
-			result = "TEXTUREQUERYLEVELSCUBEARRAYU";
+			result = "TextureQueryLevelsCubeArrayU";
 			break;
 
 
 	// Texel Lookup Functions
 		case CombinedImageAccess::eTexture1DF:
-			result = "TEXTURE1DF";
+			result = "Texture1DF";
 			break;
 
 		case CombinedImageAccess::eTexture1DFBias:
-			result = "TEXTURE1DFBIAS";
+			result = "Texture1DFBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DF:
-			result = "TEXTURE2DF";
+			result = "Texture2DF";
 			break;
 
 		case CombinedImageAccess::eTexture2DFBias:
-			result = "TEXTURE2DFBIAS";
+			result = "Texture2DFBias";
 			break;
 
 		case CombinedImageAccess::eTexture3DF:
-			result = "TEXTURE3DF";
+			result = "Texture3DF";
 			break;
 
 		case CombinedImageAccess::eTexture3DFBias:
-			result = "TEXTURE3DFBIAS";
+			result = "Texture3DFBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeF:
-			result = "TEXTURECUBEF";
+			result = "TextureCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureCubeFBias:
-			result = "TEXTURECUBEFBIAS";
+			result = "TextureCubeFBias";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayF:
-			result = "TEXTURE1DARRAYF";
+			result = "Texture1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayFBias:
-			result = "TEXTURE1DARRAYFBIAS";
+			result = "Texture1DArrayFBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayF:
-			result = "TEXTURE2DARRAYF";
+			result = "Texture2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayFBias:
-			result = "TEXTURE2DARRAYFBIAS";
+			result = "Texture2DArrayFBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayF:
-			result = "TEXTURECUBEARRAYF";
+			result = "TextureCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayFBias:
-			result = "TEXTURECUBEARRAYFBIAS";
+			result = "TextureCubeArrayFBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DRectF:
-			result = "TEXTURE2DRECTF";
+			result = "Texture2DRectF";
 			break;
 
 		case CombinedImageAccess::eTexture1DI:
-			result = "TEXTURE1DI";
+			result = "Texture1DI";
 			break;
 
 		case CombinedImageAccess::eTexture1DIBias:
-			result = "TEXTURE1DIBIAS";
+			result = "Texture1DIBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DI:
-			result = "TEXTURE2DI";
+			result = "Texture2DI";
 			break;
 
 		case CombinedImageAccess::eTexture2DIBias:
-			result = "TEXTURE2DIBIAS";
+			result = "Texture2DIBias";
 			break;
 
 		case CombinedImageAccess::eTexture3DI:
-			result = "TEXTURE3DI";
+			result = "Texture3DI";
 			break;
 
 		case CombinedImageAccess::eTexture3DIBias:
-			result = "TEXTURE3DIBIAS";
+			result = "Texture3DIBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeI:
-			result = "TEXTURECUBEI";
+			result = "TextureCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureCubeIBias:
-			result = "TEXTURECUBEIBIAS";
+			result = "TextureCubeIBias";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayI:
-			result = "TEXTURE1DARRAYI";
+			result = "Texture1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayIBias:
-			result = "TEXTURE1DARRAYIBIAS";
+			result = "Texture1DArrayIBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayI:
-			result = "TEXTURE2DARRAYI";
+			result = "Texture2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayIBias:
-			result = "TEXTURE2DARRAYIBIAS";
+			result = "Texture2DArrayIBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayI:
-			result = "TEXTURECUBEARRAYI";
+			result = "TextureCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayIBias:
-			result = "TEXTURECUBEARRAYIBIAS";
+			result = "TextureCubeArrayIBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DRectI:
-			result = "TEXTURE2DRECTI";
+			result = "Texture2DRectI";
 			break;
 
 		case CombinedImageAccess::eTexture1DU:
-			result = "TEXTURE1DU";
+			result = "Texture1DU";
 			break;
 
 		case CombinedImageAccess::eTexture1DUBias:
-			result = "TEXTURE1DUBIAS";
+			result = "Texture1DUBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DU:
-			result = "TEXTURE2DU";
+			result = "Texture2DU";
 			break;
 
 		case CombinedImageAccess::eTexture2DUBias:
-			result = "TEXTURE2DUBIAS";
+			result = "Texture2DUBias";
 			break;
 
 		case CombinedImageAccess::eTexture3DU:
-			result = "TEXTURE3DU";
+			result = "Texture3DU";
 			break;
 
 		case CombinedImageAccess::eTexture3DUBias:
-			result = "TEXTURE3DUBIAS";
+			result = "Texture3DUBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeU:
-			result = "TEXTURECUBEU";
+			result = "TextureCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureCubeUBias:
-			result = "TEXTURECUBEUBIAS";
+			result = "TextureCubeUBias";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayU:
-			result = "TEXTURE1DARRAYU";
+			result = "Texture1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayUBias:
-			result = "TEXTURE1DARRAYUBIAS";
+			result = "Texture1DArrayUBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayU:
-			result = "TEXTURE2DARRAYU";
+			result = "Texture2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayUBias:
-			result = "TEXTURE2DARRAYUBIAS";
+			result = "Texture2DArrayUBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayU:
-			result = "TEXTURECUBEARRAYU";
+			result = "TextureCubeArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayUBias:
-			result = "TEXTURECUBEARRAYUBIAS";
+			result = "TextureCubeArrayUBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DRectU:
-			result = "TEXTURE2DRECTU";
+			result = "Texture2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DF2:
-			result = "TEXTUREPROJ1DF2";
+			result = "TextureProj1DF2";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DF2Bias:
-			result = "TEXTUREPROJ1DF2BIAS";
+			result = "TextureProj1DF2Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DF4:
-			result = "TEXTUREPROJ1DF4";
+			result = "TextureProj1DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DF4Bias:
-			result = "TEXTUREPROJ1DF4BIAS";
+			result = "TextureProj1DF4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DF3:
-			result = "TEXTUREPROJ2DF3";
+			result = "TextureProj2DF3";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DF3Bias:
-			result = "TEXTUREPROJ2DF3BIAS";
+			result = "TextureProj2DF3Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DF4:
-			result = "TEXTUREPROJ2DF4";
+			result = "TextureProj2DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DF4Bias:
-			result = "TEXTUREPROJ2DF4BIAS";
+			result = "TextureProj2DF4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj3DF:
-			result = "TEXTUREPROJ3DF";
+			result = "TextureProj3DF";
 			break;
 
 		case CombinedImageAccess::eTextureProj3DFBias:
-			result = "TEXTUREPROJ3DFBIAS";
+			result = "TextureProj3DFBias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectF3:
-			result = "TEXTUREPROJ2DRECTF3";
+			result = "TextureProj2DRectF3";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectF4:
-			result = "TEXTUREPROJ2DRECTF4";
+			result = "TextureProj2DRectF4";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DI2:
-			result = "TEXTUREPROJ1DI2";
+			result = "TextureProj1DI2";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DI2Bias:
-			result = "TEXTUREPROJ1DI2BIAS";
+			result = "TextureProj1DI2Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DI4:
-			result = "TEXTUREPROJ1DI4";
+			result = "TextureProj1DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DI4Bias:
-			result = "TEXTUREPROJ1DI4BIAS";
+			result = "TextureProj1DI4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DI3:
-			result = "TEXTUREPROJ2DI3";
+			result = "TextureProj2DI3";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DI3Bias:
-			result = "TEXTUREPROJ2DI3BIAS";
+			result = "TextureProj2DI3Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DI4:
-			result = "TEXTUREPROJ2DI4";
+			result = "TextureProj2DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DI4Bias:
-			result = "TEXTUREPROJ2DI4BIAS";
+			result = "TextureProj2DI4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj3DI:
-			result = "TEXTUREPROJ3DI";
+			result = "TextureProj3DI";
 			break;
 
 		case CombinedImageAccess::eTextureProj3DIBias:
-			result = "TEXTUREPROJ3DIBIAS";
+			result = "TextureProj3DIBias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectI3:
-			result = "TEXTUREPROJ2DRECTI3";
+			result = "TextureProj2DRectI3";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectI4:
-			result = "TEXTUREPROJ2DRECTI4";
+			result = "TextureProj2DRectI4";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DU2:
-			result = "TEXTUREPROJ1DU2";
+			result = "TextureProj1DU2";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DU2Bias:
-			result = "TEXTUREPROJ1DU2BIAS";
+			result = "TextureProj1DU2Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DU4:
-			result = "TEXTUREPROJ1DU4";
+			result = "TextureProj1DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DU4Bias:
-			result = "TEXTUREPROJ1DU4BIAS";
+			result = "TextureProj1DU4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DU3:
-			result = "TEXTUREPROJ2DU3";
+			result = "TextureProj2DU3";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DU3Bias:
-			result = "TEXTUREPROJ2DU3BIAS";
+			result = "TextureProj2DU3Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DU4:
-			result = "TEXTUREPROJ2DU4";
+			result = "TextureProj2DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DU4Bias:
-			result = "TEXTUREPROJ2DU4BIAS";
+			result = "TextureProj2DU4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProj3DU:
-			result = "TEXTUREPROJ3DU";
+			result = "TextureProj3DU";
 			break;
 
 		case CombinedImageAccess::eTextureProj3DUBias:
-			result = "TEXTUREPROJ3DUBIAS";
+			result = "TextureProj3DUBias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectU3:
-			result = "TEXTUREPROJ2DRECTU3";
+			result = "TextureProj2DRectU3";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectU4:
-			result = "TEXTUREPROJ2DRECTU4";
+			result = "TextureProj2DRectU4";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DF:
-			result = "TEXTURELOD1DF";
+			result = "TextureLod1DF";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DF:
-			result = "TEXTURELOD2DF";
+			result = "TextureLod2DF";
 			break;
 
 		case CombinedImageAccess::eTextureLod3DF:
-			result = "TEXTURELOD3DF";
+			result = "TextureLod3DF";
 			break;
 
 		case CombinedImageAccess::eTextureLodCubeF:
-			result = "TEXTURELODCUBEF";
+			result = "TextureLodCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DArrayF:
-			result = "TEXTURELOD1DARRAYF";
+			result = "TextureLod1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DArrayF:
-			result = "TEXTURELOD2DARRAYF";
+			result = "TextureLod2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureLodCubeArrayF:
-			result = "TEXTURELODCUBEARRAYF";
+			result = "TextureLodCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DI:
-			result = "TEXTURELOD1DI";
+			result = "TextureLod1DI";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DI:
-			result = "TEXTURELOD2DI";
+			result = "TextureLod2DI";
 			break;
 
 		case CombinedImageAccess::eTextureLod3DI:
-			result = "TEXTURELOD3DI";
+			result = "TextureLod3DI";
 			break;
 
 		case CombinedImageAccess::eTextureLodCubeI:
-			result = "TEXTURELODCUBEI";
+			result = "TextureLodCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DArrayI:
-			result = "TEXTURELOD1DARRAYI";
+			result = "TextureLod1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DArrayI:
-			result = "TEXTURELOD2DARRAYI";
+			result = "TextureLod2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureLodCubeArrayI:
-			result = "TEXTURELODCUBEARRAYI";
+			result = "TextureLodCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DU:
-			result = "TEXTURELOD1DU";
+			result = "TextureLod1DU";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DU:
-			result = "TEXTURELOD2DU";
+			result = "TextureLod2DU";
 			break;
 
 		case CombinedImageAccess::eTextureLod3DU:
-			result = "TEXTURELOD3DU";
+			result = "TextureLod3DU";
 			break;
 
 		case CombinedImageAccess::eTextureLodCubeU:
-			result = "TEXTURELODCUBEU";
+			result = "TextureLodCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DArrayU:
-			result = "TEXTURELOD1DARRAYU";
+			result = "TextureLod1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DArrayU:
-			result = "TEXTURELOD2DARRAYU";
+			result = "TextureLod2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureLodCubeArrayU:
-			result = "TEXTURELODCUBEARRAYU";
+			result = "TextureLodCubeArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DF:
-			result = "TEXTUREOFFSET1DF";
+			result = "TextureOffset1DF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DFBias:
-			result = "TEXTUREOFFSET1DFBIAS";
+			result = "TextureOffset1DFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DF:
-			result = "TEXTUREOFFSET2DF";
+			result = "TextureOffset2DF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DFBias:
-			result = "TEXTUREOFFSET2DFBIAS";
+			result = "TextureOffset2DFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset3DF:
-			result = "TEXTUREOFFSET3DF";
+			result = "TextureOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset3DFBias:
-			result = "TEXTUREOFFSET3DFBIAS";
+			result = "TextureOffset3DFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DRectF:
-			result = "TEXTUREOFFSET2DRECTF";
+			result = "TextureOffset2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayF:
-			result = "TEXTUREOFFSET1DARRAYF";
+			result = "TextureOffset1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayFBias:
-			result = "TEXTUREOFFSET1DARRAYFBIAS";
+			result = "TextureOffset1DArrayFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayF:
-			result = "TEXTUREOFFSET2DARRAYF";
+			result = "TextureOffset2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayFBias:
-			result = "TEXTUREOFFSET2DARRAYFBIAS";
+			result = "TextureOffset2DArrayFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DI:
-			result = "TEXTUREOFFSET1DI";
+			result = "TextureOffset1DI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DIBias:
-			result = "TEXTUREOFFSET1DIBIAS";
+			result = "TextureOffset1DIBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DI:
-			result = "TEXTUREOFFSET2DI";
+			result = "TextureOffset2DI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DIBias:
-			result = "TEXTUREOFFSET2DIBIAS";
+			result = "TextureOffset2DIBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset3DI:
-			result = "TEXTUREOFFSET3DI";
+			result = "TextureOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset3DIBias:
-			result = "TEXTUREOFFSET3DIBIAS";
+			result = "TextureOffset3DIBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DRectI:
-			result = "TEXTUREOFFSET2DRECTI";
+			result = "TextureOffset2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayI:
-			result = "TEXTUREOFFSET1DARRAYI";
+			result = "TextureOffset1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayIBias:
-			result = "TEXTUREOFFSET1DARRAYIBIAS";
+			result = "TextureOffset1DArrayIBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayI:
-			result = "TEXTUREOFFSET2DARRAYI";
+			result = "TextureOffset2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayIBias:
-			result = "TEXTUREOFFSET2DARRAYIBIAS";
+			result = "TextureOffset2DArrayIBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DU:
-			result = "TEXTUREOFFSET1DU";
+			result = "TextureOffset1DU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DUBias:
-			result = "TEXTUREOFFSET1DUBIAS";
+			result = "TextureOffset1DUBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DU:
-			result = "TEXTUREOFFSET2DU";
+			result = "TextureOffset2DU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DUBias:
-			result = "TEXTUREOFFSET2DUBIAS";
+			result = "TextureOffset2DUBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset3DU:
-			result = "TEXTUREOFFSET3DU";
+			result = "TextureOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset3DUBias:
-			result = "TEXTUREOFFSET3DUBIAS";
+			result = "TextureOffset3DUBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DRectU:
-			result = "TEXTUREOFFSET2DRECTU";
+			result = "TextureOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayU:
-			result = "TEXTUREOFFSET1DARRAYU";
+			result = "TextureOffset1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayUBias:
-			result = "TEXTUREOFFSET1DARRAYUBIAS";
+			result = "TextureOffset1DArrayUBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayU:
-			result = "TEXTUREOFFSET2DARRAYU";
+			result = "TextureOffset2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayUBias:
-			result = "TEXTUREOFFSET2DARRAYUBIAS";
+			result = "TextureOffset2DArrayUBias";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DF:
-			result = "TEXELFETCH1DF";
+			result = "TexelFetch1DF";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DF:
-			result = "TEXELFETCH2DF";
+			result = "TexelFetch2DF";
 			break;
 
 		case CombinedImageAccess::eTexelFetch3DF:
-			result = "TEXELFETCH3DF";
+			result = "TexelFetch3DF";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DRectF:
-			result = "TEXELFETCH2DRECTF";
+			result = "TexelFetch2DRectF";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DArrayF:
-			result = "TEXELFETCH1DARRAYF";
+			result = "TexelFetch1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DArrayF:
-			result = "TEXELFETCH2DARRAYF";
+			result = "TexelFetch2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchBufferF:
-			result = "TEXELFETCHBUFFERF";
+			result = "TexelFetchBufferF";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DI:
-			result = "TEXELFETCH1DI";
+			result = "TexelFetch1DI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DI:
-			result = "TEXELFETCH2DI";
+			result = "TexelFetch2DI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch3DI:
-			result = "TEXELFETCH3DI";
+			result = "TexelFetch3DI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DRectI:
-			result = "TEXELFETCH2DRECTI";
+			result = "TexelFetch2DRectI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DArrayI:
-			result = "TEXELFETCH1DARRAYI";
+			result = "TexelFetch1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DArrayI:
-			result = "TEXELFETCH2DARRAYI";
+			result = "TexelFetch2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchBufferI:
-			result = "TEXELFETCHBUFFERI";
+			result = "TexelFetchBufferI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DU:
-			result = "TEXELFETCH1DU";
+			result = "TexelFetch1DU";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DU:
-			result = "TEXELFETCH2DU";
+			result = "TexelFetch2DU";
 			break;
 
 		case CombinedImageAccess::eTexelFetch3DU:
-			result = "TEXELFETCH3DU";
+			result = "TexelFetch3DU";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DRectU:
-			result = "TEXELFETCH2DRECTU";
+			result = "TexelFetch2DRectU";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DArrayU:
-			result = "TEXELFETCH1DARRAYU";
+			result = "TexelFetch1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTexelFetch2DArrayU:
-			result = "TEXELFETCH2DARRAYU";
+			result = "TexelFetch2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchBufferU:
-			result = "TEXELFETCHBUFFERU";
+			result = "TexelFetchBufferU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DF:
-			result = "TEXELFETCHOFFSET1DF";
+			result = "TexelFetchOffset1DF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DF:
-			result = "TEXELFETCHOFFSET2DF";
+			result = "TexelFetchOffset2DF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset3DF:
-			result = "TEXELFETCHOFFSET3DF";
+			result = "TexelFetchOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DRectF:
-			result = "TEXELFETCHOFFSET2DRECTF";
+			result = "TexelFetchOffset2DRectF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DArrayF:
-			result = "TEXELFETCHOFFSET1DARRAYF";
+			result = "TexelFetchOffset1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DArrayF:
-			result = "TEXELFETCHOFFSET2DARRAYF";
+			result = "TexelFetchOffset2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DI:
-			result = "TEXELFETCHOFFSET1DI";
+			result = "TexelFetchOffset1DI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DI:
-			result = "TEXELFETCHOFFSET2DI";
+			result = "TexelFetchOffset2DI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset3DI:
-			result = "TEXELFETCHOFFSET3DI";
+			result = "TexelFetchOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DRectI:
-			result = "TEXELFETCHOFFSET2DRECTI";
+			result = "TexelFetchOffset2DRectI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DArrayI:
-			result = "TEXELFETCHOFFSET1DARRAYI";
+			result = "TexelFetchOffset1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DArrayI:
-			result = "TEXELFETCHOFFSET2DARRAYI";
+			result = "TexelFetchOffset2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DU:
-			result = "TEXELFETCHOFFSET1DU";
+			result = "TexelFetchOffset1DU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DU:
-			result = "TEXELFETCHOFFSET2DU";
+			result = "TexelFetchOffset2DU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset3DU:
-			result = "TEXELFETCHOFFSET3DU";
+			result = "TexelFetchOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DRectU:
-			result = "TEXELFETCHOFFSET2DRECTU";
+			result = "TexelFetchOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DArrayU:
-			result = "TEXELFETCHOFFSET1DARRAYU";
+			result = "TexelFetchOffset1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset2DArrayU:
-			result = "TEXELFETCHOFFSET2DARRAYU";
+			result = "TexelFetchOffset2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DF2:
-			result = "TEXTUREPROJOFFSET1DF2";
+			result = "TextureProjOffset1DF2";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DF2Bias:
-			result = "TEXTUREPROJOFFSET1DF2BIAS";
+			result = "TextureProjOffset1DF2Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DF4:
-			result = "TEXTUREPROJOFFSET1DF4";
+			result = "TextureProjOffset1DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DF4Bias:
-			result = "TEXTUREPROJOFFSET1DF4BIAS";
+			result = "TextureProjOffset1DF4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DF3:
-			result = "TEXTUREPROJOFFSET2DF3";
+			result = "TextureProjOffset2DF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DF3Bias:
-			result = "TEXTUREPROJOFFSET2DF3BIAS";
+			result = "TextureProjOffset2DF3Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DF4:
-			result = "TEXTUREPROJOFFSET2DF4";
+			result = "TextureProjOffset2DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DF4Bias:
-			result = "TEXTUREPROJOFFSET2DF4BIAS";
+			result = "TextureProjOffset2DF4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset3DF:
-			result = "TEXTUREPROJOFFSET3DF";
+			result = "TextureProjOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset3DFBias:
-			result = "TEXTUREPROJOFFSET3DFBIAS";
+			result = "TextureProjOffset3DFBias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectF3:
-			result = "TEXTUREPROJOFFSET2DRECTF3";
+			result = "TextureProjOffset2DRectF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectF4:
-			result = "TEXTUREPROJOFFSET2DRECTF4";
+			result = "TextureProjOffset2DRectF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DI2:
-			result = "TEXTUREPROJOFFSET1DI2";
+			result = "TextureProjOffset1DI2";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DI2Bias:
-			result = "TEXTUREPROJOFFSET1DI2BIAS";
+			result = "TextureProjOffset1DI2Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DI4:
-			result = "TEXTUREPROJOFFSET1DI4";
+			result = "TextureProjOffset1DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DI4Bias:
-			result = "TEXTUREPROJOFFSET1DI4BIAS";
+			result = "TextureProjOffset1DI4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DI3:
-			result = "TEXTUREPROJOFFSET2DI3";
+			result = "TextureProjOffset2DI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DI3Bias:
-			result = "TEXTUREPROJOFFSET2DI3BIAS";
+			result = "TextureProjOffset2DI3Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DI4:
-			result = "TEXTUREPROJOFFSET2DI4";
+			result = "TextureProjOffset2DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DI4Bias:
-			result = "TEXTUREPROJOFFSET2DI4BIAS";
+			result = "TextureProjOffset2DI4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset3DI:
-			result = "TEXTUREPROJOFFSET3DI";
+			result = "TextureProjOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset3DIBias:
-			result = "TEXTUREPROJOFFSET3DIBIAS";
+			result = "TextureProjOffset3DIBias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectI3:
-			result = "TEXTUREPROJOFFSET2DRECTI3";
+			result = "TextureProjOffset2DRectI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectI4:
-			result = "TEXTUREPROJOFFSET2DRECTI4";
+			result = "TextureProjOffset2DRectI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DU2:
-			result = "TEXTUREPROJOFFSET1DU2";
+			result = "TextureProjOffset1DU2";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DU2Bias:
-			result = "TEXTUREPROJOFFSET1DU2BIAS";
+			result = "TextureProjOffset1DU2Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DU4:
-			result = "TEXTUREPROJOFFSET1DU4";
+			result = "TextureProjOffset1DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DU4Bias:
-			result = "TEXTUREPROJOFFSET1DU4BIAS";
+			result = "TextureProjOffset1DU4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DU3:
-			result = "TEXTUREPROJOFFSET2DU3";
+			result = "TextureProjOffset2DU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DU3Bias:
-			result = "TEXTUREPROJOFFSET2DU3BIAS";
+			result = "TextureProjOffset2DU3Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DU4:
-			result = "TEXTUREPROJOFFSET2DU4";
+			result = "TextureProjOffset2DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DU4Bias:
-			result = "TEXTUREPROJOFFSET2DU4BIAS";
+			result = "TextureProjOffset2DU4Bias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset3DU:
-			result = "TEXTUREPROJOFFSET3DU";
+			result = "TextureProjOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset3DUBias:
-			result = "TEXTUREPROJOFFSET3DUBIAS";
+			result = "TextureProjOffset3DUBias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectU3:
-			result = "TEXTUREPROJOFFSET2DRECTU3";
+			result = "TextureProjOffset2DRectU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectU4:
-			result = "TEXTUREPROJOFFSET2DRECTU4";
+			result = "TextureProjOffset2DRectU4";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DF:
-			result = "TEXTURELODOFFSET1DF";
+			result = "TextureLodOffset1DF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DF:
-			result = "TEXTURELODOFFSET2DF";
+			result = "TextureLodOffset2DF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset3DF:
-			result = "TEXTURELODOFFSET3DF";
+			result = "TextureLodOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DArrayF:
-			result = "TEXTURELODOFFSET1DARRAYF";
+			result = "TextureLodOffset1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DArrayF:
-			result = "TEXTURELODOFFSET2DARRAYF";
+			result = "TextureLodOffset2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DI:
-			result = "TEXTURELODOFFSET1DI";
+			result = "TextureLodOffset1DI";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DI:
-			result = "TEXTURELODOFFSET2DI";
+			result = "TextureLodOffset2DI";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset3DI:
-			result = "TEXTURELODOFFSET3DI";
+			result = "TextureLodOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DArrayI:
-			result = "TEXTURELODOFFSET1DARRAYI";
+			result = "TextureLodOffset1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DArrayI:
-			result = "TEXTURELODOFFSET2DARRAYI";
+			result = "TextureLodOffset2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DU:
-			result = "TEXTURELODOFFSET1DU";
+			result = "TextureLodOffset1DU";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DU:
-			result = "TEXTURELODOFFSET2DU";
+			result = "TextureLodOffset2DU";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset3DU:
-			result = "TEXTURELODOFFSET3DU";
+			result = "TextureLodOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DArrayU:
-			result = "TEXTURELODOFFSET1DARRAYU";
+			result = "TextureLodOffset1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DArrayU:
-			result = "TEXTURELODOFFSET2DARRAYU";
+			result = "TextureLodOffset2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DF2:
-			result = "TEXTUREPROJLOD1DF2";
+			result = "TextureProjLod1DF2";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DF4:
-			result = "TEXTUREPROJLOD1DF4";
+			result = "TextureProjLod1DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DF3:
-			result = "TEXTUREPROJLOD2DF3";
+			result = "TextureProjLod2DF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DF4:
-			result = "TEXTUREPROJLOD2DF4";
+			result = "TextureProjLod2DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod3DF:
-			result = "TEXTUREPROJLOD3DF";
+			result = "TextureProjLod3DF";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DI2:
-			result = "TEXTUREPROJLOD1DI2";
+			result = "TextureProjLod1DI2";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DI4:
-			result = "TEXTUREPROJLOD1DI4";
+			result = "TextureProjLod1DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DI3:
-			result = "TEXTUREPROJLOD2DI3";
+			result = "TextureProjLod2DI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DI4:
-			result = "TEXTUREPROJLOD2DI4";
+			result = "TextureProjLod2DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod3DI:
-			result = "TEXTUREPROJLOD3DI";
+			result = "TextureProjLod3DI";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DU2:
-			result = "TEXTUREPROJLOD1DU2";
+			result = "TextureProjLod1DU2";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DU4:
-			result = "TEXTUREPROJLOD1DU4";
+			result = "TextureProjLod1DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DU3:
-			result = "TEXTUREPROJLOD2DU3";
+			result = "TextureProjLod2DU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DU4:
-			result = "TEXTUREPROJLOD2DU4";
+			result = "TextureProjLod2DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod3DU:
-			result = "TEXTUREPROJLOD3DU";
+			result = "TextureProjLod3DU";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DF2:
-			result = "TEXTUREPROJLODOFFSET1DF2";
+			result = "TextureProjLodOffset1DF2";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DF4:
-			result = "TEXTUREPROJLODOFFSET1DF4";
+			result = "TextureProjLodOffset1DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DF3:
-			result = "TEXTUREPROJLODOFFSET2DF3";
+			result = "TextureProjLodOffset2DF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DF4:
-			result = "TEXTUREPROJLODOFFSET2DF4";
+			result = "TextureProjLodOffset2DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset3DF:
-			result = "TEXTUREPROJLODOFFSET3DF";
+			result = "TextureProjLodOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DI2:
-			result = "TEXTUREPROJLODOFFSET1DI2";
+			result = "TextureProjLodOffset1DI2";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DI4:
-			result = "TEXTUREPROJLODOFFSET1DI4";
+			result = "TextureProjLodOffset1DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DI3:
-			result = "TEXTUREPROJLODOFFSET2DI3";
+			result = "TextureProjLodOffset2DI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DI4:
-			result = "TEXTUREPROJLODOFFSET2DI4";
+			result = "TextureProjLodOffset2DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset3DI:
-			result = "TEXTUREPROJLODOFFSET3DI";
+			result = "TextureProjLodOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DU2:
-			result = "TEXTUREPROJLODOFFSET1DU2";
+			result = "TextureProjLodOffset1DU2";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DU4:
-			result = "TEXTUREPROJLODOFFSET1DU4";
+			result = "TextureProjLodOffset1DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DU3:
-			result = "TEXTUREPROJLODOFFSET2DU3";
+			result = "TextureProjLodOffset2DU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DU4:
-			result = "TEXTUREPROJLODOFFSET2DU4";
+			result = "TextureProjLodOffset2DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset3DU:
-			result = "TEXTUREPROJLODOFFSET3DU";
+			result = "TextureProjLodOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DF:
-			result = "TEXTUREGRAD1DF";
+			result = "TextureGrad1DF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DF:
-			result = "TEXTUREGRAD2DF";
+			result = "TextureGrad2DF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad3DF:
-			result = "TEXTUREGRAD3DF";
+			result = "TextureGrad3DF";
 			break;
 
 		case CombinedImageAccess::eTextureGradCubeF:
-			result = "TEXTUREGRADCUBEF";
+			result = "TextureGradCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DRectF:
-			result = "TEXTUREGRAD2DRECTF";
+			result = "TextureGrad2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DArrayF:
-			result = "TEXTUREGRAD1DARRAYF";
+			result = "TextureGrad1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DArrayF:
-			result = "TEXTUREGRAD2DARRAYF";
+			result = "TextureGrad2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGradCubeArrayF:
-			result = "TEXTUREGRADCUBEARRAYF";
+			result = "TextureGradCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DI:
-			result = "TEXTUREGRAD1DI";
+			result = "TextureGrad1DI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DI:
-			result = "TEXTUREGRAD2DI";
+			result = "TextureGrad2DI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad3DI:
-			result = "TEXTUREGRAD3DI";
+			result = "TextureGrad3DI";
 			break;
 
 		case CombinedImageAccess::eTextureGradCubeI:
-			result = "TEXTUREGRADCUBEI";
+			result = "TextureGradCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DRectI:
-			result = "TEXTUREGRAD2DRECTI";
+			result = "TextureGrad2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DArrayI:
-			result = "TEXTUREGRAD1DARRAYI";
+			result = "TextureGrad1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DArrayI:
-			result = "TEXTUREGRAD2DARRAYI";
+			result = "TextureGrad2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGradCubeArrayI:
-			result = "TEXTUREGRADCUBEARRAYI";
+			result = "TextureGradCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DU:
-			result = "TEXTUREGRAD1DU";
+			result = "TextureGrad1DU";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DU:
-			result = "TEXTUREGRAD2DU";
+			result = "TextureGrad2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGrad3DU:
-			result = "TEXTUREGRAD3DU";
+			result = "TextureGrad3DU";
 			break;
 
 		case CombinedImageAccess::eTextureGradCubeU:
-			result = "TEXTUREGRADCUBEU";
+			result = "TextureGradCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DRectU:
-			result = "TEXTUREGRAD2DRECTU";
+			result = "TextureGrad2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DArrayU:
-			result = "TEXTUREGRAD1DARRAYU";
+			result = "TextureGrad1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DArrayU:
-			result = "TEXTUREGRAD2DARRAYU";
+			result = "TextureGrad2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGradCubeArrayU:
-			result = "TEXTUREGRADCUBEARRAYU";
+			result = "TextureGradCubeArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DF:
-			result = "TEXTUREGRADOFFSET1DF";
+			result = "TextureGradOffset1DF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DF:
-			result = "TEXTUREGRADOFFSET2DF";
+			result = "TextureGradOffset2DF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset3DF:
-			result = "TEXTUREGRADOFFSET3DF";
+			result = "TextureGradOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DRectF:
-			result = "TEXTUREGRADOFFSET2DRECTF";
+			result = "TextureGradOffset2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DArrayF:
-			result = "TEXTUREGRADOFFSET1DARRAYF";
+			result = "TextureGradOffset1DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DArrayF:
-			result = "TEXTUREGRADOFFSET2DARRAYF";
+			result = "TextureGradOffset2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DI:
-			result = "TEXTUREGRADOFFSET1DI";
+			result = "TextureGradOffset1DI";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DI:
-			result = "TEXTUREGRADOFFSET2DI";
+			result = "TextureGradOffset2DI";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset3DI:
-			result = "TEXTUREGRADOFFSET3DI";
+			result = "TextureGradOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DRectI:
-			result = "TEXTUREGRADOFFSET2DRECTI";
+			result = "TextureGradOffset2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DArrayI:
-			result = "TEXTUREGRADOFFSET1DARRAYI";
+			result = "TextureGradOffset1DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DArrayI:
-			result = "TEXTUREGRADOFFSET2DARRAYI";
+			result = "TextureGradOffset2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DU:
-			result = "TEXTUREGRADOFFSET1DU";
+			result = "TextureGradOffset1DU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DU:
-			result = "TEXTUREGRADOFFSET2DU";
+			result = "TextureGradOffset2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset3DU:
-			result = "TEXTUREGRADOFFSET3DU";
+			result = "TextureGradOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DRectU:
-			result = "TEXTUREGRADOFFSET2DRECTU";
+			result = "TextureGradOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DArrayU:
-			result = "TEXTUREGRADOFFSET1DARRAYU";
+			result = "TextureGradOffset1DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DArrayU:
-			result = "TEXTUREGRADOFFSET2DARRAYU";
+			result = "TextureGradOffset2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DF2:
-			result = "TEXTUREPROJGRAD1DF2";
+			result = "TextureProjGrad1DF2";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DF4:
-			result = "TEXTUREPROJGRAD1DF4";
+			result = "TextureProjGrad1DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DF3:
-			result = "TEXTUREPROJGRAD2DF3";
+			result = "TextureProjGrad2DF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DF4:
-			result = "TEXTUREPROJGRAD2DF4";
+			result = "TextureProjGrad2DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad3DF:
-			result = "TEXTUREPROJGRAD3DF";
+			result = "TextureProjGrad3DF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectF3:
-			result = "TEXTUREPROJGRAD2DRECTF3";
+			result = "TextureProjGrad2DRectF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectF4:
-			result = "TEXTUREPROJGRAD2DRECTF4";
+			result = "TextureProjGrad2DRectF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DI2:
-			result = "TEXTUREPROJGRAD1DI2";
+			result = "TextureProjGrad1DI2";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DI4:
-			result = "TEXTUREPROJGRAD1DI4";
+			result = "TextureProjGrad1DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DI3:
-			result = "TEXTUREPROJGRAD2DI3";
+			result = "TextureProjGrad2DI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DI4:
-			result = "TEXTUREPROJGRAD2DI4";
+			result = "TextureProjGrad2DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad3DI:
-			result = "TEXTUREPROJGRAD3DI";
+			result = "TextureProjGrad3DI";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectI3:
-			result = "TEXTUREPROJGRAD2DRECTI3";
+			result = "TextureProjGrad2DRectI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectI4:
-			result = "TEXTUREPROJGRAD2DRECTI4";
+			result = "TextureProjGrad2DRectI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DU2:
-			result = "TEXTUREPROJGRAD1DU2";
+			result = "TextureProjGrad1DU2";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DU4:
-			result = "TEXTUREPROJGRAD1DU4";
+			result = "TextureProjGrad1DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DU3:
-			result = "TEXTUREPROJGRAD2DU3";
+			result = "TextureProjGrad2DU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DU4:
-			result = "TEXTUREPROJGRAD2DU4";
+			result = "TextureProjGrad2DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad3DU:
-			result = "TEXTUREPROJGRAD3DU";
+			result = "TextureProjGrad3DU";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectU3:
-			result = "TEXTUREPROJGRAD2DRECTU3";
+			result = "TextureProjGrad2DRectU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectU4:
-			result = "TEXTUREPROJGRAD2DRECTU4";
+			result = "TextureProjGrad2DRectU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DF2:
-			result = "TEXTUREPROJGRADOFFSET1DF2";
+			result = "TextureProjGradOffset1DF2";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DF4:
-			result = "TEXTUREPROJGRADOFFSET1DF4";
+			result = "TextureProjGradOffset1DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DF3:
-			result = "TEXTUREPROJGRADOFFSET2DF3";
+			result = "TextureProjGradOffset2DF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DF4:
-			result = "TEXTUREPROJGRADOFFSET2DF4";
+			result = "TextureProjGradOffset2DF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset3DF:
-			result = "TEXTUREPROJGRADOFFSET3DF";
+			result = "TextureProjGradOffset3DF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectF3:
-			result = "TEXTUREPROJGRADOFFSET2DRECTF3";
+			result = "TextureProjGradOffset2DRectF3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectF4:
-			result = "TEXTUREPROJGRADOFFSET2DRECTF4";
+			result = "TextureProjGradOffset2DRectF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DI2:
-			result = "TEXTUREPROJGRADOFFSET1DI2";
+			result = "TextureProjGradOffset1DI2";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DI4:
-			result = "TEXTUREPROJGRADOFFSET1DI4";
+			result = "TextureProjGradOffset1DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DI3:
-			result = "TEXTUREPROJGRADOFFSET2DI3";
+			result = "TextureProjGradOffset2DI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DI4:
-			result = "TEXTUREPROJGRADOFFSET2DI4";
+			result = "TextureProjGradOffset2DI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset3DI:
-			result = "TEXTUREPROJGRADOFFSET3DI";
+			result = "TextureProjGradOffset3DI";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectI3:
-			result = "TEXTUREPROJGRADOFFSET2DRECTI3";
+			result = "TextureProjGradOffset2DRectI3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectI4:
-			result = "TEXTUREPROJGRADOFFSET2DRECTI4";
+			result = "TextureProjGradOffset2DRectI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DU2:
-			result = "TEXTUREPROJGRADOFFSET1DU2";
+			result = "TextureProjGradOffset1DU2";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DU4:
-			result = "TEXTUREPROJGRADOFFSET1DU4";
+			result = "TextureProjGradOffset1DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DU3:
-			result = "TEXTUREPROJGRADOFFSET2DU3";
+			result = "TextureProjGradOffset2DU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DU4:
-			result = "TEXTUREPROJGRADOFFSET2DU4";
+			result = "TextureProjGradOffset2DU4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset3DU:
-			result = "TEXTUREPROJGRADOFFSET3DU";
+			result = "TextureProjGradOffset3DU";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectU3:
-			result = "TEXTUREPROJGRADOFFSET2DRECTU3";
+			result = "TextureProjGradOffset2DRectU3";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectU4:
-			result = "TEXTUREPROJGRADOFFSET2DRECTU4";
+			result = "TextureProjGradOffset2DRectU4";
 			break;
 
 	
 	// Texel Compare Functions
 		case CombinedImageAccess::eTexture1DShadowF:
-			result = "TEXTURE1DSHADOWF";
+			result = "Texture1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTexture1DShadowFBias:
-			result = "TEXTURE1DSHADOWFBIAS";
+			result = "Texture1DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DShadowF:
-			result = "TEXTURE2DSHADOWF";
+			result = "Texture2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTexture2DShadowFBias:
-			result = "TEXTURE2DSHADOWFBIAS";
+			result = "Texture2DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureCubeShadowF:
-			result = "TEXTURECUBESHADOWF";
+			result = "TextureCubeShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureCubeShadowFBias:
-			result = "TEXTURECUBESHADOWFBIAS";
+			result = "TextureCubeShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayShadowF:
-			result = "TEXTURE1DARRAYSHADOWF";
+			result = "Texture1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTexture1DArrayShadowFBias:
-			result = "TEXTURE1DARRAYSHADOWFBIAS";
+			result = "Texture1DArrayShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTexture2DArrayShadowF:
-			result = "TEXTURE2DARRAYSHADOWF";
+			result = "Texture2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTexture2DRectShadowF:
-			result = "TEXTURE2DRECTSHADOWF";
+			result = "Texture2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureCubeArrayShadowF:
-			result = "TEXTURECUBEARRAYSHADOWF";
+			result = "TextureCubeArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DShadowF:
-			result = "TEXTUREPROJ1DSHADOWF";
+			result = "TextureProj1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DShadowFBias:
-			result = "TEXTUREPROJ1DSHADOWFBIAS";
+			result = "TextureProj1DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DShadowF:
-			result = "TEXTUREPROJ2DSHADOWF";
+			result = "TextureProj2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DShadowFBias:
-			result = "TEXTUREPROJ2DSHADOWFBIAS";
+			result = "TextureProj2DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureProj2DRectShadowF:
-			result = "TEXTUREPROJ2DRECTSHADOWF";
+			result = "TextureProj2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DShadowF:
-			result = "TEXTURELOD1DSHADOWF";
+			result = "TextureLod1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLod2DShadowF:
-			result = "TEXTURELOD2DSHADOWF";
+			result = "TextureLod2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DArrayShadowF:
-			result = "TEXTURELOD1DARRAYSHADOWF";
+			result = "TextureLod1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DRectShadowF:
-			result = "TEXTUREOFFSET2DRECTSHADOWF";
+			result = "TextureOffset2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DShadowF:
-			result = "TEXTUREOFFSET1DSHADOWF";
+			result = "TextureOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DShadowFBias:
-			result = "TEXTUREOFFSET1DSHADOWFBIAS";
+			result = "TextureOffset1DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DShadowF:
-			result = "TEXTUREOFFSET2DSHADOWF";
+			result = "TextureOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DShadowFBias:
-			result = "TEXTUREOFFSET2DSHADOWFBIAS";
+			result = "TextureOffset2DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayShadowF:
-			result = "TEXTUREOFFSET1DARRAYSHADOWF";
+			result = "TextureOffset1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DArrayShadowF:
-			result = "TEXTUREOFFSET2DARRAYSHADOWF";
+			result = "TextureOffset2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DShadowF:
-			result = "TEXTUREPROJOFFSET1DSHADOWF";
+			result = "TextureProjOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset1DShadowFBias:
-			result = "TEXTUREPROJOFFSET1DSHADOWFBIAS";
+			result = "TextureProjOffset1DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DShadowF:
-			result = "TEXTUREPROJOFFSET2DSHADOWF";
+			result = "TextureProjOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DShadowFBias:
-			result = "TEXTUREPROJOFFSET2DSHADOWFBIAS";
+			result = "TextureProjOffset2DShadowFBias";
 			break;
 
 		case CombinedImageAccess::eTextureProjOffset2DRectShadowF:
-			result = "TEXTUREPROJOFFSET2DRECTSHADOWF";
+			result = "TextureProjOffset2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DShadowF:
-			result = "TEXTURELODOFFSET1DSHADOWF";
+			result = "TextureLodOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset2DShadowF:
-			result = "TEXTURELODOFFSET2DSHADOWF";
+			result = "TextureLodOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
-			result = "TEXTURELODOFFSET1DARRAYSHADOWF";
+			result = "TextureLodOffset1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod1DShadowF:
-			result = "TEXTUREPROJLOD1DSHADOWF";
+			result = "TextureProjLod1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjLod2DShadowF:
-			result = "TEXTUREPROJLOD2DSHADOWF";
+			result = "TextureProjLod2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset1DShadowF:
-			result = "TEXTUREPROJLODOFFSET1DSHADOWF";
+			result = "TextureProjLodOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjLodOffset2DShadowF:
-			result = "TEXTUREPROJLODOFFSET2DSHADOWF";
+			result = "TextureProjLodOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DRectShadowF:
-			result = "TEXTUREGRAD2DRECTSHADOWF";
+			result = "TextureGrad2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DShadowF:
-			result = "TEXTUREGRAD1DSHADOWF";
+			result = "TextureGrad1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad2DShadowF:
-			result = "TEXTUREGRAD2DSHADOWF";
+			result = "TextureGrad2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DArrayShadowF:
-			result = "TEXTUREGRAD1DARRAYSHADOWF";
+			result = "TextureGrad1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DRectShadowF:
-			result = "TEXTUREGRADOFFSET2DRECTSHADOWF";
+			result = "TextureGradOffset2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DShadowF:
-			result = "TEXTUREGRADOFFSET1DSHADOWF";
+			result = "TextureGradOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DShadowF:
-			result = "TEXTUREGRADOFFSET2DSHADOWF";
+			result = "TextureGradOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
-			result = "TEXTUREGRADOFFSET1DARRAYSHADOWF";
+			result = "TextureGradOffset1DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
-			result = "TEXTUREGRADOFFSET2DARRAYSHADOWF";
+			result = "TextureGradOffset2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DShadowF:
-			result = "TEXTUREPROJGRAD1DSHADOWF";
+			result = "TextureProjGrad1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DShadowF:
-			result = "TEXTUREPROJGRAD2DSHADOWF";
+			result = "TextureProjGrad2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad2DRectShadowF:
-			result = "TEXTUREPROJGRAD2DRECTSHADOWF";
+			result = "TextureProjGrad2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DShadowF:
-			result = "TEXTUREPROJGRADOFFSET1DSHADOWF";
+			result = "TextureProjGradOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-			result = "TEXTUREPROJGRADOFFSET2DSHADOWF";
+			result = "TextureProjGradOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
-			result = "TEXTUREPROJGRADOFFSET2DRECTSHADOWF";
+			result = "TextureProjGradOffset2DRectShadowF";
 			break;
 
 
 	// Texture Gather Functions
 		case CombinedImageAccess::eTextureGather2DF:
-			result = "TEXTUREGATHER2DF";
+			result = "TextureGather2DF";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DArrayF:
-			result = "TEXTUREGATHER2DARRAYF";
+			result = "TextureGather2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeF:
-			result = "TEXTUREGATHERCUBEF";
+			result = "TextureGatherCubeF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeArrayF:
-			result = "TEXTUREGATHERCUBEARRAYF";
+			result = "TextureGatherCubeArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DRectF:
-			result = "TEXTUREGATHER2DRECTF";
+			result = "TextureGather2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DI:
-			result = "TEXTUREGATHER2DI";
+			result = "TextureGather2DI";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DArrayI:
-			result = "TEXTUREGATHER2DARRAYI";
+			result = "TextureGather2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeI:
-			result = "TEXTUREGATHERCUBEI";
+			result = "TextureGatherCubeI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeArrayI:
-			result = "TEXTUREGATHERCUBEARRAYI";
+			result = "TextureGatherCubeArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DRectI:
-			result = "TEXTUREGATHER2DRECTI";
+			result = "TextureGather2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DU:
-			result = "TEXTUREGATHER2DU";
+			result = "TextureGather2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DArrayU:
-			result = "TEXTUREGATHER2DARRAYU";
+			result = "TextureGather2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeU:
-			result = "TEXTUREGATHERCUBEU";
+			result = "TextureGatherCubeU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeArrayU:
-			result = "TEXTUREGATHERCUBEARRAYU";
+			result = "TextureGatherCubeArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DRectU:
-			result = "TEXTUREGATHER2DRECTU";
+			result = "TextureGather2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DF:
-			result = "TEXTUREGATHEROFFSET2DF";
+			result = "TextureGatherOffset2DF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DArrayF:
-			result = "TEXTUREGATHEROFFSET2DARRAYF";
+			result = "TextureGatherOffset2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DRectF:
-			result = "TEXTUREGATHEROFFSET2DRECTF";
+			result = "TextureGatherOffset2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DI:
-			result = "TEXTUREGATHEROFFSET2DI";
+			result = "TextureGatherOffset2DI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DArrayI:
-			result = "TEXTUREGATHEROFFSET2DARRAYI";
+			result = "TextureGatherOffset2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DRectI:
-			result = "TEXTUREGATHEROFFSET2DRECTI";
+			result = "TextureGatherOffset2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DU:
-			result = "TEXTUREGATHEROFFSET2DU";
+			result = "TextureGatherOffset2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DArrayU:
-			result = "TEXTUREGATHEROFFSET2DARRAYU";
+			result = "TextureGatherOffset2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DRectU:
-			result = "TEXTUREGATHEROFFSET2DRECTU";
+			result = "TextureGatherOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DF:
-			result = "TEXTUREGATHEROFFSETS2DF";
+			result = "TextureGatherOffsets2DF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayF:
-			result = "TEXTUREGATHEROFFSETS2DARRAYF";
+			result = "TextureGatherOffsets2DArrayF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DRectF:
-			result = "TEXTUREGATHEROFFSETS2DRECTF";
+			result = "TextureGatherOffsets2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DI:
-			result = "TEXTUREGATHEROFFSETS2DI";
+			result = "TextureGatherOffsets2DI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayI:
-			result = "TEXTUREGATHEROFFSETS2DARRAYI";
+			result = "TextureGatherOffsets2DArrayI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DRectI:
-			result = "TEXTUREGATHEROFFSETS2DRECTI";
+			result = "TextureGatherOffsets2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DU:
-			result = "TEXTUREGATHEROFFSETS2DU";
+			result = "TextureGatherOffsets2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayU:
-			result = "TEXTUREGATHEROFFSETS2DARRAYU";
+			result = "TextureGatherOffsets2DArrayU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DRectU:
-			result = "TEXTUREGATHEROFFSETS2DRECTU";
+			result = "TextureGatherOffsets2DRectU";
 			break;
 
 
 	// Texture Gather Compare Functions
 		case CombinedImageAccess::eTextureGather2DShadowF:
-			result = "TEXTUREGATHER2DSHADOWF";
+			result = "TextureGather2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DArrayShadowF:
-			result = "TEXTUREGATHER2DARRAYSHADOWF";
+			result = "TextureGather2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeShadowF:
-			result = "TEXTUREGATHERCUBESHADOWF";
+			result = "TextureGatherCubeShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-			result = "TEXTUREGATHERCUBEARRAYSHADOWF";
+			result = "TextureGatherCubeArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DRectShadowF:
-			result = "TEXTUREGATHER2DRECTSHADOWF";
+			result = "TextureGather2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DShadowF:
-			result = "TEXTUREGATHEROFFSET2DSHADOWF";
+			result = "TextureGatherOffset2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-			result = "TEXTUREGATHEROFFSET2DARRAYSHADOWF";
+			result = "TextureGatherOffset2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
-			result = "TEXTUREGATHEROFFSET2DRECTSHADOWF";
+			result = "TextureGatherOffset2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DShadowF:
-			result = "TEXTUREGATHEROFFSETS2DSHADOWF";
+			result = "TextureGatherOffsets2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
-			result = "TEXTUREGATHEROFFSETS2DARRAYSHADOWF";
+			result = "TextureGatherOffsets2DArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
-			result = "TEXTUREGATHEROFFSETS2DRECTSHADOWF";
+			result = "TextureGatherOffsets2DRectShadowF";
 			break;
 
 		default:

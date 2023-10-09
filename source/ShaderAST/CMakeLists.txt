@@ -30,28 +30,6 @@ source_group( "Natvis Files"
 	FILES
 		${${PROJECT_NAME}_NATVIS_FILES}
 )
-set( ${PROJECT_NAME}_SOURCE_FILES
-	${${PROJECT_NAME}_SOURCE_FILES}
-	${${PROJECT_NAME}_NATVIS_FILES}
-)
-set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
-	${INCLUDE_DIR}/Debug/DebugCommon.hpp
-	${INCLUDE_DIR}/Debug/DebugExprVisitor.hpp
-	${INCLUDE_DIR}/Debug/DebugStmtVisitor.hpp
-)
-set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
-	${SOURCE_DIR}/Debug/DebugCommon.cpp
-	${SOURCE_DIR}/Debug/DebugExprVisitor.cpp
-	${SOURCE_DIR}/Debug/DebugStmtVisitor.cpp
-)
-source_group( "Header Files\\Debug"
-	FILES
-		${${PROJECT_NAME}_FOLDER_HEADER_FILES}
-)
-source_group( "Source Files\\Debug"
-	FILES
-		${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
-)
 set( ${PROJECT_NAME}_HEADER_FILES
 	${${PROJECT_NAME}_HEADER_FILES}
 	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
@@ -466,6 +444,7 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Visitors/CloneExpr.hpp
 	${INCLUDE_DIR}/Visitors/CloneStmt.hpp
+	${INCLUDE_DIR}/Visitors/DebugDisplayStatements.hpp
 	${INCLUDE_DIR}/Visitors/GetExprName.hpp
 	${INCLUDE_DIR}/Visitors/GetOutermostExpr.hpp
 	${INCLUDE_DIR}/Visitors/SimplifyStatements.hpp
@@ -475,6 +454,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Visitors/CloneExpr.cpp
 	${SOURCE_DIR}/Visitors/CloneStmt.cpp
+	${SOURCE_DIR}/Visitors/DebugDisplayStatements.cpp
 	${SOURCE_DIR}/Visitors/GetExprName.cpp
 	${SOURCE_DIR}/Visitors/GetOutermostExpr.cpp
 	${SOURCE_DIR}/Visitors/SimplifyStatements.cpp

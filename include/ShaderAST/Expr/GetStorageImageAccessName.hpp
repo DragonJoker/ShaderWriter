@@ -21,1234 +21,1234 @@ namespace ast::expr
 		switch ( value )
 		{
 		case StorageImageAccess::eUndefined:
-			result = "UNDEFINED";
+			result = "Undefined";
 			break;
 
 		case StorageImageAccess::eCount:
-			result = "COUNT";
+			result = "Count";
 			break;
 
 		case StorageImageAccess::eInvalid:
-			result = "INVALID";
+			result = "Invalid";
 			break;
 
 	// Image Query Functions
 		case StorageImageAccess::eImageSize1DF:
-			result = "IMAGESIZE1DF";
+			result = "ImageSize1DF";
 			break;
 
 		case StorageImageAccess::eImageSize2DF:
-			result = "IMAGESIZE2DF";
+			result = "ImageSize2DF";
 			break;
 
 		case StorageImageAccess::eImageSize3DF:
-			result = "IMAGESIZE3DF";
+			result = "ImageSize3DF";
 			break;
 
 		case StorageImageAccess::eImageSizeCubeF:
-			result = "IMAGESIZECUBEF";
+			result = "ImageSizeCubeF";
 			break;
 
 		case StorageImageAccess::eImageSizeCubeArrayF:
-			result = "IMAGESIZECUBEARRAYF";
+			result = "ImageSizeCubeArrayF";
 			break;
 
 		case StorageImageAccess::eImageSize2DRectF:
-			result = "IMAGESIZE2DRECTF";
+			result = "ImageSize2DRectF";
 			break;
 
 		case StorageImageAccess::eImageSize1DArrayF:
-			result = "IMAGESIZE1DARRAYF";
+			result = "ImageSize1DArrayF";
 			break;
 
 		case StorageImageAccess::eImageSize2DArrayF:
-			result = "IMAGESIZE2DARRAYF";
+			result = "ImageSize2DArrayF";
 			break;
 
 		case StorageImageAccess::eImageSizeBufferF:
-			result = "IMAGESIZEBUFFERF";
+			result = "ImageSizeBufferF";
 			break;
 
 		case StorageImageAccess::eImageSize2DMSF:
-			result = "IMAGESIZE2DMSF";
+			result = "ImageSize2DMSF";
 			break;
 
 		case StorageImageAccess::eImageSize2DMSArrayF:
-			result = "IMAGESIZE2DMSARRAYF";
+			result = "ImageSize2DMSArrayF";
 			break;
 
 		case StorageImageAccess::eImageSize1DI:
-			result = "IMAGESIZE1DI";
+			result = "ImageSize1DI";
 			break;
 
 		case StorageImageAccess::eImageSize2DI:
-			result = "IMAGESIZE2DI";
+			result = "ImageSize2DI";
 			break;
 
 		case StorageImageAccess::eImageSize3DI:
-			result = "IMAGESIZE3DI";
+			result = "ImageSize3DI";
 			break;
 
 		case StorageImageAccess::eImageSizeCubeI:
-			result = "IMAGESIZECUBEI";
+			result = "ImageSizeCubeI";
 			break;
 
 		case StorageImageAccess::eImageSizeCubeArrayI:
-			result = "IMAGESIZECUBEARRAYI";
+			result = "ImageSizeCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageSize2DRectI:
-			result = "IMAGESIZE2DRECTI";
+			result = "ImageSize2DRectI";
 			break;
 
 		case StorageImageAccess::eImageSize1DArrayI:
-			result = "IMAGESIZE1DARRAYI";
+			result = "ImageSize1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageSize2DArrayI:
-			result = "IMAGESIZE2DARRAYI";
+			result = "ImageSize2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageSizeBufferI:
-			result = "IMAGESIZEBUFFERI";
+			result = "ImageSizeBufferI";
 			break;
 
 		case StorageImageAccess::eImageSize2DMSI:
-			result = "IMAGESIZE2DMSI";
+			result = "ImageSize2DMSI";
 			break;
 
 		case StorageImageAccess::eImageSize2DMSArrayI:
-			result = "IMAGESIZE2DMSARRAYI";
+			result = "ImageSize2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageSize1DU:
-			result = "IMAGESIZE1DU";
+			result = "ImageSize1DU";
 			break;
 
 		case StorageImageAccess::eImageSize2DU:
-			result = "IMAGESIZE2DU";
+			result = "ImageSize2DU";
 			break;
 
 		case StorageImageAccess::eImageSize3DU:
-			result = "IMAGESIZE3DU";
+			result = "ImageSize3DU";
 			break;
 
 		case StorageImageAccess::eImageSizeCubeU:
-			result = "IMAGESIZECUBEU";
+			result = "ImageSizeCubeU";
 			break;
 
 		case StorageImageAccess::eImageSizeCubeArrayU:
-			result = "IMAGESIZECUBEARRAYU";
+			result = "ImageSizeCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageSize2DRectU:
-			result = "IMAGESIZE2DRECTU";
+			result = "ImageSize2DRectU";
 			break;
 
 		case StorageImageAccess::eImageSize1DArrayU:
-			result = "IMAGESIZE1DARRAYU";
+			result = "ImageSize1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageSize2DArrayU:
-			result = "IMAGESIZE2DARRAYU";
+			result = "ImageSize2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageSizeBufferU:
-			result = "IMAGESIZEBUFFERU";
+			result = "ImageSizeBufferU";
 			break;
 
 		case StorageImageAccess::eImageSize2DMSU:
-			result = "IMAGESIZE2DMSU";
+			result = "ImageSize2DMSU";
 			break;
 
 		case StorageImageAccess::eImageSize2DMSArrayU:
-			result = "IMAGESIZE2DMSARRAYU";
+			result = "ImageSize2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageSamples2DMSF:
-			result = "IMAGESAMPLES2DMSF";
+			result = "ImageSamples2DMSF";
 			break;
 
 		case StorageImageAccess::eImageSamples2DMSArrayF:
-			result = "IMAGESAMPLES2DMSARRAYF";
+			result = "ImageSamples2DMSArrayF";
 			break;
 
 		case StorageImageAccess::eImageSamples2DMSI:
-			result = "IMAGESAMPLES2DMSI";
+			result = "ImageSamples2DMSI";
 			break;
 
 		case StorageImageAccess::eImageSamples2DMSArrayI:
-			result = "IMAGESAMPLES2DMSARRAYI";
+			result = "ImageSamples2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageSamples2DMSU:
-			result = "IMAGESAMPLES2DMSU";
+			result = "ImageSamples2DMSU";
 			break;
 
 		case StorageImageAccess::eImageSamples2DMSArrayU:
-			result = "IMAGESAMPLES2DMSARRAYU";
+			result = "ImageSamples2DMSArrayU";
 			break;
 
 
 	// Image texel load
 		case StorageImageAccess::eImageLoad1DF:
-			result = "IMAGELOAD1DF";
+			result = "ImageLoad1DF";
 			break;
 
 		case StorageImageAccess::eImageLoad2DF:
-			result = "IMAGELOAD2DF";
+			result = "ImageLoad2DF";
 			break;
 
 		case StorageImageAccess::eImageLoad3DF:
-			result = "IMAGELOAD3DF";
+			result = "ImageLoad3DF";
 			break;
 
 		case StorageImageAccess::eImageLoad2DRectF:
-			result = "IMAGELOAD2DRECTF";
+			result = "ImageLoad2DRectF";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeF:
-			result = "IMAGELOADCUBEF";
+			result = "ImageLoadCubeF";
 			break;
 
 		case StorageImageAccess::eImageLoadBufferF:
-			result = "IMAGELOADBUFFERF";
+			result = "ImageLoadBufferF";
 			break;
 
 		case StorageImageAccess::eImageLoad1DArrayF:
-			result = "IMAGELOAD1DARRAYF";
+			result = "ImageLoad1DArrayF";
 			break;
 
 		case StorageImageAccess::eImageLoad2DArrayF:
-			result = "IMAGELOAD2DARRAYF";
+			result = "ImageLoad2DArrayF";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeArrayF:
-			result = "IMAGELOADCUBEARRAYF";
+			result = "ImageLoadCubeArrayF";
 			break;
 
 		case StorageImageAccess::eImageLoad2DMSF:
-			result = "IMAGELOAD2DMSF";
+			result = "ImageLoad2DMSF";
 			break;
 
 		case StorageImageAccess::eImageLoad2DMSArrayF:
-			result = "IMAGELOAD2DMSARRAYF";
+			result = "ImageLoad2DMSArrayF";
 			break;
 
 		case StorageImageAccess::eImageLoad1DI:
-			result = "IMAGELOAD1DI";
+			result = "ImageLoad1DI";
 			break;
 
 		case StorageImageAccess::eImageLoad2DI:
-			result = "IMAGELOAD2DI";
+			result = "ImageLoad2DI";
 			break;
 
 		case StorageImageAccess::eImageLoad3DI:
-			result = "IMAGELOAD3DI";
+			result = "ImageLoad3DI";
 			break;
 
 		case StorageImageAccess::eImageLoad2DRectI:
-			result = "IMAGELOAD2DRECTI";
+			result = "ImageLoad2DRectI";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeI:
-			result = "IMAGELOADCUBEI";
+			result = "ImageLoadCubeI";
 			break;
 
 		case StorageImageAccess::eImageLoadBufferI:
-			result = "IMAGELOADBUFFERI";
+			result = "ImageLoadBufferI";
 			break;
 
 		case StorageImageAccess::eImageLoad1DArrayI:
-			result = "IMAGELOAD1DARRAYI";
+			result = "ImageLoad1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageLoad2DArrayI:
-			result = "IMAGELOAD2DARRAYI";
+			result = "ImageLoad2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeArrayI:
-			result = "IMAGELOADCUBEARRAYI";
+			result = "ImageLoadCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageLoad2DMSI:
-			result = "IMAGELOAD2DMSI";
+			result = "ImageLoad2DMSI";
 			break;
 
 		case StorageImageAccess::eImageLoad2DMSArrayI:
-			result = "IMAGELOAD2DMSARRAYI";
+			result = "ImageLoad2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageLoad1DU:
-			result = "IMAGELOAD1DU";
+			result = "ImageLoad1DU";
 			break;
 
 		case StorageImageAccess::eImageLoad2DU:
-			result = "IMAGELOAD2DU";
+			result = "ImageLoad2DU";
 			break;
 
 		case StorageImageAccess::eImageLoad3DU:
-			result = "IMAGELOAD3DU";
+			result = "ImageLoad3DU";
 			break;
 
 		case StorageImageAccess::eImageLoad2DRectU:
-			result = "IMAGELOAD2DRECTU";
+			result = "ImageLoad2DRectU";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeU:
-			result = "IMAGELOADCUBEU";
+			result = "ImageLoadCubeU";
 			break;
 
 		case StorageImageAccess::eImageLoadBufferU:
-			result = "IMAGELOADBUFFERU";
+			result = "ImageLoadBufferU";
 			break;
 
 		case StorageImageAccess::eImageLoad1DArrayU:
-			result = "IMAGELOAD1DARRAYU";
+			result = "ImageLoad1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageLoad2DArrayU:
-			result = "IMAGELOAD2DARRAYU";
+			result = "ImageLoad2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeArrayU:
-			result = "IMAGELOADCUBEARRAYU";
+			result = "ImageLoadCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageLoad2DMSU:
-			result = "IMAGELOAD2DMSU";
+			result = "ImageLoad2DMSU";
 			break;
 
 		case StorageImageAccess::eImageLoad2DMSArrayU:
-			result = "IMAGELOAD2DMSARRAYU";
+			result = "ImageLoad2DMSArrayU";
 			break;
 
 
 	// Image texel store
 		case StorageImageAccess::eImageStore1DF:
-			result = "IMAGESTORE1DF";
+			result = "ImageStore1DF";
 			break;
 
 		case StorageImageAccess::eImageStore2DF:
-			result = "IMAGESTORE2DF";
+			result = "ImageStore2DF";
 			break;
 
 		case StorageImageAccess::eImageStore3DF:
-			result = "IMAGESTORE3DF";
+			result = "ImageStore3DF";
 			break;
 
 		case StorageImageAccess::eImageStore2DRectF:
-			result = "IMAGESTORE2DRECTF";
+			result = "ImageStore2DRectF";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeF:
-			result = "IMAGESTORECUBEF";
+			result = "ImageStoreCubeF";
 			break;
 
 		case StorageImageAccess::eImageStoreBufferF:
-			result = "IMAGESTOREBUFFERF";
+			result = "ImageStoreBufferF";
 			break;
 
 		case StorageImageAccess::eImageStore1DArrayF:
-			result = "IMAGESTORE1DARRAYF";
+			result = "ImageStore1DArrayF";
 			break;
 
 		case StorageImageAccess::eImageStore2DArrayF:
-			result = "IMAGESTORE2DARRAYF";
+			result = "ImageStore2DArrayF";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeArrayF:
-			result = "IMAGESTORECUBEARRAYF";
+			result = "ImageStoreCubeArrayF";
 			break;
 
 		case StorageImageAccess::eImageStore2DMSF:
-			result = "IMAGESTORE2DMSF";
+			result = "ImageStore2DMSF";
 			break;
 
 		case StorageImageAccess::eImageStore2DMSArrayF:
-			result = "IMAGESTORE2DMSARRAYF";
+			result = "ImageStore2DMSArrayF";
 			break;
 
 		case StorageImageAccess::eImageStore1DI:
-			result = "IMAGESTORE1DI";
+			result = "ImageStore1DI";
 			break;
 
 		case StorageImageAccess::eImageStore2DI:
-			result = "IMAGESTORE2DI";
+			result = "ImageStore2DI";
 			break;
 
 		case StorageImageAccess::eImageStore3DI:
-			result = "IMAGESTORE3DI";
+			result = "ImageStore3DI";
 			break;
 
 		case StorageImageAccess::eImageStore2DRectI:
-			result = "IMAGESTORE2DRECTI";
+			result = "ImageStore2DRectI";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeI:
-			result = "IMAGESTORECUBEI";
+			result = "ImageStoreCubeI";
 			break;
 
 		case StorageImageAccess::eImageStoreBufferI:
-			result = "IMAGESTOREBUFFERI";
+			result = "ImageStoreBufferI";
 			break;
 
 		case StorageImageAccess::eImageStore1DArrayI:
-			result = "IMAGESTORE1DARRAYI";
+			result = "ImageStore1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageStore2DArrayI:
-			result = "IMAGESTORE2DARRAYI";
+			result = "ImageStore2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeArrayI:
-			result = "IMAGESTORECUBEARRAYI";
+			result = "ImageStoreCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageStore2DMSI:
-			result = "IMAGESTORE2DMSI";
+			result = "ImageStore2DMSI";
 			break;
 
 		case StorageImageAccess::eImageStore2DMSArrayI:
-			result = "IMAGESTORE2DMSARRAYI";
+			result = "ImageStore2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageStore1DU:
-			result = "IMAGESTORE1DU";
+			result = "ImageStore1DU";
 			break;
 
 		case StorageImageAccess::eImageStore2DU:
-			result = "IMAGESTORE2DU";
+			result = "ImageStore2DU";
 			break;
 
 		case StorageImageAccess::eImageStore3DU:
-			result = "IMAGESTORE3DU";
+			result = "ImageStore3DU";
 			break;
 
 		case StorageImageAccess::eImageStore2DRectU:
-			result = "IMAGESTORE2DRECTU";
+			result = "ImageStore2DRectU";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeU:
-			result = "IMAGESTORECUBEU";
+			result = "ImageStoreCubeU";
 			break;
 
 		case StorageImageAccess::eImageStoreBufferU:
-			result = "IMAGESTOREBUFFERU";
+			result = "ImageStoreBufferU";
 			break;
 
 		case StorageImageAccess::eImageStore1DArrayU:
-			result = "IMAGESTORE1DARRAYU";
+			result = "ImageStore1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageStore2DArrayU:
-			result = "IMAGESTORE2DARRAYU";
+			result = "ImageStore2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeArrayU:
-			result = "IMAGESTORECUBEARRAYU";
+			result = "ImageStoreCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageStore2DMSU:
-			result = "IMAGESTORE2DMSU";
+			result = "ImageStore2DMSU";
 			break;
 
 		case StorageImageAccess::eImageStore2DMSArrayU:
-			result = "IMAGESTORE2DMSARRAYU";
+			result = "ImageStore2DMSArrayU";
 			break;
 
 
 	// Image atomics
 		case StorageImageAccess::eImageAtomicAdd1DU:
-			result = "IMAGEATOMICADD1DU";
+			result = "ImageAtomicAdd1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DU:
-			result = "IMAGEATOMICADD2DU";
+			result = "ImageAtomicAdd2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd3DU:
-			result = "IMAGEATOMICADD3DU";
+			result = "ImageAtomicAdd3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DRectU:
-			result = "IMAGEATOMICADD2DRECTU";
+			result = "ImageAtomicAdd2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeU:
-			result = "IMAGEATOMICADDCUBEU";
+			result = "ImageAtomicAddCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddBufferU:
-			result = "IMAGEATOMICADDBUFFERU";
+			result = "ImageAtomicAddBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd1DArrayU:
-			result = "IMAGEATOMICADD1DARRAYU";
+			result = "ImageAtomicAdd1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DArrayU:
-			result = "IMAGEATOMICADD2DARRAYU";
+			result = "ImageAtomicAdd2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeArrayU:
-			result = "IMAGEATOMICADDCUBEARRAYU";
+			result = "ImageAtomicAddCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DMSU:
-			result = "IMAGEATOMICADD2DMSU";
+			result = "ImageAtomicAdd2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DMSArrayU:
-			result = "IMAGEATOMICADD2DMSARRAYU";
+			result = "ImageAtomicAdd2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd1DI:
-			result = "IMAGEATOMICADD1DI";
+			result = "ImageAtomicAdd1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DI:
-			result = "IMAGEATOMICADD2DI";
+			result = "ImageAtomicAdd2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd3DI:
-			result = "IMAGEATOMICADD3DI";
+			result = "ImageAtomicAdd3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DRectI:
-			result = "IMAGEATOMICADD2DRECTI";
+			result = "ImageAtomicAdd2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeI:
-			result = "IMAGEATOMICADDCUBEI";
+			result = "ImageAtomicAddCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddBufferI:
-			result = "IMAGEATOMICADDBUFFERI";
+			result = "ImageAtomicAddBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd1DArrayI:
-			result = "IMAGEATOMICADD1DARRAYI";
+			result = "ImageAtomicAdd1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DArrayI:
-			result = "IMAGEATOMICADD2DARRAYI";
+			result = "ImageAtomicAdd2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeArrayI:
-			result = "IMAGEATOMICADDCUBEARRAYI";
+			result = "ImageAtomicAddCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DMSI:
-			result = "IMAGEATOMICADD2DMSI";
+			result = "ImageAtomicAdd2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DMSArrayI:
-			result = "IMAGEATOMICADD2DMSARRAYI";
+			result = "ImageAtomicAdd2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd1DF:
-			result = "IMAGEATOMICADD1DF";
+			result = "ImageAtomicAdd1DF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DF:
-			result = "IMAGEATOMICADD2DF";
+			result = "ImageAtomicAdd2DF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd3DF:
-			result = "IMAGEATOMICADD3DF";
+			result = "ImageAtomicAdd3DF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DRectF:
-			result = "IMAGEATOMICADD2DRECTF";
+			result = "ImageAtomicAdd2DRectF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeF:
-			result = "IMAGEATOMICADDCUBEF";
+			result = "ImageAtomicAddCubeF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddBufferF:
-			result = "IMAGEATOMICADDBUFFERF";
+			result = "ImageAtomicAddBufferF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd1DArrayF:
-			result = "IMAGEATOMICADD1DARRAYF";
+			result = "ImageAtomicAdd1DArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DArrayF:
-			result = "IMAGEATOMICADD2DARRAYF";
+			result = "ImageAtomicAdd2DArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeArrayF:
-			result = "IMAGEATOMICADDCUBEARRAYF";
+			result = "ImageAtomicAddCubeArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DMSF:
-			result = "IMAGEATOMICADD2DMSF";
+			result = "ImageAtomicAdd2DMSF";
 			break;
 
 		case StorageImageAccess::eImageAtomicAdd2DMSArrayF:
-			result = "IMAGEATOMICADD2DMSARRAYF";
+			result = "ImageAtomicAdd2DMSArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin1DU:
-			result = "IMAGEATOMICMIN1DU";
+			result = "ImageAtomicMin1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DU:
-			result = "IMAGEATOMICMIN2DU";
+			result = "ImageAtomicMin2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin3DU:
-			result = "IMAGEATOMICMIN3DU";
+			result = "ImageAtomicMin3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DRectU:
-			result = "IMAGEATOMICMIN2DRECTU";
+			result = "ImageAtomicMin2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinCubeU:
-			result = "IMAGEATOMICMINCUBEU";
+			result = "ImageAtomicMinCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinBufferU:
-			result = "IMAGEATOMICMINBUFFERU";
+			result = "ImageAtomicMinBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin1DArrayU:
-			result = "IMAGEATOMICMIN1DARRAYU";
+			result = "ImageAtomicMin1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DArrayU:
-			result = "IMAGEATOMICMIN2DARRAYU";
+			result = "ImageAtomicMin2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinCubeArrayU:
-			result = "IMAGEATOMICMINCUBEARRAYU";
+			result = "ImageAtomicMinCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DMSU:
-			result = "IMAGEATOMICMIN2DMSU";
+			result = "ImageAtomicMin2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DMSArrayU:
-			result = "IMAGEATOMICMIN2DMSARRAYU";
+			result = "ImageAtomicMin2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin1DI:
-			result = "IMAGEATOMICMIN1DI";
+			result = "ImageAtomicMin1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DI:
-			result = "IMAGEATOMICMIN2DI";
+			result = "ImageAtomicMin2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin3DI:
-			result = "IMAGEATOMICMIN3DI";
+			result = "ImageAtomicMin3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DRectI:
-			result = "IMAGEATOMICMIN2DRECTI";
+			result = "ImageAtomicMin2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinCubeI:
-			result = "IMAGEATOMICMINCUBEI";
+			result = "ImageAtomicMinCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinBufferI:
-			result = "IMAGEATOMICMINBUFFERI";
+			result = "ImageAtomicMinBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin1DArrayI:
-			result = "IMAGEATOMICMIN1DARRAYI";
+			result = "ImageAtomicMin1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DArrayI:
-			result = "IMAGEATOMICMIN2DARRAYI";
+			result = "ImageAtomicMin2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinCubeArrayI:
-			result = "IMAGEATOMICMINCUBEARRAYI";
+			result = "ImageAtomicMinCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DMSI:
-			result = "IMAGEATOMICMIN2DMSI";
+			result = "ImageAtomicMin2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMin2DMSArrayI:
-			result = "IMAGEATOMICMIN2DMSARRAYI";
+			result = "ImageAtomicMin2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax1DU:
-			result = "IMAGEATOMICMAX1DU";
+			result = "ImageAtomicMax1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DU:
-			result = "IMAGEATOMICMAX2DU";
+			result = "ImageAtomicMax2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax3DU:
-			result = "IMAGEATOMICMAX3DU";
+			result = "ImageAtomicMax3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DRectU:
-			result = "IMAGEATOMICMAX2DRECTU";
+			result = "ImageAtomicMax2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxCubeU:
-			result = "IMAGEATOMICMAXCUBEU";
+			result = "ImageAtomicMaxCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxBufferU:
-			result = "IMAGEATOMICMAXBUFFERU";
+			result = "ImageAtomicMaxBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax1DArrayU:
-			result = "IMAGEATOMICMAX1DARRAYU";
+			result = "ImageAtomicMax1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DArrayU:
-			result = "IMAGEATOMICMAX2DARRAYU";
+			result = "ImageAtomicMax2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxCubeArrayU:
-			result = "IMAGEATOMICMAXCUBEARRAYU";
+			result = "ImageAtomicMaxCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DMSU:
-			result = "IMAGEATOMICMAX2DMSU";
+			result = "ImageAtomicMax2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DMSArrayU:
-			result = "IMAGEATOMICMAX2DMSARRAYU";
+			result = "ImageAtomicMax2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax1DI:
-			result = "IMAGEATOMICMAX1DI";
+			result = "ImageAtomicMax1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DI:
-			result = "IMAGEATOMICMAX2DI";
+			result = "ImageAtomicMax2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax3DI:
-			result = "IMAGEATOMICMAX3DI";
+			result = "ImageAtomicMax3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DRectI:
-			result = "IMAGEATOMICMAX2DRECTI";
+			result = "ImageAtomicMax2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxCubeI:
-			result = "IMAGEATOMICMAXCUBEI";
+			result = "ImageAtomicMaxCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxBufferI:
-			result = "IMAGEATOMICMAXBUFFERI";
+			result = "ImageAtomicMaxBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax1DArrayI:
-			result = "IMAGEATOMICMAX1DARRAYI";
+			result = "ImageAtomicMax1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DArrayI:
-			result = "IMAGEATOMICMAX2DARRAYI";
+			result = "ImageAtomicMax2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxCubeArrayI:
-			result = "IMAGEATOMICMAXCUBEARRAYI";
+			result = "ImageAtomicMaxCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DMSI:
-			result = "IMAGEATOMICMAX2DMSI";
+			result = "ImageAtomicMax2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicMax2DMSArrayI:
-			result = "IMAGEATOMICMAX2DMSARRAYI";
+			result = "ImageAtomicMax2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd1DU:
-			result = "IMAGEATOMICAND1DU";
+			result = "ImageAtomicAnd1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DU:
-			result = "IMAGEATOMICAND2DU";
+			result = "ImageAtomicAnd2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd3DU:
-			result = "IMAGEATOMICAND3DU";
+			result = "ImageAtomicAnd3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DRectU:
-			result = "IMAGEATOMICAND2DRECTU";
+			result = "ImageAtomicAnd2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndCubeU:
-			result = "IMAGEATOMICANDCUBEU";
+			result = "ImageAtomicAndCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndBufferU:
-			result = "IMAGEATOMICANDBUFFERU";
+			result = "ImageAtomicAndBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd1DArrayU:
-			result = "IMAGEATOMICAND1DARRAYU";
+			result = "ImageAtomicAnd1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DArrayU:
-			result = "IMAGEATOMICAND2DARRAYU";
+			result = "ImageAtomicAnd2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndCubeArrayU:
-			result = "IMAGEATOMICANDCUBEARRAYU";
+			result = "ImageAtomicAndCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DMSU:
-			result = "IMAGEATOMICAND2DMSU";
+			result = "ImageAtomicAnd2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DMSArrayU:
-			result = "IMAGEATOMICAND2DMSARRAYU";
+			result = "ImageAtomicAnd2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd1DI:
-			result = "IMAGEATOMICAND1DI";
+			result = "ImageAtomicAnd1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DI:
-			result = "IMAGEATOMICAND2DI";
+			result = "ImageAtomicAnd2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd3DI:
-			result = "IMAGEATOMICAND3DI";
+			result = "ImageAtomicAnd3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DRectI:
-			result = "IMAGEATOMICAND2DRECTI";
+			result = "ImageAtomicAnd2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndCubeI:
-			result = "IMAGEATOMICANDCUBEI";
+			result = "ImageAtomicAndCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndBufferI:
-			result = "IMAGEATOMICANDBUFFERI";
+			result = "ImageAtomicAndBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd1DArrayI:
-			result = "IMAGEATOMICAND1DARRAYI";
+			result = "ImageAtomicAnd1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DArrayI:
-			result = "IMAGEATOMICAND2DARRAYI";
+			result = "ImageAtomicAnd2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndCubeArrayI:
-			result = "IMAGEATOMICANDCUBEARRAYI";
+			result = "ImageAtomicAndCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DMSI:
-			result = "IMAGEATOMICAND2DMSI";
+			result = "ImageAtomicAnd2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAnd2DMSArrayI:
-			result = "IMAGEATOMICAND2DMSARRAYI";
+			result = "ImageAtomicAnd2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr1DU:
-			result = "IMAGEATOMICOR1DU";
+			result = "ImageAtomicOr1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DU:
-			result = "IMAGEATOMICOR2DU";
+			result = "ImageAtomicOr2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr3DU:
-			result = "IMAGEATOMICOR3DU";
+			result = "ImageAtomicOr3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DRectU:
-			result = "IMAGEATOMICOR2DRECTU";
+			result = "ImageAtomicOr2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrCubeU:
-			result = "IMAGEATOMICORCUBEU";
+			result = "ImageAtomicOrCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrBufferU:
-			result = "IMAGEATOMICORBUFFERU";
+			result = "ImageAtomicOrBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr1DArrayU:
-			result = "IMAGEATOMICOR1DARRAYU";
+			result = "ImageAtomicOr1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DArrayU:
-			result = "IMAGEATOMICOR2DARRAYU";
+			result = "ImageAtomicOr2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrCubeArrayU:
-			result = "IMAGEATOMICORCUBEARRAYU";
+			result = "ImageAtomicOrCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DMSU:
-			result = "IMAGEATOMICOR2DMSU";
+			result = "ImageAtomicOr2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DMSArrayU:
-			result = "IMAGEATOMICOR2DMSARRAYU";
+			result = "ImageAtomicOr2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr1DI:
-			result = "IMAGEATOMICOR1DI";
+			result = "ImageAtomicOr1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DI:
-			result = "IMAGEATOMICOR2DI";
+			result = "ImageAtomicOr2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr3DI:
-			result = "IMAGEATOMICOR3DI";
+			result = "ImageAtomicOr3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DRectI:
-			result = "IMAGEATOMICOR2DRECTI";
+			result = "ImageAtomicOr2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrCubeI:
-			result = "IMAGEATOMICORCUBEI";
+			result = "ImageAtomicOrCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrBufferI:
-			result = "IMAGEATOMICORBUFFERI";
+			result = "ImageAtomicOrBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr1DArrayI:
-			result = "IMAGEATOMICOR1DARRAYI";
+			result = "ImageAtomicOr1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DArrayI:
-			result = "IMAGEATOMICOR2DARRAYI";
+			result = "ImageAtomicOr2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrCubeArrayI:
-			result = "IMAGEATOMICORCUBEARRAYI";
+			result = "ImageAtomicOrCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DMSI:
-			result = "IMAGEATOMICOR2DMSI";
+			result = "ImageAtomicOr2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicOr2DMSArrayI:
-			result = "IMAGEATOMICOR2DMSARRAYI";
+			result = "ImageAtomicOr2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor1DU:
-			result = "IMAGEATOMICXOR1DU";
+			result = "ImageAtomicXor1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DU:
-			result = "IMAGEATOMICXOR2DU";
+			result = "ImageAtomicXor2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor3DU:
-			result = "IMAGEATOMICXOR3DU";
+			result = "ImageAtomicXor3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DRectU:
-			result = "IMAGEATOMICXOR2DRECTU";
+			result = "ImageAtomicXor2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorCubeU:
-			result = "IMAGEATOMICXORCUBEU";
+			result = "ImageAtomicXorCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorBufferU:
-			result = "IMAGEATOMICXORBUFFERU";
+			result = "ImageAtomicXorBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor1DArrayU:
-			result = "IMAGEATOMICXOR1DARRAYU";
+			result = "ImageAtomicXor1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DArrayU:
-			result = "IMAGEATOMICXOR2DARRAYU";
+			result = "ImageAtomicXor2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorCubeArrayU:
-			result = "IMAGEATOMICXORCUBEARRAYU";
+			result = "ImageAtomicXorCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DMSU:
-			result = "IMAGEATOMICXOR2DMSU";
+			result = "ImageAtomicXor2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DMSArrayU:
-			result = "IMAGEATOMICXOR2DMSARRAYU";
+			result = "ImageAtomicXor2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor1DI:
-			result = "IMAGEATOMICXOR1DI";
+			result = "ImageAtomicXor1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DI:
-			result = "IMAGEATOMICXOR2DI";
+			result = "ImageAtomicXor2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor3DI:
-			result = "IMAGEATOMICXOR3DI";
+			result = "ImageAtomicXor3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DRectI:
-			result = "IMAGEATOMICXOR2DRECTI";
+			result = "ImageAtomicXor2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorCubeI:
-			result = "IMAGEATOMICXORCUBEI";
+			result = "ImageAtomicXorCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorBufferI:
-			result = "IMAGEATOMICXORBUFFERI";
+			result = "ImageAtomicXorBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor1DArrayI:
-			result = "IMAGEATOMICXOR1DARRAYI";
+			result = "ImageAtomicXor1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DArrayI:
-			result = "IMAGEATOMICXOR2DARRAYI";
+			result = "ImageAtomicXor2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorCubeArrayI:
-			result = "IMAGEATOMICXORCUBEARRAYI";
+			result = "ImageAtomicXorCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DMSI:
-			result = "IMAGEATOMICXOR2DMSI";
+			result = "ImageAtomicXor2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicXor2DMSArrayI:
-			result = "IMAGEATOMICXOR2DMSARRAYI";
+			result = "ImageAtomicXor2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange1DU:
-			result = "IMAGEATOMICEXCHANGE1DU";
+			result = "ImageAtomicExchange1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DU:
-			result = "IMAGEATOMICEXCHANGE2DU";
+			result = "ImageAtomicExchange2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange3DU:
-			result = "IMAGEATOMICEXCHANGE3DU";
+			result = "ImageAtomicExchange3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DRectU:
-			result = "IMAGEATOMICEXCHANGE2DRECTU";
+			result = "ImageAtomicExchange2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeU:
-			result = "IMAGEATOMICEXCHANGECUBEU";
+			result = "ImageAtomicExchangeCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeBufferU:
-			result = "IMAGEATOMICEXCHANGEBUFFERU";
+			result = "ImageAtomicExchangeBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange1DArrayU:
-			result = "IMAGEATOMICEXCHANGE1DARRAYU";
+			result = "ImageAtomicExchange1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DArrayU:
-			result = "IMAGEATOMICEXCHANGE2DARRAYU";
+			result = "ImageAtomicExchange2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeArrayU:
-			result = "IMAGEATOMICEXCHANGECUBEARRAYU";
+			result = "ImageAtomicExchangeCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DMSU:
-			result = "IMAGEATOMICEXCHANGE2DMSU";
+			result = "ImageAtomicExchange2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DMSArrayU:
-			result = "IMAGEATOMICEXCHANGE2DMSARRAYU";
+			result = "ImageAtomicExchange2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange1DI:
-			result = "IMAGEATOMICEXCHANGE1DI";
+			result = "ImageAtomicExchange1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DI:
-			result = "IMAGEATOMICEXCHANGE2DI";
+			result = "ImageAtomicExchange2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange3DI:
-			result = "IMAGEATOMICEXCHANGE3DI";
+			result = "ImageAtomicExchange3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DRectI:
-			result = "IMAGEATOMICEXCHANGE2DRECTI";
+			result = "ImageAtomicExchange2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeI:
-			result = "IMAGEATOMICEXCHANGECUBEI";
+			result = "ImageAtomicExchangeCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeBufferI:
-			result = "IMAGEATOMICEXCHANGEBUFFERI";
+			result = "ImageAtomicExchangeBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange1DArrayI:
-			result = "IMAGEATOMICEXCHANGE1DARRAYI";
+			result = "ImageAtomicExchange1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DArrayI:
-			result = "IMAGEATOMICEXCHANGE2DARRAYI";
+			result = "ImageAtomicExchange2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeArrayI:
-			result = "IMAGEATOMICEXCHANGECUBEARRAYI";
+			result = "ImageAtomicExchangeCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DMSI:
-			result = "IMAGEATOMICEXCHANGE2DMSI";
+			result = "ImageAtomicExchange2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DMSArrayI:
-			result = "IMAGEATOMICEXCHANGE2DMSARRAYI";
+			result = "ImageAtomicExchange2DMSArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange1DF:
-			result = "IMAGEATOMICEXCHANGE1DF";
+			result = "ImageAtomicExchange1DF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DF:
-			result = "IMAGEATOMICEXCHANGE2DF";
+			result = "ImageAtomicExchange2DF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange3DF:
-			result = "IMAGEATOMICEXCHANGE3DF";
+			result = "ImageAtomicExchange3DF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DRectF:
-			result = "IMAGEATOMICEXCHANGE2DRECTF";
+			result = "ImageAtomicExchange2DRectF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeF:
-			result = "IMAGEATOMICEXCHANGECUBEF";
+			result = "ImageAtomicExchangeCubeF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeBufferF:
-			result = "IMAGEATOMICEXCHANGEBUFFERF";
+			result = "ImageAtomicExchangeBufferF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange1DArrayF:
-			result = "IMAGEATOMICEXCHANGE1DARRAYF";
+			result = "ImageAtomicExchange1DArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DArrayF:
-			result = "IMAGEATOMICEXCHANGE2DARRAYF";
+			result = "ImageAtomicExchange2DArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeArrayF:
-			result = "IMAGEATOMICEXCHANGECUBEARRAYF";
+			result = "ImageAtomicExchangeCubeArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DMSF:
-			result = "IMAGEATOMICEXCHANGE2DMSF";
+			result = "ImageAtomicExchange2DMSF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchange2DMSArrayF:
-			result = "IMAGEATOMICEXCHANGE2DMSARRAYF";
+			result = "ImageAtomicExchange2DMSArrayF";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap1DU:
-			result = "IMAGEATOMICCOMPSWAP1DU";
+			result = "ImageAtomicCompSwap1DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DU:
-			result = "IMAGEATOMICCOMPSWAP2DU";
+			result = "ImageAtomicCompSwap2DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap3DU:
-			result = "IMAGEATOMICCOMPSWAP3DU";
+			result = "ImageAtomicCompSwap3DU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DRectU:
-			result = "IMAGEATOMICCOMPSWAP2DRECTU";
+			result = "ImageAtomicCompSwap2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapCubeU:
-			result = "IMAGEATOMICCOMPSWAPCUBEU";
+			result = "ImageAtomicCompSwapCubeU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapBufferU:
-			result = "IMAGEATOMICCOMPSWAPBUFFERU";
+			result = "ImageAtomicCompSwapBufferU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap1DArrayU:
-			result = "IMAGEATOMICCOMPSWAP1DARRAYU";
+			result = "ImageAtomicCompSwap1DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DArrayU:
-			result = "IMAGEATOMICCOMPSWAP2DARRAYU";
+			result = "ImageAtomicCompSwap2DArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapCubeArrayU:
-			result = "IMAGEATOMICCOMPSWAPCUBEARRAYU";
+			result = "ImageAtomicCompSwapCubeArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DMSU:
-			result = "IMAGEATOMICCOMPSWAP2DMSU";
+			result = "ImageAtomicCompSwap2DMSU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DMSArrayU:
-			result = "IMAGEATOMICCOMPSWAP2DMSARRAYU";
+			result = "ImageAtomicCompSwap2DMSArrayU";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap1DI:
-			result = "IMAGEATOMICCOMPSWAP1DI";
+			result = "ImageAtomicCompSwap1DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DI:
-			result = "IMAGEATOMICCOMPSWAP2DI";
+			result = "ImageAtomicCompSwap2DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap3DI:
-			result = "IMAGEATOMICCOMPSWAP3DI";
+			result = "ImageAtomicCompSwap3DI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DRectI:
-			result = "IMAGEATOMICCOMPSWAP2DRECTI";
+			result = "ImageAtomicCompSwap2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapCubeI:
-			result = "IMAGEATOMICCOMPSWAPCUBEI";
+			result = "ImageAtomicCompSwapCubeI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapBufferI:
-			result = "IMAGEATOMICCOMPSWAPBUFFERI";
+			result = "ImageAtomicCompSwapBufferI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap1DArrayI:
-			result = "IMAGEATOMICCOMPSWAP1DARRAYI";
+			result = "ImageAtomicCompSwap1DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DArrayI:
-			result = "IMAGEATOMICCOMPSWAP2DARRAYI";
+			result = "ImageAtomicCompSwap2DArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapCubeArrayI:
-			result = "IMAGEATOMICCOMPSWAPCUBEARRAYI";
+			result = "ImageAtomicCompSwapCubeArrayI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DMSI:
-			result = "IMAGEATOMICCOMPSWAP2DMSI";
+			result = "ImageAtomicCompSwap2DMSI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwap2DMSArrayI:
-			result = "IMAGEATOMICCOMPSWAP2DMSARRAYI";
+			result = "ImageAtomicCompSwap2DMSArrayI";
 			break;
 
 		default:

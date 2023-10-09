@@ -115,7 +115,8 @@ namespace hlsl
 			, compileExprCache
 			, shader.getTypesCache()
 			, shader.getStatements()
-			, ssaData );
+			, ssaData
+			, false );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()

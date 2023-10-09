@@ -171,7 +171,8 @@ namespace glsl
 			, compileExprCache
 			, shader.getTypesCache()
 			, shader.getStatements()
-			, ssaData );
+			, ssaData
+			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
@@ -195,7 +196,6 @@ namespace glsl
 			, shader.getTypesCache()
 			, statements.get()
 			, specialisation );
-		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return glsl::generateGlslStatements( config, aliases, statements.get() ).source;
+		return glsl::generateGlslStatements( config, statements.get() ).source;
 	}
 }

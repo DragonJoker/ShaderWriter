@@ -19,7 +19,8 @@ namespace ast
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * container
-		, SSAData & ssaData );
+		, SSAData & ssaData
+		, bool normaliseStructs );
 }
 
 #endif

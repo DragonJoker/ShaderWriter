@@ -11,11 +11,11 @@ namespace
 	template< typename T >
 	void testShaderInput( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderInput" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_0";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_0";
 			auto value = writer.declInput< T >( name, 0u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -31,7 +31,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_1";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_1";
 			auto value = writer.declInputArray< T >( name, 1u, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -77,7 +77,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_0_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_0_opt";
 			auto value = writer.declInput< T >( name, 0u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -94,7 +94,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "InputValue_1_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_1_opt";
 			auto value = writer.declInputArray< T >( name, 1u, 6u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );

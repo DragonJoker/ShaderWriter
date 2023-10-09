@@ -831,11 +831,16 @@ namespace test
 								extensions.emplace( spirv::KHR_shader_ballot );
 							}
 
+							if ( config.specVersion >= spirv::v1_0 )
+							{
+								extensions.emplace( spirv::KHR_non_semantic_info );
+							}
+
 							config.availableExtensions = &extensions;
 						}
 
 						config.allocator = &testCounts.allocator;
-						auto module = spirv::compileSpirV( shader, config );
+						auto module = spirv::compileSpirV( *testCounts.allocatorBlock, shader, config );
 						auto textSpirv = spirv::writeModule( *module );
 
 						if ( textSpirv.empty() )

@@ -62,7 +62,7 @@ namespace
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSizeLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureSizeLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -97,7 +97,7 @@ namespace
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSize" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureSize" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -154,7 +154,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureQueryLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -215,7 +215,7 @@ namespace
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLevels" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureQueryLevels" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -278,7 +278,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexture" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTexture" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -315,7 +315,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureShadow" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -379,7 +379,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -420,7 +420,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureShadowBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -481,7 +481,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProj" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProj" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -520,7 +520,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjShadow" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -580,7 +580,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -619,7 +619,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjShadowBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -684,7 +684,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -724,7 +724,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureLodShadow" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -788,7 +788,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -831,7 +831,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -895,7 +895,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -936,7 +936,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1000,7 +1000,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTexelFetchLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1038,7 +1038,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetch" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTexelFetch" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1100,7 +1100,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchConstOffsetLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTexelFetchConstOffsetLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1162,7 +1162,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1203,7 +1203,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffsetShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1265,7 +1265,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffsetBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1306,7 +1306,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffsetShadowBias" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1371,7 +1371,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureLodConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1413,7 +1413,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadowConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureLodShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1475,7 +1475,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1514,7 +1514,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLod" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjShadowLod" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1576,7 +1576,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLodConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjLodConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1617,7 +1617,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLodConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjShadowLodConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1684,7 +1684,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGrad" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1727,7 +1727,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureShadowGrad" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1793,7 +1793,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGradConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1839,7 +1839,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1903,7 +1903,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjGrad" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -1945,7 +1945,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGrad" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjShadowGrad" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2009,7 +2009,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjGradConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2053,7 +2053,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGradConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureProjShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2117,7 +2117,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGather" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGather" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2159,7 +2159,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadow" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherShadow" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2219,7 +2219,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2261,7 +2261,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowConstOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2315,7 +2315,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2358,7 +2358,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowOffset" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherShadowOffset" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2420,7 +2420,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffsets" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherOffsets" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -2464,7 +2464,7 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 			testBegin( name );
 			using namespace sdw;
 			{

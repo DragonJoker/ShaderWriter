@@ -10,11 +10,11 @@ namespace
 	template< typename T >
 	void testShaderOutputBase( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputBase" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_0";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_0";
 			auto value = writer.declOutput< T >( name, 0u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -33,11 +33,11 @@ namespace
 	template< typename T >
 	void testShaderOutputArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_1";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_1";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -56,7 +56,7 @@ namespace
 	template< typename T >
 	void testShaderOutputOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -78,7 +78,7 @@ namespace
 	template< typename T >
 	void testShaderOutputArrayOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -100,11 +100,11 @@ namespace
 	template< typename T >
 	void testShaderOutputOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputOptionalEnabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_0_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_0_opt";
 			auto value = writer.declOutput< T >( name, 0u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -124,11 +124,11 @@ namespace
 	template< typename T >
 	void testShaderOutputArrayOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutput" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "OutputValue_1_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_1_opt";
 			auto value = writer.declOutputArray< T >( name, 1u, 6u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -148,11 +148,11 @@ namespace
 	template< typename T >
 	void testShaderBlendOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderBlendOutput" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "BlendOutputValue_0";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "BlendOutputValue_0";
 			auto value = writer.declBlendOutput< T >( name, 0u, 1u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -173,11 +173,11 @@ namespace
 	template< typename T >
 	void testShaderStreamOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderStreamOutput" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "StreamOutputValue_0";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "StreamOutputValue_0";
 			auto value = writer.declStreamOutput< T >( name, 0u, 1u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );

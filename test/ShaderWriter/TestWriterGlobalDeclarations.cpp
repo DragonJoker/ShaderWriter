@@ -6,11 +6,11 @@ namespace
 	template< typename T >
 	void testGlobal( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGlobal" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testGlobal" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValue";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValue";
 			auto value = writer.declGlobal< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -23,7 +23,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueAssigned";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueAssigned";
 			auto value = writer.declGlobal< T >( name, test::getDefault< T >( writer ) );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -36,7 +36,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueAssignedInMain";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueAssignedInMain";
 			auto value = writer.declGlobal< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -57,7 +57,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueArray12";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray12";
 			auto value = writer.declGlobalArray< T >( name, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 6u );
@@ -70,7 +70,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueArray3";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray3";
 			auto value = writer.declGlobalArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ) );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 3u );
@@ -83,7 +83,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueArray3AssignedInMain";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray3AssignedInMain";
 			auto value = writer.declGlobalArray< T >( name, 3u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 3u );
@@ -184,7 +184,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValue_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValue_opt";
 			auto value = writer.declGlobal< T >( name, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -198,7 +198,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueArray12_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray12_opt";
 			auto value = writer.declGlobalArray< T >( name, 6u, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -212,7 +212,7 @@ namespace
 		{
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "GlobalValueArray3_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray3_opt";
 			auto value = writer.declGlobalArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ), true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );

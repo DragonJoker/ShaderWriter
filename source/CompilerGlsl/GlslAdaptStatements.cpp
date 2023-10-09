@@ -117,9 +117,10 @@ namespace glsl
 				if ( ires.second )
 				{
 					ires.first->second = exprCache.makeIdentifier( typesCache
-						, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
+						, ast::var::makeBuiltin( ++nextVarId
+							, builtin
 							, type
-							, flags | ast::var::Flag::eBuiltin ) );
+							, flags ) );
 				}
 
 				auto it = ires.first;
@@ -139,9 +140,10 @@ namespace glsl
 				if ( ires.second )
 				{
 					ires.first->second = exprCache.makeIdentifier( typesCache
-						, ast::var::makeVariable( { ++nextVarId, "gl_" + getName( builtin ) }
+						, ast::var::makeBuiltin( ++nextVarId
+							, builtin
 							, type
-							, flags | ast::var::Flag::eBuiltin ) );
+							, flags ) );
 				}
 
 				auto it = ires.first;
@@ -801,10 +803,10 @@ namespace glsl
 					// previous to last is numVertices, which is ignored
 					args.pop_back();
 					auto type = numPrimitives->getType();
-					auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					auto var = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+						, ast::Builtin::ePrimitiveCountNV
 						, type
-						, "gl_" + getName( ast::Builtin::ePrimitiveCountNV )
-						, ast::var::Flag::eBuiltin | ast::var::Flag::eShaderOutput );
+						, ast::var::Flag::eShaderOutput );
 					m_result = m_exprCache.makeAssign( type
 						, m_exprCache.makeIdentifier( m_typesCache, var )
 						, std::move( numPrimitives ) );
@@ -821,10 +823,10 @@ namespace glsl
 					auto numTasks = std::move( args.back() );
 					args.pop_back();
 					auto type = numTasks->getType();
-					auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					auto var = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+						, ast::Builtin::eTaskCountNV
 						, type
-						, "gl_" + getName( ast::Builtin::eTaskCountNV )
-						, ast::var::Flag::eBuiltin | ast::var::Flag::eShaderOutput );
+						, ast::var::Flag::eShaderOutput );
 					m_result = m_exprCache.makeAssign( type
 						, m_exprCache.makeIdentifier( m_typesCache, var )
 						, std::move( numTasks ) );
@@ -1228,7 +1230,8 @@ namespace glsl
 							, it->second.end()
 							, [&mbr]( ast::var::VariablePtr const & lookup )
 							{
-								return lookup->getName() == mbr.name
+								return ( mbr.builtin != ast::Builtin::eNone && mbr.builtin == lookup->getBuiltin() )
+									|| lookup->getName() == mbr.name
 									|| lookup->getName() == "gl_" + mbr.name;
 							} );
 						assert( mbrIt != it->second.end() );
@@ -1882,10 +1885,10 @@ namespace glsl
 
 							if ( it == typeIt->second.end() )
 							{
-								auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
-								, mbr.type
-									, ( outBuiltinsType->getFlag()
-										| ast::var::Flag::eBuiltin ) );
+								auto mbrVar = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+									, mbr.builtin
+									, mbr.type
+									, outBuiltinsType->getFlag() );
 								typeIt->second.emplace_back( mbrVar );
 							}
 						}
@@ -1958,10 +1961,10 @@ namespace glsl
 
 							if ( it == typeIt->second.end() )
 							{
-								auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
-								, mbr.type
-									, ( outBuiltinsType->getFlag()
-										| ast::var::Flag::eBuiltin ) );
+								auto mbrVar = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+									, mbr.builtin
+									, mbr.type
+									, outBuiltinsType->getFlag() );
 								typeIt->second.emplace_back( mbrVar );
 							}
 						}
@@ -2249,11 +2252,18 @@ namespace glsl
 								mbrFlags = mbrFlags | ast::var::Flag::eFlat;
 							}
 
-							auto mbrVar = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
-							, ( arraySize == ast::type::NotArray
-								? mbrType
-								: m_typesCache.getArray( mbrType, arraySize ) )
-								, mbrFlags );
+							auto mbrVar = ( ( mbr.builtin != ast::Builtin::eNone )
+								? ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+									, mbr.builtin
+									, ( arraySize == ast::type::NotArray
+										? mbrType
+										: m_typesCache.getArray( mbrType, arraySize ) )
+										, mbrFlags )
+								: ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
+									, ( arraySize == ast::type::NotArray
+										? mbrType
+										: m_typesCache.getArray( mbrType, arraySize ) )
+										, mbrFlags ) );
 							typeIt->second.emplace_back( mbrVar );
 
 							if ( declVar && mbr.builtin == ast::Builtin::eNone )

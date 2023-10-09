@@ -1,7 +1,7 @@
 #include "Common.hpp"
 
-#include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Var/Variable.hpp>
+#include <ShaderAST/Visitors/DebugDisplayStatements.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
@@ -11,7 +11,7 @@ namespace
 	std::string printVariable( ast::var::Variable const & var )
 	{
 		std::string result;
-		result += ast::debug::getName( var.getType() ) + " " + var.getName();
+		result += ast::debug::getTypeName( var.getType() ) + " " + var.getName();
 		return result;
 	}
 
