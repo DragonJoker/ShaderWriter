@@ -6,11 +6,11 @@ namespace
 	template< typename T >
 	void testSpecConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSpecConstant" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testSpecConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "SpecConstantValue_0";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "SpecConstantValue_0";
 			auto value = writer.declSpecConstant( name, 0u, T{} );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -49,7 +49,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "SpecConstantValue_2_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "SpecConstantValue_2_opt";
 			auto value = writer.declSpecConstant( name, 2u, T{}, true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );

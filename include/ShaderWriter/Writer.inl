@@ -5,9 +5,9 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/CompositeTypes/Struct.hpp"
 
-#include <ShaderAST/Debug/DebugCommon.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
+#include <ShaderAST/Visitors/DebugDisplayStatements.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <algorithm>
@@ -2347,7 +2347,7 @@ namespace sdw
 				assert( false
 					&& "Var type and expected type don't match" );
 				std::string text;
-				text += "Var type [" + debug::getName( varType ) + "] and expected type [" + debug::getName( resultType ) + "] don't match";
+				text += "Var type [" + debug::getTypeName( varType ) + "] and expected type [" + debug::getTypeName( resultType ) + "] don't match";
 				throw std::runtime_error{ text };
 			}
 		}

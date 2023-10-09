@@ -42,11 +42,11 @@ namespace
 	template< typename T >
 	void testConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstant" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "ConstantValue";
 			auto value = writer.declConstant< T >( name, test::getDefault< T >( writer ) );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == sdw::type::NotArray );
@@ -70,7 +70,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "ConstantValue_opt";
 			auto value = writer.declConstant< T >( name, test::getDefault< T >( writer ), true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -83,7 +83,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue4";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "ConstantValue4";
 			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( writer, 4u ) );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			check( getArraySize( value.getType() ) == 4u );
@@ -107,7 +107,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getName( sdw::typeEnumV< T > ) + "ConstantValue4_opt";
+			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "ConstantValue4_opt";
 			auto value = writer.declConstantArray< T >( name, test::getDefaultVector< T >( writer, 4u ), true );
 			check( value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );

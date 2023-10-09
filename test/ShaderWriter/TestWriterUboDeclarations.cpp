@@ -13,11 +13,11 @@ namespace
 	template< typename T >
 	void testUboRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRaw" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
@@ -54,7 +54,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
@@ -94,11 +94,11 @@ namespace
 	template< typename T >
 	void testUboRawArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
@@ -135,7 +135,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
@@ -175,11 +175,11 @@ namespace
 	template< typename T >
 	void testUboRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptDis" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
@@ -218,7 +218,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptDis" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
@@ -260,11 +260,11 @@ namespace
 	template< typename T >
 	void testUboRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptDisArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
@@ -303,7 +303,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptDisArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
@@ -345,11 +345,11 @@ namespace
 	template< typename T >
 	void testUboRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalEnabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptEn" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
@@ -388,7 +388,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptEn" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
@@ -430,11 +430,11 @@ namespace
 	template< typename T >
 	void testUboRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptEnArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
@@ -473,7 +473,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptEnArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
@@ -517,7 +517,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testUboHelper" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -590,7 +590,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testUboHelperArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testUboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();

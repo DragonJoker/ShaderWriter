@@ -9,19 +9,19 @@ namespace
 	template< typename T >
 	void testStruct( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testStruct" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
-			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnumV< T > ) };
+			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			sdw::Struct st{ writer, "ST" + sdw::debug::getTypeName( sdw::typeEnumV< T > ) };
 			st.template declMember< T >( name );
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			BeginMain
 			{
-				auto instance = st.getInstance( "st" + sdw::debug::getName( sdw::typeEnumV< T > ), true );
+				auto instance = st.getInstance( "st" + sdw::debug::getTypeName( sdw::typeEnumV< T > ), true );
 				auto retrieved = instance.template getMember< T >( name );
 				check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 				check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
@@ -48,15 +48,15 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
-			sdw::Struct st{ writer, "ST" + sdw::debug::getName( sdw::typeEnumV< T > ) };
+			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			sdw::Struct st{ writer, "ST" + sdw::debug::getTypeName( sdw::typeEnumV< T > ) };
 			st.template declMember< T >( name, 4u );
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			BeginMain
 			{
-				auto instance = st.getInstance( "stArray4" + sdw::debug::getName( sdw::typeEnumV< T > ), true );
+				auto instance = st.getInstance( "stArray4" + sdw::debug::getTypeName( sdw::typeEnumV< T > ), true );
 				auto retrieved = instance.template getMemberArray< T >( name );
 				check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 				check( getArraySize( retrieved.getType() ) == 4u );

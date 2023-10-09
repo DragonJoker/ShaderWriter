@@ -11,11 +11,11 @@ namespace
 	template< typename T >
 	void testPcbRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcbRaw" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::PushConstantBuffer bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
@@ -53,11 +53,11 @@ namespace
 	template< typename T >
 	void testPcbRawArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcbRawArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::PushConstantBuffer bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
@@ -95,11 +95,11 @@ namespace
 	template< typename T >
 	void testPcbRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcbRawOptionalDisabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDis" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptDis" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::PushConstantBuffer bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
@@ -139,11 +139,11 @@ namespace
 	template< typename T >
 	void testPcbRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcbRawOptionalDisabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptDisArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptDisArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::PushConstantBuffer bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
@@ -183,11 +183,11 @@ namespace
 	template< typename T >
 	void testPcbRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcbRawOptionalEnabled" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEn" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptEn" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::PushConstantBuffer bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
@@ -227,11 +227,11 @@ namespace
 	template< typename T >
 	void testPcbRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPcbRawOptionalEnabledArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberOptEnArray" + sdw::debug::getName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberOptEnArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
 			sdw::PushConstantBuffer bo{ writer, "PCB", ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
@@ -273,7 +273,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testPcbHelper" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -313,7 +313,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testPcbHelperArray" + ast::debug::getName( sdw::typeEnumV< T > ) );
+		testBegin( "testPcbHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();

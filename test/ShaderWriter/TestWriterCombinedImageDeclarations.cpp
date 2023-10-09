@@ -12,8 +12,8 @@ namespace
 		, bool DepthT >
 	void testTexture( test::sdw_test::TestCounts & testCounts )
 	{
-		auto nameBase = sdw::debug::getName( sdw::typeEnumV< sdw::CombinedImage > )
-			+ sdw::debug::getName( FormatT, DimT, ArrayedT, MsT, DepthT );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT, DepthT );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -257,7 +257,7 @@ namespace
 	template< ast::type::ImageFormat FormatT >
 	void testTextureFormat( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTexture" + ast::debug::getName( FormatT ) );
+		testBegin( "testTexture" + ast::debug::getImageFormatName( FormatT ) );
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
 			testTexture< FormatT, Img1DBase, false >( testCounts );

@@ -16,6 +16,17 @@ namespace ast
 	{
 		namespace helpers
 		{
+			static bool hasRuntimeArray( type::StructPtr type )
+			{
+				return type->end() != std::find_if( type->begin()
+					, type->end()
+					, []( type::Struct::Member const & lookup )
+					{
+						return lookup.type->getKind() == type::Kind::eArray
+							&& getArraySize( lookup.type ) == type::UnknownArraySize;
+					} );
+			}
+
 			static expr::CompositeType getCompositeType( uint32_t count )
 			{
 				using expr::CompositeType;
@@ -2140,18 +2151,25 @@ namespace ast
 				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
-				, SSAData & data )
+				, SSAData & data
+				, bool normaliseStructs )
 			{
 				stmt::ContainerPtr result = stmtCache.makeContainer();
-				StmtSSAiser vis{ data, stmtCache, exprCache, typesCache, result };
+				StmtSSAiser vis{ data, stmtCache, exprCache, typesCache, result, normaliseStructs };
 				stmt->accept( &vis );
 				return result;
 			}
 
 			void declareStruct( type::StructPtr structType )
 			{
+				if ( !m_normaliseStructs )
+				{
+					return;
+				}
+
 				if ( structType->getName() != "SDW_VoidInput"
 					&& structType->getName() != "SDW_VoidOutput"
+					&& !helpers::hasRuntimeArray( structType )
 					&& m_declaredStructs.insert( structType->getName() ).second )
 				{
 					for ( auto & member : *structType )
@@ -2179,9 +2197,11 @@ namespace ast
 				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
-				, stmt::ContainerPtr & result )
+				, stmt::ContainerPtr & result
+				, bool normaliseStructs )
 				: StmtCloner{ stmtCache, exprCache, result }
 				, m_data{ data }
+				, m_normaliseStructs{ normaliseStructs }
 				, m_typesCache{ typesCache }
 			{
 				auto cont = m_stmtCache.makeContainer();
@@ -2488,8 +2508,6 @@ namespace ast
 			void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override
 			{
 				TraceFunc
-				declareStruct( stmt->getData()->getType() );
-				declareStruct( stmt->getSsboInstance()->getType() );
 				StmtCloner::visitShaderStructBufferDeclStmt( stmt );
 			}
 
@@ -2526,6 +2544,7 @@ namespace ast
 
 		private:
 			SSAData & m_data;
+			bool m_normaliseStructs;
 			std::unordered_set< std::string > m_declaredStructs;
 			ast::stmt::Container * m_typeDeclarations;
 			type::TypesCache & m_typesCache;
@@ -2547,8 +2566,9 @@ namespace ast
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * container
-		, SSAData & ssaData )
+		, SSAData & ssaData
+		, bool normaliseStructs )
 	{
-		return ssa::StmtSSAiser::submit( container, stmtCache, exprCache, typesCache, ssaData );
+		return ssa::StmtSSAiser::submit( container, stmtCache, exprCache, typesCache, ssaData, normaliseStructs );
 	}
 }

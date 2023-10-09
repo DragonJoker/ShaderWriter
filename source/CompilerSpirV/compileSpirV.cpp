@@ -37,7 +37,8 @@ namespace spirv
 			, compileExprCache
 			, shader.getTypesCache()
 			, shader.getStatements()
-			, ssaData );
+			, ssaData
+			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()

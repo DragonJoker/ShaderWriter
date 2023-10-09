@@ -2,8 +2,6 @@
 
 #include "Common.hpp"
 
-#include <ShaderAST/Debug/DebugCommon.hpp>
-#include <ShaderAST/Debug/DebugStmtVisitor.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderWriter/BaseTypes/Sampler.hpp>
 #include <ShaderWriter/BaseTypes/StorageImage.hpp>

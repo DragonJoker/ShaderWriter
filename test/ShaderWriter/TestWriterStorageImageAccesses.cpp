@@ -22,7 +22,7 @@ namespace
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testImageSize" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+			auto name = "testImageSize" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 			testBegin( name );
 			using namespace sdw;
 			{
@@ -65,7 +65,7 @@ namespace
 		{
 			if constexpr ( MsT )
 			{
-				auto name = "testImageSamples" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageSamples" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -111,7 +111,7 @@ namespace
 		{
 			if constexpr ( sdw::isReadableV< AccessT > )
 			{
-				auto name = "testImageLoad" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageLoad" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -167,7 +167,7 @@ namespace
 		{
 			if constexpr ( sdw::isWritableV< AccessT > )
 			{
-				auto name = "testImageStore" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageStore" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -225,7 +225,7 @@ namespace
 				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicAdd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicAdd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -304,7 +304,7 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicMin" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicMin" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -378,7 +378,7 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicMax" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicMax" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -452,7 +452,7 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicAnd" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicAnd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -526,7 +526,7 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicOr" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicOr" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -600,7 +600,7 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicXor" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicXor" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -675,7 +675,7 @@ namespace
 				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicExchange" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicExchange" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
@@ -754,7 +754,7 @@ namespace
 			if constexpr ( sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
-				auto name = "testImageAtomicCompSwap" + sdw::debug::getName( FormatT, AccessT, DimT, ArrayedT, MsT );
+				auto name = "testImageAtomicCompSwap" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 				testBegin( name );
 				using namespace sdw;
 				{
