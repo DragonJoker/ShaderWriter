@@ -135,19 +135,19 @@ namespace spirv
 		SDWSPIRV_API size_t operator()( IdList const & value )const;
 	};
 
-	struct TypeId
+	struct DebugId
 	{
 		ValueId id;
 		ValueId debug;
 
-		explicit TypeId( spv::Id pid = 0u, ast::type::TypePtr type = nullptr )
+		explicit DebugId( spv::Id pid = 0u, ast::type::TypePtr type = nullptr )
 			: id{ pid, type }
 			, debug{ 0u, type }
 		{
 		}
 
-		explicit TypeId( ValueId pid )
-			: TypeId{ pid.id, pid.type }
+		explicit DebugId( ValueId pid )
+			: DebugId{ pid.id, pid.type }
 		{
 		}
 
@@ -175,31 +175,36 @@ namespace spirv
 		}
 	};
 
-	inline bool operator==( TypeId const & lhs, TypeId const & rhs )
+	inline bool operator==( DebugId const & lhs, DebugId const & rhs )
 	{
 		return lhs.id == rhs.id;
 	}
 
-	inline bool operator<( TypeId const & lhs, TypeId const & rhs )
+	inline bool operator<( DebugId const & lhs, DebugId const & rhs )
 	{
 		return lhs.id < rhs.id;
 	}
 
+	using DebugIdList = Vector< DebugId >;
+
+	struct DebugIdHasher
+	{
+		SDWSPIRV_API size_t operator()( DebugId const & value )const;
+	};
+
+	struct DebugIdListHasher
+	{
+		SDWSPIRV_API size_t operator()( DebugIdList const & value )const;
+	};
+
+	using TypeId = DebugId;
+	using TypeIdHasher = DebugIdHasher;
+	using TypeIdListHasher = DebugIdListHasher;
 	using TypeIdList = Vector< TypeId >;
-
-	struct TypeIdHasher
-	{
-		SDWSPIRV_API size_t operator()( TypeId const & value )const;
-	};
-
-	struct TypeIdListHasher
-	{
-		SDWSPIRV_API size_t operator()( TypeIdList const & value )const;
-	};
 
 	SDWSPIRV_API IdList convert( ValueIdList const & in );
 	SDWSPIRV_API ValueIdList convert( IdList const & in );
-	SDWSPIRV_API ValueIdList convert( TypeIdList const & in );
+	SDWSPIRV_API ValueIdList convert( DebugIdList const & in );
 	SDWSPIRV_API ast::type::Storage convert( spv::StorageClass in );
 	SDWSPIRV_API spv::StorageClass convert( ast::type::Storage in );
 

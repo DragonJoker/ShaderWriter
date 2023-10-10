@@ -390,7 +390,8 @@ namespace spirv
 				if ( var->isAlias() )
 				{
 					assert( !m_parentId || m_parentKind == ast::expr::Kind::eArrayAccess );
-					m_result = m_module.getVariablePointer( var->getName()
+					m_result = m_module.getVariablePointer( m_currentBlock
+						, var->getName()
 						, spv::StorageClassFunction
 						, var->getType()
 						, m_currentBlock );
@@ -412,7 +413,8 @@ namespace spirv
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
 						m_result = m_module.loadVariable( generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module ), m_currentBlock );
-						m_result = m_module.registerVariable( var->getName()
+						m_result = m_module.registerVariable( m_currentBlock
+							, var->getName()
 							, var->getBuiltin()
 							, getStorageClass( m_module.getVersion(), var )
 							, false
@@ -424,7 +426,8 @@ namespace spirv
 					}
 					else
 					{
-						m_result = m_module.registerVariable( var->getName()
+						m_result = m_module.registerVariable( m_currentBlock
+							, var->getName()
 							, var->getBuiltin()
 							, getStorageClass( m_module.getVersion(), var )
 							, false
