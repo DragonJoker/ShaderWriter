@@ -1324,6 +1324,8 @@ namespace glsl
 				case glsl::StatementType::eStructureMemberDecl:
 				case glsl::StatementType::eFunctionDecl:
 				case glsl::StatementType::eVariableDecl:
+				case glsl::StatementType::eVariableBlockDecl:
+				case glsl::StatementType::eBuiltinVariableDecl:
 				case glsl::StatementType::eScopeLine:
 				case glsl::StatementType::eStructureScopeEnd:
 				case glsl::StatementType::eFunctionScopeEnd:
@@ -1350,6 +1352,8 @@ namespace glsl
 				case glsl::StatementType::eStructureMemberDecl:
 				case glsl::StatementType::eFunctionDecl:
 				case glsl::StatementType::eVariableDecl:
+				case glsl::StatementType::eVariableBlockDecl:
+				case glsl::StatementType::eBuiltinVariableDecl:
 				case glsl::StatementType::eScopeLine:
 				case glsl::StatementType::eStructureScopeBegin:
 				case glsl::StatementType::eFunctionScopeBegin:
@@ -1381,6 +1385,8 @@ namespace glsl
 				case glsl::StatementType::eLexicalScopeEnd:
 				case glsl::StatementType::eStructureMemberDecl:
 				case glsl::StatementType::eVariableDecl:
+				case glsl::StatementType::eVariableBlockDecl:
+				case glsl::StatementType::eBuiltinVariableDecl:
 				case glsl::StatementType::eControlEnd:
 					return false;
 				case glsl::StatementType::eStructureDecl:
@@ -1990,32 +1996,28 @@ namespace glsl
 		{
 		public:
 			static Statements submit( StmtConfig const & config
-				, bool separateBlockStructs
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 				, ast::stmt::Stmt * stmt )
 			{
 				Statements result{ std::string{}, StatementsList{} };
-				submit( config, separateBlockStructs, aliases, stmt, result );
+				submit( config, aliases, stmt, result );
 				return result;
 			}
 
 		private:
 			static void submit( StmtConfig const & config
-				, bool separateBlockStructs
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 				, ast::stmt::Stmt * stmt
 				, Statements & result )
 			{
-				StmtVisitor vis{ config, separateBlockStructs, aliases, result };
+				StmtVisitor vis{ config, aliases, result };
 				stmt->accept( &vis );
 			}
 
 			StmtVisitor( StmtConfig const & config
-				, bool separateBlockStructs
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
 				, Statements & result )
 				: m_config{ config }
-				, m_separateBlockStructs{ separateBlockStructs }
 				, m_aliases{ aliases }
 				, m_result{ result }
 			{
@@ -2071,16 +2073,30 @@ namespace glsl
 				doAddStatement( text + ";", m_scopeLines.back(), stmt );
 			}
 
-			void doAddVariableDeclStatement( std::string text
-				, ast::stmt::Stmt * stmt
-				, bool addSemiColumn = true )
+			void doAddBuiltinVarDeclStatement( ast::Builtin builtin
+				, ast::stmt::Stmt * stmt )
 			{
-				if ( addSemiColumn )
-				{
-					text += ";";
-				}
+				Statement current;
+				current.type = StatementType::eBuiltinVariableDecl;
+				current.stmt = stmt;
+				current.source.lineStart = m_currentLine;
+				current.source.columnStart = 1u;
+				current.source.columnEnd = 2u;
+				current.source.scope = getCurrentScope();
+				m_result.statements.push_back( std::move( current ) );
+			}
 
+			void doAddVariableDeclStatement( std::string text
+				, ast::stmt::Stmt * stmt )
+			{
+				text += ";";
 				doAddStatement( std::move( text ), StatementType::eVariableDecl, stmt );
+			}
+
+			void doAddBlockVariableDeclStatement( std::string text
+				, ast::stmt::Stmt * stmt )
+			{
+				doAddStatement( std::move( text ), StatementType::eVariableBlockDecl, stmt );
 			}
 
 			void doBeginScope( ast::stmt::Stmt * stmt
@@ -2206,28 +2222,14 @@ namespace glsl
 					std::string text = "layout(";
 					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
 					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-
-					if ( m_separateBlockStructs )
-					{
-						doAddStatement( "struct " + stmt->getName() + "Block", StatementType::eStructureDecl, stmt );
-						doParseScope( stmt
-							, StatementType::eStructureScopeBegin
-							, StatementType::eStructureMemberDecl
-							, StatementType::eStructureScopeEnd );
-						text += ") uniform " + stmt->getName() + "Block " + stmt->getName();
-						doAddVariableDeclStatement( std::move( text ), stmt );
-					}
-					else
-					{
-						text += ") uniform " + stmt->getName() + "Block";
-						doAddVariableDeclStatement( std::move( text ), stmt, false );
-						doParseScope( stmt
-							, StatementType::eStructureScopeBegin
-							, StatementType::eStructureMemberDecl
-							, StatementType::eStructureScopeEnd
-							, std::string{}
-							, stmt->getName() );
-					}
+					text += ") uniform " + stmt->getName() + "Block";
+					doAddBlockVariableDeclStatement( std::move( text ), stmt );
+					doParseScope( stmt
+						, StatementType::eStructureScopeBegin
+						, StatementType::eStructureMemberDecl
+						, StatementType::eStructureScopeEnd
+						, std::string{}
+						, stmt->getName() );
 				}
 			}
 
@@ -2262,29 +2264,15 @@ namespace glsl
 			{
 				if ( !stmt->empty() )
 				{
-					if ( m_separateBlockStructs )
-					{
-						doAddStatement( "struct " + stmt->getName() + "Block", StatementType::eStructureDecl, stmt );
-						doParseScope( stmt
-							, StatementType::eStructureScopeBegin
-							, StatementType::eStructureMemberDecl
-							, StatementType::eStructureScopeEnd );
-						std::string text = "layout(push_constant) ";
-						text += "uniform " + stmt->getName() + "Block " + stmt->getName();
-						doAddVariableDeclStatement( std::move( text ), stmt );
-					}
-					else
-					{
-						std::string text = "layout(push_constant) ";
-						text += "uniform " + stmt->getName() + "Block";
-						doAddVariableDeclStatement( std::move( text ), stmt, false );
-						doParseScope( stmt
-							, StatementType::eStructureScopeBegin
-							, StatementType::eStructureMemberDecl
-							, StatementType::eStructureScopeEnd
-							, std::string{}
-							, " " + stmt->getName() );
-					}
+					std::string text = "layout(push_constant) ";
+					text += "uniform " + stmt->getName() + "Block";
+					doAddBlockVariableDeclStatement( std::move( text ), stmt );
+					doParseScope( stmt
+						, StatementType::eStructureScopeBegin
+						, StatementType::eStructureMemberDecl
+						, StatementType::eStructureScopeEnd
+						, std::string{}
+						, " " + stmt->getName() );
 				}
 			}
 
@@ -2531,7 +2519,11 @@ namespace glsl
 
 			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
 			{
-				if ( !stmt->getVariable()->isBuiltin() )
+				if ( stmt->getVariable()->isBuiltin() )
+				{
+					doAddBuiltinVarDeclStatement( stmt->getVariable()->getBuiltin(), stmt );
+				}
+				else
 				{
 					std::string text = helpers::getInOutLayout( m_config, *stmt );
 					helpers::join( text, helpers::getInterpolationQualifier( *stmt->getVariable() ), " " );
@@ -2556,7 +2548,9 @@ namespace glsl
 
 			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override
 			{
-				AST_Failure( "No specialisation constant should remain at this stage" );
+				doAddVariableDeclStatement( "layout(constant_id=" + std::to_string( stmt->getLocation() )
+					+ ") const " + getTypeName( stmt->getVariable()->getType() )
+					+ " " + stmt->getVariable()->getName(), stmt );
 			}
 
 			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
@@ -2740,69 +2734,33 @@ namespace glsl
 
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
 			{
-				if ( m_separateBlockStructs )
-				{
-					doAddStatement( "struct " + stmt->getSsboName() + "Block", StatementType::eStructureDecl, stmt );
-					doParseScope( stmt
-						, StatementType::eStructureScopeBegin
-						, StatementType::eStructureMemberDecl
-						, StatementType::eStructureScopeEnd );
-					std::string text = "layout(";
-					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-					text += ") buffer " + stmt->getSsboName() + "Block " + stmt->getSsboName();
-					doAddVariableDeclStatement( std::move( text ), stmt );
-				}
-				else
-				{
-					std::string text = "layout(";
-					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-					text += ") buffer " + stmt->getSsboName() + "Buffer";
-					doAddVariableDeclStatement( std::move( text ), stmt, false );
-					doParseScope( stmt
-						, StatementType::eStructureScopeBegin
-						, StatementType::eStructureMemberDecl
-						, StatementType::eStructureScopeEnd
-						, std::string{}
-						, stmt->getSsboName() );
-				}
+				std::string text = "layout(";
+				text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
+				doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+				text += ") buffer " + stmt->getSsboName() + "Buffer";
+				doAddBlockVariableDeclStatement( std::move( text ), stmt );
+				doParseScope( stmt
+					, StatementType::eStructureScopeBegin
+					, StatementType::eStructureMemberDecl
+					, StatementType::eStructureScopeEnd
+					, std::string{}
+					, stmt->getSsboName() );
 			}
 
 			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
 			{
-				if ( m_separateBlockStructs )
-				{
-					doAddStatement( "struct " + stmt->getSsboName(), StatementType::eStructureDecl, stmt );
-					doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
-					auto data = stmt->getData();
-					auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
-					std::string text = getTypeName( arrayType->getType() ) + " " + data->getName();
-					text += helpers::getTypeArraySize( arrayType );
-					doAddSimpleStatement( std::move( text ), stmt );
-					doEndScope( stmt, StatementType::eStructureScopeEnd );
-
-					text = "layout(";
-					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-					text += ") buffer " + stmt->getSsboName() + " " + stmt->getSsboInstance()->getName();
-					doAddVariableDeclStatement( std::move( text ), stmt );
-				}
-				else
-				{
-					std::string text = "layout(";
-					text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
-					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
-					text += ") buffer " + stmt->getSsboName();
-					doAddVariableDeclStatement( std::move( text ), stmt, false );
-					doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
-					auto data = stmt->getData();
-					auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
-					text = getTypeName( arrayType->getType() ) + " " + data->getName();
-					text += helpers::getTypeArraySize( arrayType );
-					doAddSimpleStatement( std::move( text ), stmt );
-					doEndScope( stmt, StatementType::eStructureScopeEnd, " " + stmt->getSsboInstance()->getName() );
-				}
+				std::string text = "layout(";
+				text += helpers::getMemoryLayoutName( stmt->getMemoryLayout() );
+				doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+				text += ") buffer " + stmt->getSsboName();
+				doAddBlockVariableDeclStatement( std::move( text ), stmt );
+				doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
+				auto data = stmt->getData();
+				auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
+				text = getTypeName( arrayType->getType() ) + " " + data->getName();
+				text += helpers::getTypeArraySize( arrayType );
+				doAddSimpleStatement( std::move( text ), stmt );
+				doEndScope( stmt, StatementType::eStructureScopeEnd, " " + stmt->getSsboInstance()->getName() );
 			}
 
 			void visitSimpleStmt( ast::stmt::Simple * stmt )override
@@ -2879,7 +2837,7 @@ namespace glsl
 							helpers::join( text, helpers::getDirectionName( *var ), " " );
 							text += " ";
 							text += var->getName() + "Task";
-							doAddVariableDeclStatement( std::move( text ), stmt, false );
+							doAddBlockVariableDeclStatement( std::move( text ), stmt );
 							doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
 							doAddSimpleStatement( structType->getName() + " " + var->getName(), stmt );
 							doEndScope( stmt, StatementType::eStructureScopeEnd );
@@ -2980,7 +2938,6 @@ namespace glsl
 
 		private:
 			StmtConfig const & m_config;
-			bool m_separateBlockStructs{};
 			std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 			std::vector< std::string > m_indents{ std::string{} };
 			Statements & m_result;
@@ -2995,10 +2952,9 @@ namespace glsl
 	}
 
 	Statements generateGlslStatements( StmtConfig const & config
-		, ast::stmt::Container * stmt
-		, bool separateBlockStructs )
+		, ast::stmt::Container * stmt )
 	{
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return gstvis::StmtVisitor::submit( config, separateBlockStructs, aliases, stmt );
+		return gstvis::StmtVisitor::submit( config, aliases, stmt );
 	}
 }

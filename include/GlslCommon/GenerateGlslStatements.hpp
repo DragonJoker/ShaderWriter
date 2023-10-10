@@ -17,8 +17,7 @@ See LICENSE file in root folder
 namespace glsl
 {
 	SDWGLC_API Statements generateGlslStatements( StmtConfig const & config
-		, ast::stmt::Container * stmt
-		, bool separateBlockStructs = false );
+		, ast::stmt::Container * stmt );
 }
 
 #endif

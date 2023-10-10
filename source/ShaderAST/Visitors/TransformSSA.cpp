@@ -2515,7 +2515,6 @@ namespace ast
 			{
 				TraceFunc
 				declareStruct( stmt->getType() );
-				StmtCloner::visitStructureDeclStmt( stmt );
 			}
 
 			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override

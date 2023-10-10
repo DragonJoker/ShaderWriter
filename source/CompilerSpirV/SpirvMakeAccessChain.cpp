@@ -635,7 +635,7 @@ namespace spirv
 			}
 
 			// Register the type pointed to.
-			auto rawTypeId = module.registerType( expr->getType() );
+			auto rawTypeId = module.registerType( expr->getType(), nullptr );
 			// Register the pointer to the type.
 			auto pointerTypeId = module.registerPointerType( rawTypeId
 				, storageClass );
@@ -683,7 +683,7 @@ namespace spirv
 		, Module & module
 		, Block & currentBlock )
 	{
-		auto typeId = module.registerType( expr->getType() );
+		auto typeId = module.registerType( expr->getType(), nullptr );
 		auto outerId = module.loadVariable( generateModuleExpr( exprCache, expr->getOuterExpr()
 				, context
 				, currentBlock

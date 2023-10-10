@@ -54,10 +54,12 @@ namespace spirv
 		SDWSPIRV_API static std::string write( spirv::Module const & module
 			, bool writeHeader );
 
-		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type );
+		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId );
+			, TypeId parentId
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
 		SDWSPIRV_API TypeId registerPointerType( TypeId type
@@ -87,7 +89,8 @@ namespace spirv
 			, bool isOutParam
 			, ast::type::TypePtr type
 			, VariableInfo & sourceInfo
-			, ValueId initialiser = {} );
+			, ValueId initialiser = {}
+			, glsl::Statement const * debugStatement = {} );
 		SDWSPIRV_API ValueId registerSpecConstant( std::string name
 			, uint32_t location
 			, ast::type::TypePtr type
@@ -170,6 +173,10 @@ namespace spirv
 		SDWSPIRV_API void bindVariable( ValueId varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );
+		SDWSPIRV_API void bindBufferVariable( ValueId variableId
+			, uint32_t bindingPoint
+			, uint32_t descriptorSet
+			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
 		SDWSPIRV_API ValueId bindBufferVariable( std::string const & name
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet
@@ -238,18 +245,22 @@ namespace spirv
 	private:
 		TypeId doRegisterNonArrayType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId );
+			, TypeId parentId
+			, glsl::Statement const * debugStatement );
 		TypeId doRegisterTypeRec( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId
-			, uint32_t arrayStride );
+			, uint32_t arrayStride
+			, glsl::Statement const * debugStatement );
 		TypeId doRegisterBaseType( ast::type::Kind kind
 			, uint32_t mbrIndex
 			, TypeId parentId
-			, uint32_t arrayStride );
+			, uint32_t arrayStride
+			, glsl::Statement const * debugStatement );
 		TypeId doRegisterBaseType( ast::type::StructPtr type
 			, uint32_t mbrIndex
-			, TypeId parentId );
+			, TypeId parentId
+			, glsl::Statement const * debugStatement );
 		TypeId doRegisterBaseType( ast::type::SamplerPtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
@@ -266,11 +277,13 @@ namespace spirv
 			, TypeId parentId );
 		TypeId doRegisterBaseType( ast::type::AccelerationStructurePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId );
+			, TypeId parentId
+			, glsl::Statement const * debugStatement );
 		TypeId doRegisterBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId
-			, uint32_t arrayStride );
+			, uint32_t arrayStride
+			, glsl::Statement const * debugStatement );
 		void doReplaceDecoration( ValueId id
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
@@ -300,7 +313,8 @@ namespace spirv
 		void doAddVariable( std::string name
 			, ValueId varId
 			, Map< std::string, VariableInfo >::iterator & it
-			, ValueId initialiser );
+			, ValueId initialiser
+			, glsl::Statement const * debugStatement = nullptr );
 
 	private:
 		using DecorationMap = UnorderedMap< ValueIdList, size_t, ValueIdListHasher >;
