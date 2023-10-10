@@ -30,19 +30,19 @@ namespace spirv::debug
 		case ast::type::Kind::eDouble:
 		case ast::type::Kind::eInt64:
 		case ast::type::Kind::eUInt64:
-			return mult * 8u;
+			return mult * 64u;
 		case ast::type::Kind::eFloat:
 		case ast::type::Kind::eInt32:
 		case ast::type::Kind::eUInt32:
-			return mult * 4u;
+			return mult * 32u;
 		case ast::type::Kind::eInt16:
 		case ast::type::Kind::eUInt16:
 		case ast::type::Kind::eHalf:
-			return mult * 2u;
+			return mult * 16u;
 		case ast::type::Kind::eBoolean:
 		case ast::type::Kind::eInt8:
 		case ast::type::Kind::eUInt8:
-			return mult * 1u;
+			return mult * 8u;
 		default:
 			AST_Failure( "Unsupported type::Kind" );
 			return 0u;

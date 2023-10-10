@@ -81,7 +81,8 @@ namespace spirv
 		SDWSPIRV_API VariableInfo registerAlias( std::string name
 			, ast::type::TypePtr type
 			, ValueId exprResultId );
-		SDWSPIRV_API VariableInfo registerVariable( std::string name
+		SDWSPIRV_API VariableInfo registerVariable( Block & block
+			, std::string name
 			, ast::Builtin builtin
 			, spv::StorageClass storage
 			, bool isAlias
@@ -146,11 +147,13 @@ namespace spirv
 
 		SDWSPIRV_API ast::type::Kind getLiteralType( ValueId litId )const;
 		SDWSPIRV_API ValueId getOuterVariable( ValueId mbrId )const;
-		SDWSPIRV_API ValueId getVariablePointer( ValueId varId
+		SDWSPIRV_API ValueId getVariablePointer( Block & block
+			, ValueId varId
 			, std::string name
 			, spv::StorageClass storage
 			, Block & currentBlock );
-		SDWSPIRV_API ValueId getVariablePointer( std::string name
+		SDWSPIRV_API ValueId getVariablePointer( Block & block
+			, std::string name
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
 			, Block & currentBlock );
@@ -191,6 +194,9 @@ namespace spirv
 		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
 			, ValueIdList operands );
 		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
+			, InstructionList & instructions
+			, ValueIdList operands );
+		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
 			, Block & block
 			, ValueIdList operands );
 		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
@@ -198,11 +204,15 @@ namespace spirv
 			, ValueIdList operands );
 		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
 			, ValueId const & resultId
+			, InstructionList & instructions
+			, ValueIdList operands );
+		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
+			, ValueId const & resultId
 			, Block & block
 			, ValueIdList operands );
-		SDWSPIRV_API ValueId registerDebugVariable( std::string const & name
+		SDWSPIRV_API ValueId registerDebugVariable( Block & block
+			, std::string const & name
 			, ast::type::TypePtr type
-			, uint64_t varFlags
 			, ValueId const & variableId
 			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API ValueId registerDebugMemberVariable( std::string const & name
@@ -310,16 +320,24 @@ namespace spirv
 		bool doAddMbrBuiltin( ast::Builtin pbuiltin
 			, ValueId outer
 			, uint32_t mbrIndex );
-		void doAddVariable( std::string name
+		void doAddVariable( Block & block
+			, std::string name
 			, ValueId varId
 			, Map< std::string, VariableInfo >::iterator & it
 			, ValueId initialiser
 			, glsl::Statement const * debugStatement = nullptr );
+		ValueId doGetDebugVariableId( ValueId variableId )const;
 
 	private:
 		using DecorationMap = UnorderedMap< ValueIdList, size_t, ValueIdListHasher >;
 		using DecorationMapIdMap = Map< ValueId, DecorationMap >;
 		using DecorationMapMbrMap = UnorderedMap< ValueIdList, DecorationMap, ValueIdListHasher >;
+
+		struct VariableDebugId
+		{
+			ValueId variable;
+			ValueId debug;
+		};
 
 	private:
 		uint32_t m_version;
@@ -361,6 +379,8 @@ namespace spirv
 		TypeId m_voidType{};
 		ValueId m_currentScopeId{};
 		ValueId m_debugInfoNone{};
+		ValueId m_debugExpressionDummy{};
+		Vector< VariableDebugId > m_debugVariables;
 	};
 }
 
