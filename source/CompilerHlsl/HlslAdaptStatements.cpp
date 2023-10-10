@@ -569,6 +569,11 @@ namespace hlsl
 				{
 					if ( m_declaredStructs.insert( structType->getName() ).second )
 					{
+						for ( auto & member : *structType )
+						{
+							declareType( member.type );
+						}
+
 						m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 					}
 				}

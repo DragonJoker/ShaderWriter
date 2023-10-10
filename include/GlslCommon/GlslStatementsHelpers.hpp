@@ -167,6 +167,8 @@ namespace glsl
 		eStructureMemberDecl,
 		eFunctionDecl,
 		eVariableDecl,
+		eVariableBlockDecl,
+		eBuiltinVariableDecl,
 		eScopeLine,
 		eStructureScopeBegin,
 		eStructureScopeEnd,
