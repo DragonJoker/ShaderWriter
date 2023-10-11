@@ -3535,7 +3535,7 @@ namespace spirv
 	}
 
 	void decorateVar( ast::var::Variable const & var
-		, ValueId varId
+		, DebugId varId
 		, Module & module )
 	{
 		if ( var.isFlat() )

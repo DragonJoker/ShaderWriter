@@ -10,6 +10,19 @@ See LICENSE file in root folder
 
 namespace spirv::debug
 {
+	ValueIdList convert( DebugIdList const & in )
+	{
+		ValueIdList result{ in.get_allocator() };
+		result.reserve( in.size() );
+
+		for ( auto & v : in )
+		{
+			result.push_back( v.debug );
+		}
+
+		return result;
+	}
+
 	uint32_t getSize( ast::type::Kind kind )
 	{
 		if ( kind == ast::type::Kind::eVoid )

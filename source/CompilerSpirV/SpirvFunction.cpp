@@ -6,11 +6,13 @@ See LICENSE file in root folder
 namespace spirv
 {
 	Function::Function( ast::ShaderAllocatorBlock * alloc
-		, ValueId pid )
+		, DebugId pid )
 		: id{ pid }
+		, params{ alloc }
 		, declaration{ ModuleAllocatorT< InstructionPtr >{ alloc } }
 		, cfg{ alloc }
 		, variables{ ModuleAllocatorT< InstructionPtr >{ alloc } }
+		, debugStart{ ModuleAllocatorT< InstructionPtr >{ alloc } }
 		, promotedParams{ ModuleAllocatorT< InstructionPtr >{ alloc } }
 		, registeredVariables{ ModuleMapAllocatorT< std::string, VariableInfo >{ alloc } }
 	{
@@ -33,7 +35,7 @@ namespace spirv
 				|| opCode == spv::OpVariable;
 		};
 
-		Function result{ alloc, ValueId{} };
+		Function result{ alloc, DebugId{} };
 
 		while ( buffer != end )
 		{

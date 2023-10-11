@@ -7,20 +7,17 @@ namespace spirv
 
 	namespace details
 	{
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, ValueId current, Params ... params );
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, uint16_t current, Params ... params );
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, uint32_t current, Params ... params );
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, ValueIdList const & current, Params ... params );
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, IdList const & current, Params ... params );
+		template< typename Param, typename ... Params >
+		inline void makeOperandsRec( ValueIdList & result, Param current, Params ... params );
 
 		inline void makeOperandsRec( ValueIdList & result, ValueId param )
 		{
 			result.push_back( param );
+		}
+
+		inline void makeOperandsRec( ValueIdList & result, DebugId param )
+		{
+			result.push_back( param.id );
 		}
 
 		inline void makeOperandsRec( ValueIdList & result, uint16_t param )
@@ -43,55 +40,29 @@ namespace spirv
 			makeOperandsRec( result, convert( param ) );
 		}
 
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, ValueId current, Params ... params )
+		inline void makeOperandsRec( ValueIdList & result, DebugIdList const & param )
+		{
+			makeOperandsRec( result, convert( param ) );
+		}
+
+		template< typename Param, typename ... Params >
+		inline void makeOperandsRec( ValueIdList & result, Param current, Params ... params )
 		{
 			makeOperandsRec( result, current );
 			makeOperandsRec( result, params... );
 		}
 
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, uint16_t current, Params ... params )
-		{
-			makeOperandsRec( result, current );
-			makeOperandsRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, uint32_t current, Params ... params )
-		{
-			makeOperandsRec( result, current );
-			makeOperandsRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, ValueIdList const & current, Params ... params )
-		{
-			makeOperandsRec( result, current );
-			makeOperandsRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeOperandsRec( ValueIdList & result, IdList const & current, Params ... params )
-		{
-			makeOperandsRec( result, current );
-			makeOperandsRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, ValueId current, Params ... params );
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, uint16_t current, Params ... params );
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, uint32_t current, Params ... params );
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, IdList const & current, Params ... params );
-		template< typename ... Params >
-		inline void makeIdListRec( ValueIdList & result, ValueIdList const & current, Params ... params );
+		template< typename Param, typename ... Params >
+		inline void makeIdListRec( IdList & result, Param current, Params ... params );
 
 		inline void makeIdListRec( IdList & result, ValueId param )
 		{
 			result.push_back( param.id );
+		}
+
+		inline void makeIdListRec( IdList & result, DebugId param )
+		{
+			result.push_back( param->id );
 		}
 
 		inline void makeIdListRec( IdList & result, uint16_t param )
@@ -114,36 +85,13 @@ namespace spirv
 			makeIdListRec( result, convert( param ) );
 		}
 
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, ValueId current, Params ... params )
+		inline void makeIdListRec( IdList & result, DebugIdList const & param )
 		{
-			makeIdListRec( result, current );
-			makeIdListRec( result, params... );
+			makeIdListRec( result, convert( param ) );
 		}
 
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, uint16_t current, Params ... params )
-		{
-			makeIdListRec( result, current );
-			makeIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, uint32_t current, Params ... params )
-		{
-			makeIdListRec( result, current );
-			makeIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeIdListRec( IdList & result, IdList const & current, Params ... params )
-		{
-			makeIdListRec( result, current );
-			makeIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeIdListRec( ValueIdList & result, ValueIdList const & current, Params ... params )
+		template< typename Param, typename ... Params >
+		inline void makeIdListRec( IdList & result, Param current, Params ... params )
 		{
 			makeIdListRec( result, current );
 			makeIdListRec( result, params... );

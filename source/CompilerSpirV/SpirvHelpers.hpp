@@ -548,7 +548,7 @@ namespace spirv
 		, InstructionList & capabilities
 		, spv::Capability capa );
 	void decorateVar( ast::var::Variable const & var
-		, ValueId varId
+		, DebugId varId
 		, Module & module );
 	spv::StorageClass getStorageClass( uint32_t version
 		, ast::var::VariablePtr var

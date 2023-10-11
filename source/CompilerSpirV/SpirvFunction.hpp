@@ -121,12 +121,14 @@ namespace spirv
 		SDWSPIRV_API Function & operator=( Function && rhs ) = default;
 
 		SDWSPIRV_API Function( ast::ShaderAllocatorBlock * alloc
-			, ValueId id );
+			, DebugId id );
 		SDWSPIRV_API static Function deserialize( ast::ShaderAllocatorBlock * alloc
 			, InstructionList::iterator & buffer
 			, InstructionList::iterator const & end );
 
-		ValueId id{};
+		DebugId id{};
+		DebugIdList params;
+		ValueId debugDeclId{};
 		ValueId debugNameId{};
 		ValueId debugTypeId{};
 		ValueId debugLineId{};
@@ -137,6 +139,7 @@ namespace spirv
 		ControlFlowGraph cfg;
 		// Used during construction.
 		InstructionList variables;
+		InstructionList debugStart;
 		InstructionList promotedParams;
 		Map< std::string, VariableInfo > registeredVariables;
 	};

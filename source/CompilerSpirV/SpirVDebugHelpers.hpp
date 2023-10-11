@@ -16,20 +16,8 @@ namespace spirv::debug
 {
 	namespace details
 	{
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, ValueId const & current, Params ... params );
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, TypeId const & current, Params ... params );
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, uint16_t current, Params ... params );
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, uint32_t current, Params ... params );
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, ValueIdList const & current, Params ... params );
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, TypeIdList const & current, Params ... params );
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, IdList const & current, Params ... params );
+		template< typename Param, typename ... Params >
+		inline void makeValueIdListRec( ValueIdList & result, Param const & current, Params ... params );
 
 		inline void makeValueIdListRec( ValueIdList & result, ValueId const & param )
 		{
@@ -72,50 +60,8 @@ namespace spirv::debug
 			makeValueIdListRec( result, convert( param ) );
 		}
 
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, ValueId const & current, Params ... params )
-		{
-			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, TypeId const & current, Params ... params )
-		{
-			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, uint16_t current, Params ... params )
-		{
-			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, uint32_t current, Params ... params )
-		{
-			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, ValueIdList const & current, Params ... params )
-		{
-			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, TypeIdList const & current, Params ... params )
-		{
-			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
-		}
-
-		template< typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, IdList const & current, Params ... params )
+		template< typename Param, typename ... Params >
+		inline void makeValueIdListRec( ValueIdList & result, Param const & current, Params ... params )
 		{
 			makeValueIdListRec( result, current );
 			makeValueIdListRec( result, params... );
@@ -130,6 +76,8 @@ namespace spirv::debug
 		details::makeValueIdListRec( result, params... );
 		return result;
 	}
+
+	ValueIdList convert( DebugIdList const & in );
 
 	uint32_t getSize( ast::type::Kind kind );
 	uint32_t getEncoding( ast::type::Kind kind );

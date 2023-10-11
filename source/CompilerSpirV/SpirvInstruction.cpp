@@ -646,7 +646,7 @@ namespace spirv
 		return result;
 	}
 
-	ValueIdList convert( TypeIdList const & in )
+	ValueIdList convert( DebugIdList const & in )
 	{
 		ValueIdList result{ in.get_allocator() };
 		result.reserve( in.size() );
