@@ -17,7 +17,7 @@ namespace spirv
 		return isAlias
 			|| ( isParam
 				&& !isOutParam
-				&& !isOpaqueType( id.type )
+				&& !isOpaqueType( id->type )
 				&& ( !id.isPointer() || ( id.getStorage() != ast::type::Storage::eFunction ) ) );
 	}
 

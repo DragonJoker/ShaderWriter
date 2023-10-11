@@ -11,7 +11,7 @@ namespace spirv
 {
 	struct VariableInfo
 	{
-		VariableInfo( ValueId pid = {}
+		VariableInfo( DebugId pid = DebugId{}
 			, bool pisAlias = false
 			, bool pisParam = false
 			, bool pisOutParam = false )
@@ -24,12 +24,12 @@ namespace spirv
 
 		bool needsStoreOnPromote()const;
 
-		ValueId const * operator->()const
+		DebugId const * operator->()const
 		{
 			return &id;
 		}
 
-		ValueId id;
+		DebugId id;
 		bool isAlias;
 		bool isParam;
 		bool isOutParam;
@@ -56,8 +56,8 @@ namespace spirv
 		InstructionList instructions;
 		InstructionPtr blockEnd{};
 		// Used during construction.
-		UnorderedMap< ValueIdList, ValueId, ValueIdListHasher > accessChains;
-		UnorderedMap< ValueIdList, ValueId, ValueIdListHasher > vectorShuffles;
+		UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > accessChains;
+		UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > vectorShuffles;
 		bool isInterrupted{};
 	};
 }

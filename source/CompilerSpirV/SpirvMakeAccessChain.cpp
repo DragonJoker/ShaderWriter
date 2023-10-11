@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "SpirvMakeAccessChain.hpp"
 
+#include "SpirVDebugHelpers.hpp"
 #include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvHelpers.hpp"
 #include "SpirvIntrinsicConfig.hpp"
@@ -241,20 +242,22 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static ValueIdList submit( ast::expr::ExprCache & exprCache
+			static DebugIdList submit( ast::expr::ExprCache & exprCache
 				, AccessChainExprArray const & exprs
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock )
+				, Block & currentBlock
+				, glsl::Statement * currentDebugStatement )
 			{
-				ValueIdList result{ &exprCache.getAllocator() };
+				DebugIdList result{ &exprCache.getAllocator() };
 				assert( exprs.size() >= 2u );
 				auto it = exprs.begin();
 				result.push_back( submit( exprCache
 					, it->expr
 					, context
 					, module
-					, currentBlock ) );
+					, currentBlock
+					, currentDebugStatement ) );
 
 				while ( ++it != exprs.end())
 				{
@@ -263,7 +266,8 @@ namespace spirv
 							, *it
 							, context
 							, module
-							, currentBlock )
+							, currentBlock
+							, currentDebugStatement )
 						, currentBlock ) );
 				}
 
@@ -271,13 +275,14 @@ namespace spirv
 			}
 
 		private:
-			AccessChainCreator( ValueId & result
+			AccessChainCreator( DebugId & result
 				, ast::expr::ExprCache & exprCache
 				, ast::expr::Kind parentKind
-				, ValueId parentId
+				, DebugId parentId
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock )
+				, Block & currentBlock
+				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_result{ result }
 				, m_context{ context }
@@ -285,61 +290,68 @@ namespace spirv
 				, m_currentBlock{ currentBlock }
 				, m_parentId{ parentId }
 				, m_parentKind{ parentKind }
+				, m_currentDebugStatement{ currentDebugStatement }
 			{
 			}
 
-			static ValueId submit( ast::expr::ExprCache & exprCache
+			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock )
+				, Block & currentBlock
+				, glsl::Statement * currentDebugStatement )
 			{
-				ValueId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr->getType() };
 				AccessChainCreator vis{ result
 					, exprCache
 					, expr->getKind()
-					, {}
+					, DebugId{}
 					, context
 					, module
-					, currentBlock };
+					, currentBlock
+					, currentDebugStatement };
 				expr->accept( &vis );
 				return result;
 			}
 
-			static ValueId submit( ast::expr::ExprCache & exprCache
-				, ValueId parentId
+			static DebugId submit( ast::expr::ExprCache & exprCache
+				, DebugId parentId
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock )
+				, Block & currentBlock
+				, glsl::Statement * currentDebugStatement )
 			{
-				ValueId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr->getType() };
 				AccessChainCreator vis{ result
 					, exprCache
 					, expr->getKind()
 					, parentId
 					, context
 					, module
-					, currentBlock };
+					, currentBlock
+					, currentDebugStatement };
 				expr->accept( &vis );
 				return result;
 			}
 
-			static ValueId submit( ast::expr::ExprCache & exprCache
-				, ValueId parentId
+			static DebugId submit( ast::expr::ExprCache & exprCache
+				, DebugId parentId
 				, AccessChainExpr expr
 				, PreprocContext const & context
 				, Module & module
-				, Block & currentBlock )
+				, Block & currentBlock
+				, glsl::Statement * currentDebugStatement )
 			{
-				ValueId result{ 0u, parentId.type };
+				DebugId result{ 0u, parentId->type };
 				AccessChainCreator vis{ result
 					, exprCache
 					, expr.kind
 					, parentId
 					, context
 					, module
-					, currentBlock };
+					, currentBlock
+					, currentDebugStatement };
 				expr.expr->accept( &vis );
 				return result;
 			}
@@ -370,7 +382,8 @@ namespace spirv
 						, expr->getRHS()
 						, m_context
 						, m_module
-						, m_currentBlock );
+						, m_currentBlock
+						, m_currentDebugStatement );
 				}
 				else
 				{
@@ -379,7 +392,8 @@ namespace spirv
 						, expr->getRHS()
 						, m_context
 						, m_module
-						, m_currentBlock );
+						, m_currentBlock
+						, m_currentDebugStatement );
 				}
 			}
 
@@ -412,7 +426,8 @@ namespace spirv
 					if ( it != m_context.constAggrExprs.end() )
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
-						m_result = m_module.loadVariable( generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module ), m_currentBlock );
+						auto resultId = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
+						m_result = m_module.loadVariable( resultId, m_currentBlock );
 						m_result = m_module.registerVariable( m_currentBlock
 							, var->getName()
 							, var->getBuiltin()
@@ -453,13 +468,13 @@ namespace spirv
 					}
 					else
 					{
-						auto type = m_result.type;
+						auto type = m_result->type;
 
 						while ( getPointerLevel( type ) > 1 )
 						{
 							m_result = m_module.loadVariable( m_result
 								, m_currentBlock );
-							type = m_result.type;
+							type = m_result->type;
 						}
 					}
 				}
@@ -585,17 +600,18 @@ namespace spirv
 
 		private:
 			ast::expr::ExprCache & m_exprCache;
-			ValueId & m_result;
+			DebugId & m_result;
 			PreprocContext const & m_context;
 			Module & m_module;
 			Block & m_currentBlock;
-			ValueId m_parentId;
+			DebugId m_parentId;
 			ast::expr::Kind m_parentKind;
+			glsl::Statement * m_currentDebugStatement;
 		};
 
 #define SPIRV_CacheAccessChains 0
 
-		static ValueId writeAccessChain( Block & currentBlock
+		static DebugId writeAccessChain( Block & currentBlock
 			, ValueIdList const & accessChain
 			, ast::expr::Expr * expr
 			, Module & module )
@@ -643,13 +659,13 @@ namespace spirv
 			auto pointerTypeId = module.registerPointerType( rawTypeId
 				, storageClass );
 			// Reserve the ID for the result.
-			ValueId result{ module.getIntermediateResult(), pointerTypeId->type };
+			DebugId result{ module.getIntermediateResult(), pointerTypeId->type };
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).
 			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.nameCache
 				, pointerTypeId.id
-				, result
+				, result.id
 				, accessChain ) );
-			return result;
+			return DebugId{ result };
 
 #endif
 		}
@@ -660,11 +676,12 @@ namespace spirv
 		return acnhlp::isAccessChain( expr, false );
 	}
 
-	ValueId makeAccessChain( ast::expr::ExprCache & exprCache
+	DebugId makeAccessChain( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Module & module
-		, Block & currentBlock )
+		, Block & currentBlock
+		, glsl::Statement * debugStatement )
 	{
 		// Create Access Chain.
 		ast::expr::ExprList idents;
@@ -673,14 +690,24 @@ namespace spirv
 			, accessChainExprs
 			, context
 			, module
-			, currentBlock );
-		return acnhlp::writeAccessChain( currentBlock
-			, accessChain
+			, currentBlock
+			, debugStatement );
+		auto resultId = acnhlp::writeAccessChain( currentBlock
+			, convert( accessChain )
 			, expr
 			, module );
+
+		if ( debugStatement )
+		{
+			module.registerDebugAccessChain( resultId
+				, debug::convert( accessChain )
+				, debugStatement );
+		}
+
+		return resultId;
 	}
 
-	ValueId makeVectorShuffle( ast::expr::ExprCache & exprCache
+	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache
 		, ast::expr::Swizzle * expr
 		, PreprocContext const & context
 		, Module & module
@@ -692,31 +719,31 @@ namespace spirv
 				, currentBlock
 				, module )
 			, currentBlock );
-		ValueId result{ 0u, typeId->type };
+		DebugId result{ 0u, typeId->type };
 		auto swizzleComponents = convert( getSwizzleComponents( module.allocator, expr->getSwizzle() ) );
 
 		if ( swizzleComponents.size() == 1u )
 		{
 			ValueIdList extract{ &exprCache.getAllocator() };
-			extract.push_back( outerId );
+			extract.push_back( outerId.id );
 			extract.push_back( swizzleComponents.front() );
-			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId->type };
+			auto intermediateId = DebugId{ module.getIntermediateResult(), typeId->type };
 			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( module.nameCache
 				, typeId.id
-				, intermediateId
+				, intermediateId.id
 				, extract ) );
 			result = intermediateId;
 		}
 		else
 		{
 			ValueIdList shuffle{ &exprCache.getAllocator() };
-			shuffle.push_back( outerId );
-			shuffle.push_back( outerId );
+			shuffle.push_back( outerId.id );
+			shuffle.push_back( outerId.id );
 			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
-			auto intermediateId = ValueId{ module.getIntermediateResult(), typeId->type };
+			auto intermediateId = DebugId{ module.getIntermediateResult(), typeId->type };
 			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( module.nameCache
 				, typeId.id
-				, intermediateId
+				, intermediateId.id
 				, shuffle ) );
 			result = intermediateId;
 		}

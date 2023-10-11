@@ -362,7 +362,7 @@ namespace spirv
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static ValueId submit( ast::expr::ExprCache & exprCache
+			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
@@ -379,12 +379,12 @@ namespace spirv
 					, currentDebugStatement );
 			}
 
-			static ValueId submit( ast::expr::ExprCache & exprCache
+			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
 				, Module & module
-				, ValueId initialiser
+				, DebugId initialiser
 				, bool hasFuncInit
 				, glsl::Statement * currentDebugStatement )
 			{
@@ -400,7 +400,7 @@ namespace spirv
 					, currentDebugStatement );
 			}
 
-			static ValueId submit( ast::expr::ExprCache & exprCache
+			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
@@ -408,7 +408,7 @@ namespace spirv
 				, bool & allLiterals
 				, glsl::Statement * currentDebugStatement )
 			{
-				ValueId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr->getType() };
 				ExprVisitor vis{ result
 					, exprCache
 					, context
@@ -426,17 +426,17 @@ namespace spirv
 				return result;
 			}
 
-			static ValueId submit( ast::expr::ExprCache & exprCache
+			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
 				, Module & module
 				, bool & allLiterals
-				, ValueId initialiser
+				, DebugId initialiser
 				, bool hasFuncInit
 				, glsl::Statement * currentDebugStatement )
 			{
-				ValueId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr->getType() };
 				ExprVisitor vis{ result
 					, exprCache
 					, context
@@ -451,7 +451,7 @@ namespace spirv
 			}
 
 		private:
-			ExprVisitor( ValueId & result
+			ExprVisitor( DebugId & result
 				, ast::expr::ExprCache & exprCache
 				, PreprocContext const & context
 				, Block & currentBlock
@@ -460,6 +460,7 @@ namespace spirv
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
+				, m_typesCache{ module.getTypesCache() }
 				, m_currentDebugStatement{ currentDebugStatement }
 				, m_result{ result }
 				, m_currentBlock{ currentBlock }
@@ -471,17 +472,18 @@ namespace spirv
 			{
 			}
 
-			ExprVisitor( ValueId & result
+			ExprVisitor( DebugId & result
 				, ast::expr::ExprCache & exprCache
 				, PreprocContext const & context
 				, Block & currentBlock
 				, Module & module
 				, bool & allLiterals
-				, ValueId initialiser
+				, DebugId initialiser
 				, bool hasFuncInit
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
+				, m_typesCache{ module.getTypesCache() }
 				, m_currentDebugStatement{ currentDebugStatement }
 				, m_result{ result }
 				, m_currentBlock{ currentBlock }
@@ -492,22 +494,153 @@ namespace spirv
 			{
 			}
 
-			ValueId doSubmit( ast::expr::Expr * expr )
+			DebugId doSubmit( ast::expr::Expr * expr )
 			{
 				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, m_currentDebugStatement );
 			}
 
-			ValueId doSubmit( ast::expr::Expr * expr
-				, ValueId initialiser
+			DebugId doSubmit( ast::expr::Expr * expr
+				, DebugId initialiser
 				, bool hasFuncInit )
 			{
 				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, initialiser, hasFuncInit, m_currentDebugStatement );
 			}
 
-			ValueId doSubmit( ast::expr::Expr * expr
+			DebugId doSubmit( ast::expr::Expr * expr
 				, bool & allLiterals )
 			{
 				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, allLiterals, m_currentDebugStatement );
+			}
+
+			template< typename ValueT >
+			DebugId registerLiteral( ValueT value )
+			{
+				return m_module.registerLiteral( value );
+			}
+
+			DebugId registerLiteral( DebugIdList const & value, ast::type::TypePtr type )
+			{
+				return m_module.registerLiteral( value, type );
+			}
+
+			TypeId registerPointerType( TypeId type
+				, spv::StorageClass storage
+				, bool isForward = false )
+			{
+				return m_module.registerPointerType( type, storage, isForward );
+			}
+
+			TypeId registerType( ast::type::TypePtr type
+				, glsl::Statement const * debugStatement )
+			{
+				return m_module.registerType( type, debugStatement );
+			}
+
+			TypeId registerImageType( ast::type::CombinedImagePtr textureType )
+			{
+				return m_module.registerImageType( textureType->getImageType(), textureType->isComparison() );
+			}
+
+			DebugId mergeSamplerImage( DebugId imageId
+				, DebugId samplerId )
+			{
+				return m_module.mergeSamplerImage( imageId
+					, samplerId
+					, m_currentBlock );
+			}
+
+			Map< std::string, Vector< uint32_t > > & getNameCache()
+			{
+				return m_module.nameCache;
+			}
+
+			DebugId registerVariable( std::string name
+				, ast::Builtin builtin
+				, spv::StorageClass storage
+				, bool isAlias
+				, bool isParam
+				, bool isOutParam
+				, ast::type::TypePtr type
+				, VariableInfo & sourceInfo
+				, DebugId initialiser = DebugId{} )
+			{
+				return m_module.registerVariable( m_currentBlock
+					, std::move( name )
+					, builtin
+					, storage
+					, isAlias
+					, isParam
+					, isOutParam
+					, std::move( type )
+					, sourceInfo
+					, initialiser
+					, m_currentDebugStatement ).id;
+			}
+
+			DebugId getVariablePointer( DebugId varId
+				, std::string name
+				, spv::StorageClass storage )
+			{
+				return m_module.getVariablePointer( m_currentBlock
+					, varId
+					, std::move( name )
+					, storage
+					, m_currentBlock );
+			}
+
+			void decorate( DebugId id
+				, spv::Decoration decoration )
+			{
+				m_module.decorate( id, decoration );
+			}
+
+			VariableInfo registerAlias( std::string name
+				, ast::type::TypePtr type
+				, DebugId result )
+			{
+				return m_module.registerAlias( std::move( name )
+					, type
+					, result );
+			}
+
+			DebugId getIntermediateResult( ast::type::TypePtr type )
+			{
+				return DebugId{ m_module.getIntermediateResult(), type };
+			}
+
+			void putIntermediateResult( DebugId id )
+			{
+				m_module.putIntermediateResult( id.id );
+			}
+
+			uint32_t getVersion()
+			{
+				return m_module.getVersion();
+			}
+
+			DebugId loadVariable( DebugId variableId )
+			{
+				TraceFunc;
+				return m_module.loadVariable( variableId
+					, m_currentBlock );
+			}
+
+			void storeVariable( DebugId variableId
+				, DebugId valueId )
+			{
+				TraceFunc;
+				m_module.storeVariable( variableId
+					, valueId
+					, m_currentBlock );
+			}
+
+			void storePromoted( DebugId variableId
+				, VariableInfo const & sourceInfo )
+			{
+				TraceFunc;
+				m_module.storePromoted( variableId
+					, sourceInfo
+					, m_currentBlock );
 			}
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
@@ -515,26 +648,26 @@ namespace spirv
 				TraceFunc;
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
-				m_result = { m_module.getIntermediateResult(), typeId->type };
+				auto typeId = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( typeId->type );
 
 				if ( expr->isSpecialisationConstant() )
 				{
-					m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( m_module.nameCache
+					m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( getNameCache()
 						, typeId.id
-						, m_result
+						, m_result.id
 						, makeOperands( m_allocator
 							, ValueId{ spv::Id( getUnOpCode( expr->getKind(), expr->getType()->getKind() ) ) }
 							, operandId ) ) );
 				}
 				else
 				{
-					m_currentBlock.instructions.emplace_back( makeUnInstruction( m_module.nameCache
+					m_currentBlock.instructions.emplace_back( makeUnInstruction( getNameCache()
 						, typeId.id
-						, m_result
+						, m_result.id
 						, expr->getKind()
 						, expr->getType()->getKind()
-						, operandId ) );
+						, operandId.id ) );
 				}
 			}
 
@@ -544,14 +677,32 @@ namespace spirv
 				m_allLiterals = false;
 				auto lhsId = loadVariable( doSubmit( expr->getLHS() ) );
 				auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
-				m_result = writeBinOpExpr( expr->getKind()
-					, expr->getLHS()->getType()->getKind()
-					, expr->getRHS()->getType()->getKind()
-					, { typeId.id }
-					, lhsId
-					, rhsId
-					, expr->isSpecialisationConstant() );
+				auto typeId = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( typeId->type );
+
+				if ( expr->isSpecialisationConstant() )
+				{
+					m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( getNameCache()
+						, typeId.id
+						, m_result.id
+						, makeBinOpOperands( m_allocator
+							, expr->getKind()
+							, expr->getLHS()->getType()->getKind()
+							, expr->getRHS()->getType()->getKind()
+							, lhsId.id
+							, rhsId.id ) ) );
+				}
+				else
+				{
+					m_currentBlock.instructions.emplace_back( makeBinInstruction( getNameCache()
+						, typeId.id
+						, m_result.id
+						, expr->getKind()
+						, expr->getLHS()->getType()->getKind()
+						, expr->getRHS()->getType()->getKind()
+						, lhsId.id
+						, rhsId.id ) );
+				}
 			}
 
 			void visitCastExpr( ast::expr::Cast * expr )override
@@ -559,7 +710,7 @@ namespace spirv
 				TraceFunc;
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
-				auto dstTypeId = m_module.registerType( expr->getType(), nullptr );
+				auto dstTypeId = registerType( expr->getType(), nullptr );
 				auto op = helpers::getCastOp( expr->getOperand()->getType()->getKind()
 					, expr->getType()->getKind() );
 
@@ -569,24 +720,24 @@ namespace spirv
 				}
 				else
 				{
-					m_result = { m_module.getIntermediateResult(), dstTypeId->type };
+					m_result = getIntermediateResult( dstTypeId->type );
 
 					if ( expr->isSpecialisationConstant() )
 					{
-						m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( m_module.nameCache
+						m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( getNameCache()
 							, dstTypeId.id
-							, m_result
+							, m_result.id
 							, makeOperands( m_allocator
 								, ValueId{ spv::Id( op ) }
 								, operandId ) ) );
 					}
 					else
 					{
-						m_currentBlock.instructions.emplace_back( makeCastInstruction( m_module.nameCache
+						m_currentBlock.instructions.emplace_back( makeCastInstruction( getNameCache()
 							, dstTypeId.id
-							, m_result
+							, m_result.id
 							, op
-							, operandId ) );
+							, operandId.id ) );
 					}
 				}
 			}
@@ -594,7 +745,7 @@ namespace spirv
 			void visitCommaExpr( ast::expr::Comma * expr )override
 			{
 				TraceFunc;
-				m_module.registerType( expr->getType(), nullptr );
+				registerType( expr->getType(), nullptr );
 				doSubmit( expr->getLHS() );
 				m_result = doSubmit( expr->getRHS() );
 			}
@@ -602,12 +753,12 @@ namespace spirv
 			void visitCopyExpr( ast::expr::Copy * expr )override
 			{
 				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
-				auto dstTypeId = m_module.registerType( expr->getType(), nullptr );
-				m_result = { m_module.getIntermediateResult(), dstTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< CopyObjectInstruction >( m_module.nameCache
+				auto dstTypeId = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( dstTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< CopyObjectInstruction >( getNameCache()
 					, dstTypeId.id
-					, m_result
-					, operandId ) );
+					, m_result.id
+					, operandId.id ) );
 			}
 
 			void visitAssignExpr( ast::expr::Assign * expr )override
@@ -636,24 +787,22 @@ namespace spirv
 						//   No load to retrieve the variable ID.
 						auto lhsId = getVariablePointer( lhsOuter );
 						//   Register component selection as a literal.
-						auto componentId = m_module.registerLiteral( lhsSwizzleKind.toIndex() );
+						auto componentId = registerLiteral( lhsSwizzleKind.toIndex() );
 						//   Register pointer type.
-						auto typeId = m_module.registerType( lhsSwizzle.getType(), nullptr );
+						auto typeId = registerType( lhsSwizzle.getType(), nullptr );
 						//   Retrieve outermost identifier, to be able to retrieve its variable's storage class.
 						auto lhsOutermost = ast::getOutermostExpr( lhsOuter );
 						assert( lhsOutermost->getKind() == ast::expr::Kind::eIdentifier );
-						auto pointerTypeId = m_module.registerPointerType( typeId
-							, getStorageClass( m_module.getVersion(), static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
+						auto pointerTypeId = registerPointerType( typeId
+							, getStorageClass( getVersion(), static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
 						//   Create the access chain.
-						auto intermediateId = ValueId{ m_module.getIntermediateResult(), pointerTypeId->type };
-						m_currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( m_module.nameCache
+						auto intermediateId = getIntermediateResult( pointerTypeId->type );
+						m_currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( getNameCache()
 							, pointerTypeId.id
-							, intermediateId
+							, intermediateId.id
 							, makeOperands( m_allocator, lhsId, componentId ) ) );
 						// - Store the RHS into this access chain.
-						m_module.storeVariable( intermediateId
-							, rhsId
-							, m_currentBlock );
+						storeVariable( intermediateId, rhsId );
 						m_result = intermediateId;
 					}
 					else
@@ -664,8 +813,8 @@ namespace spirv
 						auto loadedLhsId = loadVariable( lhsId );
 						// - The resulting shuffle indices will contain the RHS values for wanted LHS components,
 						//   and LHS values for the remaining ones.
-						auto typeId = m_module.registerType( lhsOuter->getType(), nullptr );
-						ValueIdList shuffle{ m_allocator };
+						auto typeId = registerType( lhsOuter->getType(), nullptr );
+						DebugIdList shuffle{ m_allocator };
 						shuffle.emplace_back( loadedLhsId );
 						shuffle.emplace_back( rhsId );
 						ast::expr::SwizzleKind rhsSwizzleKind;
@@ -695,14 +844,12 @@ namespace spirv
 						shuffle.insert( shuffle.end()
 							, swizzleComponents.begin()
 							, swizzleComponents.end() );
-						auto intermediateId = ValueId{ m_module.getIntermediateResult(), typeId->type };
-						m_currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( m_module.nameCache
+						auto intermediateId = getIntermediateResult( typeId->type );
+						m_currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( getNameCache()
 							, typeId.id
-							, intermediateId
-							, shuffle ) );
-						m_module.storeVariable( lhsId
-							, intermediateId
-							, m_currentBlock );
+							, intermediateId.id
+							, convert( shuffle ) ) );
+						storeVariable( lhsId, intermediateId );
 						m_result = lhsId;
 					}
 				}
@@ -712,9 +859,7 @@ namespace spirv
 					auto lhsId = getVariablePointer( expr->getLHS() );
 					// Ask for the needed variables to be loaded.
 					auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
-					m_module.storeVariable( lhsId
-						, rhsId
-						, m_currentBlock );
+					storeVariable( lhsId, rhsId );
 					m_result = lhsId;
 				}
 			}
@@ -759,7 +904,8 @@ namespace spirv
 					, expr
 					, m_context
 					, m_module
-					, m_currentBlock );
+					, m_currentBlock
+					, m_currentDebugStatement );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
@@ -770,7 +916,8 @@ namespace spirv
 					, expr
 					, m_context
 					, m_module
-					, m_currentBlock );
+					, m_currentBlock
+					, m_currentDebugStatement );
 			}
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
@@ -787,25 +934,24 @@ namespace spirv
 					auto samplerId = loadVariable( doSubmit( it->get(), allLitsInit ) );
 					allLiterals = allLiterals && allLitsInit;
 
-					m_result = m_module.mergeSamplerImage( imageId, samplerId, m_currentBlock );
+					m_result = mergeSamplerImage( imageId, samplerId );
 				}
 				else
 				{
-					ValueIdList params{ m_allocator };
+					DebugIdList params{ m_allocator };
 					auto paramsCount = 0u;
 
 					for ( auto & arg : expr->getArgList() )
 					{
 						bool allLitsInit = true;
-						auto id = loadVariable( doSubmit( arg.get(), allLitsInit ) );
-						params.push_back( id );
+						params.push_back( loadVariable( doSubmit( arg.get(), allLitsInit ) ) );
 						allLiterals = allLiterals && allLitsInit;
 						paramsCount += ast::type::getComponentCount( arg->getType()->getKind() );
 					}
 
 					auto retCount = ast::type::getComponentCount( expr->getType()->getKind() )
 						* ast::type::getComponentCount( ast::type::getComponentType( expr->getType()->getKind() ) );
-					auto typeId = m_module.registerType( expr->getType(), nullptr );
+					auto typeId = registerType( expr->getType(), nullptr );
 
 					if ( paramsCount == 1u && retCount != 1u )
 					{
@@ -816,15 +962,15 @@ namespace spirv
 					if ( allLiterals )
 					{
 						assert( paramsCount == retCount );
-						m_result = { m_module.registerLiteral( params, expr->getType() ) };
+						m_result = registerLiteral( params, expr->getType() );
 					}
 					else
 					{
-						m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-						m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( m_module.nameCache
+						m_result = getIntermediateResult( typeId->type );
+						m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( getNameCache()
 							, typeId.id
-							, m_result
-							, params ) );
+							, m_result.id
+							, convert( params ) ) );
 					}
 				}
 
@@ -834,7 +980,7 @@ namespace spirv
 			void visitFnCallExpr( ast::expr::FnCall * expr )override
 			{
 				TraceFunc;
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 				bool allLiterals = true;
 				auto type = expr->getFn()->getType();
 				assert( type->getKind() == ast::type::Kind::eFunction );
@@ -844,8 +990,8 @@ namespace spirv
 
 				struct OutputParam
 				{
-					ValueId src;
-					ValueId dst;
+					DebugId src;
+					DebugId dst;
 					ast::type::TypePtr type;
 				};
 				Vector< OutputParam > outputParams{ m_allocator };
@@ -853,7 +999,7 @@ namespace spirv
 				for ( auto & arg : expr->getArgList() )
 				{
 					auto & param = *it;
-					ValueId id;
+					DebugId id;
 
 					if ( isPointerParam( *param ) )
 					{
@@ -886,21 +1032,19 @@ namespace spirv
 					++it;
 				}
 
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
+				auto typeId = registerType( expr->getType(), nullptr );
 				auto fnId = doSubmit( expr->getFn() );
 				params.insert( params.begin(), fnId );
-				m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< FunctionCallInstruction >( m_module.nameCache
+				m_result = getIntermediateResult( typeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< FunctionCallInstruction >( getNameCache()
 					, typeId.id
-					, m_result
-					, params ) );
+					, m_result.id
+					, convert( params ) ) );
 
 				for ( auto param : outputParams )
 				{
 					auto loadedId = loadVariable( param.dst );
-					m_module.storeVariable( param.src
-						, loadedId
-						, m_currentBlock );
+					storeVariable( param.src, loadedId );
 				}
 
 				m_allLiterals = m_allLiterals && allLiterals;
@@ -924,7 +1068,7 @@ namespace spirv
 				}
 				else if ( var->getBuiltin() == ast::Builtin::eWorkGroupSize )
 				{
-					m_result = m_context.workGroupSizeExpr;
+					m_result = DebugId{ m_context.workGroupSizeExpr };
 				}
 				else if ( var->isMember() )
 				{
@@ -932,7 +1076,8 @@ namespace spirv
 						, expr
 						, m_context
 						, m_module
-						, m_currentBlock );
+						, m_currentBlock
+						, m_currentDebugStatement );
 				}
 				else
 				{
@@ -955,14 +1100,13 @@ namespace spirv
 				auto imageVarId = doSubmit( expr->getArgList()[0].get() );
 				auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
 				auto intermediateId = loadVariable( imageVarId );
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 				params.push_back( intermediateId );
 
 				for ( auto it = expr->getArgList().begin() + 1u; it != expr->getArgList().end(); ++it )
 				{
 					auto & arg = ( *it );
-					auto id = loadVariable( doSubmit( arg.get() ) );
-					params.push_back( id );
+					params.push_back( loadVariable( doSubmit( arg.get() ) ) );
 				}
 
 				if ( isStore && imageType->getConfig().isMS )
@@ -975,7 +1119,7 @@ namespace spirv
 					auto sample = params.back();
 					params.pop_back();
 					params.push_back( data );
-					params.push_back( { spv::ImageOperandsSampleMask } );
+					params.push_back( DebugId{ spv::ImageOperandsSampleMask } );
 					params.push_back( sample );
 				}
 
@@ -985,22 +1129,22 @@ namespace spirv
 
 				if ( isStore )
 				{
-					m_currentBlock.instructions.emplace_back( makeInstruction< ImageStoreInstruction >( m_module.nameCache
-						, params ) );
+					m_currentBlock.instructions.emplace_back( makeInstruction< ImageStoreInstruction >( getNameCache()
+						, convert( params ) ) );
 				}
 				else if ( !config.needsTexelPointer )
 				{
-					auto typeId = m_module.registerType( expr->getType(), nullptr );
-					m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-					m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( m_module.nameCache
+					auto typeId = registerType( expr->getType(), nullptr );
+					m_result = getIntermediateResult( typeId->type );
+					m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( getNameCache()
 						, typeId.id
-						, m_result
+						, m_result.id
 						, op
-						, params ) );
+						, convert( params ) ) );
 				}
 				else
 				{
-					ValueIdList texelPointerParams{ m_allocator };
+					DebugIdList texelPointerParams{ m_allocator };
 					uint32_t index = 0u;
 					assert( imageVarId.isPointer() );
 					texelPointerParams.push_back( imageVarId );
@@ -1013,38 +1157,38 @@ namespace spirv
 					}
 					else
 					{
-						texelPointerParams.push_back( m_module.registerLiteral( 0u ) );
+						texelPointerParams.push_back( registerLiteral( 0u ) );
 					}
 
 					assert( expr->getArgList()[0]->getKind() == ast::expr::Kind::eIdentifier );
 					auto imgParam = static_cast< ast::expr::Identifier const & >( *expr->getArgList()[0] ).getType();
 					assert( imgParam->getKind() == ast::type::Kind::eImage );
 					auto image = std::static_pointer_cast< ast::type::Image >( imgParam );
-					auto sampledType = m_module.getTypesCache().getBasicType( image->getConfig().sampledType );
-					auto sampledId = m_module.registerType( sampledType, nullptr );
-					auto pointerTypeId = m_module.registerPointerType( sampledId
+					auto sampledType = m_typesCache.getBasicType( image->getConfig().sampledType );
+					auto sampledId = registerType( sampledType, nullptr );
+					auto pointerTypeId = registerPointerType( sampledId
 						, spv::StorageClassImage );
-					auto pointerId = ValueId{ m_module.getIntermediateResult(), pointerTypeId->type };
-					m_currentBlock.instructions.emplace_back( makeInstruction< ImageTexelPointerInstruction >( m_module.nameCache
+					auto pointerId = getIntermediateResult( pointerTypeId->type );
+					m_currentBlock.instructions.emplace_back( makeInstruction< ImageTexelPointerInstruction >( getNameCache()
 						, pointerTypeId.id
-						, pointerId
-						, texelPointerParams ) );
+						, pointerId.id
+						, convert( texelPointerParams ) ) );
 
-					auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
-					ValueIdList accessParams{ m_allocator };
+					auto scopeId = registerLiteral( uint32_t( spv::ScopeDevice ) );
+					DebugIdList accessParams{ m_allocator };
 					accessParams.push_back( pointerId );
 					accessParams.push_back( scopeId );
 
 					if ( op == spv::OpAtomicCompareExchange )
 					{
-						auto equalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
-						auto unequalMemorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
+						auto equalMemorySemanticsId = registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
+						auto unequalMemorySemanticsId = registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
 						accessParams.push_back( equalMemorySemanticsId );
 						accessParams.push_back( unequalMemorySemanticsId );
 					}
 					else
 					{
-						auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
+						auto memorySemanticsId = registerLiteral( uint32_t( spv::MemorySemanticsImageMemoryMask ) );
 						accessParams.push_back( memorySemanticsId );
 					}
 
@@ -1056,14 +1200,14 @@ namespace spirv
 					}
 
 
-					auto typeId = m_module.registerType( expr->getType(), nullptr );
-					m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-					m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( m_module.nameCache
+					auto typeId = registerType( expr->getType(), nullptr );
+					m_result = getIntermediateResult( typeId->type );
+					m_currentBlock.instructions.emplace_back( makeImageAccessInstruction( getNameCache()
 						, typeId.id
-						, m_result
+						, m_result.id
 						, op
-						, accessParams ) );
-					m_module.putIntermediateResult( pointerId );
+						, convert( accessParams ) ) );
+					putIntermediateResult( pointerId );
 				}
 			}
 
@@ -1071,7 +1215,7 @@ namespace spirv
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				m_module.registerType( expr->getType(), nullptr );
+				registerType( expr->getType(), nullptr );
 				bool allLiterals = true;
 				auto init = loadVariable( doSubmit( expr->getInitialiser(), allLiterals ) );
 				bool hasFuncInit = helpers::HasFnCall::submit( expr );
@@ -1135,37 +1279,37 @@ namespace spirv
 				switch ( expr->getLiteralType() )
 				{
 				case ast::expr::LiteralType::eBool:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eBool >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eBool >() );
 					break;
 				case ast::expr::LiteralType::eInt8:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt8 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eInt8 >() );
 					break;
 				case ast::expr::LiteralType::eInt16:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt16 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eInt16 >() );
 					break;
 				case ast::expr::LiteralType::eInt32:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt32 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eInt32 >() );
 					break;
 				case ast::expr::LiteralType::eInt64:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eInt64 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eInt64 >() );
 					break;
 				case ast::expr::LiteralType::eUInt8:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt8 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt8 >() );
 					break;
 				case ast::expr::LiteralType::eUInt16:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt16 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt16 >() );
 					break;
 				case ast::expr::LiteralType::eUInt32:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt32 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt32 >() );
 					break;
 				case ast::expr::LiteralType::eUInt64:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt64 >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eUInt64 >() );
 					break;
 				case ast::expr::LiteralType::eFloat:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eFloat >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eFloat >() );
 					break;
 				case ast::expr::LiteralType::eDouble:
-					m_result = m_module.registerLiteral( expr->getValue< ast::expr::LiteralType::eDouble >() );
+					m_result = registerLiteral( expr->getValue< ast::expr::LiteralType::eDouble >() );
 					break;
 				default:
 					AST_Failure( "Unsupported literal type" );
@@ -1180,22 +1324,22 @@ namespace spirv
 				auto ctrlId = loadVariable( doSubmit( expr->getCtrlExpr() ) );
 				auto trueId = loadVariable( doSubmit( expr->getTrueExpr() ) );
 				auto falseId = loadVariable( doSubmit( expr->getFalseExpr() ) );
-				auto type = m_module.registerType( expr->getType(), nullptr );
-				m_result = ValueId{ m_module.getIntermediateResult(), type->type };
+				auto type = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( type->type );
 				auto branches = makeOperands( m_allocator, ctrlId, trueId, falseId );
 
 				if ( expr->getCtrlExpr()->isSpecialisationConstant() )
 				{
-					m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( m_module.nameCache
+					m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( getNameCache()
 						, type.id
-						, m_result
+						, m_result.id
 						, makeOperands( m_allocator, ValueId{ spv::Id( spv::OpSelect ) }, branches ) ) );
 				}
 				else
 				{
-					m_currentBlock.instructions.emplace_back( makeInstruction< SelectInstruction >( m_module.nameCache
+					m_currentBlock.instructions.emplace_back( makeInstruction< SelectInstruction >( getNameCache()
 						, type.id
-						, m_result
+						, m_result.id
 						, branches ) );
 				}
 			}
@@ -1214,7 +1358,8 @@ namespace spirv
 						, expr
 						, m_context
 						, m_module
-						, m_currentBlock ) );
+						, m_currentBlock
+						, m_currentDebugStatement ) );
 				}
 				else
 				{
@@ -1230,22 +1375,23 @@ namespace spirv
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				ValueIdList args{ m_allocator };
+				DebugIdList args{ m_allocator };
 				bool first = true;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					args.emplace_back( doSubmit( arg.get() ) );
+					auto argId = doSubmit( arg.get() );
+					args.emplace_back( argId );
 
 					if ( !first )
 					{
-						args.back() = loadVariable( args.back() );
+						args.back() = loadVariable( argId );
 					}
 
 					first = false;
 				}
 
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
+				auto typeId = registerType( expr->getType(), nullptr );
 				auto kind = expr->getCombinedImageAccess();
 				IntrinsicConfig config;
 				getSpirVConfig( kind, config );
@@ -1258,19 +1404,19 @@ namespace spirv
 
 				if ( expr->getArgList().front()->isNonUniform() )
 				{
-					m_module.decorate( args[0], spv::DecorationNonUniform );
+					decorate( args[0], spv::DecorationNonUniform );
 				}
 
 				if ( config.needsImage )
 				{
 					// We need to extract the image from the sampled image, to give it to the final instruction.
 					auto textureType = std::static_pointer_cast< ast::type::CombinedImage >( sampledImageType );
-					auto imageTypeId = m_module.registerImageType( textureType->getImageType(), textureType->isComparison() );
-					auto imageId = ValueId{ m_module.getIntermediateResult(), imageTypeId->type };
-					m_currentBlock.instructions.emplace_back( makeInstruction< ImageInstruction >( m_module.nameCache
+					auto imageTypeId = registerImageType( textureType );
+					auto imageId = getIntermediateResult( imageTypeId->type );
+					m_currentBlock.instructions.emplace_back( makeInstruction< ImageInstruction >( getNameCache()
 						, imageTypeId.id
-						, imageId
-						, args[0] ) );
+						, imageId.id
+						, args[0].id ) );
 					args[0] = imageId;
 				}
 
@@ -1287,16 +1433,16 @@ namespace spirv
 
 					auto mask = getMask( kind, constOffset );
 					auto it = args.begin() + config.imageOperandsIndex;
-					it = args.insert( it, ValueId{ spv::Id( mask ) } );
+					it = args.insert( it, DebugId{ spv::Id( mask ) } );
 					++it;
 				}
 
-				m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-				m_currentBlock.instructions.emplace_back( makeTextureAccessInstruction( m_module.nameCache
+				m_result = getIntermediateResult( typeId->type );
+				m_currentBlock.instructions.emplace_back( makeTextureAccessInstruction( getNameCache()
 					, typeId.id
-					, m_result
+					, m_result.id
 					, op
-					, args ) );
+					, convert( args ) ) );
 			}
 
 			void visitAliasExpr( ast::expr::Alias * expr )override
@@ -1309,7 +1455,7 @@ namespace spirv
 					, m_module
 					, m_currentDebugStatement );
 				auto var = expr->getLHS()->getVariable();
-				m_module.registerAlias( var->getName()
+				registerAlias( var->getName()
 					, var->getType()
 					, m_result );
 			}
@@ -1321,72 +1467,72 @@ namespace spirv
 
 			void visitPreIncrementExpr( ast::expr::PreIncrement * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::PreIncrement expression." );
 			}
 
 			void visitPostDecrementExpr( ast::expr::PostDecrement * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::PostDecrement expression." );
 			}
 
 			void visitPostIncrementExpr( ast::expr::PostIncrement * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::PostIncrement expression." );
 			}
 
 			void visitUnaryPlusExpr( ast::expr::UnaryPlus * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::UnaryPlus expression." );
 			}
 
 			void visitAddAssignExpr( ast::expr::AddAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::AddAssign expression." );
 			}
 
 			void visitAndAssignExpr( ast::expr::AndAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::AndAssign expression." );
 			}
 
 			void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::DivideAssign expression." );
 			}
 
 			void visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::LShiftAssign expression." );
 			}
 
 			void visitMinusAssignExpr( ast::expr::MinusAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::MinusAssign expression." );
 			}
 
 			void visitModuloAssignExpr( ast::expr::ModuloAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::ModuloAssign expression." );
 			}
 
 			void visitOrAssignExpr( ast::expr::OrAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::OrAssign expression." );
 			}
 
 			void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::RShiftAssign expression." );
 			}
 
 			void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::TimesAssign expression." );
 			}
 
 			void visitXorAssignExpr( ast::expr::XorAssign * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
+				AST_Failure( "Unexpected ast::expr::XorAssign expression." );
 			}
 
 			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
@@ -1412,40 +1558,38 @@ namespace spirv
 				// Arg 2 is rhs.
 				// Arg 3 is carry or borrow.
 				assert( expr->getArgList().size() == 3u );
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 				params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
 				params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ) ) );
 
 				auto resultStructTypeId = getUnsignedExtendedResultTypeId( isVectorType( expr->getType()->getKind() )
 					? getComponentCount( expr->getType()->getKind() )
 					: 1 );
-				auto resultCarryBorrowId = ValueId{ m_module.getIntermediateResult(), resultStructTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+				auto resultCarryBorrowId = getIntermediateResult( resultStructTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 					, resultStructTypeId.id
-					, resultCarryBorrowId
+					, resultCarryBorrowId.id
 					, opCode
-					, params ) );
+					, convert( params ) ) );
 
 				auto & carryBorrowArg = *expr->getArgList()[2];
-				auto carryBorrowTypeId = m_module.registerType( carryBorrowArg.getType(), nullptr );
-				auto intermediateId = ValueId{ m_module.getIntermediateResult(), carryBorrowTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( m_module.nameCache
+				auto carryBorrowTypeId = registerType( carryBorrowArg.getType(), nullptr );
+				auto intermediateId = getIntermediateResult( carryBorrowTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( getNameCache()
 					, carryBorrowTypeId.id
-					, intermediateId
+					, intermediateId.id
 					, makeOperands( m_allocator, resultCarryBorrowId, ValueId{ 1u } ) ) );
 				auto carryBorrowId = getVariablePointer( &carryBorrowArg );
-				m_module.storeVariable( carryBorrowId
-					, intermediateId
-					, m_currentBlock );
+				storeVariable( carryBorrowId, intermediateId );
 
-				auto resultTypeId = m_module.registerType( expr->getType(), nullptr );
-				m_result = ValueId{ m_module.getIntermediateResult(), resultTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( m_module.nameCache
+				auto resultTypeId = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( resultTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( getNameCache()
 					, resultTypeId.id
-					, m_result
+					, m_result.id
 					, makeOperands( m_allocator, resultCarryBorrowId, ValueId{ 0u } ) ) );
 
-				m_module.putIntermediateResult( intermediateId );
+				putIntermediateResult( intermediateId );
 			}
 
 			void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
@@ -1456,7 +1600,7 @@ namespace spirv
 				// Arg 3 is msb.
 				// Arg 4 is lsb.
 				assert( expr->getArgList().size() == 4u );
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 				params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
 				params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ) ) );
 				TypeId resultStructTypeId;
@@ -1475,57 +1619,53 @@ namespace spirv
 						: 1 );
 				}
 
-				auto resultMulExtendedId = ValueId{ m_module.getIntermediateResult(), resultStructTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+				auto resultMulExtendedId = getIntermediateResult( resultStructTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 					, resultStructTypeId.id
-					, resultMulExtendedId
+					, resultMulExtendedId.id
 					, opCode
-					, params ) );
+					, convert( params ) ) );
 
 				auto & msbArg = *expr->getArgList()[2];
-				auto msbTypeId = m_module.registerType( msbArg.getType(), nullptr );
-				auto intermediateMsb = ValueId{ m_module.getIntermediateResult(), msbTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( m_module.nameCache
+				auto msbTypeId = registerType( msbArg.getType(), nullptr );
+				auto intermediateMsb = getIntermediateResult( msbTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( getNameCache()
 					, msbTypeId.id
-					, intermediateMsb
+					, intermediateMsb.id
 					, makeOperands( m_allocator, resultMulExtendedId, ValueId{ 1u } ) ) );
 				auto msbId = getVariablePointer( &msbArg );
-				m_module.storeVariable( msbId
-					, intermediateMsb
-					, m_currentBlock );
+				storeVariable( msbId, intermediateMsb );
 
 				auto & lsbArg = *expr->getArgList()[3];
-				auto lsbTypeId = m_module.registerType( lsbArg.getType(), nullptr );
-				auto intermediateLsb = ValueId{ m_module.getIntermediateResult(), lsbTypeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( m_module.nameCache
+				auto lsbTypeId = registerType( lsbArg.getType(), nullptr );
+				auto intermediateLsb = getIntermediateResult( lsbTypeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( getNameCache()
 					, lsbTypeId.id
-					, intermediateLsb
+					, intermediateLsb.id
 					, makeOperands( m_allocator, resultMulExtendedId, ValueId{ 0u } ) ) );
 				auto lsbId = getVariablePointer( &lsbArg );
-				m_module.storeVariable( lsbId
-					, intermediateLsb
-					, m_currentBlock );
+				storeVariable( lsbId, intermediateLsb );
 
-				m_module.putIntermediateResult( intermediateMsb );
-				m_module.putIntermediateResult( intermediateLsb );
-				m_module.putIntermediateResult( resultMulExtendedId );
+				putIntermediateResult( intermediateMsb );
+				putIntermediateResult( intermediateLsb );
+				putIntermediateResult( resultMulExtendedId );
 			}
 
 			void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
 				TraceFunc;
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 				params.push_back( doSubmit( expr->getArgList()[0].get() ) );
 
-				auto scopeId = m_module.registerLiteral( uint32_t( spv::ScopeDevice ) );
-				auto memorySemanticsId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
+				auto scopeId = registerLiteral( uint32_t( spv::ScopeDevice ) );
+				auto memorySemanticsId = registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
 				params.push_back( scopeId );
 				params.push_back( memorySemanticsId );
 
 				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eAtomicCompSwapI
 					|| expr->getIntrinsic() == ast::expr::Intrinsic::eAtomicCompSwapU )
 				{
-					auto memorySemanticsUnequalId = m_module.registerLiteral( uint32_t( spv::MemorySemanticsAcquireMask ) );
+					auto memorySemanticsUnequalId = registerLiteral( uint32_t( spv::MemorySemanticsAcquireMask ) );
 					params.push_back( memorySemanticsUnequalId );
 				}
 
@@ -1534,20 +1674,20 @@ namespace spirv
 					params.push_back( loadVariable( doSubmit( expr->getArgList()[i].get() ) ) );
 				}
 
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
-				m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+				auto typeId = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( typeId->type );
+				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 					, typeId.id
-					, m_result
+					, m_result.id
 					, opCode
-					, params ) );
+					, convert( params ) ) );
 			}
 
 			void handleExtensionIntrinsicCallExpr( spv::Id opCode, ast::expr::IntrinsicCall * expr )
 			{
 				TraceFunc;
 				auto intrinsic = expr->getIntrinsic();
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 
 				if ( ( intrinsic >= ast::expr::Intrinsic::eModf1F
 						&& intrinsic <= ast::expr::Intrinsic::eModf4D )
@@ -1565,22 +1705,18 @@ namespace spirv
 				{
 					for ( auto & arg : expr->getArgList() )
 					{
-						params.push_back( m_module.getVariablePointer( m_currentBlock
-							, doSubmit( arg.get() )
+						params.push_back( getVariablePointer( doSubmit( arg.get() )
 							, "interpolant_" + std::to_string( m_aliasId++ )
-							, spv::StorageClassInput
-							, m_currentBlock ) );
+							, spv::StorageClassInput ) );
 					}
 				}
 				else if ( intrinsic >= ast::expr::Intrinsic::eInterpolateAtSample1
 					&& intrinsic <= ast::expr::Intrinsic::eInterpolateAtOffset4 )
 				{
 					auto & args = expr->getArgList();
-					params.push_back( m_module.getVariablePointer( m_currentBlock
-						, doSubmit( args[0].get() )
+					params.push_back( getVariablePointer( doSubmit( args[0].get() )
 						, "interpolant_" + std::to_string( m_aliasId++ )
-						, spv::StorageClassInput
-						, m_currentBlock ) );
+						, spv::StorageClassInput ) );
 					params.push_back( loadVariable( doSubmit( args[1].get() ) ) );
 				}
 				else
@@ -1591,20 +1727,20 @@ namespace spirv
 					}
 				}
 
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
-				params.insert( params.begin(), { opCode } );
-				params.insert( params.begin(), { m_module.extGlslStd450 } );
-				m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-				m_currentBlock.instructions.emplace_back( makeInstruction< ExtInstInstruction >( m_module.nameCache
+				auto typeId = registerType( expr->getType(), nullptr );
+				params.insert( params.begin(), DebugId{ opCode } );
+				params.insert( params.begin(), DebugId{ m_module.extGlslStd450 } );
+				m_result = getIntermediateResult( typeId->type );
+				m_currentBlock.instructions.emplace_back( makeInstruction< ExtInstInstruction >( getNameCache()
 					, typeId.id
-					, m_result
-					, params ) );
+					, m_result.id
+					, convert( params ) ) );
 			}
 
 			void handleBarrierIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
 				TraceFunc;
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 
 				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier )
 				{
@@ -1613,9 +1749,9 @@ namespace spirv
 						throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
 					}
 
-					params.push_back( m_module.registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
-					params.push_back( m_module.registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
-					params.push_back( m_module.registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) ) ) );
+					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
+					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
+					params.push_back( registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) ) ) );
 				}
 				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
 				{
@@ -1624,43 +1760,43 @@ namespace spirv
 						throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
 					}
 
-					params.push_back( m_module.registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
-					params.push_back( m_module.registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
+					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
+					params.push_back( registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
 				}
 
-				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 					, opCode
-					, params ) );
+					, convert( params ) ) );
 			}
 
 			void handleSubgroupIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
 				TraceFunc;
-				ValueIdList params{ m_allocator };
-				params.push_back( m_module.registerLiteral( spv::ScopeSubgroup ) );
+				DebugIdList params{ m_allocator };
+				params.push_back( registerLiteral( spv::ScopeSubgroup ) );
 
 				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotBitCount
 					|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupAdd1F
 						&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupXor4B ) )
 				{
-					params.push_back( { spv::GroupOperationReduce } );
+					params.push_back( DebugId{ spv::GroupOperationReduce } );
 				}
 				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotInclusiveBitCount
 					|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupInclusiveAdd1F
 						&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupInclusiveXor4B ) )
 				{
-					params.push_back( { spv::GroupOperationInclusiveScan } );
+					params.push_back( DebugId{ spv::GroupOperationInclusiveScan } );
 				}
 				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount
 					|| ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupExclusiveAdd1F
 						&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupExclusiveXor4B ) )
 				{
-					params.push_back( { spv::GroupOperationExclusiveScan } );
+					params.push_back( DebugId{ spv::GroupOperationExclusiveScan } );
 				}
 				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupClusterAdd1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupClusterXor4B )
 				{
-					params.push_back( { spv::GroupOperationClusteredReduce } );
+					params.push_back( DebugId{ spv::GroupOperationClusteredReduce } );
 				}
 
 				for ( auto & arg : expr->getArgList() )
@@ -1671,32 +1807,32 @@ namespace spirv
 				if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4D )
 				{
-					params.push_back( m_module.registerLiteral( 0 ) );
+					params.push_back( registerLiteral( 0 ) );
 				}
 				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapVertical1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapVertical4D )
 				{
-					params.push_back( m_module.registerLiteral( 1 ) );
+					params.push_back( registerLiteral( 1 ) );
 				}
 				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D )
 				{
-					params.push_back( m_module.registerLiteral( 2 ) );
+					params.push_back( registerLiteral( 2 ) );
 				}
 
-				auto typeId = m_module.registerType( expr->getType(), nullptr );
-				m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+				auto typeId = registerType( expr->getType(), nullptr );
+				m_result = getIntermediateResult( typeId->type );
+				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 					, typeId.id
-					, m_result
+					, m_result.id
 					, opCode
-					, params ) );
+					, convert( params ) ) );
 			}
 
 			void handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
 				TraceFunc;
-				ValueIdList params{ m_allocator };
+				DebugIdList params{ m_allocator };
 
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -1717,19 +1853,19 @@ namespace spirv
 					|| opCode == spv::OpWritePackedPrimitiveIndices4x8NV
 					|| opCode == spv::OpSetMeshOutputsEXT )
 				{
-					m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+					m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 						, opCode
-						, params ) );
+						, convert( params ) ) );
 				}
 				else
 				{
-					auto typeId = m_module.registerType( expr->getType(), nullptr );
-					m_result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-					m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( m_module.nameCache
+					auto typeId = registerType( expr->getType(), nullptr );
+					m_result = getIntermediateResult( typeId->type );
+					m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
 						, typeId.id
-						, m_result
+						, m_result.id
 						, opCode
-						, params ) );
+						, convert( params ) ) );
 				}
 			}
 
@@ -1741,23 +1877,23 @@ namespace spirv
 				if ( !m_unsignedExtendedTypes[count] )
 				{
 					std::string name = "SDW_ExtendedResultTypeU" + std::to_string( count + 1u );
-					m_unsignedExtendedTypes[count] = m_module.getTypesCache().getStruct( ast::type::MemoryLayout::eC, name );
+					m_unsignedExtendedTypes[count] = m_typesCache.getStruct( ast::type::MemoryLayout::eC, name );
 
 					if ( m_unsignedExtendedTypes[count]->empty() )
 					{
 						auto type = count == 3
-							? m_module.getTypesCache().getVec4U32()
+							? m_typesCache.getVec4U32()
 							: ( count == 2
-								? m_module.getTypesCache().getVec3U32()
+								? m_typesCache.getVec3U32()
 								: ( count == 1
-									? m_module.getTypesCache().getVec2U32()
-									: m_module.getTypesCache().getUInt32() ) );
+									? m_typesCache.getVec2U32()
+									: m_typesCache.getUInt32() ) );
 						m_unsignedExtendedTypes[count]->declMember( "result", type );
 						m_unsignedExtendedTypes[count]->declMember( "extended", type );
 					}
 				}
 
-				return m_module.registerType( m_unsignedExtendedTypes[count], nullptr );
+				return registerType( m_unsignedExtendedTypes[count], nullptr );
 			}
 
 			TypeId getSignedExtendedResultTypeId( uint32_t count )
@@ -1768,69 +1904,63 @@ namespace spirv
 				if ( !m_signedExtendedTypes[count] )
 				{
 					std::string name = "SDW_ExtendedResultTypeS" + std::to_string( count + 1u );
-					m_signedExtendedTypes[count] = m_module.getTypesCache().getStruct( ast::type::MemoryLayout::eC, name );
+					m_signedExtendedTypes[count] = m_typesCache.getStruct( ast::type::MemoryLayout::eC, name );
 
 					if ( m_signedExtendedTypes[count]->empty() )
 					{
 						auto type = count == 3
-							? m_module.getTypesCache().getVec4I32()
+							? m_typesCache.getVec4I32()
 							: ( count == 2
-								? m_module.getTypesCache().getVec3I32()
+								? m_typesCache.getVec3I32()
 								: ( count == 1
-									? m_module.getTypesCache().getVec2I32()
-									: m_module.getTypesCache().getInt32() ) );
+									? m_typesCache.getVec2I32()
+									: m_typesCache.getInt32() ) );
 						m_signedExtendedTypes[count]->declMember( "result", type );
 						m_signedExtendedTypes[count]->declMember( "extended", type );
 					}
 				}
 
-				return m_module.registerType( m_signedExtendedTypes[count], nullptr );
+				return registerType( m_signedExtendedTypes[count], nullptr );
 			}
 
-			ValueId getVariablePointer( ast::expr::Expr * expr )
+			DebugId getVariablePointer( ast::expr::Expr * expr )
 			{
 				TraceFunc;
-				ValueId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr->getType() };
 
 				if ( isAccessChain( expr ) )
 				{
 					result = doSubmit( expr );
 				}
+				else if ( auto ident = ast::findIdentifier( expr ) )
+				{
+					auto var = ident->getVariable();
+					VariableInfo sourceInfo;
+					auto name = helpers::adaptName( var->getName() );
+					auto varInfo = registerVariable( std::move( name )
+						, var->getBuiltin()
+						, getStorageClass( getVersion(), var )
+						, false
+						, false
+						, var->isOutputParam()
+						, expr->getType()
+						, sourceInfo );
+					result = varInfo;
+					assert( result.isPointer() );
+
+					if ( result.getStorage() != sourceInfo.id.getStorage() )
+					{
+						auto id = loadVariable( DebugId{ sourceInfo.id } );
+						storeVariable( result, id );
+					}
+				}
 				else
 				{
-					auto ident = ast::findIdentifier( expr );
+					result = doSubmit( expr );
 
-					if ( ident )
+					if ( !result.isPointer() )
 					{
-						auto var = ident->getVariable();
-						VariableInfo sourceInfo;
-						auto name = helpers::adaptName( var->getName() );
-						auto varInfo = m_module.registerVariable( m_currentBlock
-							, name
-							, var->getBuiltin()
-							, getStorageClass( m_module.getVersion(), var )
-							, false
-							, false
-							, var->isOutputParam()
-							, expr->getType()
-							, sourceInfo );
-						result = varInfo.id;
-						assert( result.isPointer() );
-
-						if ( result.getStorage() != sourceInfo.id.getStorage() )
-						{
-							auto id = loadVariable( sourceInfo.id );
-							storeVariable( result, id );
-						}
-					}
-					else
-					{
-						result = doSubmit( expr );
-
-						if ( !result.isPointer() )
-						{
-							result = makeFunctionAlias( result );
-						}
+						result = makeFunctionAlias( result );
 					}
 				}
 
@@ -1838,84 +1968,31 @@ namespace spirv
 				return result;
 			}
 
-			ValueId writeBinOpExpr( ast::expr::Kind exprKind
-				, ast::type::Kind lhsTypeKind
-				, ast::type::Kind rhsTypeKind
-				, ValueId typeId
-				, ValueId lhsId
-				, ValueId rhsId
-				, bool isLhsSpecConstant )
-			{
-				TraceFunc;
-				auto result = ValueId{ m_module.getIntermediateResult(), typeId.type };
-
-				if ( isLhsSpecConstant )
-				{
-					m_currentBlock.instructions.emplace_back( makeInstruction< SpecConstantOpInstruction >( m_module.nameCache
-						, typeId
-						, result
-						, makeBinOpOperands( m_allocator
-							, exprKind
-							, lhsTypeKind
-							, rhsTypeKind
-							, lhsId
-							, rhsId ) ) );
-				}
-				else
-				{
-					m_currentBlock.instructions.emplace_back( makeBinInstruction( m_module.nameCache
-						, typeId
-						, result
-						, exprKind
-						, lhsTypeKind
-						, rhsTypeKind
-						, lhsId
-						, rhsId ) );
-				}
-
-				return result;
-			}
-
-			ValueId loadVariable( ValueId varId )
-			{
-				TraceFunc;
-				return m_module.loadVariable( varId, m_currentBlock );
-			}
-
-			void storeVariable( ValueId varId, ValueId valId )
-			{
-				TraceFunc;
-				m_module.storeVariable( varId, valId, m_currentBlock );
-			}
-
-			ValueId makeFunctionAlias( ValueId source )
-			{
-				TraceFunc;
-				return makeFunctionAlias( source, source.type );
-			}
-
-			ValueId makeFunctionAlias( ValueId source
+			DebugId makeFunctionAlias( DebugId source
 				, ast::type::TypePtr type )
 			{
 				TraceFunc;
 				VariableInfo info;
 				info.rvalue = true;
-				auto result = m_module.registerVariable( m_currentBlock
-					, "functmp_" + std::to_string( uintptr_t( type.get() ) ) + std::to_string( m_aliasId++ )
+				auto result = registerVariable( "functmp_" + std::to_string( uintptr_t( type.get() ) ) + std::to_string( m_aliasId++ )
 					, ast::Builtin::eNone
 					, spv::StorageClassFunction
 					, false
 					, false
 					, false
 					, type
-					, info ).id;
-				m_module.storeVariable( result
-					, source
-					, m_currentBlock );
+					, info );
+				storeVariable( result, source );
 				return result;
 			}
 
-			bool initialiseVariable( ValueId init
+			DebugId makeFunctionAlias( DebugId source )
+			{
+				TraceFunc;
+				return makeFunctionAlias( source, source->type );
+			}
+
+			bool initialiseVariable( DebugId init
 				, bool allLiterals
 				, bool isFuncInit
 				, ast::var::VariablePtr var
@@ -1923,15 +2000,14 @@ namespace spirv
 			{
 				TraceFunc;
 				bool result{};
-				spv::StorageClass storageClass{ getStorageClass( m_module.getVersion(), var ) };
+				spv::StorageClass storageClass{ getStorageClass( getVersion(), var ) };
 
 				if ( allLiterals
 					&& !var->isLoopVar()
 					&& !isFuncInit )
 				{
 					VariableInfo sourceInfo;
-					m_result = m_module.registerVariable( m_currentBlock
-						, helpers::adaptName( var->getName() )
+					m_result = registerVariable( helpers::adaptName( var->getName() )
 						, var->getBuiltin()
 						, storageClass
 						, var->isAlias()
@@ -1939,14 +2015,13 @@ namespace spirv
 						, var->isOutputParam()
 						, type
 						, sourceInfo
-						, init
-						, m_currentDebugStatement ).id;
+						, init );
 					result = sourceInfo.isAlias;
 				}
 				else if ( var->isAlias()
 					&& !isFuncInit )
 				{
-					m_module.registerAlias( helpers::adaptName( var->getName() )
+					registerAlias( helpers::adaptName( var->getName() )
 						, type
 						, init );
 					m_result = init;
@@ -1954,8 +2029,7 @@ namespace spirv
 				else
 				{
 					VariableInfo sourceInfo;
-					auto varInfo = m_module.registerVariable( m_currentBlock
-						, helpers::adaptName( var->getName() )
+					auto varInfo = registerVariable( helpers::adaptName( var->getName() )
 						, var->getBuiltin()
 						, storageClass
 						, false
@@ -1963,25 +2037,20 @@ namespace spirv
 						, false
 						, type
 						, sourceInfo
-						, {}
-						, m_currentDebugStatement );
+						, DebugId{} );
 
-					if ( varInfo.id.id != 0u )
+					if ( varInfo )
 					{
-						m_result = varInfo.id;
+						m_result = varInfo;
 						result = sourceInfo.isAlias;
 
 						if ( init )
 						{
-							m_module.storeVariable( m_result
-								, init
-								, m_currentBlock );
+							storeVariable( m_result, init );
 						}
 						else if ( sourceInfo.needsStoreOnPromote() )
 						{
-							m_module.storePromoted( m_result
-								, sourceInfo
-								, m_currentBlock );
+							storePromoted( m_result, sourceInfo );
 						}
 					}
 				}
@@ -1989,13 +2058,13 @@ namespace spirv
 				return result;
 			}
 
-			ValueId visitInitialisers( ast::expr::ExprList const & inits
+			DebugId visitInitialisers( ast::expr::ExprList const & inits
 				, ast::type::TypePtr type
 				, bool & allLiterals
 				, bool & hasFuncInit )
 			{
 				TraceFunc;
-				ValueIdList initialisers{ m_allocator };
+				DebugIdList initialisers{ m_allocator };
 
 				for ( auto & init : inits )
 				{
@@ -2003,20 +2072,20 @@ namespace spirv
 					hasFuncInit = hasFuncInit || helpers::HasFnCall::submit( init.get() );
 				}
 
-				ValueId result{ 0u, type };
+				DebugId result{ 0u, type };
 
 				if ( allLiterals )
 				{
-					result = m_module.registerLiteral( initialisers, type );
+					result = registerLiteral( initialisers, type );
 				}
 				else
 				{
-					auto typeId = m_module.registerType( type, nullptr );
-					result = ValueId{ m_module.getIntermediateResult(), typeId->type };
-					m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( m_module.nameCache
+					auto typeId = registerType( type, nullptr );
+					result = getIntermediateResult( typeId->type );
+					m_currentBlock.instructions.emplace_back( makeInstruction< CompositeConstructInstruction >( getNameCache()
 						, typeId.id
-						, result
-						, initialisers ) );
+						, result.id
+						, convert( initialisers ) ) );
 				}
 
 				return result;
@@ -2025,13 +2094,14 @@ namespace spirv
 		private:
 			ast::expr::ExprCache & m_exprCache;
 			spirv::PreprocContext const & m_context;
+			ast::type::TypesCache & m_typesCache;
 			glsl::Statement * m_currentDebugStatement;
-			ValueId & m_result;
+			DebugId & m_result;
 			Block & m_currentBlock;
 			Module & m_module;
 			bool & m_allLiterals;
 			ast::ShaderAllocatorBlock * m_allocator;
-			ValueId m_initialiser;
+			DebugId m_initialiser;
 			bool m_hasFuncInit{ false };
 			std::array< ast::type::BaseStructPtr, 4u > m_unsignedExtendedTypes;
 			std::array< ast::type::BaseStructPtr, 4u > m_signedExtendedTypes;
@@ -2118,7 +2188,7 @@ namespace spirv
 							, input->isOutputParam()
 							, input->getType()
 							, info
-							, ValueId{}
+							, DebugId{}
 							, getCurrentDebugStatement() ).id );
 					}
 				}
@@ -2134,7 +2204,7 @@ namespace spirv
 						, output->isOutputParam()
 						, output->getType()
 						, info
-						, ValueId{}
+						, DebugId{}
 						, getCurrentDebugStatement() ).id );
 				}
 
@@ -2144,12 +2214,28 @@ namespace spirv
 				}
 			}
 
+			DebugId doSubmit( ast::expr::Expr * expr
+				, Block & block )
+			{
+				return ExprVisitor::submit( m_exprCache
+					, expr
+					, m_context
+					, block
+					, m_result
+					, getCurrentDebugStatement() );
+			}
+
+			DebugId doSubmit( ast::expr::Expr * expr )
+			{
+				return doSubmit( expr, m_currentBlock );
+			}
+
 			bool isDebugEnabled()const noexcept
 			{
 				return !m_debugStatements.statements.empty();
 			}
 
-			void writeLine( Block & block
+			void writeLine( InstructionList & instructions
 				, glsl::Statement * statement )
 			{
 				if ( isDebugEnabled() )
@@ -2158,9 +2244,15 @@ namespace spirv
 					auto columnStartId = m_result.registerLiteral( statement->source.columnStart );
 					auto columnEndId = m_result.registerLiteral( statement->source.columnEnd );
 					m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Line
-						, block
+						, instructions
 						, debug::makeValueIdList( m_allocator, m_result.debugSourceId, lineId, lineId, columnStartId, columnEndId ) );
 				}
+			}
+
+			void writeLine( Block & block
+				, glsl::Statement * statement )
+			{
+				writeLine( block.instructions, statement );
 			}
 
 			void consumeDebugStatement( [[maybe_unused]] glsl::StatementType type )
@@ -2195,16 +2287,24 @@ namespace spirv
 				}
 			}
 
-			void beginScope( Block & block )
+			void beginScope( InstructionList & instructions )
 			{
 				if ( isDebugEnabled() )
 				{
-					auto scopeFirstLineStmt = getCurrentDebugStatement();
-					m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Scope
-						, block
-						, debug::makeValueIdList( m_allocator, m_currentScopeId ) );
-					writeLine( block, scopeFirstLineStmt );
+					if ( isDebugEnabled() )
+					{
+						auto scopeFirstLineStmt = getCurrentDebugStatement();
+						m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Scope
+							, instructions
+							, debug::makeValueIdList( m_allocator, m_currentScopeId ) );
+						writeLine( instructions, scopeFirstLineStmt );
+					}
 				}
+			}
+
+			void beginScope( Block & block )
+			{
+				beginScope( block.instructions );
 			}
 
 			glsl::Statement * parseScope( ast::stmt::Compound * stmt
@@ -2221,16 +2321,7 @@ namespace spirv
 					consumeDebugStatement( scopeBegin );
 					auto scopeLineId = m_result.registerLiteral( scopeBeginStmt->source.lineStart );
 
-					if ( scopeBegin == glsl::StatementType::eFunctionScopeBegin )
-					{
-						m_currentScopeId = m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Function
-							, debug::makeValueIdList( m_allocator, m_function->debugNameId, m_function->debugTypeId, m_result.debugSourceId, m_function->debugLineId, m_function->debugColumnId, previousScopeId, m_function->debugNameId, m_function->debugFlagId, scopeLineId, m_functionDebugId ) );
-						m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDefinition
-							, m_currentBlock
-							, debug::makeValueIdList( m_allocator, m_currentScopeId, m_function->id ) );
-						beginScope( m_currentBlock );
-					}
-					else if ( scopeBegin == glsl::StatementType::eLexicalScopeBegin )
+					if ( scopeBegin == glsl::StatementType::eLexicalScopeBegin )
 					{
 						auto columnId = m_result.registerLiteral( scopeBeginStmt->source.columnStart );
 						m_currentScopeId = m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LexicalBlock
@@ -2372,19 +2463,19 @@ namespace spirv
 			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
 			{
 				TraceFunc;
-				ValueIdList operands{ m_allocator };
+				DebugIdList operands{ m_allocator };
 				operands.push_back( submitAndLoad( stmt->getNumGroupsX() ) );
 				operands.push_back( submitAndLoad( stmt->getNumGroupsY() ) );
 				operands.push_back( submitAndLoad( stmt->getNumGroupsZ() ) );
 
 				if ( stmt->getPayload() )
 				{
-					operands.push_back( ExprVisitor::submit( m_exprCache, stmt->getPayload(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() ) );
+					operands.push_back( doSubmit( stmt->getPayload() ) );
 				}
 
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
-					, makeInstruction< EmitMeshTasksInstruction >( m_result.nameCache, operands )
+					, makeInstruction< EmitMeshTasksInstruction >( m_result.nameCache, convert( operands ) )
 					, false );
 			}
 
@@ -2472,8 +2563,8 @@ namespace spirv
 
 				// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
 				writeLine( ifBlock, getCurrentDebugStatement() );
-				auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getCtrlExpr(), m_context, ifBlock, m_result, getCurrentDebugStatement() ), m_currentBlock );
-				endBlock( ifBlock, intermediateIfId.id, loopBlockLabel, mergeBlock.label );
+				auto intermediateIfId = m_result.loadVariable( doSubmit( stmt->getCtrlExpr(), ifBlock ), m_currentBlock );
+				endBlock( ifBlock, intermediateIfId->id, loopBlockLabel, mergeBlock.label );
 
 				// Current block becomes the merge block.
 				m_controlBlocks.pop_back();
@@ -2535,11 +2626,20 @@ namespace spirv
 			{
 				TraceFunc;
 				auto type = stmt->getType();
-				auto retType = m_result.registerType( type->getReturnType(), getCurrentDebugStatement() );
+				auto declStmt = getCurrentDebugStatement();
+				consumeDebugStatement( glsl::StatementType::eFunctionDecl );
+				auto previousScopeId = m_currentScopeId;
+				auto scopeBeginStmt = getCurrentDebugStatement();
+				consumeDebugStatement( glsl::StatementType::eFunctionScopeBegin );
+				m_currentBlock = m_result.newBlock();
+
+				auto retType = m_result.registerType( type->getReturnType(), declStmt );
 				m_function = m_result.beginFunction( stmt->getName()
 					, retType
-					, ast::var::VariableList{ type->begin(), type->end() } );
-				m_currentBlock = m_result.newBlock();
+					, ast::var::VariableList{ type->begin(), type->end() }
+					, declStmt
+					, scopeBeginStmt
+					, getCurrentDebugStatement() );
 
 				auto itFunction = m_actions.find( stmt->getName() );
 
@@ -2571,8 +2671,8 @@ namespace spirv
 							, param->isOutputParam()
 							, param->getType()
 							, sourceInfo
-							, ValueId{}
-							, getCurrentDebugStatement() );
+							, DebugId{}
+							, declStmt );
 
 						if ( !sourceInfo.id.isPointer() )
 						{
@@ -2581,30 +2681,29 @@ namespace spirv
 					}
 				}
 
+				glsl::Statement * funcEndStmt{};
+
 				if ( isDebugEnabled() )
 				{
-					auto declStmt = getCurrentDebugStatement();
-					consumeDebugStatement( glsl::StatementType::eFunctionDecl );
-					m_functionDebugId.id = m_result.getNextId();
-					m_function->debugNameId = m_result.registerString( stmt->getName() );
-					m_function->debugLineId = m_result.registerLiteral( declStmt->source.lineStart );
-					m_function->debugColumnId = m_result.registerLiteral( declStmt->source.columnStart );
-					m_function->debugFlagId = m_result.registerLiteral( 0u );
-					m_functionDebugId = m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDeclaration
-						, debug::makeValueIdList( m_allocator, m_function->debugNameId, m_function->debugTypeId, m_result.debugSourceId, m_function->debugLineId, m_function->debugColumnId, m_result.globalScopeId, m_function->debugNameId, m_function->debugFlagId ) );
+					m_currentScopeId = m_function->id.debug;
+					beginScope( m_function->debugStart );
+					m_scopeLines.push_back( glsl::StatementType::eScopeLine );
+					visitContainerStmt( stmt );
+					m_scopeLines.pop_back();
+					funcEndStmt = getCurrentDebugStatement();
+					consumeDebugStatement( glsl::StatementType::eFunctionScopeEnd );
 				}
-
-				auto funcEndStmt = parseScope( stmt
-					, glsl::StatementType::eFunctionScopeBegin
-					, glsl::StatementType::eScopeLine
-					, glsl::StatementType::eFunctionScopeEnd );
+				else
+				{
+					visitContainerStmt( stmt );
+				}
 
 				if ( stmt->isEntryPoint() )
 				{
-					m_result.registerEntryPoint( ValueId{ m_function->declaration.front()->resultId.value() }
+					m_result.registerEntryPoint( m_function->id
 						, stmt->getName()
-						, m_inputs
-						, m_outputs );
+						, convert( m_inputs )
+						, convert( m_outputs ) );
 				}
 
 				if ( !m_currentBlock.blockEnd )
@@ -2659,7 +2758,7 @@ namespace spirv
 
 				// End current block, to branch to the if content block (true) or to the false branch block (false).
 				beginControl( m_currentBlock );
-				auto intermediateIfId = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getCtrlExpr(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() ), m_currentBlock );
+				auto intermediateIfId = m_result.loadVariable( doSubmit( stmt->getCtrlExpr() ), m_currentBlock );
 
 				if ( isDebugEnabled() )
 				{
@@ -2669,7 +2768,7 @@ namespace spirv
 				}
 
 				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
-				endBlock( m_currentBlock, intermediateIfId.id, contentBlock.label, falseBlockLabel );
+				endBlock( m_currentBlock, intermediateIfId->id, contentBlock.label, falseBlockLabel );
 
 				// The current block becomes the if content block.
 				m_currentBlock = std::move( contentBlock );
@@ -2685,10 +2784,8 @@ namespace spirv
 					stmt->getElse()->accept( this );
 					endBlock( m_currentBlock, mergeBlock.label );
 				}
-				else
-				{
-					beginScope( mergeBlock );
-				}
+
+				beginScope( mergeBlock );
 
 				// Current block becomes the merge block.
 				m_currentBlock = std::move( mergeBlock );
@@ -2807,15 +2904,15 @@ namespace spirv
 				consumeSimpleDebugStatement();
 				m_result.registerExecutionMode( spv::ExecutionModeLocalSize
 					, makeOperands( m_allocator, ValueId{ stmt->getWorkGroupsX() }, ValueId{ stmt->getWorkGroupsY() }, ValueId{ stmt->getWorkGroupsZ() } ) );
-				ValueIdList ids{ m_allocator };
+				DebugIdList ids{ m_allocator };
 				ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsX() ) );
 				ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsY() ) );
 				ids.push_back( m_result.registerLiteral( stmt->getWorkGroupsZ() ) );
 
 				if ( m_moduleConfig.stage == ast::ShaderStage::eCompute )
 				{
-					m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getTypesCache().getVec3U32() );
-					m_result.decorate( m_context.workGroupSizeExpr, makeIdList( m_allocator, spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) ) );
+					m_context.workGroupSizeExpr = m_result.registerLiteral( ids, m_result.getTypesCache().getVec3U32() ).id;
+					m_result.decorate( DebugId{ m_context.workGroupSizeExpr }, makeIdList( m_allocator, spv::Id( spv::DecorationBuiltIn ), spv::Id( spv::BuiltInWorkgroupSize ) ) );
 				}
 			}
 
@@ -2897,15 +2994,9 @@ namespace spirv
 
 				if ( stmt->getExpr() )
 				{
-					auto result = m_result.loadVariable( ExprVisitor::submit( m_exprCache
-							, stmt->getExpr()
-							, m_context
-							, m_currentBlock
-							, m_result
-							, getCurrentDebugStatement() )
-						, m_currentBlock );
+					auto result = m_result.loadVariable( doSubmit( stmt->getExpr() ), m_currentBlock );
 					interruptBlock( m_currentBlock
-						, makeInstruction< ReturnValueInstruction >( m_result.nameCache, result )
+						, makeInstruction< ReturnValueInstruction >( m_result.nameCache, result.id )
 						, false );
 				}
 				else
@@ -3048,7 +3139,7 @@ namespace spirv
 				}
 
 				beginControl( m_currentBlock );
-				auto selector = m_result.loadVariable( ExprVisitor::submit( m_exprCache, stmt->getTestExpr()->getValue(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() ), m_currentBlock );
+				auto selector = m_result.loadVariable( doSubmit( stmt->getTestExpr()->getValue() ), m_currentBlock );
 				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 				m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.nameCache, makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
 				m_currentBlock.isInterrupted = true;
@@ -3212,11 +3303,11 @@ namespace spirv
 				//TODO m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
 			}
 
-			ValueId visitVariable( ast::var::VariablePtr var )
+			DebugId visitVariable( ast::var::VariablePtr var )
 			{
 				TraceFunc;
 				VariableInfo info;
-				ValueId result;
+				DebugId result;
 
 				if ( var->isMember() )
 				{
@@ -3229,7 +3320,7 @@ namespace spirv
 						, var->isOutputParam()
 						, var->getOuter()->getType()
 						, info
-						, ValueId{}
+						, DebugId{}
 						, getCurrentDebugStatement() ).id;
 					result = m_result.registerMemberVariable( outer
 						, var->getName()
@@ -3246,7 +3337,7 @@ namespace spirv
 						, var->isOutputParam()
 						, var->getType()
 						, info
-						, ValueId{}
+						, DebugId{}
 						, getCurrentDebugStatement() ).id;
 				}
 
@@ -3257,7 +3348,7 @@ namespace spirv
 			void visitDebugVariableDecl( std::string const & name
 				, ast::type::TypePtr type
 				, uint64_t varFlags
-				, ValueId variableId
+				, DebugId variableId
 				, glsl::StatementType stmtType = glsl::StatementType::eVariableDecl )
 			{
 				if ( !isDebugEnabled() )
@@ -3270,7 +3361,7 @@ namespace spirv
 			}
 
 			void visitDebugVariableDecl( ast::var::VariablePtr variable
-				, ValueId variableId
+				, DebugId variableId
 				, glsl::StatementType stmtType = glsl::StatementType::eVariableDecl )
 			{
 				if ( !isDebugEnabled() )
@@ -3289,7 +3380,7 @@ namespace spirv
 				, std::string const & name
 				, ast::type::TypePtr type
 				, uint64_t varFlags
-				, ValueId variableId
+				, DebugId variableId
 				, glsl::StatementType stmtType = glsl::StatementType::eVariableDecl )
 			{
 				if ( isDebugEnabled() )
@@ -3309,7 +3400,7 @@ namespace spirv
 
 			void visitDebugVariableBlockDecl( ast::stmt::Compound * stmt
 				, ast::var::VariablePtr variable
-				, ValueId variableId )
+				, DebugId variableId )
 			{
 				visitDebugVariableBlockDecl( stmt
 					, variable->getName()
@@ -3318,10 +3409,10 @@ namespace spirv
 					, variableId );
 			}
 
-			ValueId submitAndLoad( ast::expr::Expr * expr )
+			DebugId submitAndLoad( ast::expr::Expr * expr )
 			{
 				TraceFunc;
-				auto result = ExprVisitor::submit( m_exprCache, expr, m_context, m_currentBlock, m_result, getCurrentDebugStatement() );
+				auto result = doSubmit( expr );
 
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier )
 				{
@@ -3343,11 +3434,10 @@ namespace spirv
 			Function * m_function{ nullptr };
 			Vector< Control > m_controlBlocks;
 			uint32_t m_ifStmts{ 0u };
-			ValueIdList m_inputs;
-			ValueIdList m_outputs;
+			DebugIdList m_inputs;
+			DebugIdList m_outputs;
 			glsl::StatementsList::iterator m_currentDebugStatement{};
 			std::vector< glsl::StatementType > m_scopeLines{ glsl::StatementType::eScopeLine };
-			ValueId m_functionDebugId{};
 			ValueId m_currentScopeId{};
 		};
 	}
@@ -3373,7 +3463,7 @@ namespace spirv
 			, std::move( debugStatements ) );
 	}
 
-	ValueId generateModuleExpr( ast::expr::ExprCache & exprCache
+	DebugId generateModuleExpr( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
