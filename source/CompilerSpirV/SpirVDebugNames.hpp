@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirvDebugNames_H___
 #pragma once
 
-#include "CompilerSpirV/SpirvInstruction.hpp"
+#include "CompilerSpirV/SpirVInstruction.hpp"
 
 #include <map>
 

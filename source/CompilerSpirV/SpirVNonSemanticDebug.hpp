@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SpirVNonSemanticDebug_H___
 #pragma once
 
-#include "CompilerSpirV/SpirvInstruction.hpp"
+#include "CompilerSpirV/SpirVInstruction.hpp"
 #include "CompilerSpirV/spirv/NonSemantic.Shader.DebugInfo.100.hpp"
 
 #include <GlslCommon/GlslStatementsHelpers.hpp>
