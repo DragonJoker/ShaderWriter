@@ -551,7 +551,7 @@ namespace spirv
 
 			Map< std::string, Vector< uint32_t > > & getNameCache()
 			{
-				return m_module.nameCache;
+				return m_module.getNameCache();
 			}
 
 			DebugId registerVariable( std::string name
@@ -2170,7 +2170,7 @@ namespace spirv
 				, m_context{ std::move( context ) }
 				, m_actions{ std::move( actions ) }
 				, m_result{ result }
-				, m_debug{ m_result.getDebug() }
+				, m_debug{ m_result.getNonSemanticDebug() }
 				, m_debugStatements{ std::move( debugStatements ) }
 				, m_currentBlock{ m_allocator }
 				, m_controlBlocks{ m_allocator }
@@ -2362,7 +2362,7 @@ namespace spirv
 				TraceFunc;
 				if ( !block.isInterrupted )
 				{
-					block.blockEnd = makeInstruction< BranchInstruction >( m_result.nameCache, ValueId{ nextBlockLabel } );
+					block.blockEnd = makeInstruction< BranchInstruction >( m_result.getNameCache(), ValueId{ nextBlockLabel } );
 				}
 
 				m_function->cfg.blocks.emplace_back( std::move( block ) );
@@ -2376,7 +2376,7 @@ namespace spirv
 				TraceFunc;
 				if ( !block.isInterrupted )
 				{
-					block.blockEnd = makeInstruction< BranchConditionalInstruction >( m_result.nameCache
+					block.blockEnd = makeInstruction< BranchConditionalInstruction >( m_result.getNameCache()
 						, makeOperands( m_allocator
 							, ValueId{ trueBlockLabel }
 							, ValueId{ falseBlockLabel }
@@ -2403,7 +2403,7 @@ namespace spirv
 				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
-					, makeInstruction< BranchInstruction >( m_result.nameCache, ValueId{ m_controlBlocks.back().breakLabel } )
+					, makeInstruction< BranchInstruction >( m_result.getNameCache(), ValueId{ m_controlBlocks.back().breakLabel } )
 					, !stmt->isSwitchCaseBreak() );
 			}
 
@@ -2412,7 +2412,7 @@ namespace spirv
 				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
-					, makeInstruction< BranchInstruction >( m_result.nameCache, ValueId{ m_controlBlocks.back().continueLabel } )
+					, makeInstruction< BranchInstruction >( m_result.getNameCache(), ValueId{ m_controlBlocks.back().continueLabel } )
 					, true );
 			}
 
@@ -2441,12 +2441,12 @@ namespace spirv
 
 				if ( m_moduleConfig.hasExtension( EXT_demote_to_helper_invocation ) )
 				{
-					m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >( m_result.nameCache ) );
+					m_currentBlock.instructions.emplace_back( makeInstruction< DemoteInstruction >( m_result.getNameCache() ) );
 				}
 				else
 				{
 					interruptBlock( m_currentBlock
-						, makeInstruction< KillInstruction >( m_result.nameCache )
+						, makeInstruction< KillInstruction >( m_result.getNameCache() )
 						, true );
 				}
 			}
@@ -2466,7 +2466,7 @@ namespace spirv
 
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
-					, makeInstruction< EmitMeshTasksInstruction >( m_result.nameCache, convert( operands ) )
+					, makeInstruction< EmitMeshTasksInstruction >( m_result.getNameCache(), convert( operands ) )
 					, false );
 			}
 
@@ -2478,13 +2478,13 @@ namespace spirv
 				if ( m_moduleConfig.hasExtension( KHR_terminate_invocation ) )
 				{
 					interruptBlock( m_currentBlock
-						, makeInstruction< TerminateInvocationInstruction >( m_result.nameCache )
+						, makeInstruction< TerminateInvocationInstruction >( m_result.getNameCache() )
 						, true );
 				}
 				else
 				{
 					interruptBlock( m_currentBlock
-						, makeInstruction< KillInstruction >( m_result.nameCache )
+						, makeInstruction< KillInstruction >( m_result.getNameCache() )
 						, true );
 				}
 			}
@@ -2533,7 +2533,7 @@ namespace spirv
 				auto loopBlockLabel = loopBlock.label;
 				beginControl( loopBlock );
 
-				loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( m_result.nameCache
+				loopBlock.instructions.emplace_back( makeInstruction< LoopMergeInstruction >( m_result.getNameCache()
 					, makeOperands( m_allocator
 						, ValueId{ mergeBlock.label }
 						, ValueId{ ifBlock.label }
@@ -2705,19 +2705,19 @@ namespace spirv
 					if ( type->getReturnType()->getKind() == ast::type::Kind::eVoid )
 					{
 						writeLine( m_currentBlock, funcEndStmt );
-						m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >( m_result.nameCache );
+						m_currentBlock.blockEnd = makeInstruction< ReturnInstruction >( m_result.getNameCache() );
 					}
 					else
 					{
 						auto retId = ValueId{ m_result.getIntermediateResult(), retType->type };
-						m_currentBlock.instructions.emplace_back( makeInstruction< UndefInstruction >( m_result.nameCache, retType.id, retId ) );
+						m_currentBlock.instructions.emplace_back( makeInstruction< UndefInstruction >( m_result.getNameCache(), retType.id, retId ) );
 						writeLine( m_currentBlock, funcEndStmt );
-						m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( m_result.nameCache, retId );
+						m_currentBlock.blockEnd = makeInstruction< ReturnValueInstruction >( m_result.getNameCache(), retId );
 					}
 				}
 
 				m_currentBlock.instructions.emplace_back( std::move( m_currentBlock.blockEnd ) );
-				m_currentBlock.blockEnd = makeInstruction< FunctionEndInstruction >( m_result.nameCache );
+				m_currentBlock.blockEnd = makeInstruction< FunctionEndInstruction >( m_result.getNameCache() );
 				m_function->cfg.blocks.emplace_back( std::move( m_currentBlock ) );
 				m_result.endFunction();
 				m_function = nullptr;
@@ -2755,7 +2755,7 @@ namespace spirv
 				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr() ) );
 				m_debug.makeNoScopeInstruction( m_currentBlock.instructions );
 
-				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
+				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.getNameCache(), ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 				endBlock( m_currentBlock, intermediateIfId->id, contentBlock.label, falseBlockLabel );
 
 				// The current block becomes the if content block.
@@ -2796,7 +2796,7 @@ namespace spirv
 				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
-					, makeInstruction< IgnoreIntersectionInstruction >( m_result.nameCache )
+					, makeInstruction< IgnoreIntersectionInstruction >( m_result.getNameCache() )
 					, false );
 			}
 
@@ -2984,13 +2984,13 @@ namespace spirv
 				{
 					auto result = loadVariable( doSubmit( stmt->getExpr() ) );
 					interruptBlock( m_currentBlock
-						, makeInstruction< ReturnValueInstruction >( m_result.nameCache, result.id )
+						, makeInstruction< ReturnValueInstruction >( m_result.getNameCache(), result.id )
 						, false );
 				}
 				else
 				{
 					interruptBlock( m_currentBlock
-						, makeInstruction< ReturnInstruction >( m_result.nameCache )
+						, makeInstruction< ReturnInstruction >( m_result.getNameCache() )
 						, false );
 				}
 			}
@@ -3127,8 +3127,8 @@ namespace spirv
 
 				beginControl( m_currentBlock );
 				auto selector = loadVariable( doSubmit( stmt->getTestExpr()->getValue() ) );
-				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
-				m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.nameCache, makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
+				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.getNameCache(), ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
+				m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.getNameCache(), makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
 				m_currentBlock.isInterrupted = true;
 				consumeDebugStatement( glsl::StatementType::eLexicalScopeBegin );
 
@@ -3200,7 +3200,7 @@ namespace spirv
 				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
-					, makeInstruction< TerminateRayInstruction >( m_result.nameCache )
+					, makeInstruction< TerminateRayInstruction >( m_result.getNameCache() )
 					, false );
 			}
 

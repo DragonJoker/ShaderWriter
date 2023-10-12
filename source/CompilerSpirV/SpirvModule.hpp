@@ -5,7 +5,9 @@ See LICENSE file in root folder
 #define ___SDW_SpirvModule_H___
 #pragma once
 
+#include "CompilerSpirV/SpirVDebugNames.hpp"
 #include "CompilerSpirV/SpirvFunction.hpp"
+#include "CompilerSpirV/SpirvModuleTypes.hpp"
 #include "CompilerSpirV/SpirVNonSemanticDebug.hpp"
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
@@ -27,10 +29,9 @@ namespace spirv
 	class Module
 	{
 	private:
-		friend class debug::NonSemanticDebug;
-
 		Module( ast::ShaderAllocatorBlock * alloc
-			, glsl::StmtConfig const * stmtConfig );
+			, glsl::StmtConfig const * stmtConfig
+			, ast::type::TypesCache * typesCache );
 
 	public:
 		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
@@ -58,15 +59,14 @@ namespace spirv
 
 		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
 			, glsl::Statement const * debugStatement );
-		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
 		SDWSPIRV_API TypeId registerPointerType( TypeId type
 			, spv::StorageClass storage
 			, bool isForward = false );
+		SDWSPIRV_API DebugId mergeSamplerImage( DebugId const & image
+			, DebugId const & sampler
+			, Block & currentBlock );
 		SDWSPIRV_API void decorate( DebugId id
 			, spv::Decoration decoration );
 		SDWSPIRV_API void decorate( DebugId id
@@ -178,9 +178,6 @@ namespace spirv
 		SDWSPIRV_API DebugId loadVariable( DebugId variable
 			, Block & currentBlock
 			, glsl::Statement const * debugStatement );
-		SDWSPIRV_API DebugId mergeSamplerImage( DebugId const & image
-			, DebugId const & sampler
-			, Block & currentBlock );
 		SDWSPIRV_API void bindVariable( DebugId varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );
@@ -206,16 +203,35 @@ namespace spirv
 
 		SDWSPIRV_API bool isExtGlslStd450( spv::Id id )const;
 		SDWSPIRV_API bool isExtNonSemanticDebugInfo( spv::Id id )const;
-		SDWSPIRV_API InstructionList const & getDebugDeclarations()const noexcept;
+		SDWSPIRV_API InstructionList const & getDebugStringsDeclarations()const noexcept;
+		SDWSPIRV_API InstructionList const & getDebugNamesDeclarations()const noexcept;
+		SDWSPIRV_API InstructionList const & getNonSemanticDebugDeclarations()const noexcept;
+		SDWSPIRV_API Map< std::string, Vector< uint32_t > > & getNameCache()noexcept;
+		SDWSPIRV_API ast::type::TypesCache & getTypesCache()const noexcept;
+		SDWSPIRV_API void declareDebugAccessChain( InstructionList & instructions
+			, ast::expr::Expr * expr
+			, ValueIdList accessChainIds
+			, glsl::Statement const * debugStatement
+			, DebugId & resultId );
 
-		ast::type::TypesCache & getTypesCache()const
+		debug::DebugNames & getDebugNames()noexcept
 		{
-			return *m_typesCache;
+			return m_debugNames;
 		}
 
-		debug::NonSemanticDebug & getDebug()
+		debug::NonSemanticDebug & getNonSemanticDebug()noexcept
 		{
-			return m_debug;
+			return m_nonSemanticDebug;
+		}
+
+		ModuleTypes & getTypes()noexcept
+		{
+			return m_types;
+		}
+
+		spv::ExecutionModel getExecutionModel()const noexcept
+		{
+			return m_model;
 		}
 
 	public:
@@ -223,7 +239,6 @@ namespace spirv
 		static uint32_t constexpr Version = 0x0027u;
 
 		ast::ShaderAllocatorBlock * allocator;
-		Map< std::string, Vector< uint32_t > > nameCache;
 		ValueId extGlslStd450{};
 
 		IdList header;
@@ -233,8 +248,6 @@ namespace spirv
 		InstructionPtr memoryModel;
 		InstructionPtr entryPoint;
 		InstructionList executionModes;
-		InstructionList debugString;
-		InstructionList debug;
 		InstructionList decorations;
 		InstructionList constantsTypes;
 		InstructionList globalDeclarations;
@@ -243,47 +256,6 @@ namespace spirv
 		InstructionList * variables;
 
 	private:
-		TypeId doRegisterNonArrayType( ast::type::TypePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, glsl::Statement const * debugStatement );
-		TypeId doRegisterTypeRec( ast::type::TypePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, uint32_t arrayStride
-			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::Kind kind
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, uint32_t arrayStride
-			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::StructPtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::SamplerPtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::CombinedImagePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::ImagePtr type
-			, ast::type::Trinary isComparison );
-		TypeId doRegisterBaseType( ast::type::ImagePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::SampledImagePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::AccelerationStructurePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::TypePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, uint32_t arrayStride
-			, glsl::Statement const * debugStatement );
 		void doReplaceDecoration( DebugId id
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
@@ -298,7 +270,7 @@ namespace spirv
 		bool doDeserializeInfos( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
-		bool doDeserializeFuncs( spv::Op opCode
+		bool doDeserializeFunc( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
 		InstructionList * doSelectInstructionsList( spv::Op opCode );
@@ -306,9 +278,6 @@ namespace spirv
 			, DebugId id );
 		void doAddBuiltin( ast::Builtin builtin
 			, DebugId id );
-		bool doAddMbrBuiltin( ast::Builtin pbuiltin
-			, DebugId outer
-			, uint32_t mbrIndex );
 		void doAddVariable( Block & block
 			, std::string name
 			, DebugId varId
@@ -330,20 +299,12 @@ namespace spirv
 
 	private:
 		uint32_t m_version;
-		ast::type::TypesCache * m_typesCache;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
-		Map< ast::type::TypePtr, TypeId > m_registeredTypes;
-		Map< ast::type::TypePtr, TypeId > m_registeredMemberTypes;
 		Map< std::string, VariableInfo > m_registeredVariables;
-		UnorderedMap< DebugId, UnorderedMap< DebugId, DebugId, DebugIdHasher >, DebugIdHasher > m_registeredSamplerImages;
-		UnorderedMap< size_t, TypeId > m_registeredImageTypes;
 		Map< std::string, VariableInfo > * m_currentScopeVariables;
 		UnorderedMap< DebugId, TypeId, DebugIdHasher > m_registeredVariablesTypes;
 		Map< std::string, std::pair< DebugId, DebugId > > m_registeredMemberVariables;
-		Map< uint64_t, TypeId > m_registeredPointerTypes;
-		Map< uint64_t, TypeId > m_registeredForwardPointerTypes;
-		UnorderedMap< TypeIdList, TypeId, TypeIdListHasher > m_registeredFunctionTypes;
 		Map< bool, DebugId > m_registeredBoolConstants;
 		Map< int8_t, DebugId > m_registeredInt8Constants;
 		Map< int16_t, DebugId > m_registeredInt16Constants;
@@ -365,7 +326,9 @@ namespace spirv
 		ValueIdSet m_entryPointIO;
 		DecorationMapIdMap varDecorations;
 		DecorationMapMbrMap mbrDecorations;
-		debug::NonSemanticDebug m_debug;
+		debug::DebugNames m_debugNames;
+		debug::NonSemanticDebug m_nonSemanticDebug;
+		ModuleTypes m_types;
 	};
 }
 

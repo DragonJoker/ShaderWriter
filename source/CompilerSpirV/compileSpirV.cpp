@@ -244,7 +244,18 @@ namespace spirv
 		Map< uint32_t, Map< uint32_t, std::string > > mbrNames{ module.allocator };
 
 		// Gather names
-		for ( auto & instruction : module.debug )
+		for ( auto & instruction : module.getDebugStringsDeclarations() )
+		{
+			switch ( instruction->op.op )
+			{
+			case spv::OpString:
+				names.emplace( *instruction->resultId, *instruction->name );
+				break;
+			default:
+				break;
+			}
+		}
+		for ( auto & instruction : module.getDebugNamesDeclarations() )
 		{
 			switch ( instruction->op.op )
 			{

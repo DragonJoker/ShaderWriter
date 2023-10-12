@@ -3561,9 +3561,22 @@ namespace spirv
 				writeInstructions( module.executionModes, names, module, writeExecutionMode, stream, word ) << std::endl;
 			}
 
-			stream << "; Debug Stings, Names and Sources" << std::endl;
-			writeInstructions( module.debugString, names, module, writeDebug, stream, word );
-			writeInstructions( module.debug, names, module, writeDebug, stream, word ) << std::endl;
+			auto & debugStringsDeclarations = module.getDebugStringsDeclarations();
+
+			if ( !debugStringsDeclarations.empty() )
+			{
+				stream << "; Debug Strings" << std::endl;
+				writeInstructions( debugStringsDeclarations, names, module, writeDebug, stream, word ) << std::endl;
+			}
+
+			auto & debugNamesDeclarations = module.getDebugNamesDeclarations();
+
+			if ( !debugNamesDeclarations.empty() )
+			{
+				stream << "; Debug Names and Sources" << std::endl;
+				writeInstructions( debugNamesDeclarations, names, module, writeDebug, stream, word ) << std::endl;
+			}
+
 			stream << "; Decorations" << std::endl;
 			writeInstructions( module.decorations, names, module, writeDecoration, stream, word ) << std::endl;
 			stream << "; Constants and Types" << std::endl;
@@ -3571,12 +3584,12 @@ namespace spirv
 			stream << "; Global Variables" << std::endl;
 			writeGlobalDeclarations( module.globalDeclarations, names, module, stream, word ) << std::endl;
 
-			auto & debugDeclarations = module.getDebugDeclarations();
+			auto & nonSemanticDebugDeclarations = module.getNonSemanticDebugDeclarations();
 
-			if ( !debugDeclarations.empty() )
+			if ( !nonSemanticDebugDeclarations.empty() )
 			{
 				stream << "; Debug Types and Variables" << std::endl;
-				writeGlobalDeclarations( module.getDebugDeclarations(), names, module, stream, word ) << std::endl;
+				writeGlobalDeclarations( nonSemanticDebugDeclarations, names, module, stream, word ) << std::endl;
 			}
 
 			stream << "; Functions" << std::endl;

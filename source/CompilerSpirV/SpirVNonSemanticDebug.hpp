@@ -21,6 +21,7 @@ See LICENSE file in root folder
 namespace spirv
 {
 	struct Function;
+	class ModuleTypes;
 }
 
 namespace spirv::debug
@@ -119,6 +120,11 @@ namespace spirv::debug
 			return m_declarations;
 		}
 
+		InstructionList & getDeclarations()noexcept
+		{
+			return m_declarations;
+		}
+
 	private:
 		ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
 			, InstructionList & instructions
@@ -133,6 +139,7 @@ namespace spirv::debug
 	private:
 		ast::ShaderAllocatorBlock * m_allocator;
 		Module & m_module;
+		ModuleTypes & m_types;
 		glsl::StmtConfig const * m_config;
 		InstructionList m_declarations;
 		bool m_enabled{};

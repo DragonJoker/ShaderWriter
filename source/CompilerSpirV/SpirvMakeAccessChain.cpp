@@ -664,7 +664,7 @@ namespace spirv
 			// Reserve the ID for the result.
 			DebugId result{ module.getIntermediateResult(), pointerTypeId->type };
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).
-			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.nameCache
+			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.getNameCache()
 				, pointerTypeId.id
 				, result.id
 				, accessChain ) );
@@ -699,7 +699,7 @@ namespace spirv
 			, convert( accessChain )
 			, expr
 			, module );
-		module.getDebug().declareAccessChain( currentBlock.instructions
+		module.declareDebugAccessChain( currentBlock.instructions
 			, expr
 			, debug::convert( accessChain )
 			, debugStatement
@@ -730,7 +730,7 @@ namespace spirv
 			extract.push_back( outerId.id );
 			extract.push_back( swizzleComponents.front() );
 			auto intermediateId = DebugId{ module.getIntermediateResult(), typeId->type };
-			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( module.nameCache
+			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( module.getNameCache()
 				, typeId.id
 				, intermediateId.id
 				, extract ) );
@@ -743,7 +743,7 @@ namespace spirv
 			shuffle.push_back( outerId.id );
 			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
 			auto intermediateId = DebugId{ module.getIntermediateResult(), typeId->type };
-			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( module.nameCache
+			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( module.getNameCache()
 				, typeId.id
 				, intermediateId.id
 				, shuffle ) );

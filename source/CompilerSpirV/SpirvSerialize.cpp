@@ -67,9 +67,12 @@ namespace spirv
 			count( module.memoryModel, result );
 			count( module.entryPoint, result );
 			count( module.executionModes, result );
-			count( module.debug, result );
+			count( module.getDebugStringsDeclarations(), result );
+			count( module.getDebugNamesDeclarations(), result );
 			count( module.decorations, result );
+			count( module.constantsTypes, result );
 			count( module.globalDeclarations, result );
+			count( module.getNonSemanticDebugDeclarations(), result );
 			count( module.functions, result );
 			return result;
 		}
@@ -144,12 +147,12 @@ namespace spirv
 			serializeResult( module.memoryModel, result );
 			serializeResult( module.entryPoint, result );
 			serializeResult( module.executionModes, result );
-			serializeResult( module.debugString, result );
-			serializeResult( module.debug, result );
+			serializeResult( module.getDebugStringsDeclarations(), result );
+			serializeResult( module.getDebugNamesDeclarations(), result );
 			serializeResult( module.decorations, result );
 			serializeResult( module.constantsTypes, result );
 			serializeResult( module.globalDeclarations, result );
-			serializeResult( module.getDebugDeclarations(), result );
+			serializeResult( module.getNonSemanticDebugDeclarations(), result );
 			serializeResult( module.functions, result );
 		}
 

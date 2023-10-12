@@ -25,156 +25,6 @@ namespace spirv
 
 	namespace module
 	{
-		static ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::TypePtr qualified );
-
-		static ast::type::StructPtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::Struct const & qualified )
-		{
-			auto result = typesCache.getStruct( qualified.getMemoryLayout(), qualified.getName() );
-			assert( result->empty() || ( result->size() == qualified.size() ) );
-
-			if ( result->empty() && !qualified.empty() )
-			{
-				for ( auto & member : qualified )
-				{
-					auto type = getUnqualifiedType( typesCache, member.type );
-
-					if ( type->getKind() == ast::type::Kind::eArray )
-					{
-						result->declMember( member.name
-							, std::static_pointer_cast< ast::type::Array >( type ) );
-					}
-					else if ( type->getKind() == ast::type::Kind::eStruct
-						|| type->getKind() == ast::type::Kind::eRayDesc )
-					{
-						result->declMember( member.name
-							, std::static_pointer_cast< ast::type::Struct >( type ) );
-					}
-					else
-					{
-						result->declMember( member.name
-							, type );
-					}
-				}
-			}
-
-			return result;
-		}
-
-		static ast::type::ArrayPtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::Array const & qualified )
-		{
-			return typesCache.getArray( getUnqualifiedType( typesCache, qualified.getType() ), qualified.getArraySize() );
-		}
-
-		static ast::type::SamplerPtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::Sampler const & qualified )
-		{
-			return typesCache.getSampler( qualified.isComparison() );
-		}
-
-		static ast::type::CombinedImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::CombinedImage const & qualified )
-		{
-			auto config = qualified.getConfig();
-			// Ignore access kind, since it's not handled in non Kernel programs.
-			// Prevents generating duplicate types in SPIRV programs.
-			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return typesCache.getCombinedImage( config, qualified.isComparison() );
-		}
-
-		static ast::type::SampledImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::SampledImage const & qualified )
-		{
-			auto config = qualified.getConfig();
-			// Ignore access kind, since it's not handled in non Kernel programs.
-			// Prevents generating duplicate types in SPIRV programs.
-			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return typesCache.getSampledImage( config, qualified.getDepth() );
-		}
-
-		static ast::type::ImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::Image const & qualified )
-		{
-			auto config = qualified.getConfig();
-			// Ignore access kind, since it's not handled in non Kernel programs.
-			// Prevents generating duplicate types in SPIRV programs.
-			config.accessKind = ast::type::AccessKind::eReadWrite;
-			return typesCache.getImage( config );
-		}
-
-		static ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::Type const & qualified )
-		{
-			ast::type::TypePtr result;
-
-			if ( qualified.getRawKind() == ast::type::Kind::eArray )
-			{
-				result = getUnqualifiedType( typesCache, static_cast< ast::type::Array const & >( qualified ) );
-			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eStruct
-				|| qualified.getRawKind() == ast::type::Kind::eRayDesc )
-			{
-				result = getUnqualifiedType( typesCache, static_cast< ast::type::Struct const & >( qualified ) );
-			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eImage )
-			{
-				result = getUnqualifiedType( typesCache, static_cast< ast::type::Image const & >( qualified ) );
-			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eCombinedImage )
-			{
-				result = getUnqualifiedType( typesCache, static_cast< ast::type::CombinedImage const & >( qualified ) );
-			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eSampledImage )
-			{
-				result = getUnqualifiedType( typesCache, static_cast< ast::type::SampledImage const & >( qualified ) );
-			}
-			else if ( qualified.getRawKind() == ast::type::Kind::eSampler )
-			{
-				result = getUnqualifiedType( typesCache, static_cast< ast::type::Sampler const & >( qualified ) );
-			}
-			else if ( qualified.isMember() )
-			{
-				result = typesCache.getBasicType( qualified.getKind() );
-			}
-
-			return result;
-		}
-
-		static ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::TypePtr qualified )
-		{
-			ast::type::TypePtr result = getUnqualifiedType( typesCache, *qualified );
-			return result
-				? result
-				: qualified;
-		}
-
-		static void writeArrayStride( Module & module
-			, ast::type::TypePtr elementType
-			, TypeId typeId
-			, uint32_t arrayStride )
-		{
-			auto kind = getNonArrayKind( elementType );
-
-			if ( kind != ast::type::Kind::eImage
-				&& kind != ast::type::Kind::eCombinedImage
-				&& kind != ast::type::Kind::eSampler
-				&& kind != ast::type::Kind::eSampledImage )
-			{
-				if ( !arrayStride )
-				{
-					arrayStride = ast::type::getSize( elementType, ast::type::MemoryLayout::eStd140 );
-				}
-
-				module.decorate( typeId
-					, makeIdList( module.allocator
-						, uint32_t( spv::DecorationArrayStride )
-						, arrayStride ) );
-			}
-		}
-
 		static Map< std::string, VariableInfo >::iterator addVariable( Map< std::string, Vector< uint32_t > > & nameCache
 			, TypeId varTypeId
 			, DebugId varId
@@ -194,18 +44,6 @@ namespace spirv
 			return result;
 		}
 
-		static size_t myHash( ast::type::ImageConfiguration const & config
-			, ast::type::Trinary isComparison )noexcept
-		{
-			size_t result = std::hash< ast::type::ImageDim >{}( config.dimension );
-			result = ast::type::hashCombine( result, config.format );
-			result = ast::type::hashCombine( result, config.isSampled );
-			result = ast::type::hashCombine( result, config.isArrayed );
-			result = ast::type::hashCombine( result, config.isMS );
-			result = ast::type::hashCombine( result, isComparison );
-			return result;
-		}
-
 		template< typename LitT >
 		static DebugId registerLiteral( LitT value
 			, ast::type::TypePtr valueType
@@ -217,10 +55,10 @@ namespace spirv
 
 			if ( it == registeredLitConstants.end() )
 			{
-				auto type = module.registerType( valueType, nullptr );
+				auto type = module.getTypes().registerType( valueType, nullptr );
 				DebugId result{ module.getNextId(), type->type };
 				result.debug = result.id;
-				module.constantsTypes.push_back( makeInstruction< ConstantInstruction >( module.nameCache
+				module.constantsTypes.push_back( makeInstruction< ConstantInstruction >( module.getNameCache()
 					, type.id
 					, result.id
 					, makeOperands( registeredConstants.get_allocator().getAllocator(), ValueId{ spv::Id( value ) } ) ) );
@@ -235,17 +73,15 @@ namespace spirv
 	//*************************************************************************
 
 	Module::Module( ast::ShaderAllocatorBlock * alloc
-		, glsl::StmtConfig const * stmtConfig )
+		, glsl::StmtConfig const * stmtConfig
+		, ast::type::TypesCache * typesCache )
 		: allocator{ alloc }
-		, nameCache{ alloc }
 		, header{ allocator }
 		, capabilities{ allocator }
 		, extensions{ allocator }
 		, imports{ allocator }
 		, memoryModel{}
 		, executionModes{ allocator }
-		, debugString{ allocator }
-		, debug{ allocator }
 		, decorations{ allocator }
 		, constantsTypes{ allocator }
 		, globalDeclarations{ allocator }
@@ -253,18 +89,10 @@ namespace spirv
 		, functions{ spirv::ModuleAllocatorT< spirv::Function >{ allocator } }
 		, variables{ &globalDeclarations }
 		, m_version{}
-		, m_typesCache{}
-		, m_registeredTypes{ allocator }
-		, m_registeredMemberTypes{ allocator }
 		, m_registeredVariables{ allocator }
-		, m_registeredSamplerImages{ allocator }
-		, m_registeredImageTypes{ allocator }
 		, m_currentScopeVariables{ &m_registeredVariables }
 		, m_registeredVariablesTypes{ allocator }
 		, m_registeredMemberVariables{ allocator }
-		, m_registeredPointerTypes{ allocator }
-		, m_registeredForwardPointerTypes{ allocator }
-		, m_registeredFunctionTypes{ allocator }
 		, m_registeredBoolConstants{ allocator }
 		, m_registeredInt8Constants{ allocator }
 		, m_registeredInt16Constants{ allocator }
@@ -286,7 +114,9 @@ namespace spirv
 		, m_entryPointIO{ allocator }
 		, varDecorations{ allocator }
 		, mbrDecorations{ allocator }
-		, m_debug{ allocator, *this, stmtConfig }
+		, m_debugNames{ allocator }
+		, m_nonSemanticDebug{ allocator, *this, stmtConfig }
+		, m_types{ allocator, *this, typesCache, constantsTypes }
 	{
 	}
 
@@ -298,13 +128,12 @@ namespace spirv
 		, spv::MemoryModel pmemoryModel
 		, spv::ExecutionModel pexecutionModel
 		, glsl::Statements const & debugStatements )
-		: Module{ alloc, &stmtConfig }
+		: Module{ alloc, &stmtConfig, &typesCache }
 	{
-		memoryModel = makeInstruction< MemoryModelInstruction >( nameCache
+		memoryModel = makeInstruction< MemoryModelInstruction >( getNameCache()
 			, ValueId{ spv::Id( addressingModel ) }
 			, ValueId{ spv::Id( pmemoryModel ) } );
 		m_version = spirvConfig.specVersion;
-		m_typesCache = &typesCache;
 		m_model = pexecutionModel;
 
 		doInitialiseHeader( Header{ spv::MagicNumber
@@ -319,7 +148,7 @@ namespace spirv
 	Module::Module( ast::ShaderAllocatorBlock * alloc
 		, Header const & pheader
 		, InstructionList instructions )
-		: Module{ alloc, nullptr }
+		: Module{ alloc, nullptr, nullptr }
 	{
 		doInitialiseHeader( pheader );
 		auto it = instructions.begin();
@@ -330,7 +159,7 @@ namespace spirv
 
 			if ( !doDeserializeInfos( opCode, it, instructions.end() ) )
 			{
-				if ( !doDeserializeFuncs( opCode, it, instructions.end() ) )
+				if ( !doDeserializeFunc( opCode, it, instructions.end() ) )
 				{
 					if ( auto * list = doSelectInstructionsList( opCode ) )
 					{
@@ -377,73 +206,27 @@ namespace spirv
 	TypeId Module::registerType( ast::type::TypePtr type
 		, glsl::Statement const * debugStatement )
 	{
-		return doRegisterTypeRec( type
-			, ast::type::NotMember
-			, TypeId{}
-			, 0u
-			, debugStatement );
-	}
-
-	TypeId Module::registerType( ast::type::TypePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, glsl::Statement const * debugStatement )
-	{
-		return doRegisterTypeRec( type
-			, mbrIndex
-			, parentId
-			, 0u
-			, debugStatement );
+		return m_types.registerType( std::move( type ), debugStatement );
 	}
 
 	TypeId Module::registerImageType( ast::type::ImagePtr image
 		, bool isComparison )
 	{
-		return doRegisterBaseType( image
-			, isComparison ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
+		return m_types.registerImageType( std::move( image ), isComparison );
 	}
 
 	TypeId Module::registerPointerType( TypeId type
 		, spv::StorageClass storage
 		, bool isForward )
 	{
-		uint64_t key = ( uint64_t( type.id.id ) << 33 )
-			| ( ( uint64_t( type.isPointer() ) << 32 ) & 0x01 )
-			| ( uint64_t( storage ) << 1 )
-			| ( isForward & 0x01 );
-		auto it = m_registeredPointerTypes.find( key );
+		return m_types.registerPointerType( std::move( type ), storage, isForward );
+	}
 
-		if ( it == m_registeredPointerTypes.end() )
-		{
-			TypeId id{ getNextId()
-				, getTypesCache().getPointerType( type->type, convert( storage ) ) };
-			id.debug = type.debug;
-			it = m_registeredPointerTypes.emplace( key, id ).first;
-
-			if ( isForward )
-			{
-				constantsTypes.push_back( makeInstruction< ForwardPointerTypeInstruction >( nameCache
-					, id.id
-					, ValueId{ spv::Id( storage ) } ) );
-				constantsTypes.push_back( makeInstruction< PointerTypeInstruction >( nameCache
-					, id.id
-					, ValueId{ spv::Id( storage ) }
-					, type.id ) );
-				key = ( uint64_t( type.id.id ) << 33 )
-					| ( ( uint64_t( type.isPointer() ) << 32 ) & 0x01 )
-					| ( uint64_t( storage ) << 1 );
-				m_registeredPointerTypes.emplace( key, id );
-			}
-			else
-			{
-				constantsTypes.push_back( makeInstruction< PointerTypeInstruction >( nameCache
-					, id.id
-					, ValueId{ spv::Id( storage ) }
-					, type.id ) );
-			}
-		}
-
-		return it->second;
+	DebugId Module::mergeSamplerImage( DebugId const & image
+		, DebugId const & sampler
+		, Block & currentBlock )
+	{
+		return m_types.mergeSamplerImage( image, sampler, currentBlock );
 	}
 
 	void Module::decorate( DebugId id, spv::Decoration decoration )
@@ -469,7 +252,7 @@ namespace spirv
 		if ( ires.second )
 		{
 			ires.first->second = decorations.size();
-			decorations.push_back( makeInstruction< DecorateInstruction >( nameCache
+			decorations.push_back( makeInstruction< DecorateInstruction >( getNameCache()
 				, makeOperands( allocator, id.id, decos ) ) );
 		}
 	}
@@ -500,7 +283,7 @@ namespace spirv
 		if ( ires.second )
 		{
 			ires.first->second = decorations.size();
-			decorations.push_back( makeInstruction< MemberDecorateInstruction >( nameCache
+			decorations.push_back( makeInstruction< MemberDecorateInstruction >( getNameCache()
 				, makeOperands( allocator, id, index, decos ) ) );
 		}
 	}
@@ -608,11 +391,11 @@ namespace spirv
 			value = loadVariable( value, instructions, debugStatement );
 		}
 
-		m_debug.makeLineExtension( instructions, debugStatement );
-		instructions.push_back( makeInstruction< StoreInstruction >( nameCache
+		m_nonSemanticDebug.makeLineExtension( instructions, debugStatement );
+		instructions.push_back( makeInstruction< StoreInstruction >( getNameCache()
 			, variable.id
 			, value.id ) );
-		m_debug.makeValueInstruction( instructions, variable, value );
+		m_nonSemanticDebug.makeValueInstruction( instructions, variable, value );
 	}
 
 	void Module::storeVariable( DebugId variable
@@ -633,18 +416,18 @@ namespace spirv
 		if ( variableId.isPointer() )
 		{
 			auto type = static_cast< ast::type::Pointer const & >( *variableId->type ).getPointerType();
-			m_debug.makeLineExtension( instructions, debugStatement );
+			m_nonSemanticDebug.makeLineExtension( instructions, debugStatement );
 
 			if ( !hasRuntimeArray( type ) )
 			{
-				auto typeId = registerType( type, nullptr );
+				auto typeId = m_types.registerType( type, nullptr );
 				DebugId resultId{ getIntermediateResult(), typeId->type };
 
 				if ( variableId.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
 				{
 					// Loading from PhysicalStorageBuffer needs to set the alignment
 					auto structType = getStructType( type );
-					instructions.push_back( makeInstruction< LoadInstruction >( nameCache
+					instructions.push_back( makeInstruction< LoadInstruction >( getNameCache()
 						, typeId.id
 						, resultId.id
 						, makeOperands( allocator
@@ -657,7 +440,7 @@ namespace spirv
 				}
 				else
 				{
-					instructions.push_back( makeInstruction< LoadInstruction >( nameCache
+					instructions.push_back( makeInstruction< LoadInstruction >( getNameCache()
 						, typeId.id
 						, resultId.id
 						, makeOperands( allocator
@@ -665,7 +448,7 @@ namespace spirv
 							, ValueId{ spv::Id( spv::MemoryAccessMaskNone ) } ) ) );
 				}
 
-				m_debug.makeValueInstruction( instructions, resultId, variableId );
+				m_nonSemanticDebug.makeValueInstruction( instructions, resultId, variableId );
 				lnkIntermediateResult( resultId, variableId );
 				return resultId;
 			}
@@ -681,33 +464,6 @@ namespace spirv
 		return loadVariable( variableId
 			, currentBlock.instructions
 			, debugStatement );
-	}
-
-	DebugId Module::mergeSamplerImage( DebugId const & image
-		, DebugId const & sampler
-		, Block & currentBlock )
-	{
-		auto & imgType = static_cast< ast::type::Image const & >( *getNonArrayType( image->type ) );
-		auto & splType = static_cast< ast::type::Sampler const & >( *getNonArrayType( sampler->type ) );
-		auto lhsIt = m_registeredSamplerImages.emplace( image
-			, UnorderedMap< DebugId, DebugId, DebugIdHasher >{ allocator } ).first;
-		auto ires = lhsIt->second.emplace( sampler, DebugId{} );
-		auto it = ires.first;
-
-		if ( ires.second )
-		{
-			auto typeId = registerType( getTypesCache().getCombinedImage( imgType.getConfig()
-				, splType.isComparison() )
-				, nullptr );
-			it->second = DebugId{ getNextId(), typeId->type };
-			currentBlock.instructions.push_back( makeInstruction< SampledImageInstruction >( nameCache
-				, typeId.id
-				, it->second.id
-				, image.id
-				, sampler.id ) );
-		}
-
-		return it->second;
 	}
 
 	void Module::bindVariable( DebugId varId
@@ -756,12 +512,12 @@ namespace spirv
 		, bool isOutput
 		, ast::type::TypePtr type )
 	{
-		auto typeId = registerType( type, nullptr );
+		auto typeId = m_types.registerType( type, nullptr );
 		auto it = m_currentScopeVariables->find( name );
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr );
 
 			if ( m_currentFunction )
 			{
@@ -788,7 +544,7 @@ namespace spirv
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr );
 
 			if ( m_currentFunction )
 			{
@@ -844,7 +600,7 @@ namespace spirv
 
 					if ( getArraySize( structType->back().type ) == ast::type::UnknownArraySize )
 					{
-						auto typeId = registerType( type, debugStatement );
+						auto typeId = m_types.registerType( type, debugStatement );
 
 						if ( storage == spv::StorageClassPhysicalStorageBuffer
 							|| storage == spv::StorageClassUniform
@@ -870,7 +626,7 @@ namespace spirv
 			}
 
 			DebugId id{ getNextId(), varType };
-			id.debug = ValueId{ m_debug.getNextId(), id->type };
+			id.debug = ValueId{ m_nonSemanticDebug.getNextId(), id->type };
 
 			if ( typeStorage == ast::type::Storage::ePhysicalStorageBuffer )
 			{
@@ -907,13 +663,13 @@ namespace spirv
 							? static_cast< ast::type::Pointer const & >( *it->second->id.type ).getPointerType()
 							: it->second->id.type )
 						, convert( storage ) ) };
-				id.debug = ValueId{ m_debug.getNextId(), id->type };
+				id.debug = ValueId{ m_nonSemanticDebug.getNextId(), id->type };
 				it->second.isAlias = false;
 				it->second.isParam = false;
 				it->second.isOutParam = false;
 				doAddDebug( "ptr_" + name, id );
 				doAddVariable( block, name, id, storage, it, DebugId{}, debugStatement );
-				m_debug.declarePointerParam( m_currentFunction->promotedParams, "ptr_" + name, type, id, initialiser, debugStatement );
+				m_nonSemanticDebug.declarePointerParam( m_currentFunction->promotedParams, "ptr_" + name, type, id, initialiser, debugStatement );
 
 				if ( m_version >= v1_4 )
 				{
@@ -945,23 +701,21 @@ namespace spirv
 		{
 			DebugId id{ getNextId() };
 			it = m_currentScopeVariables->emplace( name, id ).first;
-			auto rawTypeId = registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr );
 			IdList operands{ allocator };
-			debug.push_back( makeInstruction< NameInstruction >( nameCache
-				, id.id
-				, name ) );
+			m_debugNames.registerName( id, name );
 
 			if ( value.getLiteralType() == ast::expr::LiteralType::eBool )
 			{
 				if ( value.getValue< ast::expr::LiteralType::eBool >() )
 				{
-					constantsTypes.emplace_back( makeInstruction< SpecConstantTrueInstruction >( nameCache
+					constantsTypes.emplace_back( makeInstruction< SpecConstantTrueInstruction >( getNameCache()
 						, rawTypeId.id
 						, id.id ) );
 				}
 				else
 				{
-					constantsTypes.emplace_back( makeInstruction< SpecConstantFalseInstruction >( nameCache
+					constantsTypes.emplace_back( makeInstruction< SpecConstantFalseInstruction >( getNameCache()
 						, rawTypeId.id
 						, id.id ) );
 				}
@@ -1014,7 +768,7 @@ namespace spirv
 					break;
 				}
 
-				constantsTypes.emplace_back( makeInstruction< SpecConstantInstruction >( nameCache
+				constantsTypes.emplace_back( makeInstruction< SpecConstantInstruction >( getNameCache()
 					, rawTypeId.id
 					, id.id
 					, operands ) );
@@ -1030,7 +784,7 @@ namespace spirv
 
 	ValueId Module::registerParameter( ast::type::TypePtr type )
 	{
-		registerType( type, nullptr );
+		m_types.registerType( type, nullptr );
 		return { getNextId() };
 	}
 
@@ -1084,25 +838,25 @@ namespace spirv
 
 		if ( it == m_registeredBoolConstants.end() )
 		{
-			auto type = registerType( m_typesCache->getBool(), nullptr );
+			auto type = m_types.registerType( getTypesCache().getBool(), nullptr );
 			DebugId result{ getNextId(), type->type };
 			result.debug = result.id;
 
 			if ( value )
 			{
-				constantsTypes.push_back( makeInstruction< ConstantTrueInstruction >( nameCache
+				constantsTypes.push_back( makeInstruction< ConstantTrueInstruction >( getNameCache()
 					, type.id
 					, result.id ) );
 			}
 			else
 			{
-				constantsTypes.push_back( makeInstruction< ConstantFalseInstruction >( nameCache
+				constantsTypes.push_back( makeInstruction< ConstantFalseInstruction >( getNameCache()
 					, type.id
 					, result.id ) );
 			}
 
 			it = m_registeredBoolConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_typesCache->getBool() );
+			m_registeredConstants.emplace( result, getTypesCache().getBool() );
 		}
 
 		return it->second;
@@ -1111,7 +865,7 @@ namespace spirv
 	DebugId Module::registerLiteral( int8_t value )
 	{
 		return module::registerLiteral( value
-			, m_typesCache->getInt8()
+			, getTypesCache().getInt8()
 			, *this
 			, m_registeredInt8Constants
 			, m_registeredConstants );
@@ -1120,7 +874,7 @@ namespace spirv
 	DebugId Module::registerLiteral( int16_t value )
 	{
 		return module::registerLiteral( value
-			, m_typesCache->getInt16()
+			, getTypesCache().getInt16()
 			, *this
 			, m_registeredInt16Constants
 			, m_registeredConstants );
@@ -1129,7 +883,7 @@ namespace spirv
 	DebugId Module::registerLiteral( int32_t value )
 	{
 		return module::registerLiteral( value
-			, m_typesCache->getInt32()
+			, getTypesCache().getInt32()
 			, *this
 			, m_registeredInt32Constants
 			, m_registeredConstants );
@@ -1138,7 +892,7 @@ namespace spirv
 	DebugId Module::registerLiteral( uint8_t value )
 	{
 		return module::registerLiteral( value
-			, m_typesCache->getUInt8()
+			, getTypesCache().getUInt8()
 			, *this
 			, m_registeredUInt8Constants
 			, m_registeredConstants );
@@ -1147,7 +901,7 @@ namespace spirv
 	DebugId Module::registerLiteral( uint16_t value )
 	{
 		return module::registerLiteral( value
-			, m_typesCache->getUInt16()
+			, getTypesCache().getUInt16()
 			, *this
 			, m_registeredUInt16Constants
 			, m_registeredConstants );
@@ -1156,7 +910,7 @@ namespace spirv
 	DebugId Module::registerLiteral( uint32_t value )
 	{
 		return module::registerLiteral( value
-			, m_typesCache->getUInt32()
+			, getTypesCache().getUInt32()
 			, *this
 			, m_registeredUInt32Constants
 			, m_registeredConstants );
@@ -1168,17 +922,17 @@ namespace spirv
 
 		if ( it == m_registeredInt64Constants.end() )
 		{
-			auto type = registerType( m_typesCache->getInt64(), nullptr );
+			auto type = m_types.registerType( getTypesCache().getInt64(), nullptr );
 			DebugId result{ getNextId(), type->type };
 			result.debug = result.id;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( nameCache
+			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
 				, type.id
 				, result.id
 				, makeOperands( allocator
 					, ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFll ) }
 					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFll ) } ) ) );
 			it = m_registeredInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_typesCache->getInt64() );
+			m_registeredConstants.emplace( result, getTypesCache().getInt64() );
 		}
 
 		return it->second;
@@ -1190,17 +944,17 @@ namespace spirv
 
 		if ( it == m_registeredUInt64Constants.end() )
 		{
-			auto type = registerType( m_typesCache->getUInt64(), nullptr );
+			auto type = m_types.registerType( getTypesCache().getUInt64(), nullptr );
 			DebugId result{ getNextId(), type->type };
 			result.debug = result.id;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( nameCache
+			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
 				, type.id
 				, result.id
 				, makeOperands( allocator
 					, ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFull ) }
 					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFull ) } ) ) );
 			it = m_registeredUInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_typesCache->getUInt64() );
+			m_registeredConstants.emplace( result, getTypesCache().getUInt64() );
 		}
 
 		return it->second;
@@ -1212,19 +966,19 @@ namespace spirv
 
 		if ( it == m_registeredFloatConstants.end() )
 		{
-			auto type = registerType( m_typesCache->getFloat(), nullptr );
+			auto type = m_types.registerType( getTypesCache().getFloat(), nullptr );
 			DebugId result{ getNextId(), type->type };
 			result.debug = result.id;
 			IdList list{ allocator };
 			list.resize( 1u );
 			auto dst = reinterpret_cast< float * >( list.data() );
 			*dst = value;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( nameCache
+			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
 				, type.id
 				, result.id
 				, convert( list ) ) );
 			it = m_registeredFloatConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_typesCache->getFloat() );
+			m_registeredConstants.emplace( result, getTypesCache().getFloat() );
 		}
 
 		return it->second;
@@ -1236,19 +990,19 @@ namespace spirv
 
 		if ( it == m_registeredDoubleConstants.end() )
 		{
-			auto type = registerType( m_typesCache->getDouble(), nullptr );
+			auto type = m_types.registerType( getTypesCache().getDouble(), nullptr );
 			DebugId result{ getNextId(), type->type };
 			result.debug = result.id;
 			IdList list{ allocator };
 			list.resize( 2u );
 			auto dst = reinterpret_cast< double * >( list.data() );
 			*dst = value;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( nameCache
+			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
 				, type.id
 				, result.id
 				, convert( list ) ) );
 			it = m_registeredDoubleConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_typesCache->getDouble() );
+			m_registeredConstants.emplace( result, getTypesCache().getDouble() );
 		}
 
 		return it->second;
@@ -1257,7 +1011,7 @@ namespace spirv
 	DebugId Module::registerLiteral( DebugIdList const & initialisers
 		, ast::type::TypePtr type )
 	{
-		auto typeId = registerType( type, nullptr );
+		auto typeId = m_types.registerType( type, nullptr );
 		auto it = std::find_if( m_registeredCompositeConstants.begin()
 			, m_registeredCompositeConstants.end()
 			, [&initialisers]( std::pair< DebugIdList, DebugId > const & lookup )
@@ -1269,7 +1023,7 @@ namespace spirv
 		{
 			DebugId result{ getNextId(), typeId->type };
 			result.debug = result.id;
-			constantsTypes.push_back( makeInstruction< ConstantCompositeInstruction >( nameCache
+			constantsTypes.push_back( makeInstruction< ConstantCompositeInstruction >( getNameCache()
 				, typeId.id
 				, result.id
 				, convert( initialisers ) ) );
@@ -1283,7 +1037,7 @@ namespace spirv
 
 	void Module::registerExtension( std::string name )
 	{
-		extensions.push_back( makeInstruction< ExtensionInstruction >( nameCache
+		extensions.push_back( makeInstruction< ExtensionInstruction >( getNameCache()
 			, std::move( name ) ) );
 	}
 
@@ -1311,12 +1065,12 @@ namespace spirv
 		}
 
 		operands.insert( operands.end(), ios.begin(), ios.end() );
-		entryPoint = makeInstruction< EntryPointInstruction >( nameCache
+		entryPoint = makeInstruction< EntryPointInstruction >( getNameCache()
 			, ValueId{ spv::Id( m_model ) }
 			, functionId.id
 			, operands
 			, std::move( name ) );
-		m_debug.makeEntryPointInstruction( functionId );
+		m_nonSemanticDebug.makeEntryPointInstruction( functionId );
 
 		switch ( m_model )
 		{
@@ -1359,12 +1113,12 @@ namespace spirv
 	{
 		if ( !entryPoint || entryPoint->operands.empty() )
 		{
-			m_pendingExecutionModes.push_back( makeInstruction< ExecutionModeInstruction >( nameCache
+			m_pendingExecutionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
 				, makeOperands( allocator, 0u, spv::Id( mode ), operands ) ) );
 		}
 		else
 		{
-			executionModes.push_back( makeInstruction< ExecutionModeInstruction >( nameCache
+			executionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
 				, makeOperands( allocator, entryPoint->resultId.value(), spv::Id( mode ), operands ) ) );
 		}
 	}
@@ -1529,9 +1283,7 @@ namespace spirv
 	ValueId Module::registerString( std::string const & text )
 	{
 		ValueId result{ getNextId() };
-		debugString.push_back( makeInstruction< StringInstruction >( nameCache
-			, result
-			, text ) );
+		m_debugNames.registerString( result, std::move( text ) );
 		return result;
 	}
 
@@ -1603,7 +1355,7 @@ namespace spirv
 		, glsl::Statement const * firstLineStatement )
 	{
 		DebugId result{ getNextId() };
-		result.debug = ValueId{ m_debug.getNextId(), result->type };
+		result.debug = ValueId{ m_nonSemanticDebug.getNextId(), result->type };
 		auto & variableInfo = m_registeredVariables.emplace( name, VariableInfo{ result, false, false, false } ).first->second;
 
 		TypeIdList funcTypes{ allocator };
@@ -1617,49 +1369,29 @@ namespace spirv
 		{
 			auto type = param->getType();
 			auto kind = type->getKind();
-			funcTypes.push_back( registerType( type, nullptr ) );
+			funcTypes.push_back( m_types.registerType( type, nullptr ) );
 
 			if ( isPointerParam( *param ) )
 			{
 				auto storage = ( isOpaqueType( kind )
 					? spv::StorageClassUniformConstant
 					: spv::StorageClassFunction );
-				funcTypes.back() = registerPointerType( funcTypes.back(), storage );
+				funcTypes.back() = m_types.registerPointerType( funcTypes.back(), storage );
 			}
 
 			DebugId paramId{ getNextId(), funcTypes.back()->type };
-			paramId.debug = ValueId{ m_debug.getNextId(), paramId->type };
+			paramId.debug = ValueId{ m_nonSemanticDebug.getNextId(), paramId->type };
 			funcParams.push_back( paramId );
-			debug.push_back( makeInstruction< NameInstruction >( nameCache
-				, paramId.id
-				, param->getName() ) );
+			m_debugNames.registerName( paramId, param->getName() );
 
 			m_currentScopeVariables->emplace( param->getName(), VariableInfo{ funcParams.back(), false, true, param->isOutputParam() } );
 			m_registeredVariablesTypes.emplace( funcParams.back(), funcTypes.back() );
 		}
 
-		auto it = m_registeredFunctionTypes.find( funcTypes );
-		TypeId funcTypeId;
-
-		if ( it == m_registeredFunctionTypes.end() )
-		{
-			funcTypeId.id.id = getNextId();
-
-			constantsTypes.push_back( makeInstruction< FunctionTypeInstruction >( nameCache
-				, funcTypeId.id
-				, convert( funcTypes ) ) );
-			m_debug.registerFunctionType( funcTypes, funcTypeId );
-
-			it = m_registeredFunctionTypes.emplace( funcTypes, funcTypeId ).first;
-		}
-		else
-		{
-			funcTypeId = it->second;
-		}
-
+		auto funcTypeId = m_types.registerFunctionType( funcTypes );
 		m_currentFunction->debugTypeId = funcTypeId.debug;
 		DebugId scopeLineId{};
-		m_debug.declareFunction( *m_currentFunction
+		m_nonSemanticDebug.declareFunction( *m_currentFunction
 			, name
 			, params
 			, funcParams
@@ -1667,7 +1399,7 @@ namespace spirv
 			, scopeBeginDebugStatement
 			, firstLineStatement );
 
-		m_currentFunction->declaration.emplace_back( makeInstruction< FunctionInstruction >( nameCache
+		m_currentFunction->declaration.emplace_back( makeInstruction< FunctionInstruction >( getNameCache()
 			, retType.id
 			, m_currentFunction->id.id
 			, ValueId{ spv::Id( spv::FunctionControlMaskNone ) }
@@ -1677,7 +1409,7 @@ namespace spirv
 
 		for ( auto itp = params.begin(); itp != params.end(); ++itp )
 		{
-			m_currentFunction->declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( nameCache
+			m_currentFunction->declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( getNameCache()
 				, itType->id
 				, itParam->id ) );
 			++itType;
@@ -1685,9 +1417,7 @@ namespace spirv
 		}
 
 		m_registeredVariablesTypes.emplace( m_currentFunction->id, funcTypeId );
-		debug.push_back( makeInstruction< NameInstruction >( nameCache
-			, m_currentFunction->id.id
-			, std::move( name ) ) );
+		m_debugNames.registerName( m_currentFunction->id, std::move( name ) );
 		variables = &m_currentFunction->variables;
 
 		return m_currentFunction;
@@ -1696,7 +1426,7 @@ namespace spirv
 	Block Module::newBlock()
 	{
 		Block result{ allocator, getNextId() };
-		result.instructions.push_back( makeInstruction< LabelInstruction >( nameCache
+		result.instructions.push_back( makeInstruction< LabelInstruction >( getNameCache()
 			, ValueId{ result.label } ) );
 		return result;
 	}
@@ -1781,571 +1511,45 @@ namespace spirv
 
 	bool Module::isExtNonSemanticDebugInfo( spv::Id id )const
 	{
-		return m_debug.isExtNonSemanticDebugInfo( id );
+		return m_nonSemanticDebug.isExtNonSemanticDebugInfo( id );
 	}
 
-	InstructionList const & Module::getDebugDeclarations()const noexcept
+	InstructionList const & Module::getDebugStringsDeclarations()const noexcept
 	{
-		return m_debug.getDeclarations();
+		return m_debugNames.getStringsDeclarations();
 	}
 
-	TypeId Module::doRegisterNonArrayType( ast::type::TypePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, glsl::Statement const * debugStatement )
+	InstructionList const & Module::getDebugNamesDeclarations()const noexcept
 	{
-		TypeId result;
-		auto unqualifiedType = module::getUnqualifiedType( *m_typesCache, type );
-		auto it = m_registeredTypes.find( unqualifiedType );
-
-		if ( it == m_registeredTypes.end() )
-		{
-			result = doRegisterBaseType( unqualifiedType
-				, mbrIndex
-				, parentId
-				, 0u
-				, debugStatement );
-		}
-		else
-		{
-			result = it->second;
-		}
-
-		return result;
+		return m_debugNames.getNamesDeclarations();
 	}
 
-	TypeId Module::doRegisterTypeRec( ast::type::TypePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, uint32_t arrayStride
-		, glsl::Statement const * debugStatement )
+	InstructionList const & Module::getNonSemanticDebugDeclarations()const noexcept
 	{
-		TypeId result{ 0u, type };
-
-		if ( type->getRawKind() == ast::type::Kind::eArray )
-		{
-			auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
-			auto elementTypeId = doRegisterTypeRec( arrayedType
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-			auto unqualifiedType = module::getUnqualifiedType( *m_typesCache, type );
-			auto it = m_registeredTypes.find( unqualifiedType );
-
-			if ( it == m_registeredTypes.end() )
-			{
-				result.id.id = getNextId();
-				auto & resultId = m_registeredTypes.emplace( unqualifiedType, result ).first->second;
-				auto arraySize = getArraySize( type );
-
-				if ( arraySize != ast::type::UnknownArraySize )
-				{
-					auto lengthId = registerLiteral( arraySize );
-					constantsTypes.push_back( makeInstruction< ArrayTypeInstruction >( nameCache
-						, resultId.id
-						, elementTypeId.id
-						, lengthId.id ) );
-					m_debug.registerArrayType( elementTypeId, arraySize, resultId );
-				}
-				else
-				{
-					constantsTypes.push_back( makeInstruction< RuntimeArrayTypeInstruction >( nameCache
-						, resultId.id
-						, elementTypeId.id ) );
-					m_debug.registerRuntimeArrayType( elementTypeId, resultId );
-				}
-
-				module::writeArrayStride( *this
-					, arrayedType
-					, resultId
-					, arrayStride );
-				result = resultId;
-			}
-			else
-			{
-				result = it->second;
-			}
-		}
-		else if ( type->getRawKind() == ast::type::Kind::ePointer )
-		{
-			auto & pointerType = static_cast< ast::type::Pointer const & >( *type );
-			auto rawTypeId = doRegisterTypeRec( pointerType.getPointerType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-			auto storageClass = convert( pointerType.getStorage() );
-			result = registerPointerType( rawTypeId
-				, storageClass
-				, pointerType.isForward() );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eRayPayload )
-		{
-			auto & payloadType = static_cast< ast::type::RayPayload const & >( *type );
-			result = doRegisterTypeRec( payloadType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eCallableData )
-		{
-			auto & callableType = static_cast< ast::type::CallableData const & >( *type );
-			result = doRegisterTypeRec( callableType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eHitAttribute )
-		{
-			auto & callableType = static_cast< ast::type::HitAttribute const & >( *type );
-			result = doRegisterTypeRec( callableType.getDataType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eGeometryOutput )
-		{
-			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-			registerExecutionMode( outputType.getLayout(), outputType.getCount() );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eGeometryInput )
-		{
-			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-			registerExecutionMode( inputType.getLayout() );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTessellationInputPatch )
-		{
-			auto & outputType = static_cast< ast::type::TessellationInputPatch const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTessellationOutputPatch )
-		{
-			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
-		{
-			auto & outputType = static_cast< ast::type::TessellationControlOutput const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-			registerExecutionMode( outputType.getDomain()
-				, outputType.getPartitioning()
-				, outputType.getTopology()
-				, outputType.getOrder()
-				, outputType.getOutputVertices() );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTessellationControlInput )
-		{
-			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTessellationEvaluationInput )
-		{
-			auto & inputType = static_cast< ast::type::TessellationEvaluationInput const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
-		{
-			auto & outputType = static_cast< ast::type::MeshVertexOutput const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
-		{
-			auto & outputType = static_cast< ast::type::MeshPrimitiveOutput const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
-		{
-			auto & outputType = static_cast< ast::type::TaskPayloadNV const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTaskPayload )
-		{
-			auto & outputType = static_cast< ast::type::TaskPayload const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
-		{
-			auto & inputType = static_cast< ast::type::TaskPayloadInNV const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
-		{
-			auto & inputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else if ( type->getRawKind() == ast::type::Kind::eComputeInput )
-		{
-			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-		else
-		{
-			result = doRegisterNonArrayType( type
-				, mbrIndex
-				, parentId
-				, debugStatement );
-		}
-
-		return result;
+		return m_nonSemanticDebug.getDeclarations();
 	}
 
-	TypeId Module::doRegisterBaseType( ast::type::Kind kind
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, uint32_t arrayStride
-		, glsl::Statement const * debugStatement )
+	Map< std::string, Vector< uint32_t > > & Module::getNameCache()noexcept
 	{
-		assert( kind != ast::type::Kind::eStruct );
-		assert( kind != ast::type::Kind::eRayDesc );
-		assert( kind != ast::type::Kind::eSampler );
-		assert( kind != ast::type::Kind::eImage );
-		assert( kind != ast::type::Kind::eSampledImage );
-		assert( kind != ast::type::Kind::eCombinedImage );
-
-		auto type = m_typesCache->getBasicType( kind );
-		TypeId result{ 0u, type };
-		result.id.id = getNextId();
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
-
-		if ( isVectorType( kind )
-			|| isMatrixType( kind ) )
-		{
-			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), debugStatement );
-			auto componentCount = getComponentCount( kind );
-
-			if ( isMatrixType( kind ) )
-			{
-				constantsTypes.push_back( makeInstruction< MatrixTypeInstruction >( nameCache
-					, resultId.id
-					, componentType.id
-					, ValueId{ componentCount } ) );
-				m_debug.registerMatrixType( componentType, componentCount, resultId );
-			}
-			else
-			{
-				constantsTypes.push_back( makeInstruction< VectorTypeInstruction >( nameCache
-					, resultId.id
-					, componentType.id
-					, ValueId{ componentCount } ) );
-				m_debug.registerVectorType( componentType, componentCount, resultId );
-			}
-		}
-		else
-		{
-			constantsTypes.push_back( makeBaseTypeInstruction( nameCache
-				, kind
-				, resultId.id ) );
-			m_debug.registerBaseType( kind, resultId );
-		}
-
-		return resultId;
+		return m_debugNames.getNameCache();
 	}
 
-	TypeId Module::doRegisterBaseType( ast::type::SamplerPtr type
-		, uint32_t mbrIndex
-		, TypeId parentId )
+	ast::type::TypesCache & Module::getTypesCache()const noexcept
 	{
-		TypeId result{ 0u, type };
-		result.id.id = getNextId();
-		constantsTypes.push_back( makeInstruction< SamplerTypeInstruction >( nameCache
-			, result.id ) );
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
-		m_debug.registerSamplerType( std::move( type ), resultId );
-		return resultId;
+		return m_types.getTypesCache();
 	}
 
-	TypeId Module::doRegisterBaseType( ast::type::CombinedImagePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId )
+	void Module::declareDebugAccessChain( InstructionList & instructions
+		, ast::expr::Expr * expr
+		, ValueIdList accessChainIds
+		, glsl::Statement const * debugStatement
+		, DebugId & resultId )
 	{
-		auto imgTypeId = doRegisterBaseType( type->getImageType()
-			, type->isComparison() ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
-		TypeId result{ 0u, type };
-		result.id.id = getNextId();
-		constantsTypes.push_back( makeInstruction< TextureTypeInstruction >( nameCache
-			, result.id
-			, imgTypeId.id ) );
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
-		m_debug.registerCombinedImageType( std::move( type ), resultId );
-		return resultId;
-	}
-
-	TypeId Module::doRegisterBaseType( ast::type::ImagePtr type
-		, ast::type::Trinary isComparison )
-	{
-		auto ires = m_registeredImageTypes.emplace( module::myHash( type->getConfig(), isComparison ), TypeId{} );
-		auto it = ires.first;
-
-		if ( ires.second )
-		{
-			// The Sampled Type.
-			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), nullptr );
-			// The Image Type.
-			it->second = TypeId{ getNextId(), type };
-			constantsTypes.push_back( makeImageTypeInstruction( nameCache
-				, type->getConfig()
-				, isComparison
-				, it->second.id
-				, sampledTypeId.id ) );
-			auto & resultId = m_registeredTypes.emplace( type, it->second ).first->second;
-			m_debug.registerImageType( std::move( type ), resultId );
-			it->second = resultId;
-		}
-
-		return it->second;
-	}
-
-	TypeId Module::doRegisterBaseType( ast::type::ImagePtr type
-		, uint32_t mbrIndex
-		, TypeId parent )
-	{
-		return doRegisterBaseType( type, ast::type::Trinary::eFalse );
-	}
-
-	TypeId Module::doRegisterBaseType( ast::type::SampledImagePtr type
-		, uint32_t mbrIndex
-		, TypeId parent )
-	{
-		return doRegisterBaseType( type->getImageType(), type->getDepth() );
-	}
-
-	TypeId Module::doRegisterBaseType( ast::type::AccelerationStructurePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, glsl::Statement const * debugStatement )
-	{
-		TypeId result{ 0u, type };
-		result.id.id = getNextId();
-		constantsTypes.push_back( makeAccelerationStructureTypeInstruction( nameCache
-			, result.id ) );
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
-		m_debug.registerAccelerationStructureType( std::move( type ), resultId );
-		return resultId;
-	}
-
-	TypeId Module::doRegisterBaseType( ast::type::StructPtr type
-		, uint32_t
-		, TypeId
-		, glsl::Statement const * debugStatement )
-	{
-		TypeId result{ 0u, type };
-		result.id.id = getNextId();
-		TypeIdList subTypes{ allocator };
-		ValueIdList debugSubTypes{ allocator };
-
-		for ( auto & member : *type )
-		{
-			auto subTypeId = doRegisterTypeRec( member.type
-				, member.type->getIndex()
-				, result
-				, member.arrayStride
-				, debugStatement );
-			subTypes.push_back( subTypeId );
-			m_debug.registerMemberType( member
-				, subTypeId
-				, debugStatement
-				, debugSubTypes );
-		}
-
-		constantsTypes.push_back( makeInstruction< StructTypeInstruction >( nameCache
-			, result.id
-			, convert( subTypes ) ) );
-		debug.push_back( makeInstruction< NameInstruction >( nameCache
-			, result.id
-			, type->getName() ) );
-		bool hasBuiltin = false;
-		bool hasDynarray = false;
-
-		for ( auto & member : *type )
-		{
-			auto index = member.type->getIndex();
-			debug.push_back( makeInstruction< MemberNameInstruction >( nameCache
-				, result.id
-				, ValueId{ index }
-				, member.name ) );
-
-			if ( member.builtin == ast::Builtin::eNone )
-			{
-				decorateMember( result
-					, index
-					, makeIdList( allocator, uint32_t( spv::DecorationOffset ), member.offset ) );
-			}
-			else
-			{
-				doAddMbrBuiltin( member.builtin, result, index );
-				hasBuiltin = true;
-			}
-
-			auto kind = getNonArrayKind( member.type );
-			auto arraySize = getArraySize( member.type );
-
-			if ( arraySize == ast::type::UnknownArraySize )
-			{
-				hasDynarray = true;
-			}
-
-			if ( isMatrixType( kind ) )
-			{
-				auto colKind = getComponentType( kind );
-				auto colType = m_typesCache->getBasicType( colKind );
-				auto rowCount = getComponentCount( colType );
-
-				if ( rowCount == 3
-					|| ( rowCount == 2 && type->getMemoryLayout() == ast::type::MemoryLayout::eStd140 ) )
-				{
-					colType = m_typesCache->getVector( getComponentType( colKind ), 4u );
-				}
-
-				auto size = getSize( *colType
-					, type->getMemoryLayout() );
-				decorateMember( result
-					, index
-					, spv::DecorationColMajor );
-				decorateMember( result
-					, index
-					, makeIdList( allocator, uint32_t( spv::DecorationMatrixStride ), size ) );
-			}
-		}
-
-		if ( hasBuiltin || hasDynarray )
-		{
-			decorate( result, spv::DecorationBlock );
-		}
-
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
-		m_debug.registerStructType( std::move( type )
-			, debugSubTypes
+		m_nonSemanticDebug.declareAccessChain( instructions
+			, expr
+			, std::move( accessChainIds )
 			, debugStatement
 			, resultId );
-		return resultId;
-	}
-
-	TypeId Module::doRegisterBaseType( ast::type::TypePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, uint32_t arrayStride
-		, glsl::Statement const * debugStatement )
-	{
-		TypeId result{ 0u, type };
-
-		if ( type->getRawKind() == ast::type::Kind::eArray )
-		{
-			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
-		}
-
-		auto kind = type->getRawKind();
-
-		if ( kind == ast::type::Kind::eSampler )
-		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Sampler >( type )
-				, mbrIndex
-				, parentId );
-		}
-		else if ( kind == ast::type::Kind::eCombinedImage )
-		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::CombinedImage >( type )
-				, mbrIndex
-				, parentId );
-		}
-		else if ( kind == ast::type::Kind::eImage )
-		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Image >( type )
-				, mbrIndex
-				, parentId );
-		}
-		else if ( kind == ast::type::Kind::eSampledImage )
-		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::SampledImage >( type )
-				, mbrIndex
-				, parentId );
-		}
-		else if ( kind == ast::type::Kind::eAccelerationStructure )
-		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::AccelerationStructure >( type )
-				, mbrIndex
-				, parentId
-				, debugStatement );
-		}
-		else if ( kind == ast::type::Kind::eStruct
-			|| kind == ast::type::Kind::eRayDesc )
-		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Struct >( type )
-				, mbrIndex
-				, parentId
-				, debugStatement );
-		}
-		else
-		{
-			result = doRegisterBaseType( kind
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
-		}
-
-		return result;
 	}
 
 	void Module::doReplaceDecoration( DebugId id
@@ -2457,19 +1661,17 @@ namespace spirv
 		, glsl::Statements const & debugStatements )
 	{
 		extGlslStd450 = ValueId{ getIntermediateResult() };
-		imports.push_back( makeInstruction< ExtInstImportInstruction >( nameCache
+		imports.push_back( makeInstruction< ExtInstImportInstruction >( getNameCache()
 			, extGlslStd450
 			, "GLSL.std.450" ) );
 
 		if ( enableDebug )
 		{
-			m_debug.initialise( imports, debugStatements );
+			m_nonSemanticDebug.initialise( imports, debugStatements );
 		}
 		else
 		{
-			debug.push_back( makeInstruction< SourceInstruction >( nameCache
-				, ValueId{ spv::Id( spv::SourceLanguageGLSL ) }
-				, ValueId{ 460u } ) );
+			m_debugNames.registerSource( spv::SourceLanguageGLSL, 460 );
 		}
 	}
 
@@ -2480,26 +1682,26 @@ namespace spirv
 		case spv::ExecutionModelVertex:
 		case spv::ExecutionModelFragment:
 		case spv::ExecutionModelGLCompute:
-			insertCapability( nameCache, capabilities, spv::CapabilityShader );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityShader );
 			break;
 		case spv::ExecutionModelTessellationControl:
 		case spv::ExecutionModelTessellationEvaluation:
-			insertCapability( nameCache, capabilities, spv::CapabilityShader );
-			insertCapability( nameCache, capabilities, spv::CapabilityTessellation );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityShader );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityTessellation );
 			break;
 		case spv::ExecutionModelGeometry:
-			insertCapability( nameCache, capabilities, spv::CapabilityShader );
-			insertCapability( nameCache, capabilities, spv::CapabilityGeometry );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityShader );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityGeometry );
 			break;
 		case spv::ExecutionModelTaskNV:
 		case spv::ExecutionModelMeshNV:
-			insertCapability( nameCache, capabilities, spv::CapabilityShader );
-			insertCapability( nameCache, capabilities, spv::CapabilityMeshShadingNV );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityShader );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityMeshShadingNV );
 			break;
 		case spv::ExecutionModelTaskEXT:
 		case spv::ExecutionModelMeshEXT:
-			insertCapability( nameCache, capabilities, spv::CapabilityShader );
-			insertCapability( nameCache, capabilities, spv::CapabilityMeshShadingEXT );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityShader );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityMeshShadingEXT );
 			break;
 		case spv::ExecutionModelAnyHitKHR:
 		case spv::ExecutionModelCallableKHR:
@@ -2507,11 +1709,11 @@ namespace spirv
 		case spv::ExecutionModelIntersectionKHR:
 		case spv::ExecutionModelMissKHR:
 		case spv::ExecutionModelRayGenerationKHR:
-			insertCapability( nameCache, capabilities, spv::CapabilityShader );
-			insertCapability( nameCache, capabilities, spv::CapabilityRayTracingKHR );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityShader );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityRayTracingKHR );
 			break;
 		case spv::ExecutionModelKernel:
-			insertCapability( nameCache, capabilities, spv::CapabilityKernel );
+			insertCapability( getNameCache(), capabilities, spv::CapabilityKernel );
 			break;
 		default:
 			AST_Failure( "Unsupported ExecutionModel" );
@@ -2528,17 +1730,13 @@ namespace spirv
 				&& type->getKind() != ast::type::Kind::eRayDesc )
 			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )
 		{
-			debug.push_back( makeInstruction< NameInstruction >( nameCache
-				, id.id
-				, name ) );
+			m_debugNames.registerName( id, name );
 		}
 		else if ( type->getKind() == ast::type::Kind::eStruct
 			|| type->getKind() == ast::type::Kind::eRayDesc
 			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() == name )
 		{
-			debug.push_back( makeInstruction< NameInstruction >( nameCache
-				, id.id
-				, name + "Inst" ) );
+			m_debugNames.registerName( id, name + "Inst" );
 		}
 	}
 
@@ -2559,29 +1757,6 @@ namespace spirv
 		}
 	}
 
-	bool Module::doAddMbrBuiltin( ast::Builtin pbuiltin
-		, DebugId outer
-		, uint32_t mbrIndex )
-	{
-		bool result = false;
-		Vector< spv::Decoration > additionalDecorations{ allocator };
-		auto builtin = getBuiltin( pbuiltin, m_model, additionalDecorations );
-
-		if ( builtin != spv::BuiltInMax )
-		{
-			decorateMember( outer, mbrIndex, makeIdList( allocator, spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) ) );
-
-			for ( auto & decoration : additionalDecorations )
-			{
-				decorateMember( outer, mbrIndex, decoration );
-			}
-
-			result = true;
-		}
-
-		return result;
-	}
-
 	void Module::doAddVariable( Block & block
 		, std::string name
 		, DebugId varId
@@ -2593,7 +1768,7 @@ namespace spirv
 		assert( varId.isPointer() );
 		auto type = varId->type;
 		auto rawType = static_cast< ast::type::Pointer const & >( *type ).getPointerType();
-		auto rawTypeId = registerType( rawType, debugStatement );
+		auto rawTypeId = m_types.registerType( rawType, debugStatement );
 		auto typeStorage = varId.getStorage();
 
 		if ( typeStorage == ast::type::Storage::ePushConstant )
@@ -2601,13 +1776,13 @@ namespace spirv
 			decorate( rawTypeId, spv::DecorationBlock );
 		}
 
-		auto varTypeId = registerPointerType( rawTypeId
+		auto varTypeId = m_types.registerPointerType( rawTypeId
 			, convert( typeStorage ) );
 
 		if ( varId.getStorage() == ast::type::Storage::eFunction
 			&& m_currentFunction )
 		{
-			it = module::addVariable( nameCache
+			it = module::addVariable( getNameCache()
 				, varTypeId
 				, varId
 				, name
@@ -2617,7 +1792,7 @@ namespace spirv
 		}
 		else
 		{
-			it = module::addVariable( nameCache
+			it = module::addVariable( getNameCache()
 				, varTypeId
 				, varId
 				, name
@@ -2634,7 +1809,7 @@ namespace spirv
 		}
 
 		m_registeredVariablesTypes.emplace( varId, rawTypeId );
-		m_debug.declareVariable( block.instructions, std::move( name ), type, varId, initialiser, debugStatement );
+		m_nonSemanticDebug.declareVariable( block.instructions, std::move( name ), type, varId, initialiser, debugStatement );
 	}
 
 	InstructionList * Module::doSelectInstructionsList( spv::Op opCode )
@@ -2643,16 +1818,21 @@ namespace spirv
 
 		switch ( opCode )
 		{
+		case spv::OpString:
+			list = &m_debugNames.getStringsDeclarations();
+			break;
 		case spv::OpSource:
 		case spv::OpSourceExtension:
 		case spv::OpName:
-		case spv::OpString:
 		case spv::OpMemberName:
-			list = &debug;
+			list = &m_debugNames.getNamesDeclarations();
 			break;
 		case spv::OpExtInstImport:
 		case spv::OpExtension:
 			list = &extensions;
+			break;
+		case spv::OpExtInst:
+			list = &m_nonSemanticDebug.getDeclarations();
 			break;
 		case spv::OpCapability:
 			list = &capabilities;
@@ -2730,7 +1910,7 @@ namespace spirv
 		return result;
 	}
 
-	bool Module::doDeserializeFuncs( spv::Op opCode
+	bool Module::doDeserializeFunc( spv::Op opCode
 		, InstructionList::iterator & current
 		, InstructionList::iterator end )
 	{

@@ -1532,7 +1532,7 @@ namespace spirv
 	{
 		for ( auto & capability : requiredCapabilities )
 		{
-			insertCapability( module.nameCache, module.capabilities, capability );
+			insertCapability( module.getNameCache(), module.capabilities, capability );
 		}
 
 		for ( auto & extension : requiredExtensions )
