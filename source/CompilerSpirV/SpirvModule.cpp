@@ -93,19 +93,6 @@ namespace spirv
 		, m_currentScopeVariables{ &m_registeredVariables }
 		, m_registeredVariablesTypes{ allocator }
 		, m_registeredMemberVariables{ allocator }
-		, m_registeredBoolConstants{ allocator }
-		, m_registeredInt8Constants{ allocator }
-		, m_registeredInt16Constants{ allocator }
-		, m_registeredInt32Constants{ allocator }
-		, m_registeredInt64Constants{ allocator }
-		, m_registeredUInt8Constants{ allocator }
-		, m_registeredUInt16Constants{ allocator }
-		, m_registeredUInt32Constants{ allocator }
-		, m_registeredUInt64Constants{ allocator }
-		, m_registeredFloatConstants{ allocator }
-		, m_registeredDoubleConstants{ allocator }
-		, m_registeredCompositeConstants{ allocator }
-		, m_registeredConstants{ allocator }
 		, m_intermediates{ allocator }
 		, m_freeIntermediates{ allocator }
 		, m_busyIntermediates{ allocator }
@@ -117,6 +104,7 @@ namespace spirv
 		, m_debugNames{ allocator }
 		, m_nonSemanticDebug{ allocator, *this, stmtConfig }
 		, m_types{ allocator, *this, typesCache, constantsTypes }
+		, m_literals{ allocator, *this, constantsTypes }
 	{
 	}
 
@@ -776,7 +764,7 @@ namespace spirv
 
 			decorate( id, makeIdList( allocator, spv::Id( spv::DecorationSpecId ), location ) );
 			m_registeredVariablesTypes.emplace( id, rawTypeId );
-			m_registeredConstants.emplace( id, value.getType() );
+			m_literals.registerConstant( id, value.getType() );
 		}
 
 		return it->second.id;
@@ -819,220 +807,6 @@ namespace spirv
 		}
 
 		return it->second.id;
-	}
-
-	ast::type::Kind Module::getLiteralType( DebugId litId )const
-	{
-		auto it = m_registeredConstants.find( litId );
-		if ( it != m_registeredConstants.end() )
-		{
-			return it->second->getKind();
-		}
-
-		return ast::type::Kind::eUndefined;
-	}
-
-	DebugId Module::registerLiteral( bool value )
-	{
-		auto it = m_registeredBoolConstants.find( value );
-
-		if ( it == m_registeredBoolConstants.end() )
-		{
-			auto type = m_types.registerType( getTypesCache().getBool(), nullptr );
-			DebugId result{ getNextId(), type->type };
-			result.debug = result.id;
-
-			if ( value )
-			{
-				constantsTypes.push_back( makeInstruction< ConstantTrueInstruction >( getNameCache()
-					, type.id
-					, result.id ) );
-			}
-			else
-			{
-				constantsTypes.push_back( makeInstruction< ConstantFalseInstruction >( getNameCache()
-					, type.id
-					, result.id ) );
-			}
-
-			it = m_registeredBoolConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, getTypesCache().getBool() );
-		}
-
-		return it->second;
-	}
-
-	DebugId Module::registerLiteral( int8_t value )
-	{
-		return module::registerLiteral( value
-			, getTypesCache().getInt8()
-			, *this
-			, m_registeredInt8Constants
-			, m_registeredConstants );
-	}
-
-	DebugId Module::registerLiteral( int16_t value )
-	{
-		return module::registerLiteral( value
-			, getTypesCache().getInt16()
-			, *this
-			, m_registeredInt16Constants
-			, m_registeredConstants );
-	}
-
-	DebugId Module::registerLiteral( int32_t value )
-	{
-		return module::registerLiteral( value
-			, getTypesCache().getInt32()
-			, *this
-			, m_registeredInt32Constants
-			, m_registeredConstants );
-	}
-
-	DebugId Module::registerLiteral( uint8_t value )
-	{
-		return module::registerLiteral( value
-			, getTypesCache().getUInt8()
-			, *this
-			, m_registeredUInt8Constants
-			, m_registeredConstants );
-	}
-
-	DebugId Module::registerLiteral( uint16_t value )
-	{
-		return module::registerLiteral( value
-			, getTypesCache().getUInt16()
-			, *this
-			, m_registeredUInt16Constants
-			, m_registeredConstants );
-	}
-
-	DebugId Module::registerLiteral( uint32_t value )
-	{
-		return module::registerLiteral( value
-			, getTypesCache().getUInt32()
-			, *this
-			, m_registeredUInt32Constants
-			, m_registeredConstants );
-	}
-
-	DebugId Module::registerLiteral( int64_t value )
-	{
-		auto it = m_registeredInt64Constants.find( value );
-
-		if ( it == m_registeredInt64Constants.end() )
-		{
-			auto type = m_types.registerType( getTypesCache().getInt64(), nullptr );
-			DebugId result{ getNextId(), type->type };
-			result.debug = result.id;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
-				, type.id
-				, result.id
-				, makeOperands( allocator
-					, ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFll ) }
-					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFll ) } ) ) );
-			it = m_registeredInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, getTypesCache().getInt64() );
-		}
-
-		return it->second;
-	}
-
-	DebugId Module::registerLiteral( uint64_t value )
-	{
-		auto it = m_registeredUInt64Constants.find( value );
-
-		if ( it == m_registeredUInt64Constants.end() )
-		{
-			auto type = m_types.registerType( getTypesCache().getUInt64(), nullptr );
-			DebugId result{ getNextId(), type->type };
-			result.debug = result.id;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
-				, type.id
-				, result.id
-				, makeOperands( allocator
-					, ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFull ) }
-					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFull ) } ) ) );
-			it = m_registeredUInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, getTypesCache().getUInt64() );
-		}
-
-		return it->second;
-	}
-
-	DebugId Module::registerLiteral( float value )
-	{
-		auto it = m_registeredFloatConstants.find( value );
-
-		if ( it == m_registeredFloatConstants.end() )
-		{
-			auto type = m_types.registerType( getTypesCache().getFloat(), nullptr );
-			DebugId result{ getNextId(), type->type };
-			result.debug = result.id;
-			IdList list{ allocator };
-			list.resize( 1u );
-			auto dst = reinterpret_cast< float * >( list.data() );
-			*dst = value;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
-				, type.id
-				, result.id
-				, convert( list ) ) );
-			it = m_registeredFloatConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, getTypesCache().getFloat() );
-		}
-
-		return it->second;
-	}
-
-	DebugId Module::registerLiteral( double value )
-	{
-		auto it = m_registeredDoubleConstants.find( value );
-
-		if ( it == m_registeredDoubleConstants.end() )
-		{
-			auto type = m_types.registerType( getTypesCache().getDouble(), nullptr );
-			DebugId result{ getNextId(), type->type };
-			result.debug = result.id;
-			IdList list{ allocator };
-			list.resize( 2u );
-			auto dst = reinterpret_cast< double * >( list.data() );
-			*dst = value;
-			constantsTypes.push_back( makeInstruction< ConstantInstruction >( getNameCache()
-				, type.id
-				, result.id
-				, convert( list ) ) );
-			it = m_registeredDoubleConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, getTypesCache().getDouble() );
-		}
-
-		return it->second;
-	}
-
-	DebugId Module::registerLiteral( DebugIdList const & initialisers
-		, ast::type::TypePtr type )
-	{
-		auto typeId = m_types.registerType( type, nullptr );
-		auto it = std::find_if( m_registeredCompositeConstants.begin()
-			, m_registeredCompositeConstants.end()
-			, [&initialisers]( std::pair< DebugIdList, DebugId > const & lookup )
-			{
-				return lookup.first == initialisers;
-			} );
-
-		if ( it == m_registeredCompositeConstants.end() )
-		{
-			DebugId result{ getNextId(), typeId->type };
-			result.debug = result.id;
-			constantsTypes.push_back( makeInstruction< ConstantCompositeInstruction >( getNameCache()
-				, typeId.id
-				, result.id
-				, convert( initialisers ) ) );
-			m_registeredCompositeConstants.emplace_back( initialisers, result );
-			it = m_registeredCompositeConstants.begin() + ptrdiff_t( m_registeredCompositeConstants.size() - 1u );
-			m_registeredConstants.emplace( result, type );
-		}
-
-		return it->second;
 	}
 
 	void Module::registerExtension( std::string name )
@@ -1550,6 +1324,11 @@ namespace spirv
 			, std::move( accessChainIds )
 			, debugStatement
 			, resultId );
+	}
+
+	ast::type::Kind Module::getLiteralType( DebugId litId )const
+	{
+		return m_literals.getLiteralType( litId );
 	}
 
 	void Module::doReplaceDecoration( DebugId id
