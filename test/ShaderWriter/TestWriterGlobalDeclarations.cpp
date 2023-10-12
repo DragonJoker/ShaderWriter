@@ -49,8 +49,8 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					value = test::getDefault< T >( writer );
-					auto & stmt = *shader.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
+					auto & sstmt = *shader.getContainer()->back();
+					check( sstmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -98,8 +98,8 @@ namespace
 					value[0] = test::getDefault< T >( writer );
 					value[1] = test::getDefault< T >( writer );
 					value[2] = test::getDefault< T >( writer );
-					auto & stmt = *shader.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
+					auto & sstmt = *shader.getContainer()->back();
+					check( sstmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}

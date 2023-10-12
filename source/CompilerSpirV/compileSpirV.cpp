@@ -3,11 +3,11 @@ See LICENSE file in root folder
 */
 #include "CompilerSpirV/compileSpirV.hpp"
 
-#include "SpirvAdaptStatements.hpp"
-#include "SpirvCountActions.hpp"
-#include "SpirvFillConfig.hpp"
-#include "SpirvGenerateStatements.hpp"
-#include "SpirvModule.hpp"
+#include "SpirVAdaptStatements.hpp"
+#include "SpirVCountActions.hpp"
+#include "SpirVFillConfig.hpp"
+#include "SpirVGenerateStatements.hpp"
+#include "SpirVModule.hpp"
 
 #include <GlslCommon/GenerateGlslStatements.hpp>
 
