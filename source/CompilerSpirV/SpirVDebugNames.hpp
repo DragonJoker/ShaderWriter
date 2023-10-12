@@ -7,6 +7,8 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/SpirvInstruction.hpp"
 
+#include <map>
+
 namespace spirv::debug
 {
 	class DebugNames

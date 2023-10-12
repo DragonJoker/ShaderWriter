@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/SpirVDebugNames.hpp"
 #include "CompilerSpirV/SpirvFunction.hpp"
+#include "CompilerSpirV/SpirvModuleLiterals.hpp"
 #include "CompilerSpirV/SpirvModuleTypes.hpp"
 #include "CompilerSpirV/SpirVNonSemanticDebug.hpp"
 
@@ -103,19 +104,6 @@ namespace spirv
 		SDWSPIRV_API DebugId registerMemberVariable( DebugId outer
 			, std::string name
 			, ast::type::TypePtr type );
-		SDWSPIRV_API DebugId registerLiteral( bool value );
-		SDWSPIRV_API DebugId registerLiteral( int8_t value );
-		SDWSPIRV_API DebugId registerLiteral( int16_t value );
-		SDWSPIRV_API DebugId registerLiteral( int32_t value );
-		SDWSPIRV_API DebugId registerLiteral( uint8_t value );
-		SDWSPIRV_API DebugId registerLiteral( uint16_t value );
-		SDWSPIRV_API DebugId registerLiteral( uint32_t value );
-		SDWSPIRV_API DebugId registerLiteral( int64_t value );
-		SDWSPIRV_API DebugId registerLiteral( uint64_t value );
-		SDWSPIRV_API DebugId registerLiteral( float value );
-		SDWSPIRV_API DebugId registerLiteral( double value );
-		SDWSPIRV_API DebugId registerLiteral( DebugIdList const & initialisers
-			, ast::type::TypePtr type );
 		SDWSPIRV_API void registerExtension( std::string name );
 		SDWSPIRV_API void registerEntryPoint( DebugId functionId
 			, std::string name
@@ -147,7 +135,6 @@ namespace spirv
 		SDWSPIRV_API void putIntermediateResult( ValueId id );
 		SDWSPIRV_API ValueId getNonIntermediate( ValueId id );
 
-		SDWSPIRV_API ast::type::Kind getLiteralType( DebugId litId )const;
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
 			, DebugId varId
 			, std::string name
@@ -213,6 +200,13 @@ namespace spirv
 			, ValueIdList accessChainIds
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
+		SDWSPIRV_API ast::type::Kind getLiteralType( DebugId litId )const;
+
+		template< typename ... ParamsT >
+		DebugId registerLiteral( ParamsT && ... params )
+		{
+			return m_literals.registerLiteral( std::forward< ParamsT >( params )... );
+		}
 
 		debug::DebugNames & getDebugNames()noexcept
 		{
@@ -305,19 +299,6 @@ namespace spirv
 		Map< std::string, VariableInfo > * m_currentScopeVariables;
 		UnorderedMap< DebugId, TypeId, DebugIdHasher > m_registeredVariablesTypes;
 		Map< std::string, std::pair< DebugId, DebugId > > m_registeredMemberVariables;
-		Map< bool, DebugId > m_registeredBoolConstants;
-		Map< int8_t, DebugId > m_registeredInt8Constants;
-		Map< int16_t, DebugId > m_registeredInt16Constants;
-		Map< int32_t, DebugId > m_registeredInt32Constants;
-		Map< int64_t, DebugId > m_registeredInt64Constants;
-		Map< uint8_t, DebugId > m_registeredUInt8Constants;
-		Map< uint16_t, DebugId > m_registeredUInt16Constants;
-		Map< uint32_t, DebugId > m_registeredUInt32Constants;
-		Map< uint64_t, DebugId > m_registeredUInt64Constants;
-		Map< float, DebugId > m_registeredFloatConstants;
-		Map< double, DebugId > m_registeredDoubleConstants;
-		Vector< std::pair< DebugIdList, DebugId > > m_registeredCompositeConstants;
-		UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > m_registeredConstants;
 		UnorderedSet< spv::Id > m_intermediates;
 		UnorderedSet< spv::Id > m_freeIntermediates;
 		UnorderedMap< spv::Id, ValueId > m_busyIntermediates;
@@ -329,6 +310,7 @@ namespace spirv
 		debug::DebugNames m_debugNames;
 		debug::NonSemanticDebug m_nonSemanticDebug;
 		ModuleTypes m_types;
+		ModuleLiterals m_literals;
 	};
 }
 
