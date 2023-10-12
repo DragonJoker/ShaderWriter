@@ -5,6 +5,7 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/SpirVDebugHelpers.hpp"
 #include "CompilerSpirV/SpirVModule.hpp"
+#include "CompilerSpirV/SpirVModuleTypes.hpp"
 
 #include <GlslCommon/GenerateGlslStatements.hpp>
 
@@ -17,6 +18,7 @@ namespace spirv::debug
 		, glsl::StmtConfig const * config )
 		: m_allocator{ allocator }
 		, m_module{ module }
+		, m_types{ module.getTypes() }
 		, m_config{ config }
 		, m_declarations{ allocator }
 	{
@@ -27,11 +29,11 @@ namespace spirv::debug
 	{
 		m_enabled = true;
 		m_extDebugInfo = ValueId{ m_module.getIntermediateResult() };
-		imports.emplace_back( makeInstruction< ExtInstImportInstruction >( m_module.nameCache
+		imports.emplace_back( makeInstruction< ExtInstImportInstruction >( m_module.getNameCache()
 			, m_extDebugInfo
 			, "NonSemantic.Shader.DebugInfo.100" ) );
 
-		m_voidType = m_module.doRegisterBaseType( ast::type::Kind::eVoid, ast::type::NotMember, TypeId{}, 0u, nullptr );
+		m_voidType = m_types.doRegisterBaseType( ast::type::Kind::eVoid, ast::type::NotMember, TypeId{}, 0u, nullptr );
 
 		m_debugInfoNone = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::InfoNone
 			, m_declarations
@@ -484,7 +486,7 @@ namespace spirv::debug
 		, ValueId resultId
 		, ValueIdList operands )
 	{
-		instructions.emplace_back( makeInstruction< ExtInstInstruction >( m_module.nameCache
+		instructions.emplace_back( makeInstruction< ExtInstInstruction >( m_module.getNameCache()
 			, m_voidType.id
 			, resultId
 			, debug::makeValueIdList( m_allocator, m_extDebugInfo, ValueId{ spv::Id( instruction ) }, operands ) ) );
