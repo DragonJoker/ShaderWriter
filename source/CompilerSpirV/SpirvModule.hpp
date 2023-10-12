@@ -6,9 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "CompilerSpirV/SpirvFunction.hpp"
-#include "CompilerSpirV/spirv/NonSemantic.Shader.DebugInfo.100.hpp"
-
-#include <GlslCommon/GlslStatementsHelpers.hpp>
+#include "CompilerSpirV/SpirVNonSemanticDebug.hpp"
 
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
@@ -29,12 +27,16 @@ namespace spirv
 	class Module
 	{
 	private:
-		Module( ast::ShaderAllocatorBlock * alloc );
+		friend class debug::NonSemanticDebug;
+
+		Module( ast::ShaderAllocatorBlock * alloc
+			, glsl::StmtConfig const * stmtConfig );
 
 	public:
 		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
 			, ast::type::TypesCache & typesCache
 			, SpirVConfig const & spirvConfig
+			, glsl::StmtConfig const & stmtConfig
 			, spv::AddressingModel addressingModel
 			, spv::MemoryModel memoryModel
 			, spv::ExecutionModel executionModel
@@ -150,25 +152,32 @@ namespace spirv
 			, DebugId varId
 			, std::string name
 			, spv::StorageClass storage
-			, Block & currentBlock );
+			, Block & currentBlock
+			, glsl::Statement const * statement );
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
 			, std::string name
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
-			, Block & currentBlock );
+			, Block & currentBlock
+			, glsl::Statement const * statement );
 		SDWSPIRV_API void storePromoted( DebugId variable
 			, VariableInfo const & sourceInfo
-			, Block & currentBlock );
+			, Block & currentBlock
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API void storeVariable( DebugId variable
 			, DebugId value
-			, InstructionList & instructions );
+			, InstructionList & instructions
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API void storeVariable( DebugId variable
 			, DebugId value
-			, Block & currentBlock );
+			, Block & currentBlock
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API DebugId loadVariable( DebugId variable
-			, InstructionList & instructions );
+			, InstructionList & instructions
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API DebugId loadVariable( DebugId variable
-			, Block & currentBlock );
+			, Block & currentBlock
+			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API DebugId mergeSamplerImage( DebugId const & image
 			, DebugId const & sampler
 			, Block & currentBlock );
@@ -187,49 +196,35 @@ namespace spirv
 		SDWSPIRV_API Function * beginFunction( std::string name
 			, TypeId retType
 			, ast::var::VariableList const & params
-			, glsl::Statement * declDebugStatement
-			, glsl::Statement * scopeBeginDebugStatement
-			, glsl::Statement * firstLineStatement );
+			, glsl::Statement const * declDebugStatement
+			, glsl::Statement const * scopeBeginDebugStatement
+			, glsl::Statement const * firstLineStatement );
 		SDWSPIRV_API Block newBlock();
 		SDWSPIRV_API void endFunction();
 
-		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-			, ValueIdList operands );
-		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-			, InstructionList & instructions
-			, ValueIdList operands );
-		SDWSPIRV_API ValueId makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-			, Block & block
-			, ValueIdList operands );
-		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-			, ValueId const & resultId
-			, ValueIdList operands );
-		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-			, ValueId const & resultId
-			, InstructionList & instructions
-			, ValueIdList operands );
-		SDWSPIRV_API void makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-			, ValueId const & resultId
-			, Block & block
-			, ValueIdList operands );
-		SDWSPIRV_API DebugId registerDebugAccessChain( DebugId accessChainId
-			, ValueIdList const & accessChainExprs
-			, glsl::Statement const * debugStatement );
-
 		SDWSPIRV_API spv::Id getNextId();
 
-		inline ast::type::TypesCache & getTypesCache()
+		SDWSPIRV_API bool isExtGlslStd450( spv::Id id )const;
+		SDWSPIRV_API bool isExtNonSemanticDebugInfo( spv::Id id )const;
+		SDWSPIRV_API InstructionList const & getDebugDeclarations()const noexcept;
+
+		ast::type::TypesCache & getTypesCache()const
 		{
 			return *m_typesCache;
 		}
 
+		debug::NonSemanticDebug & getDebug()
+		{
+			return m_debug;
+		}
+
 	public:
+		static uint32_t constexpr VendorID = 33u;
+		static uint32_t constexpr Version = 0x0027u;
+
 		ast::ShaderAllocatorBlock * allocator;
 		Map< std::string, Vector< uint32_t > > nameCache;
 		ValueId extGlslStd450{};
-		ValueId extDebugInfo{};
-		ValueId debugSourceId{};
-		ValueId globalScopeId{};
 
 		IdList header;
 		InstructionList capabilities;
@@ -243,7 +238,6 @@ namespace spirv
 		InstructionList decorations;
 		InstructionList constantsTypes;
 		InstructionList globalDeclarations;
-		InstructionList debugDeclarations;
 		ModuleStruct structData;
 		FunctionList functions;
 		InstructionList * variables;
@@ -298,10 +292,9 @@ namespace spirv
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
 		void doInitialiseHeader( Header const & header );
-		void doInitialiseExtensions( bool enableDebug );
-		void doInitialiseCapacities();
-		void doInitialiseDebug( bool isDebugEnabled
+		void doInitialiseExtensions( bool enableDebug
 			, glsl::Statements const & debugStatements );
+		void doInitialiseCapacities();
 		bool doDeserializeInfos( spv::Op opCode
 			, InstructionList::iterator & current
 			, InstructionList::iterator end );
@@ -323,12 +316,6 @@ namespace spirv
 			, Map< std::string, VariableInfo >::iterator & it
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement = nullptr );
-		void doAddDebugVariable( InstructionList & instructions
-			, std::string name
-			, ast::type::TypePtr type
-			, DebugId varId
-			, DebugId initialiser
-			, glsl::Statement const * debugStatement );
 
 	private:
 		using DecorationMap = UnorderedMap< ValueIdList, size_t, ValueIdListHasher >;
@@ -378,10 +365,7 @@ namespace spirv
 		ValueIdSet m_entryPointIO;
 		DecorationMapIdMap varDecorations;
 		DecorationMapMbrMap mbrDecorations;
-		TypeId m_voidType{};
-		ValueId m_debugInfoNone{};
-		ValueId m_debugExpressionDummy{};
-		glsl::Statement * m_currentFunctionFirstLineStatement{};
+		debug::NonSemanticDebug m_debug;
 	};
 }
 

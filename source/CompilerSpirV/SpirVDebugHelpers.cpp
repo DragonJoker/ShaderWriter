@@ -3,8 +3,6 @@ See LICENSE file in root folder
 */
 #include "CompilerSpirV/SpirVDebugHelpers.hpp"
 
-#include "CompilerSpirV/spirv/NonSemantic.Shader.DebugInfo.100.hpp"
-
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>
 

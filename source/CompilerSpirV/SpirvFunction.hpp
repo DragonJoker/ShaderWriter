@@ -127,7 +127,6 @@ namespace spirv
 			, InstructionList::iterator const & end );
 
 		DebugId id{};
-		DebugIdList params;
 		ValueId debugDeclId{};
 		ValueId debugNameId{};
 		ValueId debugTypeId{};

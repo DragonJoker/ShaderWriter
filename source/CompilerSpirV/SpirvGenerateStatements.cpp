@@ -585,7 +585,8 @@ namespace spirv
 					, varId
 					, std::move( name )
 					, storage
-					, m_currentBlock );
+					, m_currentBlock
+					, m_currentDebugStatement );
 			}
 
 			void decorate( DebugId id
@@ -622,7 +623,8 @@ namespace spirv
 			{
 				TraceFunc;
 				return m_module.loadVariable( variableId
-					, m_currentBlock );
+					, m_currentBlock
+					, m_currentDebugStatement );
 			}
 
 			void storeVariable( DebugId variableId
@@ -631,7 +633,8 @@ namespace spirv
 				TraceFunc;
 				m_module.storeVariable( variableId
 					, valueId
-					, m_currentBlock );
+					, m_currentBlock
+					, m_currentDebugStatement );
 			}
 
 			void storePromoted( DebugId variableId
@@ -640,7 +643,8 @@ namespace spirv
 				TraceFunc;
 				m_module.storePromoted( variableId
 					, sourceInfo
-					, m_currentBlock );
+					, m_currentBlock
+					, m_currentDebugStatement );
 			}
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
@@ -1367,7 +1371,8 @@ namespace spirv
 						, expr
 						, m_context
 						, m_module
-						, m_currentBlock ) );
+						, m_currentBlock
+						, m_currentDebugStatement ) );
 				}
 			}
 
@@ -2119,12 +2124,14 @@ namespace spirv
 				, ModuleConfig const & moduleConfig
 				, spirv::PreprocContext context
 				, SpirVConfig & spirvConfig
+				, glsl::StmtConfig const & stmtConfig
 				, ShaderActions actions
 				, glsl::Statements debugStatements )
 			{
 				auto result = ModulePtr{ new Module{ &exprCache.getAllocator()
 					, typesCache
 					, spirvConfig
+					, stmtConfig
 					, moduleConfig.addressingModel
 					, getMemoryModel()
 					, getExecutionModel( type )
@@ -2163,6 +2170,7 @@ namespace spirv
 				, m_context{ std::move( context ) }
 				, m_actions{ std::move( actions ) }
 				, m_result{ result }
+				, m_debug{ m_result.getDebug() }
 				, m_debugStatements{ std::move( debugStatements ) }
 				, m_currentBlock{ m_allocator }
 				, m_controlBlocks{ m_allocator }
@@ -2173,7 +2181,6 @@ namespace spirv
 				VariableInfo info;
 
 				m_currentDebugStatement = m_debugStatements.statements.begin();
-				m_currentScopeId = m_result.globalScopeId;
 
 				for ( auto & input : moduleConfig.getInputs() )
 				{
@@ -2238,15 +2245,7 @@ namespace spirv
 			void writeLine( InstructionList & instructions
 				, glsl::Statement * statement )
 			{
-				if ( isDebugEnabled() )
-				{
-					auto lineId = m_result.registerLiteral( statement->source.lineStart );
-					auto columnStartId = m_result.registerLiteral( statement->source.columnStart );
-					auto columnEndId = m_result.registerLiteral( statement->source.columnEnd );
-					m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Line
-						, instructions
-						, debug::makeValueIdList( m_allocator, m_result.debugSourceId, lineId, lineId, columnStartId, columnEndId ) );
-				}
+				m_debug.makeLineExtension( instructions, statement );
 			}
 
 			void writeLine( Block & block
@@ -2255,17 +2254,22 @@ namespace spirv
 				writeLine( block.instructions, statement );
 			}
 
+			DebugId loadVariable( DebugId variableId )
+			{
+				return m_result.loadVariable( variableId
+					, m_currentBlock
+					, getCurrentDebugStatement() );
+			}
+
 			void consumeDebugStatement( [[maybe_unused]] glsl::StatementType type )
 			{
 				if ( isDebugEnabled() )
 				{
-					assert( type == m_currentDebugStatement->type );
+					assert( type == getCurrentDebugStatement()->type );
 
-					if ( type == glsl::StatementType::eScopeLine
-						&& m_currentScopeId != m_result.globalScopeId )
+					if ( type == glsl::StatementType::eScopeLine )
 					{
-						auto scopeLineStmt = getCurrentDebugStatement();
-						writeLine( m_currentBlock, scopeLineStmt );
+						writeLine( m_currentBlock, getCurrentDebugStatement() );
 					}
 
 					++m_currentDebugStatement;
@@ -2289,17 +2293,8 @@ namespace spirv
 
 			void beginScope( InstructionList & instructions )
 			{
-				if ( isDebugEnabled() )
-				{
-					if ( isDebugEnabled() )
-					{
-						auto scopeFirstLineStmt = getCurrentDebugStatement();
-						m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Scope
-							, instructions
-							, debug::makeValueIdList( m_allocator, m_currentScopeId ) );
-						writeLine( instructions, scopeFirstLineStmt );
-					}
-				}
+				m_debug.makeScopeInstruction( instructions );
+				writeLine( instructions, getCurrentDebugStatement() );
 			}
 
 			void beginScope( Block & block )
@@ -2316,16 +2311,12 @@ namespace spirv
 
 				if ( isDebugEnabled() )
 				{
-					auto previousScopeId = m_currentScopeId;
 					auto scopeBeginStmt = getCurrentDebugStatement();
 					consumeDebugStatement( scopeBegin );
-					auto scopeLineId = m_result.registerLiteral( scopeBeginStmt->source.lineStart );
 
 					if ( scopeBegin == glsl::StatementType::eLexicalScopeBegin )
 					{
-						auto columnId = m_result.registerLiteral( scopeBeginStmt->source.columnStart );
-						m_currentScopeId = m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LexicalBlock
-							, debug::makeValueIdList( m_allocator, m_result.debugSourceId, scopeLineId, columnId, previousScopeId ) );
+						m_debug.makeLexicalBlockInstruction( scopeBeginStmt );
 						beginScope( m_currentBlock );
 					}
 
@@ -2563,7 +2554,7 @@ namespace spirv
 
 				// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
 				writeLine( ifBlock, getCurrentDebugStatement() );
-				auto intermediateIfId = m_result.loadVariable( doSubmit( stmt->getCtrlExpr(), ifBlock ), m_currentBlock );
+				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr(), ifBlock ) );
 				endBlock( ifBlock, intermediateIfId->id, loopBlockLabel, mergeBlock.label );
 
 				// Current block becomes the merge block.
@@ -2676,7 +2667,10 @@ namespace spirv
 
 						if ( !sourceInfo.id.isPointer() )
 						{
-							m_result.storeVariable( varInfo.id, sourceInfo.id, m_currentBlock );
+							m_result.storeVariable( varInfo.id
+								, sourceInfo.id
+								, m_currentBlock
+								, getCurrentDebugStatement() );
 						}
 					}
 				}
@@ -2758,14 +2752,8 @@ namespace spirv
 
 				// End current block, to branch to the if content block (true) or to the false branch block (false).
 				beginControl( m_currentBlock );
-				auto intermediateIfId = m_result.loadVariable( doSubmit( stmt->getCtrlExpr() ), m_currentBlock );
-
-				if ( isDebugEnabled() )
-				{
-					m_result.makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::NoScope
-						, m_currentBlock
-						, ValueIdList{ m_allocator } );
-				}
+				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr() ) );
+				m_debug.makeNoScopeInstruction( m_currentBlock.instructions );
 
 				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 				endBlock( m_currentBlock, intermediateIfId->id, contentBlock.label, falseBlockLabel );
@@ -2994,7 +2982,7 @@ namespace spirv
 
 				if ( stmt->getExpr() )
 				{
-					auto result = m_result.loadVariable( doSubmit( stmt->getExpr() ), m_currentBlock );
+					auto result = loadVariable( doSubmit( stmt->getExpr() ) );
 					interruptBlock( m_currentBlock
 						, makeInstruction< ReturnValueInstruction >( m_result.nameCache, result.id )
 						, false );
@@ -3069,14 +3057,13 @@ namespace spirv
 			void visitSimpleStmt( ast::stmt::Simple * stmt )override
 			{
 				TraceFunc;
+				ExprVisitor::submit( m_exprCache, stmt->getExpr(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() );
 
 				if ( stmt->getExpr()->getKind() != ast::expr::Kind::eAlias
 					&& stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
 				{
 					consumeSimpleDebugStatement();
 				}
-
-				ExprVisitor::submit( m_exprCache, stmt->getExpr(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() );
 			}
 
 			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
@@ -3139,7 +3126,7 @@ namespace spirv
 				}
 
 				beginControl( m_currentBlock );
-				auto selector = m_result.loadVariable( doSubmit( stmt->getTestExpr()->getValue() ), m_currentBlock );
+				auto selector = loadVariable( doSubmit( stmt->getTestExpr()->getValue() ) );
 				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.nameCache, ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 				m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.nameCache, makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
 				m_currentBlock.isInterrupted = true;
@@ -3416,7 +3403,7 @@ namespace spirv
 
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier )
 				{
-					result = m_result.loadVariable( result, m_currentBlock );
+					result = loadVariable( result );
 				}
 
 				return result;
@@ -3429,6 +3416,7 @@ namespace spirv
 			spirv::PreprocContext m_context;
 			ShaderActions m_actions;
 			Module & m_result;
+			debug::NonSemanticDebug & m_debug;
 			glsl::Statements m_debugStatements;
 			Block m_currentBlock;
 			Function * m_function{ nullptr };
@@ -3449,6 +3437,7 @@ namespace spirv
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
 		, SpirVConfig & spirvConfig
+		, glsl::StmtConfig const & stmtConfig
 		, ShaderActions actions
 		, glsl::Statements debugStatements )
 	{
@@ -3459,6 +3448,7 @@ namespace spirv
 			, moduleConfig
 			, std::move( context )
 			, spirvConfig
+			, stmtConfig
 			, std::move( actions )
 			, std::move( debugStatements ) );
 	}

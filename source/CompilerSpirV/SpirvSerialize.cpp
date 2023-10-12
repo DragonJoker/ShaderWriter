@@ -149,7 +149,7 @@ namespace spirv
 			serializeResult( module.decorations, result );
 			serializeResult( module.constantsTypes, result );
 			serializeResult( module.globalDeclarations, result );
-			serializeResult( module.debugDeclarations, result );
+			serializeResult( module.getDebugDeclarations(), result );
 			serializeResult( module.functions, result );
 		}
 

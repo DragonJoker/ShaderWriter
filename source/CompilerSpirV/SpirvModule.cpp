@@ -234,10 +234,8 @@ namespace spirv
 
 	//*************************************************************************
 
-	static uint32_t constexpr VendorID = 33u;
-	static uint32_t constexpr Version = 0x0027u;
-
-	Module::Module( ast::ShaderAllocatorBlock * alloc )
+	Module::Module( ast::ShaderAllocatorBlock * alloc
+		, glsl::StmtConfig const * stmtConfig )
 		: allocator{ alloc }
 		, nameCache{ alloc }
 		, header{ allocator }
@@ -251,7 +249,6 @@ namespace spirv
 		, decorations{ allocator }
 		, constantsTypes{ allocator }
 		, globalDeclarations{ allocator }
-		, debugDeclarations{ allocator }
 		, structData{ allocator }
 		, functions{ spirv::ModuleAllocatorT< spirv::Function >{ allocator } }
 		, variables{ &globalDeclarations }
@@ -289,17 +286,19 @@ namespace spirv
 		, m_entryPointIO{ allocator }
 		, varDecorations{ allocator }
 		, mbrDecorations{ allocator }
+		, m_debug{ allocator, *this, stmtConfig }
 	{
 	}
 
 	Module::Module( ast::ShaderAllocatorBlock * alloc
 		, ast::type::TypesCache & typesCache
 		, SpirVConfig const & spirvConfig
+		, glsl::StmtConfig const & stmtConfig
 		, spv::AddressingModel addressingModel
 		, spv::MemoryModel pmemoryModel
 		, spv::ExecutionModel pexecutionModel
 		, glsl::Statements const & debugStatements )
-		: Module{ alloc }
+		: Module{ alloc, &stmtConfig }
 	{
 		memoryModel = makeInstruction< MemoryModelInstruction >( nameCache
 			, ValueId{ spv::Id( addressingModel ) }
@@ -313,15 +312,14 @@ namespace spirv
 			, ( VendorID << 16 ) | Version
 			, 1u	/* Bound IDs. */
 			, 0u	/* Schema. */ } );
-		doInitialiseExtensions( spirvConfig.debug );
+		doInitialiseExtensions( spirvConfig.debug, debugStatements );
 		doInitialiseCapacities();
-		doInitialiseDebug( spirvConfig.debug, debugStatements );
 	}
 
 	Module::Module( ast::ShaderAllocatorBlock * alloc
 		, Header const & pheader
 		, InstructionList instructions )
-		: Module{ alloc }
+		: Module{ alloc, nullptr }
 	{
 		doInitialiseHeader( pheader );
 		auto it = instructions.begin();
@@ -511,11 +509,12 @@ namespace spirv
 		, DebugId varId
 		, std::string name
 		, spv::StorageClass storage
-		, Block & currentBlock )
+		, Block & currentBlock
+		, glsl::Statement const * statement )
 	{
 		if ( varId.isPointer() && convert( varId.getStorage() ) != storage )
 		{
-			varId = loadVariable( varId, currentBlock );
+			varId = loadVariable( varId, currentBlock, statement );
 			name = "SDW_Swap_" + name;
 		}
 
@@ -526,7 +525,7 @@ namespace spirv
 			doAddDebug( name, id );
 			Map< std::string, VariableInfo >::iterator it;
 			doAddVariable( block, name, id, storage, it, DebugId{} );
-			storeVariable( it->second.id, varId, currentBlock );
+			storeVariable( it->second.id, varId, currentBlock, statement );
 			varId = it->second.id;
 		}
 
@@ -537,7 +536,8 @@ namespace spirv
 		, std::string name
 		, spv::StorageClass storage
 		, ast::type::TypePtr type
-		, Block & currentBlock )
+		, Block & currentBlock
+		, glsl::Statement const * statement )
 	{
 		DebugId varId;
 		Map< std::string, VariableInfo >::iterator it;
@@ -568,7 +568,8 @@ namespace spirv
 				, varId
 				, name
 				, storage
-				, currentBlock );
+				, currentBlock
+				, statement );
 		}
 
 		return varId;
@@ -576,78 +577,78 @@ namespace spirv
 
 	void Module::storePromoted( DebugId variable
 		, VariableInfo const & sourceInfo
-		, Block & currentBlock )
+		, Block & currentBlock
+		, glsl::Statement const * debugStatement )
 	{
 		if ( sourceInfo.isParam )
 		{
 			storeVariable( variable
 				, sourceInfo.id
-				, m_currentFunction->promotedParams );
+				, m_currentFunction->promotedParams
+				, debugStatement );
 		}
 		else
 		{
 			storeVariable( variable
 				, sourceInfo.id
-				, currentBlock.instructions );
+				, currentBlock.instructions
+				, debugStatement );
 		}
 	}
 
 	void Module::storeVariable( DebugId variable
 		, DebugId value
-		, InstructionList & instructions )
+		, InstructionList & instructions
+		, glsl::Statement const * debugStatement )
 	{
 		assert( variable.isPointer() );
 
 		if ( value.isPointer() )
 		{
-			value = loadVariable( value, instructions );
+			value = loadVariable( value, instructions, debugStatement );
 		}
 
+		m_debug.makeLineExtension( instructions, debugStatement );
 		instructions.push_back( makeInstruction< StoreInstruction >( nameCache
 			, variable.id
 			, value.id ) );
-
-		if ( extDebugInfo )
-		{
-			if ( variable.debug )
-			{
-				makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Value
-					, instructions
-					, debug::makeValueIdList( allocator, variable.debug, value.id, m_debugExpressionDummy ) );
-			}
-		}
+		m_debug.makeValueInstruction( instructions, variable, value );
 	}
 
 	void Module::storeVariable( DebugId variable
 		, DebugId value
-		, Block & currentBlock )
+		, Block & currentBlock
+		, glsl::Statement const * debugStatement )
 	{
 		storeVariable( variable
 			, value
-			, currentBlock.instructions );
+			, currentBlock.instructions
+			, debugStatement );
 	}
 
-	DebugId Module::loadVariable( DebugId variable
-		, InstructionList & instructions )
+	DebugId Module::loadVariable( DebugId variableId
+		, InstructionList & instructions
+		, glsl::Statement const * debugStatement )
 	{
-		if ( variable.isPointer() )
+		if ( variableId.isPointer() )
 		{
-			auto type = static_cast< ast::type::Pointer const & >( *variable->type ).getPointerType();
+			auto type = static_cast< ast::type::Pointer const & >( *variableId->type ).getPointerType();
+			m_debug.makeLineExtension( instructions, debugStatement );
 
 			if ( !hasRuntimeArray( type ) )
 			{
 				auto typeId = registerType( type, nullptr );
-				DebugId result{ getIntermediateResult(), typeId->type };
+				DebugId resultId{ getIntermediateResult(), typeId->type };
 
-				if ( variable.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
+				if ( variableId.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
 				{
 					// Loading from PhysicalStorageBuffer needs to set the alignment
 					auto structType = getStructType( type );
 					instructions.push_back( makeInstruction< LoadInstruction >( nameCache
 						, typeId.id
-						, result.id
+						, resultId.id
 						, makeOperands( allocator
-							, variable
+							, variableId
 							, ValueId{ spv::Id( spv::MemoryAccessAlignedMask ) }
 							, ValueId{ ast::type::getAlignment( type
 								, ( structType
@@ -658,25 +659,28 @@ namespace spirv
 				{
 					instructions.push_back( makeInstruction< LoadInstruction >( nameCache
 						, typeId.id
-						, result.id
+						, resultId.id
 						, makeOperands( allocator
-							, variable
+							, variableId
 							, ValueId{ spv::Id( spv::MemoryAccessMaskNone ) } ) ) );
 				}
 
-				lnkIntermediateResult( result, variable );
-				return result;
+				m_debug.makeValueInstruction( instructions, resultId, variableId );
+				lnkIntermediateResult( resultId, variableId );
+				return resultId;
 			}
 		}
 
-		return variable;
+		return variableId;
 	}
 
-	DebugId Module::loadVariable( DebugId variable
-		, Block & currentBlock )
+	DebugId Module::loadVariable( DebugId variableId
+		, Block & currentBlock
+		, glsl::Statement const * debugStatement )
 	{
-		return loadVariable( variable
-			, currentBlock.instructions );
+		return loadVariable( variableId
+			, currentBlock.instructions
+			, debugStatement );
 	}
 
 	DebugId Module::mergeSamplerImage( DebugId const & image
@@ -866,7 +870,7 @@ namespace spirv
 			}
 
 			DebugId id{ getNextId(), varType };
-			id.debug = ValueId{ extDebugInfo ? getNextId() : 0u, id->type };
+			id.debug = ValueId{ m_debug.getNextId(), id->type };
 
 			if ( typeStorage == ast::type::Storage::ePhysicalStorageBuffer )
 			{
@@ -903,17 +907,13 @@ namespace spirv
 							? static_cast< ast::type::Pointer const & >( *it->second->id.type ).getPointerType()
 							: it->second->id.type )
 						, convert( storage ) ) };
-				id.debug = ValueId{ extDebugInfo ? getNextId() : 0u, id->type };
+				id.debug = ValueId{ m_debug.getNextId(), id->type };
 				it->second.isAlias = false;
 				it->second.isParam = false;
 				it->second.isOutParam = false;
 				doAddDebug( "ptr_" + name, id );
 				doAddVariable( block, name, id, storage, it, DebugId{}, debugStatement );
-
-				if ( !debugStatement )
-				{
-					doAddDebugVariable( m_currentFunction->promotedParams, "ptr_" + name, type, id, initialiser, m_currentFunctionFirstLineStatement );
-				}
+				m_debug.declarePointerParam( m_currentFunction->promotedParams, "ptr_" + name, type, id, initialiser, debugStatement );
 
 				if ( m_version >= v1_4 )
 				{
@@ -1316,15 +1316,7 @@ namespace spirv
 			, functionId.id
 			, operands
 			, std::move( name ) );
-
-		if ( extDebugInfo )
-		{
-			assert( functionId.debug );
-			auto compilerSignatureId = registerString( "ShaderWriter-v" + std::to_string( Version >> 8 ) + "." + std::to_string( Version & 0x0F ) );
-			auto cliArgumentsId = registerString( "" );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::EntryPoint
-				, debug::makeValueIdList( allocator, functionId.debug, globalScopeId, compilerSignatureId, cliArgumentsId ) );
-		}
+		m_debug.makeEntryPointInstruction( functionId );
 
 		switch ( m_model )
 		{
@@ -1606,20 +1598,20 @@ namespace spirv
 	Function * Module::beginFunction( std::string name
 		, TypeId retType
 		, ast::var::VariableList const & params
-		, glsl::Statement * declDebugStatement
-		, glsl::Statement * scopeBeginDebugStatement
-		, glsl::Statement * firstLineStatement )
+		, glsl::Statement const * declDebugStatement
+		, glsl::Statement const * scopeBeginDebugStatement
+		, glsl::Statement const * firstLineStatement )
 	{
 		DebugId result{ getNextId() };
-		result.debug.id = extDebugInfo ? getNextId() : 0u;
-		m_registeredVariables.emplace( name, VariableInfo{ result, false, false, false } );
+		result.debug = ValueId{ m_debug.getNextId(), result->type };
+		auto & variableInfo = m_registeredVariables.emplace( name, VariableInfo{ result, false, false, false } ).first->second;
 
 		TypeIdList funcTypes{ allocator };
 		funcTypes.push_back( retType );
-		m_currentFunction = &functions.emplace_back( allocator, result );
+		m_currentFunction = &functions.emplace_back( allocator, variableInfo.id );
 		m_currentFunction->registeredVariables = m_registeredVariables; // the function has access to global scope variables.
 		m_currentScopeVariables = &m_currentFunction->registeredVariables;
-		m_currentFunctionFirstLineStatement = firstLineStatement;
+		DebugIdList funcParams{ allocator };
 
 		for ( auto & param : params )
 		{
@@ -1636,14 +1628,14 @@ namespace spirv
 			}
 
 			DebugId paramId{ getNextId(), funcTypes.back()->type };
-			paramId.debug.id = extDebugInfo ? getNextId() : 0u;
-			m_currentFunction->params.push_back( paramId );
+			paramId.debug = ValueId{ m_debug.getNextId(), paramId->type };
+			funcParams.push_back( paramId );
 			debug.push_back( makeInstruction< NameInstruction >( nameCache
 				, paramId.id
 				, param->getName() ) );
 
-			m_currentScopeVariables->emplace( param->getName(), VariableInfo{ m_currentFunction->params.back(), false, true, param->isOutputParam() } );
-			m_registeredVariablesTypes.emplace( m_currentFunction->params.back(), funcTypes.back() );
+			m_currentScopeVariables->emplace( param->getName(), VariableInfo{ funcParams.back(), false, true, param->isOutputParam() } );
+			m_registeredVariablesTypes.emplace( funcParams.back(), funcTypes.back() );
 		}
 
 		auto it = m_registeredFunctionTypes.find( funcTypes );
@@ -1656,13 +1648,7 @@ namespace spirv
 			constantsTypes.push_back( makeInstruction< FunctionTypeInstruction >( nameCache
 				, funcTypeId.id
 				, convert( funcTypes ) ) );
-
-			if ( extDebugInfo )
-			{
-				auto flagsId = registerLiteral( uint32_t( spv::NonSemanticShaderDebugInfo100DebugInfoFlags::IsPublic ) );
-				funcTypeId.debug = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeFunction
-					, debug::makeValueIdList( allocator, flagsId, funcTypes ) );
-			}
+			m_debug.registerFunctionType( funcTypes, funcTypeId );
 
 			it = m_registeredFunctionTypes.emplace( funcTypes, funcTypeId ).first;
 		}
@@ -1673,35 +1659,13 @@ namespace spirv
 
 		m_currentFunction->debugTypeId = funcTypeId.debug;
 		DebugId scopeLineId{};
-
-		if ( declDebugStatement )
-		{
-			scopeLineId = registerLiteral( scopeBeginDebugStatement->source.lineStart );
-			m_currentFunction->debugNameId = registerString( name );
-			m_currentFunction->debugLineId = registerLiteral( declDebugStatement->source.lineStart ).id;
-			m_currentFunction->debugColumnId = registerLiteral( declDebugStatement->source.columnStart ).id;
-			m_currentFunction->debugFlagId = registerLiteral( 0u ).id;
-			m_currentFunction->debugDeclId = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDeclaration
-				, debug::makeValueIdList( allocator
-					, m_currentFunction->debugNameId, m_currentFunction->debugTypeId
-					, debugSourceId
-					, m_currentFunction->debugLineId, m_currentFunction->debugColumnId
-					, globalScopeId
-					, m_currentFunction->debugNameId, m_currentFunction->debugFlagId ) );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Function
-				, result.debug
-				, debug::makeValueIdList( allocator
-					, m_currentFunction->debugNameId, m_currentFunction->debugTypeId
-					, debugSourceId
-					, m_currentFunction->debugLineId, m_currentFunction->debugColumnId
-					, globalScopeId
-					, m_currentFunction->debugNameId, m_currentFunction->debugFlagId
-					, scopeLineId
-					, m_currentFunction->debugDeclId ) );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDefinition
-				, m_currentFunction->debugStart
-				, debug::makeValueIdList( allocator, m_currentFunction->id.debug, m_currentFunction->id.id ) );
-		}
+		m_debug.declareFunction( *m_currentFunction
+			, name
+			, params
+			, funcParams
+			, declDebugStatement
+			, scopeBeginDebugStatement
+			, firstLineStatement );
 
 		m_currentFunction->declaration.emplace_back( makeInstruction< FunctionInstruction >( nameCache
 			, retType.id
@@ -1709,25 +1673,13 @@ namespace spirv
 			, ValueId{ spv::Id( spv::FunctionControlMaskNone ) }
 			, funcTypeId.id ) );
 		auto itType = funcTypes.begin() + 1u;
-		auto itParam = m_currentFunction->params.begin();
+		auto itParam = funcParams.begin();
 
-		for ( auto & param : params )
+		for ( auto itp = params.begin(); itp != params.end(); ++itp )
 		{
 			m_currentFunction->declaration.emplace_back( makeInstruction< FunctionParameterInstruction >( nameCache
 				, itType->id
 				, itParam->id ) );
-
-			if ( declDebugStatement )
-			{
-				auto nameId = registerString( param->getName() );
-				auto typeId = registerType( param->getType(), scopeBeginDebugStatement );
-				auto columnId = registerLiteral( 0u );
-				auto flagsId = registerLiteral( 0u );
-				makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LocalVariable
-					, itParam->debug
-					, debug::makeValueIdList( allocator, nameId, typeId, debugSourceId, scopeLineId, columnId, m_currentFunction->id.debug, flagsId ) );
-			}
-
 			++itType;
 			++itParam;
 		}
@@ -1752,23 +1704,51 @@ namespace spirv
 	void Module::endFunction()
 	{
 		if ( m_currentFunction
-			&& !m_currentFunction->cfg.blocks.empty()
-			&& !m_currentFunction->variables.empty() )
+			&& !m_currentFunction->cfg.blocks.empty() )
 		{
-			auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
+			if ( !m_currentFunction->variables.empty() )
 			{
-				auto params = std::move( m_currentFunction->promotedParams );
-				std::reverse( params.begin(), params.end() );
-
-				for ( auto & param : params )
+				auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
 				{
-					instructions.emplace( instructions.begin() + 1u
-						, std::move( param ) );
-				}
+					auto params = std::move( m_currentFunction->promotedParams );
+					std::reverse( params.begin(), params.end() );
 
-				m_currentFunction->promotedParams.clear();
+					for ( auto & param : params )
+					{
+						instructions.emplace( instructions.begin() + 1u
+							, std::move( param ) );
+					}
+
+					m_currentFunction->promotedParams.clear();
+				}
+				{
+					auto debugStart = std::move( m_currentFunction->debugStart );
+					std::reverse( debugStart.begin(), debugStart.end() );
+
+					for ( auto & dbg : debugStart )
+					{
+						instructions.emplace( instructions.begin() + 1u
+							, std::move( dbg ) );
+					}
+
+					m_currentFunction->debugStart.clear();
+				}
+				{
+					auto vars = std::move( m_currentFunction->variables );
+					std::reverse( vars.begin(), vars.end() );
+
+					for ( auto & variable : vars )
+					{
+						instructions.emplace( instructions.begin() + 1u
+							, std::move( variable ) );
+					}
+
+					m_currentFunction->variables.clear();
+				}
 			}
+			else
 			{
+				auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
 				auto debugStart = std::move( m_currentFunction->debugStart );
 				std::reverse( debugStart.begin(), debugStart.end() );
 
@@ -1780,18 +1760,6 @@ namespace spirv
 
 				m_currentFunction->debugStart.clear();
 			}
-			{
-				auto vars = std::move( m_currentFunction->variables );
-				std::reverse( vars.begin(), vars.end() );
-
-				for ( auto & variable : vars )
-				{
-					instructions.emplace( instructions.begin() + 1u
-						, std::move( variable ) );
-				}
-
-				m_currentFunction->variables.clear();
-			}
 		}
 
 		variables = &globalDeclarations;
@@ -1799,102 +1767,26 @@ namespace spirv
 		m_currentFunction = nullptr;
 	}
 
-	ValueId Module::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-		, ValueIdList operands )
-	{
-		ValueId result{ getNextId() };
-		makeDebugInstruction( instruction
-			, result
-			, std::move( operands ) );
-		return result;
-	}
-
-	ValueId Module::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-		, InstructionList & instructions
-		, ValueIdList operands )
-	{
-		ValueId result{ getNextId() };
-		makeDebugInstruction( instruction
-			, result
-			, instructions
-			, std::move( operands ) );
-		return result;
-	}
-
-	ValueId Module::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-		, Block & block
-		, ValueIdList operands )
-	{
-		ValueId result{ getNextId() };
-		makeDebugInstruction( instruction
-			, result
-			, block
-			, std::move( operands ) );
-		return result;
-	}
-
-	void Module::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-		, ValueId const & resultId
-		, ValueIdList operands )
-	{
-		debugDeclarations.emplace_back( makeInstruction< ExtInstInstruction >( nameCache
-			, m_voidType.id
-			, resultId
-			, debug::makeValueIdList( allocator, extDebugInfo, ValueId{ spv::Id( instruction ) }, operands ) ) );
-	}
-
-	void Module::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-		, ValueId const & resultId
-		, InstructionList & instructions
-		, ValueIdList operands )
-	{
-		instructions.emplace_back( makeInstruction< ExtInstInstruction >( nameCache
-			, m_voidType.id
-			, resultId
-			, debug::makeValueIdList( allocator, extDebugInfo, ValueId{ spv::Id( instruction ) }, operands ) ) );
-	}
-
-	void Module::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
-		, ValueId const & resultId
-		, Block & block
-		, ValueIdList operands )
-	{
-		block.instructions.emplace_back( makeInstruction< ExtInstInstruction >( nameCache
-			, m_voidType.id
-			, resultId
-			, debug::makeValueIdList( allocator, extDebugInfo, ValueId{ spv::Id( instruction ) }, operands ) ) );
-	}
-
-	DebugId Module::registerDebugAccessChain( DebugId accessChainId
-		, ValueIdList const & accessChainExprs
-		, glsl::Statement const * debugStatement )
-	{
-		auto type = accessChainId->type;
-		DebugId result{ 0u, accessChainId->type };
-
-		//if ( debugStatement )
-		//{
-		//	result.id = getNextId();
-		//	auto nameId = registerString( name );
-		//	auto typeId = registerType( type, debugStatement );
-		//	auto lineId = registerLiteral( debugStatement->source.lineStart );
-		//	auto columnId = registerLiteral( debugStatement->source.columnStart );
-		//	auto flagsId = registerLiteral( debug::getFlags( varFlags ) );
-		//	auto offsetId = registerLiteral( mbrType.offset );
-		//	auto sizeId = registerLiteral( mbrType.size );
-		//	makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeMember
-		//		, result
-		//		, debug::makeValueIdList( allocator, nameId, typeId, debugSourceId, lineId, columnId, offsetId, sizeId, flagsId ) );
-		//}
-
-		return result;
-	}
-
 	spv::Id Module::getNextId()
 	{
 		auto result = *m_currentId;
 		++*m_currentId;
 		return result;
+	}
+
+	bool Module::isExtGlslStd450( spv::Id id )const
+	{
+		return id == extGlslStd450.id;
+	}
+
+	bool Module::isExtNonSemanticDebugInfo( spv::Id id )const
+	{
+		return m_debug.isExtNonSemanticDebugInfo( id );
+	}
+
+	InstructionList const & Module::getDebugDeclarations()const noexcept
+	{
+		return m_debug.getDeclarations();
 	}
 
 	TypeId Module::doRegisterNonArrayType( ast::type::TypePtr type
@@ -1944,44 +1836,31 @@ namespace spirv
 			if ( it == m_registeredTypes.end() )
 			{
 				result.id.id = getNextId();
-				result.debug.id = extDebugInfo ? getNextId() : 0u;
-				m_registeredTypes.emplace( unqualifiedType, result );
+				auto & resultId = m_registeredTypes.emplace( unqualifiedType, result ).first->second;
 				auto arraySize = getArraySize( type );
 
 				if ( arraySize != ast::type::UnknownArraySize )
 				{
 					auto lengthId = registerLiteral( arraySize );
 					constantsTypes.push_back( makeInstruction< ArrayTypeInstruction >( nameCache
-						, result.id
+						, resultId.id
 						, elementTypeId.id
 						, lengthId.id ) );
-
-					if ( extDebugInfo && elementTypeId.debug )
-					{
-						makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeArray
-							, result.debug
-							, debug::makeValueIdList( allocator, elementTypeId, lengthId ) );
-					}
+					m_debug.registerArrayType( elementTypeId, arraySize, resultId );
 				}
 				else
 				{
 					constantsTypes.push_back( makeInstruction< RuntimeArrayTypeInstruction >( nameCache
-						, result.id
+						, resultId.id
 						, elementTypeId.id ) );
-
-					if ( extDebugInfo && elementTypeId.debug )
-					{
-						auto lengthId = registerLiteral( 1024u );
-						makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeArray
-							, result.debug
-							, debug::makeValueIdList( allocator, elementTypeId, lengthId ) );
-					}
+					m_debug.registerRuntimeArrayType( elementTypeId, resultId );
 				}
 
 				module::writeArrayStride( *this
 					, arrayedType
-					, result
+					, resultId
 					, arrayStride );
+				result = resultId;
 			}
 			else
 			{
@@ -2188,8 +2067,7 @@ namespace spirv
 		auto type = m_typesCache->getBasicType( kind );
 		TypeId result{ 0u, type };
 		result.id.id = getNextId();
-		result.debug.id = extDebugInfo ? getNextId() : 0u;
-		m_registeredTypes.emplace( type, result );
+		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
 
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
@@ -2200,59 +2078,29 @@ namespace spirv
 			if ( isMatrixType( kind ) )
 			{
 				constantsTypes.push_back( makeInstruction< MatrixTypeInstruction >( nameCache
-					, result.id
+					, resultId.id
 					, componentType.id
 					, ValueId{ componentCount } ) );
-
-				if ( extDebugInfo )
-				{
-					auto countId = registerLiteral( componentCount );
-					auto majornessId = registerLiteral( true );
-					makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeMatrix
-						, result.debug
-						, debug::makeValueIdList( allocator, componentType, countId, majornessId ) );
-				}
+				m_debug.registerMatrixType( componentType, componentCount, resultId );
 			}
 			else
 			{
 				constantsTypes.push_back( makeInstruction< VectorTypeInstruction >( nameCache
-					, result.id
+					, resultId.id
 					, componentType.id
 					, ValueId{ componentCount } ) );
-
-				if ( extDebugInfo )
-				{
-					auto countId = registerLiteral( componentCount );
-					makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeVector
-						, result.debug
-						, debug::makeValueIdList( allocator, componentType, countId ) );
-				}
+				m_debug.registerVectorType( componentType, componentCount, resultId );
 			}
 		}
 		else
 		{
 			constantsTypes.push_back( makeBaseTypeInstruction( nameCache
 				, kind
-				, result.id ) );
-
-			if ( extDebugInfo )
-			{
-				if ( kind == ast::type::Kind::eVoid )
-				{
-					m_voidType = result;
-				}
-
-				auto nameId = registerString( glsl::getTypeName( kind ) );
-				auto sizeId = registerLiteral( debug::getSize( kind ) );
-				auto encodingId = registerLiteral( debug::getEncoding( kind ) );
-				auto flagId = registerLiteral( 0u );
-				makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeBasic
-					, result.debug
-					, debug::makeValueIdList( allocator, nameId, sizeId, encodingId, flagId ) );
-			}
+				, resultId.id ) );
+			m_debug.registerBaseType( kind, resultId );
 		}
 
-		return result;
+		return resultId;
 	}
 
 	TypeId Module::doRegisterBaseType( ast::type::SamplerPtr type
@@ -2261,24 +2109,11 @@ namespace spirv
 	{
 		TypeId result{ 0u, type };
 		result.id.id = getNextId();
-		result.debug.id = extDebugInfo ? getNextId() : 0u;
 		constantsTypes.push_back( makeInstruction< SamplerTypeInstruction >( nameCache
 			, result.id ) );
-		m_registeredTypes.emplace( type, result );
-
-		if ( extDebugInfo )
-		{
-			auto tagId = registerLiteral( 0u );
-			auto nameId = registerString( "@sampler" );
-			auto lineId = registerLiteral( 0u );
-			auto columnId = registerLiteral( 0u );
-			auto flagId = registerLiteral( 0u );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
-				, result.debug
-				, debug::makeValueIdList( allocator, nameId, tagId, debugSourceId, lineId, columnId, globalScopeId, nameId, m_debugInfoNone, flagId ) );
-		}
-
-		return result;
+		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+		m_debug.registerSamplerType( std::move( type ), resultId );
+		return resultId;
 	}
 
 	TypeId Module::doRegisterBaseType( ast::type::CombinedImagePtr type
@@ -2289,25 +2124,12 @@ namespace spirv
 			, type->isComparison() ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
 		TypeId result{ 0u, type };
 		result.id.id = getNextId();
-		result.debug.id = extDebugInfo ? getNextId() : 0u;
 		constantsTypes.push_back( makeInstruction< TextureTypeInstruction >( nameCache
 			, result.id
 			, imgTypeId.id ) );
-		m_registeredTypes.emplace( type, result );
-
-		if ( extDebugInfo )
-		{
-			auto tagId = registerLiteral( 0u );
-			auto nameId = registerString( "@" + glsl::getTypeName( type ) );
-			auto lineId = registerLiteral( 0u );
-			auto columnId = registerLiteral( 0u );
-			auto flagId = registerLiteral( 0u );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
-				, result.debug
-				, debug::makeValueIdList( allocator, nameId, tagId, debugSourceId, lineId, columnId, globalScopeId, nameId, m_debugInfoNone, flagId ) );
-		}
-
-		return result;
+		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+		m_debug.registerCombinedImageType( std::move( type ), resultId );
+		return resultId;
 	}
 
 	TypeId Module::doRegisterBaseType( ast::type::ImagePtr type
@@ -2322,25 +2144,14 @@ namespace spirv
 			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), nullptr );
 			// The Image Type.
 			it->second = TypeId{ getNextId(), type };
-			it->second.debug.id = extDebugInfo ? getNextId() : 0u;
 			constantsTypes.push_back( makeImageTypeInstruction( nameCache
 				, type->getConfig()
 				, isComparison
 				, it->second.id
 				, sampledTypeId.id ) );
-			m_registeredTypes.emplace( type, it->second );
-
-			if ( extDebugInfo )
-			{
-				auto tagId = registerLiteral( 0u );
-				auto nameId = registerString( "@" + glsl::getTypeName( type ) );
-				auto lineId = registerLiteral( 0u );
-				auto columnId = registerLiteral( 0u );
-				auto flagId = registerLiteral( 0u );
-				makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
-					, it->second.debug
-					, debug::makeValueIdList( allocator, nameId, tagId, debugSourceId, lineId, columnId, globalScopeId, nameId, m_debugInfoNone, flagId ) );
-			}
+			auto & resultId = m_registeredTypes.emplace( type, it->second ).first->second;
+			m_debug.registerImageType( std::move( type ), resultId );
+			it->second = resultId;
 		}
 
 		return it->second;
@@ -2367,24 +2178,11 @@ namespace spirv
 	{
 		TypeId result{ 0u, type };
 		result.id.id = getNextId();
-		result.debug.id = extDebugInfo ? getNextId() : 0u;
 		constantsTypes.push_back( makeAccelerationStructureTypeInstruction( nameCache
 			, result.id ) );
-		auto ires = m_registeredTypes.emplace( type, result );
-
-		if ( ires.second && extDebugInfo )
-		{
-			auto tagId = registerLiteral( 0u );
-			auto nameId = registerString( "@accelerationStructure" );
-			auto lineId = registerLiteral( 0u );
-			auto columnId = registerLiteral( 0u );
-			auto flagId = registerLiteral( 0u );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
-				, result.debug
-				, debug::makeValueIdList( allocator, nameId, tagId, debugSourceId, lineId, columnId, globalScopeId, nameId, m_debugInfoNone, flagId ) );
-		}
-
-		return result;
+		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+		m_debug.registerAccelerationStructureType( std::move( type ), resultId );
+		return resultId;
 	}
 
 	TypeId Module::doRegisterBaseType( ast::type::StructPtr type
@@ -2394,7 +2192,6 @@ namespace spirv
 	{
 		TypeId result{ 0u, type };
 		result.id.id = getNextId();
-		result.debug.id = extDebugInfo ? getNextId() : 0u;
 		TypeIdList subTypes{ allocator };
 		ValueIdList debugSubTypes{ allocator };
 
@@ -2406,18 +2203,10 @@ namespace spirv
 				, member.arrayStride
 				, debugStatement );
 			subTypes.push_back( subTypeId );
-
-			if ( extDebugInfo )
-			{
-				auto nameId = registerString( member.name );
-				auto lineId = registerLiteral( debugStatement ? debugStatement->source.lineStart : 0u );
-				auto columnId = registerLiteral( debugStatement ? debugStatement->source.columnStart : 0u );
-				auto flagId = registerLiteral( 0u );
-				auto offsetId = registerLiteral( member.offset * 8u );
-				auto sizeId = registerLiteral( member.size * 8u );
-				debugSubTypes.push_back( makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeMember
-					, debug::makeValueIdList( allocator, nameId, subTypeId, debugSourceId, lineId, columnId, offsetId, sizeId, flagId ) ) );
-			}
+			m_debug.registerMemberType( member
+				, subTypeId
+				, debugStatement
+				, debugSubTypes );
 		}
 
 		constantsTypes.push_back( makeInstruction< StructTypeInstruction >( nameCache
@@ -2485,22 +2274,12 @@ namespace spirv
 			decorate( result, spv::DecorationBlock );
 		}
 
-		m_registeredTypes.emplace( type, result );
-
-		if ( extDebugInfo )
-		{
-			auto tagId = registerLiteral( 1u );
-			auto nameId = registerString( glsl::getTypeName( type ) );
-			auto lineId = registerLiteral( debugStatement ? debugStatement->source.lineStart : 0u );
-			auto columnId = registerLiteral( debugStatement ? debugStatement->source.columnStart : 0u );
-			auto flagId = registerLiteral( 0u );
-			auto sizeId = registerLiteral( type->empty() ? 0u : getSize( type, type->getMemoryLayout() ) * 8u );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
-				, result.debug
-				, debug::makeValueIdList( allocator, nameId, tagId, debugSourceId, lineId, columnId, globalScopeId, nameId, sizeId, flagId, debugSubTypes ) );
-		}
-
-		return result;
+		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+		m_debug.registerStructType( std::move( type )
+			, debugSubTypes
+			, debugStatement
+			, resultId );
+		return resultId;
 	}
 
 	TypeId Module::doRegisterBaseType( ast::type::TypePtr type
@@ -2674,7 +2453,8 @@ namespace spirv
 		m_currentId = &header[3];
 	}
 
-	void Module::doInitialiseExtensions( bool enableDebug )
+	void Module::doInitialiseExtensions( bool enableDebug
+		, glsl::Statements const & debugStatements )
 	{
 		extGlslStd450 = ValueId{ getIntermediateResult() };
 		imports.push_back( makeInstruction< ExtInstImportInstruction >( nameCache
@@ -2683,15 +2463,14 @@ namespace spirv
 
 		if ( enableDebug )
 		{
-			extDebugInfo = ValueId{ getIntermediateResult() };
-			imports.emplace_back( makeInstruction< ExtInstImportInstruction >( nameCache
-				, extDebugInfo
-				, "NonSemantic.Shader.DebugInfo.100" ) );
+			m_debug.initialise( imports, debugStatements );
 		}
-
-		//debug.push_back( makeInstruction< SourceInstruction >( nameCache
-		//	, ValueId{ spv::Id( spv::SourceLanguageGLSL ) }
-		//	, ValueId{ 460u } ) );
+		else
+		{
+			debug.push_back( makeInstruction< SourceInstruction >( nameCache
+				, ValueId{ spv::Id( spv::SourceLanguageGLSL ) }
+				, ValueId{ 460u } ) );
+		}
 	}
 
 	void Module::doInitialiseCapacities()
@@ -2737,32 +2516,6 @@ namespace spirv
 		default:
 			AST_Failure( "Unsupported ExecutionModel" );
 			break;
-		}
-	}
-
-	void Module::doInitialiseDebug( bool isDebugEnabled
-		, glsl::Statements const & debugStatements )
-	{
-		if ( isDebugEnabled )
-		{
-			m_voidType = doRegisterBaseType( ast::type::Kind::eVoid, ast::type::NotMember, TypeId{}, 0u, nullptr );
-
-			m_debugInfoNone = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::InfoNone
-				, ValueIdList{ allocator } );
-
-			m_debugExpressionDummy = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Expression
-				, ValueIdList{ allocator } );
-
-			auto sourceNameId = registerString( "main.glsl" );
-			auto sourceTextId = registerString( debugStatements.source );
-			debugSourceId = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Source
-				, debug::makeValueIdList( allocator, sourceNameId, sourceTextId ) );
-
-			auto spvVersionId = registerLiteral( 1u );
-			auto dwarfVersionId = registerLiteral( 4u );
-			auto languageId = registerLiteral( 2u );
-			globalScopeId = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::CompilationUnit
-				, debug::makeValueIdList( allocator, spvVersionId, dwarfVersionId, debugSourceId, languageId ) );
 		}
 	}
 
@@ -2881,39 +2634,7 @@ namespace spirv
 		}
 
 		m_registeredVariablesTypes.emplace( varId, rawTypeId );
-		doAddDebugVariable( block.instructions, std::move( name ), type, varId, initialiser, debugStatement );
-	}
-
-	void Module::doAddDebugVariable( InstructionList & instructions
-		, std::string name
-		, ast::type::TypePtr type
-		, DebugId varId
-		, DebugId initialiser
-		, glsl::Statement const * debugStatement )
-	{
-		if ( extDebugInfo && debugStatement )
-		{
-			auto nameId = registerString( name );
-			auto typeId = registerType( type, debugStatement );
-			auto lineId = registerLiteral( debugStatement->source.lineStart );
-			auto columnId = registerLiteral( debugStatement->source.columnStart );
-			auto flagsId = registerLiteral( 0u );
-			assert( varId.debug );
-
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LocalVariable
-				, varId.debug
-				, debug::makeValueIdList( allocator, nameId, typeId, debugSourceId, lineId, columnId, globalScopeId, flagsId ) );
-			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Declare
-				, instructions
-				, debug::makeValueIdList( allocator, varId.debug, varId.id, m_debugExpressionDummy ) );
-
-			if ( initialiser )
-			{
-				makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Value
-					, instructions
-					, debug::makeValueIdList( allocator, varId.debug, initialiser.id, m_debugExpressionDummy ) );
-			}
-		}
+		m_debug.declareVariable( block.instructions, std::move( name ), type, varId, initialiser, debugStatement );
 	}
 
 	InstructionList * Module::doSelectInstructionsList( spv::Op opCode )

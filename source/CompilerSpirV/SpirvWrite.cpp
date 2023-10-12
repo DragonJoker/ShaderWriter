@@ -2649,7 +2649,7 @@ namespace spirv
 		{
 			checkType< ExtInstInstruction >( *instruction );
 
-			if ( instruction->operands[0] == module.extGlslStd450.id )
+			if ( module.isExtGlslStd450( instruction->operands[0] ) )
 			{
 				if ( bool( instruction->resultId ) )
 				{
@@ -2670,7 +2670,7 @@ namespace spirv
 				writeStream( instruction->operands[0], names, stream );
 				stream << " " << getName( spv::GLSLstd450( instruction->operands[1] ) );
 			}
-			else if ( instruction->operands[0] == module.extDebugInfo.id )
+			else if ( module.isExtNonSemanticDebugInfo( instruction->operands[0] ) )
 			{
 				stream << writeId( instruction->resultId.value() ) << " = ExtInst";
 				writeStream( instruction->operands[0], names, stream );
@@ -2680,6 +2680,7 @@ namespace spirv
 			else
 			{
 				writeStream( instruction->operands[0], names, stream );
+				writeStream( instruction->operands[1], names, stream );
 			}
 
 			for ( size_t i = 2u; i < instruction->operands.size(); ++i )
@@ -3569,8 +3570,15 @@ namespace spirv
 			writeGlobalDeclarations( module.constantsTypes, names, module, stream, word ) << std::endl;
 			stream << "; Global Variables" << std::endl;
 			writeGlobalDeclarations( module.globalDeclarations, names, module, stream, word ) << std::endl;
-			stream << "; Debug Types and Variables" << std::endl;
-			writeGlobalDeclarations( module.debugDeclarations, names, module, stream, word ) << std::endl;
+
+			auto & debugDeclarations = module.getDebugDeclarations();
+
+			if ( !debugDeclarations.empty() )
+			{
+				stream << "; Debug Types and Variables" << std::endl;
+				writeGlobalDeclarations( module.getDebugDeclarations(), names, module, stream, word ) << std::endl;
+			}
+
 			stream << "; Functions" << std::endl;
 			writeInstructions( module.functions, names, module, writeFunction, stream, word ) << std::endl;
 			return stream;

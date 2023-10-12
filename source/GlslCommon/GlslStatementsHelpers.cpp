@@ -298,6 +298,19 @@ namespace glsl
 		return result;
 	}
 
+	std::string getTypeName( ast::type::SamplerPtr type )
+	{
+		std::string result;
+		result += "sampler";
+
+		if ( type->isComparison() )
+		{
+			result += "Shadow";
+		}
+
+		return result;
+	}
+
 	std::string getTypeName( ast::type::CombinedImagePtr type )
 	{
 		std::string result;
