@@ -29,7 +29,8 @@ namespace spirv
 		, ast::expr::Swizzle * expr
 		, PreprocContext const & context
 		, Module & module
-		, Block & currentBlock );
+		, Block & currentBlock
+		, glsl::Statement * debugStatement );
 }
 
 #endif

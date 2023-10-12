@@ -206,6 +206,7 @@ namespace glsl
 
 	SDWGLC_API std::string getTypeName( ast::type::Kind kind );
 	SDWGLC_API std::string getTypeName( ast::type::ImagePtr type );
+	SDWGLC_API std::string getTypeName( ast::type::SamplerPtr type );
 	SDWGLC_API std::string getTypeName( ast::type::CombinedImagePtr type );
 	SDWGLC_API std::string getTypeName( ast::type::SampledImagePtr type );
 	SDWGLC_API std::string getTypeName( ast::type::TypePtr type );

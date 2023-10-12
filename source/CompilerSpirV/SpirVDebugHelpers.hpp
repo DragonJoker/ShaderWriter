@@ -6,11 +6,21 @@ See LICENSE file in root folder
 #pragma once
 
 #include "CompilerSpirV/SpirvInstruction.hpp"
+#include "CompilerSpirV/spirv/NonSemantic.Shader.DebugInfo.100.hpp"
+
+#include <GlslCommon/GlslStatementsHelpers.hpp>
 
 #include <ShaderAST/Type/Type.hpp>
+#include <ShaderAST/Type/TypeAccelerationStructure.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
+#include <ShaderAST/Var/VariableList.hpp>
+
+namespace spirv
+{
+	struct Function;
+}
 
 namespace spirv::debug
 {
@@ -26,10 +36,7 @@ namespace spirv::debug
 
 		inline void makeValueIdListRec( ValueIdList & result, TypeId const & param )
 		{
-			if ( param.debug )
-			{
-				result.push_back( param.debug );
-			}
+			result.push_back( param.debug );
 		}
 
 		inline void makeValueIdListRec( ValueIdList & result, uint16_t param )

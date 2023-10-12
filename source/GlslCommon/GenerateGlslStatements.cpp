@@ -2957,4 +2957,11 @@ namespace glsl
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
 		return gstvis::StmtVisitor::submit( config, aliases, stmt );
 	}
+
+	std::string getExprName( StmtConfig const & config
+		, ast::expr::Expr * expr )
+	{
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;;
+		return gstvis::ExprVisitor::submit( expr, config, aliases );
+	}
 }

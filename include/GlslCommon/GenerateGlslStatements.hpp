@@ -18,6 +18,8 @@ namespace glsl
 {
 	SDWGLC_API Statements generateGlslStatements( StmtConfig const & config
 		, ast::stmt::Container * stmt );
+	SDWGLC_API std::string getExprName( StmtConfig const & config
+		, ast::expr::Expr * expr );
 }
 
 #endif

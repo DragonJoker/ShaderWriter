@@ -21,6 +21,7 @@ namespace spirv
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
 		, SpirVConfig & spirvConfig
+		, glsl::StmtConfig const & stmtConfig
 		, ShaderActions actions
 		, glsl::Statements debugStatements );
 	DebugId generateModuleExpr( ast::expr::ExprCache & exprCache

@@ -27,7 +27,7 @@ namespace spirv
 
 	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
-		, SpirVConfig & config )
+		, SpirVConfig & spirvConfig )
 	{
 		ast::stmt::StmtCache compileStmtCache{ allocator };
 		ast::expr::ExprCache compileExprCache{ allocator };
@@ -44,7 +44,7 @@ namespace spirv
 			, shader.getTypesCache()
 			, statements.get() );
 		ModuleConfig moduleConfig{ &allocator
-			, config
+			, spirvConfig
 			, shader.getTypesCache()
 			, shader.getType()
 			, ssaData.nextVarId
@@ -65,10 +65,11 @@ namespace spirv
 			, statements.get() );
 		auto actions = listActions( statements.get() );
 		glsl::Statements debug;
+		glsl::StmtConfig stmtConfig;
 
-		if ( config.debug )
+		if ( spirvConfig.debug )
 		{
-			glsl::StmtConfig stmtConfig{ shader.getType()
+			stmtConfig = glsl::StmtConfig{ shader.getType()
 				, glsl::v4_6
 				, glsl::GlslExtensionSet{ glsl::ARB_shader_stencil_export
 					, glsl::KHR_vulkan_glsl
@@ -118,7 +119,7 @@ namespace spirv
 				, true
 				, true
 				, true
-				, config.allocator };
+				, spirvConfig.allocator };
 			debug = glsl::generateGlslStatements( stmtConfig, statements.get() );
 		}
 
@@ -128,7 +129,8 @@ namespace spirv
 			, shader.getType()
 			, adaptationData.config
 			, std::move( context )
-			, config
+			, spirvConfig
+			, stmtConfig
 			, std::move( actions )
 			, std::move( debug ) );
 	}

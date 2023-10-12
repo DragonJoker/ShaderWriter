@@ -8,7 +8,6 @@ namespace spirv
 	Function::Function( ast::ShaderAllocatorBlock * alloc
 		, DebugId pid )
 		: id{ pid }
-		, params{ alloc }
 		, declaration{ ModuleAllocatorT< InstructionPtr >{ alloc } }
 		, cfg{ alloc }
 		, variables{ ModuleAllocatorT< InstructionPtr >{ alloc } }

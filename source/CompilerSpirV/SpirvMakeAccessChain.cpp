@@ -4,11 +4,12 @@ See LICENSE file in root folder
 #include "SpirvMakeAccessChain.hpp"
 
 #include "SpirVDebugHelpers.hpp"
+#include "SpirvGenerateStatements.hpp"
 #include "SpirvGetSwizzleComponents.hpp"
 #include "SpirvHelpers.hpp"
 #include "SpirvIntrinsicConfig.hpp"
 #include "SpirvIntrinsicNames.hpp"
-#include "SpirvGenerateStatements.hpp"
+#include "SpirVNonSemanticDebug.hpp"
 #include "SpirvStorageImageAccessConfig.hpp"
 #include "SpirvStorageImageAccessNames.hpp"
 #include "SpirvCombinedImageAccessConfig.hpp"
@@ -268,7 +269,8 @@ namespace spirv
 							, module
 							, currentBlock
 							, currentDebugStatement )
-						, currentBlock ) );
+						, currentBlock
+						, currentDebugStatement ) );
 				}
 
 				return result;
@@ -408,7 +410,8 @@ namespace spirv
 						, var->getName()
 						, spv::StorageClassFunction
 						, var->getType()
-						, m_currentBlock );
+						, m_currentBlock
+						, m_currentDebugStatement );
 				}
 				else if ( m_parentId
 					&& m_parentKind != ast::expr::Kind::eArrayAccess )
@@ -427,7 +430,7 @@ namespace spirv
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
 						auto resultId = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
-						m_result = m_module.loadVariable( resultId, m_currentBlock );
+						m_result = m_module.loadVariable( resultId, m_currentBlock, m_currentDebugStatement );
 						m_result = m_module.registerVariable( m_currentBlock
 							, var->getName()
 							, var->getBuiltin()
@@ -458,13 +461,13 @@ namespace spirv
 					{
 						m_module.storePromoted( m_result
 							, sourceInfo
-							, m_currentBlock );
+							, m_currentBlock
+							, m_currentDebugStatement );
 					}
 
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
 					{
-						m_result = m_module.loadVariable( m_result
-							, m_currentBlock );
+						m_result = m_module.loadVariable( m_result, m_currentBlock, m_currentDebugStatement );
 					}
 					else
 					{
@@ -472,8 +475,7 @@ namespace spirv
 
 						while ( getPointerLevel( type ) > 1 )
 						{
-							m_result = m_module.loadVariable( m_result
-								, m_currentBlock );
+							m_result = m_module.loadVariable( m_result, m_currentBlock, m_currentDebugStatement );
 							type = m_result->type;
 						}
 					}
@@ -539,7 +541,8 @@ namespace spirv
 						, expr
 						, m_context
 						, m_module
-						, m_currentBlock );
+						, m_currentBlock
+						, m_currentDebugStatement );
 				}
 			}
 
@@ -665,7 +668,7 @@ namespace spirv
 				, pointerTypeId.id
 				, result.id
 				, accessChain ) );
-			return DebugId{ result };
+			return result;
 
 #endif
 		}
@@ -696,14 +699,11 @@ namespace spirv
 			, convert( accessChain )
 			, expr
 			, module );
-
-		if ( debugStatement )
-		{
-			module.registerDebugAccessChain( resultId
-				, debug::convert( accessChain )
-				, debugStatement );
-		}
-
+		module.getDebug().declareAccessChain( currentBlock.instructions
+			, expr
+			, debug::convert( accessChain )
+			, debugStatement
+			, resultId );
 		return resultId;
 	}
 
@@ -711,14 +711,16 @@ namespace spirv
 		, ast::expr::Swizzle * expr
 		, PreprocContext const & context
 		, Module & module
-		, Block & currentBlock )
+		, Block & currentBlock
+		, glsl::Statement * debugStatement )
 	{
 		auto typeId = module.registerType( expr->getType(), nullptr );
 		auto outerId = module.loadVariable( generateModuleExpr( exprCache, expr->getOuterExpr()
 				, context
 				, currentBlock
 				, module )
-			, currentBlock );
+			, currentBlock
+			, debugStatement );
 		DebugId result{ 0u, typeId->type };
 		auto swizzleComponents = convert( getSwizzleComponents( module.allocator, expr->getSwizzle() ) );
 
