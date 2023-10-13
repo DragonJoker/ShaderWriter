@@ -1756,7 +1756,7 @@ namespace spirv
 		{
 			using IdNames = Map< spv::Id, std::string >;
 
-			NameCache( ast::ShaderAllocatorBlock * alloc )
+			explicit NameCache( ast::ShaderAllocatorBlock * alloc )
 				: names{ alloc }
 				, types{ alloc }
 			{

@@ -794,7 +794,7 @@ namespace test
 						spirv::SpirVExtensionSet extensions;
 						spirv::SpirVConfig config{};
 						config.specVersion = testCounts.getSpirVVersion( infoIndex );
-						config.debug = true;
+						config.debugLevel = spirv::DebugLevel::eDebugInfo;
 
 						if ( availableExtensions )
 						{
@@ -833,7 +833,7 @@ namespace test
 								extensions.emplace( spirv::KHR_shader_ballot );
 							}
 
-							if ( config.debug && config.specVersion >= spirv::v1_0 )
+							if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
 							{
 								extensions.emplace( spirv::KHR_non_semantic_info );
 							}

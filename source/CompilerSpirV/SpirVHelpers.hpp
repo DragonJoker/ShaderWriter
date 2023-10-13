@@ -445,7 +445,7 @@ namespace spirv
 
 	struct PreprocContext
 	{
-		PreprocContext( ast::ShaderAllocatorBlock * alloc )
+		explicit PreprocContext( ast::ShaderAllocatorBlock * alloc )
 			: constExprs{ alloc }
 			, constAggrExprs{ alloc }
 		{

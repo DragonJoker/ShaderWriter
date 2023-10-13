@@ -5,15 +5,22 @@ See LICENSE file in root folder
 
 namespace spirv::debug
 {
-	DebugNames::DebugNames( ast::ShaderAllocatorBlock * allocator )
+	DebugNames::DebugNames( ast::ShaderAllocatorBlock * allocator
+		, SpirVConfig const * config )
 		: m_stringsDeclarations{ allocator }
 		, m_namesDeclarations{ allocator }
 		, m_nameCache{ allocator }
+		, m_config{ config }
 	{
 	}
 
 	void DebugNames::registerSource( spv::SourceLanguage language, uint32_t version )
 	{
+		if ( !m_config || m_config->debugLevel == DebugLevel::eNone )
+		{
+			return;
+		}
+
 		m_namesDeclarations.push_back( makeInstruction< SourceInstruction >( m_nameCache
 			, ValueId{ spv::Id( language ) }
 			, ValueId{ version } ) );
@@ -21,6 +28,11 @@ namespace spirv::debug
 
 	void DebugNames::registerName( DebugId id, std::string name )
 	{
+		if ( !m_config || m_config->debugLevel == DebugLevel::eNone )
+		{
+			return;
+		}
+
 		m_namesDeclarations.push_back( makeInstruction< NameInstruction >( m_nameCache
 			, id.id
 			, std::move( name ) ) );
@@ -28,6 +40,11 @@ namespace spirv::debug
 
 	void DebugNames::registerMemberName( DebugId outerId, uint32_t index, std::string name )
 	{
+		if ( !m_config || m_config->debugLevel == DebugLevel::eNone )
+		{
+			return;
+		}
+
 		m_namesDeclarations.push_back( makeInstruction< MemberNameInstruction >( m_nameCache
 			, outerId.id
 			, ValueId{ index }
@@ -36,6 +53,11 @@ namespace spirv::debug
 
 	void DebugNames::registerString( ValueId id, std::string text )
 	{
+		if ( !m_config || m_config->debugLevel != DebugLevel::eDebugInfo )
+		{
+			return;
+		}
+
 		m_stringsDeclarations.push_back( makeInstruction< StringInstruction >( m_nameCache
 			, id
 			, std::move( text ) ) );

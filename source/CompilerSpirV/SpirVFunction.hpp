@@ -31,7 +31,7 @@ namespace spirv
 		{
 		}
 
-		Variable( ast::ShaderAllocatorBlock * alloc )
+		explicit Variable( ast::ShaderAllocatorBlock * alloc )
 			: decorations{ ModuleAllocatorT< spv::Id >{ alloc } }
 		{
 		}
@@ -45,7 +45,7 @@ namespace spirv
 
 	struct VarUsage
 	{
-		VarUsage( ast::ShaderAllocatorBlock * alloc )
+		explicit VarUsage( ast::ShaderAllocatorBlock * alloc )
 			: use{ ModuleAllocatorT< VariablePtr >{ alloc } }
 		{
 		}
@@ -81,7 +81,7 @@ namespace spirv
 
 	struct ModuleStruct
 	{
-		ModuleStruct( ast::ShaderAllocatorBlock * alloc )
+		explicit ModuleStruct( ast::ShaderAllocatorBlock * alloc )
 			: types{ ModuleMapAllocatorT< uint32_t, ast::type::TypePtr >{ alloc } }
 			, functionScopes{ ModuleMapAllocatorT< uint32_t, BlockStructPtr >{ alloc } }
 		{
@@ -105,7 +105,7 @@ namespace spirv
 
 	struct ControlFlowGraph
 	{
-		ControlFlowGraph( ast::ShaderAllocatorBlock * alloc )
+		explicit ControlFlowGraph( ast::ShaderAllocatorBlock * alloc )
 			: blocks{ ModuleAllocatorT< Block >{ alloc } }
 		{
 		}

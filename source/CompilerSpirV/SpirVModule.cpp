@@ -73,6 +73,7 @@ namespace spirv
 	//*************************************************************************
 
 	Module::Module( ast::ShaderAllocatorBlock * alloc
+		, SpirVConfig const * spirvConfig
 		, glsl::StmtConfig const * stmtConfig
 		, ast::type::TypesCache * typesCache )
 		: allocator{ alloc }
@@ -101,7 +102,7 @@ namespace spirv
 		, m_entryPointIO{ allocator }
 		, varDecorations{ allocator }
 		, mbrDecorations{ allocator }
-		, m_debugNames{ allocator }
+		, m_debugNames{ allocator, spirvConfig }
 		, m_nonSemanticDebug{ allocator, *this, stmtConfig }
 		, m_types{ allocator, *this, typesCache, constantsTypes }
 		, m_literals{ allocator, *this, constantsTypes }
@@ -116,7 +117,7 @@ namespace spirv
 		, spv::MemoryModel pmemoryModel
 		, spv::ExecutionModel pexecutionModel
 		, glsl::Statements const & debugStatements )
-		: Module{ alloc, &stmtConfig, &typesCache }
+		: Module{ alloc, &spirvConfig , &stmtConfig, &typesCache }
 	{
 		memoryModel = makeInstruction< MemoryModelInstruction >( getNameCache()
 			, ValueId{ spv::Id( addressingModel ) }
@@ -129,14 +130,14 @@ namespace spirv
 			, ( VendorID << 16 ) | Version
 			, 1u	/* Bound IDs. */
 			, 0u	/* Schema. */ } );
-		doInitialiseExtensions( spirvConfig.debug, debugStatements );
+		doInitialiseExtensions( spirvConfig.debugLevel == DebugLevel::eDebugInfo, debugStatements );
 		doInitialiseCapacities();
 	}
 
 	Module::Module( ast::ShaderAllocatorBlock * alloc
 		, Header const & pheader
 		, InstructionList instructions )
-		: Module{ alloc, nullptr, nullptr }
+		: Module{ alloc, nullptr, nullptr, nullptr }
 	{
 		doInitialiseHeader( pheader );
 		auto it = instructions.begin();
@@ -795,7 +796,7 @@ namespace spirv
 	}
 
 	DebugId Module::registerMemberVariable( DebugId outer
-		, std::string name
+		, std::string const & name
 		, ast::type::TypePtr type )
 	{
 		auto it = std::find_if( m_currentScopeVariables->begin()

@@ -14,7 +14,8 @@ namespace spirv::debug
 	class DebugNames
 	{
 	public:
-		DebugNames( ast::ShaderAllocatorBlock * allocator );
+		DebugNames( ast::ShaderAllocatorBlock * allocator
+			, SpirVConfig const * config );
 
 		void registerSource( spv::SourceLanguage language, uint32_t version );
 		void registerName( DebugId id, std::string name );
@@ -50,6 +51,7 @@ namespace spirv::debug
 		InstructionList m_stringsDeclarations;
 		InstructionList m_namesDeclarations;
 		Map< std::string, Vector< uint32_t > > m_nameCache;
+		SpirVConfig const * m_config;
 	};
 }
 

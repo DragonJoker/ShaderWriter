@@ -542,7 +542,7 @@ namespace spirv
 	using TerminateRayInstruction = InstructionT< spv::OpTerminateRayKHR, false, false, 0u, false, false >;
 }
 
-#include "SpirvInstruction.inl"
+#include "SpirVInstruction.inl"
 #pragma warning( pop )
 
 #endif

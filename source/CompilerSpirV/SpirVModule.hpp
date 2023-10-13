@@ -31,6 +31,7 @@ namespace spirv
 	{
 	private:
 		Module( ast::ShaderAllocatorBlock * alloc
+			, SpirVConfig const * spirvConfig
 			, glsl::StmtConfig const * stmtConfig
 			, ast::type::TypesCache * typesCache );
 
@@ -102,7 +103,7 @@ namespace spirv
 		SDWSPIRV_API ValueId registerParameter( ast::type::TypePtr type );
 		SDWSPIRV_API DebugId registerMemberVariableIndex( ast::type::TypePtr type );
 		SDWSPIRV_API DebugId registerMemberVariable( DebugId outer
-			, std::string name
+			, std::string const & name
 			, ast::type::TypePtr type );
 		SDWSPIRV_API void registerExtension( std::string name );
 		SDWSPIRV_API void registerEntryPoint( DebugId functionId

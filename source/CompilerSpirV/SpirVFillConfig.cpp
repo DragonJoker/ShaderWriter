@@ -179,7 +179,7 @@ namespace spirv
 			}
 
 		private:
-			ExprConfigFiller( ModuleConfig & config )
+			explicit ExprConfigFiller( ModuleConfig & config )
 				: ast::expr::SimpleVisitor{}
 				, m_config{ config }
 			{
@@ -452,7 +452,7 @@ namespace spirv
 			}
 
 		private:
-			StmtConfigFiller( ModuleConfig & result )
+			explicit StmtConfigFiller( ModuleConfig & result )
 				: m_result{ result }
 			{
 				switch ( m_result.stage )

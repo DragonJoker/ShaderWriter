@@ -1129,7 +1129,7 @@ namespace spirv
 		, requiredCapabilities{ alloc }
 		, requiredExtensions{}
 	{
-		if ( spirvConfig.debug )
+		if ( spirvConfig.debugLevel == DebugLevel::eDebugInfo )
 		{
 			registerExtension( KHR_non_semantic_info );
 		}
