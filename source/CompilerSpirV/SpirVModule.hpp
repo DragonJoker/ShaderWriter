@@ -140,31 +140,38 @@ namespace spirv
 			, std::string name
 			, spv::StorageClass storage
 			, Block & currentBlock
-			, glsl::Statement const * statement );
+			, glsl::Statement const * statement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
 			, std::string name
 			, spv::StorageClass storage
 			, ast::type::TypePtr type
 			, Block & currentBlock
-			, glsl::Statement const * statement );
+			, glsl::Statement const * statement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API void storePromoted( DebugId variable
 			, VariableInfo const & sourceInfo
 			, Block & currentBlock
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API void storeVariable( DebugId variable
 			, DebugId value
 			, InstructionList & instructions
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API void storeVariable( DebugId variable
 			, DebugId value
 			, Block & currentBlock
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API DebugId loadVariable( DebugId variable
 			, InstructionList & instructions
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API DebugId loadVariable( DebugId variable
 			, Block & currentBlock
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API void bindVariable( DebugId varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );

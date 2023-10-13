@@ -113,7 +113,11 @@ namespace spirv::debug
 		void makeScopeInstruction( InstructionList & instructions );
 		void makeNoScopeInstruction( InstructionList & instructions );
 		void makeLineExtension( InstructionList & instructions
-			, glsl::Statement const * debugStatement );
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns );
+		void makeLineExtension( InstructionList & instructions
+			, glsl::Statement const * debugStatement
+			, ast::expr::Expr * expr );
 
 		InstructionList const & getDeclarations()const noexcept
 		{

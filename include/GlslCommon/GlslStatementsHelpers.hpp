@@ -10,6 +10,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeSampledImage.hpp>
 
+#include <map>
 #include <set>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
@@ -31,6 +32,8 @@ See LICENSE file in root folder
 
 namespace glsl
 {
+	static uint32_t constexpr InvalidIndex = ~( 0u );
+
 	constexpr uint32_t makeVersion( uint8_t major, uint8_t minor )
 	{
 		return ( uint32_t( major ) * 100
@@ -151,12 +154,16 @@ namespace glsl
 		GlslExtensionSet requiredExtensions{};
 	};
 
+	struct RangeInfo
+	{
+		uint32_t start{ 1u };
+		uint32_t end{ 1u };
+	};
+
 	struct SourceInfo
 	{
-		uint32_t lineStart{ 1u };
-		uint32_t lineEnd{ 1u };
-		uint32_t columnStart{ 1u };
-		uint32_t columnEnd{ 1u };
+		RangeInfo lines{};
+		RangeInfo columns{};
 		ast::stmt::Stmt const * scope{};
 	};
 
@@ -180,11 +187,14 @@ namespace glsl
 		eControlEnd,
 	};
 
+	using ExprsColumns = std::map< ast::expr::Expr *, RangeInfo >;
+
 	struct Statement
 	{
 		StatementType type{};
 		SourceInfo source{};
 		ast::stmt::Stmt const * stmt{};
+		ExprsColumns exprs;
 	};
 
 	using StatementsList = std::vector< Statement >;
@@ -193,6 +203,28 @@ namespace glsl
 	{
 		std::string source;
 		StatementsList statements;
+	};
+
+	struct IntrinsicsConfig
+	{
+		ast::ShaderStage stage;
+
+		bool requiresFma1F{ false };
+		bool requiresFma2F{ false };
+		bool requiresFma3F{ false };
+		bool requiresFma4F{ false };
+		bool requiresFma1D{ false };
+		bool requiresFma2D{ false };
+		bool requiresFma3D{ false };
+		bool requiresFma4D{ false };
+		bool requiresRayDescDecl{ false };
+		bool requiresBlendIndex{ false };
+		bool requiresSeparateSamplers{ false };
+		bool requiresInt8{ false };
+		bool requiresInt16{ false };
+		bool requiresInt64{ false };
+
+		GlslExtensionSet requiredExtensions{};
 	};
 
 	template< typename ValueT >
@@ -210,6 +242,11 @@ namespace glsl
 	SDWGLC_API std::string getTypeName( ast::type::CombinedImagePtr type );
 	SDWGLC_API std::string getTypeName( ast::type::SampledImagePtr type );
 	SDWGLC_API std::string getTypeName( ast::type::TypePtr type );
+	SDWGLC_API void checkType( ast::type::TypePtr type
+		, IntrinsicsConfig & config );
+
+	SDWGLC_API RangeInfo getColumnData( Statement const * statement
+		, ast::expr::Expr * expr );
 
 	inline bool checkBufferMemoryBarrier( ast::type::MemorySemantics semantics )
 	{

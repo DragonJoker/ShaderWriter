@@ -198,8 +198,8 @@ namespace spirv::debug
 		}
 
 		auto nameId = m_module.registerString( member.name );
-		auto lineId = m_module.registerLiteral( debugStatement ? debugStatement->source.lineStart : 0u );
-		auto columnId = m_module.registerLiteral( debugStatement ? debugStatement->source.columnStart : 0u );
+		auto lineId = m_module.registerLiteral( debugStatement ? debugStatement->source.lines.start : 0u );
+		auto columnId = m_module.registerLiteral( debugStatement ? debugStatement->source.columns.start : 0u );
 		auto flagId = m_module.registerLiteral( 0u );
 		auto offsetId = m_module.registerLiteral( member.offset * 8u );
 		auto sizeId = m_module.registerLiteral( member.size * 8u );
@@ -220,8 +220,8 @@ namespace spirv::debug
 
 		auto tagId = m_module.registerLiteral( 1u );
 		auto nameId = m_module.registerString( glsl::getTypeName( structType ) );
-		auto lineId = m_module.registerLiteral( debugStatement ? debugStatement->source.lineStart : 0u );
-		auto columnId = m_module.registerLiteral( debugStatement ? debugStatement->source.columnStart : 0u );
+		auto lineId = m_module.registerLiteral( debugStatement ? debugStatement->source.lines.start : 0u );
+		auto columnId = m_module.registerLiteral( debugStatement ? debugStatement->source.columns.start : 0u );
 		auto flagId = m_module.registerLiteral( 0u );
 		auto sizeId = m_module.registerLiteral( structType->empty() ? 0u : getSize( structType, structType->getMemoryLayout() ) * 8u );
 		resultId.debug = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
@@ -258,8 +258,8 @@ namespace spirv::debug
 
 		auto nameId = m_module.registerString( name );
 		auto typeId = m_module.registerType( type, debugStatement );
-		auto lineId = m_module.registerLiteral( debugStatement->source.lineStart );
-		auto columnId = m_module.registerLiteral( debugStatement->source.columnStart );
+		auto lineId = m_module.registerLiteral( debugStatement->source.lines.start );
+		auto columnId = m_module.registerLiteral( debugStatement->source.columns.start );
 		auto flagsId = m_module.registerLiteral( 0u );
 		assert( variableId.debug );
 
@@ -345,30 +345,20 @@ namespace spirv::debug
 		m_currentFunctionFirstLineStatement = firstLineStatement;
 		m_currentScopeId = function.id.debug;
 
-		auto scopeLineId = m_module.registerLiteral( scopeBeginDebugStatement->source.lineStart );
-		function.debugNameId = m_module.registerString( name );
-		function.debugLineId = m_module.registerLiteral( declDebugStatement->source.lineStart ).id;
-		function.debugColumnId = m_module.registerLiteral( declDebugStatement->source.columnStart ).id;
-		function.debugFlagId = m_module.registerLiteral( 0u ).id;
-		function.debugDeclId = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDeclaration
+		auto scopeLineId = m_module.registerLiteral( scopeBeginDebugStatement->source.lines.start );
+		auto nameId = m_module.registerString( name );
+		auto lineId = m_module.registerLiteral( declDebugStatement->source.lines.start ).id;
+		auto columnId = m_module.registerLiteral( declDebugStatement->source.columns.start ).id;
+		auto flagId = m_module.registerLiteral( 0u ).id;
+		auto declId = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDeclaration
 			, m_declarations
 			, debug::makeValueIdList( m_allocator
-				, function.debugNameId, function.debugTypeId
-				, m_debugSourceId
-				, function.debugLineId, function.debugColumnId
-				, m_globalScopeId
-				, function.debugNameId, function.debugFlagId ) );
+				, nameId, function.debugTypeId, m_debugSourceId, lineId, columnId, m_globalScopeId, nameId, flagId ) );
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Function
 			, m_declarations
 			, function.id.debug
 			, debug::makeValueIdList( m_allocator
-				, function.debugNameId, function.debugTypeId
-				, m_debugSourceId
-				, function.debugLineId, function.debugColumnId
-				, m_globalScopeId
-				, function.debugNameId, function.debugFlagId
-				, scopeLineId
-				, function.debugDeclId ) );
+				, nameId, function.debugTypeId, m_debugSourceId, lineId, columnId, m_globalScopeId, nameId, flagId, scopeLineId, declId ) );
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::FunctionDefinition
 			, function.debugStart
 			, debug::makeValueIdList( m_allocator, function.id.debug, function.id.id ) );
@@ -376,14 +366,15 @@ namespace spirv::debug
 
 		for ( auto & param : params )
 		{
-			auto nameId = m_module.registerString( param->getName() );
-			auto typeId = m_module.registerType( param->getType(), scopeBeginDebugStatement );
-			auto columnId = m_module.registerLiteral( 0u );
-			auto flagsId = m_module.registerLiteral( 0u );
+			auto paramNameId = m_module.registerString( param->getName() );
+			auto paramTypeId = m_module.registerType( param->getType(), scopeBeginDebugStatement );
+			auto paramColumnId = m_module.registerLiteral( 0u );
+			auto paramFlagsId = m_module.registerLiteral( 0u );
 			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LocalVariable
 				, m_declarations
 				, itParam->debug
-				, debug::makeValueIdList( m_allocator, nameId, typeId, m_debugSourceId, scopeLineId, columnId, function.id.debug, flagsId ) );
+				, debug::makeValueIdList( m_allocator
+					, paramNameId, paramTypeId, m_debugSourceId, scopeLineId, paramColumnId, function.id.debug, paramFlagsId ) );
 
 			++itParam;
 		}
@@ -401,7 +392,8 @@ namespace spirv::debug
 		auto cliArgumentsId = m_module.registerString( "-fullDebugInfo" );
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::EntryPoint
 			, m_declarations
-			, debug::makeValueIdList( m_allocator, functionId.debug, m_globalScopeId, compilerSignatureId, cliArgumentsId ) );
+			, debug::makeValueIdList( m_allocator
+				, functionId.debug, m_globalScopeId, compilerSignatureId, cliArgumentsId ) );
 	}
 
 	void NonSemanticDebug::makeLexicalBlockInstruction( glsl::Statement const * scopeBeginStatement )
@@ -411,11 +403,12 @@ namespace spirv::debug
 			return;
 		}
 
-		auto lineId = m_module.registerLiteral( scopeBeginStatement->source.lineStart );
-		auto columnId = m_module.registerLiteral( scopeBeginStatement->source.columnStart );
+		auto lineId = m_module.registerLiteral( scopeBeginStatement->source.lines.start );
+		auto columnId = m_module.registerLiteral( scopeBeginStatement->source.columns.start );
 		m_currentScopeId = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LexicalBlock
 			, m_declarations
-			, debug::makeValueIdList( m_allocator, m_debugSourceId, lineId, columnId, m_currentScopeId ) );
+			, debug::makeValueIdList( m_allocator
+				, m_debugSourceId, lineId, columnId, m_currentScopeId ) );
 	}
 	
 	void NonSemanticDebug::makeValueInstruction( InstructionList & instructions
@@ -457,19 +450,41 @@ namespace spirv::debug
 	}
 
 	void NonSemanticDebug::makeLineExtension( InstructionList & instructions
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, glsl::RangeInfo const & columns )
 	{
 		if ( !m_enabled || !debugStatement || m_currentScopeId == m_globalScopeId )
 		{
 			return;
 		}
 
-		auto lineId = m_module.registerLiteral( debugStatement->source.lineStart );
-		auto columnStartId = m_module.registerLiteral( debugStatement->source.columnStart );
-		auto columnEndId = m_module.registerLiteral( debugStatement->source.columnEnd );
+		auto lineId = m_module.registerLiteral( debugStatement->source.lines.start );
+		auto columnStartId = m_module.registerLiteral( columns.start );
+		auto columnEndId = m_module.registerLiteral( columns.end );
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Line
 			, instructions
-			, debug::makeValueIdList( m_allocator, m_debugSourceId, lineId, lineId, columnStartId, columnEndId ) );
+			, debug::makeValueIdList( m_allocator
+				, m_debugSourceId, lineId, lineId, columnStartId, columnEndId ) );
+	}
+
+	void NonSemanticDebug::makeLineExtension( InstructionList & instructions
+		, glsl::Statement const * debugStatement
+		, ast::expr::Expr * expr )
+	{
+		if ( !debugStatement )
+		{
+			return;
+		}
+
+		auto columns = debugStatement->source.columns;
+		auto it = debugStatement->exprs.find( expr );
+
+		if ( it != debugStatement->exprs.end() )
+		{
+			columns = it->second;
+		}
+
+		makeLineExtension( instructions, debugStatement, columns );
 	}
 
 	ValueId NonSemanticDebug::makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions instruction
@@ -502,6 +517,7 @@ namespace spirv::debug
 		auto flagId = m_module.registerLiteral( 0u );
 		resultId.debug = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::TypeComposite
 			, m_declarations
-			, debug::makeValueIdList( m_allocator, nameId, tagId, m_debugSourceId, lineId, columnId, m_globalScopeId, nameId, m_debugInfoNone, flagId ) );
+			, debug::makeValueIdList( m_allocator
+				, nameId, tagId, m_debugSourceId, lineId, columnId, m_globalScopeId, nameId, m_debugInfoNone, flagId ) );
 	}
 }

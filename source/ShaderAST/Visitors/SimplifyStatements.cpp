@@ -1078,4 +1078,15 @@ namespace ast
 	{
 		return simpl::StmtSimplifier::submit( stmtCache, exprCache, typesCache, stmt );
 	}
+
+	expr::ExprPtr simplify( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, expr::Expr * expr )
+	{
+		std::map< var::VariablePtr, expr::Literal * > literalVars;
+		return simpl::ExprSimplifier::submit( exprCache
+			, typesCache
+			, literalVars
+			, expr );
+	}
 }

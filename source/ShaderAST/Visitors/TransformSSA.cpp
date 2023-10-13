@@ -2169,7 +2169,6 @@ namespace ast
 
 				if ( structType->getName() != "SDW_VoidInput"
 					&& structType->getName() != "SDW_VoidOutput"
-					&& !helpers::hasRuntimeArray( structType )
 					&& m_declaredStructs.insert( structType->getName() ).second )
 				{
 					for ( auto & member : *structType )
@@ -2180,7 +2179,10 @@ namespace ast
 						}
 					}
 
-					m_typeDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
+					if ( !helpers::hasRuntimeArray( structType ) )
+					{
+						m_typeDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
+					}
 				}
 			}
 
@@ -2508,6 +2510,8 @@ namespace ast
 			void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override
 			{
 				TraceFunc
+				declareStruct( stmt->getSsboInstance()->getType() );
+				declareStruct( stmt->getData()->getType() );
 				StmtCloner::visitShaderStructBufferDeclStmt( stmt );
 			}
 
