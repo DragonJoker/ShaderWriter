@@ -16,6 +16,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 
 #include <cmath>
+#include <cstring>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )
@@ -33,7 +34,7 @@ namespace glsl
 		{
 			static uint32_t constexpr InvalidIndex = ~( 0u );
 
-			bool isContainer( ast::stmt::Stmt * stmt )
+			static bool isContainer( ast::stmt::Stmt * stmt )
 			{
 				switch ( stmt->getKind() )
 				{
@@ -2506,7 +2507,7 @@ namespace glsl
 
 			void doEndScope( ast::stmt::Stmt * stmt
 				, StatementType scopeEnd
-				, std::string scopeEndText = std::string{} )
+				, std::string const & scopeEndText = std::string{} )
 			{
 				m_indents.pop_back();
 				m_scopeLines.pop_back();
@@ -2539,7 +2540,7 @@ namespace glsl
 					doAddSimpleStatement( std::move( preEndLine ), ExprsColumns{}, stmt );
 				}
 
-				doEndScope( stmt, scopeEnd, scopeEndText );
+				doEndScope( stmt, scopeEnd, std::move( scopeEndText ) );
 			}
 
 			void doParseStructBlock( ast::stmt::Stmt * stmt
@@ -3392,11 +3393,12 @@ namespace glsl
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
 			{
+				doAddStatement( "#version " + preproc->getName(), ExprsColumns{}, StatementType::eScopeLine, preproc );
 			}
 
 			void doWriteBinding( uint32_t binding
 				, uint32_t set
-				, std::string sep
+				, std::string const & sep
 				, std::string & result )
 			{
 				if ( binding != helpers::InvalidIndex

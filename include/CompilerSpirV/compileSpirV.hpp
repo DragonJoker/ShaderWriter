@@ -103,11 +103,18 @@ namespace spirv
 #undef makeSpirVMarker
 #undef makeSpirVExtension
 
+	enum class DebugLevel
+	{
+		eNone,
+		eNames,
+		eDebugInfo
+	};
+
 	struct SpirVConfig
 	{
 		uint32_t specVersion{ v1_1 };
 		SpirVExtensionSet * availableExtensions{};
-		bool debug{};
+		DebugLevel debugLevel{};
 		ast::ShaderAllocator * allocator{};
 		// Filled by writeSpirv/serialiseSpirv
 		uint32_t requiredVersion{ vUnk };

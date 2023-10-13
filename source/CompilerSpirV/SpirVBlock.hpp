@@ -11,7 +11,7 @@ namespace spirv
 {
 	struct VariableInfo
 	{
-		VariableInfo( DebugId pid = DebugId{}
+		explicit VariableInfo( DebugId pid = DebugId{}
 			, bool pisAlias = false
 			, bool pisParam = false
 			, bool pisOutParam = false )

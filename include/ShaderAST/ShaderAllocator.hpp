@@ -144,7 +144,7 @@ namespace ast
 		{
 			static size_t constexpr BlockAllocSize = 1024 * 1024;
 
-			Memory( size_t size = BlockAllocSize )
+			explicit Memory( size_t size = BlockAllocSize )
 				: data{ std::make_unique< std::vector< std::byte > >( std::max( size, BlockAllocSize ) ) }
 			{
 			}

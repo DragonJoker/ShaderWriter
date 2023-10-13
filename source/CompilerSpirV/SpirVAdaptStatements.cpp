@@ -262,6 +262,10 @@ namespace spirv
 				}
 			}
 
+			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			{
+			}
+
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::ComputeInput const & compType )
 			{

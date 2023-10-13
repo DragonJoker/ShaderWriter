@@ -68,7 +68,7 @@ namespace spirv
 		glsl::Statements debug;
 		glsl::StmtConfig stmtConfig;
 
-		if ( spirvConfig.debug )
+		if ( spirvConfig.debugLevel == DebugLevel::eDebugInfo )
 		{
 			auto intrinsicsConfig = glsl::fillConfig( shader.getType()
 				, statements.get() );

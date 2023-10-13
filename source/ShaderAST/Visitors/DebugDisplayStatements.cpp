@@ -1021,7 +1021,7 @@ namespace ast::debug
 		}
 
 	private:
-		ExprVisitor( std::string & result )
+		explicit ExprVisitor( std::string & result )
 			: m_result{ result }
 		{
 		}
@@ -1425,7 +1425,7 @@ namespace ast::debug
 
 		void endScope( std::string oldIndent )
 		{
-			m_indent = oldIndent;
+			m_indent = std::move( oldIndent );
 			addStatement( "}" );
 		}
 
