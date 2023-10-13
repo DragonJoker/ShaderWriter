@@ -270,7 +270,8 @@ namespace spirv
 							, currentBlock
 							, currentDebugStatement )
 						, currentBlock
-						, currentDebugStatement ) );
+						, currentDebugStatement
+						, glsl::getColumnData( currentDebugStatement, it->expr ) ) );
 				}
 
 				return result;
@@ -411,7 +412,8 @@ namespace spirv
 						, spv::StorageClassFunction
 						, var->getType()
 						, m_currentBlock
-						, m_currentDebugStatement );
+						, m_currentDebugStatement
+						, glsl::getColumnData( m_currentDebugStatement, expr ) );
 				}
 				else if ( m_parentId
 					&& m_parentKind != ast::expr::Kind::eArrayAccess )
@@ -430,7 +432,10 @@ namespace spirv
 					{
 						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
 						auto resultId = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
-						m_result = m_module.loadVariable( resultId, m_currentBlock, m_currentDebugStatement );
+						m_result = m_module.loadVariable( resultId
+							, m_currentBlock
+							, m_currentDebugStatement
+							, glsl::getColumnData( m_currentDebugStatement, expr ) );
 						m_result = m_module.registerVariable( m_currentBlock
 							, var->getName()
 							, var->getBuiltin()
@@ -462,12 +467,16 @@ namespace spirv
 						m_module.storePromoted( m_result
 							, sourceInfo
 							, m_currentBlock
-							, m_currentDebugStatement );
+							, m_currentDebugStatement
+							, glsl::getColumnData( m_currentDebugStatement, expr ) );
 					}
 
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
 					{
-						m_result = m_module.loadVariable( m_result, m_currentBlock, m_currentDebugStatement );
+						m_result = m_module.loadVariable( m_result
+							, m_currentBlock
+							, m_currentDebugStatement
+							, glsl::getColumnData( m_currentDebugStatement, expr ) );
 					}
 					else
 					{
@@ -475,7 +484,10 @@ namespace spirv
 
 						while ( getPointerLevel( type ) > 1 )
 						{
-							m_result = m_module.loadVariable( m_result, m_currentBlock, m_currentDebugStatement );
+							m_result = m_module.loadVariable( m_result
+								, m_currentBlock
+								, m_currentDebugStatement
+								, glsl::getColumnData( m_currentDebugStatement, expr ) );
 							type = m_result->type;
 						}
 					}
@@ -720,7 +732,8 @@ namespace spirv
 				, currentBlock
 				, module )
 			, currentBlock
-			, debugStatement );
+			, debugStatement
+			, glsl::getColumnData( debugStatement, expr->getOuterExpr() ) );
 		DebugId result{ 0u, typeId->type };
 		auto swizzleComponents = convert( getSwizzleComponents( module.allocator, expr->getSwizzle() ) );
 

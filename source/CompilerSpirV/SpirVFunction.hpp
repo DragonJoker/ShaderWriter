@@ -127,12 +127,7 @@ namespace spirv
 			, InstructionList::iterator const & end );
 
 		DebugId id{};
-		ValueId debugDeclId{};
-		ValueId debugNameId{};
 		ValueId debugTypeId{};
-		ValueId debugLineId{};
-		ValueId debugColumnId{};
-		ValueId debugFlagId{};
 		// Serialisable.
 		InstructionList declaration;
 		ControlFlowGraph cfg;

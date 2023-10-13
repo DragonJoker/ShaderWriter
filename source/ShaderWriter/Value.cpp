@@ -79,7 +79,7 @@ namespace sdw
 
 	void Value::doCopy( Value const & rhs )
 	{
-		if ( rhs.isEnabled() )
+		if ( rhs.isEnabled() && m_expr && !m_expr->isConstant() )
 		{
 			if ( getContainer() )
 			{
@@ -102,7 +102,7 @@ namespace sdw
 
 	void Value::doMove( Value && rhs )
 	{
-		if ( rhs.isEnabled() )
+		if ( rhs.isEnabled() && m_expr && !m_expr->isConstant() )
 		{
 			if ( getContainer() )
 			{

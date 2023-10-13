@@ -281,11 +281,12 @@ namespace spirv
 		, std::string name
 		, spv::StorageClass storage
 		, Block & currentBlock
-		, glsl::Statement const * statement )
+		, glsl::Statement const * statement
+		, glsl::RangeInfo const & columns )
 	{
 		if ( varId.isPointer() && convert( varId.getStorage() ) != storage )
 		{
-			varId = loadVariable( varId, currentBlock, statement );
+			varId = loadVariable( varId, currentBlock, statement, columns );
 			name = "SDW_Swap_" + name;
 		}
 
@@ -296,7 +297,7 @@ namespace spirv
 			doAddDebug( name, id );
 			Map< std::string, VariableInfo >::iterator it;
 			doAddVariable( block, name, id, storage, it, DebugId{} );
-			storeVariable( it->second.id, varId, currentBlock, statement );
+			storeVariable( it->second.id, varId, currentBlock, statement, columns );
 			varId = it->second.id;
 		}
 
@@ -308,7 +309,8 @@ namespace spirv
 		, spv::StorageClass storage
 		, ast::type::TypePtr type
 		, Block & currentBlock
-		, glsl::Statement const * statement )
+		, glsl::Statement const * statement
+		, glsl::RangeInfo const & columns )
 	{
 		DebugId varId;
 		Map< std::string, VariableInfo >::iterator it;
@@ -340,7 +342,8 @@ namespace spirv
 				, name
 				, storage
 				, currentBlock
-				, statement );
+				, statement
+				, columns );
 		}
 
 		return varId;
@@ -349,37 +352,41 @@ namespace spirv
 	void Module::storePromoted( DebugId variable
 		, VariableInfo const & sourceInfo
 		, Block & currentBlock
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, glsl::RangeInfo const & columns )
 	{
 		if ( sourceInfo.isParam )
 		{
 			storeVariable( variable
 				, sourceInfo.id
 				, m_currentFunction->promotedParams
-				, debugStatement );
+				, debugStatement
+				, columns );
 		}
 		else
 		{
 			storeVariable( variable
 				, sourceInfo.id
 				, currentBlock.instructions
-				, debugStatement );
+				, debugStatement
+				, columns );
 		}
 	}
 
 	void Module::storeVariable( DebugId variable
 		, DebugId value
 		, InstructionList & instructions
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, glsl::RangeInfo const & columns )
 	{
 		assert( variable.isPointer() );
 
 		if ( value.isPointer() )
 		{
-			value = loadVariable( value, instructions, debugStatement );
+			value = loadVariable( value, instructions, debugStatement, columns );
 		}
 
-		m_nonSemanticDebug.makeLineExtension( instructions, debugStatement );
+		m_nonSemanticDebug.makeLineExtension( instructions, debugStatement, columns );
 		instructions.push_back( makeInstruction< StoreInstruction >( getNameCache()
 			, variable.id
 			, value.id ) );
@@ -389,22 +396,25 @@ namespace spirv
 	void Module::storeVariable( DebugId variable
 		, DebugId value
 		, Block & currentBlock
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, glsl::RangeInfo const & columns )
 	{
 		storeVariable( variable
 			, value
 			, currentBlock.instructions
-			, debugStatement );
+			, debugStatement
+			, columns );
 	}
 
 	DebugId Module::loadVariable( DebugId variableId
 		, InstructionList & instructions
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, glsl::RangeInfo const & columns )
 	{
 		if ( variableId.isPointer() )
 		{
 			auto type = static_cast< ast::type::Pointer const & >( *variableId->type ).getPointerType();
-			m_nonSemanticDebug.makeLineExtension( instructions, debugStatement );
+			m_nonSemanticDebug.makeLineExtension( instructions, debugStatement, columns );
 
 			if ( !hasRuntimeArray( type ) )
 			{
@@ -447,11 +457,13 @@ namespace spirv
 
 	DebugId Module::loadVariable( DebugId variableId
 		, Block & currentBlock
-		, glsl::Statement const * debugStatement )
+		, glsl::Statement const * debugStatement
+		, glsl::RangeInfo const & columns )
 	{
 		return loadVariable( variableId
 			, currentBlock.instructions
-			, debugStatement );
+			, debugStatement
+			, columns );
 	}
 
 	void Module::bindVariable( DebugId varId

@@ -17,7 +17,9 @@ See LICENSE file in root folder
 namespace glsl
 {
 	SDWGLC_API Statements generateGlslStatements( StmtConfig const & config
-		, ast::stmt::Container * stmt );
+		, IntrinsicsConfig const & intrinsics
+		, ast::stmt::Container * stmt
+		, bool withExprColumns = false );
 	SDWGLC_API std::string getExprName( StmtConfig const & config
 		, ast::expr::Expr * expr );
 }

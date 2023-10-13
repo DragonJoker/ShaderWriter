@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_GlslTextureAccessConfig_H___
 #pragma once
 
-#include "GlslHelpers.hpp"
+#include "GlslStatementsHelpers.hpp"
 
 #include <ShaderAST/Expr/EnumCombinedImageAccess.hpp>
 

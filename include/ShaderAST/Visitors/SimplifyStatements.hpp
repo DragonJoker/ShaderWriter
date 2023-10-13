@@ -13,6 +13,9 @@ namespace ast
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * stmt );
+	SDAST_API expr::ExprPtr simplify( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, expr::Expr * expr );
 }
 
 #endif

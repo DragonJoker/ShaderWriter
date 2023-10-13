@@ -13,6 +13,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
+#include <ShaderAST/Visitors/SimplifyStatements.hpp>
 
 #include <cmath>
 #pragma warning( push )
@@ -31,6 +32,73 @@ namespace glsl
 		namespace helpers
 		{
 			static uint32_t constexpr InvalidIndex = ~( 0u );
+
+			bool isContainer( ast::stmt::Stmt * stmt )
+			{
+				switch ( stmt->getKind() )
+				{
+				case ast::stmt::Kind::eContainer:
+				case ast::stmt::Kind::eCompound:
+				case ast::stmt::Kind::eConstantBufferDecl:
+				case ast::stmt::Kind::ePushConstantsBufferDecl:
+				case ast::stmt::Kind::eShaderBufferDecl:
+				case ast::stmt::Kind::eIf:
+				case ast::stmt::Kind::eElse:
+				case ast::stmt::Kind::eElseIf:
+				case ast::stmt::Kind::eWhile:
+				case ast::stmt::Kind::eFor:
+				case ast::stmt::Kind::eDoWhile:
+				case ast::stmt::Kind::eSwitch:
+				case ast::stmt::Kind::eSwitchCase:
+				case ast::stmt::Kind::ePreprocIf:
+				case ast::stmt::Kind::ePreprocElif:
+				case ast::stmt::Kind::ePreprocElse:
+				case ast::stmt::Kind::ePreprocIfDef:
+					return true;
+				case ast::stmt::Kind::eSimple:
+				case ast::stmt::Kind::eComment:
+				case ast::stmt::Kind::eVariableDecl:
+				case ast::stmt::Kind::ePerPrimitiveDecl:
+				case ast::stmt::Kind::ePerVertexDecl:
+				case ast::stmt::Kind::eInOutVariableDecl:
+				case ast::stmt::Kind::eSpecialisationConstantDecl:
+				case ast::stmt::Kind::eShaderStructBufferDecl:
+				case ast::stmt::Kind::eSamplerDecl:
+				case ast::stmt::Kind::eImageDecl:
+				case ast::stmt::Kind::eSampledImageDecl:
+				case ast::stmt::Kind::eCombinedImageDecl:
+				case ast::stmt::Kind::eFunctionDecl:
+				case ast::stmt::Kind::eStructureDecl:
+				case ast::stmt::Kind::eReturn:
+				case ast::stmt::Kind::eBreak:
+				case ast::stmt::Kind::eContinue:
+				case ast::stmt::Kind::eDemote:
+				case ast::stmt::Kind::eTerminateInvocation:
+				case ast::stmt::Kind::eInputGeometryLayout:
+				case ast::stmt::Kind::eOutputGeometryLayout:
+				case ast::stmt::Kind::eInputComputeLayout:
+				case ast::stmt::Kind::eOutputMeshLayout:
+				case ast::stmt::Kind::eFragmentLayout:
+				case ast::stmt::Kind::eOutputTessellationControlLayout:
+				case ast::stmt::Kind::eInputTessellationEvaluationLayout:
+				case ast::stmt::Kind::eAccelerationStructureDecl:
+				case ast::stmt::Kind::eInOutRayPayloadVariableDecl:
+				case ast::stmt::Kind::eHitAttributeVariableDecl:
+				case ast::stmt::Kind::eInOutCallableDataVariableDecl:
+				case ast::stmt::Kind::eBufferReferenceDecl:
+				case ast::stmt::Kind::eTerminateRay:
+				case ast::stmt::Kind::eIgnoreIntersection:
+				case ast::stmt::Kind::eDispatchMesh:
+				case ast::stmt::Kind::ePreprocDefine:
+				case ast::stmt::Kind::ePreprocEndif:
+				case ast::stmt::Kind::ePreprocExtension:
+				case ast::stmt::Kind::ePreprocVersion:
+					return false;
+				default:
+					AST_Failure( "Unsupported stmt kind." );
+					return false;
+				}
+			}
 
 			static std::string adaptName( std::string const & name
 				, StmtConfig const & writerConfig )
@@ -402,6 +470,18 @@ namespace glsl
 				if ( type->getKind() == ast::type::Kind::eArray )
 				{
 					result = getTypeArraySize( std::static_pointer_cast< ast::type::Array >( type ) );
+				}
+
+				return result;
+			}
+
+			static std::string getCtorArray( ast::type::TypePtr type )
+			{
+				std::string result;
+
+				if ( type->getKind() == ast::type::Kind::eArray )
+				{
+					result = "[]";
 				}
 
 				return result;
@@ -1398,6 +1478,26 @@ namespace glsl
 					return false;
 				}
 			}
+
+			static void doAddStatement( std::string text
+				, StatementType type
+				, Statements & result
+				, uint32_t & line )
+			{
+				result.source += std::move( text ) + "\n";
+				++line;
+			}
+
+			static void enableExtension( Statements & result
+				, GlslExtension const & extension
+				, uint32_t shaderVersion
+				, uint32_t & line )
+			{
+				if ( extension.coreVersion > shaderVersion )
+				{
+					doAddStatement( "#extension " + extension.name + ": enable", StatementType::eScopeLine, result, line );
+				}
+			}
 		}
 
 		//*****************************************************************************************
@@ -1408,10 +1508,13 @@ namespace glsl
 		public:
 			static std::string submit( ast::expr::Expr * expr
 				, StmtConfig const & config
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases )
+				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+				, bool withExprColumns
+				, uint32_t currentColumn
+				, ExprsColumns & exprs )
 			{
 				std::string result;
-				ExprVisitor vis{ result, config, aliases };
+				ExprVisitor vis{ result, config, aliases, withExprColumns, currentColumn, exprs };
 				expr->accept( &vis );
 				return result;
 			}
@@ -1419,56 +1522,243 @@ namespace glsl
 		private:
 			ExprVisitor( std::string & result
 				, StmtConfig const & config
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases )
+				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+				, bool withExprColumns
+				, uint32_t currentColumn
+				, ExprsColumns & exprs )
 				: m_result{ result }
 				, m_config{ config }
 				, m_aliases{ aliases }
+				, m_withExprColumns{ withExprColumns }
+				, m_currentColumn{ currentColumn }
+				, m_exprsColumns{ exprs }
 			{
 			}
 
-			std::string doSubmit( ast::expr::Expr * expr )
+			std::string doSubmit( ast::expr::Expr * expr, uint32_t currentColumn )
 			{
-				return submit( expr, m_config, m_aliases );
+				return submit( expr, m_config, m_aliases, m_withExprColumns, currentColumn, m_exprsColumns );
 			}
 
-			std::string doSubmit( ast::expr::ExprPtr const & expr )
+			std::string doSubmit( ast::expr::ExprPtr const & expr, uint32_t currentColumn )
 			{
-				return doSubmit( expr.get() );
+				return doSubmit( expr.get(), currentColumn );
 			}
 
-			void wrap( ast::expr::Expr * expr )
+			uint32_t doGetColumn( std::string const & text )
 			{
-				bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
-					|| expr->getKind() == ast::expr::Kind::eIdentifier
-					|| expr->getKind() == ast::expr::Kind::eLiteral
-					|| expr->getKind() == ast::expr::Kind::eMbrSelect
-					|| expr->getKind() == ast::expr::Kind::eCast
-					|| expr->getKind() == ast::expr::Kind::eSwizzle
-					|| expr->getKind() == ast::expr::Kind::eArrayAccess
-					|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
-					|| expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall
-					|| expr->getKind() == ast::expr::Kind::eImageAccessCall
-					|| expr->getKind() == ast::expr::Kind::eUnaryMinus
-					|| expr->getKind() == ast::expr::Kind::eUnaryPlus
-					|| expr->getKind() == ast::expr::Kind::eCopy;
+				return uint32_t( m_currentColumn + text.size() );
+			}
 
-				if ( noParen )
+			struct Wrapped
+			{
+				ast::expr::Expr * expr;
+				bool maybeNonUniform;
+			};
+
+			std::string doJoinWrap( ast::expr::Expr * expr, bool maybeNonUniform );
+			std::string doJoinWrap( ast::expr::Expr * expr, bool maybeNonUniform, uint32_t currentColumn );
+
+			ast::expr::Expr * doResolveAlias( ast::expr::Expr * expr )
+			{
+				if ( expr->getKind() == ast::expr::Kind::eIdentifier )
 				{
-					m_result += doSubmit( expr );
+					auto it = m_aliases.find( static_cast< ast::expr::Identifier const & >( *expr ).getVariable() );
+
+					if ( it != m_aliases.end() )
+					{
+						return it->second;
+					}
+				}
+
+				return expr;
+			}
+
+			void doParse( char const * const value
+				, std::string & result )
+			{
+				result += value;
+			}
+
+			void doParse( std::string const & value
+				, std::string & result )
+			{
+				result += value;
+			}
+
+			void doParse( ast::expr::Expr * value
+				, std::string & result )
+			{
+				result += doSubmit( value, 0u );
+			}
+
+			void doParse( uint32_t value
+				, std::string & result )
+			{
+			}
+
+			void doParse( Wrapped const & value
+				, std::string & result )
+			{
+				result += doJoinWrap( value.expr, value.maybeNonUniform );
+			}
+
+			void doParse( ast::expr::ExprPtr const & value
+				, std::string & result )
+			{
+				doParse( value.get(), result );
+			}
+
+			void doParse( std::pair< ast::expr::Expr *, std::string > const & value
+				, std::string & result )
+			{
+				result += value.second;
+			}
+
+			uint32_t doParse( std::string const & value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				result += value;
+				return uint32_t( curColumn + value.size() );
+			}
+
+			uint32_t doParse( char const * const value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				result += value;
+				return uint32_t( curColumn + strlen( value ) );
+			}
+
+			uint32_t doParse( ast::expr::Expr * value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				value = doResolveAlias( value );
+				auto it = m_exprsColumns.emplace( value, RangeInfo{} ).first;
+				it->second.start = curColumn;
+				auto text = doSubmit( value, curColumn );
+				result += text;
+
+				if ( it->second.end == 1 )
+				{
+					it->second.end = uint32_t( curColumn + text.size() );
+				}
+
+				return uint32_t( curColumn + text.size() );
+			}
+
+			uint32_t doParse( uint32_t value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				return curColumn + value;
+			}
+
+			uint32_t doParse( Wrapped const & value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				auto expr = doResolveAlias( value.expr );
+				auto it = m_exprsColumns.emplace( expr, RangeInfo{} ).first;
+				it->second.start = curColumn;
+				auto text = doJoinWrap( expr, value.maybeNonUniform, curColumn );
+				result += text;
+
+				if ( it->second.end == 1 )
+				{
+					it->second.end = uint32_t( curColumn + text.size() );
+				}
+
+				return uint32_t( curColumn + text.size() );
+			}
+
+			uint32_t doParse( std::pair< ast::expr::Expr *, std::string > const & value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				auto expr = doResolveAlias( value.first );
+				auto it = m_exprsColumns.emplace( expr, RangeInfo{} ).first;
+				it->second.start = curColumn;
+				result += value.second;
+				it->second.end = uint32_t( curColumn + value.second.size() );
+				return it->second.end;
+			}
+
+			uint32_t doParse( ast::expr::ExprPtr const & value
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				return doParse( value.get(), curColumn, result );
+			}
+
+			void doJoinRec( std::string & result )
+			{
+			}
+
+			template< typename ParamT, typename ... ParamsT >
+			void doJoinRec( std::string & result
+				, ParamT const & param
+				, ParamsT && ... params )
+			{
+				doParse( param, result );
+				doJoinRec( result, std::forward< ParamsT >( params )... );
+			}
+
+			void doJoinExprRec( std::string & result
+				, uint32_t curColumn )
+			{
+			}
+
+			template< typename ParamT, typename ... ParamsT >
+			void doJoinExprRec( std::string & result
+				, uint32_t curColumn
+				, ParamT const & param
+				, ParamsT && ... params )
+			{
+				curColumn = doParse( param, curColumn, result );
+				doJoinExprRec( result, curColumn, std::forward< ParamsT >( params )... );
+			}
+
+			template< typename ... ParamsT >
+			std::string doJoin( ParamsT && ... params )
+			{
+				std::string text;
+
+				if ( m_withExprColumns )
+				{
+					doJoinExprRec( text, m_currentColumn, std::forward< ParamsT >( params )... );
 				}
 				else
 				{
-					m_result += "(";
-					m_result += doSubmit( expr );
-					m_result += ")";
+					doJoinRec( text, std::forward< ParamsT >( params )... );
 				}
+
+				return text;
+			}
+
+			void doAppend( std::string const & text )
+			{
+				m_result += text;
+				m_currentColumn += uint32_t( text.size() );
+			}
+
+			Wrapped wrap( ast::expr::Expr * expr )
+			{
+				return Wrapped{ expr, false };
+			}
+
+			Wrapped wrapMaybeNonUniform( ast::expr::Expr * expr )
+			{
+				return Wrapped{ expr, true };
 			}
 
 			void visitAssignmentExpr( ast::expr::Binary * expr )
 			{
-				wrap( expr->getLHS() );
-				m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
-				m_result += doSubmit( expr->getRHS() );
+				doAppend( doJoin( wrap( expr->getLHS() )
+					, " ", std::make_pair( expr, helpers::getOperatorName( expr->getKind() ) ), " "
+					, expr->getRHS() ) );
 			}
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
@@ -1476,24 +1766,24 @@ namespace glsl
 				if ( expr->isNonUniform()
 					&& !expr->getOperand()->isNonUniform() )
 				{
-					m_result += "nonuniformEXT(";
+					doAppend( "nonuniformEXT(" );
 				}
 
 				if ( helpers::isUnaryPre( expr->getKind() ) )
 				{
-					m_result += helpers::getOperatorName( expr->getKind() );
-					wrap( expr->getOperand() );
+					doAppend( doJoin( std::make_pair( expr, helpers::getOperatorName( expr->getKind() ) )
+						, wrap( expr->getOperand() ) ) );
 				}
 				else
 				{
-					wrap( expr->getOperand() );
-					m_result += helpers::getOperatorName( expr->getKind() );
+					doAppend( doJoin( wrap( expr->getOperand() )
+						, std::make_pair( expr, helpers::getOperatorName( expr->getKind() ) ) ) );
 				}
 
 				if ( expr->isNonUniform()
 					&& !expr->getOperand()->isNonUniform() )
 				{
-					m_result += ")";
+					doAppend( ")" );
 				}
 			}
 
@@ -1505,20 +1795,16 @@ namespace glsl
 				{
 					if ( expr->getKind() == ast::expr::Kind::eNotEqual )
 					{
-						m_result += "!";
+						doAppend( "!" );
 					}
 
-					m_result += "equal(";
-					m_result += doSubmit( expr->getLHS() );
-					m_result += ", ";
-					m_result += doSubmit( expr->getRHS() );
-					m_result += ")";
+					doAppend( doJoin( std::make_pair( expr, "equal(" ), expr->getLHS(), ", ", expr->getRHS(), ")" ) );
 				}
 				else
 				{
-					wrap( expr->getLHS() );
-					m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
-					wrap( expr->getRHS() );
+					doAppend( doJoin( wrap( expr->getLHS() )
+						, " ", std::make_pair( expr, helpers::getOperatorName( expr->getKind() ) ), " "
+						, wrap( expr->getRHS() ) ) );
 				}
 			}
 
@@ -1539,14 +1825,6 @@ namespace glsl
 
 			void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override
 			{
-				auto lhs = doSubmit( expr->getLHS() );
-				auto rhs = doSubmit( expr->getRHS() );
-
-				if ( lhs == rhs )
-				{
-					return;
-				}
-
 				visitAssignmentExpr( expr );
 			}
 
@@ -1591,86 +1869,85 @@ namespace glsl
 				{
 					if ( expr->isConstant() )
 					{
-						m_result += "const ";
+						doAppend( "const " );
 					}
 
-					m_result += getTypeName( expr->getType() ) + " ";
-					m_result += doSubmit( expr->getIdentifier() );
-					m_result += helpers::getTypeArraySize( expr->getType() );
-					m_result += " = ";
+					doAppend( doJoin( getTypeName( expr->getType() ) + " "
+						, expr->getIdentifier()
+						, helpers::getTypeArraySize( expr->getType() )
+						, " = " ) );
 				}
 
-				m_result += getTypeName( expr->getType() ) + "[](";
+				doAppend( doJoin( std::make_pair( expr, getTypeName( expr->getType() ) + helpers::getCtorArray( expr->getType() ) + "(" ) ) );
 				std::string sep;
 
 				for ( auto & init : expr->getInitialisers() )
 				{
-					m_result += sep + doSubmit( init );
+					doAppend( doJoin( sep, init ) );
 					sep = ", ";
 				}
 
-				m_result += ")";
+				doAppend( ")" );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
 			{
-				wrap( expr->getLHS() );
-				m_result += "[";
-				wrap( expr->getRHS() );
-				m_result += "]";
+				doAppend( doJoin( wrap( expr->getLHS() )
+					, doJoin( std::make_pair( expr, "[" ) )
+					, wrapMaybeNonUniform( expr->getRHS() )
+					, "]" ) );
 			}
 
 			void visitCastExpr( ast::expr::Cast * expr )override
 			{
-				m_result += getTypeName( expr->getType() ) + "(";
-				m_result += doSubmit( expr->getOperand() );
-				m_result += ")";
+				doAppend( doJoin( doJoin( std::make_pair( expr, getTypeName( expr->getType() ) + "(" ) )
+					, expr->getOperand()
+					, ")" ) );
 			}
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
 			{
 				if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
 				{
-					m_result += helpers::getCtorName( *expr->getArgList()[0]
-						, *expr->getArgList()[1] );
+					doAppend( doJoin( std::make_pair( expr, helpers::getCtorName( *expr->getArgList()[0]
+						, *expr->getArgList()[1] ) ) ) );
 				}
 				else
 				{
-					m_result += helpers::getCtorName( expr->getComposite()
-						, getScalarType( expr->getComponent() ) );
+					doAppend( doJoin( std::make_pair( expr, helpers::getCtorName( expr->getComposite()
+						, getScalarType( expr->getComponent() ) ) ) ) );
 				}
 
-				m_result += "(";
+				doAppend( "(" );
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( arg );
+					doAppend( doJoin( sep, arg ) );
 					sep = ", ";
 				}
 
-				m_result += ")";
+				doAppend( ")" );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				wrap( expr->getOuterExpr() );
+				doAppend( doJoin( wrap( expr->getOuterExpr() ) ) );
 
 				if ( !m_result.empty() )
 				{
-					m_result += ".";
+					doAppend( doJoin( std::make_pair( expr, "." ) ) );
 				}
 
 				auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
 
 				if ( mbr.builtin != ast::Builtin::eNone )
 				{
-					m_result += "gl_" + getName( mbr.builtin );
+					doAppend( "gl_" + getName( mbr.builtin ) );
 				}
 				else
 				{
-					m_result += mbr.name;
+					doAppend( mbr.name );
 				}
 			}
 
@@ -1678,22 +1955,19 @@ namespace glsl
 			{
 				if ( expr->isMember() )
 				{
-					wrap( expr->getInstance() );
-					m_result += ".";
+					doAppend( doJoin( wrap( expr->getInstance() ), "." ) );
 				}
 
-				m_result += doSubmit( expr->getFn() );
-				m_result += "(";
+				doAppend( doJoin( std::make_pair( expr, doJoin( expr->getFn(), "(" ) ) ) );
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( arg );
+					doAppend( doJoin( sep, arg ) );
 					sep = ", ";
 				}
 
-				m_result += ")";
+				doAppend( ")" );
 			}
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
@@ -1702,23 +1976,22 @@ namespace glsl
 
 				if ( it != m_aliases.end() )
 				{
-					wrap( it->second );
+					doAppend( doJoin( wrap( it->second ) ) );
 				}
 				else
 				{
-					m_result += visitVariable( expr->getVariable() );
+					doAppend( doJoin( std::make_pair( expr, visitVariable( expr->getVariable() ) ) ) );
 				}
 			}
 
 			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
 			{
-				m_result += getGlslName( expr->getImageAccess() ) + "(";
+				doAppend( doJoin( std::make_pair( expr, getGlslName( expr->getImageAccess() ) + "(" ) ) );
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( arg );
+					doAppend( doJoin( sep, arg ) );
 					sep = ", ";
 				}
 
@@ -1732,11 +2005,11 @@ namespace glsl
 					m_result += "const ";
 				}
 
-				m_result += getTypeName( expr->getType() ) + " ";
-				m_result += doSubmit( expr->getIdentifier() );
-				m_result += helpers::getTypeArraySize( expr->getIdentifier()->getType() );
-				m_result += " = ";
-				m_result += doSubmit( expr->getInitialiser() );
+				doAppend( doJoin( getTypeName( expr->getType() ), " "
+					, expr->getIdentifier()
+					, helpers::getTypeArraySize( expr->getIdentifier()->getType() )
+					, doJoin( std::make_pair( expr, " = " ) )
+					, expr->getInitialiser() ) );
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
@@ -1836,17 +2109,16 @@ namespace glsl
 				}
 				else
 				{
-					m_result += getGlslName( expr->getIntrinsic() ) + "(";
+					doAppend( doJoin( std::make_pair( expr, getGlslName( expr->getIntrinsic() ) + "(" ) ) );
 					std::string sep;
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						m_result += sep;
-						m_result += doSubmit( arg );
+						doAppend( doJoin( sep, arg ) );
 						sep = ", ";
 					}
 
-					m_result += ")";
+					doAppend( ")" );
 				}
 			}
 
@@ -1918,18 +2190,44 @@ namespace glsl
 					break;
 				}
 
-				m_result += stream.str();
+				doAppend( stream.str() );
 			}
 
 			void visitQuestionExpr( ast::expr::Question * expr )override
 			{
-				m_result += "(";
-				wrap( expr->getCtrlExpr() );
-				m_result += " ? ";
-				wrap( expr->getTrueExpr() );
-				m_result += " : ";
-				wrap( expr->getFalseExpr() );
-				m_result += ")";
+				if ( ast::type::isVectorType( expr->getType() )
+					&& ast::type::isVectorType( expr->getCtrlExpr()->getType() ) )
+				{
+					auto & exprCache = expr->getExprCache();
+					auto & typesCache = expr->getTypesCache();
+					auto componentCount = ast::type::getComponentCount( expr->getCtrlExpr()->getType() );
+					auto componentType = typesCache.getBasicType( ast::type::getComponentType( expr->getType() ) );
+					ast::expr::ExprList perComponent;
+
+					for ( uint32_t i = 0u; i < componentCount; ++i )
+					{
+						auto swizzle = ast::expr::SwizzleKind::fromOffset( i );
+						perComponent.push_back( exprCache.makeQuestion( componentType
+							, ast::simplify( exprCache, typesCache, exprCache.makeSwizzle( expr->getCtrlExpr()->clone(), swizzle ).get() )
+							, ast::simplify( exprCache, typesCache, exprCache.makeSwizzle( expr->getTrueExpr()->clone(), swizzle ).get() )
+							, ast::simplify( exprCache, typesCache, exprCache.makeSwizzle( expr->getFalseExpr()->clone(), swizzle ).get() ) ) );
+					}
+
+					auto compositeCtor = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount - 1u )
+						, componentType->getKind()
+						, std::move( perComponent ) );
+					doAppend( doJoin( std::make_pair( expr, doJoin( compositeCtor.get() ) ) ) );
+				}
+				else
+				{
+					doAppend( doJoin( std::make_pair( expr, doJoin( "("
+						, wrap( expr->getCtrlExpr() )
+						, " ? "
+						, wrap( expr->getTrueExpr() )
+						, " : "
+						, wrap( expr->getFalseExpr() )
+						, ")" ) ) ) );
+				}
 			}
 
 			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
@@ -1939,33 +2237,32 @@ namespace glsl
 
 			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
 			{
-				m_result += doSubmit( expr->getLabel() );
+				doAppend( doJoin( std::make_pair( expr, doJoin( expr->getLabel() ) ) ) );
 			}
 
 			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
 			{
-				m_result += doSubmit( expr->getValue() );
+				doAppend( doJoin( std::make_pair( expr, doJoin( expr->getValue() ) ) ) );
 			}
 
 			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
 			{
-				wrap( expr->getOuterExpr() );
-				m_result += "." + getName( expr->getSwizzle() );
+				doAppend( doJoin( std::make_pair( expr, doJoin( wrap( expr->getOuterExpr() ) ) )
+					, ".", getName( expr->getSwizzle() ) ) );
 			}
 
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
 			{
-				m_result += getGlslName( expr->getCombinedImageAccess() ) + "(";
+				doAppend( doJoin( std::make_pair( expr, getGlslName( expr->getCombinedImageAccess() ) + "(" ) ) );
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					m_result += sep;
-					m_result += doSubmit( arg );
+					doAppend( doJoin( sep, arg ) );
 					sep = ", ";
 				}
 
-				m_result += ")";
+				doAppend( ")" );
 			}
 
 			void visitAliasExpr( ast::expr::Alias * expr )override
@@ -1987,7 +2284,52 @@ namespace glsl
 			std::string & m_result;
 			StmtConfig const & m_config;
 			std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
+			bool m_withExprColumns;
+			uint32_t m_currentColumn;
+			ExprsColumns & m_exprsColumns;
 		};
+
+		std::string ExprVisitor::doJoinWrap( ast::expr::Expr * expr, bool maybeNonUniform )
+		{
+			bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
+				|| expr->getKind() == ast::expr::Kind::eIdentifier
+				|| expr->getKind() == ast::expr::Kind::eLiteral
+				|| expr->getKind() == ast::expr::Kind::eMbrSelect
+				|| expr->getKind() == ast::expr::Kind::eCast
+				|| expr->getKind() == ast::expr::Kind::eSwizzle
+				|| expr->getKind() == ast::expr::Kind::eArrayAccess
+				|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
+				|| expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall
+				|| expr->getKind() == ast::expr::Kind::eImageAccessCall
+				|| expr->getKind() == ast::expr::Kind::eUnaryMinus
+				|| expr->getKind() == ast::expr::Kind::eUnaryPlus
+				|| expr->getKind() == ast::expr::Kind::eCopy;
+			std::string result;
+
+			if ( maybeNonUniform && expr->isNonUniform() )
+			{
+				result += doJoin( "nonuniformEXT(", expr, ")" );
+			}
+			else if ( noParen )
+			{
+				result += doJoin( expr );
+			}
+			else
+			{
+				result += doJoin( "(", expr, ")" );
+			}
+
+			return result;
+		}
+
+		std::string ExprVisitor::doJoinWrap( ast::expr::Expr * expr, bool maybeNonUniform, uint32_t currentColumn )
+		{
+			auto save = m_currentColumn;
+			m_currentColumn = currentColumn;
+			auto result = doJoinWrap( expr, maybeNonUniform );
+			m_currentColumn = save;
+			return result;
+		}
 
 		//*****************************************************************************************
 
@@ -1996,36 +2338,74 @@ namespace glsl
 		{
 		public:
 			static Statements submit( StmtConfig const & config
+				, IntrinsicsConfig const & intrinsics
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-				, ast::stmt::Stmt * stmt )
+				, ast::stmt::Stmt * stmt
+				, bool withExprColumns )
 			{
 				Statements result{ std::string{}, StatementsList{} };
-				submit( config, aliases, stmt, result );
+				uint32_t line{ 1u };
+
+				if ( withExprColumns && helpers::isContainer( stmt ) )
+				{
+					auto container = static_cast< ast::stmt::Container * >( stmt );
+					auto it = std::find_if( container->begin()
+						, container->end()
+						, []( ast::stmt::StmtPtr const & lookup )
+						{
+							return lookup->getKind() == ast::stmt::Kind::ePreprocVersion;
+						} );
+
+					if ( it == container->end() )
+					{
+						helpers::doAddStatement( "#version " + writeValue( config.wantedVersion ), StatementType::eScopeLine, result, line );
+
+						for ( auto & extension : intrinsics.requiredExtensions )
+						{
+							if ( extension.name != KHR_vulkan_glsl.name )
+							{
+								helpers::enableExtension( result, extension, config.wantedVersion, line );
+							}
+						}
+					}
+				}
+
+				StmtVisitor vis{ config, aliases, withExprColumns, result, line };
+				stmt->accept( &vis );
 				return result;
 			}
 
 		private:
-			static void submit( StmtConfig const & config
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-				, ast::stmt::Stmt * stmt
-				, Statements & result )
-			{
-				StmtVisitor vis{ config, aliases, result };
-				stmt->accept( &vis );
-			}
-
 			StmtVisitor( StmtConfig const & config
 				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-				, Statements & result )
+				, bool withExprColumns
+				, Statements & result
+				, uint32_t line )
 				: m_config{ config }
 				, m_aliases{ aliases }
+				, m_withExprColumns{ withExprColumns }
 				, m_result{ result }
+				, m_currentLine{ line }
 			{
 			}
 
-			std::string doSubmit( ast::expr::Expr * expr )
+			uint32_t doGetStartColumn()const noexcept
 			{
-				return ExprVisitor::submit( expr, m_config, m_aliases );
+				return m_indents.empty()
+					? 0u
+					: uint32_t( m_indents.back().size() );
+			}
+
+			std::string doSubmit( ast::expr::Expr * expr, ExprsColumns & exprs )
+			{
+				return ExprVisitor::submit( expr, m_config, m_aliases, m_withExprColumns, doGetStartColumn(), exprs );
+			}
+
+			std::pair< std::string, ExprsColumns > doSubmit( ast::expr::Expr * expr )
+			{
+				ExprsColumns exprs;
+				auto text = doSubmit( expr, exprs );
+				return { text, exprs };
 			}
 
 			ast::stmt::Stmt * getCurrentScope()
@@ -2033,7 +2413,15 @@ namespace glsl
 				return m_scopes.back();
 			}
 
+			uint32_t doGetColumn( std::string const & text )
+			{
+				return m_withExprColumns
+					? uint32_t( doGetStartColumn() + text.size() )
+					: 0u;
+			}
+
 			void doAddStatement( std::string text
+				, ExprsColumns exprs
 				, StatementType type
 				, ast::stmt::Stmt * stmt
 				, ast::stmt::Stmt * scope = nullptr )
@@ -2056,21 +2444,28 @@ namespace glsl
 				current.stmt = stmt;
 				auto length = uint32_t( text.size() );
 				m_result.source += m_indents.back() + std::move( text ) + "\n";
-				current.source.lineStart = m_currentLine;
-				current.source.columnStart = uint32_t( m_indents.back().size() );
-				current.source.columnEnd = current.source.columnStart + length;
+				current.source.lines.start = m_currentLine;
+				current.source.columns.start = uint32_t( m_indents.back().size() );
+				current.source.columns.end = current.source.columns.start + length;
 				current.source.scope = scope ? scope : getCurrentScope();
+				current.exprs = std::move( exprs );
 				m_result.statements.push_back( std::move( current ) );
 
 				++m_currentLine;
 				m_lastStmtType = type;
-				m_currentText.clear();
 			}
 
 			void doAddSimpleStatement( std::string const & text
+				, ExprsColumns exprs
 				, ast::stmt::Stmt * stmt )
 			{
-				doAddStatement( text + ";", m_scopeLines.back(), stmt );
+				doAddStatement( text + ";", std::move( exprs ), m_scopeLines.back(), stmt );
+			}
+
+			void doAddInterruptStatement( std::string const & text
+				, ast::stmt::Stmt * stmt )
+			{
+				doAddSimpleStatement( text, ExprsColumns{}, stmt );
 			}
 
 			void doAddBuiltinVarDeclStatement( ast::Builtin builtin
@@ -2079,9 +2474,9 @@ namespace glsl
 				Statement current;
 				current.type = StatementType::eBuiltinVariableDecl;
 				current.stmt = stmt;
-				current.source.lineStart = m_currentLine;
-				current.source.columnStart = 1u;
-				current.source.columnEnd = 2u;
+				current.source.lines.start = m_currentLine;
+				current.source.columns.start = 1u;
+				current.source.columns.end = 2u;
 				current.source.scope = getCurrentScope();
 				m_result.statements.push_back( std::move( current ) );
 			}
@@ -2090,13 +2485,13 @@ namespace glsl
 				, ast::stmt::Stmt * stmt )
 			{
 				text += ";";
-				doAddStatement( std::move( text ), StatementType::eVariableDecl, stmt );
+				doAddStatement( std::move( text ), ExprsColumns{}, StatementType::eVariableDecl, stmt );
 			}
 
 			void doAddBlockVariableDeclStatement( std::string text
 				, ast::stmt::Stmt * stmt )
 			{
-				doAddStatement( std::move( text ), StatementType::eVariableBlockDecl, stmt );
+				doAddStatement( std::move( text ), ExprsColumns{}, StatementType::eVariableBlockDecl, stmt );
 			}
 
 			void doBeginScope( ast::stmt::Stmt * stmt
@@ -2104,7 +2499,7 @@ namespace glsl
 				, StatementType scopeLine )
 			{
 				m_scopes.push_back( stmt );
-				doAddStatement( "{", scopeBegin, stmt, stmt );
+				doAddStatement( "{", ExprsColumns{}, scopeBegin, stmt, stmt );
 				m_scopeLines.push_back( scopeLine );
 				m_indents.push_back( m_indents.back() + "    " );
 			}
@@ -2119,11 +2514,11 @@ namespace glsl
 				if ( scopeEnd == StatementType::eStructureDecl
 					|| scopeEnd == StatementType::eStructureScopeEnd )
 				{
-					doAddStatement( "}" + scopeEndText + ";", scopeEnd, stmt, stmt);
+					doAddStatement( "}" + scopeEndText + ";", ExprsColumns{}, scopeEnd, stmt, stmt);
 				}
 				else
 				{
-					doAddStatement( "}" + scopeEndText, scopeEnd, stmt, stmt );
+					doAddStatement( "}" + scopeEndText, ExprsColumns{}, scopeEnd, stmt, stmt );
 				}
 
 				m_scopes.pop_back();
@@ -2141,7 +2536,7 @@ namespace glsl
 
 				if ( !preEndLine.empty() )
 				{
-					doAddSimpleStatement( std::move( preEndLine ), stmt );
+					doAddSimpleStatement( std::move( preEndLine ), ExprsColumns{}, stmt );
 				}
 
 				doEndScope( stmt, scopeEnd, scopeEndText );
@@ -2168,13 +2563,13 @@ namespace glsl
 
 					text += getTypeName( mbr.type ) + " " + mbr.name;
 					text += helpers::getTypeArraySize( mbr.type );
-					doAddSimpleStatement( std::move( text ), stmt );
+					doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
 				}
 
 				doEndScope( stmt, StatementType::eStructureScopeEnd );
 			}
 			
-			bool hasRuntimeArray( ast::type::Struct const & type )
+			bool doHasRuntimeArray( ast::type::Struct const & type )
 			{
 				return type.end() != std::find_if( type.begin()
 					, type.end()
@@ -2188,13 +2583,94 @@ namespace glsl
 			void doParseStruct( ast::stmt::Stmt * stmt
 				, ast::type::Struct const & structType )
 			{
-				if ( structType.empty()/* || hasRuntimeArray( structType ) */)
+				if ( structType.empty()/* || doHasRuntimeArray( structType ) */)
 				{
 					return;
 				}
 
-				doAddStatement( "struct " + structType.getName(), StatementType::eStructureDecl, stmt );
+				doAddStatement( "struct " + structType.getName(), ExprsColumns{}, StatementType::eStructureDecl, stmt );
 				doParseStructBlock( stmt, structType );
+			}
+
+			void doParse( char const * const text
+				, std::string & result )
+			{
+				result += text;
+			}
+
+			void doParse( ast::expr::Expr * expr
+				, std::string & result )
+			{
+				result += doSubmit( expr ).first;
+			}
+
+			uint32_t doParse( char const * const text
+				, ExprsColumns & exprs
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				doParse( text, result );
+				return doGetColumn( result );
+			}
+
+			uint32_t doParse( ast::expr::Expr * expr
+				, ExprsColumns & exprs
+				, uint32_t curColumn
+				, std::string & result )
+			{
+				auto it = exprs.emplace( expr, RangeInfo{} ).first;
+				it->second.start = curColumn;
+				result += doSubmit( expr, exprs );
+				it->second.end = doGetColumn( result );
+				return it->second.end;
+			}
+
+			void doJoinExprRec( std::string & result
+				, ExprsColumns & exprs
+				, uint32_t curColumn )
+			{
+			}
+
+			template< typename ParamT, typename ... ParamsT >
+			void doJoinExprRec( std::string & result
+				, ExprsColumns & exprs
+				, uint32_t curColumn
+				, ParamT const & param
+				, ParamsT && ... params )
+			{
+				curColumn = doParse( param, exprs, curColumn, result );
+				doJoinExprRec( result, exprs, curColumn, std::forward< ParamsT >( params )... );
+			}
+
+			void doJoinRec( std::string & result )
+			{
+			}
+
+			template< typename ParamT, typename ... ParamsT >
+			void doJoinRec( std::string & result
+				, ParamT const & param
+				, ParamsT && ... params )
+			{
+				doParse( param, result );
+				doJoinRec( result, std::forward< ParamsT >( params )... );
+			}
+
+			template< typename ... ParamsT >
+			std::pair< std::string, ExprsColumns > doJoin( ParamsT && ... params )
+			{
+				ExprsColumns exprs;
+				std::string text;
+
+				if ( m_withExprColumns )
+				{
+					doJoinExprRec( text, exprs, 0u, std::forward< ParamsT >( params )... );
+				}
+				else
+				{
+					doJoinRec( text, std::forward< ParamsT >( params )... );
+				}
+
+				return { text, exprs };
 			}
 
 			void visitContainerStmt( ast::stmt::Container * stmt )override
@@ -2207,12 +2683,12 @@ namespace glsl
 
 			void visitBreakStmt( ast::stmt::Break * stmt )override
 			{
-				doAddSimpleStatement( "break", stmt );
+				doAddInterruptStatement( "break", stmt );
 			}
 
 			void visitContinueStmt( ast::stmt::Continue * stmt )override
 			{
-				doAddSimpleStatement( "continue", stmt );
+				doAddInterruptStatement( "continue", stmt );
 			}
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
@@ -2237,27 +2713,27 @@ namespace glsl
 			{
 				if ( m_config.vulkanGlsl )
 				{
-					doAddSimpleStatement( "demote", stmt );
+					doAddInterruptStatement( "demote", stmt );
 				}
 				else
 				{
-					doAddSimpleStatement( "discard", stmt );
+					doAddInterruptStatement( "discard", stmt );
 				}
 			}
 
 			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
 			{
-				std::string text = "EmitMeshTasksEXT";
-				text += "(" + doSubmit( stmt->getNumGroupsX() );
-				text += ", " + doSubmit( stmt->getNumGroupsY() );
-				text += ", " + doSubmit( stmt->getNumGroupsZ() );
-				text += ")";
-				doAddSimpleStatement( std::move( text ), stmt );
+				auto [text, exprs] = doJoin( "EmitMeshTasksEXT"
+					, "(", stmt->getNumGroupsX()
+					, ", ", stmt->getNumGroupsY()
+					, ", ", stmt->getNumGroupsZ()
+					, ")" );
+				doAddSimpleStatement( std::move( text ), exprs, stmt );
 			}
 
 			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
 			{
-				doAddSimpleStatement( "discard", stmt );
+				doAddInterruptStatement( "discard", stmt );
 			}
 
 			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
@@ -2290,23 +2766,22 @@ namespace glsl
 
 			void visitDoWhileStmt( ast::stmt::DoWhile * stmt )override
 			{
-				doAddStatement( "do", StatementType::eControlBegin, stmt, stmt );
+				doAddStatement( "do", ExprsColumns{}, StatementType::eControlBegin, stmt, stmt );
 				doParseScope( stmt
 					, StatementType::eLexicalScopeBegin
 					, StatementType::eScopeLine
 					, StatementType::eLexicalScopeEnd );
-				std::string text = "while ";
 
 				if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 				{
-					text += "(bool(" + doSubmit( stmt->getCtrlExpr() ) + "));";
+					auto [text, exprs] = doJoin( "while (bool(", stmt->getCtrlExpr(), "));" );
+					doAddStatement( std::move( text ), std::move( exprs ), StatementType::eControlEnd, stmt, stmt );
 				}
 				else
 				{
-					text += "(" + doSubmit( stmt->getCtrlExpr() ) + ");";
+					auto [text, exprs] = doJoin( "while (", stmt->getCtrlExpr(), ");" );
+					doAddStatement( std::move( text ), std::move( exprs ), StatementType::eControlEnd, stmt, stmt );
 				}
-
-				doAddStatement( std::move( text ), StatementType::eControlEnd, stmt, stmt );
 			}
 
 			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
@@ -2316,7 +2791,7 @@ namespace glsl
 
 			void visitElseStmt( ast::stmt::Else * stmt )override
 			{
-				doAddStatement( "else", StatementType::eControlBegin, stmt, stmt );
+				doAddStatement( "else", ExprsColumns{}, StatementType::eControlBegin, stmt, stmt );
 				doParseScope( stmt
 					, StatementType::eLexicalScopeBegin
 					, StatementType::eScopeLine
@@ -2346,7 +2821,7 @@ namespace glsl
 				}
 				else
 				{
-					doAddSimpleStatement( std::string{}, stmt );
+					doAddSimpleStatement( std::string{}, ExprsColumns{}, stmt );
 				}
 			}
 
@@ -2382,7 +2857,7 @@ namespace glsl
 					}
 				}
 
-				doAddStatement( std::move( text ), StatementType::eFunctionDecl, stmt );
+				doAddStatement( std::move( text ), ExprsColumns{}, StatementType::eFunctionDecl, stmt );
 				doParseScope( stmt
 					, StatementType::eFunctionScopeBegin
 					, StatementType::eScopeLine
@@ -2400,18 +2875,17 @@ namespace glsl
 
 			void visitIfStmt( ast::stmt::If * stmt )override
 			{
-				std::string text = "if (";
-
 				if ( stmt->getCtrlExpr()->getType()->getKind() != ast::type::Kind::eBoolean )
 				{
-					text += "bool(" + doSubmit( stmt->getCtrlExpr() ) + "))";
+					auto [text, exprs] = doJoin( "if (bool(", stmt->getCtrlExpr(), "))" );
+					doAddStatement( std::move( text ), std::move( exprs ), StatementType::eControlBegin, stmt, stmt );
 				}
 				else
 				{
-					text += doSubmit( stmt->getCtrlExpr() ) + ")";
+					auto [text, exprs] = doJoin( "if (", stmt->getCtrlExpr(), ")" );
+					doAddStatement( std::move( text ), std::move( exprs ), StatementType::eControlBegin, stmt, stmt );
 				}
 
-				doAddStatement( std::move( text ), StatementType::eControlBegin, stmt, stmt );
 				doParseScope( stmt
 					, StatementType::eLexicalScopeBegin
 					, StatementType::eScopeLine
@@ -2452,7 +2926,7 @@ namespace glsl
 
 			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override
 			{
-				doAddSimpleStatement( "ignoreIntersectionEXT", stmt );
+				doAddInterruptStatement( "ignoreIntersectionEXT", stmt );
 			}
 
 			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
@@ -2576,28 +3050,28 @@ namespace glsl
 						+ ", local_size_z=" + writeValue( stmt->getWorkGroupsZ() ) + ") in";
 				}
 
-				doAddSimpleStatement( std::move( text ), stmt );
+				doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
 			}
 
 			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
 			{
-				doAddSimpleStatement( "layout(" + helpers::getLayoutName( stmt->getLayout() ) + ") in", stmt );
+				doAddSimpleStatement( "layout(" + helpers::getLayoutName( stmt->getLayout() ) + ") in", ExprsColumns{}, stmt );
 			}
 
 			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
 			{
-				doAddSimpleStatement( "layout(" + helpers::getLayoutName( stmt->getLayout() ) + ", max_vertices = " + writeValue( stmt->getPrimCount() ) + ") out", stmt );
+				doAddSimpleStatement( "layout(" + helpers::getLayoutName( stmt->getLayout() ) + ", max_vertices = " + writeValue( stmt->getPrimCount() ) + ") out", ExprsColumns{}, stmt );
 			}
 
 			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
 			{
-				doAddSimpleStatement( "layout(" + helpers::getLayoutName( stmt->getTopology() ) + ") out", stmt );
-				doAddSimpleStatement( "layout(max_vertices = " + writeValue( stmt->getMaxVertices() ) + ", max_primitives = " + writeValue( stmt->getMaxPrimitives() ) + ") out", stmt );
+				doAddSimpleStatement( "layout(" + helpers::getLayoutName( stmt->getTopology() ) + ") out", ExprsColumns{}, stmt );
+				doAddSimpleStatement( "layout(max_vertices = " + writeValue( stmt->getMaxVertices() ) + ", max_primitives = " + writeValue( stmt->getMaxPrimitives() ) + ") out", ExprsColumns{}, stmt );
 			}
 
 			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
 			{
-				doAddSimpleStatement( "layout(vertices=" + writeValue( stmt->getOutputVertices() ) + ") out", stmt );
+				doAddSimpleStatement( "layout(vertices=" + writeValue( stmt->getOutputVertices() ) + ") out", ExprsColumns{}, stmt );
 			}
 
 			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override
@@ -2606,7 +3080,7 @@ namespace glsl
 				text += ", " + helpers::getLayoutName( stmt->getPartitioning() );
 				text += ", " + helpers::getLayoutName( stmt->getPrimitiveOrdering() );
 				text += ") in";
-				doAddSimpleStatement( std::move( text ), stmt );
+				doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
 			}
 
 			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
@@ -2656,14 +3130,15 @@ namespace glsl
 
 			void visitReturnStmt( ast::stmt::Return * stmt )override
 			{
-				std::string text = "return";
-
 				if ( stmt->getExpr() )
 				{
-					text += " " + doSubmit( stmt->getExpr() );
+					auto [text, exprs] = doJoin( "return ", stmt->getExpr() );
+					doAddSimpleStatement( std::move( text ), std::move( exprs ), stmt );
 				}
-
-				doAddSimpleStatement( std::move( text ), stmt );
+				else
+				{
+					doAddInterruptStatement( "return", stmt );
+				}
 			}
 
 			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
@@ -2759,7 +3234,7 @@ namespace glsl
 				auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
 				text = getTypeName( arrayType->getType() ) + " " + data->getName();
 				text += helpers::getTypeArraySize( arrayType );
-				doAddSimpleStatement( std::move( text ), stmt );
+				doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
 				doEndScope( stmt, StatementType::eStructureScopeEnd, " " + stmt->getSsboInstance()->getName() );
 			}
 
@@ -2771,11 +3246,11 @@ namespace glsl
 				}
 				else if ( stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
 				{
-					auto result = doSubmit( stmt->getExpr() );
+					auto [text, exprs] = doSubmit( stmt->getExpr() );
 
-					if ( !result.empty() )
+					if ( !text.empty() )
 					{
-						doAddSimpleStatement( doSubmit( stmt->getExpr() ), stmt );
+						doAddSimpleStatement( text, std::move( exprs ), stmt );
 					}
 				}
 			}
@@ -2793,11 +3268,12 @@ namespace glsl
 			{
 				if ( stmt->getCaseExpr() )
 				{
-					doAddStatement( "case " + doSubmit( stmt->getCaseExpr() ) + ":", StatementType::eControlBegin, stmt );
+					auto [text, exprs] = doSubmit( stmt->getCaseExpr() );
+					doAddStatement( "case " + text + ":", exprs, StatementType::eControlBegin, stmt );
 				}
 				else
 				{
-					doAddStatement( "default:", StatementType::eControlBegin, stmt );
+					doAddStatement( "default:", ExprsColumns{}, StatementType::eControlBegin, stmt );
 				}
 
 				doParseScope( stmt
@@ -2808,7 +3284,8 @@ namespace glsl
 
 			void visitSwitchStmt( ast::stmt::Switch * stmt )override
 			{
-				doAddStatement( "switch (" + doSubmit( stmt->getTestExpr() ) + ")", StatementType::eControlBegin, stmt );
+				auto [text, exprs] = doSubmit( stmt->getTestExpr() );
+				doAddStatement( "switch (" + text + ")", exprs, StatementType::eControlBegin, stmt );
 				doParseScope( stmt
 					, StatementType::eLexicalScopeBegin
 					, StatementType::eScopeLine
@@ -2817,7 +3294,7 @@ namespace glsl
 
 			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
 			{
-				doAddSimpleStatement( "terminateRayEXT", stmt );
+				doAddInterruptStatement( "terminateRayEXT", stmt );
 			}
 
 			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
@@ -2839,7 +3316,7 @@ namespace glsl
 							text += var->getName() + "Task";
 							doAddBlockVariableDeclStatement( std::move( text ), stmt );
 							doBeginScope( stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
-							doAddSimpleStatement( structType->getName() + " " + var->getName(), stmt );
+							doAddSimpleStatement( structType->getName() + " " + var->getName(), ExprsColumns{}, stmt );
 							doEndScope( stmt, StatementType::eStructureScopeEnd );
 						}
 					}
@@ -2900,7 +3377,7 @@ namespace glsl
 
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
-				doAddStatement( "#extension " + preproc->getName() + ": " + helpers::getStatusName( preproc->getStatus() ), StatementType::eScopeLine, preproc );
+				doAddStatement( "#extension " + preproc->getName() + ": " + helpers::getStatusName( preproc->getStatus() ), ExprsColumns{}, StatementType::eScopeLine, preproc );
 			}
 
 			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
@@ -2915,7 +3392,6 @@ namespace glsl
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
 			{
-				doAddStatement( "#version " + preproc->getName(), StatementType::eScopeLine, preproc );
 			}
 
 			void doWriteBinding( uint32_t binding
@@ -2940,10 +3416,10 @@ namespace glsl
 			StmtConfig const & m_config;
 			std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
 			std::vector< std::string > m_indents{ std::string{} };
+			bool m_withExprColumns;
 			Statements & m_result;
 			std::vector< ast::stmt::Stmt * > m_scopes{ nullptr };
 			uint32_t m_currentLine{ 1u };
-			std::string m_currentText;
 			std::vector< StatementType > m_scopeLines{ StatementType::eScopeLine };
 			StatementType m_lastStmtType{ StatementType::eScopeLine };
 		};
@@ -2952,16 +3428,19 @@ namespace glsl
 	}
 
 	Statements generateGlslStatements( StmtConfig const & config
-		, ast::stmt::Container * stmt )
+		, IntrinsicsConfig const & intrinsics
+		, ast::stmt::Container * stmt
+		, bool withExprColumns )
 	{
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return gstvis::StmtVisitor::submit( config, aliases, stmt );
+		return gstvis::StmtVisitor::submit( config, intrinsics, aliases, stmt, withExprColumns );
 	}
 
 	std::string getExprName( StmtConfig const & config
 		, ast::expr::Expr * expr )
 	{
-		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;;
-		return gstvis::ExprVisitor::submit( expr, config, aliases );
+		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
+		ExprsColumns exprs;
+		return gstvis::ExprVisitor::submit( expr, config, aliases, false, 0u, exprs );
 	}
 }

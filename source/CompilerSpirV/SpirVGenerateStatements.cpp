@@ -512,6 +512,11 @@ namespace spirv
 				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, allLiterals, m_currentDebugStatement );
 			}
 
+			glsl::RangeInfo getColumnData( ast::expr::Expr * expr )
+			{
+				return glsl::getColumnData( m_currentDebugStatement, expr );
+			}
+
 			template< typename ValueT >
 			DebugId registerLiteral( ValueT value )
 			{
@@ -579,14 +584,16 @@ namespace spirv
 
 			DebugId getVariablePointer( DebugId varId
 				, std::string name
-				, spv::StorageClass storage )
+				, spv::StorageClass storage
+				, ast::expr::Expr * expr )
 			{
 				return m_module.getVariablePointer( m_currentBlock
 					, varId
 					, std::move( name )
 					, storage
 					, m_currentBlock
-					, m_currentDebugStatement );
+					, m_currentDebugStatement
+					, getColumnData( expr ) );
 			}
 
 			void decorate( DebugId id
@@ -619,39 +626,45 @@ namespace spirv
 				return m_module.getVersion();
 			}
 
-			DebugId loadVariable( DebugId variableId )
+			DebugId loadVariable( DebugId variableId
+				, ast::expr::Expr * expr )
 			{
 				TraceFunc;
 				return m_module.loadVariable( variableId
 					, m_currentBlock
-					, m_currentDebugStatement );
+					, m_currentDebugStatement
+					, getColumnData( expr ) );
 			}
 
 			void storeVariable( DebugId variableId
-				, DebugId valueId )
+				, DebugId valueId
+				, ast::expr::Expr * expr )
 			{
 				TraceFunc;
 				m_module.storeVariable( variableId
 					, valueId
 					, m_currentBlock
-					, m_currentDebugStatement );
+					, m_currentDebugStatement
+					, getColumnData( expr ) );
 			}
 
 			void storePromoted( DebugId variableId
-				, VariableInfo const & sourceInfo )
+				, VariableInfo const & sourceInfo
+				, ast::expr::Expr * expr )
 			{
 				TraceFunc;
 				m_module.storePromoted( variableId
 					, sourceInfo
 					, m_currentBlock
-					, m_currentDebugStatement );
+					, m_currentDebugStatement
+					, getColumnData( expr ) );
 			}
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
+				auto operandId = loadVariable( doSubmit( expr->getOperand() ), expr->getOperand() );
 				auto typeId = registerType( expr->getType(), nullptr );
 				m_result = getIntermediateResult( typeId->type );
 
@@ -679,8 +692,8 @@ namespace spirv
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				auto lhsId = loadVariable( doSubmit( expr->getLHS() ) );
-				auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
+				auto lhsId = loadVariable( doSubmit( expr->getLHS() ), expr->getLHS() );
+				auto rhsId = loadVariable( doSubmit( expr->getRHS() ), expr->getRHS() );
 				auto typeId = registerType( expr->getType(), nullptr );
 				m_result = getIntermediateResult( typeId->type );
 
@@ -713,7 +726,7 @@ namespace spirv
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
+				auto operandId = loadVariable( doSubmit( expr->getOperand() ), expr->getOperand() );
 				auto dstTypeId = registerType( expr->getType(), nullptr );
 				auto op = helpers::getCastOp( expr->getOperand()->getType()->getKind()
 					, expr->getType()->getKind() );
@@ -756,7 +769,7 @@ namespace spirv
 
 			void visitCopyExpr( ast::expr::Copy * expr )override
 			{
-				auto operandId = loadVariable( doSubmit( expr->getOperand() ) );
+				auto operandId = loadVariable( doSubmit( expr->getOperand() ), expr->getOperand() );
 				auto dstTypeId = registerType( expr->getType(), nullptr );
 				m_result = getIntermediateResult( dstTypeId->type );
 				m_currentBlock.instructions.emplace_back( makeInstruction< CopyObjectInstruction >( getNameCache()
@@ -778,7 +791,7 @@ namespace spirv
 					auto lhsSwizzleKind = lhsSwizzle.getSwizzle();
 
 					// Process the RHS first, asking for the needed variables to be loaded.
-					auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
+					auto rhsId = loadVariable( doSubmit( expr->getRHS() ), expr->getRHS() );
 
 					auto lhsOuter = lhsSwizzle.getOuterExpr();
 					assert( lhsOuter->getKind() == ast::expr::Kind::eIdentifier
@@ -806,7 +819,7 @@ namespace spirv
 							, intermediateId.id
 							, makeOperands( m_allocator, lhsId, componentId ) ) );
 						// - Store the RHS into this access chain.
-						storeVariable( intermediateId, rhsId );
+						storeVariable( intermediateId, rhsId, expr );
 						m_result = intermediateId;
 					}
 					else
@@ -814,7 +827,7 @@ namespace spirv
 						// - No load to retrieve the variable ID.
 						auto lhsId = getVariablePointer( lhsOuter );
 						// - Load the variable manually.
-						auto loadedLhsId = loadVariable( lhsId );
+						auto loadedLhsId = loadVariable( lhsId, lhsOuter );
 						// - The resulting shuffle indices will contain the RHS values for wanted LHS components,
 						//   and LHS values for the remaining ones.
 						auto typeId = registerType( lhsOuter->getType(), nullptr );
@@ -856,7 +869,7 @@ namespace spirv
 							, typeId.id
 							, intermediateId.id
 							, convert( shuffle ) ) );
-						storeVariable( lhsId, intermediateId );
+						storeVariable( lhsId, intermediateId, expr );
 						m_result = lhsId;
 					}
 				}
@@ -865,8 +878,8 @@ namespace spirv
 					// No load to retrieve the variable ID.
 					auto lhsId = getVariablePointer( expr->getLHS() );
 					// Ask for the needed variables to be loaded.
-					auto rhsId = loadVariable( doSubmit( expr->getRHS() ) );
-					storeVariable( lhsId, rhsId );
+					auto rhsId = loadVariable( doSubmit( expr->getRHS() ), expr->getRHS() );
+					storeVariable( lhsId, rhsId, expr );
 					m_result = lhsId;
 				}
 			}
@@ -892,7 +905,8 @@ namespace spirv
 							, allLiterals
 							, hasFuncInit
 							, expr->getIdentifier()->getVariable()
-							, expr->getType() );
+							, expr->getType()
+							, expr );
 					}
 				}
 				else
@@ -935,10 +949,11 @@ namespace spirv
 				if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
 				{
 					auto it = expr->getArgList().begin();
-					auto imageId = loadVariable( doSubmit( ( it++ )->get(), allLiterals ) );
+					auto imageId = loadVariable( doSubmit( it->get(), allLiterals ), it->get() );
+					++it;
 
 					bool allLitsInit = true;
-					auto samplerId = loadVariable( doSubmit( it->get(), allLitsInit ) );
+					auto samplerId = loadVariable( doSubmit( it->get(), allLitsInit ), it->get() );
 					allLiterals = allLiterals && allLitsInit;
 
 					m_result = mergeSamplerImage( imageId, samplerId );
@@ -951,7 +966,7 @@ namespace spirv
 					for ( auto & arg : expr->getArgList() )
 					{
 						bool allLitsInit = true;
-						params.push_back( loadVariable( doSubmit( arg.get(), allLitsInit ) ) );
+						params.push_back( loadVariable( doSubmit( arg.get(), allLitsInit ), arg.get() ) );
 						allLiterals = allLiterals && allLitsInit;
 						paramsCount += ast::type::getComponentCount( arg->getType()->getKind() );
 					}
@@ -1023,14 +1038,14 @@ namespace spirv
 								// Hence we create a temporary variable with this storage class,
 								// and load the original variable into it.
 								auto srcId = id;
-								id = makeFunctionAlias( srcId, arg->getType() );
+								id = makeFunctionAlias( srcId, arg->getType(), arg.get() );
 								outputParams.emplace_back( OutputParam{ srcId, id, arg->getType() } );
 							}
 						}
 					}
 					else
 					{
-						id = loadVariable( doSubmit( arg.get() ) );
+						id = loadVariable( doSubmit( arg.get() ), arg.get() );
 					}
 
 					allLiterals = allLiterals
@@ -1050,8 +1065,8 @@ namespace spirv
 
 				for ( auto param : outputParams )
 				{
-					auto loadedId = loadVariable( param.dst );
-					storeVariable( param.src, loadedId );
+					auto loadedId = loadVariable( param.dst, expr );
+					storeVariable( param.src, loadedId, expr );
 				}
 
 				m_allLiterals = m_allLiterals && allLiterals;
@@ -1092,7 +1107,8 @@ namespace spirv
 						, true
 						, m_hasFuncInit
 						, var
-						, expr->getType() );
+						, expr->getType()
+						, expr );
 				}
 			}
 
@@ -1106,14 +1122,14 @@ namespace spirv
 				assert( paramType->getKind() == ast::type::Kind::eImage );
 				auto imageVarId = doSubmit( expr->getArgList()[0].get() );
 				auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
-				auto intermediateId = loadVariable( imageVarId );
+				auto intermediateId = loadVariable( imageVarId, expr->getArgList()[0].get() );
 				DebugIdList params{ m_allocator };
 				params.push_back( intermediateId );
 
 				for ( auto it = expr->getArgList().begin() + 1u; it != expr->getArgList().end(); ++it )
 				{
 					auto & arg = ( *it );
-					params.push_back( loadVariable( doSubmit( arg.get() ) ) );
+					params.push_back( loadVariable( doSubmit( arg.get() ), arg.get() ) );
 				}
 
 				if ( isStore && imageType->getConfig().isMS )
@@ -1224,13 +1240,14 @@ namespace spirv
 				m_allLiterals = false;
 				registerType( expr->getType(), nullptr );
 				bool allLiterals = true;
-				auto init = loadVariable( doSubmit( expr->getInitialiser(), allLiterals ) );
+				auto init = loadVariable( doSubmit( expr->getInitialiser(), allLiterals ), expr->getInitialiser() );
 				bool hasFuncInit = helpers::HasFnCall::submit( expr );
 				initialiseVariable( init
 					, allLiterals
 					, hasFuncInit
 					, expr->getIdentifier()->getVariable()
-					, expr->getType() );
+					, expr->getType()
+					, expr );
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
@@ -1328,9 +1345,9 @@ namespace spirv
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				auto ctrlId = loadVariable( doSubmit( expr->getCtrlExpr() ) );
-				auto trueId = loadVariable( doSubmit( expr->getTrueExpr() ) );
-				auto falseId = loadVariable( doSubmit( expr->getFalseExpr() ) );
+				auto ctrlId = loadVariable( doSubmit( expr->getCtrlExpr() ), expr->getCtrlExpr() );
+				auto trueId = loadVariable( doSubmit( expr->getTrueExpr() ), expr->getTrueExpr() );
+				auto falseId = loadVariable( doSubmit( expr->getFalseExpr() ), expr->getFalseExpr() );
 				auto type = registerType( expr->getType(), nullptr );
 				m_result = getIntermediateResult( type->type );
 				auto branches = makeOperands( m_allocator, ctrlId, trueId, falseId );
@@ -1362,20 +1379,22 @@ namespace spirv
 					&& static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getBuiltin() != ast::Builtin::eWorkGroupSize )
 				{
 					m_result = loadVariable( makeAccessChain( m_exprCache
-						, expr
-						, m_context
-						, m_module
-						, m_currentBlock
-						, m_currentDebugStatement ) );
+							, expr
+							, m_context
+							, m_module
+							, m_currentBlock
+							, m_currentDebugStatement )
+						, expr );
 				}
 				else
 				{
 					m_result = loadVariable( makeVectorShuffle( m_exprCache
-						, expr
-						, m_context
-						, m_module
-						, m_currentBlock
-						, m_currentDebugStatement ) );
+							, expr
+							, m_context
+							, m_module
+							, m_currentBlock
+							, m_currentDebugStatement )
+						, expr );
 				}
 			}
 
@@ -1393,7 +1412,7 @@ namespace spirv
 
 					if ( !first )
 					{
-						args.back() = loadVariable( argId );
+						args.back() = loadVariable( argId, arg.get() );
 					}
 
 					first = false;
@@ -1408,7 +1427,7 @@ namespace spirv
 				// Load the sampled image variable
 				auto sampledImageType = expr->getArgList()[0]->getType();
 				assert( sampledImageType->getKind() == ast::type::Kind::eCombinedImage );
-				args[0] = loadVariable( args[0] );
+				args[0] = loadVariable( args[0], expr->getArgList()[0].get() );
 
 				if ( expr->getArgList().front()->isNonUniform() )
 				{
@@ -1567,8 +1586,8 @@ namespace spirv
 				// Arg 3 is carry or borrow.
 				assert( expr->getArgList().size() == 3u );
 				DebugIdList params{ m_allocator };
-				params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
-				params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ) ) );
+				params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ), expr->getArgList()[0].get() ) );
+				params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ), expr->getArgList()[1].get() ) );
 
 				auto resultStructTypeId = getUnsignedExtendedResultTypeId( isVectorType( expr->getType()->getKind() )
 					? getComponentCount( expr->getType()->getKind() )
@@ -1588,7 +1607,7 @@ namespace spirv
 					, intermediateId.id
 					, makeOperands( m_allocator, resultCarryBorrowId, ValueId{ 1u } ) ) );
 				auto carryBorrowId = getVariablePointer( &carryBorrowArg );
-				storeVariable( carryBorrowId, intermediateId );
+				storeVariable( carryBorrowId, intermediateId, expr );
 
 				auto resultTypeId = registerType( expr->getType(), nullptr );
 				m_result = getIntermediateResult( resultTypeId->type );
@@ -1609,8 +1628,8 @@ namespace spirv
 				// Arg 4 is lsb.
 				assert( expr->getArgList().size() == 4u );
 				DebugIdList params{ m_allocator };
-				params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
-				params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ) ) );
+				params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ), expr->getArgList()[0].get() ) );
+				params.push_back( loadVariable( doSubmit( expr->getArgList()[1].get() ), expr->getArgList()[1].get() ) );
 				TypeId resultStructTypeId;
 				auto paramType = expr->getArgList()[0]->getType()->getKind();
 
@@ -1642,7 +1661,7 @@ namespace spirv
 					, intermediateMsb.id
 					, makeOperands( m_allocator, resultMulExtendedId, ValueId{ 1u } ) ) );
 				auto msbId = getVariablePointer( &msbArg );
-				storeVariable( msbId, intermediateMsb );
+				storeVariable( msbId, intermediateMsb, expr );
 
 				auto & lsbArg = *expr->getArgList()[3];
 				auto lsbTypeId = registerType( lsbArg.getType(), nullptr );
@@ -1652,7 +1671,7 @@ namespace spirv
 					, intermediateLsb.id
 					, makeOperands( m_allocator, resultMulExtendedId, ValueId{ 0u } ) ) );
 				auto lsbId = getVariablePointer( &lsbArg );
-				storeVariable( lsbId, intermediateLsb );
+				storeVariable( lsbId, intermediateLsb, expr );
 
 				putIntermediateResult( intermediateMsb );
 				putIntermediateResult( intermediateLsb );
@@ -1679,7 +1698,7 @@ namespace spirv
 
 				for ( auto i = 1u; i < expr->getArgList().size(); ++i )
 				{
-					params.push_back( loadVariable( doSubmit( expr->getArgList()[i].get() ) ) );
+					params.push_back( loadVariable( doSubmit( expr->getArgList()[i].get() ), expr->getArgList()[i].get() ) );
 				}
 
 				auto typeId = registerType( expr->getType(), nullptr );
@@ -1705,7 +1724,7 @@ namespace spirv
 					// For modf and frexp intrinsics, second parameter is an output parameter,
 					// hence we need to pass it as a pointer to the call.
 					assert( expr->getArgList().size() == 2u );
-					params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ) ) );
+					params.push_back( loadVariable( doSubmit( expr->getArgList()[0].get() ), expr->getArgList()[0].get() ) );
 					params.push_back( doSubmit( expr->getArgList()[1].get() ) );
 				}
 				else if ( intrinsic >= ast::expr::Intrinsic::eInterpolateAtCentroid1
@@ -1715,7 +1734,8 @@ namespace spirv
 					{
 						params.push_back( getVariablePointer( doSubmit( arg.get() )
 							, "interpolant_" + std::to_string( m_aliasId++ )
-							, spv::StorageClassInput ) );
+							, spv::StorageClassInput
+							, arg.get() ) );
 					}
 				}
 				else if ( intrinsic >= ast::expr::Intrinsic::eInterpolateAtSample1
@@ -1724,14 +1744,15 @@ namespace spirv
 					auto & args = expr->getArgList();
 					params.push_back( getVariablePointer( doSubmit( args[0].get() )
 						, "interpolant_" + std::to_string( m_aliasId++ )
-						, spv::StorageClassInput ) );
-					params.push_back( loadVariable( doSubmit( args[1].get() ) ) );
+						, spv::StorageClassInput
+						, args[0].get() ) );
+					params.push_back( loadVariable( doSubmit( args[1].get() ), args[1].get() ) );
 				}
 				else
 				{
 					for ( auto & arg : expr->getArgList() )
 					{
-						params.push_back( loadVariable( doSubmit( arg.get() ) ) );
+						params.push_back( loadVariable( doSubmit( arg.get() ), arg.get() ) );
 					}
 				}
 
@@ -1809,7 +1830,7 @@ namespace spirv
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					params.push_back( loadVariable( doSubmit( arg.get() ) ) );
+					params.push_back( loadVariable( doSubmit( arg.get() ), arg.get() ) );
 				}
 
 				if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1F
@@ -1849,7 +1870,7 @@ namespace spirv
 					if ( arg->getType()->getRawKind() != ast::type::Kind::eRayPayload
 						&& arg->getType()->getRawKind() != ast::type::Kind::eCallableData )
 					{
-						id = loadVariable( id );
+						id = loadVariable( id, arg.get() );
 					}
 
 					params.push_back( id );
@@ -1958,8 +1979,8 @@ namespace spirv
 
 					if ( result.getStorage() != sourceInfo.id.getStorage() )
 					{
-						auto id = loadVariable( DebugId{ sourceInfo.id } );
-						storeVariable( result, id );
+						auto id = loadVariable( DebugId{ sourceInfo.id }, ident );
+						storeVariable( result, id, ident );
 					}
 				}
 				else
@@ -1968,7 +1989,7 @@ namespace spirv
 
 					if ( !result.isPointer() )
 					{
-						result = makeFunctionAlias( result );
+						result = makeFunctionAlias( result, expr );
 					}
 				}
 
@@ -1977,7 +1998,8 @@ namespace spirv
 			}
 
 			DebugId makeFunctionAlias( DebugId source
-				, ast::type::TypePtr type )
+				, ast::type::TypePtr type
+				, ast::expr::Expr * expr )
 			{
 				TraceFunc;
 				VariableInfo info;
@@ -1990,21 +2012,23 @@ namespace spirv
 					, false
 					, type
 					, info );
-				storeVariable( result, source );
+				storeVariable( result, source, expr );
 				return result;
 			}
 
-			DebugId makeFunctionAlias( DebugId source )
+			DebugId makeFunctionAlias( DebugId source
+				, ast::expr::Expr * expr )
 			{
 				TraceFunc;
-				return makeFunctionAlias( source, source->type );
+				return makeFunctionAlias( source, source->type, expr );
 			}
 
 			bool initialiseVariable( DebugId init
 				, bool allLiterals
 				, bool isFuncInit
 				, ast::var::VariablePtr var
-				, ast::type::TypePtr type )
+				, ast::type::TypePtr type
+				, ast::expr::Expr * expr )
 			{
 				TraceFunc;
 				bool result{};
@@ -2054,11 +2078,11 @@ namespace spirv
 
 						if ( init )
 						{
-							storeVariable( m_result, init );
+							storeVariable( m_result, init, expr );
 						}
 						else if ( sourceInfo.needsStoreOnPromote() )
 						{
-							storePromoted( m_result, sourceInfo );
+							storePromoted( m_result, sourceInfo, expr );
 						}
 					}
 				}
@@ -2076,7 +2100,7 @@ namespace spirv
 
 				for ( auto & init : inits )
 				{
-					initialisers.push_back( loadVariable( doSubmit( init.get(), allLiterals ) ) );
+					initialisers.push_back( loadVariable( doSubmit( init.get(), allLiterals ), init.get() ) );
 					hasFuncInit = hasFuncInit || helpers::HasFnCall::submit( init.get() );
 				}
 
@@ -2245,10 +2269,29 @@ namespace spirv
 				return !m_debugStatements.statements.empty();
 			}
 
+			glsl::RangeInfo getColumnData( ast::expr::Expr * expr )
+			{
+				return glsl::getColumnData( getCurrentDebugStatement(), expr );
+			}
+
+			void writeLine( InstructionList & instructions
+				, glsl::Statement * statement
+				, ast::expr::Expr * expr )
+			{
+				m_debug.makeLineExtension( instructions, statement, expr );
+			}
+
+			void writeLine( Block & block
+				, glsl::Statement * statement
+				, ast::expr::Expr * expr )
+			{
+				writeLine( block.instructions, statement, expr );
+			}
+
 			void writeLine( InstructionList & instructions
 				, glsl::Statement * statement )
 			{
-				m_debug.makeLineExtension( instructions, statement );
+				m_debug.makeLineExtension( instructions, statement, statement->source.columns );
 			}
 
 			void writeLine( Block & block
@@ -2257,11 +2300,13 @@ namespace spirv
 				writeLine( block.instructions, statement );
 			}
 
-			DebugId loadVariable( DebugId variableId )
+			DebugId loadVariable( DebugId variableId
+				, ast::expr::Expr * expr )
 			{
 				return m_result.loadVariable( variableId
 					, m_currentBlock
-					, getCurrentDebugStatement() );
+					, getCurrentDebugStatement()
+					, getColumnData( expr ) );
 			}
 
 			void consumeDebugStatement( [[maybe_unused]] glsl::StatementType type )
@@ -2556,8 +2601,8 @@ namespace spirv
 				endBlock( m_currentBlock, ifBlock.label );
 
 				// The if block, branches either back to the loop header block (true) or to the loop merge block (false).
-				writeLine( ifBlock, getCurrentDebugStatement() );
-				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr(), ifBlock ) );
+				writeLine( ifBlock, getCurrentDebugStatement(), stmt->getCtrlExpr() );
+				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr(), ifBlock ), stmt->getCtrlExpr() );
 				endBlock( ifBlock, intermediateIfId->id, loopBlockLabel, mergeBlock.label );
 
 				// Current block becomes the merge block.
@@ -2673,7 +2718,8 @@ namespace spirv
 							m_result.storeVariable( varInfo.id
 								, sourceInfo.id
 								, m_currentBlock
-								, getCurrentDebugStatement() );
+								, getCurrentDebugStatement()
+								, getColumnData( nullptr ) );
 						}
 					}
 				}
@@ -2755,7 +2801,7 @@ namespace spirv
 
 				// End current block, to branch to the if content block (true) or to the false branch block (false).
 				beginControl( m_currentBlock );
-				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr() ) );
+				auto intermediateIfId = loadVariable( doSubmit( stmt->getCtrlExpr() ), stmt->getCtrlExpr() );
 				m_debug.makeNoScopeInstruction( m_currentBlock.instructions );
 
 				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.getNameCache(), ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
@@ -2985,7 +3031,7 @@ namespace spirv
 
 				if ( stmt->getExpr() )
 				{
-					auto result = loadVariable( doSubmit( stmt->getExpr() ) );
+					auto result = loadVariable( doSubmit( stmt->getExpr() ), stmt->getExpr() );
 					interruptBlock( m_currentBlock
 						, makeInstruction< ReturnValueInstruction >( m_result.getNameCache(), result.id )
 						, false );
@@ -3129,7 +3175,7 @@ namespace spirv
 				}
 
 				beginControl( m_currentBlock );
-				auto selector = loadVariable( doSubmit( stmt->getTestExpr()->getValue() ) );
+				auto selector = loadVariable( doSubmit( stmt->getTestExpr()->getValue() ), stmt->getTestExpr() );
 				m_currentBlock.instructions.emplace_back( makeInstruction< SelectionMergeInstruction >( m_result.getNameCache(), ValueId{ mergeBlock.label }, ValueId{ 0u } ) );
 				m_currentBlock.blockEnd = makeInstruction< SwitchInstruction >( m_result.getNameCache(), makeOperands( m_allocator, selector, ValueId{ defaultBlock.label } ), caseBlocksIds );
 				m_currentBlock.isInterrupted = true;
@@ -3274,7 +3320,8 @@ namespace spirv
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
 				TraceFunc;
-				m_result.registerExtension( preproc->getName() );
+				consumeDebugStatement( glsl::StatementType::eScopeLine );
+				//m_result.registerExtension( preproc->getName() );
 			}
 
 			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
@@ -3290,6 +3337,7 @@ namespace spirv
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
 			{
 				TraceFunc;
+				consumeDebugStatement( glsl::StatementType::eScopeLine );
 				//TODO m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
 			}
 
@@ -3406,7 +3454,7 @@ namespace spirv
 
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier )
 				{
-					result = loadVariable( result );
+					result = loadVariable( result, expr );
 				}
 
 				return result;
