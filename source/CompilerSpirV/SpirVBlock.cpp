@@ -54,8 +54,8 @@ namespace spirv
 		, spv::Id plabel )
 		: label{ plabel }
 		, instructions{ alloc }
-		, accessChains{ ModuleMapAllocatorT< ValueIdList, ValueId >{ alloc } }
-		, vectorShuffles{ ModuleMapAllocatorT< ValueIdList, ValueId >{ alloc } }
+		, accessChains{ ast::StlMapAllocatorT< ValueIdList, ValueId >{ alloc } }
+		, vectorShuffles{ ast::StlMapAllocatorT< ValueIdList, ValueId >{ alloc } }
 	{
 	}
 

@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include "HlslGenerateStatements.hpp"
 #include "HlslAdaptStatements.hpp"
 
+#include <ShaderAST/Visitors/ResolveConstants.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
@@ -118,6 +119,10 @@ namespace hlsl
 			, ssaData
 			, false );
 		statements = ast::simplify( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, statements.get() );
+		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );

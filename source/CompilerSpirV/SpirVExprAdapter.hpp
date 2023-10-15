@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_SpirvExprAdapter_H___
-#define ___SDW_SpirvExprAdapter_H___
+#ifndef ___SDW_SpirVExprAdapter_H___
+#define ___SDW_SpirVExprAdapter_H___
 #pragma once
 
 #include "SpirVAdaptStatements.hpp"

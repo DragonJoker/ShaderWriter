@@ -1,8 +1,9 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
-#pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma clang diagnostic ignored "-Wunused-member-function"
 
 namespace
 {

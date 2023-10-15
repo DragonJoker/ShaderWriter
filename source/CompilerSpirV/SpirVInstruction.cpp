@@ -31,14 +31,14 @@ namespace spirv
 			return result;
 		}
 
-		static Vector< uint32_t > const & packString( Map< std::string, Vector< uint32_t > > & nameCache
+		static UInt32List const & packString( NamesCache & nameCache
 			, std::string const & name )
 		{
 			auto it = nameCache.find( name );
 
 			if ( it == nameCache.end() )
 			{
-				Vector< uint32_t > packed{ nameCache.get_allocator() };
+				UInt32List packed{ nameCache.get_allocator() };
 				uint32_t word{ 0u };
 				uint32_t offset{ 0u };
 				size_t i = 0u;
@@ -74,7 +74,7 @@ namespace spirv
 			return it->second;
 		}
 
-		static std::string unpackString( Vector< uint32_t > const & packed )
+		static std::string unpackString( UInt32List const & packed )
 		{
 			std::string result{};
 
@@ -769,14 +769,14 @@ namespace spirv
 
 	//*************************************************************************
 
-	Instruction::Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+	Instruction::Instruction( NamesCache & nameCache
 		, Configuration const & pconfig
 		, spv::Op pop
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
 		, IdList poperands
 		, Optional< std::string > pname
-		, Optional< Map< int32_t, spv::Id > > plabels )
+		, Optional< ast::Map< int32_t, spv::Id > > plabels )
 		: returnTypeId{ preturnTypeId ? Optional< spv::Id >{ preturnTypeId->id } : std::nullopt }
 		, resultId{ presultId ? Optional< spv::Id >{ presultId->id } : std::nullopt }
 		, operands{ poperands }
@@ -801,14 +801,14 @@ namespace spirv
 		assertType( *this, config );
 	}
 
-	Instruction::Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+	Instruction::Instruction( NamesCache & nameCache
 		, Configuration const & pconfig
 		, spv::Op pop
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
 		, ValueIdList poperands
 		, Optional< std::string > pname
-		, Optional< Map< int32_t, spv::Id > > plabels )
+		, Optional< ast::Map< int32_t, spv::Id > > plabels )
 		: Instruction{ nameCache
 			, pconfig
 			, pop
@@ -820,7 +820,7 @@ namespace spirv
 	{
 	}
 
-	Instruction::Instruction( Map< std::string, Vector< uint32_t > > & nameCache
+	Instruction::Instruction( NamesCache & nameCache
 		, Configuration const & pconfig
 		, spv::Op pop
 		, Optional< ValueId > preturnTypeId
@@ -839,7 +839,7 @@ namespace spirv
 		, Op pop
 		, BufferCIt & buffer )
 		: op{ pop }
-		, operands{ ModuleAllocatorT< spv::Id >{ alloc } }
+		, operands{ ast::StlAllocatorT< spv::Id >{ alloc } }
 		, config{ pconfig }
 	{
 		uint32_t save = buffer.index;
@@ -877,7 +877,7 @@ namespace spirv
 		else if ( config.hasLabels )
 		{
 			auto count = ( op.opData.opCount - index ) / 2u;
-			labels = Map< int32_t, spv::Id >{ alloc };
+			labels = ast::Map< int32_t, spv::Id >{ alloc };
 
 			for ( auto i = 0u; i < count; ++i )
 			{
@@ -892,7 +892,7 @@ namespace spirv
 		, Op pop
 		, BufferIt & buffer )
 		: op{ pop }
-		, operands{ ModuleAllocatorT< spv::Id >{ alloc } }
+		, operands{ ast::StlAllocatorT< spv::Id >{ alloc } }
 		, config{ pconfig }
 	{
 		uint32_t save = buffer.index;
@@ -928,7 +928,7 @@ namespace spirv
 		else if ( config.hasLabels )
 		{
 			auto count = ( op.opData.opCount - index ) / 2u;
-			labels = Map< int32_t, spv::Id >{ alloc };
+			labels = ast::Map< int32_t, spv::Id >{ alloc };
 
 			for ( auto i = 0u; i < count; ++i )
 			{

@@ -192,44 +192,29 @@ namespace spirv
 	{
 		TraceFunc;
 		auto var = expr->getVariable();
-		auto it = m_adaptationData.context.constExprs.find( var->getId() );
 
-		if ( it != m_adaptationData.context.constExprs.end() )
+		if ( var->isShaderOutput()
+			&& var->isBuiltin() )
 		{
-			if ( it->second->getKind() == ast::expr::Kind::eLiteral )
+			auto & typesCache = var->getType()->getTypesCache();
+
+			if ( var->getName() == "gl_TessLevelOuter" )
 			{
-				m_result = getLiteral( m_exprCache, expr, m_adaptationData.context );
+				var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 4u ) );
 			}
-			else
+			else if ( var->getName() == "gl_TessLevelInner" )
 			{
-				m_result = ExprCloner::submit( m_exprCache, it->second );
+				var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 2u ) );
 			}
 		}
-		else
+
+		m_result = m_adaptationData.config.processPending( m_exprCache
+			, expr->getVariable()
+			, m_ioDeclarations );
+
+		if ( !m_result )
 		{
-			if ( var->isShaderOutput()
-				&& var->isBuiltin() )
-			{
-				auto & typesCache = var->getType()->getTypesCache();
-
-				if ( var->getName() == "gl_TessLevelOuter" )
-				{
-					var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 4u ) );
-				}
-				else if ( var->getName() == "gl_TessLevelInner" )
-				{
-					var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 2u ) );
-				}
-			}
-
-			m_result = m_adaptationData.config.processPending( m_exprCache
-				, expr->getVariable()
-				, m_ioDeclarations );
-
-			if ( !m_result )
-			{
-				m_result = ExprCloner::submit( m_exprCache, expr );
-			}
+			m_result = ExprCloner::submit( m_exprCache, expr );
 		}
 	}
 

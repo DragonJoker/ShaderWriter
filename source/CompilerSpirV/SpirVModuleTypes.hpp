@@ -110,13 +110,13 @@ namespace spirv
 		debug::NonSemanticDebug & m_nonSemanticDebug;
 		InstructionList & m_declarations;
 		ast::type::TypesCache * m_typesCache;
-		Map< ast::type::TypePtr, TypeId > m_registeredTypes;
-		Map< ast::type::TypePtr, TypeId > m_registeredMemberTypes;
-		UnorderedMap< DebugId, UnorderedMap< DebugId, DebugId, DebugIdHasher >, DebugIdHasher > m_registeredSamplerImages;
-		UnorderedMap< size_t, TypeId > m_registeredImageTypes;
-		Map< uint64_t, TypeId > m_registeredPointerTypes;
-		Map< uint64_t, TypeId > m_registeredForwardPointerTypes;
-		UnorderedMap< TypeIdList, TypeId, TypeIdListHasher > m_registeredFunctionTypes;
+		ast::Map< ast::type::TypePtr, TypeId > m_registeredTypes;
+		ast::Map< ast::type::TypePtr, TypeId > m_registeredMemberTypes;
+		ast::UnorderedMap< DebugId, ast::UnorderedMap< DebugId, DebugId, DebugIdHasher >, DebugIdHasher > m_registeredSamplerImages;
+		ast::UnorderedMap< size_t, TypeId > m_registeredImageTypes;
+		ast::Map< uint64_t, TypeId > m_registeredPointerTypes;
+		ast::Map< uint64_t, TypeId > m_registeredForwardPointerTypes;
+		ast::UnorderedMap< TypeIdList, TypeId, TypeIdListHasher > m_registeredFunctionTypes;
 	};
 }
 

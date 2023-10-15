@@ -1,6 +1,10 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#pragma warning( disable:5245 )
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma clang diagnostic ignored "-Wunused-member-function"
+
 namespace
 {
 	void testIf( test::sdw_test::TestCounts & testCounts )
@@ -543,6 +547,308 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
+
+	void testConstIfElseTrue( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstIfElseTrue" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrlVar = writer.declConstant< sdw::Int >( "ctrlVar", 1_i );
+					IF( writer, ctrlVar != 0_i )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+					}
+					ELSE
+					{
+						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstIfElseFalse( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstIfElseFalse" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrlVar = writer.declConstant< sdw::Int >( "ctrlVar", 1_i );
+					IF( writer, ctrlVar == 0_i )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+					}
+					ELSE
+					{
+						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstIfElseIfTrueTrue( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstIfElseIfTrueTrue" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
+					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
+					IF( writer, ctrlVar1 != 0_i )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+					}
+					ELSEIF( ctrlVar2 == 0_i )
+					{
+						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+					}
+					ELSE
+					{
+						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstIfElseIfTrueFalse( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstIfElseIfTrueFalse" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
+					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
+					IF( writer, ctrlVar1 != 0_i )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+					}
+					ELSEIF( ctrlVar2 != 0_i )
+					{
+						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+					}
+					ELSE
+					{
+						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstIfElseIfFalseTrue( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstIfElseIfFalseTrue" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
+					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
+					IF( writer, ctrlVar1 == 0_i )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+					}
+					ELSEIF( ctrlVar2 == 0_i )
+					{
+						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+					}
+					ELSE
+					{
+						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstIfElseIfFalseFalse( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstIfElseIfFalseFalse" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
+					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
+					IF( writer, ctrlVar1 == 0_i )
+					{
+						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+					}
+					ELSEIF( ctrlVar2 != 0_i )
+					{
+						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+					}
+					ELSE
+					{
+						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+					}
+					FI;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstSwitch0( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstSwitch0" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 0_i );
+					SWITCH( writer, ctrl )
+					{
+						CASE( 0 )
+						{
+							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+						}
+						ESAC;
+						CASE( 1 )
+						{
+							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+						}
+						ESAC;
+						DEFAULT
+						{
+							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+						}
+						TLUAFED;
+					}
+					HCTIWS;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstSwitch1( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstSwitch1" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 1_i );
+					SWITCH( writer, ctrl )
+					{
+						CASE( 0 )
+						{
+							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+						}
+						ESAC;
+						CASE( 1 )
+						{
+							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+						}
+						ESAC;
+						DEFAULT
+						{
+							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+						}
+						TLUAFED;
+					}
+					HCTIWS;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void testConstSwitchDefault( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "testConstSwitchDefault" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 2_i );
+					SWITCH( writer, ctrl )
+					{
+						CASE( 0 )
+						{
+							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
+						}
+						ESAC;
+						CASE( 1 )
+						{
+							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
+						}
+						ESAC;
+						DEFAULT
+						{
+							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
+						}
+						TLUAFED;
+					}
+					HCTIWS;
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterControlStatements )
@@ -569,6 +875,15 @@ sdwTestSuiteMain( TestWriterControlStatements )
 	testNestedWhile( testCounts );
 	testNestedDoWhile( testCounts );
 	testTernary( testCounts );
+	testConstIfElseTrue( testCounts );
+	testConstIfElseFalse( testCounts );
+	testConstIfElseIfTrueTrue( testCounts );
+	testConstIfElseIfTrueFalse( testCounts );
+	testConstIfElseIfFalseTrue( testCounts );
+	testConstIfElseIfFalseFalse( testCounts );
+	testConstSwitch0( testCounts );
+	testConstSwitch1( testCounts );
+	testConstSwitchDefault( testCounts );
 	sdwTestSuiteEnd();
 }
 

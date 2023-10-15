@@ -1754,7 +1754,7 @@ namespace spirv
 
 		struct NameCache
 		{
-			using IdNames = Map< spv::Id, std::string >;
+			using IdNames = ast::Map< spv::Id, std::string >;
 
 			explicit NameCache( ast::ShaderAllocatorBlock * alloc )
 				: names{ alloc }
@@ -1941,7 +1941,7 @@ namespace spirv
 		};
 
 		template< typename T >
-		static void count( Vector< T > const & values
+		static void count( ast::Vector< T > const & values
 			, size_t & result );
 
 		template< typename T >
@@ -1971,7 +1971,7 @@ namespace spirv
 		}
 
 		template< typename T >
-		static void count( Vector< T > const & values
+		static void count( ast::Vector< T > const & values
 			, size_t & result )
 		{
 			for ( auto & value : values )
@@ -3394,7 +3394,7 @@ namespace spirv
 		}
 
 		template< typename Type >
-		static std::ostream & writeInstructions( Vector< Type > const & instructions
+		static std::ostream & writeInstructions( ast::Vector< Type > const & instructions
 			, NameCache & names
 			, spirv::Module const & module
 			, std::ostream & ( *writer )( Type const &, NameCache &, Module const &, std::ostream &, size_t & )

@@ -73,13 +73,7 @@ namespace ast
 		SDAST_API void visitTerminateRayStmt( stmt::TerminateRay * stmt )override;
 		SDAST_API void visitVariableDeclStmt( stmt::VariableDecl * stmt )override;
 		SDAST_API void visitWhileStmt( stmt::While * stmt )override;
-		SDAST_API void visitPreprocDefine( stmt::PreprocDefine * preproc )override;
-		SDAST_API void visitPreprocElif( stmt::PreprocElif * preproc )override;
-		SDAST_API void visitPreprocElse( stmt::PreprocElse * preproc )override;
-		SDAST_API void visitPreprocEndif( stmt::PreprocEndif * preproc )override;
 		SDAST_API void visitPreprocExtension( stmt::PreprocExtension * preproc )override;
-		SDAST_API void visitPreprocIf( stmt::PreprocIf * preproc )override;
-		SDAST_API void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override;
 		SDAST_API void visitPreprocVersion( stmt::PreprocVersion * preproc )override;
 
 	protected:
@@ -89,9 +83,6 @@ namespace ast
 		stmt::Container * m_current;
 		std::vector< stmt::If * > m_ifStmts;
 		std::vector< stmt::Switch * > m_switchStmts;
-		std::vector< stmt::PreprocIf * > m_preprocIfStmts;
-		std::vector< stmt::PreprocIfDef * > m_preprocIfDefStmts;
-		std::vector< bool > m_preprocIfDefs;
 	};
 }
 

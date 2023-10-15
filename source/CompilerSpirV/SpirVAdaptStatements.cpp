@@ -8,6 +8,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/CloneStmt.hpp>
+#include <ShaderAST/Visitors/ResolveConstants.hpp>
 
 #include <unordered_set>
 
@@ -130,136 +131,6 @@ namespace spirv
 			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
 			{
 				TraceFunc;
-			}
-
-			void visitSimpleStmt( ast::stmt::Simple * stmt )override
-			{
-				TraceFunc;
-				bool processed = false;
-
-				if ( stmt->getExpr()->isConstant() )
-				{
-					if ( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
-					{
-						auto init = static_cast< ast::expr::Init * >( stmt->getExpr() );
-						auto ident = init->getIdentifier();
-
-						if ( ident )
-						{
-							m_adaptationData.context.constExprs.emplace( ident->getVariable()->getId()
-								, doSubmit( init->getInitialiser() ) );
-							processed = true;
-						}
-					}
-					else if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
-					{
-						auto aggrInit = static_cast< ast::expr::AggrInit * >( stmt->getExpr() );
-						auto ident = aggrInit->getIdentifier();
-
-						if ( ident )
-						{
-							ast::expr::ExprList initialisers;
-
-							for ( auto & init : aggrInit->getInitialisers() )
-							{
-								initialisers.emplace_back( doSubmit( init.get() ) );
-							}
-
-							m_adaptationData.context.constAggrExprs.emplace( ident->getVariable()->getId()
-								, std::move( initialisers ) );
-							processed = true;
-						}
-					}
-				}
-
-				if ( !processed )
-				{
-					StmtCloner::visitSimpleStmt( stmt );
-				}
-			}
-
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
-			{
-				TraceFunc;
-				m_adaptationData.context.constExprs.emplace( preproc->getId()
-					, doSubmit( preproc->getExpr() ) );
-			}
-
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
-			{
-				TraceFunc;
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
-			{
-				TraceFunc;
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
-			{
-				TraceFunc;
-			}
-
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
-			{
-				TraceFunc;
-				bool isTrue = eval( m_exprCache, preproc->getCtrlExpr(), m_adaptationData.context );
-
-				if ( isTrue )
-				{
-					visitContainerStmt( preproc );
-				}
-				else
-				{
-					uint32_t i = 0u;
-
-					while ( i < preproc->getElifList().size()
-						&& !( isTrue = eval( m_exprCache, static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
-					{
-						++i;
-					}
-
-					if ( isTrue )
-					{
-						preproc->getElifList()[i]->accept( this );
-					}
-					else if ( preproc->getElse() )
-					{
-						preproc->getElse()->accept( this );
-					}
-				}
-			}
-
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
-			{
-				TraceFunc;
-				bool isTrue = eval( m_exprCache, preproc->getIdentExpr(), m_adaptationData.context );
-
-				if ( isTrue )
-				{
-					visitContainerStmt( preproc );
-				}
-				else
-				{
-					uint32_t i = 0u;
-
-					while ( i < preproc->getElifList().size()
-						&& !( isTrue = eval( m_exprCache, static_cast< ast::stmt::PreprocElif const & >( *preproc->getElifList()[i] ).getCtrlExpr(), m_adaptationData.context ) ) )
-					{
-						++i;
-					}
-
-					if ( isTrue )
-					{
-						preproc->getElifList()[i]->accept( this );
-					}
-					else if ( preproc->getElse() )
-					{
-						preproc->getElse()->accept( this );
-					}
-				}
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
@@ -525,13 +396,13 @@ namespace spirv
 			ast::type::TypesCache & m_typesCache;
 			AdaptationData & m_adaptationData;
 			ast::stmt::Container * m_ioDeclarations;
-			UnorderedSet< ast::type::StructPtr > m_declaredStructs;
+			ast::UnorderedSet< ast::type::StructPtr > m_declaredStructs;
 			struct PendingFunction
 			{
 				ast::type::FunctionPtr funcType;
 				ast::stmt::ContainerPtr statements;
 			};
-			Map< std::string, PendingFunction > m_pending;
+			ast::Map< std::string, PendingFunction > m_pending;
 			ast::type::OutputTopology m_topology;
 			uint32_t m_maxVertices{};
 			uint32_t m_maxPrimitives{};

@@ -13,7 +13,7 @@ See LICENSE file in root folder
 #include <GlslCommon/GlslFillConfig.hpp>
 
 #include <ShaderAST/Shader.hpp>
-#include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/ResolveConstants.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
@@ -44,6 +44,10 @@ namespace spirv
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );
+		statements = ast::resolveConstants( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, statements.get() );
 		ModuleConfig moduleConfig{ &allocator
 			, spirvConfig
 			, shader.getTypesCache()
@@ -52,7 +56,7 @@ namespace spirv
 			, ssaData.aliasId };
 		spirv::fillConfig( statements.get()
 			, moduleConfig );
-		spirv::PreprocContext context{ &allocator };
+		spirv::PreprocContext context;
 		AdaptationData adaptationData{ context, std::move( moduleConfig ) };
 		statements = spirv::adaptStatements( compileStmtCache
 			, compileExprCache
@@ -204,8 +208,8 @@ namespace spirv
 
 		auto module = spirv::Module::deserialize( &allocator, spirv );
 		ast::Shader result{ stage };
-		Map< uint32_t, std::string > names{ module.allocator };
-		Map< uint32_t, Map< uint32_t, std::string > > mbrNames{ module.allocator };
+		ast::Map< uint32_t, std::string > names{ module.allocator };
+		ast::Map< uint32_t, ast::Map< uint32_t, std::string > > mbrNames{ module.allocator };
 
 		// Gather names
 		for ( auto & instruction : module.getDebugStringsDeclarations() )
@@ -230,7 +234,7 @@ namespace spirv
 				break;
 			case spv::OpMemberName:
 				{
-					auto it = mbrNames.emplace( *instruction->returnTypeId, Map< uint32_t, std::string >{ module.allocator } ).first;
+					auto it = mbrNames.emplace( *instruction->returnTypeId, ast::Map< uint32_t, std::string >{ module.allocator } ).first;
 					it->second.emplace( *instruction->resultId, *instruction->name );
 				}
 				break;

@@ -8,7 +8,7 @@ namespace spirv
 	namespace serlz
 	{
 		template< typename T >
-		static void count( Vector< T > const & values
+		static void count( ast::Vector< T > const & values
 			, size_t & result );
 
 		template< typename T >
@@ -78,7 +78,7 @@ namespace spirv
 		}
 
 		template< typename T >
-		static void count( Vector< T > const & values
+		static void count( ast::Vector< T > const & values
 			, size_t & result )
 		{
 			for ( auto & value : values )
@@ -98,47 +98,47 @@ namespace spirv
 		}
 
 		template< typename T >
-		static void serializeResult( Vector< T > const & values
-			, Vector< uint32_t > & result );
+		static void serializeResult( ast::Vector< T > const & values
+			, UInt32List & result );
 
 		template< typename T >
 		static void serializeResult( Optional< T > const & value
-			, Vector< uint32_t > & result );
+			, UInt32List & result );
 
 		static void serializeResult( spv::Id const & id
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			result.push_back( id );
 		}
 
 		static void serializeResult( spirv::InstructionPtr const & instruction
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			Instruction::serialize( result, *instruction );
 		}
 
 		static void serializeResult( spirv::Block const & block
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			serializeResult( block.instructions, result );
 			serializeResult( block.blockEnd, result );
 		}
 
 		static void serializeResult( spirv::ControlFlowGraph const & cfg
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			serializeResult( cfg.blocks, result );
 		}
 
 		static void serializeResult( spirv::Function const & function
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			serializeResult( function.declaration, result );
 			serializeResult( function.cfg, result );
 		}
 
 		static void serializeResult( spirv::Module const & module
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			serializeResult( module.header, result );
 			serializeResult( module.capabilities, result );
@@ -157,8 +157,8 @@ namespace spirv
 		}
 
 		template< typename T >
-		static void serializeResult( Vector< T > const & values
-			, Vector< uint32_t > & result )
+		static void serializeResult( ast::Vector< T > const & values
+			, UInt32List & result )
 		{
 			for ( auto & value : values )
 			{
@@ -168,7 +168,7 @@ namespace spirv
 
 		template< typename T >
 		static void serializeResult( Optional< T > const & value
-			, Vector< uint32_t > & result )
+			, UInt32List & result )
 		{
 			if ( bool( value ) )
 			{
@@ -177,9 +177,9 @@ namespace spirv
 		}
 	}
 
-	Vector< uint32_t > serialize( spirv::Module const & module )
+	UInt32List serialize( spirv::Module const & module )
 	{
-		Vector< uint32_t > result{ module.allocator };
+		UInt32List result{ module.allocator };
 		auto size = serlz::count( module );
 		result.reserve( size );
 		serlz::serializeResult( module, result );

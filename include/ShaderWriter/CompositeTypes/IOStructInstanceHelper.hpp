@@ -6,6 +6,9 @@ See LICENSE file in root folder
 #pragma once
 
 #if SDW_EnableStructHelper
+
+#include "StructInstance.hpp"
+
 namespace sdw
 {
 	template< ast::var::Flag FlagT

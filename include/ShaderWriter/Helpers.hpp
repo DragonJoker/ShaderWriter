@@ -283,10 +283,6 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache
 		, expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache );
-	SDW_API stmt::StmtPtr makePreprocDefine( stmt::StmtCache & stmtCache
-		, Shader & shader
-		, std::string name
-		, expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makeVariableDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr var );
 	SDW_API stmt::StmtPtr makeHitAttributeVariableDecl( stmt::StmtCache & stmtCache

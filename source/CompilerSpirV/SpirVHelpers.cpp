@@ -111,7 +111,7 @@ namespace spirv
 			operands = makeOperands( operands.get_allocator().getAllocator(), lhs, rhs );
 		}
 
-		static InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		static InstructionPtr makeUnInstruction( NamesCache & nameCache
 			, spv::Op op
 			, ValueId returnTypeId
 			, ValueId resultId
@@ -134,7 +134,7 @@ namespace spirv
 			return nullptr;
 		}
 
-		static InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+		static InstructionPtr makeBinInstruction( NamesCache & nameCache
 			, spv::Op op
 			, ValueId returnTypeId
 			, ValueId resultId
@@ -2107,7 +2107,7 @@ namespace spirv
 
 	spv::BuiltIn getBuiltin( ast::Builtin builtin
 		, spv::ExecutionModel executionModel
-		, Vector< spv::Decoration > & additionalDecorations )
+		, ast::Vector< spv::Decoration > & additionalDecorations )
 	{
 		switch ( builtin )
 		{
@@ -2826,7 +2826,7 @@ namespace spirv
 		return makeOperands( alloc, ValueId{ spv::Id( opCode ) }, result );
 	}
 
-	InstructionPtr makeImageTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeImageTypeInstruction( NamesCache & nameCache
 		, ast::type::ImageConfiguration const & config
 		, ast::type::Trinary isComparison
 		, ValueId resultId
@@ -2854,13 +2854,13 @@ namespace spirv
 		return makeInstruction< ImageTypeInstruction >( nameCache, resultId, operands );
 	}
 
-	InstructionPtr makeAccelerationStructureTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeAccelerationStructureTypeInstruction( NamesCache & nameCache
 		, ValueId resultId )
 	{
 		return makeInstruction< AccelerationStructureTypeInstruction >( nameCache, resultId );
 	}
 
-	InstructionPtr makeBaseTypeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeBaseTypeInstruction( NamesCache & nameCache
 		, ast::type::Kind kind
 		, ValueId id )
 	{
@@ -2903,7 +2903,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeIntrinsicInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeIntrinsicInstruction( NamesCache & nameCache
 		, spv::Op op
 		, ValueIdList const & operands )
 	{
@@ -2940,7 +2940,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeIntrinsicInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeIntrinsicInstruction( NamesCache & nameCache
 		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
@@ -3143,7 +3143,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeSampledImageAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeSampledImageAccessInstruction( NamesCache & nameCache
 		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
@@ -3178,7 +3178,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeTextureAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeTextureAccessInstruction( NamesCache & nameCache
 		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
@@ -3223,7 +3223,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeImageAccessInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeImageAccessInstruction( NamesCache & nameCache
 		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
@@ -3269,7 +3269,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeCastInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeCastInstruction( NamesCache & nameCache
 		, ValueId returnTypeId
 		, ValueId resultId
 		, spv::Op op
@@ -3304,7 +3304,7 @@ namespace spirv
 		return nullptr;
 	}
 
-	InstructionPtr makeUnInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeUnInstruction( NamesCache & nameCache
 		, ValueId returnTypeId
 		, ValueId resultId
 		, ast::expr::Kind exprKind
@@ -3318,7 +3318,7 @@ namespace spirv
 			, operandId );
 	}
 
-	InstructionPtr makeBinInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeBinInstruction( NamesCache & nameCache
 		, ValueId typeId
 		, ValueId resultId
 		, ast::expr::Kind exprKind
@@ -3343,7 +3343,7 @@ namespace spirv
 			, operands );
 	}
 
-	InstructionPtr makeVariableInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	InstructionPtr makeVariableInstruction( NamesCache & nameCache
 		, ValueId typeId
 		, ValueId varId
 		, ValueId initialiser )
@@ -3516,7 +3516,7 @@ namespace spirv
 			, param.isOutputParam() );
 	}
 
-	void insertCapability( Map< std::string, Vector< uint32_t > > & nameCache
+	void insertCapability( NamesCache & nameCache
 		, InstructionList & capabilities
 		, spv::Capability capa )
 	{

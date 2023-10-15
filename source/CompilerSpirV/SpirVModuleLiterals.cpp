@@ -15,8 +15,8 @@ namespace spirv
 		static DebugId registerLiteral( LitT value
 			, ast::type::TypePtr valueType
 			, Module & module
-			, Map< LitT, DebugId > & registeredLitConstants
-			, UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > & registeredConstants )
+			, ast::Map< LitT, DebugId > & registeredLitConstants
+			, ast::UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > & registeredConstants )
 		{
 			auto it = registeredLitConstants.find( value );
 

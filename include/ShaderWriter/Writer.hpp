@@ -233,6 +233,7 @@ namespace sdw
 		SDW_API void endSwitch();
 		SDW_API void caseStmt( expr::LiteralPtr literal
 			, std::function< void() > function );
+		SDW_API void defaultStmt( std::function< void() > function );
 		SDW_API void caseBreakStmt();
 		SDW_API void loopBreakStmt();
 		SDW_API void loopContinueStmt();
@@ -1241,6 +1242,12 @@ namespace sdw
 				, [&]()noexcept
 
 #define ESAC\
+ )
+
+#define DEFAULT\
+			writerScope->defaultStmt( [&]()noexcept
+
+#define TLUAFED\
  )
 
 #define HCTIWS\

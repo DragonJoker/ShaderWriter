@@ -554,7 +554,7 @@ namespace spirv
 					, m_currentBlock );
 			}
 
-			Map< std::string, Vector< uint32_t > > & getNameCache()
+			NamesCache & getNameCache()
 			{
 				return m_module.getNameCache();
 			}
@@ -897,17 +897,12 @@ namespace spirv
 				if ( expr->getIdentifier() )
 				{
 					auto var = expr->getIdentifier()->getVariable();
-					auto it = m_context.constAggrExprs.find( var->getId() );
-
-					if ( it == m_context.constAggrExprs.end() )
-					{
-						initialiseVariable( init
-							, allLiterals
-							, hasFuncInit
-							, expr->getIdentifier()->getVariable()
-							, expr->getType()
-							, expr );
-					}
+					initialiseVariable( init
+						, allLiterals
+						, hasFuncInit
+						, expr->getIdentifier()->getVariable()
+						, expr->getType()
+						, expr );
 				}
 				else
 				{
@@ -1016,7 +1011,7 @@ namespace spirv
 					DebugId dst;
 					ast::type::TypePtr type;
 				};
-				Vector< OutputParam > outputParams{ m_allocator };
+				ast::Vector< OutputParam > outputParams{ m_allocator };
 
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -1077,18 +1072,8 @@ namespace spirv
 				TraceFunc;
 				m_allLiterals = false;
 				auto var = expr->getVariable();
-				auto it = m_context.constAggrExprs.find( var->getId() );
 
-				if ( it != m_context.constAggrExprs.end() )
-				{
-					bool allLiterals = true;
-					bool hasFuncInit = false;
-					m_result = visitInitialisers( it->second
-						, expr->getType()
-						, allLiterals
-						, hasFuncInit );
-				}
-				else if ( var->getBuiltin() == ast::Builtin::eWorkGroupSize )
+				if ( var->getBuiltin() == ast::Builtin::eWorkGroupSize )
 				{
 					m_result = DebugId{ m_context.workGroupSizeExpr };
 				}
@@ -3149,8 +3134,8 @@ namespace spirv
 			void visitSwitchStmt( ast::stmt::Switch * stmt )override
 			{
 				TraceFunc;
-				Vector< Block > caseBlocks{ m_allocator };
-				Map< int32_t, spv::Id > caseBlocksIds{ m_allocator };
+				ast::Vector< Block > caseBlocks{ m_allocator };
+				ast::Map< int32_t, spv::Id > caseBlocksIds{ m_allocator };
 				auto mergeBlock = m_result.newBlock();
 				m_controlBlocks.push_back( Control{ mergeBlock.label, 0u } );
 				ast::stmt::SwitchCase * defaultStmt{ nullptr };
@@ -3190,30 +3175,34 @@ namespace spirv
 					{
 						assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
 						auto & caseStmt = static_cast< ast::stmt::SwitchCase & >( *it );
-						m_currentBlock = std::move( caseBlocks[index] );
-						beginControl( m_currentBlock );
-						parseScope( &caseStmt
-							, glsl::StatementType::eLexicalScopeBegin
-							, glsl::StatementType::eScopeLine
-							, glsl::StatementType::eLexicalScopeEnd );
 
-						if ( m_currentBlock.isInterrupted )
+						if ( caseStmt.getCaseExpr() )
 						{
-							// Branch to merge block.
-							endBlock( m_currentBlock, mergeBlock.label );
-						}
-						else
-						{
-							// No break statement.
-							if ( index == caseBlocks.size() - 1u )
+							m_currentBlock = std::move( caseBlocks[index] );
+							beginControl( m_currentBlock );
+							parseScope( &caseStmt
+								, glsl::StatementType::eLexicalScopeBegin
+								, glsl::StatementType::eScopeLine
+								, glsl::StatementType::eLexicalScopeEnd );
+
+							if ( m_currentBlock.isInterrupted )
 							{
-								// Branch to default block.
-								endBlock( m_currentBlock, defaultBlock.label );
+								// Branch to merge block.
+								endBlock( m_currentBlock, mergeBlock.label );
 							}
 							else
 							{
-								// Branch to next case block.
-								endBlock( m_currentBlock, caseBlocks[index + 1u].label );
+								// No break statement.
+								if ( index == caseBlocks.size() - 1u )
+								{
+									// Branch to default block.
+									endBlock( m_currentBlock, defaultBlock.label );
+								}
+								else
+								{
+									// Branch to next case block.
+									endBlock( m_currentBlock, caseBlocks[index + 1u].label );
+								}
 							}
 						}
 
@@ -3297,41 +3286,11 @@ namespace spirv
 				AST_Failure( "Unexpected While statement." );
 			}
 
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocDefine statement." );
-			}
-
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocElif statement." );
-			}
-
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocElse statement." );
-			}
-
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocEndif statement." );
-			}
-
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
 				TraceFunc;
 				consumeDebugStatement( glsl::StatementType::eScopeLine );
 				//m_result.registerExtension( preproc->getName() );
-			}
-
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocIf statement." );
-			}
-
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocIfDef statement." );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
@@ -3471,7 +3430,7 @@ namespace spirv
 			glsl::Statements m_debugStatements;
 			Block m_currentBlock;
 			Function * m_function{ nullptr };
-			Vector< Control > m_controlBlocks;
+			ast::Vector< Control > m_controlBlocks;
 			uint32_t m_ifStmts{ 0u };
 			DebugIdList m_inputs;
 			DebugIdList m_outputs;

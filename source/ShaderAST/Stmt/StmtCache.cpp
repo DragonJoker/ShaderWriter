@@ -3,13 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Stmt/StmtCache.hpp"
 
-#include "ShaderAST/Stmt/PreprocDefine.hpp"
-#include "ShaderAST/Stmt/PreprocElif.hpp"
-#include "ShaderAST/Stmt/PreprocElse.hpp"
-#include "ShaderAST/Stmt/PreprocEndif.hpp"
 #include "ShaderAST/Stmt/PreprocExtension.hpp"
-#include "ShaderAST/Stmt/PreprocIf.hpp"
-#include "ShaderAST/Stmt/PreprocIfDef.hpp"
 #include "ShaderAST/Stmt/PreprocVersion.hpp"
 #include "ShaderAST/Stmt/StmtAccelerationStructureDecl.hpp"
 #include "ShaderAST/Stmt/StmtBreak.hpp"
@@ -78,52 +72,11 @@ namespace ast::stmt
 	{
 	}
 
-	PreprocDefinePtr StmtCache::makePreprocDefine( EntityName nameId
-		, std::string name
-		, expr::ExprPtr expr )
-	{
-		return makeStmt< PreprocDefine >( std::move( nameId )
-			, std::move( expr ) );
-	}
-
-	PreprocDefinePtr StmtCache::makePreprocDefine( uint32_t id
-		, std::string name
-		, expr::ExprPtr expr )
-	{
-		return makeStmt< PreprocDefine >( EntityName{ id, std::move( name ) }
-		, std::move( expr ) );
-	}
-
-	PreprocElifPtr StmtCache::makePreprocElif( expr::ExprPtr ctrlExpr )
-	{
-		return makeStmt< PreprocElif >( std::move( ctrlExpr ) );
-	}
-
-	PreprocElsePtr StmtCache::makePreprocElse()
-	{
-		return makeStmt< PreprocElse >();
-	}
-
-	PreprocEndifPtr StmtCache::makePreprocEndif()
-	{
-		return makeStmt< PreprocEndif >();
-	}
-
 	PreprocExtensionPtr StmtCache::makePreprocExtension( std::string name
 		, PreprocExtension::ExtStatus status )
 	{
 		return makeStmt< PreprocExtension >( std::move( name )
 			, status );
-	}
-
-	PreprocIfPtr StmtCache::makePreprocIf( expr::ExprPtr ctrlExpr )
-	{
-		return makeStmt< PreprocIf >( std::move( ctrlExpr ) );
-	}
-
-	PreprocIfDefPtr StmtCache::makePreprocIfDef( expr::IdentifierPtr identExpr )
-	{
-		return makeStmt< PreprocIfDef >( std::move( identExpr ) );
 	}
 
 	PreprocVersionPtr StmtCache::makePreprocVersion( std::string name )

@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include <GlslCommon/GlslFillConfig.hpp>
 
 #include <ShaderAST/Shader.hpp>
+#include <ShaderAST/Visitors/ResolveConstants.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
@@ -37,6 +38,10 @@ namespace glsl
 			, ssaData
 			, true );
 		statements = ast::simplify( compileStmtCache
+			, compileExprCache
+			, shader.getTypesCache()
+			, statements.get() );
+		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
 			, shader.getTypesCache()
 			, statements.get() );

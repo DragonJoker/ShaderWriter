@@ -44,19 +44,19 @@ namespace spirv
 		Module & m_module;
 		InstructionList & m_declarations;
 		ast::ShaderAllocatorBlock * m_allocator;
-		Map< bool, DebugId > m_registeredBoolConstants;
-		Map< int8_t, DebugId > m_registeredInt8Constants;
-		Map< int16_t, DebugId > m_registeredInt16Constants;
-		Map< int32_t, DebugId > m_registeredInt32Constants;
-		Map< int64_t, DebugId > m_registeredInt64Constants;
-		Map< uint8_t, DebugId > m_registeredUInt8Constants;
-		Map< uint16_t, DebugId > m_registeredUInt16Constants;
-		Map< uint32_t, DebugId > m_registeredUInt32Constants;
-		Map< uint64_t, DebugId > m_registeredUInt64Constants;
-		Map< float, DebugId > m_registeredFloatConstants;
-		Map< double, DebugId > m_registeredDoubleConstants;
-		Vector< std::pair< DebugIdList, DebugId > > m_registeredCompositeConstants;
-		UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > m_registeredConstants;
+		ast::Map< bool, DebugId > m_registeredBoolConstants;
+		ast::Map< int8_t, DebugId > m_registeredInt8Constants;
+		ast::Map< int16_t, DebugId > m_registeredInt16Constants;
+		ast::Map< int32_t, DebugId > m_registeredInt32Constants;
+		ast::Map< int64_t, DebugId > m_registeredInt64Constants;
+		ast::Map< uint8_t, DebugId > m_registeredUInt8Constants;
+		ast::Map< uint16_t, DebugId > m_registeredUInt16Constants;
+		ast::Map< uint32_t, DebugId > m_registeredUInt32Constants;
+		ast::Map< uint64_t, DebugId > m_registeredUInt64Constants;
+		ast::Map< float, DebugId > m_registeredFloatConstants;
+		ast::Map< double, DebugId > m_registeredDoubleConstants;
+		ast::Vector< std::pair< DebugIdList, DebugId > > m_registeredCompositeConstants;
+		ast::UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > m_registeredConstants;
 	};
 }
 

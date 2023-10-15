@@ -5,13 +5,7 @@ See LICENSE file in root folder
 #define ___AST_StmtVisitor_H___
 #pragma once
 
-#include "PreprocDefine.hpp"
-#include "PreprocElif.hpp"
-#include "PreprocElse.hpp"
-#include "PreprocEndif.hpp"
 #include "PreprocExtension.hpp"
-#include "PreprocIf.hpp"
-#include "PreprocIfDef.hpp"
 #include "PreprocVersion.hpp"
 #include "StmtAccelerationStructureDecl.hpp"
 #include "StmtBreak.hpp"
@@ -120,13 +114,7 @@ namespace ast::stmt
 		SDAST_API virtual void visitTerminateRayStmt( TerminateRay * ) = 0;
 		SDAST_API virtual void visitVariableDeclStmt( VariableDecl * ) = 0;
 		SDAST_API virtual void visitWhileStmt( While * ) = 0;
-		SDAST_API virtual void visitPreprocDefine( PreprocDefine * ) = 0;
-		SDAST_API virtual void visitPreprocElif( PreprocElif * ) = 0;
-		SDAST_API virtual void visitPreprocElse( PreprocElse * ) = 0;
-		SDAST_API virtual void visitPreprocEndif( PreprocEndif * ) = 0;
 		SDAST_API virtual void visitPreprocExtension( PreprocExtension * ) = 0;
-		SDAST_API virtual void visitPreprocIf( PreprocIf * ) = 0;
-		SDAST_API virtual void visitPreprocIfDef( PreprocIfDef * ) = 0;
 		SDAST_API virtual void visitPreprocVersion( PreprocVersion * ) = 0;
 	};
 }

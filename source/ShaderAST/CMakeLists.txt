@@ -9,6 +9,7 @@ set( ${PROJECT_NAME}_HEADER_FILES
 	${INCLUDE_DIR}/Shader.hpp
 	${INCLUDE_DIR}/ShaderAllocator.hpp
 	${INCLUDE_DIR}/ShaderASTPrerequisites.hpp
+	${INCLUDE_DIR}/ShaderStlTypes.hpp
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
 	${SOURCE_DIR}/Shader.cpp
@@ -212,13 +213,7 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 )
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
-	${INCLUDE_DIR}/Stmt/PreprocDefine.hpp
-	${INCLUDE_DIR}/Stmt/PreprocElif.hpp
-	${INCLUDE_DIR}/Stmt/PreprocElse.hpp
-	${INCLUDE_DIR}/Stmt/PreprocEndif.hpp
 	${INCLUDE_DIR}/Stmt/PreprocExtension.hpp
-	${INCLUDE_DIR}/Stmt/PreprocIf.hpp
-	${INCLUDE_DIR}/Stmt/PreprocIfDef.hpp
 	${INCLUDE_DIR}/Stmt/PreprocVersion.hpp
 	${INCLUDE_DIR}/Stmt/Stmt.hpp
 	${INCLUDE_DIR}/Stmt/StmtAccelerationStructureDecl.hpp
@@ -274,13 +269,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtWhile.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
-	${SOURCE_DIR}/Stmt/PreprocDefine.cpp
-	${SOURCE_DIR}/Stmt/PreprocElif.cpp
-	${SOURCE_DIR}/Stmt/PreprocElse.cpp
-	${SOURCE_DIR}/Stmt/PreprocEndif.cpp
 	${SOURCE_DIR}/Stmt/PreprocExtension.cpp
-	${SOURCE_DIR}/Stmt/PreprocIf.cpp
-	${SOURCE_DIR}/Stmt/PreprocIfDef.cpp
 	${SOURCE_DIR}/Stmt/PreprocVersion.cpp
 	${SOURCE_DIR}/Stmt/Stmt.cpp
 	${SOURCE_DIR}/Stmt/StmtAccelerationStructureDecl.cpp
@@ -447,6 +436,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Visitors/DebugDisplayStatements.hpp
 	${INCLUDE_DIR}/Visitors/GetExprName.hpp
 	${INCLUDE_DIR}/Visitors/GetOutermostExpr.hpp
+	${INCLUDE_DIR}/Visitors/ResolveConstants.hpp
 	${INCLUDE_DIR}/Visitors/SimplifyStatements.hpp
 	${INCLUDE_DIR}/Visitors/SpecialiseStatements.hpp
 	${INCLUDE_DIR}/Visitors/TransformSSA.hpp
@@ -457,6 +447,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Visitors/DebugDisplayStatements.cpp
 	${SOURCE_DIR}/Visitors/GetExprName.cpp
 	${SOURCE_DIR}/Visitors/GetOutermostExpr.cpp
+	${SOURCE_DIR}/Visitors/ResolveConstants.cpp
 	${SOURCE_DIR}/Visitors/SimplifyStatements.cpp
 	${SOURCE_DIR}/Visitors/SpecialiseStatements.cpp
 	${SOURCE_DIR}/Visitors/TransformSSA.cpp
@@ -575,6 +566,7 @@ if ( SDW_BUILD_STATIC )
 		${${PROJECT_NAME}_HEADER_FILES}
 		${${PROJECT_NAME}_SOURCE_FILES}
 		${${PROJECT_NAME}_SCRIPT_FILES}
+		${${PROJECT_NAME}_NATVIS_FILES}
 	)
 	target_compile_definitions( ${PROJECT_NAME}
 		PUBLIC
@@ -587,6 +579,7 @@ else ()
 		${${PROJECT_NAME}_HEADER_FILES}
 		${${PROJECT_NAME}_SOURCE_FILES}
 		${${PROJECT_NAME}_SCRIPT_FILES}
+		${${PROJECT_NAME}_NATVIS_FILES}
 	)
 	target_compile_definitions( ${PROJECT_NAME}
 		PRIVATE

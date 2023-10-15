@@ -302,7 +302,7 @@ namespace spirv
 		auto & imgType = static_cast< ast::type::Image const & >( *getNonArrayType( image->type ) );
 		auto & splType = static_cast< ast::type::Sampler const & >( *getNonArrayType( sampler->type ) );
 		auto lhsIt = m_registeredSamplerImages.emplace( image
-			, UnorderedMap< DebugId, DebugId, DebugIdHasher >{ m_allocator } ).first;
+			, ast::UnorderedMap< DebugId, DebugId, DebugIdHasher >{ m_allocator } ).first;
 		auto ires = lhsIt->second.emplace( sampler, DebugId{} );
 		auto it = ires.first;
 
@@ -881,7 +881,7 @@ namespace spirv
 		, uint32_t mbrIndex )
 	{
 		bool result = false;
-		Vector< spv::Decoration > additionalDecorations{ m_allocator };
+		ast::Vector< spv::Decoration > additionalDecorations{ m_allocator };
 		auto builtin = getBuiltin( pbuiltin, m_module.getExecutionModel(), additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )

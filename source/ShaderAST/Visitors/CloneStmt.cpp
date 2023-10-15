@@ -476,117 +476,11 @@ namespace ast
 		m_current->addStmt( std::move( cont ) );
 	}
 
-	void StmtCloner::visitPreprocDefine( stmt::PreprocDefine * preproc )
-	{
-		TraceFunc
-		m_current->addStmt( m_stmtCache.makePreprocDefine( preproc->getId()
-			, preproc->getName()
-			, doSubmit( preproc->getExpr() ) ) );
-	}
-
-	void StmtCloner::visitPreprocElif( stmt::PreprocElif * preproc )
-	{
-		TraceFunc
-		stmt::PreprocElif * cont;
-
-		if ( !m_preprocIfDefs.back() )
-		{
-			cont = m_preprocIfStmts.back()->createElif( doSubmit( preproc->getCtrlExpr() ) );
-		}
-		else
-		{
-			cont = m_preprocIfDefStmts.back()->createElif( doSubmit( preproc->getCtrlExpr() ) );
-		}
-
-		auto save = m_current;
-		m_current = cont;
-		visitContainerStmt( preproc );
-		m_current = save;
-	}
-
-	void StmtCloner::visitPreprocElse( stmt::PreprocElse * preproc )
-	{
-		TraceFunc
-		stmt::PreprocElse * cont;
-
-		if ( !m_preprocIfDefs.back() )
-		{
-			cont = m_preprocIfStmts.back()->createElse();
-		}
-		else
-		{
-			cont = m_preprocIfDefStmts.back()->createElse();
-		}
-
-		auto save = m_current;
-		m_current = cont;
-		visitContainerStmt( preproc );
-		m_current = save;
-	}
-
-	void StmtCloner::visitPreprocEndif( stmt::PreprocEndif * preproc )
-	{
-		TraceFunc
-		m_current->addStmt( m_stmtCache.makePreprocEndif() );
-	}
-
 	void StmtCloner::visitPreprocExtension( stmt::PreprocExtension * preproc )
 	{
 		TraceFunc
 		m_current->addStmt( m_stmtCache.makePreprocExtension( preproc->getName()
 			, preproc->getStatus() ) );
-	}
-
-	void StmtCloner::visitPreprocIf( stmt::PreprocIf * preproc )
-	{
-		TraceFunc
-		auto cont = m_stmtCache.makePreprocIf( doSubmit( preproc->getCtrlExpr() ) );
-		m_preprocIfStmts.push_back( cont.get() );
-		m_preprocIfDefs.push_back( false );
-
-		auto save = m_current;
-		m_current = cont.get();
-		visitContainerStmt( preproc );
-		m_current = save;
-		m_current->addStmt( std::move( cont ) );
-
-		for ( auto & elseIf : preproc->getElifList() )
-		{
-			elseIf->accept( this );
-		}
-
-		if ( preproc->getElse() )
-		{
-			preproc->getElse()->accept( this );
-		}
-
-		m_preprocIfStmts.pop_back();
-	}
-
-	void StmtCloner::visitPreprocIfDef( stmt::PreprocIfDef * preproc )
-	{
-		TraceFunc
-		auto cont = m_stmtCache.makePreprocIfDef( m_exprCache.makeIdentifier( preproc->getIdentExpr()->getTypesCache(), preproc->getIdentExpr()->getVariable() ) );
-		m_preprocIfDefStmts.push_back( cont.get() );
-		m_preprocIfDefs.push_back( true );
-
-		auto save = m_current;
-		m_current = cont.get();
-		visitContainerStmt( preproc );
-		m_current = save;
-		m_current->addStmt( std::move( cont ) );
-
-		for ( auto & elseIf : preproc->getElifList() )
-		{
-			elseIf->accept( this );
-		}
-
-		if ( preproc->getElse() )
-		{
-			preproc->getElse()->accept( this );
-		}
-
-		m_preprocIfDefStmts.pop_back();
 	}
 
 	void StmtCloner::visitPreprocVersion( stmt::PreprocVersion * preproc )

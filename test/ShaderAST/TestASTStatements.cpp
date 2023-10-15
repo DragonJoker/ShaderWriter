@@ -931,93 +931,6 @@ namespace
 		testEnd();
 	}
 
-	void testPreprocDefine( test::TestCounts & testCounts )
-	{
-		testBegin( "testPreprocDefine" );
-		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
-		auto stmt = stmtCache.makePreprocDefine( 1u, "DefineIt", exprCache.makeLiteral( typesCache, 1 ) );
-		testCounts << "PreprocDefine:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
-
-		require( stmt->getKind() == ast::stmt::Kind::ePreprocDefine );
-		check( stmt->getExpr()->getKind() == ast::expr::Kind::eLiteral );
-		check( stmt->getExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testEnd();
-	}
-
-	void testPreprocIf( test::TestCounts & testCounts )
-	{
-		testBegin( "testPreprocIf" );
-		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
-		auto stmt = stmtCache.makePreprocIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsDefined" ) ) );
-		testCounts << "PreprocIf:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
-
-		require( stmt->getKind() == ast::stmt::Kind::ePreprocIf );
-		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-		testEnd();
-	}
-
-	void testPreprocElif( test::TestCounts & testCounts )
-	{
-		testBegin( "testPreprocElif" );
-		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
-		auto ifStmt = stmtCache.makePreprocIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsNotDefined" ) ) );
-		auto stmt = ifStmt->createElif( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsDefined" ) ) );
-		testCounts << "PreprocElif:\n" << ast::debug::displayStatements( stmt ) << test::endl;
-
-		require( stmt->getKind() == ast::stmt::Kind::ePreprocElif );
-		check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-		testEnd();
-	}
-
-	void testPreprocElse( test::TestCounts & testCounts )
-	{
-		testBegin( "testPreprocElse" );
-		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
-		auto ifStmt = stmtCache.makePreprocIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "ItIsDefined" ) ) );
-		auto stmt = ifStmt->createElse();
-		testCounts << "PreprocElse:\n" << ast::debug::displayStatements( stmt ) << test::endl;
-
-		require( stmt->getKind() == ast::stmt::Kind::ePreprocElse );
-		testEnd();
-	}
-	
-	void testPreprocIfDef( test::TestCounts & testCounts )
-	{
-		testBegin( "testPreprocIfDef" );
-		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
-		auto stmt = stmtCache.makePreprocIfDef( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "IsItDefined" ) ) );
-		testCounts << "PreprocIfDef:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
-
-		require( stmt->getKind() == ast::stmt::Kind::ePreprocIfDef );
-		check( stmt->getIdentExpr()->getKind() == ast::expr::Kind::eIdentifier );
-		check( stmt->getIdentExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-		testEnd();
-	}
-
-	void testPreprocEndif( test::TestCounts & testCounts )
-	{
-		testBegin( "testPreprocEndif" );
-		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
-		auto stmt = stmtCache.makePreprocEndif();
-		testCounts << "PreprocEndif:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
-
-		require( stmt->getKind() == ast::stmt::Kind::ePreprocEndif );
-		testEnd();
-	}
-
 	void testPreprocExtension( test::TestCounts & testCounts )
 	{
 		testBegin( "testPreprocExtension" );
@@ -1280,13 +1193,7 @@ namespace
 testSuiteMain( TestASTStatements )
 {
 	testSuiteBegin();
-	testPreprocDefine( testCounts );
-	testPreprocElif( testCounts );
-	testPreprocElse( testCounts );
-	testPreprocEndif( testCounts );
 	testPreprocExtension( testCounts );
-	testPreprocIf( testCounts );
-	testPreprocIfDef( testCounts );
 	testPreprocVersion( testCounts );
 	testAccelerationStructureDecl( testCounts );
 	testBreak( testCounts );
