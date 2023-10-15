@@ -49,7 +49,7 @@ namespace spirv
 			ast::expr::Kind kind;
 			ast::expr::Expr * expr{};
 		};
-		using AccessChainExprArray = Vector< AccessChainExpr >;
+		using AccessChainExprArray = ast::Vector< AccessChainExpr >;
 
 		class AccessChainLineariser
 			: public ast::expr::SimpleVisitor
@@ -425,40 +425,16 @@ namespace spirv
 				else
 				{
 					// Head identifier, or array access index.
-					auto it = m_context.constAggrExprs.find( var->getId() );
 					VariableInfo sourceInfo;
-
-					if ( it != m_context.constAggrExprs.end() )
-					{
-						// Aggregated constants don't behave well with array access, instantiate the variable, with its initialisers.
-						auto resultId = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
-						m_result = m_module.loadVariable( resultId
-							, m_currentBlock
-							, m_currentDebugStatement
-							, glsl::getColumnData( m_currentDebugStatement, expr ) );
-						m_result = m_module.registerVariable( m_currentBlock
-							, var->getName()
-							, var->getBuiltin()
-							, getStorageClass( m_module.getVersion(), var )
-							, false
-							, false
-							, false
-							, expr->getType()
-							, sourceInfo
-							, m_result ).id;
-					}
-					else
-					{
-						m_result = m_module.registerVariable( m_currentBlock
-							, var->getName()
-							, var->getBuiltin()
-							, getStorageClass( m_module.getVersion(), var )
-							, false
-							, false
-							, var->isOutputParam()
-							, expr->getType()
-							, sourceInfo ).id;
-					}
+					m_result = m_module.registerVariable( m_currentBlock
+						, var->getName()
+						, var->getBuiltin()
+						, getStorageClass( m_module.getVersion(), var )
+						, false
+						, false
+						, var->isOutputParam()
+						, expr->getType()
+						, sourceInfo ).id;
 
 					decorateVar( *var, m_result, m_module );
 

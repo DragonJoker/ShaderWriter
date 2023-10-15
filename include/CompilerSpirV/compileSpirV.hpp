@@ -5,7 +5,21 @@ See LICENSE file in root folder
 #define ___SDW_WriterSpirV_H___
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
-#include "SpirVStlTypes.hpp"
+
+#include <set>
+#include <vector>
+
+#if defined( CompilerSpirV_Static )
+#	define SDWSPIRV_API
+#elif defined( _WIN32 )
+#	if defined( CompilerSpirV_Exports )
+#		define SDWSPIRV_API __declspec( dllexport )
+#	else
+#		define SDWSPIRV_API __declspec( dllimport )
+#	endif
+#else
+#	define SDWSPIRV_API
+#endif
 
 namespace spirv
 {

@@ -1091,6 +1091,11 @@ namespace ast::debug
 
 			if ( expr->getIdentifier() )
 			{
+				if ( expr->getIdentifier()->getVariable()->isStatic() )
+				{
+					m_result += "constexpr ";
+				}
+
 				wrap( expr->getIdentifier() );
 			}
 		
@@ -1237,6 +1242,14 @@ namespace ast::debug
 		void visitInitExpr( expr::Init * expr )override
 		{
 			m_result += getTypeName( expr->getType() ) + " ";
+
+			if ( expr->getIdentifier()
+				&& expr->getIdentifier()->getVariable()->isConstant()
+				&& expr->getIdentifier()->getVariable()->isStatic() )
+			{
+				m_result += "constexpr ";
+			}
+
 			wrap( expr->getIdentifier() );
 			m_result += " = ";
 			wrap( expr->getInitialiser() );
@@ -1859,26 +1872,6 @@ namespace ast::debug
 			visitCompoundStmt( stmt );
 		}
 
-		void visitPreprocDefine( stmt::PreprocDefine * preproc )override
-		{
-			addStatement( "ppDefine " + preproc->getName() + " " + doSubmit( preproc->getExpr() ) );
-		}
-
-		void visitPreprocElif( stmt::PreprocElif * preproc )override
-		{
-			addStatement( "ppElIf " + doSubmit( preproc->getCtrlExpr() ) );
-		}
-
-		void visitPreprocElse( stmt::PreprocElse * preproc )override
-		{
-			addStatement( "ppElse" );
-		}
-
-		void visitPreprocEndif( stmt::PreprocEndif * preproc )override
-		{
-			addStatement( "ppEndIf" );
-		}
-
 		void visitPreprocExtension( stmt::PreprocExtension * preproc )override
 		{
 			std::string type;
@@ -1900,16 +1893,6 @@ namespace ast::debug
 			}
 
 			addStatement( "ppExtension " + preproc->getName() + type );
-		}
-
-		void visitPreprocIf( stmt::PreprocIf * preproc )override
-		{
-			addStatement( "ppIf " + doSubmit( preproc->getCtrlExpr() ) );
-		}
-
-		void visitPreprocIfDef( stmt::PreprocIfDef * preproc )override
-		{
-			addStatement( "ppIfDef " + doSubmit( preproc->getIdentExpr() ) );
 		}
 
 		void visitPreprocVersion( stmt::PreprocVersion * preproc )override

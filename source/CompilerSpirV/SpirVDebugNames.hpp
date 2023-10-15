@@ -42,7 +42,7 @@ namespace spirv::debug
 			return m_namesDeclarations;
 		}
 
-		Map< std::string, Vector< uint32_t > > & getNameCache()noexcept
+		NamesCache & getNameCache()noexcept
 		{
 			return m_nameCache;
 		}
@@ -50,7 +50,7 @@ namespace spirv::debug
 	private:
 		InstructionList m_stringsDeclarations;
 		InstructionList m_namesDeclarations;
-		Map< std::string, Vector< uint32_t > > m_nameCache;
+		NamesCache m_nameCache;
 		SpirVConfig const * m_config;
 	};
 }

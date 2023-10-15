@@ -132,12 +132,12 @@ namespace spirv
 		, uint32_t OperandsCountT
 		, bool HasNameT
 		, bool HasLabelsT >
-	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( NamesCache & nameCache
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
 		, ValueIdList poperands
 		, Optional< std::string > pname
-		, Optional< Map< int32_t, spv::Id > > plabels )
+		, Optional< ast::Map< int32_t, spv::Id > > plabels )
 		: Instruction{ nameCache, Config, OperatorT, preturnTypeId, presultId, poperands, std::move( pname ), plabels }
 	{
 		assertType< Op
@@ -154,7 +154,7 @@ namespace spirv
 		, uint32_t OperandsCountT
 		, bool HasNameT
 		, bool HasLabelsT >
-	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+	inline InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >::InstructionT( NamesCache & nameCache
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId )
 		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, OperandsCountT, HasNameT, HasLabelsT >{ nameCache, Config, OperatorT, preturnTypeId, presultId, ValueIdList{ nameCache.get_allocator() } }
@@ -190,7 +190,7 @@ namespace spirv
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
 		, bool HasResultIdT >
-	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( NamesCache & nameCache
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
 		, ValueIdList poperands )
@@ -201,7 +201,7 @@ namespace spirv
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
 		, bool HasResultIdT >
-	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( Map< std::string, Vector< uint32_t > > & nameCache
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( NamesCache & nameCache
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId )
 		: VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >{ nameCache, preturnTypeId, presultId, ValueIdList{ nameCache.get_allocator() } }
@@ -239,7 +239,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -262,7 +262,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId operand
 			, std::string name )
 		{
@@ -288,7 +288,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId operand0
 			, ValueId operand1
 			, std::string name )
@@ -301,7 +301,7 @@ namespace spirv
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList operands, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -323,7 +323,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList operands, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -346,7 +346,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -369,7 +369,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueId operand, std::string name )
 		{
 			ValueIdList list{ nameCache.get_allocator() };
@@ -394,7 +394,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueId operand0, ValueId operand1, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -405,7 +405,7 @@ namespace spirv
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueIdList const & operands, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -427,7 +427,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueIdList const & operands, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -450,7 +450,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -473,7 +473,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueId operand )
 		{
 			ValueIdList list{ nameCache.get_allocator() };
@@ -498,7 +498,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -509,7 +509,7 @@ namespace spirv
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -531,7 +531,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -553,7 +553,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -563,7 +563,7 @@ namespace spirv
 		}
 
 		template< typename ... Params >
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, Params ... params )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -584,7 +584,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -607,7 +607,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId operand )
 		{
 			ValueIdList list{ nameCache.get_allocator() };
@@ -632,7 +632,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -643,7 +643,7 @@ namespace spirv
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -665,7 +665,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -687,7 +687,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -708,7 +708,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -731,7 +731,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueId operand )
 		{
 			ValueIdList list{ nameCache.get_allocator() };
@@ -756,7 +756,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -767,7 +767,7 @@ namespace spirv
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -789,7 +789,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -811,7 +811,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId resultId, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -832,7 +832,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache )
+		static inline InstructionTypePtr make( NamesCache & nameCache )
 		{
 			return std::make_unique< InstructionType >( nameCache
 				, nullopt
@@ -854,7 +854,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId operand )
 		{
 			ValueIdList list{ nameCache.get_allocator() };
@@ -879,7 +879,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId operand0, ValueId operand1 )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -890,7 +890,7 @@ namespace spirv
 				, nullopt );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -912,7 +912,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -934,7 +934,7 @@ namespace spirv
 		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList const & operands )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -955,8 +955,8 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
-			, Map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( NamesCache & nameCache
+			, ast::Map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nameCache
 				, nullopt
@@ -978,8 +978,8 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
-			, ValueId operand, Map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( NamesCache & nameCache
+			, ValueId operand, ast::Map< int32_t, spv::Id > const & labels )
 		{
 			ValueIdList list{ nameCache.get_allocator() };
 			list.push_back( operand );
@@ -1003,8 +1003,8 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
-			, ValueId operand0, ValueId operand1, Map< int32_t, spv::Id > const & labels )
+		static inline InstructionTypePtr make( NamesCache & nameCache
+			, ValueId operand0, ValueId operand1, ast::Map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nameCache
 				, nullopt
@@ -1014,9 +1014,9 @@ namespace spirv
 				, labels );
 		}
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList const & operands
-			, Map< int32_t, spv::Id > const & labels )
+			, ast::Map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nameCache
 				, nullopt
@@ -1037,9 +1037,9 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueIdList const & operands
-			, Map< int32_t, spv::Id > const & labels )
+			, ast::Map< int32_t, spv::Id > const & labels )
 		{
 			return std::make_unique< InstructionType >( nameCache
 				, nullopt
@@ -1061,7 +1061,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -1084,7 +1084,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueId operand, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -1107,7 +1107,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueId operand0, ValueId operand1, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -1129,7 +1129,7 @@ namespace spirv
 		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCountT, HasName, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
-		static inline InstructionTypePtr make( Map< std::string, Vector< uint32_t > > & nameCache
+		static inline InstructionTypePtr make( NamesCache & nameCache
 			, ValueId returnTypeId, ValueId resultId, ValueIdList const & operands, std::string name )
 		{
 			return std::make_unique< InstructionType >( nameCache
@@ -1200,7 +1200,7 @@ namespace spirv
 	};
 
 	template< typename InstructionType, typename ... Params >
-	inline std::unique_ptr< InstructionType > makeInstruction( Map< std::string, Vector< uint32_t > > & nameCache
+	inline std::unique_ptr< InstructionType > makeInstruction( NamesCache & nameCache
 		, Params && ... params )
 	{
 		OpInstructionCheckerT< InstructionType::Op >::checkParams( std::forward< Params const & >( params )... );

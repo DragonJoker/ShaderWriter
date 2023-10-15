@@ -381,13 +381,7 @@ namespace ast
 		class StmtCache;
 		class Visitor;
 
-		class PreprocDefine;
-		class PreprocElif;
-		class PreprocElse;
-		class PreprocEndif;
 		class PreprocExtension;
-		class PreprocIf;
-		class PreprocIfDef;
 		class PreprocVersion;
 		class AccelerationStructureDecl;
 		class Break;
@@ -446,13 +440,7 @@ namespace ast
 		using StmtPtrT = std::unique_ptr< StmtT, DeleteStmt >;
 
 		using StmtPtr = StmtPtrT< Stmt >;
-		using PreprocDefinePtr = StmtPtrT< PreprocDefine >;
-		using PreprocElifPtr = StmtPtrT< PreprocElif >;
-		using PreprocElsePtr = StmtPtrT< PreprocElse >;
-		using PreprocEndifPtr = StmtPtrT< PreprocEndif >;
 		using PreprocExtensionPtr = StmtPtrT< PreprocExtension >;
-		using PreprocIfPtr = StmtPtrT< PreprocIf >;
-		using PreprocIfDefPtr = StmtPtrT< PreprocIfDef >;
 		using PreprocVersionPtr = StmtPtrT< PreprocVersion >;
 		using AccelerationStructureDeclPtr = StmtPtrT< AccelerationStructureDecl >;
 		using BreakPtr = StmtPtrT< Break >;

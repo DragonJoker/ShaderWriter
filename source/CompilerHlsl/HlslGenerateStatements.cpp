@@ -1809,45 +1809,9 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
-			{
-				doAppendLineEnd();
-				m_result += "#define " + preproc->getName() + " " + doSubmit( preproc->getExpr() ) + "\n";
-			}
-
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
-			{
-				doAppendLineEnd();
-				m_result += "#elif " + doSubmit( preproc->getCtrlExpr() ) + "\n";
-			}
-
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
-			{
-				doAppendLineEnd();
-				m_result += "#else\n";
-			}
-
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
-			{
-				doAppendLineEnd();
-				m_result += "#endif\n";
-			}
-
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
 				AST_Failure( "ast::stmt::PreprocExtension unexpected at that point" );
-			}
-
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
-			{
-				doAppendLineEnd();
-				m_result += "#if " + doSubmit( preproc->getCtrlExpr() ) + "\n";
-			}
-
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
-			{
-				doAppendLineEnd();
-				m_result += "#ifdef " + doSubmit( preproc->getIdentExpr() ) + "\n";
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override

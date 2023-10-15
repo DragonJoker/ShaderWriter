@@ -22,14 +22,7 @@ namespace ast::stmt
 		SDAST_API explicit StmtCache( ShaderAllocatorBlock & allocator );
 		SDAST_API ~StmtCache() = default;
 
-		SDAST_API PreprocDefinePtr makePreprocDefine( EntityName nameId, std::string name, expr::ExprPtr expr );
-		SDAST_API PreprocDefinePtr makePreprocDefine( uint32_t id, std::string name, expr::ExprPtr expr );
-		SDAST_API PreprocElifPtr makePreprocElif( expr::ExprPtr ctrlExpr );
-		SDAST_API PreprocElsePtr makePreprocElse();
-		SDAST_API PreprocEndifPtr makePreprocEndif();
 		SDAST_API PreprocExtensionPtr makePreprocExtension( std::string name, PreprocExtension::ExtStatus status );
-		SDAST_API PreprocIfPtr makePreprocIf( expr::ExprPtr ctrlExpr );
-		SDAST_API PreprocIfDefPtr makePreprocIfDef( expr::IdentifierPtr identExpr );
 		SDAST_API PreprocVersionPtr makePreprocVersion( std::string name );
 		SDAST_API AccelerationStructureDeclPtr makeAccelerationStructureDecl( var::VariablePtr variable, uint32_t bindingPoint, uint32_t bindingSet );
 		SDAST_API BreakPtr makeBreak( bool switchCaseBreak );

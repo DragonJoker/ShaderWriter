@@ -883,39 +883,8 @@ namespace spirv
 				visitContainerStmt( stmt );
 			}
 
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
-			{
-				ExprConfigFiller::submit( preproc->getExpr(), m_result );
-			}
-
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
-			{
-				ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
-			{
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
-			{
-			}
-
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
-			}
-
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
-			{
-				ExprConfigFiller::submit( preproc->getCtrlExpr(), m_result );
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
-			{
-				visitContainerStmt( preproc );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override

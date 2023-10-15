@@ -279,6 +279,15 @@ namespace sdw
 		doPopScope();
 	}
 
+	void ShaderWriter::defaultStmt( std::function< void() > function )
+	{
+		auto stmt = m_switchStmt.back()->createDefault();
+		doPushScope( stmt
+			, ast::var::VariableList{} );
+		function();
+		doPopScope();
+	}
+
 	void ShaderWriter::caseBreakStmt()
 	{
 		addStmt( getStmtCache().makeBreak( true ) );

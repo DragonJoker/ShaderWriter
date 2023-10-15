@@ -51,10 +51,6 @@ namespace glsl
 				case ast::stmt::Kind::eDoWhile:
 				case ast::stmt::Kind::eSwitch:
 				case ast::stmt::Kind::eSwitchCase:
-				case ast::stmt::Kind::ePreprocIf:
-				case ast::stmt::Kind::ePreprocElif:
-				case ast::stmt::Kind::ePreprocElse:
-				case ast::stmt::Kind::ePreprocIfDef:
 					return true;
 				case ast::stmt::Kind::eSimple:
 				case ast::stmt::Kind::eComment:
@@ -90,8 +86,6 @@ namespace glsl
 				case ast::stmt::Kind::eTerminateRay:
 				case ast::stmt::Kind::eIgnoreIntersection:
 				case ast::stmt::Kind::eDispatchMesh:
-				case ast::stmt::Kind::ePreprocDefine:
-				case ast::stmt::Kind::ePreprocEndif:
 				case ast::stmt::Kind::ePreprocExtension:
 				case ast::stmt::Kind::ePreprocVersion:
 					return false;
@@ -3356,39 +3350,9 @@ namespace glsl
 				AST_Failure( "Unexpected While statement." );
 			}
 
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocDefine statement." );
-			}
-
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocElif statement." );
-			}
-
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocElse statement." );
-			}
-
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocEndif statement." );
-			}
-
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
 				doAddStatement( "#extension " + preproc->getName() + ": " + helpers::getStatusName( preproc->getStatus() ), ExprsColumns{}, StatementType::eScopeLine, preproc );
-			}
-
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocIf statement." );
-			}
-
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
-			{
-				AST_Failure( "Unexpected PreprocIfDef statement." );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override

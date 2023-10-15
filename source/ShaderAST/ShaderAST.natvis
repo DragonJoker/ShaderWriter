@@ -989,6 +989,13 @@
 			<Item Name="statements">m_statements</Item>
 		</Expand>
 	</Type>
+	<Type Name="ast::stmt::Compound">
+		<DisplayString>{{kind={m_kind}}}</DisplayString>
+		<Expand>
+			<Item Name="kind">m_kind</Item>
+			<Item Name="statements">m_statements</Item>
+		</Expand>
+	</Type>
 	<Type Name="ast::stmt::ConstantBufferDecl">
 		<DisplayString>{{kind={m_kind} name={m_name,s8b}}}</DisplayString>
 		<Expand>
@@ -997,6 +1004,36 @@
 			<Item Name="layout">m_layout</Item>
 			<Item Name="set">m_bindingSet</Item>
 			<Item Name="binding">m_bindingPoint</Item>
+			<Item Name="variables">m_statements</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::DoWhile">
+		<DisplayString>DoWhile {m_ctrlExpr}</DisplayString>
+		<Expand>
+			<Item Name="ctrl">m_ctrlExpr</Item>
+			<Item Name="statements">m_statements</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::Else">
+		<DisplayString>Else</DisplayString>
+		<Expand>
+			<Item Name="statements">m_statements</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::ElseIf">
+		<DisplayString>ElseIf {m_ctrlExpr}</DisplayString>
+		<Expand>
+			<Item Name="ctrl">m_ctrlExpr</Item>
+			<Item Name="statements">m_statements</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::For">
+		<DisplayString>For ({m_initExpr}; {m_ctrlExpr}; {m_incrExpr})</DisplayString>
+		<Expand>
+			<Item Name="init">m_initExpr</Item>
+			<Item Name="ctrl">m_ctrlExpr</Item>
+			<Item Name="incr">m_incrExpr</Item>
+			<Item Name="statements">m_statements</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::FunctionDecl">
@@ -1005,6 +1042,16 @@
 			<Item Name="kind">m_kind</Item>
 			<Item Name="name">m_name</Item>
 			<Item Name="type">m_type</Item>
+			<Item Name="statements">m_statements</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::If">
+		<DisplayString>If {m_ctrlExpr}</DisplayString>
+		<Expand>
+			<Item Name="ctrl">m_ctrlExpr</Item>
+			<Item Name="content">m_statements</Item>
+			<Item Name="elseIfs">m_elseIfs</Item>
+			<Item Name="else">m_else</Item>
 		</Expand>
 	</Type>
 	<Type Name="ast::stmt::ImageDecl">
@@ -1122,6 +1169,13 @@
 		<Expand>
 			<Item Name="kind">m_kind</Item>
 			<Item Name="var">m_variable</Item>
+		</Expand>
+	</Type>
+	<Type Name="ast::stmt::While">
+		<DisplayString>While {m_ctrlExpr}</DisplayString>
+		<Expand>
+			<Item Name="ctrl">m_ctrlExpr</Item>
+			<Item Name="statements">m_statements</Item>
 		</Expand>
 	</Type>
 

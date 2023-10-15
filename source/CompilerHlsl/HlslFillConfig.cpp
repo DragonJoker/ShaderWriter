@@ -600,33 +600,6 @@ namespace hlsl
 				visitContainerStmt( stmt );
 			}
 
-			void visitPreprocDefine( ast::stmt::PreprocDefine * preproc )override
-			{
-				doSubmit( preproc->getExpr() );
-			}
-
-			void visitPreprocElif( ast::stmt::PreprocElif * preproc )override
-			{
-				doSubmit( preproc->getCtrlExpr() );
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocElse( ast::stmt::PreprocElse * preproc )override
-			{
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocIf( ast::stmt::PreprocIf * preproc )override
-			{
-				doSubmit( preproc->getCtrlExpr() );
-				visitContainerStmt( preproc );
-			}
-
-			void visitPreprocIfDef( ast::stmt::PreprocIfDef * preproc )override
-			{
-				visitContainerStmt( preproc );
-			}
-
 			void visitBreakStmt( ast::stmt::Break * cont )override
 			{
 			}
@@ -700,10 +673,6 @@ namespace hlsl
 			}
 
 			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
-			{
-			}
-
-			void visitPreprocEndif( ast::stmt::PreprocEndif * preproc )override
 			{
 			}
 

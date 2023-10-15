@@ -53,7 +53,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprUnaryMinus.hpp>
 #include <ShaderAST/Expr/ExprUnaryPlus.hpp>
 #include <ShaderAST/Expr/ExprXorAssign.hpp>
-#include <ShaderAST/Stmt/PreprocDefine.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
 #include <ShaderAST/Stmt/StmtAccelerationStructureDecl.hpp>
 #include <ShaderAST/Stmt/StmtBufferReferenceDecl.hpp>
@@ -915,16 +914,6 @@ namespace sdw
 	stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache )
 	{
 		return stmtCache.makeReturn();
-	}
-
-	stmt::StmtPtr makePreprocDefine( stmt::StmtCache & stmtCache
-		, Shader & shader
-		, std::string name
-		, expr::ExprPtr expr )
-	{
-		return stmtCache.makePreprocDefine( getNextVarId( shader )
-			, std::move( name )
-			, std::move( expr ) );
 	}
 
 	stmt::StmtPtr makeVariableDecl( stmt::StmtCache & stmtCache

@@ -56,8 +56,8 @@ namespace spirv
 		InstructionList instructions;
 		InstructionPtr blockEnd{};
 		// Used during construction.
-		UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > accessChains;
-		UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > vectorShuffles;
+		ast::UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > accessChains;
+		ast::UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > vectorShuffles;
 		bool isInterrupted{};
 	};
 }

@@ -55,7 +55,7 @@ namespace spirv
 
 		SDWSPIRV_API static Module deserialize( ast::ShaderAllocatorBlock * allocator
 			, std::vector< uint32_t > const & spirv );
-		SDWSPIRV_API static Vector< uint32_t > serialize( spirv::Module const & module );
+		SDWSPIRV_API static UInt32List serialize( spirv::Module const & module );
 		SDWSPIRV_API static std::string write( spirv::Module const & module
 			, bool writeHeader );
 
@@ -201,7 +201,7 @@ namespace spirv
 		SDWSPIRV_API InstructionList const & getDebugStringsDeclarations()const noexcept;
 		SDWSPIRV_API InstructionList const & getDebugNamesDeclarations()const noexcept;
 		SDWSPIRV_API InstructionList const & getNonSemanticDebugDeclarations()const noexcept;
-		SDWSPIRV_API Map< std::string, Vector< uint32_t > > & getNameCache()noexcept;
+		SDWSPIRV_API NamesCache & getNameCache()noexcept;
 		SDWSPIRV_API ast::type::TypesCache & getTypesCache()const noexcept;
 		SDWSPIRV_API void declareDebugAccessChain( InstructionList & instructions
 			, ast::expr::Expr * expr
@@ -284,14 +284,14 @@ namespace spirv
 			, std::string name
 			, DebugId varId
 			, spv::StorageClass storage
-			, Map< std::string, VariableInfo >::iterator & it
+			, ast::Map< std::string, VariableInfo >::iterator & it
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement = nullptr );
 
 	private:
-		using DecorationMap = UnorderedMap< ValueIdList, size_t, ValueIdListHasher >;
-		using DecorationMapIdMap = Map< DebugId, DecorationMap >;
-		using DecorationMapMbrMap = UnorderedMap< ValueIdList, DecorationMap, ValueIdListHasher >;
+		using DecorationMap = ast::UnorderedMap< ValueIdList, size_t, ValueIdListHasher >;
+		using DecorationMapIdMap = ast::Map< DebugId, DecorationMap >;
+		using DecorationMapMbrMap = ast::UnorderedMap< ValueIdList, DecorationMap, ValueIdListHasher >;
 
 		struct VariableDebugId
 		{
@@ -303,13 +303,13 @@ namespace spirv
 		uint32_t m_version;
 		spv::Id * m_currentId;
 		Function * m_currentFunction{ nullptr };
-		Map< std::string, VariableInfo > m_registeredVariables;
-		Map< std::string, VariableInfo > * m_currentScopeVariables;
-		UnorderedMap< DebugId, TypeId, DebugIdHasher > m_registeredVariablesTypes;
-		Map< std::string, std::pair< DebugId, DebugId > > m_registeredMemberVariables;
-		UnorderedSet< spv::Id > m_intermediates;
-		UnorderedSet< spv::Id > m_freeIntermediates;
-		UnorderedMap< spv::Id, ValueId > m_busyIntermediates;
+		ast::Map< std::string, VariableInfo > m_registeredVariables;
+		ast::Map< std::string, VariableInfo > * m_currentScopeVariables;
+		ast::UnorderedMap< DebugId, TypeId, DebugIdHasher > m_registeredVariablesTypes;
+		ast::Map< std::string, std::pair< DebugId, DebugId > > m_registeredMemberVariables;
+		ast::UnorderedSet< spv::Id > m_intermediates;
+		ast::UnorderedSet< spv::Id > m_freeIntermediates;
+		ast::UnorderedMap< spv::Id, ValueId > m_busyIntermediates;
 		spv::ExecutionModel m_model;
 		InstructionList m_pendingExecutionModes;
 		ValueIdSet m_entryPointIO;

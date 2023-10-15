@@ -25,12 +25,12 @@ namespace spirv
 
 	namespace module
 	{
-		static Map< std::string, VariableInfo >::iterator addVariable( Map< std::string, Vector< uint32_t > > & nameCache
+		static ast::Map< std::string, VariableInfo >::iterator addVariable( NamesCache & nameCache
 			, TypeId varTypeId
 			, DebugId varId
 			, std::string name
 			, ValueId initialiser
-			, Map< std::string, VariableInfo > & variables
+			, ast::Map< std::string, VariableInfo > & variables
 			, InstructionList & instructions )
 		{
 			auto result = variables.emplace( std::move( name ), VariableInfo{} ).first;
@@ -48,8 +48,8 @@ namespace spirv
 		static DebugId registerLiteral( LitT value
 			, ast::type::TypePtr valueType
 			, Module & module
-			, Map< LitT, DebugId > & registeredLitConstants
-			, UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > & registeredConstants )
+			, ast::Map< LitT, DebugId > & registeredLitConstants
+			, ast::UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > & registeredConstants )
 		{
 			auto it = registeredLitConstants.find( value );
 
@@ -87,7 +87,7 @@ namespace spirv
 		, constantsTypes{ allocator }
 		, globalDeclarations{ allocator }
 		, structData{ allocator }
-		, functions{ spirv::ModuleAllocatorT< spirv::Function >{ allocator } }
+		, functions{ ast::StlAllocatorT< spirv::Function >{ allocator } }
 		, variables{ &globalDeclarations }
 		, m_version{}
 		, m_registeredVariables{ allocator }
@@ -187,7 +187,7 @@ namespace spirv
 		return spirv::write( module, writeHeader );
 	}
 
-	Vector< uint32_t > spirv::Module::serialize( spirv::Module const & module )
+	UInt32List spirv::Module::serialize( spirv::Module const & module )
 	{
 		return spirv::serialize( module );
 	}
@@ -296,7 +296,7 @@ namespace spirv
 			DebugId id{ getNextId()
 				, getTypesCache().getPointerType( varId->type, convert( storage ) ) };
 			doAddDebug( name, id );
-			Map< std::string, VariableInfo >::iterator it;
+			ast::Map< std::string, VariableInfo >::iterator it;
 			doAddVariable( block, name, id, storage, it, DebugId{} );
 			storeVariable( it->second.id, varId, currentBlock, statement, columns );
 			varId = it->second.id;
@@ -314,7 +314,7 @@ namespace spirv
 		, glsl::RangeInfo const & columns )
 	{
 		DebugId varId;
-		Map< std::string, VariableInfo >::iterator it;
+		ast::Map< std::string, VariableInfo >::iterator it;
 
 		if ( m_currentFunction )
 		{
@@ -801,7 +801,7 @@ namespace spirv
 	{
 		auto it = std::find_if( m_currentScopeVariables->begin()
 			, m_currentScopeVariables->end()
-			, [outer]( Map< std::string, VariableInfo >::value_type const & pair )
+			, [outer]( ast::Map< std::string, VariableInfo >::value_type const & pair )
 			{
 				return pair.second.id == outer;
 			} );
@@ -1316,7 +1316,7 @@ namespace spirv
 		return m_nonSemanticDebug.getDeclarations();
 	}
 
-	Map< std::string, Vector< uint32_t > > & Module::getNameCache()noexcept
+	NamesCache & Module::getNameCache()noexcept
 	{
 		return m_debugNames.getNameCache();
 	}
@@ -1535,7 +1535,7 @@ namespace spirv
 	void Module::doAddBuiltin( ast::Builtin pbuiltin
 		, DebugId id )
 	{
-		Vector< spv::Decoration > additionalDecorations{ allocator };
+		ast::Vector< spv::Decoration > additionalDecorations{ allocator };
 		auto builtin = getBuiltin( pbuiltin, m_model, additionalDecorations );
 
 		if ( builtin != spv::BuiltInMax )
@@ -1553,7 +1553,7 @@ namespace spirv
 		, std::string name
 		, DebugId varId
 		, spv::StorageClass storage
-		, Map< std::string, VariableInfo >::iterator & it
+		, ast::Map< std::string, VariableInfo >::iterator & it
 		, DebugId initialiser
 		, glsl::Statement const * debugStatement )
 	{
