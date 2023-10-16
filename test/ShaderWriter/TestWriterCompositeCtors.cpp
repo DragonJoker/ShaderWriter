@@ -16,7 +16,8 @@ namespace
 			, sdw::Vec4Field< "a" >
 			, sdw::Vec4Field< "b" >
 			, sdw::Vec4Field< "c" >
-			, sdw::Vec4Field< "d" > >
+			, sdw::Vec4Field< "d" >
+			, sdw::UVec4Field< "e" > >
 	{
 		ValuesT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
@@ -29,6 +30,7 @@ namespace
 		auto b()const { return getMember< "b" >(); }
 		auto c()const { return getMember< "c" >(); }
 		auto d()const { return getMember< "d" >(); }
+		auto e()const { return getMember< "e" >(); }
 	};
 
 	void noFlatteningExpected( test::sdw_test::TestCounts & testCounts )
@@ -123,6 +125,90 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
+
+	void constIndexConstArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "constIndexConstArray" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto values = writer.declConstantArray( "values"
+						, std::vector< sdw::Float >{ 0.0_f, 0.0_f, 0.0_f, 1.0_f } );
+					auto result = writer.declLocale( "result"
+						, values[0] );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void nonConstIndexConstArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "nonConstIndexConstArray" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto values = writer.declConstantArray( "values"
+						, std::vector< sdw::Float >{ 0.0_f, 0.0_f, 0.0_f, 1.0_f } );
+					auto result = writer.declLocale( "result"
+						, values[ssbo[0].e().x()] );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void swizzleConstCompositeCtor( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "swizzleConstCompositeCtor" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto values = writer.declConstant( "values"
+						, vec4( 0.0_f, 1.0_f, 2.0_f, 3.0_f ) );
+					auto result0 = writer.declLocale( "result0"
+						, values.x() );
+					auto result1 = writer.declLocale( "result1"
+						, values.xw() );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterCompositeCtors )
@@ -131,6 +217,9 @@ sdwTestSuiteMain( TestWriterCompositeCtors )
 	noFlatteningExpected( testCounts );
 	flattenLiterals( testCounts );
 	flattenVariables( testCounts );
+	constIndexConstArray( testCounts );
+	nonConstIndexConstArray( testCounts );
+	swizzleConstCompositeCtor( testCounts );
 	sdwTestSuiteEnd();
 }
 

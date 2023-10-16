@@ -6,12 +6,6 @@
 #pragma warning( disable:5245 )
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
-#undef ForceDisplayShaders
-#define ForceDisplayShaders true
-
-#undef CurrentCompilers
-#define CurrentCompilers Compilers_SPIRV
-
 namespace
 {
 	struct St
@@ -1941,68 +1935,68 @@ namespace
 	template< typename ValueT >
 	void testParams( test::sdw_test::TestCounts & testCounts )
 	{
-		//testSingleInParamLiteral< ValueT >( testCounts );
-		//testSingleInParamConstant< ValueT >( testCounts );
+		testSingleInParamLiteral< ValueT >( testCounts );
+		testSingleInParamConstant< ValueT >( testCounts );
 		testSingleInParamConstantArray< ValueT >( testCounts );
-		//testSingleInParamVariable< ValueT >( testCounts );
-		//testSingleInParamArrayVariable< ValueT >( testCounts );
-		//testSingleInParamInputVariable< ValueT >( testCounts );
-		//testSingleInParamUniformVariable< ValueT >( testCounts );
-		//testSingleInParamStorageVariable< ValueT >( testCounts );
-		//testSingleInParamStructMember< ValueT >( testCounts );
+		testSingleInParamVariable< ValueT >( testCounts );
+		testSingleInParamArrayVariable< ValueT >( testCounts );
+		testSingleInParamInputVariable< ValueT >( testCounts );
+		testSingleInParamUniformVariable< ValueT >( testCounts );
+		testSingleInParamStorageVariable< ValueT >( testCounts );
+		testSingleInParamStructMember< ValueT >( testCounts );
 
-		//testSingleOutParamVariable< ValueT >( testCounts );
-		//testSingleOutParamArrayVariable< ValueT >( testCounts );
-		//testSingleOutParamStorageVariable< ValueT >( testCounts );
-		//testSingleOutParamStructMember< ValueT >( testCounts );
+		testSingleOutParamVariable< ValueT >( testCounts );
+		testSingleOutParamArrayVariable< ValueT >( testCounts );
+		testSingleOutParamStorageVariable< ValueT >( testCounts );
+		testSingleOutParamStructMember< ValueT >( testCounts );
 
-		//testSingleInOutParamVariable< ValueT >( testCounts );
-		//testSingleInOutParamArrayVariable< ValueT >( testCounts );
-		//testSingleInOutParamStorageVariable< ValueT >( testCounts );
-		//testSingleInOutParamStructMember< ValueT >( testCounts );
+		testSingleInOutParamVariable< ValueT >( testCounts );
+		testSingleInOutParamArrayVariable< ValueT >( testCounts );
+		testSingleInOutParamStorageVariable< ValueT >( testCounts );
+		testSingleInOutParamStructMember< ValueT >( testCounts );
 
-		//testArrayInParamLiteral< ValueT >( testCounts );
-		//testArrayInParamConstant< ValueT >( testCounts );
-		//testArrayInParamVariable< ValueT >( testCounts );
+		testArrayInParamLiteral< ValueT >( testCounts );
+		testArrayInParamConstant< ValueT >( testCounts );
+		testArrayInParamVariable< ValueT >( testCounts );
 
-		//if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
-		//	&& !std::is_same_v< ValueT, sdw::Mat3 >
-		//	&& !std::is_same_v< ValueT, sdw::Mat4 > )
-		//{
-		//	testSingleInParamOutputVariable< ValueT >( testCounts );
-		//	testArrayInParamInputVariable< ValueT >( testCounts );
-		//	testArrayInParamOutputVariable< ValueT >( testCounts );
-		//}
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+			&& !std::is_same_v< ValueT, sdw::Mat3 >
+			&& !std::is_same_v< ValueT, sdw::Mat4 > )
+		{
+			testSingleInParamOutputVariable< ValueT >( testCounts );
+			testArrayInParamInputVariable< ValueT >( testCounts );
+			testArrayInParamOutputVariable< ValueT >( testCounts );
+		}
 
-		//testArrayInParamUniformVariable< ValueT >( testCounts );
-		//testArrayInParamStorageVariable< ValueT >( testCounts );
-		//testArrayInParamStructMember< ValueT >( testCounts );
+		testArrayInParamUniformVariable< ValueT >( testCounts );
+		testArrayInParamStorageVariable< ValueT >( testCounts );
+		testArrayInParamStructMember< ValueT >( testCounts );
 
-		//testArrayOutParamVariable< ValueT >( testCounts );
+		testArrayOutParamVariable< ValueT >( testCounts );
 
-		//if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
-		//	&& !std::is_same_v< ValueT, sdw::Mat3 >
-		//	&& !std::is_same_v< ValueT, sdw::Mat4 > )
-		//{
-		//	testSingleOutParamOutputVariable< ValueT >( testCounts );
-		//	testArrayOutParamOutputVariable< ValueT >( testCounts );
-		//}
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+			&& !std::is_same_v< ValueT, sdw::Mat3 >
+			&& !std::is_same_v< ValueT, sdw::Mat4 > )
+		{
+			testSingleOutParamOutputVariable< ValueT >( testCounts );
+			testArrayOutParamOutputVariable< ValueT >( testCounts );
+		}
 
-		//testArrayOutParamStorageVariable< ValueT >( testCounts );
-		//testArrayOutParamStructMember< ValueT >( testCounts );
+		testArrayOutParamStorageVariable< ValueT >( testCounts );
+		testArrayOutParamStructMember< ValueT >( testCounts );
 
-		//testArrayInOutParamVariable< ValueT >( testCounts );
+		testArrayInOutParamVariable< ValueT >( testCounts );
 
-		//if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
-		//	&& !std::is_same_v< ValueT, sdw::Mat3 >
-		//	&& !std::is_same_v< ValueT, sdw::Mat4 > )
-		//{
-		//	testSingleInOutParamOutputVariable< ValueT >( testCounts );
-		//	testArrayInOutParamOutputVariable< ValueT >( testCounts );
-		//}
+		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+			&& !std::is_same_v< ValueT, sdw::Mat3 >
+			&& !std::is_same_v< ValueT, sdw::Mat4 > )
+		{
+			testSingleInOutParamOutputVariable< ValueT >( testCounts );
+			testArrayInOutParamOutputVariable< ValueT >( testCounts );
+		}
 
-		//testArrayInOutParamStorageVariable< ValueT >( testCounts );
-		//testArrayInOutParamStructMember< ValueT >( testCounts );
+		testArrayInOutParamStorageVariable< ValueT >( testCounts );
+		testArrayInOutParamStructMember< ValueT >( testCounts );
 	}
 }
 
@@ -2010,41 +2004,41 @@ sdwTestSuiteMain( TestWriterFunction )
 {
 	sdwTestSuiteBegin();
 	testParams< sdw::Int >( testCounts );
-	//testParams< sdw::UInt >( testCounts );
-	//testParams< sdw::Float >( testCounts );
-	//testParams< sdw::IVec2 >( testCounts );
-	//testParams< sdw::UVec2 >( testCounts );
-	//testParams< sdw::Vec2 >( testCounts );
-	//testParams< sdw::IVec3 >( testCounts );
-	//testParams< sdw::UVec3 >( testCounts );
-	//testParams< sdw::Vec3 >( testCounts );
-	//testParams< sdw::IVec4 >( testCounts );
-	//testParams< sdw::UVec4 >( testCounts );
-	//testParams< sdw::Vec4 >( testCounts );
-	//testParams< sdw::Mat2 >( testCounts );
-	//testParams< sdw::Mat3 >( testCounts );
-	//testParams< sdw::Mat4 >( testCounts );
-	//paramInArray( testCounts );
-	//paramInOutVec4( testCounts );
-	//paramInMat4InVec4( testCounts );
-	//paramInStInVec4( testCounts );
-	//paramInSpImgInVec2( testCounts );
-	//paramInVec4Ass( testCounts );
-	//params( testCounts );
-	//arrayParamAccessInOut( testCounts );
-	//vecParamAccessInIndex( testCounts );
-	//rImageParamForward( testCounts );
-	//wImageParamForward( testCounts );
-	//rwImageParamForward( testCounts );
-	//structInParam( testCounts );
-	//structInParamForward( testCounts );
-	//removeGamma( testCounts );
-	//returns( testCounts );
-	//returnAfterWhile( testCounts );
-	//paramInWhile( testCounts );
-	//paramMbrAccessInWhile( testCounts );
-	//paramIfElseIf( testCounts );
-	//nestedFunctionDecl( testCounts );
+	testParams< sdw::UInt >( testCounts );
+	testParams< sdw::Float >( testCounts );
+	testParams< sdw::IVec2 >( testCounts );
+	testParams< sdw::UVec2 >( testCounts );
+	testParams< sdw::Vec2 >( testCounts );
+	testParams< sdw::IVec3 >( testCounts );
+	testParams< sdw::UVec3 >( testCounts );
+	testParams< sdw::Vec3 >( testCounts );
+	testParams< sdw::IVec4 >( testCounts );
+	testParams< sdw::UVec4 >( testCounts );
+	testParams< sdw::Vec4 >( testCounts );
+	testParams< sdw::Mat2 >( testCounts );
+	testParams< sdw::Mat3 >( testCounts );
+	testParams< sdw::Mat4 >( testCounts );
+	paramInArray( testCounts );
+	paramInOutVec4( testCounts );
+	paramInMat4InVec4( testCounts );
+	paramInStInVec4( testCounts );
+	paramInSpImgInVec2( testCounts );
+	paramInVec4Ass( testCounts );
+	params( testCounts );
+	arrayParamAccessInOut( testCounts );
+	vecParamAccessInIndex( testCounts );
+	rImageParamForward( testCounts );
+	wImageParamForward( testCounts );
+	rwImageParamForward( testCounts );
+	structInParam( testCounts );
+	structInParamForward( testCounts );
+	removeGamma( testCounts );
+	returns( testCounts );
+	returnAfterWhile( testCounts );
+	paramInWhile( testCounts );
+	paramMbrAccessInWhile( testCounts );
+	paramIfElseIf( testCounts );
+	nestedFunctionDecl( testCounts );
 	sdwTestSuiteEnd();
 }
 

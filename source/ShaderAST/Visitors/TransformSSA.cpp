@@ -531,12 +531,12 @@ namespace ast
 					args.emplace_back( doSubmit( arg ) );
 				}
 
-				auto srcType = getExpectedReturnType( expr );
-				m_result = m_exprCache.makeStorageImageAccessCall( srcType
+				auto dstType = expr->getType();
+				m_result = m_exprCache.makeStorageImageAccessCall( dstType
 					, expr->getImageAccess()
 					, std::move( args ) );
 
-				if ( srcType->getKind() != ast::type::Kind::eVoid )
+				if ( dstType->getKind() != ast::type::Kind::eVoid )
 				{
 					auto type = m_result->getType();
 					auto alias = doCreateAliasVar( type

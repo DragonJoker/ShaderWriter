@@ -1570,6 +1570,7 @@ namespace ast::debug
 			for ( auto & param : *type )
 			{
 				declareStruct( param->getType() );
+				parseType( param->getType() );
 				text += sep;
 				text += helpers::displayVar( param );
 				sep = ", ";
@@ -1653,9 +1654,9 @@ namespace ast::debug
 		void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
 		{
 			declareStruct( stmt->getType() );
-			addStatement( "[X=" + std::to_string( stmt->getWorkGroupsX() )
-				+ ", Y(" + std::to_string( stmt->getWorkGroupsY() )
-				+ ", Z(" + std::to_string( stmt->getWorkGroupsZ() ) + "]" );
+			addStatement( "[GroupsX=" + std::to_string( stmt->getWorkGroupsX() )
+				+ ", GroupsY=" + std::to_string( stmt->getWorkGroupsY() )
+				+ ", GroupsZ=" + std::to_string( stmt->getWorkGroupsZ() ) + "]" );
 			addStatement( "Compute" );
 		}
 
@@ -1699,7 +1700,7 @@ namespace ast::debug
 				+ ", Partitioning" + helpers::getPartitioningName( stmt->getPartitioning() )
 				+ ", Topology=" + helpers::getTopologyName( stmt->getTopology() )
 				+ ", Ordering=" + helpers::getOrderingName( stmt->getPrimitiveOrdering() )
-				+ ", Vertices=(" + std::to_string( stmt->getOutputVertices() ) + "]" );
+				+ ", OutVertices=(" + std::to_string( stmt->getOutputVertices() ) + "]" );
 			addStatement( "TessControlOutput" );
 		}
 
@@ -1898,6 +1899,80 @@ namespace ast::debug
 		void visitPreprocVersion( stmt::PreprocVersion * preproc )override
 		{
 			addStatement( "ppVersion " + preproc->getName() );
+		}
+
+		void parseType( type::TypePtr type )
+		{
+			switch ( type->getKind() )
+			{
+			case ast::type::Kind::eGeometryInput:
+				{
+					auto & specType = static_cast< type::GeometryInput const & >( *type );
+					addStatement( "[Layout=" + helpers::getInputLayoutName( specType.getLayout() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eGeometryOutput:
+				{
+					auto & specType = static_cast< type::GeometryOutput const & >( *type );
+					addStatement( "[Layout=" + helpers::getOutputLayoutName( specType.getLayout() )
+						+ ", Count=" + std::to_string( specType.getCount() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eTessellationControlInput:
+				{
+					auto & specType = static_cast< type::TessellationControlInput const & >( *type );
+					addStatement( "[InVertices=" + std::to_string( specType.getInputVertices() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eTessellationControlOutput:
+				{
+					auto & specType = static_cast< type::TessellationControlOutput const & >( *type );
+					addStatement( "[Domain=" + helpers::getDomainName( specType.getDomain() )
+						+ ", Partitioning" + helpers::getPartitioningName( specType.getPartitioning() )
+						+ ", Topology=" + helpers::getTopologyName( specType.getTopology() )
+						+ ", Ordering=" + helpers::getOrderingName( specType.getOrder() )
+						+ ", OutVertices=(" + std::to_string( specType.getOutputVertices() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eTessellationEvaluationInput:
+				{
+					auto & specType = static_cast< type::TessellationEvaluationInput const & >( *type );
+					addStatement( "[Domain=" + helpers::getDomainName( specType.getDomain() )
+						+ ", Partitioning=" + helpers::getPartitioningName( specType.getPartitioning() )
+						+ ", Oredering=" + helpers::getOrderingName( specType.getPrimitiveOrdering() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eFragmentInput:
+				{
+					auto & specType = static_cast< type::FragmentInput const & >( *type );
+					addStatement( "[Origin=" + helpers::getOriginName( specType.getOrigin() )
+						+ ", Center=" + helpers::getCenterName( specType.getCenter() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eComputeInput:
+				{
+					auto & specType = static_cast< type::ComputeInput const & >( *type );
+					addStatement( "[GroupsX=" + std::to_string( specType.getLocalSizeX() )
+						+ ", GroupsY=" + std::to_string( specType.getLocalSizeY() )
+						+ ", GroupsZ=" + std::to_string( specType.getLocalSizeZ() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eMeshVertexOutput:
+				{
+					auto & specType = static_cast< type::MeshVertexOutput const & >( *type );
+					addStatement( "[MaxVertices=" + std::to_string( specType.getMaxVertices() ) + "]" );
+				}
+				break;
+			case ast::type::Kind::eMeshPrimitiveOutput:
+				{
+					auto & specType = static_cast< type::MeshPrimitiveOutput const & >( *type );
+					addStatement( "[Topology=" + helpers::getTopologyName( specType.getTopology() )
+						+ ", MaxPrimitives=" + std::to_string( specType.getMaxPrimitives() ) + "]" );
+				}
+				break;
+			default:
+				break;
+			}
 		}
 
 	private:

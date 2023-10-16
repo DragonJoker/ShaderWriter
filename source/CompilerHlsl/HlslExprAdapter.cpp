@@ -14,6 +14,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
+#include <ShaderAST/Visitors/ResolveConstants.hpp>
 
 #include <algorithm>
 #include <stdexcept>
@@ -723,6 +724,13 @@ namespace hlsl
 					args.emplace_back( doSubmit( arg ) );
 				}
 			}
+			else if ( arg->getKind() == ast::expr::Kind::eAggrInit )
+			{
+				auto aliasVar = doMakeAlias( arg->getType() );
+				m_container->addStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, aliasVar )
+					, doSubmit( arg ) ) ) );
+				args.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+			}
 			else
 			{
 				args.emplace_back( doSubmit( arg ) );
@@ -1020,7 +1028,8 @@ namespace hlsl
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
 		m_result = m_exprCache.makeStreamAppend( m_exprCache.makeComma( m_exprCache.makeIdentifier( m_typesCache, m_adaptationData.getHFOutputs().paramVar )
-			, m_exprCache.makeIdentifier( m_typesCache, m_adaptationData.getHFOutputs().separateVar ) ) );
+			, m_exprCache.makeCast( m_adaptationData.getHFOutputs().paramStruct
+				, m_exprCache.makeIdentifier( m_typesCache, m_adaptationData.getHFOutputs().separateVar ) ) ) );
 	}
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
@@ -2220,7 +2229,19 @@ namespace hlsl
 
 		while ( index < expr->getArgList().size() )
 		{
-			args.emplace_back( doSubmit( expr->getArgList()[index++] ) );
+			auto & origArg = expr->getArgList()[index++];
+
+			if ( origArg->getKind() == ast::expr::Kind::eAggrInit )
+			{
+				auto aliasVar = doMakeAlias( origArg->getType() );
+				m_container->addStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, aliasVar )
+					, doSubmit( origArg ) ) ) );
+				args.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+			}
+			else
+			{
+				args.emplace_back( doSubmit( origArg ) );
+			}
 		}
 
 		m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
@@ -2262,18 +2283,22 @@ namespace hlsl
 		auto & offset = *expr->getArgList()[index++];
 		assert( getArraySize( offset.getType() ) == 4u );
 		auto arrayType = std::static_pointer_cast< ast::type::Array >( offset.getType() );
-		args.emplace_back( m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
-			, ast::ExprCloner::submit( m_exprCache, &offset )
-			, m_exprCache.makeLiteral( m_typesCache, 0u ) ) );
-		args.emplace_back( m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
-			, ast::ExprCloner::submit( m_exprCache, &offset )
-			, m_exprCache.makeLiteral( m_typesCache, 1u ) ) );
-		args.emplace_back( m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
-			, ast::ExprCloner::submit( m_exprCache, &offset )
-			, m_exprCache.makeLiteral( m_typesCache, 2u ) ) );
-		args.emplace_back( m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
-			, ast::ExprCloner::submit( m_exprCache, &offset )
-			, m_exprCache.makeLiteral( m_typesCache, 3u ) ) );
+		args.emplace_back( ast::resolveConstants( m_exprCache
+			, m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( m_exprCache, &offset )
+				, m_exprCache.makeLiteral( m_typesCache, 0u ) ).get() ) );
+		args.emplace_back( ast::resolveConstants( m_exprCache
+			, m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( m_exprCache, &offset )
+				, m_exprCache.makeLiteral( m_typesCache, 1u ) ).get() ) );
+		args.emplace_back( ast::resolveConstants( m_exprCache
+			, m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( m_exprCache, &offset )
+				, m_exprCache.makeLiteral( m_typesCache, 2u ) ).get() ) );
+		args.emplace_back( ast::resolveConstants( m_exprCache
+			, m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
+				, ast::ExprCloner::submit( m_exprCache, &offset )
+				, m_exprCache.makeLiteral( m_typesCache, 3u ) ).get() ) );
 
 		m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
 			, kind

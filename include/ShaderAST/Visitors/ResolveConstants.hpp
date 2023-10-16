@@ -15,6 +15,8 @@ namespace ast
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, stmt::Container * stmt );
+	SDAST_API expr::ExprPtr resolveConstants( expr::ExprCache & exprCache
+		, expr::Expr * expr );
 }
 
 #endif

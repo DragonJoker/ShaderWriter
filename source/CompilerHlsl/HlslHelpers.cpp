@@ -226,9 +226,9 @@ namespace hlsl
 			, bool isMain
 			, bool isInput
 			, bool isHighFreq
-			, bool iePrimitiveIndices )
+			, bool isPrimitiveIndices )
 		{
-			if ( iePrimitiveIndices )
+			if ( isPrimitiveIndices )
 			{
 				return IOMappingMode::eNoSeparate;
 			}
@@ -1542,7 +1542,7 @@ namespace hlsl
 			, paramStruct
 			, flags );
 
-		if (HlslHelpersInternal::needsSeparate( mode ) )
+		if ( HlslHelpersInternal::needsSeparate( mode ) )
 		{
 			separateStruct = shader->getTypesCache().getStruct( ast::type::MemoryLayout::eC
 				, "HLSL_SDWParam_" + suffix );

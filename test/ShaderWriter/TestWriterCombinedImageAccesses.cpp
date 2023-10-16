@@ -2503,17 +2503,17 @@ namespace
 	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
+		TesterT< FormatT, Img1DBase, false >::test( testCounts );
+		TesterT< FormatT, Img2DBase, false >::test( testCounts );
+		TesterT< FormatT, Img3DBase, false >::test( testCounts );
+		TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
+		TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
+		TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
+		TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
+		TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
+
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
-			TesterT< FormatT, Img1DBase, false >::test( testCounts );
-			TesterT< FormatT, Img2DBase, false >::test( testCounts );
-			TesterT< FormatT, Img3DBase, false >::test( testCounts );
-			TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
-			TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
-			TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
-			TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
-			TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
-
 			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
 				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
@@ -2524,28 +2524,6 @@ namespace
 				TesterT< FormatT, Img2DArrayBase, true >::test( testCounts );
 				TesterT< FormatT, ImgCubeArrayBase, true >::test( testCounts );
 			}
-		}
-		else if constexpr ( isSIntFormat( FormatT ) )
-		{
-			TesterT< FormatT, Img1DBase, false >::test( testCounts );
-			TesterT< FormatT, Img2DBase, false >::test( testCounts );
-			TesterT< FormatT, Img3DBase, false >::test( testCounts );
-			TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
-			TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
-			TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
-			TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
-			TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
-		}
-		else if constexpr ( isUIntFormat( FormatT ) )
-		{
-			TesterT< FormatT, Img1DBase, false >::test( testCounts );
-			TesterT< FormatT, Img2DBase, false >::test( testCounts );
-			TesterT< FormatT, Img3DBase, false >::test( testCounts );
-			TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
-			TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
-			TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
-			TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
-			TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
 		}
 	}
 

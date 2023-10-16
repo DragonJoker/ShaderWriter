@@ -9,6 +9,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 #include "ShaderAST/Visitors/CloneStmt.hpp"
+#include "ShaderAST/Visitors/SimplifyStatements.hpp"
 
 #include <cmath>
 
@@ -18,6 +19,54 @@ namespace ast
 	{
 		namespace helpers
 		{
+			static uint32_t getLiteralIndex( expr::Literal const & lit )
+			{
+				assert( lit.getLiteralType() == expr::LiteralType::eInt8
+					|| lit.getLiteralType() == expr::LiteralType::eInt16
+					|| lit.getLiteralType() == expr::LiteralType::eInt32
+					|| lit.getLiteralType() == expr::LiteralType::eInt64
+					|| lit.getLiteralType() == expr::LiteralType::eUInt8
+					|| lit.getLiteralType() == expr::LiteralType::eUInt16
+					|| lit.getLiteralType() == expr::LiteralType::eUInt32
+					|| lit.getLiteralType() == expr::LiteralType::eUInt64 );
+				uint32_t result{};
+
+				if ( lit.getLiteralType() == expr::LiteralType::eInt8 )
+				{
+					result = uint32_t( lit.getValue< expr::LiteralType::eInt8 >() );
+				}
+				else if ( lit.getLiteralType() == expr::LiteralType::eInt16 )
+				{
+					result = uint16_t( lit.getValue< expr::LiteralType::eInt16 >() );
+				}
+				else if ( lit.getLiteralType() == expr::LiteralType::eInt32 )
+				{
+					result = uint32_t( lit.getValue< expr::LiteralType::eInt32 >() );
+				}
+				else if ( lit.getLiteralType() == expr::LiteralType::eInt64 )
+				{
+					result = uint32_t( lit.getValue< expr::LiteralType::eInt64 >() );
+				}
+				else if ( lit.getLiteralType() == expr::LiteralType::eUInt8 )
+				{
+					result = lit.getValue< expr::LiteralType::eUInt8 >();
+				}
+				else if ( lit.getLiteralType() == expr::LiteralType::eUInt16 )
+				{
+					result = lit.getValue< expr::LiteralType::eUInt16 >();
+				}
+				else if ( lit.getLiteralType() == expr::LiteralType::eUInt32 )
+				{
+					result = lit.getValue< expr::LiteralType::eUInt32 >();
+				}
+				else
+				{
+					result = uint32_t( lit.getValue< expr::LiteralType::eUInt64 >() );
+				}
+
+				return result;
+			}
+
 			static expr::LiteralType getLiteralType( type::Type const & type )
 			{
 				type::Kind kind = type.getKind();
@@ -50,6 +99,400 @@ namespace ast
 					AST_Failure( "Unsupported kind for a literal" );
 					return expr::LiteralType::eFloat;
 				}
+			}
+
+			static bool needsVariableDecl( var::VariablePtr variable
+				, stmt::Container * scope )
+			{
+				class ExprVisitor
+					: public ast::expr::SimpleVisitor
+				{
+				public:
+					static void submit( var::VariablePtr variable
+						, ast::expr::Expr * expr
+						, bool & result )
+					{
+						ExprVisitor vis{ variable, result };
+						expr->accept( &vis );
+					}
+
+				private:
+					explicit ExprVisitor( var::VariablePtr variable
+						, bool & result )
+						: m_variable{ variable }
+						, m_result{ result }
+					{
+					}
+
+				private:
+					void visitUnaryExpr( ast::expr::Unary * expr )override
+					{
+						expr->getOperand()->accept( this );
+					}
+
+					void visitBinaryExpr( ast::expr::Binary * expr )override
+					{
+						expr->getLHS()->accept( this );
+						expr->getRHS()->accept( this );
+					}
+
+					void visitArrayAccessExpr( ast::expr::ArrayAccess* expr )override
+					{
+						if ( expr->getLHS()->getKind() == expr::Kind::eIdentifier
+							&& static_cast< expr::Identifier const & >( *expr->getLHS() ).getVariable()->getId() == m_variable->getId() )
+						{
+							m_result = expr->getRHS()->getKind() != expr::Kind::eLiteral;
+						}
+						else
+						{
+							expr->getLHS()->accept( this );
+							expr->getRHS()->accept( this );
+						}
+					}
+
+					void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+					{
+						if ( expr->getIdentifier() )
+						{
+							expr->getIdentifier()->accept( this );
+						}
+
+						for ( auto & arg : expr->getInitialisers() )
+						{
+							arg->accept( this );
+						}
+					}
+
+					void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+					{
+						for ( auto & arg : expr->getArgList() )
+						{
+							arg->accept( this );
+						}
+					}
+
+					void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+					{
+						expr->getOuterExpr()->accept( this );
+					}
+
+					void visitFnCallExpr( ast::expr::FnCall * expr )override
+					{
+						expr->getFn()->accept( this );
+
+						for ( auto & arg : expr->getArgList() )
+						{
+							arg->accept( this );
+						}
+					}
+
+					void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+					{
+						for ( auto & arg : expr->getArgList() )
+						{
+							arg->accept( this );
+						}
+					}
+
+					void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
+					{
+						for ( auto & arg : expr->getArgList() )
+						{
+							arg->accept( this );
+						}
+					}
+
+					void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
+					{
+						for ( auto & arg : expr->getArgList() )
+						{
+							arg->accept( this );
+						}
+					}
+
+					void visitIdentifierExpr( ast::expr::Identifier * expr )override
+					{
+					}
+
+					void visitInitExpr( ast::expr::Init * expr )override
+					{
+						expr->getIdentifier()->accept( this );
+						expr->getInitialiser()->accept( this );
+					}
+
+					void visitLiteralExpr( ast::expr::Literal * expr )override
+					{
+					}
+
+					void visitQuestionExpr( ast::expr::Question * expr )override
+					{
+						expr->getCtrlExpr()->accept( this );
+						expr->getTrueExpr()->accept( this );
+						expr->getFalseExpr()->accept( this );
+					}
+
+					void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+					{
+						expr->getOperand()->accept( this );
+					}
+
+					void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+					{
+						expr->getLabel()->accept( this );
+					}
+
+					void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+					{
+						expr->getValue()->accept( this );
+					}
+
+					void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+					{
+						expr->getOuterExpr()->accept( this );
+					}
+
+				private:
+					var::VariablePtr m_variable;
+					bool & m_result;
+				};
+
+				class StmtVisitor
+					: public ast::stmt::Visitor
+				{
+				public:
+					static bool submit(var::VariablePtr variable
+						, ast::stmt::Container * stmt )
+					{
+						bool result{ false };
+						StmtVisitor vis{ variable, result };
+						stmt->accept( &vis );
+						return result;
+					}
+
+				private:
+					StmtVisitor( var::VariablePtr variable
+						, bool & result )
+						: m_variable{ variable }
+						, m_result{ result }
+					{
+					}
+					void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override
+					{
+					}
+					void visitBreakStmt( stmt::Break * stmt )override
+					{
+					}
+					void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )override
+					{
+					}
+					void visitCommentStmt( stmt::Comment * stmt )override
+					{
+					}
+					void visitCompoundStmt( stmt::Compound * stmt )override
+					{
+						visitContainerStmt( stmt );
+					}
+					void visitContainerStmt( stmt::Container * stmt )override
+					{
+						for ( auto & sub : *stmt )
+						{
+							sub->accept( this );
+						}
+					}
+					void visitContinueStmt( stmt::Continue * stmt )override
+					{
+					}
+					void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override
+					{
+					}
+					void visitDemoteStmt( stmt::Demote * stmt )override
+					{
+					}
+					void visitDispatchMeshStmt( stmt::DispatchMesh * stmt )override
+					{
+					}
+					void visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )override
+					{
+					}
+					void visitDoWhileStmt( stmt::DoWhile * stmt )override
+					{
+						if ( stmt->getCtrlExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getCtrlExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitElseIfStmt( stmt::ElseIf * stmt )override
+					{
+						if ( stmt->getCtrlExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getCtrlExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitElseStmt( stmt::Else * stmt )override
+					{
+						visitContainerStmt( stmt );
+					}
+					void visitForStmt( stmt::For * stmt )override
+					{
+						if ( stmt->getCtrlExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getCtrlExpr(), m_result );
+						}
+
+						if ( stmt->getInitExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getInitExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override
+					{
+					}
+					void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
+					{
+						visitContainerStmt( stmt );
+					}
+					void visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )override
+					{
+					}
+					void visitIfStmt( stmt::If * stmt )override
+					{
+						if ( stmt->getCtrlExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getCtrlExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitImageDeclStmt( stmt::ImageDecl * stmt )override
+					{
+					}
+					void visitIgnoreIntersectionStmt( stmt::IgnoreIntersection * stmt )override
+					{
+					}
+					void visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )override
+					{
+					}
+					void visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )override
+					{
+					}
+					void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override
+					{
+					}
+					void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
+					{
+					}
+					void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
+					{
+					}
+					void visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )override
+					{
+					}
+					void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
+					{
+					}
+					void visitOutputMeshLayoutStmt( stmt::OutputMeshLayout * stmt )override
+					{
+					}
+					void visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout * stmt )override
+					{
+					}
+					void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl * stmt )override
+					{
+					}
+					void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override
+					{
+					}
+					void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override
+					{
+						visitContainerStmt( stmt );
+					}
+					void visitReturnStmt( stmt::Return * stmt )override
+					{
+						if ( stmt->getExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getExpr(), m_result );
+						}
+					}
+					void visitCombinedImageDeclStmt( stmt::CombinedImageDecl * stmt )override
+					{
+					}
+					void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override
+					{
+					}
+					void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
+					{
+					}
+					void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
+					{
+						visitContainerStmt( stmt );
+					}
+					void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override
+					{
+					}
+					void visitSimpleStmt( stmt::Simple * stmt )override
+					{
+						if ( !m_result )
+						{
+							ExprVisitor::submit( m_variable, stmt->getExpr(), m_result );
+						}
+					}
+					void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override
+					{
+					}
+					void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
+					{
+					}
+					void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override
+					{
+						if ( stmt->getCaseExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getCaseExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitSwitchStmt( stmt::Switch * stmt )override
+					{
+						if ( stmt->getTestExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getTestExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitTerminateRayStmt( stmt::TerminateRay * stmt )override
+					{
+					}
+					void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
+					{
+					}
+					void visitWhileStmt( stmt::While * stmt )override
+					{
+						if ( stmt->getCtrlExpr() )
+						{
+							ExprVisitor::submit( m_variable, stmt->getCtrlExpr(), m_result );
+						}
+
+						visitContainerStmt( stmt );
+					}
+					void visitPreprocExtension( stmt::PreprocExtension * stmt )override
+					{
+					}
+					void visitPreprocVersion( stmt::PreprocVersion * stmt )override
+					{
+					}
+
+				private:
+					var::VariablePtr m_variable;
+					bool & m_result;
+				};
+				return StmtVisitor::submit( variable, scope );
 			}
 /*
 			template< typename ValueT > struct ValueTraitsT;
@@ -1729,63 +2172,74 @@ namespace ast
 			void visitArrayAccessExpr( expr::ArrayAccess * expr )override
 			{
 				TraceFunc
-					if ( expr->getLHS()->getKind() == expr::Kind::eSwizzle
-						&& expr->getRHS()->getKind() == expr::Kind::eLiteral )
-					{
-						uint32_t index = 0u;
-						auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
-						assert( lit.getLiteralType() == expr::LiteralType::eInt8
-							|| lit.getLiteralType() == expr::LiteralType::eInt16
-							|| lit.getLiteralType() == expr::LiteralType::eInt32
-							|| lit.getLiteralType() == expr::LiteralType::eInt64
-							|| lit.getLiteralType() == expr::LiteralType::eUInt8
-							|| lit.getLiteralType() == expr::LiteralType::eUInt16
-							|| lit.getLiteralType() == expr::LiteralType::eUInt32
-							|| lit.getLiteralType() == expr::LiteralType::eUInt64 );
+				bool processed = false;
 
-						if ( lit.getLiteralType() == expr::LiteralType::eInt8 )
+				if ( expr->getLHS()->getKind() == expr::Kind::eIdentifier )
+				{
+					auto & ident = static_cast< expr::Identifier const & >( *expr->getLHS() );
+					auto it = m_context.constAggrExprs.find( ident.getVariable()->getId() );
+
+					if ( it != m_context.constAggrExprs.end() )
+					{
+						if ( expr->getRHS()->getKind() == expr::Kind::eLiteral )
 						{
-							index = uint32_t( lit.getValue< expr::LiteralType::eInt8 >() );
+							auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
+							auto index = helpers::getLiteralIndex( lit );
+
+							if ( index < it->second.size() )
+							{
+								processed = true;
+								m_result = doSubmit( it->second[index] );
+							}
+							else
+							{
+								AST_Failure( "Out of bounds array access to constant aggr init." );
+							}
 						}
-						else if ( lit.getLiteralType() == expr::LiteralType::eInt16 )
+					}
+				}
+
+				if ( !processed
+					&& expr->getLHS()->getKind() == expr::Kind::eSwizzle
+					&& expr->getRHS()->getKind() == expr::Kind::eLiteral )
+				{
+					processed = true;
+					auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
+					auto index = helpers::getLiteralIndex( lit );
+					auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );
+					auto newOuter = doSubmit( outer.getOuterExpr() );
+					m_result = doSubmit( m_exprCache.makeSwizzle( std::move( newOuter )
+						, outer.getSwizzle()[index] ) );
+				}
+
+				if ( !processed
+					&& expr->getLHS()->isConstant()
+					&& expr->getLHS()->getKind() == expr::Kind::eAggrInit )
+				{
+					auto & aggrInit = static_cast< expr::AggrInit const & >( *expr->getLHS() );
+
+					if ( expr->getRHS()->getKind() == expr::Kind::eLiteral )
+					{
+						auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
+						auto index = helpers::getLiteralIndex( lit );
+
+						if ( index < aggrInit.getInitialisers().size() )
 						{
-							index = uint16_t( lit.getValue< expr::LiteralType::eInt16 >() );
-						}
-						else if ( lit.getLiteralType() == expr::LiteralType::eInt32 )
-						{
-							index = uint32_t( lit.getValue< expr::LiteralType::eInt32 >() );
-						}
-						else if ( lit.getLiteralType() == expr::LiteralType::eInt64 )
-						{
-							index = uint32_t( lit.getValue< expr::LiteralType::eInt64 >() );
-						}
-						else if ( lit.getLiteralType() == expr::LiteralType::eUInt8 )
-						{
-							index = lit.getValue< expr::LiteralType::eUInt8 >();
-						}
-						else if ( lit.getLiteralType() == expr::LiteralType::eUInt16 )
-						{
-							index = lit.getValue< expr::LiteralType::eUInt16 >();
-						}
-						else if ( lit.getLiteralType() == expr::LiteralType::eUInt32 )
-						{
-							index = lit.getValue< expr::LiteralType::eUInt32 >();
+							processed = true;
+							m_result = doSubmit( aggrInit.getInitialisers()[index] );
 						}
 						else
 						{
-							index = uint32_t( lit.getValue< expr::LiteralType::eUInt64 >() );
+							AST_Failure( "Out of bounds array access to constant aggr init." );
 						}
+					}
+				}
 
-						auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );
-						auto newOuter = doSubmit( outer.getOuterExpr() );
-						m_result = doSubmit( m_exprCache.makeSwizzle( std::move( newOuter )
-							, outer.getSwizzle()[index] ) );
-					}
-					else
-					{
-						m_allLiterals = false;
-						ExprCloner::visitArrayAccessExpr( expr );
-					}
+				if ( !processed )
+				{
+					m_allLiterals = false;
+					ExprCloner::visitArrayAccessExpr( expr );
+				}
 			}
 
 			void visitBitAndExpr( expr::BitAnd * expr )override
@@ -1934,6 +2388,37 @@ namespace ast
 				visitBinaryExpr( expr );
 			}
 
+			void visitMbrSelectExpr( expr::MbrSelect * expr )override
+			{
+				TraceFunc
+				bool processed = false;
+
+				if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
+				{
+					auto & ident = static_cast< expr::Identifier const & >( *expr->getOuterExpr() );
+					auto it = m_context.constAggrExprs.find( ident.getVariable()->getId() );
+
+					if ( it != m_context.constAggrExprs.end() )
+					{
+						if ( expr->getMemberIndex() < it->second.size() )
+						{
+							processed = true;
+							m_result = doSubmit( it->second[expr->getMemberIndex()] );
+						}
+						else
+						{
+							AST_Failure( "Out of bounds array access to constant aggr init." );
+						}
+					}
+				}
+
+				if ( !processed )
+				{
+					m_allLiterals = false;
+					ExprCloner::visitMbrSelectExpr( expr );
+				}
+			}
+
 			void visitMinusExpr( expr::Minus * expr )override
 			{
 				TraceFunc
@@ -1958,16 +2443,57 @@ namespace ast
 				visitBinaryExpr( expr );
 			}
 
+			void visitSwizzleExpr( expr::Swizzle * expr )override
+			{
+				TraceFunc
+				bool processed = false;
+
+				if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
+				{
+					auto variable = static_cast< expr::Identifier const & >( *expr->getOuterExpr() ).getVariable();
+					auto it = m_context.constAggrExprs.find( variable->getId() );
+
+					if ( it != m_context.constAggrExprs.end() )
+					{
+						auto indices = getSwizzleIndices( expr->getSwizzle() );
+						expr::ExprList initialisers;
+						processed = true;
+
+						for ( auto index : indices )
+						{
+							initialisers.push_back( doSubmit( it->second[index] ) );
+						}
+
+						if ( indices.size() > 1u )
+						{
+							auto scalarType = getScalarType( expr->getType()->getKind() );
+							m_result = m_exprCache.makeCompositeConstruct( getCompositeType( expr->getType()->getKind() )
+								, scalarType
+								, std::move( initialisers ) );
+						}
+						else
+						{
+							m_result = std::move( initialisers.front() );
+						}
+					}
+				}
+
+				if ( !processed )
+				{
+					ExprCloner::visitSwizzleExpr( expr );
+				}
+			}
+
 			void visitTimesExpr( expr::Times * expr )override
 			{
 				TraceFunc
-					visitBinaryExpr( expr );
+				visitBinaryExpr( expr );
 			}
 
 			void visitUnaryMinusExpr( expr::UnaryMinus * expr )override
 			{
 				TraceFunc
-					visitUnaryExpr( expr );
+				visitUnaryExpr( expr );
 			}
 
 			void visitUnaryPlusExpr( expr::UnaryPlus * expr )override
@@ -2228,6 +2754,17 @@ namespace ast
 			}
 
 		private:
+			void visitContainerStmt( stmt::Container * cont )override
+			{
+				TraceFunc
+				m_container = cont;
+
+				for ( auto & stmt : *cont )
+				{
+					stmt->accept( this );
+				}
+			}
+
 			void visitIfStmt( stmt::If * stmt )override
 			{
 				TraceFunc
@@ -2297,8 +2834,30 @@ namespace ast
 
 						if ( auto ident = init->getIdentifier() )
 						{
-							m_context.constExprs.emplace( ident->getVariable()->getId()
-								, doSubmit( init->getInitialiser() ) );
+							if ( init->getInitialiser()->getKind() == ast::expr::Kind::eCompositeConstruct )
+							{
+								auto compositeCtor = static_cast< ast::expr::CompositeConstruct * >( init->getInitialiser() );
+
+								if ( !helpers::needsVariableDecl( ident->getVariable(), m_container ) )
+								{
+									ast::expr::ExprList initialisers;
+
+									for ( auto & arg : compositeCtor->getArgList() )
+									{
+										initialisers.emplace_back( doSubmit( arg.get() ) );
+									}
+
+									m_context.constAggrExprs.emplace( ident->getVariable()->getId()
+										, std::move( initialisers ) );
+									processed = true;
+								}
+							}
+							else
+							{
+								m_context.constExprs.emplace( ident->getVariable()->getId()
+									, doSubmit( init->getInitialiser() ) );
+							}
+
 							processed = true;
 						}
 					}
@@ -2308,16 +2867,19 @@ namespace ast
 
 						if ( auto ident = aggrInit->getIdentifier() )
 						{
-							ast::expr::ExprList initialisers;
-
-							for ( auto & init : aggrInit->getInitialisers() )
+							if ( !helpers::needsVariableDecl( ident->getVariable(), m_container ) )
 							{
-								initialisers.emplace_back( doSubmit( init.get() ) );
-							}
+								ast::expr::ExprList initialisers;
 
-							m_context.constAggrExprs.emplace( ident->getVariable()->getId()
-								, std::move( initialisers ) );
-							processed = true;
+								for ( auto & init : aggrInit->getInitialisers() )
+								{
+									initialisers.emplace_back( doSubmit( init.get() ) );
+								}
+
+								m_context.constAggrExprs.emplace( ident->getVariable()->getId()
+									, std::move( initialisers ) );
+								processed = true;
+							}
 						}
 					}
 				}
@@ -2380,6 +2942,7 @@ namespace ast
 		private:
 			type::TypesCache & m_typesCache;
 			std::vector< stmt::Container * > & m_contStack;
+			stmt::Container * m_container;
 			ConstantsContext & m_context;
 		};
 	}
@@ -2391,5 +2954,12 @@ namespace ast
 	{
 		constants::ConstantsContext context{ &stmtCache.getAllocator() };
 		return constants::StmtEvaluator::submit( stmtCache, exprCache, typesCache, stmt, context );
+	}
+
+	expr::ExprPtr resolveConstants( expr::ExprCache & exprCache
+		, expr::Expr * expr )
+	{
+		constants::ConstantsContext context{ &exprCache.getAllocator() };
+		return constants::ExprEvaluator::submit( exprCache, expr, context );
 	}
 }
