@@ -52,30 +52,6 @@ namespace ast
 							: 3u ) );
 			}
 
-			static std::vector< uint32_t > getSwizzleIndices( expr::SwizzleKind swizzle )
-			{
-				std::vector< uint32_t > result;
-				result.push_back( getSwizzleIndex( swizzle.getFirstValue() ) );
-				auto count = swizzle.getComponentsCount();
-
-				if ( count >= 2u )
-				{
-					result.push_back( getSwizzleIndex( swizzle.getSecondValue() ) );
-				}
-
-				if ( count >= 3u )
-				{
-					result.push_back( getSwizzleIndex( swizzle.getThirdValue() ) );
-				}
-
-				if ( count >= 4u )
-				{
-					result.push_back( getSwizzleIndex( swizzle.getFourthValue() ) );
-				}
-
-				return result;
-			}
-
 			static expr::SwizzleKind getFinalSwizzle( std::vector< expr::SwizzleKind > const & values
 				, std::vector< uint32_t > const & indices )
 			{
@@ -87,6 +63,25 @@ namespace ast
 					assert( index < values.size() );
 					result |= values[index] >> shift;
 					shift += 4u;
+				}
+
+				return result;
+			}
+
+			static ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall * expr )
+			{
+				auto result = expr->getType();
+
+				if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageLoad1DF
+					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageLoad2DMSArrayU )
+				{
+					auto scalar = ast::type::getScalarType( result->getKind() );
+					auto components = ast::type::getComponentCount( result );
+
+					if ( components != 4u )
+					{
+						result = result->getTypesCache().getVec4Type( scalar );
+					}
 				}
 
 				return result;
@@ -742,7 +737,7 @@ namespace ast
 				}
 			}
 
-			expr::ExprPtr negateExpr( expr::ExprCache & exprCache
+			static expr::ExprPtr negateExpr( expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, expr::ExprPtr expr )
 			{
@@ -904,123 +899,130 @@ namespace ast
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
 			{
 				TraceFunc
-				ast::expr::ExprList args;
-
-				for ( auto & arg : expr->getArgList() )
+				if ( expr->getComposite() == expr::CompositeType::eCombine )
 				{
-					args.push_back( doSubmit( arg ) );
+					return ExprCloner::visitCompositeConstructExpr( expr );
 				}
-
-				// Flatten the composite constructs,
-				// to have one initialiser per result component.
-				expr::ExprList realArgs;
-				bool resultIsMatrix = isMatrixType( expr->getType()->getKind() );
-
-				for ( auto & arg : args )
+				else
 				{
-					auto argType = arg->getType();
-					auto kind = argType->getKind();
-					bool processed = false;
+					ast::expr::ExprList args;
 
-					if ( isVectorType( kind ) && !resultIsMatrix )
+					for ( auto & arg : expr->getArgList() )
 					{
-						processed = true;
-						doConstructVector( expr
-							, arg
-							, expr->getType()->getKind()
-							, realArgs );
-					}
-					else if ( isMatrixType( kind ) )
-					{
-						processed = true;
-						doConstructMatrix( expr
-							, arg
-							, expr->getType()->getKind()
-							, realArgs );
-					}
-					else
-					{
-						// TODO: Struct or array.
+						args.push_back( doSubmit( arg ) );
 					}
 
-					if ( !processed
-						&& isScalarType( kind ) == isScalarType( expr->getComponent() )
-						&& isVectorType( kind ) == isVectorType( expr->getComponent() )
-						&& isMatrixType( kind ) == isMatrixType( expr->getComponent() ) )
+					// Flatten the composite constructs,
+					// to have one initialiser per result component.
+					expr::ExprList realArgs;
+					bool resultIsMatrix = isMatrixType( expr->getType()->getKind() );
+
+					for ( auto & arg : args )
 					{
-						if ( args.size() == 1u
-							&& helpers::getComponentsCount( expr->getComposite() ) > 1u )
+						auto argType = arg->getType();
+						auto kind = argType->getKind();
+						bool processed = false;
+
+						if ( isVectorType( kind ) && !resultIsMatrix )
 						{
 							processed = true;
-							// Flatten constructs in the form `vec3( 0.0 )` => `vec3( 0.0, 0.0, 0.0 )`
-							for ( auto i = 0u; i < helpers::getComponentsCount( expr->getComposite() ); ++i )
+							doConstructVector( expr
+								, arg
+								, expr->getType()->getKind()
+								, realArgs );
+						}
+						else if ( isMatrixType( kind ) )
+						{
+							processed = true;
+							doConstructMatrix( expr
+								, arg
+								, expr->getType()->getKind()
+								, realArgs );
+						}
+						else
+						{
+							// TODO: Struct or array.
+						}
+
+						if ( !processed
+							&& isScalarType( kind ) == isScalarType( expr->getComponent() )
+							&& isVectorType( kind ) == isVectorType( expr->getComponent() )
+							&& isMatrixType( kind ) == isMatrixType( expr->getComponent() ) )
+						{
+							if ( args.size() == 1u
+								&& helpers::getComponentsCount( expr->getComposite() ) > 1u )
 							{
+								processed = true;
+								// Flatten constructs in the form `vec3( 0.0 )` => `vec3( 0.0, 0.0, 0.0 )`
+								for ( auto i = 0u; i < helpers::getComponentsCount( expr->getComposite() ); ++i )
+								{
+									realArgs.emplace_back( doSubmit( arg.get() ) );
+								}
+
+								if ( isScalarType( kind )
+									&& kind != expr->getComponent() )
+								{
+									auto dstType = m_typesCache.getBasicType( expr->getComponent() );
+
+									for ( auto & realArg : realArgs )
+									{
+										realArg = m_exprCache.makeCast( dstType, std::move( realArg ) );
+									}
+								}
+							}
+							else if ( getComponentCount( kind ) == getComponentCount( expr->getComponent() ) )
+							{
+								processed = true;
+								// Same component type as expected by construct
 								realArgs.emplace_back( doSubmit( arg.get() ) );
 							}
+						}
 
-							if ( isScalarType( kind )
-								&& kind != expr->getComponent() )
+						if ( !processed )
+						{
+							// Constructs like `vec4( vec3( 0.0 ), 1.0 )` => `vec4( 0.0, 0.0, 0.0, 1.0 )`
+							expr::ExprList work;
+							work.emplace_back( std::move( arg ) );
+
+							while ( !work.empty() )
 							{
-								auto dstType = m_typesCache.getBasicType( expr->getComponent() );
+								auto current = std::move( work.front() );
+								work.erase( work.begin() );
 
-								for ( auto & realArg : realArgs )
+								expr::ExprList curArgs;
+								auto compKind = getComponentType( kind );
+								kind = compKind;
+
+								if ( current->getKind() == expr::Kind::eCompositeConstruct )
 								{
-									realArg = m_exprCache.makeCast( dstType, std::move( realArg ) );
+									// `vec4( vec3( 0.0 ), 1.0 )` => `vec4( 0.0, 0.0, 0.0, 1.0 )`
+									for ( auto & param : static_cast< expr::CompositeConstruct & >( *current ).getArgList() )
+									{
+										if ( isScalarType( compKind ) == isScalarType( expr->getComponent() )
+											&& isVectorType( compKind ) == isVectorType( expr->getComponent() )
+											&& isMatrixType( compKind ) == isMatrixType( expr->getComponent() )
+											&& getComponentCount( compKind ) == getComponentCount( expr->getComponent() ) )
+										{
+											realArgs.emplace_back( doSubmit( param.get() ) );
+										}
+										else
+										{
+											work.emplace_back( doSubmit( param.get() ) );
+										}
+									}
+								}
+								else
+								{
+									realArgs.emplace_back( std::move( current ) );
 								}
 							}
 						}
-						else if ( getComponentCount( kind ) == getComponentCount( expr->getComponent() ) )
-						{
-							processed = true;
-							// Same component type as expected by construct
-							realArgs.emplace_back( doSubmit( arg.get() ) );
-						}
 					}
 
-					if ( !processed )
-					{
-						// Constructs like `vec4( vec3( 0.0 ), 1.0 )` => `vec4( 0.0, 0.0, 0.0, 1.0 )`
-						expr::ExprList work;
-						work.emplace_back( std::move( arg ) );
-
-						while ( !work.empty() )
-						{
-							auto current = std::move( work.front() );
-							work.erase( work.begin() );
-
-							expr::ExprList curArgs;
-							auto compKind = getComponentType( kind );
-							kind = compKind;
-
-							if ( current->getKind() == expr::Kind::eCompositeConstruct )
-							{
-								// `vec4( vec3( 0.0 ), 1.0 )` => `vec4( 0.0, 0.0, 0.0, 1.0 )`
-								for ( auto & param : static_cast< expr::CompositeConstruct & >( *current ).getArgList() )
-								{
-									if ( isScalarType( compKind ) == isScalarType( expr->getComponent() )
-										&& isVectorType( compKind ) == isVectorType( expr->getComponent() )
-										&& isMatrixType( compKind ) == isMatrixType( expr->getComponent() )
-										&& getComponentCount( compKind ) == getComponentCount( expr->getComponent() ) )
-									{
-										realArgs.emplace_back( doSubmit( param.get() ) );
-									}
-									else
-									{
-										work.emplace_back( doSubmit( param.get() ) );
-									}
-								}
-							}
-							else
-							{
-								realArgs.emplace_back( std::move( current ) );
-							}
-						}
-					}
+					m_result = m_exprCache.makeCompositeConstruct( expr->getComposite()
+						, expr->getComponent()
+						, std::move( realArgs ) );
 				}
-
-				m_result = m_exprCache.makeCompositeConstruct( expr->getComposite()
-					, expr->getComponent()
-					, std::move( realArgs ) );
 			}
 
 			void visitDivideAssignExpr( expr::DivideAssign * expr )override
@@ -1055,7 +1057,7 @@ namespace ast
 				}
 
 				auto dstType = expr->getType();
-				auto srcType = getExpectedReturnType( expr );
+				auto srcType = helpers::getExpectedReturnType( expr );
 				m_result = m_exprCache.makeStorageImageAccessCall( srcType
 					, expr->getImageAccess()
 					, std::move( args ) );
@@ -1116,7 +1118,7 @@ namespace ast
 			{
 				m_result = helpers::negateExpr( m_exprCache
 					, m_typesCache
-					, doSubmit( expr ) );
+					, doSubmit( expr->getOperand() ) );
 			}
 
 			void visitMinusAssignExpr( expr::MinusAssign * expr )override
@@ -1184,7 +1186,7 @@ namespace ast
 					else
 					{
 						auto values = helpers::getSwizzleValues( outer.getSwizzle() );
-						auto indices = helpers::getSwizzleIndices( expr->getSwizzle() );
+						auto indices = getSwizzleIndices( expr->getSwizzle() );
 						m_result = m_exprCache.makeSwizzle( doSubmit( outer.getOuterExpr() )
 							, helpers::getFinalSwizzle( values, indices ) );
 					}
@@ -1712,19 +1714,8 @@ namespace ast
 				, type::TypesCache & typesCache
 				, stmt::Container * stmt )
 			{
-				std::vector< stmt::Container * > contStack;
-				return submit( stmtCache, exprCache, typesCache, stmt, contStack );
-			}
-
-		private:
-			static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
-				, expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
-				, stmt::Container * stmt
-				, std::vector< stmt::Container * > & contStack )
-			{
 				auto result = stmtCache.makeContainer();
-				StmtSimplifier vis{ stmtCache, exprCache, typesCache, contStack, result };
+				StmtSimplifier vis{ stmtCache, exprCache, typesCache, result };
 				stmt->accept( &vis );
 				return result;
 			}
@@ -1733,11 +1724,9 @@ namespace ast
 			StmtSimplifier( stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
-				, std::vector< stmt::Container * > & contStack
 				, stmt::ContainerPtr & result )
 				: StmtCloner{ stmtCache, exprCache, result }
 				, m_typesCache{ typesCache }
-				, m_contStack{ contStack }
 			{
 			}
 
@@ -1799,7 +1788,6 @@ namespace ast
 
 		private:
 			type::TypesCache & m_typesCache;
-			std::vector< stmt::Container * > & m_contStack;
 		};
 	}
 
@@ -1830,20 +1818,25 @@ namespace ast
 		}
 	}
 
-	ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall * expr )
+	std::vector< uint32_t > getSwizzleIndices( expr::SwizzleKind swizzle )
 	{
-		auto result = expr->getType();
+		std::vector< uint32_t > result;
+		result.push_back( simpl::helpers::getSwizzleIndex( swizzle.getFirstValue() ) );
+		auto count = swizzle.getComponentsCount();
 
-		if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageLoad1DF
-			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageLoad2DMSArrayU )
+		if ( count >= 2u )
 		{
-			auto scalar = ast::type::getScalarType( result->getKind() );
-			auto components = ast::type::getComponentCount( result );
+			result.push_back( simpl::helpers::getSwizzleIndex( swizzle.getSecondValue() ) );
+		}
 
-			if ( components != 4u )
-			{
-				result = result->getTypesCache().getVec4Type( scalar );
-			}
+		if ( count >= 3u )
+		{
+			result.push_back( simpl::helpers::getSwizzleIndex( swizzle.getThirdValue() ) );
+		}
+
+		if ( count >= 4u )
+		{
+			result.push_back( simpl::helpers::getSwizzleIndex( swizzle.getFourthValue() ) );
 		}
 
 		return result;

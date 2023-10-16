@@ -14,7 +14,7 @@ namespace ast
 		, type::Kind rhsTypeKind
 		, bool & switchParams
 		, bool & needMatchingVectors );
-	SDAST_API ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall * expr );
+	SDAST_API std::vector< uint32_t > getSwizzleIndices( expr::SwizzleKind swizzle );
 	SDAST_API expr::ExprPtr makeOne( expr::ExprCache & exprCache
 		, type::TypePtr type );
 	SDAST_API stmt::ContainerPtr simplify( stmt::StmtCache & stmtCache
