@@ -1074,7 +1074,7 @@ namespace glsl
 			{
 				throw std::runtime_error{ "int64_t and uint64_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
 					+ "] or [" + ARB_gpu_shader_int64.name + "]"
-					+ "] or [" + NV_gpu_shader5.name };
+					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
 		}
 

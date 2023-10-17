@@ -76,6 +76,22 @@ namespace spirv
 		{
 			auto intrinsicsConfig = glsl::fillConfig( shader.getType()
 				, statements.get() );
+
+			if ( intrinsicsConfig.requiresInt8 )
+			{
+				intrinsicsConfig.requiredExtensions.insert( glsl::EXT_shader_explicit_arithmetic_types_int8 );
+			}
+
+			if ( intrinsicsConfig.requiresInt16 )
+			{
+				intrinsicsConfig.requiredExtensions.insert( glsl::EXT_shader_explicit_arithmetic_types_int16 );
+			}
+
+			if ( intrinsicsConfig.requiresInt64 )
+			{
+				intrinsicsConfig.requiredExtensions.insert( glsl::ARB_gpu_shader_int64 );
+			}
+
 			stmtConfig = glsl::StmtConfig{ shader.getType()
 				, glsl::v4_6
 				, intrinsicsConfig.requiredExtensions

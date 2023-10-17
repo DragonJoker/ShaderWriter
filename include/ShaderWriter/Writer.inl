@@ -84,6 +84,20 @@ namespace sdw
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
+		if ( m_shader->hasFunction( name ) )
+		{
+			auto functionType = m_shader->getFunction( name )->getType();
+
+			if ( functionType->getKind() != ast::type::Kind::eFunction )
+			{
+				throw std::runtime_error{ "A variable named " + name + " already exists and is not a function." };
+			}
+
+			return Function< ReturnT, ParamsT... >{ *this
+				, std::static_pointer_cast< ast::type::Function >( functionType )
+				, std::move( name ) };
+		}
+
 		ast::var::VariableList args;
 		auto decl = getFunctionHeader< ReturnT >( *this, args, name, flag, params... );
 		doPushScope( decl.get(), args );
@@ -92,6 +106,7 @@ namespace sdw
 		doPopScope();
 		auto functionType = decl->getType();
 		addGlobalStmt( std::move( decl ) );
+		m_shader->registerFunction( name, functionType );
 		return Function< ReturnT, ParamsT... >{ *this, functionType, std::move( name ) };
 	}
 	/**@}*/
@@ -199,7 +214,7 @@ namespace sdw
 				, std::move( condition )
 				, std::move( left )
 				, std::move( right ) )
-			, areOptionalEnabled( condition, left, right ) };
+			, true };
 	}
 
 	template< typename ExprType >

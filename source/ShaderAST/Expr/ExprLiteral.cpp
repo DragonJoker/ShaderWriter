@@ -412,4 +412,18 @@ namespace ast::expr
 			, lhs
 			, rhs );
 	}
+
+	LiteralPtr preInc( Literal const & op )
+	{
+		return details::replaceLiteral< details::PreIncrementLiteral >(op.getExprCache()
+			, op.getTypesCache()
+			, op );
+	}
+
+	LiteralPtr preDec( Literal const & op )
+	{
+		return details::replaceLiteral< details::PreDecrementLiteral >(op.getExprCache()
+			, op.getTypesCache()
+			, op );
+	}
 }

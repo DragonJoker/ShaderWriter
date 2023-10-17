@@ -22,8 +22,8 @@ namespace ast::expr
 	{
 	}
 
-	ExprPtr Expr::clone()
+	ExprPtr Expr::clone()const
 	{
-		return ExprCloner::submit( *m_exprCache, this );
+		return ExprCloner::submit( *m_exprCache, const_cast< Expr * >( this ) );
 	}
 }

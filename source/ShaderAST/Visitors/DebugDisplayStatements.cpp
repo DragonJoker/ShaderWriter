@@ -694,14 +694,14 @@ namespace ast::debug
 				break;
 			case type::Kind::eCallableData:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getTypeName( *static_cast< type::CallableData const & >( type ).getDataType() );
-				result += "<" + std::to_string( static_cast< type::CallableData const & >( type ).getLocation() ) + ">";
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::CallableData const & >( type ).getDataType() );
+				result += "(" + std::to_string( static_cast< type::CallableData const & >( type ).getLocation() ) + ")";
+				result += ">";
 				break;
 			case type::Kind::eHitAttribute:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getTypeName( *static_cast< type::HitAttribute const & >( type ).getDataType() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::HitAttribute const & >( type ).getDataType() );
+				result += ">";
 				break;
 			case type::Kind::eRayDesc:
 			case type::Kind::eStruct:
@@ -724,74 +724,70 @@ namespace ast::debug
 				break;
 			case type::Kind::eFragmentInput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getCenterName( static_cast< type::FragmentInput const & >( type ).getCenter() );
-				result += ", " + getOriginName( static_cast< type::FragmentInput const & >( type ).getOrigin() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::FragmentInput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eGeometryInput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getInputLayoutName( static_cast< type::GeometryInput const & >( type ).getLayout() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::GeometryInput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eGeometryOutput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + std::to_string( static_cast< type::GeometryOutput const & >( type ).getCount() );
-				result += ", " + getOutputLayoutName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::GeometryOutput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eTessellationControlInput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "<" + std::to_string( static_cast< type::TessellationControlInput const & >( type ).getInputVertices() );
+				result += "<" + getTypeName( *static_cast< type::TessellationControlInput const & >( type ).getType() );
 				result += ">";
 				break;
 			case type::Kind::eTessellationControlOutput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "<" + std::to_string( static_cast< type::TessellationControlOutput const & >( type ).getOutputVertices() );
-				result += ">(" + getDomainName( static_cast< type::TessellationControlOutput const & >( type ).getDomain() );
-				result += ", " + getPartitioningName( static_cast< type::TessellationControlOutput const & >( type ).getPartitioning() );
-				result += ", " + getOrderingName( static_cast< type::TessellationControlOutput const & >( type ).getOrder() );
-				result += ", " + getTopologyName( static_cast< type::TessellationControlOutput const & >( type ).getTopology() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::TessellationControlOutput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eTessellationOutputPatch:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + std::to_string( static_cast< type::TessellationOutputPatch const & >( type ).getLocation() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::TessellationOutputPatch const & >( type ).getType() );
+				result += "(" + std::to_string( static_cast< type::TessellationOutputPatch const & >( type ).getLocation() ) + ")";
+				result += ">";
 				break;
 			case type::Kind::eTessellationEvaluationInput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "<" + std::to_string( static_cast< type::TessellationEvaluationInput const & >( type ).getInputVertices() );
-				result += ">(" + getDomainName( static_cast< type::TessellationEvaluationInput const & >( type ).getDomain() );
-				result += ", " + getPartitioningName( static_cast< type::TessellationEvaluationInput const & >( type ).getPartitioning() );
-				result += ", " + getOrderingName( static_cast< type::TessellationEvaluationInput const & >( type ).getPrimitiveOrdering() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::TessellationEvaluationInput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eTessellationInputPatch:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getDomainName( static_cast< type::TessellationInputPatch const & >( type ).getDomain() );
-				result += ", " + std::to_string( static_cast< type::TessellationInputPatch const & >( type ).getLocation() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::TessellationInputPatch const & >( type ).getType() );
+				result += "(" + std::to_string( static_cast< type::TessellationInputPatch const & >( type ).getLocation() ) + ")";
+				result += ">";
 				break;
 			case type::Kind::eMeshVertexOutput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + std::to_string( static_cast< type::MeshVertexOutput const & >( type ).getMaxVertices() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::MeshVertexOutput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eMeshPrimitiveOutput:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getTopologyName( static_cast< type::MeshPrimitiveOutput const & >( type ).getTopology() );
-				result += ", " + std::to_string( static_cast< type::MeshPrimitiveOutput const & >( type ).getMaxPrimitives() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::MeshPrimitiveOutput const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eTaskPayload:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getTypeName( *static_cast< type::TaskPayload const & >( type ).getType() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::TaskPayload const & >( type ).getType() );
+				result += ">";
 				break;
 			case type::Kind::eTaskPayloadIn:
 				result = getTypeName( getNonArrayKind( type ) );
-				result += "(" + getTypeName( *static_cast< type::TaskPayloadIn const & >( type ).getType() );
-				result += ")";
+				result += "<" + getTypeName( *static_cast< type::TaskPayloadIn const & >( type ).getType() );
+				result += ">";
+				break;
+			case type::Kind::eComputeInput:
+				result = getTypeName( getNonArrayKind( type ) );
+				result += "<" + getTypeName( *static_cast< type::ComputeInput const & >( type ).getType() );
+				result += ">";
 				break;
 			default:
 				result = getTypeName( type.getKind() );

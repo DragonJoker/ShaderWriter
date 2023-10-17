@@ -193,6 +193,8 @@ namespace ast::expr
 	SDAST_API LiteralPtr operator<=( Literal const & lhs, Literal const & rhs );
 	SDAST_API LiteralPtr operator>( Literal const & lhs, Literal const & rhs );
 	SDAST_API LiteralPtr operator>=( Literal const & lhs, Literal const & rhs );
+	SDAST_API LiteralPtr preInc( Literal const & op );
+	SDAST_API LiteralPtr preDec( Literal const & op );
 }
 
 #include "ExprLiteral.inl"

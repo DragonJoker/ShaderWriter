@@ -99,7 +99,7 @@ namespace ast::expr
 			, Kind kind
 			, Flag flag = Flag::eNone );
 
-		SDAST_API ExprPtr clone();
+		SDAST_API ExprPtr clone()const;
 
 		SDAST_API virtual void accept( VisitorPtr )
 		{

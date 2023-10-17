@@ -573,6 +573,96 @@ namespace ast::expr
 			}
 		};
 
+		struct PreIncrementLiteral
+		{
+			static expr::LiteralPtr replace( ExprCache & exprCache
+				, type::TypesCache & typesCache
+				, expr::Literal const & operand )
+			{
+				switch ( operand.getLiteralType() )
+				{
+				case expr::LiteralType::eInt8:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt8 >() + 1 );
+				case expr::LiteralType::eInt16:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt16 >() + 1 );
+				case expr::LiteralType::eInt32:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt32 >() + 1 );
+				case expr::LiteralType::eInt64:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt64 >() + 1 );
+				case expr::LiteralType::eUInt8:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt8 >() + 1u );
+				case expr::LiteralType::eUInt16:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt16 >() + 1u );
+				case expr::LiteralType::eUInt32:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt32 >() + 1u );
+				case expr::LiteralType::eUInt64:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt64 >() + 1u );
+				case expr::LiteralType::eFloat:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eFloat >() + 1.0f );
+				case expr::LiteralType::eDouble:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eDouble >() + 1.0 );
+				default:
+					AST_Failure( "Unexpected operand type for pre-increment" );
+					return nullptr;
+				}
+			}
+		};
+
+		struct PreDecrementLiteral
+		{
+			static expr::LiteralPtr replace( ExprCache & exprCache
+				, type::TypesCache & typesCache
+				, expr::Literal const & operand )
+			{
+				switch ( operand.getLiteralType() )
+				{
+				case expr::LiteralType::eInt8:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt8 >() - 1 );
+				case expr::LiteralType::eInt16:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt16 >() - 1 );
+				case expr::LiteralType::eInt32:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt32 >() - 1 );
+				case expr::LiteralType::eInt64:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eInt64 >() - 1 );
+				case expr::LiteralType::eUInt8:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt8 >() - 1u );
+				case expr::LiteralType::eUInt16:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt16 >() - 1u );
+				case expr::LiteralType::eUInt32:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt32 >() - 1u );
+				case expr::LiteralType::eUInt64:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eUInt64 >() - 1u );
+				case expr::LiteralType::eFloat:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eFloat >() - 1.0f );
+				case expr::LiteralType::eDouble:
+					return exprCache.makeLiteral( typesCache
+						, operand.getValue< expr::LiteralType::eDouble >() - 1.0 );
+				default:
+					AST_Failure( "Unexpected operand type for pre-increment" );
+					return nullptr;
+				}
+			}
+		};
+
 		struct BitNegateLiteral
 		{
 			static expr::LiteralPtr replace( ExprCache & exprCache

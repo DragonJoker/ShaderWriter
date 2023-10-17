@@ -748,6 +748,528 @@ namespace ast
 
 				return exprCache.makeLogNot( typesCache, std::move( expr ) );
 			}
+
+			static expr::ExprPtr extractIndex( expr::ExprPtr expr, uint32_t index )
+			{
+				class ExprVisitor
+					: public expr::Visitor
+				{
+				public:
+					static expr::ExprPtr submit( expr::Expr * expr
+						, uint32_t index )
+					{
+						expr::ExprPtr result;
+						ExprVisitor vis{ expr->getExprCache(), index, result };
+						expr->accept( &vis );
+						return result;
+					}
+
+				private:
+					explicit ExprVisitor( expr::ExprCache & exprCache
+						, uint32_t index
+						, expr::ExprPtr & result )
+						: m_exprCache{ exprCache }
+						, m_result{ result }
+						, m_index{ index }
+					{
+					}
+
+				private:
+					expr::ExprPtr doSubmit( expr::Expr * expr )
+					{
+						return submit( expr, m_index );
+					}
+
+					type::TypePtr doGetSwizzledType( type::TypePtr type )
+					{
+						return type->getTypesCache().getBasicType( getScalarType( type->getKind() ) );
+					}
+
+					void doSwizzle( expr::ExprPtr expr )
+					{
+						auto componentCount = getComponentCount( expr->getType() );
+
+						if ( componentCount == 1u )
+						{
+							m_result = std::move( expr );
+						}
+						else if ( componentCount > m_index )
+						{
+							m_result = m_exprCache.makeSwizzle( std::move( expr )
+								, expr::SwizzleKind::fromOffset( m_index ) );
+						}
+						else
+						{
+							AST_Failure( "Unexpected component count lower than swizzle index" );
+						}
+					}
+
+					void visitAddExpr( expr::Add * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeAdd( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitAddAssignExpr( ast::expr::AddAssign * expr )override
+					{
+						AST_Failure( "Unexpected AddAssign expression" );
+					}
+
+					void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+					{
+						TraceFunc;
+						if ( !expr->getIdentifier()
+							&& expr->getInitialisers().size() > m_index )
+						{
+							m_result = doSubmit( expr->getInitialisers()[m_index].get() );
+						}
+						else
+						{
+							doSwizzle( expr->clone() );
+						}
+					}
+
+					void visitAliasExpr( ast::expr::Alias * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitAndAssignExpr( ast::expr::AndAssign * expr )override
+					{
+						AST_Failure( "Unexpected AndAssign expression" );
+					}
+
+					void visitArrayAccessExpr( expr::ArrayAccess * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitAssignExpr( ast::expr::Assign * expr )override
+					{
+						AST_Failure( "Unexpected Assign expression" );
+					}
+
+					void visitBitAndExpr( expr::BitAnd * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeBitAnd( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitBitNotExpr( expr::BitNot * expr )override
+					{
+						TraceFunc;
+						auto op = doSubmit( expr->getOperand() );
+						m_result = m_exprCache.makeBitNot( std::move( op ) );
+					}
+
+					void visitBitOrExpr( expr::BitOr * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeBitOr( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitBitXorExpr( expr::BitXor * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeBitXor( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitCastExpr( expr::Cast * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitCommaExpr( expr::Comma * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+
+						if ( rhs && lhs )
+						{
+							m_result = m_exprCache.makeComma( std::move( lhs )
+								, std::move( rhs ) );
+						}
+						else if ( lhs )
+						{
+							m_result = std::move( lhs );
+						}
+						else if ( rhs )
+						{
+							m_result = std::move( rhs );
+						}
+					}
+
+					void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+					{
+						TraceFunc;
+						if ( expr->getArgList().size() > m_index )
+						{
+							m_result = doSubmit( expr->getArgList()[m_index].get() );
+						}
+						else
+						{
+							doSwizzle( expr->clone() );
+						}
+					}
+
+					void visitCopyExpr( expr::Copy * expr )override
+					{
+						TraceFunc;
+						auto op = doSubmit( expr->getOperand() );
+
+						if ( op )
+						{
+							m_result = m_exprCache.makeCopy( std::move( op ) );
+						}
+					}
+
+					void visitDivideExpr( expr::Divide * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeDivide( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override
+					{
+						AST_Failure( "Unexpected DivideAssign expression" );
+					}
+
+					void visitEqualExpr( expr::Equal * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeEqual( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitFnCallExpr( expr::FnCall * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitGreaterExpr( expr::Greater * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeGreater( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitGreaterEqualExpr( expr::GreaterEqual * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeGreaterEqual( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitIdentifierExpr( ast::expr::Identifier * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitInitExpr( ast::expr::Init * expr )override
+					{
+						TraceFunc;
+						if ( expr->getIdentifier() )
+						{
+							doSubmit( expr->getIdentifier() );
+						}
+						else
+						{
+							doSubmit( expr->getInitialiser() );
+						}
+					}
+
+					void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitLessExpr( expr::Less * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeLess( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitLessEqualExpr( expr::LessEqual * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeLessEqual( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitLiteralExpr( ast::expr::Literal * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitLogAndExpr( expr::LogAnd * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeLogAnd( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitLogNotExpr( expr::LogNot * expr )override
+					{
+						TraceFunc;
+						auto op = doSubmit( expr->getOperand() );
+						m_result = m_exprCache.makeLogNot( doGetSwizzledType( expr->getType() )
+							, std::move( op ) );
+					}
+
+					void visitLogOrExpr( expr::LogOr * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeLogOr( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitLShiftExpr( expr::LShift * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeLShift( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )override
+					{
+						AST_Failure( "Unexpected LShiftAssign expression" );
+					}
+
+					void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitMinusExpr( expr::Minus * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeMinus( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitMinusAssignExpr( ast::expr::MinusAssign * expr )override
+					{
+						AST_Failure( "Unexpected MinusAssign expression" );
+					}
+
+					void visitModuloExpr( expr::Modulo * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeModulo( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitModuloAssignExpr( ast::expr::ModuloAssign * expr )override
+					{
+						AST_Failure( "Unexpected ModuloAssign expression" );
+					}
+
+					void visitNotEqualExpr( expr::NotEqual * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeNotEqual( expr->getType()->getTypesCache()
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitOrAssignExpr( ast::expr::OrAssign * expr )override
+					{
+						AST_Failure( "Unexpected OrAssign expression" );
+					}
+
+					void visitPostDecrementExpr( expr::PostDecrement * expr )override
+					{
+						AST_Failure( "Unexpected PostDecrement expression" );
+					}
+
+					void visitPostIncrementExpr( expr::PostIncrement * expr )override
+					{
+						AST_Failure( "Unexpected PostIncrement expression" );
+					}
+
+					void visitPreDecrementExpr( expr::PreDecrement * expr )override
+					{
+						AST_Failure( "Unexpected PreDecrement expression" );
+					}
+
+					void visitPreIncrementExpr( expr::PreIncrement * expr )override
+					{
+						AST_Failure( "Unexpected PreIncrement expression" );
+					}
+
+					void visitQuestionExpr( ast::expr::Question * expr )override
+					{
+						TraceFunc;
+						doSwizzle( expr->clone() );
+					}
+
+					void visitRShiftExpr( expr::RShift * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeRShift( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override
+					{
+						AST_Failure( "Unexpected RShiftAssign expression" );
+					}
+
+					void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+					{
+						AST_Failure( "Unexpected StreamAppend expression" );
+					}
+
+					void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+					{
+						AST_Failure( "Unexpected SwitchCase expression" );
+					}
+
+					void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+					{
+						AST_Failure( "Unexpected SwitchTest expression" );
+					}
+
+					void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+					{
+						TraceFunc;
+						auto componentCount = getComponentCount( expr->getType() );
+
+						if ( componentCount == 1u )
+						{
+							m_result = expr->clone();
+						}
+						else if ( componentCount > m_index )
+						{
+							auto values = helpers::getSwizzleValues( expr->getSwizzle() );
+							m_result = m_exprCache.makeSwizzle( expr->getOuterExpr()->clone()
+								, helpers::getFinalSwizzle( values, { m_index } ) );
+						}
+						else
+						{
+							AST_Failure( "Unexpected component count lower than swizzle index" );
+						}
+					}
+
+					void visitTimesExpr( expr::Times * expr )override
+					{
+						TraceFunc;
+						auto lhs = doSubmit( expr->getLHS() );
+						auto rhs = doSubmit( expr->getRHS() );
+						m_result = m_exprCache.makeTimes( doGetSwizzledType( expr->getType() )
+							, std::move( lhs )
+							, std::move( rhs ) );
+					}
+
+					void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override
+					{
+						AST_Failure( "Unexpected TimesAssign expression" );
+					}
+
+					void visitUnaryMinusExpr( expr::UnaryMinus * expr )override
+					{
+						TraceFunc;
+						auto op = doSubmit( expr->getOperand() );
+						m_result = m_exprCache.makeUnaryMinus( std::move( op ) );
+					}
+
+					void visitUnaryPlusExpr( expr::UnaryPlus * expr )override
+					{
+						TraceFunc;
+						auto op = doSubmit( expr->getOperand() );
+						m_result = m_exprCache.makeUnaryPlus( std::move( op ) );
+					}
+
+					void visitXorAssignExpr( ast::expr::XorAssign * expr )override
+					{
+						AST_Failure( "Unexpected XorAssign expression" );
+					}
+
+				private:
+					expr::ExprCache & m_exprCache;
+					expr::ExprPtr & m_result;
+					uint32_t m_index;
+				};
+
+				return ExprVisitor::submit( expr.get(), index );
+			}
 		}
 
 		class ExprSimplifier
@@ -794,11 +1316,11 @@ namespace ast
 
 			void visitAddAssignExpr( expr::AddAssign * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eAdd
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eAdd
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
@@ -806,16 +1328,16 @@ namespace ast
 
 			void visitAddExpr( expr::Add * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eAdd
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eAdd
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 			}
 
 			void visitCastExpr( ast::expr::Cast * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto dstScalarType = getScalarType( expr->getType()->getKind() );
 				auto srcScalarType = getScalarType( expr->getOperand()->getType()->getKind() );
 #if !defined( NDEBUG )
@@ -849,7 +1371,7 @@ namespace ast
 
 			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto kind = expr->getCombinedImageAccess();
 				auto returnComponentsCount = helpers::getReturnComponentCount( kind );
 				auto returnType = expr->getType();
@@ -898,7 +1420,7 @@ namespace ast
 
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				if ( expr->getComposite() == expr::CompositeType::eCombine )
 				{
 					return ExprCloner::visitCompositeConstructExpr( expr );
@@ -975,6 +1497,13 @@ namespace ast
 								processed = true;
 								// Same component type as expected by construct
 								realArgs.emplace_back( doSubmit( arg.get() ) );
+
+								if ( isScalarType( kind )
+									&& kind != expr->getComponent() )
+								{
+									auto dstType = m_typesCache.getBasicType( expr->getComponent() );
+									realArgs.back() = m_exprCache.makeCast( dstType, std::move( realArgs.back() ) );
+								}
 							}
 						}
 
@@ -1027,11 +1556,11 @@ namespace ast
 
 			void visitDivideAssignExpr( expr::DivideAssign * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eDivide
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eDivide
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
@@ -1039,16 +1568,16 @@ namespace ast
 
 			void visitDivideExpr( expr::Divide * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eDivide
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eDivide
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 			}
 
 			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				ast::expr::ExprList args;
 
 				for ( auto & arg : expr->getArgList() )
@@ -1087,8 +1616,8 @@ namespace ast
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
 			{
-				TraceFunc
-					auto intrinsic = expr->getIntrinsic();
+				TraceFunc;
+				auto intrinsic = expr->getIntrinsic();
 
 				if ( intrinsic >= expr::Intrinsic::eMatrixCompMult2x2F
 					&& intrinsic <= expr::Intrinsic::eMatrixCompMult4x4D )
@@ -1116,6 +1645,7 @@ namespace ast
 
 			void visitLogNotExpr( expr::LogNot * expr )override
 			{
+				TraceFunc;
 				m_result = helpers::negateExpr( m_exprCache
 					, m_typesCache
 					, doSubmit( expr->getOperand() ) );
@@ -1123,11 +1653,11 @@ namespace ast
 
 			void visitMinusAssignExpr( expr::MinusAssign * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eMinus
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eMinus
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
@@ -1135,16 +1665,16 @@ namespace ast
 
 			void visitMinusExpr( expr::Minus * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eMinus
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eMinus
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 			}
 
 			void visitQuestionExpr( expr::Question * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto condComponents = getComponentCount( expr->getCtrlExpr()->getType()->getKind() );
 				auto opsComponents = getComponentCount( expr->getTrueExpr()->getType()->getKind() );
 
@@ -1171,48 +1701,55 @@ namespace ast
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
-				TraceFunc
+				TraceFunc;
+				auto outer = expr->getOuterExpr();
+
 				if ( !m_result
 					&& expr->getOuterExpr()->getKind() == expr::Kind::eSwizzle )
 				{
-					auto & outer = static_cast< expr::Swizzle const & >( *expr->getOuterExpr() );
+					auto & outerSwizzle = static_cast< expr::Swizzle const & >( *outer );
 
-					if ( expr::SwizzleKind::Value( expr->getSwizzle() ) == expr::SwizzleKind::Value( outer.getSwizzle() )
-						&& expr->getType() == outer.getType() )
+					if ( expr::SwizzleKind::Value( expr->getSwizzle() ) == expr::SwizzleKind::Value( outerSwizzle.getSwizzle() )
+						&& expr->getType() == outerSwizzle.getType() )
 					{
-						m_result = m_exprCache.makeSwizzle( doSubmit( outer.getOuterExpr() )
-							, outer.getSwizzle() );
+						m_result = m_exprCache.makeSwizzle( doSubmit( outerSwizzle.getOuterExpr() )
+							, outerSwizzle.getSwizzle() );
 					}
 					else
 					{
-						auto values = helpers::getSwizzleValues( outer.getSwizzle() );
+						auto values = helpers::getSwizzleValues( outerSwizzle.getSwizzle() );
 						auto indices = getSwizzleIndices( expr->getSwizzle() );
-						m_result = m_exprCache.makeSwizzle( doSubmit( outer.getOuterExpr() )
+						m_result = m_exprCache.makeSwizzle( doSubmit( outerSwizzle.getOuterExpr() )
 							, helpers::getFinalSwizzle( values, indices ) );
 					}
 				}
 
 				if ( !m_result )
 				{
-					auto outer = expr->getOuterExpr();
-
-					if ( outer->getKind() == expr::Kind::eCompositeConstruct
-						&& ( expr->getSwizzle() == expr::SwizzleKind::e0
-							|| expr->getSwizzle() == expr::SwizzleKind::e1
-							|| expr->getSwizzle() == expr::SwizzleKind::e2
-							|| expr->getSwizzle() == expr::SwizzleKind::e3 ) )
+					if ( expr->getSwizzle() == expr::SwizzleKind::e0
+						|| expr->getSwizzle() == expr::SwizzleKind::e1
+						|| expr->getSwizzle() == expr::SwizzleKind::e2
+						|| expr->getSwizzle() == expr::SwizzleKind::e3 )
 					{
-						auto & compositeConstruct = static_cast< expr::CompositeConstruct const & >( *outer );
+						if ( outer->getKind() == expr::Kind::eCompositeConstruct )
+						{
+							auto & compositeConstruct = static_cast< expr::CompositeConstruct const & >( *outer );
 
-						if ( compositeConstruct.getArgList().size() == 1u
-							&& type::isScalarType( compositeConstruct.getArgList().front()->getType() ) )
-						{
-							m_result = doSubmit( compositeConstruct.getArgList().begin()->get() );
+							if ( compositeConstruct.getArgList().size() == 1u
+								&& type::isScalarType( compositeConstruct.getArgList().front()->getType() ) )
+							{
+								m_result = doSubmit( compositeConstruct.getArgList().begin()->get() );
+							}
+							else if ( compositeConstruct.getArgList().size() == type::getComponentCount( compositeConstruct.getType() ) )
+							{
+								m_result = doSubmit( std::next( compositeConstruct.getArgList().begin()
+									, ptrdiff_t( expr->getSwizzle().toIndex() ) )->get() );
+							}
 						}
-						else if ( compositeConstruct.getArgList().size() == type::getComponentCount( compositeConstruct.getType() ) )
+						else
 						{
-							m_result = doSubmit( std::next( compositeConstruct.getArgList().begin()
-								, ptrdiff_t( expr->getSwizzle().toIndex() ) )->get() );
+							auto index = expr->getSwizzle().toIndex();
+							m_result = helpers::extractIndex( doSubmit( outer ), index );
 						}
 					}
 				}
@@ -1226,11 +1763,11 @@ namespace ast
 
 			void visitTimesAssignExpr( expr::TimesAssign * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eTimes
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eTimes
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 				m_result = m_exprCache.makeAssign( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, std::move( m_result ) );
@@ -1238,11 +1775,11 @@ namespace ast
 
 			void visitTimesExpr( expr::Times * expr )override
 			{
-				TraceFunc
-					m_result = doWriteBinaryOperation( expr::Kind::eTimes
-						, expr->getType()
-						, expr->getLHS()
-						, expr->getRHS() );
+				TraceFunc;
+				m_result = doWriteBinaryOperation( expr::Kind::eTimes
+					, expr->getType()
+					, expr->getLHS()
+					, expr->getRHS() );
 			}
 
 			void doConstructVector( ast::expr::CompositeConstruct * expr
@@ -1250,7 +1787,7 @@ namespace ast
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
 			{
-				TraceFunc
+				TraceFunc;
 				auto srcCount = getComponentCount( newArg->getType()->getKind() );
 				auto dstCount = getComponentCount( destKind );
 				auto count = std::min( srcCount, dstCount );
@@ -1278,7 +1815,7 @@ namespace ast
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
 			{
-				TraceFunc
+				TraceFunc;
 				auto scalarType = getScalarType( destKind );
 				auto srcColumnCount = getComponentCount( newArg->getType()->getKind() );
 				auto srcRowCount = getComponentCount( getComponentType( newArg->getType()->getKind() ) );
@@ -1332,7 +1869,7 @@ namespace ast
 			void doConstructOther( ast::expr::CompositeConstruct * expr
 				, ast::expr::ExprList & args )
 			{
-				TraceFunc
+				TraceFunc;
 				auto scalarType = getScalarType( expr->getComponent() );
 
 				for ( auto & arg : expr->getArgList() )
@@ -1357,7 +1894,7 @@ namespace ast
 			type::TypePtr doPromoteScalar( expr::ExprPtr & lhs
 				, expr::ExprPtr & rhs )
 			{
-				TraceFunc
+				TraceFunc;
 				auto lhsScalar = isScalarType( lhs->getType()->getKind() );
 				auto rhsScalar = isScalarType( rhs->getType()->getKind() );
 				auto result = lhs->getType();
@@ -1411,7 +1948,7 @@ namespace ast
 				, expr::Expr * lhs
 				, expr::Expr * rhs )
 			{
-				TraceFunc
+				TraceFunc;
 				bool needMatchingVectors;
 				bool switchParams;
 				auto forceRhsType = isMatrixTimesVector( operation
@@ -1508,7 +2045,7 @@ namespace ast
 				, expr::Expr * lhs
 				, expr::Expr * rhs )
 			{
-				TraceFunc
+				TraceFunc;
 				// one time set up...
 				auto lhsType = lhs->getType();
 				auto rhsType = rhs->getType();
@@ -1739,7 +2276,7 @@ namespace ast
 
 			void visitDoWhileStmt( stmt::DoWhile * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
 				auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
 				auto doWhileContent = m_stmtCache.makeDoWhile( ( scalarType != ast::type::Kind::eBoolean )
@@ -1764,7 +2301,7 @@ namespace ast
 
 			void visitIfStmt( stmt::If * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto save = m_current;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
 				auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );

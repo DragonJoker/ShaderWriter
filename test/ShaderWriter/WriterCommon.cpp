@@ -510,7 +510,9 @@ namespace test
 			, test::TestCounts & testCounts )
 		{
 			auto debug = ::sdw::writeDebug( shader );
-			displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
+			displayShader( "Full Statements", debug, testCounts, compilers.forceDisplay, false );
+			debug = ::sdw::writeDebugPreprocessed( shader );
+			displayShader( "Preprocessed Statements", debug, testCounts, compilers.forceDisplay, false );
 		}
 
 		void testWriteGlslOnIndex( ::ast::Shader const & shader
@@ -909,16 +911,20 @@ namespace test
 							}
 						}
 #endif
-						catch ( std::exception & exc )
+						catch ( std::exception & )
 						{
 							failure( "testWriteSpirV" );
 							displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
-							testCounts << "std exception: " << exc.what() << endl;
 							throw;
 						}
 					}
+					catch ( std::exception & exc )
+					{
+						testCounts << exc.what() << endl;
+					}
 					catch ( ... )
 					{
+						testCounts << "Unknown exception" << endl;
 					}
 				};
 				testCounts.incIndent();

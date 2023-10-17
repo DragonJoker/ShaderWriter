@@ -117,6 +117,44 @@ namespace ast
 		return expr;
 	}
 
+	bool Shader::hasFunction( std::string_view name )const
+	{
+		auto it = findVariable( m_blocks.front().registered, name );
+		return m_blocks.front().registered.end() != it;
+	}
+
+	var::VariablePtr Shader::getFunction( std::string name )
+	{
+		auto it = findVariable( m_blocks.front().registered, name );
+
+		if ( it == m_blocks.front().registered.end() )
+		{
+			std::string text;
+			text += "No registered function with the name [" + std::string( name ) + "].";
+			throw std::runtime_error{ text };
+		}
+
+		return *it;
+	}
+
+	void Shader::registerFunction( std::string name
+		, type::FunctionPtr type )
+	{
+		auto it = findVariable( m_blocks.front().registered, name );
+
+		if ( it != m_blocks.front().registered.end()
+			&& type != it->get()->getType() )
+		{
+			std::string text;
+			text += "A function with the name [" + std::string( name ) + "] is already registered, with a different type.";
+			throw std::runtime_error{ text };
+		}
+
+		m_blocks.front().registered.emplace( ast::var::makeFunction( ++m_data.nextVarId
+			, std::move( type )
+			, std::move( name ) ) );
+	}
+
 	bool Shader::hasVariable( std::string_view name )const
 	{
 		auto & block = m_blocks.back();

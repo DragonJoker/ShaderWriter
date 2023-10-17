@@ -110,7 +110,7 @@ namespace ast
 
 			void visitUnaryExpr( expr::Unary * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 				visitType( expr->getOperand()->getType() );
 
@@ -156,7 +156,7 @@ namespace ast
 
 			void visitBinaryExpr( expr::Binary * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 				visitType( expr->getLHS()->getType() );
 				visitType( expr->getRHS()->getType() );
@@ -249,7 +249,7 @@ namespace ast
 
 			void visitAddAssignExpr( expr::AddAssign * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eAdd
 					, expr->getType()
 					, expr->getLHS()
@@ -261,7 +261,7 @@ namespace ast
 
 			void visitAddExpr( expr::Add * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eAdd
 					, expr->getType()
 					, expr->getLHS()
@@ -270,7 +270,7 @@ namespace ast
 
 			void visitCastExpr( ast::expr::Cast * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 				visitType( expr->getOperand()->getType() );
 				m_result = m_exprCache.makeCast( expr->getType()
@@ -279,7 +279,7 @@ namespace ast
 
 			void visitDivideAssignExpr( expr::DivideAssign * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eDivide
 					, expr->getType()
 					, expr->getLHS()
@@ -291,7 +291,7 @@ namespace ast
 
 			void visitDivideExpr( expr::Divide * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eDivide
 					, expr->getType()
 					, expr->getLHS()
@@ -300,7 +300,7 @@ namespace ast
 
 			void visitMinusAssignExpr( expr::MinusAssign * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eMinus
 					, expr->getType()
 					, expr->getLHS()
@@ -312,7 +312,7 @@ namespace ast
 
 			void visitMinusExpr( expr::Minus * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eMinus
 					, expr->getType()
 					, expr->getLHS()
@@ -321,7 +321,7 @@ namespace ast
 
 			void visitTimesAssignExpr( expr::TimesAssign * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eTimes
 					, expr->getType()
 					, expr->getLHS()
@@ -333,7 +333,7 @@ namespace ast
 
 			void visitTimesExpr( expr::Times * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = doWriteBinaryOperation( expr::Kind::eTimes
 					, expr->getType()
 					, expr->getLHS()
@@ -342,7 +342,7 @@ namespace ast
 
 			void visitAggrInitExpr( expr::AggrInit * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 				expr::ExprList initialisers;
 
@@ -366,7 +366,7 @@ namespace ast
 
 			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 
 				if ( expr->getArgList().size() == 1u
@@ -408,7 +408,7 @@ namespace ast
 
 			void visitFnCallExpr( expr::FnCall * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				ast::expr::ExprList args;
 
 				struct OutputParam
@@ -515,7 +515,7 @@ namespace ast
 
 			void visitIdentifierExpr( expr::Identifier * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 				m_result = m_exprCache.makeIdentifier( expr->getTypesCache()
 					, expr->getVariable() );
@@ -523,7 +523,7 @@ namespace ast
 
 			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				ast::expr::ExprList args;
 
 				for ( auto & arg : expr->getArgList() )
@@ -547,7 +547,7 @@ namespace ast
 
 			void visitInitExpr( expr::Init * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				if ( expr->getInitialiser()->isConstant() )
 				{
 					m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( m_typesCache, expr->getIdentifier()->getVariable() )
@@ -568,7 +568,7 @@ namespace ast
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				expr::ExprList args;
 
 				for ( auto & arg : expr->getArgList() )
@@ -583,13 +583,13 @@ namespace ast
 
 			void visitLiteralExpr( expr::Literal * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeLiteral( *expr );
 			}
 
 			void visitMbrSelectExpr( expr::MbrSelect * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeMbrSelect( doSubmit( expr->getOuterExpr() )
 					, expr->getMemberIndex()
 					, expr->getMemberFlags() );
@@ -626,7 +626,7 @@ namespace ast
 
 			void visitStreamAppendExpr( expr::StreamAppend * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( expr->getType() );
 				visitType( expr->getOperand()->getType() );
 				m_result = m_exprCache.makeStreamAppend( doSubmit( expr->getOperand() ) );
@@ -634,26 +634,26 @@ namespace ast
 
 			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeSwitchCase( m_exprCache.makeLiteral( *expr->getLabel() ) );
 			}
 
 			void visitSwitchTestExpr( expr::SwitchTest * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeSwitchTest( doSubmit( expr->getValue() ) );
 			}
 
 			void visitSwizzleExpr( expr::Swizzle * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeSwizzle( doSubmit( expr->getOuterExpr() )
 					, expr->getSwizzle() );
 			}
 
 			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto kind = expr->getCombinedImageAccess();
 				auto returnType = expr->getType();
 				ast::expr::ExprList args;
@@ -677,7 +677,7 @@ namespace ast
 				, expr::ExprPtr aliasedExpr
 				, uint64_t flags )
 			{
-				TraceFunc
+				TraceFunc;
 				auto kind = getNonArrayKind( type );
 				auto result = var::makeVariable( ++m_data.nextVarId
 					, type
@@ -710,7 +710,7 @@ namespace ast
 			var::VariablePtr doCreateAliasVar( type::TypePtr type
 				, expr::ExprPtr aliasedExpr )
 			{
-				TraceFunc
+				TraceFunc;
 				return doCreateVar( type
 					, std::move( aliasedExpr )
 					, ( var::Flag::eTemp | var::Flag::eAlias ) );
@@ -722,7 +722,7 @@ namespace ast
 				, var::VariablePtr & alias
 				, bool force = false )
 			{
-				TraceFunc
+				TraceFunc;
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier
 					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isAlias() )
 				{
@@ -762,7 +762,7 @@ namespace ast
 			template< typename ExprT >
 			void doProcessAssignBinExprT( expr::Binary * expr )
 			{
-				TraceFunc
+				TraceFunc;
 				expr::ExprPtr aliasExpr{};
 				var::VariablePtr alias;
 				auto lhs = doSubmit( expr->getLHS() );
@@ -782,7 +782,7 @@ namespace ast
 			template< typename ExprT >
 			void doProcessAssignUnExprT( expr::Binary * expr )
 			{
-				TraceFunc
+				TraceFunc;
 				expr::ExprPtr aliasExpr{};
 				var::VariablePtr alias;
 				auto lhs = doSubmit( expr->getLHS() );
@@ -801,7 +801,7 @@ namespace ast
 			template< typename ExprT >
 			void doProcessBinExprT( expr::Binary * expr )
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( expr->getLHS() )
 					, doSubmit( expr->getRHS() ) );
@@ -810,7 +810,7 @@ namespace ast
 			template< typename ExprT >
 			void doProcessUnExprT( expr::Unary * expr )
 			{
-				TraceFunc
+				TraceFunc;
 				m_result = m_exprCache.makeExpr< ExprT >( expr->getType()
 					, doSubmit( expr->getOperand() ) );
 			}
@@ -819,7 +819,7 @@ namespace ast
 			void doProcessPrePostIncDecExprT( expr::Unary * expr
 				, bool isPre )
 			{
-				TraceFunc
+				TraceFunc;
 				var::VariablePtr opAlias;
 				auto lhs = doSubmit( expr->getOperand() );
 
@@ -856,7 +856,7 @@ namespace ast
 			type::TypePtr doPromoteScalar( expr::ExprPtr & lhs
 				, expr::ExprPtr & rhs )
 			{
-				TraceFunc
+				TraceFunc;
 				auto lhsScalar = isScalarType( lhs->getType()->getKind() );
 				auto rhsScalar = isScalarType( rhs->getType()->getKind() );
 				auto result = lhs->getType();
@@ -894,7 +894,7 @@ namespace ast
 				, expr::Expr * lhs
 				, expr::Expr * rhs )
 			{
-				TraceFunc
+				TraceFunc;
 				visitType( resType );
 				visitType( lhs->getType() );
 				visitType( rhs->getType() );
@@ -1001,7 +1001,7 @@ namespace ast
 
 			void doAddStmt( stmt::StmtPtr stmt )
 			{
-				TraceFunc
+				TraceFunc;
 				if ( stmt->getKind() == stmt::Kind::eSimple )
 				{
 					auto expr = static_cast< stmt::Simple const & >( *stmt ).getExpr();
@@ -1121,7 +1121,7 @@ namespace ast
 
 			void visitIfStmt( ast::stmt::If * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto save = m_current;
 				auto cont = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 				m_current = cont.get();
@@ -1175,7 +1175,7 @@ namespace ast
 
 			void visitForStmt( stmt::For * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto block = m_stmtCache.makeCompound();
 				auto save = m_current;
 				m_current = block.get();
@@ -1198,7 +1198,7 @@ namespace ast
 
 			void visitWhileStmt( stmt::While * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto ifStmt = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 				{
 					// Do ... while content
@@ -1214,42 +1214,42 @@ namespace ast
 
 			void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				m_fragmentLayoutStmt = stmt;
 			}
 
 			void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				m_outputGeometryLayoutStmt = stmt;
 			}
 
 			void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				m_inputGeometryLayoutStmt = stmt;
 			}
 
 			void visitOutputTessellationControlLayoutStmt( stmt::OutputTessellationControlLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				m_outputTessCtrlLayoutStmt = stmt;
 			}
 
 			void visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				m_intputTessEvalLayoutStmt = stmt;
 			}
 
 			void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				auto fnType = &static_cast< type::Function const & >( *stmt->getType() );
 				declareStruct( fnType->getReturnType() );
 
@@ -1302,70 +1302,70 @@ namespace ast
 
 			void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getVariable()->getType() );
 				StmtCloner::visitAccelerationStructureDeclStmt( stmt );
 			}
 
 			void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				StmtCloner::visitBufferReferenceDeclStmt( stmt );
 			}
 
 			void visitDispatchMeshStmt( stmt::DispatchMesh * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getPayload()->getType() );
 				StmtCloner::visitDispatchMeshStmt( stmt );
 			}
 
 			void visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getVariable()->getType() );
 				StmtCloner::visitHitAttributeVariableDeclStmt( stmt );
 			}
 
 			void visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getVariable()->getType() );
 				StmtCloner::visitInOutCallableDataVariableDeclStmt( stmt );
 			}
 
 			void visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getVariable()->getType() );
 				StmtCloner::visitInOutRayPayloadVariableDeclStmt( stmt );
 			}
 
 			void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getVariable()->getType() );
 				StmtCloner::visitInOutVariableDeclStmt( stmt );
 			}
 
 			void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				StmtCloner::visitInputComputeLayoutStmt( stmt );
 			}
 
 			void visitOutputMeshLayoutStmt( stmt::OutputMeshLayout * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				StmtCloner::visitOutputMeshLayoutStmt( stmt );
 			}
 
 			void visitReturnStmt( stmt::Return * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 
 				if ( stmt->getExpr() )
 				{
@@ -1377,14 +1377,14 @@ namespace ast
 
 			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 				StmtCloner::visitShaderBufferDeclStmt( stmt );
 			}
 
 			void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getSsboInstance()->getType() );
 				declareStruct( stmt->getData()->getType() );
 				StmtCloner::visitShaderStructBufferDeclStmt( stmt );
@@ -1392,13 +1392,13 @@ namespace ast
 
 			void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getType() );
 			}
 
 			void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
 			{
-				TraceFunc
+				TraceFunc;
 				declareStruct( stmt->getVariable()->getType() );
 				StmtCloner::visitVariableDeclStmt( stmt );
 			}
@@ -1406,7 +1406,7 @@ namespace ast
 		private:
 			void doAddStmt( stmt::StmtPtr stmt )
 			{
-				TraceFunc
+				TraceFunc;
 				if ( stmt->getKind() == stmt::Kind::eSimple )
 				{
 					auto expr = static_cast< stmt::Simple const & >( *stmt ).getExpr();
