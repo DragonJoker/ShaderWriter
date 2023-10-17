@@ -38,7 +38,7 @@ See LICENSE file in root folder
 #if AST_TraceFunc
 #	if !defined( NDEBUG )
 #		define TraceFunc \
-		std::cout << "Function " << __FUNCTION__ << ":" << __LINE__ << std::endl;
+		std::cout << "Function " << __FUNCTION__ << ":" << __LINE__ << std::endl
 #	else
 #		define TraceFunc
 #	endif

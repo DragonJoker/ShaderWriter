@@ -238,7 +238,9 @@ namespace spirv
 
 	public:
 		static uint32_t constexpr VendorID = 33u;
-		static uint32_t constexpr Version = 0x0027u;
+		static uint32_t constexpr Version = ( ( uint32_t( ( MAIN_VERSION_MAJOR & 0x0F ) << 8 ) )
+			| ( uint32_t( ( MAIN_VERSION_MINOR & 0x0F ) << 4 ) )
+			| ( uint32_t( ( MAIN_VERSION_BUILD & 0x0F ) << 0 ) ) );
 
 		ast::ShaderAllocatorBlock * allocator;
 		ValueId extGlslStd450{};

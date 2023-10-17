@@ -1863,8 +1863,13 @@ namespace spirv
 				assert( instruction.resultId.has_value() );
 				auto resultId = instruction.resultId.value();
 				auto it = names.find( resultId );
-				assert( it != names.end() );
-				return it->second;
+
+				if ( it != names.end() )
+				{
+					return it->second;
+				}
+
+				return std::string{};
 			}
 
 			std::string getArrayTypeName( Instruction const & instruction )const

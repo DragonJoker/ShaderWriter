@@ -79,6 +79,16 @@ namespace ast
 		SDAST_API ast::expr::ExprPtr loadExpr( ast::expr::ExprPtr expr );
 		/**
 		*name
+		*	Functions registration.
+		*/
+		/**@{*/
+		SDAST_API bool hasFunction( std::string_view name )const;
+		SDAST_API var::VariablePtr getFunction( std::string name );
+		SDAST_API void registerFunction( std::string name
+			, type::FunctionPtr type );
+		/**@}*/
+		/**
+		*name
 		*	Variables registration.
 		*/
 		/**@{*/

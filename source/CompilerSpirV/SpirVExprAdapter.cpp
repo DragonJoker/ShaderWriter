@@ -82,7 +82,7 @@ namespace spirv
 
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
 	{
-		TraceFunc;
+		TraceFunc;;
 		auto lhs = expr->getLHS();
 
 		if ( lhs->getKind() == ast::expr::Kind::eMbrSelect )
@@ -190,7 +190,7 @@ namespace spirv
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
-		TraceFunc;
+		TraceFunc;;
 		auto var = expr->getVariable();
 
 		if ( var->isShaderOutput()
@@ -220,7 +220,7 @@ namespace spirv
 
 	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
 	{
-		TraceFunc;
+		TraceFunc;;
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -291,7 +291,7 @@ namespace spirv
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
 	{
-		TraceFunc;
+		TraceFunc;;
 		m_result = m_adaptationData.config.processPendingMbr( m_exprCache
 			, expr->getOuterExpr()
 			, expr->getMemberIndex()
@@ -329,13 +329,13 @@ namespace spirv
 
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
 	{
-		TraceFunc;
+		TraceFunc;;
 		m_result = makeEmitVertex( m_exprCache, m_typesCache );
 	}
 
 	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
 	{
-		TraceFunc;
+		TraceFunc;;
 		auto kind = expr->getCombinedImageAccess();
 		IntrinsicConfig config;
 		getSpirVConfig( kind, config );

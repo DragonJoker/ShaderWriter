@@ -13,6 +13,20 @@ See LICENSE file in root folder
 
 namespace spirv::debug
 {
+	namespace helpers
+	{
+		static std::string printVersion( uint32_t major = MAIN_VERSION_MAJOR
+			, uint32_t minor = MAIN_VERSION_MINOR
+			, uint32_t build = MAIN_VERSION_BUILD
+			, uint32_t year = MAIN_VERSION_YEAR )
+		{
+			std::stringstream stream;
+			stream.imbue( std::locale{ "C" } );
+			stream << major << "." << minor << "." << build << "-" << year;
+			return stream.str();
+		}
+	}
+
 	NonSemanticDebug::NonSemanticDebug( ast::ShaderAllocatorBlock * allocator
 		, Module & module
 		, glsl::StmtConfig const * config )
@@ -388,7 +402,7 @@ namespace spirv::debug
 		}
 
 		assert( functionId.debug );
-		auto compilerSignatureId = m_module.registerString( "ShaderWriter-v" + std::to_string( Module::Version >> 4 ) + "." + std::to_string( Module::Version & 0x0F ) );
+		auto compilerSignatureId = m_module.registerString( "ShaderWriter-v" + helpers::printVersion() );
 		auto cliArgumentsId = m_module.registerString( "-fullDebugInfo" );
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::EntryPoint
 			, m_declarations

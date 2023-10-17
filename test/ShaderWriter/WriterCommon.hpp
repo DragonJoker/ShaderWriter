@@ -24,6 +24,7 @@
 
 #define ForceDisplayShaders false
 
+#define Compilers_None { false, false, false, ForceDisplayShaders }
 #define Compilers_GLSL { false, false, true, ForceDisplayShaders }
 #define Compilers_HLSL { false, true, false, ForceDisplayShaders }
 #define Compilers_SPIRV { true, false, false, ForceDisplayShaders }
