@@ -587,6 +587,469 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
+
+	void less( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "less" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, lhs < rhs );
+					ssbo[0].e() = uvec4( result );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void lessEqual( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "lessEqual" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, lhs <= rhs );
+					ssbo[0].e() = uvec4( result );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void greater( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "greater" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, lhs > rhs );
+					ssbo[0].e() = uvec4( result );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void greaterEqual( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "greaterEqual" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, lhs >= rhs );
+					ssbo[0].e() = uvec4( result );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void equal( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "equal" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, lhs == rhs );
+					ssbo[0].e() = uvec4( result );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void notEqual( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "notEqual" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, lhs != rhs );
+					ssbo[0].e() = uvec4( result );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void all( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "all" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, all( lhs == rhs ) );
+					ssbo[0].e() = uvec4( bvec4( result ) );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void any( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "any" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, any( lhs == rhs ) );
+					ssbo[0].e() = uvec4( bvec4( result ) );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void allVarCtrlExpr( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "allVarCtrlExpr" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, all( lhs == rhs ) );
+
+					IF( writer, result )
+					{
+						ssbo[0].e() = uvec4( 1u );
+					}
+					ELSE
+					{
+						ssbo[1].e() = uvec4( 0u );
+					}
+					FI;
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void anyVarCtrlExpr( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "anyCtrlExpr" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+					auto result = writer.declLocale( "result"
+						, any( lhs == rhs ) );
+
+					IF( writer, result )
+					{
+						ssbo[0].e() = uvec4( 1u );
+					}
+					ELSE
+					{
+						ssbo[1].e() = uvec4( 0u );
+					}
+					FI;
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void allCtrlExpr( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "allCtrlExpr" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+
+					IF( writer, all( lhs == rhs ) )
+					{
+						ssbo[0].e() = uvec4( 1u );
+					}
+					ELSE
+					{
+						ssbo[1].e() = uvec4( 0u );
+					}
+					FI;
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void anyCtrlExpr( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "anyCtrlExpr" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto lhs = writer.declLocale( "lhs"
+						, vec4( 1.0_f, 0.0_f, 1.0_f, 0.0_f ) );
+					auto rhs = writer.declLocale( "rhs"
+						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
+
+					IF( writer, any( lhs == rhs ) )
+					{
+						ssbo[0].e() = uvec4( 1u );
+					}
+					ELSE
+					{
+						ssbo[1].e() = uvec4( 0u );
+					}
+					FI;
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void notAllCtrlExpr( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "notAllCtrlExpr" );
+		using namespace sdw;
+
+		ShaderArray shaders;
+		{
+			struct MyStruct
+				: sdw::StructInstance
+			{
+				MyStruct( sdw::ShaderWriter & writer
+					, sdw::expr::ExprPtr expr
+					, bool enabled )
+					: StructInstance{ writer, std::move( expr ), enabled }
+					, a{ getMember( "a", vec3( 0.0_f ) ) }
+					, b{ getMember( "b", vec3( 0.0_f ) ) }
+				{
+				}
+
+				static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+				{
+					auto result = cache.getStruct( ast::type::MemoryLayout::eC, "MyStruct" );
+
+					if ( result->empty() )
+					{
+						result->declMember( "a", ast::type::Kind::eVec3F, ast::type::NotArray );
+					}
+
+					return result;
+				}
+
+				sdw::DefaultedT< sdw::Vec3 > a;
+				sdw::DefaultedT< sdw::Vec3 > b;
+			};
+
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeInT< VoidT > in )
+				{
+					auto v = writer.declLocale< MyStruct >( "v" );
+
+					IF( writer, !all( v.b == vec3( 0.0_f ) ) )
+					{
+						ssbo[0].e() = uvec4( 1u );
+					}
+					FI;
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterCompositeCtors )
@@ -606,6 +1069,19 @@ sdwTestSuiteMain( TestWriterCompositeCtors )
 	aggrInitMbrSelectLHS( testCounts );
 	ternarySingleComponent( testCounts );
 	ternaryMultipleComponent( testCounts );
+	less( testCounts );
+	lessEqual( testCounts );
+	greater( testCounts );
+	greaterEqual( testCounts );
+	equal( testCounts );
+	notEqual( testCounts );
+	all( testCounts );
+	any( testCounts );
+	allVarCtrlExpr( testCounts );
+	anyVarCtrlExpr( testCounts );
+	allCtrlExpr( testCounts );
+	anyCtrlExpr( testCounts );
+	notAllCtrlExpr( testCounts );
 	sdwTestSuiteEnd();
 }
 

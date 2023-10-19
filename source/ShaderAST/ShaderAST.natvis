@@ -227,6 +227,16 @@
 			<Item Name="rhs">m_rhs</Item>
 		</Expand>
 	</Type>
+	<Type Name="ast::expr::AggrInit">
+		<DisplayString Condition="m_identifier!=nullptr">{*m_identifier}({m_initialisers})</DisplayString>
+		<DisplayString Condition="m_identifier==nullptr">({m_initialisers})</DisplayString>
+		<Expand>
+			<Item Name="type">m_type</Item>
+			<Item Name="identifier">m_identifier</Item>
+			<Item Name="initialisers">m_initialisers</Item>
+			<Item Name="flags">m_flags</Item>
+		</Expand>
+	</Type>
 	<Type Name="ast::expr::BitAnd">
 		<DisplayString>{*m_lhs} &amp; {*m_rhs}</DisplayString>
 		<Expand>
@@ -539,8 +549,13 @@
 	</Type>
 	<Type Name="ast::expr::Literal">
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eBool">{m_value.boolv}</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt">{m_value.intv}s</DisplayString>
-		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt">{m_value.uint32v}u</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt8">{m_value.int8v}s</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt16">{m_value.int16v}s</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt32">{m_value.int32v}s</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eInt64">{m_value.int64v}s</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt8">{m_value.uint8v}ull</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt16">{m_value.uint16v}ull</DisplayString>
+		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt32">{m_value.uint32v}ull</DisplayString>
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eUInt64">{m_value.uint64v}ull</DisplayString>
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eFloat">{m_value.floatv}f</DisplayString>
 		<DisplayString Condition="m_valueType==ast::expr::LiteralType::eDouble">{m_value.doublev}d</DisplayString>
@@ -551,8 +566,13 @@
 			<Item Name="valueType">m_valueType</Item>
 			<Item Name="value">m_value</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eBool">m_value.boolv</Item>
-			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt">m_value.intv</Item>
-			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt">m_value.uint32v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt8">m_value.int8v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt16">m_value.int16v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt32">m_value.int32v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eInt64">m_value.int64v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt8">m_value.uint8v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt16">m_value.uint16v</Item>
+			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt32">m_value.uint32v</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eUInt64">m_value.uint64v</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eFloat">m_value.floatv</Item>
 			<Item Name="value" Condition="m_valueType==ast::expr::LiteralType::eDouble">m_value.doublev</Item>
