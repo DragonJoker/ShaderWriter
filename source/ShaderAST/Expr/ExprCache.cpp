@@ -289,7 +289,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return makeExpr< Greater >( typesCache.getBool()
+		return makeExpr< Greater >( typesCache.getVector( type::Kind::eBoolean, type::getComponentCount( lhs->getType() ) )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -298,7 +298,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return makeExpr< GreaterEqual >( typesCache.getBool()
+		return makeExpr< GreaterEqual >( typesCache.getVector( type::Kind::eBoolean, type::getComponentCount( lhs->getType() ) )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -330,7 +330,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return makeExpr< Less >( typesCache.getBool()
+		return makeExpr< Less >( typesCache.getVector( type::Kind::eBoolean, type::getComponentCount( lhs->getType() ) )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -339,7 +339,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return makeExpr< LessEqual >( typesCache.getBool()
+		return makeExpr< LessEqual >( typesCache.getVector( type::Kind::eBoolean, type::getComponentCount( lhs->getType() ) )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}
@@ -502,7 +502,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		return makeExpr< NotEqual >( typesCache.getBool()
+		return makeExpr< NotEqual >( typesCache.getVector( type::Kind::eBoolean, type::getComponentCount( lhs->getType() ) )
 			, std::move( lhs )
 			, std::move( rhs ) );
 	}

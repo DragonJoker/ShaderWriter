@@ -488,7 +488,7 @@ namespace ast::expr
 				, LhsTypeT const & lhs
 				, expr::Literal const & rhs )
 			{
-				return binCompOp< std::less_equal<> >( exprCache, typesCache, lhs, rhs );
+				return binCompOp< std::less<> >( exprCache, typesCache, lhs, rhs );
 			}
 		};
 

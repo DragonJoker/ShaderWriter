@@ -509,10 +509,31 @@ namespace test
 			, Compilers const & compilers
 			, test::TestCounts & testCounts )
 		{
-			auto debug = ::sdw::writeDebug( shader );
-			displayShader( "Full Statements", debug, testCounts, compilers.forceDisplay, false );
-			debug = ::sdw::writeDebugPreprocessed( shader );
-			displayShader( "Preprocessed Statements", debug, testCounts, compilers.forceDisplay, false );
+			try
+			{
+				auto debug = ::sdw::writeDebug( shader );
+				displayShader( "Full Statements", debug, testCounts, compilers.forceDisplay, false );
+				success();
+			}
+			catch ( std::exception & exc )
+			{
+				failure( "testWriteFullDebug" );
+				testCounts << exc.what() << endl;
+				return;
+			}
+
+			try
+			{
+				auto debug = ::sdw::writeDebugPreprocessed( shader );
+				displayShader( "Preprocessed Statements", debug, testCounts, compilers.forceDisplay, false );
+				success();
+			}
+			catch ( std::exception & exc )
+			{
+				failure( "testWritePreprocessedDebug" );
+				testCounts << exc.what() << endl;
+				return;
+			}
 		}
 
 		void testWriteGlslOnIndex( ::ast::Shader const & shader
