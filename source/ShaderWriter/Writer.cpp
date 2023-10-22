@@ -679,12 +679,6 @@ namespace sdw
 		return m_shader->registerStaticConstant( std::move( name ), type );
 	}
 
-	var::VariablePtr ShaderWriter::registerConstant( std::string name
-		, type::TypePtr type )
-	{
-		return m_shader->registerConstant( std::move( name ), type );
-	}
-
 	var::VariablePtr ShaderWriter::registerSpecConstant( std::string name
 		, uint32_t location
 		, type::TypePtr type )

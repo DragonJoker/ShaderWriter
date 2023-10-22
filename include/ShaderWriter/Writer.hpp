@@ -1072,8 +1072,6 @@ namespace sdw
 	protected:
 		SDW_API var::VariablePtr registerStaticConstant( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr registerConstant( std::string name
-			, type::TypePtr type );
 		SDW_API var::VariablePtr registerSpecConstant( std::string name
 			, uint32_t location
 			, type::TypePtr type );
