@@ -1050,6 +1050,65 @@ namespace
 			, testCounts, CurrentCompilers );
 		testEnd();
 	}
+
+	void encodeColour( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "encodeColour" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+
+			// Inputs
+			auto position = writer.declInput< Vec3 >( "position", 0u );
+			UniformBuffer matrix{ writer, "Matrix", 0u, 0u };
+			auto c3d_viewProjection = matrix.declMember< Mat4 >( "c3d_viewProjection" );
+			matrix.end();
+
+			auto encodeColor = writer.implementFunction<  sdw::UInt >( "encodeColor"
+				, [&]( sdw::Vec4 const & color )
+				{
+					auto hdrRange = writer.declConstant( "hdrRange", 10.0_f );
+
+					// normalize color to LDR
+					auto hdr = writer.declLocale( "hdr"
+						, length( color.rgb() ) );
+					color.rgb() /= hdr;
+
+					// encode LDR color and HDR range
+					auto iColor = writer.declLocale( "iColor"
+						, uvec3( color.rgb() * 255.0_f ) );
+					auto iHDR = writer.declLocale( "iHDR"
+						, writer.cast<  sdw::UInt >( clamp( hdr / hdrRange, 0.0_f, 1.0_f ) * 127.0_f ) );
+					auto colorMask = writer.declLocale( "colorMask"
+						, ( iHDR << 24_u ) | ( iColor.r() << 16_u ) | ( iColor.g() << 8_u ) | iColor.b() );
+
+					// encode alpha into highest bit
+					auto iAlpha = writer.declLocale( "iAlpha"
+						, writer.ternary( color.a() > 0.0_f, 1_u, 0_u ) );
+					colorMask |= ( iAlpha << 31_u );
+
+					writer.returnStmt( colorMask );
+				}
+				, sdw::InVec4{ writer, "color" } );
+
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn in )
+				{
+					ssbo[in.globalInvocationID.x()].e().x() = encodeColor( ssbo[in.globalInvocationID.x()].a() );
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterCompositeCtors )
@@ -1082,6 +1141,7 @@ sdwTestSuiteMain( TestWriterCompositeCtors )
 	allCtrlExpr( testCounts );
 	anyCtrlExpr( testCounts );
 	notAllCtrlExpr( testCounts );
+	encodeColour( testCounts );
 	sdwTestSuiteEnd();
 }
 
