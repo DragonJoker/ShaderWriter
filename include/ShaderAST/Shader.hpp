@@ -115,8 +115,6 @@ namespace ast
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerStaticConstant( std::string name
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerConstant( std::string name
-			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerSpecConstant( std::string name
 			, uint32_t location
 			, type::TypePtr type );

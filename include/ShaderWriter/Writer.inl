@@ -278,7 +278,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( getStmtCache()
+			addGlobalStmt( sdw::makeSimple( getStmtCache()
 				, sdw::makeInit( var
 					, makeConstExpr( *this, rhs ) ) ) );
 		}
@@ -306,7 +306,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( sdw::makeSimple( getStmtCache()
+			addGlobalStmt( sdw::makeSimple( getStmtCache()
 				, sdw::makeAggrInit( var
 					, makeConstExpr( *this, rhs ) ) ) );
 		}

@@ -19,6 +19,8 @@ namespace ast
 {
 	namespace constants
 	{
+		bool isAllLiterals( expr::Expr * expr );
+
 		namespace helpers
 		{
 			static uint32_t getLiteralIndex( expr::Literal const & lit )
@@ -153,7 +155,15 @@ namespace ast
 
 					void visitArrayAccessExpr( ast::expr::ArrayAccess* expr )override
 					{
-						visitExprIdentifiers( expr->getLHS() );
+						if ( !isAllLiterals( expr->getRHS() ) )
+						{
+							visitExprIdentifiers( expr->getLHS() );
+						}
+						else
+						{
+							expr->getLHS()->accept( this );
+						}
+
 						expr->getRHS()->accept( this );
 					}
 
@@ -3089,7 +3099,7 @@ namespace ast
 
 			void visitSimpleStmt( ast::stmt::Simple * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				bool processed = false;
 				expr::Expr * expr{ stmt->getExpr() };
 				auto ident = ( expr->getKind() == ast::expr::Kind::eAlias
@@ -3258,6 +3268,19 @@ namespace ast
 			std::vector< stmt::Container * > m_containers{};
 			ConstantsContext & m_context;
 		};
+
+		bool isAllLiterals( expr::Expr * expr )
+		{
+			bool allLiterals = true;
+			auto & exprCache = expr->getExprCache();
+			constants::ConstantsContext context{ &exprCache.getAllocator() };
+			ExprEvaluator::submit( exprCache
+				, expr
+				, context
+				, allLiterals
+				, true );
+			return allLiterals;
+		}
 	}
 
 	stmt::ContainerPtr resolveConstants( stmt::StmtCache & stmtCache

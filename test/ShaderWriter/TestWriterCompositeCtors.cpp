@@ -1059,12 +1059,6 @@ namespace
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 
-			// Inputs
-			auto position = writer.declInput< Vec3 >( "position", 0u );
-			UniformBuffer matrix{ writer, "Matrix", 0u, 0u };
-			auto c3d_viewProjection = matrix.declMember< Mat4 >( "c3d_viewProjection" );
-			matrix.end();
-
 			auto encodeColor = writer.implementFunction<  sdw::UInt >( "encodeColor"
 				, [&]( sdw::Vec4 const & color )
 				{
@@ -1109,6 +1103,80 @@ namespace
 			, CurrentCompilers );
 		testEnd();
 	}
+
+	void globalConstantArray( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "globalConstantArray" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn in )
+				{
+					auto values = writer.declConstantArray( "values"
+						, std::vector< sdw::Vec3 >{ vec3( 0.57735_f, 0.57735, 0.57735 )
+						, vec3( 0.57735_f, -0.57735, -0.57735 )
+						, vec3( -0.57735_f, 0.57735, -0.57735 )
+						, vec3( -0.57735_f, -0.57735, 0.57735 )
+						, vec3( -0.903007_f, -0.182696, -0.388844 )
+						, vec3( -0.903007_f, 0.182696, 0.388844 )
+						, vec3( 0.903007_f, -0.182696, 0.388844 )
+						, vec3( 0.903007_f, 0.182696, -0.388844 )
+						, vec3( -0.388844_f, -0.903007, -0.182696 )
+						, vec3( 0.388844_f, -0.903007, 0.182696 )
+						, vec3( 0.388844_f, 0.903007, -0.182696 )
+						, vec3( -0.388844_f, 0.903007, 0.182696 )
+						, vec3( -0.182696_f, -0.388844, -0.903007 )
+						, vec3( 0.182696_f, 0.388844, -0.903007 )
+						, vec3( -0.182696_f, 0.388844, 0.903007 )
+						, vec3( 0.182696_f, -0.388844, 0.903007 ) } );
+
+					auto test = writer.implementFunction< sdw::Vec4 >( "test"
+						, [&]()
+						{
+							auto result = writer.declLocale( "result"
+								, vec4( 0.0_f ) );
+
+							FOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
+							{
+								auto value = writer.declLocale( "value"
+									, normalize( values[i] + ssbo[0].b().xyz() ) );
+								result.xyz() += value;
+							}
+							ROF;
+
+							// final radiance is average of all the cones radiances
+							ssbo[0].a() = result;
+						} );
+
+					auto result = writer.declLocale( "result"
+						, vec4( 0.0_f ) );
+
+					FOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
+					{
+						auto value = writer.declLocale( "value"
+							, normalize( values[i] + ssbo[0].b().xyz() ) );
+						result.xyz() += value;
+					}
+					ROF;
+
+					// final radiance is average of all the cones radiances
+					ssbo[0].a() = result;
+				} );
+
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterCompositeCtors )
@@ -1142,6 +1210,7 @@ sdwTestSuiteMain( TestWriterCompositeCtors )
 	anyCtrlExpr( testCounts );
 	notAllCtrlExpr( testCounts );
 	encodeColour( testCounts );
+	globalConstantArray( testCounts );
 	sdwTestSuiteEnd();
 }
 

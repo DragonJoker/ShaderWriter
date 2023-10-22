@@ -249,21 +249,22 @@ namespace ast
 	var::VariablePtr Shader::registerStaticConstant( std::string name
 		, type::TypePtr type )
 	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eStatic | var::Flag::eConstant );
-		m_data.constants.emplace( std::move( name ), type );
-		return result;
-	}
+		auto it = findVariable( m_blocks.front().registered, name );
 
-	var::VariablePtr Shader::registerConstant( std::string name
-		, type::TypePtr type )
-	{
-		auto result = registerName( name
-			, type
-			, var::Flag::eShaderConstant );
+		if ( it != m_blocks.front().registered.end()
+			&& type != it->get()->getType() )
+		{
+			std::string text;
+			text += "A static constant with the name [" + std::string( name ) + "] is already registered, with a different type.";
+			throw std::runtime_error{ text };
+		}
+
+		auto result = m_blocks.front().registered.emplace( ast::var::makeVariable( ++m_data.nextVarId
+			, std::move( type )
+			, std::move( name )
+			, var::Flag::eStatic | var::Flag::eConstant ) ).first;
 		m_data.constants.emplace( std::move( name ), type );
-		return result;
+		return *result;
 	}
 
 	var::VariablePtr Shader::registerSpecConstant( std::string name
