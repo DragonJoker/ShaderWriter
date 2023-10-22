@@ -1999,22 +1999,23 @@ namespace ast
 
 					switch ( expr->getKind() )
 					{
-					case expr::Kind::eUnaryMinus:
-						m_result = -literal;
-						break;
-					case expr::Kind::eUnaryPlus:
-					case expr::Kind::ePostDecrement:
-					case expr::Kind::ePostIncrement:
-						m_result = std::move( op );
-						break;
 					case expr::Kind::eBitNot:
 						m_result = ~literal;
+						break;
+					case expr::Kind::eCast:
+						m_result = literal.castTo( helpers::getLiteralType( *expr->getType() ) );
+						break;
+					case expr::Kind::eCopy:
+						m_result = std::move( op );
 						break;
 					case expr::Kind::eLogNot:
 						m_result = !literal;
 						break;
-					case expr::Kind::eCast:
-						m_result = literal.castTo( helpers::getLiteralType( *expr->getType() ) );
+					case expr::Kind::ePostDecrement:
+						m_result = std::move( op );
+						break;
+					case expr::Kind::ePostIncrement:
+						m_result = std::move( op );
 						break;
 					case expr::Kind::ePreDecrement:
 						m_result = preDec( literal );
@@ -2022,16 +2023,66 @@ namespace ast
 					case expr::Kind::ePreIncrement:
 						m_result = preInc( literal );
 						break;
+					case expr::Kind::eStreamAppend:
+						m_result = m_exprCache.makeStreamAppend( std::move( op ) );
+						break;
+					case expr::Kind::eUnaryMinus:
+						m_result = -literal;
+						break;
+					case expr::Kind::eUnaryPlus:
+						m_result = std::move( op );
+						break;
 					default:
 						AST_Failure( "Unexpected unary expression" );
 						m_result = ExprCloner::submit( m_exprCache, expr );
 						break;
 					}
 				}
-				else
+
+				if ( !m_result )
 				{
 					m_allLiterals = false;
-					m_result = ExprCloner::submit( m_exprCache, expr );
+
+					switch ( expr->getKind() )
+					{
+					case expr::Kind::eBitNot:
+						m_result = m_exprCache.makeBitNot( std::move( op ) );
+						break;
+					case expr::Kind::eCast:
+						m_result = m_exprCache.makeCast( expr->getType(), std::move( op ) );
+						break;
+					case expr::Kind::eCopy:
+						m_result = m_exprCache.makeCopy( std::move( op ) );
+						break;
+					case expr::Kind::eLogNot:
+						m_result = m_exprCache.makeLogNot( expr->getType(), std::move( op ) );
+						break;
+					case expr::Kind::ePostDecrement:
+						m_result = m_exprCache.makePostDecrement( std::move( op ) );
+						break;
+					case expr::Kind::ePostIncrement:
+						m_result = m_exprCache.makePostIncrement( std::move( op ) );
+						break;
+					case expr::Kind::ePreDecrement:
+						m_exprCache.makePreDecrement( std::move( op ) );
+						break;
+					case expr::Kind::ePreIncrement:
+						m_result = m_exprCache.makePreIncrement( std::move( op ) );
+						break;
+					case expr::Kind::eStreamAppend:
+						m_result = m_exprCache.makeStreamAppend( std::move( op ) );
+						break;
+					case expr::Kind::eUnaryMinus:
+						m_result = m_exprCache.makeUnaryMinus( std::move( op ) );
+						break;
+					case expr::Kind::eUnaryPlus:
+						m_result = m_exprCache.makeUnaryPlus( std::move( op ) );
+						break;
+					default:
+						AST_Failure( "Unexpected unary expression" );
+						m_result = ExprCloner::submit( m_exprCache, expr );
+						break;
+					}
 				}
 			}
 
