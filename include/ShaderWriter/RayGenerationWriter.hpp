@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_RayGenerationWriter_H___
 #define ___SDW_RayGenerationWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 
 namespace sdw
 {
@@ -19,6 +19,8 @@ namespace sdw
 	struct RayGenerationIn
 		: StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API explicit RayGenerationIn( ShaderWriter & writer );
 		SDW_API RayGenerationIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -35,7 +37,7 @@ namespace sdw
 	using RayGenerationMainFunc = std::function< void( RayGenerationIn ) >;
 
 	class RayGenerationWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit RayGenerationWriter( ShaderAllocator * allocator = nullptr );

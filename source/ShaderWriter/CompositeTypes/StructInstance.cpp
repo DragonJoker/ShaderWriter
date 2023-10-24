@@ -725,7 +725,8 @@ namespace sdw
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
-					shader.registerInput( "in::" + member.name
+					shader.registerInput( m_type->getEntryPoint()
+						, "in::" + member.name
 						, member.location
 						, mbrFlags
 						, member.type );
@@ -735,7 +736,8 @@ namespace sdw
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
-					shader.registerOutput( "out::" + member.name
+					shader.registerOutput( m_type->getEntryPoint()
+						, "out::" + member.name
 						, member.location
 						, mbrFlags
 						, member.type );

@@ -49,8 +49,7 @@ namespace sdw
 
 	template< typename ReturnT, typename ... ParamsT >
 	inline ReturnWrapperT< ReturnT > getFunctionCall( ShaderWriter & writer
-		, ast::type::FunctionPtr type
-		, std::string name
+		, ast::var::VariablePtr funcVar
 		, ParamsT const & ... params );
 
 	template< typename ReturnT, typename ... ParamsT >
@@ -68,16 +67,15 @@ namespace sdw
 	public:
 		inline Function() = default;
 		inline Function( ShaderWriter & writer
-			, ast::type::FunctionPtr type
-			, std::string name );
+			, ast::var::VariablePtr funcVar );
 		inline ReturnWrapperT< ReturnT > operator()( ParamsT && ... params )const;
 		inline operator bool()const;
 
 	private:
 		mutable ShaderWriter * m_writer{ nullptr };
 		mutable Shader * m_shader{ nullptr };
+		ast::var::VariablePtr m_funcVar;
 		ast::type::FunctionPtr m_type;
-		std::string m_name;
 	};
 
 	//***********************************************************************************************

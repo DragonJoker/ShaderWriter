@@ -27,8 +27,8 @@ namespace sdw
 
 	ast::type::StructPtr TessEvalMainIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "TessEvalMainIn"
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eTessellationEvaluation
 			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
@@ -47,7 +47,7 @@ namespace sdw
 	//*************************************************************************
 
 	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eTessellationEvaluation, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eTessellationEvaluation, allocator }
 	{
 	}
 

@@ -21,12 +21,11 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position"
+			auto result = cache.getIOStruct( "Position"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -73,12 +72,11 @@ namespace
 
 		SDW_DeclStructInstance( , PosTexT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Out" }
-					: std::string{ "In" } ) + "PosTex"
+			auto result = cache.getIOStruct( "PosTex"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -133,12 +131,11 @@ namespace
 
 		SDW_DeclStructInstance( , SmaaVertexInT );
 
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "SmaaVertex"
+			auto result = cache.getIOStruct( "SmaaVertex"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -193,12 +190,11 @@ namespace
 
 		SDW_DeclStructInstance( , SmaaVertexOutT );
 
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "SmaaVertex"
+			auto result = cache.getIOStruct( "SmaaVertex"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -485,12 +481,11 @@ namespace
 
 			SDW_DeclStructInstance( , PositionT );
 
-			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+				, ast::EntryPoint entryPoint )
 			{
-				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-					, ( FlagT == ast::var::Flag::eShaderOutput
-						? std::string{ "Output" }
-						: std::string{ "Input" } ) + "Position"
+				auto result = cache.getIOStruct( "Position"
+					, entryPoint
 					, FlagT );
 
 				if ( result->empty() )

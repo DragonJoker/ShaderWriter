@@ -38,7 +38,7 @@ namespace sdw
 	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		: InputT< EntryPoint::eFragment, DataT >{ writer, std::move( expr ), enabled }
 		, fragCoord{ getVec4Member( *this, ast::Builtin::eFragCoord ) }
 		, frontFacing{ getBoolMember( *this, ast::Builtin::eFrontFacing ) }
 		, pointCoord{ getVec2Member( *this, ast::Builtin::ePointCoord ) }
@@ -57,7 +57,7 @@ namespace sdw
 	ast::type::IOStructPtr FragmentInT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		auto result = InputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
+		auto result = InputT< EntryPoint::eFragment, DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eFragCoord ) )
 		{
@@ -114,7 +114,7 @@ namespace sdw
 	FragmentOutT< DataT >::FragmentOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: OutputT< DataT >{ writer, std::move( expr ), enabled }
+		: OutputT< EntryPoint::eFragment, DataT >{ writer, std::move( expr ), enabled }
 		, fragDepth{ getFloatMember( *this, ast::Builtin::eFragDepth ) }
 		, sampleMask{ getIntMemberArray( *this, ast::Builtin::eSampleMask ) }
 	{
@@ -125,7 +125,7 @@ namespace sdw
 	ast::type::IOStructPtr FragmentOutT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		auto result = OutputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
+		auto result = OutputT< EntryPoint::eFragment, DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eFragDepth ) )
 		{
@@ -174,7 +174,7 @@ namespace sdw
 		, FragmentMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eFragmentEntryPoint
 			, function
 			, makeInParam( std::move( in ) )
 			, makeOutParam( std::move( out ) ) );

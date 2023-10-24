@@ -6,7 +6,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	MeshWriterNV::MeshWriterNV( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eMeshNV, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eMeshNV, allocator }
 	{
 	}
 }

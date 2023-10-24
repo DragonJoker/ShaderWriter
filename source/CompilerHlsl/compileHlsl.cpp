@@ -101,32 +101,35 @@ namespace hlsl
 	}
 
 	std::string compileHlsl( ast::Shader const & shader
+		, ast::stmt::Container * stmt
+		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
 	{
-		auto config = writerConfig;
-		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
+		auto & typesCache = shader.getTypesCache();
+		auto config = writerConfig;
+		config.shaderStage = stage;
 		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
 		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
 		ast::stmt::StmtCache compileStmtCache{ *allocator };
 		ast::expr::ExprCache compileExprCache{ *allocator };
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
-			, shader.getStatements()
+			, typesCache
+			, stmt
 			, ssaData
 			, false );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
-		HlslShader hlslShader{ shader };
+		HlslShader hlslShader{ shader, stage };
 		AdaptationData adaptationData{ compileExprCache
 			, hlslShader };
 		adaptationData.aliasId = ssaData.aliasId;
@@ -146,14 +149,25 @@ namespace hlsl
 		// Simplify again, since adaptation can introduce complexity
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		statements = ast::specialiseStatements( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get()
 			, specialisation );
 		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
 		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, statements.get() );
+	}
+
+	std::string compileHlsl( ast::Shader const & shader
+		, ast::SpecialisationInfo const & specialisation
+		, HlslConfig const & writerConfig )
+	{
+		return compileHlsl( shader
+			, shader.getStatements()
+			, shader.getType()
+			, specialisation
+			, writerConfig );
 	}
 }

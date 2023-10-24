@@ -6,7 +6,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	FragmentWriter::FragmentWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eFragment, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eFragment, allocator }
 	{
 	}
 

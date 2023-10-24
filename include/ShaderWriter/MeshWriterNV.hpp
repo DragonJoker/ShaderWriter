@@ -20,9 +20,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
 	struct TopologyNVOutT
-		: public OutputT< DataT >
+		: public OutputT< EntryPoint::eMeshNV, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eMeshNV, DataT >::FlagT;
 
 		TopologyNVOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -146,7 +146,7 @@ namespace sdw
 	/**@}*/
 
 	class MeshWriterNV
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit MeshWriterNV( ShaderAllocator * allocator = nullptr );

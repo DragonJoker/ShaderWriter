@@ -23,14 +23,36 @@ namespace sdw
 	}
 
 	template< ast::var::Flag FlagT >
-	ast::type::IOStructPtr VoidT< FlagT >::makeIOType( ast::type::TypesCache & cache )
+	ast::type::IOStructPtr VoidT< FlagT >::makeIOType( ast::type::TypesCache & cache
+		, ast::EntryPoint entryPoint )
 	{
-		return cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "SDW_Void"
-				+ ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } )
+		return cache.getIOStruct( "SDW_Void"
+			, entryPoint
 			, FlagT );
+	}
+
+	//*************************************************************************
+
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
+	EntryTypeT< EntryPointT, FlagT, DataT >::EntryTypeT( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
+		: DataT< FlagT >{ writer, std::move( expr ), enabled }
+	{
+	}
+
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
+	template< typename ... ParamsT >
+	ast::type::IOStructPtr EntryTypeT< EntryPointT, FlagT, DataT >::makeType( ast::type::TypesCache & cache
+		, ParamsT && ... params )
+	{
+		return DataT< FlagT >::makeIOType( cache
+			, EntryPointT
+			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
@@ -39,7 +61,7 @@ namespace sdw
 	PatchInT< DataT >::PatchInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: DataT< FlagT >{ writer, std::move( expr ), enabled }
+		: EntryTypeT< ast::EntryPoint::eTessellationEvaluation, FlagT, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -48,7 +70,7 @@ namespace sdw
 	ast::type::IOStructPtr PatchInT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache
+		return EntryTypeT< ast::EntryPoint::eTessellationEvaluation, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 
@@ -58,7 +80,7 @@ namespace sdw
 	PatchOutT< DataT >::PatchOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: DataT< FlagT >{ writer, std::move( expr ), enabled }
+		: EntryTypeT< ast::EntryPoint::eTessellationControl, FlagT, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -67,87 +89,91 @@ namespace sdw
 	ast::type::IOStructPtr PatchOutT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache
+		return EntryTypeT< ast::EntryPoint::eTessellationControl, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
 
-	template< template< ast::var::Flag FlagT > typename DataT >
-	InputT< DataT >::InputT( ShaderWriter & writer
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
+	InputT< EntryPointT, DataT >::InputT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: DataT< FlagT >{ writer, std::move( expr ), enabled }
+		: EntryTypeT< EntryPointT, FlagT, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
-	template< template< ast::var::Flag FlagT > typename DataT >
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr InputT< DataT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr InputT< EntryPointT, DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache
+		return EntryTypeT< EntryPointT, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
 
-	template< template< ast::var::Flag FlagT > typename DataT >
-	OutputT< DataT >::OutputT( ShaderWriter & writer
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
+	OutputT< EntryPointT, DataT >::OutputT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: DataT< FlagT >{ writer, std::move( expr ), enabled }
+		: EntryTypeT< EntryPointT, FlagT, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
-	template< template< ast::var::Flag FlagT > typename DataT >
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr OutputT< DataT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr OutputT< EntryPointT, DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache
+		return EntryTypeT< EntryPointT, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
 
-	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::var::Flag FlagT >
-	PerTaskT< DataT, FlagT >::PerTaskT( ShaderWriter & writer
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
+	PerTaskT< EntryPointT, FlagT, DataT >::PerTaskT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: DataT< ast::var::Flag::ePerTask >{ writer, std::move( expr ), enabled }
+		: EntryTypeT< EntryPointT, ast::var::Flag::ePerTask, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
-	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::var::Flag FlagT >
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr PerTaskT< DataT, FlagT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr PerTaskT< EntryPointT, FlagT, DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache
+		return EntryTypeT< EntryPointT, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 
 	//*************************************************************************
 
-	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::var::Flag FlagT >
-	PerTaskNVT< DataT, FlagT >::PerTaskNVT( ShaderWriter & writer
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
+	PerTaskNVT< EntryPointT, FlagT, DataT >::PerTaskNVT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: DataT< ast::var::Flag::ePerTaskNV >{ writer, std::move( expr ), enabled }
+		: EntryTypeT< EntryPointT, ast::var::Flag::ePerTaskNV, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
-	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::var::Flag FlagT >
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
 	template< typename ... ParamsT >
-	ast::type::IOStructPtr PerTaskNVT< DataT, FlagT >::makeType( ast::type::TypesCache & cache
+	ast::type::IOStructPtr PerTaskNVT< EntryPointT, FlagT, DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return DataT< FlagT >::makeIOType( cache
+		return EntryTypeT< EntryPointT, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 	/**@}*/

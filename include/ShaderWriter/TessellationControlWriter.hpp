@@ -16,9 +16,9 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct TessControlDataInT
-		: InputT< DataT >
+		: InputT< EntryPoint::eTessellationControl, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< EntryPoint::eTessellationControl, DataT >::FlagT;
 
 		TessControlDataInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -93,9 +93,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::PatchDomain DomainT >
 	struct TessControlListOutT
-		: OutputT< DataT >
+		: OutputT< EntryPoint::eTessellationControl, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eTessellationControl, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		TessControlListOutT( ShaderWriter & writer
@@ -216,7 +216,7 @@ namespace sdw
 		, QuadsTessControlListOutT< OutT > ) >;
 
 	class TessellationControlWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit TessellationControlWriter( ShaderAllocator * allocator = nullptr );

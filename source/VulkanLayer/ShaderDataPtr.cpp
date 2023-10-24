@@ -347,25 +347,35 @@ namespace ast::vk
 			return result;
 		}
 
-		static inline ShaderDataPtr::InputMap getPtr( ShaderData::InputMap const & rhs )
+		static inline ShaderDataPtr::InputMap getPtr( std::map< EntryPoint, ShaderData::InputMap > const & rhs
+			, EntryPoint entryPoint )
 		{
+			auto it = rhs.find( entryPoint );
 			ShaderDataPtr::InputMap result;
 
-			for ( auto & v : rhs )
+			if ( it != rhs.end() )
 			{
-				result.emplace( v.second, &v.second );
+				for ( auto & v : it->second )
+				{
+					result.emplace( v.second, &v.second );
+				}
 			}
 
 			return result;
 		}
 
-		static inline ShaderDataPtr::OutputMap getPtr( ShaderData::OutputMap const & rhs )
+		static inline ShaderDataPtr::OutputMap getPtr( std::map< EntryPoint, ShaderData::OutputMap > const & rhs
+			, EntryPoint entryPoint )
 		{
+			auto it = rhs.find( entryPoint );
 			ShaderDataPtr::OutputMap result;
 
-			for ( auto & v : rhs )
+			if ( it != rhs.end() )
 			{
-				result.emplace( v.second, &v.second );
+				for ( auto & v : it->second )
+				{
+					result.emplace( v.second, &v.second );
+				}
 			}
 
 			return result;
@@ -387,6 +397,7 @@ namespace ast::vk
 	//*********************************************************************************************
 
 	ShaderDataPtr::ShaderDataPtr( ShaderData const & rhs
+		, EntryPoint entryPoint
 		, ShaderStageFlags stages )
 		: ssbos{ getPtr( rhs.ssbos ) }
 		, ubos{ getPtr( rhs.ubos ) }
@@ -397,8 +408,8 @@ namespace ast::vk
 		, storageTexels{ getPtr( rhs.storageTexels ) }
 		, descriptors{ gatherDescriptors( stages ) }
 		, pcbs{ getPtr( rhs.pcbs ) }
-		, inputs{ getPtr( rhs.inputs ) }
-		, outputs{ getPtr( rhs.outputs ) }
+		, inputs{ getPtr( rhs.inputs, entryPoint ) }
+		, outputs{ getPtr( rhs.outputs, entryPoint ) }
 		, inOuts{ getPtr( rhs.inOuts ) }
 		, accelerationStruct{ &rhs.accelerationStruct }
 		, tessellationControlPoints{ rhs.tessellationControlPoints }

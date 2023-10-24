@@ -489,9 +489,13 @@ namespace spirv
 				case ast::ShaderStage::eRayIntersection:
 				case ast::ShaderStage::eRayAnyHit:
 				case ast::ShaderStage::eCallable:
+				case ast::ShaderStage::eRayTrace:
 					m_result.registerCapability( spv::CapabilityShader );
 					m_result.registerCapability( spv::CapabilityRayTracingKHR );
 					break;
+				default:
+					AST_Failure( "Unexpected shader stage." );
+					m_result.registerCapability( spv::CapabilityShader );
 				}
 			}
 

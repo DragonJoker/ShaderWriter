@@ -32,7 +32,7 @@ namespace sdw
 	ComputeInT< DataT >::ComputeInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		: InputT< EntryPoint::eCompute, DataT >{ writer, std::move( expr ), enabled }
 		, numWorkGroups{ getU32Vec3Member( *this, ast::Builtin::eNumWorkGroups ) }
 		, workGroupID{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupID ) }
 		, localInvocationID{ getU32Vec3Member( *this, ast::Builtin::eLocalInvocationID ) }
@@ -47,7 +47,7 @@ namespace sdw
 	ast::type::IOStructPtr ComputeInT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		auto result = InputT< DataT >::makeType( cache, std::forward< ParamsT >( params )... );
+		auto result = InputT< EntryPoint::eCompute, DataT >::makeType( cache, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eNumWorkGroups ) )
 		{
@@ -181,7 +181,7 @@ namespace sdw
 		, ComputeMainFuncT< DataT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eComputeEntryPoint
 			, function
 			, makeInParam( std::move( in ) ) );
 	}
@@ -216,7 +216,7 @@ namespace sdw
 		, SubgroupMainFuncT< DataT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eComputeEntryPoint
 			, function
 			, makeInParam( std::move( in ) ) );
 	}

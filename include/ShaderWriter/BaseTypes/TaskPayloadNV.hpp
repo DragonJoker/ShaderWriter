@@ -43,9 +43,9 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct TaskPayloadOutNVT
-		: public PerTaskNVT< DataT, OutputT< DataT >::FlagT >
+		: public PerTaskNVT< ast::EntryPoint::eTaskNV, OutputT< ast::EntryPoint::eTaskNV, DataT >::FlagT, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< ast::EntryPoint::eTaskNV, DataT >::FlagT;
 
 		TaskPayloadOutNVT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -70,9 +70,9 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct TaskPayloadInNVT
-		: public PerTaskNVT< DataT, InputT< DataT >::FlagT >
+		: public PerTaskNVT< ast::EntryPoint::eMeshNV, InputT< ast::EntryPoint::eMeshNV, DataT >::FlagT, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< ast::EntryPoint::eMeshNV, DataT >::FlagT;
 
 		TaskPayloadInNVT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr

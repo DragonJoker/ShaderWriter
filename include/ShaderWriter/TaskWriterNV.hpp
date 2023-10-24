@@ -29,7 +29,7 @@ namespace sdw
 	/**@}*/
 
 	class TaskWriterNV
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit TaskWriterNV( ShaderAllocator * allocator = nullptr );

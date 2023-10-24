@@ -313,9 +313,12 @@ namespace test
 		{
 			if ( force )
 			{
-				testCounts << "////////////////////////////////////////////////////////////" << endl;
-				testCounts << "// " << name << endl;
-				testCounts << "////////////////////////////////////////////////////////////" << endl;
+				if ( !name.empty() )
+				{
+					testCounts << "////////////////////////////////////////////////////////////" << endl;
+					testCounts << "// " << name << endl;
+					testCounts << "////////////////////////////////////////////////////////////" << endl;
+				}
 
 				if ( lines )
 				{
@@ -341,13 +344,15 @@ namespace test
 		}
 
 		bool validateSpirV( ::ast::Shader const & shader
+			, ::ast::stmt::Container * statements
+			, ::ast::ShaderStage stage
 			, std::vector< uint32_t > spirv
 			, std::string const & text
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
 			, bool checkRef )
 		{
-			//auto parsedShader = spirv::parseSpirv( shader.getType(), spirv );
+			//auto parsedShader = spirv::parseSpirv( stage, spirv );
 			std::string errors;
 			auto result = test::compileSpirV( shader, spirv, errors, testCounts, infoIndex );
 			check( errors.empty() || !checkRef );
@@ -394,7 +399,7 @@ namespace test
 						}
 
 						fclose( fileIn );
-						validateSpirV( shader, spirv, errors, testCounts, infoIndex, false );
+						validateSpirV( shader, statements, stage, spirv, errors, testCounts, infoIndex, false );
 					}
 				}
 			}
@@ -403,6 +408,8 @@ namespace test
 		}
 
 		void validateSpirV( ::ast::Shader const & shader
+			, ::ast::stmt::Container * statements
+			, ::ast::ShaderStage stage
 			, std::vector< uint32_t > const & spirv
 			, std::string const & text
 			, spirv::SpirVExtensionSet const & requiredExtensions
@@ -412,23 +419,25 @@ namespace test
 			, uint32_t infoIndex
 			, bool display )
 		{
-			auto isValidated = validateSpirV( shader, spirv, text, testCounts, infoIndex, true );
+			auto isValidated = validateSpirV( shader, statements, stage, spirv, text, testCounts, infoIndex, true );
 			check( isValidated );
 
 			if ( !isValidated )
 			{
 #if SDW_HasCompilerGlsl
 
-				if ( !isRayTraceStage( shader.getType() ) )
+				if ( !isRayTraceStage( stage ) )
 				{
 					try
 					{
 						auto cfg = getGlslConfig( glsl::v4_6 );
 						cfg.allocator = &testCounts.allocator;
-						auto glslangSpirv = compileGlslToSpv( shader.getType()
+						auto glslangSpirv = compileGlslToSpv( stage
 							, glsl::compileGlsl( shader
-							, specialisation
-							, cfg ) );
+								, statements
+								, stage
+								, specialisation
+								, cfg ) );
 						std::string errors;
 						test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 
@@ -482,7 +491,7 @@ namespace test
 			if ( compilers.glsl
 				&& requiredExtensions.end() == requiredExtensions.find( spirv::KHR_terminate_invocation ) )
 			{
-				auto crossGlsl = test::validateSpirVToGlsl( spirv, shader.getType(), testCounts
+				auto crossGlsl = test::validateSpirVToGlsl( spirv, stage, testCounts
 					, ( requiredExtensions.end() != requiredExtensions.find( spirv::KHR_terminate_invocation )
 						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_demote_to_helper_invocation )
 						|| requiredExtensions.end() != requiredExtensions.find( spirv::KHR_shader_subgroup )
@@ -492,468 +501,13 @@ namespace test
 			}
 
 			if ( compilers.hlsl
-				&& !isRayTraceStage( shader.getType() )
-				&& !isMeshStage( shader.getType() )
+				&& !isRayTraceStage( stage )
+				&& !isMeshStage( stage )
 				&& requiredExtensions.end() == requiredExtensions.find( spirv::KHR_terminate_invocation )
 				&& requiredExtensions.end() == requiredExtensions.find( spirv::EXT_demote_to_helper_invocation ) )
 			{
-				auto crossHlsl = test::validateSpirVToHlsl( spirv, shader.getType(), testCounts );
+				auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
 				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay && display, true );
-			}
-
-#endif
-		}
-
-		void testWriteDebug( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
-			, test::TestCounts & testCounts )
-		{
-			try
-			{
-				auto debug = ::sdw::writeDebug( shader );
-				displayShader( "Full Statements", debug, testCounts, compilers.forceDisplay, false );
-				success();
-			}
-			catch ( std::exception & exc )
-			{
-				failure( "testWriteFullDebug" );
-				testCounts << exc.what() << endl;
-				return;
-			}
-
-			try
-			{
-				auto debug = ::sdw::writeDebugPreprocessed( shader );
-				displayShader( "Preprocessed Statements", debug, testCounts, compilers.forceDisplay, false );
-				success();
-			}
-			catch ( std::exception & exc )
-			{
-				failure( "testWritePreprocessedDebug" );
-				testCounts << exc.what() << endl;
-				return;
-			}
-		}
-
-		void testWriteGlslOnIndex( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex )
-		{
-#if SDW_HasCompilerGlsl
-
-			auto validate = [&]()
-			{
-				std::string errors;
-				auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
-				config.allocator = &testCounts.allocator;
-
-				if ( isRayTraceStage( shader.getType() )
-					|| shader.getType() == ast::ShaderStage::eMesh
-					|| shader.getType() == ast::ShaderStage::eTask )
-				{
-					config.vulkanGlsl = true;
-				}
-
-				std::string glsl;
-
-				try
-				{
-					glsl = glsl::compileGlsl( shader
-						, specialisation
-						, config );
-				}
-				catch ( std::exception & exc )
-				{
-					testCounts << exc.what() << endl;
-					return;
-				}
-
-				bool isCompiled{ false };
-
-				if ( isRayTraceStage( shader.getType() )
-					|| shader.getType() == ast::ShaderStage::eMesh
-					|| shader.getType() == ast::ShaderStage::eTask
-					|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
-				{
-					try
-					{
-						compileGlslToSpv( shader.getType(), glsl, 150 );
-						isCompiled = true;
-					}
-					catch ( std::exception & exc )
-					{
-						errors += exc.what();
-					}
-				}
-				else
-				{
-					isCompiled = compileGlsl( glsl
-						, shader.getType()
-						, errors
-						, testCounts );
-				}
-
-				check( isCompiled );
-
-				if ( !isCompiled )
-				{
-					displayShader( "GLSL", glsl, testCounts, true, true );
-					testCounts << errors << endl;
-				}
-				else
-				{
-					displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay, true );
-				}
-			};
-			testCounts.incIndent();
-			testCounts << "GLSL version " << std::to_string( testCounts.getGlslVersion( infoIndex ) ) << endl;
-			checkNoThrow( validate() );
-			testCounts.decIndent();
-
-#endif
-		}
-
-		void testWriteGlsl( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts )
-		{
-			if ( compilers.glsl )
-			{
-				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getGlslInfosSize(); ++infoIndex )
-				{
-					testWriteGlslOnIndex( shader
-						, specialisation
-						, compilers
-						, testCounts
-						, infoIndex );
-				}
-			}
-		}
-
-		std::string printHlslModel( ast::ShaderStage type
-			, uint32_t shaderModel )
-		{
-			auto major = shaderModel / 10u;
-			auto minor = shaderModel % 10u;
-			auto model = std::to_string( major ) + "_" + std::to_string( minor );
-
-			switch ( type )
-			{
-			case ast::ShaderStage::eVertex:
-				model = "vs_" + model;
-				break;
-			case ast::ShaderStage::eTessellationControl:
-				model = "hs_" + model;
-				break;
-			case ast::ShaderStage::eTessellationEvaluation:
-				model = "ds_" + model;
-				break;
-			case ast::ShaderStage::eGeometry:
-				model = "gs_" + model;
-				break;
-			case ast::ShaderStage::eCompute:
-				model = "cs_" + model;
-				break;
-			case ast::ShaderStage::eFragment:
-				model = "ps_" + model;
-				break;
-			case ast::ShaderStage::eMeshNV:
-				model = "ms_" + model;
-				break;
-			case ast::ShaderStage::eMesh:
-				model = "ms_" + model;
-				break;
-			case ast::ShaderStage::eTaskNV:
-				model = "as_" + model;
-				break;
-			case ast::ShaderStage::eTask:
-				model = "as_" + model;
-				break;
-			case ast::ShaderStage::eCallable:
-				model = "lib_" + model;
-				break;
-			case ast::ShaderStage::eRayGeneration:
-				model = "lib_" + model;
-				break;
-			case ast::ShaderStage::eRayIntersection:
-				model = "lib_" + model;
-				break;
-			case ast::ShaderStage::eRayMiss:
-				model = "lib_" + model;
-				break;
-			case ast::ShaderStage::eRayAnyHit:
-				model = "lib_" + model;
-				break;
-			case ast::ShaderStage::eRayClosestHit:
-				model = "lib_" + model;
-				break;
-			default:
-				break;
-			}
-
-			return model;
-		}
-
-		void testWriteHlslOnIndex( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex )
-		{
-#if SDW_HasCompilerHlsl
-
-			auto validate = [&]()
-			{
-				std::string errors;
-				std::string hlsl;
-
-				try
-				{
-					hlsl = hlsl::compileHlsl( shader
-						, specialisation
-						, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex )
-							, shader.getType()
-							, false
-							, &testCounts.allocator } );
-				}
-				catch ( std::exception & exc )
-				{
-					testCounts << exc.what() << endl;
-					return;
-				}
-
-				displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
-				bool isCompiled = compileHlsl( hlsl
-					, shader.getType()
-					, errors
-					, testCounts
-					, infoIndex );
-				check( isCompiled );
-
-				if ( !isCompiled )
-				{
-					displayShader( "HLSL", hlsl, testCounts, !compilers.forceDisplay, true );
-					testCounts << errors << endl;
-				}
-			};
-			testCounts.incIndent();
-			testCounts << "HLSL Shader Model " << printHlslModel( shader.getType(), testCounts.getHlslVersion( infoIndex ) ) << endl;
-			checkNoThrow( validate() );
-			testCounts.decIndent();
-#endif
-		}
-
-		void testWriteHlsl( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts )
-		{
-			if ( compilers.hlsl )
-			{
-				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getHlslInfosSize(); ++infoIndex )
-				{
-					testWriteHlslOnIndex( shader
-						, specialisation
-						, compilers
-						, testCounts
-						, infoIndex );
-				}
-			}
-		}
-
-		uint32_t getVkMajor( uint32_t vkVersion )
-		{
-			return ( ( vkVersion >> 22u ) & 0x7FU );
-		}
-
-		uint32_t getVkMinor( uint32_t vkVersion )
-		{
-			return ( ( vkVersion >> 12u ) & 0x3FFU );
-		}
-
-		std::string printVkVersion( uint32_t vkVersion )
-		{
-			std::stringstream stream;
-			stream << getVkMajor( vkVersion ) << "." << getVkMinor( vkVersion );
-			return stream.str();
-		}
-
-		uint32_t getSpvMajor( uint32_t spvVersion )
-		{
-			return ( spvVersion >> 16u );
-		}
-
-		uint32_t getSpvMinor( uint32_t spvVersion )
-		{
-			return ( ( spvVersion >> 8u ) & 0xFF );
-		}
-
-		std::string printSpvVersion( uint32_t spvVersion )
-		{
-			std::stringstream stream;
-			stream << getSpvMajor( spvVersion ) << "." << getSpvMinor( spvVersion );
-			return stream.str();
-		}
-
-		void testWriteSpirVOnIndex( ::ast::Shader const & shader
-			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
-			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex )
-		{
-#if SDW_HasCompilerSpirV
-
-			if ( testCounts.isSpirVInitialised( infoIndex )
-				&& !testCounts.isSpvIgnored( infoIndex, compilers.ignoredSpv ) )
-			{
-				auto validate = [&]( bool availableExtensions )
-				{
-					try
-					{
-						spirv::SpirVExtensionSet extensions;
-						spirv::SpirVConfig config{};
-						config.specVersion = testCounts.getSpirVVersion( infoIndex );
-						config.debugLevel = spirv::DebugLevel::eDebugInfo;
-
-						if ( availableExtensions )
-						{
-							if ( config.specVersion >= spirv::v1_6 )
-							{
-								extensions.emplace( spirv::EXT_mesh_shader );
-							}
-
-							if ( config.specVersion >= spirv::v1_5 )
-							{
-								extensions.emplace( spirv::KHR_terminate_invocation );
-							}
-
-							if ( config.specVersion >= spirv::v1_4 )
-							{
-								extensions.emplace( spirv::EXT_demote_to_helper_invocation );
-								extensions.emplace( spirv::KHR_ray_tracing );
-							}
-
-							if ( config.specVersion >= spirv::v1_3 )
-							{
-								extensions.emplace( spirv::NV_mesh_shader );
-								extensions.emplace( spirv::EXT_descriptor_indexing );
-								extensions.emplace( spirv::EXT_physical_storage_buffer );
-								extensions.emplace( spirv::KHR_shader_subgroup );
-							}
-
-							if ( config.specVersion >= spirv::v1_2 )
-							{
-								extensions.emplace( spirv::KHR_8bit_storage );
-							}
-
-							if ( config.specVersion >= spirv::v1_1 )
-							{
-								extensions.emplace( spirv::KHR_16bit_storage );
-								extensions.emplace( spirv::KHR_shader_ballot );
-							}
-
-							if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
-							{
-								extensions.emplace( spirv::KHR_non_semantic_info );
-							}
-
-							config.availableExtensions = &extensions;
-						}
-
-						config.allocator = &testCounts.allocator;
-						auto module = spirv::compileSpirV( *testCounts.allocatorBlock, shader, config );
-						auto textSpirv = spirv::writeModule( *module );
-
-						if ( textSpirv.empty() )
-						{
-							testCounts << "Empty shader" << endl;
-							return;
-						}
-
-						displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay && availableExtensions, false );
-						std::vector< uint32_t > spirv;
-
-						try
-						{
-							spirv = spirv::serialiseModule( *module );
-							success();
-						}
-						catch ( ... )
-						{
-							failure( "testWriteSpirV" );
-							displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
-							throw;
-						}
-
-						try
-						{
-							test::validateSpirV( shader
-								, spirv
-								, textSpirv
-								, config.requiredExtensions
-								, specialisation
-								, compilers
-								, testCounts
-								, infoIndex
-								, availableExtensions );
-							success();
-						}
-#if SDW_Test_HasSpirVCross
-						catch ( spirv_cross::CompilerError & exc )
-						{
-							std::string text = exc.what();
-
-							if ( text.find( "not supported in HLSL" ) == std::string::npos
-								&& text.find( "not supported on HLSL" ) == std::string::npos
-								&& text.find( "exist in HLSL" ) == std::string::npos
-								&& text.find( "Unsupported builtin in HLSL" ) == std::string::npos
-								&& text.find( "Unsupported execution model" ) == std::string::npos
-								&& text.find( "No function currently in scope" ) == std::string::npos
-								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
-								&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos
-								&& text.find( "Cannot resolve expression type" ) == std::string::npos
-								&& text.find( "Wave ops requires SM 6.0 or higher" ) == std::string::npos
-								&& text.find( "Cannot trivially implement InverseBallot in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitCount in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitCount Inclusive Scan in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitCount Exclusive Scan in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotFindLSB in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
-							{
-								failure( "testWriteSpirV" );
-								displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
-								testCounts << "spirv_cross exception: " << text << endl;
-								throw;
-							}
-						}
-#endif
-						catch ( std::exception & )
-						{
-							failure( "testWriteSpirV" );
-							displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
-							throw;
-						}
-					}
-					catch ( std::exception & exc )
-					{
-						testCounts << exc.what() << endl;
-					}
-					catch ( ... )
-					{
-						testCounts << "Unknown exception" << endl;
-					}
-				};
-				testCounts.incIndent();
-				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
-					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-				checkNoThrow( validate( false ) );
-				checkNoThrow( validate( true ) );
-				testCounts.decIndent();
 			}
 
 #endif
@@ -1000,7 +554,478 @@ namespace test
 			}
 		}
 
+		void testWriteDebug( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, test::TestCounts & testCounts )
+		{
+			testCounts.incIndent();
+			testCounts << "Debug statements, full" << endl;
+
+			for ( auto & entryPoint : entryPoints )
+			{
+				testCounts.incIndent();
+				testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
+				auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+
+				try
+				{
+					auto debug = ::sdw::writeDebug( statements.get() );
+					displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
+					success();
+				}
+				catch ( std::exception & exc )
+				{
+					failure( "testWriteFullDebug" );
+					testCounts << exc.what() << endl;
+				}
+
+				testCounts.decIndent();
+			}
+
+			testCounts << "Debug statements, preprocessed" << endl;
+
+			for ( auto & entryPoint : entryPoints )
+			{
+				testCounts.incIndent();
+				testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
+				auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+
+				try
+				{
+					auto debug = ::sdw::writeDebugPreprocessed( shader, statements.get(), entryPoint.stage );
+					displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
+					success();
+				}
+				catch ( std::exception & exc )
+				{
+					failure( "testWritePreprocessedDebug" );
+					testCounts << exc.what() << endl;
+				}
+
+				testCounts.decIndent();
+			}
+
+			testCounts.decIndent();
+		}
+
+		void testWriteGlslOnIndex( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
+		{
+#if SDW_HasCompilerGlsl
+
+			auto validate = [&]()
+			{
+				for ( auto & entryPoint : entryPoints )
+				{
+					testCounts.incIndent();
+					testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
+					std::string errors;
+					auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
+					config.allocator = &testCounts.allocator;
+
+					if ( isRayTraceStage( entryPoint.stage )
+						|| entryPoint.stage == ast::ShaderStage::eMesh
+						|| entryPoint.stage == ast::ShaderStage::eTask )
+					{
+						config.vulkanGlsl = true;
+					}
+
+					std::string glsl;
+
+					try
+					{
+						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+						glsl = glsl::compileGlsl( shader
+							, statements.get()
+							, entryPoint.stage
+							, specialisation
+							, config );
+					}
+					catch ( std::exception & exc )
+					{
+						testCounts << exc.what() << endl;
+						testCounts.decIndent();
+						return;
+					}
+
+					bool isCompiled{ false };
+
+					if ( isRayTraceStage( entryPoint.stage )
+						|| entryPoint.stage == ast::ShaderStage::eMesh
+						|| entryPoint.stage == ast::ShaderStage::eTask
+						|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
+					{
+						try
+						{
+							compileGlslToSpv( entryPoint.stage, glsl, 150 );
+							isCompiled = true;
+						}
+						catch ( std::exception & exc )
+						{
+							errors += exc.what();
+						}
+					}
+					else
+					{
+						isCompiled = compileGlsl( glsl
+							, entryPoint.stage
+							, errors
+							, testCounts );
+					}
+
+					check( isCompiled );
+
+					if ( !isCompiled )
+					{
+						displayShader( "GLSL", glsl, testCounts, true, true );
+						testCounts << errors << endl;
+					}
+					else
+					{
+						displayShader( "GLSL", glsl, testCounts, compilers.forceDisplay, true );
+					}
+					
+					testCounts.decIndent();
+				}
+			};
+			testCounts.incIndent();
+			testCounts << "GLSL version " << std::to_string( testCounts.getGlslVersion( infoIndex ) ) << endl;
+			checkNoThrow( validate() );
+			testCounts.decIndent();
+
+#endif
+		}
+
+		void testWriteGlsl( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts )
+		{
+			if ( compilers.glsl )
+			{
+				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getGlslInfosSize(); ++infoIndex )
+				{
+					testWriteGlslOnIndex( shader
+						, entryPoints
+						, specialisation
+						, compilers
+						, testCounts
+						, infoIndex );
+				}
+			}
+		}
+
+		void testWriteHlslOnIndex( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
+		{
+#if SDW_HasCompilerHlsl
+
+			auto validate = [&]()
+			{
+				for ( auto & entryPoint : entryPoints )
+				{
+					testCounts.incIndent();
+					testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
+					std::string errors;
+					std::string hlsl;
+
+					try
+					{
+						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+						hlsl = hlsl::compileHlsl( shader
+							, statements.get()
+							, entryPoint.stage
+							, specialisation
+							, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex )
+								, entryPoint.stage
+								, false
+								, &testCounts.allocator } );
+					}
+					catch ( std::exception & exc )
+					{
+						testCounts << exc.what() << endl;
+						testCounts.decIndent();
+						return;
+					}
+
+					displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
+					bool isCompiled = compileHlsl( hlsl
+						, entryPoint.stage
+						, errors
+						, testCounts
+						, infoIndex );
+					check( isCompiled );
+
+					if ( !isCompiled )
+					{
+						displayShader( "HLSL", hlsl, testCounts, !compilers.forceDisplay, true );
+						testCounts << errors << endl;
+					}
+
+					testCounts.decIndent();
+				}
+			};
+			testCounts.incIndent();
+			auto shaderModel = testCounts.getHlslVersion( infoIndex );
+			auto major = shaderModel / 10u;
+			auto minor = shaderModel % 10u;
+			auto model = std::to_string( major ) + "_" + std::to_string( minor );
+			testCounts << "HLSL Shader Model " << model << endl;
+			checkNoThrow( validate() );
+			testCounts.decIndent();
+#endif
+		}
+
+		void testWriteHlsl( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts )
+		{
+			if ( compilers.hlsl )
+			{
+				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getHlslInfosSize(); ++infoIndex )
+				{
+					testWriteHlslOnIndex( shader
+						, entryPoints
+						, specialisation
+						, compilers
+						, testCounts
+						, infoIndex );
+				}
+			}
+		}
+
+		uint32_t getVkMajor( uint32_t vkVersion )
+		{
+			return ( ( vkVersion >> 22u ) & 0x7FU );
+		}
+
+		uint32_t getVkMinor( uint32_t vkVersion )
+		{
+			return ( ( vkVersion >> 12u ) & 0x3FFU );
+		}
+
+		std::string printVkVersion( uint32_t vkVersion )
+		{
+			std::stringstream stream;
+			stream << getVkMajor( vkVersion ) << "." << getVkMinor( vkVersion );
+			return stream.str();
+		}
+
+		uint32_t getSpvMajor( uint32_t spvVersion )
+		{
+			return ( spvVersion >> 16u );
+		}
+
+		uint32_t getSpvMinor( uint32_t spvVersion )
+		{
+			return ( ( spvVersion >> 8u ) & 0xFF );
+		}
+
+		std::string printSpvVersion( uint32_t spvVersion )
+		{
+			std::stringstream stream;
+			stream << getSpvMajor( spvVersion ) << "." << getSpvMinor( spvVersion );
+			return stream.str();
+		}
+
+		void testWriteSpirVOnIndex( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::sdw::SpecialisationInfo const & specialisation
+			, Compilers const & compilers
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex )
+		{
+#if SDW_HasCompilerSpirV
+
+			if ( testCounts.isSpirVInitialised( infoIndex )
+				&& !testCounts.isSpvIgnored( infoIndex, compilers.ignoredSpv ) )
+			{
+				auto validate = [&]( bool availableExtensions )
+				{
+					try
+					{
+						for ( auto & entryPoint : entryPoints )
+						{
+							testCounts.incIndent();
+
+							if ( !availableExtensions )
+							{
+								testCounts << printStage( entryPoint.stage ) << " stage" << ", entry point :[" << entryPoint.name << "]" << endl;
+							}
+
+							spirv::SpirVExtensionSet extensions;
+							spirv::SpirVConfig config{};
+							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							config.debugLevel = spirv::DebugLevel::eDebugInfo;
+
+							if ( availableExtensions )
+							{
+								if ( config.specVersion >= spirv::v1_6 )
+								{
+									extensions.emplace( spirv::EXT_mesh_shader );
+								}
+
+								if ( config.specVersion >= spirv::v1_5 )
+								{
+									extensions.emplace( spirv::KHR_terminate_invocation );
+								}
+
+								if ( config.specVersion >= spirv::v1_4 )
+								{
+									extensions.emplace( spirv::EXT_demote_to_helper_invocation );
+									extensions.emplace( spirv::KHR_ray_tracing );
+								}
+
+								if ( config.specVersion >= spirv::v1_3 )
+								{
+									extensions.emplace( spirv::NV_mesh_shader );
+									extensions.emplace( spirv::EXT_descriptor_indexing );
+									extensions.emplace( spirv::EXT_physical_storage_buffer );
+									extensions.emplace( spirv::KHR_shader_subgroup );
+								}
+
+								if ( config.specVersion >= spirv::v1_2 )
+								{
+									extensions.emplace( spirv::KHR_8bit_storage );
+								}
+
+								if ( config.specVersion >= spirv::v1_1 )
+								{
+									extensions.emplace( spirv::KHR_16bit_storage );
+									extensions.emplace( spirv::KHR_shader_ballot );
+								}
+
+								if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
+								{
+									extensions.emplace( spirv::KHR_non_semantic_info );
+								}
+
+								config.availableExtensions = &extensions;
+							}
+
+							config.allocator = &testCounts.allocator;
+							auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+							auto module = spirv::compileSpirV( *testCounts.allocatorBlock
+								, shader
+								, statements.get()
+								, entryPoint.stage
+								, config );
+							auto textSpirv = spirv::writeModule( *module );
+
+							if ( textSpirv.empty() )
+							{
+								testCounts << "Empty shader" << endl;
+								testCounts.decIndent();
+								return;
+							}
+
+							displayShader( "SPIR-V", textSpirv, testCounts, compilers.forceDisplay && availableExtensions, false );
+							std::vector< uint32_t > spirv;
+
+							try
+							{
+								spirv = spirv::serialiseModule( *module );
+								success();
+							}
+							catch ( ... )
+							{
+								failure( "testWriteSpirV" );
+								displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
+								throw;
+							}
+
+							try
+							{
+								test::validateSpirV( shader
+									, statements.get()
+									, entryPoint.stage
+									, spirv
+									, textSpirv
+									, config.requiredExtensions
+									, specialisation
+									, compilers
+									, testCounts
+									, infoIndex
+									, availableExtensions );
+								success();
+							}
+#if SDW_Test_HasSpirVCross
+							catch ( spirv_cross::CompilerError & exc )
+							{
+								std::string text = exc.what();
+
+								if ( text.find( "not supported in HLSL" ) == std::string::npos
+									&& text.find( "not supported on HLSL" ) == std::string::npos
+									&& text.find( "exist in HLSL" ) == std::string::npos
+									&& text.find( "Unsupported builtin in HLSL" ) == std::string::npos
+									&& text.find( "Unsupported execution model" ) == std::string::npos
+									&& text.find( "No function currently in scope" ) == std::string::npos
+									&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
+									&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos
+									&& text.find( "Cannot resolve expression type" ) == std::string::npos
+									&& text.find( "Wave ops requires SM 6.0 or higher" ) == std::string::npos
+									&& text.find( "Cannot trivially implement InverseBallot in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitCount in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitCount Inclusive Scan in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitCount Exclusive Scan in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotFindLSB in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
+								{
+									failure( "testWriteSpirV" );
+									displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
+									testCounts << "spirv_cross exception: " << text << endl;
+									throw;
+								}
+							}
+#endif
+							catch ( std::exception & )
+							{
+								failure( "testWriteSpirV" );
+								displayShader( "SPIR-V", textSpirv, testCounts, availableExtensions, false );
+								throw;
+							}
+
+							testCounts.decIndent();
+						}
+					}
+					catch ( std::exception & exc )
+					{
+						testCounts << exc.what() << endl;
+						testCounts.decIndent();
+					}
+					catch ( ... )
+					{
+						testCounts << "Unknown exception" << endl;
+						testCounts.decIndent();
+					}
+				};
+				testCounts.incIndent();
+				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
+					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
+				checkNoThrow( validate( false ) );
+				checkNoThrow( validate( true ) );
+				testCounts.decIndent();
+			}
+
+#endif
+		}
+
 		void testWriteSpirV( ::ast::Shader const & shader
+			, ::ast::EntryPointConfigArray const & entryPoints
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts )
@@ -1010,6 +1035,7 @@ namespace test
 				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
 				{
 					testWriteSpirVOnIndex( shader
+						, entryPoints
 						, specialisation
 						, compilers
 						, testCounts
@@ -1203,6 +1229,7 @@ namespace test
 		}
 
 		void validateShaderOnIndex( ::ast::Shader const & shader
+			, ast::EntryPointConfigArray const & entryPoints
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
 			, Compilers const & compilers )
@@ -1219,7 +1246,8 @@ namespace test
 				{
 					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
 						, testCounts.getSpirVVersion( infoIndex )
-						, shader };
+						, shader
+						, entryPoints };
 					std::string errors;
 					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
 					check( isValidated );
@@ -1378,18 +1406,27 @@ namespace test
 	}
 
 	void writeShader( ::ast::Shader const & shader
+		, ::ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
-		testCounts.incIndent();
-		testCounts << "Write shader - " << printStage( shader.getType() ) << " stage" << endl;
-
 		auto specialisation = getSpecialisationInfo( shader );
-		testWriteDebug( shader, specialisation, compilers, testCounts );
-		testWriteSpirV( shader, specialisation, compilers, testCounts );
-		testWriteGlsl( shader, specialisation, compilers, testCounts );
-		testWriteHlsl( shader, specialisation, compilers, testCounts );
-		testCounts.decIndent();
+		testWriteDebug( shader, entryPoints, specialisation, compilers, testCounts );
+		testWriteSpirV( shader, entryPoints, specialisation, compilers, testCounts );
+		testWriteGlsl( shader, entryPoints, specialisation, compilers, testCounts );
+		testWriteHlsl( shader, entryPoints, specialisation, compilers, testCounts );
+	}
+
+	void writeShader( ::ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		ast::EntryPointConfigArray entryPoints{ &shader.getAllocator() };
+		entryPoints.push_back( { shader.getType(), "main" } );
+		writeShader( shader
+			, entryPoints
+			, testCounts
+			, compilers );
 	}
 
 	void writeShader( sdw::ShaderWriter const & writer
@@ -1401,10 +1438,52 @@ namespace test
 			, compilers );
 	}
 
+	void writeProgram( ::ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		testCounts.incIndent();
+		testCounts << "Write program" << endl;
+		writeShader( shader
+			, ast::listEntryPoints( shader.getStatements() )
+			, testCounts
+			, compilers );
+		testCounts.decIndent();
+	}
+
+	void writeProgram( sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		writeProgram( writer.getShader()
+			, testCounts
+			, compilers );
+	}
+
 	void expectError( std::string value
 		, sdw_test::TestCounts & testCounts )
 	{
 		testCounts.expectedError = std::move( value );
+	}
+
+	void validateShaders( ast::Shader const & shader
+		, ast::EntryPointConfigArray entryPoints
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		testCounts.incIndent();
+		testCounts << "Validate shaders" << endl;
+
+		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+		{
+			validateShaderOnIndex( shader
+				, entryPoints
+				, testCounts
+				, infoIndex
+				, compilers );
+		}
+
+		testCounts.decIndent();
 	}
 
 	void validateShaders( ast::ShaderArray const & shaders
@@ -1444,20 +1523,69 @@ namespace test
 	}
 
 	void validateShader( ast::Shader const & shader
+		, ast::EntryPointConfig const & entryPoint
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
 		testCounts.incIndent();
 		testCounts << "Validate shader" << endl;
+		ast::EntryPointConfigArray entryPoints{ &shader.getAllocator() };
+		entryPoints.push_back( entryPoint );
 
 		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
 		{
 			validateShaderOnIndex( shader
+				, entryPoints
 				, testCounts
 				, infoIndex
 				, compilers );
 		}
 
 		testCounts.decIndent();
+	}
+
+	void validateShader( ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		validateShader( shader
+			, ::ast::EntryPointConfig{ shader.getType(), "main" }
+		, testCounts
+			, compilers );
+	}
+
+	void validateProgram( ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		testCounts.incIndent();
+		testCounts << "Validate program" << endl;
+		auto entryPoints = ast::listEntryPoints( shader.getStatements() );
+
+		if ( entryPoints.size() > 1u )
+		{
+			validateShaders( shader
+				, entryPoints
+				, testCounts
+				, compilers );
+		}
+		else
+		{
+			validateShader( shader
+				, entryPoints.front()
+				, testCounts
+				, compilers );
+		}
+
+		testCounts.decIndent();
+	}
+
+	void validateProgram( sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		validateProgram( writer.getShader()
+			, testCounts
+			, compilers );
 	}
 }

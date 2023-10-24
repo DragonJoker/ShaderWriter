@@ -59,8 +59,8 @@ namespace ast
 		TextureMap uniformTexels;
 		ImageMap images;
 		ImageMap storageTexels;
-		InputMap inputs;
-		OutputMap outputs;
+		std::map< EntryPoint, InputMap > inputs;
+		std::map< EntryPoint, OutputMap > outputs;
 		InOutMap inOuts;
 		AccStructInfo accelerationStruct;
 		uint32_t tessellationControlPoints{};
@@ -84,7 +84,7 @@ namespace ast
 		/**@{*/
 		SDAST_API bool hasFunction( std::string_view name )const;
 		SDAST_API var::VariablePtr getFunction( std::string name );
-		SDAST_API void registerFunction( std::string name
+		SDAST_API var::VariablePtr registerFunction( std::string name
 			, type::FunctionPtr type );
 		/**@}*/
 		/**
@@ -143,11 +143,13 @@ namespace ast
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDAST_API var::VariablePtr registerInput( std::string name
+		SDAST_API var::VariablePtr registerInput( EntryPoint entryPoint
+			, std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, type::TypePtr type );
-		SDAST_API var::VariablePtr registerOutput( std::string name
+		SDAST_API var::VariablePtr registerOutput( EntryPoint entryPoint
+			, std::string name
 			, uint32_t location
 			, uint64_t attributes
 			, type::TypePtr type );
@@ -203,14 +205,30 @@ namespace ast
 			return m_data.shaderRecords.at( name );
 		}
 
-		type::TypePtr getInput( std::string const & name )const
+		type::TypePtr getInput( EntryPoint entryPoint
+			, std::string const & name )const
 		{
-			return m_data.inputs.at( name ).type;
+			auto sit = m_data.inputs.find( entryPoint );
+
+			if ( sit == m_data.inputs.end() )
+			{
+				return nullptr;
+			}
+
+			return sit->second.at( name ).type;
 		}
 
-		type::TypePtr getOutput( std::string const & name )const
+		type::TypePtr getOutput( EntryPoint entryPoint
+			, std::string const & name )const
 		{
-			return m_data.outputs.at( name ).type;
+			auto sit = m_data.outputs.find( entryPoint );
+
+			if ( sit == m_data.outputs.end() )
+			{
+				return nullptr;
+			}
+
+			return sit->second.at( name ).type;
 		}
 
 		std::map< std::string, SpecConstantInfo > const & getSpecConstants()const
@@ -263,14 +281,30 @@ namespace ast
 			return m_data.storageTexels;
 		}
 
-		std::map< std::string, InputInfo > const & getInputs()const
+		std::map< std::string, InputInfo > const & getInputs( EntryPoint entryPoint )const
 		{
-			return m_data.inputs;
+			auto sit = m_data.inputs.find( entryPoint );
+
+			if ( sit == m_data.inputs.end() )
+			{
+				static std::map< std::string, InputInfo > const dummy;
+				return dummy;
+			}
+
+			return sit->second;
 		}
 
-		std::map< std::string, OutputInfo > const & getOutputs()const
+		std::map< std::string, OutputInfo > const & getOutputs( EntryPoint entryPoint )const
 		{
-			return m_data.outputs;
+			auto sit = m_data.outputs.find( entryPoint );
+
+			if ( sit == m_data.outputs.end() )
+			{
+				static std::map< std::string, OutputInfo > const dummy;
+				return dummy;
+			}
+
+			return sit->second;
 		}
 
 		std::map< std::string, InOutInfo > const & getInOuts()const

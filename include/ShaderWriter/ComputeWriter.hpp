@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_ComputeWriter_H___
 #define ___SDW_ComputeWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 namespace sdw
@@ -22,9 +22,9 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct ComputeInT
-		: public InputT< DataT >
+		: public InputT< EntryPoint::eCompute, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< EntryPoint::eCompute, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		ComputeInT( ShaderWriter & writer
@@ -128,7 +128,7 @@ namespace sdw
 	using SubgroupMainFuncT = std::function< void( SubgroupInT< DataT > ) >;
 
 	class ComputeWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit ComputeWriter( ShaderAllocator * allocator = nullptr );

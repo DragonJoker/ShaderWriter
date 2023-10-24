@@ -21,12 +21,11 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position"
+			auto result = cache.getIOStruct( "Position"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -90,12 +89,11 @@ namespace
 			return *this;
 		}
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Surface"
+			auto result = cache.getIOStruct( "Surface"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -188,12 +186,11 @@ namespace
 			control = rhs.control;
 		}
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "SimplePatch"
+			auto result = cache.getIOStruct( "SimplePatch"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -265,12 +262,11 @@ namespace
 			return *this;
 		}
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PNTriPatch"
+			auto result = cache.getIOStruct( "PNTriPatch"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

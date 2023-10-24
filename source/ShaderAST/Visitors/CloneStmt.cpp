@@ -192,8 +192,7 @@ namespace ast
 	{
 		TraceFunc;
 		auto save = m_current;
-		auto cont = m_stmtCache.makeFunctionDecl( stmt->getType()
-			, stmt->getName()
+		auto cont = m_stmtCache.makeFunctionDecl( stmt->getFuncVar()
 			, stmt->getFlags() );
 		m_current = cont.get();
 		visitContainerStmt( stmt );

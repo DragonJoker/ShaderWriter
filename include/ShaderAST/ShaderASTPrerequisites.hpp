@@ -74,12 +74,40 @@ namespace ast
 		eRayMiss,
 		eRayIntersection,
 		eCallable,
+		eTraditionalGraphics,
+		eModernGraphicsNV,
+		eModernGraphics,
+		eRayTrace,
 	};
 	SDAST_API bool isRasterizerStage( ShaderStage stage );
 	SDAST_API bool isComputeStage( ShaderStage stage );
 	SDAST_API bool isRayTraceStage( ShaderStage stage );
 	SDAST_API bool isMeshStage( ShaderStage stage );
 	SDAST_API bool isMeshNVStage( ShaderStage stage );
+
+	enum class EntryPoint : uint32_t
+	{
+		eNone = 0,
+		eVertex,
+		eTessellationControl,
+		eTessellationEvaluation,
+		eGeometry,
+		eMeshNV,
+		eTaskNV,
+		eMesh,
+		eTask,
+		eFragment,
+		eRayGeneration,
+		eRayAnyHit,
+		eRayClosestHit,
+		eRayMiss,
+		eRayIntersection,
+		eCallable,
+		eCompute,
+	};
+	SDAST_API std::string getName( EntryPoint entryPoint );
+	SDAST_API EntryPoint getEntryPointType( ShaderStage stage );
+	SDAST_API ShaderStage getShaderStage( EntryPoint entryPoint );
 
 	enum class FragmentOrigin
 	{

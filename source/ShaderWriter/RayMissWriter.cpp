@@ -34,7 +34,9 @@ namespace sdw
 
 	ast::type::StructPtr RayMissIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eRayMiss
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -67,7 +69,7 @@ namespace sdw
 	//*************************************************************************
 
 	RayMissWriter::RayMissWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eRayMiss, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eRayMiss, allocator }
 	{
 	}
 }

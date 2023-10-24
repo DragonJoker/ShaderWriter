@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_RayAnyHitWriter_H___
 #define ___SDW_RayAnyHitWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/HitAttribute.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/MatTypes/Mat4x3.hpp"
@@ -23,6 +23,8 @@ namespace sdw
 	struct RayAnyHitIn
 		: StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API explicit RayAnyHitIn( ShaderWriter & writer );
 		SDW_API RayAnyHitIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -81,7 +83,7 @@ namespace sdw
 	using RayAnyHitMainFuncT = std::function< void( RayAnyHitIn, RayPayloadInT< PayloadT >, HitAttributeT< AttrT > ) >;
 
 	class RayAnyHitWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit RayAnyHitWriter( ShaderAllocator * allocator = nullptr );

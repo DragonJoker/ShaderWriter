@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_MeshWriterEXT_H___
 #define ___SDW_MeshWriterEXT_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadEXT.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/CompositeTypes/PerPrimitive.hpp"
@@ -25,6 +25,8 @@ namespace sdw
 	struct MeshIn
 		: public StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API MeshIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
@@ -117,9 +119,9 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct MeshVertexOutT
-		: public OutputT< DataT >
+		: public OutputT< EntryPoint::eMesh, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eMesh, DataT >::FlagT;
 
 		MeshVertexOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -199,9 +201,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, ast::type::OutputTopology TopologyT >
 	struct TopologyEXTOutT
-		: public OutputT< DataT >
+		: public OutputT< EntryPoint::eMesh, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eMesh, DataT >::FlagT;
 
 		TopologyEXTOutT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -328,7 +330,7 @@ namespace sdw
 	/**@}*/
 
 	class MeshWriterEXT
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit MeshWriterEXT( ShaderAllocator * allocator = nullptr );

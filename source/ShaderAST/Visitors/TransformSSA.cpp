@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/TransformSSA.hpp"
 
+#include "ShaderAST/ShaderStlTypes.hpp"
 #include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 #include "ShaderAST/Visitors/CloneStmt.hpp"
@@ -61,13 +62,14 @@ namespace ast
 				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
+				, Map< uint32_t, var::VariablePtr > const & funcVarReplacements
 				, stmt::Container * container
 				, bool isParam
 				, SSAData & data
 				, StmtSSAiser & stmtVisitor )
 			{
 				expr::ExprPtr result{};
-				ExprSSAiser vis{ data, stmtVisitor, stmtCache, exprCache, typesCache, container, isParam, result };
+				ExprSSAiser vis{ data, stmtVisitor, stmtCache, exprCache, typesCache, funcVarReplacements, container, isParam, result };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
@@ -84,6 +86,7 @@ namespace ast
 				, stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
+				, Map< uint32_t, var::VariablePtr > const & funcVarReplacements
 				, stmt::Container * container
 				, bool isParam
 				, expr::ExprPtr & result )
@@ -93,6 +96,7 @@ namespace ast
 				, m_stmtCache{ stmtCache }
 				, m_exprCache{ exprCache }
 				, m_typesCache{ typesCache }
+				, m_funcVarReplacements{ funcVarReplacements }
 				, m_container{ container }
 				, m_isParam{ isParam }
 				, m_result{ result }
@@ -417,7 +421,15 @@ namespace ast
 					ast::var::VariablePtr alias;
 				};
 				std::vector< OutputParam > outputParams;
-				auto fnType = std::static_pointer_cast< ast::type::Function >( expr->getFn()->getType() );
+				auto funcVar = expr->getFn()->getVariable();
+				auto varIt = m_funcVarReplacements.find( funcVar->getId() );
+
+				if ( varIt != m_funcVarReplacements.end() )
+				{
+					funcVar = varIt->second;
+				}
+
+				auto fnType = std::static_pointer_cast< ast::type::Function >( funcVar->getType() );
 				visitType( fnType->getReturnType() );
 				auto it = fnType->begin();
 
@@ -444,9 +456,6 @@ namespace ast
 									// For samplers and imges, the eUniform flag from the function parameter must be removed,
 									// since the alias can't have it.
 									param->updateFlag( ast::var::Flag::eUniform, false );
-									//// Then the eConstant flag must be added, to match
-									//auto aliaIdent
-									//( aliasExpr )->getVariable()->updateFlag( ast::var::Flag::eConstant, true );
 								}
 							}
 
@@ -482,14 +491,14 @@ namespace ast
 				if ( expr->isMember() )
 				{
 					m_result = m_exprCache.makeMemberFnCall( expr->getType()
-						, m_exprCache.makeIdentifier( *expr->getFn() )
+						, m_exprCache.makeIdentifier( m_typesCache, funcVar )
 						, doSubmit( expr->getInstance() )
 						, std::move( args ) );
 				}
 				else
 				{
 					m_result = m_exprCache.makeFnCall( expr->getType()
-						, m_exprCache.makeIdentifier( *expr->getFn() )
+						, m_exprCache.makeIdentifier( m_typesCache, funcVar )
 						, std::move( args ) );
 				}
 
@@ -751,7 +760,15 @@ namespace ast
 
 			expr::ExprPtr doSubmit( expr::Expr * expr )
 			{
-				return submit( expr, m_stmtCache, m_exprCache, m_typesCache, m_container, m_isParam, m_data, m_stmtVisitor );
+				return submit( expr
+					, m_stmtCache
+					, m_exprCache
+					, m_typesCache
+					, m_funcVarReplacements
+					, m_container
+					, m_isParam
+					, m_data
+					, m_stmtVisitor );
 			}
 
 			expr::ExprPtr doSubmit( expr::ExprPtr const & expr )
@@ -1021,6 +1038,7 @@ namespace ast
 			stmt::StmtCache & m_stmtCache;
 			expr::ExprCache & m_exprCache;
 			type::TypesCache & m_typesCache;
+			Map< uint32_t, var::VariablePtr > const & m_funcVarReplacements;
 			stmt::Container * m_container;
 			bool m_isParam;
 			expr::ExprPtr & m_result;
@@ -1088,6 +1106,7 @@ namespace ast
 				, m_data{ data }
 				, m_normaliseStructs{ normaliseStructs }
 				, m_typesCache{ typesCache }
+				, m_funcVarReplacements{ &m_stmtCache.getAllocator() }
 			{
 				auto cont = m_stmtCache.makeContainer();
 				m_typeDeclarations = cont.get();
@@ -1103,6 +1122,7 @@ namespace ast
 					, m_stmtCache
 					, m_exprCache
 					, m_typesCache
+					, m_funcVarReplacements
 					, m_current
 					, false
 					, m_data
@@ -1263,6 +1283,7 @@ namespace ast
 					if ( stmt->getType()->size() < 2u
 						&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
 					{
+						auto funcVar = stmt->getFuncVar();
 						auto funcType = stmt->getType();
 						auto inType = type::makeGeometryInputType( m_inputGeometryLayoutStmt->getType()
 							, m_inputGeometryLayoutStmt->getLayout() );
@@ -1281,8 +1302,12 @@ namespace ast
 						funcType = typesCache.getFunction( funcType->getReturnType()
 							, std::move( parameters ) );
 						auto save = m_current;
-						auto cont = m_stmtCache.makeFunctionDecl( funcType
+						funcVar = ast::var::makeVariable( funcVar->getId()
+							, funcType
 							, stmt->getName()
+							, funcVar->getFlags() );
+						m_funcVarReplacements.emplace( funcVar->getId(), funcVar );
+						auto cont = m_stmtCache.makeFunctionDecl( std::move( funcVar )
 							, stmt->getFlags() );
 						m_current = cont.get();
 						visitContainerStmt( stmt );
@@ -1431,6 +1456,7 @@ namespace ast
 			stmt::InputGeometryLayout * m_inputGeometryLayoutStmt{};
 			stmt::OutputTessellationControlLayout * m_outputTessCtrlLayoutStmt{};
 			stmt::InputTessellationEvaluationLayout * m_intputTessEvalLayoutStmt{};
+			Map< uint32_t, var::VariablePtr > m_funcVarReplacements;
 		};
 
 		void declareStruct( type::StructPtr structType

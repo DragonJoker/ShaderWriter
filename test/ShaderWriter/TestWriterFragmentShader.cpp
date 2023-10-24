@@ -21,12 +21,11 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position"
+			auto result = cache.getIOStruct( "Position"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -73,12 +72,11 @@ namespace
 
 		SDW_DeclStructInstance( , PosTexT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PosTex"
+			auto result = cache.getIOStruct( "PosTex"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -133,12 +131,11 @@ namespace
 
 		SDW_DeclStructInstance( , PosColT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PosCol"
+			auto result = cache.getIOStruct( "PosCol"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -192,12 +189,11 @@ namespace
 
 		SDW_DeclStructInstance( , ColourT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Colour"
+			auto result = cache.getIOStruct( "Colour"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

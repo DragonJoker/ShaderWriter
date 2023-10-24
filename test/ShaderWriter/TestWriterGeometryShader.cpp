@@ -19,12 +19,11 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position"
+			auto result = cache.getIOStruct( "Position"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

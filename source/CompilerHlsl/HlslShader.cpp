@@ -7,8 +7,10 @@ See LICENSE file in root folder
 
 namespace hlsl
 {
-	HlslShader::HlslShader( ast::Shader const & shader )
+	HlslShader::HlslShader( ast::Shader const & shader
+		, ast::ShaderStage stage )
 		: m_shader{ shader }
+		, m_shaderStage{ stage }
 	{
 	}
 

@@ -61,10 +61,11 @@ namespace sdw
 
 	template< var::Flag FlagT >
 	IOStructT< FlagT >::IOStructT( ShaderWriter & writer
+		, ast::EntryPoint entryPoint
 		, std::string name )
 		: m_writer{ &writer }
 		, m_shader{ &sdw::getShader( *m_writer ) }
-		, m_type{ getTypesCache( *m_writer ).getIOStruct( ast::type::MemoryLayout::eC, std::move( name ), FlagT ) }
+		, m_type{ getTypesCache( *m_writer ).getIOStruct( std::move( name ), entryPoint, FlagT ) }
 	{
 	}
 

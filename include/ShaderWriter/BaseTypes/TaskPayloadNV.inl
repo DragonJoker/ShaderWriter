@@ -13,7 +13,7 @@ namespace sdw
 	TaskPayloadOutNVT< DataT >::TaskPayloadOutNVT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: PerTaskNVT< DataT, FlagT >{ writer, std::move( expr ), enabled }
+		: PerTaskNVT< ast::EntryPoint::eTaskNV, FlagT, DataT >{ writer, std::move( expr ), enabled }
 		, m_internal{ writer, this->getExpr(), enabled }
 	{
 	}
@@ -41,7 +41,7 @@ namespace sdw
 	ast::type::IOStructPtr TaskPayloadOutNVT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return PerTaskNVT< DataT, FlagT >::makeType( cache
+		return PerTaskNVT< ast::EntryPoint::eTaskNV, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 	//*************************************************************************
@@ -50,7 +50,7 @@ namespace sdw
 	TaskPayloadInNVT< DataT >::TaskPayloadInNVT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: PerTaskNVT< DataT, FlagT >{ writer, std::move( expr ), enabled }
+		: PerTaskNVT< ast::EntryPoint::eMeshNV, FlagT, DataT >{ writer, std::move( expr ), enabled }
 	{
 	}
 
@@ -71,7 +71,7 @@ namespace sdw
 	ast::type::IOStructPtr TaskPayloadInNVT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		return PerTaskNVT< DataT, FlagT >::makeType( cache
+		return PerTaskNVT< ast::EntryPoint::eMeshNV, FlagT, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 	}
 

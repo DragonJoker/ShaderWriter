@@ -50,6 +50,7 @@ namespace sdw
 	{
 	private:
 		IOStructT( ShaderWriter & writer
+			, ast::EntryPoint entryPoint
 			, std::string name );
 		IOStructT( ShaderWriter & writer
 			, ast::type::IOStructPtr type );

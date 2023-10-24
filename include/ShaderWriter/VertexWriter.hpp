@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_VertexWriter_H___
 #define ___SDW_VertexWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 
 namespace sdw
 {
@@ -18,9 +18,9 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct VertexInT
-		: public InputT< DataT >
+		: public InputT< EntryPoint::eVertex, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< EntryPoint::eVertex, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		explicit VertexInT( ShaderWriter & writer
@@ -49,9 +49,9 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct VertexOutT
-		: public OutputT< DataT >
+		: public OutputT< EntryPoint::eVertex, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eVertex, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		explicit VertexOutT( ShaderWriter & writer
@@ -75,7 +75,7 @@ namespace sdw
 	using VertexMainFuncT = std::function< void( VertexInT< InT >, VertexOutT< OutT > ) >;
 
 	class VertexWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit VertexWriter( ShaderAllocator * allocator = nullptr );

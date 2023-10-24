@@ -667,58 +667,6 @@ namespace sdw
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
-#pragma region Input declaration
-		/**
-		*name
-		*	Input declaration.
-		*/
-		/**@{*/
-		template< typename T >
-		inline T declInput( std::string name
-			, uint32_t location
-			, bool enabled = true );
-		template< typename T >
-		inline T declInput( std::string name
-			, uint32_t location
-			, uint64_t attributes
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declInputArray( std::string name
-			, uint32_t location
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declInputArray( std::string name
-			, uint32_t location
-			, uint32_t dimension
-			, uint64_t attributes
-			, bool enabled = true );
-		template< typename T >
-		inline T declInput( std::string name
-			, uint32_t location
-			, bool enabled
-			, T const & defaultValue );
-		template< typename T >
-		inline T declInput( std::string name
-			, uint32_t location
-			, uint64_t attributes
-			, bool enabled
-			, T const & defaultValue );
-		template< typename T >
-		inline Array< T > declInputArray( std::string name
-			, uint32_t location
-			, uint32_t dimension
-			, uint64_t attributes
-			, bool enabled
-			, std::vector< T > const & defaultValue );
-		template< typename T >
-		inline Array< T > declInputArray( std::string name
-			, uint32_t location
-			, uint32_t dimension
-			, bool enabled
-			, std::vector< T > const & defaultValue );
-		/**@}*/
-#pragma endregion
 #pragma region Shared variables declaration
 		/**
 		*name
@@ -857,34 +805,6 @@ namespace sdw
 		inline T declStruct( std::string name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, ParamsT && ... params );
-		/**@}*/
-#pragma endregion
-#pragma region Output declaration
-		/**
-		*name
-		*	Output declaration.
-		*/
-		/**@{*/
-		template< typename T >
-		inline T declOutput( std::string name
-			, uint32_t location
-			, bool enabled = true );
-		template< typename T >
-		inline T declOutput( std::string name
-			, uint32_t location
-			, uint64_t attributes
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declOutputArray( std::string name
-			, uint32_t location
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declOutputArray( std::string name
-			, uint32_t location
-			, uint32_t dimension
-			, uint64_t attributes
-			, bool enabled = true );
 		/**@}*/
 #pragma endregion
 #pragma region Locale declaration
@@ -1100,14 +1020,6 @@ namespace sdw
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		SDW_API var::VariablePtr registerInput( std::string name
-			, uint32_t location
-			, uint64_t attributes
-			, type::TypePtr type );
-		SDW_API var::VariablePtr registerOutput( std::string name
-			, uint32_t location
-			, uint64_t attributes
-			, type::TypePtr type );
 		SDW_API var::VariablePtr registerInOut( std::string name
 			, uint64_t attributes
 			, type::TypePtr type );

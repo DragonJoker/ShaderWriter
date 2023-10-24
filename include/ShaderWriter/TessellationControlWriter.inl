@@ -13,7 +13,7 @@ namespace sdw
 	TessControlDataInT< DataT >::TessControlDataInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		: InputT< EntryPoint::eTessellationControl, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 	{
 	}
@@ -23,7 +23,7 @@ namespace sdw
 	ast::type::IOStructPtr TessControlDataInT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
+		ast::type::IOStructPtr result = InputT< EntryPoint::eTessellationControl, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
@@ -71,7 +71,7 @@ namespace sdw
 	TessControlListOutT< DataT, DomainT >::TessControlListOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: OutputT< DataT >{ writer, std::move( expr ), enabled }
+		: OutputT< EntryPoint::eTessellationControl, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 	{
 	}
@@ -105,7 +105,7 @@ namespace sdw
 	ast::type::IOStructPtr TessControlListOutT< DataT, DomainT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
+		ast::type::IOStructPtr result = OutputT< EntryPoint::eTessellationControl, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
@@ -278,7 +278,7 @@ namespace sdw
 		, TessControlMainFuncT< InT, MaxPointsT, OutT, DomainT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, false } )
@@ -335,7 +335,7 @@ namespace sdw
 		, IsolinesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( std::move( in ) )
@@ -350,7 +350,7 @@ namespace sdw
 		, TrianglesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( std::move( in ) )
@@ -365,7 +365,7 @@ namespace sdw
 		, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( std::move( in ) )

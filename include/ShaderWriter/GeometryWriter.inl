@@ -13,7 +13,7 @@ namespace sdw
 	GeometryDataT< DataT >::GeometryDataT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		: InputT< EntryPoint::eGeometry, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 	{
 	}
@@ -23,7 +23,7 @@ namespace sdw
 	ast::type::IOStructPtr GeometryDataT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
+		ast::type::IOStructPtr result = InputT< EntryPoint::eGeometry, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
@@ -70,7 +70,7 @@ namespace sdw
 	GeometryOutT< DataT, LayoutT >::GeometryOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: OutputT< DataT >{ writer, std::move( expr ), enabled }
+		: OutputT< EntryPoint::eGeometry, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 		, primitiveID{ getInt32Member( *this, ast::Builtin::ePrimitiveID ) }
 		, layer{ getInt32Member( *this, ast::Builtin::eLayer ) }
@@ -120,7 +120,7 @@ namespace sdw
 	ast::type::IOStructPtr GeometryOutT< DataT, LayoutT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		auto result = OutputT< DataT >::makeType( cache
+		auto result = OutputT< EntryPoint::eGeometry, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 
@@ -161,7 +161,7 @@ namespace sdw
 		, GeometryMainFuncT< InputArrT, OutStreamT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eGeometryEntryPoint
 			, function
 			, makeInParam( GeometryIn{ *this } )
 			, makeInParam( std::move( in ) )

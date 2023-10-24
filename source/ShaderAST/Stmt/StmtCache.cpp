@@ -192,21 +192,17 @@ namespace ast::stmt
 			, center );
 	}
 
-	FunctionDeclPtr StmtCache::makeFunctionDecl( type::FunctionPtr type
-		, std::string name
+	FunctionDeclPtr StmtCache::makeFunctionDecl( var::VariablePtr funcVar
 		, FunctionFlag flag )
 	{
-		return makeStmt< FunctionDecl >( std::move( type )
-			, std::move( name )
+		return makeStmt< FunctionDecl >( std::move( funcVar )
 			, uint32_t( flag ) );
 	}
 
-	FunctionDeclPtr StmtCache::makeFunctionDecl( type::FunctionPtr type
-		, std::string name
+	FunctionDeclPtr StmtCache::makeFunctionDecl( var::VariablePtr funcVar
 		, uint32_t flags )
 	{
-		return makeStmt< FunctionDecl >( std::move( type )
-			, std::move( name )
+		return makeStmt< FunctionDecl >( std::move( funcVar )
 			, flags );
 	}
 

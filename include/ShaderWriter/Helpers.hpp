@@ -17,6 +17,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtPerVertexDecl.hpp>
+#include <ShaderAST/Stmt/StmtVariableDecl.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
@@ -43,6 +44,11 @@ namespace sdw
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API uint32_t getNextVarId( ShaderWriter & writer );
 	SDW_API uint32_t getNextVarId( Shader & shader );
+	SDW_API ast::var::VariablePtr registerFunction( ShaderWriter & writer
+		, ast::type::FunctionPtr type
+		, std::string name );
+	SDW_API ast::var::VariablePtr getFunction( ShaderWriter & writer
+		, std::string name );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter * writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
@@ -283,7 +289,7 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache
 		, expr::ExprPtr expr );
 	SDW_API stmt::StmtPtr makeReturn( stmt::StmtCache & stmtCache );
-	SDW_API stmt::StmtPtr makeVariableDecl( stmt::StmtCache & stmtCache
+	SDW_API stmt::VariableDeclPtr makeVariableDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr var );
 	SDW_API stmt::StmtPtr makeHitAttributeVariableDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr var );
@@ -334,8 +340,7 @@ namespace sdw
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
 	SDW_API stmt::ContainerPtr makeFunctionDecl( stmt::StmtCache & stmtCache
-		, type::FunctionPtr type
-		, std::string name );
+		, var::VariablePtr funcVar );
 	SDW_API stmt::StmtPtr makeDispatchMesh( stmt::StmtCache & stmtCache
 		, expr::ExprPtr numGroupsX
 		, expr::ExprPtr numGroupsY

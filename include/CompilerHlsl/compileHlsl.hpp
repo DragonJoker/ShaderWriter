@@ -48,6 +48,11 @@ namespace hlsl
 	};
 
 	SDWHLSL_API std::string compileHlsl( ast::Shader const & shader
+		, ast::stmt::Container * statements
+		, ast::ShaderStage stage
+		, ast::SpecialisationInfo const & specialisation
+		, HlslConfig const & writerConfig );
+	SDWHLSL_API std::string compileHlsl( ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig );
 }

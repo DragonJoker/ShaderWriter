@@ -136,6 +136,8 @@ namespace ast::expr
 	/*
 	*	Provides a base implementation of an expression visitor.
 	*	Implements all visits except the following:
+	*	- void visitUnaryExpr( ast::expr::Unary * expr )override;
+	*	- void visitBinaryExpr( ast::expr::Binary * expr )override;
 	*	- void visitAggrInitExpr( ast::expr::AggrInit * expr )override;
 	*	- void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
 	*	- void visitFnCallExpr( ast::expr::FnCall * expr )override;

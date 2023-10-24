@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_RayMissWriter_H___
 #define ___SDW_RayMissWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 #include "ShaderWriter/MatTypes/Mat4x3.hpp"
 #include "ShaderWriter/MatTypes/Mat3x4.hpp"
@@ -22,6 +22,8 @@ namespace sdw
 	struct RayMissIn
 		: StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API explicit RayMissIn( ShaderWriter & writer );
 		SDW_API RayMissIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -56,7 +58,7 @@ namespace sdw
 	using RayMissMainFuncT = std::function< void( RayMissIn, RayPayloadInT< PayloadT > ) >;
 
 	class RayMissWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit RayMissWriter( ShaderAllocator * allocator = nullptr );

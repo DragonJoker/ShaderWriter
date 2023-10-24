@@ -204,10 +204,11 @@ namespace glsl
 			}
 
 			static ast::type::StructPtr getPerVertexBaseType( ast::type::TypesCache & typesCache
+				, ast::EntryPoint entryPoint
 				, bool isInput )
 			{
-				auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
-					, "gl_PerVertex"
+				auto result{ typesCache.getIOStruct( "gl_PerVertex"
+					, entryPoint
 					, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
 
 				if ( !result->hasMember( ast::Builtin::ePosition ) )
@@ -230,18 +231,19 @@ namespace glsl
 			}
 
 			static ast::type::ArrayPtr getPerVertexArrayType( ast::type::TypesCache & typesCache
+				, ast::EntryPoint entryPoint
 				, uint32_t count
 				, bool isInput )
 			{
-				return typesCache.getArray( getPerVertexBaseType( typesCache, isInput )
+				return typesCache.getArray( getPerVertexBaseType( typesCache, entryPoint, isInput )
 					, count );
 			}
 
 			static ast::type::StructPtr getMeshNVPerVertexBaseType( ast::type::TypesCache & typesCache
 				, bool isInput )
 			{
-				auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
-					, "gl_MeshPerVertexNV"
+				auto result{ typesCache.getIOStruct( "gl_MeshPerVertexNV"
+					, ast::EntryPoint::eMesh
 					, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
 
 				if ( !result->hasMember( ast::Builtin::ePosition ) )
@@ -283,8 +285,8 @@ namespace glsl
 			static ast::type::StructPtr getMeshPerVertexBaseType( ast::type::TypesCache & typesCache
 				, bool isInput )
 			{
-				auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
-					, "gl_MeshPerVertexEXT"
+				auto result{ typesCache.getIOStruct( "gl_MeshPerVertexEXT"
+					, ast::EntryPoint::eMesh
 					, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
 
 				if ( !result->hasMember( ast::Builtin::ePosition ) )
@@ -334,34 +336,41 @@ namespace glsl
 				case ast::ShaderStage::eVertex:
 					assert( !isInput );
 					return getPerVertexBaseType( typesCache
+						, ast::EntryPoint::eVertex
 						, isInput );
 				case ast::ShaderStage::eTessellationControl:
 					if ( isInput )
 					{
 						return getPerVertexArrayType( typesCache
+							, ast::EntryPoint::eTessellationControl
 							, maxPoint
 							, isInput );
 					}
 					return  getPerVertexArrayType( typesCache
+						, ast::EntryPoint::eTessellationControl
 						, 32u
 						, isInput );
 				case ast::ShaderStage::eTessellationEvaluation:
 					if ( isInput )
 					{
 						return getPerVertexArrayType( typesCache
+							, ast::EntryPoint::eTessellationEvaluation
 							, 32u
 							, isInput );
 					}
 					return getPerVertexBaseType( typesCache
+						, ast::EntryPoint::eTessellationEvaluation
 						, isInput );
 				case ast::ShaderStage::eGeometry:
 					if ( isInput )
 					{
 						return getPerVertexArrayType( typesCache
+							, ast::EntryPoint::eGeometry
 							, getArraySize( inputLayout )
 							, isInput );
 					}
 					return getPerVertexBaseType( typesCache
+						, ast::EntryPoint::eGeometry
 						, isInput );
 				case ast::ShaderStage::eMeshNV:
 					assert( !isInput );
@@ -388,8 +397,8 @@ namespace glsl
 			static ast::type::StructPtr getPerPrimitiveNVBaseType( ast::type::TypesCache & typesCache
 				, bool isInput )
 			{
-				auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
-					, "gl_MeshPerPrimitiveNV"
+				auto result{ typesCache.getIOStruct( "gl_MeshPerPrimitiveNV"
+					, ast::EntryPoint::eMesh
 					, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
 
 				if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
@@ -428,8 +437,8 @@ namespace glsl
 			static ast::type::StructPtr getPerPrimitiveBaseType( ast::type::TypesCache & typesCache
 				, bool isInput )
 			{
-				auto result{ typesCache.getIOStruct( ast::type::MemoryLayout::eC
-					, "gl_MeshPerPrimitiveEXT"
+				auto result{ typesCache.getIOStruct( "gl_MeshPerPrimitiveEXT"
+					, ast::EntryPoint::eMesh
 					, ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) ) };
 
 				if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
@@ -1833,10 +1842,12 @@ namespace glsl
 					auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 						, structType->getMemoryLayout()
 						, structType->getName() + "Repl"
+						, getEntryPointType( m_adaptationData.stage )
 						, ast::var::Flag( flags ) );
 					auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 						, structType->getMemoryLayout()
 						, structType->getName() + "Builtins"
+						, getEntryPointType( m_adaptationData.stage )
 						, ast::var::Flag::eShaderInput );
 					auto othersVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Others" }
 						, ast::type::makeTessellationInputPatchType( outStructType
@@ -1910,10 +1921,12 @@ namespace glsl
 					auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 						, structType->getMemoryLayout()
 						, structType->getName() + "Repl"
+						, getEntryPointType( m_adaptationData.stage )
 						, ast::var::Flag( flags ) );
 					auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 						, structType->getMemoryLayout()
 						, structType->getName() + "Builtins"
+						, getEntryPointType( m_adaptationData.stage )
 						, ast::var::Flag::eShaderOutput );
 					auto othersVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Others" }
 						, ast::type::makeTessellationOutputPatchType( outStructType
@@ -2270,7 +2283,11 @@ namespace glsl
 			{
 				auto funcType = m_typesCache.getFunction( m_typesCache.getVoid(), {} );
 				auto save = m_current;
-				auto cont = m_stmtCache.makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
+				auto cont = m_stmtCache.makeFunctionDecl( ast::var::makeVariable( stmt->getFuncVar()->getId()
+						, funcType
+						, stmt->getName()
+						, stmt->getFuncVar()->getFlags() )
+					, stmt->getFlags() );
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 

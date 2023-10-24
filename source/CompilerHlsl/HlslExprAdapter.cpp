@@ -737,8 +737,16 @@ namespace hlsl
 			}
 		}
 
+		auto funcVar = expr->getFn()->getVariable();
+		auto it = m_adaptationData.replacedFuncVars.find( funcVar->getId() );
+
+		if ( it != m_adaptationData.replacedFuncVars.end() )
+		{
+			funcVar = it->second;
+		}
+
 		m_result = m_exprCache.makeFnCall( expr->getType()
-			, m_exprCache.makeIdentifier( m_typesCache, expr->getFn()->getVariable() )
+			, m_exprCache.makeIdentifier( m_typesCache, std::move( funcVar ) )
 			, std::move( args ) );
 	}
 
@@ -1337,7 +1345,10 @@ namespace hlsl
 				, "image" );
 			parameters.emplace_back( image );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			ast::type::TypePtr uintType = m_typesCache.getUInt32();
 			ast::expr::CompositeType composite{};
 
@@ -1423,16 +1434,14 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
 		ast::expr::ExprList argList;
 		argList.emplace_back( doSubmit( expr->getArgList().front() ) );
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 
@@ -1465,7 +1474,7 @@ namespace hlsl
 	}
 
 	void ExprAdapter::doProcessImageStore( ast::expr::StorageImageAccessCall * expr
-		, std::map< std::string, ast::type::FunctionPtr > & imageStoreFuncs )
+		, std::map< std::string, FuncNames::Function > & imageStoreFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1501,7 +1510,10 @@ namespace hlsl
 				, dataType
 				, "data" ) );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			// Function content
 			//	image[coord] = data
 			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( dataType
@@ -1510,7 +1522,7 @@ namespace hlsl
 					, m_exprCache.makeIdentifier( m_typesCache, parameters[1] ) )
 				, m_exprCache.makeIdentifier( m_typesCache, parameters.back() ) ) ) );
 
-			it = imageStoreFuncs.emplace( funcName, functionType ).first;
+			it = imageStoreFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1521,16 +1533,14 @@ namespace hlsl
 			argList.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 
 	void ExprAdapter::doProcessImageAtomic( ast::expr::StorageImageAccessCall * expr
 		, std::string const & name
-		, std::map< std::string, ast::type::FunctionPtr > & imageAtomicFuncs )
+		, std::map< std::string, FuncNames::Function > & imageAtomicFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1555,7 +1565,10 @@ namespace hlsl
 			parameters.emplace_back( coord );
 			parameters.emplace_back( data );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			// Function content
 			auto res = ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, dataType
@@ -1589,7 +1602,7 @@ namespace hlsl
 			//	The return statement
 			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
 
-			it = imageAtomicFuncs.emplace( funcName, functionType ).first;
+			it = imageAtomicFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1600,10 +1613,8 @@ namespace hlsl
 			argList.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 
@@ -1670,7 +1681,10 @@ namespace hlsl
 			parameters.emplace_back( compare );
 			parameters.emplace_back( data );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			// Function content
 			auto res = ast::var::makeVariable( ++m_adaptationData.nextVarId
 				, dataType
@@ -1708,7 +1722,7 @@ namespace hlsl
 			//	The return statement
 			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
 
-			it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1719,10 +1733,8 @@ namespace hlsl
 			argList.emplace_back( doSubmit( arg ) );
 		}
 
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 
@@ -1752,7 +1764,10 @@ namespace hlsl
 			}
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			ast::type::TypePtr uintType = m_typesCache.getUInt32();
 			ast::var::VariableList resVars;
 			ast::expr::CompositeType composite{};
@@ -1862,7 +1877,7 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1876,10 +1891,8 @@ namespace hlsl
 			}
 		}
 
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 
@@ -1907,7 +1920,10 @@ namespace hlsl
 			parameters.emplace_back( coord );
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 
 			// The call to image.CalculateLevelOfDetail
 			ast::expr::ExprList callArgs;
@@ -1936,7 +1952,7 @@ namespace hlsl
 				, ast::type::Kind::eFloat
 				, std::move( resArgs ) ) ) );
 
-			it = m_adaptationData.funcs.imageLodFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageLodFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1950,10 +1966,8 @@ namespace hlsl
 			}
 		}
 
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 
@@ -1973,7 +1987,10 @@ namespace hlsl
 			parameters.emplace_back( image );
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto cont = m_stmtCache.makeFunctionDecl( functionType, funcName );
+			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, functionType
+				, funcName );
+			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			ast::type::TypePtr uintType = m_typesCache.getUInt32();
 			ast::var::VariableList resVars;
 
@@ -2070,17 +2087,15 @@ namespace hlsl
 			// The return statement
 			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, levels ) ) );
 
-			it = m_adaptationData.funcs.imageLevelsFuncs.emplace( funcName, functionType ).first;
+			it = m_adaptationData.funcs.imageLevelsFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
 		ast::expr::ExprList argList;
 		doProcessTextureArg( *expr->getArgList()[0], false, argList );
 
-		m_result = m_exprCache.makeFnCall( it->second->getReturnType()
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
-				, it->second
-				, funcName ) )
+		m_result = m_exprCache.makeFnCall( it->second.type->getReturnType()
+			, m_exprCache.makeIdentifier( m_typesCache, it->second.var )
 			, std::move( argList ) );
 	}
 

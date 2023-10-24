@@ -45,7 +45,9 @@ namespace sdw
 
 	ast::type::StructPtr RayClosestHitIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eRayClosestHit
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -105,7 +107,7 @@ namespace sdw
 	//*************************************************************************
 
 	RayClosestHitWriter::RayClosestHitWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eRayClosestHit, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, allocator }
 	{
 	}
 }

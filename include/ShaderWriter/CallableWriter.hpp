@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_CallableWriter_H___
 #define ___SDW_CallableWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/CallableData.hpp"
 
 namespace sdw
@@ -20,6 +20,8 @@ namespace sdw
 	struct CallableIn
 		: StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API explicit CallableIn( ShaderWriter & writer );
 		SDW_API CallableIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -38,7 +40,7 @@ namespace sdw
 	using CallableMainFuncT = std::function< void( CallableIn, CallableDataInT< ValueT > ) >;
 
 	class CallableWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit CallableWriter( ShaderAllocator * allocator = nullptr );

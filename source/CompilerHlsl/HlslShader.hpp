@@ -12,7 +12,8 @@ namespace hlsl
 	class HlslShader
 	{
 	public:
-		explicit HlslShader( ast::Shader const & shader );
+		explicit HlslShader( ast::Shader const & shader
+			, ast::ShaderStage stage );
 
 		void registerVariable( ast::var::VariablePtr var );
 		ast::var::VariablePtr registerBuiltin( ast::Builtin builtin
@@ -42,7 +43,7 @@ namespace hlsl
 
 		inline ast::ShaderStage getType()const
 		{
-			return m_shader.getType();
+			return m_shaderStage;
 		}
 
 		inline ast::type::TypesCache & getTypesCache()const
@@ -52,6 +53,7 @@ namespace hlsl
 
 	private:
 		ast::Shader const & m_shader;
+		ast::ShaderStage m_shaderStage;
 		mutable ast::type::TypesCache m_typesCache;
 		std::map< std::string, ast::var::VariablePtr > m_registered;
 		std::map< std::string, ast::SamplerInfo > m_samplers;

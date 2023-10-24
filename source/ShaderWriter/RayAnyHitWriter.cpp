@@ -48,7 +48,9 @@ namespace sdw
 
 	ast::type::StructPtr RayAnyHitIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eRayAnyHit
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -108,7 +110,7 @@ namespace sdw
 	//*************************************************************************
 
 	RayAnyHitWriter::RayAnyHitWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eRayAnyHit, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eRayAnyHit, allocator }
 	{
 	}
 

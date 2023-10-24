@@ -141,7 +141,12 @@ namespace spirv
 		SDWSPIRV_API void operator()( Module * module );
 	};
 	using ModulePtr = std::unique_ptr< Module, ModuleDeleter >;
-
+	
+	SDWSPIRV_API ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
+		, ast::stmt::Container * statements
+		, ast::ShaderStage stage
+		, SpirVConfig & config );
 	SDWSPIRV_API ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
 		, SpirVConfig & config );
@@ -150,8 +155,17 @@ namespace spirv
 	SDWSPIRV_API std::vector< uint32_t > serialiseModule( Module const & module );
 
 	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
+		, ast::stmt::Container * statements
+		, ast::ShaderStage stage
 		, SpirVConfig & config
 		, bool writeHeader = true );
+	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
+		, SpirVConfig & config
+		, bool writeHeader = true );
+	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+		, ast::stmt::Container * statements
+		, ast::ShaderStage stage
+		, SpirVConfig & config );
 	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
 		, SpirVConfig & config );
 	SDWSPIRV_API std::string displaySpirv( ast::ShaderAllocatorBlock & allocator

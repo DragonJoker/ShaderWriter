@@ -577,6 +577,92 @@ namespace ast::vk
 				result |= VK_SHADER_STAGE_COMPUTE_BIT;
 			}
 
+#if VK_EXT_mesh_shader
+			if ( in & uint32_t( ShaderStageFlag::eTask ) )
+			{
+				result |= VK_SHADER_STAGE_TASK_BIT_EXT;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eMesh ) )
+			{
+				result |= VK_SHADER_STAGE_MESH_BIT_EXT;
+			}
+#endif
+
+#if VK_NV_mesh_shader
+			if ( in & uint32_t( ShaderStageFlag::eTaskNV ) )
+			{
+				result |= VK_SHADER_STAGE_TASK_BIT_NV;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eMeshNV ) )
+			{
+				result |= VK_SHADER_STAGE_MESH_BIT_NV;
+			}
+#endif
+
+#if VK_KHR_ray_tracing_pipeline
+			if ( in & uint32_t( ShaderStageFlag::eRayGeneration ) )
+			{
+				result |= VK_SHADER_STAGE_RAYGEN_BIT_KHR;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayClosestHit ) )
+			{
+				result |= VK_SHADER_STAGE_CLOSEST_HIT_BIT_KHR;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayAnyHit ) )
+			{
+				result |= VK_SHADER_STAGE_ANY_HIT_BIT_KHR;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayMiss ) )
+			{
+				result |= VK_SHADER_STAGE_MISS_BIT_KHR;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayIntersection ) )
+			{
+				result |= VK_SHADER_STAGE_INTERSECTION_BIT_KHR;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eCallable ) )
+			{
+				result |= VK_SHADER_STAGE_CALLABLE_BIT_KHR;
+			}
+#elif VK_NV_ray_tracing
+			if ( in & uint32_t( ShaderStageFlag::eRayGeneration ) )
+			{
+				result |= VK_SHADER_STAGE_RAYGEN_BIT_NV;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayClosestHit ) )
+			{
+				result |= VK_SHADER_STAGE_CLOSEST_HIT_BIT_NV;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayAnyHit ) )
+			{
+				result |= VK_SHADER_STAGE_ANY_HIT_BIT_NV;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayMiss ) )
+			{
+				result |= VK_SHADER_STAGE_MISS_BIT_NV;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eRayIntersection ) )
+			{
+				result |= VK_SHADER_STAGE_INTERSECTION_BIT_NV;
+			}
+
+			if ( in & uint32_t( ShaderStageFlag::eCallable ) )
+			{
+				result |= VK_SHADER_STAGE_CALLABLE_BIT_NV;
+			}
+#endif
+
 			return result;
 		}
 
@@ -678,13 +764,14 @@ namespace ast::vk
 
 	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
 		, uint32_t spvVersion
-		, Shader const & shader )
-		: m_sources{ createShaderSource( vkVersion, spvVersion, shader ) }
-		, m_specializationInfos{ createSpecializationInfo( shader ) }
-		, m_stages{ createShaderStage( shader ) }
-		, m_data{ createShaderData( shader ) }
-		, m_shaderModules{ createShaderModule( shader ) }
-		, m_pushConstantRanges{ createPushConstantRanges( shader ) }
+		, Shader const & shader
+		, EntryPointConfigArray const & entryPoints )
+		: m_sources{ createShaderSources( vkVersion, spvVersion, shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_specializationInfos{ createSpecializationInfos( shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_stages{ createShaderStages( shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_data{ createShaderData( shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_shaderModules{ createShaderModules( shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_pushConstantRanges{ createPushConstantRanges( shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_descriptorLayouts{ createDescriptorLayouts() }
 		, m_descriptorPoolSizes{ createDescriptorPoolSizes() }
 		, m_descriptorSetsWrites{ createDescriptorSetsWrites() }
@@ -870,15 +957,21 @@ namespace ast::vk
 
 	std::vector< uint32_t > ProgramPipeline::createShaderSource( uint32_t vkVersion
 		, uint32_t spvVersion
-		, Shader const & shader )
+		, Shader const & shader
+		, EntryPointConfig const & entryPoint )
 	{
 		auto size = uint32_t( m_indices.size() );
-		m_stageFlags |= getShaderStage( shader.getType() );
-		m_indices[shader.getType()] = size;
-		m_revIndices[size] = shader.getType();
+		m_stageFlags |= getShaderStage( entryPoint.stage );
+		m_indices[entryPoint.stage] = size;
+		m_revIndices[size] = entryPoint.stage;
 		spirv::SpirVConfig config;
 		spirv::SpirVExtensionSet extensions;
 		config.specVersion = spvVersion;
+
+		if ( config.specVersion >= spirv::v1_6 )
+		{
+			extensions.emplace( spirv::EXT_mesh_shader );
+		}
 
 		if ( config.specVersion >= spirv::v1_5 )
 		{
@@ -896,6 +989,12 @@ namespace ast::vk
 			extensions.emplace( spirv::NV_mesh_shader );
 			extensions.emplace( spirv::EXT_descriptor_indexing );
 			extensions.emplace( spirv::EXT_physical_storage_buffer );
+			extensions.emplace( spirv::KHR_shader_subgroup );
+		}
+
+		if ( config.specVersion >= spirv::v1_2 )
+		{
+			extensions.emplace( spirv::KHR_8bit_storage );
 		}
 
 		if ( config.specVersion >= spirv::v1_1 )
@@ -904,7 +1003,17 @@ namespace ast::vk
 		}
 
 		config.availableExtensions = &extensions;
-		auto result = spirv::serialiseSpirv( shader, config );
+		auto statements = ::ast::selectEntryPoint( shader.getStmtCache()
+			, shader.getExprCache()
+			, entryPoint
+			, shader.getStatements() );
+
+		if ( statements == nullptr )
+		{
+			throw std::runtime_error{ "Shader entry point selection failed." };
+		}
+
+		auto result = spirv::serialiseSpirv( shader, statements.get(), entryPoint.stage, config );
 
 		if ( result.empty() )
 		{
@@ -914,7 +1023,8 @@ namespace ast::vk
 		return result;
 	}
 
-	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )
+	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader
+		, EntryPointConfig const & entryPoint )
 	{
 		SpecializationInfoOpt result{ std::nullopt };
 
@@ -949,32 +1059,37 @@ namespace ast::vk
 		return result;
 	}
 
-	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( Shader const & shader )
+	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( Shader const & shader
+		, EntryPointConfig const & entryPoint )
 	{
-		auto & specInfo = m_specializationInfos[m_indices[shader.getType()]];
+		auto & specInfo = m_specializationInfos[m_indices[entryPoint.stage]];
 		return { 0u
-			, getShaderStage( shader.getType() )
+			, getShaderStage( entryPoint.stage )
 			, nullptr
 			, specInfo };
 	}
 
-	ShaderDataPtr ProgramPipeline::createShaderData( Shader const & shader )
+	ShaderDataPtr ProgramPipeline::createShaderData( Shader const & shader
+		, EntryPointConfig const & entryPoint )
 	{
 		ShaderDataPtr result{ shader.getData()
-			, makeFlag( shader.getType() ) };
+			, getEntryPointType( entryPoint.stage )
+			, makeFlag( entryPoint.stage ) };
 		m_tessellationControlPoints = std::max( m_tessellationControlPoints, result.tessellationControlPoints );
 		return result;
 	}
 
-	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( Shader const & shader )
+	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( Shader const & shader
+		, EntryPointConfig const & entryPoint )
 	{
-		auto & code = m_sources[m_indices[shader.getType()]];
+		auto & code = m_sources[m_indices[entryPoint.stage]];
 		return ShaderModuleCreateInfo{ makeVkStruct< VkShaderModuleCreateInfo >( 0u
 			, code.size() * sizeof( uint32_t )
 			, code.data() ) };
 	}
 
-	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader )
+	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader
+		, EntryPointConfig const & entryPoint )
 	{
 		std::vector< VkPushConstantRange > result;
 		uint32_t size = 0u;
@@ -983,7 +1098,7 @@ namespace ast::vk
 		{
 			auto pcbSize = getSize( pcb.second.getType()
 				, pcb.second.getType()->getMemoryLayout() );
-			result.push_back( { VkShaderStageFlags( getShaderStage( shader.getType() ) )
+			result.push_back( { VkShaderStageFlags( getShaderStage( entryPoint.stage ) )
 				, size
 				, pcbSize } );
 			size += pcbSize;

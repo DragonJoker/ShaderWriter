@@ -1517,8 +1517,8 @@ namespace hlsl
 			? ( isInput ? ast::var::Flag::ePatchInput : ast::var::Flag::ePatchOutput )
 			: ( isInput ? ast::var::Flag::eShaderInput : ast::var::Flag::eShaderOutput ) );
 		auto paramFlag = isInput ? ast::var::Flag::eInputParam : ast::var::Flag::eOutputParam;
-		paramStruct = shader->getTypesCache().getIOStruct( ast::type::MemoryLayout::eC
-			, "HLSL_SDW_" + type + suffix
+		paramStruct = shader->getTypesCache().getIOStruct( "HLSL_SDW_" + infix
+			, getEntryPointType( shader->getType() )
 			, flag );
 		uint64_t flags = flag | paramFlag;
 

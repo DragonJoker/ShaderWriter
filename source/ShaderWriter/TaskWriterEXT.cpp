@@ -38,9 +38,9 @@ namespace sdw
 
 	ast::type::StructPtr TaskIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "TaskInput"
-			, ast::var::Flag::eShaderInput );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eTask
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eWorkGroupID ) )
 		{
@@ -141,7 +141,7 @@ namespace sdw
 	//*************************************************************************
 
 	TaskWriterEXT::TaskWriterEXT( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eTask, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eTask, allocator }
 	{
 	}
 

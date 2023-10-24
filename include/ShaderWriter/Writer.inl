@@ -84,30 +84,31 @@ namespace sdw
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
+		ast::var::VariablePtr funcVar;
+
 		if ( m_shader->hasFunction( name ) )
 		{
-			auto functionType = m_shader->getFunction( name )->getType();
+			funcVar = m_shader->getFunction( name );
+			auto functionType = funcVar->getType();
 
 			if ( functionType->getKind() != ast::type::Kind::eFunction )
 			{
 				throw std::runtime_error{ "A variable named " + name + " already exists and is not a function." };
 			}
-
-			return Function< ReturnT, ParamsT... >{ *this
-				, std::static_pointer_cast< ast::type::Function >( functionType )
-				, std::move( name ) };
+		}
+		else
+		{
+			ast::var::VariableList args;
+			stmt::FunctionDeclPtr decl = getFunctionHeader< ReturnT >( *this, args, name, flag, params... );
+			funcVar = decl->getFuncVar();
+			doPushScope( decl.get(), args );
+			details::doUpdateParams( decl->getType(), params... );
+			function( params... );
+			doPopScope();
+			addGlobalStmt( std::move( decl ) );
 		}
 
-		ast::var::VariableList args;
-		auto decl = getFunctionHeader< ReturnT >( *this, args, name, flag, params... );
-		doPushScope( decl.get(), args );
-		details::doUpdateParams( decl->getType(), params... );
-		function( params... );
-		doPopScope();
-		auto functionType = decl->getType();
-		addGlobalStmt( std::move( decl ) );
-		m_shader->registerFunction( name, functionType );
-		return Function< ReturnT, ParamsT... >{ *this, functionType, std::move( name ) };
+		return Function< ReturnT, ParamsT... >{ *this, std::move( funcVar ) };
 	}
 	/**@}*/
 #pragma endregion
@@ -1174,213 +1175,6 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
-#pragma region Input declaration
-	/**
-	*name
-	*	Input declaration.
-	*/
-	/**@{*/
-	template< typename T >
-	inline T ShaderWriter::declInput( std::string name
-		, uint32_t location
-		, bool enabled )
-	{
-		return declInput< T >( std::move( name )
-			, location
-			, 0u
-			, enabled );
-	}
-
-	template< typename T >
-	inline T ShaderWriter::declInput( std::string name
-		, uint32_t location
-		, uint64_t attributes
-		, bool enabled )
-	{
-		static_assert( !isSameV< T, Boolean >, "Bool is not supported as input type" );
-		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !isSameV< T, Double >, "Double is not supported as input type" );
-		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = T::makeType( getTypesCache() );
-		auto var = registerInput( std::move( name )
-			, location
-			, attributes
-			, type );
-
-		if ( enabled )
-		{
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
-				, location ) );
-		}
-
-		return T{ *this
-			, makeExpr( *this, var )
-			, enabled };
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string name
-		, uint32_t location
-		, uint32_t dimension
-		, bool enabled )
-	{
-		return declInputArray< T >( std::move( name )
-			, location
-			, dimension
-			, 0u
-			, enabled );
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string name
-		, uint32_t location
-		, uint32_t dimension
-		, uint64_t attributes
-		, bool enabled )
-	{
-		static_assert( !isSameV< T, Boolean >, "Bool is not supported as input type" );
-		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !isSameV< T, Double >, "Double is not supported as input type" );
-		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = Array< T >::makeType( getTypesCache()
-			, dimension );
-		auto var = registerInput( std::move( name )
-			, location
-			, attributes
-			, type );
-
-		if ( enabled )
-		{
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
-				, location ) );
-		}
-
-		return Array< T >{ *this
-			, makeExpr( *this, var )
-			, enabled };
-	}
-
-	template< typename T >
-	inline T ShaderWriter::declInput( std::string name
-		, uint32_t location
-		, bool enabled
-		, T const & defaultValue )
-	{
-		return declInput< T >( std::move( name )
-			, location
-			, 0u
-			, enabled
-			, defaultValue );
-	}
-
-	template< typename T >
-	inline T ShaderWriter::declInput( std::string name
-		, uint32_t location
-		, uint64_t attributes
-		, bool enabled
-		, T const & defaultValue )
-	{
-		static_assert( !isSameV< T, Boolean >, "Bool is not supported as input type" );
-		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !isSameV< T, Double >, "Double is not supported as input type" );
-		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = T::makeType( getTypesCache() );
-		var::VariablePtr var;
-
-		if ( enabled )
-		{
-			var = registerInput( std::move( name )
-				, location
-				, attributes
-				, type );
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
-				, location ) );
-		}
-		else
-		{
-			var = registerStaticConstant( std::move( name )
-				, type );
-			addStmt( sdw::makeSimple( getStmtCache()
-				, sdw::makeInit( var
-					, makeConstExpr( *this, defaultValue ) ) ) );
-		}
-
-		return T{ *this
-			, makeExpr( *this, var )
-			, true };
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string name
-		, uint32_t location
-		, uint32_t dimension
-		, bool enabled
-		, std::vector< T > const & defaultValue )
-	{
-		return declInputArray< T >( std::move( name )
-			, location
-			, dimension
-			, 0u
-			, enabled
-			, defaultValue );
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declInputArray( std::string name
-		, uint32_t location
-		, uint32_t dimension
-		, uint64_t attributes
-		, bool enabled
-		, std::vector< T > const & defaultValue )
-	{
-		static_assert( !isSameV< T, Boolean >, "Bool is not supported as input type" );
-		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as input type" );
-		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as input type" );
-		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as input type" );
-		static_assert( !isSameV< T, Double >, "Double is not supported as input type" );
-		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as input type" );
-		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as input type" );
-		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as input type" );
-		auto type = Array< T >::makeType( getTypesCache()
-			, dimension );
-		var::VariablePtr var;
-
-		if ( enabled )
-		{
-			var = registerInput( std::move( name )
-				, location
-				, attributes
-				, type );
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
-				, location ) );
-		}
-		else
-		{
-			var = registerStaticConstant( std::move( name )
-				, type );
-			addStmt( sdw::makeSimple( getStmtCache()
-				, sdw::makeAggrInit( var
-					, makeConstExpr( *this, defaultValue ) ) ) );
-		}
-
-		return Array< T >{ *this
-			, makeExpr( *this, var )
-			, true };
-	}
-	/**@}*/
-#pragma endregion
 #pragma region Shared variables declaration
 	/**
 	*name
@@ -1735,101 +1529,6 @@ namespace sdw
 			, std::move( name )
 			, layout
 			, std::forward< ParamsT >( params )... };
-	}
-	/**@}*/
-#pragma endregion
-#pragma region Output declaration
-	/**
-	*name
-	*	Output declaration.
-	*/
-	/**@{*/
-	template< typename T >
-	inline T ShaderWriter::declOutput( std::string name
-		, uint32_t location
-		, bool enabled )
-	{
-		return declOutput< T >( std::move( name )
-			, location
-			, 0u
-			, enabled );
-	}
-
-	template< typename T >
-	inline T ShaderWriter::declOutput( std::string name
-		, uint32_t location
-		, uint64_t attributes
-		, bool enabled )
-	{
-		static_assert( !isSameV< T, Boolean >, "Bool is not supported as output type" );
-		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !isSameV< T, Double >, "Double is not supported as output type" );
-		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = T::makeType( getTypesCache() );
-		auto var = registerOutput( std::move( name )
-			, location
-			, attributes
-			, type );
-
-		if ( enabled )
-		{
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
-				, location ) );
-		}
-
-		return T{ *this
-			, makeExpr( *this, var )
-			, enabled };
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declOutputArray( std::string name
-		, uint32_t location
-		, uint32_t dimension
-		, bool enabled )
-	{
-		return declOutputArray< T >( std::move( name )
-			, location
-			, dimension
-			, 0u
-			, enabled );
-	}
-
-	template< typename T >
-	inline Array< T > ShaderWriter::declOutputArray( std::string name
-		, uint32_t location
-		, uint32_t dimension
-		, uint64_t attributes
-		, bool enabled )
-	{
-		static_assert( !isSameV< T, Boolean >, "Bool is not supported as output type" );
-		static_assert( !isSameV< T, BVec2 >, "BVec2 is not supported as output type" );
-		static_assert( !isSameV< T, BVec3 >, "BVec3 is not supported as output type" );
-		static_assert( !isSameV< T, BVec4 >, "BVec4 is not supported as output type" );
-		static_assert( !isSameV< T, Double >, "Double is not supported as output type" );
-		static_assert( !isSameV< T, DVec2 >, "DVec2 is not supported as output type" );
-		static_assert( !isSameV< T, DVec3 >, "DVec3 is not supported as output type" );
-		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as output type" );
-		auto type = Array< T >::makeType( getTypesCache()
-			, dimension );
-		auto var = registerOutput( std::move( name )
-			, location
-			, attributes
-			, type );
-
-		if ( enabled )
-		{
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
-				, location ) );
-		}
-
-		return Array< T >{ *this
-			, makeExpr( *this, var )
-			, enabled };
 	}
 	/**@}*/
 #pragma endregion

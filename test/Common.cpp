@@ -371,16 +371,15 @@ namespace test
 		{
 			std::cout << "********************************************************************************" << std::endl;
 			std::cout << "Test suite ended with some failures." << std::endl;
-			std::cout << "Total checks count: " << totalCount << std::endl;
-			std::cout << "Failed checks count: " << errorCount << std::endl;
 		}
 		else
 		{
 			std::cout << "********************************************************************************" << std::endl;
 			std::cout << "Test suite ended cleanly." << std::endl;
-			std::cout << "Total checks count: " << totalCount << std::endl;
 		}
 
+		std::cout << "Total checks count: " << totalCount << std::endl;
+		std::cout << "Failed checks count: " << errorCount << std::endl;
 		std::cout << "Total memory spent: " << totalMemory << " bytes " << endl;
 		tcout.reset();
 	}

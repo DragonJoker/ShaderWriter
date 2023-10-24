@@ -481,11 +481,13 @@ namespace ast::type
 		, MemoryLayout layout
 		, std::string name
 		, var::Flag flag
-		, Kind kind )
+		, Kind kind
+		, EntryPoint entryPoint )
 		: Type{ typesCache, kind }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 		, m_flag{ flag }
+		, m_entryPoint{ entryPoint }
 	{
 	}
 
@@ -869,8 +871,8 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getTypesCache().getIOStruct( type->getMemoryLayout()
-				, type->getName()
+			mbrType = getTypesCache().getIOStruct( type->getName()
+				, type->getEntryPoint()
 				, ast::var::Flag( type->getFlag() ) );
 			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
 				, *this
@@ -878,8 +880,8 @@ namespace ast::type
 		}
 		else
 		{
-			mbrType = getTypesCache().getIOStruct( type->getMemoryLayout()
-				, type->getName()
+			mbrType = getTypesCache().getIOStruct( type->getName()
+				, type->getEntryPoint()
 				, ast::var::Flag( type->getFlag() ) );
 			mbrType = getTypesCache().getMemberType( mbrType
 				, *this
@@ -932,8 +934,9 @@ namespace ast::type
 	IOStruct::IOStruct( TypesCache & typesCache
 		, MemoryLayout layout
 		, std::string name
+		, EntryPoint entryPoint
 		, var::Flag flag )
-		: Struct{ typesCache, layout, std::move( name ), flag }
+		: Struct{ typesCache, layout, std::move( name ), flag, type::Kind::eStruct, entryPoint }
 	{
 	}
 
@@ -1185,10 +1188,12 @@ namespace ast::type
 
 	size_t getHash( MemoryLayout layout
 		, std::string const & name
+		, EntryPoint entryPoint
 		, var::Flag flag )
 	{
 		size_t result = std::hash< std::string >{}( name );
 		result = hashCombine( result, layout );
+		result = hashCombine( result, entryPoint );
 		result = hashCombine( result, flag );
 		return result;
 	}
