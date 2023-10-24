@@ -6,7 +6,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	VertexWriter::VertexWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eVertex, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eVertex, allocator }
 	{
 	}
 

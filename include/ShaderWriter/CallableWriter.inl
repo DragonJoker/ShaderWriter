@@ -18,7 +18,7 @@ namespace sdw
 		, CallableMainFuncT< ValueT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eCallableEntryPoint
 			, function
 			, makeInParam( CallableIn{ *this } )
 			, makeInOutParam( std::move( data ) ) );

@@ -100,7 +100,8 @@ namespace ast::type
 			, MemoryLayout layout
 			, std::string name
 			, var::Flag flag
-			, Kind kind = Kind::eStruct );
+			, Kind kind = Kind::eStruct
+			, EntryPoint entryPoint = EntryPoint::eNone );
 
 	public:
 		SDAST_API Member getMember( uint32_t index )const;
@@ -198,6 +199,11 @@ namespace ast::type
 			return hasFlag( getFlag(), var::Flag::ePerTask );
 		}
 
+		EntryPoint getEntryPoint()const noexcept
+		{
+			return m_entryPoint;
+		}
+
 	protected:
 		std::pair< uint32_t, uint32_t > doLookupMember( std::string_view name
 			, TypePtr type );
@@ -212,6 +218,7 @@ namespace ast::type
 		std::vector< Member > m_members;
 		MemoryLayout m_layout;
 		var::Flag m_flag{};
+		EntryPoint m_entryPoint{};
 	};
 
 	class BaseStruct
@@ -278,6 +285,7 @@ namespace ast::type
 		SDAST_API IOStruct( TypesCache & typesCache
 			, MemoryLayout layout
 			, std::string name
+			, EntryPoint entryPoint
 			, var::Flag flag );
 
 		SDAST_API void declMember( Builtin builtin
@@ -345,6 +353,7 @@ namespace ast::type
 		, std::string const & name );
 	SDAST_API size_t getHash( MemoryLayout layout
 		, std::string const & name
+		, EntryPoint entryPoint
 		, var::Flag flag );
 
 	SDAST_API bool operator==( Struct const & lhs, Struct const & rhs );

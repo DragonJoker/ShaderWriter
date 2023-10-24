@@ -400,7 +400,7 @@ namespace
 		{
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
-			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), {} ), "foo" );
+			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), {} ), "foo" ) );
 			testCounts << "StmtFunctionDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -411,7 +411,7 @@ namespace
 		{
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
-			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" );
+			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" ) );
 			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -422,7 +422,7 @@ namespace
 		{
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
-			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" );
+			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" ) );
 			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
@@ -434,7 +434,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
-			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), {} ), "foo" );
+			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), {} ), "foo" ) );
 			stmt->addStmt( stmtCache.makeReturn( exprCache.makeLiteral( typesCache, 10 ) ) );
 			testCounts << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
 
@@ -447,7 +447,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
-			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" );
+			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" ) );
 			stmt->addStmt( stmtCache.makeReturn(
 				exprCache.makeAdd( typesCache.getInt32(),
 					exprCache.makeIdentifier( typesCache, *( stmt->getType()->begin() + 0u ) ),
@@ -463,7 +463,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
-			auto stmt = stmtCache.makeFunctionDecl( typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" );
+			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" ) );
 			stmt->addStmt( stmtCache.makeReturn(
 				exprCache.makeAdd( typesCache.getInt32(),
 					exprCache.makeIdentifier( typesCache, *( stmt->getType()->begin() + 0u ) ),

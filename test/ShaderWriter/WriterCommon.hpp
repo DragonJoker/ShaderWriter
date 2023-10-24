@@ -3,6 +3,7 @@
 #include "Common.hpp"
 
 #include <ShaderAST/Var/Variable.hpp>
+#include <ShaderAST/Visitors/SelectEntryPoint.hpp>
 #include <ShaderWriter/BaseTypes/Sampler.hpp>
 #include <ShaderWriter/BaseTypes/StorageImage.hpp>
 #include <ShaderWriter/Intrinsics/Intrinsics.hpp>
@@ -1178,9 +1179,17 @@ namespace test
 	};
 
 	SDWTest_API void writeShader( ast::Shader const & shader
+		, ast::EntryPointConfigArray const & entryPoints
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+	SDWTest_API void writeShader( ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
 	SDWTest_API void writeShader( sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+	SDWTest_API void validateShaders( ast::Shader const & shader
+		, ast::EntryPointConfigArray entryPoints
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
 	SDWTest_API void validateShaders( ast::ShaderArray const & shaders
@@ -1190,8 +1199,26 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
 	SDWTest_API void validateShader( ast::Shader const & writer
+		, ast::EntryPointConfig const & entryPoint
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
+	SDWTest_API void validateShader( ast::Shader const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+
+	SDWTest_API void writeProgram( ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+	SDWTest_API void writeProgram( sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+	SDWTest_API void validateProgram( ast::Shader const & shader
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+	SDWTest_API void validateProgram( sdw::ShaderWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
+
 	SDWTest_API void expectError( std::string value
 		, sdw_test::TestCounts & testCounts );
 }

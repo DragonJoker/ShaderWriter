@@ -21,8 +21,11 @@ namespace sdw
 		return debug::displayStatements( stmt );
 	}
 
-	std::string writeDebugPreprocessed( Shader const & shader )
+	std::string writeDebugPreprocessed( Shader const & shader
+		, stmt::Container * stmt
+		, ast::ShaderStage stage )
 	{
+		auto & typesCache = shader.getTypesCache();
 		auto ownAllocator = std::make_unique< ast::ShaderAllocator >();
 		auto allocator = ownAllocator->getBlock();
 		ast::stmt::StmtCache compileStmtCache{ *allocator };
@@ -31,18 +34,25 @@ namespace sdw
 		ssaData.nextVarId = shader.getData().nextVarId;
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
-			, shader.getStatements()
+			, typesCache
+			, stmt
 			, ssaData
 			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		return debug::displayStatements( statements.get() );
+	}
+
+	std::string writeDebugPreprocessed( Shader const & shader )
+	{
+		return writeDebugPreprocessed( shader
+			, shader.getStatements()
+			, shader.getType() );
 	}
 }

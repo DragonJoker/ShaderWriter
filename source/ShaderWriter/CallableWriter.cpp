@@ -28,7 +28,9 @@ namespace sdw
 
 	ast::type::StructPtr CallableIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eCallable
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -46,7 +48,7 @@ namespace sdw
 	//*************************************************************************
 
 	CallableWriter::CallableWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eCallable, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eCallable, allocator }
 	{
 	}
 }

@@ -55,7 +55,7 @@ namespace sdw
 	TessControlPatchRoutineIn::TessControlPatchRoutineIn( ShaderWriter & writer )
 		: TessControlPatchRoutineIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "tesscGlobIn"
+				, sdw::getShader( writer ).registerName( "tesscPatchIn"
 					, makeType( getTypesCache( writer ) )
 					, FlagT ) ) }
 	{
@@ -63,8 +63,8 @@ namespace sdw
 
 	ast::type::StructPtr TessControlPatchRoutineIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "TessControlPatchRoutineIn"
+		auto result = cache.getIOStruct( "SDW_PatchRoutine"
+			, ast::EntryPoint::eNone
 			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::ePatchVerticesIn ) )
@@ -99,8 +99,8 @@ namespace sdw
 
 	ast::type::StructPtr TessControlMainIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "TessControlMainIn"
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eTessellationControl
 			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::ePrimitiveID ) )
@@ -119,7 +119,7 @@ namespace sdw
 	//*************************************************************************
 
 	TessellationControlWriter::TessellationControlWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eTessellationControl, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eTessellationControl, allocator }
 	{
 	}
 }

@@ -64,12 +64,11 @@ namespace sdw
 			return FieldT::template get( *this );
 		}
 
-		static type::IOStructPtr makeIOType( type::TypesCache & cache )
+		static type::IOStructPtr makeIOType( type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-				, std::string( StructNameT.value ) + ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Out" }
-					: std::string{ "In" } )
+			auto result = cache.getIOStruct( std::string( StructNameT.value )
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

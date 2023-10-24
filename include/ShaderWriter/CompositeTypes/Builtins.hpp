@@ -31,14 +31,32 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache );
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
+			, ast::EntryPoint entryPoint );
+	};
+	/**
+	*	Entry point type.
+	*/
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
+	struct EntryTypeT
+		: public DataT< FlagT >
+	{
+		EntryTypeT( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+		
+		template< typename ... ParamsT >
+		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
+			, ParamsT && ... params );
 	};
 	/**
 	*	Holds input patch data for shaders.
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct PatchInT
-		: public DataT< ast::var::Flag::ePatchInput >
+		: public EntryTypeT< ast::EntryPoint::eTessellationEvaluation, ast::var::Flag::ePatchInput, DataT >
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::ePatchInput;
 
@@ -55,7 +73,7 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct PatchOutT
-		: public DataT< ast::var::Flag::ePatchOutput >
+		: public EntryTypeT< ast::EntryPoint::eTessellationControl, ast::var::Flag::ePatchOutput, DataT >
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::ePatchOutput;
 
@@ -70,9 +88,9 @@ namespace sdw
 	/**
 	*	Holds input data for shaders.
 	*/
-	template< template< ast::var::Flag FlagT > typename DataT >
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
 	struct InputT
-		: public DataT< ast::var::Flag::eShaderInput >
+		: public EntryTypeT< EntryPointT, ast::var::Flag::eShaderInput, DataT >
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
@@ -87,9 +105,9 @@ namespace sdw
 	/**
 	*	Holds output data for shaders.
 	*/
-	template< template< ast::var::Flag FlagT > typename DataT >
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
 	struct OutputT
-		: public DataT< ast::var::Flag::eShaderOutput >
+		: public EntryTypeT< EntryPointT, ast::var::Flag::eShaderOutput, DataT >
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderOutput;
 
@@ -104,10 +122,11 @@ namespace sdw
 	/**
 	*	Holds output data for shaders.
 	*/
-	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::var::Flag FlagT >
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
 	struct PerTaskT
-		: public DataT< ast::var::Flag::ePerTask >
+		: public EntryTypeT< EntryPointT, ast::var::Flag::ePerTask, DataT >
 	{
 		PerTaskT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -120,10 +139,11 @@ namespace sdw
 	/**
 	*	Holds output data for shaders.
 	*/
-	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::var::Flag FlagT >
+	template< ast::EntryPoint EntryPointT
+		, ast::var::Flag FlagT
+		, template< ast::var::Flag DataFlagT > typename DataT >
 	struct PerTaskNVT
-		: public DataT< ast::var::Flag::ePerTaskNV >
+		: public EntryTypeT< EntryPointT, ast::var::Flag::ePerTaskNV, DataT >
 	{
 		PerTaskNVT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr

@@ -73,33 +73,39 @@ namespace ast::type
 			} }
 		, m_inputStruct{ [this]( MemoryLayout layout
 				, std::string name
+				, EntryPoint entryPoint
 				, var::Flag flag )
 			{
 				return std::make_shared< IOStruct >( *this
 					, layout
 					, std::move( name )
+					, entryPoint
 					, flag );
 			}
 			, []( MemoryLayout layout
 				, std::string const & name
+				, EntryPoint entryPoint
 				, var::Flag flag )noexcept
 			{
-				return ast::type::getHash( layout, name, flag );
+				return ast::type::getHash( layout, name, entryPoint, flag );
 			} }
 		, m_outputStruct{ [this]( MemoryLayout layout
 				, std::string name
+				, EntryPoint entryPoint
 				, var::Flag flag )
 			{
 				return std::make_shared< IOStruct >( *this
 					, layout
 					, std::move( name )
+					, entryPoint
 					, flag );
 			}
 			, []( MemoryLayout layout
 				, std::string const & name
+				, EntryPoint entryPoint
 				, var::Flag flag )noexcept
 			{
-				return ast::type::getHash( layout, name, flag );
+				return ast::type::getHash( layout, name, entryPoint, flag );
 			} }
 		, m_array{ []( TypePtr type
 				, uint32_t arraySize )
@@ -1036,8 +1042,8 @@ namespace ast::type
 		return m_struct.getType( layout, name );
 	}
 
-	IOStructPtr TypesCache::getIOStruct( MemoryLayout layout
-		, std::string const & name
+	IOStructPtr TypesCache::getIOStruct( std::string name
+		, ast::EntryPoint entryPoint
 		, var::Flag flag )
 	{
 		if ( !hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
@@ -1049,9 +1055,18 @@ namespace ast::type
 			throw std::runtime_error{ "Non I/O structure." };
 		}
 
+		name += getName( entryPoint );
+		name += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
+			? std::string{ "Patch" }
+			: std::string{} );
+		name += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderOutput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
+			? std::string{ "Output" }
+			: ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) )
+				? std::string{ "Input" }
+				: std::string{} ) );
 		return ( hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
-			? m_inputStruct.getType( layout, name, flag )
-			: m_outputStruct.getType( layout, name, flag ) );
+			? m_inputStruct.getType( MemoryLayout::eC, std::move( name ), entryPoint, flag )
+			: m_outputStruct.getType( MemoryLayout::eC, std::move( name ), entryPoint, flag ) );
 	}
 
 	ArrayPtr TypesCache::getArray( TypePtr type

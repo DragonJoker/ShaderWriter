@@ -1693,10 +1693,10 @@ namespace ast::debug
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Domain=" + helpers::getDomainName( stmt->getDomain() )
-				+ ", Partitioning" + helpers::getPartitioningName( stmt->getPartitioning() )
+				+ ", Partitioning=" + helpers::getPartitioningName( stmt->getPartitioning() )
 				+ ", Topology=" + helpers::getTopologyName( stmt->getTopology() )
 				+ ", Ordering=" + helpers::getOrderingName( stmt->getPrimitiveOrdering() )
-				+ ", OutVertices=(" + std::to_string( stmt->getOutputVertices() ) + "]" );
+				+ ", OutVertices=" + std::to_string( stmt->getOutputVertices() ) + "]" );
 			addStatement( "TessControlOutput" );
 		}
 
@@ -1924,10 +1924,10 @@ namespace ast::debug
 				{
 					auto & specType = static_cast< type::TessellationControlOutput const & >( *type );
 					addStatement( "[Domain=" + helpers::getDomainName( specType.getDomain() )
-						+ ", Partitioning" + helpers::getPartitioningName( specType.getPartitioning() )
+						+ ", Partitioning=" + helpers::getPartitioningName( specType.getPartitioning() )
 						+ ", Topology=" + helpers::getTopologyName( specType.getTopology() )
 						+ ", Ordering=" + helpers::getOrderingName( specType.getOrder() )
-						+ ", OutVertices=(" + std::to_string( specType.getOutputVertices() ) + "]" );
+						+ ", OutVertices=" + std::to_string( specType.getOutputVertices() ) + "]" );
 				}
 				break;
 			case ast::type::Kind::eTessellationEvaluationInput:

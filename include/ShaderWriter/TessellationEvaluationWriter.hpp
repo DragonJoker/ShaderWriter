@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_TessellationEvaluationWriter_H___
 #define ___SDW_TessellationEvaluationWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 namespace sdw
 {
 	/**@{*/
@@ -15,9 +15,9 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct TessEvalDataInT
-		: InputT< DataT >
+		: InputT< EntryPoint::eTessellationEvaluation, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< EntryPoint::eTessellationEvaluation, DataT >::FlagT;
 
 		TessEvalDataInT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -107,9 +107,9 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct TessEvalDataOutT
-		: OutputT< DataT >
+		: OutputT< EntryPoint::eTessellationEvaluation, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eTessellationEvaluation, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		explicit TessEvalDataOutT( ShaderWriter & writer
@@ -161,7 +161,7 @@ namespace sdw
 		, TessEvalDataOutT< OutT > ) >;
 
 	class TessellationEvaluationWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit TessellationEvaluationWriter( ShaderAllocator * allocator = nullptr );
@@ -224,7 +224,6 @@ namespace sdw
 			, QuadsTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
-
 	};
 	/**@}*/
 }

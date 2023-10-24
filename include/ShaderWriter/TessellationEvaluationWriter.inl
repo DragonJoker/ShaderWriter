@@ -13,7 +13,7 @@ namespace sdw
 	TessEvalDataInT< DataT >::TessEvalDataInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		: InputT< EntryPoint::eTessellationEvaluation, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 	{
 	}
@@ -23,7 +23,7 @@ namespace sdw
 	ast::type::IOStructPtr TessEvalDataInT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result = InputT< DataT >::makeType( cache
+		ast::type::IOStructPtr result = InputT< EntryPoint::eTessellationEvaluation, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
@@ -133,7 +133,7 @@ namespace sdw
 	TessEvalDataOutT< DataT >::TessEvalDataOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: OutputT< DataT >{ writer, std::move( expr ), enabled }
+		: OutputT< EntryPoint::eTessellationEvaluation, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 	{
 	}
@@ -155,7 +155,7 @@ namespace sdw
 	ast::type::IOStructPtr TessEvalDataOutT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
+		ast::type::IOStructPtr result = OutputT< EntryPoint::eTessellationEvaluation, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
@@ -174,7 +174,7 @@ namespace sdw
 		, TessEvalMainFuncT< InT, MaxPointsT, PatchT, DomainT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( TessEvalListInT< InT, MaxPointsT >{ *this, DomainT, partitioning, ordering } )
@@ -237,7 +237,7 @@ namespace sdw
 		, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( std::move( listIn ) )
@@ -255,7 +255,7 @@ namespace sdw
 		, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( std::move( listIn ) )
@@ -273,7 +273,7 @@ namespace sdw
 		, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( std::move( listIn ) )

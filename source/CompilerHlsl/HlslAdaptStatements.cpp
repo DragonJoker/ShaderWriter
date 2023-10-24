@@ -147,8 +147,11 @@ namespace hlsl
 							++it;
 						}
 
-						auto cont = m_stmtCache.makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
-							, stmt->getName()
+						auto funcVar = stmt->getFuncVar();
+						auto cont = m_stmtCache.makeFunctionDecl( ast::var::makeVariable( stmt->getFuncVar()->getId()
+								, m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
+								, stmt->getName()
+								, stmt->getFuncVar()->getFlags() )
 							, stmt->getFlags() );
 						m_current = cont.get();
 						visitContainerStmt( stmt );
@@ -189,9 +192,11 @@ namespace hlsl
 						m_inOutDeclarations->addStmt( m_adaptationData.writeGlobals( m_stmtCache, m_declaredStructs ) );
 						ast::var::VariableList parameters;
 						auto retType = m_adaptationData.fillParameters( parameters, *m_current );
-						auto mainCont = m_stmtCache.makeFunctionDecl( typesCache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() )
-							, parameters )
-							, stmt->getName()
+						auto funcVar = stmt->getFuncVar();
+						auto mainCont = m_stmtCache.makeFunctionDecl( ast::var::makeVariable( stmt->getFuncVar()->getId()
+								, typesCache.getFunction( ( retType ? retType : stmt->getType()->getReturnType() ), parameters )
+								, stmt->getName()
+								, stmt->getFuncVar()->getFlags() )
 							, stmt->getFlags() );
 						mainCont->addStmt( m_adaptationData.writeLocalesBegin( m_stmtCache ) );
 						mainCont->addStmt( std::move( cont ) );
@@ -507,36 +512,6 @@ namespace hlsl
 			{
 			}
 
-			void writeMain( ast::stmt::FunctionDecl * stmt )
-			{
-				assert( stmt->getType()->getReturnType()->getKind() == ast::type::Kind::eVoid );
-				ast::var::VariableList mainParameters;
-				ast::type::TypePtr mainRetType = m_typesCache.getVoid();
-				auto retType = m_adaptationData.fillParameters( mainParameters, *m_current );
-
-				if ( retType )
-				{
-					mainRetType = retType;
-				}
-
-				auto cont = m_stmtCache.makeFunctionDecl( m_typesCache.getFunction( mainRetType, mainParameters )
-					, stmt->getName()
-					, stmt->getFlags() );
-				cont->addStmt( m_adaptationData.writeLocalesBegin( m_stmtCache ) );
-
-				// Call SDW_main function.
-				cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
-					, m_exprCache.makeIdentifier( m_typesCache
-						, ast::var::makeFunction( ++m_adaptationData.nextVarId
-							, m_typesCache.getFunction( m_typesCache.getVoid(), ast::var::VariableList{} )
-							, "SDW_" + stmt->getName() ) )
-					, ast::expr::ExprList{} ) ) );
-
-				cont->addStmt( m_adaptationData.writeLocalesEnd( m_stmtCache ) );
-
-				m_current->addStmt( std::move( cont ) );
-			}
-
 			ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt )
 			{
 				ast::var::VariableList params;
@@ -558,9 +533,18 @@ namespace hlsl
 					}
 				}
 
-				return m_stmtCache.makeFunctionDecl( m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
-					, stmt->getName()
-					, stmt->getFlags() );
+				auto funcVar = stmt->getFuncVar();
+
+				if ( params.size() != stmt->getType()->size() )
+				{
+					funcVar = ast::var::makeVariable( stmt->getFuncVar()->getId()
+						, m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
+						, stmt->getName()
+						, stmt->getFuncVar()->getFlags() );
+					m_adaptationData.replacedFuncVars.emplace( funcVar->getId(), funcVar );
+				}
+
+				return m_stmtCache.makeFunctionDecl( std::move( funcVar ), stmt->getFlags() );
 			}
 
 			void declareType( ast::type::TypePtr type )

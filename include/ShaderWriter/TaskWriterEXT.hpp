@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_TaskWriterEXT_H___
 #define ___SDW_TaskWriterEXT_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/BaseTypes/TaskPayloadEXT.hpp"
 #include "ShaderWriter/BaseTypes/UInt.hpp"
 #include "ShaderWriter/CompositeTypes/PerPrimitive.hpp"
@@ -25,6 +25,8 @@ namespace sdw
 	struct TaskIn
 		: public StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API TaskIn( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
@@ -120,7 +122,7 @@ namespace sdw
 	/**@}*/
 
 	class TaskWriterEXT
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit TaskWriterEXT( ShaderAllocator * allocator = nullptr );

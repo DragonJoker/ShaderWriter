@@ -188,6 +188,38 @@ namespace spirv
 		}
 	}
 
+	void ExprAdapter::visitFnCallExpr( ast::expr::FnCall * expr )
+	{
+		auto funcVar = expr->getFn()->getVariable();
+		auto it = m_adaptationData.funcVarReplacements.find( funcVar->getId() );
+
+		if ( it != m_adaptationData.funcVarReplacements.end() )
+		{
+			funcVar = it->second;
+		}
+
+		ast::expr::ExprList args;
+
+		for ( auto & arg : expr->getArgList() )
+		{
+			args.emplace_back( doSubmit( arg ) );
+		}
+
+		if ( expr->isMember() )
+		{
+			m_result = m_exprCache.makeMemberFnCall( expr->getType()
+				, m_exprCache.makeIdentifier( m_typesCache, funcVar )
+				, doSubmit( expr->getInstance() )
+				, std::move( args ) );
+		}
+		else
+		{
+			m_result = m_exprCache.makeFnCall( expr->getType()
+				, m_exprCache.makeIdentifier( m_typesCache, funcVar )
+				, std::move( args ) );
+		}
+	}
+
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		TraceFunc;;

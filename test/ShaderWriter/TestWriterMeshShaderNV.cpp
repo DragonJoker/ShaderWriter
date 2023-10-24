@@ -136,12 +136,11 @@ namespace
 
 		SDW_DeclStructInstance( , MyVertexOutT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "VertexOut"
+			auto result = cache.getIOStruct( "VertexOut"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -211,12 +210,11 @@ namespace
 
 			SDW_DeclStructInstance( , PayloadT );
 
-			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+				, ast::EntryPoint entryPoint )
 			{
-				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-					, ( FlagT == sdw::var::Flag::eShaderOutput
-						? std::string{ "Output" }
-						: std::string{ "Input" } ) + "Payload"
+				auto result = cache.getIOStruct( "Payload"
+					, entryPoint
 					, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
 
 				if ( result->empty() )
@@ -708,12 +706,11 @@ namespace
 
 			SDW_DeclStructInstance( , PayloadT );
 
-			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+				, ast::EntryPoint entryPoint )
 			{
-				auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-					, ( FlagT == sdw::var::Flag::eShaderOutput
-						? std::string{ "Output" }
-						: std::string{ "Input" } ) + "Payload"
+				auto result = cache.getIOStruct( "Payload"
+					, entryPoint
 					, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
 
 				if ( result->empty() )
@@ -760,12 +757,11 @@ namespace
 
 		SDW_DeclStructInstance( , PerVertexColourT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PerVertexColour"
+			auto result = cache.getIOStruct( "PerVertexColour"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

@@ -43,6 +43,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CallableWriter.inl
 	${INCLUDE_DIR}/ComputeWriter.hpp
 	${INCLUDE_DIR}/ComputeWriter.inl
+	${INCLUDE_DIR}/EntryPointWriter.hpp
+	${INCLUDE_DIR}/EntryPointWriter.inl
 	${INCLUDE_DIR}/FragmentWriter.hpp
 	${INCLUDE_DIR}/FragmentWriter.inl
 	${INCLUDE_DIR}/GeometryWriter.hpp
@@ -52,12 +54,21 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/MeshWriterEXT.inl
 	${INCLUDE_DIR}/MeshWriterNV.hpp
 	${INCLUDE_DIR}/MeshWriterNV.inl
+	${INCLUDE_DIR}/ModernGraphicsWriter.hpp
+	${INCLUDE_DIR}/ModernGraphicsWriterEXT.hpp
+	${INCLUDE_DIR}/ModernGraphicsWriterEXT.inl
+	${INCLUDE_DIR}/ModernGraphicsWriterNV.hpp
+	${INCLUDE_DIR}/ModernGraphicsWriterNV.inl
+	${INCLUDE_DIR}/PipelineWriter.hpp
+	${INCLUDE_DIR}/PipelineWriter.inl
 	${INCLUDE_DIR}/RayAnyHitWriter.hpp
 	${INCLUDE_DIR}/RayAnyHitWriter.inl
 	${INCLUDE_DIR}/RayClosestHitWriter.hpp
 	${INCLUDE_DIR}/RayClosestHitWriter.inl
 	${INCLUDE_DIR}/RayGenerationWriter.hpp
 	${INCLUDE_DIR}/RayIntersectionWriter.hpp
+	${INCLUDE_DIR}/RayTraceWriter.hpp
+	${INCLUDE_DIR}/RayTraceWriter.inl
 	${INCLUDE_DIR}/RayMissWriter.hpp
 	${INCLUDE_DIR}/RayMissWriter.inl
 	${INCLUDE_DIR}/TaskWriter.hpp
@@ -69,6 +80,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/TessellationControlWriter.inl
 	${INCLUDE_DIR}/TessellationEvaluationWriter.hpp
 	${INCLUDE_DIR}/TessellationEvaluationWriter.inl
+	${INCLUDE_DIR}/TraditionalGraphicsWriter.hpp
+	${INCLUDE_DIR}/TraditionalGraphicsWriter.inl
 	${INCLUDE_DIR}/VertexWriter.hpp
 	${INCLUDE_DIR}/VertexWriter.inl
 	${INCLUDE_DIR}/Writer.hpp
@@ -77,20 +90,26 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/CallableWriter.cpp
 	${SOURCE_DIR}/ComputeWriter.cpp
+	${SOURCE_DIR}/EntryPointWriter.cpp
 	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/GeometryWriter.cpp
 	${SOURCE_DIR}/MeshWriterEXT.cpp
 	${SOURCE_DIR}/MeshWriterNV.cpp
+	${SOURCE_DIR}/ModernGraphicsWriterEXT.cpp
+	${SOURCE_DIR}/ModernGraphicsWriterNV.cpp
+	${SOURCE_DIR}/PipelineWriter.cpp
 	${SOURCE_DIR}/RayAnyHitWriter.cpp
 	${SOURCE_DIR}/RayClosestHitWriter.cpp
 	${SOURCE_DIR}/RayGenerationWriter.cpp
 	${SOURCE_DIR}/RayIntersectionWriter.cpp
 	${SOURCE_DIR}/RayMissWriter.cpp
+	${SOURCE_DIR}/RayTraceWriter.cpp
 	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
 	${SOURCE_DIR}/TaskWriterEXT.cpp
 	${SOURCE_DIR}/TaskWriterNV.cpp
 	${SOURCE_DIR}/TessellationControlWriter.cpp
 	${SOURCE_DIR}/TessellationEvaluationWriter.cpp
+	${SOURCE_DIR}/TraditionalGraphicsWriter.cpp
 	${SOURCE_DIR}/VertexWriter.cpp
 	${SOURCE_DIR}/Writer.cpp
 )

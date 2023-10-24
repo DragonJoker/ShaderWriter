@@ -41,9 +41,9 @@ namespace sdw
 
 	ast::type::StructPtr MeshIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "MeshInput"
-			, ast::var::Flag::eShaderInput );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eMesh
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eWorkGroupID ) )
 		{
@@ -156,7 +156,7 @@ namespace sdw
 	//*************************************************************************
 
 	MeshWriterEXT::MeshWriterEXT( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eMesh, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eMesh, allocator }
 	{
 	}
 

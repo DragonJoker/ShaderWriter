@@ -25,12 +25,11 @@ namespace
 
 		SDW_DeclStructInstance( , ColourT );
 
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache )
+		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Colour"
+			auto result = cache.getIOStruct( "Colour"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -76,12 +75,11 @@ namespace
 
 		SDW_DeclStructInstance( , PositionT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Position"
+			auto result = cache.getIOStruct( "Position"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -151,12 +149,11 @@ namespace
 
 		SDW_DeclStructInstance( , PosNmlTexTanT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PosNmlTexTan"
+			auto result = cache.getIOStruct( "PosNmlTexTan"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -234,12 +231,11 @@ namespace
 
 		SDW_DeclStructInstance( , IOVoxelGeomT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == ast::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "VoxelGeom"
+			auto result = cache.getIOStruct( "VoxelGeom"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -320,12 +316,11 @@ namespace
 
 		SDW_DeclStructInstance( , VoxelIOT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "VoxelData"
+			auto result = cache.getIOStruct( "VoxelData"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -406,12 +401,11 @@ namespace
 			return *this;
 		}
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Surface"
+			auto result = cache.getIOStruct( "Surface"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )
@@ -524,12 +518,11 @@ namespace
 			return *this;
 		}
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eC
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "PNTriPatch"
+			auto result = cache.getIOStruct( "PNTriPatch"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

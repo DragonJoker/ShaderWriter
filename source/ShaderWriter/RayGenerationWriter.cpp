@@ -30,7 +30,9 @@ namespace sdw
 
 	ast::type::StructPtr RayGenerationIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eRayGeneration
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -48,14 +50,14 @@ namespace sdw
 	//*************************************************************************
 
 	RayGenerationWriter::RayGenerationWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eRayGeneration, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eRayGeneration, allocator }
 	{
 	}
 
 	void RayGenerationWriter::implementMain( RayGenerationMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eRayGenerationEntryPoint
 			, function
 			, makeInParam( RayGenerationIn{ *this } ) );
 	}

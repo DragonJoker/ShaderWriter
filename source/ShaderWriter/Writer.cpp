@@ -129,13 +129,19 @@ namespace sdw
 
 	void ShaderWriter::demote()
 	{
-		assert( m_shader->getType() == ast::ShaderStage::eFragment );
+		assert( m_shader->getType() == ast::ShaderStage::eFragment
+			|| m_shader->getType() == ast::ShaderStage::eTraditionalGraphics
+			|| m_shader->getType() == ast::ShaderStage::eModernGraphicsNV
+			|| m_shader->getType() == ast::ShaderStage::eModernGraphics );
 		addStmt( getStmtCache().makeDemote() );
 	}
 
 	void ShaderWriter::terminate()
 	{
-		assert( m_shader->getType() == ast::ShaderStage::eFragment );
+		assert( m_shader->getType() == ast::ShaderStage::eFragment
+			|| m_shader->getType() == ast::ShaderStage::eTraditionalGraphics
+			|| m_shader->getType() == ast::ShaderStage::eModernGraphicsNV
+			|| m_shader->getType() == ast::ShaderStage::eModernGraphics );
 		addStmt( getStmtCache().makeTerminateInvocation() );
 	}
 
@@ -729,22 +735,6 @@ namespace sdw
 		, bool enabled )
 	{
 		return m_shader->registerImage( std::move( name ), type, binding, set, enabled );
-	}
-
-	var::VariablePtr ShaderWriter::registerInput( std::string name
-		, uint32_t location
-		, uint64_t attributes
-		, type::TypePtr type )
-	{
-		return m_shader->registerInput( std::move( name ), location, attributes, type );
-	}
-
-	var::VariablePtr ShaderWriter::registerOutput( std::string name
-		, uint32_t location
-		, uint64_t attributes
-		, type::TypePtr type )
-	{
-		return m_shader->registerOutput( std::move( name ), location, attributes, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerInOut( std::string name

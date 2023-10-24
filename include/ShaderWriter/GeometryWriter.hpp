@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_GeometryWriter_H___
 #define ___SDW_GeometryWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 namespace sdw
 {
 	/**
@@ -17,9 +17,9 @@ namespace sdw
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct GeometryDataT
-		: InputT< DataT >
+		: InputT< EntryPoint::eGeometry, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< EntryPoint::eGeometry, DataT >::FlagT;
 
 		GeometryDataT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -96,9 +96,9 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename DataT
 		, type::OutputLayout LayoutT >
 	struct GeometryOutT
-		: public OutputT< DataT >
+		: public OutputT< EntryPoint::eGeometry, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eGeometry, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		GeometryOutT( ShaderWriter & writer
@@ -139,7 +139,7 @@ namespace sdw
 	using GeometryMainFuncT = std::function< void( GeometryIn, InputArrT, OutStreamT ) >;
 
 	class GeometryWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit GeometryWriter( ShaderAllocator * allocator = nullptr );

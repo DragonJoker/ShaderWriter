@@ -44,7 +44,9 @@ namespace sdw
 
 	ast::type::StructPtr RayIntersectionIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = VoidT< ast::var::Flag::eShaderInput >::makeIOType( cache );
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eRayIntersection
+			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::eLaunchID ) )
 		{
@@ -101,14 +103,14 @@ namespace sdw
 	//*************************************************************************
 
 	RayIntersectionWriter::RayIntersectionWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eRayIntersection, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eRayIntersection, allocator }
 	{
 	}
 
 	void RayIntersectionWriter::implementMain( RayIntersectionMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eRayIntersectionEntryPoint
 			, function
 			, makeInParam( RayIntersectionIn{ *this } ) );
 	}

@@ -22,12 +22,11 @@ namespace
 
 		SDW_DeclStructInstance( , ColourT );
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache )
+		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
 		{
-			auto result = cache.getIOStruct( sdw::type::MemoryLayout::eStd430
-				, ( FlagT == sdw::var::Flag::eShaderOutput
-					? std::string{ "Output" }
-					: std::string{ "Input" } ) + "Colour"
+			auto result = cache.getIOStruct( "Colour"
+				, entryPoint
 				, FlagT );
 
 			if ( result->empty() )

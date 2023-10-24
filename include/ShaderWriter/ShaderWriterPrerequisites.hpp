@@ -295,13 +295,15 @@ namespace sdw
 
 	template< ast::var::Flag FlagT >
 	struct VoidT;
+	template< ast::EntryPoint EntryPointT, ast::var::Flag FlagT, template< ast::var::Flag DataFlagT > typename DataT >
+	struct EntryTypeT;
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct PatchInT;
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct PatchOutT;
-	template< template< ast::var::Flag FlagT > typename DataT >
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
 	struct InputT;
-	template< template< ast::var::Flag FlagT > typename DataT >
+	template< ast::EntryPoint EntryPointT, template< ast::var::Flag FlagT > typename DataT >
 	struct OutputT;
 	template< ast::var::Flag FlagT, typename TypeT >
 	struct RayPayloadBaseT;
@@ -319,8 +321,10 @@ namespace sdw
 	template< typename DataT >
 	using CallableDataT = CallableDataBaseT< ast::var::Flag::eShaderOutput, DataT >;
 
-	using Input = InputT< VoidT >;
-	using Output = OutputT< VoidT >;
+	template< ast::EntryPoint EntryPointT >
+	using Input = InputT< EntryPointT, VoidT >;
+	template< ast::EntryPoint EntryPointT >
+	using Output = OutputT< EntryPointT, VoidT >;
 	using PatchIn = PatchInT< VoidT >;
 	using PatchOut = PatchOutT< VoidT >;
 	/**@}*/

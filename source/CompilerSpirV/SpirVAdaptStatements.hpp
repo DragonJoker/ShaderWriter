@@ -11,15 +11,18 @@ namespace spirv
 {
 	struct AdaptationData
 	{
-		AdaptationData( PreprocContext & pcontext
+		AdaptationData( ast::ShaderAllocatorBlock * alloc
+			, PreprocContext & pcontext
 			, ModuleConfig pconfig )
 			: context{ pcontext }
 			, config{ std::move( pconfig ) }
+			, funcVarReplacements{ alloc }
 		{
 		}
 
 		PreprocContext & context;
 		ModuleConfig config;
+		ast::Map< uint32_t, ast::var::VariablePtr > funcVarReplacements;
 	};
 
 	ast::stmt::ContainerPtr adaptStatements( ast::stmt::StmtCache & stmtCache

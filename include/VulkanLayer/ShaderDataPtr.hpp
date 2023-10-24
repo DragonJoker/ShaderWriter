@@ -35,6 +35,7 @@ namespace ast::vk
 		using InOutMap = std::map< InOutInfo, InOutInfo const * >;
 
 		ShaderDataPtr( ShaderData const & rhs
+			, EntryPoint entryPoint
 			, ShaderStageFlags stages );
 
 		void merge( ShaderDataPtr const & rhs );

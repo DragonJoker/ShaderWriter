@@ -62,18 +62,23 @@ namespace hlsl
 
 	struct FuncNames
 	{
-		std::map< std::string, ast::type::FunctionPtr > imageSizeFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicAddFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicMinFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicMaxFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicAndFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicOrFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicXorFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicExchangeFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageAtomicCompSwapFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageLodFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageLevelsFuncs;
-		std::map< std::string, ast::type::FunctionPtr > imageStoreFuncs;
+		struct Function
+		{
+			ast::type::FunctionPtr type;
+			ast::var::VariablePtr var;
+		};
+		std::map< std::string, Function > imageSizeFuncs;
+		std::map< std::string, Function > imageAtomicAddFuncs;
+		std::map< std::string, Function > imageAtomicMinFuncs;
+		std::map< std::string, Function > imageAtomicMaxFuncs;
+		std::map< std::string, Function > imageAtomicAndFuncs;
+		std::map< std::string, Function > imageAtomicOrFuncs;
+		std::map< std::string, Function > imageAtomicXorFuncs;
+		std::map< std::string, Function > imageAtomicExchangeFuncs;
+		std::map< std::string, Function > imageAtomicCompSwapFuncs;
+		std::map< std::string, Function > imageLodFuncs;
+		std::map< std::string, Function > imageLevelsFuncs;
+		std::map< std::string, Function > imageStoreFuncs;
 	};
 
 	using VarReplacements = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
@@ -496,6 +501,7 @@ namespace hlsl
 		LinkedVars linkedVars;
 		FuncNames funcs;
 		VarReplacements replacedVars;
+		std::map< uint32_t, ast::var::VariablePtr > replacedFuncVars;
 
 		uint32_t aliasId{ 0u };
 		uint32_t nextVarId{ 0u };

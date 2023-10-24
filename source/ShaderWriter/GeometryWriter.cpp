@@ -7,9 +7,9 @@ namespace sdw
 {
 	//*************************************************************************
 
-		GeometryIn::GeometryIn( ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled )
+	GeometryIn::GeometryIn( ShaderWriter & writer
+		, ast::expr::ExprPtr expr
+		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
 		, primitiveID{ this->getMember< Int32 >( ast::Builtin::ePrimitiveIDIn ) }
 		, invocationID{ this->getMember< Int32 >( ast::Builtin::eInvocationID ) }
@@ -27,8 +27,8 @@ namespace sdw
 
 	ast::type::StructPtr GeometryIn::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = cache.getIOStruct( ast::type::MemoryLayout::eC
-			, "GeometryIn"
+		auto result = cache.getIOStruct( "SDW_Main"
+			, ast::EntryPoint::eGeometry
 			, FlagT );
 
 		if ( !result->hasMember( ast::Builtin::ePrimitiveIDIn ) )
@@ -47,7 +47,7 @@ namespace sdw
 	//*************************************************************************
 
 	GeometryWriter::GeometryWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eGeometry, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eGeometry, allocator }
 	{
 	}
 

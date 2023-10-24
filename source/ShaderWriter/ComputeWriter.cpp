@@ -21,7 +21,7 @@ namespace sdw
 	//*********************************************************************************************
 
 	ComputeWriter::ComputeWriter( ShaderAllocator * allocator )
-		: ShaderWriter{ ast::ShaderStage::eCompute, allocator }
+		: EntryPointWriter{ ast::ShaderStage::eCompute, allocator }
 	{
 	}
 

@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_FragmentWriter_H___
 #define ___SDW_FragmentWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 
 namespace sdw
 {
@@ -15,9 +15,9 @@ namespace sdw
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct FragmentInT
-		: public InputT< DataT >
+		: public InputT< EntryPoint::eFragment, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = InputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = InputT< EntryPoint::eFragment, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		FragmentInT( ShaderWriter & writer
@@ -59,9 +59,9 @@ namespace sdw
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	struct FragmentOutT
-		: public OutputT< DataT >
+		: public OutputT< EntryPoint::eFragment, DataT >
 	{
-		static constexpr ast::var::Flag FlagT = OutputT< DataT >::FlagT;
+		static constexpr ast::var::Flag FlagT = OutputT< EntryPoint::eFragment, DataT >::FlagT;
 
 		template< typename ... ParamsT >
 		explicit FragmentOutT( ShaderWriter & writer
@@ -88,7 +88,7 @@ namespace sdw
 	using FragmentMainFuncT = std::function< void( FragmentInT< InT >, FragmentOutT< OutT > ) >;
 
 	class FragmentWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit FragmentWriter( ShaderAllocator * allocator = nullptr );

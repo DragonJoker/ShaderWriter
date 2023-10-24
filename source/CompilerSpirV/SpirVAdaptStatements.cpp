@@ -295,7 +295,13 @@ namespace spirv
 				auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
 				doProcessInOut( stmt->getType(), true );
 				auto save = m_current;
-				auto cont = m_stmtCache.makeFunctionDecl( funcType, stmt->getName(), stmt->getFlags() );
+				auto funcVar = stmt->getFuncVar();
+				funcVar = ast::var::makeVariable( funcVar->getId()
+					, funcType
+					, stmt->getName()
+					, funcVar->getFlags() );
+				m_adaptationData.funcVarReplacements.emplace( funcVar->getId(), funcVar );
+				auto cont = m_stmtCache.makeFunctionDecl( funcVar, stmt->getFlags() );
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 

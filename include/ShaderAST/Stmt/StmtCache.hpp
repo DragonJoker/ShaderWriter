@@ -40,8 +40,8 @@ namespace ast::stmt
 		SDAST_API ElsePtr makeElse();
 		SDAST_API ForPtr makeFor( expr::ExprPtr initExpr, expr::ExprPtr ctrlExpr, expr::ExprPtr incrExpr );
 		SDAST_API FragmentLayoutPtr makeFragmentLayout( type::TypePtr type, FragmentOrigin origin, FragmentCenter center );
-		SDAST_API FunctionDeclPtr makeFunctionDecl( type::FunctionPtr type, std::string name, FunctionFlag flag = {} );
-		SDAST_API FunctionDeclPtr makeFunctionDecl( type::FunctionPtr type, std::string name, uint32_t flags );
+		SDAST_API FunctionDeclPtr makeFunctionDecl( var::VariablePtr funcVar, FunctionFlag flag = {} );
+		SDAST_API FunctionDeclPtr makeFunctionDecl( var::VariablePtr funcVar, uint32_t flags );
 		SDAST_API HitAttributeVariableDeclPtr makeHitAttributeVariableDecl( var::VariablePtr variable );
 		SDAST_API IfPtr makeIf( expr::ExprPtr ctrlExpr );
 		SDAST_API IgnoreIntersectionPtr makeIgnoreIntersection();

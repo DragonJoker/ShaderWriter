@@ -13,7 +13,7 @@ namespace sdw
 	VertexInT< DataT >::VertexInT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: InputT< DataT >{ writer, std::move( expr ), enabled }
+		: InputT< EntryPoint::eVertex, DataT >{ writer, std::move( expr ), enabled }
 		, vertexIndex{ getInt32Member( *this, ast::Builtin::eVertexIndex ) }
 		, instanceIndex{ getInt32Member( *this, ast::Builtin::eInstanceIndex ) }
 		, drawID{ getInt32Member( *this, ast::Builtin::eDrawIndex ) }
@@ -41,7 +41,7 @@ namespace sdw
 	ast::type::IOStructPtr VertexInT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		auto result = InputT< DataT >::makeType( cache
+		auto result = InputT< EntryPoint::eVertex, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 
 		if ( !result->hasMember( ast::Builtin::eVertexIndex ) )
@@ -72,7 +72,7 @@ namespace sdw
 	VertexOutT< DataT >::VertexOutT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: OutputT< DataT >{ writer, std::move( expr ), enabled }
+		: OutputT< EntryPoint::eVertex, DataT >{ writer, std::move( expr ), enabled }
 		, vtx{ writer, *this, FlagT }
 	{
 	}
@@ -96,7 +96,7 @@ namespace sdw
 	ast::type::IOStructPtr VertexOutT< DataT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result = OutputT< DataT >::makeType( cache
+		ast::type::IOStructPtr result = OutputT< EntryPoint::eVertex, DataT >::makeType( cache
 			, std::forward< ParamsT >( params )... );
 		PerVertex::fillType( *result );
 		return result;
@@ -120,7 +120,7 @@ namespace sdw
 		, VertexMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eEntryPoint
+			, ast::stmt::FunctionFlag::eVertexEntryPoint
 			, function
 			, makeInParam( std::move( in ) )
 			, makeOutParam( std::move( out ) ) );

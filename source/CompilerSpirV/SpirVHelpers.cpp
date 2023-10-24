@@ -1818,10 +1818,12 @@ namespace spirv
 			auto inStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Repl"
+				, getEntryPointType( stage )
 				, ast::var::Flag::ePatchInput );
 			auto inBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Builtins"
+				, getEntryPointType( stage )
 				, ast::var::Flag::eShaderInput );
 			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
 				, ast::type::makeTessellationInputPatchType( inStructType
@@ -1876,10 +1878,12 @@ namespace spirv
 			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Repl"
+				, getEntryPointType( stage )
 				, ast::var::Flag( flags ) );
 			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
 				, structType.getName() + "Builtins"
+				, getEntryPointType( stage )
 				, ast::var::Flag::eShaderOutput );
 			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
 				, ast::type::makeTessellationOutputPatchType( outStructType

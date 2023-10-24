@@ -28,45 +28,48 @@ namespace spirv
 
 	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
+		, ast::stmt::Container * stmt
+		, ast::ShaderStage stage
 		, SpirVConfig & spirvConfig )
 	{
+		ast::SSAData ssaData;
+		auto & typesCache = shader.getTypesCache();
+		ssaData.nextVarId = shader.getData().nextVarId;
 		ast::stmt::StmtCache compileStmtCache{ allocator };
 		ast::expr::ExprCache compileExprCache{ allocator };
-		ast::SSAData ssaData;
-		ssaData.nextVarId = shader.getData().nextVarId;
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
-			, shader.getStatements()
+			, typesCache
+			, stmt
 			, ssaData
 			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		ModuleConfig moduleConfig{ &allocator
 			, spirvConfig
-			, shader.getTypesCache()
-			, shader.getType()
+			, typesCache
+			, stage
 			, ssaData.nextVarId
 			, ssaData.aliasId };
 		spirv::fillConfig( statements.get()
 			, moduleConfig );
 		spirv::PreprocContext context;
-		AdaptationData adaptationData{ context, std::move( moduleConfig ) };
+		AdaptationData adaptationData{ &allocator, context, std::move( moduleConfig ) };
 		statements = spirv::adaptStatements( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get()
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		auto actions = listActions( statements.get() );
 		glsl::Statements debug;
@@ -74,7 +77,7 @@ namespace spirv
 
 		if ( spirvConfig.debugLevel == DebugLevel::eDebugInfo )
 		{
-			auto intrinsicsConfig = glsl::fillConfig( shader.getType()
+			auto intrinsicsConfig = glsl::fillConfig( stage
 				, statements.get() );
 
 			if ( intrinsicsConfig.requiresInt8 )
@@ -92,7 +95,7 @@ namespace spirv
 				intrinsicsConfig.requiredExtensions.insert( glsl::ARB_gpu_shader_int64 );
 			}
 
-			stmtConfig = glsl::StmtConfig{ shader.getType()
+			stmtConfig = glsl::StmtConfig{ stage
 				, glsl::v4_6
 				, intrinsicsConfig.requiredExtensions
 				, true
@@ -108,15 +111,26 @@ namespace spirv
 		}
 
 		return generateModule( compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get()
-			, shader.getType()
+			, stage
 			, adaptationData.config
 			, std::move( context )
 			, spirvConfig
 			, stmtConfig
 			, std::move( actions )
 			, std::move( debug ) );
+	}
+
+	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
+		, SpirVConfig & spirvConfig )
+	{
+		return compileSpirV( allocator
+			, shader
+			, shader.getStatements()
+			, shader.getType()
+			, spirvConfig );
 	}
 
 	std::string writeModule( Module const & module
@@ -154,6 +168,8 @@ namespace spirv
 	}
 
 	std::string writeSpirv( ast::Shader const & shader
+		, ast::stmt::Container * statements
+		, ast::ShaderStage stage
 		, SpirVConfig & config
 		, bool writeHeader )
 	{
@@ -163,8 +179,42 @@ namespace spirv
 
 		try
 		{
-			auto module = compileSpirV( *allocator, shader, config );
+			auto module = compileSpirV( *allocator, shader, statements, stage, config );
 			result = Module::write( *module, writeHeader );
+		}
+		catch ( std::exception & exc )
+		{
+			std::cerr << exc.what() << std::endl;
+		}
+
+		return result;
+	}
+
+	std::string writeSpirv( ast::Shader const & shader
+		, SpirVConfig & config
+		, bool writeHeader )
+	{
+		return writeSpirv( shader
+			, shader.getStatements()
+			, shader.getType()
+			, config
+			, writeHeader );
+	}
+
+	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+		, ast::stmt::Container * statements
+		, ast::ShaderStage stage
+		, SpirVConfig & config )
+	{
+		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
+		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
+		std::vector< uint32_t > result;
+
+		try
+		{
+			auto module = compileSpirV( *allocator, shader, statements, stage, config );
+			auto spirv = Module::serialize( *module );
+			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
 		catch ( std::exception & exc )
 		{
@@ -177,22 +227,10 @@ namespace spirv
 	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
 		, SpirVConfig & config )
 	{
-		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
-		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
-		std::vector< uint32_t > result;
-
-		try
-		{
-			auto module = compileSpirV( *allocator, shader, config );
-			auto spirv = Module::serialize( *module );
-			result.insert( result.end(), spirv.begin(), spirv.end() );
-		}
-		catch ( std::exception & exc )
-		{
-			std::cerr << exc.what() << std::endl;
-		}
-
-		return result;
+		return serialiseSpirv( shader
+			, shader.getStatements()
+			, shader.getType()
+			, config );
 	}
 
 	std::string displaySpirv( ast::ShaderAllocatorBlock & allocator

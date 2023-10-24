@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_RayIntersectionWriter_H___
 #define ___SDW_RayIntersectionWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/MatTypes/Mat4x3.hpp"
 #include "ShaderWriter/MatTypes/Mat3x4.hpp"
 
@@ -21,6 +21,8 @@ namespace sdw
 	struct RayIntersectionIn
 		: StructInstance
 	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
 		SDW_API explicit RayIntersectionIn( ShaderWriter & writer );
 		SDW_API RayIntersectionIn( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -74,7 +76,7 @@ namespace sdw
 	using RayIntersectionMainFunc = std::function< void( RayIntersectionIn ) >;
 
 	class RayIntersectionWriter
-		: public ShaderWriter
+		: public EntryPointWriter
 	{
 	public:
 		SDW_API explicit RayIntersectionWriter( ShaderAllocator * allocator = nullptr );

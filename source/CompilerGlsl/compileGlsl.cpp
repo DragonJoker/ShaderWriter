@@ -17,14 +17,17 @@ See LICENSE file in root folder
 namespace glsl
 {
 	std::string compileGlsl( ast::Shader const & shader
+		, ast::stmt::Container * stmt
+		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig & config )
 	{
-		config.shaderStage = shader.getType();
 		ast::SSAData ssaData;
 		ssaData.nextVarId = shader.getData().nextVarId;
-		auto intrinsics = glsl::fillConfig( shader.getType()
-			, shader.getStatements() );
+		auto & typesCache = shader.getTypesCache();
+		config.shaderStage = stage;
+		auto intrinsics = glsl::fillConfig( stage
+			, stmt );
 		glsl::checkConfig( config, intrinsics );
 
 		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
@@ -33,37 +36,48 @@ namespace glsl
 		ast::expr::ExprCache compileExprCache{ *allocator };
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
-			, shader.getStatements()
+			, typesCache
+			, stmt
 			, ssaData
 			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
-		glsl::AdaptationData adaptationData{ shader.getType()
+		glsl::AdaptationData adaptationData{ stage
 			, config
-			, std::move( intrinsics )
+			, intrinsics
 			, ssaData.nextVarId };
 		statements = adaptStatements( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get()
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get() );
 		statements = ast::specialiseStatements( compileStmtCache
 			, compileExprCache
-			, shader.getTypesCache()
+			, typesCache
 			, statements.get()
 			, specialisation );
-		return glsl::generateGlslStatements( config, intrinsics, statements.get() ).source;
+		return glsl::generateGlslStatements( config, std::move( intrinsics ), statements.get() ).source;
+	}
+	
+	std::string compileGlsl( ast::Shader const & shader
+		, ast::SpecialisationInfo const & specialisation
+		, GlslConfig & config )
+	{
+		return compileGlsl( shader
+			, shader.getStatements()
+			, shader.getType()
+			, specialisation
+			, config );
 	}
 }

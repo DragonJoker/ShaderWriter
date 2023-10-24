@@ -137,7 +137,7 @@ namespace ast
 		return *it;
 	}
 
-	void Shader::registerFunction( std::string name
+	var::VariablePtr Shader::registerFunction( std::string name
 		, type::FunctionPtr type )
 	{
 		auto it = findVariable( m_blocks.front().registered, name );
@@ -150,9 +150,9 @@ namespace ast
 			throw std::runtime_error{ text };
 		}
 
-		m_blocks.front().registered.emplace( ast::var::makeFunction( ++m_data.nextVarId
+		return *m_blocks.front().registered.emplace( ast::var::makeFunction( ++m_data.nextVarId
 			, std::move( type )
-			, std::move( name ) ) );
+			, std::move( name ) ) ).first;
 	}
 
 	bool Shader::hasVariable( std::string_view name )const
@@ -436,21 +436,23 @@ namespace ast
 		return result;
 	}
 
-	var::VariablePtr Shader::registerInput( std::string name
+	var::VariablePtr Shader::registerInput( EntryPoint entryPoint
+		, std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		auto it = std::find_if( m_data.inputs.begin()
-			, m_data.inputs.end()
+		auto & inputs = m_data.inputs.emplace( entryPoint, ShaderData::InputMap{} ).first->second;
+		auto it = std::find_if( inputs.begin()
+			, inputs.end()
 			, [&location]( std::map< std::string, InputInfo >::value_type const & lookup )
 			{
 				return lookup.second.location == location;
 			} );
 
-		if ( m_data.inputs.end() == it )
+		if ( inputs.end() == it )
 		{
-			m_data.inputs.emplace( name, InputInfo{ { type, location } } );
+			inputs.emplace( name, InputInfo{ { type, location } } );
 		}
 
 		if ( hasVar( name ) )
@@ -475,21 +477,23 @@ namespace ast
 		return result;
 	}
 
-	var::VariablePtr Shader::registerOutput( std::string name
+	var::VariablePtr Shader::registerOutput( EntryPoint entryPoint
+		, std::string name
 		, uint32_t location
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		auto it = std::find_if( m_data.outputs.begin()
-			, m_data.outputs.end()
+		auto & outputs = m_data.outputs.emplace( entryPoint, ShaderData::OutputMap{} ).first->second;
+		auto it = std::find_if( outputs.begin()
+			, outputs.end()
 			, [&location]( std::map< std::string, OutputInfo >::value_type const & lookup )
 			{
 				return lookup.second.location == location;
 			} );
 
-		if ( m_data.outputs.end() == it )
+		if ( outputs.end() == it )
 		{
-			m_data.outputs.emplace( name, OutputInfo{ { type, location } } );
+			outputs.emplace( name, OutputInfo{ { type, location } } );
 		}
 
 		if ( hasVar( name ) )

@@ -8,6 +8,8 @@ See LICENSE file in root folder
 #include "PipelineShaderStageCreateInfo.hpp"
 #include "ShaderDataPtr.hpp"
 
+#include <ShaderAST/Visitors/SelectEntryPoint.hpp>
+
 #include <algorithm>
 #include <array>
 
@@ -27,7 +29,8 @@ namespace ast::vk
 			, ShaderArray const & shaders );
 		ProgramPipeline( uint32_t vkVersion
 			, uint32_t spvVersion
-			, Shader const & shader );
+			, Shader const & shader
+			, EntryPointConfigArray const & entryPoints );
 		/**
 		*\return
 		*	Pre-filled array of ast::vk:SpecializationInfo.
@@ -201,13 +204,19 @@ namespace ast::vk
 	private:
 		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
 			, uint32_t spvVersion
-			, Shader const & shader );
+			, Shader const & shader
+			, EntryPointConfig const & entryPoint );
+		SpecializationInfoOpt createSpecializationInfo( Shader const & shader
+			, EntryPointConfig const & entryPoint );
+		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader
+			, EntryPointConfig const & entryPoint );
+		ShaderDataPtr createShaderData( Shader const & shader
+			, EntryPointConfig const & entryPoint );
+		ShaderModuleCreateInfo createShaderModule( Shader const & shader
+			, EntryPointConfig const & entryPoint );
+		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader
+			, EntryPointConfig const & entryPoint );
 
-		SpecializationInfoOpt createSpecializationInfo( Shader const & shader );
-		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader );
-		ShaderDataPtr createShaderData( Shader const & shader );
-		ShaderModuleCreateInfo createShaderModule( Shader const & shader );
-		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader );
 		std::vector< DescriptorSetLayoutCreateInfo > createDescriptorLayouts();
 		std::vector< VkDescriptorPoolSize > createDescriptorPoolSizes();
 		std::vector< WriteDescriptorSetArray > createDescriptorSetsWrites();
@@ -218,11 +227,67 @@ namespace ast::vk
 		bool checkVertexInputState( VkPipelineVertexInputStateCreateInfo const & state )const;
 		bool checkSpecializationInfos( std::vector< VkSpecializationInfoOpt > const & infos )const;
 
+		Shader const & getShader( Shader const & shader )
+		{
+			return shader;
+		}
+
+		Shader const & getShader( ShaderRef const & shader )
+		{
+			return shader;
+		}
+
+		Shader const & getShader( ShaderPtr const & shader )
+		{
+			return *shader;
+		}
+
+		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
+			, uint32_t spvVersion
+			, Shader const & shader )
+		{
+			return createShaderSource( vkVersion
+				, spvVersion
+				, shader
+				, { shader.getType(), "main" } );
+		}
+		SpecializationInfoOpt createSpecializationInfo( Shader const & shader )
+		{
+			return createSpecializationInfo( shader
+				, { shader.getType(), "main" } );
+		}
+
+		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader )
+		{
+			return createShaderStage( shader
+				, { shader.getType(), "main" } );
+		}
+
+		ShaderDataPtr createShaderData( Shader const & shader )
+		{
+			return createShaderData( shader
+				, { shader.getType(), "main" } );
+		}
+
+		ShaderModuleCreateInfo createShaderModule( Shader const & shader )
+		{
+			return createShaderModule( shader
+				, { shader.getType(), "main" } );
+		}
+
+		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader )
+		{
+			return createPushConstantRanges( shader
+				, { shader.getType(), "main" } );
+		}
+
 		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
 			, uint32_t spvVersion
 			, ShaderPtr const & shader )
 		{
-			return createShaderSource( vkVersion, spvVersion, *shader );
+			return createShaderSource( vkVersion
+				, spvVersion
+				, *shader );
 		}
 
 		SpecializationInfoOpt createSpecializationInfo( ShaderPtr const & shader )
@@ -260,7 +325,9 @@ namespace ast::vk
 
 			while ( begin != end )
 			{
-				auto spirv = createShaderSource( vkVersion, spvVersion, *begin );
+				auto spirv = createShaderSource( vkVersion
+					, spvVersion
+					, *begin );
 
 				if ( spirv.empty() )
 				{
@@ -300,21 +367,6 @@ namespace ast::vk
 			}
 
 			return result;
-		}
-
-		Shader const & getShader( Shader const & shader )
-		{
-			return shader;
-		}
-
-		Shader const & getShader( ShaderRef const & shader )
-		{
-			return shader;
-		}
-
-		Shader const & getShader( ShaderPtr const & shader )
-		{
-			return *shader;
 		}
 
 		template< typename ShaderItT >
@@ -369,6 +421,124 @@ namespace ast::vk
 			while ( begin != end )
 			{
 				auto ranges = createPushConstantRanges( *begin );
+				result.insert( result.end()
+					, ranges.begin()
+					, ranges.end() );
+				++begin;
+			}
+
+			return result;
+		}
+
+		std::vector< std::vector< uint32_t > > createShaderSources( uint32_t vkVersion
+			, uint32_t spvVersion
+			, Shader const & shader
+			, EntryPointConfigArray::const_iterator begin
+			, EntryPointConfigArray::const_iterator end )
+		{
+			std::vector< std::vector< uint32_t > > result;
+
+			while ( begin != end )
+			{
+				auto spirv = createShaderSource( vkVersion, spvVersion, shader, *begin );
+
+				if ( spirv.empty() )
+				{
+					throw std::runtime_error{ "Shader serialization failed." };
+				}
+
+				result.push_back( std::move( spirv ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		std::vector< SpecializationInfoOpt > createSpecializationInfos( Shader const & shader
+			, EntryPointConfigArray::const_iterator begin
+			, EntryPointConfigArray::const_iterator end )
+		{
+			std::vector< SpecializationInfoOpt > result;
+
+			while ( begin != end )
+			{
+				result.emplace_back( createSpecializationInfo( shader, *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		std::vector< PipelineShaderStageCreateInfo > createShaderStages( Shader const & shader
+			, EntryPointConfigArray::const_iterator begin
+			, EntryPointConfigArray::const_iterator end )
+		{
+			PipelineShaderStageArray result;
+
+			while ( begin != end )
+			{
+				result.push_back( createShaderStage( shader, *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		ShaderDataPtr createShaderData( Shader const & shader
+			, EntryPointConfigArray::const_iterator begin
+			, EntryPointConfigArray::const_iterator end )
+		{
+			// Make sure Vertex shader stage is the first one.
+			std::vector< EntryPointConfig const * > sorted;
+			sorted.reserve( size_t( std::distance( begin, end ) ) );
+
+			while ( begin != end )
+			{
+				sorted.push_back( &( *begin ) );
+				++begin;
+			}
+
+			std::sort( sorted.begin()
+				, sorted.end()
+				, []( EntryPointConfig const * lhs, EntryPointConfig const * rhs )
+				{
+					return lhs->stage < rhs->stage;
+				} );
+			ShaderDataPtr result{ createShaderData( shader, *sorted.front() ) };
+
+			for ( auto it = std::next( sorted.begin() ); it != sorted.end(); ++it )
+			{
+				ShaderDataPtr rhsData{ createShaderData( shader, **it ) };
+				result.merge( rhsData );
+			}
+
+			return result;
+		}
+
+		std::vector< ShaderModuleCreateInfo > createShaderModules( Shader const & shader
+			, EntryPointConfigArray::const_iterator begin
+			, EntryPointConfigArray::const_iterator end )
+		{
+			std::vector< ShaderModuleCreateInfo > result;
+
+			while ( begin != end )
+			{
+				result.emplace_back( createShaderModule( shader, *begin ) );
+				++begin;
+			}
+
+			return result;
+		}
+
+		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader
+			, EntryPointConfigArray::const_iterator begin
+			, EntryPointConfigArray::const_iterator end )
+		{
+			std::vector< VkPushConstantRange > result;
+
+			while ( begin != end )
+			{
+				auto ranges = createPushConstantRanges( shader, *begin );
 				result.insert( result.end()
 					, ranges.begin()
 					, ranges.end() );

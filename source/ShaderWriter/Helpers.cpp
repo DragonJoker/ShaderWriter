@@ -104,6 +104,19 @@ namespace sdw
 		return ++shader.getData().nextVarId;
 	}
 
+	ast::var::VariablePtr registerFunction( ShaderWriter & writer
+		, ast::type::FunctionPtr type
+		, std::string name )
+	{
+		return writer.getShader().registerFunction( std::move( name ), std::move( type ) );
+	}
+
+	ast::var::VariablePtr getFunction( ShaderWriter & writer
+		, std::string name )
+	{
+		return writer.getShader().getFunction( std::move( name ) );
+	}
+
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer )
 	{
 		return writer.getStmtCache();
@@ -916,7 +929,7 @@ namespace sdw
 		return stmtCache.makeReturn();
 	}
 
-	stmt::StmtPtr makeVariableDecl( stmt::StmtCache & stmtCache
+	stmt::VariableDeclPtr makeVariableDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr var )
 	{
 		return stmtCache.makeVariableDecl( std::move( var ) );
@@ -1045,11 +1058,9 @@ namespace sdw
 	}
 
 	stmt::ContainerPtr makeFunctionDecl( stmt::StmtCache & stmtCache
-		, type::FunctionPtr type
-		, std::string name )
+		, var::VariablePtr funcVar )
 	{
-		return stmtCache.makeFunctionDecl( std::move( type )
-			, std::move( name ) );
+		return stmtCache.makeFunctionDecl( std::move( funcVar ) );
 	}
 
 	stmt::StmtPtr makeDispatchMesh( stmt::StmtCache & stmtCache
