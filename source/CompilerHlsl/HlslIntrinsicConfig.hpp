@@ -634,6 +634,8 @@ namespace hlsl
 		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3D:
 		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4D:
 		case ast::expr::Intrinsic::eSubgroupBallot:
+		case ast::expr::Intrinsic::eSubgroupBallotBitCount:
+		case ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount:
 		case ast::expr::Intrinsic::eSubgroupAdd1F:
 		case ast::expr::Intrinsic::eSubgroupAdd2F:
 		case ast::expr::Intrinsic::eSubgroupAdd3F:
@@ -1009,9 +1011,7 @@ namespace hlsl
 
 		case ast::expr::Intrinsic::eSubgroupInverseBallot:
 		case ast::expr::Intrinsic::eSubgroupBallotBitExtract:
-		case ast::expr::Intrinsic::eSubgroupBallotBitCount:
 		case ast::expr::Intrinsic::eSubgroupBallotInclusiveBitCount:
-		case ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount:
 		case ast::expr::Intrinsic::eSubgroupBallotFindLSB:
 		case ast::expr::Intrinsic::eSubgroupBallotFindMSB:
 		case ast::expr::Intrinsic::eSubgroupShuffle1F:

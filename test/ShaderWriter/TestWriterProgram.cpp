@@ -1,8 +1,11 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
+#define SDW_PreferredMeshShadingExtension SDW_MeshShadingNV
+
 #include <ShaderWriter/ModernGraphicsWriterEXT.hpp>
 #include <ShaderWriter/ModernGraphicsWriterNV.hpp>
+#include <ShaderWriter/ModernGraphicsWriter.hpp>
 #include <ShaderWriter/RayTraceWriter.hpp>
 #include <ShaderWriter/TraditionalGraphicsWriter.hpp>
 #include <ShaderWriter/CompositeTypes/IOStructHelper.hpp>
@@ -14,110 +17,29 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
 #define RayTraceCompilers Compilers_NoHLSL
-#define MeshEXTCompilers Compilers_NoGLSL
+#define MeshEXTCompilers Compilers_SPIRV
 
 namespace
 {
 	static uint32_t const ThreadsPerWave = 32u;
 
 	template< sdw::var::Flag FlagT >
+	using ColourTStructT = sdw::IOStructInstanceHelperT< FlagT
+		, "Colour"
+		, sdw::IOVec4Field< "colour", 0u > >;
+
+	template< sdw::var::Flag FlagT >
 	struct ColourT
-		: sdw::StructInstance
+		: public ColourTStructT< FlagT >
 	{
 		ColourT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, colour{ getMember< sdw::Vec4 >( "colour" ) }
+			: ColourTStructT< FlagT >{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , ColourT );
-
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
-			, ast::EntryPoint entryPoint )
-		{
-			auto result = cache.getIOStruct( "Colour"
-				, entryPoint
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				result->declMember( "colour"
-					, ast::type::Kind::eVec4F
-					, ast::type::NotArray
-					, 0u );
-			}
-
-			return result;
-		}
-
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eC
-				, "Colour" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "colour"
-					, ast::type::Kind::eVec4F
-					, ast::type::NotArray );
-			}
-
-			return result;
-		}
-
-		sdw::Vec4 colour;
-	};
-
-	template< sdw::var::Flag FlagT >
-	struct PositionT
-		: sdw::StructInstance
-	{
-		PositionT( sdw::ShaderWriter & writer
-			, sdw::expr::ExprPtr expr
-			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, position{ getMember< sdw::Vec4 >( "position" ) }
-		{
-		}
-
-		SDW_DeclStructInstance( , PositionT );
-
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
-			, ast::EntryPoint entryPoint )
-		{
-			auto result = cache.getIOStruct( "Position"
-				, entryPoint
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				result->declMember( "position"
-					, sdw::type::Kind::eVec4F
-					, sdw::type::NotArray
-					, 0u );
-			}
-
-			return result;
-		}
-
-		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
-				, "Position" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "position"
-					, sdw::type::Kind::eVec4F
-					, sdw::type::NotArray );
-			}
-
-			return result;
-		}
-
-		sdw::Vec4 position;
+		auto colour()const { return this->template getMember< "colour" >(); }
 	};
 
 	template< sdw::var::Flag FlagT >
@@ -134,6 +56,23 @@ namespace
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
+		{
+		}
+
+		auto position()const { return this->template getMember< "position" >(); }
+		auto colour()const { return this->template getMember< "colour" >(); }
+	};
+
+	struct PosCol
+		: public sdw::StructInstanceHelperT< "PosCol"
+			, sdw::type::MemoryLayout::eStd430
+			, sdw::Vec4Field< "position" >
+			, sdw::Vec4Field< "colour" > >
+	{
+		PosCol( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: StructInstanceHelperT{ writer, std::move( expr ), enabled }
 		{
 		}
 
@@ -620,7 +559,7 @@ namespace
 			, worldViewProj{ getMember< sdw::Mat4 >( "worldViewProj" ) }
 			, view{ getMember< sdw::Mat4 >( "view" ) }
 			, viewProj{ getMember< sdw::Mat4 >( "viewProj" ) }
-			, planes{ getMemberArray< sdw::Vec4 >( "planes" ) }
+			, cullPlanes{ getMemberArray< sdw::Vec4 >( "cullPlanes" ) }
 			, viewPosition{ getMember< sdw::Vec3 >( "viewPosition" ) }
 			, highlightedIndex{ getMember< sdw::UInt >( "highlightedIndex" ) }
 			, cullViewPosition{ getMember< sdw::Vec3 >( "cullViewPosition" ) }
@@ -653,7 +592,7 @@ namespace
 				result->declMember( "viewProj"
 					, sdw::type::Kind::eMat4x4F
 					, sdw::type::NotArray );
-				result->declMember( "planes"
+				result->declMember( "cullPlanes"
 					, sdw::type::Kind::eVec4F
 					, 6u );
 				result->declMember( "viewPosition"
@@ -681,7 +620,7 @@ namespace
 		sdw::Mat4 worldViewProj;
 		sdw::Mat4 view;
 		sdw::Mat4 viewProj;
-		sdw::Array< sdw::Vec4 > planes;
+		sdw::Array< sdw::Vec4 > cullPlanes;
 		sdw::Vec3 viewPosition;
 		sdw::UInt highlightedIndex;
 		sdw::Vec3 cullViewPosition;
@@ -823,65 +762,33 @@ namespace
 	};
 
 	struct TriIndex
-		: public sdw::StructInstance
+		: public sdw::StructInstanceHelperT< "TriIndex"
+		, sdw::type::MemoryLayout::eStd430
+		, sdw::U32Vec3Field< "index" > >
 	{
 		TriIndex( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, index{ getMember< sdw::U8Vec3 >( "index" ) }
+			: StructInstanceHelperT{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , TriIndex );
-
-		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-				, "TriIndex" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "index"
-					, sdw::type::Kind::eVec3U8
-					, sdw::type::NotArray );
-			}
-
-			return result;
-		}
-
-		sdw::U8Vec3 index;
+		auto index()const { return getMember< "index" >(); }
 	};
 
 	struct VtxIndex
-		: public sdw::StructInstance
+		: public sdw::StructInstanceHelperT< "VtxIndex"
+			, sdw::type::MemoryLayout::eStd430
+			, sdw::UIntField< "index" > >
 	{
 		VtxIndex( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, index{ getMember< sdw::UInt >( "index" ) }
+			: StructInstanceHelperT{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , VtxIndex );
-
-		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-				, "VtxIndex" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "index"
-					, sdw::type::Kind::eUInt
-					, sdw::type::NotArray );
-			}
-
-			return result;
-		}
-
-		sdw::UInt index;
+		auto index()const { return getMember< "index" >(); }
 	};
 
 	struct Index
@@ -1036,53 +943,22 @@ namespace
 	};
 
 	template< sdw::var::Flag FlagT >
+	using PayloadStructT = sdw::IOStructInstanceHelperT< FlagT
+		, "Payload"
+		, sdw::IOUIntArrayField< "meshletIndices", ast::type::Struct::InvalidLocation, ThreadsPerWave > >;
+
+	template< sdw::var::Flag FlagT >
 	struct PayloadT
-		: public sdw::StructInstance
+		: public PayloadStructT< FlagT >
 	{
 		PayloadT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, meshletIndices{ getMemberArray< sdw::UInt >( "meshletIndices" ) }
+			: PayloadStructT< FlagT >{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , PayloadT );
-
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
-			, ast::EntryPoint entryPoint )
-		{
-			auto result = cache.getIOStruct( "Payload"
-				, entryPoint
-				, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
-
-			if ( result->empty() )
-			{
-				result->declMember( "meshletIndices"
-					, sdw::type::Kind::eUInt
-					, ThreadsPerWave
-					, ast::type::Struct::InvalidLocation );
-			}
-
-			return result;
-		}
-
-		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-				, "Payload" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "meshletIndices"
-					, sdw::type::Kind::eUInt
-					, ThreadsPerWave );
-			}
-
-			return result;
-		}
-
-		sdw::Array< sdw::UInt > meshletIndices;
+		auto meshletIndices()const { return this->template getMember< "meshletIndices" >(); }
 	};
 
 	void basicPipeline( test::sdw_test::TestCounts & testCounts )
@@ -1090,26 +966,23 @@ namespace
 		testBegin( "basicPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
+		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
+		auto mvp = myUbo.declMember< sdw::Mat4 >( "mvp" );
+		myUbo.end();
+
 		// Vertex Shader
-		writer.implementEntryPointT< PosColT, PosColT >( [&]( sdw::VertexInT< PosColT > in
-			, sdw::VertexOutT< PosColT > out )
+		writer.implementEntryPointT< PosColT, ColourT >( [&]( sdw::VertexInT< PosColT > in
+			, sdw::VertexOutT< ColourT > out )
 			{
 				out.colour() = in.colour();
-				out.position() = in.position();
-				out.vtx.position = in.position();
+				out.vtx.position = mvp * in.position();
 			} );
 
 		// Fragment Shader
-		writer.implementEntryPointT< PosColT, ColourT >( [&]( sdw::FragmentInT< PosColT > in
+		writer.implementEntryPointT< ColourT, ColourT >( [&]( sdw::FragmentInT< ColourT > in
 			, sdw::FragmentOutT< ColourT > out )
 			{
-				IF( writer, in.position().x() < 0.0_f )
-				{
-					writer.demote();
-				}
-				FI;
-
-				out.colour = in.colour();
+				out.colour() = in.colour();
 			} );
 
 		test::writeProgram( writer
@@ -1124,51 +997,44 @@ namespace
 		testBegin( "geometryPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
-		auto mvp = voxelizeUbo.declMember< sdw::Mat4 >( "mvp" );
-		voxelizeUbo.end();
-
-		using MyTriangleList = sdw::TriangleListT< PositionT >;
-		using MyTriangleStream = sdw::TriangleStreamT< PositionT >;
+		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
+		auto mvp = myUbo.declMember< sdw::Mat4 >( "mvp" );
+		myUbo.end();
 
 		// Vertex Shader
-		writer.implementEntryPointT< PositionT, PositionT >( [&]( sdw::VertexInT< PositionT > in
-			, sdw::VertexOutT< PositionT > out )
+		writer.implementEntryPointT< PosColT, PosColT >( [&]( sdw::VertexInT< PosColT > in
+			, sdw::VertexOutT< PosColT > out )
 			{
-				out.position = in.position;
-				out.vtx.position = out.position;
+				out.position() = in.position();
+				out.colour() = in.colour();
+				out.vtx.position = out.position();
 			} );
 
 		// Geometry Shader
-		writer.implementEntryPointT< 3u, MyTriangleList, MyTriangleStream >( [&]( sdw::GeometryIn in
-			, MyTriangleList list
-			, MyTriangleStream out )
+		writer.implementEntryPointT< 3u, sdw::TriangleListT< PosColT >, sdw::TriangleStreamT< ColourT > >( [&]( sdw::GeometryIn in
+			, sdw::TriangleListT< PosColT > list
+			, sdw::TriangleStreamT< ColourT > out )
 			{
-				auto pos = writer.declLocale< sdw::Vec4 >( "pos" );
-
-				pos = mvp * list[0].vtx.position;
-				out.position = pos;
-				out.vtx.position = pos;
+				out.colour() = list[0].colour();
+				out.vtx.position = mvp * list[0].vtx.position;
 				out.append();
 
-				pos = mvp * list[1].vtx.position;
-				out.position = pos;
-				out.vtx.position = pos;
+				out.colour() = list[1].colour();
+				out.vtx.position = mvp * list[1].vtx.position;
 				out.append();
 
-				pos = mvp * list[2].vtx.position;
-				out.position = pos;
-				out.vtx.position = pos;
+				out.colour() = list[2].colour();
+				out.vtx.position = mvp * list[2].vtx.position;
 				out.append();
 
 				out.restartStrip();
 			} );
 
 		// Fragment Shader
-		writer.implementEntryPointT< PositionT, ColourT >( [&]( sdw::FragmentInT< PositionT > in
+		writer.implementEntryPointT< ColourT, ColourT >( [&]( sdw::FragmentInT< ColourT > in
 			, sdw::FragmentOutT< ColourT > out )
 			{
-				out.colour = in.position;
+				out.colour() = in.colour();
 			} );
 
 		test::writeProgram( writer
@@ -1458,7 +1324,7 @@ namespace
 		writer.implementEntryPointT< SurfaceT, ColourT >( [&]( sdw::FragmentInT< SurfaceT > in
 			, sdw::FragmentOutT< ColourT > out )
 			{
-				out.colour = vec4( vec3( in.normal ), 1.0_f );
+				out.colour() = vec4( vec3( in.normal ), 1.0_f );
 			} );
 
 		test::writeProgram( writer
@@ -1593,8 +1459,7 @@ namespace
 			, [&]( Meshlet meshlet
 				, sdw::UInt index )
 			{
-				auto primIndices = writer.declLocale( "primIndices", primitiveIndices[meshlet.primOffset + index].index );
-				writer.returnStmt( uvec3( primIndices ) );
+				writer.returnStmt( primitiveIndices[meshlet.primOffset + index].index() );
 			}
 			, sdw::InParam< Meshlet >{ writer, "meshlet" }
 			, sdw::InUInt{ writer, "index" } );
@@ -1607,7 +1472,7 @@ namespace
 
 				IF( writer, meshInfos.indexBytes == 4_u ) // 32-bit Vertex Indices
 				{
-					writer.returnStmt( uniqueVertexIndices[localIndex].index );
+					writer.returnStmt( uniqueVertexIndices[localIndex].index() );
 				}
 				ELSE // 16-bit Vertex Indices
 				{
@@ -1616,7 +1481,7 @@ namespace
 					auto byteOffset = writer.declLocale( "byteOffset", ( localIndex / 2_u ) );
 
 					// Grab the pair of 16-bit indices, shift & mask off proper 16-bits.
-					auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index );
+					auto indexPair = writer.declLocale( "indexPair", uniqueVertexIndices[byteOffset].index() );
 					auto index = writer.declLocale( "index", ( indexPair >> ( wordOffset * 16_u ) ) & 0xffff_u );
 
 					writer.returnStmt( index );
@@ -1685,7 +1550,7 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					if ( dot( center, constants.planes[i] ) < -radius )
+					if ( dot( center, constants.cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
@@ -1745,7 +1610,7 @@ namespace
 				// Compact visible meshlets into the export payload array
 				IF( writer, visible )
 				{
-					payload.meshletIndices[idxOffset] = meshletId;
+					payload.meshletIndices()[idxOffset] = meshletId;
 				}
 				FI;
 
@@ -1797,7 +1662,7 @@ namespace
 				}
 				FI;
 
-				out.colour = vec4( in.normal, 1.0_f );
+				out.colour() = vec4( in.normal, 1.0_f );
 			} );
 
 		test::writeProgram( writer
@@ -1936,7 +1801,7 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					if ( dot( center, constants.planes[i] ) < -radius )
+					if ( dot( center, constants.cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
@@ -1996,7 +1861,7 @@ namespace
 				// Compact visible meshlets into the export payload array
 				IF( writer, visible )
 				{
-					payload.meshletIndices[idxOffset] = meshletId;
+					payload.meshletIndices()[idxOffset] = meshletId;
 				}
 				FI;
 
@@ -2047,7 +1912,115 @@ namespace
 				}
 				FI;
 
-				out.colour = vec4( in.normal, 1.0_f );
+				out.colour() = vec4( in.normal, 1.0_f );
+			} );
+
+		test::writeProgram( writer
+			, testCounts, CurrentCompilers );
+		test::validateProgram( writer
+			, testCounts, CurrentCompilers );
+		testEnd();
+	}
+
+	void taskMeshPipeline( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "taskMeshPipeline" );
+		sdw::ModernGraphicsWriter writer{ &testCounts.allocator };
+
+		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
+		auto mvp = ModelUbo.declMember< sdw::Mat4 >( "mvp" );
+		auto world = ModelUbo.declMember< sdw::Mat4 >( "world" );
+		auto scale = ModelUbo.declMember< sdw::Float >( "scale" );
+		auto cullPlanes = ModelUbo.declMember< sdw::Vec4 >( "cullPlanes", 6u );
+		ModelUbo.end();
+
+		auto vertices = writer.declArrayStorageBuffer< PosCol >( "bufferVertices", 0u, 1u );
+		auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+		auto vertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferVertexIndices", 2u, 1u );
+		auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
+		auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
+
+		auto isVisible = writer.implementFunction< sdw::Boolean >( "isVisible"
+			, [&]( CullData cullData )
+			{
+				auto center = writer.declLocale( "center", vec4( cullData.boundingSphere.xyz(), 1.0_f ) * world );
+				auto radius = writer.declLocale( "radius", cullData.boundingSphere.w() * scale );
+
+				for ( int i = 0; i < 6; ++i )
+				{
+					if ( dot( center, cullPlanes[i] ) < -radius )
+					{
+						writer.returnStmt( sdw::Boolean{ false } );
+					}
+				}
+
+				writer.returnStmt( sdw::Boolean{ true } );
+			}
+			, sdw::InParam< CullData >{ writer, "cullData" } );
+
+		// Task Shader
+		writer.implementEntryPointT< PayloadT >( SDW_MeshLocalSize( ThreadsPerWave, 1u, 1u )
+			, sdw::TaskPayloadOutT< PayloadT >{ writer }
+			, [&]( sdw::TaskSubgroupIn in
+				, sdw::TaskPayloadOutT< PayloadT > payload )
+			{
+				auto laneId = writer.declLocale( "laneId", in.localInvocationID );
+				auto baseId = writer.declLocale( "baseId", in.workGroupID );
+				auto meshletId = writer.declLocale( "meshletId", ( baseId * 32u + laneId ) );
+				auto visible = writer.declLocale( "visible"
+					, isVisible( meshletCullData[meshletId] ) );
+				auto vote = writer.declLocale( "vote", subgroupBallot( visible ) );
+				auto tasks = writer.declLocale( "tasks", subgroupBallotBitCount( vote ) );
+				auto idxOffset = writer.declLocale( "idxOffset", subgroupBallotExclusiveBitCount( vote ) );
+
+				// Compact visible meshlets into the export payload array
+				IF( writer, visible )
+				{
+					payload.meshletIndices()[idxOffset] = meshletId;
+				}
+				FI;
+
+				writer.dispatchMesh( SDW_MeshLocalSize( tasks, 1_u, 1_u ), payload );
+			} );
+
+		// Mesh Shader
+		writer.implementEntryPointT< PayloadT, ColourT, sdw::VoidT >( SDW_MeshLocalSize( 32u, 1u, 1u )
+			, sdw::TaskPayloadInT< PayloadT >{ writer }
+			, sdw::MeshVertexListOutT< ColourT >{ writer, 252u }
+			, sdw::TrianglesMeshPrimitiveListOut{ writer, 84u }
+			, [&]( sdw::MeshSubgroupIn in
+				, sdw::TaskPayloadInT< PayloadT > payload
+				, sdw::MeshVertexListOutT< ColourT > vtxOut
+				, sdw::TrianglesMeshPrimitiveListOut primOut )
+			{
+				auto laneId = writer.declLocale( "laneId", in.localInvocationID );
+				auto meshletId = writer.declLocale( "meshletId", payload.meshletIndices()[laneId] );
+				auto meshlet = writer.declLocale( "meshlet", meshlets[meshletId] );
+
+				primOut.setMeshOutputCounts( meshlet.vertCount, meshlet.primCount );
+
+				IF( writer, laneId < meshlet.primCount )
+				{
+					primOut[laneId].primitiveIndex = primitiveIndices[meshlet.primOffset + laneId].index();
+				}
+				FI;
+
+				IF( writer, laneId < meshlet.vertCount )
+				{
+					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset + laneId].index() );
+					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
+
+					vtxOut[laneId].position = mvp * vertex.position();
+					vtxOut[laneId].colour() = vertex.colour();
+				}
+				FI;
+			} );
+
+		// Fragment Shader
+		writer.implementEntryPointT< ColourT, ColourT >( [&]( sdw::FragmentInT< ColourT > in
+			, sdw::FragmentOutT< ColourT > out )
+			{
+				out.colour() = in.colour();
 			} );
 
 		test::writeProgram( writer
@@ -2067,6 +2040,7 @@ sdwTestSuiteMain( TestWriterProgram )
 	rayTracePipeline( testCounts );
 	taskMeshPipelineEXT( testCounts );
 	taskMeshPipelineNV( testCounts );
+	taskMeshPipeline( testCounts );
 	sdwTestSuiteEnd();
 }
 
