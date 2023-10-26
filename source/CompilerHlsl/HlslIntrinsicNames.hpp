@@ -1199,6 +1199,14 @@ namespace hlsl
 			result = "WaveActiveBallot";
 			break;
 
+		case ast::expr::Intrinsic::eSubgroupBallotBitCount:
+			result = "WaveActiveCountBits";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount:
+			result = "WavePrefixCountBits";
+			break;
+
 		case ast::expr::Intrinsic::eSubgroupAdd1F:
 		case ast::expr::Intrinsic::eSubgroupAdd2F:
 		case ast::expr::Intrinsic::eSubgroupAdd3F:
