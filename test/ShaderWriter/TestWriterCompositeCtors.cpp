@@ -1,8 +1,8 @@
 #include "Common.hpp"
 #include "WriterCommon.hpp"
 
-#include <ShaderWriter/CompositeTypes/IOStructHelper.hpp>
-#include <ShaderWriter/CompositeTypes/IOStructInstanceHelper.hpp>
+#include <ShaderWriter/CompositeTypes/StructHelper.hpp>
+#include <ShaderWriter/CompositeTypes/StructInstanceHelper.hpp>
 
 #pragma warning( disable:5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"

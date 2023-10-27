@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #if SDW_EnableStructHelper
 
-#include "StructInstance.hpp"
+#include "MixedStructInstanceHelper.hpp"
 
 namespace sdw
 {
@@ -15,10 +15,15 @@ namespace sdw
 		, StringLiteralT StructNameT
 		, typename... FieldsT >
 	class IOStructInstanceHelperT
-		: public StructInstance
+		: public MixedStructInstanceHelperT< FlagT
+			, StructNameT
+			, ast::type::MemoryLayout::eC
+			, FieldsT... >
 	{
-		static_assert( sizeof...( FieldsT ) > 0
-			, "A structure must have at least one field" );
+		using MyHelper = MixedStructInstanceHelperT< FlagT
+			, StructNameT
+			, ast::type::MemoryLayout::eC
+			, FieldsT... >;
 
 	public:
 		~IOStructInstanceHelperT() override = default;
@@ -28,83 +33,24 @@ namespace sdw
 		IOStructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true )
-			: StructInstance{ writer, std::move( expr ), enabled }
+			: MyHelper{ writer, std::move( expr ), enabled }
 		{
 		}
 
 		IOStructInstanceHelperT & operator=( IOStructInstanceHelperT const & rhs )
 		{
-			StructInstance::operator=( rhs );
+			MyHelper::operator=( rhs );
 			return *this;
 		}
 
 		IOStructInstanceHelperT & operator=( IOStructInstanceHelperT && rhs )
 		{
-			StructInstance::operator=( std::move( rhs ) );
+			MyHelper::operator=( std::move( rhs ) );
 			return *this;
 		}
 
-		template< sdw::StringLiteralT FieldNameT >
-		constexpr static auto getFieldByName()
-		{
-			return doGetFieldByName< FieldNameT, FieldsT... >();
-		}
-
-		template< sdw::StringLiteralT FieldNameT >
-		constexpr static bool hasFieldByName()
-		{
-			return ( ... || ( std::string_view( FieldNameT.value ) == FieldsT::Name ) );
-		}
-
-		template< sdw::StringLiteralT FieldNameT >
-		auto getMember()const
-		{
-			static_assert( hasFieldByName< FieldNameT >() );
-			using FieldT = decltype( getFieldByName< FieldNameT >() );
-			return FieldT::template get( *this );
-		}
-
-		static type::IOStructPtr makeIOType( type::TypesCache & cache
-			, ast::EntryPoint entryPoint )
-		{
-			auto result = cache.getIOStruct( std::string( StructNameT.value )
-				, entryPoint
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				( result->declMember( std::string( FieldsT::Name )
-					, FieldsT::TypeT::makeType( cache )
-					, FieldsT::ArraySize
-					, FieldsT::Location )
-					, ... );
-			}
-
-			return result;
-		}
-
-		using StructInstance::getMember;
-		using StructInstance::getMemberArray;
-
-	private:
-		template< sdw::StringLiteralT FieldNameT >
-		constexpr static auto doGetFieldByName()
-		{
-			return sdw::Void{};
-		}
-
-		template< sdw::StringLiteralT FieldNameT, typename FieldU, typename... FieldsU >
-		constexpr static auto doGetFieldByName()
-		{
-			if constexpr ( std::string_view( FieldNameT.value ) == FieldU::Name )
-			{
-				return FieldU{};
-			}
-			else
-			{
-				return doGetFieldByName< FieldNameT, FieldsU... >();
-			}
-		}
+		using MyHelper::getMember;
+		using MyHelper::getMemberArray;
 	};
 }
 #endif

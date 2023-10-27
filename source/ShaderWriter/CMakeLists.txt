@@ -224,6 +224,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/CompositeTypes/FunctionParam.inl
 	${INCLUDE_DIR}/CompositeTypes/IOStructHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/IOStructInstanceHelper.hpp
+	${INCLUDE_DIR}/CompositeTypes/MixedStructHelper.hpp
+	${INCLUDE_DIR}/CompositeTypes/MixedStructInstanceHelper.hpp
 	${INCLUDE_DIR}/CompositeTypes/PerPrimitive.hpp
 	${INCLUDE_DIR}/CompositeTypes/PerVertex.hpp
 	${INCLUDE_DIR}/CompositeTypes/PushConstantBuffer.hpp

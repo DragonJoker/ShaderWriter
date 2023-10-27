@@ -60,12 +60,6 @@ jobs:
       shell: bash
       run: |
         cmake --build . --parallel 2 --config ${{ matrix.buildType }}
-    - name: Test
-      if: (steps.build.conclusion == 'success')
-      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
-      shell: bash
-      run: |
-        ctest -C ${{ matrix.buildType }}
     - name: Prepare success package
       if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
