@@ -1,8 +1,8 @@
 /*
 See LICENSE file in root folder
 */
-#ifndef ___SDW_StructInstanceHelper_H___
-#define ___SDW_StructInstanceHelper_H___
+#ifndef ___SDW_MixedStructInstanceHelper_H___
+#define ___SDW_MixedStructInstanceHelper_H___
 #pragma once
 
 #include "StructInstance.hpp"
@@ -11,34 +11,35 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	template< StringLiteralT StructNameT
+	template< ast::var::Flag FlagT
+		, StringLiteralT StructNameT
 		, ast::type::MemoryLayout LayoutT
 		, typename... FieldsT >
-	class StructInstanceHelperT
+	class MixedStructInstanceHelperT
 		: public StructInstance
 	{
 		static_assert( sizeof...( FieldsT ) > 0
 			, "A structure must have at least one field" );
 
 	public:
-		~StructInstanceHelperT() override = default;
-		StructInstanceHelperT( StructInstanceHelperT const & ) = default;
-		StructInstanceHelperT( StructInstanceHelperT && ) = default;
+		~MixedStructInstanceHelperT() override = default;
+		MixedStructInstanceHelperT( MixedStructInstanceHelperT const & ) = default;
+		MixedStructInstanceHelperT( MixedStructInstanceHelperT && ) = default;
 
-		StructInstanceHelperT( ShaderWriter & writer
+		MixedStructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true )
 			: StructInstance{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		StructInstanceHelperT & operator=( StructInstanceHelperT const & rhs )
+		MixedStructInstanceHelperT & operator=( MixedStructInstanceHelperT const & rhs )
 		{
 			StructInstance::operator=( rhs );
 			return *this;
 		}
 
-		StructInstanceHelperT & operator=( StructInstanceHelperT && rhs )
+		MixedStructInstanceHelperT & operator=( MixedStructInstanceHelperT && rhs )
 		{
 			StructInstance::operator=( std::move( rhs ) );
 			return *this;
@@ -47,7 +48,7 @@ namespace sdw
 		template< sdw::StringLiteralT FieldNameT >
 		constexpr static auto getFieldByName()
 		{
-			return doGetFieldByName<FieldNameT, FieldsT...>();
+			return doGetFieldByName< FieldNameT, FieldsT... >();
 		}
 
 		template< sdw::StringLiteralT FieldNameT >
@@ -62,6 +63,25 @@ namespace sdw
 			static_assert( hasFieldByName< FieldNameT >() );
 			using FieldT = decltype( getFieldByName< FieldNameT >() );
 			return FieldT::template get( *this );
+		}
+
+		static type::IOStructPtr makeIOType( type::TypesCache & cache
+			, ast::EntryPoint entryPoint )
+		{
+			auto result = cache.getIOStruct( std::string( StructNameT.value )
+				, entryPoint
+				, FlagT );
+
+			if ( result->empty() )
+			{
+				( result->declMember( std::string( FieldsT::Name )
+					, FieldsT::TypeT::makeType( cache )
+					, FieldsT::ArraySize
+					, FieldsT::Location )
+					, ... );
+			}
+
+			return result;
 		}
 
 		static type::BaseStructPtr makeType( type::TypesCache & cache )

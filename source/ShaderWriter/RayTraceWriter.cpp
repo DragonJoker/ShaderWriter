@@ -3,6 +3,9 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/RayTraceWriter.hpp"
 
+#include <ShaderAST/Stmt/StmtIgnoreIntersection.hpp>
+#include <ShaderAST/Stmt/StmtTerminateRay.hpp>
+
 namespace sdw
 {
 	RayTraceWriter::RayTraceWriter( ShaderAllocator * allocator )

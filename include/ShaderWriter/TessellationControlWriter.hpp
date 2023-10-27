@@ -4,7 +4,7 @@ See LICENSE file in root folder
 #ifndef ___SDW_TessellationControlWriter_H___
 #define ___SDW_TessellationControlWriter_H___
 
-#include "ShaderWriter/Writer.hpp"
+#include "ShaderWriter/EntryPointWriter.hpp"
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
 namespace sdw

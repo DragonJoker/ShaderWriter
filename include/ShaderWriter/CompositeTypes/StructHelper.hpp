@@ -4,9 +4,10 @@ See LICENSE file in root folder
 #ifndef ___SDW_StructHelper_H___
 #define ___SDW_StructHelper_H___
 
+#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
+
 #if SDW_EnableStructHelper
 
-#include "ShaderWriter/ShaderWriterPrerequisites.hpp"
 #include "ShaderWriter/BaseTypes/Void.hpp"
 
 namespace sdw
