@@ -82,6 +82,10 @@
 			"description": "Build configuration using Ninja, for ShaderWriter CI",
 			"cacheVariables": {
 				"CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
+				"PROJECTS_OUTPUT_DIR": "${sourceDir}",
+				"PROJECTS_UNITY_BUILD": false,
+				"PROJECTS_USE_PRECOMPILED_HEADERS": false,
+				"PROJECTS_WARNINGS_AS_ERRORS": true,
 				"SDW_ALL_TESTS": false,
 				"SDW_BUILD_EXPORTERS": true,
 				"SDW_BUILD_EXPORTER_GLSL": true,
@@ -95,9 +99,34 @@
 				"SDW_BUILD_STATIC": false,
 				"SDW_GENERATE_SOURCE": false,
 				"SDW_TESTS_ENABLE_VALIDATION": false,
-				"SDW_UNITY_BUILD": true,
+				"SDW_UNITY_BUILD": false,
+				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;tests;vklayer"
+			}
+		},
+		{
+			"name": "ci-notest",
+			"installDir": "${sourceDir}/package/ShaderWriter",
+			"displayName": "ShaderWriter CI Config, no tests",
+			"description": "Build configuration using Ninja, for ShaderWriter CI, without tests",
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
+				"PROJECTS_UNITY_BUILD": false,
+				"PROJECTS_USE_PRECOMPILED_HEADERS": false,
 				"PROJECTS_WARNINGS_AS_ERRORS": true,
-				"PROJECTS_OUTPUT_DIR": "${sourceDir}"
+				"PROJECTS_OUTPUT_DIR": "${sourceDir}",
+				"SDW_BUILD_EXPORTERS": true,
+				"SDW_BUILD_EXPORTER_GLSL": true,
+				"SDW_BUILD_EXPORTER_HLSL": true,
+				"SDW_BUILD_EXPORTER_SPIRV": true,
+				"SDW_BUILD_TESTS": false,
+				"SDW_BUILD_VULKAN_LAYER": true,
+				"SDW_BUILD_STATIC_EXPORTERS": false,
+				"SDW_BUILD_STATIC_SDAST": false,
+				"SDW_BUILD_STATIC_SDW": false,
+				"SDW_BUILD_STATIC": false,
+				"SDW_GENERATE_SOURCE": false,
+				"SDW_UNITY_BUILD": false,
+				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;vklayer"
 			}
 		}
 	]
