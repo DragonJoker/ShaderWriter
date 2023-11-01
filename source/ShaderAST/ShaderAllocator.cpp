@@ -326,7 +326,7 @@ namespace ast
 
 		if ( !it->second )
 		{
-			it->second = std::make_unique < BuddyAllocator >( 16u, uint32_t( size ) );
+			it->second = std::make_unique < BuddyAllocator >( 17u, uint32_t( size ) );
 		}
 
 		auto & buddy = *it->second;

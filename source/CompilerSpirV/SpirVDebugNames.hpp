@@ -48,6 +48,7 @@ namespace spirv::debug
 		}
 
 	private:
+		ast::ShaderAllocatorBlock * m_allocator;
 		InstructionList m_stringsDeclarations;
 		InstructionList m_namesDeclarations;
 		NamesCache m_nameCache;

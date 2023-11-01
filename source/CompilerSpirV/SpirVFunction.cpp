@@ -44,6 +44,12 @@ namespace spirv
 			{
 				result.declaration.emplace_back( std::move( instruction ) );
 			}
+			else if ( instruction->op.opData.opCode == spv::OpFunctionEnd )
+			{
+				result.cfg.blocks.back().instructions.push_back( std::move( result.cfg.blocks.back().blockEnd ) );
+				result.cfg.blocks.back().blockEnd = std::move( instruction );
+				break;
+			}
 			else
 			{
 				result.cfg.blocks.emplace_back( Block::deserialize( alloc, std::move( instruction ), buffer, end ) );

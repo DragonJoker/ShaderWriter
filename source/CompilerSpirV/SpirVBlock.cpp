@@ -74,7 +74,16 @@ namespace spirv
 		{
 			return opCode == spv::OpBranch
 				|| opCode == spv::OpBranchConditional
-				|| opCode == spv::OpFunctionEnd;
+				|| opCode == spv::OpFunctionEnd
+				|| opCode == spv::OpReturn
+				|| opCode == spv::OpReturnValue
+				|| opCode == spv::OpEmitMeshTasksEXT
+				|| opCode == spv::OpTerminateInvocation
+				|| opCode == spv::OpIgnoreIntersectionKHR
+				|| opCode == spv::OpIgnoreIntersectionNV
+				|| opCode == spv::OpTerminateRayKHR
+				|| opCode == spv::OpTerminateRayNV
+				|| opCode == spv::OpKill;
 		};
 
 		spv::Op op = spv::OpNop;

@@ -1752,199 +1752,6 @@ namespace spirv
 				, InstructionType::HasLabels >( instruction );
 		}
 
-		struct NameCache
-		{
-			using IdNames = ast::Map< spv::Id, std::string >;
-
-			explicit NameCache( ast::ShaderAllocatorBlock * alloc )
-				: names{ alloc }
-				, types{ alloc }
-			{
-			}
-
-			void add( spv::Id id, std::string name )
-			{
-				names.emplace( id, std::move( name ) );
-			}
-
-			void addType( spv::Id id, std::string name )
-			{
-				add( id, name );
-				types.emplace( id, std::move( name ) );
-			}
-
-			std::string getFloatTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypeFloat );
-				auto width = instruction.operands[0];
-				std::string result;
-
-				if ( width <= 16u )
-				{
-					result = "f16";
-				}
-				else if ( width <= 32 )
-				{
-					result = "f32";
-				}
-				else
-				{
-					result = "f64";
-				}
-
-				return result;
-			}
-
-			std::string getIntTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypeInt );
-				auto width = instruction.operands[0];
-				auto signedness = instruction.operands[1];
-				std::string result;
-
-				if ( width <= 8u )
-				{
-					result = "i8";
-				}
-				else if ( width <= 16u )
-				{
-					result = "i16";
-				}
-				else if ( width <= 32 )
-				{
-					result = "i32";
-				}
-				else
-				{
-					result = "i64";
-				}
-
-				if ( signedness == 0u )
-				{
-					result = "u" + result;
-				}
-				else if ( signedness == 1u )
-				{
-					result = "s" + result;
-				}
-
-				return result;
-			}
-
-			std::string getVecTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypeVector );
-				std::string result = "v";
-				auto componentType = instruction.operands[0];
-				auto componentCount = instruction.operands[1];
-				result += std::to_string( componentCount );
-				auto it = types.find( componentType );
-				assert( it != types.end() );
-				result += it->second;
-				return result;
-			}
-
-			std::string getMatTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypeMatrix );
-				std::string result = "m";
-				auto componentType = instruction.operands[0];
-				auto componentCount = instruction.operands[1];
-				result += std::to_string( componentCount );
-				auto it = types.find( componentType );
-				assert( it != types.end() );
-				result += it->second;
-				return result;
-			}
-
-			std::string getStructTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypeStruct );
-				assert( instruction.resultId.has_value() );
-				auto resultId = instruction.resultId.value();
-				auto it = names.find( resultId );
-
-				if ( it != names.end() )
-				{
-					return it->second;
-				}
-
-				return std::string{};
-			}
-
-			std::string getArrayTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypeArray );
-				auto componentType = instruction.operands[0];
-				auto arraySize = getRaw( instruction.operands[1] );
-				auto it = types.find( componentType );
-				assert( it != types.end() );
-				auto result = it->second;
-				result += "[" + arraySize + "]";
-				return result;
-			}
-
-			std::string getPtrTypeName( Instruction const & instruction )const
-			{
-				assert( instruction.op.opData.opCode == spv::OpTypePointer
-					|| instruction.op.opData.opCode == spv::OpTypeForwardPointer );
-				auto storageClass = spv::StorageClass( instruction.operands[0] );
-				std::string result = getName( storageClass ) + "Ptr";
-
-				if ( instruction.op.opData.opCode == spv::OpTypePointer )
-				{
-					auto pointedType = instruction.operands[1];
-					auto it = types.find( pointedType );
-
-					if ( it != types.end() )
-					{
-						result += "<" + it->second + ">";
-					}
-					else
-					{
-						result += "<unknown>";
-					}
-				}
-
-				return result;
-			}
-
-			std::string getRaw( spv::Id id )const
-			{
-				std::string result;
-				auto it = names.find( id );
-
-				if ( it != names.end() )
-				{
-					if ( it->second.find( "\n" ) != std::string::npos )
-					{
-						result = "...multiline...";
-					}
-					else
-					{
-						result = it->second;
-					}
-				}
-
-				return result;
-			}
-
-			std::string get( spv::Id id )const
-			{
-				std::string result = getRaw( id );
-
-				if ( !result.empty() )
-				{
-					result = "(" + result + ")";
-				}
-
-				return result;
-			}
-
-			IdNames names;
-			IdNames types;
-		};
-
 		template< typename T >
 		static void count( ast::Vector< T > const & values
 			, size_t & result );
@@ -2437,7 +2244,7 @@ namespace spirv
 		}
 
 		static std::ostream & writeConstant( spirv::InstructionPtr const & instruction
-			, ast::type::Kind type
+			, ast::type::TypePtr type
 			, NameCache & names
 			, std::ostream & stream
 			, size_t & word )
@@ -2449,7 +2256,7 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			writeStream( instruction->returnTypeId.value(), names, stream );
 
-			if ( type == ast::type::Kind::eUndefined )
+			if ( type == nullptr )
 			{
 				names.add( instruction->resultId.value(), "Unk" );
 				stream << " Unknown value type";
@@ -2459,7 +2266,7 @@ namespace spirv
 				if ( opCode == spv::OpConstant )
 				{
 					checkType< ConstantInstruction >( *instruction );
-					switch ( type )
+					switch ( type->getKind() )
 					{
 					case ast::type::Kind::eBoolean:
 						names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
@@ -2542,7 +2349,7 @@ namespace spirv
 		}
 
 		static std::ostream & writeSpecConstant( spirv::InstructionPtr const & instruction
-			, ast::type::Kind type
+			, ast::type::TypePtr type
 			, NameCache & names
 			, std::ostream & stream
 			, size_t & word )
@@ -2554,7 +2361,7 @@ namespace spirv
 			stream << " " << spirv::getOperatorName( opCode );
 			writeStream( instruction->returnTypeId.value(), names, stream );
 
-			if ( type == ast::type::Kind::eUndefined )
+			if ( type == nullptr )
 			{
 				names.add( instruction->resultId.value(), "Unk" );
 				stream << " Unknown value type";
@@ -2564,7 +2371,7 @@ namespace spirv
 				if ( opCode == spv::OpSpecConstant )
 				{
 					checkType< SpecConstantInstruction >( *instruction );
-					switch ( type )
+					switch ( type->getKind() )
 					{
 					case ast::type::Kind::eBoolean:
 						names.add( instruction->resultId.value(), std::to_string( bool( instruction->operands[0] ) ) );
@@ -2718,12 +2525,12 @@ namespace spirv
 			else if ( opCode == spv::OpConstant
 				|| opCode == spv::OpConstantComposite )
 			{
-				writeConstant( instruction, module.getLiteralType( DebugId{ instruction->resultId.value() } ), names, stream, word ) << "\n";
+				writeConstant( instruction, module.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpSpecConstant
 				|| opCode == spv::OpSpecConstantComposite )
 			{
-				writeSpecConstant( instruction, module.getLiteralType( DebugId{ instruction->resultId.value() } ), names, stream, word ) << "\n";
+				writeSpecConstant( instruction, module.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpVariable )
 			{
@@ -3549,11 +3356,11 @@ namespace spirv
 		}
 
 		static std::ostream & writeStream( spirv::Module const & module
+			, NameCache & names
 			, bool doWriteHeader
 			, std::ostream & stream )
 		{
 			size_t word{};
-			NameCache names{ module.allocator };
 
 			if ( doWriteHeader )
 			{
@@ -3603,11 +3410,221 @@ namespace spirv
 		}
 	}
 
+	NameCache::NameCache( ast::ShaderAllocatorBlock * alloc )
+		: names{ alloc }
+		, types{ alloc }
+	{
+	}
+
+	void NameCache::add( spv::Id id, std::string name )
+	{
+		names.emplace( id, std::move( name ) );
+	}
+
+	void NameCache::addMember( spv::Id id, uint32_t index, std::string name )
+	{
+		auto & mbr = members.emplace( id, MemberList{} ).first->second;
+		mbr.emplace( index, std::move( name ) );
+	}
+
+	void NameCache::addType( spv::Id id, std::string name )
+	{
+		add( id, name );
+		types.emplace( id, std::move( name ) );
+	}
+
+	std::string NameCache::getFloatTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypeFloat );
+		auto width = instruction.operands[0];
+		std::string result;
+
+		if ( width <= 16u )
+		{
+			result = "f16";
+		}
+		else if ( width <= 32 )
+		{
+			result = "f32";
+		}
+		else
+		{
+			result = "f64";
+		}
+
+		return result;
+	}
+
+	std::string NameCache::getIntTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypeInt );
+		auto width = instruction.operands[0];
+		auto signedness = instruction.operands[1];
+		std::string result;
+
+		if ( width <= 8u )
+		{
+			result = "i8";
+		}
+		else if ( width <= 16u )
+		{
+			result = "i16";
+		}
+		else if ( width <= 32 )
+		{
+			result = "i32";
+		}
+		else
+		{
+			result = "i64";
+		}
+
+		if ( signedness == 0u )
+		{
+			result = "u" + result;
+		}
+		else if ( signedness == 1u )
+		{
+			result = "s" + result;
+		}
+
+		return result;
+	}
+
+	std::string NameCache::getVecTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypeVector );
+		std::string result = "v";
+		auto componentType = instruction.operands[0];
+		auto componentCount = instruction.operands[1];
+		result += std::to_string( componentCount );
+		auto it = types.find( componentType );
+		assert( it != types.end() );
+		result += it->second;
+		return result;
+	}
+
+	std::string NameCache::getMatTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypeMatrix );
+		std::string result = "m";
+		auto componentType = instruction.operands[0];
+		auto componentCount = instruction.operands[1];
+		result += std::to_string( componentCount );
+		auto it = types.find( componentType );
+		assert( it != types.end() );
+		result += it->second;
+		return result;
+	}
+
+	std::string NameCache::getStructTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypeStruct );
+		assert( instruction.resultId.has_value() );
+		auto resultId = instruction.resultId.value();
+		auto it = names.find( resultId );
+
+		if ( it != names.end() )
+		{
+			return it->second;
+		}
+
+		return std::string{};
+	}
+
+	std::string NameCache::getArrayTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypeArray );
+		auto componentType = instruction.operands[0];
+		auto arraySize = getRaw( instruction.operands[1] );
+		auto it = types.find( componentType );
+		assert( it != types.end() );
+		auto result = it->second;
+		result += "[" + arraySize + "]";
+		return result;
+	}
+
+	std::string NameCache::getPtrTypeName( Instruction const & instruction )const
+	{
+		assert( instruction.op.opData.opCode == spv::OpTypePointer
+			|| instruction.op.opData.opCode == spv::OpTypeForwardPointer );
+		auto storageClass = spv::StorageClass( instruction.operands[0] );
+		std::string result = wrthlp::getName( storageClass ) + "Ptr";
+
+		if ( instruction.op.opData.opCode == spv::OpTypePointer )
+		{
+			auto pointedType = instruction.operands[1];
+			auto it = types.find( pointedType );
+
+			if ( it != types.end() )
+			{
+				result += "<" + it->second + ">";
+			}
+			else
+			{
+				result += "<unknown>";
+			}
+		}
+
+		return result;
+	}
+
+	std::string NameCache::getRaw( spv::Id id )const
+	{
+		std::string result;
+		auto it = names.find( id );
+
+		if ( it != names.end() )
+		{
+			if ( it->second.find( "\n" ) != std::string::npos )
+			{
+				result = "...multiline...";
+			}
+			else
+			{
+				result = it->second;
+			}
+		}
+
+		return result;
+	}
+
+	std::string NameCache::get( spv::Id id )const
+	{
+		std::string result = getRaw( id );
+
+		if ( !result.empty() )
+		{
+			result = "(" + result + ")";
+		}
+
+		return result;
+	}
+
+	std::string NameCache::getMember( spv::Id id, uint32_t index )const
+	{
+		std::string result;
+		auto it = members.find( id );
+
+		if ( it != members.end() )
+		{
+			auto mit = it->second.find( index );
+
+			if ( mit != it->second.end() )
+			{
+				result = mit->second;
+			}
+		}
+
+		return result;
+	}
+
 	std::string write( spirv::Module const & module
+		, NameCache & names
 		, bool doWriteHeader )
 	{
 		auto stream = wrthlp::getStream();
-		wrthlp::writeStream( module, doWriteHeader, stream );
+		wrthlp::writeStream( module, names, doWriteHeader, stream );
 		return stream.str();
 	}
 }

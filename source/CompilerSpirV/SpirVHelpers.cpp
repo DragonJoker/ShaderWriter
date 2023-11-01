@@ -2817,6 +2817,66 @@ namespace spirv
 
 	//*************************************************************************
 
+	ast::type::ImageFormat getImageFormat( spv::ImageFormat value )
+	{
+		switch ( value )
+		{
+		case spv::ImageFormatUnknown:
+			return ast::type::ImageFormat::eUnknown;
+		case spv::ImageFormatRgba32f:
+			return ast::type::ImageFormat::eRgba32f;
+		case spv::ImageFormatRgba16f:
+			return ast::type::ImageFormat::eRgba16f;
+		case spv::ImageFormatRg32f:
+			return ast::type::ImageFormat::eRg32f;
+		case spv::ImageFormatRg16f:
+			return ast::type::ImageFormat::eRg16f;
+		case spv::ImageFormatR32f:
+			return ast::type::ImageFormat::eR32f;
+		case spv::ImageFormatR16f:
+			return ast::type::ImageFormat::eR16f;
+		case spv::ImageFormatRgba32i:
+			return ast::type::ImageFormat::eRgba32i;
+		case spv::ImageFormatRgba16i:
+			return ast::type::ImageFormat::eRgba16i;
+		case spv::ImageFormatRgba8i:
+			return ast::type::ImageFormat::eRgba8i;
+		case spv::ImageFormatRg32i:
+			return ast::type::ImageFormat::eRg32i;
+		case spv::ImageFormatRg16i:
+			return ast::type::ImageFormat::eRg16i;
+		case spv::ImageFormatRg8i:
+			return ast::type::ImageFormat::eRg8i;
+		case spv::ImageFormatR32i:
+			return ast::type::ImageFormat::eR32i;
+		case spv::ImageFormatR16i:
+			return ast::type::ImageFormat::eR16i;
+		case spv::ImageFormatR8i:
+			return ast::type::ImageFormat::eR8i;
+		case spv::ImageFormatRgba32ui:
+			return ast::type::ImageFormat::eRgba32u;
+		case spv::ImageFormatRgba16ui:
+			return ast::type::ImageFormat::eRgba16u;
+		case spv::ImageFormatRgba8ui:
+			return ast::type::ImageFormat::eRgba8u;
+		case spv::ImageFormatRg32ui:
+			return ast::type::ImageFormat::eRg32u;
+		case spv::ImageFormatRg16ui:
+			return ast::type::ImageFormat::eRg16u;
+		case spv::ImageFormatRg8ui:
+			return ast::type::ImageFormat::eRg8u;
+		case spv::ImageFormatR32ui:
+			return ast::type::ImageFormat::eR32u;
+		case spv::ImageFormatR16ui:
+			return ast::type::ImageFormat::eR16u;
+		case spv::ImageFormatR8ui:
+			return ast::type::ImageFormat::eR8u;
+		default:
+			AST_Failure( "Unsupported spv::ImageFormat" );
+			return ast::type::ImageFormat::eRgba32f;
+		}
+	}
+
 	ValueIdList makeBinOpOperands( ast::ShaderAllocatorBlock * alloc
 		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind
@@ -3060,8 +3120,6 @@ namespace spirv
 			return makeInstruction< IntrinsicInstructionT< spv::OpDPdyFine > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpFwidth:
 			return makeInstruction< IntrinsicInstructionT< spv::OpFwidth > >( nameCache, returnTypeId, resultId, operands );
-		case spv::OpExecuteCallableKHR:
-			return makeInstruction< IntrinsicInstructionT< spv::OpExecuteCallableKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpReportIntersectionKHR:
 			return makeInstruction< IntrinsicInstructionT< spv::OpReportIntersectionKHR > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpIsHelperInvocationEXT:

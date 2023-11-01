@@ -20,6 +20,8 @@ See LICENSE file in root folder
 
 namespace spirv
 {
+	struct NameCache;
+
 	namespace debug
 	{
 		class DebugNames;
@@ -52,12 +54,21 @@ namespace spirv
 			, DebugId const & sampler
 			, Block & currentBlock );
 
+		ast::type::TypePtr getType( DebugId typeId )const;
+
+		void deserialize( spv::Op opCode
+			, Instruction const & instruction
+			, NameCache & names );
+
 		ast::type::TypesCache & getTypesCache()const noexcept
 		{
 			return *m_typesCache;
 		}
 
 	private:
+		std::pair< TypeId *, bool > doRegisterPointerType( spv::Id id
+			, ast::type::PointerPtr type
+			, bool isForward = false );
 		TypeId doRegisterNonArrayType( ast::type::TypePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId
@@ -67,6 +78,10 @@ namespace spirv
 			, TypeId parentId
 			, uint32_t arrayStride
 			, glsl::Statement const * debugStatement );
+		TypeId & doRegisterBaseType( spv::Id id
+			, ast::type::TypePtr type );
+		TypeId & doRegisterBaseType( spv::Id id
+			, ast::type::Kind kind );
 		TypeId doRegisterBaseType( ast::type::Kind kind
 			, uint32_t mbrIndex
 			, TypeId parentId
@@ -82,6 +97,9 @@ namespace spirv
 		TypeId doRegisterBaseType( ast::type::CombinedImagePtr type
 			, uint32_t mbrIndex
 			, TypeId parentId );
+		void doRegisterBaseType( spv::Id id
+			, ast::type::ImagePtr type
+			, ast::type::Trinary isComparison );
 		TypeId doRegisterBaseType( ast::type::ImagePtr type
 			, ast::type::Trinary isComparison );
 		TypeId doRegisterBaseType( ast::type::ImagePtr type
@@ -111,7 +129,6 @@ namespace spirv
 		InstructionList & m_declarations;
 		ast::type::TypesCache * m_typesCache;
 		ast::Map< ast::type::TypePtr, TypeId > m_registeredTypes;
-		ast::Map< ast::type::TypePtr, TypeId > m_registeredMemberTypes;
 		ast::UnorderedMap< DebugId, ast::UnorderedMap< DebugId, DebugId, DebugIdHasher >, DebugIdHasher > m_registeredSamplerImages;
 		ast::UnorderedMap< size_t, TypeId > m_registeredImageTypes;
 		ast::Map< uint64_t, TypeId > m_registeredPointerTypes;

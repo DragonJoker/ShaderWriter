@@ -140,7 +140,8 @@ namespace spirv
 
 		try
 		{
-			result = Module::write( module, writeHeader );
+			NameCache names{ module.allocator };
+			result = Module::write( module, names, writeHeader );
 		}
 		catch ( std::exception & exc )
 		{
@@ -180,7 +181,8 @@ namespace spirv
 		try
 		{
 			auto module = compileSpirV( *allocator, shader, statements, stage, config );
-			result = Module::write( *module, writeHeader );
+			NameCache names{ allocator.get() };
+			result = Module::write( *module, names, writeHeader );
 		}
 		catch ( std::exception & exc )
 		{
@@ -236,8 +238,10 @@ namespace spirv
 	std::string displaySpirv( ast::ShaderAllocatorBlock & allocator
 		, std::vector< uint32_t > const & spirv )
 	{
-		auto module = spirv::Module::deserialize( &allocator, spirv );
-		return spirv::Module::write( module, true );
+		ast::type::TypesCache typesCache{};
+		NameCache names{ &allocator };
+		auto module = spirv::Module::deserialize( &allocator, typesCache, names, spirv );
+		return spirv::Module::write( module, names, true );
 	}
 
 	ast::Shader parseSpirv( ast::ShaderAllocatorBlock & allocator
@@ -260,9 +264,10 @@ namespace spirv
 			ast::var::VariablePtr var;
 		};
 
-		auto module = spirv::Module::deserialize( &allocator, spirv );
+		ast::type::TypesCache typesCache{};
+		NameCache names{ &allocator };
+		auto module = spirv::Module::deserialize( &allocator, typesCache, names, spirv );
 		ast::Shader result{ stage };
-		ast::Map< uint32_t, std::string > names{ module.allocator };
 		ast::Map< uint32_t, ast::Map< uint32_t, std::string > > mbrNames{ module.allocator };
 
 		// Gather names
@@ -271,7 +276,7 @@ namespace spirv
 			switch ( instruction->op.op )
 			{
 			case spv::OpString:
-				names.emplace( *instruction->resultId, *instruction->name );
+				names.add( *instruction->resultId, *instruction->name );
 				break;
 			default:
 				break;
@@ -284,7 +289,7 @@ namespace spirv
 			case spv::OpSource:
 				break;
 			case spv::OpName:
-				names.emplace( *instruction->resultId, *instruction->name );
+				names.add( *instruction->resultId, *instruction->name );
 				break;
 			case spv::OpMemberName:
 				{
