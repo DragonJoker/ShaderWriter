@@ -40,12 +40,21 @@ namespace spirv
 					, config );
 				auto kind = expr->getIntrinsic();
 
-				if ( ( kind >= ast::expr::Intrinsic::eDFdxCoarse1
-					&& kind <= ast::expr::Intrinsic::eDFdxFine4 )
-					|| ( kind >= ast::expr::Intrinsic::eDFdyCoarse1
-						&& kind <= ast::expr::Intrinsic::eDFdyFine4 ) )
+				if ( kind >= ast::expr::Intrinsic::eDFdx1
+					&& kind <= ast::expr::Intrinsic::eFwidth4 )
 				{
-					config.registerCapability( spv::CapabilityDerivativeControl );
+					if ( ( kind >= ast::expr::Intrinsic::eDFdxCoarse1
+							&& kind <= ast::expr::Intrinsic::eDFdxFine4 )
+						|| ( kind >= ast::expr::Intrinsic::eDFdyCoarse1
+							&& kind <= ast::expr::Intrinsic::eDFdyFine4 ) )
+					{
+						config.registerCapability( spv::CapabilityDerivativeControl );
+					}
+
+					if ( config.stage == ast::ShaderStage::eCompute )
+					{
+						config.registerCapability( spv::CapabilityComputeDerivativeGroupQuadsNV );
+					}
 				}
 				else if ( kind >= ast::expr::Intrinsic::eInterpolateAtCentroid1
 					&& kind <= ast::expr::Intrinsic::eInterpolateAtOffset4 )
@@ -64,6 +73,13 @@ namespace spirv
 					{
 						config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 					}
+				}
+				else if ( ( kind >= ast::expr::Intrinsic::eAtomicAddF
+					&& kind <= ast::expr::Intrinsic::eAtomicAdd4H )
+					|| ( kind >= ast::expr::Intrinsic::eAtomicExchangeF
+						&& kind <= ast::expr::Intrinsic::eAtomicExchange4H ) )
+				{
+					config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 				}
 				else if ( kind == ast::expr::Intrinsic::eTraceRay
 					|| kind == ast::expr::Intrinsic::eReportIntersection
@@ -158,6 +174,12 @@ namespace spirv
 					{
 						config.registerCapability( spv::CapabilitySubgroupBallotKHR );
 					}
+				}
+				else if ( kind == ast::expr::Intrinsic::eHelperInvocation )
+				{
+					config.registerCapability( spv::CapabilityDemoteToHelperInvocation );
+					// The extension is not optional, when using helperInvocation intrinsic.
+					config.registerExtension( EXT_demote_to_helper_invocation );
 				}
 			}
 		}
@@ -319,22 +341,6 @@ namespace spirv
 				for ( auto & arg : expr->getArgList() )
 				{
 					doSubmit( arg );
-				}
-
-				auto kind = expr->getIntrinsic();
-
-				if ( ( kind >= ast::expr::Intrinsic::eAtomicAddF
-					&& kind <= ast::expr::Intrinsic::eAtomicAdd4H )
-					|| ( kind >= ast::expr::Intrinsic::eAtomicExchangeF
-						&& kind <= ast::expr::Intrinsic::eAtomicExchange4H ) )
-				{
-					m_config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
-				}
-				else if ( kind == ast::expr::Intrinsic::eHelperInvocation )
-				{
-					m_config.registerCapability( spv::CapabilityDemoteToHelperInvocation );
-					// The extension is not optional, when using helperInvocation intrinsic.
-					m_config.registerExtension( EXT_demote_to_helper_invocation );
 				}
 			}
 

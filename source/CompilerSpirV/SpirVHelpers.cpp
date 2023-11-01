@@ -1366,6 +1366,10 @@ namespace spirv
 		case spv::CapabilityFragmentBarycentricNV:
 			break;
 		case spv::CapabilityComputeDerivativeGroupQuadsNV:
+			if ( registerExtension( NV_compute_shader_derivatives, true ) )
+			{
+				executionModes.insert( spv::ExecutionModeDerivativeGroupQuadsNV );
+			}
 			break;
 		case spv::CapabilityFragmentDensityEXT:
 			break;

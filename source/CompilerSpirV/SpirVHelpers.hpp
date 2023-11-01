@@ -167,7 +167,6 @@ namespace spirv
 		uint32_t aliasId;
 		ast::ShaderStage stage;
 		spv::AddressingModel addressingModel{ spv::AddressingModelLogical };
-		
 		ast::Set< spv::ExecutionMode > executionModes;
 
 		void registerCapability( spv::Capability capability );
