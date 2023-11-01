@@ -602,7 +602,7 @@ namespace spirv
 					| ( ( uint64_t( cit->second.isPointer() ) << 32 ) & 0x01 )
 					| ( uint64_t( storage ) << 1 );
 				auto type = m_typesCache->getPointerType( cit->first, convert( storage ) );
-				m_registeredPointerTypes.emplace( key, TypeId{ *instruction.resultId, type } ).first;
+				m_registeredPointerTypes.emplace( key, TypeId{ *instruction.resultId, type } );
 			}
 			break;
 		case spv::OpTypeStruct:

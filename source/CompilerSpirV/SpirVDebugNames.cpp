@@ -7,9 +7,10 @@ namespace spirv::debug
 {
 	DebugNames::DebugNames( ast::ShaderAllocatorBlock * allocator
 		, SpirVConfig const * config )
-		: m_stringsDeclarations{ allocator }
-		, m_namesDeclarations{ allocator }
-		, m_nameCache{ allocator }
+		: m_allocator{ allocator }
+		, m_stringsDeclarations{ m_allocator }
+		, m_namesDeclarations{ m_allocator }
+		, m_nameCache{ m_allocator }
 		, m_config{ config }
 	{
 	}

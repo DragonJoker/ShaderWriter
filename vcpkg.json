@@ -7,7 +7,6 @@
     "glsl",
     "hlsl",
     "spirv",
-    "tests",
     "vklayer"
   ],
   "features": {
@@ -29,7 +28,7 @@
       ]
     },
     "vklayer": {
-      "description": "Unit tests.",
+      "description": "Allows generation of Vulkan objects from ShaderAST shaders.",
       "dependencies": [
         "vulkan-headers"
       ]

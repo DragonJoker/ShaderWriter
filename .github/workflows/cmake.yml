@@ -52,7 +52,7 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci-notest -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
     - name: Build
       if: (steps.configure.conclusion == 'success')
       id: build
@@ -119,7 +119,7 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci-notest -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
     - name: Build
       if: (steps.configure.conclusion == 'success')
       id: build

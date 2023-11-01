@@ -61,7 +61,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
+			m_stmt->add( makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
 
 		return ValueT{ m_writer
@@ -82,7 +82,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
+			m_stmt->add( makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
 
 		return Array< ValueT >{ m_writer
@@ -102,7 +102,7 @@ namespace sdw
 
 		if ( isEnabled() && enabled )
 		{
-			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
+			m_stmt->add( makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
 
 		return Array< ValueT >{ m_writer
