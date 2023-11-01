@@ -2595,8 +2595,20 @@ namespace ast
 
 				if ( !processed )
 				{
-					m_allLiterals = false;
-					ExprCloner::visitMbrSelectExpr( expr );
+					auto outer = doSubmit( expr->getOuterExpr() );
+
+					if ( outer->getKind() == expr::Kind::eAggrInit )
+					{
+						auto & aggrInit = static_cast< expr::AggrInit const & >( *outer );
+						m_result = doSubmit( aggrInit.getInitialisers()[expr->getMemberIndex()] );
+					}
+					else
+					{
+						m_allLiterals = false;
+						m_result = m_exprCache.makeMbrSelect( std::move( outer )
+							, expr->getMemberIndex()
+							, expr->getMemberFlags() );
+					}
 				}
 			}
 
