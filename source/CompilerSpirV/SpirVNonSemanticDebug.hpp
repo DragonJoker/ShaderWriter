@@ -37,6 +37,7 @@ namespace spirv::debug
 			, glsl::Statements const & debugStatements );
 		spv::Id getNextId()const;
 		bool isExtNonSemanticDebugInfo( spv::Id id )const;
+		void setExtID( spv::Id id );
 		//
 		// Types declarations
 		//

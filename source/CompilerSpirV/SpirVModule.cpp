@@ -135,9 +135,11 @@ namespace spirv
 	}
 
 	Module::Module( ast::ShaderAllocatorBlock * alloc
+		, ast::type::TypesCache & typesCache
+		, NameCache & names
 		, Header const & pheader
 		, InstructionList instructions )
-		: Module{ alloc, nullptr, nullptr, nullptr }
+		: Module{ alloc, nullptr, nullptr, &typesCache }
 	{
 		doInitialiseHeader( pheader );
 		auto it = instructions.begin();
@@ -145,22 +147,128 @@ namespace spirv
 		while ( it != instructions.end() )
 		{
 			auto opCode = spv::Op( ( *it )->op.opData.opCode );
+			auto & instruction = *it;
 
-			if ( !doDeserializeInfos( opCode, it, instructions.end() ) )
+			switch ( opCode )
 			{
-				if ( !doDeserializeFunc( opCode, it, instructions.end() ) )
+			case spv::OpExtInstImport:
+				names.add( *instruction->resultId, *instruction->name );
+
+				if ( instruction->name == "GLSL.std.450" )
 				{
-					if ( auto * list = doSelectInstructionsList( opCode ) )
-					{
-						list->emplace_back( std::move( *it ) );
-						++it;
-					}
+					this->extGlslStd450.id = *instruction->resultId;
 				}
+				else if ( instruction->name == "NonSemantic.Shader.DebugInfo.100" )
+				{
+					m_nonSemanticDebug.setExtID( *instruction->resultId );
+				}
+
+				extensions.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpMemoryModel:
+				memoryModel = std::move( instruction );
+				++it;
+				break;
+			case spv::OpEntryPoint:
+				entryPoint = std::move( instruction );
+				++it;
+				break;
+			case spv::OpString:
+				names.add( *instruction->resultId, *instruction->name );
+				m_debugNames.getStringsDeclarations().push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpSource:
+			case spv::OpSourceExtension:
+				m_debugNames.getNamesDeclarations().push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpName:
+				names.add( *instruction->resultId, *instruction->name );
+				m_debugNames.getNamesDeclarations().push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpMemberName:
+				names.addMember( *instruction->returnTypeId, *instruction->resultId, *instruction->name );
+				m_debugNames.getNamesDeclarations().push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpExtension:
+				extensions.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpExtInst:
+				m_nonSemanticDebug.getDeclarations().push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpCapability:
+				capabilities.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpExecutionMode:
+				executionModes.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpDecorate:
+			case spv::OpMemberDecorate:
+				decorations.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpVariable:
+				globalDeclarations.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpFunction:
+				functions.emplace_back( Function::deserialize( allocator, it, instructions.end() ) );
+				break;
+			case spv::OpTypeVoid:
+			case spv::OpTypeBool:
+			case spv::OpTypeInt:
+			case spv::OpTypeFloat:
+			case spv::OpTypeVector:
+			case spv::OpTypeMatrix:
+			case spv::OpTypeImage:
+			case spv::OpTypeSampler:
+			case spv::OpTypeSampledImage:
+			case spv::OpTypeArray:
+			case spv::OpTypeRuntimeArray:
+			case spv::OpTypeStruct:
+			case spv::OpTypeOpaque:
+			case spv::OpTypePointer:
+			case spv::OpTypeFunction:
+			case spv::OpTypeEvent:
+			case spv::OpTypeDeviceEvent:
+			case spv::OpTypeReserveId:
+			case spv::OpTypeQueue:
+			case spv::OpTypePipe:
+			case spv::OpTypeForwardPointer:
+				m_types.deserialize( opCode, *instruction, names );
+				constantsTypes.push_back( std::move( instruction ) );
+				++it;
+				break;
+			case spv::OpConstant:
+			case spv::OpConstantComposite:
+			case spv::OpConstantFalse:
+			case spv::OpConstantTrue:
+			case spv::OpSpecConstant:
+			case spv::OpSpecConstantComposite:
+			case spv::OpSpecConstantFalse:
+			case spv::OpSpecConstantTrue:
+				m_literals.deserialize( opCode, *instruction );
+				constantsTypes.push_back( std::move( instruction ) );
+				++it;
+				break;
+			default:
+				++it;
+				break;
 			}
 		}
 	}
 
 	Module Module::deserialize( ast::ShaderAllocatorBlock * allocator
+		, ast::type::TypesCache & typesCache
+		, NameCache & names
 		, std::vector< uint32_t > const & spirv )
 	{
 		BufferCIt buffer{ spirv.cbegin(), 0u };
@@ -178,13 +286,14 @@ namespace spirv
 			instructions.emplace_back( buffer.popInstruction( allocator ) );
 		}
 
-		return Module{ allocator, header, std::move( instructions ) };
+		return Module{ allocator, typesCache, names, header, std::move( instructions ) };
 	}
 
 	std::string spirv::Module::write( spirv::Module const & module
+		, NameCache & names
 		, bool writeHeader )
 	{
-		return spirv::write( module, writeHeader );
+		return spirv::write( module, names, writeHeader );
 	}
 
 	UInt32List spirv::Module::serialize( spirv::Module const & module )
@@ -1339,9 +1448,9 @@ namespace spirv
 			, resultId );
 	}
 
-	ast::type::Kind Module::getLiteralType( DebugId litId )const
+	ast::type::TypePtr Module::getType( DebugId typeId )const
 	{
-		return m_literals.getLiteralType( litId );
+		return m_types.getType( typeId );
 	}
 
 	void Module::doReplaceDecoration( DebugId id
@@ -1602,123 +1711,6 @@ namespace spirv
 
 		m_registeredVariablesTypes.emplace( varId, rawTypeId );
 		m_nonSemanticDebug.declareVariable( block.instructions, std::move( name ), type, varId, initialiser, debugStatement );
-	}
-
-	InstructionList * Module::doSelectInstructionsList( spv::Op opCode )
-	{
-		InstructionList * list{ nullptr };
-
-		switch ( opCode )
-		{
-		case spv::OpString:
-			list = &m_debugNames.getStringsDeclarations();
-			break;
-		case spv::OpSource:
-		case spv::OpSourceExtension:
-		case spv::OpName:
-		case spv::OpMemberName:
-			list = &m_debugNames.getNamesDeclarations();
-			break;
-		case spv::OpExtInstImport:
-		case spv::OpExtension:
-			list = &extensions;
-			break;
-		case spv::OpExtInst:
-			list = &m_nonSemanticDebug.getDeclarations();
-			break;
-		case spv::OpCapability:
-			list = &capabilities;
-			break;
-		case spv::OpExecutionMode:
-			list = &executionModes;
-			break;
-		case spv::OpDecorate:
-		case spv::OpMemberDecorate:
-			list = &decorations;
-			break;
-		case spv::OpVariable:
-			list = &globalDeclarations;
-			break;
-		case spv::OpTypeVoid:
-		case spv::OpTypeBool:
-		case spv::OpTypeInt:
-		case spv::OpTypeFloat:
-		case spv::OpTypeVector:
-		case spv::OpTypeMatrix:
-		case spv::OpTypeImage:
-		case spv::OpTypeSampler:
-		case spv::OpTypeSampledImage:
-		case spv::OpTypeArray:
-		case spv::OpTypeRuntimeArray:
-		case spv::OpTypeStruct:
-		case spv::OpTypeOpaque:
-		case spv::OpTypePointer:
-		case spv::OpTypeFunction:
-		case spv::OpTypeEvent:
-		case spv::OpTypeDeviceEvent:
-		case spv::OpTypeReserveId:
-		case spv::OpTypeQueue:
-		case spv::OpTypePipe:
-		case spv::OpTypeForwardPointer:
-		case spv::OpConstant:
-		case spv::OpConstantComposite:
-		case spv::OpConstantFalse:
-		case spv::OpConstantTrue:
-		case spv::OpSpecConstant:
-		case spv::OpSpecConstantComposite:
-		case spv::OpSpecConstantFalse:
-		case spv::OpSpecConstantTrue:
-			list = &constantsTypes;
-			break;
-		default:
-			break;
-		}
-
-		return list;
-	}
-
-	bool Module::doDeserializeInfos( spv::Op opCode
-		, InstructionList::iterator & current
-		, InstructionList::iterator end )
-	{
-		bool result = false;
-
-		switch ( opCode )
-		{
-		case spv::OpMemoryModel:
-			memoryModel = std::move( *current );
-			result = true;
-			++current;
-			break;
-		case spv::OpEntryPoint:
-			entryPoint = std::move( *current );
-			result = true;
-			++current;
-			break;
-		default:
-			break;
-		}
-
-		return result;
-	}
-
-	bool Module::doDeserializeFunc( spv::Op opCode
-		, InstructionList::iterator & current
-		, InstructionList::iterator end )
-	{
-		bool result = false;
-
-		switch ( opCode )
-		{
-		case spv::OpFunction:
-			functions.emplace_back( Function::deserialize( allocator, current, end ) );
-			result = true;
-			break;
-		default:
-			break;
-		}
-
-		return result;
 	}
 
 	//*************************************************************************

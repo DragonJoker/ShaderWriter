@@ -713,101 +713,215 @@ namespace ast::type
 
 	TypePtr TypesCache::getVec2Type( Kind kind )
 	{
-		switch ( kind )
-		{
-		case Kind::eBoolean:
-			return getVec2B();
-		case Kind::eInt8:
-			return getVec2I8();
-		case Kind::eInt16:
-			return getVec2I16();
-		case Kind::eInt32:
-			return getVec2I32();
-		case Kind::eInt64:
-			return getVec2I64();
-		case Kind::eUInt8:
-			return getVec2U8();
-		case Kind::eUInt16:
-			return getVec2U16();
-		case Kind::eUInt32:
-			return getVec2U32();
-		case Kind::eUInt64:
-			return getVec2U64();
-		case Kind::eHalf:
-			return getVec2H();
-		case Kind::eFloat:
-			return getVec2F();
-		case Kind::eDouble:
-			return getVec2D();
-		default:
-			AST_Failure( "Unsupported component type." );
-			return nullptr;
-		}
+		kind = getVec2Kind( kind );
+		return kind == Kind::eUndefined
+			? nullptr
+			: getBasicType( kind );
 	}
 
 	TypePtr TypesCache::getVec3Type( Kind kind )
 	{
-		switch ( kind )
-		{
-		case Kind::eBoolean:
-			return getVec3B();
-		case Kind::eInt8:
-			return getVec3I8();
-		case Kind::eInt16:
-			return getVec3I16();
-		case Kind::eInt32:
-			return getVec3I32();
-		case Kind::eInt64:
-			return getVec3I64();
-		case Kind::eUInt8:
-			return getVec3U8();
-		case Kind::eUInt16:
-			return getVec3U16();
-		case Kind::eUInt32:
-			return getVec3U32();
-		case Kind::eUInt64:
-			return getVec3U64();
-		case Kind::eFloat:
-			return getVec3F();
-		case Kind::eDouble:
-			return getVec3D();
-		default:
-			AST_Failure( "Unsupported component type." );
-			return nullptr;
-		}
+		kind = getVec3Kind( kind );
+		return kind == Kind::eUndefined
+			? nullptr
+			: getBasicType( kind );
 	}
 
 	TypePtr TypesCache::getVec4Type( Kind kind )
 	{
+		kind = getVec4Kind( kind );
+		return kind == Kind::eUndefined
+			? nullptr
+			: getBasicType( kind );
+	}
+
+	TypePtr TypesCache::getMat2Type( Kind kind )
+	{
+		kind = getMat2Kind( kind );
+		return kind == Kind::eUndefined
+			? nullptr
+			: getBasicType( kind );
+	}
+
+	TypePtr TypesCache::getMat3Type( Kind kind )
+	{
+		kind = getMat3Kind( kind );
+		return kind == Kind::eUndefined
+			? nullptr
+			: getBasicType( kind );
+	}
+
+	TypePtr TypesCache::getMat4Type( Kind kind )
+	{
+		kind = getMat4Kind( kind );
+		return kind == Kind::eUndefined
+			? nullptr
+			: getBasicType( kind );
+	}
+
+	Kind TypesCache::getVec2Kind( Kind kind )
+	{
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return getVec4B();
+			return Kind::eVec2B;
 		case Kind::eInt8:
-			return getVec4I8();
+			return Kind::eVec2I8;
 		case Kind::eInt16:
-			return getVec4I16();
+			return Kind::eVec2I16;
 		case Kind::eInt32:
-			return getVec4I32();
+			return Kind::eVec2I32;
 		case Kind::eInt64:
-			return getVec4I64();
+			return Kind::eVec2I64;
 		case Kind::eUInt8:
-			return getVec4U8();
+			return Kind::eVec2U8;
 		case Kind::eUInt16:
-			return getVec4U16();
+			return Kind::eVec2U16;
 		case Kind::eUInt32:
-			return getVec4U32();
+			return Kind::eVec2U32;
 		case Kind::eUInt64:
-			return getVec4U64();
+			return Kind::eVec2U64;
 		case Kind::eHalf:
-			return getVec4H();
+			return Kind::eVec2H;
 		case Kind::eFloat:
-			return getVec4F();
+			return Kind::eVec2F;
 		case Kind::eDouble:
-			return getVec4D();
+			return Kind::eVec2D;
 		default:
 			AST_Failure( "Unsupported component type." );
-			return nullptr;
+			return Kind::eUndefined;
+		}
+	}
+
+	Kind TypesCache::getVec3Kind( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eBoolean:
+			return Kind::eVec3B;
+		case Kind::eInt8:
+			return Kind::eVec3I8;
+		case Kind::eInt16:
+			return Kind::eVec3I16;
+		case Kind::eInt32:
+			return Kind::eVec3I32;
+		case Kind::eInt64:
+			return Kind::eVec3I64;
+		case Kind::eUInt8:
+			return Kind::eVec3U8;
+		case Kind::eUInt16:
+			return Kind::eVec3U16;
+		case Kind::eUInt32:
+			return Kind::eVec3U32;
+		case Kind::eUInt64:
+			return Kind::eVec3U64;
+		case Kind::eFloat:
+			return Kind::eVec3F;
+		case Kind::eDouble:
+			return Kind::eVec3D;
+		default:
+			AST_Failure( "Unsupported component type." );
+			return Kind::eUndefined;
+		}
+	}
+
+	Kind TypesCache::getVec4Kind( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eBoolean:
+			return Kind::eVec4B;
+		case Kind::eInt8:
+			return Kind::eVec4I8;
+		case Kind::eInt16:
+			return Kind::eVec4I16;
+		case Kind::eInt32:
+			return Kind::eVec4I32;
+		case Kind::eInt64:
+			return Kind::eVec4I64;
+		case Kind::eUInt8:
+			return Kind::eVec4U8;
+		case Kind::eUInt16:
+			return Kind::eVec4U16;
+		case Kind::eUInt32:
+			return Kind::eVec4U32;
+		case Kind::eUInt64:
+			return Kind::eVec4U64;
+		case Kind::eHalf:
+			return Kind::eVec4H;
+		case Kind::eFloat:
+			return Kind::eVec4F;
+		case Kind::eDouble:
+			return Kind::eVec4D;
+		default:
+			AST_Failure( "Unsupported component type." );
+			return Kind::eUndefined;
+		}
+	}
+
+	Kind TypesCache::getMat2Kind( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eVec2F:
+			return Kind::eMat2x2F;
+		case Kind::eVec2D:
+			return Kind::eMat2x2D;
+		case Kind::eVec3F:
+			return Kind::eMat2x3F;
+		case Kind::eVec3D:
+			return Kind::eMat2x3D;
+		case Kind::eVec4F:
+			return Kind::eMat2x4F;
+		case Kind::eVec4D:
+			return Kind::eMat2x4D;
+		default:
+			AST_Failure( "Unsupported component type." );
+			return Kind::eUndefined;
+		}
+	}
+
+	Kind TypesCache::getMat3Kind( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eVec2F:
+			return Kind::eMat3x2F;
+		case Kind::eVec2D:
+			return Kind::eMat3x2D;
+		case Kind::eVec3F:
+			return Kind::eMat3x3F;
+		case Kind::eVec3D:
+			return Kind::eMat3x3D;
+		case Kind::eVec4F:
+			return Kind::eMat3x4F;
+		case Kind::eVec4D:
+			return Kind::eMat3x4D;
+		default:
+			AST_Failure( "Unsupported component type." );
+			return Kind::eUndefined;
+		}
+	}
+
+	Kind TypesCache::getMat4Kind( Kind kind )
+	{
+		switch ( kind )
+		{
+		case Kind::eVec2F:
+			return Kind::eMat4x2F;
+		case Kind::eVec2D:
+			return Kind::eMat4x2D;
+		case Kind::eVec3F:
+			return Kind::eMat4x3F;
+		case Kind::eVec3D:
+			return Kind::eMat4x3D;
+		case Kind::eVec4F:
+			return Kind::eMat4x4F;
+		case Kind::eVec4D:
+			return Kind::eMat4x4D;
+		default:
+			AST_Failure( "Unsupported component type." );
+			return Kind::eUndefined;
 		}
 	}
 

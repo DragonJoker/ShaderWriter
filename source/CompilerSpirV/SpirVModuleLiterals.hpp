@@ -34,11 +34,14 @@ namespace spirv
 		DebugId registerLiteral( double value );
 		DebugId registerLiteral( DebugIdList const & initialisers
 			, ast::type::TypePtr type );
-
 		void registerConstant( DebugId const & id
 			, ast::type::TypePtr type );
 
-		ast::type::Kind getLiteralType( DebugId litId )const;
+		void deserialize( spv::Op opCode
+			, Instruction const & instruction );
+
+	private:
+		DebugId doFindConstant( spv::Id id );
 
 	private:
 		Module & m_module;

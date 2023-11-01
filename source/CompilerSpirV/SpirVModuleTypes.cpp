@@ -189,13 +189,12 @@ namespace spirv
 		, m_nonSemanticDebug{ m_module.getNonSemanticDebug() }
 		, m_declarations{ constantsTypes }
 		, m_typesCache{ typesCache }
-		, m_registeredTypes{ allocator }
-		, m_registeredMemberTypes{ allocator }
-		, m_registeredSamplerImages{ allocator }
-		, m_registeredImageTypes{ allocator }
-		, m_registeredPointerTypes{ allocator }
-		, m_registeredForwardPointerTypes{ allocator }
-		, m_registeredFunctionTypes{ allocator }
+		, m_registeredTypes{ m_allocator }
+		, m_registeredSamplerImages{ m_allocator }
+		, m_registeredImageTypes{ m_allocator }
+		, m_registeredPointerTypes{ m_allocator }
+		, m_registeredForwardPointerTypes{ m_allocator }
+		, m_registeredFunctionTypes{ m_allocator }
 	{
 	}
 
@@ -320,6 +319,391 @@ namespace spirv
 		}
 
 		return it->second;
+	}
+
+	ast::type::TypePtr ModuleTypes::getType( DebugId typeId )const
+	{
+		auto rit = std::find_if( m_registeredTypes.begin()
+			, m_registeredTypes.end()
+			, [typeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+			{
+				return lookup.second.id.id == typeId.id.id;
+			} );
+		if ( rit != m_registeredTypes.end() )
+		{
+			return rit->first;
+		}
+
+		return nullptr;
+	}
+
+	void ModuleTypes::deserialize( spv::Op opCode
+		, Instruction const & instruction
+		, NameCache & names )
+	{
+		switch ( opCode )
+		{
+		case spv::OpTypeVoid:
+			doRegisterBaseType( *instruction.resultId, ast::type::Kind::eVoid );
+			break;
+		case spv::OpTypeBool:
+			doRegisterBaseType( *instruction.resultId, ast::type::Kind::eBoolean );
+			break;
+		case spv::OpTypeInt:
+			{
+				auto size = instruction.operands[0];
+				auto sign = instruction.operands[1];
+				ast::type::Kind kind;
+
+				if ( size <= 8u )
+				{
+					if ( sign != 0u )
+					{
+						kind = ast::type::Kind::eInt8;
+					}
+					else
+					{
+						kind = ast::type::Kind::eUInt8;
+					}
+				}
+				else if ( size <= 16u )
+				{
+					if ( sign != 0u )
+					{
+						kind = ast::type::Kind::eInt16;
+					}
+					else
+					{
+						kind = ast::type::Kind::eUInt16;
+					}
+				}
+				else if ( size <= 32u )
+				{
+					if ( sign != 0u )
+					{
+						kind = ast::type::Kind::eInt32;
+					}
+					else
+					{
+						kind = ast::type::Kind::eUInt32;
+					}
+				}
+				else
+				{
+					if ( sign != 0u )
+					{
+						kind = ast::type::Kind::eInt64;
+					}
+					else
+					{
+						kind = ast::type::Kind::eUInt64;
+					}
+				}
+
+				doRegisterBaseType( *instruction.resultId, kind );
+			}
+			break;
+		case spv::OpTypeFloat:
+			{
+				auto size = instruction.operands[0];
+				ast::type::Kind kind;
+
+				if ( size <= 16u )
+				{
+					kind = ast::type::Kind::eHalf;
+				}
+				else if ( size <= 32u )
+				{
+					kind = ast::type::Kind::eFloat;
+				}
+				else
+				{
+					kind = ast::type::Kind::eDouble;
+				}
+
+				doRegisterBaseType( *instruction.resultId, kind );
+			}
+			break;
+		case spv::OpTypeVector:
+			{
+				auto componentId = instruction.operands[0];
+				auto cit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [componentId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == componentId;
+					} );
+				if ( cit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				auto kind = cit->first->getKind();
+				auto count = instruction.operands[1];
+
+				if ( count == 2u )
+				{
+					kind = m_typesCache->getVec2Kind( kind );
+				}
+				else if ( count == 3u )
+				{
+					kind = m_typesCache->getVec3Kind( kind );
+				}
+				else
+				{
+					kind = m_typesCache->getVec4Kind( kind );
+				}
+
+				if ( kind == ast::type::Kind::eUndefined )
+				{
+					return;
+				}
+
+				doRegisterBaseType( *instruction.resultId, kind );
+			}
+			break;
+		case spv::OpTypeMatrix:
+			{
+				auto componentId = instruction.operands[0];
+				auto cit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [componentId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == componentId;
+					} );
+				if ( cit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				auto kind = cit->first->getKind();
+				auto count = instruction.operands[1];
+
+				if ( count == 2u )
+				{
+					kind = m_typesCache->getMat2Kind( kind );
+				}
+				else if ( count == 3u )
+				{
+					kind = m_typesCache->getMat3Kind( kind );
+				}
+				else
+				{
+					kind = m_typesCache->getMat4Kind( kind );
+				}
+
+				if ( kind == ast::type::Kind::eUndefined )
+				{
+					return;
+				}
+
+				doRegisterBaseType( *instruction.resultId, kind );
+			}
+			break;
+		case spv::OpTypeImage:
+			{
+				ast::type::ImageConfiguration config;
+				config.dimension = ast::type::ImageDim( instruction.operands[1] );
+				auto isComparison = ( instruction.operands[2] == 1u
+					? ast::type::Trinary::eTrue
+					: ( instruction.operands[2] == 0u
+						? ast::type::Trinary::eFalse
+						: ast::type::Trinary::eDontCare ) );
+				config.isArrayed = instruction.operands[3] == 1u;
+				config.isMS = instruction.operands[4] == 1u;
+				config.isSampled = ( instruction.operands[5] == 1u
+					? ast::type::Trinary::eTrue
+					: ( instruction.operands[5] == 0u
+						? ast::type::Trinary::eFalse
+						: ast::type::Trinary::eDontCare ) );
+				config.format = getImageFormat( spv::ImageFormat( instruction.operands[6] ) );
+				auto type = m_typesCache->getImage( config );
+				doRegisterBaseType( *instruction.resultId, type, isComparison );
+			}
+			break;
+		case spv::OpTypeSampler:
+			{
+				auto type = m_typesCache->getSampler();
+				doRegisterBaseType( *instruction.resultId, type );
+			}
+			break;
+		case spv::OpTypeSampledImage:
+			{
+				auto imageId = instruction.operands[0u];
+				auto iit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [imageId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == imageId;
+					} );
+				if ( iit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				auto image = std::static_pointer_cast< ast::type::Image >( iit->first );
+				auto type = m_typesCache->getCombinedImage( image->getConfig() );
+				doRegisterBaseType( *instruction.resultId, type );
+			}
+			break;
+		case spv::OpTypeArray:
+			{
+				auto elementId = instruction.operands[0];
+				auto cit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [elementId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == elementId;
+					} );
+				if ( cit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				auto count = instruction.operands[1];
+				auto type = m_typesCache->getArray( cit->first, count );
+				doRegisterBaseType( *instruction.resultId, type );
+			}
+			break;
+		case spv::OpTypeRuntimeArray:
+			{
+				auto elementId = instruction.operands[0];
+				auto cit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [elementId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == elementId;
+					} );
+				if ( cit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				auto type = m_typesCache->getArray( cit->first );
+				doRegisterBaseType( *instruction.resultId, type );
+			}
+			break;
+		case spv::OpTypePointer:
+			{
+				auto storage = spv::StorageClass( instruction.operands[0] );
+				auto elementId = instruction.operands[1];
+				auto cit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [elementId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == elementId;
+					} );
+				if ( cit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				auto key = ( uint64_t( cit->second.id.id ) << 33 )
+					| ( ( uint64_t( cit->second.isPointer() ) << 32 ) & 0x01 )
+					| ( uint64_t( storage ) << 1 );
+				auto type = m_typesCache->getPointerType( cit->first, convert( storage ) );
+				m_registeredPointerTypes.emplace( key, TypeId{ *instruction.resultId, type } ).first;
+			}
+			break;
+		case spv::OpTypeStruct:
+			{
+				auto structId = instruction.resultId.value();
+				auto type = m_typesCache->getStruct( ast::type::MemoryLayout::eC
+					, names.get( structId ) );
+				std::vector< ast::type::Struct::Member > members;
+
+				for ( uint32_t i = 0u; i < uint32_t( instruction.operands.size() ); ++i )
+				{
+					auto subTypeId = instruction.operands[i];
+					auto cit = std::find_if( m_registeredTypes.begin()
+						, m_registeredTypes.end()
+						, [subTypeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+						{
+							return lookup.second.id.id == subTypeId;
+						} );
+					if ( cit == m_registeredTypes.end() )
+					{
+						return;
+					}
+
+					if ( cit->first->getKind() == ast::type::Kind::eArray )
+					{
+						type->declMember( names.getMember( structId, i )
+							, std::static_pointer_cast< ast::type::Array >( cit->first ) );
+					}
+					else
+					{
+						type->declMember( names.getMember( structId, i ), cit->first );
+					}
+				}
+
+				doRegisterBaseType( structId, type );
+			}
+			break;
+		case spv::OpTypeFunction:
+			{
+				auto funcId = instruction.resultId.value();
+				ast::var::VariableList params;
+				auto retTypeId = instruction.operands[0];
+				auto cit = std::find_if( m_registeredTypes.begin()
+					, m_registeredTypes.end()
+					, [retTypeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					{
+						return lookup.second.id.id == retTypeId;
+					} );
+				if ( cit == m_registeredTypes.end() )
+				{
+					return;
+				}
+
+				TypeIdList types{ m_allocator };
+				auto returnType = cit->first;
+				types.emplace_back( cit->second );
+
+				for ( uint32_t i = 1u; i < uint32_t( instruction.operands.size() ); ++i )
+				{
+					auto paramTypeId = instruction.operands[i];
+					cit = std::find_if( m_registeredTypes.begin()
+						, m_registeredTypes.end()
+						, [paramTypeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+						{
+							return lookup.second.id.id == paramTypeId;
+						} );
+					ast::type::TypePtr paramType;
+
+					if ( cit == m_registeredTypes.end() )
+					{
+						auto pit = std::find_if( m_registeredPointerTypes.begin()
+							, m_registeredPointerTypes.end()
+							, [paramTypeId]( std::pair< uint64_t, TypeId > const & lookup )
+							{
+								return lookup.second.id.id == paramTypeId;
+							} );
+
+						if ( pit == m_registeredPointerTypes.end() )
+						{
+							return;
+						}
+
+						paramType = pit->second.id.type;
+					}
+					else
+					{
+						paramType = cit->first;
+					}
+
+					types.emplace_back( paramTypeId, paramType );
+					params.push_back( ast::var::makeVariable( { i, "param" + std::to_string( i ) }, paramType ) );
+				}
+
+				auto type = m_typesCache->getFunction( returnType, std::move( params ) );
+				auto resultId = doRegisterBaseType( funcId, type );
+				m_registeredFunctionTypes.emplace( std::move( types ), resultId );
+			}
+			break;
+		default:
+			break;
+		}
 	}
 
 	TypeId ModuleTypes::doRegisterNonArrayType( ast::type::TypePtr type
@@ -584,6 +968,20 @@ namespace spirv
 		return result;
 	}
 
+	TypeId & ModuleTypes::doRegisterBaseType( spv::Id id
+		, ast::type::TypePtr type )
+	{
+		TypeId result{ 0u, type };
+		result.id.id = id;
+		return m_registeredTypes.emplace( type, result ).first->second;
+	}
+
+	TypeId & ModuleTypes::doRegisterBaseType( spv::Id id
+		, ast::type::Kind kind )
+	{
+		return doRegisterBaseType( id, m_typesCache->getBasicType( kind ) );
+	}
+
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::Kind kind
 		, uint32_t mbrIndex
 		, TypeId parentId
@@ -597,10 +995,7 @@ namespace spirv
 		assert( kind != ast::type::Kind::eSampledImage );
 		assert( kind != ast::type::Kind::eCombinedImage );
 
-		auto type = m_typesCache->getBasicType( kind );
-		TypeId result{ 0u, type };
-		result.id.id = m_module.getNextId();
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+		auto & resultId = doRegisterBaseType( m_module.getNextId(), kind );
 
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
@@ -640,11 +1035,9 @@ namespace spirv
 		, uint32_t mbrIndex
 		, TypeId parentId )
 	{
-		TypeId result{ 0u, type };
-		result.id.id = m_module.getNextId();
+		auto & resultId = doRegisterBaseType( m_module.getNextId(), type );
 		m_declarations.push_back( makeInstruction< SamplerTypeInstruction >( m_module.getNameCache()
-			, result.id ) );
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+			, resultId.id ) );
 		m_nonSemanticDebug.registerSamplerType( std::move( type ), resultId );
 		return resultId;
 	}
@@ -653,16 +1046,29 @@ namespace spirv
 		, uint32_t mbrIndex
 		, TypeId parentId )
 	{
+		auto & resultId = doRegisterBaseType( m_module.getNextId(), type );
 		auto imgTypeId = doRegisterBaseType( type->getImageType()
 			, type->isComparison() ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
-		TypeId result{ 0u, type };
-		result.id.id = m_module.getNextId();
 		m_declarations.push_back( makeInstruction< TextureTypeInstruction >( m_module.getNameCache()
-			, result.id
+			, resultId.id
 			, imgTypeId.id ) );
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
 		m_nonSemanticDebug.registerCombinedImageType( std::move( type ), resultId );
 		return resultId;
+	}
+
+	void ModuleTypes::doRegisterBaseType( spv::Id id
+		, ast::type::ImagePtr type
+		, ast::type::Trinary isComparison )
+	{
+		auto ires = m_registeredImageTypes.emplace( modtyp::myHash( type->getConfig(), isComparison ), TypeId{} );
+		auto it = ires.first;
+
+		if ( ires.second )
+		{
+			it->second = TypeId{ id, type };
+			auto & resultId = m_registeredTypes.emplace( type, it->second ).first->second;
+			it->second = resultId;
+		}
 	}
 
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::ImagePtr type

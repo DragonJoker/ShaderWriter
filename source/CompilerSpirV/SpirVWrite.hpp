@@ -12,6 +12,7 @@ See LICENSE file in root folder
 namespace spirv
 {
 	std::string write( spirv::Module const & module
+		, NameCache & names
 		, bool doWriteHeader );
 }
 

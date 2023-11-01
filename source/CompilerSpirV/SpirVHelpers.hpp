@@ -460,6 +460,7 @@ namespace spirv
 	std::string getTypeName( spv::Op op );
 	std::string getOperatorName( spv::Op op );
 	std::string getName( spv::Capability value );
+	ast::type::ImageFormat getImageFormat( spv::ImageFormat value );
 	ValueIdList makeBinOpOperands( ast::ShaderAllocatorBlock * alloc
 		, ast::expr::Kind exprKind
 		, ast::type::Kind lhsTypeKind

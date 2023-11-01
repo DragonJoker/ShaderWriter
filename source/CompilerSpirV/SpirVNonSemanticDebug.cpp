@@ -83,6 +83,11 @@ namespace spirv::debug
 		return id == m_extDebugInfo.id;
 	}
 
+	void NonSemanticDebug::setExtID( spv::Id id )
+	{
+		m_extDebugInfo.id = id;
+	}
+
 	void NonSemanticDebug::registerBaseType( ast::type::Kind kind
 		, DebugId & resultId )
 	{

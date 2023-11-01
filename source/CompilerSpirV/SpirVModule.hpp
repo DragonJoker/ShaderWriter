@@ -27,6 +27,32 @@ namespace spirv
 		uint32_t schema;
 	};
 
+	struct NameCache
+	{
+		using IdNames = ast::Map< spv::Id, std::string >;
+
+		explicit NameCache( ast::ShaderAllocatorBlock * alloc );
+		void add( spv::Id id, std::string name );
+		void addMember( spv::Id outerId, uint32_t index, std::string name );
+		void addType( spv::Id id, std::string name );
+
+		std::string getFloatTypeName( Instruction const & instruction )const;
+		std::string getIntTypeName( Instruction const & instruction )const;
+		std::string getVecTypeName( Instruction const & instruction )const;
+		std::string getMatTypeName( Instruction const & instruction )const;
+		std::string getStructTypeName( Instruction const & instruction )const;
+		std::string getArrayTypeName( Instruction const & instruction )const;
+		std::string getPtrTypeName( Instruction const & instruction )const;
+		std::string getRaw( spv::Id id )const;
+		std::string get( spv::Id id )const;
+		std::string getMember( spv::Id id, uint32_t index )const;
+
+		IdNames names;
+		IdNames types;
+		using MemberList = std::map< uint32_t, std::string >;
+		std::map< spv::Id, MemberList > members;
+	};
+
 	class Module
 	{
 	private:
@@ -45,6 +71,8 @@ namespace spirv
 			, spv::ExecutionModel executionModel
 			, glsl::Statements const & debugStatements );
 		SDWSPIRV_API Module( ast::ShaderAllocatorBlock * alloc
+			, ast::type::TypesCache & typesCache
+			, NameCache & names
 			, Header const & header
 			, InstructionList instructions );
 
@@ -54,9 +82,12 @@ namespace spirv
 		}
 
 		SDWSPIRV_API static Module deserialize( ast::ShaderAllocatorBlock * allocator
+			, ast::type::TypesCache & typesCache
+			, NameCache & names
 			, std::vector< uint32_t > const & spirv );
 		SDWSPIRV_API static UInt32List serialize( spirv::Module const & module );
 		SDWSPIRV_API static std::string write( spirv::Module const & module
+			, NameCache & names
 			, bool writeHeader );
 
 		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
@@ -208,7 +239,7 @@ namespace spirv
 			, ValueIdList accessChainIds
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
-		SDWSPIRV_API ast::type::Kind getLiteralType( DebugId litId )const;
+		SDWSPIRV_API ast::type::TypePtr getType( DebugId typeId )const;
 
 		template< typename ... ParamsT >
 		DebugId registerLiteral( ParamsT && ... params )
@@ -271,13 +302,6 @@ namespace spirv
 		void doInitialiseExtensions( bool enableDebug
 			, glsl::Statements const & debugStatements );
 		void doInitialiseCapacities();
-		bool doDeserializeInfos( spv::Op opCode
-			, InstructionList::iterator & current
-			, InstructionList::iterator end );
-		bool doDeserializeFunc( spv::Op opCode
-			, InstructionList::iterator & current
-			, InstructionList::iterator end );
-		InstructionList * doSelectInstructionsList( spv::Op opCode );
 		void doAddDebug( std::string const & name
 			, DebugId id );
 		void doAddBuiltin( ast::Builtin builtin

@@ -144,6 +144,15 @@ namespace ast::type
 		SDAST_API TypePtr getVec2Type( Kind kind );
 		SDAST_API TypePtr getVec3Type( Kind kind );
 		SDAST_API TypePtr getVec4Type( Kind kind );
+		SDAST_API TypePtr getMat2Type( Kind kind );
+		SDAST_API TypePtr getMat3Type( Kind kind );
+		SDAST_API TypePtr getMat4Type( Kind kind );
+		SDAST_API Kind getVec2Kind( Kind kind );
+		SDAST_API Kind getVec3Kind( Kind kind );
+		SDAST_API Kind getVec4Kind( Kind kind );
+		SDAST_API Kind getMat2Kind( Kind kind );
+		SDAST_API Kind getMat3Kind( Kind kind );
+		SDAST_API Kind getMat4Kind( Kind kind );
 		SDAST_API TypePtr getVector( Kind kind, uint32_t count );
 
 		SDAST_API AccelerationStructurePtr getAccelerationStructure();

@@ -356,7 +356,7 @@ namespace spirv
 			case spv::OpLogicalAnd:
 				return BinInstructionT < spv::OpLogicalAnd >::Config;
 			case spv::OpLogicalNot:
-				return BinInstructionT < spv::OpLogicalNot >::Config;
+				return UnInstructionT < spv::OpLogicalNot >::Config;
 			case spv::OpSelect:
 				return SelectInstruction::Config;
 			case spv::OpIEqual:
@@ -473,6 +473,8 @@ namespace spirv
 				return IntrinsicInstructionT< spv::OpAtomicIDecrement >::Config;
 			case spv::OpAtomicIAdd:
 				return IntrinsicInstructionT< spv::OpAtomicIAdd >::Config;
+			case spv::OpAtomicFAddEXT:
+				return IntrinsicInstructionT< spv::OpAtomicFAddEXT >::Config;
 			case spv::OpAtomicISub:
 				return IntrinsicInstructionT< spv::OpAtomicISub >::Config;
 			case spv::OpAtomicSMin:
@@ -535,6 +537,104 @@ namespace spirv
 				return ImageAccessInstructionT < spv::OpImageSparseRead >::Config;
 			case spv::OpUndef:
 				return UndefInstruction::Config;
+			case spv::OpTerminateInvocation:
+				return TerminateInvocationInstruction::Config;
+			case spv::OpSubgroupAllKHR:
+				return IntrinsicInstructionT< spv::OpSubgroupAllKHR >::Config;
+			case spv::OpSubgroupAnyKHR:
+				return IntrinsicInstructionT< spv::OpSubgroupAnyKHR >::Config;
+			case spv::OpSubgroupAllEqualKHR:
+				return IntrinsicInstructionT< spv::OpSubgroupAllEqualKHR >::Config;
+			case spv::OpGroupNonUniformRotateKHR:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformRotateKHR >::Config;
+			case spv::OpReportIntersectionKHR:
+				return IntrinsicInstructionT< spv::OpReportIntersectionKHR >::Config;
+			case spv::OpIsHelperInvocationEXT:
+				return IntrinsicInstructionT< spv::OpIsHelperInvocationEXT >::Config;
+			case spv::OpTraceRayKHR:
+				return VoidIntrinsicInstructionT< spv::OpTraceRayKHR >::Config;
+			case spv::OpExecuteCallableKHR:
+				return VoidIntrinsicInstructionT< spv::OpExecuteCallableKHR >::Config;
+			case spv::OpWritePackedPrimitiveIndices4x8NV:
+				return WritePackedPrimitiveIndices4x8Instruction::Config;
+			case spv::OpSetMeshOutputsEXT:
+				return SetMeshOutputsInstruction::Config;
+			case spv::OpEmitMeshTasksEXT:
+				return EmitMeshTasksInstruction::Config;
+			case spv::OpGroupNonUniformElect:
+				return GroupNonUniformElectInstruction::Config;
+			case spv::OpGroupNonUniformAll:
+				return GroupNonUniformAllInstruction::Config;
+			case spv::OpGroupNonUniformAny:
+				return GroupNonUniformAnyInstruction::Config;
+			case spv::OpGroupNonUniformAllEqual:
+				return GroupNonUniformAllEqualInstruction::Config;
+			case spv::OpGroupNonUniformBroadcast:
+				return GroupNonUniformBroadcastInstruction::Config;
+			case spv::OpGroupNonUniformBroadcastFirst:
+				return GroupNonUniformBroadcastFirstInstruction::Config;
+			case spv::OpGroupNonUniformBallot:
+				return GroupNonUniformBallotInstruction::Config;
+			case spv::OpGroupNonUniformInverseBallot:
+				return GroupNonUniformInverseBallotInstruction::Config;
+			case spv::OpGroupNonUniformBallotBitExtract:
+				return GroupNonUniformBallotBitExtractInstruction::Config;
+			case spv::OpGroupNonUniformBallotBitCount:
+				return GroupNonUniformBallotBitCountInstruction::Config;
+			case spv::OpGroupNonUniformBallotFindLSB:
+				return GroupNonUniformBallotFindLSBInstruction::Config;
+			case spv::OpGroupNonUniformBallotFindMSB:
+				return GroupNonUniformBallotFindMSBInstruction::Config;
+			case spv::OpGroupNonUniformShuffle:
+				return GroupNonUniformShuffleInstruction::Config;
+			case spv::OpGroupNonUniformShuffleXor:
+				return GroupNonUniformShuffleXorInstruction::Config;
+			case spv::OpGroupNonUniformShuffleUp:
+				return GroupNonUniformShuffleUpInstruction::Config;
+			case spv::OpGroupNonUniformShuffleDown:
+				return GroupNonUniformShuffleDownInstruction::Config;
+			case spv::OpGroupNonUniformFAdd:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformFAdd >::Config;
+			case spv::OpGroupNonUniformIAdd:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformIAdd >::Config;
+			case spv::OpGroupNonUniformFMul:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformFMul >::Config;
+			case spv::OpGroupNonUniformIMul:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformIMul >::Config;
+			case spv::OpGroupNonUniformFMin:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformFMin >::Config;
+			case spv::OpGroupNonUniformSMin:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformSMin >::Config;
+			case spv::OpGroupNonUniformUMin:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformUMin >::Config;
+			case spv::OpGroupNonUniformFMax:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformFMax >::Config;
+			case spv::OpGroupNonUniformSMax:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformSMax >::Config;
+			case spv::OpGroupNonUniformUMax:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformUMax >::Config;
+			case spv::OpGroupNonUniformBitwiseAnd:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseAnd >::Config;
+			case spv::OpGroupNonUniformLogicalAnd:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformLogicalAnd >::Config;
+			case spv::OpGroupNonUniformBitwiseOr:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseOr >::Config;
+			case spv::OpGroupNonUniformLogicalOr:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformLogicalOr >::Config;
+			case spv::OpGroupNonUniformBitwiseXor:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformBitwiseXor >::Config;
+			case spv::OpGroupNonUniformLogicalXor:
+				return IntrinsicInstructionT< spv::OpGroupNonUniformLogicalXor >::Config;
+			case spv::OpSubgroupBallotKHR:
+				return IntrinsicInstructionT< spv::OpSubgroupBallotKHR >::Config;
+			case spv::OpSubgroupReadInvocationKHR:
+				return IntrinsicInstructionT< spv::OpSubgroupReadInvocationKHR >::Config;
+			case spv::OpSubgroupFirstInvocationKHR:
+				return IntrinsicInstructionT< spv::OpSubgroupFirstInvocationKHR >::Config;
+			case spv::OpGroupNonUniformQuadBroadcast:
+				return GroupNonUniformQuadBroadcastInstruction::Config;
+			case spv::OpGroupNonUniformQuadSwap:
+				return GroupNonUniformQuadSwapInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 				return dummy;
@@ -594,7 +694,7 @@ namespace spirv
 
 	//*************************************************************************
 
-	size_t TypeIdHasher::operator()( TypeId const & value )const
+	size_t DebugIdHasher::operator()( TypeId const & value )const
 	{
 		auto hash = std::hash< spv::Id >{}( value.id.id );
 		ast::type::hashCombine( hash, value.id.isPointer() );
@@ -603,16 +703,16 @@ namespace spirv
 
 	//*************************************************************************
 
-	size_t TypeIdListHasher::operator()( TypeIdList const & value )const
+	size_t DebugIdListHasher::operator()( TypeIdList const & value )const
 	{
 		assert( !value.empty() );
-		auto hash = TypeIdHasher{}( value[0] );
+		auto hash = DebugIdHasher{}( value[0] );
 
 		std::for_each( value.begin() + 1u
 			, value.end()
-			, [&hash]( TypeId const & id )
+			, [&hash]( DebugId const & id )
 			{
-				ast::type::hashCombine( hash, TypeIdHasher{}( id ) );
+				ast::type::hashCombine( hash, DebugIdHasher{}( id ) );
 			} );
 
 		return hash;

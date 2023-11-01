@@ -1097,6 +1097,29 @@ namespace spirv
 	};
 
 	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, true, false, 1u, true, false >
+	{
+		static bool constexpr HasReturnTypeId = true;
+		static bool constexpr HasResultId = false;
+		static uint32_t constexpr OperandsCount = 1u;
+		static bool constexpr HasName = true;
+		static bool constexpr HasLabels = false;
+		using InstructionType = InstructionT< OperatorT, HasReturnTypeId, HasResultId, OperandsCount, HasName, HasLabels >;
+		using InstructionTypePtr = std::unique_ptr< InstructionType >;
+
+		static inline InstructionTypePtr make( NamesCache & nameCache
+			, ValueId returnTypeId, ValueId operand, std::string name )
+		{
+			return std::make_unique< InstructionType >( nameCache
+				, returnTypeId
+				, nullopt
+				, makeOperands( nameCache.get_allocator().getAllocator(), operand )
+				, std::move( name )
+				, nullopt );
+		}
+	};
+
+	template< spv::Op OperatorT >
 	struct InstructionTMaker< OperatorT, true, true, 2u, true, false >
 	{
 		static bool constexpr HasReturnTypeId = true;

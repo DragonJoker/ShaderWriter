@@ -270,15 +270,139 @@ namespace spirv
 		m_registeredConstants.emplace( id, type );
 	}
 
-	ast::type::Kind ModuleLiterals::getLiteralType( DebugId litId )const
+	void ModuleLiterals::deserialize( spv::Op opCode
+		, Instruction const & instruction )
 	{
-		auto it = m_registeredConstants.find( litId );
-		if ( it != m_registeredConstants.end() )
+		auto type = m_module.getType( DebugId{ ValueId{ *instruction.returnTypeId } } );
+
+		if ( type == nullptr )
 		{
-			return it->second->getKind();
+			return;
 		}
 
-		return ast::type::Kind::eUndefined;
+		DebugId debugId{ *instruction.resultId, type };
+
+		switch ( opCode )
+		{
+		case spv::OpConstant:
+		case spv::OpSpecConstant:
+			switch ( type->getKind() )
+			{
+			case ast::type::Kind::eBoolean:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredBoolConstants.emplace( bool( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eInt8:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredInt8Constants.emplace( int8_t( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eInt16:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredInt16Constants.emplace( int16_t( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eInt32:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredInt32Constants.emplace( int32_t( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eInt64:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredInt64Constants.emplace( ( int64_t( instruction.operands[0] ) << 32 ) + int64_t( instruction.operands[1] )
+					, debugId );
+				break;
+			case ast::type::Kind::eUInt8:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredUInt8Constants.emplace( uint8_t( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eUInt16:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredUInt16Constants.emplace( uint16_t( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eUInt32:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredUInt32Constants.emplace( uint32_t( instruction.operands[0] )
+					, debugId );
+				break;
+			case ast::type::Kind::eUInt64:
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredUInt64Constants.emplace( ( uint64_t( instruction.operands[0] ) << 32u ) + uint64_t( instruction.operands[1] )
+					, debugId );
+				break;
+			case ast::type::Kind::eFloat:
+#pragma GCC diagnostic push
+#if defined( __clang__ )
+#	pragma GCC diagnostic ignored "-Wundefined-reinterpret-cast"
+#else
+#	pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredFloatConstants.emplace( *reinterpret_cast< float const * >( instruction.operands.data() )
+					, debugId );
+#pragma GCC diagnostic pop
+				break;
+			case ast::type::Kind::eDouble:
+#pragma GCC diagnostic push
+#if defined( __clang__ )
+#	pragma GCC diagnostic ignored "-Wundefined-reinterpret-cast"
+#else
+#	pragma GCC diagnostic ignored "-Wstrict-aliasing"
+#endif
+				assert( instruction.operands.size() >= 2 );
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredDoubleConstants.emplace( *reinterpret_cast< double const * >( instruction.operands.data() )
+					, debugId );
+#pragma GCC diagnostic pop
+				break;
+			default:
+				break;
+			}
+			break;
+		case spv::OpConstantComposite:
+		case spv::OpSpecConstantComposite:
+			{
+				DebugIdList initialisers{ m_allocator };
+
+				for ( uint32_t i = 0u; i < uint32_t( instruction.operands.size() ); ++i )
+				{
+					auto paramTypeId = instruction.operands[i];
+					auto cit = std::find_if( m_registeredConstants.begin()
+						, m_registeredConstants.end()
+						, [paramTypeId]( std::pair< DebugId const, ast::type::TypePtr > const & lookup )
+						{
+							return lookup.first.id.id == paramTypeId;
+						} );
+					if ( cit == m_registeredConstants.end() )
+					{
+						return;
+					}
+
+					initialisers.push_back( cit->first );
+				}
+
+				m_registeredConstants.emplace( debugId, type );
+				m_registeredCompositeConstants.emplace_back( initialisers, debugId );
+			}
+			break;
+		case spv::OpConstantFalse:
+		case spv::OpSpecConstantFalse:
+			m_registeredConstants.emplace( debugId, type );
+			m_registeredBoolConstants.emplace( false
+				, DebugId{ instruction.resultId.value(), type } );
+			break;
+		case spv::OpConstantTrue:
+		case spv::OpSpecConstantTrue:
+			m_registeredConstants.emplace( debugId, type );
+			m_registeredBoolConstants.emplace( true
+				, DebugId{ instruction.resultId.value(), type } );
+			break;
+		default:
+			break;
+		}
 	}
 
 	//*************************************************************************
