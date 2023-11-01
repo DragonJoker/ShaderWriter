@@ -18,6 +18,7 @@ namespace sdw
 		, bool enabled )
 	{
 		return declInput< T >( std::move( name )
+			, entryPoint
 			, location
 			, 0u
 			, enabled );
@@ -64,6 +65,7 @@ namespace sdw
 		, bool enabled )
 	{
 		return declInputArray< T >( std::move( name )
+			, entryPoint
 			, location
 			, dimension
 			, 0u
@@ -113,6 +115,7 @@ namespace sdw
 		, T const & defaultValue )
 	{
 		return declInput< T >( std::move( name )
+			, entryPoint
 			, location
 			, 0u
 			, enabled
@@ -171,6 +174,7 @@ namespace sdw
 		, std::vector< T > const & defaultValue )
 	{
 		return declInputArray< T >( std::move( name )
+			, entryPoint
 			, location
 			, dimension
 			, 0u
@@ -237,6 +241,7 @@ namespace sdw
 		, bool enabled )
 	{
 		return declOutput< T >( std::move( name )
+			, entryPoint
 			, location
 			, 0u
 			, enabled );
@@ -283,6 +288,7 @@ namespace sdw
 		, bool enabled )
 	{
 		return declOutputArray< T >( std::move( name )
+			, entryPoint
 			, location
 			, dimension
 			, 0u
