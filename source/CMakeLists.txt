@@ -42,7 +42,7 @@ if ( NOT DEFINED SDW_GENERATE_SOURCE )
 	option( SDW_GENERATE_SOURCE "Build source files from .enum files, using Python" OFF )
 endif ()
 if ( SDW_GENERATE_SOURCE )
-	find_package( PythonInterp QUIET )
+	find_package( Python QUIET COMPONENTS Interpreter )
 endif ()
 
 if ( ( DEFINED SDW_BUILD_STATIC_EXPORTERS )

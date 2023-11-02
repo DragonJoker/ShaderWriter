@@ -262,50 +262,6 @@ namespace hlsl
 			config.requiresImageAtomicAdd2DMSArrayI = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicAdd1DF:
-			config.requiresImageAtomicAdd1DF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DF:
-			config.requiresImageAtomicAdd2DF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd3DF:
-			config.requiresImageAtomicAdd3DF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectF:
-			config.requiresImageAtomicAdd2DRectF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAddCubeF:
-			config.requiresImageAtomicAddCubeF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAddBufferF:
-			config.requiresImageAtomicAddBufferF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd1DArrayF:
-			config.requiresImageAtomicAdd1DArrayF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DArrayF:
-			config.requiresImageAtomicAdd2DArrayF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAddCubeArrayF:
-			config.requiresImageAtomicAddCubeArrayF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DMSF:
-			config.requiresImageAtomicAdd2DMSF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DMSArrayF:
-			config.requiresImageAtomicAdd2DMSArrayF = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicMin1DU:
 			config.requiresImageAtomicMin1DU = true;
 			break;
@@ -834,50 +790,6 @@ namespace hlsl
 			config.requiresImageAtomicExchange2DMSArrayI = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicExchange1DF:
-			config.requiresImageAtomicExchange1DF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DF:
-			config.requiresImageAtomicExchange2DF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange3DF:
-			config.requiresImageAtomicExchange3DF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectF:
-			config.requiresImageAtomicExchange2DRectF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeF:
-			config.requiresImageAtomicExchangeCubeF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchangeBufferF:
-			config.requiresImageAtomicExchangeBufferF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange1DArrayF:
-			config.requiresImageAtomicExchange1DArrayF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DArrayF:
-			config.requiresImageAtomicExchange2DArrayF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeArrayF:
-			config.requiresImageAtomicExchangeCubeArrayF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DMSF:
-			config.requiresImageAtomicExchange2DMSF = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF:
-			config.requiresImageAtomicExchange2DMSArrayF = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap1DU:
 			config.requiresImageAtomicCompSwap1DU = true;
 			break;
@@ -1035,6 +947,30 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageStore2DMSU:
 		case ast::expr::StorageImageAccess::eImageStore2DMSArrayU:
 			break;
+
+		case ast::expr::StorageImageAccess::eImageAtomicAdd1DF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd2DF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd3DF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectF:
+		case ast::expr::StorageImageAccess::eImageAtomicAddCubeF:
+		case ast::expr::StorageImageAccess::eImageAtomicAddBufferF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd1DArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd2DArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicAddCubeArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd2DMSF:
+		case ast::expr::StorageImageAccess::eImageAtomicAdd2DMSArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange1DF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange2DF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange3DF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchangeBufferF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange1DArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange2DArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeArrayF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange2DMSF:
+		case ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF:
+			throw std::runtime_error{ "Unsupported Intrinsic type in HLSL." };
 
 		default:
 			AST_Failure( "Unsupported StorageImageAccess" );

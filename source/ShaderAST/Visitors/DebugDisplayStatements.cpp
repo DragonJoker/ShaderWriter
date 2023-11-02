@@ -1459,7 +1459,14 @@ namespace ast::debug
 
 		void visitBreakStmt( stmt::Break * stmt )override
 		{
-			addStatement( "Break" );
+			if ( stmt->isSwitchCaseBreak() )
+			{
+				addStatement( "SwitchBreak" );
+			}
+			else
+			{
+				addStatement( "LoopBreak" );
+			}
 		}
 
 		void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )override

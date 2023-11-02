@@ -1407,9 +1407,9 @@ namespace hlsl
 		{
 			result = it->second;
 		}
-		else
+		else if ( location == ast::type::Struct::InvalidLocation )
 		{
-			result = defaultSemantic.name + std::to_string( location );
+			result = defaultSemantic.name + std::to_string( defaultSemantic.index );
 			uint32_t inc = 1u;
 
 			if ( isMatrixType( type->getKind() ) )
@@ -1425,6 +1425,10 @@ namespace hlsl
 			}
 
 			defaultSemantic.index += inc;
+		}
+		else
+		{
+			result = defaultSemantic.name + std::to_string( location );
 		}
 
 		return result;

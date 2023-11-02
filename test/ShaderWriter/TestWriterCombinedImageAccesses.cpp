@@ -167,7 +167,7 @@ namespace
 					} );
 				test::writeShader( writer
 					, testCounts
-					, { true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
+					, { true, true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
 			}
 			testEnd();
 		}

@@ -6,6 +6,7 @@ See LICENSE file in root folder
 #include "HlslHelpers.hpp"
 #include "HlslReplaceVariables.hpp"
 #include "HlslIntrinsicConfig.hpp"
+#include "HlslShader.hpp"
 #include "HlslStorageImageAccessConfig.hpp"
 #include "HlslCombinedImageAccessConfig.hpp"
 
@@ -589,6 +590,25 @@ namespace hlsl
 			m_result = m_exprCache.makeArrayAccess( expr->getType()
 				, std::move( arrayOuter )
 				, std::move( arrayIndex ) );
+		}
+	}
+
+	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
+	{
+		if ( expr->getRHS()->getKind() == ast::expr::Kind::eAggrInit )
+		{
+			// Can't assign directly from aggr init, need a temp var in between
+			auto & exprCache = expr->getExprCache();
+			auto var = m_adaptationData.shader->registerName( "tmp_" + std::to_string( ++m_adaptationData.aliasId ), expr->getType() );
+			m_container->addStmt( m_stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( m_typesCache, var )
+				, doSubmit( expr->getRHS() ) ) ) );
+			m_container->addStmt( m_stmtCache.makeSimple( exprCache.makeAssign( expr->getType()
+				, doSubmit( expr->getLHS() )
+				, exprCache.makeIdentifier( m_typesCache, var ) ) ) );
+		}
+		else
+		{
+			ExprCloner::visitAssignExpr( expr );
 		}
 	}
 

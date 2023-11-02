@@ -976,6 +976,7 @@ namespace ast::vk
 		if ( config.specVersion >= spirv::v1_5 )
 		{
 			extensions.emplace( spirv::KHR_terminate_invocation );
+			extensions.emplace( spirv::EXT_shader_atomic_float_add );
 		}
 
 		if ( config.specVersion >= spirv::v1_4 )

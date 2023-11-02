@@ -1924,16 +1924,25 @@ namespace ast
 			}
 		}
 
+		struct ConstComposite
+		{
+			ast::expr::CompositeType composite;
+			ast::type::Kind component;
+			ast::expr::ExprList initialisers;
+		};
+
 		struct ConstantsContext
 		{
 			explicit ConstantsContext( ast::ShaderAllocatorBlock * alloc )
 				: constExprs{ alloc }
 				, constAggrExprs{ alloc }
+				, constCompositeExprs{ alloc }
 			{
 			}
 
 			Map< uint32_t, ast::expr::ExprPtr > constExprs;
 			Map< uint32_t, ast::expr::ExprList > constAggrExprs;
+			Map< uint32_t, ConstComposite > constCompositeExprs;
 		};
 
 		class ExprEvaluator
@@ -2290,19 +2299,38 @@ namespace ast
 				if ( expr->getLHS()->getKind() == expr::Kind::eIdentifier )
 				{
 					auto & ident = static_cast< expr::Identifier const & >( *expr->getLHS() );
-					auto it = m_context.constAggrExprs.find( ident.getVariable()->getId() );
+					auto aggrIt = m_context.constAggrExprs.find( ident.getVariable()->getId() );
+					auto compIt = m_context.constCompositeExprs.find( ident.getVariable()->getId() );
 
-					if ( it != m_context.constAggrExprs.end() )
+					if ( aggrIt != m_context.constAggrExprs.end() )
 					{
 						if ( expr->getRHS()->getKind() == expr::Kind::eLiteral )
 						{
 							auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
 							auto index = helpers::getLiteralIndex( lit );
 
-							if ( index < it->second.size() )
+							if ( index < aggrIt->second.size() )
 							{
 								processed = true;
-								m_result = doSubmit( it->second[index] );
+								m_result = doSubmit( aggrIt->second[index] );
+							}
+							else
+							{
+								AST_Failure( "Out of bounds array access to constant aggr init." );
+							}
+						}
+					}
+					else if ( compIt != m_context.constCompositeExprs.end() )
+					{
+						if ( expr->getRHS()->getKind() == expr::Kind::eLiteral )
+						{
+							auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
+							auto index = helpers::getLiteralIndex( lit );
+
+							if ( index < compIt->second.initialisers.size() )
+							{
+								processed = true;
+								m_result = doSubmit( compIt->second.initialisers[index] );
 							}
 							else
 							{
@@ -2451,6 +2479,7 @@ namespace ast
 				auto var = expr->getVariable();
 				auto initIt = m_context.constExprs.find( var->getId() );
 				auto aggrIt = m_context.constAggrExprs.find( var->getId() );
+				auto compIt = m_context.constCompositeExprs.find( var->getId() );
 
 				if ( !m_isLHS )
 				{
@@ -2469,6 +2498,19 @@ namespace ast
 
 						m_result = m_exprCache.makeAggrInit( expr->getType(), std::move( initialisers ) );
 					}
+					else if ( compIt != m_context.constCompositeExprs.end() )
+					{
+						expr::ExprList initialisers;
+
+						for ( auto & init : compIt->second.initialisers )
+						{
+							initialisers.push_back( doSubmit( init ) );
+						}
+
+						m_result = m_exprCache.makeCompositeConstruct( compIt->second.composite
+							, compIt->second.component
+							, std::move( initialisers ) );
+					}
 					else
 					{
 						m_allLiterals = false;
@@ -2485,6 +2527,11 @@ namespace ast
 					if ( aggrIt != m_context.constAggrExprs.end() )
 					{
 						m_context.constAggrExprs.erase( aggrIt );
+					}
+
+					if ( compIt != m_context.constCompositeExprs.end() )
+					{
+						m_context.constCompositeExprs.erase( compIt );
 					}
 
 					m_allLiterals = false;
@@ -2577,14 +2624,27 @@ namespace ast
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
 				{
 					auto & ident = static_cast< expr::Identifier const & >( *expr->getOuterExpr() );
-					auto it = m_context.constAggrExprs.find( ident.getVariable()->getId() );
+					auto aggrIt = m_context.constAggrExprs.find( ident.getVariable()->getId() );
+					auto compIt = m_context.constCompositeExprs.find( ident.getVariable()->getId() );
 
-					if ( it != m_context.constAggrExprs.end() )
+					if ( aggrIt != m_context.constAggrExprs.end() )
 					{
-						if ( expr->getMemberIndex() < it->second.size() )
+						if ( expr->getMemberIndex() < aggrIt->second.size() )
 						{
 							processed = true;
-							m_result = doSubmit( it->second[expr->getMemberIndex()] );
+							m_result = doSubmit( aggrIt->second[expr->getMemberIndex()] );
+						}
+						else
+						{
+							AST_Failure( "Out of bounds array access to constant aggr init." );
+						}
+					}
+					else if ( compIt != m_context.constCompositeExprs.end() )
+					{
+						if ( expr->getMemberIndex() < compIt->second.initialisers.size() )
+						{
+							processed = true;
+							m_result = doSubmit( compIt->second.initialisers[expr->getMemberIndex()] );
 						}
 						else
 						{
@@ -2697,9 +2757,10 @@ namespace ast
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
 				{
 					auto variable = static_cast< expr::Identifier const & >( *expr->getOuterExpr() ).getVariable();
-					auto it = m_context.constAggrExprs.find( variable->getId() );
+					auto aggrIt = m_context.constAggrExprs.find( variable->getId() );
+					auto compIt = m_context.constCompositeExprs.find( variable->getId() );
 
-					if ( it != m_context.constAggrExprs.end() )
+					if ( aggrIt != m_context.constAggrExprs.end() )
 					{
 						processed = true;
 						auto indices = getSwizzleIndices( expr->getSwizzle() );
@@ -2707,7 +2768,30 @@ namespace ast
 
 						for ( auto index : indices )
 						{
-							initialisers.push_back( doSubmit( it->second[index] ) );
+							initialisers.push_back( doSubmit( aggrIt->second[index] ) );
+						}
+
+						if ( indices.size() > 1u )
+						{
+							auto scalarType = getScalarType( expr->getType()->getKind() );
+							m_result = m_exprCache.makeCompositeConstruct( getCompositeType( expr->getType()->getKind() )
+								, scalarType
+								, std::move( initialisers ) );
+						}
+						else
+						{
+							m_result = std::move( initialisers.front() );
+						}
+					}
+					else if ( compIt != m_context.constCompositeExprs.end() )
+					{
+						processed = true;
+						auto indices = getSwizzleIndices( expr->getSwizzle() );
+						expr::ExprList initialisers;
+
+						for ( auto index : indices )
+						{
+							initialisers.push_back( doSubmit( compIt->second.initialisers[index] ) );
 						}
 
 						if ( indices.size() > 1u )
@@ -3153,8 +3237,10 @@ namespace ast
 							{
 								if ( allLiterals )
 								{
-									m_context.constAggrExprs.emplace( ident->getVariable()->getId()
-										, std::move( initialisers ) );
+									m_context.constCompositeExprs.emplace( ident->getVariable()->getId()
+										, ConstComposite{ compositeCtor->getComposite()
+											, compositeCtor->getComponent()
+											, std::move( initialisers ) } );
 								}
 								else
 								{
