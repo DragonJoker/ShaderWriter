@@ -109,6 +109,7 @@ namespace sdw
 		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( std::move( name )
+			, EntryPoint::eGeometry
 			, location
 			, attributes | var::Flag::eGeometryStream
 			, type );
@@ -160,6 +161,7 @@ namespace sdw
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerOutput( std::move( name )
+			, EntryPoint::eGeometry
 			, location
 			, attributes | var::Flag::eGeometryStream
 			, type );
@@ -607,6 +609,7 @@ namespace sdw
 		static_assert( !isSameV< T, DVec4 >, "DVec4 is not supported as output type" );
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerOutput( std::move( name )
+			, EntryPoint::eFragment
 			, location
 			, attributes | var::Flag::eBlendIndex
 			, type );
@@ -658,6 +661,7 @@ namespace sdw
 		auto type = Array< T >::makeType( getTypesCache()
 			, dimension );
 		auto var = registerOutput( std::move( name )
+			, EntryPoint::eFragment
 			, location
 			, blendIndex
 			, attributes | var::Flag::eBlendIndex

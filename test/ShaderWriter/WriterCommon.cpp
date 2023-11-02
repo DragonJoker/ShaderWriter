@@ -19,6 +19,10 @@
 #	endif
 #endif
 
+#pragma warning( disable:5245 )
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma clang diagnostic ignored "-Wunused-member-function"
+
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Woverloaded-virtual"
 #pragma GCC diagnostic ignored "-Wtype-limits"
@@ -560,54 +564,57 @@ namespace test
 			, Compilers const & compilers
 			, test::TestCounts & testCounts )
 		{
-			testCounts.incIndent();
-			testCounts << "Debug statements, full" << endl;
-
-			for ( auto & entryPoint : entryPoints )
+			if ( compilers.debug )
 			{
 				testCounts.incIndent();
-				testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
-				auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+				testCounts << "Debug statements, full" << endl;
 
-				try
+				for ( auto & entryPoint : entryPoints )
 				{
-					auto debug = ::sdw::writeDebug( statements.get() );
-					displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
-					success();
+					testCounts.incIndent();
+					testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
+					auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+
+					try
+					{
+						auto debug = ::sdw::writeDebug( statements.get() );
+						displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
+						success();
+					}
+					catch ( std::exception & exc )
+					{
+						failure( "testWriteFullDebug" );
+						testCounts << exc.what() << endl;
+					}
+
+					testCounts.decIndent();
 				}
-				catch ( std::exception & exc )
+
+				testCounts << "Debug statements, preprocessed" << endl;
+
+				for ( auto & entryPoint : entryPoints )
 				{
-					failure( "testWriteFullDebug" );
-					testCounts << exc.what() << endl;
+					testCounts.incIndent();
+					testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
+					auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+
+					try
+					{
+						auto debug = ::sdw::writeDebugPreprocessed( shader, statements.get(), entryPoint.stage );
+						displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
+						success();
+					}
+					catch ( std::exception & exc )
+					{
+						failure( "testWritePreprocessedDebug" );
+						testCounts << exc.what() << endl;
+					}
+
+					testCounts.decIndent();
 				}
 
 				testCounts.decIndent();
 			}
-
-			testCounts << "Debug statements, preprocessed" << endl;
-
-			for ( auto & entryPoint : entryPoints )
-			{
-				testCounts.incIndent();
-				testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
-				auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
-
-				try
-				{
-					auto debug = ::sdw::writeDebugPreprocessed( shader, statements.get(), entryPoint.stage );
-					displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
-					success();
-				}
-				catch ( std::exception & exc )
-				{
-					failure( "testWritePreprocessedDebug" );
-					testCounts << exc.what() << endl;
-				}
-
-				testCounts.decIndent();
-			}
-
-			testCounts.decIndent();
 		}
 
 		void testWriteGlslOnIndex( ::ast::Shader const & shader

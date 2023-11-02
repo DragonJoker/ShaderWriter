@@ -634,8 +634,6 @@ namespace hlsl
 		case ast::expr::Intrinsic::eSubgroupBroadcastFirst3D:
 		case ast::expr::Intrinsic::eSubgroupBroadcastFirst4D:
 		case ast::expr::Intrinsic::eSubgroupBallot:
-		case ast::expr::Intrinsic::eSubgroupBallotBitCount:
-		case ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount:
 		case ast::expr::Intrinsic::eSubgroupAdd1F:
 		case ast::expr::Intrinsic::eSubgroupAdd2F:
 		case ast::expr::Intrinsic::eSubgroupAdd3F:
@@ -1009,8 +1007,16 @@ namespace hlsl
 			config.requiresWaveOps = true;
 			break;
 
+		case ast::expr::Intrinsic::eAtomicAddF:
+		case ast::expr::Intrinsic::eAtomicAdd2H:
+		case ast::expr::Intrinsic::eAtomicAdd4H:
+		case ast::expr::Intrinsic::eAtomicExchangeF:
+		case ast::expr::Intrinsic::eAtomicExchange2H:
+		case ast::expr::Intrinsic::eAtomicExchange4H:
 		case ast::expr::Intrinsic::eSubgroupInverseBallot:
+		case ast::expr::Intrinsic::eSubgroupBallotBitCount:
 		case ast::expr::Intrinsic::eSubgroupBallotBitExtract:
+		case ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount:
 		case ast::expr::Intrinsic::eSubgroupBallotInclusiveBitCount:
 		case ast::expr::Intrinsic::eSubgroupBallotFindLSB:
 		case ast::expr::Intrinsic::eSubgroupBallotFindMSB:

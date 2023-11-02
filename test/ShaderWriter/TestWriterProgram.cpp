@@ -107,17 +107,16 @@ namespace
 		myUbo.end();
 
 		// Vertex Shader
-		writer.implementEntryPointT< common::PosColT, common::PosColT >( [&]( sdw::VertexInT< common::PosColT > in
-			, sdw::VertexOutT< common::PosColT > out )
+		writer.implementEntryPointT< common::PosColT, common::ColourT >( [&]( sdw::VertexInT< common::PosColT > in
+			, sdw::VertexOutT< common::ColourT > out )
 			{
-				out.position() = in.position();
 				out.colour() = in.colour();
-				out.vtx.position = out.position();
+				out.vtx.position = in.position();
 			} );
 
 		// Geometry Shader
-		writer.implementEntryPointT< 3u, sdw::TriangleListT< common::PosColT >, sdw::TriangleStreamT< common::ColourT > >( [&]( sdw::GeometryIn in
-			, sdw::TriangleListT< common::PosColT > list
+		writer.implementEntryPointT< 3u, sdw::TriangleListT< common::ColourT >, sdw::TriangleStreamT< common::ColourT > >( [&]( sdw::GeometryIn in
+			, sdw::TriangleListT< common::ColourT > list
 			, sdw::TriangleStreamT< common::ColourT > out )
 			{
 				out.colour() = list[0].colour();

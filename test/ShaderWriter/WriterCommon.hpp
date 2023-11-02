@@ -30,17 +30,17 @@
 
 #define ForceDisplayShaders false
 
-#define Compilers_None { false, false, false, ForceDisplayShaders }
-#define Compilers_GLSL { false, false, true, ForceDisplayShaders }
-#define Compilers_HLSL { false, true, false, ForceDisplayShaders }
-#define Compilers_SPIRV { true, false, false, ForceDisplayShaders }
+#define Compilers_None { true, false, false, false, ForceDisplayShaders }
+#define Compilers_GLSL { false, false, false, true, ForceDisplayShaders }
+#define Compilers_HLSL { false, false, true, false, ForceDisplayShaders }
+#define Compilers_SPIRV { false, true, false, false, ForceDisplayShaders }
 
-#define Compilers_NoGLSL { true, true, false, ForceDisplayShaders }
-#define Compilers_NoHLSL { true, false, true, ForceDisplayShaders }
-#define Compilers_NoSPIRV { false, true, true, ForceDisplayShaders }
+#define Compilers_NoGLSL { true, true, true, false, ForceDisplayShaders }
+#define Compilers_NoHLSL { true, true, false, true, ForceDisplayShaders }
+#define Compilers_NoSPIRV { true, false, true, true, ForceDisplayShaders }
 
-#define Compilers_All { true, true, true, ForceDisplayShaders }
-#define Compilers_AllButSpv16 { true, true, true, ForceDisplayShaders, 0x00010600u }
+#define Compilers_All { true, true, true, true, ForceDisplayShaders }
+#define Compilers_AllButSpv16 { true, true, true, true, ForceDisplayShaders, 0x00010600u }
 
 #define CurrentCompilers Compilers_All
 
@@ -1171,6 +1171,7 @@ namespace test
 
 	struct Compilers
 	{
+		bool debug;
 		bool spirV;
 		bool hlsl;
 		bool glsl;

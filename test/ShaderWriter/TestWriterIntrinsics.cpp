@@ -2733,7 +2733,7 @@ namespace
 	{
 		testAtomicAddT< sdw::Int >( "I", testCounts );
 		testAtomicAddT< sdw::UInt >( "U", testCounts );
-		testAtomicAddT< sdw::Float >( "F", testCounts, Compilers_NoHLSL );
+		testAtomicAddT< sdw::Float >( "F", testCounts );
 		//testAtomicAddT< sdw::HVec2 >( "2H", testCounts, Compilers_NoHLSL );
 		//testAtomicAddT< sdw::HVec4 >( "4H", testCounts, Compilers_NoHLSL );
 	}
@@ -3717,8 +3717,7 @@ namespace
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeIn )
 				{
-					auto op = writer.declLocale< ValueT >( "op"
-						, test::getDefault< ValueT >( writer ) );
+					auto op = writer.declLocale< ValueT >( "op" );
 					auto res = writer.declLocale( "res"
 						, subgroupAllEqual( op ) );
 				} );

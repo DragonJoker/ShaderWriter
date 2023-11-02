@@ -529,6 +529,7 @@ namespace test
 					auto demoteFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderDemoteToHelperInvocationFeaturesEXT >();
 					auto terminateFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
 					auto meshNVFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
+					auto atomicFloatFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderAtomicFloatFeaturesEXT >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
 					bool hasFloatControls = false;
@@ -592,6 +593,7 @@ namespace test
 							, device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_shader_atomic_float" );
+							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &atomicFloatFeature ) );
 						}
 
 						if ( isExtensionSupported( "VK_EXT_mesh_shader"

@@ -1821,17 +1821,17 @@ namespace spirv
 				if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4D )
 				{
-					params.push_back( registerLiteral( 0 ) );
+					params.push_back( registerLiteral( 0u ) );
 				}
 				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapVertical1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapVertical4D )
 				{
-					params.push_back( registerLiteral( 1 ) );
+					params.push_back( registerLiteral( 1u ) );
 				}
 				else if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D )
 				{
-					params.push_back( registerLiteral( 2 ) );
+					params.push_back( registerLiteral( 2u ) );
 				}
 
 				auto typeId = registerType( expr->getType(), nullptr );

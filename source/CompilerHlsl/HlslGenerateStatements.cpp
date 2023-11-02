@@ -142,7 +142,12 @@ namespace hlsl
 				if ( builtin == ast::Builtin::eClipDistance )
 				{
 					type = typesCache.getVec4F();
-					semantic = ": SV_ClipDistance" + std::to_string( builtinIndex );
+					semantic = ": SV_ClipDistance";
+
+					if ( builtinIndex != ast::type::Struct::InvalidLocation )
+					{
+						semantic += std::to_string( builtinIndex );
+					}
 				}
 				else if ( builtin == ast::Builtin::eCullDistance )
 				{
@@ -198,7 +203,7 @@ namespace hlsl
 				, Semantic & intSem
 				, Semantic & fltSem )
 			{
-				return writeIOMember( stage
+				auto result = writeIOMember( stage
 					, member.type
 					, member.name
 					, member.builtin
@@ -206,7 +211,14 @@ namespace hlsl
 					, member.builtinIndex
 					, member.location
 					, intSem
-					, fltSem ) + ";\n";
+					, fltSem );
+
+				if ( !result.empty() )
+				{
+					result += ";\n";
+				}
+
+				return result;
 			}
 
 			static std::string writeIOMembers( ast::ShaderStage stage
@@ -233,7 +245,22 @@ namespace hlsl
 
 				for ( auto & mbr : structType )
 				{
-					result += indent + writeIOMember( stage, mbr, isInput, *pintSem, *pfltSem );
+					if ( mbr.builtin == ast::Builtin::eMeshViewIndicesNV
+						|| mbr.builtin == ast::Builtin::eMeshViewCountNV
+						|| mbr.builtin == ast::Builtin::ePrimitiveIndicesNV
+						|| mbr.builtin == ast::Builtin::ePrimitivePointIndices
+						|| mbr.builtin == ast::Builtin::ePrimitiveLineIndices
+						|| mbr.builtin == ast::Builtin::ePrimitiveTriangleIndices )
+					{
+						continue;
+					}
+
+					auto member = writeIOMember( stage, mbr, isInput, *pintSem, *pfltSem );
+
+					if ( !member.empty() )
+					{
+						result += indent + member;
+					}
 				}
 
 				return result;
@@ -242,7 +269,7 @@ namespace hlsl
 			static std::string writeBaseMember( ast::type::Struct::Member const & member )
 			{
 				std::string result = getTypeName( member.type ) + " ";
-				auto name = member.name;
+				auto name = adaptName( member.name );
 				auto index = name.find( ":" );
 
 				if ( index != std::string::npos )

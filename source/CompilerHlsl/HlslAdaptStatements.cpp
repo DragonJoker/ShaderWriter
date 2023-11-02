@@ -98,11 +98,18 @@ namespace hlsl
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
 			{
+				auto funcType = stmt->getType();
+				declareType( funcType->getReturnType() );
+
+				for ( auto param : *funcType )
+				{
+					declareType( param->getType() );
+				}
+
 				if ( stmt->getFlags() )
 				{
 					if ( isRayTraceStage( m_shader.getType() ) )
 					{
-						auto funcType = stmt->getType();
 						auto save = m_current;
 						ast::var::VariableList params;
 						// Skip first parameter, since it only contains the builtins.
@@ -160,7 +167,6 @@ namespace hlsl
 					}
 					else
 					{
-						auto funcType = stmt->getType();
 						// Skip first parameter, since it only contains the builtins.
 						auto it = std::next( funcType->begin() );
 

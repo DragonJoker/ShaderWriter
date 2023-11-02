@@ -58,6 +58,11 @@ namespace hlsl
 				throw std::runtime_error{ "Unsupported byte type for this shader model" };
 			}
 
+			if ( intrinsicsConfig.requiresAtomicAddFloat )
+			{
+				throw std::runtime_error{ "Unsupported atomic add with floating point" };
+			}
+
 			if ( intrinsicsConfig.requiresInt16 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
 				throw std::runtime_error{ "Unsupported short type for this shader model" };
