@@ -43,7 +43,7 @@ namespace sdw
 	SDW_API ast::stmt::Container * getContainer( ShaderWriter & shader );
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API uint32_t getNextVarId( ShaderWriter & writer );
-	SDW_API uint32_t getNextVarId( Shader & shader );
+	SDW_API uint32_t getNextVarId( ShaderBuilder & builder );
 	SDW_API ast::var::VariablePtr registerFunction( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string name );
@@ -54,14 +54,17 @@ namespace sdw
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( Shader const & shader );
+	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderBuilder const & builder );
 	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter & writer );
 	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter const & writer );
 	SDW_API ast::expr::ExprCache & getExprCache( Shader const & shader );
+	SDW_API ast::expr::ExprCache & getExprCache( ShaderBuilder const & builder );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter const & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );
-	SDW_API Shader & getShader( ShaderWriter & writer );
-	SDW_API Shader & getShader( ShaderWriter const & writer );
+	SDW_API ast::type::TypesCache & getTypesCache( ShaderBuilder const & builder );
+	SDW_API ShaderBuilder & getBuilder( ShaderWriter & writer );
+	SDW_API ShaderBuilder const & getBuilder( ShaderWriter const & writer );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, bool value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
@@ -356,11 +359,11 @@ namespace sdw
 		, std::vector< T > const & value
 		, bool force = true );
 
-	SDW_API void addStmt( Shader & shader
+	SDW_API void addStmt( ShaderBuilder & builder
 		, stmt::StmtPtr stmt );
 	SDW_API void addStmt( ShaderWriter & writer
 		, stmt::StmtPtr stmt );
-	SDW_API void addGlobalStmt( Shader & shader
+	SDW_API void addGlobalStmt( ShaderBuilder & builder
 		, stmt::StmtPtr stmt );
 	SDW_API void addGlobalStmt( ShaderWriter & writer
 		, stmt::StmtPtr stmt );

@@ -9,7 +9,7 @@ namespace
 		testBegin( "testGlobal" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValue";
 			auto value = writer.declGlobal< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -17,12 +17,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueAssigned";
 			auto value = writer.declGlobal< T >( name, test::getDefault< T >( writer ) );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -30,12 +30,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueAssignedInMain";
 			auto value = writer.declGlobal< T >( name );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -43,20 +43,20 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					value = test::getDefault< T >( writer );
-					auto & sstmt = *shader.getContainer()->back();
+					auto & sstmt = *builder.getContainer()->back();
 					check( sstmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray12";
 			auto value = writer.declGlobalArray< T >( name, 6u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -64,12 +64,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray3";
 			auto value = writer.declGlobalArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ) );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -77,12 +77,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray3AssignedInMain";
 			auto value = writer.declGlobalArray< T >( name, 3u );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -90,7 +90,7 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -98,15 +98,15 @@ namespace
 					value[0] = test::getDefault< T >( writer );
 					value[1] = test::getDefault< T >( writer );
 					value[2] = test::getDefault< T >( writer );
-					auto & sstmt = *shader.getContainer()->back();
+					auto & sstmt = *builder.getContainer()->back();
 					check( sstmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto count = shader.getContainer()->size();
+			auto & builder = writer.getBuilder();
+			auto count = builder.getContainer()->size();
 			auto value = writer.declGlobal< T >( "value", false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -114,12 +114,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			check( shader.getContainer()->size() == count );
+			check( builder.getContainer()->size() == count );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto count = shader.getContainer()->size();
+			auto & builder = writer.getBuilder();
+			auto count = builder.getContainer()->size();
 			auto value = writer.declGlobal< T >( "value", T{ writer, makeExpr( test::getDefault< T >( writer ) ), false } );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -127,12 +127,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			check( shader.getContainer()->size() == count );
+			check( builder.getContainer()->size() == count );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto count = shader.getContainer()->size();
+			auto & builder = writer.getBuilder();
+			auto count = builder.getContainer()->size();
 			auto value = writer.declGlobal< T >( "value", test::getDefault< T >( writer ), false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -140,12 +140,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			check( shader.getContainer()->size() == count );
+			check( builder.getContainer()->size() == count );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto count = shader.getContainer()->size();
+			auto & builder = writer.getBuilder();
+			auto count = builder.getContainer()->size();
 			auto value = writer.declGlobalArray< T >( "value", 6u, false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -153,12 +153,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			check( shader.getContainer()->size() == count );
+			check( builder.getContainer()->size() == count );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto count = shader.getContainer()->size();
+			auto & builder = writer.getBuilder();
+			auto count = builder.getContainer()->size();
 			auto value = writer.declGlobalArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ), false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -166,12 +166,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			check( shader.getContainer()->size() == count );
+			check( builder.getContainer()->size() == count );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
-			auto count = shader.getContainer()->size();
+			auto & builder = writer.getBuilder();
+			auto count = builder.getContainer()->size();
 			auto value = writer.declGlobalArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ), false );
 			check( !value.isEnabled() );
 			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -179,11 +179,11 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			check( shader.getContainer()->size() == count );
+			check( builder.getContainer()->size() == count );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValue_opt";
 			auto value = writer.declGlobal< T >( name, true );
 			check( value.isEnabled() );
@@ -192,12 +192,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray12_opt";
 			auto value = writer.declGlobalArray< T >( name, 6u, true );
 			check( value.isEnabled() );
@@ -206,12 +206,12 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 		}
 		{
 			sdw::FragmentWriter writer;
-			auto & shader = writer.getShader();
+			auto & builder = writer.getBuilder();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "GlobalValueArray3_opt";
 			auto value = writer.declGlobalArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ), true );
 			check( value.isEnabled() );
@@ -220,7 +220,7 @@ namespace
 			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isStatic() );
-			auto & stmt = *shader.getContainer()->back();
+			auto & stmt = *builder.getContainer()->back();
 			check( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
 		testEnd();

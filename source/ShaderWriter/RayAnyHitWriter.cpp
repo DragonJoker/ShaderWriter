@@ -39,7 +39,7 @@ namespace sdw
 	RayAnyHitIn::RayAnyHitIn( ShaderWriter & writer )
 		: RayAnyHitIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "rayAnyHitIn"
+				, sdw::getBuilder( writer ).registerName( "rayAnyHitIn"
 					, makeType( getTypesCache( writer ) )
 					, ast::var::Flag::eShaderInput ) )
 			, true }

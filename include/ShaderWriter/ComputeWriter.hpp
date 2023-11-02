@@ -82,7 +82,7 @@ namespace sdw
 		using ComputeInT< DataT >::getType;
 		using ComputeInT< DataT >::getExpr;
 		using ComputeInT< DataT >::getWriter;
-		using ComputeInT< DataT >::getShader;
+		using ComputeInT< DataT >::getBuilder;
 		using ComputeInT< DataT >::isEnabled;
 
 		//in uvec3 gl_NumWorkGroups;

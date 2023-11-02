@@ -78,7 +78,7 @@ namespace sdw
 
 	private:
 		ShaderWriter & m_writer;
-		ast::Shader & m_shader;
+		ast::ShaderBuilder & m_builder;
 		std::string m_name;
 		ast::InterfaceBlock m_interface;
 		ast::SsboInfo m_info;

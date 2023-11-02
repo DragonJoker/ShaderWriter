@@ -19,7 +19,7 @@ namespace sdw
 	TessEvalMainIn::TessEvalMainIn( ShaderWriter & writer )
 		: TessEvalMainIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "tesseGlobIn"
+				, sdw::getBuilder( writer ).registerName( "tesseGlobIn"
 					, makeType( getTypesCache( writer ) )
 					, FlagT ) ) }
 	{

@@ -15,7 +15,7 @@ namespace
 				auto i = writer.declLocale( "i", 0_u );
 				i++;
 				auto j = writer.declLocale( "j", i );
-				checkEqual( writer.getShader().getContainer()->size(), 3u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 3u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -34,7 +34,7 @@ namespace
 				auto i = writer.declLocale( "i", 0_u );
 				++i;
 				auto j = writer.declLocale( "j", i );
-				checkEqual( writer.getShader().getContainer()->size(), 3u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 3u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -52,7 +52,7 @@ namespace
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", i++ );
-				checkEqual( writer.getShader().getContainer()->size(), 2u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -70,7 +70,7 @@ namespace
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", ++i );
-				checkEqual( writer.getShader().getContainer()->size(), 2u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -92,7 +92,7 @@ namespace
 					{
 						auto j = writer.declLocale( "j", i );
 					} );
-				checkEqual( writer.getShader().getContainer()->size(), 2u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -114,7 +114,7 @@ namespace
 					auto j = writer.declLocale( "j", i );
 				}
 				FI;
-				checkEqual( writer.getShader().getContainer()->size(), 2u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -143,11 +143,11 @@ namespace
 						{
 							auto j = writer.declLocale( "j", i );
 						} );
-					checkEqual( writer.getShader().getContainer()->size(), 1u );
-					checkEqual( writer.getShader().getContainer()->back()->getKind(), stmt::Kind::eFor );
+					checkEqual( writer.getBuilder().getContainer()->size(), 1u );
+					checkEqual( writer.getBuilder().getContainer()->back()->getKind(), stmt::Kind::eFor );
 					writerInt.popScope();
 				}
-				checkEqual( writer.getShader().getContainer()->size(), 1u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 1u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -168,11 +168,11 @@ namespace
 					auto j = writer.declLocale( "j", i );
 				}
 				ROF;
-				checkEqual( writer.getShader().getContainer()->size(), 1u );
-				beginRequire( writer.getShader().getContainer()->back()->getKind() == stmt::Kind::eContainer );
-					checkEqual( static_cast< stmt::Container const & >( *writer.getShader().getContainer()->back() ).size(), 1u );
-					beginRequire( static_cast< stmt::Container const & >( *writer.getShader().getContainer()->back() ).back()->getKind() == stmt::Kind::eFor );
-					checkEqual( static_cast< stmt::For const & >( *static_cast< stmt::Container const & >( *writer.getShader().getContainer()->back() ).back() ).size(), 1u );
+				checkEqual( writer.getBuilder().getContainer()->size(), 1u );
+				beginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eContainer );
+					checkEqual( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).size(), 1u );
+					beginRequire( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back()->getKind() == stmt::Kind::eFor );
+					checkEqual( static_cast< stmt::For const & >( *static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back() ).size(), 1u );
 					endRequire;
 				endRequire;
 			} );

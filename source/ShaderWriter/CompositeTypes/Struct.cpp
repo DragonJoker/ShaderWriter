@@ -13,7 +13,7 @@ namespace sdw
 		, std::string name
 		, type::MemoryLayout layout )
 		: m_writer{ &writer }
-		, m_shader{ &m_writer->getShader() }
+		, m_builder{ &m_writer->getBuilder() }
 		, m_type{ writer.getTypesCache().getStruct( layout, std::move( name ) ) }
 	{
 	}
@@ -21,15 +21,15 @@ namespace sdw
 	Struct::Struct( ShaderWriter & writer
 		, ast::type::BaseStructPtr type )
 		: m_writer{ &writer }
-		, m_shader{ &m_writer->getShader() }
+		, m_builder{ &m_writer->getBuilder() }
 		, m_type{ std::move( type ) }
 	{
-		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
+		addStmt( *m_builder, makeStructureDecl( getStmtCache( *m_builder ), m_type ) );
 	}
 
 	void Struct::end()
 	{
-		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
+		addStmt( *m_builder, makeStructureDecl( getStmtCache( *m_builder ), m_type ) );
 	}
 
 	bool Struct::hasMember( std::string name )const

@@ -73,7 +73,7 @@ namespace sdw
 
 	private:
 		mutable ShaderWriter * m_writer{ nullptr };
-		mutable Shader * m_shader{ nullptr };
+		mutable ShaderBuilder * m_builder{ nullptr };
 		ast::var::VariablePtr m_funcVar;
 		ast::type::FunctionPtr m_type;
 	};

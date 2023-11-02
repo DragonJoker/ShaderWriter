@@ -19,7 +19,7 @@ namespace sdw
 	GeometryIn::GeometryIn( ShaderWriter & writer )
 		: GeometryIn{ writer
 		, makeExpr( writer
-			, sdw::getShader( writer ).registerName( "geomGlobIn"
+			, sdw::getBuilder( writer ).registerName( "geomGlobIn"
 				, makeType( getTypesCache( writer ) )
 				, FlagT ) ) }
 	{

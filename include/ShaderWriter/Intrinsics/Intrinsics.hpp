@@ -210,7 +210,7 @@ namespace sdw
 	// Old school GLSL style.
 	inline RetVoid barrier( ShaderWriter & writer )
 	{
-		if ( getShader( writer ).getType() == ast::ShaderStage::eCompute )
+		if ( getBuilder( writer ).getType() == ast::ShaderStage::eCompute )
 		{
 			return controlBarrier( writer
 				, type::Scope::eWorkgroup

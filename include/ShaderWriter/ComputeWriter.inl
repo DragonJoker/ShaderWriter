@@ -19,7 +19,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: ComputeInT{ writer
 			, makeExpr( writer
-				, getShader( writer ).registerName( "compIn"
+				, getBuilder( writer ).registerName( "compIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, localSizeX
 						, localSizeY
@@ -82,7 +82,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: SubgroupInT{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "subgroupIn"
+				, sdw::getBuilder( writer ).registerName( "subgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, localSizeX
 						, localSizeY

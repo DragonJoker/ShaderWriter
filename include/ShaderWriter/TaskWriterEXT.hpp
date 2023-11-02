@@ -72,7 +72,7 @@ namespace sdw
 		using TaskIn::getType;
 		using TaskIn::getExpr;
 		using TaskIn::getWriter;
-		using TaskIn::getShader;
+		using TaskIn::getBuilder;
 		using TaskIn::isEnabled;
 
 		//in uint  gl_DrawID;

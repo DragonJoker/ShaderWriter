@@ -29,7 +29,7 @@ namespace sdw
 		, uint32_t localSizeZ )
 		: MeshIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "meshIn"
+				, sdw::getBuilder( writer ).registerName( "meshIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY
@@ -100,7 +100,7 @@ namespace sdw
 		, uint32_t localSizeZ )
 		: MeshSubgroupIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "meshSubgroupIn"
+				, sdw::getBuilder( writer ).registerName( "meshSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY

@@ -1,7 +1,7 @@
 /*
 See LICENSE file in root folder
 */
-#include <ShaderAST/Shader.hpp>
+#include <ShaderAST/ShaderBuilder.hpp>
 
 #include <stdexcept>
 
@@ -49,13 +49,13 @@ namespace sdw
 
 		if ( mbrFlags )
 		{
-			auto & shader = *getShader();
+			auto & builder = getBuilder();
 
 			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
-					shader.registerInput( m_type->getEntryPoint()
+					builder.registerInput( m_type->getEntryPoint()
 						, "in::" + member.name
 						, member.location
 						, mbrFlags
@@ -66,7 +66,7 @@ namespace sdw
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
-					shader.registerOutput( m_type->getEntryPoint()
+					builder.registerOutput( m_type->getEntryPoint()
 						, "out::" + member.name
 						, member.location
 						, mbrFlags
@@ -126,13 +126,13 @@ namespace sdw
 
 		if ( mbrFlags )
 		{
-			auto & shader = *getShader();
+			auto & builder = getBuilder();
 
 			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
-					shader.registerInput( m_type->getEntryPoint()
+					builder.registerInput( m_type->getEntryPoint()
 						, "in::" + member.name
 						, member.location
 						, mbrFlags
@@ -143,7 +143,7 @@ namespace sdw
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
-					shader.registerOutput( m_type->getEntryPoint()
+					builder.registerOutput( m_type->getEntryPoint()
 						, "out::" + member.name
 						, member.location
 						, mbrFlags

@@ -36,7 +36,7 @@ namespace sdw
 	RayClosestHitIn::RayClosestHitIn( ShaderWriter & writer )
 		: RayClosestHitIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "rayClosestHitIn"
+				, sdw::getBuilder( writer ).registerName( "rayClosestHitIn"
 					, makeType( getTypesCache( writer ) )
 					, ast::var::Flag::eShaderInput ) )
 			, true }

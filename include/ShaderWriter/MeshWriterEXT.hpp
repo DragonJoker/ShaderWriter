@@ -76,7 +76,7 @@ namespace sdw
 		using MeshIn::getType;
 		using MeshIn::getExpr;
 		using MeshIn::getWriter;
-		using MeshIn::getShader;
+		using MeshIn::getBuilder;
 		using MeshIn::isEnabled;
 
 		using MeshIn::meshViewCount;

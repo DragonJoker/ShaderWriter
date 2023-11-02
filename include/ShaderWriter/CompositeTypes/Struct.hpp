@@ -41,7 +41,7 @@ namespace sdw
 
 	private:
 		ShaderWriter * m_writer;
-		Shader * m_shader;
+		ShaderBuilder * m_builder;
 		type::BaseStructPtr m_type;
 	};
 
@@ -73,7 +73,7 @@ namespace sdw
 
 	private:
 		ShaderWriter * m_writer;
-		Shader * m_shader;
+		ShaderBuilder * m_builder;
 		type::IOStructPtr m_type;
 	};
 

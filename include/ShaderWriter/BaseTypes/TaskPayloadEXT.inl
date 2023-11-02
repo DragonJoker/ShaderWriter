@@ -24,7 +24,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TaskPayloadOutEXTT{ writer
 			, makeExpr( writer
-				, getShader( writer ).registerName( "payloadOut"
+				, getBuilder( writer ).registerName( "payloadOut"
 					, ast::type::makeTaskPayloadType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ) )
 					, FlagT | ast::var::Flag::ePerTask ) ) }
 	{
@@ -62,7 +62,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TaskPayloadInEXTT{ writer
 			, makeExpr( writer
-				, getShader( writer ).registerName( "payloadIn"
+				, getBuilder( writer ).registerName( "payloadIn"
 					, ast::type::makeTaskPayloadInType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ) )
 					, FlagT | ast::var::Flag::ePerTask ) ) }
 	{

@@ -65,8 +65,7 @@ namespace
 		, RET & ret
 		, RHS const & rhs )
 	{
-		auto & shader = writer.getShader();
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret += writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -105,8 +104,7 @@ namespace
 		, RHS const & rhs )
 	{
 		testBaseAssignOperators( writer, testCounts, ret, rhs );
-		auto & shader = writer.getShader();
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret %= writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -153,8 +151,7 @@ namespace
 		, RHS const & rhs )
 	{
 		using CompType = sdw::RealTypeT< ValueTypeT< LHS, RHS > >;
-		auto & shader = writer.getShader();
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret = writer.cast< CompType >( lhs ) == writer.cast< CompType >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -213,8 +210,7 @@ namespace
 		, LHS const & lhs
 		, RHS const & rhs )
 	{
-		auto & shader = writer.getShader();
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) + writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -261,9 +257,8 @@ namespace
 		, LHS const & lhs
 		, RHS const & rhs )
 	{
-		auto & shader = writer.getShader();
 		testBaseOperators( writer, testCounts, ret, lhs, rhs );
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) % writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -327,8 +322,7 @@ namespace
 		, RET & ret
 		, RHS const & rhs )
 	{
-		auto & shader = writer.getShader();
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret += rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -395,8 +389,7 @@ namespace
 		, LHS const & lhs
 		, RHS const & rhs )
 	{
-		auto & shader = writer.getShader();
-		auto & statements = *shader.getContainer();
+		auto & statements = *writer.getBuilder().getContainer();
 		sdw::expr::Expr * expr{};
 		ret = lhs + rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
@@ -481,7 +474,7 @@ namespace
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto & statements = *writer.getShader().getContainer();
+					auto & statements = *writer.getBuilder().getContainer();
 					auto a = writer.declLocale< sdw::Boolean >( "a" );
 					auto b = writer.declLocale< sdw::Boolean >( "b" );
 					auto c = writer.declLocale< sdw::Boolean >( "c" );
@@ -520,7 +513,7 @@ namespace
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto & statements = *writer.getShader().getContainer();
+					auto & statements = *writer.getBuilder().getContainer();
 					auto a = writer.declLocale< sdw::Boolean >( "a", true );
 					auto b = writer.declLocale< sdw::Boolean >( "b", true );
 					auto c = writer.declLocale< sdw::Boolean >( "c", true );

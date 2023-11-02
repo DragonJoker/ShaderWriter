@@ -64,7 +64,7 @@ namespace sdw
 		, ast::EntryPoint entryPoint
 		, std::string name )
 		: m_writer{ &writer }
-		, m_shader{ &sdw::getShader( *m_writer ) }
+		, m_builder{ &sdw::getBuilder( *m_writer ) }
 		, m_type{ getTypesCache( *m_writer ).getIOStruct( std::move( name ), entryPoint, FlagT ) }
 	{
 	}
@@ -73,7 +73,7 @@ namespace sdw
 	IOStructT< FlagT >::IOStructT( ShaderWriter & writer
 		, ast::type::IOStructPtr type )
 		: m_writer{ &writer }
-		, m_shader{ &sdw::getShader( *m_writer ) }
+		, m_builder{ &sdw::getBuilder( *m_writer ) }
 		, m_type{ std::move( type ) }
 	{
 		addStmt( *m_writer, makeStructureDecl( getStmtCache( m_writer ), m_type ) );
