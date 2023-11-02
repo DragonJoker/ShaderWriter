@@ -17,7 +17,7 @@ namespace sdw
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return getShader().registerInput( entryPoint
+		return getBuilder().registerInput( entryPoint
 			, std::move( name )
 			, location
 			, attributes
@@ -30,7 +30,7 @@ namespace sdw
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return getShader().registerOutput( entryPoint
+		return getBuilder().registerOutput( entryPoint
 			, std::move( name )
 			, location
 			, attributes

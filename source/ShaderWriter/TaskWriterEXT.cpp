@@ -27,7 +27,7 @@ namespace sdw
 		, uint32_t localSizeZ )
 		: TaskIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "taskIn"
+				, sdw::getBuilder( writer ).registerName( "taskIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY
@@ -91,7 +91,7 @@ namespace sdw
 		, uint32_t localSizeZ )
 		: TaskSubgroupIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "taskSubgroupIn"
+				, sdw::getBuilder( writer ).registerName( "taskSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY

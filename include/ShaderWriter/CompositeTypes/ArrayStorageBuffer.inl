@@ -52,7 +52,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 		: m_writer{ writer }
-		, m_shader{ sdw::getShader( m_writer ) }
+		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ) }
 		, m_info{ m_interface.getType(), bind, set }
@@ -88,7 +88,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 		: m_writer{ writer }
-		, m_shader{ sdw::getShader( m_writer ) }
+		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType ) }
 		, m_info{ m_interface.getType(), bind, set }
@@ -141,7 +141,7 @@ namespace sdw
 		, ast::expr::ExprPtr addressExpr
 		, bool enabled )
 		: m_writer{ writer }
-		, m_shader{ sdw::getShader( m_writer ) }
+		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
 		, m_interface{ std::static_pointer_cast< ast::type::BaseStruct >( static_cast< ast::type::Pointer const & >( *addressExpr->getType() ).getPointerType() ) }
 		, m_info{ m_interface.getType(), ~0u, ~0u }

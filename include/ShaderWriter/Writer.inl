@@ -86,9 +86,9 @@ namespace sdw
 	{
 		ast::var::VariablePtr funcVar;
 
-		if ( m_shader->hasFunction( name ) )
+		if ( m_builder.hasFunction( name ) )
 		{
-			funcVar = m_shader->getFunction( name );
+			funcVar = m_builder.getFunction( name );
 			auto functionType = funcVar->getType();
 
 			if ( functionType->getKind() != ast::type::Kind::eFunction )
@@ -101,10 +101,10 @@ namespace sdw
 			ast::var::VariableList args;
 			stmt::FunctionDeclPtr decl = getFunctionHeader< ReturnT >( *this, args, name, flag, params... );
 			funcVar = decl->getFuncVar();
-			doPushScope( decl.get(), args );
+			m_builder.push( decl.get(), args );
 			details::doUpdateParams( decl->getType(), params... );
 			function( params... );
-			doPopScope();
+			m_builder.pop();
 			addGlobalStmt( std::move( decl ) );
 		}
 

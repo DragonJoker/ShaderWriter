@@ -77,6 +77,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Shader.hpp>
+#include <ShaderAST/ShaderBuilder.hpp>
 
 #include "WriterInt.hpp"
 #include "Intrinsics/IntrinsicFunctions.hpp"
@@ -85,7 +86,7 @@ namespace sdw
 {
 	stmt::Container * getContainer( ShaderWriter & writer )
 	{
-		return writer.getShader().getContainer();
+		return writer.getBuilder().getContainer();
 	}
 
 	ShaderWriter & getCurrentWriter()
@@ -96,25 +97,25 @@ namespace sdw
 
 	uint32_t getNextVarId( ShaderWriter & writer )
 	{
-		return getNextVarId( writer.getShader() );
+		return getNextVarId( writer.getBuilder() );
 	}
 
-	uint32_t getNextVarId( Shader & shader )
+	uint32_t getNextVarId( ShaderBuilder & shader )
 	{
-		return ++shader.getData().nextVarId;
+		return shader.getNextVarId();
 	}
 
 	ast::var::VariablePtr registerFunction( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string name )
 	{
-		return writer.getShader().registerFunction( std::move( name ), std::move( type ) );
+		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ) );
 	}
 
 	ast::var::VariablePtr getFunction( ShaderWriter & writer
 		, std::string name )
 	{
-		return writer.getShader().getFunction( std::move( name ) );
+		return writer.getBuilder().getFunction( std::move( name ) );
 	}
 
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer )
@@ -142,6 +143,11 @@ namespace sdw
 		return shader.getStmtCache();
 	}
 
+	ast::stmt::StmtCache & getStmtCache( ShaderBuilder const & builder )
+	{
+		return builder.getStmtCache();
+	}
+
 	expr::ExprCache & getExprCache( ShaderWriter & writer )
 	{
 		return writer.getExprCache();
@@ -155,6 +161,11 @@ namespace sdw
 	expr::ExprCache & getExprCache( Shader const & shader )
 	{
 		return shader.getExprCache();
+	}
+
+	expr::ExprCache & getExprCache( ShaderBuilder const & builder )
+	{
+		return builder.getExprCache();
 	}
 
 	type::TypesCache & getTypesCache( ShaderWriter & writer )
@@ -172,14 +183,19 @@ namespace sdw
 		return shader.getTypesCache();
 	}
 
-	Shader & getShader( ShaderWriter & writer )
+	type::TypesCache & getTypesCache( ShaderBuilder const & builder )
 	{
-		return writer.getShader();
+		return builder.getTypesCache();
 	}
 
-	Shader & getShader( ShaderWriter const & writer )
+	ShaderBuilder & getBuilder( ShaderWriter & writer )
 	{
-		return writer.getShader();
+		return writer.getBuilder();
+	}
+
+	ShaderBuilder const & getBuilder( ShaderWriter const & writer )
+	{
+		return writer.getBuilder();
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
@@ -1075,28 +1091,28 @@ namespace sdw
 			, std::move( payload ) );
 	}
 
-	void addStmt( Shader & shader
+	void addStmt( ShaderBuilder & builder
 		, stmt::StmtPtr stmt )
 	{
-		shader.addStmt( std::move( stmt ) );
+		builder.addStmt( std::move( stmt ) );
 	}
 
 	void addStmt( ShaderWriter & writer
 		, stmt::StmtPtr stmt )
 	{
-		addStmt( writer.getShader(), std::move( stmt ) );
+		addStmt( writer.getBuilder(), std::move( stmt ) );
 	}
 
-	void addGlobalStmt( Shader & shader
+	void addGlobalStmt( ShaderBuilder & builder
 		, stmt::StmtPtr stmt )
 	{
-		shader.addGlobalStmt( std::move( stmt ) );
+		builder.addGlobalStmt( std::move( stmt ) );
 	}
 
 	void addGlobalStmt( ShaderWriter & writer
 		, stmt::StmtPtr stmt )
 	{
-		addGlobalStmt( writer.getShader(), std::move( stmt ) );
+		addGlobalStmt( writer.getBuilder(), std::move( stmt ) );
 	}
 
 	void addStmt( stmt::Container & container
@@ -1109,7 +1125,7 @@ namespace sdw
 		, std::string name
 		, type::TypePtr type )
 	{
-		return writer.getShader().registerName( std::move( name )
+		return writer.getBuilder().registerName( std::move( name )
 			, type );
 	}
 
@@ -1118,7 +1134,7 @@ namespace sdw
 		, type::TypePtr type
 		, uint64_t flags )
 	{
-		return writer.getShader().registerName( std::move( name )
+		return writer.getBuilder().registerName( std::move( name )
 			, type
 			, flags );
 	}
@@ -1128,7 +1144,7 @@ namespace sdw
 		, std::string name
 		, type::TypePtr type )
 	{
-		return writer.getShader().registerMember( outer
+		return writer.getBuilder().registerMember( outer
 			, std::move( name )
 			, type );
 	}
@@ -1137,20 +1153,20 @@ namespace sdw
 		, std::string name
 		, type::TypePtr type )
 	{
-		return writer.getShader().registerBlockVariable( std::move( name )
+		return writer.getBuilder().registerBlockVariable( std::move( name )
 			, type );
 	}
 
 	var::VariablePtr getVar( ShaderWriter & writer
 		, std::string_view name )
 	{
-		return writer.getShader().getVar( name );
+		return writer.getBuilder().getVar( name );
 	}
 
 	var::VariablePtr getMemberVar( ShaderWriter & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name )
 	{
-		return writer.getShader().getMemberVar( outer, name );
+		return writer.getBuilder().getMemberVar( outer, name );
 	}
 }

@@ -25,7 +25,7 @@ namespace sdw
 	RayMissIn::RayMissIn( ShaderWriter & writer )
 		: RayMissIn{ writer
 		, makeExpr( writer
-			, sdw::getShader( writer ).registerName( "rayMissIn"
+			, sdw::getBuilder( writer ).registerName( "rayMissIn"
 				, makeType( getTypesCache( writer ) )
 				, ast::var::Flag::eShaderInput ) )
 		, true }

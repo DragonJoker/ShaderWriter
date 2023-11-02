@@ -33,6 +33,7 @@ namespace sdw
 	ShaderWriter::ShaderWriter( ast::ShaderStage type
 		, ShaderAllocator * allocator )
 		: m_shader{ std::make_unique< Shader >( type, allocator ) }
+		, m_builder{ *m_shader }
 	{
 		if ( doGetCurrentWriter() )
 		{
@@ -52,71 +53,71 @@ namespace sdw
 
 	bool ShaderWriter::hasVariable( std::string_view name )const
 	{
-		return m_shader->hasVariable( name );
+		return m_builder.hasVariable( name );
 	}
 
 	var::VariablePtr ShaderWriter::registerName( std::string name
 		, type::TypePtr type
 		, uint64_t flags )
 	{
-		return m_shader->registerName( std::move( name ), type, flags );
+		return m_builder.registerName( std::move( name ), type, flags );
 	}
 
 	var::VariablePtr ShaderWriter::registerLocale( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerLocale( std::move( name ), type );
+		return m_builder.registerLocale( std::move( name ), type );
 	}
 
 	var::VariablePtr ShaderWriter::registerLoopVar( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerLoopVar( std::move( name ), type );
+		return m_builder.registerLoopVar( std::move( name ), type );
 	}
 
 	var::VariablePtr ShaderWriter::registerInParam( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerInParam( std::move( name ), type );
+		return m_builder.registerInParam( std::move( name ), type );
 	}
 
 	var::VariablePtr ShaderWriter::registerOutParam( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerOutParam( std::move( name ), type );
+		return m_builder.registerOutParam( std::move( name ), type );
 	}
 
 	var::VariablePtr ShaderWriter::registerInOutParam( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerInOutParam( std::move( name ), type );
+		return m_builder.registerInOutParam( std::move( name ), type );
 	}
 
 	var::VariablePtr ShaderWriter::getVar( std::string_view name )
 	{
-		return m_shader->getVar( name );
+		return m_builder.getVar( name );
 	}
 
 	void ShaderWriter::registerSsbo( std::string name
 		, SsboInfo const & info )
 	{
-		m_shader->registerSsbo( std::move( name ), info );
+		m_builder.registerSsbo( std::move( name ), info );
 	}
 
 	void ShaderWriter::registerUbo( std::string name
 		, UboInfo const & info )
 	{
-		m_shader->registerUbo( std::move( name ), info );
+		m_builder.registerUbo( std::move( name ), info );
 	}
 
 	void ShaderWriter::addStmt( stmt::StmtPtr stmt )
 	{
-		m_shader->addStmt( std::move( stmt ) );
+		m_builder.addStmt( std::move( stmt ) );
 	}
 
 	void ShaderWriter::addGlobalStmt( stmt::StmtPtr stmt )
 	{
-		m_shader->addGlobalStmt( std::move( stmt ) );
+		m_builder.addGlobalStmt( std::move( stmt ) );
 	}
 
 	void ShaderWriter::inlineComment( std::string const & comment )
@@ -129,19 +130,19 @@ namespace sdw
 
 	void ShaderWriter::demote()
 	{
-		assert( m_shader->getType() == ast::ShaderStage::eFragment
-			|| m_shader->getType() == ast::ShaderStage::eTraditionalGraphics
-			|| m_shader->getType() == ast::ShaderStage::eModernGraphicsNV
-			|| m_shader->getType() == ast::ShaderStage::eModernGraphics );
+		assert( m_builder.getType() == ast::ShaderStage::eFragment
+			|| m_builder.getType() == ast::ShaderStage::eTraditionalGraphics
+			|| m_builder.getType() == ast::ShaderStage::eModernGraphicsNV
+			|| m_builder.getType() == ast::ShaderStage::eModernGraphics );
 		addStmt( getStmtCache().makeDemote() );
 	}
 
 	void ShaderWriter::terminate()
 	{
-		assert( m_shader->getType() == ast::ShaderStage::eFragment
-			|| m_shader->getType() == ast::ShaderStage::eTraditionalGraphics
-			|| m_shader->getType() == ast::ShaderStage::eModernGraphicsNV
-			|| m_shader->getType() == ast::ShaderStage::eModernGraphics );
+		assert( m_builder.getType() == ast::ShaderStage::eFragment
+			|| m_builder.getType() == ast::ShaderStage::eTraditionalGraphics
+			|| m_builder.getType() == ast::ShaderStage::eModernGraphicsNV
+			|| m_builder.getType() == ast::ShaderStage::eModernGraphics );
 		addStmt( getStmtCache().makeTerminateInvocation() );
 	}
 
@@ -152,24 +153,22 @@ namespace sdw
 
 	void ShaderWriter::pushScope()
 	{
-		doPushScope( getStmtCache().makeContainer() );
+		m_builder.pushScope( getStmtCache().makeContainer() );
 	}
 
 	void ShaderWriter::popScope()
 	{
-		doPopScope();
-		addStmt( std::move( m_currentStmts.back() ) );
-		m_currentStmts.erase( m_currentStmts.begin() + ptrdiff_t( m_currentStmts.size() - 1u ) );
+		m_builder.popScope();
 	}
 
 	void ShaderWriter::saveNextExpr()
 	{
-		m_shader->saveNextExpr();
+		m_builder.saveNextExpr();
 	}
 
 	ast::expr::ExprPtr ShaderWriter::loadExpr( Value const & value )
 	{
-		return m_shader->loadExpr( makeExpr( *this, value ) );
+		return m_builder.loadExpr( makeExpr( *this, value ) );
 	}
 
 	void ShaderWriter::forStmt( expr::ExprPtr init
@@ -177,19 +176,19 @@ namespace sdw
 		, expr::ExprPtr incr
 		, std::function< void() > function )
 	{
-		doPushScope( getStmtCache().makeFor( makeExpr( *this, init )
+		m_builder.pushScope( getStmtCache().makeFor( makeExpr( *this, init )
 			, makeExpr( *this, cond )
 			, makeExpr( *this, incr ) ) );
 		function();
-		popScope();
+		m_builder.popScope();
 	}
 
 	void ShaderWriter::doWhileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		doPushScope( getStmtCache().makeDoWhile( std::move( condition ) ) );
+		m_builder.pushScope( getStmtCache().makeDoWhile( std::move( condition ) ) );
 		function();
-		popScope();
+		m_builder.popScope();
 	}
 
 	void ShaderWriter::doWhileStmt( sdw::Boolean condition
@@ -201,9 +200,9 @@ namespace sdw
 	void ShaderWriter::whileStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		doPushScope( getStmtCache().makeWhile( std::move( condition ) ) );
+		m_builder.pushScope( getStmtCache().makeWhile( std::move( condition ) ) );
 		function();
-		popScope();
+		m_builder.popScope();
 	}
 
 	void ShaderWriter::whileStmt( sdw::Boolean condition
@@ -215,11 +214,9 @@ namespace sdw
 	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		auto stmt = getStmtCache().makeIf( std::move( condition ) );
-		m_ifStmt.push_back( stmt.get() );
-		doPushScope( std::move( stmt ) );
+		m_builder.beginIf( std::move( condition ) );
 		function();
-		popScope();
+		m_builder.popScope();
 		return *this;
 	}
 
@@ -232,10 +229,9 @@ namespace sdw
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > function )
 	{
-		doPushScope( m_ifStmt.back()->createElseIf( std::move( condition ) )
-			, ast::var::VariableList{} );
+		m_builder.beginElseIf( std::move( condition ) );
 		function();
-		doPopScope();
+		m_builder.pop();
 		return *this;
 	}
 
@@ -247,51 +243,44 @@ namespace sdw
 
 	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )
 	{
-		doPushScope( m_ifStmt.back()->createElse()
-			, ast::var::VariableList{} );
+		m_builder.beginElse();
 		function();
-		doPopScope();
+		m_builder.pop();
 		return *this;
 	}
 
 	void ShaderWriter::endIf()
 	{
-		m_ifStmt.pop_back();
+		m_builder.endIf();
 	}
 
 	ShaderWriter & ShaderWriter::switchStmt( expr::ExprPtr value
 		, std::function< void() > function )
 	{
-		auto stmt = getStmtCache().makeSwitch( getExprCache().makeSwitchTest( std::move( value ) ) );
-		m_switchStmt.push_back( stmt.get() );
-		doPushScope( std::move( stmt ) );
+		m_builder.beginSwitch( std::move( value ) );
 		function();
-		popScope();
+		m_builder.popScope();
 		return *this;
 	}
 
 	void ShaderWriter::endSwitch()
 	{
-		m_switchStmt.pop_back();
+		m_builder.endSwitch();
 	}
 
 	void ShaderWriter::caseStmt( expr::LiteralPtr literal
 		, std::function< void() > function )
 	{
-		auto stmt = m_switchStmt.back()->createCase( getExprCache().makeSwitchCase( std::move( literal ) ) );
-		doPushScope( stmt
-			, ast::var::VariableList{} );
+		m_builder.beginCase( std::move( literal ) );
 		function();
-		doPopScope();
+		m_builder.pop();
 	}
 
 	void ShaderWriter::defaultStmt( std::function< void() > function )
 	{
-		auto stmt = m_switchStmt.back()->createDefault();
-		doPushScope( stmt
-			, ast::var::VariableList{} );
+		m_builder.beginDefault();
 		function();
-		doPopScope();
+		m_builder.pop();
 	}
 
 	void ShaderWriter::caseBreakStmt()
@@ -653,43 +642,17 @@ namespace sdw
 			, enabled };
 	}
 
-	void ShaderWriter::doPushScope( ast::stmt::ContainerPtr && container )
-	{
-		m_currentStmts.emplace_back( std::move( container ) );
-		doPushScope( m_currentStmts.back().get()
-			, ast::var::VariableList{} );
-	}
-
-	void ShaderWriter::doPushScope( ast::stmt::ContainerPtr && container
-		, ast::var::VariableList vars )
-	{
-		m_currentStmts.emplace_back( std::move( container ) );
-		doPushScope( m_currentStmts.back().get()
-			, std::move( vars ) );
-	}
-
-	void ShaderWriter::doPushScope( ast::stmt::Container * container
-		, ast::var::VariableList vars )
-	{
-		m_shader->push( container, vars );
-	}
-
-	void ShaderWriter::doPopScope()
-	{
-		m_shader->pop();
-	}
-
 	var::VariablePtr ShaderWriter::registerStaticConstant( std::string name
 		, type::TypePtr type )
 	{
-		return m_shader->registerStaticConstant( std::move( name ), type );
+		return m_builder.registerStaticConstant( std::move( name ), type );
 	}
 
 	var::VariablePtr ShaderWriter::registerSpecConstant( std::string name
 		, uint32_t location
 		, type::TypePtr type )
 	{
-		return m_shader->registerSpecConstant( std::move( name ), location, type );
+		return m_builder.registerSpecConstant( std::move( name ), location, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerAccelerationStructure( std::string name
@@ -698,7 +661,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerAccelerationStructure( std::move( name ), type, binding, set, enabled );
+		return m_builder.registerAccelerationStructure( std::move( name ), type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerSampler( std::string name
@@ -707,7 +670,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerSampler( std::move( name ), type, binding, set, enabled );
+		return m_builder.registerSampler( std::move( name ), type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerSampledImage( std::string name
@@ -716,7 +679,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerSampledImage( std::move( name ), type, binding, set, enabled );
+		return m_builder.registerSampledImage( std::move( name ), type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerTexture( std::string name
@@ -725,7 +688,7 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerTexture( std::move( name ), type, binding, set, enabled );
+		return m_builder.registerTexture( std::move( name ), type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerImage( std::string name
@@ -734,20 +697,20 @@ namespace sdw
 		, uint32_t set
 		, bool enabled )
 	{
-		return m_shader->registerImage( std::move( name ), type, binding, set, enabled );
+		return m_builder.registerImage( std::move( name ), type, binding, set, enabled );
 	}
 
 	var::VariablePtr ShaderWriter::registerInOut( std::string name
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return m_shader->registerInOut( std::move( name ), attributes, type );
+		return m_builder.registerInOut( std::move( name ), attributes, type );
 	}
 
 	var::VariablePtr ShaderWriter::registerBuiltin( ast::Builtin builtin
 		, type::TypePtr type
 		, var::Flag flag )
 	{
-		return m_shader->registerBuiltin( builtin, type, flag );
+		return m_builder.registerBuiltin( builtin, type, flag );
 	}
 }

@@ -16,7 +16,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/VecTypes/Vec4.hpp"
 #include "ShaderWriter/Intrinsics/Intrinsics.hpp"
 
-#include <ShaderAST/Shader.hpp>
+#include <ShaderAST/ShaderBuilder.hpp>
 
 namespace sdw
 {
@@ -719,7 +719,7 @@ namespace sdw
 
 		if ( mbrFlags )
 		{
-			auto & shader = *getShader();
+			auto & shader = getBuilder();
 
 			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
 			{

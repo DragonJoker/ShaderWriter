@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include "ShaderWriter/Value.hpp"
+#include "ShaderWriter/Writer.hpp"
 
 #include <ShaderAST/Expr/ExprAddAssign.hpp>
 #include <ShaderAST/Expr/ExprAssign.hpp>
@@ -11,7 +12,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprMinusAssign.hpp>
 #include <ShaderAST/Expr/ExprTimesAssign.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
-#include <ShaderAST/Shader.hpp>
+#include <ShaderAST/ShaderBuilder.hpp>
 
 namespace sdw
 {
@@ -22,8 +23,7 @@ namespace sdw
 		, bool enabled )
 		: m_expr{ std::move( expr ) }
 		, m_writer{ &writer }
-		, m_shader{ &sdw::getShader( *m_writer ) }
-		, m_container{ m_shader ? m_shader->getContainer() : nullptr }
+		, m_container{ m_writer ? m_writer->getBuilder().getContainer() : nullptr }
 		, m_enabled{ enabled }
 	{
 	}
@@ -64,9 +64,9 @@ namespace sdw
 
 	stmt::Container * Value::getContainer()const
 	{
-		if ( m_shader )
+		if ( m_writer )
 		{
-			return m_shader->getContainer();
+			return m_writer->getBuilder().getContainer();
 		}
 
 		return nullptr;
@@ -75,6 +75,12 @@ namespace sdw
 	void Value::updateExpr( expr::ExprPtr expr )
 	{
 		m_expr = std::move( expr );
+	}
+
+	ast::ShaderBuilder & Value::getBuilder()const
+	{
+		assert( getWriter() );
+		return getWriter()->getBuilder();
 	}
 
 	void Value::doCopy( Value const & rhs )
@@ -127,13 +133,13 @@ namespace sdw
 	expr::ExprPtr getDummyExpr( ShaderWriter const & writer
 		, type::TypePtr type )
 	{
-		return getShader( writer ).getDummyExpr( type );
+		return getBuilder( writer ).getDummyExpr( type );
 	}
 
 	expr::ExprPtr makeExpr( Value const & variable
 		, bool force )
 	{
-		assert( variable.getShader() && "Can't use this overload of makeExpr if the Value doesn't have a Shader" );
+		assert( variable.getWriter() && "Can't use this overload of makeExpr if the Value doesn't have a Shader" );
 		return makeExpr( *variable.getWriter()
 			, variable.getExpr()
 			, force );

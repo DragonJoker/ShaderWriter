@@ -55,7 +55,7 @@ namespace sdw
 	TessControlPatchRoutineIn::TessControlPatchRoutineIn( ShaderWriter & writer )
 		: TessControlPatchRoutineIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "tesscPatchIn"
+				, sdw::getBuilder( writer ).registerName( "tesscPatchIn"
 					, makeType( getTypesCache( writer ) )
 					, FlagT ) ) }
 	{
@@ -91,7 +91,7 @@ namespace sdw
 	TessControlMainIn::TessControlMainIn( ShaderWriter & writer )
 		: TessControlMainIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "tesscGlobIn"
+				, sdw::getBuilder( writer ).registerName( "tesscGlobIn"
 					, makeType( getTypesCache( writer ) )
 					, FlagT ) ) }
 	{

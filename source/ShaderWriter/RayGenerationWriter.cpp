@@ -21,7 +21,7 @@ namespace sdw
 	RayGenerationIn::RayGenerationIn( ShaderWriter & writer )
 		: RayGenerationIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "rayGenIn"
+				, sdw::getBuilder( writer ).registerName( "rayGenIn"
 					, makeType( getTypesCache( writer ) )
 					, ast::var::Flag::eShaderInput ) )
 			, true }

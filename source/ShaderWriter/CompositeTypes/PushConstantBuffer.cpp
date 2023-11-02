@@ -15,11 +15,11 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
-		, m_shader{ m_writer.getShader() }
+		, m_builder{ m_writer.getBuilder() }
 		, m_stmt{ getStmtCache( m_writer ).makePushConstantsBufferDecl( variableName, layout ) }
 		, m_name{ std::move( variableName ) }
 		, m_info{ writer.getTypesCache(), layout, std::move( blockName ) }
-		, m_var{ writer.getShader().registerName( m_name, m_info.getType(), var::Flag::ePushConstant ) }
+		, m_var{ writer.getBuilder().registerName( m_name, m_info.getType(), var::Flag::ePushConstant ) }
 		, m_enabled{ enabled }
 	{
 	}
@@ -40,8 +40,8 @@ namespace sdw
 	{
 		if ( isEnabled() )
 		{
-			addStmt( m_shader, std::move( m_stmt ) );
-			m_shader.registerPcb( m_name, m_info );
+			addStmt( m_builder, std::move( m_stmt ) );
+			m_builder.registerPcb( m_name, m_info );
 		}
 	}
 

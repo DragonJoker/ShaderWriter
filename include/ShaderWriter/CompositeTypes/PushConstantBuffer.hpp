@@ -62,7 +62,7 @@ namespace sdw
 
 	private:
 		ShaderWriter & m_writer;
-		ast::Shader & m_shader;
+		ast::ShaderBuilder & m_builder;
 		stmt::PushConstantsBufferDeclPtr m_stmt;
 		std::string m_name;
 		ast::PcbInfo m_info;

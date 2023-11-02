@@ -371,7 +371,7 @@ namespace sdw
 	inline Function< ReturnT, ParamsT... >::Function( ShaderWriter & writer
 		, ast::var::VariablePtr funcVar )
 		: m_writer{ &writer }
-		, m_shader{ &getShader( *m_writer ) }
+		, m_builder{ &getBuilder( *m_writer ) }
 		, m_funcVar{ std::move( funcVar ) }
 		, m_type{ std::static_pointer_cast< ast::type::Function >( m_funcVar->getType() ) }
 	{

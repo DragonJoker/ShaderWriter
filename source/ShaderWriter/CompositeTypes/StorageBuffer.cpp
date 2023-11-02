@@ -17,11 +17,11 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: m_writer{ writer }
-		, m_shader{ m_writer.getShader() }
+		, m_builder{ m_writer.getBuilder() }
 		, m_name{ std::move( variableName ) }
 		, m_interface{ writer.getTypesCache(), layout, std::move( blockName ) }
 		, m_info{ m_interface.getType(), bind, set }
-		, m_var{ writer.getShader().registerName( m_name, m_interface.getType(), var::Flag::eStorageBuffer ) }
+		, m_var{ m_builder.registerName( m_name, m_interface.getType(), var::Flag::eStorageBuffer ) }
 		, m_stmt{ getStmtCache( m_writer ).makeShaderBufferDecl( m_var, bind, set ) }
 		, m_enabled{ enabled }
 	{
@@ -31,8 +31,8 @@ namespace sdw
 	{
 		if ( isEnabled() )
 		{
-			addStmt( m_shader, std::move( m_stmt ) );
-			m_shader.registerSsbo( m_name, m_info );
+			addStmt( m_builder, std::move( m_stmt ) );
+			m_builder.registerSsbo( m_name, m_info );
 		}
 	}
 

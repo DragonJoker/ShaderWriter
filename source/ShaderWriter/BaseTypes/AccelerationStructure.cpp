@@ -3,7 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
 
-#include <ShaderAST/Shader.hpp>
+#include <ShaderAST/ShaderBuilder.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 
 namespace sdw
@@ -21,7 +21,7 @@ namespace sdw
 
 		if ( writeStmt )
 		{
-			getShader()->addStmt( sdw::makeSimple( getStmtCache( m_writer )
+			getBuilder().addStmt( sdw::makeSimple( getStmtCache( m_writer )
 				, makeExpr( *this ) ) );
 		}
 	}

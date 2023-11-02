@@ -18,6 +18,7 @@ See LICENSE file in root folder
 #include "ShaderWriter/Helpers.hpp"
 
 #include <ShaderAST/Shader.hpp>
+#include <ShaderAST/ShaderBuilder.hpp>
 #include <ShaderAST/Stmt/StmtIf.hpp>
 #include <ShaderAST/Stmt/StmtSwitch.hpp>
 
@@ -964,30 +965,32 @@ namespace sdw
 			return *m_shader;
 		}
 
+		inline ast::ShaderBuilder & getBuilder()
+		{
+			return m_builder;
+		}
+
+		inline ast::ShaderBuilder const & getBuilder()const
+		{
+			return m_builder;
+		}
+
 		inline ast::stmt::StmtCache & getStmtCache()const
 		{
-			return m_shader->getStmtCache();
+			return m_builder.getStmtCache();
 		}
 
 		inline ast::expr::ExprCache & getExprCache()const
 		{
-			return m_shader->getExprCache();
+			return m_builder.getExprCache();
 		}
 
 		inline ast::type::TypesCache & getTypesCache()const
 		{
-			return m_shader->getTypesCache();
+			return m_builder.getTypesCache();
 		}
 		/**@}*/
 #pragma endregion
-
-	private:
-		SDW_API void doPushScope( ast::stmt::ContainerPtr && container );
-		SDW_API void doPushScope( ast::stmt::ContainerPtr && container
-			, ast::var::VariableList vars );
-		SDW_API void doPushScope( ast::stmt::Container * container
-			, ast::var::VariableList vars );
-		SDW_API void doPopScope();
 
 	protected:
 		SDW_API var::VariablePtr registerStaticConstant( std::string name
@@ -1028,10 +1031,8 @@ namespace sdw
 			, var::Flag flag );
 
 	private:
-		std::unique_ptr< ast::Shader > m_shader;
-		std::vector< stmt::If * > m_ifStmt;
-		std::vector< stmt::Switch * > m_switchStmt;
-		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
+		ast::ShaderPtr m_shader;
+		ast::ShaderBuilder m_builder;
 	};
 
 	template< typename WriterT >

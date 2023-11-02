@@ -19,7 +19,7 @@ namespace sdw
 	CallableIn::CallableIn( ShaderWriter & writer )
 		: CallableIn{ writer
 			, makeExpr( writer
-				, sdw::getShader( writer ).registerName( "rayCallIn"
+				, sdw::getBuilder( writer ).registerName( "rayCallIn"
 					, makeType( getTypesCache( writer ) )
 					, ast::var::Flag::eShaderInput ) )
 			, true }

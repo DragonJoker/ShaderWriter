@@ -27,6 +27,8 @@ namespace sdw
 		SDW_API stmt::Container * getContainer()const;
 		SDW_API void updateExpr( expr::ExprPtr expr );
 
+		SDW_API ast::ShaderBuilder & getBuilder()const;
+
 		virtual type::TypePtr getType()const
 		{
 			return m_expr->getType();
@@ -40,11 +42,6 @@ namespace sdw
 		inline ShaderWriter * getWriter()const
 		{
 			return m_writer;
-		}
-
-		inline Shader * getShader()const
-		{
-			return m_shader;
 		}
 
 		inline bool isEnabled()const
@@ -84,7 +81,6 @@ namespace sdw
 	protected:
 		expr::ExprPtr m_expr;
 		ShaderWriter * m_writer{};
-		Shader * m_shader{};
 		stmt::Container * m_container{};
 		bool m_enabled;
 	};
