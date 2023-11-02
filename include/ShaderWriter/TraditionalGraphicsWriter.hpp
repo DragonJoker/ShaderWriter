@@ -18,6 +18,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit TraditionalGraphicsWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit TraditionalGraphicsWriter( ShaderBuilder & builder );
 #pragma region Vertex Shader
 		/**
 		*name

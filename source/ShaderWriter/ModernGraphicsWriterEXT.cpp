@@ -9,6 +9,11 @@ namespace sdw
 		: PipelineWriter{ ast::ShaderStage::eModernGraphics, allocator }
 	{
 	}
+
+	ModernGraphicsWriterEXT::ModernGraphicsWriterEXT( ShaderBuilder & builder )
+		: PipelineWriter{ builder }
+	{
+	}
 	/**
 	*name
 	*	Fragment Shader.

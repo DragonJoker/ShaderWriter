@@ -51,5 +51,10 @@ namespace sdw
 	{
 	}
 
+	GeometryWriter::GeometryWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	//*************************************************************************
 }

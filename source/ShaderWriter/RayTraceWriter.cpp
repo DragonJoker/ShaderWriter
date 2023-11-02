@@ -12,6 +12,11 @@ namespace sdw
 		: PipelineWriter{ ast::ShaderStage::eRayTrace, allocator }
 	{
 	}
+
+	RayTraceWriter::RayTraceWriter( ShaderBuilder & builder )
+		: PipelineWriter{ builder }
+	{
+	}
 	/**
 	*name
 	*	Ray Any Hit.

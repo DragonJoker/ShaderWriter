@@ -145,5 +145,10 @@ namespace sdw
 	{
 	}
 
+	TaskWriterEXT::TaskWriterEXT( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	//*************************************************************************
 }

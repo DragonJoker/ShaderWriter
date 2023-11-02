@@ -43,10 +43,11 @@ namespace ast
 		}
 	}
 
-	ShaderBuilder::ShaderBuilder( Shader & shader )
-		: m_shader{ shader }
+	ShaderBuilder::ShaderBuilder( ast::ShaderStage type
+		, ShaderAllocator * allocator )
+		: m_shader{ std::make_unique< Shader >( type, allocator ) }
 	{
-		push( shader.getStatements(), var::VariableList{} );
+		push( m_shader->getStatements(), var::VariableList{} );
 	}
 
 	void ShaderBuilder::push( stmt::Container * container
@@ -210,7 +211,7 @@ namespace ast
 		auto result = var::makeFunction( ++getData().nextVarId
 			, std::move( type )
 			, std::move( name ) );
-		m_shader.registerVar( 1u, result );
+		m_shader->registerVar( 1u, result );
 		m_blocks.front().registered.emplace( result );
 		return result;
 	}
@@ -236,7 +237,7 @@ namespace ast
 #else
 		block.registered.emplace( var );
 #endif
-		m_shader.registerVar( m_blocks.size(), var );
+		m_shader->registerVar( m_blocks.size(), var );
 
 		if ( var->getType()->getRawKind() == type::Kind::eTessellationControlInput )
 		{
@@ -329,7 +330,7 @@ namespace ast
 			, std::move( type )
 			, std::move( name )
 			, var::Flag::eStatic | var::Flag::eConstant ) ).first;
-		m_shader.registerVar( 1u, *result );
+		m_shader->registerVar( 1u, *result );
 		getData().constants.emplace( std::move( name ), type );
 		return *result;
 	}

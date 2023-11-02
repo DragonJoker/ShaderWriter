@@ -87,6 +87,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit RayClosestHitWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayClosestHitWriter( ShaderBuilder & builder );
 
 		template< typename PayloadT, typename AttrT >
 		void implementMainT( uint32_t payloadLocation

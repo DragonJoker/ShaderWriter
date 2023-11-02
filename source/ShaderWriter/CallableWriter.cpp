@@ -51,4 +51,9 @@ namespace sdw
 		: EntryPointWriter{ ast::ShaderStage::eCallable, allocator }
 	{
 	}
+
+	CallableWriter::CallableWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
 }

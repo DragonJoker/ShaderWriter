@@ -12,7 +12,8 @@ namespace ast
 	class ShaderBuilder
 	{
 	public:
-		SDAST_API explicit ShaderBuilder( Shader & shader );
+		SDAST_API explicit ShaderBuilder( ast::ShaderStage type
+			, ShaderAllocator * allocator = nullptr );
 		SDAST_API void push( stmt::Container * container
 			, var::VariableList vars );
 		SDAST_API void pop();
@@ -142,6 +143,16 @@ namespace ast
 		SDAST_API expr::ExprPtr getDummyExpr( type::TypePtr type )const;
 		/**@}*/
 
+		ast::Shader & getShader()const
+		{
+			return *m_shader;
+		}
+
+		ast::ShaderPtr releaseShader()
+		{
+			return std::move( m_shader );
+		}
+
 		stmt::Container * getContainer()
 		{
 			return m_blocks.back().container;
@@ -154,32 +165,32 @@ namespace ast
 
 		ShaderStage getType()const
 		{
-			return m_shader.getType();
+			return m_shader->getType();
 		}
 
 		type::TypesCache & getTypesCache()const
 		{
-			return m_shader.getTypesCache();
+			return m_shader->getTypesCache();
 		}
 
 		expr::ExprCache & getExprCache()const
 		{
-			return m_shader.getExprCache();
+			return m_shader->getExprCache();
 		}
 
 		stmt::StmtCache & getStmtCache()const
 		{
-			return m_shader.getStmtCache();
+			return m_shader->getStmtCache();
 		}
 
 		ShaderAllocatorBlock & getAllocator()const
 		{
-			return m_shader.getAllocator();
+			return m_shader->getAllocator();
 		}
 
 		ShaderData const & getData()const
 		{
-			return m_shader.getData();
+			return m_shader->getData();
 		}
 
 	private:
@@ -188,11 +199,11 @@ namespace ast
 
 		ShaderData & getData()
 		{
-			return m_shader.getData();
+			return m_shader->getData();
 		}
 
 	private:
-		Shader & m_shader;
+		ShaderPtr m_shader;
 		struct Block
 		{
 			std::set< var::VariablePtr > registered;

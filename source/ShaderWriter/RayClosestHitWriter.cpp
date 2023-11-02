@@ -110,4 +110,9 @@ namespace sdw
 		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, allocator }
 	{
 	}
+
+	RayClosestHitWriter::RayClosestHitWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
 }

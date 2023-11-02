@@ -72,4 +72,9 @@ namespace sdw
 		: EntryPointWriter{ ast::ShaderStage::eRayMiss, allocator }
 	{
 	}
+
+	RayMissWriter::RayMissWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
 }

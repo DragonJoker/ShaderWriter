@@ -10,6 +10,11 @@ namespace sdw
 	{
 	}
 
+	FragmentWriter::FragmentWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	void FragmentWriter::implementMain( FragmentMainFuncT< VoidT, VoidT > const & function )
 	{
 		implementMainT( function );

@@ -87,6 +87,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit RayAnyHitWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayAnyHitWriter( ShaderBuilder & builder );
 
 		SDW_API void ignoreIntersection();
 		SDW_API void terminateRay();

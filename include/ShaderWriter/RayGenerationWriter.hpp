@@ -41,6 +41,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit RayGenerationWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayGenerationWriter( ShaderBuilder & builder );
 
 		SDW_API void implementMain( RayGenerationMainFunc const & function );
 	};

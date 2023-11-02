@@ -44,6 +44,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit CallableWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit CallableWriter( ShaderBuilder & builder );
 
 		template< typename ValueT >
 		void implementMainT( uint32_t dataLocation

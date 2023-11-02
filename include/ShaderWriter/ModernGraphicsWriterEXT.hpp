@@ -16,6 +16,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit ModernGraphicsWriterEXT( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit ModernGraphicsWriterEXT( ShaderBuilder & builder );
 #pragma region Task Shader
 		/**
 		*name

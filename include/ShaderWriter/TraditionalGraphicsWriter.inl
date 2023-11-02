@@ -168,7 +168,7 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
+			addStmt( makeInOutStreamVariableDecl( getStmtCache(), var
 				, location
 				, streamIndex ) );
 		}
@@ -663,7 +663,6 @@ namespace sdw
 		auto var = registerOutput( std::move( name )
 			, EntryPoint::eFragment
 			, location
-			, blendIndex
 			, attributes | var::Flag::eBlendIndex
 			, type );
 

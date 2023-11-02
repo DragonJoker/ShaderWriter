@@ -107,6 +107,11 @@ namespace sdw
 	{
 	}
 
+	RayIntersectionWriter::RayIntersectionWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	void RayIntersectionWriter::implementMain( RayIntersectionMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"

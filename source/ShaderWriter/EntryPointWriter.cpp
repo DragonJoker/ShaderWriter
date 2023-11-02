@@ -11,6 +11,11 @@ namespace sdw
 	{
 	}
 
+	EntryPointWriter::EntryPointWriter( ShaderBuilder & builder )
+		: ShaderWriter{ builder }
+	{
+	}
+
 	var::VariablePtr EntryPointWriter::registerInput( std::string name
 		, uint32_t location
 		, uint64_t attributes
