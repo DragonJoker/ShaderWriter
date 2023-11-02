@@ -11,6 +11,11 @@ namespace sdw
 	{
 	}
 
+	PipelineWriter::PipelineWriter( ShaderBuilder & builder )
+		: ShaderWriter{ builder }
+	{
+	}
+
 	var::VariablePtr PipelineWriter::registerInput( std::string name
 		, EntryPoint entryPoint
 		, uint32_t location

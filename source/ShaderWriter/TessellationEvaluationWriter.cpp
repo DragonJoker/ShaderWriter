@@ -51,5 +51,10 @@ namespace sdw
 	{
 	}
 
+	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	//*************************************************************************
 }

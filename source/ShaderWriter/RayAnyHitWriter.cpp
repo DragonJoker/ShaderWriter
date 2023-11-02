@@ -114,6 +114,11 @@ namespace sdw
 	{
 	}
 
+	RayAnyHitWriter::RayAnyHitWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	void RayAnyHitWriter::ignoreIntersection()
 	{
 		addStmt( getStmtCache().makeIgnoreIntersection() );

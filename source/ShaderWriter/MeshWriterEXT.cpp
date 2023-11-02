@@ -160,5 +160,10 @@ namespace sdw
 	{
 	}
 
+	MeshWriterEXT::MeshWriterEXT( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	//*************************************************************************
 }

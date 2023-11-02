@@ -14,6 +14,7 @@ namespace sdw
 	protected:
 		SDW_API explicit PipelineWriter( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit PipelineWriter( ShaderBuilder & builder );
 		SDW_API ~PipelineWriter()override = default;
 
 	public:

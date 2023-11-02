@@ -89,6 +89,7 @@ namespace sdw
 	protected:
 		SDW_API explicit ShaderWriter( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit ShaderWriter( ShaderBuilder & builder );
 		SDW_API virtual ~ShaderWriter();
 
 	public:
@@ -960,34 +961,34 @@ namespace sdw
 		*	Getters.
 		*/
 		/**@{*/
-		inline ast::Shader & getShader()const
+		ast::Shader & getShader()const
 		{
-			return *m_shader;
+			return m_builder->getShader();
 		}
 
-		inline ast::ShaderBuilder & getBuilder()
+		ast::ShaderBuilder & getBuilder()
 		{
-			return m_builder;
+			return *m_builder;
 		}
 
-		inline ast::ShaderBuilder const & getBuilder()const
+		ast::ShaderBuilder const & getBuilder()const
 		{
-			return m_builder;
+			return *m_builder;
 		}
 
-		inline ast::stmt::StmtCache & getStmtCache()const
+		ast::stmt::StmtCache & getStmtCache()const
 		{
-			return m_builder.getStmtCache();
+			return m_builder->getStmtCache();
 		}
 
-		inline ast::expr::ExprCache & getExprCache()const
+		ast::expr::ExprCache & getExprCache()const
 		{
-			return m_builder.getExprCache();
+			return m_builder->getExprCache();
 		}
 
-		inline ast::type::TypesCache & getTypesCache()const
+		ast::type::TypesCache & getTypesCache()const
 		{
-			return m_builder.getTypesCache();
+			return m_builder->getTypesCache();
 		}
 		/**@}*/
 #pragma endregion
@@ -1031,8 +1032,8 @@ namespace sdw
 			, var::Flag flag );
 
 	private:
-		ast::ShaderPtr m_shader;
-		ast::ShaderBuilder m_builder;
+		std::unique_ptr< ast::ShaderBuilder > m_ownBuilder;
+		ast::ShaderBuilder * m_builder{};
 	};
 
 	template< typename WriterT >

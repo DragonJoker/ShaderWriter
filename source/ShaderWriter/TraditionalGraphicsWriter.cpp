@@ -9,6 +9,11 @@ namespace sdw
 		: PipelineWriter{ ast::ShaderStage::eTraditionalGraphics, allocator }
 	{
 	}
+
+	TraditionalGraphicsWriter::TraditionalGraphicsWriter( ShaderBuilder & builder )
+		: PipelineWriter{ builder }
+	{
+	}
 	/**
 	*name
 	*	Vertex Shader.

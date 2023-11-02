@@ -10,6 +10,11 @@ namespace sdw
 	{
 	}
 
+	VertexWriter::VertexWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	void VertexWriter::implementMain( VertexMainFuncT< VoidT, VoidT > const & function )
 	{
 		implementMainT( function );

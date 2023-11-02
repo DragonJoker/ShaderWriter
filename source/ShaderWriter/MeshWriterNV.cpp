@@ -9,4 +9,9 @@ namespace sdw
 		: EntryPointWriter{ ast::ShaderStage::eMeshNV, allocator }
 	{
 	}
+
+	MeshWriterNV::MeshWriterNV( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
 }

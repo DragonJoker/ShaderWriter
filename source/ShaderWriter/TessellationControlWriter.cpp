@@ -122,4 +122,11 @@ namespace sdw
 		: EntryPointWriter{ ast::ShaderStage::eTessellationControl, allocator }
 	{
 	}
+
+	TessellationControlWriter::TessellationControlWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
+	//*************************************************************************
 }

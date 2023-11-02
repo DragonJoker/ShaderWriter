@@ -25,6 +25,11 @@ namespace sdw
 	{
 	}
 
+	ComputeWriter::ComputeWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	void ComputeWriter::implementMain( uint32_t localSizeX
 		, ComputeMainFuncT< VoidT > const & function )
 	{

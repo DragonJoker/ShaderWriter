@@ -54,6 +54,11 @@ namespace sdw
 	{
 	}
 
+	RayGenerationWriter::RayGenerationWriter( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
+
 	void RayGenerationWriter::implementMain( RayGenerationMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"

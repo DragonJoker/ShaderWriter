@@ -10,5 +10,8 @@ namespace sdw
 	{
 	}
 
-	//*************************************************************************
+	TaskWriterNV::TaskWriterNV( ShaderBuilder & builder )
+		: EntryPointWriter{ builder }
+	{
+	}
 }

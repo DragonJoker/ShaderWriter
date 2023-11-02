@@ -19,6 +19,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit RayTraceWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayTraceWriter( ShaderBuilder & builder );
 		/**
 		*name
 		*	Callable.

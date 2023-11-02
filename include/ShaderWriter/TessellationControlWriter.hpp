@@ -220,6 +220,7 @@ namespace sdw
 	{
 	public:
 		SDW_API explicit TessellationControlWriter( ShaderAllocator * allocator = nullptr );
+		SDW_API explicit TessellationControlWriter( ShaderBuilder & builder );
 		/**
 		*name
 		*	Patch routine declaration.
