@@ -502,8 +502,8 @@ namespace hlsl
 				for ( auto & member : *structType )
 				{
 					auto name = ast::getName( member.builtin );
-					auto var = ( m_shader.hasVar( name )
-						? m_shader.getVar( name, member.type )
+					auto var = ( m_shader.hasGlobalVariable( name )
+						? m_shader.getGlobalVariable( name, member.type )
 						: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
 
 					if ( structType->isShaderOutput() )
@@ -526,8 +526,8 @@ namespace hlsl
 				for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 				{
 					auto name = ast::getName( member.builtin );
-					auto var = ( m_shader.hasVar( name )
-						? m_shader.getVar( name, member.type )
+					auto var = ( m_shader.hasGlobalVariable( name )
+						? m_shader.getGlobalVariable( name, member.type )
 						: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
 
 					if ( helpers::isOutput( stmt->getSource() ) )

@@ -32,7 +32,7 @@ namespace ast
 		}
 
 		template< type::Kind Kind >
-		type::TypePtr registerMember( std::string name
+		std::pair< type::TypePtr, bool > registerMember( std::string name
 			, uint32_t arraySize = ast::type::NotArray )
 		{
 			static_assert( Kind != type::Kind::eBoolean, "Can't put a boolean type inside an interface block" );
@@ -42,11 +42,12 @@ namespace ast
 			return registerMember( std::move( name ), m_type->getTypesCache().getBasicType( Kind ), arraySize );
 		}
 
-		type::TypePtr registerMember( std::string name
+		std::pair< type::TypePtr, bool > registerMember( std::string name
 			, type::TypePtr type
 			, uint32_t arraySize = ast::type::NotArray )
 		{
-			return m_type->declMember( std::move( name ), type, arraySize ).type;
+			auto [mbr, added] = m_type->declMember( std::move( name ), type, arraySize );
+			return { mbr.type, added };
 		}
 
 		uint32_t findMember( std::string_view name )const

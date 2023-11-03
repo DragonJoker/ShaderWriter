@@ -82,6 +82,7 @@ namespace sdw
 		std::string m_name;
 		ast::InterfaceBlock m_interface;
 		ast::SsboInfo m_info;
+		bool m_redeclare;
 		var::VariablePtr m_var;
 		stmt::ShaderBufferDeclPtr m_stmt;
 		bool m_enabled;

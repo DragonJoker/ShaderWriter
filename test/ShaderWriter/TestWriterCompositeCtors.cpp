@@ -397,7 +397,11 @@ namespace
 					}
 					FI;
 
-					ssbo[2].a() = value0 + value1;
+					IF( writer, in.localInvocationIndex == 0_u )
+					{
+						ssbo[2].a() = value0 + value1;
+					}
+					FI;
 				} );
 
 			test::writeShader( writer
@@ -1164,8 +1168,12 @@ namespace
 					}
 					ROF;
 
-					// final radiance is average of all the cones radiances
-					ssbo[0].a() = result;
+					IF( writer, in.localInvocationIndex == 0_u )
+					{
+						// final radiance is average of all the cones radiances
+						ssbo[0].a() = result;
+					}
+					FI;
 				} );
 
 			test::writeShader( writer

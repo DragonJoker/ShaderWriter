@@ -34,10 +34,13 @@ namespace ast
 		*	Functions registration.
 		*/
 		/**@{*/
-		SDAST_API bool hasFunction( std::string_view name )const;
-		SDAST_API var::VariablePtr getFunction( std::string name );
+		SDAST_API bool hasFunction( std::string_view name
+			, ast::stmt::FunctionFlag flag )const;
+		SDAST_API var::VariablePtr getFunction( std::string name
+			, ast::stmt::FunctionFlag flag );
 		SDAST_API var::VariablePtr registerFunction( std::string name
-			, type::FunctionPtr type );
+			, type::FunctionPtr type
+			, ast::stmt::FunctionFlag flag );
 		/**@}*/
 		/**
 		*name
@@ -45,7 +48,15 @@ namespace ast
 		*/
 		/**@{*/
 		SDAST_API uint32_t getNextVarId();
-		SDAST_API bool hasVariable( std::string_view name )const;
+		SDAST_API bool hasGlobalVariable( std::string_view name )const;
+		SDAST_API bool hasVariable( std::string_view name
+			, bool isLocale )const;
+		SDAST_API var::VariablePtr getVariable( std::string_view name
+			, bool isLocale )const;
+		SDAST_API bool hasMemberVariable( var::VariablePtr outer
+			, std::string_view name )const;
+		SDAST_API var::VariablePtr getMemberVariable( var::VariablePtr outer
+			, std::string_view name )const;
 		SDAST_API void registerVariable( var::VariablePtr var );
 		SDAST_API var::VariablePtr registerName( std::string name
 			, type::TypePtr type
@@ -126,10 +137,6 @@ namespace ast
 			, type::TypePtr type );
 		SDAST_API var::VariablePtr registerInOutParam( std::string name
 			, type::TypePtr type );
-		SDAST_API bool hasVar( std::string_view name )const;
-		SDAST_API var::VariablePtr getVar( std::string_view name )const;
-		SDAST_API var::VariablePtr getMemberVar( var::VariablePtr outer
-			, std::string_view name )const;
 		SDAST_API void addStmt( stmt::StmtPtr stmt );
 		SDAST_API void addGlobalStmt( stmt::StmtPtr stmt );
 		SDAST_API void registerSsbo( std::string name
@@ -193,6 +200,13 @@ namespace ast
 			return m_shader->getData();
 		}
 
+	public:
+		struct Block
+		{
+			std::set< var::VariablePtr > registered;
+			stmt::Container * container;
+		};
+
 	private:
 		void doPushScope( ast::stmt::ContainerPtr container
 			, ast::var::VariableList vars );
@@ -204,17 +218,18 @@ namespace ast
 
 	private:
 		ShaderPtr m_shader;
-		struct Block
-		{
-			std::set< var::VariablePtr > registered;
-			stmt::Container * container;
-		};
 		std::vector< Block > m_blocks;
 		bool m_ignore{ false };
 		stmt::StmtPtr m_savedStmt;
 		std::vector< stmt::If * > m_ifStmt;
 		std::vector< stmt::Switch * > m_switchStmt;
 		std::vector< ast::stmt::ContainerPtr > m_currentStmts;
+		struct Function
+		{
+			var::VariablePtr variable;
+			ast::stmt::FunctionFlag flag;
+		};
+		std::vector< Function > m_functions;
 	};
 }
 

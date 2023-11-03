@@ -54,20 +54,19 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
+		, m_redeclare{ m_builder.hasVariable( m_name + "Inst", false ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_ssboType{ m_interface.getType() }
-		, m_dataVar{ var::makeVariable( getNextVarId( writer )
-			, m_ssboType->getMember( m_name + "Data" ).type
-			, m_name + "Data"
-			, var::Flag::eStorageBuffer ) }
-		, m_ssboVar{ var::makeVariable( getNextVarId( writer )
-			, m_ssboType
-			, m_name + "Inst"
-			, var::Flag::eStorageBuffer ) }
+		, m_dataVar{ ( m_redeclare
+			? m_builder.getVariable( m_name + "Data", false )
+			: m_builder.registerName( m_name + "Data", m_ssboType->getMember( m_name + "Data" ).type, var::Flag::eStorageBuffer ) ) }
+		, m_ssboVar{ ( m_redeclare
+			? m_builder.getVariable( m_name + "Inst", false )
+			: m_builder.registerName( m_name + "Inst", m_ssboType, var::Flag::eStorageBuffer ) ) }
 		, m_enabled{ enabled }
 	{
-		if ( isEnabled() )
+		if ( isEnabled() && !m_redeclare )
 		{
 			addStmt( m_writer
 				, makeShaderStructBufferDecl( getStmtCache( m_writer )
@@ -90,20 +89,19 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
+		, m_redeclare{ m_builder.hasVariable( m_name + "Inst", false ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_ssboType{ m_interface.getType() }
-		, m_dataVar{ var::makeVariable( getNextVarId( writer )
-			, m_ssboType->getMember( m_name + "Data" ).type
-			, m_name + "Data"
-			, var::Flag::eStorageBuffer ) }
-		, m_ssboVar{ var::makeVariable( getNextVarId( writer )
-			, m_ssboType
-			, m_name + "Inst"
-			, var::Flag::eStorageBuffer ) }
+		, m_dataVar{ ( m_redeclare
+			? m_builder.getVariable( m_name + "Data", false )
+			: m_builder.registerName( m_name + "Data", m_ssboType->getMember( m_name + "Data" ).type, var::Flag::eStorageBuffer ) ) }
+		, m_ssboVar{ ( m_redeclare
+			? m_builder.getVariable( m_name + "Inst", false )
+			: m_builder.registerName( m_name + "Inst", m_ssboType, var::Flag::eStorageBuffer ) ) }
 		, m_enabled{ enabled }
 	{
-		if ( isEnabled() )
+		if ( isEnabled() && !m_redeclare )
 		{
 			addStmt( m_writer
 				, makeShaderStructBufferDecl( getStmtCache( m_writer )
@@ -143,18 +141,19 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
+		, m_redeclare{ m_builder.hasVariable( m_name, false ) }
 		, m_interface{ std::static_pointer_cast< ast::type::BaseStruct >( static_cast< ast::type::Pointer const & >( *addressExpr->getType() ).getPointerType() ) }
 		, m_info{ m_interface.getType(), ~0u, ~0u }
 		, m_ssboType{ m_interface.getType() }
-		, m_dataVar{ var::makeVariable( getNextVarId( writer )
-			, m_ssboType->getMember( m_interface.getType()->getName() + "Data" ).type
-			, m_name + "Data" ) }
-		, m_ssboVar{ var::makeVariable( getNextVarId( writer )
-			, m_ssboType
-			, m_name ) }
+		, m_dataVar{ ( m_redeclare
+			? m_builder.getVariable( m_name + "Data", false )
+			: m_builder.registerName( m_name + "Data", m_ssboType->getMember( m_interface.getType()->getName() + "Data" ).type ) ) }
+		, m_ssboVar{ ( m_redeclare
+			? m_builder.getVariable( m_name, false )
+			: m_builder.registerName( m_name, m_ssboType ) ) }
 		, m_enabled{ enabled }
 	{
-		if ( isEnabled() )
+		if ( isEnabled() && !m_redeclare )
 		{
 			addStmt( m_writer
 				, sdw::makeSimple( getStmtCache( m_writer )

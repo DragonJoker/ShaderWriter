@@ -68,7 +68,7 @@ namespace spirv
 
 			void visitIfStmt( ast::stmt::If * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 				auto save = m_current;
 				auto cont = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
@@ -90,7 +90,7 @@ namespace spirv
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				if ( stmt->getFlags() )
 				{
 					if ( stmt->isEntryPoint() )
@@ -110,27 +110,27 @@ namespace spirv
 
 			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeHitAttributeVariableDecl( stmt->getVariable() ) );
 			}
 
 			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( stmt->getVariable()
 					, stmt->getLocation() ) );
 			}
 
 			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( stmt->getVariable()
 					, stmt->getLocation() ) );
 			}
 
 			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
@@ -140,7 +140,7 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::ComputeInput const & compType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto type = compType.getType();
 				m_current->addStmt( m_stmtCache.makeInputComputeLayout( type
 					, compType.getLocalSizeX()
@@ -151,7 +151,7 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::FragmentInput const & fragType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto type = fragType.getType();
 				m_current->addStmt( m_stmtCache.makeFragmentLayout( type
 					, fragType.getOrigin()
@@ -161,7 +161,7 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::GeometryOutput const & geomType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto type = geomType.getType();
 				m_current->addStmt( m_stmtCache.makeOutputGeometryLayout( type
 					, geomType.getLayout()
@@ -171,7 +171,7 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::GeometryInput const & geomType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto type = geomType.getType();
 				m_current->addStmt( m_stmtCache.makeInputGeometryLayout( type
 					, geomType.getLayout() ) );
@@ -181,7 +181,7 @@ namespace spirv
 				, ast::type::TessellationControlOutput const & tessType
 				, bool isEntryPoint )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto type = tessType.getType();
 				m_current->addStmt( m_stmtCache.makeOutputTessellationControlLayout( type
 					, tessType.getDomain()
@@ -195,13 +195,13 @@ namespace spirv
 				, ast::type::TessellationControlInput const & geomType
 				, bool isEntryPoint )
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TessellationEvaluationInput const & tessType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_current->addStmt( m_stmtCache.makeInputTessellationEvaluationLayout( tessType.getType()
 					, tessType.getDomain()
 					, tessType.getPartitioning()
@@ -211,7 +211,7 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::MeshVertexOutput const & meshType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_maxVertices = meshType.getMaxVertices();
 
 				if ( m_maxPrimitives )
@@ -226,7 +226,7 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::MeshPrimitiveOutput const & meshType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_maxPrimitives = meshType.getMaxPrimitives();
 				m_topology = meshType.getTopology();
 
@@ -242,31 +242,31 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TaskPayloadNV const & taskType )
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TaskPayload const & taskType )
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TaskPayloadInNV const & taskType )
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TaskPayloadIn const & taskType )
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TessellationInputPatch const & patchType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				var = m_adaptationData.config.getInputPatch( var );
 
 				if ( !getStructType( var->getType() )->empty() )
@@ -279,7 +279,7 @@ namespace spirv
 				, ast::type::TessellationOutputPatch const & patchType
 				, bool isEntryPoint )
 			{
-				TraceFunc;;
+				TraceFunc;
 				var = m_adaptationData.config.getOutputPatch( var );
 
 				if ( !getStructType( var->getType() )->empty() )
@@ -290,7 +290,7 @@ namespace spirv
 
 			void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto & typesCache = stmt->getType()->getTypesCache();
 				auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
 				doProcessInOut( stmt->getType(), true );
@@ -318,7 +318,7 @@ namespace spirv
 
 			void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto save = m_current;
 				auto cont = m_stmtCache.makeContainer();
 				m_current = cont.get();
@@ -331,7 +331,7 @@ namespace spirv
 			void doProcessInOut( ast::type::FunctionPtr funcType
 				, bool isEntryPoint )
 			{
-				TraceFunc;;
+				TraceFunc;
 				for ( auto & param : *funcType )
 				{
 					auto type = param->getType();
@@ -391,7 +391,7 @@ namespace spirv
 
 			void doDeclareStruct( ast::type::StructPtr const & structType )
 			{
-				TraceFunc;;
+				TraceFunc;
 				if ( m_declaredStructs.emplace( structType ).second )
 				{
 					m_current->addStmt( m_stmtCache.makeStructureDecl( structType ) );

@@ -128,9 +128,9 @@ namespace hlsl
 		return result;
 	}
 
-	bool HlslShader::hasVar( std::string const & name )
+	bool HlslShader::hasGlobalVariable( std::string const & name )
 	{
-		if ( m_shader.hasVar( name ) )
+		if ( m_shader.hasGlobalVariable( name ) )
 		{
 			return true;
 		}
@@ -145,11 +145,11 @@ namespace hlsl
 		return false;
 	}
 
-	ast::var::VariablePtr HlslShader::getVar( std::string const & name
+	ast::var::VariablePtr HlslShader::getGlobalVariable( std::string const & name
 		, ast::type::TypePtr type )
 	{
-		auto result = ( m_shader.hasVar( name )
-			? m_shader.getVar( name )
+		auto result = ( m_shader.hasGlobalVariable( name )
+			? m_shader.getGlobalVariable( name )
 			: nullptr );
 
 		if ( !result )

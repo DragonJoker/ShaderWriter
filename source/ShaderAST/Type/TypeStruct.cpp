@@ -571,7 +571,7 @@ namespace ast::type
 			} );
 	}
 
-	std::pair< uint32_t, uint32_t > Struct::doLookupMember( std::string_view name
+	std::tuple< uint32_t, uint32_t, bool > Struct::doLookupMember( std::string_view name
 		, TypePtr type )
 	{
 		auto it = std::find_if( m_members.begin()
@@ -580,16 +580,22 @@ namespace ast::type
 			{
 				return lookup.name == name;
 			} );
+		uint32_t offset{};
 
 		if ( it != m_members.end() )
 		{
-			throw std::runtime_error{ "Struct member [" + std::string( name ) + "] already exists." };
+			offset = it->offset;
+		}
+		else
+		{
+			offset = ( m_members.empty()
+				? 0u
+				: m_members.back().offset + m_members.back().size );
 		}
 
-		return std::make_pair( getSize( *type, m_layout )
-			, ( m_members.empty()
-				? 0u
-				: m_members.back().offset + m_members.back().size ) );
+		return std::make_tuple( getSize( *type, m_layout )
+			, offset
+			, it != m_members.end() );
 	}
 
 	void Struct::doAddMember( Struct::Member const & member )
@@ -651,7 +657,7 @@ namespace ast::type
 	{
 	}
 
-	Struct::Member BaseStruct::declMember( Builtin builtin
+	std::pair< Struct::Member, bool > BaseStruct::declMember( Builtin builtin
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t index
@@ -659,7 +665,7 @@ namespace ast::type
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
 		TypePtr mbrType;
@@ -681,14 +687,14 @@ namespace ast::type
 		return doCreateMember( mbrType, builtin, index );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, Kind kind
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
 		TypePtr mbrType;
@@ -710,14 +716,14 @@ namespace ast::type
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, TypePtr type
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
 		if ( type->getKind() == Kind::eArray )
@@ -755,14 +761,14 @@ namespace ast::type
 			, arraySize );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, ArrayPtr type
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
 		auto mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
@@ -771,16 +777,15 @@ namespace ast::type
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, ArrayPtr type
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
-		Struct::Member result;
 		auto kind = getNonArrayKind( type );
 
 		if ( kind == Kind::eStruct
@@ -790,41 +795,36 @@ namespace ast::type
 
 			if ( structType->getFlag() )
 			{
-				result = declMember( name
+				return declMember( name
 					, std::static_pointer_cast< IOStruct >( structType )
 					, type->getArraySize() );
 			}
-			else
-			{
-				result = declMember( name
-					, std::static_pointer_cast< BaseStruct >( structType )
-					, type->getArraySize() );
-			}
+
+			return declMember( name
+				, std::static_pointer_cast< BaseStruct >( structType )
+				, type->getArraySize() );
 		}
-		else if ( kind == Kind::eArray )
+
+		if ( kind == Kind::eArray )
 		{
-			result = declMember( name
+			return declMember( name
 				, std::static_pointer_cast< Array >( type->getType() )
 				, type->getArraySize() );
 		}
-		else
-		{
-			result = declMember( name
-				, kind
-				, type->getArraySize() );
-		}
 
-		return result;
+		return declMember( name
+			, kind
+			, type->getArraySize() );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, BaseStructPtr type
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
 		TypePtr mbrType;
@@ -847,7 +847,7 @@ namespace ast::type
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, BaseStructPtr type
 		, bool enabled )
 	{
@@ -857,14 +857,14 @@ namespace ast::type
 			, enabled );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, IOStructPtr type
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return Struct::Member{};
+			return { Struct::Member{}, false };
 		}
 
 		TypePtr mbrType;
@@ -891,7 +891,7 @@ namespace ast::type
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
-	Struct::Member BaseStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
 		, IOStructPtr type
 		, bool enabled )
 	{
@@ -901,32 +901,44 @@ namespace ast::type
 			, enabled );
 	}
 
-	Struct::Member BaseStruct::doCreateMember( TypePtr type
+	std::pair< Struct::Member, bool > BaseStruct::doCreateMember( TypePtr type
 		, std::string name )
 	{
-		auto [size, offset] = doLookupMember( name, type );
+		auto [size, offset, exists] = doLookupMember( name, type );
 		auto stride = type->getKind() == Kind::eArray
 			? getArrayStride( type, getMemoryLayout() )
 			: 0u;
+
+		if ( exists )
+		{
+			return { getMember( name ), false };
+		}
+
 		Member result{ std::move( type )
 			, std::move( name )
 			, offset
 			, size
 			, stride };
 		doAddMember( result );
-		return result;
+		return { result, true };
 	}
 
-	Struct::Member BaseStruct::doCreateMember( TypePtr type
+	std::pair< Struct::Member, bool > BaseStruct::doCreateMember( TypePtr type
 		, Builtin builtin
 		, uint32_t index )
 	{
-		doLookupMember( getRealName( builtin, index ), type );
+		auto [size, offset, exists] = doLookupMember( getRealName( builtin, index ), type );
+
+		if ( exists )
+		{
+			return { getMember( builtin ), false };
+		}
+
 		Member result{ std::move( type )
 			, builtin
 			, index };
 		doAddMember( result );
-		return result;
+		return { result, true };
 	}
 
 	//*************************************************************************
@@ -940,7 +952,7 @@ namespace ast::type
 	{
 	}
 
-	void IOStruct::declMember( Builtin builtin
+	bool IOStruct::declMember( Builtin builtin
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t index )
@@ -961,10 +973,10 @@ namespace ast::type
 				, uint32_t( size() ) );
 		}
 
-		doCreateMember( mbrType, builtin, index );
+		return doCreateMember( mbrType, builtin, index ).second;
 	}
 
-	void IOStruct::declMember( Builtin builtin
+	bool IOStruct::declMember( Builtin builtin
 		, ArrayPtr type
 		, uint32_t arraySize
 		, uint32_t index )
@@ -984,10 +996,10 @@ namespace ast::type
 				, uint32_t( size() ) );
 		}
 
-		doCreateMember( mbrType, builtin, index );
+		return doCreateMember( mbrType, builtin, index ).second;
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, Kind kind
 		, uint32_t arraySize
 		, uint32_t location
@@ -995,7 +1007,7 @@ namespace ast::type
 	{
 		if ( !enabled )
 		{
-			return;
+			return false;
 		}
 
 		TypePtr mbrType;
@@ -1014,29 +1026,29 @@ namespace ast::type
 				, uint32_t( size() ) );
 		}
 
-		doCreateMember( mbrType, std::move( name ), location );
+		return doCreateMember( mbrType, std::move( name ), location ).second;
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, TypePtr type
 		, uint32_t location
 		, bool enabled )
 	{
-		declMember( std::move( name )
+		return declMember( std::move( name )
 			, getNonArrayKind( type )
 			, getArraySize( type )
 			, location
 			, enabled );
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, TypePtr type
 		, uint32_t arraySize
 		, uint32_t location
 		, bool enabled )
 	{
 		auto internalArraySize = getArraySize( type );
-		declMember( std::move( name )
+		return declMember( std::move( name )
 			, getNonArrayKind( type )
 			, ( arraySize == NotArray
 				? internalArraySize
@@ -1047,7 +1059,7 @@ namespace ast::type
 			, enabled );
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, ArrayPtr type
 		, uint32_t arraySize
 		, uint32_t location
@@ -1055,23 +1067,23 @@ namespace ast::type
 	{
 		if ( !enabled )
 		{
-			return;
+			return false;
 		}
 
 		auto mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 			, *this
 			, uint32_t( size() ) );
-		doCreateMember( mbrType, std::move( name ), location );
+		return doCreateMember( mbrType, std::move( name ), location ).second;
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, ArrayPtr type
 		, uint32_t location
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return;
+			return false;
 		}
 
 		auto kind = getNonArrayKind( type );
@@ -1079,34 +1091,33 @@ namespace ast::type
 		if ( kind == Kind::eStruct
 			|| kind == Kind::eRayDesc )
 		{
-			declMember( std::move( name )
+			return declMember( std::move( name )
 				, std::static_pointer_cast< Struct >( type->getType() )
 				, type->getArraySize() );
 		}
-		else if ( kind == Kind::eArray )
+
+		if ( kind == Kind::eArray )
 		{
-			declMember( std::move( name )
+			return declMember( std::move( name )
 				, type->getType()->getKind()
 				, type->getArraySize()
 				, location );
 		}
-		else 
-		{
-			declMember( std::move( name )
-				, kind
-				, type->getArraySize()
-				, location );
-		}
+
+		return declMember( std::move( name )
+			, kind
+			, type->getArraySize()
+			, location );
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, StructPtr type
 		, uint32_t arraySize
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return;
+			return false;
 		}
 
 		TypePtr mbrType = type;
@@ -1124,25 +1135,31 @@ namespace ast::type
 				, uint32_t( size() ) );
 		}
 
-		doCreateMember( mbrType
+		return doCreateMember( mbrType
 			, std::move( name )
-			, InvalidLocation );
+			, InvalidLocation ).second;
 	}
 
-	void IOStruct::declMember( std::string name
+	bool IOStruct::declMember( std::string name
 		, StructPtr type
 		, bool enabled )
 	{
-		declMember( std::move( name )
+		return declMember( std::move( name )
 			, type
 			, NotArray );
 	}
 
-	Struct::Member IOStruct::doCreateMember( TypePtr type
+	std::pair< Struct::Member, bool > IOStruct::doCreateMember( TypePtr type
 		, std::string name
 		, uint32_t location )
 	{
-		auto [size, offset] = doLookupMember( name, type );
+		auto [size, offset, exists] = doLookupMember( name, type );
+
+		if ( exists )
+		{
+			return { getMember( name ), false };
+		}
+
 		Member result{ std::move( type )
 			, std::move( name )
 			, offset
@@ -1150,19 +1167,25 @@ namespace ast::type
 			, 0u
 			, location };
 		doAddMember( result );
-		return result;
+		return { result, true };
 	}
 
-	Struct::Member IOStruct::doCreateMember( TypePtr type
+	std::pair< Struct::Member, bool > IOStruct::doCreateMember( TypePtr type
 		, Builtin builtin
 		, uint32_t index )
 	{
-		doLookupMember( getRealName( builtin, index ), type );
+		auto [size, offset, exists] = doLookupMember( getRealName( builtin, index ), type );
+
+		if ( exists )
+		{
+			return { getMember( builtin ), false };
+		}
+
 		Member result{ std::move( type )
 			, builtin
 			, index };
 		doAddMember( result );
-		return result;
+		return { result, true };
 	}
 
 	//*************************************************************************

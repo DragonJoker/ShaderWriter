@@ -55,11 +55,11 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		auto type = m_interface.registerMember( name
+		auto [type, added] = m_interface.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer ), std::forward< ParamsT >( params )... ) );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
-		if ( isEnabled() && enabled )
+		if ( isEnabled() && enabled && m_stmt && added )
 		{
 			m_stmt->add( makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
@@ -75,12 +75,12 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		auto type = m_interface.registerMember( name
+		auto [type, added] = m_interface.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer ), std::forward< ParamsT >( params )... )
 			, dimension );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
-		if ( isEnabled() && enabled )
+		if ( isEnabled() && enabled && m_stmt && added )
 		{
 			m_stmt->add( makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
@@ -95,12 +95,12 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		auto type = m_interface.registerMember( name
+		auto [type, added] = m_interface.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer ), std::forward< ParamsT >( params )... )
 			, type::UnknownArraySize );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
-		if ( isEnabled() && enabled )
+		if ( isEnabled() && enabled && m_stmt && added )
 		{
 			m_stmt->add( makeVariableDecl( getStmtCache( m_writer ), var ) );
 		}
@@ -114,7 +114,7 @@ namespace sdw
 	inline ValueT StorageBuffer::getMember( std::string_view name
 		, bool enabled )const
 	{
-		auto var = getMemberVar( m_writer, m_var, name );
+		auto var = getMemberVariable( m_writer, m_var, name );
 		return ValueT{ m_writer
 			, makeExpr( m_writer, var )
 			, isEnabled() && enabled };
@@ -124,7 +124,7 @@ namespace sdw
 	inline Array< ValueT > StorageBuffer::getMemberArray( std::string_view name
 		, bool enabled )const
 	{
-		auto var = getMemberVar( m_writer, m_var, name );
+		auto var = getMemberVariable( m_writer, m_var, name );
 		return Array< ValueT >{ m_writer
 			, makeExpr( m_writer, var )
 			, isEnabled() && enabled };

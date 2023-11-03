@@ -109,7 +109,11 @@ namespace sdw
 		*	Variables registration.
 		*/
 		/**@{*/
-		SDW_API bool hasVariable( std::string_view name )const;
+		SDW_API bool hasGlobalVariable( std::string_view name )const;
+		SDW_API bool hasVariable( std::string_view name
+			, bool isLocale )const;
+		SDW_API var::VariablePtr getVariable( std::string_view name
+			, bool isLocale )const;
 		SDW_API var::VariablePtr registerName( std::string name
 			, type::TypePtr type
 			, uint64_t flags );
@@ -123,7 +127,6 @@ namespace sdw
 			, type::TypePtr type );
 		SDW_API var::VariablePtr registerInOutParam( std::string name
 			, type::TypePtr type );
-		SDW_API var::VariablePtr getVar( std::string_view name );
 		SDW_API void addStmt( stmt::StmtPtr stmt );
 		SDW_API void addGlobalStmt( stmt::StmtPtr stmt );
 		SDW_API void registerSsbo( std::string name

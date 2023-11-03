@@ -65,9 +65,21 @@ namespace sdw
 		doGetCurrentWriter() = nullptr;
 	}
 
-	bool ShaderWriter::hasVariable( std::string_view name )const
+	bool ShaderWriter::hasGlobalVariable( std::string_view name )const
 	{
-		return m_builder->hasVariable( name );
+		return m_builder->hasGlobalVariable( name );
+	}
+
+	bool ShaderWriter::hasVariable( std::string_view name
+		, bool isLocale )const
+	{
+		return m_builder->hasVariable( name, isLocale );
+	}
+
+	var::VariablePtr ShaderWriter::getVariable( std::string_view name
+		, bool isLocale )const
+	{
+		return m_builder->getVariable( name, isLocale );
 	}
 
 	var::VariablePtr ShaderWriter::registerName( std::string name
@@ -105,11 +117,6 @@ namespace sdw
 		, type::TypePtr type )
 	{
 		return m_builder->registerInOutParam( std::move( name ), type );
-	}
-
-	var::VariablePtr ShaderWriter::getVar( std::string_view name )
-	{
-		return m_builder->getVar( name );
 	}
 
 	void ShaderWriter::registerSsbo( std::string name

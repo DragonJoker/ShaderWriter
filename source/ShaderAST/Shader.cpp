@@ -35,33 +35,20 @@ namespace ast
 		, m_stmtCache{ std::make_unique< ast::stmt::StmtCache >( *m_allocator ) }
 		, m_exprCache{ std::make_unique< ast::expr::ExprCache >( *m_allocator ) }
 		, m_container{ m_stmtCache->makeContainer() }
-		, m_variables{ m_allocator.get() }
+		, m_globalVariables{ m_allocator.get() }
 	{
 	}
 
-	bool Shader::hasVar( std::string const & name )const
+	bool Shader::hasGlobalVariable( std::string_view const & name )const
 	{
-		auto curBlockIt = std::find_if( m_variables.crbegin()
-			, m_variables.crend()
-			, [&name]( std::pair< size_t const, Set< var::VariablePtr > > const & lookup )
-			{
-				return shader::findVariable( lookup.second, name ) != lookup.second.end();
-			} );
-		return curBlockIt != m_variables.rend();
+		return shader::findVariable( m_globalVariables, name ) != m_globalVariables.end();
 	}
 
-	var::VariablePtr Shader::getVar( std::string const & name )const
+	var::VariablePtr Shader::getGlobalVariable( std::string_view const & name )const
 	{
-		Set< var::VariablePtr >::const_iterator it;
-		auto curBlockIt = std::find_if( m_variables.crbegin()
-			, m_variables.crend()
-			, [&name, &it]( std::pair< size_t const, Set< var::VariablePtr > > const & lookup )
-			{
-				it = shader::findVariable( lookup.second, name );
-				return it != lookup.second.end();
-			} );
+		auto it = shader::findVariable( m_globalVariables, name );
 
-		if ( curBlockIt == m_variables.rend() )
+		if ( it == m_globalVariables.end() )
 		{
 			std::string text;
 			text += "No registered variable with the name [" + std::string( name ) + "].";
@@ -71,21 +58,20 @@ namespace ast
 		return *it;
 	}
 
+	void Shader::registerGlobalVariable( var::VariablePtr var )
+	{
+		m_globalVariables.emplace( std::move( var ) );
+	}
+
 	SdwShader Shader::getOpaqueHandle()const
 	{
-		return reinterpret_cast<SdwShader>(this);
+		return reinterpret_cast< SdwShader >( this );
 	}
 
 	Shader const & Shader::fromOpaqueHandle(SdwShader shader)
 	{
 		assert( shader != nullptr );
 
-		return *reinterpret_cast<Shader const*>( shader );
-	}
-
-	void Shader::registerVar( size_t block, var::VariablePtr var )
-	{
-		auto & vars = m_variables.emplace( block, Set< var::VariablePtr >{ m_allocator.get() } ).first->second;
-		vars.emplace( std::move( var ) );
+		return *reinterpret_cast< Shader const * >( shader );
 	}
 }

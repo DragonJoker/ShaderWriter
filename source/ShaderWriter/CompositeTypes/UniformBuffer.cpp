@@ -20,7 +20,7 @@ namespace sdw
 		, bool enabled )
 		: m_writer{ writer }
 		, m_builder{ m_writer.getBuilder() }
-		, m_stmt{ getStmtCache( m_writer ).makeConstantBufferDecl( variableName, layout, bind, set ) }
+		, m_stmt{ m_builder.hasVariable( variableName, false ) ? nullptr : getStmtCache( m_writer ).makeConstantBufferDecl( variableName, layout, bind, set ) }
 		, m_name{ std::move( variableName ) }
 		, m_interface{ m_writer.getTypesCache(), layout, std::move( blockName ) }
 		, m_info{ m_interface.getType(), bind, set }
@@ -31,7 +31,7 @@ namespace sdw
 
 	void UniformBuffer::end()
 	{
-		if ( isEnabled() )
+		if ( isEnabled() && m_stmt )
 		{
 			addStmt( m_builder, std::move( m_stmt ) );
 			m_builder.registerUbo( m_name, m_info );
@@ -42,10 +42,10 @@ namespace sdw
 		, Struct const & s
 		, bool enabled )
 	{
-		auto type = m_interface.registerMember( name, s.getType() );
+		auto [type, added] = m_interface.registerMember( name, s.getType() );
 		auto var = registerMember( m_writer, m_var, name, type );
 
-		if ( isEnabled() && enabled )
+		if ( isEnabled() && enabled && m_stmt && added )
 		{
 			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
@@ -60,10 +60,10 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled )
 	{
-		auto type = m_interface.registerMember( name, s.getType(), dimension );
+		auto [type, added] = m_interface.registerMember( name, s.getType(), dimension );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
-		if ( isEnabled() && enabled )
+		if ( isEnabled() && enabled && m_stmt && added )
 		{
 			m_stmt->add( getStmtCache( m_writer ).makeVariableDecl( var ) );
 		}
