@@ -80,8 +80,9 @@ namespace ast
 		*	Variables registration.
 		*/
 		/**@{*/
-		SDAST_API bool hasVar( std::string const & name )const;
-		SDAST_API var::VariablePtr getVar( std::string const & name )const;
+		SDAST_API bool hasGlobalVariable( std::string_view const & name )const;
+		SDAST_API var::VariablePtr getGlobalVariable( std::string_view const & name )const;
+		SDAST_API void registerGlobalVariable( var::VariablePtr var );
 		/**@}*/
 
 		SsboInfo const & getSsboInfo( std::string const & name )const
@@ -250,8 +251,6 @@ namespace ast
 			return m_data;
 		}
 
-		void registerVar( size_t block, var::VariablePtr var );
-
 	private:
 		ast::ShaderStage m_type;
 		std::unique_ptr< ShaderAllocator > m_ownAllocator;
@@ -260,7 +259,7 @@ namespace ast
 		std::unique_ptr< ast::stmt::StmtCache > m_stmtCache;
 		std::unique_ptr< ast::expr::ExprCache > m_exprCache;
 		stmt::ContainerPtr m_container;
-		Map< size_t, Set< var::VariablePtr > > m_variables;
+		Set< var::VariablePtr > m_globalVariables;
 		ShaderData m_data;
 	};
 }

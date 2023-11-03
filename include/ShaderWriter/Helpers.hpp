@@ -46,9 +46,8 @@ namespace sdw
 	SDW_API uint32_t getNextVarId( ShaderBuilder & builder );
 	SDW_API ast::var::VariablePtr registerFunction( ShaderWriter & writer
 		, ast::type::FunctionPtr type
-		, std::string name );
-	SDW_API ast::var::VariablePtr getFunction( ShaderWriter & writer
-		, std::string name );
+		, std::string name
+		, stmt::FunctionFlag flag );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter * writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
@@ -383,9 +382,10 @@ namespace sdw
 	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
 		, std::string name
 		, type::TypePtr type );
-	SDW_API var::VariablePtr getVar( ShaderWriter & writer
-		, std::string_view name );
-	SDW_API var::VariablePtr getMemberVar( ShaderWriter & writer
+	SDW_API var::VariablePtr getVariable( ShaderWriter & writer
+		, std::string_view name
+		, bool isLocale );
+	SDW_API var::VariablePtr getMemberVariable( ShaderWriter & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name );
 

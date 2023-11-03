@@ -629,7 +629,7 @@ namespace spirv
 			DebugId loadVariable( DebugId variableId
 				, ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				return m_module.loadVariable( variableId
 					, m_currentBlock
 					, m_currentDebugStatement
@@ -640,7 +640,7 @@ namespace spirv
 				, DebugId valueId
 				, ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_module.storeVariable( variableId
 					, valueId
 					, m_currentBlock
@@ -652,7 +652,7 @@ namespace spirv
 				, VariableInfo const & sourceInfo
 				, ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_module.storePromoted( variableId
 					, sourceInfo
 					, m_currentBlock
@@ -662,7 +662,7 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( expr->getOperand() ), expr->getOperand() );
 				auto typeId = registerType( expr->getType(), nullptr );
@@ -690,7 +690,7 @@ namespace spirv
 
 			void visitBinaryExpr( ast::expr::Binary * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				auto lhsId = loadVariable( doSubmit( expr->getLHS() ), expr->getLHS() );
 				auto rhsId = loadVariable( doSubmit( expr->getRHS() ), expr->getRHS() );
@@ -724,7 +724,7 @@ namespace spirv
 
 			void visitCastExpr( ast::expr::Cast * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( expr->getOperand() ), expr->getOperand() );
 				auto dstTypeId = registerType( expr->getType(), nullptr );
@@ -761,7 +761,7 @@ namespace spirv
 
 			void visitCommaExpr( ast::expr::Comma * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				registerType( expr->getType(), nullptr );
 				doSubmit( expr->getLHS() );
 				m_result = doSubmit( expr->getRHS() );
@@ -780,7 +780,7 @@ namespace spirv
 
 			void visitAssignExpr( ast::expr::Assign * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 
 				if ( expr->getLHS()->getKind() == ast::expr::Kind::eSwizzle )
@@ -886,7 +886,7 @@ namespace spirv
 
 			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				bool allLiterals = true;
 				bool hasFuncInit = false;
 				auto init = visitInitialisers( expr->getInitialisers()
@@ -914,7 +914,7 @@ namespace spirv
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				m_result = makeAccessChain( m_exprCache
 					, expr
@@ -926,7 +926,7 @@ namespace spirv
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				m_result = makeAccessChain( m_exprCache
 					, expr
@@ -938,7 +938,7 @@ namespace spirv
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				bool allLiterals = true;
 
 				if ( expr->getComposite() == ast::expr::CompositeType::eCombine )
@@ -996,7 +996,7 @@ namespace spirv
 
 			void visitFnCallExpr( ast::expr::FnCall * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList params{ m_allocator };
 				bool allLiterals = true;
 				auto type = expr->getFn()->getType();
@@ -1069,7 +1069,7 @@ namespace spirv
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				auto var = expr->getVariable();
 
@@ -1099,7 +1099,7 @@ namespace spirv
 
 			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				auto isStore = expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
 					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU;
@@ -1221,7 +1221,7 @@ namespace spirv
 
 			void visitInitExpr( ast::expr::Init * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				registerType( expr->getType(), nullptr );
 				bool allLiterals = true;
@@ -1237,7 +1237,7 @@ namespace spirv
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				IntrinsicConfig config;
 				getSpirVConfig( expr->getIntrinsic(), config );
@@ -1284,7 +1284,7 @@ namespace spirv
 
 			void visitLiteralExpr( ast::expr::Literal * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				switch ( expr->getLiteralType() )
 				{
 				case ast::expr::LiteralType::eBool:
@@ -1328,7 +1328,7 @@ namespace spirv
 
 			void visitQuestionExpr( ast::expr::Question * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				auto ctrlId = loadVariable( doSubmit( expr->getCtrlExpr() ), expr->getCtrlExpr() );
 				auto trueId = loadVariable( doSubmit( expr->getTrueExpr() ), expr->getTrueExpr() );
@@ -1355,7 +1355,7 @@ namespace spirv
 
 			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 
 				if ( expr->getSwizzle().isOneComponent()
@@ -1385,7 +1385,7 @@ namespace spirv
 
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_allLiterals = false;
 				DebugIdList args{ m_allocator };
 				bool first = true;
@@ -1459,7 +1459,7 @@ namespace spirv
 
 			void visitAliasExpr( ast::expr::Alias * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_result = submit( m_exprCache
 					, expr->getRHS()
 					, m_context
@@ -1565,7 +1565,7 @@ namespace spirv
 		private:
 			void handleCarryBorrowIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				// Arg 1 is lhs.
 				// Arg 2 is rhs.
 				// Arg 3 is carry or borrow.
@@ -1606,7 +1606,7 @@ namespace spirv
 
 			void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				// Arg 1 is lhs.
 				// Arg 2 is rhs.
 				// Arg 3 is msb.
@@ -1665,7 +1665,7 @@ namespace spirv
 
 			void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList params{ m_allocator };
 				params.push_back( doSubmit( expr->getArgList()[0].get() ) );
 
@@ -1697,7 +1697,7 @@ namespace spirv
 
 			void handleExtensionIntrinsicCallExpr( spv::Id opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto intrinsic = expr->getIntrinsic();
 				DebugIdList params{ m_allocator };
 
@@ -1753,7 +1753,7 @@ namespace spirv
 
 			void handleBarrierIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList params{ m_allocator };
 
 				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier )
@@ -1785,7 +1785,7 @@ namespace spirv
 
 			void handleSubgroupIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList params{ m_allocator };
 				params.push_back( registerLiteral( spv::ScopeSubgroup ) );
 
@@ -1845,7 +1845,7 @@ namespace spirv
 
 			void handleOtherIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList params{ m_allocator };
 
 				for ( auto & arg : expr->getArgList() )
@@ -1885,7 +1885,7 @@ namespace spirv
 
 			TypeId getUnsignedExtendedResultTypeId( uint32_t count )
 			{
-				TraceFunc;;
+				TraceFunc;
 				--count;
 
 				if ( !m_unsignedExtendedTypes[count] )
@@ -1912,7 +1912,7 @@ namespace spirv
 
 			TypeId getSignedExtendedResultTypeId( uint32_t count )
 			{
-				TraceFunc;;
+				TraceFunc;
 				--count;
 
 				if ( !m_signedExtendedTypes[count] )
@@ -1939,7 +1939,7 @@ namespace spirv
 
 			DebugId getVariablePointer( ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugId result{ 0u, expr->getType() };
 
 				if ( isAccessChain( expr ) )
@@ -1986,7 +1986,7 @@ namespace spirv
 				, ast::type::TypePtr type
 				, ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				VariableInfo info;
 				info.rvalue = true;
 				auto result = registerVariable( "functmp_" + std::to_string( uintptr_t( type.get() ) ) + std::to_string( m_aliasId++ )
@@ -2004,7 +2004,7 @@ namespace spirv
 			DebugId makeFunctionAlias( DebugId source
 				, ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				return makeFunctionAlias( source, source->type, expr );
 			}
 
@@ -2015,7 +2015,7 @@ namespace spirv
 				, ast::type::TypePtr type
 				, ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				bool result{};
 				spv::StorageClass storageClass{ getStorageClass( getVersion(), var ) };
 
@@ -2080,7 +2080,7 @@ namespace spirv
 				, bool & allLiterals
 				, bool & hasFuncInit )
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList initialisers{ m_allocator };
 
 				for ( auto & init : inits )
@@ -2378,7 +2378,7 @@ namespace spirv
 				, InstructionPtr interruptInstruction
 				, bool pushBlock )
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_currentBlock.blockEnd = std::move( interruptInstruction );
 				m_currentBlock.isInterrupted = true;
 
@@ -2392,7 +2392,7 @@ namespace spirv
 			void endBlock( Block & block
 				, spv::Id nextBlockLabel )
 			{
-				TraceFunc;;
+				TraceFunc;
 				if ( !block.isInterrupted )
 				{
 					block.blockEnd = makeInstruction< BranchInstruction >( m_result.getNameCache(), ValueId{ nextBlockLabel } );
@@ -2406,7 +2406,7 @@ namespace spirv
 				, spv::Id falseBlockLabel
 				, spv::Id mergeBlockLabel )
 			{
-				TraceFunc;;
+				TraceFunc;
 				if ( !block.isInterrupted )
 				{
 					block.blockEnd = makeInstruction< BranchConditionalInstruction >( m_result.getNameCache()
@@ -2421,7 +2421,7 @@ namespace spirv
 
 			void visitContainerStmt( ast::stmt::Container * cont )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				for ( auto & stmt : *cont )
 				{
 					if ( !m_currentBlock.isInterrupted )
@@ -2433,7 +2433,7 @@ namespace spirv
 
 			void visitBreakStmt( ast::stmt::Break * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
 					, makeInstruction< BranchInstruction >( m_result.getNameCache(), ValueId{ m_controlBlocks.back().breakLabel } )
@@ -2442,7 +2442,7 @@ namespace spirv
 
 			void visitContinueStmt( ast::stmt::Continue * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
 					, makeInstruction< BranchInstruction >( m_result.getNameCache(), ValueId{ m_controlBlocks.back().continueLabel } )
@@ -2451,7 +2451,7 @@ namespace spirv
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 
 				if ( !stmt->empty() )
 				{
@@ -2469,7 +2469,7 @@ namespace spirv
 
 			void visitDemoteStmt( ast::stmt::Demote * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 
 				if ( m_moduleConfig.hasExtension( EXT_demote_to_helper_invocation ) )
@@ -2486,7 +2486,7 @@ namespace spirv
 
 			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				DebugIdList operands{ m_allocator };
 				operands.push_back( submitAndLoad( stmt->getNumGroupsX() ) );
 				operands.push_back( submitAndLoad( stmt->getNumGroupsY() ) );
@@ -2505,7 +2505,7 @@ namespace spirv
 
 			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 
 				if ( m_moduleConfig.hasExtension( KHR_terminate_invocation ) )
@@ -2524,7 +2524,7 @@ namespace spirv
 
 			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 
 				if ( !stmt->empty() )
 				{
@@ -2538,12 +2538,12 @@ namespace spirv
 
 			void visitCommentStmt( ast::stmt::Comment * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void visitCompoundStmt( ast::stmt::Compound * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				parseScope( stmt
 					, glsl::StatementType::eLexicalScopeBegin
 					, glsl::StatementType::eScopeLine
@@ -2552,7 +2552,7 @@ namespace spirv
 
 			void visitDoWhileStmt( ast::stmt::DoWhile * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto loopBlock = m_result.newBlock();
 				auto ifBlock = m_result.newBlock();
 				auto mergeBlock = m_result.newBlock();
@@ -2603,7 +2603,7 @@ namespace spirv
 
 			void visitElseStmt( ast::stmt::Else * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				beginControl( m_currentBlock );
 				parseScope( stmt
 					, glsl::StatementType::eLexicalScopeBegin
@@ -2618,7 +2618,7 @@ namespace spirv
 
 			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				switch ( stmt->getFragmentCenter() )
 				{
 				case ast::FragmentCenter::eCenterInteger:
@@ -2648,7 +2648,7 @@ namespace spirv
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto type = stmt->getType();
 				auto declStmt = getCurrentDebugStatement();
 				consumeDebugStatement( glsl::StatementType::eFunctionDecl );
@@ -2759,7 +2759,7 @@ namespace spirv
 
 			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variable = stmt->getVariable();
 				auto variableId = visitVariable( variable );
 				visitDebugVariableDecl( variable, variableId );
@@ -2767,7 +2767,7 @@ namespace spirv
 
 			void visitIfStmt( ast::stmt::If * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				++m_ifStmts;
 				auto contentBlock = m_result.newBlock();
 				auto mergeBlock = m_result.newBlock();
@@ -2816,7 +2816,7 @@ namespace spirv
 
 			void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variable = stmt->getVariable();
 				auto variableId = visitVariable( variable );
 				m_result.bindVariable( variableId
@@ -2827,7 +2827,7 @@ namespace spirv
 
 			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
 					, makeInstruction< IgnoreIntersectionInstruction >( m_result.getNameCache() )
@@ -2836,14 +2836,14 @@ namespace spirv
 
 			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				m_result.registerType( stmt->getType(), getCurrentDebugStatement() );
 				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variable = stmt->getVariable();
 				auto variableId = visitVariable( variable );
 				m_result.bindVariable( variableId
@@ -2854,7 +2854,7 @@ namespace spirv
 
 			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variable = stmt->getVariable();
 				auto variableId = visitVariable( variable );
 
@@ -2868,7 +2868,7 @@ namespace spirv
 
 			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variable = stmt->getVariable();
 				auto variableId = visitVariable( variable );
 
@@ -2882,7 +2882,7 @@ namespace spirv
 
 			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variable = stmt->getVariable();
 				auto variableId = visitVariable( variable );
 
@@ -2911,7 +2911,7 @@ namespace spirv
 
 			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto var = stmt->getVariable();
 				m_result.registerSpecConstant( var->getName()
 					, stmt->getLocation()
@@ -2922,7 +2922,7 @@ namespace spirv
 
 			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				m_result.registerExecutionMode( spv::ExecutionModeLocalSize
 					, makeOperands( m_allocator, ValueId{ stmt->getWorkGroupsX() }, ValueId{ stmt->getWorkGroupsY() }, ValueId{ stmt->getWorkGroupsZ() } ) );
@@ -2940,21 +2940,21 @@ namespace spirv
 
 			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				m_result.registerExecutionMode( stmt->getLayout() );
 			}
 
 			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				m_result.registerExecutionMode( stmt->getLayout(), stmt->getPrimCount() );
 			}
 
 			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement(); // topology
 				consumeSimpleDebugStatement(); // max_primitives, max_vertices
 
@@ -2974,7 +2974,7 @@ namespace spirv
 
 			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				m_result.registerExecutionMode( stmt->getDomain()
 					, stmt->getPartitioning()
@@ -2985,7 +2985,7 @@ namespace spirv
 
 			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				m_result.registerExecutionMode( stmt->getDomain()
 					, stmt->getPartitioning()
@@ -2994,18 +2994,18 @@ namespace spirv
 
 			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 			}
 
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
 			void visitReturnStmt( ast::stmt::Return * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 
 				if ( isDebugEnabled() )
 				{
@@ -3031,7 +3031,7 @@ namespace spirv
 
 			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variableId = visitVariable( stmt->getVariable() );
 				m_result.bindVariable( variableId
 					, stmt->getBindingPoint()
@@ -3041,7 +3041,7 @@ namespace spirv
 
 			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variableId = visitVariable( stmt->getVariable() );
 				m_result.bindVariable( variableId
 					, stmt->getBindingPoint()
@@ -3051,7 +3051,7 @@ namespace spirv
 
 			void visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variableId = visitVariable( stmt->getVariable() );
 				m_result.bindVariable( variableId
 					, stmt->getBindingPoint()
@@ -3061,7 +3061,7 @@ namespace spirv
 
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variableId = visitVariable( stmt->getVariable() );
 				m_result.bindBufferVariable( variableId
 					, stmt->getBindingPoint()
@@ -3074,7 +3074,7 @@ namespace spirv
 
 			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto variableId = visitVariable( stmt->getSsboInstance() );
 				m_result.bindBufferVariable( variableId
 					, stmt->getBindingPoint()
@@ -3090,7 +3090,7 @@ namespace spirv
 
 			void visitSimpleStmt( ast::stmt::Simple * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				ExprVisitor::submit( m_exprCache, stmt->getExpr(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() );
 
 				if ( stmt->getExpr()->getKind() != ast::expr::Kind::eAlias
@@ -3102,7 +3102,7 @@ namespace spirv
 
 			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto structType = stmt->getType();
 
 				if ( !stmt->getType()->isShaderInput()
@@ -3133,7 +3133,7 @@ namespace spirv
 
 			void visitSwitchStmt( ast::stmt::Switch * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				ast::Vector< Block > caseBlocks{ m_allocator };
 				ast::Map< int32_t, spv::Id > caseBlocksIds{ m_allocator };
 				auto mergeBlock = m_result.newBlock();
@@ -3235,7 +3235,7 @@ namespace spirv
 
 			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeSimpleDebugStatement();
 				interruptBlock( m_currentBlock
 					, makeInstruction< TerminateRayInstruction >( m_result.getNameCache() )
@@ -3244,7 +3244,7 @@ namespace spirv
 
 			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto var = stmt->getVariable();
 				auto variableId = visitVariable( var );
 
@@ -3288,21 +3288,21 @@ namespace spirv
 
 			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeDebugStatement( glsl::StatementType::eScopeLine );
 				//m_result.registerExtension( preproc->getName() );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				consumeDebugStatement( glsl::StatementType::eScopeLine );
 				//TODO m_result->addStmt( ast::stmt::makePreprocVersion( preproc->getName() ) );
 			}
 
 			DebugId visitVariable( ast::var::VariablePtr var )
 			{
-				TraceFunc;;
+				TraceFunc;
 				VariableInfo info;
 				DebugId result;
 
@@ -3408,7 +3408,7 @@ namespace spirv
 
 			DebugId submitAndLoad( ast::expr::Expr * expr )
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto result = doSubmit( expr );
 
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier )

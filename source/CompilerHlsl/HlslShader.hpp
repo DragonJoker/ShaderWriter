@@ -37,8 +37,8 @@ namespace hlsl
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
-		bool hasVar( std::string const & name );
-		ast::var::VariablePtr getVar( std::string const & name
+		bool hasGlobalVariable( std::string const & name );
+		ast::var::VariablePtr getGlobalVariable( std::string const & name
 			, ast::type::TypePtr type );
 
 		inline ast::ShaderStage getType()const

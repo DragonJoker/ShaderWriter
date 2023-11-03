@@ -2475,7 +2475,7 @@ namespace ast
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				auto var = expr->getVariable();
 				auto initIt = m_context.constExprs.find( var->getId() );
 				auto aggrIt = m_context.constAggrExprs.find( var->getId() );
@@ -3313,7 +3313,7 @@ namespace ast
 
 			void visitSwitchStmt( ast::stmt::Switch * stmt )override
 			{
-				TraceFunc;;
+				TraceFunc;
 				bool processed = false;
 				auto testExpr = doSubmit( stmt->getTestExpr() );
 				auto testValueExpr = static_cast< expr::SwitchTest const & >( *testExpr ).getValue();

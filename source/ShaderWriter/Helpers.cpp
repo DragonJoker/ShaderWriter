@@ -107,15 +107,10 @@ namespace sdw
 
 	ast::var::VariablePtr registerFunction( ShaderWriter & writer
 		, ast::type::FunctionPtr type
-		, std::string name )
+		, std::string name
+		, ast::stmt::FunctionFlag flag )
 	{
-		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ) );
-	}
-
-	ast::var::VariablePtr getFunction( ShaderWriter & writer
-		, std::string name )
-	{
-		return writer.getBuilder().getFunction( std::move( name ) );
+		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ), flag );
 	}
 
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer )
@@ -1157,16 +1152,17 @@ namespace sdw
 			, type );
 	}
 
-	var::VariablePtr getVar( ShaderWriter & writer
-		, std::string_view name )
+	var::VariablePtr getVariable( ShaderWriter & writer
+		, std::string_view name
+		, bool isLocale )
 	{
-		return writer.getBuilder().getVar( name );
+		return writer.getBuilder().getVariable( name, isLocale );
 	}
 
-	var::VariablePtr getMemberVar( ShaderWriter & writer
+	var::VariablePtr getMemberVariable( ShaderWriter & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name )
 	{
-		return writer.getBuilder().getMemberVar( outer, name );
+		return writer.getBuilder().getMemberVariable( outer, name );
 	}
 }

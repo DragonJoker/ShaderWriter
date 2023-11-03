@@ -70,21 +70,6 @@ namespace ast
 
 				registerVariable( var );
 			}
-
-			// Add variables from previous scopes to current scope.
-			it = m_blocks.begin();
-			auto end = m_blocks.begin() + ptrdiff_t( m_blocks.size() - 1 );
-			auto & block = m_blocks.back();
-
-			while ( it != end )
-			{
-				for ( auto var : it->registered )
-				{
-					block.registered.insert( var );
-				}
-
-				++it;
-			}
 		}
 	}
 
@@ -175,33 +160,54 @@ namespace ast
 		m_currentStmts.erase( m_currentStmts.begin() + ptrdiff_t( m_currentStmts.size() - 1u ) );
 	}
 
-	bool ShaderBuilder::hasFunction( std::string_view name )const
+	bool ShaderBuilder::hasFunction( std::string_view name
+		, ast::stmt::FunctionFlag flag )const
 	{
-		auto it = builder::findVariable( m_blocks.front().registered, name );
-		return m_blocks.front().registered.end() != it;
+		auto it = std::find_if( m_functions.begin()
+			, m_functions.end()
+			, [&name, flag]( Function const & lookup )
+			{
+				return lookup.variable->getName() == name
+					&& lookup.flag == flag;
+			} );
+		return m_functions.end() != it;
 	}
 
-	var::VariablePtr ShaderBuilder::getFunction( std::string name )
+	var::VariablePtr ShaderBuilder::getFunction( std::string name
+		, ast::stmt::FunctionFlag flag )
 	{
-		auto it = builder::findVariable( m_blocks.front().registered, name );
+		auto it = std::find_if( m_functions.begin()
+			, m_functions.end()
+			, [&name, flag]( Function const & lookup )
+			{
+				return lookup.variable->getName() == name
+					&& lookup.flag == flag;
+			} );
 
-		if ( it == m_blocks.front().registered.end() )
+		if ( it == m_functions.end() )
 		{
 			std::string text;
 			text += "No registered function with the name [" + std::string( name ) + "].";
 			throw std::runtime_error{ text };
 		}
 
-		return *it;
+		return it->variable;
 	}
 
 	var::VariablePtr ShaderBuilder::registerFunction( std::string name
-		, type::FunctionPtr type )
+		, type::FunctionPtr type
+		, ast::stmt::FunctionFlag flag )
 	{
-		auto it = builder::findVariable( m_blocks.front().registered, name );
+		auto it = std::find_if( m_functions.begin()
+			, m_functions.end()
+			, [&name, flag]( Function const & lookup )
+			{
+				return lookup.variable->getName() == name
+					&& lookup.flag == flag;
+			} );
 
-		if ( it != m_blocks.front().registered.end()
-			&& type != it->get()->getType() )
+		if ( it != m_functions.end()
+			&& type != it->variable->getType() )
 		{
 			std::string text;
 			text += "A function with the name [" + std::string( name ) + "] is already registered, with a different type.";
@@ -211,8 +217,9 @@ namespace ast
 		auto result = var::makeFunction( ++getData().nextVarId
 			, std::move( type )
 			, std::move( name ) );
-		m_shader->registerVar( 1u, result );
+		m_shader->registerGlobalVariable( result );
 		m_blocks.front().registered.emplace( result );
+		m_functions.emplace_back( result, flag );
 		return result;
 	}
 
@@ -221,11 +228,167 @@ namespace ast
 		return ++getData().nextVarId;
 	}
 
-	bool ShaderBuilder::hasVariable( std::string_view name )const
+	bool ShaderBuilder::hasGlobalVariable( std::string_view name )const
 	{
-		auto & block = m_blocks.back();
-		auto it = builder::findVariable( block.registered, name );
-		return it != block.registered.end();
+		return m_shader->hasGlobalVariable( name );
+	}
+
+	bool ShaderBuilder::hasVariable( std::string_view name
+		, bool isLocale )const
+	{
+		if ( m_blocks.size() == 1u && isLocale )
+		{
+			return false;
+		}
+
+		auto curBlockIt = m_blocks.crbegin();
+		bool found{};
+
+		while ( curBlockIt != m_blocks.crend() )
+		{
+			auto & lookup = *curBlockIt;
+			found = builder::findVariable( lookup.registered, name ) != lookup.registered.end();
+
+			if ( found )
+			{
+				break;
+			}	
+
+			if ( lookup.container->getKind() == stmt::Kind::eFunctionDecl )
+			{
+				if ( isLocale )
+				{
+					break;
+				}
+
+				// From a function, directly jump to root block.
+				curBlockIt = std::prev( m_blocks.crend() );
+			}
+			else
+			{
+				++curBlockIt;
+			}
+		}
+
+		return found;
+	}
+
+	var::VariablePtr ShaderBuilder::getVariable( std::string_view name
+		, bool isLocale )const
+	{
+		if ( m_blocks.size() == 1u && isLocale )
+		{
+			return nullptr;
+		}
+
+		std::set< var::VariablePtr >::const_iterator it;
+		auto curBlockIt = m_blocks.crbegin();
+		bool found{};
+
+		while ( curBlockIt != m_blocks.crend() )
+		{
+			auto & lookup = *curBlockIt;
+			it = builder::findVariable( lookup.registered, name );
+			found = it != lookup.registered.end();
+
+			if ( found )
+			{
+				break;
+			}
+
+			if ( lookup.container->getKind() == stmt::Kind::eFunctionDecl )
+			{
+				if ( isLocale )
+				{
+					break;
+				}
+
+				// From a function, directly jump to root block.
+				curBlockIt = std::prev( m_blocks.crend() );
+			}
+			else
+			{
+				++curBlockIt;
+			}
+		}
+
+		if ( !found )
+		{
+			std::string text;
+			text += "No registered variable with the name [" + std::string( name ) + "].";
+			throw std::runtime_error{ text };
+		}
+
+		return *it;
+	}
+
+	bool ShaderBuilder::hasMemberVariable( var::VariablePtr outer
+		, std::string_view name )const
+	{
+		auto curBlockIt = m_blocks.crbegin();
+		bool found{};
+
+		while ( curBlockIt != m_blocks.crend() )
+		{
+			auto & lookup = *curBlockIt;
+			found = builder::findMbrVariable( lookup.registered, outer, name ) != lookup.registered.end();
+
+			if ( found )
+			{
+				break;
+			}
+
+			if ( lookup.container->getKind() == stmt::Kind::eFunctionDecl )
+			{
+				// From a function, directly jump to root block.
+				curBlockIt = std::prev( m_blocks.crend() );
+			}
+			else
+			{
+				++curBlockIt;
+			}
+		}
+
+		return found;
+	}
+
+	var::VariablePtr ShaderBuilder::getMemberVariable( var::VariablePtr outer
+		, std::string_view name )const
+	{
+		std::set< var::VariablePtr >::const_iterator it;
+		auto curBlockIt = m_blocks.crbegin();
+		bool found{};
+
+		while ( curBlockIt != m_blocks.crend() )
+		{
+			auto & lookup = *curBlockIt;
+			it = builder::findMbrVariable( lookup.registered, outer, name );
+			found = it != lookup.registered.end();
+
+			if ( found )
+			{
+				break;
+			}
+
+			if ( lookup.container->getKind() == stmt::Kind::eFunctionDecl )
+			{
+				// From a function, directly jump to root block.
+				curBlockIt = std::prev( m_blocks.crend() );
+			}
+			else
+			{
+				++curBlockIt;
+			}
+		}
+
+		if ( !found )
+		{
+			std::string text;
+			text += "No registered member variable with the name [" + std::string( name ) + "].";
+			throw std::runtime_error{ text };
+		}
+
+		return *it;
 	}
 
 	void ShaderBuilder::registerVariable( var::VariablePtr var )
@@ -237,7 +400,10 @@ namespace ast
 #else
 		block.registered.emplace( var );
 #endif
-		m_shader->registerVar( m_blocks.size(), var );
+		if ( &block == &m_blocks.front() )
+		{
+			m_shader->registerGlobalVariable( var );
+		}
 
 		if ( var->getType()->getRawKind() == type::Kind::eTessellationControlInput )
 		{
@@ -249,6 +415,16 @@ namespace ast
 		, type::TypePtr type
 		, uint64_t flags )
 	{
+		bool isLocale = ( 0 != ( flags & uint64_t( ast::var::Flag::eLocale ) ) )
+			|| ( 0 != ( flags & uint64_t( ast::var::Flag::eParam ) ) )
+			|| ( 0 != ( flags & uint64_t( ast::var::Flag::eInputParam ) ) )
+			|| ( 0 != ( flags & uint64_t( ast::var::Flag::eOutputParam ) ) );
+
+		if ( hasVariable( name, isLocale ) )
+		{
+			return getVariable( name, isLocale );
+		}
+
 		auto var = var::makeVariable( ++getData().nextVarId
 			, type
 			, std::move( name )
@@ -279,6 +455,11 @@ namespace ast
 		, type::TypePtr type
 		, uint64_t flags )
 	{
+		if ( hasMemberVariable( outer, name ) )
+		{
+			return getMemberVariable( outer, name );
+		}
+
 		flags |= uint64_t( var::Flag::eMember );
 		auto result = var::makeVariable( ++getData().nextVarId
 			, outer
@@ -330,7 +511,7 @@ namespace ast
 			, std::move( type )
 			, std::move( name )
 			, var::Flag::eStatic | var::Flag::eConstant ) ).first;
-		m_shader->registerVar( 1u, *result );
+		m_shader->registerGlobalVariable( *result );
 		getData().constants.emplace( std::move( name ), type );
 		return *result;
 	}
@@ -523,15 +704,15 @@ namespace ast
 			inputs.emplace( name, InputInfo{ { type, location } } );
 		}
 
-		if ( hasVar( name ) )
+		if ( hasVariable( name, false ) )
 		{
-			return getVar( name );
+			return getVariable( name, false );
 		}
 
 		auto kind = getNonArrayType( type )->getKind();
 		auto flags = attributes;
 
-		if ( ( getType() != ShaderStage::eVertex && getType() != ShaderStage::eCompute )
+		if ( ( entryPoint != EntryPoint::eVertex && entryPoint != EntryPoint::eCompute )
 			&& !isMeshStage( getType() )
 			&& !isRayTraceStage( getType() )
 			&& ( isSignedIntType( kind ) || isUnsignedIntType( kind ) ) )
@@ -564,15 +745,15 @@ namespace ast
 			outputs.emplace( name, OutputInfo{ { type, location } } );
 		}
 
-		if ( hasVar( name ) )
+		if ( hasVariable( name, false ) )
 		{
-			return getVar( name );
+			return getVariable( name, false );
 		}
 
 		auto kind = getNonArrayType( type )->getKind();
 		auto flags = attributes;
 
-		if ( ( getType() != ShaderStage::eFragment && getType() != ShaderStage::eCompute )
+		if ( ( entryPoint != EntryPoint::eFragment && entryPoint != EntryPoint::eCompute )
 			&& !isMeshStage( getType() )
 			&& !isRayTraceStage( getType() )
 			&& ( isSignedIntType( kind ) || isUnsignedIntType( kind ) ) )
@@ -595,9 +776,9 @@ namespace ast
 			getData().inOuts.emplace( name, InOutInfo{ { type } } );
 		}
 
-		if ( hasVar( name ) )
+		if ( hasVariable( name, false ) )
 		{
-			return getVar( name );
+			return getVariable( name, false );
 		}
 
 		auto result = registerName( std::move( name )
@@ -670,60 +851,6 @@ namespace ast
 		return registerName( std::move( name )
 			, type
 			, uint64_t( var::Flag::eInputParam ) | uint64_t( var::Flag::eOutputParam ) );
-	}
-
-	bool ShaderBuilder::hasVar( std::string_view name )const
-	{
-		auto curBlockIt = std::find_if( m_blocks.crbegin()
-			, m_blocks.crend()
-			, [&name]( Block const & lookup )
-			{
-				return builder::findVariable( lookup.registered, name ) != lookup.registered.end();
-			} );
-		return curBlockIt != m_blocks.rend();
-	}
-
-	var::VariablePtr ShaderBuilder::getVar( std::string_view name )const
-	{
-		std::set< var::VariablePtr >::const_iterator it;
-		auto curBlockIt = std::find_if( m_blocks.crbegin()
-			, m_blocks.crend()
-			, [&name, &it]( Block const & lookup )
-			{
-				it = builder::findVariable( lookup.registered, name );
-				return it != lookup.registered.end();
-			} );
-
-		if ( curBlockIt == m_blocks.rend() )
-		{
-			std::string text;
-			text += "No registered variable with the name [" + std::string( name ) + "].";
-			throw std::runtime_error{ text };
-		}
-
-		return *it;
-	}
-
-	var::VariablePtr ShaderBuilder::getMemberVar( var::VariablePtr outer
-		, std::string_view name )const
-	{
-		std::set< var::VariablePtr >::const_iterator it;
-		auto curBlockIt = std::find_if( m_blocks.crbegin()
-			, m_blocks.crend()
-			, [&outer, &name, &it]( Block const & lookup )
-			{
-				it = builder::findMbrVariable( lookup.registered, outer, name );
-				return it != lookup.registered.end();
-			} );
-
-		if ( curBlockIt == m_blocks.rend() )
-		{
-			std::string text;
-			text += "No registered member variable with the name [" + std::string( name ) + "].";
-			throw std::runtime_error{ text };
-		}
-
-		return *it;
 	}
 
 	void ShaderBuilder::addStmt( stmt::StmtPtr stmt )

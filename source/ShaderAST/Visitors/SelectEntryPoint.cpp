@@ -255,13 +255,21 @@ namespace ast
 		}
 
 		static void markFunctionCall( std::string const & funcName
-			, std::map< std::string, Used > const & functions
+			, uint32_t funcFlags
+			, std::map< uint32_t, std::map< std::string, Used > > const & functions
 			, std::map< std::string, Used > const & buffers
 			, Used & used )
 		{
-			auto it = functions.find( funcName );
+			auto fit = functions.find( funcFlags );
 
-			if ( it != functions.end() )
+			if ( fit == functions.end() )
+			{
+				return;
+			}
+
+			auto it = fit->second.find( funcName );
+
+			if ( it != fit->second.end() )
 			{
 				for ( auto & var : it->second.vars )
 				{
@@ -283,7 +291,7 @@ namespace ast
 			{
 			public:
 				static void submit( Used & result
-					, std::map< std::string, Used > const & functions
+					, std::map< uint32_t, std::map< std::string, Used > > const & functions
 					, std::map< std::string, Used > const & buffers
 					, expr::Expr * expr )
 				{
@@ -293,7 +301,7 @@ namespace ast
 
 			private:
 				ExprVisitor( Used & result
-					, std::map< std::string, Used > const & functions
+					, std::map< uint32_t, std::map< std::string, Used > > const & functions
 					, std::map< std::string, Used > const & buffers )
 					: m_result{ result }
 					, m_functions{ functions }
@@ -343,6 +351,7 @@ namespace ast
 					expr->getFn()->accept( this );
 					// Mark the called function data as used from the current scope
 					markFunctionCall( expr->getFn()->getVariable()->getName()
+						, 0u
 						, m_functions
 						, m_buffers
 						, m_result );
@@ -424,7 +433,7 @@ namespace ast
 
 			private:
 				Used & m_result;
-				std::map< std::string, Used > const & m_functions;
+				std::map< uint32_t, std::map< std::string, Used > > const & m_functions;
 				std::map< std::string, Used > const & m_buffers;
 			};
 
@@ -461,7 +470,8 @@ namespace ast
 					m_current = &function;
 					visitContainerStmt( stmt );
 					m_current = save;
-					m_functions.emplace( stmt->getName(), std::move( function ) );
+					auto & functions = m_functions.emplace( stmt->getFlags(), std::map< std::string, Used >{} ).first->second;
+					functions.emplace( stmt->getName(), std::move( function ) );
 				}
 
 				void parseBuffer( std::string const & name
@@ -525,14 +535,14 @@ namespace ast
 							&& ( m_config.name.empty() || stmt->getName() == m_config.name ) )
 						{
 							markVariable( stmt->getFuncVar(), m_buffers, *m_current );
-							markFunctionCall( stmt->getName(), m_functions, m_buffers, *m_current );
+							markFunctionCall( stmt->getName(), stmt->getFlags(), m_functions, m_buffers, *m_current );
 						}
 					}
 					else if ( stmt->isPatchRoutine()
 						&& m_config.stage == ShaderStage::eTessellationControl )
 					{
 						markVariable( stmt->getFuncVar(), m_buffers, *m_current );
-						markFunctionCall( stmt->getName(), m_functions, m_buffers, *m_current );
+						markFunctionCall( stmt->getName(), stmt->getFlags(), m_functions, m_buffers, *m_current );
 					}
 				}
 
@@ -605,7 +615,7 @@ namespace ast
 				Used & m_result;
 				Used * m_current{};
 				bool m_isBuffer{};
-				std::map< std::string, Used > m_functions;
+				std::map< uint32_t, std::map< std::string, Used > > m_functions;
 				std::map< std::string, Used > m_buffers;
 			};
 			Used result{ stmt->getStmtCache().getAllocator() };

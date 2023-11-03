@@ -86,9 +86,9 @@ namespace sdw
 	{
 		ast::var::VariablePtr funcVar;
 
-		if ( m_builder->hasFunction( name ) )
+		if ( m_builder->hasFunction( name, flag ) )
 		{
-			funcVar = m_builder->getFunction( name );
+			funcVar = m_builder->getFunction( name, flag );
 			auto functionType = funcVar->getType();
 
 			if ( functionType->getKind() != ast::type::Kind::eFunction )
@@ -2075,7 +2075,10 @@ namespace sdw
 	inline T ShaderWriter::getVariable( std::string_view name
 		, bool enabled )
 	{
-		auto var = getVar( name );
+		auto var = hasVariable( name, true )
+			? getVariable( name, true )
+			: getVariable( name, false );
+
 		T result{ *this
 			, makeExpr( *this, var )
 			, enabled };
@@ -2087,7 +2090,10 @@ namespace sdw
 	inline Array< T > ShaderWriter::getVariableArray( std::string_view name
 		, bool enabled )
 	{
-		auto var = getVar( name );
+		auto var = hasVariable( name, true )
+			? getVariable( name, true )
+			: getVariable( name, false );
+
 		Array< T > result{ *this
 			, makeExpr( *this, var )
 			, enabled };

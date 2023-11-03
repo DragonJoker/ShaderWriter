@@ -205,7 +205,7 @@ namespace ast::type
 		}
 
 	protected:
-		std::pair< uint32_t, uint32_t > doLookupMember( std::string_view name
+		std::tuple< uint32_t, uint32_t, bool > doLookupMember( std::string_view name
 			, TypePtr type );
 		void doAddMember( Member const & member );
 
@@ -235,45 +235,45 @@ namespace ast::type
 			, MemoryLayout layout
 			, std::string name );
 
-		SDAST_API Member declMember( Builtin builtin
+		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t index = InvalidLocation
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize = NotArray
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, TypePtr type
 			, uint32_t arraySize = NotArray
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, ArrayPtr type
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, ArrayPtr type
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, BaseStructPtr type
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, BaseStructPtr type
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, IOStructPtr type
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API Member declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, IOStructPtr type
 			, bool enabled = true );
 
 	private:
-		Member doCreateMember( TypePtr type
+		std::pair< Member, bool > doCreateMember( TypePtr type
 			, std::string name );
-		Member doCreateMember( TypePtr type
+		std::pair< Member, bool > doCreateMember( TypePtr type
 			, Builtin builtin
 			, uint32_t index = InvalidLocation );
 	};
@@ -288,50 +288,50 @@ namespace ast::type
 			, EntryPoint entryPoint
 			, var::Flag flag );
 
-		SDAST_API void declMember( Builtin builtin
+		SDAST_API bool declMember( Builtin builtin
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t index = InvalidLocation );
-		SDAST_API void declMember( Builtin builtin
+		SDAST_API bool declMember( Builtin builtin
 			, ArrayPtr type
 			, uint32_t arraySize
 			, uint32_t index = InvalidLocation );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, Kind kind
 			, uint32_t arraySize
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, TypePtr type
 			, uint32_t arraySize
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, TypePtr type
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, ArrayPtr type
 			, uint32_t arraySize
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, ArrayPtr type
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, StructPtr type
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API void declMember( std::string name
+		SDAST_API bool declMember( std::string name
 			, StructPtr type
 			, bool enabled = true );
 
 	private:
-		Member doCreateMember( TypePtr type
+		std::pair< Member, bool > doCreateMember( TypePtr type
 			, std::string name
 			, uint32_t location );
-		Member doCreateMember( TypePtr type
+		std::pair< Member, bool > doCreateMember( TypePtr type
 			, Builtin builtin
 			, uint32_t index = InvalidLocation );
 	};
