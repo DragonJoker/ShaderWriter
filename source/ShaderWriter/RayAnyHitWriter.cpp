@@ -115,8 +115,13 @@ namespace sdw
 	}
 
 	RayAnyHitWriter::RayAnyHitWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eRayAnyHit, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eRayAnyHit
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a RayAnyHitWriter from this kind of builder." };
+		}
 	}
 
 	void RayAnyHitWriter::ignoreIntersection()
@@ -128,4 +133,6 @@ namespace sdw
 	{
 		addStmt( getStmtCache().makeTerminateRay() );
 	}
+
+	//*************************************************************************
 }

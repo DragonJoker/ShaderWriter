@@ -21,8 +21,10 @@ namespace sdw
 {
 #if SDW_PreferredMeshShadingExtension == SDW_MeshShadingEXT
 	using ModernGraphicsWriter = ModernGraphicsWriterEXT;
+	static constexpr ast::ShaderStage ModernGraphicsStage = ast::ShaderStage::eModernGraphicsEXT;
 #else
 	using ModernGraphicsWriter = ModernGraphicsWriterNV;
+	static constexpr ast::ShaderStage ModernGraphicsStage = ast::ShaderStage::eModernGraphicsNV;
 #endif
 }
 

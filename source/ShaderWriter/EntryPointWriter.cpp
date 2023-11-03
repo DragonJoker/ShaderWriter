@@ -8,11 +8,14 @@ namespace sdw
 	EntryPointWriter::EntryPointWriter( ast::ShaderStage type
 		, ShaderAllocator * allocator )
 		: ShaderWriter{ type, allocator }
+		, m_entryPoint{ getEntryPointType( type ) }
 	{
 	}
 
-	EntryPointWriter::EntryPointWriter( ShaderBuilder & builder )
+	EntryPointWriter::EntryPointWriter( ast::ShaderStage type
+		, ShaderBuilder & builder )
 		: ShaderWriter{ builder }
+		, m_entryPoint{ getEntryPointType( type ) }
 	{
 	}
 
@@ -21,7 +24,7 @@ namespace sdw
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return getBuilder().registerInput( getEntryPointType( getShader().getType() )
+		return getBuilder().registerInput( m_entryPoint
 			, std::move( name )
 			, location
 			, attributes
@@ -33,7 +36,7 @@ namespace sdw
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		return getBuilder().registerOutput( getEntryPointType( getShader().getType() )
+		return getBuilder().registerOutput( m_entryPoint
 			, std::move( name )
 			, location
 			, attributes

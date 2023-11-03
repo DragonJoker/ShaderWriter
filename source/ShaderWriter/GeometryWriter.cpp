@@ -52,8 +52,13 @@ namespace sdw
 	}
 
 	GeometryWriter::GeometryWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eGeometry, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eGeometry
+			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )
+		{
+			throw std::logic_error{ "Can't create a GeometryWriter from this kind of builder." };
+		}
 	}
 
 	//*************************************************************************

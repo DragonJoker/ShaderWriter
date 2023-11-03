@@ -74,7 +74,14 @@ namespace sdw
 	}
 
 	RayMissWriter::RayMissWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eRayMiss, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eRayMiss
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a RayMissWriter from this kind of builder." };
+		}
 	}
+
+	//*************************************************************************
 }

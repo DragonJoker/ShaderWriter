@@ -108,8 +108,13 @@ namespace sdw
 	}
 
 	RayIntersectionWriter::RayIntersectionWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eRayIntersection, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eRayIntersection
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a RayIntersectionWriter from this kind of builder." };
+		}
 	}
 
 	void RayIntersectionWriter::implementMain( RayIntersectionMainFunc const & function )
@@ -119,4 +124,6 @@ namespace sdw
 			, function
 			, makeInParam( RayIntersectionIn{ *this } ) );
 	}
+
+	//*************************************************************************
 }

@@ -48,10 +48,19 @@ namespace sdw
 	ShaderWriter::ShaderWriter( ShaderBuilder & builder )
 		: m_builder{ &builder }
 	{
+		if ( doGetCurrentWriter() )
+		{
+			assert( false );
+			throw std::logic_error{ "Can't have more than one ShaderWriter instantiated at once" };
+		}
+
+		doGetCurrentWriter() = this;
+		assert( doGetCurrentWriter() );
 	}
 
 	ShaderWriter::~ShaderWriter()
 	{
+		m_ownBuilder.reset();
 		assert( doGetCurrentWriter() && "Ooops... 0xDDDDDDDD" );
 		doGetCurrentWriter() = nullptr;
 	}
@@ -138,7 +147,7 @@ namespace sdw
 		assert( m_builder->getType() == ast::ShaderStage::eFragment
 			|| m_builder->getType() == ast::ShaderStage::eTraditionalGraphics
 			|| m_builder->getType() == ast::ShaderStage::eModernGraphicsNV
-			|| m_builder->getType() == ast::ShaderStage::eModernGraphics );
+			|| m_builder->getType() == ast::ShaderStage::eModernGraphicsEXT );
 		addStmt( getStmtCache().makeDemote() );
 	}
 
@@ -147,7 +156,7 @@ namespace sdw
 		assert( m_builder->getType() == ast::ShaderStage::eFragment
 			|| m_builder->getType() == ast::ShaderStage::eTraditionalGraphics
 			|| m_builder->getType() == ast::ShaderStage::eModernGraphicsNV
-			|| m_builder->getType() == ast::ShaderStage::eModernGraphics );
+			|| m_builder->getType() == ast::ShaderStage::eModernGraphicsEXT );
 		addStmt( getStmtCache().makeTerminateInvocation() );
 	}
 

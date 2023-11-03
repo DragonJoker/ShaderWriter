@@ -112,7 +112,14 @@ namespace sdw
 	}
 
 	RayClosestHitWriter::RayClosestHitWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eRayClosestHit
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a RayClosestHitWriter from this kind of builder." };
+		}
 	}
+
+	//*************************************************************************
 }

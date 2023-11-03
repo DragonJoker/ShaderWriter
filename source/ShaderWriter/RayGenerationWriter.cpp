@@ -55,8 +55,13 @@ namespace sdw
 	}
 
 	RayGenerationWriter::RayGenerationWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eRayGeneration, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eRayGeneration
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a RayGenerationWriter from this kind of builder." };
+		}
 	}
 
 	void RayGenerationWriter::implementMain( RayGenerationMainFunc const & function )
@@ -66,4 +71,6 @@ namespace sdw
 			, function
 			, makeInParam( RayGenerationIn{ *this } ) );
 	}
+
+	//*************************************************************************
 }

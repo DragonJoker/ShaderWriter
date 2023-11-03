@@ -6,29 +6,16 @@ See LICENSE file in root folder
 namespace sdw
 {
 	ModernGraphicsWriterNV::ModernGraphicsWriterNV( ShaderAllocator * allocator )
-		: PipelineWriter{ ast::ShaderStage::eModernGraphicsNV, allocator }
+		: GraphicsPipelineWriter{ ast::ShaderStage::eModernGraphicsNV, allocator }
 	{
 	}
 
 	ModernGraphicsWriterNV::ModernGraphicsWriterNV( ShaderBuilder & builder )
-		: PipelineWriter{ builder }
+		: GraphicsPipelineWriter{ builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eModernGraphicsNV )
+		{
+			throw std::logic_error{ "Can't create a ModernGraphicsWriterNV from this kind of builder." };
+		}
 	}
-	/**
-	*name
-	*	Fragment Shader.
-	*/
-	/**@{*/
-	void ModernGraphicsWriterNV::implementEntryPoint( FragmentMainFuncT< VoidT, VoidT > const & function )
-	{
-		implementEntryPointT( function );
-	}
-
-	void ModernGraphicsWriterNV::implementEntryPoint( ast::FragmentOrigin origin
-		, ast::FragmentCenter center
-		, FragmentMainFuncT< VoidT, VoidT > const & function )
-	{
-		implementEntryPointT( origin, center, function );
-	}
-	/**@}*/
 }

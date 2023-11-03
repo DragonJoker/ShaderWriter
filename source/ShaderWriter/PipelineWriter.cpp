@@ -14,6 +14,13 @@ namespace sdw
 	PipelineWriter::PipelineWriter( ShaderBuilder & builder )
 		: ShaderWriter{ builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eTraditionalGraphics
+			&& builder.getType() != ast::ShaderStage::eModernGraphicsEXT
+			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a PipelineWriter from this kind of builder." };
+		}
 	}
 
 	var::VariablePtr PipelineWriter::registerInput( std::string name

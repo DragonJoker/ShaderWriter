@@ -146,8 +146,13 @@ namespace sdw
 	}
 
 	TaskWriterEXT::TaskWriterEXT( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eTask, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eTask
+			&& builder.getType() != ast::ShaderStage::eModernGraphicsEXT )
+		{
+			throw std::logic_error{ "Can't create a TaskWriterEXT from this kind of builder." };
+		}
 	}
 
 	//*************************************************************************

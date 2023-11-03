@@ -53,7 +53,14 @@ namespace sdw
 	}
 
 	CallableWriter::CallableWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eCallable, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eCallable
+			&& builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a CallableWriter from this kind of builder." };
+		}
 	}
+
+	//*************************************************************************
 }
