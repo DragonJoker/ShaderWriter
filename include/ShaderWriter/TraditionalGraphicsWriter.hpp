@@ -4,9 +4,8 @@ See LICENSE file in root folder
 #ifndef ___SDW_TraditionalGraphicsWriter_H___
 #define ___SDW_TraditionalGraphicsWriter_H___
 
-#include "ShaderWriter/FragmentWriter.hpp"
 #include "ShaderWriter/GeometryWriter.hpp"
-#include "ShaderWriter/PipelineWriter.hpp"
+#include "ShaderWriter/GraphicsPipelineWriter.hpp"
 #include "ShaderWriter/TessellationControlWriter.hpp"
 #include "ShaderWriter/TessellationEvaluationWriter.hpp"
 #include "ShaderWriter/VertexWriter.hpp"
@@ -14,11 +13,13 @@ See LICENSE file in root folder
 namespace sdw
 {
 	class TraditionalGraphicsWriter
-		: public PipelineWriter
+		: public GraphicsPipelineWriter
 	{
 	public:
 		SDW_API explicit TraditionalGraphicsWriter( ShaderAllocator * allocator = nullptr );
 		SDW_API explicit TraditionalGraphicsWriter( ShaderBuilder & builder );
+		using GraphicsPipelineWriter::implementEntryPoint;
+		using GraphicsPipelineWriter::implementEntryPointT;
 #pragma region Vertex Shader
 		/**
 		*name
@@ -277,73 +278,6 @@ namespace sdw
 			, QuadsTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
-		/**@}*/
-#pragma endregion
-#pragma region Fragment Shader
-		/**
-		*name
-		*	Fragment Shader.
-		*/
-		/**@{*/
-#pragma region Entry point declaration
-		/**
-		*name
-		*	Entry point declaration.
-		*/
-		/**@{*/
-		SDW_API void implementEntryPoint( FragmentMainFuncT< VoidT, VoidT > const & function );
-		SDW_API void implementEntryPoint( ast::FragmentOrigin origin
-			, ast::FragmentCenter center
-			, FragmentMainFuncT< VoidT, VoidT > const & function );
-
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( FragmentMainFuncT< InT, OutT > const & function );
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( ast::FragmentOrigin origin
-			, ast::FragmentCenter center
-			, FragmentMainFuncT< InT, OutT > const & function );
-
-		template< template< ast::var::Flag FlagT > typename InT
-			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( FragmentInT< InT > in
-			, FragmentOutT< OutT > out
-			, FragmentMainFuncT< InT, OutT > const & function );
-		/**@}*/
-#pragma endregion
-#pragma region Blend Output declaration
-		/**
-		*name
-		*	Blend Output declaration.
-		*/
-		/**@{*/
-		template< typename T >
-		inline T declBlendOutput( std::string name
-			, uint32_t location
-			, uint32_t blendIndex
-			, bool enabled = true );
-		template< typename T >
-		inline T declBlendOutput( std::string name
-			, uint32_t location
-			, uint32_t blendIndex
-			, uint64_t attributes
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string name
-			, uint32_t location
-			, uint32_t blendIndex
-			, uint32_t dimension
-			, bool enabled = true );
-		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string name
-			, uint32_t location
-			, uint32_t blendIndex
-			, uint32_t dimension
-			, uint64_t attributes
-			, bool enabled = true );
-		/**@}*/
-#pragma endregion
 		/**@}*/
 #pragma endregion
 	};

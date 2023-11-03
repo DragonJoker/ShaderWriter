@@ -26,8 +26,12 @@ namespace sdw
 	}
 
 	ComputeWriter::ComputeWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eCompute, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eCompute )
+		{
+			throw std::logic_error{ "Can't create a ComputeWriter from this kind of builder." };
+		}
 	}
 
 	void ComputeWriter::implementMain( uint32_t localSizeX

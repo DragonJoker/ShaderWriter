@@ -49,6 +49,8 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/FragmentWriter.inl
 	${INCLUDE_DIR}/GeometryWriter.hpp
 	${INCLUDE_DIR}/GeometryWriter.inl
+	${INCLUDE_DIR}/GraphicsPipelineWriter.hpp
+	${INCLUDE_DIR}/GraphicsPipelineWriter.inl
 	${INCLUDE_DIR}/MeshWriter.hpp
 	${INCLUDE_DIR}/MeshWriterEXT.hpp
 	${INCLUDE_DIR}/MeshWriterEXT.inl
@@ -93,6 +95,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/EntryPointWriter.cpp
 	${SOURCE_DIR}/FragmentWriter.cpp
 	${SOURCE_DIR}/GeometryWriter.cpp
+	${SOURCE_DIR}/GraphicsPipelineWriter.cpp
 	${SOURCE_DIR}/MeshWriterEXT.cpp
 	${SOURCE_DIR}/MeshWriterNV.cpp
 	${SOURCE_DIR}/ModernGraphicsWriterEXT.cpp

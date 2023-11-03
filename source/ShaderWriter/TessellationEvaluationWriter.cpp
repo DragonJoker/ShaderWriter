@@ -52,8 +52,13 @@ namespace sdw
 	}
 
 	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eTessellationEvaluation, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eTessellationEvaluation
+			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )
+		{
+			throw std::logic_error{ "Can't create a TessellationEvaluationWriter from this kind of builder." };
+		}
 	}
 
 	//*************************************************************************

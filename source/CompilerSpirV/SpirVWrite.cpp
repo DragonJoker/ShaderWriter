@@ -2523,11 +2523,15 @@ namespace spirv
 				writeExtInst( instruction, names, module, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpConstant
+				|| opCode == spv::OpConstantTrue
+				|| opCode == spv::OpConstantFalse
 				|| opCode == spv::OpConstantComposite )
 			{
 				writeConstant( instruction, module.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpSpecConstant
+				|| opCode == spv::OpSpecConstantTrue
+				|| opCode == spv::OpSpecConstantFalse
 				|| opCode == spv::OpSpecConstantComposite )
 			{
 				writeSpecConstant( instruction, module.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";

@@ -11,7 +11,12 @@ namespace sdw
 	}
 
 	TaskWriterNV::TaskWriterNV( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eTaskNV, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eTaskNV
+			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV )
+		{
+			throw std::logic_error{ "Can't create a TaskWriterNV from this kind of builder." };
+		}
 	}
 }

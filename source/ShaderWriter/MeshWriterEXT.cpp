@@ -161,8 +161,13 @@ namespace sdw
 	}
 
 	MeshWriterEXT::MeshWriterEXT( ShaderBuilder & builder )
-		: EntryPointWriter{ builder }
+		: EntryPointWriter{ ast::ShaderStage::eMesh, builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eMesh
+			&& builder.getType() != ast::ShaderStage::eModernGraphicsEXT )
+		{
+			throw std::logic_error{ "Can't create a MeshWriterEXT from this kind of builder." };
+		}
 	}
 
 	//*************************************************************************

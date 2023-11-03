@@ -76,7 +76,7 @@ namespace ast
 		eCallable,
 		eTraditionalGraphics,
 		eModernGraphicsNV,
-		eModernGraphics,
+		eModernGraphicsEXT,
 		eRayTrace,
 	};
 	SDAST_API bool isRasterizerStage( ShaderStage stage );

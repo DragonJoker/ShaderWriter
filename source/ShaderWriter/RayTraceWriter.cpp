@@ -16,6 +16,10 @@ namespace sdw
 	RayTraceWriter::RayTraceWriter( ShaderBuilder & builder )
 		: PipelineWriter{ builder }
 	{
+		if ( builder.getType() != ast::ShaderStage::eRayTrace )
+		{
+			throw std::logic_error{ "Can't create a RayTraceWriter from this kind of builder." };
+		}
 	}
 	/**
 	*name
