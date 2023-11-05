@@ -3208,10 +3208,12 @@ namespace ast
 
 				if ( ident )
 				{
+					bool isAlias = false;
 					expr::Expr * init{};
 
 					if ( expr->getKind() == ast::expr::Kind::eAlias )
 					{
+						isAlias = true;
 						init = static_cast< expr::Alias const & >( *expr ).getRHS();
 					}
 					else if ( expr->getKind() == ast::expr::Kind::eInit )
@@ -3247,8 +3249,18 @@ namespace ast
 									auto initialiser = m_exprCache.makeCompositeConstruct( compositeCtor->getComposite()
 										, compositeCtor->getComponent()
 										, std::move( initialisers ) );
-									m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
-										, std::move( initialiser ) ) ) );
+
+									if ( isAlias )
+									{
+										m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeAlias( ident->getType()
+											, m_exprCache.makeIdentifier( *ident )
+											, std::move( initialiser ) ) ) );
+									}
+									else
+									{
+										m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
+											, std::move( initialiser ) ) ) );
+									}
 								}
 							}
 							else
@@ -3256,8 +3268,18 @@ namespace ast
 								auto initialiser = m_exprCache.makeCompositeConstruct( compositeCtor->getComposite()
 									, compositeCtor->getComponent()
 									, std::move( initialisers ) );
-								m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
-									, std::move( initialiser ) ) ) );
+
+								if ( isAlias )
+								{
+									m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeAlias( ident->getType()
+										, m_exprCache.makeIdentifier( *ident )
+										, std::move( initialiser ) ) ) );
+								}
+								else
+								{
+									m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
+										, std::move( initialiser ) ) ) );
+								}
 							}
 						}
 						else
@@ -3271,6 +3293,12 @@ namespace ast
 							{
 								m_context.constExprs.emplace( ident->getVariable()->getId()
 									, std::move( initialiser ) );
+							}
+							else if ( isAlias )
+							{
+								m_current->addStmt( m_stmtCache.makeSimple( m_exprCache.makeAlias( ident->getType()
+									, m_exprCache.makeIdentifier( *ident )
+									, std::move( initialiser ) ) ) );
 							}
 							else
 							{

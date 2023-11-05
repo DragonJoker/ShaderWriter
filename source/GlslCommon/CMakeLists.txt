@@ -25,7 +25,7 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/*.cpp
 )
 
-if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
+if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	set( SCRIPT_DIR ${SDW_SOURCE_DIR}/scripts/${_FOLDER_NAME} )
 	file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SCRIPT_FILES
 		${SCRIPT_DIR}/*.py
@@ -33,7 +33,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
 	add_custom_command( OUTPUT ${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GlslStorageImageAccessNames.hpp ${SOURCE_DIR}/GlslStorageImageAccessNames.hpp
 		COMMENT "Generating GlslStorageImageAccessNames.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGlslNameFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/StorageImageAccess.enum
