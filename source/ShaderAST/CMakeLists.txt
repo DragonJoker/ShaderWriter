@@ -473,7 +473,7 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 	${${PROJECT_NAME}_FOLDER_SOURCE_FILES}
 )
 
-if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
+if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	set( SCRIPT_DIR ${SDW_SOURCE_DIR}/scripts/${_FOLDER_NAME} )
 	file( GLOB_RECURSE ${PROJECT_NAME}_SCRIPT_FILES
 		${SCRIPT_DIR}/*.py
@@ -481,7 +481,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/EnumStorageImageAccess.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/EnumStorageImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumStorageImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp
 		COMMENT "Generating EnumStorageImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum
@@ -489,7 +489,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumStorageImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GetStorageImageAccessName.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/GetStorageImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetStorageImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp
 		COMMENT "Generating GetStorageImageAccessName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum
@@ -497,7 +497,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/GetStorageImageAccessName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/MakeStorageImageAccess.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum ${GENERATED_DIR}/MakeStorageImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeStorageImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp
 		COMMENT "Generating MakeStorageImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/StorageImageAccess.enum
@@ -505,7 +505,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_SOURCE_FILES ${${PROJECT_NAME}_SOURCE_FILES} ${INCLUDE_DIR}/Expr/MakeStorageImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/EnumCombinedImageAccess.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/EnumCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumCombinedImageAccess.hpp ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp
 		COMMENT "Generating EnumCombinedImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
@@ -513,7 +513,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumCombinedImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/GetCombinedImageAccessName.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/GetCombinedImageAccessName.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetCombinedImageAccessName.hpp ${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp
 		COMMENT "Generating GetCombinedImageAccessName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
@@ -521,7 +521,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetCombinedImageAccessName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/MakeCombinedImageAccess.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum ${GENERATED_DIR}/MakeCombinedImageAccess.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeCombinedImageAccess.hpp ${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp
 		COMMENT "Generating MakeCombinedImageAccess.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/CombinedImageAccess.enum
@@ -529,7 +529,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/MakeCombinedImageAccess.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/EnumIntrinsic.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/EnumIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/EnumIntrinsic.hpp ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp
 		COMMENT "Generating EnumIntrinsic.hpp"
 		DEPENDS ${SCRIPT_DIR}/genEnumFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
@@ -537,7 +537,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/EnumIntrinsic.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/GetIntrinsicName.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/GetIntrinsicName.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/GetIntrinsicName.hpp ${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp
 		COMMENT "Generating GetIntrinsicName.hpp"
 		DEPENDS ${SCRIPT_DIR}/genGetNameFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
@@ -545,7 +545,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( ${PROJECT_NAME}_HEADER_FILES ${${PROJECT_NAME}_HEADER_FILES} ${INCLUDE_DIR}/Expr/GetIntrinsicName.hpp )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/MakeIntrinsic.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/MakeIntrinsic.hpp ${INCLUDE_DIR}/Expr/MakeIntrinsic.hpp
 		COMMENT "Generating MakeIntrinsic.hpp"
 		DEPENDS ${SCRIPT_DIR}/genMakeSourceFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum

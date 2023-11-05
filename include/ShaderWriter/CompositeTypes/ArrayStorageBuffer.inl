@@ -54,16 +54,16 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
-		, m_redeclare{ m_builder.hasVariable( m_name + "Inst", false ) }
+		, m_redeclare{ hasVariable( m_builder, m_name + "Inst", false ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType, layout ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ ( m_redeclare
-			? m_builder.getVariable( m_name + "Data", false )
-			: m_builder.registerName( m_name + "Data", m_ssboType->getMember( m_name + "Data" ).type, var::Flag::eStorageBuffer ) ) }
+			? getVariable( m_builder, m_name + "Data", false )
+			: registerName( m_builder, m_name + "Data", m_ssboType->getMember( m_name + "Data" ).type, var::Flag::eStorageBuffer ) ) }
 		, m_ssboVar{ ( m_redeclare
-			? m_builder.getVariable( m_name + "Inst", false )
-			: m_builder.registerName( m_name + "Inst", m_ssboType, var::Flag::eStorageBuffer ) ) }
+			? getVariable( m_builder, m_name + "Inst", false )
+			: registerName( m_builder, m_name + "Inst", m_ssboType, var::Flag::eStorageBuffer ) ) }
 		, m_enabled{ enabled }
 	{
 		if ( isEnabled() && !m_redeclare )
@@ -89,16 +89,16 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
-		, m_redeclare{ m_builder.hasVariable( m_name + "Inst", false ) }
+		, m_redeclare{ hasVariable( m_builder, m_name + "Inst", false ) }
 		, m_interface{ details::getSsboType( getTypesCache( writer ), m_name, dataType ) }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ ( m_redeclare
-			? m_builder.getVariable( m_name + "Data", false )
-			: m_builder.registerName( m_name + "Data", m_ssboType->getMember( m_name + "Data" ).type, var::Flag::eStorageBuffer ) ) }
+			? getVariable( m_builder, m_name + "Data", false )
+			: registerName( m_builder, m_name + "Data", m_ssboType->getMember( m_name + "Data" ).type, var::Flag::eStorageBuffer ) ) }
 		, m_ssboVar{ ( m_redeclare
-			? m_builder.getVariable( m_name + "Inst", false )
-			: m_builder.registerName( m_name + "Inst", m_ssboType, var::Flag::eStorageBuffer ) ) }
+			? getVariable( m_builder, m_name + "Inst", false )
+			: registerName( m_builder, m_name + "Inst", m_ssboType, var::Flag::eStorageBuffer ) ) }
 		, m_enabled{ enabled }
 	{
 		if ( isEnabled() && !m_redeclare )
@@ -141,16 +141,16 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
-		, m_redeclare{ m_builder.hasVariable( m_name, false ) }
+		, m_redeclare{ hasVariable( m_builder, m_name, false ) }
 		, m_interface{ std::static_pointer_cast< ast::type::BaseStruct >( static_cast< ast::type::Pointer const & >( *addressExpr->getType() ).getPointerType() ) }
 		, m_info{ m_interface.getType(), ~0u, ~0u }
 		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ ( m_redeclare
-			? m_builder.getVariable( m_name + "Data", false )
-			: m_builder.registerName( m_name + "Data", m_ssboType->getMember( m_interface.getType()->getName() + "Data" ).type ) ) }
+			? getVariable( m_builder, m_name + "Data", false )
+			: registerName( m_builder, m_name + "Data", m_ssboType->getMember( m_interface.getType()->getName() + "Data" ).type ) ) }
 		, m_ssboVar{ ( m_redeclare
-			? m_builder.getVariable( m_name, false )
-			: m_builder.registerName( m_name, m_ssboType ) ) }
+			? getVariable( m_builder, m_name, false )
+			: registerName( m_builder, m_name, m_ssboType ) ) }
 		, m_enabled{ enabled }
 	{
 		if ( isEnabled() && !m_redeclare )

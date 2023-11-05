@@ -348,7 +348,7 @@ set( ${PROJECT_NAME}_HEADER_FILES
 	${${PROJECT_NAME}_FOLDER_HEADER_FILES}
 )
 
-if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
+if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	set( SCRIPT_DIR ${SDW_SOURCE_DIR}/scripts/${_FOLDER_NAME} )
 	file( GLOB_RECURSE ${PROJECT_NAME}_SCRIPT_FILES
 		${SCRIPT_DIR}/*.py
@@ -356,14 +356,14 @@ if ( SDW_GENERATE_SOURCE AND PYTHONINTERP_FOUND )
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
 	add_custom_command( OUTPUT ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.hpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.hpp ${INCLUDE_DIR}/Intrinsics/IntrinsicFunctions.hpp
 		COMMENT "Generating IntrinsicFunctions.hpp"
 		DEPENDS ${SCRIPT_DIR}/genFunctionHeaderFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum
 	)
 	add_custom_command( OUTPUT ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${PYTHON_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum ${GENERATED_DIR}/IntrinsicFunctions.cpp
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/IntrinsicFunctions.cpp ${SOURCE_DIR}/Intrinsics/IntrinsicFunctions.cpp
 		COMMENT "Generating IntrinsicFunctions.cpp"
 		DEPENDS ${SCRIPT_DIR}/genFunctionSourceFromEnum.py ${SDW_SOURCE_DIR}/include/ShaderAST/Expr/Intrinsic.enum

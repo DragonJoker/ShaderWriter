@@ -219,7 +219,7 @@ namespace ast
 			, std::move( name ) );
 		m_shader->registerGlobalVariable( result );
 		m_blocks.front().registered.emplace( result );
-		m_functions.emplace_back( result, flag );
+		m_functions.push_back( { result, flag } );
 		return result;
 	}
 

@@ -1116,6 +1116,34 @@ namespace sdw
 		container.addStmt( std::move( stmt ) );
 	}
 
+	var::VariablePtr registerName( ShaderBuilder & builder
+		, std::string name
+		, type::TypePtr type )
+	{
+		return builder.registerName( std::move( name )
+			, type );
+	}
+
+	var::VariablePtr registerName( ShaderBuilder & builder
+		, std::string name
+		, type::TypePtr type
+		, var::Flag flag )
+	{
+		return builder.registerName( std::move( name )
+			, type
+			, flag );
+	}
+
+	var::VariablePtr registerName( ShaderBuilder & builder
+		, std::string name
+		, type::TypePtr type
+		, uint64_t flags )
+	{
+		return builder.registerName( std::move( name )
+			, type
+			, flags );
+	}
+
 	var::VariablePtr registerName( ShaderWriter & writer
 		, std::string name
 		, type::TypePtr type )
@@ -1152,14 +1180,35 @@ namespace sdw
 			, type );
 	}
 
-	var::VariablePtr getVariable( ShaderWriter & writer
+	bool hasVariable( ShaderBuilder const & builder
+		, std::string_view name
+		, bool isLocale )
+	{
+		return builder.hasVariable( name, isLocale );
+	}
+
+	var::VariablePtr getVariable( ShaderBuilder const & builder
+		, std::string_view name
+		, bool isLocale )
+	{
+		return builder.getVariable( name, isLocale );
+	}
+
+	bool hasVariable( ShaderWriter const & writer
+		, std::string_view name
+		, bool isLocale )
+	{
+		return writer.getBuilder().hasVariable( name, isLocale );
+	}
+
+	var::VariablePtr getVariable( ShaderWriter const & writer
 		, std::string_view name
 		, bool isLocale )
 	{
 		return writer.getBuilder().getVariable( name, isLocale );
 	}
 
-	var::VariablePtr getMemberVariable( ShaderWriter & writer
+	var::VariablePtr getMemberVariable( ShaderWriter const & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name )
 	{

@@ -368,6 +368,17 @@ namespace sdw
 		, stmt::StmtPtr stmt );
 	SDW_API void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
+	SDW_API var::VariablePtr registerName( ShaderBuilder & builder
+		, std::string name
+		, type::TypePtr type );
+	SDW_API var::VariablePtr registerName( ShaderBuilder & builder
+		, std::string name
+		, type::TypePtr type
+		, var::Flag flag );
+	SDW_API var::VariablePtr registerName( ShaderBuilder & builder
+		, std::string name
+		, type::TypePtr type
+		, uint64_t flags );
 	SDW_API var::VariablePtr registerName( ShaderWriter & writer
 		, std::string name
 		, type::TypePtr type );
@@ -382,10 +393,19 @@ namespace sdw
 	SDW_API var::VariablePtr registerBlockVariable( ShaderWriter & writer
 		, std::string name
 		, type::TypePtr type );
-	SDW_API var::VariablePtr getVariable( ShaderWriter & writer
+	SDW_API bool hasVariable( ShaderBuilder const & builder
 		, std::string_view name
 		, bool isLocale );
-	SDW_API var::VariablePtr getMemberVariable( ShaderWriter & writer
+	SDW_API var::VariablePtr getVariable( ShaderBuilder const & builder
+		, std::string_view name
+		, bool isLocale );
+	SDW_API bool hasVariable( ShaderWriter const & writer
+		, std::string_view name
+		, bool isLocale );
+	SDW_API var::VariablePtr getVariable( ShaderWriter const & writer
+		, std::string_view name
+		, bool isLocale );
+	SDW_API var::VariablePtr getMemberVariable( ShaderWriter const & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name );
 
