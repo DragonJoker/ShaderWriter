@@ -32,6 +32,9 @@ namespace sdw
 	using TaskPayloadOut = TaskPayloadOutEXT;
 	using TaskPayloadIn = TaskPayloadInEXT;
 
+	using TaskIn = TaskInEXT;
+	using TaskSubgroupIn = TaskSubgroupInEXT;
+
 	template< template< ast::var::Flag FlagT > typename PayloadT >
 	using TaskMainFuncT = TaskEXTMainFuncT< PayloadT >;
 	template< template< ast::var::Flag FlagT > typename PayloadT >
@@ -60,6 +63,9 @@ namespace sdw
 
 	using TaskPayloadOut = TaskPayloadOutNV;
 	using TaskPayloadIn = TaskPayloadInNV;
+
+	using TaskIn = TaskInNV;
+	using TaskSubgroupIn = TaskSubgroupInNV;
 
 	template< template< ast::var::Flag FlagT > typename PayloadT >
 	using TaskMainFuncT = TaskNVMainFuncT< PayloadT >;

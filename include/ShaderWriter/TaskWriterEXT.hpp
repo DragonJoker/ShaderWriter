@@ -22,71 +22,71 @@ namespace sdw
 	/**
 	*	Holds input data for a task shader.
 	*/
-	struct TaskIn
+	struct TaskInEXT
 		: public StructInstance
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API TaskIn( ShaderWriter & writer
+		SDW_API TaskInEXT( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ );
-		SDW_API TaskIn( ShaderWriter & writer
+		SDW_API TaskInEXT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
 		//in uint  gl_DrawID;
-		Int32 const drawID;
+		UInt32 const drawID;
 		//const uvec3 gl_WorkGroupSize;
-		UInt32 const workGroupSize;
+		U32Vec3 const workGroupSize;
 		//in uvec3 gl_WorkGroupID / SV_GroupID;
-		UInt32 const workGroupID;
+		U32Vec3 const workGroupID;
 		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
-		UInt32 const localInvocationID;
+		U32Vec3 const localInvocationID;
 		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
-		UInt32 const globalInvocationID;
+		U32Vec3 const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
 	};
 	/**
 	*	Holds input data for a task subgroup shader.
 	*/
-	struct TaskSubgroupIn
-		: private TaskIn
+	struct TaskSubgroupInEXT
+		: private TaskInEXT
 	{
-		SDW_API TaskSubgroupIn( ShaderWriter & writer
+		SDW_API TaskSubgroupInEXT( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ );
-		SDW_API TaskSubgroupIn( ShaderWriter & writer
+		SDW_API TaskSubgroupInEXT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		using TaskIn::updateContainer;
-		using TaskIn::getContainer;
-		using TaskIn::updateExpr;
-		using TaskIn::getType;
-		using TaskIn::getExpr;
-		using TaskIn::getWriter;
-		using TaskIn::getBuilder;
-		using TaskIn::isEnabled;
+		using TaskInEXT::updateContainer;
+		using TaskInEXT::getContainer;
+		using TaskInEXT::updateExpr;
+		using TaskInEXT::getType;
+		using TaskInEXT::getExpr;
+		using TaskInEXT::getWriter;
+		using TaskInEXT::getBuilder;
+		using TaskInEXT::isEnabled;
 
 		//in uint  gl_DrawID;
-		using TaskIn::drawID;
+		using TaskInEXT::drawID;
 		//in uvec3 gl_WorkGroupSize;
-		using TaskIn::workGroupSize;
+		using TaskInEXT::workGroupSize;
 		//in uvec3 gl_WorkGroupID / SV_GroupID;
-		using TaskIn::workGroupID;
+		using TaskInEXT::workGroupID;
 		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
-		using TaskIn::localInvocationID;
+		using TaskInEXT::localInvocationID;
 		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
-		using TaskIn::globalInvocationID;
+		using TaskInEXT::globalInvocationID;
 		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
-		using TaskIn::localInvocationIndex;
+		using TaskInEXT::localInvocationIndex;
 
 		//in uint gl_NumSubgroups;
 		UInt32 const numSubgroups;
@@ -112,10 +112,10 @@ namespace sdw
 	*/
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	using TaskEXTMainFuncT = std::function< void( TaskIn
+	using TaskEXTMainFuncT = std::function< void( TaskInEXT
 		, TaskPayloadOutEXTT< PayloadT > ) >;
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	using TaskEXTSubgroupMainFuncT = std::function< void( TaskSubgroupIn
+	using TaskEXTSubgroupMainFuncT = std::function< void( TaskSubgroupInEXT
 		, TaskPayloadOutEXTT< PayloadT > ) >;
 	using TaskEXTMainFunc = TaskEXTMainFuncT< VoidT >;
 	using TaskEXTSubgroupMainFunc = TaskEXTSubgroupMainFuncT< VoidT >;

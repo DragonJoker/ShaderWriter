@@ -168,7 +168,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -201,7 +201,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshSubgroupInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -238,7 +238,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -271,7 +271,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshSubgroupInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -308,7 +308,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -341,7 +341,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshSubgroupInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );

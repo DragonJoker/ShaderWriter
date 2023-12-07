@@ -834,7 +834,7 @@ namespace
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshEXTPrimitiveListOut primOut )
@@ -858,7 +858,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, PointsMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshEXTPrimitiveListOut primOut )
@@ -881,7 +881,7 @@ namespace
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, LinesMeshEXTPrimitiveListOut primOut )
@@ -905,7 +905,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, LinesMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, LinesMeshEXTPrimitiveListOut primOut )
@@ -928,7 +928,7 @@ namespace
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
@@ -953,7 +953,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
@@ -981,7 +981,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOutT< PerVertexColourT >{ writer, 3u }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, 1u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOutT< PerVertexColourT > vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
@@ -1018,7 +1018,7 @@ namespace
 				, TaskPayloadInEXTT< payload::PayloadT >{ writer }
 				, MeshVertexListOut{ writer, 3u }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, 1u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXTT< payload::PayloadT > payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
@@ -1114,13 +1114,13 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, 252u }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, 84u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
 				{
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 					auto m = writer.declLocale( "m", meshlets[meshInfo.meshletOffset + gid] );
 
 					primOut.setMeshOutputCounts( m.vertCount, m.primCount );
@@ -1243,12 +1243,12 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, MaxPrims }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
 				{
-					auto gid = in.workGroupID;
+					auto gid = in.workGroupID.x();
 					auto gtid = in.localInvocationIndex;
 					auto meshletIndex = writer.declLocale( "meshletIndex", gid /drawParams.instanceCount );
 					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
@@ -1328,7 +1328,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
@@ -1432,14 +1432,14 @@ namespace
 				, TaskPayloadInEXTT< PayloadT >{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, MaxPrims }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXTT< PayloadT > payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto dtid = in.globalInvocationID.x();
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 					// Load the meshlet from the AS payload data
 					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
 
@@ -1564,14 +1564,14 @@ namespace
 				, TaskPayloadInEXTT< PayloadT >{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, MaxPrims }
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXTT< PayloadT > payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto dtid = in.globalInvocationID.x();
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 					// Load the meshlet from the AS payload data
 					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
 
@@ -1627,7 +1627,7 @@ namespace
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshSubgroupIn in
+				, [&]( MeshSubgroupInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshEXTPrimitiveListOut primOut )
@@ -1651,7 +1651,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, PointsMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshSubgroupIn in
+				, [&]( MeshSubgroupInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshEXTPrimitiveListOut primOut )
@@ -1674,7 +1674,7 @@ namespace
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshSubgroupIn in
+				, [&]( MeshSubgroupInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, LinesMeshEXTPrimitiveListOut primOut )
@@ -1698,7 +1698,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, LinesMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshSubgroupIn in
+				, [&]( MeshSubgroupInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, LinesMeshEXTPrimitiveListOut primOut )
@@ -1721,7 +1721,7 @@ namespace
 			writer.implementMainT< VoidT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshSubgroupIn in
+				, [&]( MeshSubgroupInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
@@ -1746,7 +1746,7 @@ namespace
 				, TaskPayloadInEXT{ writer }
 				, MeshVertexListOut{ writer, 64u }
 				, TrianglesMeshEXTPrimitiveListOut{ writer, 126u }
-				, [&]( MeshSubgroupIn in
+				, [&]( MeshSubgroupInEXT in
 					, TaskPayloadInEXT payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )

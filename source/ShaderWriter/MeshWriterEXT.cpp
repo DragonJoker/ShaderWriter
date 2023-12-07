@@ -8,26 +8,26 @@ namespace sdw
 {
 	//*************************************************************************
 
-	MeshIn::MeshIn( ShaderWriter & writer
+	MeshInEXT::MeshInEXT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
 		, meshViewCount{ getUIntMember( *this, ast::Builtin::eMeshViewCountNV ) }
 		, meshViewIndices{ getUIntMemberArray( *this, ast::Builtin::eMeshViewIndicesNV ) }
-		, drawID{ getIntMember( *this, ast::Builtin::eDrawIndex ) }
-		, workGroupSize{ getUVec3Member( *this, ast::Builtin::eWorkGroupSize ).x() }
-		, workGroupID{ getUVec3Member( *this, ast::Builtin::eWorkGroupID ).x() }
-		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
-		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
+		, drawID{ getUIntMember( *this, ast::Builtin::eDrawIndex ) }
+		, workGroupSize{ getUVec3Member( *this, ast::Builtin::eWorkGroupSize ) }
+		, workGroupID{ getUVec3Member( *this, ast::Builtin::eWorkGroupID ) }
+		, localInvocationID{ getUVec3Member( *this, ast::Builtin::eLocalInvocationID ) }
+		, globalInvocationID{ getUVec3Member( *this, ast::Builtin::eGlobalInvocationID ) }
 		, localInvocationIndex{ getUIntMember( *this, ast::Builtin::eLocalInvocationIndex ) }
 	{
 	}
 
-	MeshIn::MeshIn( ShaderWriter & writer
+	MeshInEXT::MeshInEXT( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: MeshIn{ writer
+		: MeshInEXT{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "meshIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
@@ -39,7 +39,7 @@ namespace sdw
 	{
 	}
 
-	ast::type::StructPtr MeshIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr MeshInEXT::makeType( ast::type::TypesCache & cache )
 	{
 		auto result = cache.getIOStruct( "SDW_Main"
 			, ast::EntryPoint::eMesh
@@ -69,7 +69,7 @@ namespace sdw
 				, type::Kind::eUInt32
 				, ast::type::UnknownArraySize );
 			result->declMember( ast::Builtin::eDrawIndex
-				, type::Kind::eInt32
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 		}
 
@@ -78,10 +78,10 @@ namespace sdw
 
 	//*************************************************************************
 
-	MeshSubgroupIn::MeshSubgroupIn( ShaderWriter & writer
+	MeshSubgroupInEXT::MeshSubgroupInEXT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: MeshIn{ writer, std::move( expr ), enabled }
+		: MeshInEXT{ writer, std::move( expr ), enabled }
 		, numSubgroups{ getUIntMember( *this, ast::Builtin::eNumSubgroups ) }
 		, subgroupID{ getUIntMember( *this, ast::Builtin::eSubgroupID ) }
 		, subgroupSize{ getUIntMember( *this, ast::Builtin::eSubgroupSize ) }
@@ -94,11 +94,11 @@ namespace sdw
 	{
 	}
 
-	MeshSubgroupIn::MeshSubgroupIn( ShaderWriter & writer
+	MeshSubgroupInEXT::MeshSubgroupInEXT( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: MeshSubgroupIn{ writer
+		: MeshSubgroupInEXT{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "meshSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
@@ -109,9 +109,9 @@ namespace sdw
 	{
 	}
 
-	ast::type::StructPtr MeshSubgroupIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr MeshSubgroupInEXT::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = std::static_pointer_cast< ast::type::IOStruct >( MeshIn::makeType( cache ) );
+		auto result = std::static_pointer_cast< ast::type::IOStruct >( MeshInEXT::makeType( cache ) );
 
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{

@@ -25,7 +25,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eTaskEntryPoint
 			, function
-			, makeInParam( TaskIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( TaskInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeParam( std::move( payload ) ) );
 	}
 
@@ -39,7 +39,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eTaskEntryPoint
 			, function
-			, makeInParam( TaskSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( TaskSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeParam( std::move( payload ) ) );
 	}
 

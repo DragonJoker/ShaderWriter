@@ -453,7 +453,7 @@ namespace
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
-				, [&]( TaskIn in
+				, [&]( TaskInEXT in
 					, TaskPayloadOutEXTT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
@@ -576,12 +576,12 @@ namespace
 
 			writer.implementMainT< PayloadT >( ThreadsPerWave, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
-				, [&]( TaskIn in
+				, [&]( TaskInEXT in
 					, TaskPayloadOutEXTT< PayloadT > payload )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto dtid = in.globalInvocationID.x();
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 
 					auto visible = writer.declLocale( "visible", Boolean{ false } );
 
@@ -624,7 +624,7 @@ namespace
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
-			, [&]( TaskSubgroupIn in
+			, [&]( TaskSubgroupInEXT in
 				, TaskPayloadOutEXTT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;
@@ -647,7 +647,7 @@ namespace
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
-			, [&]( TaskSubgroupIn in
+			, [&]( TaskSubgroupInEXT in
 				, TaskPayloadOutEXTT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;

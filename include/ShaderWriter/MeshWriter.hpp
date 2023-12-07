@@ -21,6 +21,9 @@ namespace sdw
 
 	using MeshWriter = MeshWriterEXT;
 
+	using MeshIn = sdw::MeshInEXT;
+	using MeshSubgroupIn = sdw::MeshSubgroupInEXT;
+
 	template< template< ast::var::Flag FlagT > typename DataT >
 	using PointsMeshPrimitiveListOutT = PointsMeshEXTPrimitiveListOutT< DataT >;
 	template< template< ast::var::Flag FlagT > typename DataT >
@@ -60,6 +63,9 @@ namespace sdw
 #	define SDW_MeshLocalSize( x, y, z ) x * y * z
 
 	using MeshWriter = sdw::MeshWriterNV;
+
+	using MeshIn = sdw::MeshInNV;
+	using MeshSubgroupIn = sdw::MeshSubgroupInNV;
 
 	template< template< ast::var::Flag FlagT > typename DataT >
 	using PointsMeshPrimitiveListOutT = PointsMeshNVPrimitiveListOutT< DataT >;

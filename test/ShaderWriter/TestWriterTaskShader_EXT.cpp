@@ -582,9 +582,9 @@ namespace
 			, [&]( TaskIn in
 				, TaskPayloadOutT< PayloadT > payload )
 			{
-				auto dtid = in.globalInvocationID;
-				auto gid = in.workGroupID;
-				auto gtid = in.localInvocationID;
+				auto dtid = in.globalInvocationID.x();
+				auto gid = in.workGroupID.x();
+				auto gtid = in.localInvocationID.x();
 
 				auto visible = writer.declLocale( "visible", Boolean{ false } );
 

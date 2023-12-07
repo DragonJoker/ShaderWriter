@@ -3448,7 +3448,7 @@ namespace
 			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u
 				, 64u
 				, 126u
-				, [&]( MeshIn in
+				, [&]( MeshInNV in
 					, TaskPayloadInNVT< PayloadT > payload
 					, MeshVertexListOutT< VoidT > vtxOut
 					, TrianglesMeshNVPrimitiveListOutT< VoidT > primOut )
@@ -3472,7 +3472,7 @@ namespace
 			writer.implementMainT< PayloadT, VoidT, VoidT >( 32u, 1u, 1u
 				, 64u
 				, 126u
-				, [&]( MeshIn in
+				, [&]( MeshInEXT in
 					, TaskPayloadInEXTT< PayloadT > payload
 					, MeshVertexListOutT< VoidT > vtxOut
 					, TrianglesMeshEXTPrimitiveListOutT< VoidT > primOut )
@@ -3497,7 +3497,7 @@ namespace
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-				, [&]( TaskIn in
+				, [&]( TaskInNV in
 					, TaskPayloadOutNVT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
@@ -3517,11 +3517,11 @@ namespace
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u, 1u, 1u
 				, TaskPayloadOutEXTT< PayloadT >{ writer }
-				, [&]( TaskIn in
+				, [&]( TaskInEXT in
 					, TaskPayloadOutEXTT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
-					writer.dispatchMesh( 1_u, 1_u, 1_u, payload );
+					payload.dispatchMesh( 1_u, 1_u, 1_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );

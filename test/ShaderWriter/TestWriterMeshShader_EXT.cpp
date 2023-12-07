@@ -1123,8 +1123,8 @@ namespace
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 					auto m = writer.declLocale( "m", meshlets[meshInfo.meshletOffset + gid] );
 
 					primOut.setMeshOutputCounts( m.vertCount, m.primCount );
@@ -1253,7 +1253,7 @@ namespace
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
-					auto gid = in.workGroupID;
+					auto gid = in.workGroupID.x();
 					auto gtid = in.localInvocationIndex;
 					auto meshletIndex = writer.declLocale( "meshletIndex", gid /drawParams.instanceCount );
 					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
@@ -1442,9 +1442,9 @@ namespace
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto dtid = in.globalInvocationID.x();
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 					// Load the meshlet from the AS payload data
 					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
 
@@ -1574,9 +1574,9 @@ namespace
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto dtid = in.globalInvocationID.x();
+					auto gid = in.workGroupID.x();
+					auto gtid = in.localInvocationID.x();
 					// Load the meshlet from the AS payload data
 					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
 
