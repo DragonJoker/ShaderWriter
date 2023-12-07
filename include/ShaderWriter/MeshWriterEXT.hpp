@@ -22,15 +22,15 @@ namespace sdw
 	/**
 	*	Holds input intrinsics for a mesh shader.
 	*/
-	struct MeshIn
+	struct MeshInEXT
 		: public StructInstance
 	{
 		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
 
-		SDW_API MeshIn( ShaderWriter & writer
+		SDW_API MeshInEXT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
-		SDW_API MeshIn( ShaderWriter & writer
+		SDW_API MeshInEXT( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ );
@@ -42,58 +42,58 @@ namespace sdw
 		//in uint  gl_MeshViewIndicesNV[];
 		Array< UInt32 > const meshViewIndices;
 		//in uint  gl_DrawID;
-		Int32 const drawID;
+		UInt32 const drawID;
 		//const uvec3 gl_WorkGroupSize;
-		UInt32 const workGroupSize;
+		U32Vec3 const workGroupSize;
 		//in uvec3 gl_WorkGroupID / SV_GroupID;
-		UInt32 const workGroupID;
+		U32Vec3 const workGroupID;
 		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
-		UInt32 const localInvocationID;
+		U32Vec3 const localInvocationID;
 		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
-		UInt32 const globalInvocationID;
+		U32Vec3 const globalInvocationID;
 		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
 	};
 	/**
 	*	Holds input data for a mesh subgroup shader.
 	*/
-	struct MeshSubgroupIn
-		: private MeshIn
+	struct MeshSubgroupInEXT
+		: private MeshInEXT
 	{
-		SDW_API MeshSubgroupIn( ShaderWriter & writer
+		SDW_API MeshSubgroupInEXT( ShaderWriter & writer
 			, uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ );
-		SDW_API MeshSubgroupIn( ShaderWriter & writer
+		SDW_API MeshSubgroupInEXT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		using MeshIn::updateContainer;
-		using MeshIn::getContainer;
-		using MeshIn::updateExpr;
-		using MeshIn::getType;
-		using MeshIn::getExpr;
-		using MeshIn::getWriter;
-		using MeshIn::getBuilder;
-		using MeshIn::isEnabled;
+		using MeshInEXT::updateContainer;
+		using MeshInEXT::getContainer;
+		using MeshInEXT::updateExpr;
+		using MeshInEXT::getType;
+		using MeshInEXT::getExpr;
+		using MeshInEXT::getWriter;
+		using MeshInEXT::getBuilder;
+		using MeshInEXT::isEnabled;
 
-		using MeshIn::meshViewCount;
+		using MeshInEXT::meshViewCount;
 		//in uint  gl_MeshViewIndicesNV[];
-		using MeshIn::meshViewIndices;
+		using MeshInEXT::meshViewIndices;
 		//in uint  gl_DrawID;
-		using MeshIn::drawID;
+		using MeshInEXT::drawID;
 		//const uvec3 gl_WorkGroupSize;
-		using MeshIn::workGroupSize;
+		using MeshInEXT::workGroupSize;
 		//in uvec3 gl_WorkGroupID / SV_GroupID;
-		using MeshIn::workGroupID;
+		using MeshInEXT::workGroupID;
 		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
-		using MeshIn::localInvocationID;
+		using MeshInEXT::localInvocationID;
 		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
-		using MeshIn::globalInvocationID;
+		using MeshInEXT::globalInvocationID;
 		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
-		using MeshIn::localInvocationIndex;
+		using MeshInEXT::localInvocationIndex;
 
 		//in uint gl_NumSubgroups;
 		UInt32 const numSubgroups;
@@ -290,7 +290,7 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT
 		, ast::type::OutputTopology TopologyT >
-	using MeshEXTMainFuncT = std::function< void( MeshIn
+	using MeshEXTMainFuncT = std::function< void( MeshInEXT
 		, TaskPayloadInEXTT< PayloadT >
 		, MeshVertexListOutT< VertexT >
 		, MeshEXTPrimitiveListOutT< PrimitiveT, TopologyT > ) >;
@@ -298,7 +298,7 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT
 		, ast::type::OutputTopology TopologyT >
-	using MeshEXTSubgroupMainFuncT = std::function< void( MeshSubgroupIn
+	using MeshEXTSubgroupMainFuncT = std::function< void( MeshSubgroupInEXT
 		, TaskPayloadInEXTT< PayloadT >
 		, MeshVertexListOutT< VertexT >
 		, MeshEXTPrimitiveListOutT< PrimitiveT, TopologyT > ) >;

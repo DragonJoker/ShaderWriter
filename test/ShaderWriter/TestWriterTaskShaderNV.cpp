@@ -453,7 +453,7 @@ namespace
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-				, [&]( TaskIn in
+				, [&]( TaskInNV in
 					, TaskPayloadOutNVT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
@@ -574,7 +574,7 @@ namespace
 
 			writer.implementMainT< PayloadT >( ThreadsPerWave
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-				, [&]( TaskIn in
+				, [&]( TaskInNV in
 					, TaskPayloadOutNVT< PayloadT > payload )
 				{
 					auto dtid = in.globalInvocationID;
@@ -620,7 +620,7 @@ namespace
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-			, [&]( TaskSubgroupIn in
+			, [&]( TaskSubgroupInNV in
 				, TaskPayloadOutNVT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;
@@ -641,7 +641,7 @@ namespace
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
 			writer.implementMainT< PayloadT >( 32u
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-			, [&]( TaskSubgroupIn in
+			, [&]( TaskSubgroupInNV in
 				, TaskPayloadOutNVT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;

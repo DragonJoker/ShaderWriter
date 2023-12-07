@@ -728,11 +728,11 @@ namespace
 		// Task Shader
 		writer.implementEntryPointT< mesh::PayloadT >( mesh::ThreadsPerWave, 1u, 1u
 			, sdw::TaskPayloadOutEXTT< mesh::PayloadT >{ writer }
-			, [&]( sdw::TaskSubgroupIn in
+			, [&]( sdw::TaskSubgroupInEXT in
 				, sdw::TaskPayloadOutEXTT< mesh::PayloadT > payload )
 			{
-				auto laneId = writer.declLocale( "laneId", in.localInvocationID );
-				auto baseId = writer.declLocale( "baseId", in.workGroupID );
+				auto laneId = writer.declLocale( "laneId", in.localInvocationID.x() );
+				auto baseId = writer.declLocale( "baseId", in.workGroupID.x() );
 				auto meshletId = writer.declLocale( "meshletId", ( baseId * 32u + laneId ) );
 				auto visible = writer.declLocale( "visible"
 					, isVisible( meshletCullData[meshletId] ) );
@@ -755,12 +755,12 @@ namespace
 			, sdw::TaskPayloadInEXTT< mesh::PayloadT >{ writer }
 			, sdw::MeshVertexListOutT< common::ColourT >{ writer, 252u }
 			, sdw::TrianglesMeshEXTPrimitiveListOut{ writer, 84u }
-			, [&]( sdw::MeshSubgroupIn in
+			, [&]( sdw::MeshSubgroupInEXT in
 				, sdw::TaskPayloadInEXTT< mesh::PayloadT > payload
 				, sdw::MeshVertexListOutT< common::ColourT > vtxOut
 				, sdw::TrianglesMeshEXTPrimitiveListOut primOut )
 			{
-				auto laneId = writer.declLocale( "laneId", in.localInvocationID );
+				auto laneId = writer.declLocale( "laneId", in.localInvocationID.x() );
 				auto meshletId = writer.declLocale( "meshletId", payload.meshletIndices()[laneId] );
 				auto meshlet = writer.declLocale( "meshlet", meshlets[meshletId] );
 
@@ -836,7 +836,7 @@ namespace
 		// Task Shader
 		writer.implementEntryPointT< mesh::PayloadT >( mesh::ThreadsPerWave
 			, sdw::TaskPayloadOutNVT< mesh::PayloadT >{ writer }
-			, [&]( sdw::TaskSubgroupIn in
+			, [&]( sdw::TaskSubgroupInNV in
 				, sdw::TaskPayloadOutNVT< mesh::PayloadT > payload )
 			{
 				auto laneId = writer.declLocale( "laneId", in.localInvocationID );
@@ -863,7 +863,7 @@ namespace
 			, sdw::TaskPayloadInNVT< mesh::PayloadT >{ writer }
 			, sdw::MeshVertexListOutT< common::ColourT >{ writer, 252u }
 			, sdw::TrianglesMeshNVPrimitiveListOut{ writer, 84u }
-			, [&]( sdw::MeshSubgroupIn in
+			, [&]( sdw::MeshSubgroupInNV in
 				, sdw::TaskPayloadInNVT< mesh::PayloadT > payload
 				, sdw::MeshVertexListOutT< common::ColourT > vtxOut
 				, sdw::TrianglesMeshNVPrimitiveListOut primOut )

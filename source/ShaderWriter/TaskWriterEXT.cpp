@@ -8,24 +8,24 @@ namespace sdw
 {
 	//*************************************************************************
 
-	TaskIn::TaskIn( ShaderWriter & writer
+	TaskInEXT::TaskInEXT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: StructInstance{ writer, std::move( expr ), enabled }
-		, drawID{ getInt32Member( *this, ast::Builtin::eDrawIndex ) }
-		, workGroupSize{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupSize ).x() }
-		, workGroupID{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupID ).x() }
-		, localInvocationID{ getU32Vec3Member( *this, ast::Builtin::eLocalInvocationID ).x() }
-		, globalInvocationID{ getU32Vec3Member( *this, ast::Builtin::eGlobalInvocationID ).x() }
+		, drawID{ getUInt32Member( *this, ast::Builtin::eDrawIndex ) }
+		, workGroupSize{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupSize ) }
+		, workGroupID{ getU32Vec3Member( *this, ast::Builtin::eWorkGroupID ) }
+		, localInvocationID{ getU32Vec3Member( *this, ast::Builtin::eLocalInvocationID ) }
+		, globalInvocationID{ getU32Vec3Member( *this, ast::Builtin::eGlobalInvocationID ) }
 		, localInvocationIndex{ getUInt32Member( *this, ast::Builtin::eLocalInvocationIndex ) }
 	{
 	}
 
-	TaskIn::TaskIn( ShaderWriter & writer
+	TaskInEXT::TaskInEXT( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: TaskIn{ writer
+		: TaskInEXT{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "taskIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
@@ -36,7 +36,7 @@ namespace sdw
 	{
 	}
 
-	ast::type::StructPtr TaskIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr TaskInEXT::makeType( ast::type::TypesCache & cache )
 	{
 		auto result = cache.getIOStruct( "SDW_Main"
 			, ast::EntryPoint::eTask
@@ -60,7 +60,7 @@ namespace sdw
 				, type::Kind::eUInt32
 				, ast::type::NotArray );
 			result->declMember( ast::Builtin::eDrawIndex
-				, type::Kind::eInt32
+				, type::Kind::eUInt32
 				, ast::type::NotArray );
 		}
 
@@ -69,10 +69,10 @@ namespace sdw
 
 	//*************************************************************************
 
-	TaskSubgroupIn::TaskSubgroupIn( ShaderWriter & writer
+	TaskSubgroupInEXT::TaskSubgroupInEXT( ShaderWriter & writer
 		, ast::expr::ExprPtr expr
 		, bool enabled )
-		: TaskIn{ writer, std::move( expr ), enabled }
+		: TaskInEXT{ writer, std::move( expr ), enabled }
 		, numSubgroups{ getUInt32Member( *this, ast::Builtin::eNumSubgroups ) }
 		, subgroupID{ getUInt32Member( *this, ast::Builtin::eSubgroupID ) }
 		, subgroupSize{ getUInt32Member( *this, ast::Builtin::eSubgroupSize ) }
@@ -85,11 +85,11 @@ namespace sdw
 	{
 	}
 
-	TaskSubgroupIn::TaskSubgroupIn( ShaderWriter & writer
+	TaskSubgroupInEXT::TaskSubgroupInEXT( ShaderWriter & writer
 		, uint32_t localSizeX
 		, uint32_t localSizeY
 		, uint32_t localSizeZ )
-		: TaskSubgroupIn{ writer
+		: TaskSubgroupInEXT{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "taskSubgroupIn"
 					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
@@ -100,9 +100,9 @@ namespace sdw
 	{
 	}
 
-	ast::type::StructPtr TaskSubgroupIn::makeType( ast::type::TypesCache & cache )
+	ast::type::StructPtr TaskSubgroupInEXT::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = std::static_pointer_cast< ast::type::IOStruct >( TaskIn::makeType( cache ) );
+		auto result = std::static_pointer_cast< ast::type::IOStruct >( TaskInEXT::makeType( cache ) );
 
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{

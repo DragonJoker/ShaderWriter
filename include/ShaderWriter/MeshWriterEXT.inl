@@ -252,7 +252,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPoint
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( MeshInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -289,7 +289,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPoint
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( MeshSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -330,7 +330,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPoint
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( MeshInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -367,7 +367,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPoint
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( MeshSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -408,7 +408,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPoint
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( MeshInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -445,7 +445,7 @@ namespace sdw
 		( void )implementFunction< Void >( "main"
 			, ast::stmt::FunctionFlag::eMeshEntryPoint
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, localSizeY, localSizeZ } )
+			, makeInParam( MeshSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );

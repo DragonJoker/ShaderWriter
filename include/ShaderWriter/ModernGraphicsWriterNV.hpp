@@ -31,11 +31,11 @@ namespace sdw
 		*/
 		/**@{*/
 		template< template< ast::var::Flag FlagT > typename PayloadT >
-		void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t taskCount
 			, TaskPayloadOutNVT< PayloadT > payload
 			, TaskNVMainFuncT< PayloadT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT >
-		void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t taskCount
 			, TaskPayloadOutNVT< PayloadT > payload
 			, TaskNVSubgroupMainFuncT< PayloadT > const & function );
 		/**@}*/
@@ -59,14 +59,14 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, PointsMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, TaskPayloadInNVT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, PointsMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -74,14 +74,14 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, PointsMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, TaskPayloadInNVT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, PointsMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -96,14 +96,14 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, LinesMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, TaskPayloadInNVT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, LinesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -111,14 +111,14 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, LinesMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, TaskPayloadInNVT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, LinesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -133,14 +133,14 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, TrianglesMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, TaskPayloadInNVT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, TrianglesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -148,14 +148,14 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives
 			, TrianglesMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function );
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		inline void implementEntryPointT( uint32_t numGroups
 			, TaskPayloadInNVT< PayloadT > payloadIn
 			, MeshVertexListOutT< VertexT > verticesOut
 			, TrianglesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut

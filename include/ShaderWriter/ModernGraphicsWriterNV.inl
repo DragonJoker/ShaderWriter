@@ -18,26 +18,26 @@ namespace sdw
 	*/
 	/**@{*/
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t taskCount
 		, TaskPayloadOutNVT< PayloadT > payload
 		, TaskNVMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "mainTask"
 			, ast::stmt::FunctionFlag::eTaskEntryPointNV
 			, function
-			, makeInParam( TaskIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( TaskInNV{ *this, taskCount } )
 			, makeParam( std::move( payload ) ) );
 	}
 
 	template< template< ast::var::Flag FlagT > typename PayloadT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t taskCount
 		, TaskPayloadOutNVT< PayloadT > payload
 		, TaskNVSubgroupMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "mainTask"
 			, ast::stmt::FunctionFlag::eTaskEntryPointNV
 			, function
-			, makeInParam( TaskSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( TaskSubgroupInNV{ *this, taskCount } )
 			, makeParam( std::move( payload ) ) );
 	}
 	/**@}*/
@@ -66,12 +66,12 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, PointsMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementEntryPointT( localSizeX
+		this->implementEntryPointT( numGroups
 			, TaskPayloadInNVT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, PointsMeshNVPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -81,7 +81,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, TaskPayloadInNVT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, PointsMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -90,7 +90,7 @@ namespace sdw
 		( void )implementFunction< Void >( "mainMesh"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshInEXT{ *this, numGroups, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -99,12 +99,12 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, PointsMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementEntryPointT( localSizeX
+		this->implementEntryPointT( numGroups
 			, TaskPayloadInNVT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, PointsMeshNVPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -114,7 +114,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, TaskPayloadInNVT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, PointsMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -123,7 +123,7 @@ namespace sdw
 		( void )implementFunction< Void >( "mainMesh"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshSubgroupInNV{ *this, numGroups, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -136,12 +136,12 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, LinesMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementEntryPointT( localSizeX
+		this->implementEntryPointT( numGroups
 			, TaskPayloadInNVT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, LinesMeshNVPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -151,7 +151,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, TaskPayloadInNVT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, LinesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -160,7 +160,7 @@ namespace sdw
 		( void )implementFunction< Void >( "mainMesh"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshInEXT{ *this, numGroups, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -169,12 +169,12 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, LinesMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementEntryPointT( localSizeX
+		this->implementEntryPointT( numGroups
 			, TaskPayloadInNVT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, LinesMeshNVPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -184,7 +184,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, TaskPayloadInNVT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, LinesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -193,7 +193,7 @@ namespace sdw
 		( void )implementFunction< Void >( "mainMesh"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshSubgroupInNV{ *this, numGroups, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -206,12 +206,12 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, TrianglesMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementEntryPointT( localSizeX
+		this->implementEntryPointT( numGroups
 			, TaskPayloadInNVT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, TrianglesMeshNVPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -221,7 +221,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, TaskPayloadInNVT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, TrianglesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -230,7 +230,7 @@ namespace sdw
 		( void )implementFunction< Void >( "mainMesh"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshInEXT{ *this, numGroups, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );
@@ -239,12 +239,12 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, uint32_t maxVertices
 		, uint32_t maxPrimitives
 		, TrianglesMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
-		this->implementEntryPointT( localSizeX
+		this->implementEntryPointT( numGroups
 			, TaskPayloadInNVT< PayloadT >{ *this }
 			, MeshVertexListOutT< VertexT >{ *this, maxVertices }
 			, TrianglesMeshNVPrimitiveListOutT< PrimitiveT >{ *this, maxPrimitives }
@@ -254,7 +254,7 @@ namespace sdw
 	template< template< ast::var::Flag FlagT > typename PayloadT
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT >
-	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t localSizeX
+	void ModernGraphicsWriterNV::implementEntryPointT( uint32_t numGroups
 		, TaskPayloadInNVT< PayloadT > payloadIn
 		, MeshVertexListOutT< VertexT > verticesOut
 		, TrianglesMeshNVPrimitiveListOutT< PrimitiveT > primitivesOut
@@ -263,7 +263,7 @@ namespace sdw
 		( void )implementFunction< Void >( "mainMesh"
 			, ast::stmt::FunctionFlag::eMeshEntryPointNV
 			, function
-			, makeInParam( MeshSubgroupIn{ *this, localSizeX, 1u, 1u } )
+			, makeInParam( MeshSubgroupInNV{ *this, numGroups, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
 			, makeOutParam( std::move( verticesOut ) )
 			, makeOutParam( std::move( primitivesOut ) ) );

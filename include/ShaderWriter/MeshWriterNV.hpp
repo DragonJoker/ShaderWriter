@@ -15,6 +15,106 @@ namespace sdw
 	*/
 	/**@{*/
 	/**
+	*	Holds input intrinsics for a mesh shader.
+	*/
+	struct MeshInNV
+		: public StructInstance
+	{
+		static constexpr ast::var::Flag FlagT = ast::var::Flag::eShaderInput;
+
+		SDW_API MeshInNV( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+		SDW_API MeshInNV( ShaderWriter & writer
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ );
+
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
+
+		//in uint  gl_MeshViewCountNV;
+		UInt32 const meshViewCount;
+		//in uint  gl_MeshViewIndicesNV[];
+		Array< UInt32 > const meshViewIndices;
+		//in uint  gl_DrawID;
+		UInt32 const drawID;
+		//const uvec3 gl_WorkGroupSize;
+		UInt32 const workGroupSize;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
+		UInt32 const workGroupID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
+		UInt32 const localInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
+		UInt32 const globalInvocationID;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
+		UInt32 const localInvocationIndex;
+	};
+	/**
+	*	Holds input data for a mesh subgroup shader.
+	*/
+	struct MeshSubgroupInNV
+		: private MeshInNV
+	{
+		SDW_API MeshSubgroupInNV( ShaderWriter & writer
+			, uint32_t localSizeX
+			, uint32_t localSizeY
+			, uint32_t localSizeZ );
+		SDW_API MeshSubgroupInNV( ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled = true );
+
+		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
+
+		using MeshInNV::updateContainer;
+		using MeshInNV::getContainer;
+		using MeshInNV::updateExpr;
+		using MeshInNV::getType;
+		using MeshInNV::getExpr;
+		using MeshInNV::getWriter;
+		using MeshInNV::getBuilder;
+		using MeshInNV::isEnabled;
+
+		using MeshInNV::meshViewCount;
+		//in uint  gl_MeshViewIndicesNV[];
+		using MeshInNV::meshViewIndices;
+		//in uint  gl_DrawID;
+		using MeshInNV::drawID;
+		//const uvec3 gl_WorkGroupSize;
+		using MeshInNV::workGroupSize;
+		//in uvec3 gl_WorkGroupID / SV_GroupID;
+		using MeshInNV::workGroupID;
+		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
+		using MeshInNV::localInvocationID;
+		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
+		using MeshInNV::globalInvocationID;
+		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
+		using MeshInNV::localInvocationIndex;
+
+		//in uint gl_NumSubgroups;
+		UInt32 const numSubgroups;
+		//in uint gl_SubgroupID;
+		UInt32 const subgroupID;
+		//in uint gl_SubgroupSize;
+		UInt32 const subgroupSize;
+		//in uint gl_SubgroupInvocationID;
+		UInt32 const subgroupInvocationID;
+		//in uvec4 gl_SubgroupEqMask;
+		U32Vec4 const subgroupEqMask;
+		//const uvec4 gl_SubgroupGeMask;
+		U32Vec4 const subgroupGeMask;
+		//const uvec4 gl_SubgroupGtMask;
+		U32Vec4 const subgroupGtMask;
+		//const uvec4 gl_SubgroupLeMask;
+		U32Vec4 const subgroupLeMask;
+		//const uvec4 gl_SubgroupLtMask;
+		U32Vec4 const subgroupLtMask;
+	};
+	/**
+	*name
+	*	Mesh.
+	*/
+	/**@{*/
+	/**
 	*	Prevents per primitive and per vertex outputs to be registered using the same base type
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT
@@ -106,7 +206,7 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT
 		, ast::type::OutputTopology TopologyT >
-	using MeshNVMainFuncT = std::function< void( MeshIn
+	using MeshNVMainFuncT = std::function< void( MeshInNV
 		, TaskPayloadInNVT< PayloadT >
 		, MeshVertexListOutT< VertexT >
 		, MeshNVPrimitiveListOutT< PrimitiveT, TopologyT > ) >;
@@ -114,7 +214,7 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename VertexT
 		, template< ast::var::Flag FlagT > typename PrimitiveT
 		, ast::type::OutputTopology TopologyT >
-	using MeshNVSubgroupMainFuncT = std::function< void( MeshSubgroupIn
+	using MeshNVSubgroupMainFuncT = std::function< void( MeshSubgroupInNV
 		, TaskPayloadInNVT< PayloadT >
 		, MeshVertexListOutT< VertexT >
 		, MeshNVPrimitiveListOutT< PrimitiveT, TopologyT > ) >;
