@@ -15,13 +15,13 @@ namespace sdw
 	{
 		ReturnWrapperT( ReturnWrapperT const & rhs ) = delete;
 		ReturnWrapperT & operator=( ReturnWrapperT const & rhs ) = delete;
-		ReturnWrapperT & operator=( ReturnWrapperT && rhs ) = delete;
+		ReturnWrapperT & operator=( ReturnWrapperT && rhs )noexcept = delete;
 
 		ReturnWrapperT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 		explicit ReturnWrapperT( ValueT const & rhs );
-		ReturnWrapperT( ReturnWrapperT && rhs );
+		ReturnWrapperT( ReturnWrapperT && rhs )noexcept;
 		~ReturnWrapperT()override;
 
 		type::TypePtr getType()const override;

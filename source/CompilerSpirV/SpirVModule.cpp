@@ -23,7 +23,7 @@ namespace spirv
 {
 	//*************************************************************************
 
-	namespace module
+	namespace spvmodule
 	{
 		static ast::Map< std::string, VariableInfo >::iterator addVariable( NamesCache & nameCache
 			, TypeId varTypeId
@@ -47,7 +47,7 @@ namespace spirv
 		template< typename LitT >
 		static DebugId registerLiteral( LitT value
 			, ast::type::TypePtr valueType
-			, Module & module
+			, Module & shaderModule
 			, ast::Map< LitT, DebugId > & registeredLitConstants
 			, ast::UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > & registeredConstants )
 		{
@@ -55,10 +55,10 @@ namespace spirv
 
 			if ( it == registeredLitConstants.end() )
 			{
-				auto type = module.getTypes().registerType( valueType, nullptr );
-				DebugId result{ module.getNextId(), type->type };
+				auto type = shaderModule.getTypes().registerType( valueType, nullptr );
+				DebugId result{ shaderModule.getNextId(), type->type };
 				result.debug = result.id;
-				module.constantsTypes.push_back( makeInstruction< ConstantInstruction >( module.getNameCache()
+				shaderModule.constantsTypes.push_back( makeInstruction< ConstantInstruction >( shaderModule.getNameCache()
 					, type.id
 					, result.id
 					, makeOperands( registeredConstants.get_allocator().getAllocator(), ValueId{ spv::Id( value ) } ) ) );
@@ -289,16 +289,16 @@ namespace spirv
 		return Module{ allocator, typesCache, names, header, std::move( instructions ) };
 	}
 
-	std::string spirv::Module::write( spirv::Module const & module
+	std::string spirv::Module::write( spirv::Module const & shaderModule
 		, NameCache & names
 		, bool writeHeader )
 	{
-		return spirv::write( module, names, writeHeader );
+		return spirv::write( shaderModule, names, writeHeader );
 	}
 
-	UInt32List spirv::Module::serialize( spirv::Module const & module )
+	UInt32List spirv::Module::serialize( spirv::Module const & shaderModule )
 	{
-		return spirv::serialize( module );
+		return spirv::serialize( shaderModule );
 	}
 
 	TypeId Module::registerType( ast::type::TypePtr type
@@ -1683,7 +1683,7 @@ namespace spirv
 		if ( varId.getStorage() == ast::type::Storage::eFunction
 			&& m_currentFunction )
 		{
-			it = module::addVariable( getNameCache()
+			it = spvmodule::addVariable( getNameCache()
 				, varTypeId
 				, varId
 				, name
@@ -1693,7 +1693,7 @@ namespace spirv
 		}
 		else
 		{
-			it = module::addVariable( getNameCache()
+			it = spvmodule::addVariable( getNameCache()
 				, varTypeId
 				, varId
 				, name

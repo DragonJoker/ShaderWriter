@@ -23,7 +23,7 @@ namespace sdw
 		, bool enabled )
 		: m_expr{ std::move( expr ) }
 		, m_writer{ &writer }
-		, m_container{ m_writer ? m_writer->getBuilder().getContainer() : nullptr }
+		, m_container{ m_writer->getBuilder().getContainer() }
 		, m_enabled{ enabled }
 	{
 	}
@@ -85,49 +85,30 @@ namespace sdw
 
 	void Value::doCopy( Value const & rhs )
 	{
-		if ( rhs.isEnabled() && m_expr && !m_expr->isConstant() )
+		if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
 		{
-			if ( getContainer() )
-			{
-				if ( isEnabled() )
-				{
-					ShaderWriter & writer = findWriterMandat( *this, rhs );
-					addStmt( writer
-						, sdw::makeSimple( getStmtCache( writer )
-							, sdw::makeAssign( getType()
-							, makeExpr( writer, *this )
-							, makeExpr( writer, rhs ) ) ) );
-				}
-			}
-			else
-			{
-				Value::operator=( rhs );
-			}
+			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );
+			sdw::addStmt( writer
+				, sdw::makeSimple( getStmtCache( writer )
+					, sdw::makeAssign( getType()
+						, sdw::makeExpr( writer, *this )
+						, sdw::makeExpr( writer, rhs ) ) ) );
 		}
 	}
 
 	void Value::doMove( Value && rhs )
 	{
-		if ( rhs.isEnabled() && m_expr && !m_expr->isConstant() )
+		if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
 		{
-			if ( getContainer() )
-			{
-				if ( isEnabled() )
-				{
-					ShaderWriter & writer = findWriterMandat( *this, rhs );
-					addStmt( writer
-						, sdw::makeSimple( getStmtCache( writer )
-							, sdw::makeAssign( getType()
-							, makeExpr( writer, *this )
-							, std::move( rhs.m_expr ) ) ) );
-				}
-			}
-			else
-			{
-				Value::operator=( std::move( rhs ) );
-			}
+			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );
+			sdw::addStmt( writer
+				, sdw::makeSimple( getStmtCache( writer )
+					, sdw::makeAssign( getType()
+						, sdw::makeExpr( writer, *this )
+						, std::move( rhs.m_expr ) ) ) );
 		}
 	}
+
 	//*****************************************************************************************
 
 	expr::ExprPtr getDummyExpr( ShaderWriter const & writer

@@ -366,7 +366,7 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
+				, Module & shaderModule
 				, glsl::Statement * currentDebugStatement )
 			{
 				bool allLiterals{ false };
@@ -374,7 +374,7 @@ namespace spirv
 					, expr
 					, context
 					, currentBlock
-					, module
+					, shaderModule
 					, allLiterals
 					, currentDebugStatement );
 			}
@@ -383,7 +383,7 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
+				, Module & shaderModule
 				, DebugId initialiser
 				, bool hasFuncInit
 				, glsl::Statement * currentDebugStatement )
@@ -393,7 +393,7 @@ namespace spirv
 					, expr
 					, context
 					, currentBlock
-					, module
+					, shaderModule
 					, allLiterals
 					, initialiser
 					, hasFuncInit
@@ -404,7 +404,7 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
+				, Module & shaderModule
 				, bool & allLiterals
 				, glsl::Statement * currentDebugStatement )
 			{
@@ -413,14 +413,14 @@ namespace spirv
 					, exprCache
 					, context
 					, currentBlock
-					, module
+					, shaderModule
 					, allLiterals
 					, currentDebugStatement };
 				expr->accept( &vis );
 
 				if ( expr->isNonUniform() )
 				{
-					module.decorate( result, spv::DecorationNonUniform );
+					shaderModule.decorate( result, spv::DecorationNonUniform );
 				}
 
 				return result;
@@ -430,7 +430,7 @@ namespace spirv
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
+				, Module & shaderModule
 				, bool & allLiterals
 				, DebugId initialiser
 				, bool hasFuncInit
@@ -441,7 +441,7 @@ namespace spirv
 					, exprCache
 					, context
 					, currentBlock
-					, module
+					, shaderModule
 					, allLiterals
 					, initialiser
 					, hasFuncInit
@@ -455,18 +455,18 @@ namespace spirv
 				, ast::expr::ExprCache & exprCache
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
+				, Module & shaderModule
 				, bool & allLiterals
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
-				, m_typesCache{ module.getTypesCache() }
+				, m_typesCache{ shaderModule.getTypesCache() }
 				, m_currentDebugStatement{ currentDebugStatement }
 				, m_result{ result }
 				, m_currentBlock{ currentBlock }
-				, m_module{ module }
+				, m_module{ shaderModule }
 				, m_allLiterals{ allLiterals }
-				, m_allocator{ module.allocator }
+				, m_allocator{ shaderModule.allocator }
 				, m_initialiser{ 0u }
 				, m_hasFuncInit{ false }
 			{
@@ -476,18 +476,18 @@ namespace spirv
 				, ast::expr::ExprCache & exprCache
 				, PreprocContext const & context
 				, Block & currentBlock
-				, Module & module
+				, Module & shaderModule
 				, bool & allLiterals
 				, DebugId initialiser
 				, bool hasFuncInit
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
-				, m_typesCache{ module.getTypesCache() }
+				, m_typesCache{ shaderModule.getTypesCache() }
 				, m_currentDebugStatement{ currentDebugStatement }
 				, m_result{ result }
 				, m_currentBlock{ currentBlock }
-				, m_module{ module }
+				, m_module{ shaderModule }
 				, m_allLiterals{ allLiterals }
 				, m_initialiser{ initialiser }
 				, m_hasFuncInit{ hasFuncInit }
@@ -1077,7 +1077,7 @@ namespace spirv
 				{
 					m_result = DebugId{ m_context.workGroupSizeExpr };
 				}
-				else if ( var->isMember() )
+				else if ( var->isMemberVar() )
 				{
 					m_result = makeAccessChain( m_exprCache
 						, expr
@@ -1466,7 +1466,7 @@ namespace spirv
 					, m_currentBlock
 					, m_module
 					, m_currentDebugStatement );
-				auto var = expr->getLHS()->getVariable();
+				auto var = expr->getIdentifier()->getVariable();
 				registerAlias( var->getName()
 					, var->getType()
 					, m_result );
@@ -1763,9 +1763,9 @@ namespace spirv
 						throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
 					}
 
-					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
-					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
-					params.push_back( registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) ) ) );
+					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) ) ) );
+					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) ) ) );
+					params.push_back( registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[2] ) ) ) );
 				}
 				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
 				{
@@ -1774,8 +1774,8 @@ namespace spirv
 						throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
 					}
 
-					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) ) ) );
-					params.push_back( registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) ) ) );
+					params.push_back( registerLiteral( spv::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) ) ) );
+					params.push_back( registerLiteral( spv::MemorySemanticsMask( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) ) ) );
 				}
 
 				m_currentBlock.instructions.emplace_back( makeIntrinsicInstruction( getNameCache()
@@ -3306,7 +3306,7 @@ namespace spirv
 				VariableInfo info;
 				DebugId result;
 
-				if ( var->isMember() )
+				if ( var->isMemberVar() )
 				{
 					auto outer = m_result.registerVariable( m_currentBlock
 						, var->getOuter()->getName()
@@ -3467,13 +3467,13 @@ namespace spirv
 		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
-		, Module & module )
+		, Module & shaderModule )
 	{
 		return vis::ExprVisitor::submit( exprCache
 			, expr
 			, context
 			, currentBlock
-			, module
+			, shaderModule
 			, nullptr );
 	}
 }

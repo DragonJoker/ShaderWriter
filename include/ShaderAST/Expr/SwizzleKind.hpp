@@ -1388,7 +1388,7 @@ namespace ast::expr
 			eShiftSecondComponentToFirst = 4u,
 		};
 
-		SDAST_API SwizzleKind( Value value = eUndefined );
+		SDAST_API explicit SwizzleKind( Value value = eUndefined );
 
 		SDAST_API static SwizzleKind fromOffset( uint32_t offset );
 
@@ -1412,48 +1412,59 @@ namespace ast::expr
 		SDAST_API SwizzleKind & operator<<=( uint32_t rhs );
 		SDAST_API SwizzleKind & operator>>=( uint32_t rhs );
 
-		inline operator Value()const
+		SwizzleKind & operator=( Value const & rhs )noexcept
+		{
+			m_value = rhs;
+			return *this;
+		}
+
+		bool operator==( Value const & rhs )const noexcept
+		{
+			return m_value == rhs;
+		}
+
+		Value getValue()const noexcept
 		{
 			return m_value;
 		}
 
 	private:
-		inline operator int8_t()const
+		explicit operator int8_t()const noexcept
 		{
 			return int8_t( m_value );
 		}
 
-		inline operator uint8_t()const
+		explicit operator uint8_t()const noexcept
 		{
 			return uint8_t( m_value );
 		}
 
-		inline operator int16_t()const
+		explicit operator int16_t()const noexcept
 		{
 			return int16_t( m_value );
 		}
 
-		inline operator uint16_t()const
+		explicit operator uint16_t()const noexcept
 		{
 			return uint16_t( m_value );
 		}
 
-		inline operator int32_t()const
+		explicit operator int32_t()const noexcept
 		{
 			return int32_t( m_value );
 		}
 
-		inline operator uint32_t()const
+		explicit operator uint32_t()const noexcept
 		{
 			return uint32_t( m_value );
 		}
 
-		inline operator int64_t()const
+		explicit operator int64_t()const noexcept
 		{
 			return int64_t( m_value );
 		}
 
-		inline operator uint64_t()const
+		explicit operator uint64_t()const noexcept
 		{
 			return uint64_t( m_value );
 		}

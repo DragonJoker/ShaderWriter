@@ -16,8 +16,8 @@ namespace ast
 	{
 		InterfaceBlock( type::TypesCache & typesCache
 			, type::MemoryLayout layout
-			, std::string name )
-			: m_type{ getType( typesCache, layout, std::move( name ) ) }
+			, std::string const & name )
+			: m_type{ getType( typesCache, layout, name ) }
 		{
 		}
 		
@@ -72,9 +72,9 @@ namespace ast
 
 		static type::BaseStructPtr getType( type::TypesCache & typesCache
 			, type::MemoryLayout layout
-			, std::string name )
+			, std::string const & name )
 		{
-			return typesCache.getStruct( layout, std::move( name ) );
+			return typesCache.getStruct( layout, name );
 		}
 
 	private:
@@ -86,10 +86,10 @@ namespace ast
 	{
 		BoInfo( type::TypesCache & typesCache
 			, type::MemoryLayout layout
-			, std::string name
+			, std::string const & name
 			, uint32_t bind
 			, uint32_t set )
-			: DescriptorInfoT{ InterfaceBlock::getType( typesCache, layout, std::move( name ) )
+			: DescriptorInfoT{ InterfaceBlock::getType( typesCache, layout, name )
 				, { bind, set } }
 		{
 		}
@@ -124,7 +124,7 @@ namespace ast
 		{
 		}
 
-		operator bool()const
+		bool isValid()const
 		{
 			return type != nullptr;
 		}

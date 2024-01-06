@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace ast::type
 {
-	static uint32_t constexpr NotMember = ~( 0u );
+	static uint32_t constexpr NotMember = ~0u;
 	enum class Kind
 		: uint8_t
 	{
@@ -181,90 +181,87 @@ namespace ast::type
 
 	struct MemorySemantics
 	{
-		inline constexpr MemorySemantics()noexcept
-			: value{}
-		{
-		}
+		constexpr MemorySemantics()noexcept = default;
 
-		inline constexpr MemorySemantics( MemorySemanticsMask v )noexcept
+		explicit constexpr MemorySemantics( MemorySemanticsMask v )noexcept
 			: value{ uint32_t( v ) }
 		{
 		}
 
-		inline constexpr MemorySemantics( uint32_t v )noexcept
+		explicit constexpr MemorySemantics( uint32_t v )noexcept
 			: value{ v }
 		{
 		}
 
-		inline constexpr operator uint32_t & ( )noexcept
+		explicit constexpr operator uint32_t & ( )noexcept
 		{
 			return value;
 		}
 
-		inline constexpr operator uint32_t const & ( )const noexcept
+		explicit constexpr operator uint32_t const & ( )const noexcept
 		{
 			return value;
 		}
 
-		uint32_t value;
+		uint32_t value{};
 	};
 
-	inline constexpr MemorySemantics operator|( MemorySemanticsMask lhs, MemorySemanticsMask rhs )
+	constexpr MemorySemantics operator|( MemorySemanticsMask lhs, MemorySemanticsMask rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator|( MemorySemanticsMask lhs, MemorySemantics rhs )
+	constexpr MemorySemantics operator|( MemorySemanticsMask lhs, MemorySemantics rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator|( MemorySemantics lhs, MemorySemanticsMask rhs )
+	constexpr MemorySemantics operator|( MemorySemantics lhs, MemorySemanticsMask rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator|( MemorySemantics lhs, MemorySemantics rhs )
+	constexpr MemorySemantics operator|( MemorySemantics lhs, MemorySemantics rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) | uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator&( MemorySemanticsMask lhs, MemorySemanticsMask rhs )
+	constexpr MemorySemantics operator&( MemorySemanticsMask lhs, MemorySemanticsMask rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator&( MemorySemanticsMask lhs, MemorySemantics rhs )
+	constexpr MemorySemantics operator&( MemorySemanticsMask lhs, MemorySemantics rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator&( MemorySemantics lhs, MemorySemanticsMask rhs )
+	constexpr MemorySemantics operator&( MemorySemantics lhs, MemorySemanticsMask rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
 	}
 
-	inline constexpr MemorySemantics operator&( MemorySemantics lhs, MemorySemantics rhs )
+	constexpr MemorySemantics operator&( MemorySemantics lhs, MemorySemantics rhs )noexcept
 	{
 		return MemorySemantics{ uint32_t( lhs ) & uint32_t( rhs ) };
 	}
 
-	inline constexpr bool operator==( MemorySemanticsMask lhs, MemorySemanticsMask rhs )
+	constexpr bool operator==( MemorySemanticsMask lhs, MemorySemanticsMask rhs )noexcept
 	{
 		return uint32_t( lhs ) == uint32_t( rhs );
 	}
 
-	inline constexpr bool operator==( MemorySemanticsMask lhs, MemorySemantics rhs )
+	constexpr bool operator==( MemorySemanticsMask lhs, MemorySemantics rhs )noexcept
 	{
 		return uint32_t( lhs ) == uint32_t( rhs );
 	}
 
-	inline constexpr bool operator==( MemorySemantics lhs, MemorySemanticsMask rhs )
+	constexpr bool operator==( MemorySemantics lhs, MemorySemanticsMask rhs )noexcept
 	{
 		return uint32_t( lhs ) == uint32_t( rhs );
 	}
 
-	inline constexpr bool operator==( MemorySemantics lhs, MemorySemantics rhs )
+	constexpr bool operator==( MemorySemantics lhs, MemorySemantics rhs )noexcept
 	{
 		return uint32_t( lhs ) == uint32_t( rhs );
 	}

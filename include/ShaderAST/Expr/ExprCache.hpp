@@ -113,10 +113,12 @@ namespace ast::expr
 		SDAST_API LogOrPtr makeLogOr( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );
 
 		template< typename ... Params >
-		CombinedImageAccessCallPtr makeCombinedImageAccessCall( type::TypePtr type, CombinedImageAccess texelAccess, Params ... args )
+		CombinedImageAccessCallPtr makeCombinedImageAccessCall( type::TypePtr type
+			, CombinedImageAccess texelAccess
+			, Params && ... args )
 		{
 			ExprList argList;
-			helpers::fillArgsListRec( argList, std::forward< Params >( args )... );
+			( argList.emplace_back( std::forward< Params >( args ) ), ... );
 			return makeCombinedImageAccessCall( std::move( type )
 				, texelAccess
 				, std::move( argList ) );
@@ -125,10 +127,10 @@ namespace ast::expr
 		template< typename ... Params >
 		StorageImageAccessCallPtr makeStorageImageAccessCall( type::TypePtr type
 			, StorageImageAccess imageAccess
-			, Params ... args )
+			, Params && ... args )
 		{
 			ExprList argList;
-			helpers::fillArgsListRec( argList, std::forward< Params >( args )... );
+			( argList.emplace_back( std::forward< Params >( args ) ), ... );
 			return makeStorageImageAccessCall( std::move( type )
 				, imageAccess
 				, std::move( argList ) );
@@ -137,10 +139,10 @@ namespace ast::expr
 		template< typename ... Params >
 		IntrinsicCallPtr makeIntrinsicCall( type::TypePtr type
 			, Intrinsic intrinsic
-			, Params ... args )
+			, Params && ... args )
 		{
 			ExprList argList;
-			helpers::fillArgsListRec( argList, std::forward< Params >( args )... );
+			( argList.emplace_back( std::forward< Params >( args ) ), ... );
 			return makeIntrinsicCall( std::move( type )
 				, intrinsic
 				, std::move( argList ) );

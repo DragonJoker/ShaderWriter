@@ -30,7 +30,7 @@ namespace spirv::debug
 	{
 	public:
 		NonSemanticDebug( ast::ShaderAllocatorBlock * allocator
-			, Module & module
+			, Module & shaderModule
 			, glsl::StmtConfig const * config );
 
 		void initialise( InstructionList & imports

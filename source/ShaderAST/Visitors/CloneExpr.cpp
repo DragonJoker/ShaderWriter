@@ -123,7 +123,7 @@ namespace ast
 		if ( rhs )
 		{
 			m_result = m_exprCache.makeAlias( expr->getType()
-				, m_exprCache.makeIdentifier( static_cast< expr::Identifier const & >( *expr->getLHS() ) )
+				, m_exprCache.makeIdentifier( *expr->getIdentifier() )
 				, std::move( rhs ) );
 		}
 	}

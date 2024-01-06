@@ -82,13 +82,13 @@ namespace ast::type
 	struct ImageFormatTraits;
 
 	template< ImageFormat FormatT >
-	static Kind sampledBaseType = ImageFormatTraits< FormatT >::SampledBaseType;
+	static Kind constexpr sampledBaseType = ImageFormatTraits< FormatT >::SampledBaseType;
 	template< ImageFormat FormatT >
-	static Kind sampledType = ImageFormatTraits< FormatT >::SampledType;
+	static Kind constexpr sampledType = ImageFormatTraits< FormatT >::SampledType;
 	template< ImageFormat FormatT >
-	static Kind texelType = ImageFormatTraits< FormatT >::TexelType;
+	static Kind constexpr texelType = ImageFormatTraits< FormatT >::TexelType;
 
-	inline constexpr bool isFloatFormat( ImageFormat format )noexcept
+	constexpr bool isFloatFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eUnknown
 			|| format == ImageFormat::eRgba32f
@@ -99,7 +99,7 @@ namespace ast::type
 			|| format == ImageFormat::eR16f;
 	}
 
-	inline constexpr bool isSIntFormat( ImageFormat format )noexcept
+	constexpr bool isSIntFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eUnknown
 			|| format == ImageFormat::eRgba32i
@@ -113,7 +113,7 @@ namespace ast::type
 			|| format == ImageFormat::eR8i;
 	}
 
-	inline constexpr bool isUIntFormat( ImageFormat format )noexcept
+	constexpr bool isUIntFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eUnknown
 			|| format == ImageFormat::eRgba32u
@@ -127,12 +127,12 @@ namespace ast::type
 			|| format == ImageFormat::eR8u;
 	}
 
-	inline constexpr bool isAtomicFloatFormat( ImageFormat format )noexcept
+	constexpr bool isAtomicFloatFormat( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eR32f;
 	}
 
-	inline constexpr bool isSingleInt32Format( ImageFormat format )noexcept
+	constexpr bool isSingleInt32Format( ImageFormat format )noexcept
 	{
 		return format == ImageFormat::eR32i
 			|| format == ImageFormat::eR32u;

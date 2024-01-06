@@ -3199,7 +3199,7 @@ namespace ast
 				bool processed = false;
 				expr::Expr * expr{ stmt->getExpr() };
 				auto ident = ( expr->getKind() == ast::expr::Kind::eAlias
-					? static_cast< expr::Alias const & >( *expr ).getLHS()
+					? static_cast< expr::Alias const & >( *expr ).getIdentifier()
 					: ( expr->getKind() == ast::expr::Kind::eInit
 						? static_cast< ast::expr::Init * >( expr )->getIdentifier()
 						: ( expr->getKind() == ast::expr::Kind::eAggrInit

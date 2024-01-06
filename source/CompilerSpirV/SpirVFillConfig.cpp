@@ -158,7 +158,7 @@ namespace spirv
 							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
 						}
 
-						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
 					}
 					else
 					{
@@ -167,7 +167,7 @@ namespace spirv
 							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
 						}
 
-						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
 					}
 
 					if ( memory == ast::type::Scope::eSubgroup )

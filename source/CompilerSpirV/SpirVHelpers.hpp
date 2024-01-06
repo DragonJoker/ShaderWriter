@@ -173,7 +173,7 @@ namespace spirv
 		bool registerExtension( SpirVExtension extension
 			, bool optional = false );
 		bool hasExtension( SpirVExtension extension )const;
-		void fillModule( Module & module )const;
+		void fillModule( Module & shaderModule )const;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
 		ast::stmt::ContainerPtr declare( ast::stmt::StmtCache & stmtCache );
@@ -543,7 +543,7 @@ namespace spirv
 		, spv::Capability capa );
 	void decorateVar( ast::var::Variable const & var
 		, DebugId varId
-		, Module & module );
+		, Module & shaderModule );
 	spv::StorageClass getStorageClass( uint32_t version
 		, ast::var::VariablePtr var
 		, spv::StorageClass fallback = spv::StorageClassFunction );

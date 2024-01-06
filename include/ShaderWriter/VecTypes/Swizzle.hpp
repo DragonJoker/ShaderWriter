@@ -209,7 +209,7 @@ namespace sdw
 		auto & shader = findWriterMandat( *this );\
 		return Output{ shader\
 			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
-				, expr::SwizzleKind::e##Name )\
+				, expr::SwizzleKind{ expr::SwizzleKind::e##Name } )\
 			, this->isEnabled() };\
 	}
 

@@ -779,8 +779,8 @@ namespace hlsl
 							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
 						}
 
-						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
-						auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
+						auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[2] ) );
 
 						if ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl )
 						{
@@ -824,8 +824,8 @@ namespace hlsl
 							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
 						}
 
-						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
-						auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
+						auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
 
 						if ( memory == ast::type::Scope::eWorkgroup
 							|| memory == ast::type::Scope::eSubgroup )
@@ -989,9 +989,9 @@ namespace hlsl
 			void visitAliasExpr( ast::expr::Alias * expr )override
 			{
 				// The alias var may have been turned to regular var, in adaptation.
-				if ( expr->getLHS()->getVariable()->isAlias() )
+				if ( expr->getIdentifier()->getVariable()->isAlias() )
 				{
-					m_aliases.emplace( expr->getLHS()->getVariable(), expr->getRHS() );
+					m_aliases.emplace( expr->getIdentifier()->getVariable(), expr->getRHS() );
 				}
 				else
 				{
@@ -1001,8 +1001,8 @@ namespace hlsl
 					}
 
 					m_result += getTypeName( expr->getType() ) + " ";
-					m_result += doSubmit( expr->getLHS() );
-					m_result += getTypeArraySize( expr->getLHS()->getType() );
+					m_result += doSubmit( expr->getIdentifier() );
+					m_result += getTypeArraySize( expr->getIdentifier()->getType() );
 					m_result += " = ";
 					m_result += doSubmit( expr->getRHS() );
 				}

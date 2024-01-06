@@ -34,7 +34,7 @@ namespace spirv
 
 	public:
 		ModuleTypes( ast::ShaderAllocatorBlock * allocator
-			, Module & module
+			, Module & shaderModule
 			, ast::type::TypesCache * typesCache
 			, InstructionList & constantsTypes );
 

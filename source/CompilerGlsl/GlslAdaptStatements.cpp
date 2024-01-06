@@ -654,7 +654,7 @@ namespace glsl
 								m_result = m_exprCache.makeAssign( mbr.type
 									, std::move( m_result )
 									, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
-										, ast::expr::SwizzleKind::e0 ) );
+										, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
 
 								if ( componentCount >= 2u )
 								{
@@ -667,7 +667,7 @@ namespace glsl
 									m_result = m_exprCache.makeAssign( mbr.type
 										, std::move( m_result )
 										, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
-											, ast::expr::SwizzleKind::e1 ) );
+											, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
 								}
 
 								if ( componentCount >= 3u )
@@ -681,7 +681,7 @@ namespace glsl
 									m_result = m_exprCache.makeAssign( mbr.type
 										, std::move( m_result )
 										, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
-											, ast::expr::SwizzleKind::e2 ) );
+											, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e2 } ) );
 								}
 							}
 						}
@@ -990,10 +990,10 @@ namespace glsl
 					case ast::type::Kind::eVec2F:
 					{
 						// TextureProj1DShadow accesses.
-						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind::e0 ) );
-						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind::e0 ) );
+						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
+						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
 						merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
-						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind::e1 ) );
+						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
 						args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
 							, ast::type::Kind::eFloat
 							, std::move( merged ) ) );

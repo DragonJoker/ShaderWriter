@@ -85,8 +85,8 @@ namespace spirv
 			, ast::type::TypesCache & typesCache
 			, NameCache & names
 			, std::vector< uint32_t > const & spirv );
-		SDWSPIRV_API static UInt32List serialize( spirv::Module const & module );
-		SDWSPIRV_API static std::string write( spirv::Module const & module
+		SDWSPIRV_API static UInt32List serialize( spirv::Module const & shaderModule );
+		SDWSPIRV_API static std::string write( spirv::Module const & shaderModule
 			, NameCache & names
 			, bool writeHeader );
 

@@ -144,7 +144,7 @@ namespace ast::expr
 		assert( index < getComponentsCount()
 			&& "Out of bounds array access to swizzle" );
 
-		return ( m_value << ( index * 4u ) ) & eMaskFirstComponent;
+		return SwizzleKind{ ( m_value << ( index * 4u ) ) & eMaskFirstComponent };
 	}
 
 	SwizzleKind & SwizzleKind::operator|=( SwizzleKind const & rhs )
@@ -179,7 +179,7 @@ namespace ast::expr
 	{
 		std::string result;
 
-		switch ( SwizzleKind::Value( kind ) )
+		switch ( kind.getValue() )
 		{
 		case expr::SwizzleKind::e0:
 			result = "x";

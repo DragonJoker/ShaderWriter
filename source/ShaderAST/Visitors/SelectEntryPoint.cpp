@@ -230,7 +230,7 @@ namespace ast
 				markType( variable->getType(), used );
 				used.vars.insert( variable );
 
-				if ( variable->isMember() )
+				if ( variable->isMemberVar() )
 				{
 					auto outermost = variable->getOutermost();
 					markType( outermost->getType(), used );

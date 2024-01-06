@@ -13,70 +13,70 @@ namespace ast::expr
 	namespace details
 	{
 		template< LiteralType T >
-		LiteralValueType< T > valueGetter( LiteralValue const & lit );
+		LiteralValueType< T > valueGetter( Literal::Value const & lit );
 
 		template<>
-		inline bool valueGetter< LiteralType::eBool >( LiteralValue const & lit )
+		inline bool valueGetter< LiteralType::eBool >( Literal::Value const & lit )
 		{
 			return lit.boolv;
 		}
 
 		template<>
-		inline int8_t valueGetter< LiteralType::eInt8 >( LiteralValue const & lit )
+		inline int8_t valueGetter< LiteralType::eInt8 >( Literal::Value const & lit )
 		{
 			return lit.int8v;
 		}
 
 		template<>
-		inline int16_t valueGetter< LiteralType::eInt16 >( LiteralValue const & lit )
+		inline int16_t valueGetter< LiteralType::eInt16 >( Literal::Value const & lit )
 		{
 			return lit.int16v;
 		}
 
 		template<>
-		inline int32_t valueGetter< LiteralType::eInt32 >( LiteralValue const & lit )
+		inline int32_t valueGetter< LiteralType::eInt32 >( Literal::Value const & lit )
 		{
 			return lit.int32v;
 		}
 
 		template<>
-		inline int64_t valueGetter< LiteralType::eInt64 >( LiteralValue const & lit )
+		inline int64_t valueGetter< LiteralType::eInt64 >( Literal::Value const & lit )
 		{
 			return lit.int64v;
 		}
 
 		template<>
-		inline uint8_t valueGetter< LiteralType::eUInt8 >( LiteralValue const & lit )
+		inline uint8_t valueGetter< LiteralType::eUInt8 >( Literal::Value const & lit )
 		{
 			return lit.uint8v;
 		}
 
 		template<>
-		inline uint16_t valueGetter< LiteralType::eUInt16 >( LiteralValue const & lit )
+		inline uint16_t valueGetter< LiteralType::eUInt16 >( Literal::Value const & lit )
 		{
 			return lit.uint16v;
 		}
 
 		template<>
-		inline uint32_t valueGetter< LiteralType::eUInt32 >( LiteralValue const & lit )
+		inline uint32_t valueGetter< LiteralType::eUInt32 >( Literal::Value const & lit )
 		{
 			return lit.uint32v;
 		}
 
 		template<>
-		inline uint64_t valueGetter< LiteralType::eUInt64 >( LiteralValue const & lit )
+		inline uint64_t valueGetter< LiteralType::eUInt64 >( Literal::Value const & lit )
 		{
 			return lit.uint64v;
 		}
 
 		template<>
-		inline float valueGetter< LiteralType::eFloat >( LiteralValue const & lit )
+		inline float valueGetter< LiteralType::eFloat >( Literal::Value const & lit )
 		{
 			return lit.floatv;
 		}
 
 		template<>
-		inline double valueGetter< LiteralType::eDouble >( LiteralValue const & lit )
+		inline double valueGetter< LiteralType::eDouble >( Literal::Value const & lit )
 		{
 			return lit.doublev;
 		}
@@ -921,14 +921,14 @@ namespace ast::expr
 	}
 
 	template< LiteralType T >
-	LiteralValueType< T > getLiteralValue( ExprPtr const & expr )
+	LiteralValueType< T > getLiteralValue( Expr const & expr )
 	{
-		if ( expr->getKind() != Kind::eLiteral )
+		if ( expr.getKind() != Kind::eLiteral )
 		{
 			throw std::runtime_error{ "Expected a literal expression" };
 		}
 
-		return static_cast< Literal const & >( *expr ).getValue< T >();
+		return static_cast< Literal const & >( expr ).getValue< T >();
 	}
 
 	//*********************************************************************************************

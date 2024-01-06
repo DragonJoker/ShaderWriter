@@ -18,7 +18,7 @@ namespace spirv
 	{
 	public:
 		ModuleLiterals( ast::ShaderAllocatorBlock * allocator
-			, Module & module
+			, Module & shaderModule
 			, InstructionList & declarations );
 
 		DebugId registerLiteral( bool value );

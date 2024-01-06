@@ -140,7 +140,7 @@ namespace spirv
 				: qualified;
 		}
 
-		static void writeArrayStride( Module & module
+		static void writeArrayStride( Module & shaderModule
 			, ast::type::TypePtr elementType
 			, TypeId typeId
 			, uint32_t arrayStride )
@@ -157,8 +157,8 @@ namespace spirv
 					arrayStride = ast::type::getSize( elementType, ast::type::MemoryLayout::eStd140 );
 				}
 
-				module.decorate( typeId
-					, makeIdList( module.allocator
+				shaderModule.decorate( typeId
+					, makeIdList( shaderModule.allocator
 						, uint32_t( spv::DecorationArrayStride )
 						, arrayStride ) );
 			}
@@ -180,11 +180,11 @@ namespace spirv
 	//*************************************************************************
 
 	ModuleTypes::ModuleTypes( ast::ShaderAllocatorBlock * allocator
-		, Module & module
+		, Module & shaderModule
 		, ast::type::TypesCache * typesCache
 		, InstructionList & constantsTypes )
 		: m_allocator{ allocator }
-		, m_module{ module }
+		, m_module{ shaderModule }
 		, m_debugNames{ m_module.getDebugNames() }
 		, m_nonSemanticDebug{ m_module.getNonSemanticDebug() }
 		, m_declarations{ constantsTypes }

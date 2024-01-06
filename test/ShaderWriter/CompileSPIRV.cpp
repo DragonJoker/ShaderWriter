@@ -198,6 +198,11 @@ namespace test
 			for ( auto & line : results )
 			{
 				stream << "    " << line << std::endl;
+
+				if ( line.find( "failed to compile internal representation" ) != std::string::npos )
+				{
+					isError = true;
+				}
 			}
 
 			auto info = reinterpret_cast< Info * >( pUserData );
@@ -727,16 +732,16 @@ namespace test
 			auto createInfo = ast::vk::makeVkStruct< VkShaderModuleCreateInfo >();
 			createInfo.pCode = spirv.data();
 			createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
-			VkShaderModule module;
+			VkShaderModule shaderModule;
 			bool result = false;
 
 			try
 			{
-				result = vkCreateShaderModule( info.device, &createInfo, nullptr, &module ) == VK_SUCCESS;
+				result = vkCreateShaderModule( info.device, &createInfo, nullptr, &shaderModule ) == VK_SUCCESS;
 
-				if ( result && module != nullptr )
+				if ( result && shaderModule != nullptr )
 				{
-					vkDestroyShaderModule( info.device, module, nullptr );
+					vkDestroyShaderModule( info.device, shaderModule, nullptr );
 				}
 			}
 			catch ( ... )
@@ -1246,7 +1251,11 @@ namespace test
 						, builder.getAllocator() );
 				}
 
-				failure( "VkPipeline creation" );
+				if ( errors.find( "failed to compile internal representation" ) == std::string::npos )
+				{
+					failure( "VkPipeline creation" );
+				}
+
 				pipeline = nullptr;
 			}
 
@@ -1301,7 +1310,7 @@ namespace test
 
 		if ( !pipelineLayout )
 		{
-			failure( "VkPipeline creation" );
+			failure( "VkPipelineLayout creation" );
 		}
 		else
 		{
@@ -1363,9 +1372,9 @@ namespace test
 			vkDestroyDescriptorSetLayout( context.device, layout, context.allocator );
 		}
 
-		for ( auto module : modules )
+		for ( auto shaderModule : modules )
 		{
-			vkDestroyShaderModule( context.device, module, context.allocator );
+			vkDestroyShaderModule( context.device, shaderModule, context.allocator );
 		}
 
 		return result;

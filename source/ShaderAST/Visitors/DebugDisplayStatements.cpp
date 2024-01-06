@@ -1109,7 +1109,7 @@ namespace ast::debug
 
 		void visitAliasExpr( expr::Alias * expr )override
 		{
-			wrap( expr->getLHS() );
+			wrap( expr->getIdentifier() );
 			m_result += " = ";
 			wrap( expr->getRHS() );
 		}

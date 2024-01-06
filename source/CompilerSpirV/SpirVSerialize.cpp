@@ -57,23 +57,23 @@ namespace spirv
 			count( function.cfg, result );
 		}
 
-		static size_t count( spirv::Module const & module )
+		static size_t count( spirv::Module const & shaderModule )
 		{
 			size_t result{};
-			count( module.header, result );
-			count( module.capabilities, result );
-			count( module.extensions, result );
-			count( module.imports, result );
-			count( module.memoryModel, result );
-			count( module.entryPoint, result );
-			count( module.executionModes, result );
-			count( module.getDebugStringsDeclarations(), result );
-			count( module.getDebugNamesDeclarations(), result );
-			count( module.decorations, result );
-			count( module.constantsTypes, result );
-			count( module.globalDeclarations, result );
-			count( module.getNonSemanticDebugDeclarations(), result );
-			count( module.functions, result );
+			count( shaderModule.header, result );
+			count( shaderModule.capabilities, result );
+			count( shaderModule.extensions, result );
+			count( shaderModule.imports, result );
+			count( shaderModule.memoryModel, result );
+			count( shaderModule.entryPoint, result );
+			count( shaderModule.executionModes, result );
+			count( shaderModule.getDebugStringsDeclarations(), result );
+			count( shaderModule.getDebugNamesDeclarations(), result );
+			count( shaderModule.decorations, result );
+			count( shaderModule.constantsTypes, result );
+			count( shaderModule.globalDeclarations, result );
+			count( shaderModule.getNonSemanticDebugDeclarations(), result );
+			count( shaderModule.functions, result );
 			return result;
 		}
 
@@ -137,23 +137,23 @@ namespace spirv
 			serializeResult( function.cfg, result );
 		}
 
-		static void serializeResult( spirv::Module const & module
+		static void serializeResult( spirv::Module const & shaderModule
 			, UInt32List & result )
 		{
-			serializeResult( module.header, result );
-			serializeResult( module.capabilities, result );
-			serializeResult( module.extensions, result );
-			serializeResult( module.imports, result );
-			serializeResult( module.memoryModel, result );
-			serializeResult( module.entryPoint, result );
-			serializeResult( module.executionModes, result );
-			serializeResult( module.getDebugStringsDeclarations(), result );
-			serializeResult( module.getDebugNamesDeclarations(), result );
-			serializeResult( module.decorations, result );
-			serializeResult( module.constantsTypes, result );
-			serializeResult( module.globalDeclarations, result );
-			serializeResult( module.getNonSemanticDebugDeclarations(), result );
-			serializeResult( module.functions, result );
+			serializeResult( shaderModule.header, result );
+			serializeResult( shaderModule.capabilities, result );
+			serializeResult( shaderModule.extensions, result );
+			serializeResult( shaderModule.imports, result );
+			serializeResult( shaderModule.memoryModel, result );
+			serializeResult( shaderModule.entryPoint, result );
+			serializeResult( shaderModule.executionModes, result );
+			serializeResult( shaderModule.getDebugStringsDeclarations(), result );
+			serializeResult( shaderModule.getDebugNamesDeclarations(), result );
+			serializeResult( shaderModule.decorations, result );
+			serializeResult( shaderModule.constantsTypes, result );
+			serializeResult( shaderModule.globalDeclarations, result );
+			serializeResult( shaderModule.getNonSemanticDebugDeclarations(), result );
+			serializeResult( shaderModule.functions, result );
 		}
 
 		template< typename T >
@@ -177,12 +177,12 @@ namespace spirv
 		}
 	}
 
-	UInt32List serialize( spirv::Module const & module )
+	UInt32List serialize( spirv::Module const & shaderModule )
 	{
-		UInt32List result{ module.allocator };
-		auto size = serlz::count( module );
+		UInt32List result{ shaderModule.allocator };
+		auto size = serlz::count( shaderModule );
 		result.reserve( size );
-		serlz::serializeResult( module, result );
+		serlz::serializeResult( shaderModule, result );
 		return result;
 	}
 }

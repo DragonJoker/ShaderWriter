@@ -35,7 +35,7 @@ namespace ast
 				, vars.end()
 				, [name, &outer]( var::VariablePtr const & var )
 				{
-					return var->isMember()
+					return var->isMemberVar()
 						&& var->getOuter() == outer
 						&& ( var->getFullName() == name
 							|| var->getName() == name );

@@ -22,13 +22,13 @@ namespace spirv
 	DebugId makeAccessChain( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr * expr
 		, PreprocContext const & context
-		, Module & module
+		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement * debugStatement );
 	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache
 		, ast::expr::Swizzle * expr
 		, PreprocContext const & context
-		, Module & module
+		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement * debugStatement );
 }

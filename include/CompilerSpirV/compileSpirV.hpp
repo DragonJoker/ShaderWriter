@@ -140,7 +140,7 @@ namespace spirv
 	class Module;
 	struct ModuleDeleter
 	{
-		SDWSPIRV_API void operator()( Module * module );
+		SDWSPIRV_API void operator()( Module * shaderModule );
 	};
 	using ModulePtr = std::unique_ptr< Module, ModuleDeleter >;
 	
@@ -152,9 +152,9 @@ namespace spirv
 	SDWSPIRV_API ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
 		, SpirVConfig & config );
-	SDWSPIRV_API std::string writeModule( Module const & module
+	SDWSPIRV_API std::string writeModule( Module const & shaderModule
 		, bool writeHeader = true );
-	SDWSPIRV_API std::vector< uint32_t > serialiseModule( Module const & module );
+	SDWSPIRV_API std::vector< uint32_t > serialiseModule( Module const & shaderModule );
 
 	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
 		, ast::stmt::Container * statements

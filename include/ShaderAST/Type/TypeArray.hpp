@@ -10,7 +10,7 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	static uint32_t constexpr NotArray = 0u;
-	static uint32_t constexpr UnknownArraySize = ~( 0u );
+	static uint32_t constexpr UnknownArraySize = ~0u;
 
 	class Array
 		: public Type

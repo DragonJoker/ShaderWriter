@@ -673,11 +673,11 @@ namespace hlsl
 				else
 				{
 					m_result = m_exprCache.makeSwizzle( doSubmit( arg )
-						, ( count == 2u
+						, ast::expr::SwizzleKind{ count == 2u
 							? ast::expr::SwizzleKind::e00
 							: ( count == 3u
 								? ast::expr::SwizzleKind::e000
-								: ast::expr::SwizzleKind::e0000 ) ) );
+								: ast::expr::SwizzleKind::e0000 ) } );
 				}
 			}
 			else if ( isMatrixType( expr->getType()->getKind() )

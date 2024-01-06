@@ -20,7 +20,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT >::ReturnWrapperT( ReturnWrapperT && rhs )
+	ReturnWrapperT< ValueT >::ReturnWrapperT( ReturnWrapperT && rhs )noexcept
 		: ValueT{ std::move( rhs ) }
 	{
 	}

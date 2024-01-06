@@ -1532,18 +1532,18 @@ namespace spirv
 		return requiredExtensions.find( extension ) != requiredExtensions.end();
 	}
 
-	void ModuleConfig::fillModule( Module & module )const
+	void ModuleConfig::fillModule( Module & shaderModule )const
 	{
 		for ( auto & capability : requiredCapabilities )
 		{
-			insertCapability( module.getNameCache(), module.capabilities, capability );
+			insertCapability( shaderModule.getNameCache(), shaderModule.capabilities, capability );
 		}
 
 		for ( auto & extension : requiredExtensions )
 		{
 			if ( !extension.isMarker )
 			{
-				module.registerExtension( extension.name );
+				shaderModule.registerExtension( extension.name );
 			}
 		}
 	}
@@ -3602,44 +3602,44 @@ namespace spirv
 
 	void decorateVar( ast::var::Variable const & var
 		, DebugId varId
-		, Module & module )
+		, Module & shaderModule )
 	{
 		if ( var.isFlat() )
 		{
-			module.decorate( varId, spv::DecorationFlat );
+			shaderModule.decorate( varId, spv::DecorationFlat );
 		}
 
 		if ( var.isNoPerspective() )
 		{
-			module.decorate( varId, spv::DecorationNoPerspective );
+			shaderModule.decorate( varId, spv::DecorationNoPerspective );
 		}
 
 		if ( var.isCentroid() )
 		{
-			module.decorate( varId, spv::DecorationCentroid );
+			shaderModule.decorate( varId, spv::DecorationCentroid );
 		}
 
 		if ( var.isPerSample() )
 		{
-			module.decorate( varId, spv::DecorationSample );
+			shaderModule.decorate( varId, spv::DecorationSample );
 		}
 
 		if ( var.isPatch() )
 		{
-			module.decorate( varId, spv::DecorationPatch );
+			shaderModule.decorate( varId, spv::DecorationPatch );
 		}
 
 		if ( var.isPerPrimitive()
 			|| var.getType()->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
 		{
-			module.decorate( varId, spv::DecorationPerPrimitiveNV );
+			shaderModule.decorate( varId, spv::DecorationPerPrimitiveNV );
 		}
 
 		if ( var.isPerTaskNV()
 			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadNV
 			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadInNV )
 		{
-			module.decorate( varId, spv::DecorationPerTaskNV );
+			shaderModule.decorate( varId, spv::DecorationPerTaskNV );
 		}
 	}
 

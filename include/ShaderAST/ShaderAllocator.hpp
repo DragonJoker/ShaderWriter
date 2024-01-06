@@ -19,6 +19,11 @@ namespace ast
 	private:
 		using PointerType = std::byte *;
 
+		BuddyAllocator( BuddyAllocator const & ) = delete;
+		BuddyAllocator & operator=( BuddyAllocator const & ) = delete;
+		BuddyAllocator( BuddyAllocator && )noexcept = delete;
+		BuddyAllocator & operator=( BuddyAllocator && )noexcept = delete;
+
 	public:
 		/**
 		*	Constructor.
@@ -154,7 +159,7 @@ namespace ast
 		};
 
 	private:
-		void flushTo( MemoryCursor const & cursor );
+		void flushTo( MemoryCursor const & cursor )noexcept;
 
 	private:
 		AllocationMode m_allocationMode{};

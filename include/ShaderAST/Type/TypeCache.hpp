@@ -49,7 +49,7 @@ namespace ast::type
 		}
 
 		template< typename ... ParamsT >
-		inline TypeTPtr getType( ParamsT ... params )
+		inline TypeTPtr getType( ParamsT && ... params )
 		{
 			auto key = m_hasher( params... );
 			auto it = m_cache.find( key );
