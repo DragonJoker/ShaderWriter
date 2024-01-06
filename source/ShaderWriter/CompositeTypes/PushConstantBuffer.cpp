@@ -10,7 +10,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	PushConstantBuffer::PushConstantBuffer( ShaderWriter & writer
-		, std::string blockName
+		, std::string const & blockName
 		, std::string variableName
 		, ast::type::MemoryLayout layout
 		, bool enabled )
@@ -18,7 +18,7 @@ namespace sdw
 		, m_builder{ m_writer.getBuilder() }
 		, m_stmt{ m_builder.hasVariable( variableName, false ) ? nullptr : getStmtCache( m_writer ).makePushConstantsBufferDecl( variableName, layout ) }
 		, m_name{ std::move( variableName ) }
-		, m_info{ writer.getTypesCache(), layout, std::move( blockName ) }
+		, m_info{ writer.getTypesCache(), layout, blockName }
 		, m_var{ writer.getBuilder().registerName( m_name, m_info.getType(), var::Flag::ePushConstant ) }
 		, m_enabled{ enabled }
 	{

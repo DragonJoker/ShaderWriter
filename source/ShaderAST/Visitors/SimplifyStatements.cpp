@@ -18,31 +18,28 @@ namespace ast
 			{
 				auto count = swizzle.getComponentsCount();
 				std::vector< expr::SwizzleKind > result;
-				result.push_back( swizzle.getFirstValue() );
+				result.emplace_back( swizzle.getFirstValue() );
 
 				if ( count >= 2u )
 				{
-					result.push_back( swizzle.getSecondValue() );
+					result.emplace_back( swizzle.getSecondValue() );
 				}
 
 				if ( count >= 3u )
 				{
-					result.push_back( swizzle.getThirdValue() );
+					result.emplace_back( swizzle.getThirdValue() );
 				}
 
 				if ( count >= 4u )
 				{
-					result.push_back( swizzle.getFourthValue() );
+					result.emplace_back( swizzle.getFourthValue() );
 				}
 
 				return result;
 			}
 
-			static uint32_t getSwizzleIndex( expr::SwizzleKind swizzle )
+			static uint32_t getSwizzleIndex( expr::SwizzleKind::Value swizzle )
 			{
-				assert( swizzle.isOneComponent()
-					&& "Invalid swizzle for components indexing" );
-
 				return swizzle == expr::SwizzleKind::e0
 					? 0u
 					: ( swizzle == expr::SwizzleKind::e1
@@ -142,11 +139,11 @@ namespace ast
 				switch ( count )
 				{
 				case 1:
-					return ast::expr::SwizzleKind::e0;
+					return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 };
 				case 2:
-					return ast::expr::SwizzleKind::e01;
+					return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 };
 				default:
-					return ast::expr::SwizzleKind::e012;
+					return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e012 };
 				}
 			}
 
@@ -1599,17 +1596,17 @@ namespace ast
 					if ( dstCount == 1u )
 					{
 						m_result = m_exprCache.makeSwizzle( std::move( m_result )
-							, ast::expr::SwizzleKind::e0 );
+							, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } );
 					}
 					else if ( dstCount == 2u )
 					{
 						m_result = m_exprCache.makeSwizzle( std::move( m_result )
-							, ast::expr::SwizzleKind::e01 );
+							, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } );
 					}
 					else if ( dstCount == 3u )
 					{
 						m_result = m_exprCache.makeSwizzle( std::move( m_result )
-							, ast::expr::SwizzleKind::e012 );
+							, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e012 } );
 					}
 				}
 			}
@@ -1709,7 +1706,7 @@ namespace ast
 				{
 					auto & outerSwizzle = static_cast< expr::Swizzle const & >( *outer );
 
-					if ( expr::SwizzleKind::Value( expr->getSwizzle() ) == expr::SwizzleKind::Value( outerSwizzle.getSwizzle() )
+					if ( expr->getSwizzle().getValue() == outerSwizzle.getSwizzle().getValue()
 						&& expr->getType() == outerSwizzle.getType() )
 					{
 						m_result = m_exprCache.makeSwizzle( doSubmit( outerSwizzle.getOuterExpr() )

@@ -291,8 +291,8 @@ namespace glsl
 							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
 						}
 
-						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
-						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
+						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[2] ) );
 					}
 					else
 					{
@@ -301,48 +301,18 @@ namespace glsl
 							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
 						}
 
-						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
-						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
+						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
 					}
 
-					if ( memory == ast::type::Scope::eWorkgroup )
-					{
-						if ( checkAllMemoryBarrier( semantics ) )
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
-						else
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
-					}
-					else if ( memory == ast::type::Scope::eSubgroup )
+					if ( memory == ast::type::Scope::eSubgroup )
 					{
 						m_config.requiredExtensions.insert( KHR_vulkan_glsl );
 						m_config.requiredExtensions.insert( KHR_shader_subgroup_basic );
 					}
 					else
 					{
-						if ( checkAllMemoryBarrier( semantics ) )
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
-						else if ( checkBufferMemoryBarrier( semantics ) )
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
-						else if ( checkSharedMemoryBarrier( semantics ) )
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
-						else if ( checkImageMemoryBarrier( semantics ) )
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
-						else
-						{
-							m_config.requiredExtensions.insert( ARB_compute_shader );
-						}
+						m_config.requiredExtensions.insert( ARB_compute_shader );
 					}
 				}
 

@@ -96,24 +96,25 @@ namespace ast::expr
 	template< LiteralType T >
 	using LiteralValueType = typename LiteralValueTraits< T >::type;
 
-	union LiteralValue
-	{
-		bool boolv;
-		int8_t int8v;
-		int16_t int16v;
-		int32_t int32v;
-		int64_t int64v;
-		uint8_t uint8v;
-		uint16_t uint16v;
-		uint32_t uint32v;
-		uint64_t uint64v;
-		float floatv;
-		double doublev;
-	};
-
 	class Literal
 		: public Expr
 	{
+	public:
+		union Value
+		{
+			bool boolv;
+			int8_t int8v;
+			int16_t int16v;
+			int32_t int32v;
+			int64_t int64v;
+			uint8_t uint8v;
+			uint16_t uint16v;
+			uint32_t uint32v;
+			uint64_t uint64v;
+			float floatv;
+			double doublev;
+		};
+
 	private:
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, bool value );
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed char value );
@@ -156,11 +157,11 @@ namespace ast::expr
 		}
 
 		template< LiteralType T >
-		inline LiteralValueType< T > getValue()const;
+		LiteralValueType< T > getValue()const;
 
 	private:
 		LiteralType m_valueType;
-		LiteralValue m_value;
+		Value m_value;
 	};
 
 	template< expr::LiteralType TargetT, typename SourceT >
@@ -170,7 +171,7 @@ namespace ast::expr
 		, expr::Literal const & lhs
 		, expr::Literal const & rhs );
 	template< LiteralType T >
-	LiteralValueType< T > getLiteralValue( ExprPtr const & expr );
+	LiteralValueType< T > getLiteralValue( Expr const & expr );
 
 	SDAST_API LiteralPtr operator~( Literal const & operand );
 	SDAST_API LiteralPtr operator|( Literal const & lhs, Literal const & rhs );

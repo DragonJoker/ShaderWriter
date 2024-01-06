@@ -41,7 +41,7 @@ namespace spirv
 						|| !isScalarType( expr->getType()->getKind() )
 						|| isBuiltIn( static_cast< ast::expr::Swizzle const & >( *expr ).getOuterExpr() ) ) )
 				|| ( expr->getKind() == ast::expr::Kind::eIdentifier
-					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMember() );
+					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMemberVar() );
 		}
 
 		struct AccessChainExpr
@@ -148,7 +148,7 @@ namespace spirv
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
 			{
-				if ( expr->getVariable()->isMember()
+				if ( expr->getVariable()->isMemberVar()
 					&& expr->getType()->isMember()
 					&& !m_parsingMbrSelect )
 				{
@@ -246,7 +246,7 @@ namespace spirv
 			static DebugIdList submit( ast::expr::ExprCache & exprCache
 				, AccessChainExprArray const & exprs
 				, PreprocContext const & context
-				, Module & module
+				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 			{
@@ -256,17 +256,17 @@ namespace spirv
 				result.push_back( submit( exprCache
 					, it->expr
 					, context
-					, module
+					, shaderModule
 					, currentBlock
 					, currentDebugStatement ) );
 
 				while ( ++it != exprs.end())
 				{
-					result.push_back( module.loadVariable( submit( exprCache
+					result.push_back( shaderModule.loadVariable( submit( exprCache
 							, result.back()
 							, *it
 							, context
-							, module
+							, shaderModule
 							, currentBlock
 							, currentDebugStatement )
 						, currentBlock
@@ -283,13 +283,13 @@ namespace spirv
 				, ast::expr::Kind parentKind
 				, DebugId parentId
 				, PreprocContext const & context
-				, Module & module
+				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_result{ result }
 				, m_context{ context }
-				, m_module{ module }
+				, m_module{ shaderModule }
 				, m_currentBlock{ currentBlock }
 				, m_parentId{ parentId }
 				, m_parentKind{ parentKind }
@@ -300,7 +300,7 @@ namespace spirv
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
-				, Module & module
+				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 			{
@@ -310,7 +310,7 @@ namespace spirv
 					, expr->getKind()
 					, DebugId{}
 					, context
-					, module
+					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
 				expr->accept( &vis );
@@ -321,7 +321,7 @@ namespace spirv
 				, DebugId parentId
 				, ast::expr::Expr * expr
 				, PreprocContext const & context
-				, Module & module
+				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 			{
@@ -331,7 +331,7 @@ namespace spirv
 					, expr->getKind()
 					, parentId
 					, context
-					, module
+					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
 				expr->accept( &vis );
@@ -342,7 +342,7 @@ namespace spirv
 				, DebugId parentId
 				, AccessChainExpr expr
 				, PreprocContext const & context
-				, Module & module
+				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 			{
@@ -352,7 +352,7 @@ namespace spirv
 					, expr.kind
 					, parentId
 					, context
-					, module
+					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
 				expr.expr->accept( &vis );
@@ -605,7 +605,7 @@ namespace spirv
 		static DebugId writeAccessChain( Block & currentBlock
 			, ValueIdList const & accessChain
 			, ast::expr::Expr * expr
-			, Module & module )
+			, Module & shaderModule )
 		{
 #if SPIRV_CacheAccessChains
 
@@ -614,14 +614,14 @@ namespace spirv
 			if ( it == currentBlock.accessChains.end() )
 			{
 				// Register the type pointed to.
-				auto rawTypeId = module.registerType( expr->getType() );
+				auto rawTypeId = shaderModule.registerType( expr->getType() );
 				// Register the pointer to the type.
-				auto pointerTypeId = module.registerPointerType( rawTypeId
+				auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
 					, getStorageClass( ast::findIdentifier( expr )->getVariable() ) );
 				// Reserve the ID for the result.
-				ValueId resultId{ module.getIntermediateResult(), pointerTypeId.type };
+				ValueId resultId{ shaderModule.getIntermediateResult(), pointerTypeId.type };
 				// Write access chain => resultId = pointerTypeId( outer.members + index ).
-				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.nameCache
+				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( shaderModule.nameCache
 					, pointerTypeId
 					, resultId
 					, accessChain ) );
@@ -641,18 +641,18 @@ namespace spirv
 			else
 			{
 				auto var = ast::findIdentifier( expr )->getVariable();
-				storageClass = getStorageClass( module.getVersion(), var );
+				storageClass = getStorageClass( shaderModule.getVersion(), var );
 			}
 
 			// Register the type pointed to.
-			auto rawTypeId = module.registerType( expr->getType(), nullptr );
+			auto rawTypeId = shaderModule.registerType( expr->getType(), nullptr );
 			// Register the pointer to the type.
-			auto pointerTypeId = module.registerPointerType( rawTypeId
+			auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
 				, storageClass );
 			// Reserve the ID for the result.
-			DebugId result{ module.getIntermediateResult(), pointerTypeId->type };
+			DebugId result{ shaderModule.getIntermediateResult(), pointerTypeId->type };
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).
-			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( module.getNameCache()
+			currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( shaderModule.getNameCache()
 				, pointerTypeId.id
 				, result.id
 				, accessChain ) );
@@ -670,7 +670,7 @@ namespace spirv
 	DebugId makeAccessChain( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr * expr
 		, PreprocContext const & context
-		, Module & module
+		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement * debugStatement )
 	{
@@ -680,14 +680,14 @@ namespace spirv
 		auto accessChain = acnhlp::AccessChainCreator::submit( exprCache
 			, accessChainExprs
 			, context
-			, module
+			, shaderModule
 			, currentBlock
 			, debugStatement );
 		auto resultId = acnhlp::writeAccessChain( currentBlock
 			, convert( accessChain )
 			, expr
-			, module );
-		module.declareDebugAccessChain( currentBlock.instructions
+			, shaderModule );
+		shaderModule.declareDebugAccessChain( currentBlock.instructions
 			, expr
 			, debug::convert( accessChain )
 			, debugStatement
@@ -698,28 +698,28 @@ namespace spirv
 	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache
 		, ast::expr::Swizzle * expr
 		, PreprocContext const & context
-		, Module & module
+		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement * debugStatement )
 	{
-		auto typeId = module.registerType( expr->getType(), nullptr );
-		auto outerId = module.loadVariable( generateModuleExpr( exprCache, expr->getOuterExpr()
+		auto typeId = shaderModule.registerType( expr->getType(), nullptr );
+		auto outerId = shaderModule.loadVariable( generateModuleExpr( exprCache, expr->getOuterExpr()
 				, context
 				, currentBlock
-				, module )
+				, shaderModule )
 			, currentBlock
 			, debugStatement
 			, glsl::getColumnData( debugStatement, expr->getOuterExpr() ) );
 		DebugId result{ 0u, typeId->type };
-		auto swizzleComponents = convert( getSwizzleComponents( module.allocator, expr->getSwizzle() ) );
+		auto swizzleComponents = convert( getSwizzleComponents( shaderModule.allocator, expr->getSwizzle() ) );
 
 		if ( swizzleComponents.size() == 1u )
 		{
 			ValueIdList extract{ &exprCache.getAllocator() };
 			extract.push_back( outerId.id );
 			extract.push_back( swizzleComponents.front() );
-			auto intermediateId = DebugId{ module.getIntermediateResult(), typeId->type };
-			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( module.getNameCache()
+			auto intermediateId = DebugId{ shaderModule.getIntermediateResult(), typeId->type };
+			currentBlock.instructions.emplace_back( makeInstruction< CompositeExtractInstruction >( shaderModule.getNameCache()
 				, typeId.id
 				, intermediateId.id
 				, extract ) );
@@ -731,8 +731,8 @@ namespace spirv
 			shuffle.push_back( outerId.id );
 			shuffle.push_back( outerId.id );
 			shuffle.insert( shuffle.end(), swizzleComponents.begin(), swizzleComponents.end() );
-			auto intermediateId = DebugId{ module.getIntermediateResult(), typeId->type };
-			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( module.getNameCache()
+			auto intermediateId = DebugId{ shaderModule.getIntermediateResult(), typeId->type };
+			currentBlock.instructions.emplace_back( makeInstruction< VectorShuffleInstruction >( shaderModule.getNameCache()
 				, typeId.id
 				, intermediateId.id
 				, shuffle ) );

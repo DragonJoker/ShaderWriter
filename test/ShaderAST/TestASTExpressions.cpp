@@ -1426,7 +1426,7 @@ namespace
 		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getVec4F(), "operand" ) );
-		auto expr = exprCache.makeSwizzle( std::move( value ), ast::expr::SwizzleKind::e03 );
+		auto expr = exprCache.makeSwizzle( std::move( value ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e03 } );
 
 		require( expr->getKind() == ast::expr::Kind::eSwizzle );
 		require( expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier );

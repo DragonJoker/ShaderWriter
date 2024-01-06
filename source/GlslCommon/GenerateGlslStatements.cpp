@@ -1530,12 +1530,12 @@ namespace glsl
 			{
 			}
 
-			std::string doSubmit( ast::expr::Expr * expr, uint32_t currentColumn )
+			std::string doSubmit( ast::expr::Expr * expr, uint32_t currentColumn )const
 			{
 				return submit( expr, m_config, m_aliases, m_withExprColumns, currentColumn, m_exprsColumns );
 			}
 
-			std::string doSubmit( ast::expr::ExprPtr const & expr, uint32_t currentColumn )
+			std::string doSubmit( ast::expr::ExprPtr const & expr, uint32_t currentColumn )const
 			{
 				return doSubmit( expr.get(), currentColumn );
 			}
@@ -1554,7 +1554,7 @@ namespace glsl
 			std::string doJoinWrap( ast::expr::Expr * expr, bool maybeNonUniform );
 			std::string doJoinWrap( ast::expr::Expr * expr, bool maybeNonUniform, uint32_t currentColumn );
 
-			ast::expr::Expr * doResolveAlias( ast::expr::Expr * expr )
+			ast::expr::Expr * doResolveAlias( ast::expr::Expr * expr )const
 			{
 				if ( expr->getKind() == ast::expr::Kind::eIdentifier )
 				{
@@ -1570,25 +1570,25 @@ namespace glsl
 			}
 
 			void doParse( char const * const value
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += value;
 			}
 
 			void doParse( std::string const & value
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += value;
 			}
 
 			void doParse( ast::expr::Expr * value
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += doSubmit( value, 0u );
 			}
 
 			void doParse( uint32_t value
-				, std::string & result )
+				, std::string & result )const
 			{
 			}
 
@@ -1599,36 +1599,37 @@ namespace glsl
 			}
 
 			void doParse( ast::expr::ExprPtr const & value
-				, std::string & result )
+				, std::string & result )const
 			{
 				doParse( value.get(), result );
 			}
 
 			void doParse( std::pair< ast::expr::Expr *, std::string > const & value
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += value.second;
 			}
 
 			uint32_t doParse( std::string const & value
 				, uint32_t curColumn
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += value;
 				return uint32_t( curColumn + value.size() );
 			}
 
-			uint32_t doParse( char const * const value
+			template< size_t N >
+			uint32_t doParse( char const value[N]
 				, uint32_t curColumn
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += value;
-				return uint32_t( curColumn + strlen( value ) );
+				return uint32_t( curColumn + N );
 			}
 
 			uint32_t doParse( ast::expr::Expr * value
 				, uint32_t curColumn
-				, std::string & result )
+				, std::string & result )const
 			{
 				value = doResolveAlias( value );
 				auto it = m_exprsColumns.emplace( value, RangeInfo{} ).first;
@@ -1646,7 +1647,7 @@ namespace glsl
 
 			uint32_t doParse( uint32_t value
 				, uint32_t curColumn
-				, std::string & result )
+				, [[maybe_unused]] std::string & result )const
 			{
 				return curColumn + value;
 			}
@@ -1671,7 +1672,7 @@ namespace glsl
 
 			uint32_t doParse( std::pair< ast::expr::Expr *, std::string > const & value
 				, uint32_t curColumn
-				, std::string & result )
+				, std::string & result )const
 			{
 				auto expr = doResolveAlias( value.first );
 				auto it = m_exprsColumns.emplace( expr, RangeInfo{} ).first;
@@ -1683,12 +1684,12 @@ namespace glsl
 
 			uint32_t doParse( ast::expr::ExprPtr const & value
 				, uint32_t curColumn
-				, std::string & result )
+				, std::string & result )const
 			{
 				return doParse( value.get(), curColumn, result );
 			}
 
-			void doJoinRec( std::string & result )
+			void doJoinRec( [[maybe_unused]] std::string & result )const
 			{
 			}
 
@@ -1701,8 +1702,8 @@ namespace glsl
 				doJoinRec( result, std::forward< ParamsT >( params )... );
 			}
 
-			void doJoinExprRec( std::string & result
-				, uint32_t curColumn )
+			void doJoinExprRec( [[maybe_unused]] std::string & result
+				, [[maybe_unused]] uint32_t curColumn )const
 			{
 			}
 
@@ -2023,8 +2024,8 @@ namespace glsl
 							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
 						}
 
-						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
-						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[2] ) );
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
+						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[2] ) );
 					}
 					else
 					{
@@ -2033,8 +2034,8 @@ namespace glsl
 							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
 						}
 
-						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[0] ) );
-						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( expr->getArgList()[1] ) );
+						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
+						semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
 					}
 
 					if ( memory == ast::type::Scope::eWorkgroup )
@@ -2262,7 +2263,7 @@ namespace glsl
 
 			void visitAliasExpr( ast::expr::Alias * expr )override
 			{
-				m_aliases.emplace( expr->getLHS()->getVariable(), expr->getRHS() );
+				m_aliases.try_emplace( expr->getIdentifier()->getVariable(), expr->getRHS() );
 			}
 
 		private:

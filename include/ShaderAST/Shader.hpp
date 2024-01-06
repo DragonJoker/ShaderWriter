@@ -35,18 +35,18 @@ namespace ast
 
 	struct ShaderData
 	{
-		using SsboMap = std::map< std::string, SsboInfo >;
-		using UboMap = std::map< std::string, UboInfo >;
-		using PcbMap = std::map< std::string, PcbInfo >;
-		using ShaderRecordMap = std::map< std::string, ShaderRecordInfo >;
-		using ConstantsMap = std::map< std::string, type::TypePtr >;
-		using SpecConstantsMap = std::map< std::string, SpecConstantInfo >;
-		using SamplerMap = std::map< std::string, SamplerInfo >;
-		using TextureMap = std::map< std::string, TextureInfo >;
-		using ImageMap = std::map< std::string, ImageInfo >;
-		using InputMap = std::map< std::string, InputInfo >;
-		using OutputMap = std::map< std::string, OutputInfo >;
-		using InOutMap = std::map< std::string, InOutInfo >;
+		using SsboMap = std::map< std::string, SsboInfo, std::less<> >;
+		using UboMap = std::map< std::string, UboInfo, std::less<> >;
+		using PcbMap = std::map< std::string, PcbInfo, std::less<> >;
+		using ShaderRecordMap = std::map< std::string, ShaderRecordInfo, std::less<> >;
+		using ConstantsMap = std::map< std::string, type::TypePtr, std::less<> >;
+		using SpecConstantsMap = std::map< std::string, SpecConstantInfo, std::less<> >;
+		using SamplerMap = std::map< std::string, SamplerInfo, std::less<> >;
+		using TextureMap = std::map< std::string, TextureInfo, std::less<> >;
+		using ImageMap = std::map< std::string, ImageInfo, std::less<> >;
+		using InputMap = std::map< std::string, InputInfo, std::less<> >;
+		using OutputMap = std::map< std::string, OutputInfo, std::less<> >;
+		using InOutMap = std::map< std::string, InOutInfo, std::less<> >;
 
 		SsboMap ssbos;
 		UboMap ubos;
@@ -60,8 +60,8 @@ namespace ast
 		TextureMap uniformTexels;
 		ImageMap images;
 		ImageMap storageTexels;
-		std::map< EntryPoint, InputMap > inputs;
-		std::map< EntryPoint, OutputMap > outputs;
+		std::map< EntryPoint, InputMap, std::less<> > inputs;
+		std::map< EntryPoint, OutputMap, std::less<> > outputs;
 		InOutMap inOuts;
 		AccStructInfo accelerationStruct;
 		uint32_t tessellationControlPoints{};
@@ -126,83 +126,83 @@ namespace ast
 			return sit->second.at( name ).type;
 		}
 
-		std::map< std::string, SpecConstantInfo > const & getSpecConstants()const
+		std::map< std::string, SpecConstantInfo, std::less<> > const & getSpecConstants()const
 		{
 			return m_data.specConstants;
 		}
 
-		std::map< std::string, UboInfo > const & getUbos()const
+		std::map< std::string, UboInfo, std::less<> > const & getUbos()const
 		{
 			return m_data.ubos;
 		}
 
-		std::map< std::string, SsboInfo > const & getSsbos()const
+		std::map< std::string, SsboInfo, std::less<> > const & getSsbos()const
 		{
 			return m_data.ssbos;
 		}
 
-		std::map< std::string, PcbInfo > const & getPcbs()const
+		std::map< std::string, PcbInfo, std::less<> > const & getPcbs()const
 		{
 			return m_data.pcbs;
 		}
 
-		std::map< std::string, ShaderRecordInfo > const & getShaderRecords()const
+		std::map< std::string, ShaderRecordInfo, std::less<> > const & getShaderRecords()const
 		{
 			return m_data.shaderRecords;
 		}
 
-		std::map< std::string, SamplerInfo > const & getSamplers()const
+		std::map< std::string, SamplerInfo, std::less<> > const & getSamplers()const
 		{
 			return m_data.samplers;
 		}
 
-		std::map< std::string, TextureInfo > const & getSampled()const
+		std::map< std::string, TextureInfo, std::less<> > const & getSampled()const
 		{
 			return m_data.sampled;
 		}
 
-		std::map< std::string, TextureInfo > const & getCombinedImages()const
+		std::map< std::string, TextureInfo, std::less<> > const & getCombinedImages()const
 		{
 			return m_data.textures;
 		}
 
-		std::map< std::string, TextureInfo > const & getUniformTexelBuffers()const
+		std::map< std::string, TextureInfo, std::less<> > const & getUniformTexelBuffers()const
 		{
 			return m_data.uniformTexels;
 		}
 
-		std::map< std::string, ImageInfo > const & getStorageTexelBuffers()const
+		std::map< std::string, ImageInfo, std::less<> > const & getStorageTexelBuffers()const
 		{
 			return m_data.storageTexels;
 		}
 
-		std::map< std::string, InputInfo > const & getInputs( EntryPoint entryPoint )const
+		std::map< std::string, InputInfo, std::less<> > const & getInputs( EntryPoint entryPoint )const
 		{
 			auto sit = m_data.inputs.find( entryPoint );
 
 			if ( sit == m_data.inputs.end() )
 			{
-				static std::map< std::string, InputInfo > const dummy;
+				static std::map< std::string, InputInfo, std::less<> > const dummy;
 				return dummy;
 			}
 
 			return sit->second;
 		}
 
-		std::map< std::string, OutputInfo > const & getOutputs( EntryPoint entryPoint )const
+		std::map< std::string, OutputInfo, std::less<> > const & getOutputs( EntryPoint entryPoint )const
 		{
 			auto sit = m_data.outputs.find( entryPoint );
 
 			if ( sit == m_data.outputs.end() )
 			{
-				static std::map< std::string, OutputInfo > const dummy;
+				static std::map< std::string, OutputInfo, std::less<> > const dummy;
 				return dummy;
 			}
 
 			return sit->second;
 		}
 
-		std::map< std::string, InOutInfo > const & getInOuts()const
+		std::map< std::string, InOutInfo, std::less<> > const & getInOuts()const
 		{
 			return m_data.inOuts;
 		}

@@ -1850,7 +1850,7 @@ namespace spirv
 
 		static std::ostream & writeExtension( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, [[maybe_unused]] spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -1909,7 +1909,7 @@ namespace spirv
 
 		static std::ostream & writeDebug( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, [[maybe_unused]] spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -1984,7 +1984,7 @@ namespace spirv
 
 		static std::ostream & writeDecoration( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, [[maybe_unused]] spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -2455,13 +2455,13 @@ namespace spirv
 
 		static std::ostream & writeExtInst( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
 			checkType< ExtInstInstruction >( *instruction );
 
-			if ( module.isExtGlslStd450( instruction->operands[0] ) )
+			if ( shaderModule.isExtGlslStd450( instruction->operands[0] ) )
 			{
 				if ( bool( instruction->resultId ) )
 				{
@@ -2482,7 +2482,7 @@ namespace spirv
 				writeStream( instruction->operands[0], names, stream );
 				stream << " " << getName( spv::GLSLstd450( instruction->operands[1] ) );
 			}
-			else if ( module.isExtNonSemanticDebugInfo( instruction->operands[0] ) )
+			else if ( shaderModule.isExtNonSemanticDebugInfo( instruction->operands[0] ) )
 			{
 				stream << writeId( instruction->resultId.value() ) << " = ExtInst";
 				writeStream( instruction->operands[0], names, stream );
@@ -2510,7 +2510,7 @@ namespace spirv
 
 		static std::ostream & writeGlobalDeclaration( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -2520,21 +2520,21 @@ namespace spirv
 
 			if ( opCode == spv::OpExtInst )
 			{
-				writeExtInst( instruction, names, module, stream, word ) << "\n";
+				writeExtInst( instruction, names, shaderModule, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpConstant
 				|| opCode == spv::OpConstantTrue
 				|| opCode == spv::OpConstantFalse
 				|| opCode == spv::OpConstantComposite )
 			{
-				writeConstant( instruction, module.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
+				writeConstant( instruction, shaderModule.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpSpecConstant
 				|| opCode == spv::OpSpecConstantTrue
 				|| opCode == spv::OpSpecConstantFalse
 				|| opCode == spv::OpSpecConstantComposite )
 			{
-				writeSpecConstant( instruction, module.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
+				writeSpecConstant( instruction, shaderModule.getType( DebugId{ instruction->returnTypeId.value() } ), names, stream, word ) << "\n";
 			}
 			else if ( opCode == spv::OpVariable )
 			{
@@ -2550,13 +2550,13 @@ namespace spirv
 
 		static std::ostream & writeGlobalDeclarations( spirv::InstructionList const & instructions
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
 			for ( auto & instruction : instructions )
 			{
-				writeGlobalDeclaration( instruction, names, module, stream, word );
+				writeGlobalDeclaration( instruction, names, shaderModule, stream, word );
 			}
 
 			return stream;
@@ -3059,7 +3059,7 @@ namespace spirv
 
 		static std::ostream & writeBlockInstruction( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -3069,7 +3069,7 @@ namespace spirv
 
 			if ( opCode == spv::OpExtInst )
 			{
-				writeExtInst( instruction, names, module, stream, word );
+				writeExtInst( instruction, names, shaderModule, stream, word );
 			}
 			else
 			{
@@ -3212,14 +3212,14 @@ namespace spirv
 		template< typename Type >
 		static std::ostream & writeInstructions( ast::Vector< Type > const & instructions
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & ( *writer )( Type const &, NameCache &, Module const &, std::ostream &, size_t & )
 			, std::ostream & stream
 			, size_t & word )
 		{
 			for ( auto & instruction : instructions )
 			{
-				writer( instruction, names, module, stream, word ) << "\n";
+				writer( instruction, names, shaderModule, stream, word ) << "\n";
 			}
 
 			return stream;
@@ -3227,18 +3227,18 @@ namespace spirv
 
 		static std::ostream & writeBlock( spirv::Block const & block
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
-			writeInstructions( block.instructions, names, module, writeBlockInstruction, stream, word );
-			writeBlockInstruction( block.blockEnd, names, module, stream, word );
+			writeInstructions( block.instructions, names, shaderModule, writeBlockInstruction, stream, word );
+			writeBlockInstruction( block.blockEnd, names, shaderModule, stream, word );
 			return stream;
 		}
 
 		static std::ostream & writeFunctionDecl( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, [[maybe_unused]] spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -3260,18 +3260,18 @@ namespace spirv
 
 		static std::ostream & writeFunction( spirv::Function const & function
 			, NameCache & names
-			, spirv::Module const & module
+			, spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
-			writeInstructions( function.declaration, names, module, writeFunctionDecl, stream, word );
-			writeInstructions( function.cfg.blocks, names, module, writeBlock, stream, word );
+			writeInstructions( function.declaration, names, shaderModule, writeFunctionDecl, stream, word );
+			writeInstructions( function.cfg.blocks, names, shaderModule, writeBlock, stream, word );
 			return stream;
 		}
 
 		static std::ostream & writeCapability( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, [[maybe_unused]] spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -3322,7 +3322,7 @@ namespace spirv
 
 		static std::ostream & writeExecutionMode( spirv::InstructionPtr const & instruction
 			, NameCache & names
-			, spirv::Module const & module
+			, [[maybe_unused]] spirv::Module const & shaderModule
 			, std::ostream & stream
 			, size_t & word )
 		{
@@ -3359,7 +3359,7 @@ namespace spirv
 			return stream;
 		}
 
-		static std::ostream & writeStream( spirv::Module const & module
+		static std::ostream & writeStream( spirv::Module const & shaderModule
 			, NameCache & names
 			, bool doWriteHeader
 			, std::ostream & stream )
@@ -3368,48 +3368,48 @@ namespace spirv
 
 			if ( doWriteHeader )
 			{
-				writeHeader( module.header, stream, word ) << std::endl;
-				writeInstructions( module.capabilities, names, module, writeCapability, stream, word );
-				writeInstructions( module.extensions, names, module, writeExtension, stream, word );
-				writeInstructions( module.imports, names, module, writeExtension, stream, word );
-				writeMemoryModel( module.memoryModel, names, stream, word );
-				writeEntryPoint( module.entryPoint, names, stream, word );
-				writeInstructions( module.executionModes, names, module, writeExecutionMode, stream, word ) << std::endl;
+				writeHeader( shaderModule.header, stream, word ) << std::endl;
+				writeInstructions( shaderModule.capabilities, names, shaderModule, writeCapability, stream, word );
+				writeInstructions( shaderModule.extensions, names, shaderModule, writeExtension, stream, word );
+				writeInstructions( shaderModule.imports, names, shaderModule, writeExtension, stream, word );
+				writeMemoryModel( shaderModule.memoryModel, names, stream, word );
+				writeEntryPoint( shaderModule.entryPoint, names, stream, word );
+				writeInstructions( shaderModule.executionModes, names, shaderModule, writeExecutionMode, stream, word ) << std::endl;
 			}
 
-			auto & debugStringsDeclarations = module.getDebugStringsDeclarations();
+			auto & debugStringsDeclarations = shaderModule.getDebugStringsDeclarations();
 
 			if ( !debugStringsDeclarations.empty() )
 			{
 				stream << "; Debug Strings" << std::endl;
-				writeInstructions( debugStringsDeclarations, names, module, writeDebug, stream, word ) << std::endl;
+				writeInstructions( debugStringsDeclarations, names, shaderModule, writeDebug, stream, word ) << std::endl;
 			}
 
-			auto & debugNamesDeclarations = module.getDebugNamesDeclarations();
+			auto & debugNamesDeclarations = shaderModule.getDebugNamesDeclarations();
 
 			if ( !debugNamesDeclarations.empty() )
 			{
 				stream << "; Debug Names and Sources" << std::endl;
-				writeInstructions( debugNamesDeclarations, names, module, writeDebug, stream, word ) << std::endl;
+				writeInstructions( debugNamesDeclarations, names, shaderModule, writeDebug, stream, word ) << std::endl;
 			}
 
 			stream << "; Decorations" << std::endl;
-			writeInstructions( module.decorations, names, module, writeDecoration, stream, word ) << std::endl;
+			writeInstructions( shaderModule.decorations, names, shaderModule, writeDecoration, stream, word ) << std::endl;
 			stream << "; Constants and Types" << std::endl;
-			writeGlobalDeclarations( module.constantsTypes, names, module, stream, word ) << std::endl;
+			writeGlobalDeclarations( shaderModule.constantsTypes, names, shaderModule, stream, word ) << std::endl;
 			stream << "; Global Variables" << std::endl;
-			writeGlobalDeclarations( module.globalDeclarations, names, module, stream, word ) << std::endl;
+			writeGlobalDeclarations( shaderModule.globalDeclarations, names, shaderModule, stream, word ) << std::endl;
 
-			auto & nonSemanticDebugDeclarations = module.getNonSemanticDebugDeclarations();
+			auto & nonSemanticDebugDeclarations = shaderModule.getNonSemanticDebugDeclarations();
 
 			if ( !nonSemanticDebugDeclarations.empty() )
 			{
 				stream << "; Debug Types and Variables" << std::endl;
-				writeGlobalDeclarations( nonSemanticDebugDeclarations, names, module, stream, word ) << std::endl;
+				writeGlobalDeclarations( nonSemanticDebugDeclarations, names, shaderModule, stream, word ) << std::endl;
 			}
 
 			stream << "; Functions" << std::endl;
-			writeInstructions( module.functions, names, module, writeFunction, stream, word ) << std::endl;
+			writeInstructions( shaderModule.functions, names, shaderModule, writeFunction, stream, word ) << std::endl;
 			return stream;
 		}
 	}
@@ -3623,12 +3623,12 @@ namespace spirv
 		return result;
 	}
 
-	std::string write( spirv::Module const & module
+	std::string write( spirv::Module const & shaderModule
 		, NameCache & names
 		, bool doWriteHeader )
 	{
 		auto stream = wrthlp::getStream();
-		wrthlp::writeStream( module, names, doWriteHeader, stream );
+		wrthlp::writeStream( shaderModule, names, doWriteHeader, stream );
 		return stream.str();
 	}
 }

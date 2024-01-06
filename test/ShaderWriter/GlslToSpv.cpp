@@ -43,11 +43,17 @@ namespace test
 				}
 			}
 
-			~BlockLocale()
+			~BlockLocale()noexcept
 			{
-				if ( m_prvLoc.name() != "C" )
+				try
 				{
-					std::locale::global( m_prvLoc );
+					if ( m_prvLoc.name() != "C" )
+					{
+						std::locale::global( m_prvLoc );
+					}
+				}
+				catch ( ... )
+				{
 				}
 			}
 

@@ -47,8 +47,14 @@ namespace test
 
 			~LogStreambuf()noexcept override
 			{
-				m_stream.flush();
-				m_stream.rdbuf( m_old );
+				try
+				{
+					m_stream.flush();
+					m_stream.rdbuf( m_old );
+				}
+				catch ( ... )
+				{
+				}
 			}
 
 			int_type overflow( int_type c = traits_type::eof() )override
@@ -116,8 +122,14 @@ namespace test
 
 			~LogStringbuf()noexcept override
 			{
-				m_stream.flush();
-				m_stream.rdbuf( m_old );
+				try
+				{
+					m_stream.flush();
+					m_stream.rdbuf( m_old );
+				}
+				catch ( ... )
+				{
+				}
 			}
 
 			int_type overflow( int_type c = traits_type::eof() )override
@@ -367,20 +379,27 @@ namespace test
 
 	TestSuite::~TestSuite()noexcept
 	{
-		if ( errorCount )
+		try
 		{
-			std::cout << "********************************************************************************" << std::endl;
-			std::cout << "Test suite ended with some failures." << std::endl;
+			if ( errorCount )
+			{
+				std::cout << "********************************************************************************" << std::endl;
+				std::cout << "Test suite ended with some failures." << std::endl;
+			}
+			else
+			{
+				std::cout << "********************************************************************************" << std::endl;
+				std::cout << "Test suite ended cleanly." << std::endl;
+			}
+
+			std::cout << "Total checks count: " << totalCount << std::endl;
+			std::cout << "Failed checks count: " << errorCount << std::endl;
+			std::cout << "Total memory spent: " << totalMemory << " bytes " << endl;
 		}
-		else
+		catch ( ... )
 		{
-			std::cout << "********************************************************************************" << std::endl;
-			std::cout << "Test suite ended cleanly." << std::endl;
 		}
 
-		std::cout << "Total checks count: " << totalCount << std::endl;
-		std::cout << "Failed checks count: " << errorCount << std::endl;
-		std::cout << "Total memory spent: " << totalMemory << " bytes " << endl;
 		tcout.reset();
 	}
 

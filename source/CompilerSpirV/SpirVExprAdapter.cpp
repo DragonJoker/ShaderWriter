@@ -148,7 +148,7 @@ namespace spirv
 						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
 							, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
-								, ast::expr::SwizzleKind::e0 ) );
+								, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
 
 						if ( componentCount >= 2u )
 						{
@@ -161,7 +161,7 @@ namespace spirv
 							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
 								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
-									, ast::expr::SwizzleKind::e1 ) );
+									, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
 						}
 
 						if ( componentCount >= 3u )
@@ -175,7 +175,7 @@ namespace spirv
 							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
 								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
-									, ast::expr::SwizzleKind::e2 ) );
+									, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e2 } ) );
 						}
 					}
 				}

@@ -890,7 +890,7 @@ namespace spirv
 			packedName = insthlp::packString( nameCache, name.value() );
 		}
 
-		op.op = pop;
+		op.opData.opCode = uint16_t( pop );
 		op.opData.opCount = uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
 			+ ( bool( resultId ) ? 1u : 0u )

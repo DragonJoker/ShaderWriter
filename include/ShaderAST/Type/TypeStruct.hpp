@@ -29,8 +29,8 @@ namespace ast::type
 		: public Type
 	{
 	public:
-		static constexpr uint32_t NotFound = ~( 0u );
-		static constexpr uint32_t InvalidLocation = ~( 0u );
+		static constexpr uint32_t NotFound = ~0u;
+		static constexpr uint32_t InvalidLocation = ~0u;
 
 		struct Member
 		{
@@ -52,9 +52,9 @@ namespace ast::type
 				, uint32_t parrayStride )
 				: type{ std::move( ptype ) }
 				, name{ std::move( pname ) }
-				, offset{ std::move( poffset ) }
-				, size{ std::move( psize ) }
-				, arrayStride{ std::move( parrayStride ) }
+				, offset{ poffset }
+				, size{ psize }
+				, arrayStride{ parrayStride }
 			{
 			}
 
@@ -66,10 +66,10 @@ namespace ast::type
 				, uint32_t plocation )
 				: type{ std::move( ptype ) }
 				, name{ std::move( pname ) }
-				, offset{ std::move( poffset ) }
-				, size{ std::move( psize ) }
-				, arrayStride{ std::move( parrayStride ) }
-				, location{ std::move( plocation ) }
+				, offset{ poffset }
+				, size{ psize }
+				, arrayStride{ parrayStride }
+				, location{ plocation }
 			{
 			}
 

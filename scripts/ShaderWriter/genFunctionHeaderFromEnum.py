@@ -226,9 +226,9 @@ def computeParams( params, sep, allowEmpty ):
 					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[index]
 			else:
 				if isArray( resParam[index] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[index] )
+					result += sep + " Array< " + paramType + " > " + discardArray( resParam[index] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[index]
+					result += sep + " " + paramType + " " + resParam[index]
 			sep = ","
 			index += 2
 	elif allowEmpty == 0:
@@ -264,9 +264,9 @@ def computeParamsEx( params, sep, lastType ):
 					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[curIndex]
 			else:
 				if isArray( resParam[curIndex] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[curIndex] )
+					result += sep + " Array< " + paramType + " > " + discardArray( resParam[curIndex] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[curIndex]
+					result += sep + " " + paramType + " " + resParam[curIndex]
 			sep = ","
 	return result
 

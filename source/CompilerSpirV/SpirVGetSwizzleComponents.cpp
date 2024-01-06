@@ -13,7 +13,7 @@ namespace spirv
 		static UInt32List getSwizzle2Components( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind swizzle )
 		{
-			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
+			switch ( swizzle.getValue() )
 			{
 			case ast::expr::SwizzleKind::e01:
 				return UInt32List{ { 0, 1 }, ast::StlAllocatorT< uint32_t >( allocator ) };
@@ -28,7 +28,7 @@ namespace spirv
 		static UInt32List getSwizzle3Components( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind swizzle )
 		{
-			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
+			switch ( swizzle.getValue() )
 			{
 			case ast::expr::SwizzleKind::e012:
 				return UInt32List{ { 0, 1, 2 }, ast::StlAllocatorT< uint32_t >( allocator ) };
@@ -51,7 +51,7 @@ namespace spirv
 		static UInt32List getSwizzle4Components( ast::ShaderAllocatorBlock * allocator
 			, ast::expr::SwizzleKind swizzle )
 		{
-			switch ( ast::expr::SwizzleKind::Value( swizzle ) )
+			switch ( swizzle.getValue() )
 			{
 			case ast::expr::SwizzleKind::e0123:
 				return UInt32List{ { 0, 1, 2, 3 }, ast::StlAllocatorT< uint32_t >( allocator ) };
@@ -122,7 +122,7 @@ namespace spirv
 
 			if ( rhs.size() == 1u )
 			{
-				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				switch ( lhsSwizzle.getValue() )
 				{
 				case ast::expr::SwizzleKind::e0:
 					// lhs.x = rhs.c => lhs = vec2(rhs.c, lhs.y)
@@ -165,7 +165,7 @@ namespace spirv
 
 			if ( rhs.size() == 1u )
 			{
-				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				switch ( lhsSwizzle.getValue() )
 				{
 				case ast::expr::SwizzleKind::e0:
 					// lhs.x = rhs.c => lhs = vec3(rhs.c, lhs.y, lhs.z)
@@ -186,7 +186,7 @@ namespace spirv
 			}
 			else if ( rhs.size() == 2u )
 			{
-				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				switch ( lhsSwizzle.getValue() )
 				{
 				case ast::expr::SwizzleKind::e01:
 					// lhs.xy = rhs.cMcN => lhs = vec3(rhs.cM, rhs.cN, lhs.z)
@@ -245,7 +245,7 @@ namespace spirv
 
 			if ( rhs.size() == 1u )
 			{
-				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				switch ( lhsSwizzle.getValue() )
 				{
 				case ast::expr::SwizzleKind::e0:
 					// lhs.x = rhs.c => lhs = vec4(rhs.c, lhs.y, lhs.z, lhs.w)
@@ -270,7 +270,7 @@ namespace spirv
 			}
 			else if ( rhs.size() == 2u )
 			{
-				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				switch ( lhsSwizzle.getValue() )
 				{
 				case ast::expr::SwizzleKind::e01:
 					// lhs.xy = rhs.cMcN => lhs = vec4(rhs.cM, rhs.cN, lhs.z, lhs.w)
@@ -327,7 +327,7 @@ namespace spirv
 			}
 			else if ( rhs.size() == 3u )
 			{
-				switch ( ast::expr::SwizzleKind::Value( lhsSwizzle ) )
+				switch ( lhsSwizzle.getValue() )
 				{
 				case ast::expr::SwizzleKind::e012:
 					// lhs.xyz = rhs.cMcNcO => lhs = vec4(rhs.cM, rhs.cN, rhs.cO, lhs.w)
@@ -471,7 +471,7 @@ namespace spirv
 	UInt32List getSwizzleComponents( ast::ShaderAllocatorBlock * allocator
 		, ast::expr::SwizzleKind kind )
 	{
-		switch ( ast::expr::SwizzleKind::Value( kind ) )
+		switch ( kind.getValue() )
 		{
 		case ast::expr::SwizzleKind::e0:
 			return UInt32List{ { 0 }, ast::StlAllocatorT< uint32_t >( allocator ) };
@@ -1174,11 +1174,11 @@ namespace spirv
 		switch ( count )
 		{
 		case 1:
-			return ast::expr::SwizzleKind::e0;
+			return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 };
 		case 2:
-			return ast::expr::SwizzleKind::e01;
+			return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 };
 		default:
-			return ast::expr::SwizzleKind::e012;
+			return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e012 };
 		}
 	}
 }

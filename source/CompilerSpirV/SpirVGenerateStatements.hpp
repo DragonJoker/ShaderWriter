@@ -28,7 +28,7 @@ namespace spirv
 		, ast::expr::Expr * expr
 		, PreprocContext const & context
 		, Block & currentBlock
-		, Module & module );
+		, Module & shaderModule );
 }
 
 #endif

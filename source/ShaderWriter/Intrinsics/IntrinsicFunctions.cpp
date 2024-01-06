@@ -3042,7 +3042,7 @@ namespace sdw
 	*/
 	/**@{*/
 	RetFloat frexp( Float const x
-		, Int32  exp )
+		, Int32 exp )
 	{
 		return RetFloat{ *findWriter( x, exp )
 			, expr::makeFrexp1F( findExprCache( x, exp )
@@ -3052,7 +3052,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetVec2 frexp( Vec2 const x
-		, I32Vec2  exp )
+		, I32Vec2 exp )
 	{
 		return RetVec2{ *findWriter( x, exp )
 			, expr::makeFrexp2F( findExprCache( x, exp )
@@ -3062,7 +3062,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetVec3 frexp( Vec3 const x
-		, I32Vec3  exp )
+		, I32Vec3 exp )
 	{
 		return RetVec3{ *findWriter( x, exp )
 			, expr::makeFrexp3F( findExprCache( x, exp )
@@ -3072,7 +3072,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetVec4 frexp( Vec4 const x
-		, I32Vec4  exp )
+		, I32Vec4 exp )
 	{
 		return RetVec4{ *findWriter( x, exp )
 			, expr::makeFrexp4F( findExprCache( x, exp )
@@ -3082,7 +3082,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetDouble frexp( Double const x
-		, Int32  exp )
+		, Int32 exp )
 	{
 		return RetDouble{ *findWriter( x, exp )
 			, expr::makeFrexp1D( findExprCache( x, exp )
@@ -3092,7 +3092,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetDVec2 frexp( DVec2 const x
-		, I32Vec2  exp )
+		, I32Vec2 exp )
 	{
 		return RetDVec2{ *findWriter( x, exp )
 			, expr::makeFrexp2D( findExprCache( x, exp )
@@ -3102,7 +3102,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetDVec3 frexp( DVec3 const x
-		, I32Vec3  exp )
+		, I32Vec3 exp )
 	{
 		return RetDVec3{ *findWriter( x, exp )
 			, expr::makeFrexp3D( findExprCache( x, exp )
@@ -3112,7 +3112,7 @@ namespace sdw
 			, areOptionalEnabled( x, exp ) };
 	}
 	RetDVec4 frexp( DVec4 const x
-		, I32Vec4  exp )
+		, I32Vec4 exp )
 	{
 		return RetDVec4{ *findWriter( x, exp )
 			, expr::makeFrexp4D( findExprCache( x, exp )
@@ -7090,9 +7090,9 @@ namespace sdw
 	*	controlBarrier
 	*/
 	/**@{*/
-	RetVoid controlBarrier( type::Scope  executionScope
-		, type::Scope  memoryScope
-		, type::MemorySemantics  semantics )
+	RetVoid controlBarrier( type::Scope executionScope
+		, type::Scope memoryScope
+		, type::MemorySemantics semantics )
 	{
 		return RetVoid{ *findWriter( executionScope, memoryScope, semantics )
 			, expr::makeControlBarrier( findExprCache( executionScope, memoryScope, semantics )
@@ -7110,8 +7110,8 @@ namespace sdw
 	*	memoryBarrier
 	*/
 	/**@{*/
-	RetVoid memoryBarrier( type::Scope  memoryScope
-		, type::MemorySemantics  semantics )
+	RetVoid memoryBarrier( type::Scope memoryScope
+		, type::MemorySemantics semantics )
 	{
 		return RetVoid{ *findWriter( memoryScope, semantics )
 			, expr::makeMemoryBarrier( findExprCache( memoryScope, semantics )

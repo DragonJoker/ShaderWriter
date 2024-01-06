@@ -380,7 +380,7 @@ namespace ast
 		return m_maxAllocated;
 	}
 
-	void ShaderAllocator::flushTo( MemoryCursor const & cursor )
+	void ShaderAllocator::flushTo( MemoryCursor const & cursor )noexcept
 	{
 		if ( m_allocationMode == AllocationMode::eIncremental )
 		{
@@ -389,14 +389,20 @@ namespace ast
 
 			if ( currentIt != m_memory.end() )
 			{
-				for ( auto it = currentIt; it != m_memory.end(); ++it )
+				try
 				{
-					it->offset = 0u;
-					m_pending.push_back( std::move( *it ) );
-				}
+					for ( auto it = currentIt; it != m_memory.end(); ++it )
+					{
+						it->offset = 0u;
+						m_pending.push_back( std::move( *it ) );
+					}
 
-				m_memory.erase( currentIt, m_memory.end() );
-				m_currentMemory = &m_memory[size_t( cursor.index )];
+					m_memory.erase( currentIt, m_memory.end() );
+					m_currentMemory = &m_memory[size_t( cursor.index )];
+				}
+				catch ( ... )
+				{
+				}
 			}
 		}
 	}

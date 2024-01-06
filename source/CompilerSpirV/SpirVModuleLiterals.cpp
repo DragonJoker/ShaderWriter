@@ -14,7 +14,7 @@ namespace spirv
 		template< typename LitT >
 		static DebugId registerLiteral( LitT value
 			, ast::type::TypePtr valueType
-			, Module & module
+			, Module & shaderModule
 			, ast::Map< LitT, DebugId > & registeredLitConstants
 			, ast::UnorderedMap< DebugId, ast::type::TypePtr, DebugIdHasher > & registeredConstants )
 		{
@@ -22,10 +22,10 @@ namespace spirv
 
 			if ( it == registeredLitConstants.end() )
 			{
-				auto type = module.getTypes().registerType( valueType, nullptr );
-				DebugId result{ module.getNextId(), type->type };
+				auto type = shaderModule.getTypes().registerType( valueType, nullptr );
+				DebugId result{ shaderModule.getNextId(), type->type };
 				result.debug = result.id;
-				module.constantsTypes.push_back( makeInstruction< ConstantInstruction >( module.getNameCache()
+				shaderModule.constantsTypes.push_back( makeInstruction< ConstantInstruction >( shaderModule.getNameCache()
 					, type.id
 					, result.id
 					, makeOperands( registeredConstants.get_allocator().getAllocator(), ValueId{ spv::Id( value ) } ) ) );
@@ -40,9 +40,9 @@ namespace spirv
 	//*************************************************************************
 
 	ModuleLiterals::ModuleLiterals( ast::ShaderAllocatorBlock * allocator
-		, Module & module
+		, Module & shaderModule
 		, InstructionList & declarations )
-		: m_module{ module }
+		: m_module{ shaderModule }
 		, m_declarations{ declarations }
 		, m_allocator{ allocator }
 		, m_registeredBoolConstants{ m_allocator }

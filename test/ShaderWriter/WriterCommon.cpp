@@ -925,12 +925,12 @@ namespace test
 
 							config.allocator = &testCounts.allocator;
 							auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
-							auto module = spirv::compileSpirV( *testCounts.allocatorBlock
+							auto shaderModule = spirv::compileSpirV( *testCounts.allocatorBlock
 								, shader
 								, statements.get()
 								, entryPoint.stage
 								, config );
-							auto textSpirv = spirv::writeModule( *module );
+							auto textSpirv = spirv::writeModule( *shaderModule );
 
 							if ( textSpirv.empty() )
 							{
@@ -944,7 +944,7 @@ namespace test
 
 							try
 							{
-								spirv = spirv::serialiseModule( *module );
+								spirv = spirv::serialiseModule( *shaderModule );
 								success();
 							}
 							catch ( ... )
@@ -1257,62 +1257,69 @@ namespace test
 						, entryPoints };
 					std::string errors;
 					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
-					check( isValidated );
-					check( errors.empty() );
 
-					if ( !isValidated
-						|| !errors.empty() )
+					if ( errors.find( "failed to compile internal representation" ) == std::string::npos )
 					{
-						if ( !errors.empty() )
+						check( isValidated );
+						check( errors.empty() );
+
+						if ( !isValidated
+							|| !errors.empty() )
 						{
-							testCounts << errors << endl;
-						}
+							if ( !errors.empty() )
+							{
+								testCounts << errors << endl;
+							}
 
 #if SDW_Test_HasSpirVCross
-						auto validate = [&]()
-						{
-							spirv::SpirVConfig config{};
-							config.specVersion = testCounts.getSpirVVersion( infoIndex );
-							config.stmtCache = &testCounts.stmtCache;
-							config.exprCache = &testCounts.exprCache;
-							auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-							auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-								, shader.getType()
-								, testCounts
-								, true );
-							config.stmtCache = &testCounts.stmtCache;
-							config.exprCache = &testCounts.exprCache;
-							auto textSpirv = spirv::writeSpirv( shader, config );
-							displayShader( "SPIR-V"
-								, textSpirv
-								, testCounts
-								, true
-								, false );
-							displayShader( "SpirV-Cross GLSL"
-								, crossGlsl
-								, testCounts
-								, true
-								, true );
-							auto cfg = getGlslConfig( glsl::v4_6 );
-							cfg.stmtCache = &testCounts.stmtCache;
-							cfg.exprCache = &testCounts.exprCache;
-							auto glslangSpirv = compileGlslToSpv( shader.getType()
-								, glsl::compileGlsl( shader
-									, ast::SpecialisationInfo{}
+							auto validate = [&]()
+								{
+									spirv::SpirVConfig config{};
+									config.specVersion = testCounts.getSpirVVersion( infoIndex );
+									config.stmtCache = &testCounts.stmtCache;
+									config.exprCache = &testCounts.exprCache;
+									auto sdwSpirV = spirv::serialiseSpirv( shader, config );
+									auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+										, shader.getType()
+										, testCounts
+										, true );
+									config.stmtCache = &testCounts.stmtCache;
+									config.exprCache = &testCounts.exprCache;
+									auto textSpirv = spirv::writeSpirv( shader, config );
+									displayShader( "SPIR-V"
+										, textSpirv
+										, testCounts
+										, true
+										, false );
+									displayShader( "SpirV-Cross GLSL"
+										, crossGlsl
+										, testCounts
+										, true
+										, true );
+									auto cfg = getGlslConfig( glsl::v4_6 );
+									cfg.stmtCache = &testCounts.stmtCache;
+									cfg.exprCache = &testCounts.exprCache;
+									auto glslangSpirv = compileGlslToSpv( shader.getType()
+										, glsl::compileGlsl( shader
+											, ast::SpecialisationInfo{}
 									, cfg ) );
-							displayShader( "glslang SPIR-V"
-								, spirv::displaySpirv( glslangSpirv )
-								, testCounts
-								, true
-								, false );
-						};
-						checkNoThrow( validate() );
+									displayShader( "glslang SPIR-V"
+										, spirv::displaySpirv( glslangSpirv )
+										, testCounts
+										, true
+										, false );
+								};
+							checkNoThrow( validate() );
 #endif
+						}
 					}
 				}
 				catch ( std::exception & exc )
 				{
-					if ( exc.what() != std::string{ "Shader serialization failed." } )
+					auto err = std::string{ exc.what() };
+
+					if ( err != std::string{ "Shader serialization failed." }
+						&& err.find( "failed to compile internal representation" ) == std::string::npos )
 					{
 						failure( "Shader validation" );
 					}

@@ -68,9 +68,7 @@ namespace ast::expr
 	class Visitor
 	{
 	protected:
-		SDAST_API Visitor()
-		{
-		}
+		SDAST_API Visitor() = default;
 
 	public:
 		SDAST_API virtual ~Visitor() = default;
@@ -133,7 +131,7 @@ namespace ast::expr
 		SDAST_API virtual void visitUnaryPlusExpr( UnaryPlus * ) = 0;
 		SDAST_API virtual void visitXorAssignExpr( XorAssign * ) = 0;
 	};
-	/*
+	/**
 	*	Provides a base implementation of an expression visitor.
 	*	Implements all visits except the following:
 	*	- void visitUnaryExpr( ast::expr::Unary * expr )override;
@@ -158,9 +156,7 @@ namespace ast::expr
 		: public Visitor
 	{
 	protected:
-		SimpleVisitor()
-		{
-		}
+		SimpleVisitor() = default;
 
 	public:
 		virtual void visitUnaryExpr( Unary * expr ) = 0;

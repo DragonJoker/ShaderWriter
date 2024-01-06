@@ -21,9 +21,9 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	void ModuleDeleter::operator()( Module * module )
+	void ModuleDeleter::operator()( Module * shaderModule )
 	{
-		delete module;
+		delete shaderModule;
 	}
 
 	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
@@ -133,15 +133,15 @@ namespace spirv
 			, spirvConfig );
 	}
 
-	std::string writeModule( Module const & module
+	std::string writeModule( Module const & shaderModule
 		, bool writeHeader )
 	{
 		std::string result;
 
 		try
 		{
-			NameCache names{ module.allocator };
-			result = Module::write( module, names, writeHeader );
+			NameCache names{ shaderModule.allocator };
+			result = Module::write( shaderModule, names, writeHeader );
 		}
 		catch ( std::exception & exc )
 		{
@@ -151,13 +151,13 @@ namespace spirv
 		return result;
 	}
 
-	std::vector< uint32_t > serialiseModule( Module const & module )
+	std::vector< uint32_t > serialiseModule( Module const & shaderModule )
 	{
 		std::vector< uint32_t > result{};
 
 		try
 		{
-			auto spirv = Module::serialize( module );
+			auto spirv = Module::serialize( shaderModule );
 			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
 		catch ( std::exception & exc )
@@ -180,9 +180,9 @@ namespace spirv
 
 		try
 		{
-			auto module = compileSpirV( *allocator, shader, statements, stage, config );
+			auto shaderModule = compileSpirV( *allocator, shader, statements, stage, config );
 			NameCache names{ allocator.get() };
-			result = Module::write( *module, names, writeHeader );
+			result = Module::write( *shaderModule, names, writeHeader );
 		}
 		catch ( std::exception & exc )
 		{
@@ -214,8 +214,8 @@ namespace spirv
 
 		try
 		{
-			auto module = compileSpirV( *allocator, shader, statements, stage, config );
-			auto spirv = Module::serialize( *module );
+			auto shaderModule = compileSpirV( *allocator, shader, statements, stage, config );
+			auto spirv = Module::serialize( *shaderModule );
 			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
 		catch ( std::exception & exc )
@@ -240,8 +240,8 @@ namespace spirv
 	{
 		ast::type::TypesCache typesCache{};
 		NameCache names{ &allocator };
-		auto module = spirv::Module::deserialize( &allocator, typesCache, names, spirv );
-		return spirv::Module::write( module, names, true );
+		auto shaderModule = spirv::Module::deserialize( &allocator, typesCache, names, spirv );
+		return spirv::Module::write( shaderModule, names, true );
 	}
 
 	ast::Shader parseSpirv( ast::ShaderAllocatorBlock & allocator
@@ -266,12 +266,12 @@ namespace spirv
 
 		ast::type::TypesCache typesCache{};
 		NameCache names{ &allocator };
-		auto module = spirv::Module::deserialize( &allocator, typesCache, names, spirv );
+		auto shaderModule = spirv::Module::deserialize( &allocator, typesCache, names, spirv );
 		ast::Shader result{ stage };
-		ast::Map< uint32_t, ast::Map< uint32_t, std::string > > mbrNames{ module.allocator };
+		ast::Map< uint32_t, ast::Map< uint32_t, std::string > > mbrNames{ shaderModule.allocator };
 
 		// Gather names
-		for ( auto & instruction : module.getDebugStringsDeclarations() )
+		for ( auto & instruction : shaderModule.getDebugStringsDeclarations() )
 		{
 			switch ( instruction->op.op )
 			{
@@ -282,7 +282,7 @@ namespace spirv
 				break;
 			}
 		}
-		for ( auto & instruction : module.getDebugNamesDeclarations() )
+		for ( auto & instruction : shaderModule.getDebugNamesDeclarations() )
 		{
 			switch ( instruction->op.op )
 			{
@@ -293,7 +293,7 @@ namespace spirv
 				break;
 			case spv::OpMemberName:
 				{
-					auto it = mbrNames.emplace( *instruction->returnTypeId, ast::Map< uint32_t, std::string >{ module.allocator } ).first;
+					auto it = mbrNames.emplace( *instruction->returnTypeId, ast::Map< uint32_t, std::string >{ shaderModule.allocator } ).first;
 					it->second.emplace( *instruction->resultId, *instruction->name );
 				}
 				break;
@@ -302,7 +302,7 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : module.extensions )
+		for ( auto & instruction : shaderModule.extensions )
 		{
 			switch ( instruction->op.op )
 			{
@@ -315,7 +315,7 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : module.capabilities )
+		for ( auto & instruction : shaderModule.capabilities )
 		{
 			switch ( instruction->op.op )
 			{
@@ -326,7 +326,7 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : module.executionModes )
+		for ( auto & instruction : shaderModule.executionModes )
 		{
 			switch ( instruction->op.op )
 			{
@@ -337,7 +337,7 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : module.executionModes )
+		for ( auto & instruction : shaderModule.executionModes )
 		{
 			switch ( instruction->op.op )
 			{
@@ -350,7 +350,7 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : module.globalDeclarations )
+		for ( auto & instruction : shaderModule.globalDeclarations )
 		{
 			switch ( instruction->op.op )
 			{

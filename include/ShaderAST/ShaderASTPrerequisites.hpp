@@ -555,27 +555,20 @@ namespace ast
 		using ImagePtr = std::shared_ptr< Image >;
 		class CombinedImage;
 		using CombinedImagePtr = std::shared_ptr< CombinedImage >;
-		class Sampler;
-		using SamplerPtr = std::shared_ptr< Sampler >;
 	}
 
 	struct AttributeInfo
 	{
 		type::TypePtr type;
 		uint32_t location;
+
+		SDAST_API bool operator==( AttributeInfo const & rhs )const = default;
 	};
 
-	inline bool operator<( AttributeInfo const & lhs
+	inline std::strong_ordering operator<=>( AttributeInfo const & lhs
 		, AttributeInfo const & rhs )
 	{
-		return lhs.location < rhs.location;
-	}
-
-	inline bool operator==( AttributeInfo const & lhs
-		, AttributeInfo const & rhs )
-	{
-		return lhs.location == rhs.location
-			&& lhs.type == rhs.type;
+		return lhs.location <=> rhs.location;
 	}
 
 	struct SpecConstantInfo
@@ -596,18 +589,14 @@ namespace ast
 	struct InOutInfo
 	{
 		type::TypePtr type;
+
+		SDAST_API bool operator==( InOutInfo const & rhs )const = default;
 	};
 
-	inline bool operator<( ast::InOutInfo const & lhs
-		, ast::InOutInfo const & rhs )
+	inline bool operator<( InOutInfo const & lhs
+		, InOutInfo const & rhs )
 	{
 		return lhs.type < rhs.type;
-	}
-
-	inline bool operator==( ast::InOutInfo const & lhs
-		, ast::InOutInfo const & rhs )
-	{
-		return lhs.type == rhs.type;
 	}
 
 	struct SpecConstantData
@@ -625,21 +614,19 @@ namespace ast
 	{
 		uint32_t binding;
 		uint32_t set;
+
+		SDAST_API bool operator==( DescriptorBinding const & rhs )const = default;
 	};
 
-	inline bool operator<( DescriptorBinding const & lhs
+	inline std::strong_ordering operator<=>( DescriptorBinding const & lhs
 		, DescriptorBinding const & rhs )
 	{
-		return lhs.set < rhs.set
-			|| ( lhs.set == rhs.set
-				&& lhs.binding < rhs.binding );
-	}
+		if ( auto c = lhs.set <=> rhs.set; c !=std::strong_ordering::equal )
+		{
+			return c;
+		}
 
-	inline bool operator==( DescriptorBinding const & lhs
-		, DescriptorBinding const & rhs )
-	{
-		return lhs.set == rhs.set
-			&& lhs.binding == rhs.binding;
+		return lhs.binding <=> rhs.binding;
 	}
 
 	template< typename TypeT = ast::type::Type >

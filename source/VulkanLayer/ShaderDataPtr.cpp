@@ -322,7 +322,7 @@ namespace ast::vk
 		}
 
 		template< typename DescT >
-		static std::map< DescriptorBinding, DescT const * > getPtr( std::map< std::string, DescT > const & rhs )
+		static std::map< DescriptorBinding, DescT const * > getPtr( std::map< std::string, DescT, std::less<> > const & rhs )
 		{
 			std::map< DescriptorBinding, DescT const * > result;
 
@@ -347,7 +347,7 @@ namespace ast::vk
 			return result;
 		}
 
-		static inline ShaderDataPtr::InputMap getPtr( std::map< EntryPoint, ShaderData::InputMap > const & rhs
+		static inline ShaderDataPtr::InputMap getPtr( std::map< EntryPoint, ShaderData::InputMap, std::less<> > const & rhs
 			, EntryPoint entryPoint )
 		{
 			auto it = rhs.find( entryPoint );
@@ -364,7 +364,7 @@ namespace ast::vk
 			return result;
 		}
 
-		static inline ShaderDataPtr::OutputMap getPtr( std::map< EntryPoint, ShaderData::OutputMap > const & rhs
+		static inline ShaderDataPtr::OutputMap getPtr( std::map< EntryPoint, ShaderData::OutputMap, std::less<> > const & rhs
 			, EntryPoint entryPoint )
 		{
 			auto it = rhs.find( entryPoint );

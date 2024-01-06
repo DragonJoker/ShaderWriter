@@ -696,14 +696,14 @@ namespace sdw
 	*	frexp
 	*/
 	/**@{*/
-	SDW_API RetFloat frexp( Float const x, Int32  exp );
-	SDW_API RetVec2 frexp( Vec2 const x, I32Vec2  exp );
-	SDW_API RetVec3 frexp( Vec3 const x, I32Vec3  exp );
-	SDW_API RetVec4 frexp( Vec4 const x, I32Vec4  exp );
-	SDW_API RetDouble frexp( Double const x, Int32  exp );
-	SDW_API RetDVec2 frexp( DVec2 const x, I32Vec2  exp );
-	SDW_API RetDVec3 frexp( DVec3 const x, I32Vec3  exp );
-	SDW_API RetDVec4 frexp( DVec4 const x, I32Vec4  exp );
+	SDW_API RetFloat frexp( Float const x, Int32 exp );
+	SDW_API RetVec2 frexp( Vec2 const x, I32Vec2 exp );
+	SDW_API RetVec3 frexp( Vec3 const x, I32Vec3 exp );
+	SDW_API RetVec4 frexp( Vec4 const x, I32Vec4 exp );
+	SDW_API RetDouble frexp( Double const x, Int32 exp );
+	SDW_API RetDVec2 frexp( DVec2 const x, I32Vec2 exp );
+	SDW_API RetDVec3 frexp( DVec3 const x, I32Vec3 exp );
+	SDW_API RetDVec4 frexp( DVec4 const x, I32Vec4 exp );
 	/**@}*/
 #pragma endregion
 #pragma region ldexp
@@ -1612,7 +1612,7 @@ namespace sdw
 	*	controlBarrier
 	*/
 	/**@{*/
-	SDW_API RetVoid controlBarrier( type::Scope  executionScope, type::Scope  memoryScope, type::MemorySemantics  semantics );
+	SDW_API RetVoid controlBarrier( type::Scope executionScope, type::Scope memoryScope, type::MemorySemantics semantics );
 	/**@}*/
 #pragma endregion
 #pragma region memoryBarrier
@@ -1621,7 +1621,7 @@ namespace sdw
 	*	memoryBarrier
 	*/
 	/**@{*/
-	SDW_API RetVoid memoryBarrier( type::Scope  memoryScope, type::MemorySemantics  semantics );
+	SDW_API RetVoid memoryBarrier( type::Scope memoryScope, type::MemorySemantics semantics );
 	/**@}*/
 #pragma endregion
 #pragma region traceRay

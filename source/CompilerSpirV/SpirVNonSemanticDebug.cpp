@@ -28,11 +28,11 @@ namespace spirv::debug
 	}
 
 	NonSemanticDebug::NonSemanticDebug( ast::ShaderAllocatorBlock * allocator
-		, Module & module
+		, Module & shaderModule
 		, glsl::StmtConfig const * config )
 		: m_allocator{ allocator }
-		, m_module{ module }
-		, m_types{ module.getTypes() }
+		, m_module{ shaderModule }
+		, m_types{ shaderModule.getTypes() }
 		, m_config{ config }
 		, m_declarations{ allocator }
 	{

@@ -19,7 +19,7 @@ namespace ast::expr
 			, IdentifierPtr lhs
 			, ExprPtr rhs );
 
-		Identifier * getLHS()const
+		Identifier * getIdentifier()const
 		{
 			return static_cast< Identifier * >( Binary::getLHS() );
 		}

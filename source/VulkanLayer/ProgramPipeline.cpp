@@ -819,9 +819,9 @@ namespace ast::vk
 	{
 		std::vector< VkShaderModuleCreateInfo > result;
 
-		for ( auto & module : m_shaderModules )
+		for ( auto & shaderModule : m_shaderModules )
 		{
-			result.push_back( module.data );
+			result.push_back( shaderModule.data );
 		}
 
 		return result;

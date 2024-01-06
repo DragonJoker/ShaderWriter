@@ -215,6 +215,32 @@ namespace sdw
 		sdw::Value::doCopy( rhs );\
 		return *this;\
 	}\
+	expdecl name & operator=( sdw::ReturnWrapperT< name > && rhs )\
+	{\
+		if ( rhs.isEnabled() && this->isEnabled() && this->m_expr && !this->m_expr->isConstant() )\
+		{\
+			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );\
+			sdw::addStmt( writer\
+				, sdw::makeSimple( getStmtCache( writer )\
+					, sdw::makeAssign( this->getType()\
+						, sdw::makeExpr( writer, *this )\
+						, std::move( rhs.m_expr ) ) ) );\
+		}\
+		return *this;\
+	}\
+	expdecl name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
+	{\
+		if ( rhs.isEnabled() && this->isEnabled() && this->m_expr && !this->m_expr->isConstant() )\
+		{\
+			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );\
+			sdw::addStmt( writer\
+				, sdw::makeSimple( getStmtCache( writer )\
+					, sdw::makeAssign( this->getType()\
+						, sdw::makeExpr( writer, *this )\
+						, sdw::makeExpr( writer, rhs ) ) ) );\
+		}\
+		return *this;\
+	}\
 	expdecl ~name()override = default
 
 #include "Value.inl"

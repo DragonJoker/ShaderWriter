@@ -31,7 +31,7 @@ namespace ast::var
 		Variable( EntityName nameId
 			, VariablePtr outer
 			, type::TypePtr type )
-			: Variable{ std::move( nameId ), std::move( outer ), std::move( type ), 0ull }
+			: Variable{ std::move( nameId ), std::move( outer ), std::move( type ), 0ULL }
 		{
 		}
 
@@ -45,7 +45,7 @@ namespace ast::var
 
 		Variable( EntityName nameId
 			, type::TypePtr type )
-			: Variable{ std::move( nameId ), nullptr, std::move( type ), 0ull }
+			: Variable{ std::move( nameId ), nullptr, std::move( type ), 0ULL }
 		{
 		}
 
@@ -92,7 +92,7 @@ namespace ast::var
 
 		VariablePtr getOutermost()const
 		{
-			if ( m_outer->isMember() )
+			if ( m_outer->isMemberVar() )
 			{
 				return m_outer->getOuter();
 			}
@@ -100,7 +100,7 @@ namespace ast::var
 			return m_outer;
 		}
 
-		bool isMember()const
+		bool isMemberVar()const
 		{
 			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
 			return hasFlag( Flag::eMember )
@@ -281,7 +281,7 @@ namespace ast::var
 
 	inline VariablePtr getOutermost( VariablePtr var )
 	{
-		if ( var->isMember() )
+		if ( var->isMemberVar() )
 		{
 			return getOutermost( var->getOuter() );
 		}
