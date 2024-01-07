@@ -240,9 +240,6 @@ namespace ast::expr
 				return exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eUInt64 >( lhs )
 						, rhs.getValue< expr::LiteralType::eUInt64 >() ) );
-			case expr::LiteralType::eBool:
-			case expr::LiteralType::eFloat:
-			case expr::LiteralType::eDouble:
 			default:
 				AST_Failure( "Unexpected operand type for a binary integral arithmetic operator operator" );
 				return nullptr;
@@ -275,7 +272,6 @@ namespace ast::expr
 				return exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eDouble >( lhs )
 						, rhs.getValue< expr::LiteralType::eDouble >() ) );
-			case expr::LiteralType::eBool:
 			default:
 				AST_Failure( "Unexpected operand type for a binary arithmetic operator operator" );
 				return nullptr;
@@ -698,8 +694,6 @@ namespace ast::expr
 				case expr::LiteralType::eUInt64:
 					return exprCache.makeLiteral( typesCache
 						, ~operand.getValue< expr::LiteralType::eUInt64 >() );
-				case expr::LiteralType::eFloat:
-				case expr::LiteralType::eDouble:
 				default:
 					AST_Failure( "Unexpected operand type for unary not" );
 					return nullptr;
@@ -925,7 +919,7 @@ namespace ast::expr
 	{
 		if ( expr.getKind() != Kind::eLiteral )
 		{
-			throw std::runtime_error{ "Expected a literal expression" };
+			throw Exception{ "Expected a literal expression" };
 		}
 
 		return static_cast< Literal const & >( expr ).getValue< T >();

@@ -17,7 +17,7 @@ namespace ast::stmt
 		friend class StmtCache;
 
 	private:
-		SDAST_API Else( StmtCache & stmtCache );
+		SDAST_API explicit Else( StmtCache & stmtCache );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;

@@ -22,7 +22,7 @@ namespace ast::stmt
 	private:
 		SDAST_API explicit SwitchCase( StmtCache & stmtCache
 			, expr::SwitchCasePtr caseExpr );
-		SDAST_API SwitchCase( StmtCache & stmtCache );
+		SDAST_API explicit SwitchCase( StmtCache & stmtCache );
 
 	public:
 		SDAST_API void accept( VisitorPtr vis )override;

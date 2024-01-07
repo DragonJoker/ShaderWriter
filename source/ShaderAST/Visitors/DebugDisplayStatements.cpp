@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/DebugDisplayStatements.hpp"
 
+#include "ShaderAST/Shader.hpp"
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 #include "ShaderAST/Expr/GetCombinedImageAccessName.hpp"
 #include "ShaderAST/Expr/GetIntrinsicName.hpp"
@@ -939,7 +940,7 @@ namespace ast::debug
 				result = "^=";
 				break;
 			default:
-				throw std::runtime_error{ "Non operation expression" };
+				throw Exception{ "Non operation expression" };
 			}
 
 			return result;
@@ -991,7 +992,7 @@ namespace ast::debug
 				result = "Combine";
 				break;
 			default:
-				throw std::runtime_error{ "Unsupported expr::CompositeType" };
+				throw Exception{ "Unsupported expr::CompositeType" };
 			}
 
 			return result;
@@ -1066,18 +1067,18 @@ namespace ast::debug
 		{
 			wrap( expr->getLHS() );
 
-			if ( expr->getKind() == expr::Kind::eArrayAccess )
+			if ( expr->getKind() != expr::Kind::eArrayAccess )
 			{
-			}
-			else if ( expr->getKind() == expr::Kind::eAlias )
-			{
-				m_result += " = ";
-				wrap( expr->getRHS() );
-			}
-			else
-			{
-				m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
-				wrap( expr->getRHS() );
+				if ( expr->getKind() == expr::Kind::eAlias )
+				{
+					m_result += " = ";
+					wrap( expr->getRHS() );
+				}
+				else
+				{
+					m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
+					wrap( expr->getRHS() );
+				}
 			}
 		}
 

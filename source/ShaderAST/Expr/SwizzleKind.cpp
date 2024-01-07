@@ -1,6 +1,6 @@
 #include "ShaderAST/Expr/SwizzleKind.hpp"
 
-#include <stdexcept>
+#include "ShaderAST/Shader.hpp"
 
 namespace ast::expr
 {
@@ -1202,7 +1202,7 @@ namespace ast::expr
 			result = "wwww";
 			break;
 		default:
-			throw std::runtime_error{ "Not supported SwizzleKind" };
+			throw Exception{ "Not supported SwizzleKind" };
 		}
 
 		return result;

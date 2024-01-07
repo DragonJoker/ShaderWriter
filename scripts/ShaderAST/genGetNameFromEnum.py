@@ -10,6 +10,7 @@ def printHeader( outs, match ):
 	outs.write( '#pragma once\n' )
 	outs.write( "\n" )
 	outs.write( '#include "Enum' + enumName + '.hpp"\n' )
+	outs.write( '#include "Shader.hpp"\n' )
 	outs.write( "\n" )
 	outs.write( '#include <string>\n' )
 	outs.write( "\n" )
@@ -72,7 +73,7 @@ def printValue( outs, enumName, match ):
 
 def printFooter( outs, enumName ):
 	outs.write( "\t\tdefault:\n" )
-	outs.write( '\t\t\tthrow std::runtime_error{ "Unsupported ' + enumName + ' type." };\n' )
+	outs.write( '\t\t\tthrow Exception{ "Unsupported ' + enumName + ' type." };\n' )
 	outs.write( "\t\t}\n" )
 	outs.write( "\n" )
 	outs.write( "\t\treturn result;\n" )

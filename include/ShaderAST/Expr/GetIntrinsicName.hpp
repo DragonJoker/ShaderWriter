@@ -9,6 +9,7 @@ This file is generated, don't modify it!
 #pragma once
 
 #include "EnumIntrinsic.hpp"
+#include "Shader.hpp"
 
 #include <string>
 
@@ -5398,7 +5399,7 @@ namespace ast::expr
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported Intrinsic type." };
+			throw Exception{ "Unsupported Intrinsic type." };
 		}
 
 		return result;

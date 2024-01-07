@@ -52,7 +52,7 @@ namespace ast
 		{
 			std::string text;
 			text += "No registered variable with the name [" + std::string( name ) + "].";
-			throw std::runtime_error{ text };
+			throw Exception{ text };
 		}
 
 		return *it;

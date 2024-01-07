@@ -147,12 +147,12 @@ namespace ast::type
 		SDAST_API TypePtr getMat2Type( Kind kind );
 		SDAST_API TypePtr getMat3Type( Kind kind );
 		SDAST_API TypePtr getMat4Type( Kind kind );
-		SDAST_API Kind getVec2Kind( Kind kind );
-		SDAST_API Kind getVec3Kind( Kind kind );
-		SDAST_API Kind getVec4Kind( Kind kind );
-		SDAST_API Kind getMat2Kind( Kind kind );
-		SDAST_API Kind getMat3Kind( Kind kind );
-		SDAST_API Kind getMat4Kind( Kind kind );
+		SDAST_API Kind getVec2Kind( Kind kind )const;
+		SDAST_API Kind getVec3Kind( Kind kind )const;
+		SDAST_API Kind getVec4Kind( Kind kind )const;
+		SDAST_API Kind getMat2Kind( Kind kind )const;
+		SDAST_API Kind getMat3Kind( Kind kind )const;
+		SDAST_API Kind getMat4Kind( Kind kind )const;
 		SDAST_API TypePtr getVector( Kind kind, uint32_t count );
 
 		SDAST_API AccelerationStructurePtr getAccelerationStructure();
@@ -177,8 +177,8 @@ namespace ast::type
 		SDAST_API IOStructPtr getIOStruct( std::string name, ast::EntryPoint entryPoint, var::Flag flag );
 		SDAST_API ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize );
 
-		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex );
-		SDAST_API Type const * getNonMemberType( TypePtr type );
+		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex )const;
+		SDAST_API Type const * getNonMemberType( TypePtr type )const;
 
 		SDAST_API TypePtr getPointerType( TypePtr pointerType, Storage storage );
 		SDAST_API TypePtr getForwardPointerType( TypePtr pointerType, Storage storage );

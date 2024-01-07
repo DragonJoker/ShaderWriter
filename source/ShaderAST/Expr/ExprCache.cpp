@@ -65,7 +65,7 @@ namespace ast::expr
 {
 	//*********************************************************************************************
 
-	void DeleteExpr::operator()( Expr * expr )noexcept
+	void DeleteExpr::operator()( Expr * expr )const noexcept
 	{
 		if ( expr )
 		{

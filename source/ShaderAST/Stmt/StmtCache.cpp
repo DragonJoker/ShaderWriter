@@ -57,7 +57,7 @@ namespace ast::stmt
 {
 	//*********************************************************************************************
 
-	void DeleteStmt::operator()( Stmt * stmt )noexcept
+	void DeleteStmt::operator()( Stmt * stmt )const noexcept
 	{
 		if ( stmt )
 		{

@@ -18,7 +18,7 @@ namespace ast::stmt
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
-		inline std::string const & getText()
+		inline std::string const & getText()const noexcept
 		{
 			return m_text;
 		}

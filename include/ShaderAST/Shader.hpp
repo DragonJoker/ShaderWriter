@@ -16,7 +16,6 @@ See LICENSE file in root folder
 #include <vector>
 #include <map>
 #include <set>
-#include <stdexcept>
 
 namespace ast
 {
@@ -73,6 +72,11 @@ namespace ast
 		friend class ShaderBuilder;
 
 	public:
+		SDAST_API Shader( Shader const & ) = delete;
+		SDAST_API Shader & operator=( Shader const & ) = delete;
+		SDAST_API Shader( Shader && )noexcept = default;
+		SDAST_API Shader & operator=( Shader && )noexcept = default;
+
 		SDAST_API explicit Shader( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
 		/**

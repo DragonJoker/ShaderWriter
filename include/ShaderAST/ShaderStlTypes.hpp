@@ -24,11 +24,6 @@ namespace ast
 		template< typename TypeU >
 		friend class StlAllocatorT;
 
-		StlAllocatorT( StlAllocatorT const & rhs )noexcept
-			: m_allocator{ rhs.m_allocator }
-		{
-		}
-
 		StlAllocatorT( ast::ShaderAllocatorBlock * allocator )noexcept
 			: m_allocator{ allocator }
 		{
