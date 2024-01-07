@@ -7,9 +7,9 @@ namespace sdw
 
 	namespace details
 	{
-		inline void getFunctionCallParamsRec( ShaderWriter & writer
-			, expr::ExprList & args
-			, bool & isEnabled )
+		inline void getFunctionCallParamsRec( ShaderWriter const &
+			, expr::ExprList const &
+			, bool const & )
 		{
 		}
 
@@ -36,9 +36,8 @@ namespace sdw
 			, Params const & ... params )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( current );
-			auto currentArgs = makeFnArg( writer, current );
 
-			for ( auto & expr : currentArgs )
+			for ( auto & expr : makeFnArg( writer, current ) )
 			{
 				args.emplace_back( std::move( expr ) );
 			}
@@ -175,9 +174,9 @@ namespace sdw
 		}
 
 		template< typename ParamT, size_t CountT >
-		inline void getCtorCallParamsRec( ShaderWriter & writer
-			, expr::ExprList & args
-			, bool & isEnabled )
+		inline void getCtorCallParamsRec( ShaderWriter const &
+			, expr::ExprList const &
+			, bool const & )
 		{
 		}
 
@@ -201,12 +200,11 @@ namespace sdw
 			, expr::ExprList & args
 			, bool & isEnabled
 			, Param current
-			, Params ... params )
+			, Params && ... params )
 		{
 			isEnabled = isEnabled && isOptionalEnabled( current );
-			auto currentArgs = makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( current ) ) );
 
-			for ( auto & expr : currentArgs )
+			for ( auto & expr : makeFnArg( writer, details::ctorCast< ParamT, CountT >( std::move( current ) ) ) )
 			{
 				args.emplace_back( std::move( expr ) );
 			}
@@ -305,16 +303,16 @@ namespace sdw
 
 	template< typename ParamT, typename ... ParamsT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
-		, ParamT && current
+		, ParamT const & current
 		, ParamsT && ... params );
 
-	inline void getFunctionHeaderArgsRec( var::VariableList & args )
+	inline void getFunctionHeaderArgsRec( var::VariableList const & )
 	{
 	}
 
 	template< typename ParamT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
-		, ParamT && last )
+		, ParamT const & last )
 	{
 		auto idents = listCommaIdentifiers( last.getExpr() );
 		assert( !idents.empty() );
@@ -327,7 +325,7 @@ namespace sdw
 
 	template< typename ParamT, typename ... ParamsT >
 	inline void getFunctionHeaderArgsRec( var::VariableList & args
-		, ParamT && current
+		, ParamT const & current
 		, ParamsT && ... params )
 	{
 		auto idents = listCommaIdentifiers( current.getExpr() );

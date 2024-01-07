@@ -12,14 +12,13 @@ namespace
 {
 	void compileDouble()
 	{
-		bool ignore;
 		auto a = 0.0_d;
 		auto b = 1.0_d;
 		a += b;
 		a -= b;
 		a *= b;
 		a /= b;
-		ignore = a == b;
+		auto ignore = a == b;
 		ignore = a != b;
 		ignore = a <= b;
 		ignore = a >= b;

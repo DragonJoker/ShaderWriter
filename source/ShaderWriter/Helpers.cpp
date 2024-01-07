@@ -84,7 +84,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	stmt::Container * getContainer( ShaderWriter & writer )
+	stmt::Container * getContainer( ShaderWriter const & writer )
 	{
 		return writer.getBuilder().getContainer();
 	}
@@ -113,16 +113,6 @@ namespace sdw
 		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ), flag );
 	}
 
-	ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer )
-	{
-		return writer.getStmtCache();
-	}
-
-	ast::stmt::StmtCache & getStmtCache( ShaderWriter * writer )
-	{
-		return writer->getStmtCache();
-	}
-
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer )
 	{
 		return writer.getStmtCache();
@@ -143,11 +133,6 @@ namespace sdw
 		return builder.getStmtCache();
 	}
 
-	expr::ExprCache & getExprCache( ShaderWriter & writer )
-	{
-		return writer.getExprCache();
-	}
-
 	expr::ExprCache & getExprCache( ShaderWriter const & writer )
 	{
 		return writer.getExprCache();
@@ -161,11 +146,6 @@ namespace sdw
 	expr::ExprCache & getExprCache( ShaderBuilder const & builder )
 	{
 		return builder.getExprCache();
-	}
-
-	type::TypesCache & getTypesCache( ShaderWriter & writer )
-	{
-		return writer.getTypesCache();
 	}
 
 	type::TypesCache & getTypesCache( ShaderWriter const & writer )
@@ -243,91 +223,91 @@ namespace sdw
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, var::VariablePtr const & var
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return writer.getExprCache().makeIdentifier( writer.getTypesCache(), var );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, bool value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int32_t value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int64_t value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, int32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint32_t value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint64_t value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, uint32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, float value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, double value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, long double value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, double( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, type::Scope value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, uint32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, type::MemorySemantics value
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeLiteral( writer, uint32_t( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, expr::ExprPtr const & expr
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return ExprCloner::submit( writer.getExprCache(), expr );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, expr::Expr * expr
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return ExprCloner::submit( writer.getExprCache(), expr );
 	}

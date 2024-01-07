@@ -65,7 +65,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -74,7 +74,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -84,7 +84,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -93,7 +93,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -110,7 +110,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -119,7 +119,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -129,7 +129,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -138,7 +138,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -155,7 +155,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -164,7 +164,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -174,7 +174,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -183,7 +183,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementEntryPointT( uint32_t localSizeX
+		void implementEntryPointT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn

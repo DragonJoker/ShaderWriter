@@ -1,4 +1,0 @@
-/*
-See LICENSE file in root folder
-*/
-

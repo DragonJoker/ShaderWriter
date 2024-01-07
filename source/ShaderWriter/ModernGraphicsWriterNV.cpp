@@ -15,7 +15,7 @@ namespace sdw
 	{
 		if ( builder.getType() != ast::ShaderStage::eModernGraphicsNV )
 		{
-			throw std::logic_error{ "Can't create a ModernGraphicsWriterNV from this kind of builder." };
+			throw ast::Exception{ "Can't create a ModernGraphicsWriterNV from this kind of builder." };
 		}
 	}
 }

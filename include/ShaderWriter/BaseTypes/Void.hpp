@@ -18,7 +18,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled = true );
 		// Intently non explicit
-		SDW_API Void( ReturnWrapperT< Void > && rhs );
+		SDW_API Void( ReturnWrapperT< Void > const & rhs );
 
 		SDW_API ~Void()override = default;
 		SDW_API Void( Void && rhs ) = default;

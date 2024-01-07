@@ -14,7 +14,7 @@ namespace sdw
 	{
 	public:
 		SDW_API Struct( ShaderWriter & writer
-			, std::string name
+			, std::string const & name
 			, type::MemoryLayout layout = type::MemoryLayout::eStd140 );
 		SDW_API Struct( ShaderWriter & writer
 			, ast::type::BaseStructPtr type );
@@ -28,12 +28,12 @@ namespace sdw
 			return m_type;
 		}
 
-		SDW_API bool hasMember( std::string name )const;
+		SDW_API bool hasMember( std::string const & name )const;
 		template< typename ValueT, typename ... ParamsT >
-		inline void declMember( std::string name
+		void declMember( std::string name
 			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
-		inline void declMember( std::string name
+		void declMember( std::string name
 			, uint32_t dimension
 			, ParamsT && ... params );
 		SDW_API void declMember( std::string name
@@ -62,11 +62,11 @@ namespace sdw
 		}
 
 		template< typename ValueT, typename ... ParamsT >
-		inline void declMember( std::string name
+		void declMember( std::string name
 			, uint32_t location
 			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
-		inline void declMember( std::string name
+		void declMember( std::string name
 			, uint32_t dimension
 			, uint32_t location
 			, ParamsT && ... params );

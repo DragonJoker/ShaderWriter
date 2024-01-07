@@ -17,13 +17,13 @@ namespace sdw
 	{
 	}
 
-	void RayPayload::traceRay( AccelerationStructure const & topLevel
-		, UInt32 const & rayFlags
-		, UInt32 const & cullMask
-		, UInt32 const & sbtRecordOffset
-		, UInt32 const & sbtRecordStride
-		, UInt32 const & missIndex
-		, RayDesc const & rayDesc )
+	void RayPayload::traceRay( AccelerationStructure const topLevel
+		, UInt32 const rayFlags
+		, UInt32 const cullMask
+		, UInt32 const sbtRecordOffset
+		, UInt32 const sbtRecordStride
+		, UInt32 const missIndex
+		, RayDesc const rayDesc )const
 	{
 		sdw::traceRay( topLevel
 			, rayFlags

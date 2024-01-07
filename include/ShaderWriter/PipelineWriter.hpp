@@ -25,44 +25,44 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declInput( std::string name
+		T declInput( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declInput( std::string name
+		T declInput( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declInputArray( std::string name
+		Array< T > declInputArray( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declInputArray( std::string name
+		Array< T > declInputArray( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint32_t dimension
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline T declInput( std::string name
+		T declInput( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, bool enabled
 			, T const & defaultValue );
 		template< typename T >
-		inline T declInput( std::string name
+		T declInput( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint64_t attributes
 			, bool enabled
 			, T const & defaultValue );
 		template< typename T >
-		inline Array< T > declInputArray( std::string name
+		Array< T > declInputArray( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint32_t dimension
@@ -70,7 +70,7 @@ namespace sdw
 			, bool enabled
 			, std::vector< T > const & defaultValue );
 		template< typename T >
-		inline Array< T > declInputArray( std::string name
+		Array< T > declInputArray( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint32_t dimension
@@ -85,24 +85,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declOutput( std::string name
+		T declOutput( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, bool enabled = true );
 		template< typename T >
-		inline T declOutput( std::string name
+		T declOutput( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declOutputArray( std::string name
+		Array< T > declOutputArray( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declOutputArray( std::string name
+		Array< T > declOutputArray( std::string name
 			, EntryPoint entryPoint
 			, uint32_t location
 			, uint32_t dimension

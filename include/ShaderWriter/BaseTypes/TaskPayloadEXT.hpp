@@ -16,9 +16,9 @@ namespace sdw
 			, expr::Expr * expr
 			, bool enabled );
 
-		SDW_API void dispatchMesh( UInt32 taskCountX
-			, UInt32 taskCountY
-			, UInt32 taskCountZ )const;
+		SDW_API void dispatchMesh( UInt32 const taskCountX
+			, UInt32 const taskCountY
+			, UInt32 const taskCountZ )const;
 
 		ShaderWriter * getWriter()const
 		{

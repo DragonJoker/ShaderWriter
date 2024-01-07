@@ -12,7 +12,6 @@ namespace
 {
 	void compileInt()
 	{
-		bool ignore;
 		auto a = 0_i;
 		auto b = 1_i;
 		a += b;
@@ -25,7 +24,7 @@ namespace
 		a &= b;
 		a |= b;
 		a ^= b;
-		ignore = a == b;
+		auto ignore = a == b;
 		ignore = a != b;
 		ignore = a <= b;
 		ignore = a >= b;

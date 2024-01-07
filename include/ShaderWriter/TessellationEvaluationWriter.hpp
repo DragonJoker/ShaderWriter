@@ -27,7 +27,7 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		// patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
+		//! patch in gl_PerVertex gl_in[gl_MaxPatchVertices];
 		PerVertex vtx;
 	};
 
@@ -65,9 +65,9 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in int gl_PatchVerticesIn;
+		//! in int gl_PatchVerticesIn;
 		Int32 patchVerticesIn;
-		//in int gl_PrimitiveID / SV_PrimitiveID;
+		//! in int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
 	};
 
@@ -90,11 +90,11 @@ namespace sdw
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//patch out float gl_TessLevelOuter[];
+		//! patch out float gl_TessLevelOuter[];
 		Array< Float > tessLevelOuter;
-		//patch out float gl_TessLevelInner[];
+		//! patch out float gl_TessLevelInner[];
 		Array< Float > tessLevelInner;
-		//in vec3 gl_TessCoord;
+		//! in vec3 gl_TessCoord;
 		Vec3 tessCoord;
 	};
 
@@ -122,7 +122,7 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//out gl_PerVertex;
+		//! out gl_PerVertex;
 		PerVertex vtx;
 	};
 
@@ -172,7 +172,7 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename PatchT
 			, ast::type::PatchDomain DomainT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( uint32_t patchLocation
+		void implementMainT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, TessEvalMainFuncT< InT, MaxPointsT, PatchT, DomainT, OutT > const & function );
@@ -180,7 +180,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( uint32_t patchLocation
+		void implementMainT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -188,7 +188,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( uint32_t patchLocation
+		void implementMainT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -196,7 +196,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( uint32_t patchLocation
+		void implementMainT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -205,7 +205,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
+		void implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
 			, IsolinesTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -213,7 +213,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
+		void implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
 			, TrianglesTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -221,7 +221,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
+		void implementMainT( TessEvalListInT< InT, MaxPointsT > listIn
 			, QuadsTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );

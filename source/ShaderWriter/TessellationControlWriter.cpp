@@ -129,7 +129,7 @@ namespace sdw
 		if ( builder.getType() != ast::ShaderStage::eTessellationControl
 			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )
 		{
-			throw std::logic_error{ "Can't create a TessellationControlWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a TessellationControlWriter from this kind of builder." };
 		}
 	}
 

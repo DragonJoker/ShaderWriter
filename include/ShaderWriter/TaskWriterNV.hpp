@@ -30,17 +30,17 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in uint  gl_DrawID;
+		//! in uint  gl_DrawID;
 		UInt32 const drawID;
-		//const uvec3 gl_WorkGroupSize;
+		//! const uvec3 gl_WorkGroupSize;
 		UInt32 const workGroupSize;
-		//in uvec3 gl_WorkGroupID / SV_GroupID;
+		//! in uvec3 gl_WorkGroupID / SV_GroupID;
 		UInt32 const workGroupID;
-		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
+		//! in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		UInt32 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
+		//! in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		UInt32 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
+		//! in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
 	};
 	/**
@@ -66,36 +66,36 @@ namespace sdw
 		using TaskInNV::getBuilder;
 		using TaskInNV::isEnabled;
 
-		//in uint  gl_DrawID;
+		//! in uint  gl_DrawID;
 		using TaskInNV::drawID;
-		//in uvec3 gl_WorkGroupSize;
+		//! in uvec3 gl_WorkGroupSize;
 		using TaskInNV::workGroupSize;
-		//in uvec3 gl_WorkGroupID / SV_GroupID;
+		//! in uvec3 gl_WorkGroupID / SV_GroupID;
 		using TaskInNV::workGroupID;
-		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
+		//! in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		using TaskInNV::localInvocationID;
-		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
+		//! in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		using TaskInNV::globalInvocationID;
-		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
+		//! in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		using TaskInNV::localInvocationIndex;
 
-		//in uint gl_NumSubgroups;
+		//! in uint gl_NumSubgroups;
 		UInt32 const numSubgroups;
-		//in uint gl_SubgroupID;
+		//! in uint gl_SubgroupID;
 		UInt32 const subgroupID;
-		//in uint gl_SubgroupSize;
+		//! in uint gl_SubgroupSize;
 		UInt32 const subgroupSize;
-		//in uint gl_SubgroupInvocationID;
+		//! in uint gl_SubgroupInvocationID;
 		UInt32 const subgroupInvocationID;
-		//in uvec4 gl_SubgroupEqMask;
+		//! in uvec4 gl_SubgroupEqMask;
 		U32Vec4 const subgroupEqMask;
-		//const uvec4 gl_SubgroupGeMask;
+		//! const uvec4 gl_SubgroupGeMask;
 		U32Vec4 const subgroupGeMask;
-		//const uvec4 gl_SubgroupGtMask;
+		//! const uvec4 gl_SubgroupGtMask;
 		U32Vec4 const subgroupGtMask;
-		//const uvec4 gl_SubgroupLeMask;
+		//! const uvec4 gl_SubgroupLeMask;
 		U32Vec4 const subgroupLeMask;
-		//const uvec4 gl_SubgroupLtMask;
+		//! const uvec4 gl_SubgroupLtMask;
 		U32Vec4 const subgroupLtMask;
 	};
 	/**

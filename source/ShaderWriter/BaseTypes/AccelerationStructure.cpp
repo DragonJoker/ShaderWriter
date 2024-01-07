@@ -16,7 +16,7 @@ namespace sdw
 		if ( getType()
 			&& getType()->getKind() != type::Kind::eAccelerationStructure )
 		{
-			throw std::runtime_error{ "Wrong type for acceleration structure." };
+			throw ast::Exception{ "Wrong type for acceleration structure." };
 		}
 
 		if ( writeStmt )

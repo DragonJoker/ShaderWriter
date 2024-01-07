@@ -26,9 +26,9 @@ namespace sdw
 			, FieldsT... >;
 
 	public:
-		~IOStructInstanceHelperT() override = default;
+		~IOStructInstanceHelperT()noexcept override = default;
 		IOStructInstanceHelperT( IOStructInstanceHelperT const & ) = default;
-		IOStructInstanceHelperT( IOStructInstanceHelperT && ) = default;
+		IOStructInstanceHelperT( IOStructInstanceHelperT && )noexcept = default;
 
 		IOStructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -43,7 +43,7 @@ namespace sdw
 			return *this;
 		}
 
-		IOStructInstanceHelperT & operator=( IOStructInstanceHelperT && rhs )
+		IOStructInstanceHelperT & operator=( IOStructInstanceHelperT && rhs )noexcept
 		{
 			MyHelper::operator=( std::move( rhs ) );
 			return *this;

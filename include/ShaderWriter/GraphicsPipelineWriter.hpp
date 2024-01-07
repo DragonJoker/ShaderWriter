@@ -35,16 +35,16 @@ namespace sdw
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( FragmentMainFuncT< InT, OutT > const & function );
+		void implementEntryPointT( FragmentMainFuncT< InT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( ast::FragmentOrigin origin
+		void implementEntryPointT( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
 			, FragmentMainFuncT< InT, OutT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( FragmentInT< InT > in
+		void implementEntryPointT( FragmentInT< InT > in
 			, FragmentOutT< OutT > out
 			, FragmentMainFuncT< InT, OutT > const & function );
 		/**@}*/
@@ -56,24 +56,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declBlendOutput( std::string name
+		T declBlendOutput( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, bool enabled = true );
 		template< typename T >
-		inline T declBlendOutput( std::string name
+		T declBlendOutput( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string name
+		Array< T > declBlendOutputArray( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string name
+		Array< T > declBlendOutputArray( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension

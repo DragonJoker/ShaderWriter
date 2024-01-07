@@ -17,9 +17,9 @@ namespace sdw
 	{
 	}
 
-	void TaskPayloadEXT::dispatchMesh( UInt32 taskCountX
-		, UInt32 taskCountY
-		, UInt32 taskCountZ )const
+	void TaskPayloadEXT::dispatchMesh( UInt32 const taskCountX
+		, UInt32 const taskCountY
+		, UInt32 const taskCountZ )const
 	{
 		getWriter()->addStmt( makeDispatchMesh( getStmtCache( m_plWriter )
 			, makeExpr( taskCountX )

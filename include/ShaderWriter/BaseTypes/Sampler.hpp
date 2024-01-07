@@ -18,8 +18,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		inline Sampler & operator=( T const & rhs );
-		SDW_API operator uint32_t();
+		Sampler & operator=( T const & rhs );
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, bool isComparison = false );
@@ -33,15 +32,15 @@ namespace sdw
 
 		static constexpr bool Comparison = ComparisonT;
 
-		inline SamplerT( ShaderWriter & writer
+		SamplerT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename T >
-		inline SamplerT & operator=( T const & rhs );
+		SamplerT & operator=( T const & rhs );
 
-		static inline bool makeConfig();
-		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static bool makeConfig();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 

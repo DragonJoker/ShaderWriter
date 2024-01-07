@@ -10,11 +10,11 @@ namespace sdw
 	//************************************************************************************************
 
 	Struct::Struct( ShaderWriter & writer
-		, std::string name
+		, std::string const & name
 		, type::MemoryLayout layout )
 		: m_writer{ &writer }
 		, m_builder{ &m_writer->getBuilder() }
-		, m_type{ writer.getTypesCache().getStruct( layout, std::move( name ) ) }
+		, m_type{ writer.getTypesCache().getStruct( layout, name ) }
 	{
 	}
 
@@ -32,7 +32,7 @@ namespace sdw
 		addStmt( *m_builder, makeStructureDecl( getStmtCache( *m_builder ), m_type ) );
 	}
 
-	bool Struct::hasMember( std::string name )const
+	bool Struct::hasMember( std::string const & name )const
 	{
 		return m_type->hasMember( name );
 	}
@@ -40,7 +40,7 @@ namespace sdw
 	void Struct::declMember( std::string name
 		, Struct const & type )
 	{
-		m_type->declMember( name
+		m_type->declMember( std::move( name )
 			, std::static_pointer_cast< type::Struct >( type.getType() ) );
 	}
 

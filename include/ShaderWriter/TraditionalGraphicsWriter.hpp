@@ -30,11 +30,11 @@ namespace sdw
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( VertexMainFuncT< InT, OutT > const & function );
+		void implementEntryPointT( VertexMainFuncT< InT, OutT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( VertexInT< InT > in
+		void implementEntryPointT( VertexInT< InT > in
 			, VertexOutT< OutT > out
 			, VertexMainFuncT< InT, OutT > const & function );
 		/**@}*/
@@ -52,10 +52,10 @@ namespace sdw
 		*/
 		/**@{*/
 		template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
-		inline void implementEntryPointT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
+		void implementEntryPointT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 
 		template< typename InputArrT, typename OutStreamT >
-		inline void implementEntryPointT( InputArrT in
+		void implementEntryPointT( InputArrT in
 			, OutStreamT out
 			, GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 		/**@}*/
@@ -67,24 +67,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declStreamOutput( std::string name
+		T declStreamOutput( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, bool enabled = true );
 		template< typename T >
-		inline T declStreamOutput( std::string name
+		T declStreamOutput( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string name
+		Array< T > declStreamOutputArray( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string name
+		Array< T > declStreamOutputArray( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension
@@ -110,40 +110,40 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, ast::type::PatchDomain DomainT >
-		inline void implementPatchRoutineT( uint32_t patchLocation
+		void implementPatchRoutineT( uint32_t patchLocation
 			, TessControlPatchRoutineT< InT, MaxPointsT, PatchT, DomainT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( uint32_t patchLocation
+		void implementPatchRoutineT( uint32_t patchLocation
 			, IsolinesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( uint32_t patchLocation
+		void implementPatchRoutineT( uint32_t patchLocation
 			, TrianglesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( uint32_t patchLocation
+		void implementPatchRoutineT( uint32_t patchLocation
 			, QuadsTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
+		void implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
 			, IsolinesTessPatchOutT< PatchT > out
 			, IsolinesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
+		void implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
 			, TrianglesTessPatchOutT< PatchT > out
 			, TrianglesTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT >
-		inline void implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
+		void implementPatchRoutineT( TessControlListInT< InT, MaxPointsT > in
 			, QuadsTessPatchOutT< PatchT > out
 			, QuadsTessControlPatchRoutineT< InT, MaxPointsT, PatchT > const & function );
 		/**@}*/
@@ -158,7 +158,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT
 			, ast::type::PatchDomain DomainT >
-		inline void implementEntryPointT( ast::type::Partitioning partitioning
+		void implementEntryPointT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
@@ -166,7 +166,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( ast::type::Partitioning partitioning
+		void implementEntryPointT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
@@ -174,7 +174,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( ast::type::Partitioning partitioning
+		void implementEntryPointT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
@@ -182,7 +182,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( ast::type::Partitioning partitioning
+		void implementEntryPointT( ast::type::Partitioning partitioning
 			, ast::type::OutputTopology topology
 			, ast::type::PrimitiveOrdering vertexOrder
 			, uint32_t outputVertices
@@ -191,19 +191,19 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( TessControlListInT< InT, MaxPointsT > in
+		void implementEntryPointT( TessControlListInT< InT, MaxPointsT > in
 			, IsolinesTessControlListOutT< OutT > out
 			, IsolinesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( TessControlListInT< InT, MaxPointsT > in
+		void implementEntryPointT( TessControlListInT< InT, MaxPointsT > in
 			, TrianglesTessControlListOutT< OutT > out
 			, TrianglesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( TessControlListInT< InT, MaxPointsT > in
+		void implementEntryPointT( TessControlListInT< InT, MaxPointsT > in
 			, QuadsTessControlListOutT< OutT > out
 			, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function );
 		/**@}*/
@@ -225,7 +225,7 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename PatchT
 			, ast::type::PatchDomain DomainT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( uint32_t patchLocation
+		void implementEntryPointT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, TessEvalMainFuncT< InT, MaxPointsT, PatchT, DomainT, OutT > const & function );
@@ -233,7 +233,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( uint32_t patchLocation
+		void implementEntryPointT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -241,7 +241,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( uint32_t patchLocation
+		void implementEntryPointT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -249,7 +249,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( uint32_t patchLocation
+		void implementEntryPointT( uint32_t patchLocation
 			, ast::type::Partitioning partitioning
 			, ast::type::PrimitiveOrdering ordering
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -258,7 +258,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( TessEvalListInT< InT, MaxPointsT > listIn
+		void implementEntryPointT( TessEvalListInT< InT, MaxPointsT > listIn
 			, IsolinesTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -266,7 +266,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( TessEvalListInT< InT, MaxPointsT > listIn
+		void implementEntryPointT( TessEvalListInT< InT, MaxPointsT > listIn
 			, TrianglesTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );
@@ -274,7 +274,7 @@ namespace sdw
 			, uint32_t MaxPointsT
 			, template< ast::var::Flag FlagT > typename PatchT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementEntryPointT( TessEvalListInT< InT, MaxPointsT > listIn
+		void implementEntryPointT( TessEvalListInT< InT, MaxPointsT > listIn
 			, QuadsTessPatchInT< PatchT > patchIn
 			, TessEvalDataOutT< OutT > out
 			, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function );

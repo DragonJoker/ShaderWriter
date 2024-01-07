@@ -33,15 +33,15 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//in int gl_VertexIndex / SV_VertexID;
+		//! in int gl_VertexIndex / SV_VertexID;
 		Int32 const vertexIndex;
-		//in int gl_InstanceIndex / SV_InstanceID;
+		//! in int gl_InstanceIndex / SV_InstanceID;
 		Int32 const instanceIndex;
-		//in int gl_DrawID;
+		//! in int gl_DrawID;
 		Int32 const drawID;
-		//in int gl_BaseVertex;
+		//! in int gl_BaseVertex;
 		Int32 const baseVertex;
-		//in int gl_BaseInstance;
+		//! in int gl_BaseInstance;
 		Int32 const baseInstance;
 	};
 	/**
@@ -85,11 +85,11 @@ namespace sdw
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( VertexMainFuncT< InT, OutT > const & function );
+		void implementMainT( VertexMainFuncT< InT, OutT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( VertexInT< InT > in
+		void implementMainT( VertexInT< InT > in
 			, VertexOutT< OutT > out
 			, VertexMainFuncT< InT, OutT > const & function );
 	};

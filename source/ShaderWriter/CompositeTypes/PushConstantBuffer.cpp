@@ -25,7 +25,7 @@ namespace sdw
 	}
 
 	PushConstantBuffer::PushConstantBuffer( ShaderWriter & writer
-		, std::string name
+		, std::string const & name
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: PushConstantBuffer{ writer
@@ -50,7 +50,7 @@ namespace sdw
 		, bool enabled )
 	{
 		auto [type, added] = m_info.registerMember( name, s.getType() );
-		auto var = registerMember( m_writer, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled && m_stmt && added )
 		{

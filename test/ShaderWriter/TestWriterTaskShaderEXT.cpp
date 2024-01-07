@@ -535,10 +535,11 @@ namespace
 
 					for ( int i = 0; i < 6; ++i )
 					{
-						if ( dot( center, constants.planes[i] ) < -radius )
+						IF( writer, dot( center, constants.planes[i] ) < -radius )
 						{
 							writer.returnStmt( Boolean{ false } );
 						}
+						FI;
 					}
 
 					// Do normal cone culling

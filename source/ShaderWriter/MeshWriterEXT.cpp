@@ -166,7 +166,7 @@ namespace sdw
 		if ( builder.getType() != ast::ShaderStage::eMesh
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsEXT )
 		{
-			throw std::logic_error{ "Can't create a MeshWriterEXT from this kind of builder." };
+			throw ast::Exception{ "Can't create a MeshWriterEXT from this kind of builder." };
 		}
 	}
 

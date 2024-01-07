@@ -12,7 +12,6 @@ namespace
 {
 	void compileUInt()
 	{
-		bool ignore;
 		auto a = 0_u;
 		auto b = 1_u;
 		a += b;
@@ -25,7 +24,7 @@ namespace
 		a &= b;
 		a |= b;
 		a ^= b;
-		ignore = a == b;
+		auto ignore = a == b;
 		ignore = a != b;
 		ignore = a <= b;
 		ignore = a >= b;

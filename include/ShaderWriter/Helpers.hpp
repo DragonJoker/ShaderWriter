@@ -40,7 +40,7 @@ namespace sdw
 	expr::ExprPtr makeCondition( ValueT value );
 	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig();
-	SDW_API ast::stmt::Container * getContainer( ShaderWriter & shader );
+	SDW_API ast::stmt::Container * getContainer( ShaderWriter const & shader );
 	SDW_API ShaderWriter & getCurrentWriter();
 	SDW_API uint32_t getNextVarId( ShaderWriter & writer );
 	SDW_API uint32_t getNextVarId( ShaderBuilder & builder );
@@ -48,17 +48,13 @@ namespace sdw
 		, ast::type::FunctionPtr type
 		, std::string name
 		, stmt::FunctionFlag flag );
-	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter & writer );
-	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter * writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( Shader const & shader );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderBuilder const & builder );
-	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter & writer );
 	SDW_API ast::expr::ExprCache & getExprCache( ShaderWriter const & writer );
 	SDW_API ast::expr::ExprCache & getExprCache( Shader const & shader );
 	SDW_API ast::expr::ExprCache & getExprCache( ShaderBuilder const & builder );
-	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderWriter const & writer );
 	SDW_API ast::type::TypesCache & getTypesCache( Shader const & shader );
 	SDW_API ast::type::TypesCache & getTypesCache( ShaderBuilder const & builder );

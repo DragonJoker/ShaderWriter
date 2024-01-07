@@ -21,7 +21,7 @@ namespace sdw
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsEXT
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV )
 		{
-			throw std::logic_error{ "Can't create a GraphicsPipelineWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a GraphicsPipelineWriter from this kind of builder." };
 		}
 	}
 	/**

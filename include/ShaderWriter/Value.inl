@@ -32,7 +32,7 @@ namespace sdw
 		template< typename TypeT >
 		struct TypeGetter
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, TypeT const & value )
+			static inline ast::type::TypePtr get( [[maybe_unused]] ShaderWriter const & writer, TypeT const & value )
 			{
 				return value.getType();
 			}
@@ -41,7 +41,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< int8_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, int8_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, int8_t )
 			{
 				return getTypesCache( writer ).getInt8();
 			}
@@ -50,7 +50,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< uint8_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, uint8_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, uint8_t )
 			{
 				return getTypesCache( writer ).getUInt8();
 			}
@@ -59,7 +59,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< int16_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, int16_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, int16_t )
 			{
 				return getTypesCache( writer ).getInt16();
 			}
@@ -68,7 +68,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< uint16_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, uint16_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, uint16_t )
 			{
 				return getTypesCache( writer ).getUInt16();
 			}
@@ -77,7 +77,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< int32_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, int32_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, int32_t )
 			{
 				return getTypesCache( writer ).getInt32();
 			}
@@ -86,7 +86,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< uint32_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, uint32_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, uint32_t )
 			{
 				return getTypesCache( writer ).getUInt32();
 			}
@@ -95,7 +95,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< int64_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, int64_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, int64_t )
 			{
 				return getTypesCache( writer ).getInt64();
 			}
@@ -104,7 +104,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< uint64_t >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, uint64_t )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, uint64_t )
 			{
 				return getTypesCache( writer ).getUInt64();
 			}
@@ -113,7 +113,7 @@ namespace sdw
 		template<>
 		struct TypeGetter< float >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, float )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, float )
 			{
 				return getTypesCache( writer ).getFloat();
 			}
@@ -122,64 +122,64 @@ namespace sdw
 		template<>
 		struct TypeGetter< double >
 		{
-			static inline ast::type::TypePtr get( ShaderWriter & writer, double )
+			static inline ast::type::TypePtr get( ShaderWriter const & writer, double )
 			{
 				return getTypesCache( writer ).getDouble();
 			}
 		};
 
 		template< typename TypeT >
-		inline ast::type::TypePtr getType( ShaderWriter & writer, TypeT const & value )
+		inline ast::type::TypePtr getType( ShaderWriter const & writer, TypeT const & value )
 		{
 			return TypeGetter< TypeT >::get( writer, value );
 		}
 
-		inline ShaderWriter * getWriter( bool const & value )
+		inline ShaderWriter * getWriter( bool const & )
 		{
 			return &getCurrentWriter();
 		}
 		
-		inline ShaderWriter * getWriter( int32_t const & value )
+		inline ShaderWriter * getWriter( int32_t const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( int64_t const & value )
+		inline ShaderWriter * getWriter( int64_t const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( uint32_t const & value )
+		inline ShaderWriter * getWriter( uint32_t const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( uint64_t const & value )
+		inline ShaderWriter * getWriter( uint64_t const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( float const & value )
+		inline ShaderWriter * getWriter( float const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( double const & value )
+		inline ShaderWriter * getWriter( double const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( long double const & value )
+		inline ShaderWriter * getWriter( long double const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( type::Scope const & value )
+		inline ShaderWriter * getWriter( type::Scope const & )
 		{
 			return &getCurrentWriter();
 		}
 
-		inline ShaderWriter * getWriter( type::MemorySemantics const & value )
+		inline ShaderWriter * getWriter( type::MemorySemantics const & )
 		{
 			return &getCurrentWriter();
 		}
@@ -212,7 +212,7 @@ namespace sdw
 
 	//***********************************************************************************************
 
-	inline void findWriterRec( ShaderWriter *& result )
+	inline void findWriterRec( ShaderWriter *& )
 	{
 	}
 
@@ -262,7 +262,7 @@ namespace sdw
 	namespace details
 	{
 		template< typename ValueT >
-		inline ast::type::TypePtr getType( ValueT const & value )
+		inline ast::type::TypePtr getType( ValueT const & )
 		{
 			return nullptr;
 		}
@@ -270,11 +270,6 @@ namespace sdw
 		inline ast::type::TypePtr getType( Value const & value )
 		{
 			return value.getType();
-		}
-
-		inline void findExprRec( ast::expr::ExprPtr & result
-			, ShaderWriter & writer )
-		{
 		}
 
 		template< typename ValueT >
@@ -311,7 +306,7 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::expr::ExprCache & findExprCache( ValuesT const & ... values )
 	{
-		ShaderWriter & writer = findWriterMandat( values... );
+		ShaderWriter const & writer = findWriterMandat( values... );
 		return getExprCache( writer );
 	}
 
@@ -325,9 +320,8 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline ast::type::TypesCache & findTypesCache( ValuesT const & ... values )
 	{
-		ShaderWriter * writer = findWriter( values... );
-
-		if ( writer )
+		if ( ShaderWriter const * writer = findWriter( values... );
+			writer )
 		{
 			return getTypesCache( *writer );
 		}
@@ -350,10 +344,10 @@ namespace sdw
 	template< typename ... ValuesT >
 	inline stmt::Container * findContainer( ValuesT const & ... values )
 	{
-		ShaderWriter * writer = findWriter( values... );
 		stmt::Container * result{ nullptr };
 
-		if ( writer )
+		if ( ShaderWriter const * writer = findWriter( values... );
+			writer )
 		{
 			result = getContainer( *writer );
 		}

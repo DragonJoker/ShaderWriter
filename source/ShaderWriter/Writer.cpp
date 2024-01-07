@@ -38,7 +38,7 @@ namespace sdw
 		if ( doGetCurrentWriter() )
 		{
 			assert( false );
-			throw std::logic_error{ "Can't have more than one ShaderWriter instantiated at once" };
+			throw ast::Exception{ "Can't have more than one ShaderWriter instantiated at once" };
 		}
 
 		doGetCurrentWriter() = this;
@@ -51,7 +51,7 @@ namespace sdw
 		if ( doGetCurrentWriter() )
 		{
 			assert( false );
-			throw std::logic_error{ "Can't have more than one ShaderWriter instantiated at once" };
+			throw ast::Exception{ "Can't have more than one ShaderWriter instantiated at once" };
 		}
 
 		doGetCurrentWriter() = this;
@@ -141,14 +141,6 @@ namespace sdw
 		m_builder->addGlobalStmt( std::move( stmt ) );
 	}
 
-	void ShaderWriter::inlineComment( std::string const & comment )
-	{
-	}
-
-	void ShaderWriter::multilineComment( std::string const & comment )
-	{
-	}
-
 	void ShaderWriter::demote()
 	{
 		assert( m_builder->getType() == ast::ShaderStage::eFragment
@@ -195,7 +187,7 @@ namespace sdw
 	void ShaderWriter::forStmt( expr::ExprPtr init
 		, expr::ExprPtr cond
 		, expr::ExprPtr incr
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->pushScope( getStmtCache().makeFor( makeExpr( *this, init )
 			, makeExpr( *this, cond )
@@ -205,35 +197,35 @@ namespace sdw
 	}
 
 	void ShaderWriter::doWhileStmt( expr::ExprPtr condition
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->pushScope( getStmtCache().makeDoWhile( std::move( condition ) ) );
 		function();
 		m_builder->popScope();
 	}
 
-	void ShaderWriter::doWhileStmt( sdw::Boolean condition
-		, std::function< void() > function )
+	void ShaderWriter::doWhileStmt( sdw::Boolean const condition
+		, std::function< void() > const & function )
 	{
 		return doWhileStmt( makeCondition( condition ), function );
 	}
 
 	void ShaderWriter::whileStmt( expr::ExprPtr condition
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->pushScope( getStmtCache().makeWhile( std::move( condition ) ) );
 		function();
 		m_builder->popScope();
 	}
 
-	void ShaderWriter::whileStmt( sdw::Boolean condition
-		, std::function< void() > function )
+	void ShaderWriter::whileStmt( sdw::Boolean const condition
+		, std::function< void() > const & function )
 	{
 		return whileStmt( makeCondition( condition ), function );
 	}
 
 	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->beginIf( std::move( condition ) );
 		function();
@@ -241,14 +233,14 @@ namespace sdw
 		return *this;
 	}
 
-	ShaderWriter & ShaderWriter::ifStmt( sdw::Boolean condition
-		, std::function< void() > function )
+	ShaderWriter & ShaderWriter::ifStmt( sdw::Boolean const condition
+		, std::function< void() > const & function )
 	{
 		return ifStmt( makeCondition( condition ), function );
 	}
 
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->beginElseIf( std::move( condition ) );
 		function();
@@ -256,13 +248,13 @@ namespace sdw
 		return *this;
 	}
 
-	ShaderWriter & ShaderWriter::elseIfStmt( sdw::Boolean condition
-		, std::function< void() > function )
+	ShaderWriter & ShaderWriter::elseIfStmt( sdw::Boolean const condition
+		, std::function< void() > const & function )
 	{
 		return ifStmt( makeCondition( condition ), function );
 	}
 
-	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > function )
+	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > const & function )
 	{
 		m_builder->beginElse();
 		function();
@@ -276,7 +268,7 @@ namespace sdw
 	}
 
 	ShaderWriter & ShaderWriter::switchStmt( expr::ExprPtr value
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->beginSwitch( std::move( value ) );
 		function();
@@ -290,14 +282,14 @@ namespace sdw
 	}
 
 	void ShaderWriter::caseStmt( expr::LiteralPtr literal
-		, std::function< void() > function )
+		, std::function< void() > const & function )
 	{
 		m_builder->beginCase( std::move( literal ) );
 		function();
 		m_builder->pop();
 	}
 
-	void ShaderWriter::defaultStmt( std::function< void() > function )
+	void ShaderWriter::defaultStmt( std::function< void() > const & function )
 	{
 		m_builder->beginDefault();
 		function();

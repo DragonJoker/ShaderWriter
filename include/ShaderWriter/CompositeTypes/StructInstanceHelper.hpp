@@ -21,9 +21,9 @@ namespace sdw
 			, "A structure must have at least one field" );
 
 	public:
-		~StructInstanceHelperT() override = default;
+		~StructInstanceHelperT()noexcept override = default;
 		StructInstanceHelperT( StructInstanceHelperT const & ) = default;
-		StructInstanceHelperT( StructInstanceHelperT && ) = default;
+		StructInstanceHelperT( StructInstanceHelperT && )noexcept = default;
 
 		StructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -38,7 +38,7 @@ namespace sdw
 			return *this;
 		}
 
-		StructInstanceHelperT & operator=( StructInstanceHelperT && rhs )
+		StructInstanceHelperT & operator=( StructInstanceHelperT && rhs )noexcept
 		{
 			StructInstance::operator=( std::move( rhs ) );
 			return *this;

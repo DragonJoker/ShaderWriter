@@ -57,7 +57,7 @@ namespace sdw
 		if ( builder.getType() != ast::ShaderStage::eGeometry
 			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )
 		{
-			throw std::logic_error{ "Can't create a GeometryWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a GeometryWriter from this kind of builder." };
 		}
 	}
 

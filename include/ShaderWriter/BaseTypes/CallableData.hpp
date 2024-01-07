@@ -15,7 +15,7 @@ namespace sdw
 			, expr::Expr * expr
 			, bool enabled );
 
-		SDW_API void execute( UInt32 const & sbtRecordIndex );
+		SDW_API void execute( UInt32 const & sbtRecordIndex )const;
 
 		ShaderWriter * getWriter()const
 		{

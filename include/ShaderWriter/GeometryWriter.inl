@@ -14,7 +14,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< EntryPoint::eGeometry, DataT >{ writer, std::move( expr ), enabled }
-		, vtx{ writer, *this, FlagT }
+		, vtx{ *this, FlagT }
 	{
 	}
 
@@ -71,7 +71,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< EntryPoint::eGeometry, DataT >{ writer, std::move( expr ), enabled }
-		, vtx{ writer, *this, FlagT }
+		, vtx{ *this, FlagT }
 		, primitiveID{ getInt32Member( *this, ast::Builtin::ePrimitiveID ) }
 		, layer{ getInt32Member( *this, ast::Builtin::eLayer ) }
 		, viewportIndex{ getInt32Member( *this, ast::Builtin::eViewportIndex ) }

@@ -159,7 +159,7 @@ namespace sdw
 		if ( builder.getType() != ast::ShaderStage::eMeshNV
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV )
 		{
-			throw std::logic_error{ "Can't create a MeshWriterNV from this kind of builder." };
+			throw ast::Exception{ "Can't create a MeshWriterNV from this kind of builder." };
 		}
 	}
 

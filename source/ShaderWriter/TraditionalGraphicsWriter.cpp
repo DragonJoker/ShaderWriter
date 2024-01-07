@@ -15,7 +15,7 @@ namespace sdw
 	{
 		if ( builder.getType() != ast::ShaderStage::eTraditionalGraphics )
 		{
-			throw std::logic_error{ "Can't create a TraditionalGraphicsWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a TraditionalGraphicsWriter from this kind of builder." };
 		}
 	}
 	/**

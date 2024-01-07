@@ -21,7 +21,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	NonUniformT< ValueT >::NonUniformT( NonUniformT && rhs )
+	NonUniformT< ValueT >::NonUniformT( NonUniformT && rhs )noexcept
 		: ValueT{ std::move( rhs ) }
 	{
 	}

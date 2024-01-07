@@ -19,7 +19,7 @@ namespace sdw
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV
 			&& builder.getType() != ast::ShaderStage::eRayTrace )
 		{
-			throw std::logic_error{ "Can't create a PipelineWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a PipelineWriter from this kind of builder." };
 		}
 	}
 

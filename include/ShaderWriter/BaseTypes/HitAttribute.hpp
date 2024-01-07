@@ -18,8 +18,8 @@ namespace sdw
 			, expr::Expr * expr
 			, bool enabled );
 
-		SDW_API ReturnWrapperT< Boolean > reportIntersection( Float tHit
-			, UInt32 const & hitKind );
+		SDW_API ReturnWrapperT< Boolean > reportIntersection( Float const tHit
+			, UInt32 const hitKind )const;
 
 		ShaderWriter * getWriter()const
 		{

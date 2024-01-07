@@ -80,52 +80,52 @@ namespace sdw
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr is1dArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dArrayV = ( !DepthT ) && ArrayedT && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr is2dArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dArrayV = ( !DepthT ) && ArrayedT && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr isCubeArrayV = ( !DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeArrayV = ( !DepthT ) && ArrayedT && ( DimT == ast::type::ImageDim::eCube );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr is1dShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dShadowV = DepthT && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr is2dShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dShadowV = DepthT && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr isRectShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
+	static bool constexpr isRectShadowV = DepthT && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr isCubeShadowV = ( DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeShadowV = DepthT && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr is1dArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e1D );
+	static bool constexpr is1dArrayShadowV = DepthT && ArrayedT && ( DimT == ast::type::ImageDim::e1D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr is2dArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
+	static bool constexpr is2dArrayShadowV = DepthT && ArrayedT && ( DimT == ast::type::ImageDim::e2D );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr isCubeArrayShadowV = ( DepthT ) && ( ArrayedT ) && ( DimT == ast::type::ImageDim::eCube );
+	static bool constexpr isCubeArrayShadowV = DepthT && ArrayedT && ( DimT == ast::type::ImageDim::eCube );
 
 	struct CombinedImage
 		: public Value
@@ -138,8 +138,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		inline CombinedImage & operator=( T const & rhs );
-		SDW_API operator uint32_t();
+		CombinedImage & operator=( T const & rhs );
 	};
 
 	namespace combinedSmplImg
@@ -155,12 +154,12 @@ namespace sdw
 		{
 			SDW_DeclValue( , CombinedImageFuncsT );
 
-			inline CombinedImageFuncsT( ShaderWriter & writer
+			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
 
 			template< typename T >
-			inline CombinedImageFuncsT & operator=( T const & rhs );
+			CombinedImageFuncsT & operator=( T const & rhs );
 		};
 	}
 
@@ -180,15 +179,15 @@ namespace sdw
 		static constexpr bool Ms = MsT;
 		static constexpr bool Depth = DepthT;
 
-		inline CombinedImageT( ShaderWriter & writer
+		CombinedImageT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename T >
-		inline CombinedImageT & operator=( T const & rhs );
+		CombinedImageT & operator=( T const & rhs );
 
-		static inline ast::type::ImageConfiguration makeConfig();
-		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::ImageConfiguration makeConfig();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 

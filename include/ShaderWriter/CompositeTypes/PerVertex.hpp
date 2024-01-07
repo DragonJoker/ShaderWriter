@@ -16,8 +16,7 @@ namespace sdw
 {
 	struct PerVertex
 	{
-		SDW_API PerVertex( ShaderWriter & writer
-			, StructInstance & instance
+		SDW_API PerVertex( StructInstance const & instance
 			, ast::var::Flag flag );
 
 		Vec4 position;

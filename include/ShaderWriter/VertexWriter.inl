@@ -73,7 +73,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< EntryPoint::eVertex, DataT >{ writer, std::move( expr ), enabled }
-		, vtx{ writer, *this, FlagT }
+		, vtx{ *this, FlagT }
 	{
 	}
 

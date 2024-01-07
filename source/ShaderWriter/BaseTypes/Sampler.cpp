@@ -12,11 +12,6 @@ namespace sdw
 	{
 	}
 
-	Sampler::operator uint32_t()
-	{
-		return 0u;
-	}
-
 	ast::type::TypePtr Sampler::makeType( ast::type::TypesCache & cache
 		, bool isComparison )
 	{

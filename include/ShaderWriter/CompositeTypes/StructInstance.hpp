@@ -141,24 +141,24 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled );
 
-		inline bool hasMember( std::string_view name )const;
+		bool hasMember( std::string_view name )const;
 		template< typename T >
-		inline T getMember( std::string_view name
+		T getMember( std::string_view name
 			, bool optional = false )const;
 		template< ValueT T >
-		inline DefaultedT< T > getMember( std::string_view name
+		DefaultedT< T > getMember( std::string_view name
 			, T optionalValue )const;
 		template< typename T >
-		inline Array< T > getMemberArray( std::string_view name
+		Array< T > getMemberArray( std::string_view name
 			, bool optional = false )const;
 		template< ValueT T >
-		inline DefaultedT< Array< T > > getMemberArray( std::string_view name
+		DefaultedT< Array< T > > getMemberArray( std::string_view name
 			, Array< T > optionalValue )const;
-		inline bool hasMember( ast::Builtin builtin );
+		bool hasMember( ast::Builtin builtin );
 		template< typename T >
-		inline T getMember( ast::Builtin builtin )const;
+		T getMember( ast::Builtin builtin )const;
 		template< typename T >
-		inline Array< T > getMemberArray( ast::Builtin builtin )const;
+		Array< T > getMemberArray( ast::Builtin builtin )const;
 
 	protected:
 		SDW_API static ast::expr::ExprPtr makeInitExpr( ast::type::StructPtr type
@@ -173,13 +173,13 @@ namespace sdw
 }
 
 #define SDW_DeclStructInstance( expdecl, name )\
-	expdecl ~name()override = default;\
+	expdecl ~name()noexcept override = default;\
 	expdecl name & operator=( name const & rhs )\
 	{\
 		sdw::StructInstance::operator=( rhs );\
 		return *this;\
 	}\
-	expdecl name & operator=( name && rhs )\
+	expdecl name & operator=( name && rhs )noexcept\
 	{\
 		sdw::StructInstance::operator=( std::move( rhs ) );\
 		return *this;\
@@ -193,7 +193,7 @@ namespace sdw
 	{\
 	}\
 	expdecl name( name const & rhs ) = default;\
-	expdecl name( name && rhs ) = default
+	expdecl name( name && rhs )noexcept = default
 
 #include "StructInstance.inl"
 #include "StructInstanceHelper.hpp"
