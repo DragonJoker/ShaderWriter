@@ -56,7 +56,7 @@ namespace ast
 					|| var->hasFlag( m_flag );
 			}
 
-			bool isCompatible( var::VariablePtr var )
+			bool isCompatible( var::VariablePtr var )const
 			{
 				return isTypeCompatible( var->getType() )
 					&& isFlagCompatible( var );

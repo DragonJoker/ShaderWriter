@@ -24,17 +24,17 @@ namespace ast::stmt
 
 		SDAST_API void accept( VisitorPtr vis )override;
 
-		inline expr::Expr * getCtrlExpr()const
+		inline expr::Expr * getCtrlExpr()const noexcept
 		{
 			return m_ctrlExpr.get();
 		}
 
-		inline Else * getElse()
+		inline Else * getElse()const noexcept
 		{
 			return m_else.get();
 		}
 
-		inline ElseIfList const & getElseIfList()
+		inline ElseIfList const & getElseIfList()const noexcept
 		{
 			return m_elseIfs;
 		}

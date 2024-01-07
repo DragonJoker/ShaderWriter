@@ -3,10 +3,10 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Expr/ExprCompositeConstruct.hpp"
 
+#include "ShaderAST/Shader.hpp"
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 
 #include <cassert>
-#include <stdexcept>
 
 namespace ast::expr
 {
@@ -49,7 +49,7 @@ namespace ast::expr
 	{
 		uint32_t paramsComponentsCount{};
 
-		for ( auto & arg : m_argList )
+		for ( auto const & arg : m_argList )
 		{
 			paramsComponentsCount += getTotalComponentCount( arg->getType()->getKind() );
 		}
@@ -57,7 +57,7 @@ namespace ast::expr
 		if ( paramsComponentsCount != 1u
 			&& paramsComponentsCount < getComponentCount( m_composite ) )
 		{
-			throw std::runtime_error{ "The total arguments components count must match the composite type components count" };
+			throw Exception{ "The total arguments components count must match the composite type components count" };
 		}
 	}
 
@@ -156,12 +156,12 @@ namespace ast::expr
 
 		if ( image->getKind() != type::Kind::eSampledImage )
 		{
-			throw std::runtime_error{ "combine(splImage, sampler): Missing sampled image 1st parameter." };
+			throw Exception{ "combine(splImage, sampler): Missing sampled image 1st parameter." };
 		}
 
 		if ( sampler->getKind() != type::Kind::eSampler )
 		{
-			throw std::runtime_error{ "combine(splImage, sampler): Missing sampler 2nd parameter" };
+			throw Exception{ "combine(splImage, sampler): Missing sampler 2nd parameter" };
 		}
 
 		auto & imgType = static_cast< ast::type::SampledImage const & >( *image );

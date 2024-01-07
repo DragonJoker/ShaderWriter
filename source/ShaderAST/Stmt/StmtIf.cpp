@@ -3,10 +3,9 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Stmt/StmtIf.hpp"
 
+#include "ShaderAST/Shader.hpp"
 #include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Stmt/StmtVisitor.hpp"
-
-#include <stdexcept>
 
 namespace ast::stmt
 {
@@ -21,7 +20,7 @@ namespace ast::stmt
 	{
 		if ( m_else )
 		{
-			throw std::runtime_error{ "Else is already defined for this If." };
+			throw Exception{ "Else is already defined for this If." };
 		}
 
 		m_else = getStmtCache().makeElse();

@@ -246,7 +246,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtInputComputeLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtInputGeometryLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtInputTessellationEvaluationLayout.hpp
-	${INCLUDE_DIR}/Stmt/StmtList.hpp
 	${INCLUDE_DIR}/Stmt/StmtLoop.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputGeometryLayout.hpp
 	${INCLUDE_DIR}/Stmt/StmtOutputMeshLayout.hpp

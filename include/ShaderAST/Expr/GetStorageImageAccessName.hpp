@@ -9,6 +9,7 @@ This file is generated, don't modify it!
 #pragma once
 
 #include "EnumStorageImageAccess.hpp"
+#include "Shader.hpp"
 
 #include <string>
 
@@ -1252,7 +1253,7 @@ namespace ast::expr
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported StorageImageAccess type." };
+			throw Exception{ "Unsupported StorageImageAccess type." };
 		}
 
 		return result;

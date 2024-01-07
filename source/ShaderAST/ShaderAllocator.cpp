@@ -19,16 +19,16 @@ namespace ast
 		, m_numLevels{ numLevels }
 		, m_minBlockSize{ minBlockSize }
 	{
-		assert( numLevels < 32 );
+		assert( m_numLevels < 32 );
 		m_freeLists.resize( m_numLevels + 1 );
 		m_freeLists[0u].push_back( getPointer( 0u ) );
 	}
 
 	BuddyAllocator::~BuddyAllocator()
 	{
-		for ( auto & alloc : m_allocated )
+		for ( auto const & [offset, level] : m_allocated )
 		{
-			std::cout << "Leaked block at " << alloc.first << ", for level " << alloc.second << " for " << m_minBlockSize << " block size buddy" << std::endl;
+			std::cout << "Leaked block at " << offset << ", for level " << level << " for " << m_minBlockSize << " block size buddy" << std::endl;
 		}
 	}
 
@@ -113,7 +113,7 @@ namespace ast
 		return m_memory.data() + offset;
 	}
 
-	size_t BuddyAllocator::getOffset( PointerType pointer )const
+	size_t BuddyAllocator::getOffset( ConstPointerType pointer )const
 	{
 		return size_t( pointer - m_memory.data() );
 	}
@@ -139,7 +139,7 @@ namespace ast
 
 	size_t BuddyAllocator::doGetLevelSize( uint32_t level )const
 	{
-		return getTotalSize() / size_t( 1ull << level );
+		return getTotalSize() / size_t( 1ULL << level );
 	}
 
 	BuddyAllocator::PointerType BuddyAllocator::doAllocate( uint32_t level )
@@ -175,7 +175,7 @@ namespace ast
 	{
 		auto & freeList = m_freeLists[level];
 		PointerType lhs;
-		PointerType rhs;
+		ConstPointerType rhs;
 		typename FreeList::iterator it;
 
 		if ( index % 2u )
@@ -188,7 +188,6 @@ namespace ast
 				{
 					return lookUp == lhs;
 				} );
-			rhs = block;
 		}
 		else
 		{
@@ -335,7 +334,7 @@ namespace ast
 		return result;
 	}
 
-	void ShaderAllocator::deallocate( void * mem, size_t size, size_t count )noexcept
+	void ShaderAllocator::deallocate( void * mem, size_t size, [[maybe_unused]] size_t count )noexcept
 	{
 		if ( m_allocationMode == AllocationMode::eNone )
 		{
@@ -362,9 +361,8 @@ namespace ast
 	size_t ShaderAllocator::getMemDiff( MemoryCursor const & cursor )const noexcept
 	{
 		size_t result{ m_memory[size_t( cursor.index )].offset - cursor.offset };
-		auto currentIt = std::next( m_memory.begin(), cursor.index + 1 );
 
-		if ( currentIt != m_memory.end() )
+		if ( auto currentIt = std::next( m_memory.begin(), cursor.index + 1 ); currentIt != m_memory.end() )
 		{
 			for ( auto it = currentIt; it != m_memory.end(); ++it )
 			{

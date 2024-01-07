@@ -5,7 +5,7 @@ See LICENSE file in root folder
 #define ___AST_StmtContainer_H___
 #pragma once
 
-#include "StmtList.hpp"
+#include "Stmt.hpp"
 
 namespace ast::stmt
 {

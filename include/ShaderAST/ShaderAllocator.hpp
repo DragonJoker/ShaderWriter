@@ -18,6 +18,7 @@ namespace ast
 	{
 	private:
 		using PointerType = std::byte *;
+		using ConstPointerType = std::byte const *;
 
 		BuddyAllocator( BuddyAllocator const & ) = delete;
 		BuddyAllocator & operator=( BuddyAllocator const & ) = delete;
@@ -67,7 +68,7 @@ namespace ast
 
 		size_t getAlignSize()const;
 		PointerType getPointer( uint32_t offset );
-		size_t getOffset( PointerType pointer )const;
+		size_t getOffset( ConstPointerType pointer )const;
 
 	private:
 		uint32_t doGetLevel( size_t size )const;

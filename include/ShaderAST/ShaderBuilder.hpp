@@ -15,7 +15,7 @@ namespace ast
 		SDAST_API explicit ShaderBuilder( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
 		SDAST_API void push( stmt::Container * container
-			, var::VariableList vars );
+			, var::VariableList const & vars );
 		SDAST_API void pop();
 		SDAST_API void saveNextExpr();
 		SDAST_API expr::ExprPtr loadExpr( expr::ExprPtr expr );
@@ -36,7 +36,7 @@ namespace ast
 		/**@{*/
 		SDAST_API bool hasFunction( std::string_view name
 			, ast::stmt::FunctionFlag flag )const;
-		SDAST_API var::VariablePtr getFunction( std::string name
+		SDAST_API var::VariablePtr getFunction( std::string const & name
 			, ast::stmt::FunctionFlag flag );
 		SDAST_API var::VariablePtr registerFunction( std::string name
 			, type::FunctionPtr type
@@ -209,7 +209,7 @@ namespace ast
 
 	private:
 		void doPushScope( ast::stmt::ContainerPtr container
-			, ast::var::VariableList vars );
+			, ast::var::VariableList const & vars );
 
 		ShaderData & getData()
 		{
@@ -228,6 +228,13 @@ namespace ast
 		{
 			var::VariablePtr variable;
 			ast::stmt::FunctionFlag flag;
+
+			Function( var::VariablePtr v
+				, ast::stmt::FunctionFlag f )
+				: variable{ std::move( v ) }
+				, flag{ f }
+			{
+			}
 		};
 		std::vector< Function > m_functions;
 	};

@@ -9,6 +9,7 @@ This file is generated, don't modify it!
 #pragma once
 
 #include "EnumCombinedImageAccess.hpp"
+#include "Shader.hpp"
 
 #include <string>
 
@@ -2138,7 +2139,7 @@ namespace ast::expr
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported CombinedImageAccess type." };
+			throw Exception{ "Unsupported CombinedImageAccess type." };
 		}
 
 		return result;

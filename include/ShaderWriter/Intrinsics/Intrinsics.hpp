@@ -133,7 +133,7 @@ namespace sdw
 	}
 
 	template< typename ... ValuesT >
-	inline I32Vec3 ivec3( ValuesT ... values )
+	inline I32Vec3 ivec3( ValuesT && ... values )
 	{
 		return i32vec3( std::forward< ValuesT >( values )... );
 	}

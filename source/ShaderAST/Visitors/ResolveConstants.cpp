@@ -13,6 +13,7 @@ See LICENSE file in root folder
 #include "ShaderAST/Visitors/SimplifyStatements.hpp"
 
 #include <cmath>
+#include <numbers>
 #include <math.h>
 
 namespace ast
@@ -210,9 +211,7 @@ namespace ast
 
 						for ( auto & arg : expr->getArgList() )
 						{
-							auto identifiers = listIdentifiers( arg.get() );
-
-							if ( !identifiers.empty() )
+							if ( auto identifiers = listIdentifiers( arg.get() ); !identifiers.empty() )
 							{
 								for ( auto ident : identifiers )
 								{
@@ -756,8 +755,7 @@ namespace ast
 			}
 
 			template< typename ValueT, typename ValueU, size_t CountT, typename FuncT >
-			static DataT< ValueU, CountT > process1T( expr::ExprCache & exprCache
-				, DataT< ValueT, CountT > args
+			static DataT< ValueU, CountT > process1T( DataT< ValueT, CountT > args
 				, FuncT func )
 			{
 				DataT< ValueU, CountT > result;
@@ -775,8 +773,7 @@ namespace ast
 			}
 
 			template< typename ValueT, typename ValueU, size_t CountT, typename FuncT >
-			static DataT< ValueU, CountT > process2T( expr::ExprCache & exprCache
-				, DataT< ValueT, CountT > args1
+			static DataT< ValueU, CountT > process2T( DataT< ValueT, CountT > args1
 				, DataT< ValueT, CountT > args2
 				, FuncT func )
 			{
@@ -797,8 +794,7 @@ namespace ast
 			}
 
 			template< typename ValueT, typename ValueU, size_t CountT, typename FuncT >
-			static DataT< ValueU, CountT > process3T( expr::ExprCache & exprCache
-				, DataT< ValueT, CountT > args1
+			static DataT< ValueU, CountT > process3T( DataT< ValueT, CountT > args1
 				, DataT< ValueT, CountT > args2
 				, DataT< ValueT, CountT > args3
 				, FuncT func )
@@ -860,7 +856,7 @@ namespace ast
 				, DataT< ValueT, CountT > args
 				, FuncT func )
 			{
-				DataT< ValueU, CountT > result = process1T< ValueT, ValueU >( exprCache, std::move( args ), func );
+				DataT< ValueU, CountT > result = process1T< ValueT, ValueU >( std::move( args ), func );
 
 				switch ( CountT )
 				{
@@ -896,7 +892,7 @@ namespace ast
 				, DataT< ValueT, CountT > args2
 				, FuncT func )
 			{
-				DataT< ValueU, CountT > result = process2T< ValueT, ValueU >( exprCache, std::move( args1 ), std::move( args2 ), func );
+				DataT< ValueU, CountT > result = process2T< ValueT, ValueU >( std::move( args1 ), std::move( args2 ), func );
 
 				switch ( CountT )
 				{
@@ -933,7 +929,7 @@ namespace ast
 				, DataT< ValueT, CountT > args3
 				, FuncT func )
 			{
-				DataT< ValueU, CountT > result = process3T< ValueT, ValueU >( exprCache, std::move( args1 ), std::move( args2 ), std::move( args3 ), func );
+				DataT< ValueU, CountT > result = process3T< ValueT, ValueU >( std::move( args1 ), std::move( args2 ), std::move( args3 ), func );
 
 				switch ( CountT )
 				{
@@ -1468,12 +1464,12 @@ namespace ast
 					case ast::expr::Intrinsic::eDegrees2:
 					case ast::expr::Intrinsic::eDegrees3:
 					case ast::expr::Intrinsic::eDegrees4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( v * 180.0f / 3.14159265358979323846 ); } );
+						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( v * 180.0f / std::numbers::pi ); } );
 					case ast::expr::Intrinsic::eRadians1F:
 					case ast::expr::Intrinsic::eRadians2F:
 					case ast::expr::Intrinsic::eRadians3F:
 					case ast::expr::Intrinsic::eRadians4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( v * 3.14159265358979323846 / 180.0f ); } );
+						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( v * std::numbers::pi / 180.0f ); } );
 					case ast::expr::Intrinsic::eCos1:
 					case ast::expr::Intrinsic::eCos2:
 					case ast::expr::Intrinsic::eCos3:

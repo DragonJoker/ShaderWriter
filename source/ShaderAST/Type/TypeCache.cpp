@@ -3,12 +3,11 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Type/TypeCache.hpp"
 
+#include "ShaderAST/Shader.hpp"
 #include "ShaderAST/Type/TypeImage.hpp"
 #include "ShaderAST/Type/TypeCombinedImage.hpp"
 #include "ShaderAST/Type/TypeSampler.hpp"
 #include "ShaderAST/Type/TypeStruct.hpp"
-
-#include <stdexcept>
 
 namespace ast::type
 {
@@ -217,7 +216,7 @@ namespace ast::type
 				return std::hash< TypePtr >{}( type );
 			} }
 	{
-		for ( uint32_t i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
+		for ( auto i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
 		{
 			m_basicTypes[i] = std::make_shared< Type >( *this, Kind( i ) );
 		}
@@ -759,7 +758,7 @@ namespace ast::type
 			: getBasicType( kind );
 	}
 
-	Kind TypesCache::getVec2Kind( Kind kind )
+	Kind TypesCache::getVec2Kind( Kind kind )const
 	{
 		switch ( kind )
 		{
@@ -793,7 +792,7 @@ namespace ast::type
 		}
 	}
 
-	Kind TypesCache::getVec3Kind( Kind kind )
+	Kind TypesCache::getVec3Kind( Kind kind )const
 	{
 		switch ( kind )
 		{
@@ -825,7 +824,7 @@ namespace ast::type
 		}
 	}
 
-	Kind TypesCache::getVec4Kind( Kind kind )
+	Kind TypesCache::getVec4Kind( Kind kind )const
 	{
 		switch ( kind )
 		{
@@ -859,7 +858,7 @@ namespace ast::type
 		}
 	}
 
-	Kind TypesCache::getMat2Kind( Kind kind )
+	Kind TypesCache::getMat2Kind( Kind kind )const
 	{
 		switch ( kind )
 		{
@@ -881,7 +880,7 @@ namespace ast::type
 		}
 	}
 
-	Kind TypesCache::getMat3Kind( Kind kind )
+	Kind TypesCache::getMat3Kind( Kind kind )const
 	{
 		switch ( kind )
 		{
@@ -903,7 +902,7 @@ namespace ast::type
 		}
 	}
 
-	Kind TypesCache::getMat4Kind( Kind kind )
+	Kind TypesCache::getMat4Kind( Kind kind )const
 	{
 		switch ( kind )
 		{
@@ -939,9 +938,10 @@ namespace ast::type
 			return getVec3Type( kind );
 		case 4:
 			return getVec4Type( kind );
+		default:
+			AST_Failure( "Unsupported component type." );
+			return nullptr;
 		}
-
-		return nullptr;
 	}
 
 	AccelerationStructurePtr TypesCache::getAccelerationStructure()
@@ -1166,7 +1166,7 @@ namespace ast::type
 			&& !hasFlag( uint64_t( flag ), var::Flag::ePatchInput )
 			&& !hasFlag( uint64_t( flag ), var::Flag::ePerTask ) )
 		{
-			throw std::runtime_error{ "Non I/O structure." };
+			throw Exception{ "Non I/O structure." };
 		}
 
 		name += getName( entryPoint );
@@ -1191,12 +1191,12 @@ namespace ast::type
 
 	TypePtr TypesCache::getMemberType( TypePtr type
 		, Struct & parent
-		, uint32_t memberIndex )
+		, uint32_t memberIndex )const
 	{
 		return type->getMemberType( parent, memberIndex );
 	}
 
-	Type const * TypesCache::getNonMemberType( TypePtr type )
+	Type const * TypesCache::getNonMemberType( TypePtr type )const
 	{
 		return type->getNonMemberType();
 	}

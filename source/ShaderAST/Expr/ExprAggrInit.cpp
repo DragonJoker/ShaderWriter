@@ -22,7 +22,7 @@ namespace ast::expr
 		, m_initialisers{ std::move( initialisers ) }
 	{
 #if !defined( NDEBUG )
-		for ( auto & init : m_initialisers )
+		for ( auto const & init : m_initialisers )
 		{
 			assert( init );
 		}
@@ -43,7 +43,7 @@ namespace ast::expr
 		, m_initialisers{ std::move( initialisers ) }
 	{
 #if !defined( NDEBUG )
-		for ( auto & init : m_initialisers )
+		for ( auto const & init : m_initialisers )
 		{
 			assert( init );
 		}

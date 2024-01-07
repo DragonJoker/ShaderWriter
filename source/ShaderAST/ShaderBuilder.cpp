@@ -51,7 +51,7 @@ namespace ast
 	}
 
 	void ShaderBuilder::push( stmt::Container * container
-		, var::VariableList vars )
+		, var::VariableList const & vars )
 	{
 		m_blocks.push_back( { {}, container } );
 
@@ -61,9 +61,7 @@ namespace ast
 			// move variables contained in the given list to the new scope.
 			for ( auto & var : vars )
 			{
-				auto itVar = it->registered.find( var );
-
-				if ( itVar != it->registered.end() )
+				if ( auto itVar = it->registered.find( var ); itVar != it->registered.end() )
 				{
 					it->registered.erase( itVar );
 				}
@@ -173,7 +171,7 @@ namespace ast
 		return m_functions.end() != it;
 	}
 
-	var::VariablePtr ShaderBuilder::getFunction( std::string name
+	var::VariablePtr ShaderBuilder::getFunction( std::string const & name
 		, ast::stmt::FunctionFlag flag )
 	{
 		auto it = std::find_if( m_functions.begin()
@@ -188,7 +186,7 @@ namespace ast
 		{
 			std::string text;
 			text += "No registered function with the name [" + std::string( name ) + "].";
-			throw std::runtime_error{ text };
+			throw Exception{ text };
 		}
 
 		return it->variable;
@@ -198,28 +196,26 @@ namespace ast
 		, type::FunctionPtr type
 		, ast::stmt::FunctionFlag flag )
 	{
-		auto it = std::find_if( m_functions.begin()
+		if ( auto it = std::find_if( m_functions.begin()
 			, m_functions.end()
 			, [&name, flag]( Function const & lookup )
 			{
 				return lookup.variable->getName() == name
 					&& lookup.flag == flag;
 			} );
-
-		if ( it != m_functions.end()
-			&& type != it->variable->getType() )
+			it != m_functions.end() && type != it->variable->getType() )
 		{
 			std::string text;
 			text += "A function with the name [" + std::string( name ) + "] is already registered, with a different type.";
-			throw std::runtime_error{ text };
+			throw Exception{ text };
 		}
 
-		auto result = var::makeFunction( ++getData().nextVarId
+		auto result = var::makeFunction( getNextVarId()
 			, std::move( type )
 			, std::move( name ) );
 		m_shader->registerGlobalVariable( result );
 		m_blocks.front().registered.emplace( result );
-		m_functions.push_back( { result, flag } );
+		m_functions.emplace_back( result, flag );
 		return result;
 	}
 
@@ -249,18 +245,14 @@ namespace ast
 			auto & lookup = *curBlockIt;
 			found = builder::findVariable( lookup.registered, name ) != lookup.registered.end();
 
-			if ( found )
+			if ( found
+				|| ( lookup.container->getKind() == stmt::Kind::eFunctionDecl && isLocale ) )
 			{
 				break;
 			}	
 
 			if ( lookup.container->getKind() == stmt::Kind::eFunctionDecl )
 			{
-				if ( isLocale )
-				{
-					break;
-				}
-
 				// From a function, directly jump to root block.
 				curBlockIt = std::prev( m_blocks.crend() );
 			}
@@ -291,18 +283,14 @@ namespace ast
 			it = builder::findVariable( lookup.registered, name );
 			found = it != lookup.registered.end();
 
-			if ( found )
+			if ( found
+				|| ( lookup.container->getKind() == stmt::Kind::eFunctionDecl && isLocale ) )
 			{
 				break;
 			}
 
 			if ( lookup.container->getKind() == stmt::Kind::eFunctionDecl )
 			{
-				if ( isLocale )
-				{
-					break;
-				}
-
 				// From a function, directly jump to root block.
 				curBlockIt = std::prev( m_blocks.crend() );
 			}
@@ -316,7 +304,7 @@ namespace ast
 		{
 			std::string text;
 			text += "No registered variable with the name [" + std::string( name ) + "].";
-			throw std::runtime_error{ text };
+			throw Exception{ text };
 		}
 
 		return *it;
@@ -385,7 +373,7 @@ namespace ast
 		{
 			std::string text;
 			text += "No registered member variable with the name [" + std::string( name ) + "].";
-			throw std::runtime_error{ text };
+			throw Exception{ text };
 		}
 
 		return *it;
@@ -415,17 +403,16 @@ namespace ast
 		, type::TypePtr type
 		, uint64_t flags )
 	{
-		bool isLocale = ( 0 != ( flags & uint64_t( ast::var::Flag::eLocale ) ) )
+		if ( bool isLocale = ( 0 != ( flags & uint64_t( ast::var::Flag::eLocale ) ) )
 			|| ( 0 != ( flags & uint64_t( ast::var::Flag::eParam ) ) )
 			|| ( 0 != ( flags & uint64_t( ast::var::Flag::eInputParam ) ) )
 			|| ( 0 != ( flags & uint64_t( ast::var::Flag::eOutputParam ) ) );
-
-		if ( hasVariable( name, isLocale ) )
+			hasVariable( name, isLocale ) )
 		{
 			return getVariable( name, isLocale );
 		}
 
-		auto var = var::makeVariable( ++getData().nextVarId
+		auto var = var::makeVariable( getNextVarId()
 			, type
 			, std::move( name )
 			, flags );
@@ -461,7 +448,7 @@ namespace ast
 		}
 
 		flags |= uint64_t( var::Flag::eMember );
-		auto result = var::makeVariable( ++getData().nextVarId
+		auto result = var::makeVariable( getNextVarId()
 			, outer
 			, type
 			, std::move( name )
@@ -497,22 +484,21 @@ namespace ast
 	var::VariablePtr ShaderBuilder::registerStaticConstant( std::string name
 		, type::TypePtr type )
 	{
-		auto it = builder::findVariable( m_blocks.front().registered, name );
-
-		if ( it != m_blocks.front().registered.end()
-			&& type != it->get()->getType() )
+		if ( auto it = builder::findVariable( m_blocks.front().registered, name );
+			it != m_blocks.front().registered.end()
+				&& type != it->get()->getType() )
 		{
 			std::string text;
 			text += "A static constant with the name [" + std::string( name ) + "] is already registered, with a different type.";
-			throw std::runtime_error{ text };
+			throw Exception{ text };
 		}
 
-		auto result = m_blocks.front().registered.emplace( var::makeVariable( ++getData().nextVarId
-			, std::move( type )
-			, std::move( name )
+		auto result = m_blocks.front().registered.emplace( var::makeVariable( getNextVarId()
+			, type
+			, name
 			, var::Flag::eStatic | var::Flag::eConstant ) ).first;
 		m_shader->registerGlobalVariable( *result );
-		getData().constants.emplace( std::move( name ), type );
+		getData().constants.try_emplace( std::move( name ), type );
 		return *result;
 	}
 
@@ -523,7 +509,8 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, var::Flag::eSpecialisationConstant );
-		getData().specConstants.emplace( std::move( name ), SpecConstantInfo{ { type, location } } );
+		getData().specConstants.try_emplace( std::move( name )
+			, SpecConstantInfo{ { type, location } } );
 		return result;
 	}
 
@@ -565,7 +552,8 @@ namespace ast
 
 			auto splType = getNonArrayType( type );
 			assert( splType->getKind() == type::Kind::eSampler );
-			getData().samplers.emplace( std::move( name ), SamplerInfo{ { type, { binding, set } } } );
+			getData().samplers.try_emplace( std::move( name )
+				, SamplerInfo{ { type, { binding, set } } } );
 		}
 		else
 		{
@@ -596,11 +584,13 @@ namespace ast
 
 			if ( static_cast< type::SampledImage const & >( *splType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
-				getData().uniformTexels.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
+				getData().uniformTexels.try_emplace( std::move( name )
+					, TextureInfo{ { type, { binding, set } } } );
 			}
 			else
 			{
-				getData().sampled.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
+				getData().sampled.try_emplace( std::move( name )
+					, TextureInfo{ { type, { binding, set } } } );
 			}
 		}
 		else
@@ -632,11 +622,13 @@ namespace ast
 
 			if ( static_cast< type::CombinedImage const & >( *imgType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
-				getData().uniformTexels.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
+				getData().uniformTexels.try_emplace( std::move( name )
+					, TextureInfo{ { type, { binding, set } } } );
 			}
 			else
 			{
-				getData().textures.emplace( std::move( name ), TextureInfo{ { type, { binding, set } } } );
+				getData().textures.try_emplace( std::move( name )
+					, TextureInfo{ { type, { binding, set } } } );
 			}
 		}
 		else
@@ -668,11 +660,13 @@ namespace ast
 
 			if ( static_cast< type::Image const & >( *imgType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
-				getData().storageTexels.emplace( std::move( name ), ImageInfo{ { type, { binding, set } } } );
+				getData().storageTexels.try_emplace( std::move( name )
+					, ImageInfo{ { type, { binding, set } } } );
 			}
 			else
 			{
-				getData().images.emplace( std::move( name ), ImageInfo{ { type, { binding, set } } } );
+				getData().images.try_emplace( std::move( name )
+					, ImageInfo{ { type, { binding, set } } } );
 			}
 		}
 		else
@@ -691,17 +685,17 @@ namespace ast
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		auto & inputs = getData().inputs.emplace( entryPoint, ShaderData::InputMap{} ).first->second;
-		auto it = std::find_if( inputs.begin()
+		auto & inputs = getData().inputs.try_emplace( entryPoint ).first->second;
+
+		if ( auto it = std::find_if( inputs.begin()
 			, inputs.end()
 			, [&location]( std::map< std::string, InputInfo >::value_type const & lookup )
 			{
 				return lookup.second.location == location;
 			} );
-
-		if ( inputs.end() == it )
+			inputs.end() == it )
 		{
-			inputs.emplace( name, InputInfo{ { type, location } } );
+			inputs.try_emplace( name, InputInfo{ { type, location } } );
 		}
 
 		if ( hasVariable( name, false ) )
@@ -732,17 +726,17 @@ namespace ast
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		auto & outputs = getData().outputs.emplace( entryPoint, ShaderData::OutputMap{} ).first->second;
-		auto it = std::find_if( outputs.begin()
+		auto & outputs = getData().outputs.try_emplace( entryPoint ).first->second;
+
+		if ( auto it = std::find_if( outputs.begin()
 			, outputs.end()
 			, [&location]( std::map< std::string, OutputInfo >::value_type const & lookup )
 			{
 				return lookup.second.location == location;
 			} );
-
-		if ( outputs.end() == it )
+			outputs.end() == it )
 		{
-			outputs.emplace( name, OutputInfo{ { type, location } } );
+			outputs.try_emplace( name, OutputInfo{ { type, location } } );
 		}
 
 		if ( hasVariable( name, false ) )
@@ -773,7 +767,7 @@ namespace ast
 	{
 		if ( getData().inOuts.empty() )
 		{
-			getData().inOuts.emplace( name, InOutInfo{ { type } } );
+			getData().inOuts.try_emplace( name, InOutInfo{ { type } } );
 		}
 
 		if ( hasVariable( name, false ) )
@@ -791,7 +785,7 @@ namespace ast
 		, type::TypePtr type
 		, var::Flag flag )
 	{
-		auto result = var::makeBuiltin( ++getData().nextVarId
+		auto result = var::makeBuiltin( getNextVarId()
 			, builtin
 			, type
 			, flag );
@@ -890,25 +884,25 @@ namespace ast
 	void ShaderBuilder::registerSsbo( std::string name
 		, SsboInfo const & info )
 	{
-		getData().ssbos.emplace( std::move( name ), info );
+		getData().ssbos.try_emplace( std::move( name ), info );
 	}
 
 	void ShaderBuilder::registerUbo( std::string name
 		, UboInfo const & info )
 	{
-		getData().ubos.emplace( std::move( name ), info );
+		getData().ubos.try_emplace( std::move( name ), info );
 	}
 
 	void ShaderBuilder::registerPcb( std::string name
 		, InterfaceBlock const & info )
 	{
-		getData().pcbs.emplace( std::move( name ), info );
+		getData().pcbs.try_emplace( std::move( name ), info );
 	}
 
 	void ShaderBuilder::registerShaderRecord( std::string name
 		, ShaderRecordInfo const & info )
 	{
-		getData().shaderRecords.emplace( std::move( name ), info );
+		getData().shaderRecords.try_emplace( std::move( name ), info );
 	}
 
 	expr::ExprPtr ShaderBuilder::getDummyExpr( type::TypePtr type )const
@@ -917,9 +911,9 @@ namespace ast
 	}
 
 	void ShaderBuilder::doPushScope( ast::stmt::ContainerPtr container
-		, ast::var::VariableList vars )
+		, ast::var::VariableList const & vars )
 	{
 		m_currentStmts.emplace_back( std::move( container ) );
-		push( m_currentStmts.back().get(), std::move( vars ) );
+		push( m_currentStmts.back().get(), vars );
 	}
 }

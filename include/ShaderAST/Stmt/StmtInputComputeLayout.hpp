@@ -15,7 +15,7 @@ namespace ast::stmt
 		: public Stmt
 	{
 	public:
-		static constexpr uint32_t Uninit = ~( 0u );
+		static constexpr uint32_t Uninit = ~0u;
 
 		SDAST_API InputComputeLayout( StmtCache & stmtCache
 			, type::TypePtr type

@@ -13,6 +13,7 @@ See LICENSE file in root folder
 
 #include <functional>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 #pragma warning( pop )
@@ -241,6 +242,12 @@ namespace ast
 	SDAST_API bool isPerPrimitive( Builtin value
 		, ShaderStage stage );
 
+	class Exception
+		: public std::runtime_error
+	{
+		using std::runtime_error::runtime_error;
+	};
+
 	struct EntityName
 	{
 		uint32_t id;
@@ -315,7 +322,7 @@ namespace ast
 
 		struct DeleteExpr
 		{
-			SDAST_API void operator()( Expr * expr )noexcept;
+			SDAST_API void operator()( Expr * expr )const noexcept;
 		};
 
 		template< typename ExprT >
@@ -461,7 +468,7 @@ namespace ast
 
 		struct DeleteStmt
 		{
-			SDAST_API void operator()( Stmt * stmt )noexcept;
+			SDAST_API void operator()( Stmt * stmt )const noexcept;
 		};
 
 		template< typename StmtT >

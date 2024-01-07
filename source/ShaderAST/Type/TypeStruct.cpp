@@ -3,10 +3,10 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Type/TypeStruct.hpp"
 
+#include "ShaderAST/Shader.hpp"
 #include "ShaderAST/Type/TypeCache.hpp"
 
 #include <algorithm>
-#include <stdexcept>
 #include <string_view>
 
 namespace ast::type
@@ -176,7 +176,7 @@ namespace ast::type
 				minimumAlignment = 16;
 			}
 
-			auto * tmp = type.getType().get();
+			auto const * tmp = type.getType().get();
 
 			while ( getArraySize( *tmp ) != NotArray )
 			{
@@ -281,18 +281,15 @@ namespace ast::type
 		uint32_t getPackedAlignment( Type const & type
 			, MemoryLayout layout )
 		{
-			auto arraySize = getArraySize( type );
-
-			if ( arraySize != NotArray )
+			if ( auto arraySize = getArraySize( type );
+				arraySize != NotArray )
 			{
 				return getPackedAlignment( static_cast< Array const & >( type )
 					, layout );
 			}
 
-			auto kind = getNonArrayKindRec( type );
-
-			if ( kind == Kind::eStruct
-				|| kind == Kind::eRayDesc )
+			if ( auto kind = getNonArrayKindRec( type );
+				kind == Kind::eStruct || kind == Kind::eRayDesc )
 			{
 				return getPackedAlignment( static_cast< Struct const & >( type )
 					, layout );
@@ -349,12 +346,11 @@ namespace ast::type
 				{
 					uint32_t packedAlignment = getPackedAlignment( *member.type, layout );
 					uint32_t alignment = std::max( packedAlignment, padAlignment );
-					auto kind = getNonArrayKindRec( *member.type );
 
 					// The next member following a struct member is aligned to the base alignment of the struct that came before.
 					// GL 4.5 spec, 7.6.2.2.
-					if ( kind == Kind::eStruct
-						|| kind == Kind::eRayDesc )
+					if ( auto kind = getNonArrayKindRec( *member.type );
+						kind == Kind::eStruct || kind == Kind::eRayDesc )
 					{
 						padAlignment = packedAlignment;
 					}
@@ -381,9 +377,8 @@ namespace ast::type
 		uint32_t getPackedSize( Type const & type
 			, MemoryLayout layout )
 		{
-			auto arraySize = getArraySize( type );
-
-			if ( arraySize != NotArray )
+			if ( auto arraySize = getArraySize( type );
+				arraySize != NotArray )
 			{
 				return getPackedSize( static_cast< Array const & >( type )
 					, layout );
@@ -507,7 +502,7 @@ namespace ast::type
 
 		if ( it == m_members.end() )
 		{
-			throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
+			throw Exception{ "Struct member [" + std::string( name ) + "] was not found." };
 		}
 
 		return *it;
@@ -539,7 +534,7 @@ namespace ast::type
 
 		if ( it == m_members.end() )
 		{
-			throw std::runtime_error{ "Struct member [" + getRealName( builtin, index ) + "] was not found." };
+			throw Exception{ "Struct member [" + getRealName( builtin, index ) + "] was not found." };
 		}
 
 		return *it;
@@ -562,13 +557,10 @@ namespace ast::type
 
 	TypePtr Struct::getMemberType( Struct & parent, uint32_t index )const
 	{
-		return std::shared_ptr< Struct >( new Struct
-			{
-				getTypesCache(),
-				parent,
-				index,
-				*this,
-			} );
+		return std::shared_ptr< Struct >( new Struct{ getTypesCache()
+			, parent
+			, index
+			, *this } );
 	}
 
 	std::tuple< uint32_t, uint32_t, bool > Struct::doLookupMember( std::string_view name
@@ -620,9 +612,7 @@ namespace ast::type
 		{
 			uint32_t alignment = ( m_layout == MemoryLayout::eScalar
 				? minAlign
-				: ( prvIsStruct
-					? prvAlignment
-					: getAlignment( *member.type, m_layout ) ) );
+				: ( prvIsStruct ? prvAlignment : getAlignment( *member.type, m_layout ) ) );
 			member.offset = getAligned( offset, alignment );
 			offset = member.offset + member.size;
 			prvAlignment = alignment;
@@ -795,24 +785,24 @@ namespace ast::type
 
 			if ( structType->getFlag() )
 			{
-				return declMember( name
+				return declMember( std::move( name )
 					, std::static_pointer_cast< IOStruct >( structType )
 					, type->getArraySize() );
 			}
 
-			return declMember( name
+			return declMember( std::move( name )
 				, std::static_pointer_cast< BaseStruct >( structType )
 				, type->getArraySize() );
 		}
 
 		if ( kind == Kind::eArray )
 		{
-			return declMember( name
+			return declMember( std::move( name )
 				, std::static_pointer_cast< Array >( type->getType() )
 				, type->getArraySize() );
 		}
 
-		return declMember( name
+		return declMember( std::move( name )
 			, kind
 			, type->getArraySize() );
 	}
@@ -1052,9 +1042,7 @@ namespace ast::type
 			, getNonArrayKind( type )
 			, ( arraySize == NotArray
 				? internalArraySize
-				: ( internalArraySize == NotArray
-					? arraySize
-					: internalArraySize * arraySize ) )
+				: ( internalArraySize == NotArray ? arraySize : internalArraySize * arraySize ) )
 			, location
 			, enabled );
 	}
@@ -1146,7 +1134,8 @@ namespace ast::type
 	{
 		return declMember( std::move( name )
 			, type
-			, NotArray );
+			, NotArray
+			, enabled );
 	}
 
 	std::pair< Struct::Member, bool > IOStruct::doCreateMember( TypePtr type
