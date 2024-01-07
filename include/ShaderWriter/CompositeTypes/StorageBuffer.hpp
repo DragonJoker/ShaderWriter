@@ -17,26 +17,26 @@ namespace sdw
 	{
 	public:
 		SDW_API StorageBuffer( ShaderWriter & writer
-			, std::string blockName
+			, std::string const & blockName
 			, std::string variableName
 			, uint32_t bind
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
-		inline StorageBuffer( ShaderWriter & writer
-			, std::string name
+		StorageBuffer( ShaderWriter & writer
+			, std::string const & name
 			, uint32_t bind
 			, uint32_t set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
-		inline StorageBuffer( ShaderWriter & writer
-			, std::string blockName
+		StorageBuffer( ShaderWriter & writer
+			, std::string const & blockName
 			, std::string variableName
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
-		inline StorageBuffer( ShaderWriter & writer
-			, std::string name
+		StorageBuffer( ShaderWriter & writer
+			, std::string const & name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true );
@@ -51,24 +51,24 @@ namespace sdw
 			, bool enabled = true );
 
 		template< typename ValueT, typename ... ParamsT >
-		inline ValueT declMember( std::string name
+		ValueT declMember( std::string name
 			, bool enabled = true
 			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
-		inline Array< ValueT > declMember( std::string name
+		Array< ValueT > declMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true
 			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
-		inline Array< ValueT > declMemberArray( std::string name
+		Array< ValueT > declMemberArray( std::string name
 			, bool enabled = true
 			, ParamsT && ... params );
 
 		template< typename ValueT >
-		inline ValueT getMember( std::string_view name
+		ValueT getMember( std::string_view name
 			, bool enabled = true )const;
 		template< typename ValueT >
-		inline Array< ValueT > getMemberArray( std::string_view name
+		Array< ValueT > getMemberArray( std::string_view name
 			, bool enabled = true )const;
 
 		bool isEnabled()const

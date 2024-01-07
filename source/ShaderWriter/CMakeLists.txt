@@ -107,7 +107,6 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/RayIntersectionWriter.cpp
 	${SOURCE_DIR}/RayMissWriter.cpp
 	${SOURCE_DIR}/RayTraceWriter.cpp
-	${SOURCE_DIR}/ShaderWriterPrerequisites.cpp
 	${SOURCE_DIR}/TaskWriterEXT.cpp
 	${SOURCE_DIR}/TaskWriterNV.cpp
 	${SOURCE_DIR}/TessellationControlWriter.cpp
@@ -147,15 +146,12 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/CombinedImage.inl
 	${INCLUDE_DIR}/BaseTypes/Defaulted.hpp
 	${INCLUDE_DIR}/BaseTypes/Double.hpp
-	${INCLUDE_DIR}/BaseTypes/Double.inl
 	${INCLUDE_DIR}/BaseTypes/Float.hpp
-	${INCLUDE_DIR}/BaseTypes/Float.inl
 	${INCLUDE_DIR}/BaseTypes/HitAttribute.hpp
 	${INCLUDE_DIR}/BaseTypes/HitAttribute.inl
 	${INCLUDE_DIR}/BaseTypes/Image.hpp
 	${INCLUDE_DIR}/BaseTypes/Image.inl
 	${INCLUDE_DIR}/BaseTypes/Int.hpp
-	${INCLUDE_DIR}/BaseTypes/Int.inl
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.hpp
 	${INCLUDE_DIR}/BaseTypes/IntegerValue.inl
 	${INCLUDE_DIR}/BaseTypes/NonUniform.hpp
@@ -175,9 +171,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/BaseTypes/TaskPayloadNV.hpp
 	${INCLUDE_DIR}/BaseTypes/TaskPayloadNV.inl
 	${INCLUDE_DIR}/BaseTypes/UInt.hpp
-	${INCLUDE_DIR}/BaseTypes/UInt.inl
 	${INCLUDE_DIR}/BaseTypes/Void.hpp
-	${INCLUDE_DIR}/BaseTypes/Void.inl
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/BaseTypes/AccelerationStructure.cpp
@@ -247,7 +241,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/CompositeTypes/ArrayStorageBuffer.cpp
-	${SOURCE_DIR}/CompositeTypes/Builtins.cpp
 	${SOURCE_DIR}/CompositeTypes/PerPrimitive.cpp
 	${SOURCE_DIR}/CompositeTypes/PerVertex.cpp
 	${SOURCE_DIR}/CompositeTypes/PushConstantBuffer.cpp
@@ -331,7 +324,6 @@ set( ${PROJECT_NAME}_HEADER_FILES
 
 set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/VecTypes/Swizzle.hpp
-	${INCLUDE_DIR}/VecTypes/Swizzle.inl
 	${INCLUDE_DIR}/VecTypes/Vec2.hpp
 	${INCLUDE_DIR}/VecTypes/Vec2.inl
 	${INCLUDE_DIR}/VecTypes/Vec3.hpp

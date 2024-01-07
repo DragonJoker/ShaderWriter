@@ -12,14 +12,13 @@ namespace
 {
 	void compileFloat()
 	{
-		bool ignore;
 		auto a = 0.0_f;
 		auto b = 1.0_f;
 		a += b;
 		a -= b;
 		a *= b;
 		a /= b;
-		ignore = a == b;
+		auto ignore = a == b;
 		ignore = a != b;
 		ignore = a <= b;
 		ignore = a >= b;

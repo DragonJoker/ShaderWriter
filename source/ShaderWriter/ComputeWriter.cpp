@@ -30,7 +30,7 @@ namespace sdw
 	{
 		if ( builder.getType() != ast::ShaderStage::eCompute )
 		{
-			throw std::logic_error{ "Can't create a ComputeWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a ComputeWriter from this kind of builder." };
 		}
 	}
 
@@ -44,7 +44,7 @@ namespace sdw
 		, uint32_t localSizeY
 		, ComputeMainFuncT< VoidT > const & function )
 	{
-		implementMainT( localSizeX, localSizeX, function );
+		implementMainT( localSizeX, localSizeY, function );
 	}
 
 	void ComputeWriter::implementMain( uint32_t localSizeX
@@ -52,7 +52,7 @@ namespace sdw
 		, uint32_t localSizeZ
 		, ComputeMainFuncT< VoidT > const & function )
 	{
-		implementMainT( localSizeX, localSizeX, localSizeZ, function );
+		implementMainT( localSizeX, localSizeY, localSizeZ, function );
 	}
 
 	void ComputeWriter::implementMain( uint32_t localSizeX
@@ -65,7 +65,7 @@ namespace sdw
 		, uint32_t localSizeY
 		, SubgroupMainFuncT< VoidT > const & function )
 	{
-		implementMainT( localSizeX, localSizeX, function );
+		implementMainT( localSizeX, localSizeY, function );
 	}
 
 	void ComputeWriter::implementMain( uint32_t localSizeX
@@ -73,7 +73,7 @@ namespace sdw
 		, uint32_t localSizeZ
 		, SubgroupMainFuncT< VoidT > const & function )
 	{
-		implementMainT( localSizeX, localSizeX, localSizeZ, function );
+		implementMainT( localSizeX, localSizeY, localSizeZ, function );
 	}
 
 	//*********************************************************************************************

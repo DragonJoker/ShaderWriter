@@ -39,7 +39,7 @@ namespace sdw
 	/**@{*/
 	namespace details
 	{
-		inline void doUpdateParamsRec( var::VariableList::const_iterator it )
+		inline void doUpdateParamsRec( var::VariableList::const_iterator )
 		{
 		}
 
@@ -93,7 +93,7 @@ namespace sdw
 
 			if ( functionType->getKind() != ast::type::Kind::eFunction )
 			{
-				throw std::runtime_error{ "A variable named " + name + " already exists and is not a function." };
+				throw ast::Exception{ "A variable named " + name + " already exists and is not a function." };
 			}
 		}
 		else
@@ -128,7 +128,7 @@ namespace sdw
 		struct Cast< DstT, SrcT
 			, std::enable_if_t< isSameV< DstT, SrcT > > >
 		{
-			static inline DstT cast( ShaderWriter & writer
+			static inline DstT cast( ShaderWriter const &
 				, DstT const & from )
 			{
 				return from;
@@ -144,9 +144,9 @@ namespace sdw
 			{
 				auto dstType = DstT::makeType( writer.getTypesCache() );
 				auto expr = makeExpr( writer, from );
-				auto srcType = expr->getType();
 
-				if ( dstType != srcType )
+				if ( auto srcType = expr->getType();
+					dstType != srcType )
 				{
 					return DstT{ writer
 						, sdw::makeCast( dstType
@@ -226,7 +226,7 @@ namespace sdw
 		auto type = left.getType();
 		return ExprType{ *this
 			, sdw::makeQuestion( type
-				, makeExpr( *this, std::move( condition ) )
+				, makeExpr( *this, condition )
 				, makeExpr( *this, std::move( left ) )
 				, makeExpr( *this, std::move( right ) ) )
 			, areOptionalEnabled( condition, left, right ) };
@@ -240,7 +240,7 @@ namespace sdw
 		auto type = left.getType();
 		return ExprType{ *this
 			, sdw::makeQuestion( type
-				, makeExpr( *this, std::move( condition ) )
+				, makeExpr( *this, condition )
 				, makeExpr( *this, std::move( left ) )
 				, makeExpr( *this, std::move( right ) ) )
 			, areOptionalEnabled( condition, left, right ) };
@@ -254,7 +254,7 @@ namespace sdw
 		auto type = left.getType();
 		return ExprType{ *this
 			, sdw::makeQuestion( type
-				, makeExpr( *this, std::move( condition ) )
+				, makeExpr( *this, condition )
 				, makeExpr( *this, std::move( left ) )
 				, makeExpr( *this, std::move( right ) ) )
 			, areOptionalEnabled( condition, left, right ) };
@@ -2062,7 +2062,7 @@ namespace sdw
 					&& "Var type and expected type don't match" );
 				std::string text;
 				text += "Var type [" + debug::getTypeName( varType ) + "] and expected type [" + debug::getTypeName( resultType ) + "] don't match";
-				throw std::runtime_error{ text };
+				throw ast::Exception{ text };
 			}
 		}
 	}

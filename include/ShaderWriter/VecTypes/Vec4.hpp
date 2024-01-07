@@ -20,26 +20,26 @@ namespace sdw
 		using Vec3Type = Vec3T< ValueT >;
 		using Vec4Type = Vec4T< ValueT >;
 
-		inline Vec4T( ShaderWriter & writer
+		Vec4T( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename IndexT >
-		inline ValueT operator[]( IndexT const & rhs )const;
-		inline ValueT operator[]( int32_t offset )const;
-		inline ValueT operator[]( uint32_t offset )const;
-		inline Vec4T< ValueT > & operator+=( Vec4T< ValueT > const & rhs );
-		inline Vec4T< ValueT > & operator-=( Vec4T< ValueT > const & rhs );
-		inline Vec4T< ValueT > & operator*=( Vec4T< ValueT > const & rhs );
-		inline Vec4T< ValueT > & operator/=( Vec4T< ValueT > const & rhs );
-		inline Vec4T< ValueT > & operator+=( ValueT const & rhs );
-		inline Vec4T< ValueT > & operator-=( ValueT const & rhs );
-		inline Vec4T< ValueT > & operator*=( ValueT const & rhs );
-		inline Vec4T< ValueT > & operator/=( ValueT const & rhs );
-		inline Vec4T< ValueT > operator-()const;
-		inline Vec4T< ValueT > operator+()const;
+		ValueT operator[]( IndexT const & rhs )const;
+		ValueT operator[]( int32_t offset )const;
+		ValueT operator[]( uint32_t offset )const;
+		Vec4T< ValueT > & operator+=( Vec4T< ValueT > const & rhs );
+		Vec4T< ValueT > & operator-=( Vec4T< ValueT > const & rhs );
+		Vec4T< ValueT > & operator*=( Vec4T< ValueT > const & rhs );
+		Vec4T< ValueT > & operator/=( Vec4T< ValueT > const & rhs );
+		Vec4T< ValueT > & operator+=( ValueT const & rhs );
+		Vec4T< ValueT > & operator-=( ValueT const & rhs );
+		Vec4T< ValueT > & operator*=( ValueT const & rhs );
+		Vec4T< ValueT > & operator/=( ValueT const & rhs );
+		Vec4T< ValueT > operator-()const;
+		Vec4T< ValueT > operator+()const;
 
-		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
 		Writer_FirstSwizzle( Vec4Type, ValueType, x )
 		Writer_Swizzle( Vec4Type, ValueType, y )

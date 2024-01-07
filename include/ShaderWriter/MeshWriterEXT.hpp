@@ -37,21 +37,21 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in uint  gl_MeshViewCountNV;
+		//! in uint  gl_MeshViewCountNV;
 		UInt32 const meshViewCount;
-		//in uint  gl_MeshViewIndicesNV[];
+		//! in uint  gl_MeshViewIndicesNV[];
 		Array< UInt32 > const meshViewIndices;
-		//in uint  gl_DrawID;
+		//! in uint  gl_DrawID;
 		UInt32 const drawID;
-		//const uvec3 gl_WorkGroupSize;
+		//! const uvec3 gl_WorkGroupSize;
 		U32Vec3 const workGroupSize;
-		//in uvec3 gl_WorkGroupID / SV_GroupID;
+		//! in uvec3 gl_WorkGroupID / SV_GroupID;
 		U32Vec3 const workGroupID;
-		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
+		//! in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		U32Vec3 const localInvocationID;
-		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
+		//! in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		U32Vec3 const globalInvocationID;
-		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
+		//! in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		UInt32 const localInvocationIndex;
 	};
 	/**
@@ -80,38 +80,38 @@ namespace sdw
 		using MeshInEXT::isEnabled;
 
 		using MeshInEXT::meshViewCount;
-		//in uint  gl_MeshViewIndicesNV[];
+		//! in uint  gl_MeshViewIndicesNV[];
 		using MeshInEXT::meshViewIndices;
-		//in uint  gl_DrawID;
+		//! in uint  gl_DrawID;
 		using MeshInEXT::drawID;
-		//const uvec3 gl_WorkGroupSize;
+		//! const uvec3 gl_WorkGroupSize;
 		using MeshInEXT::workGroupSize;
-		//in uvec3 gl_WorkGroupID / SV_GroupID;
+		//! in uvec3 gl_WorkGroupID / SV_GroupID;
 		using MeshInEXT::workGroupID;
-		//in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
+		//! in uvec3 gl_LocalInvocationID / SV_GroupThreadID;
 		using MeshInEXT::localInvocationID;
-		//in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
+		//! in uvec3 gl_GlobalInvocationID / SV_DispatchThreadID;
 		using MeshInEXT::globalInvocationID;
-		//in uint  gl_LocalInvocationIndex / SV_GroupIndex;
+		//! in uint  gl_LocalInvocationIndex / SV_GroupIndex;
 		using MeshInEXT::localInvocationIndex;
 
-		//in uint gl_NumSubgroups;
+		//! in uint gl_NumSubgroups;
 		UInt32 const numSubgroups;
-		//in uint gl_SubgroupID;
+		//! in uint gl_SubgroupID;
 		UInt32 const subgroupID;
-		//in uint gl_SubgroupSize;
+		//! in uint gl_SubgroupSize;
 		UInt32 const subgroupSize;
-		//in uint gl_SubgroupInvocationID;
+		//! in uint gl_SubgroupInvocationID;
 		UInt32 const subgroupInvocationID;
-		//in uvec4 gl_SubgroupEqMask;
+		//! in uvec4 gl_SubgroupEqMask;
 		U32Vec4 const subgroupEqMask;
-		//const uvec4 gl_SubgroupGeMask;
+		//! const uvec4 gl_SubgroupGeMask;
 		U32Vec4 const subgroupGeMask;
-		//const uvec4 gl_SubgroupGtMask;
+		//! const uvec4 gl_SubgroupGtMask;
 		U32Vec4 const subgroupGtMask;
-		//const uvec4 gl_SubgroupLeMask;
+		//! const uvec4 gl_SubgroupLeMask;
 		U32Vec4 const subgroupLeMask;
-		//const uvec4 gl_SubgroupLtMask;
+		//! const uvec4 gl_SubgroupLtMask;
 		U32Vec4 const subgroupLtMask;
 	};
 	/**
@@ -131,13 +131,13 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		// vec4  gl_Position / SV_Position;
+		//! vec4  gl_Position / SV_Position;
 		Vec4 position;
-		// float gl_PointSize;
+		//! float gl_PointSize;
 		Float pointSize;
-		// float gl_ClipDistance[] / SV_ClipDistance;
+		//! float gl_ClipDistance[] / SV_ClipDistance;
 		Array< Float > clipDistance;
-		// float gl_CullDistance[] / SV_CullDistance;
+		//! float gl_CullDistance[] / SV_CullDistance;
 		Array< Float > cullDistance;
 	};
 	/**
@@ -213,14 +213,14 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//in uint  gl_PrimitiveIndicesNV[];
+		//! in uint  gl_PrimitiveIndicesNV[];
 		PrimitiveIndexTypeT< TopologyT > primitiveIndex;
 	};
 	/**
 	*	Holds per primitive data
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputTopology TopologyT >// limited to points, lines or triangles
+		, ast::type::OutputTopology TopologyT >//! limited to points, lines or triangles
 	struct MeshEXTPrimitiveOutT
 		: public TopologyEXTOutT< DataT, TopologyT >
 	{
@@ -234,22 +234,22 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		// int gl_PrimitiveID / SV_PrimitiveID;
+		//! int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
-		// int gl_Layer / SV_RenderTargetArrayIndex;
+		//! int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 layer;
-		// int gl_ViewportIndex / SV_ViewportArrayIndex;
+		//! int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 viewportIndex;
-		// int gl_CullPrimitiveEXT;
+		//! int gl_CullPrimitiveEXT;
 		Int32 cullPrimitive;
-		// int gl_ViewportMask[];          // NV_viewport_array2
+		//! int gl_ViewportMask[];          //! NV_viewport_array2
 		Array< Int32 > viewportMask;
 	};
 	/**
 	*	Holds list of per primitive data
 	*/
 	template< template< ast::var::Flag FlagT > typename DataT
-		, ast::type::OutputTopology TopologyT >// limited to points, lines or triangles
+		, ast::type::OutputTopology TopologyT >//! limited to points, lines or triangles
 	struct MeshEXTPrimitiveListOutT
 		: public Array< MeshEXTPrimitiveOutT< DataT, TopologyT > >
 	{
@@ -342,7 +342,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -351,7 +351,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -361,7 +361,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -370,7 +370,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -385,7 +385,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -394,7 +394,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -404,7 +404,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -413,7 +413,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -428,7 +428,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -437,7 +437,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn
@@ -447,7 +447,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, uint32_t maxVertices
@@ -456,7 +456,7 @@ namespace sdw
 		template< template< ast::var::Flag FlagT > typename PayloadT
 			, template< ast::var::Flag FlagT > typename VertexT
 			, template< ast::var::Flag FlagT > typename PrimitiveT >
-		inline void implementMainT( uint32_t localSizeX
+		void implementMainT( uint32_t localSizeX
 			, uint32_t localSizeY
 			, uint32_t localSizeZ
 			, TaskPayloadInEXTT< PayloadT > payloadIn

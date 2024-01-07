@@ -120,7 +120,7 @@ namespace sdw
 		if ( builder.getType() != ast::ShaderStage::eRayAnyHit
 			&& builder.getType() != ast::ShaderStage::eRayTrace )
 		{
-			throw std::logic_error{ "Can't create a RayAnyHitWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a RayAnyHitWriter from this kind of builder." };
 		}
 	}
 

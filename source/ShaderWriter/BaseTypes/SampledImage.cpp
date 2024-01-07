@@ -12,9 +12,4 @@ namespace sdw
 		: Value{ writer, std::move( expr ), enabled }
 	{
 	}
-
-	SampledImage::operator uint32_t()
-	{
-		return 0u;
-	}
 }

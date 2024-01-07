@@ -18,9 +18,9 @@ namespace sdw
 			, bool enabled );
 
 		SDW_API virtual ~Value() = default;
-		SDW_API Value( Value && rhs );
+		SDW_API Value( Value && rhs )noexcept;
 		SDW_API Value( Value const & rhs );
-		SDW_API Value & operator=( Value && rhs ) = default;
+		SDW_API Value & operator=( Value && rhs )noexcept = default;
 		SDW_API Value & operator=( Value const & rhs );
 
 		SDW_API void updateContainer( Value const & variable );
@@ -76,7 +76,7 @@ namespace sdw
 
 	protected:
 		SDW_API void doCopy( Value const & rhs );
-		SDW_API void doMove( Value && rhs );
+		SDW_API void doMove( Value && rhs )noexcept;
 
 	protected:
 		expr::ExprPtr m_expr;
@@ -85,77 +85,77 @@ namespace sdw
 		bool m_enabled;
 	};
 
-	inline bool isOptionalEnabled( bool const & value )
+	inline bool isOptionalEnabled( bool const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( int8_t const & value )
+	inline bool isOptionalEnabled( int8_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( int16_t const & value )
+	inline bool isOptionalEnabled( int16_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( int32_t const & value )
+	inline bool isOptionalEnabled( int32_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( int64_t const & value )
+	inline bool isOptionalEnabled( int64_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( uint8_t const & value )
+	inline bool isOptionalEnabled( uint8_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( uint16_t const & value )
+	inline bool isOptionalEnabled( uint16_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( uint32_t const & value )
+	inline bool isOptionalEnabled( uint32_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( uint64_t const & value )
+	inline bool isOptionalEnabled( uint64_t const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( float const & value )
+	inline bool isOptionalEnabled( float const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( double const & value )
+	inline bool isOptionalEnabled( double const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( long double const & value )
+	inline bool isOptionalEnabled( long double const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( type::Scope const & value )
+	inline bool isOptionalEnabled( type::Scope const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( type::MemorySemantics const & value )
+	inline bool isOptionalEnabled( type::MemorySemantics const & )
 	{
 		return true;
 	}
 
-	inline bool isOptionalEnabled( ShaderWriter const & value )
+	inline bool isOptionalEnabled( ShaderWriter const & )
 	{
 		return true;
 	}
@@ -203,9 +203,9 @@ namespace sdw
 }
 
 #define SDW_DeclValue( expdecl, name )\
-	expdecl name( name && rhs ) = default;\
+	expdecl name( name && rhs )noexcept = default;\
 	expdecl name( name const & rhs ) = default;\
-	expdecl name & operator=( name && rhs )\
+	expdecl name & operator=( name && rhs )noexcept\
 	{\
 		sdw::Value::doMove( std::move( rhs ) );\
 		return *this;\

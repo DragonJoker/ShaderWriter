@@ -160,12 +160,12 @@ namespace ast
 			return std::move( m_shader );
 		}
 
-		stmt::Container * getContainer()
+		stmt::Container * getContainer()const
 		{
 			return m_blocks.back().container;
 		}
 
-		stmt::Container * getGlobalContainer()
+		stmt::Container * getGlobalContainer()const
 		{
 			return m_blocks.front().container;
 		}

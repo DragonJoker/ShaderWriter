@@ -19,19 +19,19 @@ namespace sdw
 		using my_vec = Vec3T< ValueT >;
 		using my_mat = Mat3x3T< ValueT >;
 
-		inline Mat3x3T( ShaderWriter & writer
+		Mat3x3T( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename RhsT >
-		inline Mat3x3T< ValueT > & operator=( RhsT const & rhs );
+		Mat3x3T< ValueT > & operator=( RhsT const & rhs );
 		template< typename IndexT >
-		inline Vec3T< ValueT > operator[]( IndexT const & rhs )const;
-		inline Vec3T< ValueT > operator[]( int32_t offset )const;
-		inline Vec3T< ValueT > operator[]( uint32_t offset )const;
-		inline Mat3x3T< ValueT > & operator+=( Mat3x3T< ValueT > const & rhs );
+		Vec3T< ValueT > operator[]( IndexT const & rhs )const;
+		Vec3T< ValueT > operator[]( int32_t offset )const;
+		Vec3T< ValueT > operator[]( uint32_t offset )const;
+		Mat3x3T< ValueT > & operator+=( Mat3x3T< ValueT > const & rhs );
 
-		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	template< typename ValueT >
 	Vec3T< ValueT > operator*( Vec3T< ValueT > const & lhs

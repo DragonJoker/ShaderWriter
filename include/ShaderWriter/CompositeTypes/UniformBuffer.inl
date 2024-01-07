@@ -4,7 +4,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
-		, std::string name
+		, std::string const & name
 		, uint32_t binding
 		, uint32_t set
 		, ast::type::MemoryLayout layout
@@ -20,13 +20,13 @@ namespace sdw
 	}
 
 	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
-		, std::string blockName
+		, std::string const & blockName
 		, std::string variableName
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled )
 		: UniformBuffer{ writer
-			, std::move( blockName )
+			, blockName
 			, std::move( variableName )
 			, location.binding
 			, location.set
@@ -36,7 +36,7 @@ namespace sdw
 	}
 
 	inline UniformBuffer::UniformBuffer( ShaderWriter & writer
-		, std::string name
+		, std::string const & name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
 		, bool enabled )

@@ -3,6 +3,10 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/BaseTypes/RayPayload.hpp"
 
+#include "ShaderWriter/BaseTypes/AccelerationStructure.hpp"
+#include "ShaderWriter/BaseTypes/UInt.hpp"
+#include "ShaderWriter/CompositeTypes/RayDesc.hpp"
+
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
 namespace sdw
@@ -60,13 +64,13 @@ namespace sdw
 	}
 
 	template< ast::var::Flag FlagT, typename ValueT >
-	void RayPayloadBaseT< FlagT, ValueT >::traceRay( AccelerationStructure const & topLevel
-		, UInt32 const & rayFlags
-		, UInt32 const & cullMask
-		, UInt32 const & sbtRecordOffset
-		, UInt32 const & sbtRecordStride
-		, UInt32 const & missIndex
-		, RayDesc const & rayDesc )
+	void RayPayloadBaseT< FlagT, ValueT >::traceRay( AccelerationStructure const topLevel
+		, UInt32 const rayFlags
+		, UInt32 const cullMask
+		, UInt32 const sbtRecordOffset
+		, UInt32 const sbtRecordStride
+		, UInt32 const missIndex
+		, RayDesc const rayDesc )
 	{
 		m_internal.traceRay( topLevel
 			, rayFlags

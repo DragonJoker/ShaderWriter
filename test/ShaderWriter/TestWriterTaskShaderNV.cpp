@@ -533,10 +533,11 @@ namespace
 
 					for ( int i = 0; i < 6; ++i )
 					{
-						if ( dot( center, constants.planes[i] ) < -radius )
+						IF( writer, dot( center, constants.planes[i] ) < -radius )
 						{
 							writer.returnStmt( Boolean{ false } );
 						}
+						FI;
 					}
 
 					// Do normal cone culling
@@ -577,9 +578,7 @@ namespace
 				, [&]( TaskInNV in
 					, TaskPayloadOutNVT< PayloadT > payload )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto const & dtid = in.globalInvocationID;
 
 					auto visible = writer.declLocale( "visible", Boolean{ false } );
 

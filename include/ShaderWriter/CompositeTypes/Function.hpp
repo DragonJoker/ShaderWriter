@@ -65,11 +65,11 @@ namespace sdw
 	struct Function
 	{
 	public:
-		inline Function() = default;
-		inline Function( ShaderWriter & writer
+		Function() = default;
+		Function( ShaderWriter & writer
 			, ast::var::VariablePtr funcVar );
-		inline ReturnWrapperT< ReturnT > operator()( ParamsT && ... params )const;
-		inline operator bool()const;
+		ReturnWrapperT< ReturnT > operator()( ParamsT && ... params )const;
+		explicit operator bool()const;
 
 	private:
 		mutable ShaderWriter * m_writer{ nullptr };

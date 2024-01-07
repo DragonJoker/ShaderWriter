@@ -12,7 +12,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	UniformBuffer::UniformBuffer( ShaderWriter & writer
-		, std::string blockName
+		, std::string const & blockName
 		, std::string variableName
 		, uint32_t bind
 		, uint32_t set
@@ -22,7 +22,7 @@ namespace sdw
 		, m_builder{ m_writer.getBuilder() }
 		, m_stmt{ m_builder.hasVariable( variableName, false ) ? nullptr : getStmtCache( m_writer ).makeConstantBufferDecl( variableName, layout, bind, set ) }
 		, m_name{ std::move( variableName ) }
-		, m_interface{ m_writer.getTypesCache(), layout, std::move( blockName ) }
+		, m_interface{ m_writer.getTypesCache(), layout, blockName }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_var{ m_builder.registerName( m_name, m_info.type, var::Flag::eUniform ) }
 		, m_enabled{ enabled }
@@ -43,7 +43,7 @@ namespace sdw
 		, bool enabled )
 	{
 		auto [type, added] = m_interface.registerMember( name, s.getType() );
-		auto var = registerMember( m_writer, m_var, name, type );
+		auto var = registerMember( m_writer, m_var, std::move( name ), type );
 
 		if ( isEnabled() && enabled && m_stmt && added )
 		{

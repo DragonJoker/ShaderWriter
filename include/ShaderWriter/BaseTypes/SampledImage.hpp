@@ -19,8 +19,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		inline SampledImage & operator=( T const & rhs );
-		SDW_API operator uint32_t();
+		SampledImage & operator=( T const & rhs );
 	};
 
 	template< ast::type::ImageFormat FormatT
@@ -37,15 +36,15 @@ namespace sdw
 		static constexpr bool Arrayed = ArrayedT;
 		static constexpr bool Ms = MsT;
 
-		inline SampledImageT( ShaderWriter & writer
+		SampledImageT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename T >
-		inline SampledImageT & operator=( T const & rhs );
+		SampledImageT & operator=( T const & rhs );
 
-		static inline ast::type::ImageConfiguration makeConfig();
-		static inline ast::type::TypePtr makeType( ast::type::TypesCache & cache );
+		static ast::type::ImageConfiguration makeConfig();
+		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }
 

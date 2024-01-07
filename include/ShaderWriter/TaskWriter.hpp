@@ -44,8 +44,7 @@ namespace sdw
 	using TaskSubgroupMainFunc = TaskEXTSubgroupMainFunc;
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void dispatchMesh( TaskWriter & writer
-		, TaskPayloadOutT< DataT > const & payload
+	void dispatchMesh( TaskPayloadOutT< DataT > const & payload
 		, sdw::UInt const & numTasks )
 	{
 		payload.dispatchMesh( numTasks, 1_u, 1_u );
@@ -76,8 +75,7 @@ namespace sdw
 	using TaskSubgroupMainFunc = TaskNVSubgroupMainFunc;
 
 	template< template< ast::var::Flag FlagT > typename DataT >
-	void dispatchMesh( TaskWriter & writer
-		, TaskPayloadOutT< DataT > const & payload
+	void dispatchMesh( TaskPayloadOutT< DataT > const & payload
 		, sdw::UInt const & numTasks )
 	{
 		payload.dispatchMesh( numTasks );

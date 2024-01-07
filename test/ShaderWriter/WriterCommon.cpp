@@ -600,7 +600,7 @@ namespace test
 
 					try
 					{
-						auto debug = ::sdw::writeDebugPreprocessed( shader, statements.get(), entryPoint.stage );
+						auto debug = ::sdw::writeDebugPreprocessed( shader, statements.get() );
 						displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
 						success();
 					}

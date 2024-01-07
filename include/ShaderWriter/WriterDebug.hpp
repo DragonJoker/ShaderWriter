@@ -12,8 +12,7 @@ namespace sdw
 	SDW_API std::string writeDebug( stmt::Container * stmt );
 	SDW_API std::string writeDebugPreprocessed( Shader const & shader );
 	SDW_API std::string writeDebugPreprocessed( Shader const & shader
-		, stmt::Container * stmt
-		, ast::ShaderStage stage );
+		, stmt::Container * stmt );
 }
 
 #endif

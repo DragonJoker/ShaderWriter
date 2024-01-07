@@ -460,7 +460,7 @@ namespace
 					, TaskPayloadOutT< PayloadT > payload )
 				{
 					payload.meshletIndices[0_u] = 1_u;
-					sdw::dispatchMesh( writer, payload, 1_u );
+					sdw::dispatchMesh( payload, 1_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -538,10 +538,11 @@ namespace
 
 					for ( int i = 0; i < 6; ++i )
 					{
-						if ( dot( center, constants.planes[i] ) < -radius )
+						IF( writer, dot( center, constants.planes[i] ) < -radius )
 						{
 							writer.returnStmt( Boolean{ false } );
 						}
+						FI;
 					}
 
 					// Do normal cone culling
@@ -582,9 +583,7 @@ namespace
 				, [&]( TaskIn in
 					, TaskPayloadOutT< PayloadT > payload )
 				{
-					auto dtid = in.globalInvocationID;
-					auto gid = in.workGroupID;
-					auto gtid = in.localInvocationID;
+					auto const & dtid = in.globalInvocationID;
 
 					auto visible = writer.declLocale( "visible", Boolean{ false } );
 
@@ -608,7 +607,7 @@ namespace
 
 					// Dispatch the required number of MS threadgroups to render the visible meshlets
 					//auto visibleCount = writer.declLocale( "visibleCount", WaveActiveCountBits( visible ) );
-					sdw::dispatchMesh( writer, payload, 18_u/*visibleCount*/ );
+					sdw::dispatchMesh( payload, 18_u/*visibleCount*/ );
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -631,7 +630,7 @@ namespace
 				, TaskPayloadOutT< PayloadT > payload )
 			{
 				payload.meshletIndices[0_u] = 1_u;
-				sdw::dispatchMesh( writer, payload, 1_u );
+				sdw::dispatchMesh( payload, 1_u );
 			} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );

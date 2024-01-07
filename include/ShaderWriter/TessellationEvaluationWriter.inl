@@ -14,7 +14,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: InputT< EntryPoint::eTessellationEvaluation, DataT >{ writer, std::move( expr ), enabled }
-		, vtx{ writer, *this, FlagT }
+		, vtx{ *this, FlagT }
 	{
 	}
 
@@ -134,7 +134,7 @@ namespace sdw
 		, ast::expr::ExprPtr expr
 		, bool enabled )
 		: OutputT< EntryPoint::eTessellationEvaluation, DataT >{ writer, std::move( expr ), enabled }
-		, vtx{ writer, *this, FlagT }
+		, vtx{ *this, FlagT }
 	{
 	}
 

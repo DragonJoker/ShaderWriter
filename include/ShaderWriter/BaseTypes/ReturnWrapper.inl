@@ -26,7 +26,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT >::~ReturnWrapperT()
+	ReturnWrapperT< ValueT >::~ReturnWrapperT()noexcept
 	{
 		if ( this->m_expr.get() && this->isEnabled() )
 		{
@@ -85,7 +85,7 @@ namespace sdw
 	template< typename ValueT >
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, ReturnWrapperT< ValueT > const & variable
-		, bool force )
+		, [[maybe_unused]] bool force )
 	{
 		return makeExpr( writer, variable.getExpr() );
 	}

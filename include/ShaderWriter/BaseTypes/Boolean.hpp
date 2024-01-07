@@ -22,7 +22,6 @@ namespace sdw
 
 		SDW_API Boolean & operator=( bool rhs );
 		SDW_API Boolean operator!()const;
-		SDW_API operator bool();
 		SDW_API expr::ExprPtr makeCondition()const;
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );

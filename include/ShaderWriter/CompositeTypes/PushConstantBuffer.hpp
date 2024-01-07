@@ -21,7 +21,7 @@ namespace sdw
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
 		SDW_API PushConstantBuffer( ShaderWriter & writer
-			, std::string name
+			, std::string const & name
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eC
 			, bool enabled = true );
 		SDW_API void end();
@@ -35,24 +35,24 @@ namespace sdw
 			, bool enabled = true );
 
 		template< typename ValueT, typename ... ParamsT >
-		inline ValueT declMember( std::string name
+		ValueT declMember( std::string name
 			, bool enabled = true
 			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
-		inline Array< ValueT > declMember( std::string name
+		Array< ValueT > declMember( std::string name
 			, uint32_t dimension
 			, bool enabled = true
 			, ParamsT && ... params );
 		template< typename ValueT, typename ... ParamsT >
-		inline Array< ValueT > declMemberArray( std::string name
+		Array< ValueT > declMemberArray( std::string name
 			, bool enabled = true
 			, ParamsT && ... params );
 
 		template< typename ValueT >
-		inline ValueT getMember( std::string_view name
+		ValueT getMember( std::string_view name
 			, bool enabled = true )const;
 		template< typename ValueT >
-		inline Array< ValueT > getMemberArray( std::string_view name
+		Array< ValueT > getMemberArray( std::string_view name
 			, bool enabled = true )const;
 
 		bool isEnabled()const

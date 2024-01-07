@@ -10,7 +10,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	StorageBuffer::StorageBuffer( ShaderWriter & writer
-		, std::string blockName
+		, std::string const & blockName
 		, std::string variableName
 		, uint32_t bind
 		, uint32_t set
@@ -19,7 +19,7 @@ namespace sdw
 		: m_writer{ writer }
 		, m_builder{ m_writer.getBuilder() }
 		, m_name{ std::move( variableName ) }
-		, m_interface{ writer.getTypesCache(), layout, std::move( blockName ) }
+		, m_interface{ writer.getTypesCache(), layout, blockName }
 		, m_info{ m_interface.getType(), bind, set }
 		, m_redeclare{ m_builder.hasVariable( m_name, false ) }
 		, m_var{ m_redeclare ? m_builder.getVariable( m_name, false ) : m_builder.registerName( m_name, m_interface.getType(), var::Flag::eStorageBuffer ) }

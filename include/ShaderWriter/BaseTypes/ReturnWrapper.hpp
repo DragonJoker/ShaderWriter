@@ -22,7 +22,7 @@ namespace sdw
 			, bool enabled );
 		explicit ReturnWrapperT( ValueT const & rhs );
 		ReturnWrapperT( ReturnWrapperT && rhs )noexcept;
-		~ReturnWrapperT()override;
+		~ReturnWrapperT()noexcept override;
 
 		type::TypePtr getType()const override;
 		expr::Expr * getExpr()const override;

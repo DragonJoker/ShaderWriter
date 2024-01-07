@@ -715,10 +715,11 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					if ( dot( center, cullPlanes[i] ) < -radius )
+					IF( writer, dot( center, cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
+					FI;
 				}
 
 				writer.returnStmt( sdw::Boolean{ true } );
@@ -823,10 +824,11 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					if ( dot( center, cullPlanes[i] ) < -radius )
+					IF( writer, dot( center, cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
+					FI;
 				}
 
 				writer.returnStmt( sdw::Boolean{ true } );
@@ -931,10 +933,11 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					if ( dot( center, cullPlanes[i] ) < -radius )
+					IF( writer, dot( center, cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
+					FI;
 				}
 
 				writer.returnStmt( sdw::Boolean{ true } );

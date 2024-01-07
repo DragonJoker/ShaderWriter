@@ -22,8 +22,7 @@ namespace sdw
 	}
 
 	std::string writeDebugPreprocessed( Shader const & shader
-		, stmt::Container * stmt
-		, ast::ShaderStage stage )
+		, stmt::Container * stmt )
 	{
 		auto & typesCache = shader.getTypesCache();
 		auto ownAllocator = std::make_unique< ast::ShaderAllocator >();
@@ -52,7 +51,6 @@ namespace sdw
 	std::string writeDebugPreprocessed( Shader const & shader )
 	{
 		return writeDebugPreprocessed( shader
-			, shader.getStatements()
-			, shader.getType() );
+			, shader.getStatements() );
 	}
 }

@@ -36,7 +36,7 @@ namespace sdw
 			case ast::type::Kind::eArray:
 				if ( arrayDim == ast::type::UnknownArraySize )
 				{
-					throw std::runtime_error{ "Can't provide a default value for given type" };
+					throw ast::Exception{ "Can't provide a default value for given type" };
 				}
 
 				if ( arrayDim > 1u )
@@ -142,7 +142,7 @@ namespace sdw
 			case ast::type::Kind::eCombinedImage:
 			case ast::type::Kind::eSampledImage:
 			case ast::type::Kind::eAccelerationStructure:
-				throw std::runtime_error{ "Can't provide a default value for given type" };
+				throw ast::Exception{ "Can't provide a default value for given type" };
 				break;
 			default:
 				result = func( type );
@@ -745,7 +745,7 @@ namespace sdw
 			}
 		}
 
-		auto & writer = findWriterMandat( *this );
+		auto const & writer = findWriterMandat( *this );
 		return sdw::makeMbrSelect( makeExpr( writer, *this )
 			, member.type->getIndex()
 			, mbrFlags );

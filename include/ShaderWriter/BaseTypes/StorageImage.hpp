@@ -31,8 +31,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		inline StorageImage & operator=( T const & rhs );
-		SDW_API operator uint32_t();
+		StorageImage & operator=( T const & rhs );
 	};
 
 	namespace storageImg
@@ -48,12 +47,12 @@ namespace sdw
 		{
 			SDW_DeclValue( , StorageImageFuncsT );
 
-			inline StorageImageFuncsT( ShaderWriter & writer
+			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
 
 			template< typename T >
-			inline StorageImageFuncsT & operator=( T const & rhs );
+			StorageImageFuncsT & operator=( T const & rhs );
 		};
 	}
 
@@ -73,15 +72,14 @@ namespace sdw
 		static constexpr bool Arrayed = ArrayedT;
 		static constexpr bool Ms = MsT;
 
-		inline StorageImageT( ShaderWriter & writer
+		StorageImageT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
 		template< typename T >
-		inline StorageImageT & operator=( T const & rhs );
+		StorageImageT & operator=( T const & rhs );
 
-		static inline ast::type::ImageConfiguration makeConfig();
-
+		static ast::type::ImageConfiguration makeConfig();
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 }

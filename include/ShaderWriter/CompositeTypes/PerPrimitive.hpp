@@ -14,8 +14,7 @@ namespace sdw
 {
 	struct PerPrimitive
 	{
-		SDW_API PerPrimitive( ShaderWriter & writer
-			, StructInstance & instance
+		SDW_API PerPrimitive( StructInstance const & instance
 			, ast::var::Flag flag );
 
 		Int32 primitiveID;

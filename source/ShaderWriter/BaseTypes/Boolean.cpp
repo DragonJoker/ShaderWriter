@@ -48,11 +48,6 @@ namespace sdw
 		return Boolean{ writer, sdw::makeLogNot( makeCondition() ), isEnabled() };
 	}
 
-	Boolean::operator bool()
-	{
-		return false;
-	}
-
 	ast::type::TypePtr Boolean::makeType( ast::type::TypesCache & cache )
 	{
 		return cache.getBool();

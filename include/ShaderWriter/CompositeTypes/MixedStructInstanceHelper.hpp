@@ -22,9 +22,9 @@ namespace sdw
 			, "A structure must have at least one field" );
 
 	public:
-		~MixedStructInstanceHelperT() override = default;
+		~MixedStructInstanceHelperT()noexcept override = default;
 		MixedStructInstanceHelperT( MixedStructInstanceHelperT const & ) = default;
-		MixedStructInstanceHelperT( MixedStructInstanceHelperT && ) = default;
+		MixedStructInstanceHelperT( MixedStructInstanceHelperT && )noexcept = default;
 
 		MixedStructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -39,7 +39,7 @@ namespace sdw
 			return *this;
 		}
 
-		MixedStructInstanceHelperT & operator=( MixedStructInstanceHelperT && rhs )
+		MixedStructInstanceHelperT & operator=( MixedStructInstanceHelperT && rhs )noexcept
 		{
 			StructInstance::operator=( std::move( rhs ) );
 			return *this;

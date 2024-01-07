@@ -46,9 +46,9 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		//in int gl_PrimitiveIDIn;
+		//! in int gl_PrimitiveIDIn;
 		Int32 const primitiveID;
-		//in int gl_InvocationID / SV_OutputControlPointID;
+		//! in int gl_InvocationID / SV_OutputControlPointID;
 		Int32 const invocationID;
 	};
 	/**
@@ -116,11 +116,11 @@ namespace sdw
 			, ParamsT && ... params );
 
 		PerVertex vtx;
-		//out int gl_PrimitiveID / SV_PrimitiveID;
+		//! out int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 primitiveID;
-		//out int gl_Layer / SV_RenderTargetArrayIndex;
+		//! out int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 layer;
-		//out int gl_ViewportIndex / SV_ViewportArrayIndex;
+		//! out int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 viewportIndex;
 	};
 
@@ -150,10 +150,10 @@ namespace sdw
 		*/
 		/**@{*/
 		template< uint32_t MaxPrimCountT, typename InputArrT, typename OutStreamT >
-		inline void implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
+		void implementMainT( GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 
 		template< typename InputArrT, typename OutStreamT >
-		inline void implementMainT( InputArrT in
+		void implementMainT( InputArrT in
 			, OutStreamT out
 			, GeometryMainFuncT< InputArrT, OutStreamT > const & function );
 		/**@}*/
@@ -163,24 +163,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declStreamOutput( std::string name
+		T declStreamOutput( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, bool enabled = true );
 		template< typename T >
-		inline T declStreamOutput( std::string name
+		T declStreamOutput( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string name
+		Array< T > declStreamOutputArray( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declStreamOutputArray( std::string name
+		Array< T > declStreamOutputArray( std::string name
 			, uint32_t location
 			, uint32_t streamIndex
 			, uint32_t dimension

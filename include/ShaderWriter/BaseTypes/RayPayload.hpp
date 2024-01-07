@@ -16,13 +16,13 @@ namespace sdw
 			, expr::Expr * expr
 			, bool enabled );
 
-		SDW_API void traceRay( AccelerationStructure const & topLevel
-			, UInt32 const & rayFlags
-			, UInt32 const & cullMask
-			, UInt32 const & sbtRecordOffset
-			, UInt32 const & sbtRecordStride
-			, UInt32 const & missIndex
-			, RayDesc const & rayDesc );
+		SDW_API void traceRay( AccelerationStructure const topLevel
+			, UInt32 const rayFlags
+			, UInt32 const cullMask
+			, UInt32 const sbtRecordOffset
+			, UInt32 const sbtRecordStride
+			, UInt32 const missIndex
+			, RayDesc const rayDesc )const;
 
 		ShaderWriter * getWriter()const
 		{
@@ -66,13 +66,13 @@ namespace sdw
 			, uint32_t location
 			, ParamsT && ... params );
 
-		void traceRay( AccelerationStructure const & topLevel
-			, UInt32 const & rayFlags
-			, UInt32 const & cullMask
-			, UInt32 const & sbtRecordOffset
-			, UInt32 const & sbtRecordStride
-			, UInt32 const & missIndex
-			, RayDesc const & rayDesc );
+		void traceRay( AccelerationStructure const topLevel
+			, UInt32 const rayFlags
+			, UInt32 const cullMask
+			, UInt32 const sbtRecordOffset
+			, UInt32 const sbtRecordStride
+			, UInt32 const missIndex
+			, RayDesc const rayDesc );
 
 	private:
 		RayPayload m_internal;

@@ -60,7 +60,7 @@ namespace sdw
 		if ( builder.getType() != ast::ShaderStage::eRayGeneration
 			&& builder.getType() != ast::ShaderStage::eRayTrace )
 		{
-			throw std::logic_error{ "Can't create a RayGenerationWriter from this kind of builder." };
+			throw ast::Exception{ "Can't create a RayGenerationWriter from this kind of builder." };
 		}
 	}
 

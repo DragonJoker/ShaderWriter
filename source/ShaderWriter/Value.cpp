@@ -35,7 +35,7 @@ namespace sdw
 	{
 	}
 
-	Value::Value( Value && rhs )
+	Value::Value( Value && rhs )noexcept
 		: Value{ findWriterMandat( rhs )
 		, makeExpr( findWriterMandat( rhs ), rhs )
 		, rhs.isEnabled() }
@@ -96,16 +96,22 @@ namespace sdw
 		}
 	}
 
-	void Value::doMove( Value && rhs )
+	void Value::doMove( Value && rhs )noexcept
 	{
-		if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
+		try
 		{
-			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );
-			sdw::addStmt( writer
-				, sdw::makeSimple( getStmtCache( writer )
-					, sdw::makeAssign( getType()
-						, sdw::makeExpr( writer, *this )
-						, std::move( rhs.m_expr ) ) ) );
+			if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
+			{
+				sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );
+				sdw::addStmt( writer
+					, sdw::makeSimple( getStmtCache( writer )
+						, sdw::makeAssign( getType()
+							, sdw::makeExpr( writer, *this )
+							, std::move( rhs.m_expr ) ) ) );
+			}
+		}
+		catch ( ... )
+		{
 		}
 	}
 

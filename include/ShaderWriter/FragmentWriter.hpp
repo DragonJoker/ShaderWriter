@@ -35,25 +35,25 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//in vec4 gl_FragCoord / SV_Position;
+		//! in vec4 gl_FragCoord / SV_Position;
 		Vec4 const fragCoord;
-		//in bool gl_FrontFacing / SV_IsFrontFace;
+		//! in bool gl_FrontFacing / SV_IsFrontFace;
 		Boolean const frontFacing;
-		//in vec2 gl_PointCoord;
+		//! in vec2 gl_PointCoord;
 		Vec2 const pointCoord;
-		//in int gl_SampleID / SV_SampleIndex;
+		//! in int gl_SampleID / SV_SampleIndex;
 		Int32 const sampleID;
-		//in vec2 gl_SamplePosition;
+		//! in vec2 gl_SamplePosition;
 		Vec2 const samplePosition;
-		//in int gl_SampleMaskIn[] / SV_Coverage;
+		//! in int gl_SampleMaskIn[] / SV_Coverage;
 		Array< Int32 > const sampleMask;
-		//in float gl_ClipDistance[] / SV_ClipDistance;
+		//! in float gl_ClipDistance[] / SV_ClipDistance;
 		Array < Float > const clipDistance;
-		//in int gl_PrimitiveID / SV_PrimitiveID;
+		//! in int gl_PrimitiveID / SV_PrimitiveID;
 		Int32 const primitiveID;
-		//in int gl_Layer / SV_RenderTargetArrayIndex;
+		//! in int gl_Layer / SV_RenderTargetArrayIndex;
 		Int32 const layer;
-		//in int gl_ViewportIndex / SV_ViewportArrayIndex;
+		//! in int gl_ViewportIndex / SV_ViewportArrayIndex;
 		Int32 const viewportIndex;
 	};
 
@@ -74,9 +74,9 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		//out float gl_FragDepth / SV_Depth;
+		//! out float gl_FragDepth / SV_Depth;
 		Float fragDepth;
-		//out int gl_SampleMask[] / SV_Coverage;
+		//! out int gl_SampleMask[] / SV_Coverage;
 		Array< Int32 > sampleMask;
 	};
 
@@ -105,16 +105,16 @@ namespace sdw
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( FragmentMainFuncT< InT, OutT > const & function );
+		void implementMainT( FragmentMainFuncT< InT, OutT > const & function );
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( ast::FragmentOrigin origin
+		void implementMainT( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
 			, FragmentMainFuncT< InT, OutT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
 			, template< ast::var::Flag FlagT > typename OutT >
-		inline void implementMainT( FragmentInT< InT > in
+		void implementMainT( FragmentInT< InT > in
 			, FragmentOutT< OutT > out
 			, FragmentMainFuncT< InT, OutT > const & function );
 		/**@}*/
@@ -124,24 +124,24 @@ namespace sdw
 		*/
 		/**@{*/
 		template< typename T >
-		inline T declBlendOutput( std::string name
+		T declBlendOutput( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, bool enabled = true );
 		template< typename T >
-		inline T declBlendOutput( std::string name
+		T declBlendOutput( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint64_t attributes
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string name
+		Array< T > declBlendOutputArray( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension
 			, bool enabled = true );
 		template< typename T >
-		inline Array< T > declBlendOutputArray( std::string name
+		Array< T > declBlendOutputArray( std::string name
 			, uint32_t location
 			, uint32_t blendIndex
 			, uint32_t dimension
