@@ -20,32 +20,32 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	static constexpr uint32_t InvalidComponentCount = ~( 0u );
+	static constexpr uint32_t InvalidComponentCount = ~0u;
 
 	struct ModuleConfig;
 	class ExprAdapter;
 
 	struct PendingResult
 	{
-		ast::var::VariablePtr var;
+		ast::var::VariablePtr var{};
 	};
 
 	struct PendingIO
 	{
-		ast::var::VariablePtr var;
-		uint32_t location;
-		uint32_t arraySize;
-		uint64_t flags;
-		PendingResult result;
+		ast::var::VariablePtr var{};
+		uint32_t location{};
+		uint32_t arraySize{};
+		uint64_t flags{};
+		PendingResult result{};
 	};
 
 	struct PendingMbrIO
 	{
-		uint32_t mbrIndex;
-		uint32_t location;
-		uint32_t arraySize;
-		uint64_t flags;
-		PendingResult result;
+		uint32_t mbrIndex{};
+		uint32_t location{};
+		uint32_t arraySize{};
+		uint64_t flags{};
+		PendingResult result{};
 	};
 
 	void checkBuiltin( ast::Builtin builtin
@@ -68,10 +68,7 @@ namespace spirv
 		ast::Map< ast::var::VariablePtr, VarMbrsIndex > splitVarsBuiltins;
 		ast::Map< ast::var::VariablePtr, VarMbrsIndex > splitVarsOthers;
 
-		void declare( ast::stmt::Container & stmt );
-
-		void addPatch( ast::var::VariablePtr patchVar
-			, uint32_t location );
+		void addPatch( ast::var::VariablePtr patchVar );
 		ast::var::VariablePtr getPatch( ast::var::VariablePtr patchVar );
 		void add( ast::var::VariablePtr var );
 		void addPending( ast::var::VariablePtr pendingVar
@@ -91,7 +88,6 @@ namespace spirv
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
 			, ast::Builtin builtin
-			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
 			, ast::var::VariablePtr var
@@ -102,7 +98,7 @@ namespace spirv
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
-		bool isValid( ast::Builtin builtin );
+		bool isValid( ast::Builtin builtin )const;
 
 		ast::var::VariableList const & getVars()const
 		{
@@ -127,7 +123,6 @@ namespace spirv
 			, ast::var::VariablePtr outerVar
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
-			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
 
 	private:
@@ -142,6 +137,15 @@ namespace spirv
 		ast::Map< ast::EntityName, PendingIO, MapComp > m_pending;
 		struct PendingMbrIO
 		{
+			PendingMbrIO( ast::var::VariablePtr pouter
+				, uint32_t pindex
+				, PendingIO pio )
+				: outer{ std::move( pouter ) }
+				, index{ pindex }
+				, io{ std::move( pio ) }
+			{
+			}
+
 			ast::var::VariablePtr outer;
 			uint32_t index;
 			PendingIO io;
@@ -172,18 +176,17 @@ namespace spirv
 		void registerCapability( spv::Capability capability );
 		bool registerExtension( SpirVExtension extension
 			, bool optional = false );
-		bool hasExtension( SpirVExtension extension )const;
+		bool hasExtension( SpirVExtension const & extension )const;
 		void fillModule( Module & shaderModule )const;
 
 		void initialise( ast::stmt::FunctionDecl const & stmt );
-		ast::stmt::ContainerPtr declare( ast::stmt::StmtCache & stmtCache );
+		ast::stmt::ContainerPtr declare( ast::stmt::StmtCache & stmtCache )const;
 		void addInputVar( ast::var::VariablePtr var
 			, uint32_t location );
 		void addOutputVar( ast::var::VariablePtr var
 			, uint32_t location );
 		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
 			, ast::Builtin builtin
-			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPending( ast::expr::ExprCache & exprCache
 			, ast::var::VariablePtr var
@@ -194,8 +197,8 @@ namespace spirv
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
-		bool isInput( ast::Builtin builtin );
-		bool isOutput( ast::Builtin builtin );
+		bool isInput( ast::Builtin builtin )const;
+		bool isOutput( ast::Builtin builtin )const;
 		void addMbrBuiltin( ast::expr::Expr * outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
@@ -378,14 +381,11 @@ namespace spirv
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationInputPatch const & patchType );
 		void registerParam( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType
-			, bool isEntryPoint );
+			, ast::type::TessellationOutputPatch const & patchType );
 		void registerParam( ast::var::VariablePtr var
-			, ast::type::TessellationControlInput const & tessType
-			, bool isEntryPoint );
+			, ast::type::TessellationControlInput const & tessType );
 		void registerParam( ast::var::VariablePtr var
-			, ast::type::TessellationControlOutput const & tessType
-			, bool isEntryPoint );
+			, ast::type::TessellationControlOutput const & tessType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationEvaluationInput const & tessType );
 		void registerParam( ast::var::VariablePtr var
@@ -402,19 +402,17 @@ namespace spirv
 			, ast::type::TaskPayloadIn const & taskType );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
-			, uint32_t arraySize
-			, bool isEntryPoint );
+			, uint32_t arraySize );
 		void registerOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
-			, uint32_t arraySize
-			, bool isEntryPoint );
+			, uint32_t arraySize );
 
 	private:
 		SpirVConfig & spirvConfig;
 		IOMapping inputs;
 		IOMapping outputs;
 		ast::Set< spv::Capability > requiredCapabilities;
-		SpirVExtensionSet requiredExtensions;
+		SpirVExtensionSet requiredExtensions{};
 	};
 
 	struct IntrinsicConfig
@@ -521,7 +519,7 @@ namespace spirv
 	InstructionPtr makeVariableInstruction( NamesCache & nameCache
 		, ValueId typeId
 		, ValueId varId
-		, ValueId initialiser = {} );
+		, ValueId initialiser = ValueId{} );
 	ast::expr::ExprPtr makeZero( ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
 		, ast::type::Kind kind );
@@ -542,7 +540,7 @@ namespace spirv
 		, InstructionList & capabilities
 		, spv::Capability capa );
 	void decorateVar( ast::var::Variable const & var
-		, DebugId varId
+		, DebugId const & varId
 		, Module & shaderModule );
 	spv::StorageClass getStorageClass( uint32_t version
 		, ast::var::VariablePtr var

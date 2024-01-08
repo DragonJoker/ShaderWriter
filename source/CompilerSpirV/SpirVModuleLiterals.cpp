@@ -30,7 +30,7 @@ namespace spirv
 					, result.id
 					, makeOperands( registeredConstants.get_allocator().getAllocator(), ValueId{ spv::Id( value ) } ) ) );
 				it = registeredLitConstants.emplace( value, result ).first;
-				registeredConstants.emplace( result, valueType );
+				registeredConstants.try_emplace( result, valueType );
 			}
 
 			return it->second;
@@ -84,8 +84,8 @@ namespace spirv
 					, result.id ) );
 			}
 
-			it = m_registeredBoolConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_module.getTypesCache().getBool() );
+			it = m_registeredBoolConstants.try_emplace( value, result ).first;
+			m_registeredConstants.try_emplace( result, m_module.getTypesCache().getBool() );
 		}
 
 		return it->second;
@@ -158,10 +158,10 @@ namespace spirv
 				, type.id
 				, result.id
 				, makeOperands( m_allocator
-					, ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFll ) }
-					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFll ) } ) ) );
-			it = m_registeredInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_module.getTypesCache().getInt64() );
+					, ValueId{ uint32_t( ( value >> 32 ) & 0X00000000FFFFFFFFLL ) }
+					, ValueId{ uint32_t( value & 0X00000000FFFFFFFFLL ) } ) ) );
+			it = m_registeredInt64Constants.try_emplace( value, result ).first;
+			m_registeredConstants.try_emplace( result, m_module.getTypesCache().getInt64() );
 		}
 
 		return it->second;
@@ -180,10 +180,10 @@ namespace spirv
 				, type.id
 				, result.id
 				, makeOperands( m_allocator
-					, ValueId{ uint32_t( ( value >> 32 ) & 0x00000000FFFFFFFFull ) }
-					, ValueId{ uint32_t( value & 0x00000000FFFFFFFFull ) } ) ) );
-			it = m_registeredUInt64Constants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_module.getTypesCache().getUInt64() );
+					, ValueId{ uint32_t( ( value >> 32 ) & 0X00000000FFFFFFFFULL ) }
+					, ValueId{ uint32_t( value & 0X00000000FFFFFFFFULL ) } ) ) );
+			it = m_registeredUInt64Constants.try_emplace( value, result ).first;
+			m_registeredConstants.try_emplace( result, m_module.getTypesCache().getUInt64() );
 		}
 
 		return it->second;
@@ -206,8 +206,8 @@ namespace spirv
 				, type.id
 				, result.id
 				, convert( list ) ) );
-			it = m_registeredFloatConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_module.getTypesCache().getFloat() );
+			it = m_registeredFloatConstants.try_emplace( value, result ).first;
+			m_registeredConstants.try_emplace( result, m_module.getTypesCache().getFloat() );
 		}
 
 		return it->second;
@@ -230,8 +230,8 @@ namespace spirv
 				, type.id
 				, result.id
 				, convert( list ) ) );
-			it = m_registeredDoubleConstants.emplace( value, result ).first;
-			m_registeredConstants.emplace( result, m_module.getTypesCache().getDouble() );
+			it = m_registeredDoubleConstants.try_emplace( value, result ).first;
+			m_registeredConstants.try_emplace( result, m_module.getTypesCache().getDouble() );
 		}
 
 		return it->second;
@@ -258,7 +258,7 @@ namespace spirv
 				, convert( initialisers ) ) );
 			m_registeredCompositeConstants.emplace_back( initialisers, result );
 			it = m_registeredCompositeConstants.begin() + ptrdiff_t( m_registeredCompositeConstants.size() - 1u );
-			m_registeredConstants.emplace( result, type );
+			m_registeredConstants.try_emplace( result, type );
 		}
 
 		return it->second;
@@ -267,7 +267,7 @@ namespace spirv
 	void ModuleLiterals::registerConstant( DebugId const & id
 		, ast::type::TypePtr type )
 	{
-		m_registeredConstants.emplace( id, type );
+		m_registeredConstants.try_emplace( id, type );
 	}
 
 	void ModuleLiterals::deserialize( spv::Op opCode
@@ -289,48 +289,48 @@ namespace spirv
 			switch ( type->getKind() )
 			{
 			case ast::type::Kind::eBoolean:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredBoolConstants.emplace( bool( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredBoolConstants.try_emplace( bool( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eInt8:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredInt8Constants.emplace( int8_t( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredInt8Constants.try_emplace( int8_t( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eInt16:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredInt16Constants.emplace( int16_t( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredInt16Constants.try_emplace( int16_t( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eInt32:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredInt32Constants.emplace( int32_t( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredInt32Constants.try_emplace( int32_t( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eInt64:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredInt64Constants.emplace( ( int64_t( instruction.operands[0] ) << 32 ) + int64_t( instruction.operands[1] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredInt64Constants.try_emplace( ( int64_t( instruction.operands[0] ) << 32 ) + int64_t( instruction.operands[1] )
 					, debugId );
 				break;
 			case ast::type::Kind::eUInt8:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredUInt8Constants.emplace( uint8_t( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredUInt8Constants.try_emplace( uint8_t( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eUInt16:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredUInt16Constants.emplace( uint16_t( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredUInt16Constants.try_emplace( uint16_t( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eUInt32:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredUInt32Constants.emplace( uint32_t( instruction.operands[0] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredUInt32Constants.try_emplace( uint32_t( instruction.operands[0] )
 					, debugId );
 				break;
 			case ast::type::Kind::eUInt64:
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredUInt64Constants.emplace( ( uint64_t( instruction.operands[0] ) << 32u ) + uint64_t( instruction.operands[1] )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredUInt64Constants.try_emplace( ( uint64_t( instruction.operands[0] ) << 32u ) + uint64_t( instruction.operands[1] )
 					, debugId );
 				break;
 			case ast::type::Kind::eFloat:
@@ -340,8 +340,8 @@ namespace spirv
 #else
 #	pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredFloatConstants.emplace( *reinterpret_cast< float const * >( instruction.operands.data() )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredFloatConstants.try_emplace( *reinterpret_cast< float const * >( instruction.operands.data() )
 					, debugId );
 #pragma GCC diagnostic pop
 				break;
@@ -353,8 +353,8 @@ namespace spirv
 #	pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif
 				assert( instruction.operands.size() >= 2 );
-				m_registeredConstants.emplace( debugId, type );
-				m_registeredDoubleConstants.emplace( *reinterpret_cast< double const * >( instruction.operands.data() )
+				m_registeredConstants.try_emplace( debugId, type );
+				m_registeredDoubleConstants.try_emplace( *reinterpret_cast< double const * >( instruction.operands.data() )
 					, debugId );
 #pragma GCC diagnostic pop
 				break;
@@ -367,9 +367,8 @@ namespace spirv
 			{
 				DebugIdList initialisers{ m_allocator };
 
-				for ( uint32_t i = 0u; i < uint32_t( instruction.operands.size() ); ++i )
+				for ( auto const & paramTypeId : instruction.operands )
 				{
-					auto paramTypeId = instruction.operands[i];
 					auto cit = std::find_if( m_registeredConstants.begin()
 						, m_registeredConstants.end()
 						, [paramTypeId]( std::pair< DebugId const, ast::type::TypePtr > const & lookup )
@@ -384,21 +383,21 @@ namespace spirv
 					initialisers.push_back( cit->first );
 				}
 
-				m_registeredConstants.emplace( debugId, type );
+				m_registeredConstants.try_emplace( debugId, type );
 				m_registeredCompositeConstants.emplace_back( initialisers, debugId );
 			}
 			break;
 		case spv::OpConstantFalse:
 		case spv::OpSpecConstantFalse:
-			m_registeredConstants.emplace( debugId, type );
-			m_registeredBoolConstants.emplace( false
-				, DebugId{ instruction.resultId.value(), type } );
+			m_registeredConstants.try_emplace( debugId, type );
+			m_registeredBoolConstants.try_emplace( false
+				, instruction.resultId.value(), type );
 			break;
 		case spv::OpConstantTrue:
 		case spv::OpSpecConstantTrue:
-			m_registeredConstants.emplace( debugId, type );
-			m_registeredBoolConstants.emplace( true
-				, DebugId{ instruction.resultId.value(), type } );
+			m_registeredConstants.try_emplace( debugId, type );
+			m_registeredBoolConstants.try_emplace( true
+				, instruction.resultId.value(), type );
 			break;
 		default:
 			break;

@@ -23,26 +23,26 @@ namespace spirv
 
 	//*************************************************************************
 
-	Block::Block( Block && rhs )
-		: label{ std::move( rhs.label ) }
+	Block::Block( Block && rhs )noexcept
+		: label{ rhs.label }
 		, instructions{ std::move( rhs.instructions ) }
 		, blockEnd{ std::move( rhs.blockEnd ) }
 		, accessChains{ std::move( rhs.accessChains ) }
 		, vectorShuffles{ std::move( rhs.vectorShuffles ) }
-		, isInterrupted{ std::move( rhs.isInterrupted ) }
+		, isInterrupted{ rhs.isInterrupted }
 	{
 		rhs.label = {};
 		rhs.isInterrupted = {};
 	}
 
-	Block & Block::operator=( Block && rhs )
+	Block & Block::operator=( Block && rhs )noexcept
 	{
-		label = std::move( rhs.label );
+		label = rhs.label;
 		instructions = std::move( rhs.instructions );
 		blockEnd = std::move( rhs.blockEnd );
 		accessChains = std::move( rhs.accessChains );
 		vectorShuffles = std::move( rhs.vectorShuffles );
-		isInterrupted = std::move( rhs.isInterrupted );
+		isInterrupted = rhs.isInterrupted;
 
 		rhs.label = {};
 		rhs.isInterrupted = {};
@@ -94,7 +94,7 @@ namespace spirv
 		while ( buffer != end
 			&& !isLastBlockInstruction( op ) )
 		{
-			op = spv::Op( ( *buffer )->op.opData.opCode );
+			op = spv::Op( ( *buffer )->op.getOpData().opCode);
 
 			if ( !isLastBlockInstruction( op ) )
 			{

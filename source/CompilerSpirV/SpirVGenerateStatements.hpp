@@ -20,7 +20,7 @@ namespace spirv
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
-		, SpirVConfig & spirvConfig
+		, SpirVConfig const & spirvConfig
 		, glsl::StmtConfig const & stmtConfig
 		, ShaderActions actions
 		, glsl::Statements debugStatements );

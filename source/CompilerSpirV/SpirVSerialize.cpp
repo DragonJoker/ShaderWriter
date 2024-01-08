@@ -7,41 +7,46 @@ namespace spirv
 {
 	namespace serlz
 	{
-		template< typename T >
-		static void count( ast::Vector< T > const & values
+		static void count( FunctionList const & values
+			, size_t & result );
+		static void count( BlockList const & values
+			, size_t & result );
+		static void count( InstructionList const & values
+			, size_t & result );
+		static void count( IdList const & values
 			, size_t & result );
 
 		template< typename T >
 		static void count( Optional< T > const & value
 			, size_t & result );
 
-		static void count( spv::Id const & id
+		static void count( spv::Id const &
 			, size_t & result )
 		{
 			++result;
 		}
 
-		static void count( spirv::Op const & op
+		static void count( spirv::Op const &
 			, size_t & result )
 		{
 			++result;
 		}
 
-		static void count( spirv::InstructionPtr const & instruction
+		static void count( spirv::Instruction const & instruction
 			, size_t & result )
 		{
-			count( instruction->op, result );
-			count( instruction->returnTypeId, result );
-			count( instruction->resultId, result );
-			count( instruction->operands, result );
-			count( instruction->packedName, result );
+			count( instruction.op, result );
+			count( instruction.returnTypeId, result );
+			count( instruction.resultId, result );
+			count( instruction.operands, result );
+			count( instruction.packedName, result );
 		}
 
 		static void count( spirv::Block const & block
 			, size_t & result )
 		{
 			count( block.instructions, result );
-			count( block.blockEnd, result );
+			count( *block.blockEnd, result );
 		}
 
 		static void count( spirv::ControlFlowGraph const & cfg
@@ -64,8 +69,8 @@ namespace spirv
 			count( shaderModule.capabilities, result );
 			count( shaderModule.extensions, result );
 			count( shaderModule.imports, result );
-			count( shaderModule.memoryModel, result );
-			count( shaderModule.entryPoint, result );
+			count( *shaderModule.memoryModel, result );
+			count( *shaderModule.entryPoint, result );
 			count( shaderModule.executionModes, result );
 			count( shaderModule.getDebugStringsDeclarations(), result );
 			count( shaderModule.getDebugNamesDeclarations(), result );
@@ -77,11 +82,37 @@ namespace spirv
 			return result;
 		}
 
-		template< typename T >
-		static void count( ast::Vector< T > const & values
+		static void count( BlockList const & values
 			, size_t & result )
 		{
-			for ( auto & value : values )
+			for ( auto const & value : values )
+			{
+				count( value, result );
+			}
+		}
+
+		static void count( FunctionList const & values
+			, size_t & result )
+		{
+			for ( auto const & value : values )
+			{
+				count( value, result );
+			}
+		}
+
+		static void count( InstructionList const & values
+			, size_t & result )
+		{
+			for ( auto const & value : values )
+			{
+				count( *value, result );
+			}
+		}
+
+		static void count( IdList const & values
+			, size_t & result )
+		{
+			for ( auto const & value : values )
 			{
 				count( value, result );
 			}
@@ -97,8 +128,13 @@ namespace spirv
 			}
 		}
 
-		template< typename T >
-		static void serializeResult( ast::Vector< T > const & values
+		static void serializeResult( FunctionList const & values
+			, UInt32List & result );
+		static void serializeResult( BlockList const & values
+			, UInt32List & result );
+		static void serializeResult( InstructionList const & values
+			, UInt32List & result );
+		static void serializeResult( IdList const & values
 			, UInt32List & result );
 
 		template< typename T >
@@ -111,17 +147,17 @@ namespace spirv
 			result.push_back( id );
 		}
 
-		static void serializeResult( spirv::InstructionPtr const & instruction
+		static void serializeResult( spirv::Instruction const & instruction
 			, UInt32List & result )
 		{
-			Instruction::serialize( result, *instruction );
+			Instruction::serialize( result, instruction );
 		}
 
 		static void serializeResult( spirv::Block const & block
 			, UInt32List & result )
 		{
 			serializeResult( block.instructions, result );
-			serializeResult( block.blockEnd, result );
+			serializeResult( *block.blockEnd, result );
 		}
 
 		static void serializeResult( spirv::ControlFlowGraph const & cfg
@@ -144,8 +180,8 @@ namespace spirv
 			serializeResult( shaderModule.capabilities, result );
 			serializeResult( shaderModule.extensions, result );
 			serializeResult( shaderModule.imports, result );
-			serializeResult( shaderModule.memoryModel, result );
-			serializeResult( shaderModule.entryPoint, result );
+			serializeResult( *shaderModule.memoryModel, result );
+			serializeResult( *shaderModule.entryPoint, result );
 			serializeResult( shaderModule.executionModes, result );
 			serializeResult( shaderModule.getDebugStringsDeclarations(), result );
 			serializeResult( shaderModule.getDebugNamesDeclarations(), result );
@@ -156,8 +192,34 @@ namespace spirv
 			serializeResult( shaderModule.functions, result );
 		}
 
-		template< typename T >
-		static void serializeResult( ast::Vector< T > const & values
+		static void serializeResult( FunctionList const & values
+			, UInt32List & result )
+		{
+			for ( auto & value : values )
+			{
+				serializeResult( value, result );
+			}
+		}
+
+		static void serializeResult( BlockList const & values
+			, UInt32List & result )
+		{
+			for ( auto & value : values )
+			{
+				serializeResult( value, result );
+			}
+		}
+
+		static void serializeResult( InstructionList const & values
+			, UInt32List & result )
+		{
+			for ( auto & value : values )
+			{
+				serializeResult( *value, result );
+			}
+		}
+
+		static void serializeResult( IdList const & values
 			, UInt32List & result )
 		{
 			for ( auto & value : values )

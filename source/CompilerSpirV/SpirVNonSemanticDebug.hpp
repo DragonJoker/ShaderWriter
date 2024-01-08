@@ -60,10 +60,9 @@ namespace spirv::debug
 			, DebugId & resultId );
 		void registerImageType( ast::type::ImagePtr type
 			, DebugId & resultId );
-		void registerAccelerationStructureType( ast::type::AccelerationStructurePtr type
-			, DebugId & resultId );
+		void registerAccelerationStructureType( DebugId & resultId );
 		void registerMemberType( ast::type::Struct::Member const & member
-			, DebugId subTypeId
+			, DebugId const & subTypeId
 			, glsl::Statement const * debugStatement
 			, ValueIdList & subTypes );
 		void registerStructType( ast::type::StructPtr structType
@@ -76,21 +75,20 @@ namespace spirv::debug
 		// Variables declarations
 		//
 		void declareVariable( InstructionList & instructions
-			, std::string name
+			, std::string const & name
 			, ast::type::TypePtr type
 			, DebugId variableId
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement
 			, bool isAccessChain = false );
 		void declarePointerParam( InstructionList & instructions
-			, std::string name
+			, std::string const & name
 			, ast::type::TypePtr type
 			, DebugId variableId
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement );
 		void declareAccessChain( InstructionList & instructions
 			, ast::expr::Expr * expr
-			, ValueIdList accessChainIds
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
 		void declareFunction( Function & function

@@ -887,57 +887,21 @@ namespace spirv
 		case ast::expr::Intrinsic::eAtomicAddF:
 		case ast::expr::Intrinsic::eAtomicAdd2H:
 		case ast::expr::Intrinsic::eAtomicAdd4H:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicMinI:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicMinU:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicMaxI:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicMaxU:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicAndI:
 		case ast::expr::Intrinsic::eAtomicAndU:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicOrI:
 		case ast::expr::Intrinsic::eAtomicOrU:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicXorI:
 		case ast::expr::Intrinsic::eAtomicXorU:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicExchangeI:
 		case ast::expr::Intrinsic::eAtomicExchangeU:
 		case ast::expr::Intrinsic::eAtomicExchangeF:
 		case ast::expr::Intrinsic::eAtomicExchange2H:
 		case ast::expr::Intrinsic::eAtomicExchange4H:
-			config.isAtomic = true;
-			config.isExtension = false;
-			break;
-
 		case ast::expr::Intrinsic::eAtomicCompSwapI:
 		case ast::expr::Intrinsic::eAtomicCompSwapU:
 			config.isAtomic = true;
@@ -1733,7 +1697,7 @@ namespace spirv
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported Intrinsic type." };
+			throw ast::Exception{ "Unsupported Intrinsic type." };
 		}
 	}
 }

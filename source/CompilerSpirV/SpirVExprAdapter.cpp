@@ -2,7 +2,6 @@
 See LICENSE file in root folder
 */
 #include "SpirVExprAdapter.hpp"
-#include "SpirVEvaluateExpr.hpp"
 
 #include "SpirVGetSwizzleComponents.hpp"
 #include "SpirVCombinedImageAccessConfig.hpp"
@@ -21,7 +20,7 @@ namespace spirv
 {
 	namespace adapt
 	{
-		static ast::Builtin getBuiltin( ast::expr::MbrSelect * expr )
+		static ast::Builtin getBuiltin( ast::expr::MbrSelect const * expr )
 		{
 			auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
 			return mbr.builtin;
@@ -83,21 +82,21 @@ namespace spirv
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
 	{
 		TraceFunc;
-		auto lhs = expr->getLHS();
 
-		if ( lhs->getKind() == ast::expr::Kind::eMbrSelect )
+		if ( auto lhs = expr->getLHS();
+			lhs->getKind() == ast::expr::Kind::eMbrSelect )
 		{
 			auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *lhs );
-			auto outer = mbrSelect.getOuterExpr();
 
-			if ( outer->getKind() == ast::expr::Kind::eArrayAccess )
+			if ( auto outer = mbrSelect.getOuterExpr();
+				outer->getKind() == ast::expr::Kind::eArrayAccess )
 			{
 				auto structType = mbrSelect.getOuterType();
 				auto mbr = structType->getMember( mbrSelect.getMemberIndex() );
 
 				if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
 				{
-					auto builtinExpr = m_adaptationData.config.processPending( m_exprCache, mbr.builtin, *this, m_container );
+					auto builtinExpr = m_adaptationData.config.processPending( m_exprCache, mbr.builtin, m_container );
 					assert( builtinExpr );
 
 					// Compute base index, based on declared type of builtin
@@ -191,9 +190,9 @@ namespace spirv
 	void ExprAdapter::visitFnCallExpr( ast::expr::FnCall * expr )
 	{
 		auto funcVar = expr->getFn()->getVariable();
-		auto it = m_adaptationData.funcVarReplacements.find( funcVar->getId() );
 
-		if ( it != m_adaptationData.funcVarReplacements.end() )
+		if ( auto it = m_adaptationData.funcVarReplacements.find( funcVar->getId() );
+			it != m_adaptationData.funcVarReplacements.end() )
 		{
 			funcVar = it->second;
 		}
@@ -223,10 +222,9 @@ namespace spirv
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
 	{
 		TraceFunc;
-		auto var = expr->getVariable();
 
-		if ( var->isShaderOutput()
-			&& var->isBuiltin() )
+		if ( auto var = expr->getVariable();
+			var->isShaderOutput() && var->isBuiltin() )
 		{
 			auto & typesCache = var->getType()->getTypesCache();
 
@@ -266,7 +264,8 @@ namespace spirv
 			args.pop_back();
 			args.pop_back();
 			auto type = numPrimitives->getType();
-			auto var = ast::var::makeBuiltin( ++m_adaptationData.config.nextVarId
+			++m_adaptationData.config.nextVarId;
+			auto var = ast::var::makeBuiltin( m_adaptationData.config.nextVarId
 				, ast::Builtin::ePrimitiveCountNV
 				, type
 				, ast::var::Flag::eShaderOutput );
@@ -281,7 +280,8 @@ namespace spirv
 			auto numTasks = std::move( args.back() );
 			args.pop_back();
 			auto type = numTasks->getType();
-			auto var = ast::var::makeBuiltin( ++m_adaptationData.config.nextVarId
+			++m_adaptationData.config.nextVarId;
+			auto var = ast::var::makeBuiltin( m_adaptationData.config.nextVarId
 				, ast::Builtin::eTaskCountNV
 				, type
 				, ast::var::Flag::eShaderOutput );
@@ -304,7 +304,8 @@ namespace spirv
 				uint32_t index = 0u;
 				for ( auto mbr : *getStructType( rayDesc->getType() ) )
 				{
-					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index++, 0u ) );
+					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index, 0u ) );
+					++index;
 				}
 				// Move the RayPayload back to last parameter.
 				args.push_back( std::move( payLoad ) );
@@ -353,7 +354,6 @@ namespace spirv
 					, std::move( m_result )
 					, m_adaptationData.config.processPending( m_exprCache
 						, ast::Builtin::eInvocationID
-						, *this
 						, m_ioDeclarations ) );
 			}
 		}
@@ -380,19 +380,17 @@ namespace spirv
 			args.emplace_back( doSubmit( arg ) );
 		}
 
-		if ( getBias( kind ) == spv::ImageOperandsBiasMask )
+		if ( getBias( kind ) == spv::ImageOperandsBiasMask
+			&& args.size() > config.imageOperandsIndex + 1u )
 		{
 			// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.
-			if ( args.size() > config.imageOperandsIndex + 1u )
-			{
-				auto biasArg = std::move( args.back() );
-				args.pop_back();
-				args.emplace( args.begin() + config.imageOperandsIndex, std::move( biasArg ) );
-			}
+			auto biasArg = std::move( args.back() );
+			args.pop_back();
+			args.emplace( args.begin() + config.imageOperandsIndex, std::move( biasArg ) );
 		}
 
 #if !defined( NDEBUG )
-		for ( auto & arg : args )
+		for ( auto const & arg : args )
 		{
 			assert( arg != nullptr );
 		}

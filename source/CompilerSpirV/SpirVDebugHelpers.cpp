@@ -100,7 +100,7 @@ namespace spirv::debug
 	{
 		uint32_t result{};
 
-		if ( ( varFlags & uint64_t( ast::var::Flag::eLocale ) ) )
+		if ( varFlags & uint64_t( ast::var::Flag::eLocale ) )
 		{
 			result |= uint32_t( spv::NonSemanticShaderDebugInfo100DebugInfoFlags::IsLocal );
 		}

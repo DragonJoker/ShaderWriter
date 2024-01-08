@@ -27,7 +27,7 @@ namespace spirv::debug
 	namespace details
 	{
 		template< typename Param, typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, Param const & current, Params ... params );
+		inline void makeValueIdListRec( ValueIdList & result, Param const & current, Params && ... params );
 
 		inline void makeValueIdListRec( ValueIdList & result, ValueId const & param )
 		{
@@ -41,12 +41,12 @@ namespace spirv::debug
 
 		inline void makeValueIdListRec( ValueIdList & result, uint16_t param )
 		{
-			result.push_back( ValueId{ spv::Id{ param } } );
+			result.emplace_back( spv::Id{ param } );
 		}
 
 		inline void makeValueIdListRec( ValueIdList & result, uint32_t param )
 		{
-			result.push_back( ValueId{ spv::Id{ param } } );
+			result.emplace_back( spv::Id{ param } );
 		}
 
 		inline void makeValueIdListRec( ValueIdList & result, ValueIdList const & param )
@@ -64,23 +64,25 @@ namespace spirv::debug
 
 		inline void makeValueIdListRec( ValueIdList & result, IdList const & param )
 		{
-			makeValueIdListRec( result, convert( param ) );
+			makeValueIdListRec( result, spirv::convert( param ) );
 		}
 
 		template< typename Param, typename ... Params >
-		inline void makeValueIdListRec( ValueIdList & result, Param const & current, Params ... params )
+		inline void makeValueIdListRec( ValueIdList & result
+			, Param const & current
+			, Params && ... params )
 		{
 			makeValueIdListRec( result, current );
-			makeValueIdListRec( result, params... );
+			makeValueIdListRec( result, std::forward< Params >( params )... );
 		}
 	}
 
 	template< typename ... Params >
 	inline ValueIdList makeValueIdList( ast::ShaderAllocatorBlock * alloc
-		, Params ... params )
+		, Params && ... params )
 	{
 		ValueIdList result{ alloc };
-		details::makeValueIdListRec( result, params... );
+		details::makeValueIdListRec( result, std::forward< Params >( params )... );
 		return result;
 	}
 

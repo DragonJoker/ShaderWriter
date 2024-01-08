@@ -4,7 +4,6 @@ See LICENSE file in root folder
 #include "SpirVAdaptStatements.hpp"
 
 #include "SpirVExprAdapter.hpp"
-#include "SpirVEvaluateExpr.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/CloneStmt.hpp>
@@ -135,8 +134,7 @@ namespace spirv
 			{
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::ComputeInput const & compType )
+			void doProcess( ast::type::ComputeInput const & compType )
 			{
 				TraceFunc;
 				auto type = compType.getType();
@@ -146,8 +144,7 @@ namespace spirv
 					, compType.getLocalSizeZ() ) );
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::FragmentInput const & fragType )
+			void doProcess( ast::type::FragmentInput const & fragType )
 			{
 				TraceFunc;
 				auto type = fragType.getType();
@@ -156,8 +153,7 @@ namespace spirv
 					, fragType.getCenter() ) );
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::GeometryOutput const & geomType )
+			void doProcess( ast::type::GeometryOutput const & geomType )
 			{
 				TraceFunc;
 				auto type = geomType.getType();
@@ -166,8 +162,7 @@ namespace spirv
 					, geomType.getCount() ) );
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::GeometryInput const & geomType )
+			void doProcess( ast::type::GeometryInput const & geomType )
 			{
 				TraceFunc;
 				auto type = geomType.getType();
@@ -175,9 +170,7 @@ namespace spirv
 					, geomType.getLayout() ) );
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TessellationControlOutput const & tessType
-				, bool isEntryPoint )
+			void doProcess( ast::type::TessellationControlOutput const & tessType )
 			{
 				TraceFunc;
 				auto type = tessType.getType();
@@ -189,15 +182,12 @@ namespace spirv
 					, tessType.getOutputVertices() ) );
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TessellationControlInput const & geomType
-				, bool isEntryPoint )
+			void doProcess( ast::type::TessellationControlInput const & )const
 			{
 				TraceFunc;
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TessellationEvaluationInput const & tessType )
+			void doProcess( ast::type::TessellationEvaluationInput const & tessType )
 			{
 				TraceFunc;
 				m_current->addStmt( m_stmtCache.makeInputTessellationEvaluationLayout( tessType.getType()
@@ -206,8 +196,7 @@ namespace spirv
 					, tessType.getPrimitiveOrdering() ) );
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::MeshVertexOutput const & meshType )
+			void doProcess( ast::type::MeshVertexOutput const & meshType )
 			{
 				TraceFunc;
 				m_maxVertices = meshType.getMaxVertices();
@@ -221,8 +210,7 @@ namespace spirv
 				}
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::MeshPrimitiveOutput const & meshType )
+			void doProcess( ast::type::MeshPrimitiveOutput const & meshType )
 			{
 				TraceFunc;
 				m_maxPrimitives = meshType.getMaxPrimitives();
@@ -237,26 +225,22 @@ namespace spirv
 				}
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayloadNV const & taskType )
+			void doProcess( ast::type::TaskPayloadNV const & )const
 			{
 				TraceFunc;
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayload const & taskType )
+			void doProcess( ast::type::TaskPayload const & )const
 			{
 				TraceFunc;
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayloadInNV const & taskType )
+			void doProcess( ast::type::TaskPayloadInNV const & )const
 			{
 				TraceFunc;
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayloadIn const & taskType )
+			void doProcess( ast::type::TaskPayloadIn const & )const
 			{
 				TraceFunc;
 			}
@@ -274,8 +258,7 @@ namespace spirv
 			}
 
 			void doProcess( ast::var::VariablePtr var
-				, ast::type::TessellationOutputPatch const & patchType
-				, bool isEntryPoint )
+				, ast::type::TessellationOutputPatch const & patchType )
 			{
 				TraceFunc;
 				var = m_adaptationData.config.getOutputPatch( var );
@@ -291,23 +274,22 @@ namespace spirv
 				TraceFunc;
 				auto & typesCache = stmt->getType()->getTypesCache();
 				auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
-				doProcessInOut( stmt->getType(), true );
+				doProcessInOut( stmt->getType() );
 				auto save = m_current;
 				auto funcVar = stmt->getFuncVar();
 				funcVar = ast::var::makeVariable( funcVar->getId()
 					, funcType
 					, stmt->getName()
 					, funcVar->getFlags() );
-				m_adaptationData.funcVarReplacements.emplace( funcVar->getId(), funcVar );
+				m_adaptationData.funcVarReplacements.try_emplace( funcVar->getId(), funcVar );
 				auto cont = m_stmtCache.makeFunctionDecl( funcVar, stmt->getFlags() );
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 
-				for ( auto & pending : m_pending )
+				for ( auto const & [_, pending] : m_pending )
 				{
-					doProcessInOut( pending.second.funcType
-						, false );
-					visitContainerStmt( pending.second.statements.get() );
+					doProcessInOut( pending.funcType );
+					visitContainerStmt( pending.statements.get() );
 				}
 
 				m_current = save;
@@ -322,12 +304,11 @@ namespace spirv
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 				m_current = save;
-				m_pending.emplace( stmt->getName()
-					, PendingFunction{ stmt->getType(), std::move( cont ) } );
+				m_pending.try_emplace( stmt->getName()
+					, stmt->getType(), std::move( cont ) );
 			}
 
-			void doProcessInOut( ast::type::FunctionPtr funcType
-				, bool isEntryPoint )
+			void doProcessInOut( ast::type::FunctionPtr funcType )
 			{
 				TraceFunc;
 				for ( auto & param : *funcType )
@@ -337,49 +318,49 @@ namespace spirv
 					switch ( type->getKind() )
 					{
 					case ast::type::Kind::eFragmentInput:
-						doProcess( param, static_cast< ast::type::FragmentInput const & >( *type ) );
+						doProcess( static_cast< ast::type::FragmentInput const & >( *type ) );
 						break;
 					case ast::type::Kind::eGeometryOutput:
-						doProcess( param, static_cast< ast::type::GeometryOutput const & >( *type ) );
+						doProcess( static_cast< ast::type::GeometryOutput const & >( *type ) );
 						break;
 					case ast::type::Kind::eGeometryInput:
-						doProcess( param, static_cast< ast::type::GeometryInput const & >( *type ) );
+						doProcess( static_cast< ast::type::GeometryInput const & >( *type ) );
 						break;
 					case ast::type::Kind::eTessellationInputPatch:
 						doProcess( param, static_cast< ast::type::TessellationInputPatch const & >( *type ) );
 						break;
 					case ast::type::Kind::eTessellationControlInput:
-						doProcess( param, static_cast< ast::type::TessellationControlInput const & >( *type ), isEntryPoint );
+						doProcess( static_cast< ast::type::TessellationControlInput const & >( *type ) );
 						break;
 					case ast::type::Kind::eTessellationEvaluationInput:
-						doProcess( param, static_cast< ast::type::TessellationEvaluationInput const & >( *type ) );
+						doProcess( static_cast< ast::type::TessellationEvaluationInput const & >( *type ) );
 						break;
 					case ast::type::Kind::eComputeInput:
-						doProcess( param, static_cast< ast::type::ComputeInput const & >( *type ) );
+						doProcess( static_cast< ast::type::ComputeInput const & >( *type ) );
 						break;
 					case ast::type::Kind::eTessellationOutputPatch:
-						doProcess( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ), isEntryPoint );
+						doProcess( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ) );
 						break;
 					case ast::type::Kind::eTessellationControlOutput:
-						doProcess( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+						doProcess( static_cast< ast::type::TessellationControlOutput const & >( *type ) );
 						break;
 					case ast::type::Kind::eMeshVertexOutput:
-						doProcess( param, static_cast< ast::type::MeshVertexOutput const & >( *type ) );
+						doProcess( static_cast< ast::type::MeshVertexOutput const & >( *type ) );
 						break;
 					case ast::type::Kind::eMeshPrimitiveOutput:
-						doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
+						doProcess( static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 						break;
 					case ast::type::Kind::eTaskPayloadNV:
-						doProcess( param, static_cast< ast::type::TaskPayloadNV const & >( *type ) );
+						doProcess( static_cast< ast::type::TaskPayloadNV const & >( *type ) );
 						break;
 					case ast::type::Kind::eTaskPayload:
-						doProcess( param, static_cast< ast::type::TaskPayload const & >( *type ) );
+						doProcess( static_cast< ast::type::TaskPayload const & >( *type ) );
 						break;
 					case ast::type::Kind::eTaskPayloadInNV:
-						doProcess( param, static_cast< ast::type::TaskPayloadInNV const & >( *type ) );
+						doProcess( static_cast< ast::type::TaskPayloadInNV const & >( *type ) );
 						break;
 					case ast::type::Kind::eTaskPayloadIn:
-						doProcess( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
+						doProcess( static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 						break;
 					default:
 						break;
@@ -399,15 +380,22 @@ namespace spirv
 		private:
 			ast::type::TypesCache & m_typesCache;
 			AdaptationData & m_adaptationData;
-			ast::stmt::Container * m_ioDeclarations;
+			ast::stmt::Container * m_ioDeclarations{};
 			ast::UnorderedSet< ast::type::StructPtr > m_declaredStructs;
 			struct PendingFunction
 			{
-				ast::type::FunctionPtr funcType;
-				ast::stmt::ContainerPtr statements;
+				PendingFunction( ast::type::FunctionPtr pfuncType
+					, ast::stmt::ContainerPtr pstatements )
+					: funcType{ std::move( pfuncType ) }
+					, statements{ std::move( pstatements ) }
+				{
+				}
+
+				ast::type::FunctionPtr funcType{};
+				ast::stmt::ContainerPtr statements{};
 			};
 			ast::Map< std::string, PendingFunction > m_pending;
-			ast::type::OutputTopology m_topology;
+			ast::type::OutputTopology m_topology{};
 			uint32_t m_maxVertices{};
 			uint32_t m_maxPrimitives{};
 		};

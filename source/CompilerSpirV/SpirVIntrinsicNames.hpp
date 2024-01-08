@@ -1921,7 +1921,7 @@ namespace spirv
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported Intrinsic type." };
+			throw ast::Exception{ "Unsupported Intrinsic type." };
 		}
 
 		return result;
