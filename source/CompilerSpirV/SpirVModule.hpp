@@ -14,7 +14,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
 #include <set>
-#include <unordered_set>
 
 namespace spirv
 {

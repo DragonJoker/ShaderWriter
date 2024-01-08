@@ -160,17 +160,6 @@ namespace ast::vk
 	using WriteDescriptorSet = std::variant< ImageWriteDescriptorSet
 		, BufferWriteDescriptorSet
 		, BufferViewWriteDescriptorSet >;
-	/**
-	*\brief
-	*	Enum indexes to access the variants of a WriteDescriptorSet.
-	*/
-	enum WriteDescriptorType
-		: uint32_t
-	{
-		ImageWriteIdx = 0u,
-		BufferWriteIdx = 1u,
-		BufferViewWriteIdx = 2u,
-	};
 
 	using SpecializationInfoOpt = std::optional< SpecializationInfo >;
 	using VkSpecializationInfoOpt = std::optional< VkSpecializationInfo >;

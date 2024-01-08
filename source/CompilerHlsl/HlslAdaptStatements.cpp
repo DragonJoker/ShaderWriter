@@ -578,7 +578,7 @@ namespace hlsl
 			ast::type::TypesCache m_rtCache;
 			ast::stmt::Container * m_intrinsics;
 			ast::stmt::Container * m_inOutDeclarations;
-			std::unordered_set< std::string > m_declaredStructs;
+			ast::UnorderedStringSet m_declaredStructs;
 		};
 	}
 

@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include "CompilerHlsl/compileHlsl.hpp"
 
+#include <ShaderAST/ShaderStlTypes.hpp>
 #include <ShaderAST/Type/Type.hpp>
 #include <ShaderAST/Expr/Expr.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
@@ -153,7 +154,7 @@ namespace hlsl
 		ast::var::VariableList unsupportedBuiltins{};
 
 		void writeGlobals( ast::stmt::Container & stmt
-			, std::unordered_set< std::string > & declaredStructs )const;
+			, ast::UnorderedStringSet & declaredStructs )const;
 		void writeLocalesBegin( ast::stmt::Container & stmt )const;
 		void writeLocalesEnd( ast::stmt::Container & stmt )const;
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
@@ -244,7 +245,7 @@ namespace hlsl
 		ast::stmt::Container * globalDeclarations{};
 
 		void writeGlobals( ast::stmt::Container & cont
-			, std::unordered_set< std::string > & declaredStructs );
+			, ast::UnorderedStringSet & declaredStructs );
 		void writeLocalesBegin( ast::stmt::Container & cont )const;
 		void writeLocalesEnd( ast::stmt::Container & cont )const;
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
@@ -347,7 +348,7 @@ namespace hlsl
 		void initialiseEntryPoint( ast::stmt::FunctionDecl const & stmt );
 
 		ast::stmt::ContainerPtr writeGlobals( ast::stmt::StmtCache & stmtCache
-			, std::unordered_set< std::string > & declaredStructs );
+			, ast::UnorderedStringSet & declaredStructs );
 		ast::stmt::ContainerPtr writeLocalesBegin( ast::stmt::StmtCache & stmtCache );
 		ast::stmt::ContainerPtr writeLocalesEnd( ast::stmt::StmtCache & stmtCache );
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters

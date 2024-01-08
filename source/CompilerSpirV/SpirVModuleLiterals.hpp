@@ -10,7 +10,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Expr/ExprLiteral.hpp>
 
 #include <map>
-#include <unordered_map>
 
 namespace spirv
 {

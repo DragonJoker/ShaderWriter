@@ -16,7 +16,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeSampler.hpp>
 
 #include <map>
-#include <unordered_map>
 
 namespace spirv
 {

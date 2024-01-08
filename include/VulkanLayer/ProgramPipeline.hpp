@@ -22,8 +22,6 @@ namespace ast::vk
 		ProgramPipeline( uint32_t spvVersion
 			, ShaderPtrArray const & shaders );
 		ProgramPipeline( uint32_t spvVersion
-			, ShaderRefArray const & shaders );
-		ProgramPipeline( uint32_t spvVersion
 			, ShaderArray const & shaders );
 		ProgramPipeline( uint32_t spvVersion
 			, Shader const & shader
@@ -225,11 +223,6 @@ namespace ast::vk
 			return shader;
 		}
 
-		Shader const & getShader( ShaderRef const & shader )const
-		{
-			return shader;
-		}
-
 		Shader const & getShader( ShaderPtr const & shader )const
 		{
 			return *shader;
@@ -321,26 +314,26 @@ namespace ast::vk
 		ShaderDataPtr createShaderData( ShaderItT begin, ShaderItT end )
 		{
 			// Make sure Vertex shader stage is the first one.
-			std::vector< ShaderRef > sorted;
+			std::vector< Shader const * > sorted;
 			sorted.reserve( size_t( std::distance( begin, end ) ) );
 
 			while ( begin != end )
 			{
-				sorted.push_back( getShader( *begin ) );
+				sorted.push_back( &getShader( *begin ) );
 				++begin;
 			}
 
 			std::sort( sorted.begin()
 				, sorted.end()
-				, []( ShaderRef const & lhs, ShaderRef const & rhs )
+				, []( Shader const * lhs, Shader const * rhs )
 				{
-					return lhs.get().getType() < rhs.get().getType();
+					return lhs->getType() < rhs->getType();
 				} );
-			ShaderDataPtr result{ createShaderData( sorted.front().get() ) };
+			ShaderDataPtr result{ createShaderData( *sorted.front() ) };
 
 			for ( auto it = std::next( sorted.begin() ); it != sorted.end(); ++it )
 			{
-				ShaderDataPtr rhsData{ createShaderData( it->get() ) };
+				ShaderDataPtr rhsData{ createShaderData( **it ) };
 				result.merge( rhsData );
 			}
 

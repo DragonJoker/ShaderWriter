@@ -14,7 +14,6 @@ See LICENSE file in root folder
 #include "ShaderAST/Expr/SwizzleKind.hpp"
 
 #include <memory>
-#include <unordered_map>
 #include <vector>
 
 namespace ast::expr

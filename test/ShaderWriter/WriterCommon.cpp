@@ -1086,8 +1086,7 @@ namespace test
 
 				try
 				{
-					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
-						, testCounts.getSpirVVersion( infoIndex )
+					ast::vk::ProgramPipeline program{ testCounts.getSpirVVersion( infoIndex )
 						, shaders };
 					std::string errors;
 					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
@@ -1168,8 +1167,7 @@ namespace test
 
 				try
 				{
-					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
-						, testCounts.getSpirVVersion( infoIndex )
+					ast::vk::ProgramPipeline program{ testCounts.getSpirVVersion( infoIndex )
 						, shaders };
 					std::string errors;
 					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
@@ -1251,8 +1249,7 @@ namespace test
 
 				try
 				{
-					ast::vk::ProgramPipeline program{ testCounts.getVulkanVersion( infoIndex )
-						, testCounts.getSpirVVersion( infoIndex )
+					ast::vk::ProgramPipeline program{ testCounts.getSpirVVersion( infoIndex )
 						, shader
 						, entryPoints };
 					std::string errors;

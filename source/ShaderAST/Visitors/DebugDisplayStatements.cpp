@@ -15,7 +15,6 @@ See LICENSE file in root folder
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )
 #include <sstream>
-#include <unordered_set>
 #pragma warning( pop )
 
 #pragma GCC diagnostic ignored "-Wrestrict"
@@ -1982,7 +1981,7 @@ namespace ast::debug
 	private:
 		std::string m_indent;
 		std::string& m_result;
-		std::unordered_set< std::string > m_declaredStructs;
+		ast::UnorderedStringSet m_declaredStructs;
 	};
 
 	std::string displayStatements( stmt::Stmt * stmt )
