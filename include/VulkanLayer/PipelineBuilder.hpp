@@ -54,7 +54,7 @@ namespace ast::vk
 		*	\p VK_ERROR_VALIDATION_FAILED if the create info don't match the infos expected by the program.
 		*	\see ast::vk::ProgramPipeline::checkGraphicsPipeline.
 		*/
-		VkResult createGraphicsPipeline( VkGraphicsPipelineCreateInfo createInfos
+		VkResult createGraphicsPipeline( VkGraphicsPipelineCreateInfo const & createInfos
 			, VkPipeline * result )const;
 		/**
 		*\brief
@@ -63,7 +63,7 @@ namespace ast::vk
 		*	\p VK_ERROR_VALIDATION_FAILED if the create info don't match the infos expected by the program.
 		*	\see ast::vk::ProgramPipeline::checkComputePipeline.
 		*/
-		VkResult createComputePipeline( VkComputePipelineCreateInfo createInfos
+		VkResult createComputePipeline( VkComputePipelineCreateInfo const & createInfos
 			, VkPipeline * result )const;
 
 		VkDevice getDevice()const

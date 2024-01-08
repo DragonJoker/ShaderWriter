@@ -57,7 +57,7 @@ namespace ast::vk
 		uint32_t tessellationControlPoints{};
 
 	private:
-		DescriptorsMap gatherDescriptors( ShaderStageFlags stages );
+		DescriptorsMap gatherDescriptors( ShaderStageFlags stages )const;
 	};
 }
 

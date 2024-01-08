@@ -35,19 +35,18 @@ namespace ast::vk
 	VkDescriptorSetLayoutArray PipelineBuilder::createDescriptorSetLayouts()
 	{
 		VkDescriptorSetLayoutArray result;
-		auto layouts = m_program.getDescriptorLayouts();
 
-		for ( auto & createInfo : layouts )
+		for ( auto const & createInfo : m_program.getDescriptorLayouts() )
 		{
 			VkDescriptorSetLayout layout;
-			auto res = m_context.vkCreateDescriptorSetLayout( m_context.device
-				, &createInfo
-				, m_context.allocator
-				, &layout );
 
-			if ( !checkError( res ) )
+			if ( auto res = m_context.vkCreateDescriptorSetLayout( m_context.device
+					, &createInfo
+					, m_context.allocator
+					, &layout );
+				!checkError( res ) )
 			{
-				throw std::runtime_error{ "VkDescriptorSetLayout creation failed." };
+				throw ast::Exception{ "VkDescriptorSetLayout creation failed." };
 			}
 
 			result.push_back( layout );
@@ -60,14 +59,14 @@ namespace ast::vk
 	{
 		VkPipelineLayout result{ nullptr };
 		auto createInfo = m_program.getPipelineLayout( layouts );
-		auto res = m_context.vkCreatePipelineLayout( m_context.device
-			, &createInfo
-			, m_context.allocator
-			, &result );
 
-		if ( !checkError( res ) )
+		if ( auto res = m_context.vkCreatePipelineLayout( m_context.device
+				, &createInfo
+				, m_context.allocator
+				, &result );
+			!checkError( res ) )
 		{
-			throw std::runtime_error{ "VkPipelineLayout creation failed." };
+			throw ast::Exception{ "VkPipelineLayout creation failed." };
 		}
 
 		return result;
@@ -76,19 +75,18 @@ namespace ast::vk
 	VkShaderModuleArray PipelineBuilder::createShaderModules()
 	{
 		VkShaderModuleArray result;
-		auto modules = m_program.getShaderModules();
 
-		for ( auto & createInfo : modules )
+		for ( auto const & createInfo : m_program.getShaderModules() )
 		{
 			VkShaderModule mod{ nullptr };
-			auto res = m_context.vkCreateModule( m_context.device
-				, &createInfo
-				, m_context.allocator
-				, &mod );
 
-			if ( !checkError( res ) )
+			if ( auto res = m_context.vkCreateModule( m_context.device
+					, &createInfo
+					, m_context.allocator
+					, &mod );
+				!checkError( res ) )
 			{
-				throw std::runtime_error{ "VkShaderModule creation failed." };
+				throw ast::Exception{ "VkShaderModule creation failed." };
 			}
 
 			result.push_back( mod );
@@ -100,10 +98,10 @@ namespace ast::vk
 	PipelineShaderStageArray PipelineBuilder::createShaderStages( VkShaderModuleArray modules
 		, std::vector< VkSpecializationInfoOpt > const & specializationInfo )const
 	{
-		return m_program.getShaderStages( modules, specializationInfo );
+		return m_program.getShaderStages( std::move( modules ), specializationInfo );
 	}
 
-	VkResult PipelineBuilder::createGraphicsPipeline( VkGraphicsPipelineCreateInfo createInfos
+	VkResult PipelineBuilder::createGraphicsPipeline( VkGraphicsPipelineCreateInfo const & createInfos
 		, VkPipeline * result )const
 	{
 		if ( !m_program.checkGraphicsPipeline( createInfos ) )
@@ -132,10 +130,10 @@ namespace ast::vk
 #	endif
 	}
 
-	VkResult PipelineBuilder::createComputePipeline( VkComputePipelineCreateInfo createInfos
+	VkResult PipelineBuilder::createComputePipeline( VkComputePipelineCreateInfo const & createInfos
 		, VkPipeline * result )const
 	{
-		if ( !m_program.checkComputePipeline( createInfos ) )
+		if ( !m_program.checkComputePipeline() )
 		{
 			return VK_ERROR_VALIDATION_FAILED_EXT;
 		}

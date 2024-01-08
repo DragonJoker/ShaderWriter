@@ -38,7 +38,7 @@ namespace ast::vk
 
 			if ( value.pData )
 			{
-				uint8_t const * buffer = reinterpret_cast< uint8_t const * >( value.pData );
+				auto buffer = reinterpret_cast< uint8_t const * >( value.pData );
 
 				for ( uint32_t i = 0u; i < value.dataSize; i += 16u )
 				{
@@ -692,8 +692,7 @@ namespace ast::vk
 
 		VkWriteDescriptorSet makeWrite( uint32_t binding
 			, uint32_t descriptorCount
-			, VkDescriptorType descriptorType
-			, uint32_t range = 0u )
+			, VkDescriptorType descriptorType )
 		{
 			return makeVkStruct< VkWriteDescriptorSet >( nullptr
 				, binding
@@ -708,10 +707,9 @@ namespace ast::vk
 
 	//*********************************************************************************************
 
-	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
-		, uint32_t spvVersion
+	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
 		, ShaderPtrArray const & shaders )
-		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
+		: m_sources{ createShaderSources( spvVersion, shaders.begin(), shaders.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
 		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
 		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
@@ -726,10 +724,9 @@ namespace ast::vk
 	{
 	}
 
-	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
-		, uint32_t spvVersion
+	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
 		, ShaderRefArray const & shaders )
-		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
+		: m_sources{ createShaderSources( spvVersion, shaders.begin(), shaders.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
 		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
 		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
@@ -744,10 +741,9 @@ namespace ast::vk
 	{
 	}
 
-	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
-		, uint32_t spvVersion
+	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
 		, ShaderArray const & shaders )
-		: m_sources{ createShaderSources( vkVersion, spvVersion, shaders.begin(), shaders.end() ) }
+		: m_sources{ createShaderSources( spvVersion, shaders.begin(), shaders.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shaders.begin(), shaders.end() ) }
 		, m_stages{ createShaderStages( shaders.begin(), shaders.end() ) }
 		, m_data{ createShaderData( shaders.begin(), shaders.end() ) }
@@ -762,13 +758,12 @@ namespace ast::vk
 	{
 	}
 
-	ProgramPipeline::ProgramPipeline( uint32_t vkVersion
-		, uint32_t spvVersion
+	ProgramPipeline::ProgramPipeline( uint32_t spvVersion
 		, Shader const & shader
 		, EntryPointConfigArray const & entryPoints )
-		: m_sources{ createShaderSources( vkVersion, spvVersion, shader, entryPoints.begin(), entryPoints.end() ) }
+		: m_sources{ createShaderSources( spvVersion, shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_specializationInfos{ createSpecializationInfos( shader, entryPoints.begin(), entryPoints.end() ) }
-		, m_stages{ createShaderStages( shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_stages{ createShaderStages( entryPoints.begin(), entryPoints.end() ) }
 		, m_data{ createShaderData( shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_shaderModules{ createShaderModules( shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_pushConstantRanges{ createPushConstantRanges( shader, entryPoints.begin(), entryPoints.end() ) }
@@ -789,11 +784,11 @@ namespace ast::vk
 		{
 			if ( info )
 			{
-				result.push_back( SpecializationInfo{ info.value().data } );
+				result.emplace_back( SpecializationInfo{ info.value().data } );
 			}
 			else
 			{
-				result.push_back( std::nullopt );
+				result.emplace_back( std::nullopt );
 			}
 		}
 
@@ -906,7 +901,7 @@ namespace ast::vk
 		return result;
 	}
 
-	bool ProgramPipeline::checkGraphicsPipeline( VkGraphicsPipelineCreateInfo & createInfos )const
+	bool ProgramPipeline::checkGraphicsPipeline( VkGraphicsPipelineCreateInfo const & createInfos )const
 	{
 		if ( m_stages.empty() )
 		{
@@ -936,7 +931,7 @@ namespace ast::vk
 		return result;
 	}
 
-	bool ProgramPipeline::checkComputePipeline( VkComputePipelineCreateInfo & createInfos )const
+	bool ProgramPipeline::checkComputePipeline()const
 	{
 		if ( m_stages.empty() )
 		{
@@ -955,8 +950,7 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< uint32_t > ProgramPipeline::createShaderSource( uint32_t vkVersion
-		, uint32_t spvVersion
+	std::vector< uint32_t > ProgramPipeline::createShaderSource( uint32_t spvVersion
 		, Shader const & shader
 		, EntryPointConfig const & entryPoint )
 	{
@@ -1011,21 +1005,20 @@ namespace ast::vk
 
 		if ( statements == nullptr )
 		{
-			throw std::runtime_error{ "Shader entry point selection failed." };
+			throw ast::Exception{ "Shader entry point selection failed." };
 		}
 
 		auto result = spirv::serialiseSpirv( shader, statements.get(), entryPoint.stage, config );
 
 		if ( result.empty() )
 		{
-			throw std::runtime_error{ "Shader serialization failed." };
+			throw ast::Exception{ "Shader serialization failed." };
 		}
 
 		return result;
 	}
 
-	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader
-		, EntryPointConfig const & entryPoint )
+	SpecializationInfoOpt ProgramPipeline::createSpecializationInfo( Shader const & shader )const
 	{
 		SpecializationInfoOpt result{ std::nullopt };
 
@@ -1034,11 +1027,11 @@ namespace ast::vk
 			size_t size = 0u;
 			std::vector< VkSpecializationMapEntry > entries;
 
-			for ( auto & specConstant : shader.getData().specConstants )
+			for ( auto const & [_, specConstant] : shader.getData().specConstants )
 			{
-				auto specSize = type::getSize( specConstant.second.type
+				auto specSize = type::getSize( specConstant.type
 					, type::MemoryLayout::eC );
-				entries.push_back( { specConstant.second.location
+				entries.push_back( { specConstant.location
 						, 0u
 						, specSize } );
 				size += specSize;
@@ -1060,10 +1053,9 @@ namespace ast::vk
 		return result;
 	}
 
-	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( Shader const & shader
-		, EntryPointConfig const & entryPoint )
+	PipelineShaderStageCreateInfo ProgramPipeline::createShaderStage( EntryPointConfig const & entryPoint )
 	{
-		auto & specInfo = m_specializationInfos[m_indices[entryPoint.stage]];
+		auto const& specInfo = m_specializationInfos[m_indices[entryPoint.stage]];
 		return { 0u
 			, getShaderStage( entryPoint.stage )
 			, nullptr
@@ -1080,8 +1072,7 @@ namespace ast::vk
 		return result;
 	}
 
-	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( Shader const & shader
-		, EntryPointConfig const & entryPoint )
+	ShaderModuleCreateInfo ProgramPipeline::createShaderModule( EntryPointConfig const & entryPoint )
 	{
 		auto & code = m_sources[m_indices[entryPoint.stage]];
 		return ShaderModuleCreateInfo{ makeVkStruct< VkShaderModuleCreateInfo >( 0u
@@ -1090,15 +1081,15 @@ namespace ast::vk
 	}
 
 	std::vector< VkPushConstantRange > ProgramPipeline::createPushConstantRanges( Shader const & shader
-		, EntryPointConfig const & entryPoint )
+		, EntryPointConfig const & entryPoint )const
 	{
 		std::vector< VkPushConstantRange > result;
 		uint32_t size = 0u;
 
-		for ( auto & pcb : shader.getData().pcbs )
+		for ( auto const & [_, pcb] : shader.getData().pcbs )
 		{
-			auto pcbSize = getSize( pcb.second.getType()
-				, pcb.second.getType()->getMemoryLayout() );
+			auto pcbSize = getSize( pcb.getType()
+				, pcb.getType()->getMemoryLayout() );
 			result.push_back( { VkShaderStageFlags( getShaderStage( entryPoint.stage ) )
 				, size
 				, pcbSize } );
@@ -1108,7 +1099,7 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< DescriptorSetLayoutCreateInfo > ProgramPipeline::createDescriptorLayouts()
+	std::vector< DescriptorSetLayoutCreateInfo > ProgramPipeline::createDescriptorLayouts()const
 	{
 		std::vector< DescriptorSetLayoutCreateInfo > result;
 
@@ -1116,18 +1107,18 @@ namespace ast::vk
 		{
 			std::vector< VkDescriptorSetLayoutBinding > bindings;
 
-			for ( auto & desc : set )
+			for ( auto const & [binding, data] : set )
 			{
-				bindings.push_back( { desc.first.binding
-					, getVkDescriptorType( desc.second.type )
-					, desc.second.count
-					, getVkShaderStages( desc.second.stages )
+				bindings.push_back( { binding.binding
+					, getVkDescriptorType( data.type )
+					, data.count
+					, getVkShaderStages( data.stages )
 					, nullptr } );
 			}
 
-			result.push_back( DescriptorSetLayoutCreateInfo{ makeVkStruct< VkDescriptorSetLayoutCreateInfo >( 0u
+			result.emplace_back( makeVkStruct< VkDescriptorSetLayoutCreateInfo >( 0u
 				, uint32_t( bindings.size() )
-				, bindings.data() ) } );
+				, bindings.data() ) );
 		}
 
 		return result;
@@ -1203,7 +1194,7 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< WriteDescriptorSetArray > ProgramPipeline::createDescriptorSetsWrites()
+	std::vector< WriteDescriptorSetArray > ProgramPipeline::createDescriptorSetsWrites()const
 	{
 		std::vector< WriteDescriptorSetArray > result;
 
@@ -1211,13 +1202,13 @@ namespace ast::vk
 		{
 			WriteDescriptorSetArray setWrites;
 
-			for ( auto & desc : m_data.ssbos )
+			for ( auto & [binding, data] : m_data.ssbos )
 			{
-				if ( desc.first.set == i )
+				if ( binding.set == i )
 				{
-					auto size = ast::type::getSize( *desc.second->type
-						, desc.second->type->getMemoryLayout() );
-					BufferWriteDescriptorSet write{ makeWrite( desc.first.binding
+					auto size = ast::type::getSize( *data->type
+						, data->type->getMemoryLayout() );
+					BufferWriteDescriptorSet write{ makeWrite( binding.binding
 						, 1u
 						, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER ) };
 					write.values[0].range = size;
@@ -1225,13 +1216,13 @@ namespace ast::vk
 				}
 			}
 
-			for ( auto & desc : m_data.ubos )
+			for ( auto & [binding, data] : m_data.ubos )
 			{
-				if ( desc.first.set == i )
+				if ( binding.set == i )
 				{
-					auto size = ast::type::getSize( *desc.second->type
-						, desc.second->type->getMemoryLayout() );
-					BufferWriteDescriptorSet write{ makeWrite( desc.first.binding
+					auto size = ast::type::getSize( *data->type
+						, data->type->getMemoryLayout() );
+					BufferWriteDescriptorSet write{ makeWrite( binding.binding
 						, 1u
 						, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER ) };
 					write.values[0].range = size;
@@ -1239,22 +1230,22 @@ namespace ast::vk
 				}
 			}
 
-			for ( auto & desc : m_data.samplers )
+			for ( auto & [binding, _] : m_data.samplers )
 			{
-				if ( desc.first.set == i )
+				if ( binding.set == i )
 				{
-					ImageWriteDescriptorSet write{ makeWrite( desc.first.binding
+					ImageWriteDescriptorSet write{ makeWrite( binding.binding
 						, 1u
 						, VK_DESCRIPTOR_TYPE_SAMPLER ) };
 					setWrites.emplace_back( std::move( write ) );
 				}
 			}
 
-			for ( auto & desc : m_data.textures )
+			for ( auto & [binding, _] : m_data.textures )
 			{
-				if ( desc.first.set == i )
+				if ( binding.set == i )
 				{
-					ImageWriteDescriptorSet write{ makeWrite( desc.first.binding
+					ImageWriteDescriptorSet write{ makeWrite( binding.binding
 						, 1u
 						, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER ) };
 					write.values[0].imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
@@ -1262,11 +1253,11 @@ namespace ast::vk
 				}
 			}
 
-			for ( auto & desc : m_data.images )
+			for ( auto & [binding, _] : m_data.images )
 			{
-				if ( desc.first.set == i )
+				if ( binding.set == i )
 				{
-					ImageWriteDescriptorSet write{ makeWrite( desc.first.binding
+					ImageWriteDescriptorSet write{ makeWrite( binding.binding
 						, 1u
 						, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE ) };
 					write.values[0].imageLayout = VK_IMAGE_LAYOUT_GENERAL;
@@ -1291,17 +1282,17 @@ namespace ast::vk
 				: m_pushConstantRanges.data() ) );
 	}
 
-	std::vector< VkVertexInputAttributeDescription > ProgramPipeline::createVertexAttributes()
+	std::vector< VkVertexInputAttributeDescription > ProgramPipeline::createVertexAttributes()const
 	{
 		std::vector< VkVertexInputAttributeDescription > result;
 
 		if ( hasStages( VK_SHADER_STAGE_VERTEX_BIT ) )
 		{
-			for ( auto & input : m_data.inputs )
+			for ( auto const & [input, _] : m_data.inputs )
 			{
-				result.push_back( { input.first.location
+				result.push_back( { input.location
 					, 0u
-					, getVkFormat( *input.first.type )
+					, getVkFormat( *input.type )
 					, 0u } );
 			}
 		}
@@ -1309,32 +1300,29 @@ namespace ast::vk
 		return result;
 	}
 
-	std::map< uint32_t, VkAttachmentDescription > ProgramPipeline::createAttachmentDescriptions()
+	std::map< uint32_t, VkAttachmentDescription > ProgramPipeline::createAttachmentDescriptions()const
 	{
 		std::map< uint32_t, VkAttachmentDescription > result;
 
 		if ( hasStages( VK_SHADER_STAGE_FRAGMENT_BIT ) )
 		{
-			for ( auto & output : m_data.outputs )
+			for ( auto const & [output, _] : m_data.outputs )
 			{
 				VkAttachmentDescription desc{};
-				desc.format = getAttachVkFormat( *output.first.type );
+				desc.format = getAttachVkFormat( *output.type );
 				desc.samples = VK_SAMPLE_COUNT_1_BIT;
-				result.emplace( output.first.location, std::move( desc ) );
+				result.try_emplace( output.location, std::move( desc ) );
 			}
 		}
 
 		return result;
 	}
 
-	bool ProgramPipeline::checkTessellationState( VkPipelineTessellationStateCreateInfo const & state )const
+	bool ProgramPipeline::checkTessellationState( VkPipelineTessellationStateCreateInfo const & )const
 	{
 		bool result = true;
 
-		if ( hasTessellationStage() )
-		{
-		}
-		else
+		if ( !hasTessellationStage() )
 		{
 			std::cerr << "Tessellation state was given whilst no tessellation shader stage exists." << std::endl;
 			result = false;
@@ -1432,76 +1420,72 @@ namespace ast::vk
 		while ( lit != m_specializationInfos.end() )
 		{
 			// Check for map entries
-			if ( *lit && !*rit )
+			if ( *lit && !*rit
+				|| !*lit && *rit )
 			{
-				std::cerr << "The " << getName( m_revIndices.at( index ) )
-					<< " shader expects specialization infos which were not provided by the user." << std::endl;
-				globalError = true;
+				std::cerr << "Mismatch between the " << getName( m_revIndices.at( index ) )
+					<< " shader expected specialization infos and the user provided ones." << std::endl;
+				globalError = globalError || ( *lit && !*rit );
+				++lit;
+				++rit;
+				++index;
+				continue;
 			}
-			else if ( !*lit && *rit )
-			{
-				std::cout << "The " << getName( m_revIndices.at( index ) )
-					<< " shader doesn't expect specialization infos but the user provided some." << std::endl;
-			}
-			else
-			{
-				auto lend = lit->value().values.end();
-				auto rend = rit->value().pMapEntries + rit->value().mapEntryCount;
-				uint32_t error = 0u;
 
-				for ( VkSpecializationMapEntry const & lentry : lit->value().values )
+			auto lend = lit->value().values.end();
+			auto rend = rit->value().pMapEntries + rit->value().mapEntryCount;
+			uint32_t error = 0u;
+
+			for ( VkSpecializationMapEntry const & lentry : lit->value().values )
+			{
+				if ( auto it = std::find_if( rit->value().pMapEntries
+					, rend
+					, [&lentry]( VkSpecializationMapEntry const & rentry )
+					{
+						return lentry.constantID == rentry.constantID;
+					} );
+					it == rend )
 				{
-					auto it = std::find_if( rit->value().pMapEntries
-						, rend
-						, [&lentry]( VkSpecializationMapEntry const & rentry )
+					std::cerr << "The " << getName( m_revIndices.at( index ) )
+						<< " shader expects a speialization constant at ID " << lentry.constantID
+						<< ", which was not provided by the user." << std::endl;
+					globalError = true;
+					error = 2u;
+				}
+			}
+
+			std::for_each( rit->value().pMapEntries
+				, rend
+				, [&index, &error, &lit, &lend, this ]( VkSpecializationMapEntry const & rentry )
+				{
+					if ( auto it = std::find_if( lit->value().values.begin()
+						, lend
+						, [&rentry]( VkSpecializationMapEntry const & lentry )
 						{
 							return lentry.constantID == rentry.constantID;
 						} );
-
-					if ( it == rend )
+						it == lend )
 					{
-						std::cerr << "The " << getName( m_revIndices.at( index ) )
-							<< " shader expects a speialization constant at ID " << lentry.constantID
-							<< ", which was not provided by the user." << std::endl;
-						globalError = true;
-						error = 2u;
+						std::cout << "The user provided a constant at ID " << rentry.constantID
+							<< ", the " << getName( m_revIndices.at( index ) )
+							<< " shader didn't expect it." << std::endl;
+						error = std::max( error, 1u );
 					}
-				}
+				} );
 
-				std::for_each( rit->value().pMapEntries
-					, rend
-					, [&index, &error, &lit, &lend, this ]( VkSpecializationMapEntry const & rentry )
-					{
-						auto it = std::find_if( lit->value().values.begin()
-							, lend
-							, [&rentry]( VkSpecializationMapEntry const & lentry )
-							{
-								return lentry.constantID == rentry.constantID;
-							} );
+			std::stringstream stream;
+			stream << "Shader expects:\n"
+				<< m_specializationInfos
+				<< "\nUser provided:\n"
+				<< infos;
 
-						if ( it == lend )
-						{
-							std::cout << "The user provided a constant at ID " << rentry.constantID
-								<< ", the " << getName( m_revIndices.at( index ) )
-								<< " shader didn't expect it." << std::endl;
-							error = std::max( error, 1u );
-						}
-					} );
-
-				std::stringstream stream;
-				stream << "Shader expects:\n"
-					<< m_specializationInfos
-					<< "\nUser provided:\n"
-					<< infos;
-
-				if ( error == 2u )
-				{
-					std::cerr << stream.str() << std::endl;
-				}
-				else if ( error == 1u )
-				{
-					std::cout << stream.str() << std::endl;
-				}
+			if ( error == 2u )
+			{
+				std::cerr << stream.str() << std::endl;
+			}
+			else if ( error == 1u )
+			{
+				std::cout << stream.str() << std::endl;
 			}
 
 			++lit;

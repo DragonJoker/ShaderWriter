@@ -22,49 +22,27 @@ namespace ast::vk
 	{
 		using VecT = std::vector< ValueT >;
 
-		inline FixedSizeArrayT()
+		FixedSizeArrayT()
 			: VecT{}
 		{
 		}
 
-		inline FixedSizeArrayT( ValueT const * pbegin
+		FixedSizeArrayT( ValueT const * pbegin
 			, ValueT const * pend )
 			: VecT{ pbegin, pend }
 		{
 		}
 
-		inline FixedSizeArrayT( size_t count
+		FixedSizeArrayT( size_t count
 			, ValueT const & value )
 			: VecT{}
 		{
 			VecT::resize( count, value );
 		}
 
-		inline explicit FixedSizeArrayT( ValueT const & value )
+		explicit FixedSizeArrayT( ValueT const & value )
 			: FixedSizeArrayT{ 1u, value }
 		{
-		}
-
-		inline FixedSizeArrayT( FixedSizeArrayT const & rhs )
-			: VecT{ rhs }
-		{
-		}
-
-		inline FixedSizeArrayT( FixedSizeArrayT && rhs )noexcept
-			: VecT{ std::move( rhs ) }
-		{
-		}
-
-		inline FixedSizeArrayT & operator=( FixedSizeArrayT const & rhs )
-		{
-			VecT::operator=( rhs );
-			return *this;
-		}
-
-		inline FixedSizeArrayT & operator=( FixedSizeArrayT && rhs )noexcept
-		{
-			VecT::operator=( std::move( rhs ) );
-			return *this;
 		}
 
 		using VecT::empty;
@@ -88,14 +66,12 @@ namespace ast::vk
 	{
 		using VecT = FixedSizeArrayT< ValueT >;
 
-		inline ArrayHolder()
-			: values{}
-			, data{}
+		ArrayHolder()
 		{
 			updateData( nullptr, 0u );
 		}
 
-		inline explicit ArrayHolder( DataT pdata )
+		explicit ArrayHolder( DataT pdata )
 			: values{ ( ( *getCount( pdata ) && *getPtr( pdata ) )
 				? VecT{ *getPtr( pdata ), *getPtr( pdata ) + ( *getCount( pdata ) / DivisorT ) }
 				: ( *getCount( pdata )
@@ -110,22 +86,21 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline ArrayHolder( ValueT const * begin
+		ArrayHolder( ValueT const * begin
 			, ValueT const * end )
-			: values{ values, end }
-			, data{}
+			: values{ begin, end }
 		{
 			updateData();
 		}
 
-		inline ArrayHolder( ArrayHolder const & rhs )
+		ArrayHolder( ArrayHolder const & rhs )
 			: values{ rhs.values }
 			, data{ rhs.data }
 		{
 			updateData();
 		}
 
-		inline ArrayHolder( ArrayHolder && rhs )noexcept
+		ArrayHolder( ArrayHolder && rhs )noexcept
 			: values{ std::move( rhs.values ) }
 			, data{ std::move( rhs.data ) }
 		{
@@ -133,7 +108,7 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline ArrayHolder & operator=( ArrayHolder const & rhs )
+		ArrayHolder & operator=( ArrayHolder const & rhs )
 		{
 			values = rhs.values;
 			data = rhs.data;
@@ -141,7 +116,7 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline ArrayHolder & operator=( ArrayHolder && rhs )noexcept
+		ArrayHolder & operator=( ArrayHolder && rhs )noexcept
 		{
 			values = std::move( rhs.values );
 			data = std::move( rhs.data );
@@ -150,36 +125,38 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline ArrayHolder( ValueT const * pvalues
+		ArrayHolder( ValueT const * pvalues
 			, size_t size )
 			: ArrayHolder{ pvalues, pvalues + size }
 		{
 		}
 
-		inline explicit ArrayHolder( FixedSizeArrayT< ValueT > const & rhs )
+		explicit ArrayHolder( FixedSizeArrayT< ValueT > const & rhs )
 			: ArrayHolder{ rhs.data(), rhs.size() }
 		{
 		}
 
-		inline explicit ArrayHolder( std::vector< ValueT > const & rhs )
+		explicit ArrayHolder( std::vector< ValueT > const & rhs )
 			: ArrayHolder{ rhs.data(), rhs.size() }
 		{
 		}
 
 		template< size_t SizeT >
-		inline explicit ArrayHolder( std::array< ValueT, SizeT > const & rhs )
+		explicit ArrayHolder( std::array< ValueT, SizeT > const & rhs )
 			: ArrayHolder{ rhs.data(), SizeT }
 		{
 		}
 
 		template< size_t SizeT >
-		inline explicit ArrayHolder( ValueT const ( &rhs )[SizeT] )
+		explicit ArrayHolder( ValueT const ( &rhs )[SizeT] )
 			: ArrayHolder{ rhs, SizeT }
 		{
 		}
 
-		VecT values;
-		DataT data;
+		~ArrayHolder() = default;
+
+		VecT values{};
+		DataT data{};
 
 	private:
 		void updateData( ValueT * ptr
@@ -197,14 +174,14 @@ namespace ast::vk
 
 		static ValueT ** getPtr( DataT & data )
 		{
-			auto buffer = reinterpret_cast< uint8_t * >( &data );
+			auto buffer = reinterpret_cast< std::byte * >( &data );
 			buffer += DataOffsetT;
 			return reinterpret_cast< ValueT ** >( buffer );
 		}
 
 		static CountT * getCount( DataT & data )
 		{
-			auto buffer = reinterpret_cast< uint8_t * >( &data );
+			auto buffer = reinterpret_cast<std::byte* >( &data );
 			buffer += CountOffsetT;
 			return reinterpret_cast< CountT * >( buffer );
 		}

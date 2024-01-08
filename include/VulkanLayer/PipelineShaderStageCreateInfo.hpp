@@ -15,14 +15,14 @@ namespace ast::vk
 		SpecializationInfoOpt spec;
 		VkPipelineShaderStageCreateInfo data;
 
-		inline PipelineShaderStageCreateInfo()
+		PipelineShaderStageCreateInfo()
 			: spec{ std::nullopt }
 			, data{ get() }
 		{
 			updateData();
 		}
 
-		inline explicit PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo rhs )
+		explicit PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateInfo rhs )
 			: spec{ ( rhs.pSpecializationInfo
 				? SpecializationInfoOpt{ SpecializationInfo{ *rhs.pSpecializationInfo } }
 				: std::nullopt ) }
@@ -31,7 +31,7 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateFlags flags
+		PipelineShaderStageCreateInfo( VkPipelineShaderStageCreateFlags flags
 			, VkShaderStageFlagBits stage
 			, VkShaderModule shaderModule
 			, SpecializationInfoOpt pspec )
@@ -41,14 +41,14 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline PipelineShaderStageCreateInfo( PipelineShaderStageCreateInfo const & rhs )
+		PipelineShaderStageCreateInfo( PipelineShaderStageCreateInfo const & rhs )
 			: spec{ rhs.spec }
 			, data{ rhs.data }
 		{
 			updateData();
 		}
 
-		inline PipelineShaderStageCreateInfo( PipelineShaderStageCreateInfo && rhs )noexcept
+		PipelineShaderStageCreateInfo( PipelineShaderStageCreateInfo && rhs )noexcept
 			: spec{ std::move( rhs.spec ) }
 			, data{ std::move( rhs.data ) }
 		{
@@ -56,7 +56,7 @@ namespace ast::vk
 			updateData();
 		}
 
-		inline PipelineShaderStageCreateInfo & operator=( PipelineShaderStageCreateInfo const & rhs )
+		PipelineShaderStageCreateInfo & operator=( PipelineShaderStageCreateInfo const & rhs )
 		{
 			if ( rhs.spec )
 			{
@@ -72,7 +72,7 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline PipelineShaderStageCreateInfo & operator=( PipelineShaderStageCreateInfo && rhs )noexcept
+		PipelineShaderStageCreateInfo & operator=( PipelineShaderStageCreateInfo && rhs )noexcept
 		{
 			if ( rhs.spec )
 			{
@@ -90,27 +90,29 @@ namespace ast::vk
 			return *this;
 		}
 
-		inline VkPipelineShaderStageCreateInfo * operator->()
+		~PipelineShaderStageCreateInfo() = default;
+
+		VkPipelineShaderStageCreateInfo * operator->()
 		{
 			return &data;
 		}
 
-		inline VkPipelineShaderStageCreateInfo const * operator->()const
+		VkPipelineShaderStageCreateInfo const * operator->()const
 		{
 			return &data;
 		}
 
-		inline VkPipelineShaderStageCreateInfo & operator*()
+		VkPipelineShaderStageCreateInfo & operator*()
 		{
 			return data;
 		}
 
-		inline VkPipelineShaderStageCreateInfo const & operator*()const
+		VkPipelineShaderStageCreateInfo const & operator*()const
 		{
 			return data;
 		}
 
-		static inline VkPipelineShaderStageCreateInfo get( VkPipelineShaderStageCreateFlags flags = 0u
+		static VkPipelineShaderStageCreateInfo get( VkPipelineShaderStageCreateFlags flags = 0u
 			, VkShaderStageFlagBits stage = VkShaderStageFlagBits::VK_SHADER_STAGE_ALL
 			, VkShaderModule shaderModule = nullptr )
 		{
@@ -127,7 +129,7 @@ namespace ast::vk
 		}
 
 	private:
-		inline void updateData()
+		void updateData()
 		{
 			if ( spec )
 			{
