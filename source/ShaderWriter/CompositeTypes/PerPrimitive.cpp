@@ -7,8 +7,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	PerPrimitive::PerPrimitive( StructInstance const & instance
-		, ast::var::Flag flag )
+	PerPrimitive::PerPrimitive( StructInstance const & instance )
 		: primitiveID{ instance.getMember< Int32 >( ast::Builtin::ePrimitiveID ) }
 		, layer{ instance.getMember< Int32 >( ast::Builtin::eLayer ) }
 		, viewportIndex{ instance.getMember< Int32 >( ast::Builtin::eViewportIndex ) }

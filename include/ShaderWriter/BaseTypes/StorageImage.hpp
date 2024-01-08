@@ -25,8 +25,7 @@ namespace sdw
 	{
 		SDW_DeclValue( SDW_API, StorageImage );
 
-		SDW_API StorageImage( ast::type::ImageFormat format
-			, ShaderWriter & writer
+		SDW_API StorageImage( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 

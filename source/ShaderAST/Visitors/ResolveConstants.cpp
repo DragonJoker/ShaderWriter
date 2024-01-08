@@ -695,7 +695,7 @@ namespace ast
 			template< typename ValueT, size_t CountT >
 			using DataT = std::array< ValueT, CountT >;
 
-			static expr::ExprList getArgList( expr::Expr * expr )
+			static expr::ExprList getArgList( expr::Expr const * expr )
 			{
 				expr::ExprList result;
 
@@ -1922,6 +1922,15 @@ namespace ast
 
 		struct ConstComposite
 		{
+			ConstComposite( ast::expr::CompositeType pcomposite
+				, ast::type::Kind pcomponent
+				, ast::expr::ExprList pinitialisers )
+				: composite{ pcomposite }
+				, component{ pcomponent }
+				, initialisers{ std::move( pinitialisers ) }
+			{
+			}
+
 			ast::expr::CompositeType composite;
 			ast::type::Kind component;
 			ast::expr::ExprList initialisers;
@@ -2343,7 +2352,7 @@ namespace ast
 					processed = true;
 					auto & lit = static_cast< expr::Literal const & >( *expr->getRHS() );
 					auto index = helpers::getLiteralIndex( lit );
-					auto & outer = static_cast< expr::Swizzle & >( *expr->getLHS() );
+					auto & outer = static_cast< expr::Swizzle const & >( *expr->getLHS() );
 					auto newOuter = doSubmit( outer.getOuterExpr() );
 					m_result = doSubmit( m_exprCache.makeSwizzle( std::move( newOuter )
 						, outer.getSwizzle()[index] ) );
@@ -2487,7 +2496,7 @@ namespace ast
 					{
 						expr::ExprList initialisers;
 
-						for ( auto & init : aggrIt->second )
+						for ( auto const & init : aggrIt->second )
 						{
 							initialisers.push_back( doSubmit( init ) );
 						}
@@ -2498,7 +2507,7 @@ namespace ast
 					{
 						expr::ExprList initialisers;
 
-						for ( auto & init : compIt->second.initialisers )
+						for ( auto const & init : compIt->second.initialisers )
 						{
 							initialisers.push_back( doSubmit( init ) );
 						}
@@ -2983,15 +2992,14 @@ namespace ast
 			void processIfStmt( stmt::Container * stmt
 				, ast::expr::ExprPtr ctrlExpr
 				, bool & first
-				, bool & stopped
-				, uint32_t & ifs
-				, uint32_t & elses )
+				, bool const & stopped
+				, uint32_t & ifs )
 			{
 				TraceFunc;
-					if ( stopped )
-					{
-						return;
-					}
+				if ( stopped )
+				{
+					return;
+				}
 
 				auto save = m_current;
 				auto cont = m_stmtCache.makeContainer();
@@ -3029,10 +3037,10 @@ namespace ast
 				, uint32_t & elses )
 			{
 				TraceFunc;
-					if ( stopped )
-					{
-						return;
-					}
+				if ( stopped )
+				{
+					return;
+				}
 
 				bool allLiterals{ true };
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr(), allLiterals );
@@ -3043,13 +3051,13 @@ namespace ast
 
 					if ( ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
 					{
-						processElseStmt( stmt, first, stopped, ifs, elses );
+						processElseStmt( stmt, first, stopped );
 						stopped = true;
 					}
 				}
 				else if ( first )
 				{
-					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs, elses );
+					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs );
 				}
 				else
 				{
@@ -3086,15 +3094,13 @@ namespace ast
 
 			void processElseStmt( stmt::Container * stmt
 				, bool & first
-				, bool & stopped
-				, uint32_t & ifs
-				, uint32_t & elses )
+				, bool const & stopped )
 			{
 				TraceFunc;
-					if ( stopped )
-					{
-						return;
-					}
+				if ( stopped )
+				{
+					return;
+				}
 
 				if ( first )
 				{
@@ -3144,9 +3150,8 @@ namespace ast
 
 				if ( ctrlExpr->getKind() == ast::expr::Kind::eLiteral )
 				{
-					auto & ctrlValue = static_cast< ast::expr::Literal const & >( *ctrlExpr );
-
-					if ( ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
+					if ( auto & ctrlValue = static_cast< ast::expr::Literal const & >( *ctrlExpr );
+						ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
 					{
 						visitContainerStmt( stmt );
 						return;
@@ -3164,7 +3169,7 @@ namespace ast
 				}
 				else
 				{
-					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs, elses );
+					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs );
 				}
 
 				for ( auto & elseIf : stmt->getElseIfList() )
@@ -3174,7 +3179,7 @@ namespace ast
 
 				if ( stmt->getElse() )
 				{
-					processElseStmt( stmt->getElse(), first, stopped, ifs, elses );
+					processElseStmt( stmt->getElse(), first, stopped );
 				}
 
 				while ( ifs-- )
@@ -3194,15 +3199,14 @@ namespace ast
 				TraceFunc;
 				bool processed = false;
 				expr::Expr * expr{ stmt->getExpr() };
-				auto ident = ( expr->getKind() == ast::expr::Kind::eAlias
+
+				if ( auto ident = ( expr->getKind() == ast::expr::Kind::eAlias
 					? static_cast< expr::Alias const & >( *expr ).getIdentifier()
 					: ( expr->getKind() == ast::expr::Kind::eInit
 						? static_cast< ast::expr::Init * >( expr )->getIdentifier()
 						: ( expr->getKind() == ast::expr::Kind::eAggrInit
 							? static_cast< ast::expr::AggrInit * >( expr )->getIdentifier()
-							: nullptr ) ) );
-
-				if ( ident )
+							: nullptr ) ) ) )
 				{
 					bool isAlias = false;
 					expr::Expr * init{};
@@ -3235,10 +3239,10 @@ namespace ast
 							{
 								if ( allLiterals )
 								{
-									m_context.constCompositeExprs.emplace( ident->getVariable()->getId()
-										, ConstComposite{ compositeCtor->getComposite()
-											, compositeCtor->getComponent()
-											, std::move( initialisers ) } );
+									m_context.constCompositeExprs.try_emplace( ident->getVariable()->getId()
+										, compositeCtor->getComposite()
+										, compositeCtor->getComponent()
+										, std::move( initialisers ) );
 								}
 								else
 								{
@@ -3318,7 +3322,7 @@ namespace ast
 						if ( allLiterals
 							&& !helpers::needsVariableDecl( ident->getVariable(), m_containers.back() ) )
 						{
-							m_context.constAggrExprs.emplace( ident->getVariable()->getId()
+							m_context.constAggrExprs.try_emplace( ident->getVariable()->getId()
 								, std::move( initialisers ) );
 						}
 						else
@@ -3340,9 +3344,9 @@ namespace ast
 				TraceFunc;
 				bool processed = false;
 				auto testExpr = doSubmit( stmt->getTestExpr() );
-				auto testValueExpr = static_cast< expr::SwitchTest const & >( *testExpr ).getValue();
 
-				if ( testValueExpr->getKind() == ast::expr::Kind::eLiteral )
+				if ( auto testValueExpr = static_cast< expr::SwitchTest const & >( *testExpr ).getValue();
+					testValueExpr->getKind() == ast::expr::Kind::eLiteral )
 				{
 					auto it = std::find_if( stmt->begin()
 						, stmt->end()

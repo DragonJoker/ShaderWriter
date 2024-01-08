@@ -32,7 +32,7 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-	static uint32_t constexpr InvalidIndex = ~( 0u );
+	static uint32_t constexpr InvalidIndex = ~0u;
 
 	constexpr uint32_t makeVersion( uint8_t major, uint8_t minor )
 	{

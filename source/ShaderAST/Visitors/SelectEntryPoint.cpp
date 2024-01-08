@@ -222,7 +222,7 @@ namespace ast
 		}
 
 		static void markVariable( var::VariablePtr variable
-			, std::map< std::string, Used > const & buffers
+			, std::map< std::string, Used, std::less<> > const & buffers
 			, Used & used )
 		{
 			if ( !variable->isLocale() )
@@ -256,8 +256,8 @@ namespace ast
 
 		static void markFunctionCall( std::string const & funcName
 			, uint32_t funcFlags
-			, std::map< uint32_t, std::map< std::string, Used > > const & functions
-			, std::map< std::string, Used > const & buffers
+			, std::map< uint32_t, std::map< std::string, Used, std::less<> > > const & functions
+			, std::map< std::string, Used, std::less<> > const & buffers
 			, Used & used )
 		{
 			auto fit = functions.find( funcFlags );
@@ -291,8 +291,8 @@ namespace ast
 			{
 			public:
 				static void submit( Used & result
-					, std::map< uint32_t, std::map< std::string, Used > > const & functions
-					, std::map< std::string, Used > const & buffers
+					, std::map< uint32_t, std::map< std::string, Used, std::less<> > > const & functions
+					, std::map< std::string, Used, std::less<> > const & buffers
 					, expr::Expr * expr )
 				{
 					ExprVisitor vis{ result, functions, buffers };
@@ -301,8 +301,8 @@ namespace ast
 
 			private:
 				ExprVisitor( Used & result
-					, std::map< uint32_t, std::map< std::string, Used > > const & functions
-					, std::map< std::string, Used > const & buffers )
+					, std::map< uint32_t, std::map< std::string, Used, std::less<> > > const & functions
+					, std::map< std::string, Used, std::less<> > const & buffers )
 					: m_result{ result }
 					, m_functions{ functions }
 					, m_buffers{ buffers }
@@ -433,8 +433,8 @@ namespace ast
 
 			private:
 				Used & m_result;
-				std::map< uint32_t, std::map< std::string, Used > > const & m_functions;
-				std::map< std::string, Used > const & m_buffers;
+				std::map< uint32_t, std::map< std::string, Used, std::less<> > > const & m_functions;
+				std::map< std::string, Used, std::less<> > const & m_buffers;
 			};
 
 			class StmtVisitor
@@ -470,8 +470,8 @@ namespace ast
 					m_current = &function;
 					visitContainerStmt( stmt );
 					m_current = save;
-					auto & functions = m_functions.emplace( stmt->getFlags(), std::map< std::string, Used >{} ).first->second;
-					functions.emplace( stmt->getName(), std::move( function ) );
+					auto & functions = m_functions.try_emplace( stmt->getFlags() ).first->second;
+					functions.try_emplace( stmt->getName(), std::move( function ) );
 				}
 
 				void parseBuffer( std::string const & name
@@ -484,7 +484,7 @@ namespace ast
 					visitContainerStmt( stmt );
 					m_isBuffer = false;
 					m_current = save;
-					m_buffers.emplace( name, std::move( buffer ) );
+					m_buffers.try_emplace( name, std::move( buffer ) );
 				}
 
 				void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )override
@@ -615,8 +615,8 @@ namespace ast
 				Used & m_result;
 				Used * m_current{};
 				bool m_isBuffer{};
-				std::map< uint32_t, std::map< std::string, Used > > m_functions;
-				std::map< std::string, Used > m_buffers;
+				std::map< uint32_t, std::map< std::string, Used, std::less<> > > m_functions;
+				std::map< std::string, Used, std::less<> > m_buffers;
 			};
 			Used result{ stmt->getStmtCache().getAllocator() };
 			StmtVisitor::submit( config, result, stmt );
@@ -657,19 +657,19 @@ namespace ast
 				{
 				}
 
-				bool isUsed( var::VariablePtr variable )
+				bool isUsed( var::VariablePtr variable )const
 				{
-					return m_used.vars.end() != m_used.vars.find( variable );
+					return m_used.vars.contains( variable );
 				}
 
-				bool isUsed( type::TypePtr type )
+				bool isUsed( type::TypePtr type )const
 				{
-					return m_used.types.end() != m_used.types.find( type );
+					return m_used.types.contains( type );
 				}
 
-				bool isUsed( std::string const & name )
+				bool isUsed( std::string const & name )const
 				{
-					return m_used.names.end() != m_used.names.find( name );
+					return m_used.names.contains( name );
 				}
 
 				void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override
@@ -909,7 +909,7 @@ namespace ast
 				, stmt );
 		}
 
-		static EntryPointConfigArray listEntryPoints( stmt::Container * stmt )
+		static EntryPointConfigArray listEntryPoints( stmt::Container const * stmt )
 		{
 			EntryPointConfigArray result{ &stmt->getStmtCache().getAllocator() };
 
@@ -921,7 +921,7 @@ namespace ast
 
 					if ( funcDecl.isEntryPoint() )
 					{
-						result.push_back( { helpers::getStageForEntryPoint( funcDecl ), funcDecl.getName() } );
+						result.emplace_back( helpers::getStageForEntryPoint( funcDecl ), funcDecl.getName() );
 					}
 				}
 			}
@@ -943,7 +943,7 @@ namespace ast
 			, stmt );
 	}
 
-	EntryPointConfigArray listEntryPoints( stmt::Container * stmt )
+	EntryPointConfigArray listEntryPoints( stmt::Container const * stmt )
 	{
 		return selentpt::listEntryPoints( stmt );
 	}

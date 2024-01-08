@@ -11,8 +11,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	PerVertex::PerVertex( StructInstance const & instance
-		, ast::var::Flag flag )
+	PerVertex::PerVertex( StructInstance const & instance )
 		: position{ instance.getMember< Vec4 >( ast::Builtin::ePosition ) }
 		, pointSize{ instance.getMember< Float >( ast::Builtin::ePointSize ) }
 		, clipDistance{ instance.getMemberArray< Float >( ast::Builtin::eClipDistance ) }
