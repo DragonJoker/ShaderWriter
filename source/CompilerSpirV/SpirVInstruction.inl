@@ -1204,8 +1204,8 @@ namespace spirv
 		, bool hasLabels )
 	{
 		assert( spv::OpNop != op );
-		assert( spv::Op( instruction.op.opData.opCount ) != 0u );
-		assert( spv::Op( instruction.op.opData.opCode ) == op );
+		assert( spv::Op( instruction.op.getOpData().opCount ) != 0u );
+		assert( spv::Op( instruction.op.getOpData().opCode ) == op );
 		assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
 		assert( bool( instruction.resultId ) == hasResultId );
 		assert( operandsCount == dynamicOperandCount || uint32_t( instruction.operands.size() ) == operandsCount );
@@ -1217,7 +1217,7 @@ namespace spirv
 	struct OpInstructionCheckerT
 	{
 		template< typename ... Params >
-		static void checkParams( Params const & ... params )
+		static void checkParams( Params const & ... )
 		{
 		}
 	};

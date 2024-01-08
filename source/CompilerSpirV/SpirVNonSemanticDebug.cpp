@@ -47,7 +47,7 @@ namespace spirv::debug
 			, m_extDebugInfo
 			, "NonSemantic.Shader.DebugInfo.100" ) );
 
-		m_voidType = m_types.doRegisterBaseType( ast::type::Kind::eVoid, ast::type::NotMember, TypeId{}, 0u, nullptr );
+		m_voidType = m_types.doRegisterBaseType( ast::type::Kind::eVoid, nullptr );
 
 		m_debugInfoNone = makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::InfoNone
 			, m_declarations
@@ -195,8 +195,7 @@ namespace spirv::debug
 		registerOpaqueType( glsl::getTypeName( type ), resultId );
 	}
 
-	void NonSemanticDebug::registerAccelerationStructureType( ast::type::AccelerationStructurePtr type
-		, DebugId & resultId )
+	void NonSemanticDebug::registerAccelerationStructureType( DebugId & resultId )
 	{
 		if ( !m_enabled )
 		{
@@ -207,7 +206,7 @@ namespace spirv::debug
 	}
 
 	void NonSemanticDebug::registerMemberType( ast::type::Struct::Member const & member
-		, DebugId subTypeId
+		, DebugId const & subTypeId
 		, glsl::Statement const * debugStatement
 		, ValueIdList & subTypes )
 	{
@@ -263,7 +262,7 @@ namespace spirv::debug
 	}
 
 	void NonSemanticDebug::declareVariable( InstructionList & instructions
-		, std::string name
+		, std::string const & name
 		, ast::type::TypePtr type
 		, DebugId variableId
 		, DebugId initialiserId
@@ -304,7 +303,7 @@ namespace spirv::debug
 	}
 
 	void NonSemanticDebug::declarePointerParam( InstructionList & instructions
-		, std::string name
+		, std::string const & name
 		, ast::type::TypePtr type
 		, DebugId variableId
 		, DebugId initialiser
@@ -319,7 +318,7 @@ namespace spirv::debug
 		if ( !debugStatement )
 		{
 			declareVariable( instructions
-				, std::move( name )
+				, name
 				, std::move( type )
 				, std::move( variableId )
 				, std::move( initialiser )
@@ -329,7 +328,6 @@ namespace spirv::debug
 
 	void NonSemanticDebug::declareAccessChain( InstructionList & instructions
 		, ast::expr::Expr * expr
-		, ValueIdList accessChainIds
 		, glsl::Statement const * debugStatement
 		, DebugId & resultId )
 	{
@@ -496,9 +494,9 @@ namespace spirv::debug
 		}
 
 		auto columns = debugStatement->source.columns;
-		auto it = debugStatement->exprs.find( expr );
 
-		if ( it != debugStatement->exprs.end() )
+		if ( auto it = debugStatement->exprs.find( expr );
+			it != debugStatement->exprs.end() )
 		{
 			columns = it->second;
 		}
@@ -510,7 +508,7 @@ namespace spirv::debug
 		, InstructionList & instructions
 		, ValueIdList operands )
 	{
-		ValueId resultId = { m_module.getNextId() };
+		ValueId resultId{ m_module.getNextId() };
 		makeDebugInstruction( instruction, instructions, resultId, std::move( operands ) );
 		return resultId;
 	}

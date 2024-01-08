@@ -40,9 +40,6 @@ namespace spirv
 			, Instruction const & instruction );
 
 	private:
-		DebugId doFindConstant( spv::Id id );
-
-	private:
 		Module & m_module;
 		InstructionList & m_declarations;
 		ast::ShaderAllocatorBlock * m_allocator;

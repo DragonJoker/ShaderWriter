@@ -1914,9 +1914,9 @@ namespace spirv
 	spv::Op getOpCode( ast::type::TypePtr type )
 	{
 		spv::Op result;
-		auto arraySize = getArraySize( type );
 
-		if ( arraySize == ast::type::NotArray )
+		if ( auto arraySize = getArraySize( type );
+			arraySize == ast::type::NotArray )
 		{
 			result = getOpCode( type->getKind() );
 		}
@@ -1962,11 +1962,11 @@ namespace spirv
 		case ast::expr::Kind::eTimes:
 		case ast::expr::Kind::eTimesAssign:
 			result = isMatrixType( lhsTypeKind )
-				? ( ( isMatrixType( rhsTypeKind )
+				? ( isMatrixType( rhsTypeKind )
 					? spv::OpMatrixTimesMatrix
 					: ( isVectorType( rhsTypeKind )
 						? spv::OpMatrixTimesVector
-						: spv::OpMatrixTimesScalar ) ) )
+						: spv::OpMatrixTimesScalar ) )
 				: ( isVectorType( lhsTypeKind )
 					? ( isMatrixType( rhsTypeKind )
 						? spv::OpVectorTimesMatrix

@@ -734,21 +734,15 @@ namespace spirv
 	{
 	}
 
-	void IOMapping::declare( ast::stmt::Container & stmt )
-	{
-	}
-
-	void IOMapping::addPatch( ast::var::VariablePtr patchVar
-		, uint32_t location )
+	void IOMapping::addPatch( ast::var::VariablePtr patchVar )
 	{
 		m_processed.push_back( patchVar );
 	}
 
 	ast::var::VariablePtr IOMapping::getPatch( ast::var::VariablePtr patchVar )
 	{
-		auto splitIt = splitVarsOthers.find( patchVar );
-
-		if ( splitIt != splitVarsOthers.end() )
+		if ( auto splitIt = splitVarsOthers.find( patchVar );
+			splitIt != splitVarsOthers.end() )
 		{
 			patchVar = splitIt->second.first;
 		}
@@ -764,11 +758,10 @@ namespace spirv
 	void IOMapping::addPending( ast::var::VariablePtr pendingVar
 		, uint32_t location )
 	{
-		auto ires = m_pending.emplace( pendingVar->getEntityName(), PendingIO{} );
+		auto [it, res] = m_pending.try_emplace(pendingVar->getEntityName());
 
-		if ( ires.second )
+		if ( res )
 		{
-			auto it = ires.first;
 			it->second.location = location;
 			it->second.arraySize = ast::type::NotArray;
 			it->second.flags = pendingVar->getFlags();
@@ -796,7 +789,7 @@ namespace spirv
 			io.location = location;
 			io.arraySize = arraySize;
 			io.flags = flags;
-			m_pendingMbr.push_back( { outerVar, mbrIndex, io } );
+			m_pendingMbr.emplace_back( outerVar, mbrIndex, io );
 		}
 	}
 
@@ -819,7 +812,6 @@ namespace spirv
 		, ast::var::VariablePtr outerVar
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & pflags
-		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
 		if ( !pflags.isShaderInput() && !pflags.isShaderOutput() )
@@ -909,7 +901,6 @@ namespace spirv
 			, ident->getVariable()
 			, mbrIndex
 			, pflags
-			, adapter
 			, cont );
 
 		if ( result
@@ -928,7 +919,6 @@ namespace spirv
 
 	ast::expr::ExprPtr IOMapping::processPending( ast::expr::ExprCache & exprCache
 		, ast::Builtin builtin
-		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
 		for ( auto & pending : m_pendingMbr )
@@ -944,7 +934,6 @@ namespace spirv
 						, pending.outer
 						, mbrIndex
 						, ast::var::FlagHolder{ pending.io.flags }
-						, adapter
 						, cont );
 				}
 			}
@@ -964,34 +953,32 @@ namespace spirv
 			return nullptr;
 		}
 
-		auto & mbr = *it;
-		auto pendingVar = mbr.second.var;
+		auto & [_, mbrIo] = *it;
+		auto pendingVar = mbrIo.var;
 		auto type = pendingVar->getType();
 		auto location = it->second.location;
 
-		if ( !mbr.second.result.var )
+		if ( !mbrIo.result.var )
 		{
-			mbr.second.result = processPendingType( type
+			mbrIo.result = processPendingType( type
 				, pendingVar->getName()
 				, pendingVar->isBuiltin() ? pendingVar->getBuiltin() : ast::Builtin::eNone
-				, mbr.second.flags
+				, mbrIo.flags
 				, location
-				, mbr.second.arraySize
+				, mbrIo.arraySize
 				, cont );
 		}
 
-		return exprCache.makeIdentifier( typesCache, mbr.second.result.var );
+		return exprCache.makeIdentifier( typesCache, mbrIo.result.var );
 	}
 
 	ast::expr::ExprPtr IOMapping::processPending( ast::expr::ExprCache & exprCache
 		, ast::var::VariablePtr srcVar
 		, ast::stmt::Container * cont )
 	{
-		auto result = processPending( exprCache
+		if ( auto result = processPending( exprCache
 			, srcVar->getEntityName()
-			, cont );
-
-		if ( result )
+			, cont ) )
 		{
 			return result;
 		}
@@ -1000,7 +987,7 @@ namespace spirv
 				, srcVar );
 	}
 
-	bool IOMapping::isValid( ast::Builtin builtin )
+	bool IOMapping::isValid( ast::Builtin builtin )const
 	{
 		if ( isInput )
 		{
@@ -1060,12 +1047,12 @@ namespace spirv
 
 		if ( builtin != ast::Builtin::eNone )
 		{
-			auto ires = m_processedBuiltins.emplace( builtin, nullptr );
-			auto it = ires.first;
+			auto [it, res] = m_processedBuiltins.try_emplace( builtin );
 
-			if ( ires.second )
+			if ( res )
 			{
-				it->second = ast::var::makeBuiltin( ++( *nextVarId )
+				++( *nextVarId );
+				it->second = ast::var::makeBuiltin( *nextVarId
 					, builtin
 					, type
 					, flags );
@@ -1077,13 +1064,13 @@ namespace spirv
 			return { it->second };
 		}
 
-		auto ires = m_processedIOs.emplace( name, nullptr );
-		auto it = ires.first;
+		auto [it, res] = m_processedIOs.try_emplace( name );
 
-		if ( ires.second )
+		if ( res )
 		{
 			auto prefix = isInput ? std::string{ "sdwIn_" } : std::string{ "sdwOut_" };
-			it->second = ast::var::makeVariable( { ++( *nextVarId ), prefix + name }
+			++( *nextVarId );
+			it->second = ast::var::makeVariable( { *nextVarId, prefix + name }
 				, type
 				, flags );
 			m_processed.push_back( it->second );
@@ -1127,7 +1114,6 @@ namespace spirv
 		, inputs{ alloc, typesCache, stage, true, nextVarId }
 		, outputs{ alloc, typesCache, stage, false, nextVarId }
 		, requiredCapabilities{ alloc }
-		, requiredExtensions{}
 	{
 		if ( spirvConfig.debugLevel == DebugLevel::eDebugInfo )
 		{
@@ -1490,7 +1476,7 @@ namespace spirv
 		{
 			if ( spirvConfig.specVersion >= extension.specVersion 
 				&& ( !spirvConfig.availableExtensions
-					|| spirvConfig.availableExtensions->end() != spirvConfig.availableExtensions->find( extension ) ) )
+					|| spirvConfig.availableExtensions->contains( extension ) ) )
 			{
 				requiredExtensions.insert( extension );
 				spirvConfig.requiredExtensions.insert( std::move( extension ) );
@@ -1504,22 +1490,20 @@ namespace spirv
 		{
 			if ( extension.isMarker )
 			{
-				throw std::runtime_error{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
+				throw ast::Exception{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
 					+ ") doesn't support [" + extension.name
 					+ "] (required version: " + hlp::printSpvVersion( extension.specVersion ) + ")" };
 			}
 
-			throw std::runtime_error{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
+			throw ast::Exception{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
 				+ ") doesn't support extension [" + extension.name
 				+ "] (required version: " + hlp::printSpvVersion( extension.specVersion ) + ")" };
 		}
 
-		if ( spirvConfig.availableExtensions )
+		if ( spirvConfig.availableExtensions
+			&& !spirvConfig.availableExtensions->contains( extension ) )
 		{
-			if ( spirvConfig.availableExtensions->end() == spirvConfig.availableExtensions->find( extension ) )
-			{
-				throw std::runtime_error{ "Extension [" + extension.name + "] was not found in the list of available extension" };
-			}
+			throw ast::Exception{ "Extension [" + extension.name + "] was not found in the list of available extension" };
 		}
 
 		requiredExtensions.insert( extension );
@@ -1527,9 +1511,9 @@ namespace spirv
 		return true;
 	}
 
-	bool ModuleConfig::hasExtension( SpirVExtension extension )const
+	bool ModuleConfig::hasExtension( SpirVExtension const & extension )const
 	{
-		return requiredExtensions.find( extension ) != requiredExtensions.end();
+		return requiredExtensions.contains( extension );
 	}
 
 	void ModuleConfig::fillModule( Module & shaderModule )const
@@ -1551,7 +1535,6 @@ namespace spirv
 	void ModuleConfig::initialise( ast::stmt::FunctionDecl const & stmt )
 	{
 		auto funcType = stmt.getType();
-		auto isEntryPoint = stmt.isEntryPoint();
 
 		for ( auto & param : *funcType )
 		{
@@ -1572,7 +1555,7 @@ namespace spirv
 				registerParam( param, static_cast< ast::type::TessellationInputPatch const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationControlInput:
-				registerParam( param, static_cast< ast::type::TessellationControlInput const & >( *type ), isEntryPoint );
+				registerParam( param, static_cast< ast::type::TessellationControlInput const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationEvaluationInput:
 				registerParam( param, static_cast< ast::type::TessellationEvaluationInput const & >( *type ) );
@@ -1581,10 +1564,10 @@ namespace spirv
 				registerParam( param, static_cast< ast::type::ComputeInput const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationOutputPatch:
-				registerParam( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ), isEntryPoint );
+				registerParam( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationControlOutput:
-				registerParam( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+				registerParam( param, static_cast< ast::type::TessellationControlOutput const & >( *type ) );
 				break;
 			case ast::type::Kind::eMeshVertexOutput:
 				registerParam( param, static_cast< ast::type::MeshVertexOutput const & >( *type ) );
@@ -1623,15 +1606,13 @@ namespace spirv
 						{
 							registerInput( param
 								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize
-								, isEntryPoint );
+								, arraySize );
 						}
 						else if ( structType->isShaderOutput() )
 						{
 							registerOutput( param
 								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize
-								, isEntryPoint );
+								, arraySize );
 						}
 					}
 				}
@@ -1640,12 +1621,9 @@ namespace spirv
 		}
 	}
 
-	ast::stmt::ContainerPtr ModuleConfig::declare( ast::stmt::StmtCache & stmtCache )
+	ast::stmt::ContainerPtr ModuleConfig::declare( ast::stmt::StmtCache & stmtCache )const
 	{
-		auto cont = stmtCache.makeContainer();
-		inputs.declare( *cont );
-		outputs.declare( *cont );
-		return cont;
+		return stmtCache.makeContainer();
 	}
 
 	void ModuleConfig::addInputVar( ast::var::VariablePtr var
@@ -1687,15 +1665,14 @@ namespace spirv
 
 	ast::expr::ExprPtr ModuleConfig::processPending( ast::expr::ExprCache & exprCache
 		, ast::Builtin builtin
-		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
 		if ( hlp::isShaderInput( builtin, inputs.stage ) )
 		{
-			return inputs.processPending( exprCache, builtin, adapter, cont );
+			return inputs.processPending( exprCache, builtin, cont );
 		}
 
-		return outputs.processPending( exprCache, builtin, adapter, cont );
+		return outputs.processPending( exprCache, builtin, cont );
 	}
 
 	ast::expr::ExprPtr ModuleConfig::processPending( ast::expr::ExprCache & exprCache
@@ -1714,12 +1691,12 @@ namespace spirv
 			, cont );
 	}
 
-	bool ModuleConfig::isInput( ast::Builtin builtin )
+	bool ModuleConfig::isInput( ast::Builtin builtin )const
 	{
 		return inputs.isValid( builtin );
 	}
 
-	bool ModuleConfig::isOutput( ast::Builtin builtin )
+	bool ModuleConfig::isOutput( ast::Builtin builtin )const
 	{
 		return outputs.isValid( builtin );
 	}
@@ -1755,12 +1732,11 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, ast::type::NotArray
-				, true );
+				, ast::type::NotArray );
 		}
 	}
 
@@ -1771,12 +1747,11 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, ast::type::NotArray
-				, true );
+				, ast::type::NotArray );
 		}
 	}
 
@@ -1787,12 +1762,11 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, getArraySize( geomType.getLayout() )
-				, true );
+				, getArraySize( geomType.getLayout() ) );
 		}
 	}
 
@@ -1803,12 +1777,11 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, ast::type::NotArray
-				, true );
+				, ast::type::NotArray );
 		}
 	}
 
@@ -1817,7 +1790,7 @@ namespace spirv
 	{
 		if ( isStructType( patchType.getType() ) )
 		{
-			auto & structType = *getStructType( patchType.getType() );
+			auto const & structType = *getStructType( patchType.getType() );
 			uint32_t indexBuiltins = 0u;
 			auto inStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
 				, structType.getMemoryLayout()
@@ -1836,8 +1809,8 @@ namespace spirv
 				, var->getFlags() );
 			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
 				, inBuiltinsType );
-			inputs.splitVarsOthers.emplace( var, std::make_pair( othersVar, 0u ) );
-			auto it = inputs.splitVarsBuiltins.emplace( var, std::make_pair( builtinsVar, 0u ) ).first;
+			inputs.splitVarsOthers.try_emplace( var, othersVar, 0u );
+			auto it = inputs.splitVarsBuiltins.try_emplace( var, builtinsVar, 0u ).first;
 
 			for ( auto & mbr : structType )
 			{
@@ -1855,28 +1828,27 @@ namespace spirv
 						, getArraySize( mbr.type )
 						, ast::type::Struct::InvalidLocation );
 					inputs.addPendingMbr( builtinsVar
-						, indexBuiltins++
+						, indexBuiltins
 						, ( ast::var::Flag::eShaderInput | ast::var::Flag::eBuiltin )
 						, ast::type::Struct::InvalidLocation
 						, ast::type::NotArray );
+					++indexBuiltins;
 				}
 			}
 
 			if ( !inStructType->empty() )
 			{
-				inputs.addPatch( othersVar
-					, patchType.getLocation() );
+				inputs.addPatch( othersVar );
 			}
 		}
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TessellationOutputPatch const & patchType
-		, bool isEntryPoint )
+		, ast::type::TessellationOutputPatch const & patchType )
 	{
 		if ( isStructType( patchType.getType() ) )
 		{
-			auto & structType = *getStructType( patchType.getType() );
+			auto const & structType = *getStructType( patchType.getType() );
 			uint32_t indexBuiltins = 0u;
 			auto flags = structType.getFlag();
 			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
@@ -1895,8 +1867,8 @@ namespace spirv
 				, var->getFlags() );
 			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
 			, outBuiltinsType );
-			outputs.splitVarsOthers.emplace( var, std::make_pair( othersVar, 0u ) );
-			auto it = outputs.splitVarsBuiltins.emplace( var, std::make_pair( builtinsVar, 0u ) ).first;
+			outputs.splitVarsOthers.try_emplace( var, othersVar, 0u );
+			auto it = outputs.splitVarsBuiltins.try_emplace( var, builtinsVar, 0u ).first;
 
 			for ( auto & mbr : structType )
 			{
@@ -1914,24 +1886,23 @@ namespace spirv
 						, getArraySize( mbr.type )
 						, ast::type::Struct::InvalidLocation );
 					outputs.addPendingMbr( builtinsVar
-						, indexBuiltins++
+						, indexBuiltins
 						, ( ast::var::Flag::eShaderOutput | ast::var::Flag::eBuiltin )
 						, ast::type::Struct::InvalidLocation
 						, ast::type::NotArray );
+					++indexBuiltins;
 				}
 			}
 
 			if ( !outStructType->empty() )
 			{
-				outputs.addPatch( othersVar
-					, patchType.getLocation() );
+				outputs.addPatch( othersVar );
 			}
 		}
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TessellationControlInput const & tessType
-		, bool isEntryPoint )
+		, ast::type::TessellationControlInput const & tessType )
 	{
 		auto type = tessType.getType();
 
@@ -1942,29 +1913,26 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, tessType.getInputVertices()
-				, isEntryPoint );
+				, tessType.getInputVertices() );
 		}
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TessellationControlOutput const & tessType
-		, bool isEntryPoint )
+		, ast::type::TessellationControlOutput const & tessType )
 	{
 		auto type = tessType.getType();
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, tessType.getOutputVertices()
-				, isEntryPoint );
+				, tessType.getOutputVertices() );
 		}
 	}
 
@@ -1980,12 +1948,11 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, tessType.getInputVertices()
-				, true );
+				, tessType.getInputVertices() );
 		}
 	}
 
@@ -2001,12 +1968,11 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, meshType.getMaxVertices()
-				, true );
+				, meshType.getMaxVertices() );
 		}
 	}
 
@@ -2022,43 +1988,41 @@ namespace spirv
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
-				, meshType.getMaxPrimitives()
-				, true );
+				, meshType.getMaxPrimitives() );
 		}
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TaskPayloadNV const & taskType )
+		, ast::type::TaskPayloadNV const & )
 	{
 		addOutput( var );
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TaskPayload const & taskType )
+		, ast::type::TaskPayload const & )
 	{
 		addOutput( var );
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TaskPayloadInNV const & taskType )
+		, ast::type::TaskPayloadInNV const & )
 	{
 		addInput( var );
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
-		, ast::type::TaskPayloadIn const & taskType )
+		, ast::type::TaskPayloadIn const & )
 	{
 		addInput( var );
 	}
 
 	void ModuleConfig::registerInput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & structType
-		, uint32_t arraySize
-		, bool isEntryPoint )
+		, uint32_t arraySize )
 	{
 		uint32_t index = 0u;
 		auto flags = structType.getFlag();
@@ -2066,7 +2030,7 @@ namespace spirv
 		for ( auto & mbr : structType )
 		{
 			inputs.addPendingMbr( var
-				, index++
+				, index
 				, ( flags
 					| ( ( mbr.builtin == ast::Builtin::eNone )
 						? ast::var::Flag::eNone
@@ -2075,13 +2039,13 @@ namespace spirv
 					? mbr.location
 					: ast::type::Struct::InvalidLocation )
 				, arraySize );
+			++index;
 		}
 	}
 
 	void ModuleConfig::registerOutput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & structType
-		, uint32_t arraySize
-		, bool isEntryPoint )
+		, uint32_t arraySize )
 	{
 		uint32_t index = 0u;
 		auto flags = structType.getFlag();
@@ -2089,7 +2053,7 @@ namespace spirv
 		for ( auto & mbr : structType )
 		{
 			outputs.addPendingMbr( var
-				, index++
+				, index
 				, ( flags
 					| ( ( mbr.builtin == ast::Builtin::eNone )
 						? ast::var::Flag::eNone
@@ -2098,6 +2062,7 @@ namespace spirv
 					? mbr.location
 					: ast::type::Struct::InvalidLocation )
 				, arraySize );
+			++index;
 		}
 	}
 
@@ -2902,20 +2867,20 @@ namespace spirv
 	{
 		ValueIdList operands{ nameCache.get_allocator() };
 		operands.push_back( sampledTypeId );
-		operands.push_back( { spv::Id( config.dimension ) } );
-		operands.push_back( { isComparison == ast::type::Trinary::eTrue
+		operands.emplace_back( spv::Id( config.dimension ) );
+		operands.emplace_back( isComparison == ast::type::Trinary::eTrue
 			? 1u
 			: ( isComparison == ast::type::Trinary::eFalse
 				? 0u
-				: 2u ) } );
-		operands.push_back( { config.isArrayed ? 1u : 0u } );
-		operands.push_back( { config.isMS ? 1u : 0u } );
-		operands.push_back( { config.isSampled == ast::type::Trinary::eTrue
+				: 2u ) );
+		operands.emplace_back( config.isArrayed ? 1u : 0u );
+		operands.emplace_back( config.isMS ? 1u : 0u );
+		operands.emplace_back( config.isSampled == ast::type::Trinary::eTrue
 			? 1u
 			: ( isComparison == ast::type::Trinary::eFalse
 				? 2u
-				: 0u ) } );
-		operands.push_back( { uint32_t( hlp::getImageFormat( config.format ) ) } );
+				: 0u ) );
+		operands.emplace_back( uint32_t( hlp::getImageFormat( config.format ) ) );
 		// Only available in kernel mode.
 		// operands.push_back( uint32_t( config.accessKind ) );
 
@@ -3601,7 +3566,7 @@ namespace spirv
 	}
 
 	void decorateVar( ast::var::Variable const & var
-		, DebugId varId
+		, DebugId const & varId
 		, Module & shaderModule )
 	{
 		if ( var.isFlat() )

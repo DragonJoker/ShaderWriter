@@ -762,53 +762,6 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayU:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayUBias:
 		case ast::expr::CombinedImageAccess::eTexture2DRectU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureOffset1DF:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DF:
-		case ast::expr::CombinedImageAccess::eTextureOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectF:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DI:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DI:
-		case ast::expr::CombinedImageAccess::eTextureOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectI:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DU:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DU:
-		case ast::expr::CombinedImageAccess::eTextureOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectU:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureOffset1DFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset3DFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DUBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DUBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayUBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayUBias:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureGrad1DF:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DF:
 		case ast::expr::CombinedImageAccess::eTextureGrad3DF:
@@ -833,83 +786,126 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeArrayU:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DF2:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad3DF:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF3:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DI2:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad3DI:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU2:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad3DU:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
+		case ast::expr::CombinedImageAccess::eTextureLod1DF:
+		case ast::expr::CombinedImageAccess::eTextureLod2DF:
+		case ast::expr::CombinedImageAccess::eTextureLod3DF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeF:
+		case ast::expr::CombinedImageAccess::eTextureLod1DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureLod2DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayF:
+		case ast::expr::CombinedImageAccess::eTextureLod1DI:
+		case ast::expr::CombinedImageAccess::eTextureLod2DI:
+		case ast::expr::CombinedImageAccess::eTextureLod3DI:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeI:
+		case ast::expr::CombinedImageAccess::eTextureLod1DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureLod2DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayI:
+		case ast::expr::CombinedImageAccess::eTextureLod1DU:
+		case ast::expr::CombinedImageAccess::eTextureLod2DU:
+		case ast::expr::CombinedImageAccess::eTextureLod3DU:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeU:
+		case ast::expr::CombinedImageAccess::eTextureLod1DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureLod2DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayU:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DF2:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DF3:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjLod3DF:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DI2:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DI3:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjLod3DI:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DU2:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DU3:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjLod3DU:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
 			break;
 
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayU:
+		case ast::expr::CombinedImageAccess::eTexelFetch1DF:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DF:
+		case ast::expr::CombinedImageAccess::eTexelFetch3DF:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DRectF:
+		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayF:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayF:
+		case ast::expr::CombinedImageAccess::eTexelFetchBufferF:
+		case ast::expr::CombinedImageAccess::eTexelFetch1DI:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DI:
+		case ast::expr::CombinedImageAccess::eTexelFetch3DI:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DRectI:
+		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayI:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayI:
+		case ast::expr::CombinedImageAccess::eTexelFetchBufferI:
+		case ast::expr::CombinedImageAccess::eTexelFetch1DU:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DU:
+		case ast::expr::CombinedImageAccess::eTexelFetch3DU:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DRectU:
+		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayU:
+		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayU:
+		case ast::expr::CombinedImageAccess::eTexelFetchBufferU:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
+			config.needsImage = true;
 			break;
 
-		case ast::expr::CombinedImageAccess::eTexture1DShadowF:
-		case ast::expr::CombinedImageAccess::eTexture1DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTexture2DShadowF:
-		case ast::expr::CombinedImageAccess::eTexture2DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureCubeShadowF:
-		case ast::expr::CombinedImageAccess::eTextureCubeShadowFBias:
-		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowFBias:
-		case ast::expr::CombinedImageAccess::eTexture2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTexture2DRectShadowF:
-		case ast::expr::CombinedImageAccess::eTextureCubeArrayShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectShadowF:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DShadowFBias:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGrad1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
+		case ast::expr::CombinedImageAccess::eTextureOffset1DF:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DF:
+		case ast::expr::CombinedImageAccess::eTextureOffset3DF:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DRectF:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DI:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DI:
+		case ast::expr::CombinedImageAccess::eTextureOffset3DI:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DRectI:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DU:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DU:
+		case ast::expr::CombinedImageAccess::eTextureOffset3DU:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DRectU:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DFBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DFBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset3DFBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayFBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayFBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DIBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DIBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset3DIBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayIBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayIBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DUBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DUBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset3DUBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayUBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayUBias:
 		case ast::expr::CombinedImageAccess::eTextureProj1DF2:
 		case ast::expr::CombinedImageAccess::eTextureProj1DF2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj1DF4:
@@ -946,10 +942,6 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureProj3DUBias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DRectU4:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DF2:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DF4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3:
@@ -969,11 +961,6 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DF2Bias:
@@ -994,230 +981,6 @@ namespace spirv
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 2u;
 			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DF2:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad3DF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DI2:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU2:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad3DU:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF2:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProj1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureLod1DF:
-		case ast::expr::CombinedImageAccess::eTextureLod2DF:
-		case ast::expr::CombinedImageAccess::eTextureLod3DF:
-		case ast::expr::CombinedImageAccess::eTextureLodCubeF:
-		case ast::expr::CombinedImageAccess::eTextureLod1DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureLod2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayF:
-		case ast::expr::CombinedImageAccess::eTextureLod1DI:
-		case ast::expr::CombinedImageAccess::eTextureLod2DI:
-		case ast::expr::CombinedImageAccess::eTextureLod3DI:
-		case ast::expr::CombinedImageAccess::eTextureLodCubeI:
-		case ast::expr::CombinedImageAccess::eTextureLod1DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureLod2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayI:
-		case ast::expr::CombinedImageAccess::eTextureLod1DU:
-		case ast::expr::CombinedImageAccess::eTextureLod2DU:
-		case ast::expr::CombinedImageAccess::eTextureLod3DU:
-		case ast::expr::CombinedImageAccess::eTextureLodCubeU:
-		case ast::expr::CombinedImageAccess::eTextureLod1DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureLod2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DI:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DI:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DU:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DU:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureLod1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureLod2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DF2:
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjLod3DF:
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DI2:
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjLod3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DU2:
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjLod3DU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DF2:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DI2:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DU2:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjLod1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjLod2DShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DShadowF:
-			config.returnComponentsCount = 1u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTexelFetch1DF:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DF:
-		case ast::expr::CombinedImageAccess::eTexelFetch3DF:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DRectF:
-		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayF:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayF:
-		case ast::expr::CombinedImageAccess::eTexelFetchBufferF:
-		case ast::expr::CombinedImageAccess::eTexelFetch1DI:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DI:
-		case ast::expr::CombinedImageAccess::eTexelFetch3DI:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DRectI:
-		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayI:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayI:
-		case ast::expr::CombinedImageAccess::eTexelFetchBufferI:
-		case ast::expr::CombinedImageAccess::eTexelFetch1DU:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DU:
-		case ast::expr::CombinedImageAccess::eTexelFetch3DU:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DRectU:
-		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayU:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayU:
-		case ast::expr::CombinedImageAccess::eTexelFetchBufferU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 2u;
-			config.needsImage = true;
 			break;
 
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DF:
@@ -1244,6 +1007,147 @@ namespace spirv
 			config.offsetIndex = config.imageOperandsIndex;
 			break;
 
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset3DF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DI:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DI:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset3DI:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectI:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DU:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DU:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset3DU:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectU:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF2:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DF:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DI:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset3DF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DI:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DI:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset3DI:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayI:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DU:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DU:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset3DU:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayU:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DF2:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DF3:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DF4:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DF:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DI2:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI3:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DI:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DU2:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DU:
+			config.returnComponentsCount = 4u;
+			config.imageOperandsIndex = 2u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
+			break;
+
+		case ast::expr::CombinedImageAccess::eTexture1DShadowF:
+		case ast::expr::CombinedImageAccess::eTexture1DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTexture2DShadowF:
+		case ast::expr::CombinedImageAccess::eTexture2DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTextureCubeShadowF:
+		case ast::expr::CombinedImageAccess::eTextureCubeShadowFBias:
+		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowFBias:
+		case ast::expr::CombinedImageAccess::eTexture2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTexture2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureCubeArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGrad1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGrad2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProj1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLod1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLod2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjLod1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjLod2DShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			break;
+
+		case ast::expr::CombinedImageAccess::eTextureOffset2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTextureOffset2DShadowFBias:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex;
+			break;
+
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DShadowF:
+			config.returnComponentsCount = 1u;
+			config.imageOperandsIndex = 3u;
+			config.offsetIndex = config.imageOperandsIndex + 1u;
+			break;
+
 	// Texture Gather Functions
 		case ast::expr::CombinedImageAccess::eTextureGather2DF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayF:
@@ -1260,6 +1164,11 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGather2DRectU:
+		case ast::expr::CombinedImageAccess::eTextureGather2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureGather2DRectShadowF:
 			config.returnComponentsCount = 4u;
 			config.imageOperandsIndex = 3u;
 			break;
@@ -1273,11 +1182,6 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectF:
@@ -1287,28 +1191,9 @@ namespace spirv
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureGather2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectShadowF:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 3u;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
-			config.returnComponentsCount = 4u;
-			config.imageOperandsIndex = 3u;
-			config.offsetIndex = config.imageOperandsIndex + 1u;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
@@ -1318,7 +1203,7 @@ namespace spirv
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported CombinedImageAccess type." };
+			throw ast::Exception{ "Unsupported CombinedImageAccess type." };
 		}
 	}
 }

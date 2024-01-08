@@ -49,7 +49,7 @@ namespace spirv
 
 					if ( ident )
 					{
-						auto it = m_result.emplace( ident->getVariable()->getEntityName(), VarActions{} ).first;
+						auto it = m_result.try_emplace( ident->getVariable()->getEntityName() ).first;
 						it->second.sets++;
 					}
 				}
@@ -121,7 +121,7 @@ namespace spirv
 
 			void visitIdentifierExpr( ast::expr::Identifier * expr )override
 			{
-				auto it = m_result.emplace( expr->getVariable()->getEntityName(), VarActions{} ).first;
+				auto it = m_result.try_emplace( expr->getVariable()->getEntityName() ).first;
 
 				if ( m_isMember )
 				{
@@ -216,7 +216,7 @@ namespace spirv
 			}
 
 		private:
-			StmtActionsCounter( ShaderActions & result )
+			explicit StmtActionsCounter( ShaderActions & result )
 				: ast::stmt::Visitor{}
 				, m_result{ result }
 			{
@@ -275,7 +275,7 @@ namespace spirv
 				m_currentActions = &actions;
 				visitContainerStmt( stmt );
 				m_currentActions = nullptr;
-				m_result.emplace( stmt->getName(), std::move( actions ) );
+				m_result.try_emplace( stmt->getName(), std::move( actions ) );
 			}
 
 			void visitIfStmt( ast::stmt::If * stmt )override

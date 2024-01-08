@@ -26,14 +26,14 @@ namespace spirv
 	{
 		namespace helpers
 		{
-			static void checkType( ast::expr::Expr * expr
+			static void checkType( ast::expr::Expr const * expr
 				, ModuleConfig & config )
 			{
 				checkType( expr->getType()
 					, config );
 			}
 
-			static void checkType( ast::expr::IntrinsicCall * expr
+			static void checkType( ast::expr::IntrinsicCall const * expr
 				, ModuleConfig & config )
 			{
 				checkType( expr->getType()
@@ -149,13 +149,13 @@ namespace spirv
 					&& kind <= ast::expr::Intrinsic::eMemoryBarrier )
 				{
 					ast::type::Scope memory;
-					bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
 
-					if ( isControlBarrier )
+					if ( bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
+						isControlBarrier )
 					{
 						if ( expr->getArgList().size() < 3u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a control barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
@@ -164,7 +164,7 @@ namespace spirv
 					{
 						if ( expr->getArgList().size() < 2u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
@@ -370,8 +370,8 @@ namespace spirv
 					m_config.registerCapability( spv::CapabilityImageQuery );
 				}
 
-				if ( ( kind >= ast::expr::CombinedImageAccess::eTextureGather2DShadowF
-					&& kind <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF ) )
+				if ( kind >= ast::expr::CombinedImageAccess::eTextureGather2DShadowF
+					&& kind <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF )
 				{
 					m_config.registerCapability( spv::CapabilityImageGatherExtended );
 				}

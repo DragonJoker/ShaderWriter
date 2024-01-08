@@ -41,7 +41,7 @@ namespace spirv
 			, glsl::Statement const * debugStatement );
 		TypeId registerType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId
+			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
@@ -53,11 +53,11 @@ namespace spirv
 			, DebugId const & sampler
 			, Block & currentBlock );
 
-		ast::type::TypePtr getType( DebugId typeId )const;
+		ast::type::TypePtr getType( DebugId const & typeId )const;
 
 		void deserialize( spv::Op opCode
 			, Instruction const & instruction
-			, NameCache & names );
+			, NameCache const & names );
 
 		ast::type::TypesCache & getTypesCache()const noexcept
 		{
@@ -65,16 +65,13 @@ namespace spirv
 		}
 
 	private:
-		std::pair< TypeId *, bool > doRegisterPointerType( spv::Id id
-			, ast::type::PointerPtr type
-			, bool isForward = false );
 		TypeId doRegisterNonArrayType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId
+			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterTypeRec( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId
+			, TypeId const & parentId
 			, uint32_t arrayStride
 			, glsl::Statement const * debugStatement );
 		TypeId & doRegisterBaseType( spv::Id id
@@ -82,42 +79,27 @@ namespace spirv
 		TypeId & doRegisterBaseType( spv::Id id
 			, ast::type::Kind kind );
 		TypeId doRegisterBaseType( ast::type::Kind kind
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, uint32_t arrayStride
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterBaseType( ast::type::StructPtr type
 			, uint32_t mbrIndex
-			, TypeId parentId
+			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::SamplerPtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::CombinedImagePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
+		TypeId doRegisterBaseType( ast::type::SamplerPtr type );
+		TypeId doRegisterBaseType( ast::type::CombinedImagePtr type );
 		void doRegisterBaseType( spv::Id id
 			, ast::type::ImagePtr type
 			, ast::type::Trinary isComparison );
 		TypeId doRegisterBaseType( ast::type::ImagePtr type
 			, ast::type::Trinary isComparison );
-		TypeId doRegisterBaseType( ast::type::ImagePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::SampledImagePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId );
-		TypeId doRegisterBaseType( ast::type::AccelerationStructurePtr type
-			, uint32_t mbrIndex
-			, TypeId parentId
-			, glsl::Statement const * debugStatement );
+		TypeId doRegisterBaseType( ast::type::ImagePtr type );
+		TypeId doRegisterBaseType( ast::type::SampledImagePtr type );
+		TypeId doRegisterBaseType( ast::type::AccelerationStructurePtr type );
 		TypeId doRegisterBaseType( ast::type::TypePtr type
 			, uint32_t mbrIndex
-			, TypeId parentId
-			, uint32_t arrayStride
+			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		bool doAddMbrBuiltin( ast::Builtin pbuiltin
-			, DebugId outer
+			, DebugId const & outer
 			, uint32_t mbrIndex );
 
 	private:

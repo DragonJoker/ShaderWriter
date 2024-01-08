@@ -138,7 +138,7 @@ namespace glsl
 
 	struct StmtConfig
 	{
-		ast::ShaderStage shaderStage;
+		ast::ShaderStage shaderStage{};
 		uint32_t wantedVersion{ v4_3 };
 		GlslExtensionSet availableExtensions{};
 		bool vulkanGlsl{ false };

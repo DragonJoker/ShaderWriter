@@ -143,7 +143,7 @@ namespace spirv
 			NameCache names{ shaderModule.allocator };
 			result = Module::write( shaderModule, names, writeHeader );
 		}
-		catch ( std::exception & exc )
+		catch ( ast::Exception & exc )
 		{
 			std::cerr << exc.what() << std::endl;
 		}
@@ -160,7 +160,7 @@ namespace spirv
 			auto spirv = Module::serialize( shaderModule );
 			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
-		catch ( std::exception & exc )
+		catch ( ast::Exception & exc )
 		{
 			std::cerr << exc.what() << std::endl;
 		}
@@ -184,7 +184,7 @@ namespace spirv
 			NameCache names{ allocator.get() };
 			result = Module::write( *shaderModule, names, writeHeader );
 		}
-		catch ( std::exception & exc )
+		catch ( ast::Exception & exc )
 		{
 			std::cerr << exc.what() << std::endl;
 		}
@@ -218,7 +218,7 @@ namespace spirv
 			auto spirv = Module::serialize( *shaderModule );
 			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
-		catch ( std::exception & exc )
+		catch ( ast::Exception & exc )
 		{
 			std::cerr << exc.what() << std::endl;
 		}
@@ -273,7 +273,7 @@ namespace spirv
 		// Gather names
 		for ( auto & instruction : shaderModule.getDebugStringsDeclarations() )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpString:
 				names.add( *instruction->resultId, *instruction->name );
@@ -284,7 +284,7 @@ namespace spirv
 		}
 		for ( auto & instruction : shaderModule.getDebugNamesDeclarations() )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpSource:
 				break;
@@ -293,8 +293,8 @@ namespace spirv
 				break;
 			case spv::OpMemberName:
 				{
-					auto it = mbrNames.emplace( *instruction->returnTypeId, ast::Map< uint32_t, std::string >{ shaderModule.allocator } ).first;
-					it->second.emplace( *instruction->resultId, *instruction->name );
+					auto it = mbrNames.try_emplace( *instruction->returnTypeId, shaderModule.allocator ).first;
+					it->second.try_emplace( *instruction->resultId, *instruction->name );
 				}
 				break;
 			default:
@@ -302,9 +302,9 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : shaderModule.extensions )
+		for ( auto const & instruction : shaderModule.extensions )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpExtInstImport:
 				break;
@@ -315,9 +315,9 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : shaderModule.capabilities )
+		for ( auto const & instruction : shaderModule.capabilities )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpCapability:
 				break;
@@ -326,9 +326,9 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : shaderModule.executionModes )
+		for ( auto const & instruction : shaderModule.executionModes )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpExecutionMode:
 				break;
@@ -337,9 +337,9 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : shaderModule.executionModes )
+		for ( auto const & instruction : shaderModule.executionModes )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpDecorate:
 				break;
@@ -350,9 +350,9 @@ namespace spirv
 			}
 		}
 
-		for ( auto & instruction : shaderModule.globalDeclarations )
+		for ( auto const & instruction : shaderModule.globalDeclarations )
 		{
-			switch ( instruction->op.op )
+			switch ( instruction->op.getOp() )
 			{
 			case spv::OpTypeVoid:
 			case spv::OpTypeBool:

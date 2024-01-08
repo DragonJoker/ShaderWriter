@@ -117,8 +117,9 @@ namespace spirv
 	{
 		Function( Function const & rhs ) = delete;
 		Function & operator=( Function const & rhs ) = delete;
-		SDWSPIRV_API Function( Function && rhs ) = default;
-		SDWSPIRV_API Function & operator=( Function && rhs ) = default;
+		SDWSPIRV_API Function( Function && rhs )noexcept = default;
+		SDWSPIRV_API Function & operator=( Function && rhs )noexcept = default;
+		SDWSPIRV_API ~Function()noexcept = default;
 
 		SDWSPIRV_API Function( ast::ShaderAllocatorBlock * alloc
 			, DebugId id );
@@ -135,7 +136,7 @@ namespace spirv
 		InstructionList variables;
 		InstructionList debugStart;
 		InstructionList promotedParams;
-		ast::Map< std::string, VariableInfo > registeredVariables;
+		ast::Map< std::string, VariableInfo, std::less<> > registeredVariables;
 	};
 
 	using FunctionList = ast::Vector< Function >;

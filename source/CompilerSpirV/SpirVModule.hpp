@@ -99,14 +99,14 @@ namespace spirv
 		SDWSPIRV_API DebugId mergeSamplerImage( DebugId const & image
 			, DebugId const & sampler
 			, Block & currentBlock );
-		SDWSPIRV_API void decorate( DebugId id
+		SDWSPIRV_API void decorate( DebugId const & id
 			, spv::Decoration decoration );
-		SDWSPIRV_API void decorate( DebugId id
+		SDWSPIRV_API void decorate( DebugId const & id
 			, IdList const & decoration );
-		SDWSPIRV_API void decorateMember( DebugId id
+		SDWSPIRV_API void decorateMember( DebugId const & id
 			, uint32_t index
 			, spv::Decoration decoration );
-		SDWSPIRV_API void decorateMember( DebugId id
+		SDWSPIRV_API void decorateMember( DebugId const & id
 			, uint32_t index
 			, IdList const & decoration );
 		SDWSPIRV_API VariableInfo registerParam( std::string name
@@ -116,7 +116,7 @@ namespace spirv
 			, ast::type::TypePtr type
 			, DebugId exprResultId );
 		SDWSPIRV_API VariableInfo registerVariable( Block & block
-			, std::string name
+			, std::string const & name
 			, ast::Builtin builtin
 			, spv::StorageClass storage
 			, bool isAlias
@@ -124,7 +124,7 @@ namespace spirv
 			, bool isOutParam
 			, ast::type::TypePtr type
 			, VariableInfo & sourceInfo
-			, DebugId initialiser = DebugId{}
+			, DebugId const & initialiser = DebugId{}
 			, glsl::Statement const * debugStatement = {} );
 		SDWSPIRV_API DebugId registerSpecConstant( std::string name
 			, uint32_t location
@@ -160,10 +160,10 @@ namespace spirv
 		SDWSPIRV_API void registerExecutionMode( ast::type::OutputTopology topology
 			, uint32_t maxVertices
 			, uint32_t maxPrimitives );
-		ValueId registerString( std::string const & text );
+		ValueId registerString( std::string text );
 		SDWSPIRV_API spv::Id getIntermediateResult();
-		SDWSPIRV_API void lnkIntermediateResult( DebugId intermediate, DebugId var );
-		SDWSPIRV_API void putIntermediateResult( ValueId id );
+		SDWSPIRV_API void lnkIntermediateResult( DebugId const & intermediate, DebugId const & var );
+		SDWSPIRV_API void putIntermediateResult( ValueId const & id );
 		SDWSPIRV_API ValueId getNonIntermediate( ValueId id );
 
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
@@ -174,39 +174,38 @@ namespace spirv
 			, glsl::Statement const * statement
 			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
-			, std::string name
+			, std::string const & name
 			, spv::StorageClass storage
-			, ast::type::TypePtr type
 			, Block & currentBlock
 			, glsl::Statement const * statement
 			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API void storePromoted( DebugId variable
+		SDWSPIRV_API void storePromoted( DebugId const & variable
 			, VariableInfo const & sourceInfo
 			, Block & currentBlock
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API void storeVariable( DebugId variable
+		SDWSPIRV_API void storeVariable( DebugId const & variable
 			, DebugId value
 			, InstructionList & instructions
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API void storeVariable( DebugId variable
-			, DebugId value
+		SDWSPIRV_API void storeVariable( DebugId const & variable
+			, DebugId const & value
 			, Block & currentBlock
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API DebugId loadVariable( DebugId variable
+		SDWSPIRV_API DebugId loadVariable( DebugId const & variable
 			, InstructionList & instructions
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API DebugId loadVariable( DebugId variable
+		SDWSPIRV_API DebugId loadVariable( DebugId const & variable
 			, Block & currentBlock
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API void bindVariable( DebugId varId
+		SDWSPIRV_API void bindVariable( DebugId const & varId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet );
-		SDWSPIRV_API void bindBufferVariable( DebugId variableId
+		SDWSPIRV_API void bindBufferVariable( DebugId const & variableId
 			, uint32_t bindingPoint
 			, uint32_t descriptorSet
 			, spv::Decoration structDecoration );// BufferBlock for SSBO, Block for UBO
@@ -235,10 +234,9 @@ namespace spirv
 		SDWSPIRV_API ast::type::TypesCache & getTypesCache()const noexcept;
 		SDWSPIRV_API void declareDebugAccessChain( InstructionList & instructions
 			, ast::expr::Expr * expr
-			, ValueIdList accessChainIds
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
-		SDWSPIRV_API ast::type::TypePtr getType( DebugId typeId )const;
+		SDWSPIRV_API ast::type::TypePtr getType( DebugId const & typeId )const;
 
 		template< typename ... ParamsT >
 		DebugId registerLiteral( ParamsT && ... params )
@@ -272,28 +270,28 @@ namespace spirv
 			| ( uint32_t( ( MAIN_VERSION_MINOR & 0x0F ) << 4 ) )
 			| ( uint32_t( ( MAIN_VERSION_BUILD & 0x0F ) << 0 ) ) );
 
-		ast::ShaderAllocatorBlock * allocator;
+		ast::ShaderAllocatorBlock * allocator{};
 		ValueId extGlslStd450{};
 
 		IdList header;
 		InstructionList capabilities;
 		InstructionList extensions;
 		InstructionList imports;
-		InstructionPtr memoryModel;
-		InstructionPtr entryPoint;
+		InstructionPtr memoryModel{};
+		InstructionPtr entryPoint{};
 		InstructionList executionModes;
 		InstructionList decorations;
 		InstructionList constantsTypes;
 		InstructionList globalDeclarations;
 		ModuleStruct structData;
 		FunctionList functions;
-		InstructionList * variables;
+		InstructionList * variables{};
 
 	private:
-		void doReplaceDecoration( DebugId id
+		void doReplaceDecoration( DebugId const & id
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
-		void doReplaceMemberDecoration( DebugId id
+		void doReplaceMemberDecoration( DebugId const & id
 			, uint32_t index
 			, spv::Decoration oldDecoration
 			, spv::Decoration newDecoration );
@@ -302,15 +300,14 @@ namespace spirv
 			, glsl::Statements const & debugStatements );
 		void doInitialiseCapacities();
 		void doAddDebug( std::string const & name
-			, DebugId id );
+			, DebugId const & id );
 		void doAddBuiltin( ast::Builtin builtin
-			, DebugId id );
+			, DebugId const & id );
 		void doAddVariable( Block & block
-			, std::string name
-			, DebugId varId
-			, spv::StorageClass storage
+			, std::string const & name
+			, DebugId const & varId
 			, ast::Map< std::string, VariableInfo >::iterator & it
-			, DebugId initialiser
+			, DebugId const & initialiser
 			, glsl::Statement const * debugStatement = nullptr );
 
 	private:
@@ -320,22 +317,22 @@ namespace spirv
 
 		struct VariableDebugId
 		{
-			ValueId variable;
-			ValueId debug;
+			ValueId variable{};
+			ValueId debug{};
 		};
 
 	private:
-		uint32_t m_version;
-		spv::Id * m_currentId;
+		uint32_t m_version{};
+		spv::Id * m_currentId{};
 		Function * m_currentFunction{ nullptr };
-		ast::Map< std::string, VariableInfo > m_registeredVariables;
-		ast::Map< std::string, VariableInfo > * m_currentScopeVariables;
+		ast::Map< std::string, VariableInfo, std::less<> > m_registeredVariables;
+		ast::Map< std::string, VariableInfo, std::less<> > * m_currentScopeVariables;
 		ast::UnorderedMap< DebugId, TypeId, DebugIdHasher > m_registeredVariablesTypes;
-		ast::Map< std::string, std::pair< DebugId, DebugId > > m_registeredMemberVariables;
+		ast::Map< std::string, std::pair< DebugId, DebugId >, std::less<> > m_registeredMemberVariables;
 		ast::UnorderedSet< spv::Id > m_intermediates;
 		ast::UnorderedSet< spv::Id > m_freeIntermediates;
 		ast::UnorderedMap< spv::Id, ValueId > m_busyIntermediates;
-		spv::ExecutionModel m_model;
+		spv::ExecutionModel m_model{};
 		InstructionList m_pendingExecutionModes;
 		ValueIdSet m_entryPointIO;
 		DecorationMapIdMap varDecorations;

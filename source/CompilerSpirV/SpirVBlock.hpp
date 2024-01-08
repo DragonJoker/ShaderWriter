@@ -15,7 +15,7 @@ namespace spirv
 			, bool pisAlias = false
 			, bool pisParam = false
 			, bool pisOutParam = false )
-			: id{ pid }
+			: id{ std::move( pid ) }
 			, isAlias{ pisAlias }
 			, isParam{ pisParam }
 			, isOutParam{ pisOutParam }
@@ -41,8 +41,10 @@ namespace spirv
 	{
 		Block( Block const & rhs ) = delete;
 		Block & operator=( Block const & rhs ) = delete;
-		SDWSPIRV_API Block( Block && rhs );
-		SDWSPIRV_API Block & operator=( Block && rhs );
+		SDWSPIRV_API Block( Block && rhs )noexcept;
+		SDWSPIRV_API Block & operator=( Block && rhs )noexcept;
+		SDWSPIRV_API ~Block()noexcept = default;
+
 		SDWSPIRV_API explicit Block( ast::ShaderAllocatorBlock * alloc
 			, spv::Id plabel = {} );
 

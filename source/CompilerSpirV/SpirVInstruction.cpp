@@ -68,7 +68,7 @@ namespace spirv
 					packed.push_back( 0u );
 				}
 
-				it = nameCache.emplace( name, packed ).first;
+				it = nameCache.try_emplace( name, packed ).first;
 			}
 
 			return it->second;
@@ -82,7 +82,7 @@ namespace spirv
 			{
 				for ( uint32_t j = 0; j < 4; j++, w >>= 8 )
 				{
-					char c = char( w & 0xff );
+					auto c = char( w & 0xff );
 
 					if ( c == '\0' )
 					{
@@ -644,14 +644,14 @@ namespace spirv
 		static Op makeOp( spv::Op op )
 		{
 			Op result{};
-			result.op = op;
+			result.setOp( op );
 			return result;
 		}
 	}
 
 	//*************************************************************************
 
-	size_t ValueIdHasher::operator()( ValueId const & value )const
+	size_t ValueIdHasher::operator()( ValueId const & value )const noexcept
 	{
 		auto hash = std::hash< spv::Id >{}( value.id );
 		ast::type::hashCombine( hash, value.isPointer() );
@@ -660,7 +660,7 @@ namespace spirv
 
 	//*************************************************************************
 
-	size_t ValueIdListHasher::operator()( ValueIdList const & value )const
+	size_t ValueIdListHasher::operator()( ValueIdList const & value )const noexcept
 	{
 		assert( !value.empty() );
 		auto hash = ValueIdHasher{}( value[0] );
@@ -677,7 +677,7 @@ namespace spirv
 
 	//*************************************************************************
 
-	size_t IdListHasher::operator()( IdList const & list )const
+	size_t IdListHasher::operator()( IdList const & list )const noexcept
 	{
 		assert( !list.empty() );
 		auto hash = std::hash< spv::Id >{}( list[0] );
@@ -694,7 +694,7 @@ namespace spirv
 
 	//*************************************************************************
 
-	size_t DebugIdHasher::operator()( TypeId const & value )const
+	size_t DebugIdHasher::operator()( TypeId const & value )const noexcept
 	{
 		auto hash = std::hash< spv::Id >{}( value.id.id );
 		ast::type::hashCombine( hash, value.id.isPointer() );
@@ -703,7 +703,7 @@ namespace spirv
 
 	//*************************************************************************
 
-	size_t DebugIdListHasher::operator()( TypeIdList const & value )const
+	size_t DebugIdListHasher::operator()( TypeIdList const & value )const noexcept
 	{
 		assert( !value.empty() );
 		auto hash = DebugIdHasher{}( value[0] );
@@ -740,7 +740,7 @@ namespace spirv
 
 		for ( auto & v : in )
 		{
-			result.push_back( { v } );
+			result.emplace_back( v );
 		}
 
 		return result;
@@ -754,6 +754,19 @@ namespace spirv
 		for ( auto & v : in )
 		{
 			result.push_back( v.id );
+		}
+
+		return result;
+	}
+
+	DebugIdList toTypeId( ValueIdList const & in )
+	{
+		DebugIdList result{ in.get_allocator() };
+		result.reserve( in.size() );
+
+		for ( auto & v : in )
+		{
+			result.emplace_back( v.id );
 		}
 
 		return result;
@@ -879,8 +892,7 @@ namespace spirv
 		, Optional< ast::Map< int32_t, spv::Id > > plabels )
 		: returnTypeId{ preturnTypeId ? Optional< spv::Id >{ preturnTypeId->id } : std::nullopt }
 		, resultId{ presultId ? Optional< spv::Id >{ presultId->id } : std::nullopt }
-		, operands{ poperands }
-		, packedName{ nullopt }
+		, operands{ std::move( poperands ) }
 		, config{ pconfig }
 		, name{ std::move( pname ) }
 		, labels{ std::move( plabels ) }
@@ -890,14 +902,13 @@ namespace spirv
 			packedName = insthlp::packString( nameCache, name.value() );
 		}
 
-		op.opData.opCode = uint16_t( pop );
-		op.opData.opCount = uint16_t( 1u
-			+ ( bool( returnTypeId ) ? 1u : 0u )
-			+ ( bool( resultId ) ? 1u : 0u )
-			+ operands.size()
-			+ ( bool( packedName ) ? packedName.value().size() : 0u )
-			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
-
+		op.setOpData( pop
+			, uint16_t( 1u
+				+ ( bool( returnTypeId ) ? 1u : 0u )
+				+ ( bool( resultId ) ? 1u : 0u )
+				+ operands.size()
+				+ ( bool( packedName ) ? packedName.value().size() : 0u )
+				+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
 		assertType( *this, config );
 	}
 
@@ -906,14 +917,14 @@ namespace spirv
 		, spv::Op pop
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
-		, ValueIdList poperands
+		, ValueIdList const & poperands
 		, Optional< std::string > pname
 		, Optional< ast::Map< int32_t, spv::Id > > plabels )
 		: Instruction{ nameCache
 			, pconfig
 			, pop
-			, preturnTypeId
-			, presultId
+			, std::move( preturnTypeId )
+			, std::move( presultId )
 			, convert( poperands )
 			, std::move( pname )
 			, std::move( plabels ) }
@@ -928,8 +939,8 @@ namespace spirv
 		: Instruction{ nameCache
 			, pconfig
 			, pop
-			, preturnTypeId
-			, presultId
+			, std::move( preturnTypeId )
+			, std::move( presultId )
 			, IdList{ nameCache.get_allocator() } }
 	{
 	}
@@ -964,7 +975,7 @@ namespace spirv
 
 		if ( config.operandsCount )
 		{
-			auto count = op.opData.opCount - index;
+			auto count = op.getOpData().opCount - index;
 			assert( config.operandsCount == dynamicOperandCount
 				|| config.operandsCount == count );
 			operands.resize( count );
@@ -976,7 +987,7 @@ namespace spirv
 		}
 		else if ( config.hasLabels )
 		{
-			auto count = ( op.opData.opCount - index ) / 2u;
+			auto count = ( op.getOpData().opCount - index ) / 2u;
 			labels = ast::Map< int32_t, spv::Id >{ alloc };
 
 			for ( auto i = 0u; i < count; ++i )
@@ -1017,7 +1028,7 @@ namespace spirv
 
 		if ( config.operandsCount )
 		{
-			auto count = op.opData.opCount - index;
+			auto count = op.getOpData().opCount - index;
 			operands.resize( count );
 
 			for ( auto & operand : operands )
@@ -1027,7 +1038,7 @@ namespace spirv
 		}
 		else if ( config.hasLabels )
 		{
-			auto count = ( op.opData.opCount - index ) / 2u;
+			auto count = ( op.getOpData().opCount - index ) / 2u;
 			labels = ast::Map< int32_t, spv::Id >{ alloc };
 
 			for ( auto i = 0u; i < count; ++i )
@@ -1044,12 +1055,12 @@ namespace spirv
 		, BufferCIt & buffer )
 		: Instruction{ alloc, pconfig, insthlp::makeOp( pop ), buffer }
 	{
-		op.opData.opCount = uint16_t( 1u
+		op.setOpDataCount( uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
 			+ ( bool( resultId ) ? 1u : 0u )
 			+ this->operands.size()
 			+ ( bool( packedName ) ? packedName.value().size() : 0u )
-			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
+			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
 	}
 
 	Instruction::Instruction( ast::ShaderAllocatorBlock * alloc
@@ -1058,16 +1069,12 @@ namespace spirv
 		, BufferIt & buffer )
 		: Instruction{ alloc, pconfig, insthlp::makeOp( pop ), buffer }
 	{
-		op.opData.opCount = uint16_t( 1u
+		op.setOpDataCount( uint16_t( 1u
 			+ ( bool( returnTypeId ) ? 1u : 0u )
 			+ ( bool( resultId ) ? 1u : 0u )
 			+ operands.size()
 			+ ( bool( packedName ) ? packedName.value().size() : 0u )
-			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) );
-	}
-
-	Instruction::~Instruction()
-	{
+			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
 	}
 
 	void Instruction::serialize( UInt32List & buffer
@@ -1080,7 +1087,7 @@ namespace spirv
 			buffer.push_back( value );
 		};
 
-		pushValue( instruction.op.opValue );
+		pushValue( instruction.op.getOpValue() );
 
 		if ( instruction.returnTypeId )
 		{
@@ -1110,10 +1117,10 @@ namespace spirv
 
 		if ( instruction.labels )
 		{
-			for ( auto & label : instruction.labels.value() )
+			for ( auto & [id, label] : instruction.labels.value() )
 			{
-				pushValue( uint32_t( label.first ) );
-				pushValue( label.second );
+				pushValue( uint32_t( id ) );
+				pushValue( label );
 			}
 		}
 	}
@@ -1122,9 +1129,9 @@ namespace spirv
 		, BufferCIt & buffer )
 	{
 		spirv::Op op;
-		op.opValue = buffer.popValue();
-		assert( op.opData.opCode != spv::OpNop );
-		auto & config = insthlp::getConfig( spv::Op( op.opData.opCode ) );
+		op.setOpValue( buffer.popValue() );
+		assert( op.getOpData().opCode != spv::OpNop);
+		auto & config = insthlp::getConfig( spv::Op( op.getOpData().opCode ) );
 		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
 
@@ -1132,9 +1139,9 @@ namespace spirv
 		, BufferIt & buffer )
 	{
 		spirv::Op op;
-		op.opValue = buffer.popValue();
-		assert( op.opData.opCode != spv::OpNop );
-		auto & config = insthlp::getConfig( spv::Op( op.opData.opCode ) );
+		op.setOpValue( buffer.popValue() );
+		assert( op.getOpData().opCode != spv::OpNop );
+		auto & config = insthlp::getConfig( spv::Op( op.getOpData().opCode ) );
 		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
 

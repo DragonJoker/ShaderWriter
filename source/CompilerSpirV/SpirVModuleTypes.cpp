@@ -142,7 +142,7 @@ namespace spirv
 
 		static void writeArrayStride( Module & shaderModule
 			, ast::type::TypePtr elementType
-			, TypeId typeId
+			, TypeId const & typeId
 			, uint32_t arrayStride )
 		{
 			auto kind = getNonArrayKind( elementType );
@@ -210,7 +210,7 @@ namespace spirv
 
 	TypeId ModuleTypes::registerType( ast::type::TypePtr type
 		, uint32_t mbrIndex
-		, TypeId parentId
+		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
 	{
 		return doRegisterTypeRec( type
@@ -241,7 +241,7 @@ namespace spirv
 				, convert( funcTypes ) ) );
 			m_nonSemanticDebug.registerFunctionType( funcTypes, resultId );
 
-			it = m_registeredFunctionTypes.emplace( funcTypes, resultId ).first;
+			it = m_registeredFunctionTypes.try_emplace( funcTypes, resultId ).first;
 		}
 		else
 		{
@@ -258,7 +258,7 @@ namespace spirv
 		uint64_t key = ( uint64_t( type.id.id ) << 33 )
 			| ( ( uint64_t( type.isPointer() ) << 32 ) & 0x01 )
 			| ( uint64_t( storage ) << 1 )
-			| ( isForward & 0x01 );
+			| ( isForward ? 0x01 : 0x00 );
 		auto it = m_registeredPointerTypes.find( key );
 
 		if ( it == m_registeredPointerTypes.end() )
@@ -266,7 +266,7 @@ namespace spirv
 			TypeId id{ m_module.getNextId()
 				, getTypesCache().getPointerType( type->type, convert( storage ) ) };
 			id.debug = type.debug;
-			it = m_registeredPointerTypes.emplace( key, id ).first;
+			it = m_registeredPointerTypes.try_emplace( key, id ).first;
 
 			if ( isForward )
 			{
@@ -280,7 +280,7 @@ namespace spirv
 				key = ( uint64_t( type.id.id ) << 33 )
 					| ( ( uint64_t( type.isPointer() ) << 32 ) & 0x01 )
 					| ( uint64_t( storage ) << 1 );
-				m_registeredPointerTypes.emplace( key, id );
+				m_registeredPointerTypes.try_emplace( key, id );
 			}
 			else
 			{
@@ -300,12 +300,10 @@ namespace spirv
 	{
 		auto & imgType = static_cast< ast::type::Image const & >( *getNonArrayType( image->type ) );
 		auto & splType = static_cast< ast::type::Sampler const & >( *getNonArrayType( sampler->type ) );
-		auto lhsIt = m_registeredSamplerImages.emplace( image
-			, ast::UnorderedMap< DebugId, DebugId, DebugIdHasher >{ m_allocator } ).first;
-		auto ires = lhsIt->second.emplace( sampler, DebugId{} );
-		auto it = ires.first;
+		auto lhsIt = m_registeredSamplerImages.try_emplace( image, m_allocator ).first;
+		auto [it, res] = lhsIt->second.try_emplace(sampler);
 
-		if ( ires.second )
+		if ( res )
 		{
 			auto typeId = registerType( getTypesCache().getCombinedImage( imgType.getConfig()
 				, splType.isComparison() )
@@ -321,15 +319,15 @@ namespace spirv
 		return it->second;
 	}
 
-	ast::type::TypePtr ModuleTypes::getType( DebugId typeId )const
+	ast::type::TypePtr ModuleTypes::getType( DebugId const & typeId )const
 	{
-		auto rit = std::find_if( m_registeredTypes.begin()
+		if ( auto rit = std::find_if( m_registeredTypes.begin()
 			, m_registeredTypes.end()
-			, [typeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+			, [&typeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
 			{
 				return lookup.second.id.id == typeId.id.id;
 			} );
-		if ( rit != m_registeredTypes.end() )
+			rit != m_registeredTypes.end() )
 		{
 			return rit->first;
 		}
@@ -339,7 +337,7 @@ namespace spirv
 
 	void ModuleTypes::deserialize( spv::Op opCode
 		, Instruction const & instruction
-		, NameCache & names )
+		, NameCache const & names )
 	{
 		switch ( opCode )
 		{
@@ -439,9 +437,9 @@ namespace spirv
 				}
 
 				auto kind = cit->first->getKind();
-				auto count = instruction.operands[1];
 
-				if ( count == 2u )
+				if ( auto count = instruction.operands[1];
+					count == 2u )
 				{
 					kind = m_typesCache->getVec2Kind( kind );
 				}
@@ -477,9 +475,9 @@ namespace spirv
 				}
 
 				auto kind = cit->first->getKind();
-				auto count = instruction.operands[1];
 
-				if ( count == 2u )
+				if ( auto count = instruction.operands[1];
+					count == 2u )
 				{
 					kind = m_typesCache->getMat2Kind( kind );
 				}
@@ -602,7 +600,7 @@ namespace spirv
 					| ( ( uint64_t( cit->second.isPointer() ) << 32 ) & 0x01 )
 					| ( uint64_t( storage ) << 1 );
 				auto type = m_typesCache->getPointerType( cit->first, convert( storage ) );
-				m_registeredPointerTypes.emplace( key, TypeId{ *instruction.resultId, type } );
+				m_registeredPointerTypes.try_emplace( key, *instruction.resultId, type );
 			}
 			break;
 		case spv::OpTypeStruct:
@@ -698,7 +696,7 @@ namespace spirv
 
 				auto type = m_typesCache->getFunction( returnType, std::move( params ) );
 				auto resultId = doRegisterBaseType( funcId, type );
-				m_registeredFunctionTypes.emplace( std::move( types ), resultId );
+				m_registeredFunctionTypes.try_emplace( std::move( types ), resultId );
 			}
 			break;
 		default:
@@ -708,19 +706,18 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterNonArrayType( ast::type::TypePtr type
 		, uint32_t mbrIndex
-		, TypeId parentId
+		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
 	{
 		TypeId result;
 		auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
-		auto it = m_registeredTypes.find( unqualifiedType );
 
-		if ( it == m_registeredTypes.end() )
+		if ( auto it = m_registeredTypes.find( unqualifiedType );
+			it == m_registeredTypes.end() )
 		{
 			result = doRegisterBaseType( unqualifiedType
 				, mbrIndex
 				, parentId
-				, 0u
 				, debugStatement );
 		}
 		else
@@ -733,7 +730,7 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterTypeRec( ast::type::TypePtr type
 		, uint32_t mbrIndex
-		, TypeId parentId
+		, TypeId const & parentId
 		, uint32_t arrayStride
 		, glsl::Statement const * debugStatement )
 	{
@@ -753,10 +750,10 @@ namespace spirv
 			if ( it == m_registeredTypes.end() )
 			{
 				result.id.id = m_module.getNextId();
-				auto & resultId = m_registeredTypes.emplace( unqualifiedType, result ).first->second;
-				auto arraySize = getArraySize( type );
-
-				if ( arraySize != ast::type::UnknownArraySize )
+				auto & resultId = m_registeredTypes.try_emplace( unqualifiedType, result ).first->second;
+				
+				if ( auto arraySize = getArraySize( type );
+					arraySize != ast::type::UnknownArraySize )
 				{
 					auto lengthId = m_module.registerLiteral( arraySize );
 					m_declarations.push_back( makeInstruction< ArrayTypeInstruction >( m_module.getNameCache()
@@ -973,7 +970,7 @@ namespace spirv
 	{
 		TypeId result{ 0u, type };
 		result.id.id = id;
-		return m_registeredTypes.emplace( type, result ).first->second;
+		return m_registeredTypes.try_emplace( type, result ).first->second;
 	}
 
 	TypeId & ModuleTypes::doRegisterBaseType( spv::Id id
@@ -983,9 +980,6 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::Kind kind
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, uint32_t arrayStride
 		, glsl::Statement const * debugStatement )
 	{
 		assert( kind != ast::type::Kind::eStruct );
@@ -1031,9 +1025,7 @@ namespace spirv
 		return resultId;
 	}
 
-	TypeId ModuleTypes::doRegisterBaseType( ast::type::SamplerPtr type
-		, uint32_t mbrIndex
-		, TypeId parentId )
+	TypeId ModuleTypes::doRegisterBaseType( ast::type::SamplerPtr type )
 	{
 		auto & resultId = doRegisterBaseType( m_module.getNextId(), type );
 		m_declarations.push_back( makeInstruction< SamplerTypeInstruction >( m_module.getNameCache()
@@ -1042,9 +1034,7 @@ namespace spirv
 		return resultId;
 	}
 
-	TypeId ModuleTypes::doRegisterBaseType( ast::type::CombinedImagePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId )
+	TypeId ModuleTypes::doRegisterBaseType( ast::type::CombinedImagePtr type )
 	{
 		auto & resultId = doRegisterBaseType( m_module.getNextId(), type );
 		auto imgTypeId = doRegisterBaseType( type->getImageType()
@@ -1060,13 +1050,12 @@ namespace spirv
 		, ast::type::ImagePtr type
 		, ast::type::Trinary isComparison )
 	{
-		auto ires = m_registeredImageTypes.emplace( modtyp::myHash( type->getConfig(), isComparison ), TypeId{} );
-		auto it = ires.first;
+		auto [it, res] = m_registeredImageTypes.try_emplace( modtyp::myHash( type->getConfig(), isComparison ) );
 
-		if ( ires.second )
+		if ( res )
 		{
 			it->second = TypeId{ id, type };
-			auto & resultId = m_registeredTypes.emplace( type, it->second ).first->second;
+			auto const & resultId = m_registeredTypes.try_emplace( type, it->second ).first->second;
 			it->second = resultId;
 		}
 	}
@@ -1074,10 +1063,9 @@ namespace spirv
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::ImagePtr type
 		, ast::type::Trinary isComparison )
 	{
-		auto ires = m_registeredImageTypes.emplace( modtyp::myHash( type->getConfig(), isComparison ), TypeId{} );
-		auto it = ires.first;
+		auto [it, res] = m_registeredImageTypes.try_emplace(modtyp::myHash(type->getConfig(), isComparison));
 
-		if ( ires.second )
+		if ( res )
 		{
 			// The Sampled Type.
 			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), nullptr );
@@ -1088,7 +1076,7 @@ namespace spirv
 				, isComparison
 				, it->second.id
 				, sampledTypeId.id ) );
-			auto & resultId = m_registeredTypes.emplace( type, it->second ).first->second;
+			auto & resultId = m_registeredTypes.try_emplace( type, it->second ).first->second;
 			m_nonSemanticDebug.registerImageType( std::move( type ), resultId );
 			it->second = resultId;
 		}
@@ -1096,37 +1084,30 @@ namespace spirv
 		return it->second;
 	}
 
-	TypeId ModuleTypes::doRegisterBaseType( ast::type::ImagePtr type
-		, uint32_t mbrIndex
-		, TypeId parent )
+	TypeId ModuleTypes::doRegisterBaseType( ast::type::ImagePtr type )
 	{
 		return doRegisterBaseType( type, ast::type::Trinary::eFalse );
 	}
 
-	TypeId ModuleTypes::doRegisterBaseType( ast::type::SampledImagePtr type
-		, uint32_t mbrIndex
-		, TypeId parent )
+	TypeId ModuleTypes::doRegisterBaseType( ast::type::SampledImagePtr type )
 	{
 		return doRegisterBaseType( type->getImageType(), type->getDepth() );
 	}
 
-	TypeId ModuleTypes::doRegisterBaseType( ast::type::AccelerationStructurePtr type
-		, uint32_t mbrIndex
-		, TypeId parentId
-		, glsl::Statement const * debugStatement )
+	TypeId ModuleTypes::doRegisterBaseType( ast::type::AccelerationStructurePtr type )
 	{
 		TypeId result{ 0u, type };
 		result.id.id = m_module.getNextId();
 		m_declarations.push_back( makeAccelerationStructureTypeInstruction( m_module.getNameCache()
 			, result.id ) );
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
-		m_nonSemanticDebug.registerAccelerationStructureType( std::move( type ), resultId );
+		auto & resultId = m_registeredTypes.try_emplace( type, result ).first->second;
+		m_nonSemanticDebug.registerAccelerationStructureType( resultId );
 		return resultId;
 	}
 
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::StructPtr type
 		, uint32_t
-		, TypeId
+		, TypeId const &
 		, glsl::Statement const * debugStatement )
 	{
 		TypeId result{ 0u, type };
@@ -1173,9 +1154,9 @@ namespace spirv
 			}
 
 			auto kind = getNonArrayKind( member.type );
-			auto arraySize = getArraySize( member.type );
 
-			if ( arraySize == ast::type::UnknownArraySize )
+			if ( auto arraySize = getArraySize( member.type );
+				arraySize == ast::type::UnknownArraySize )
 			{
 				hasDynarray = true;
 			}
@@ -1184,10 +1165,10 @@ namespace spirv
 			{
 				auto colKind = getComponentType( kind );
 				auto colType = m_typesCache->getBasicType( colKind );
-				auto rowCount = getComponentCount( colType );
 
-				if ( rowCount == 3
-					|| ( rowCount == 2 && type->getMemoryLayout() == ast::type::MemoryLayout::eStd140 ) )
+				if ( auto rowCount = getComponentCount( colType );
+					rowCount == 3
+						|| ( rowCount == 2 && type->getMemoryLayout() == ast::type::MemoryLayout::eStd140 ) )
 				{
 					colType = m_typesCache->getVector( getComponentType( colKind ), 4u );
 				}
@@ -1208,7 +1189,7 @@ namespace spirv
 			m_module.decorate( result, spv::DecorationBlock );
 		}
 
-		auto & resultId = m_registeredTypes.emplace( type, result ).first->second;
+		auto & resultId = m_registeredTypes.try_emplace( type, result ).first->second;
 		m_nonSemanticDebug.registerStructType( std::move( type )
 			, debugSubTypes
 			, debugStatement
@@ -1218,8 +1199,7 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::TypePtr type
 		, uint32_t mbrIndex
-		, TypeId parentId
-		, uint32_t arrayStride
+		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
 	{
 		TypeId result{ 0u, type };
@@ -1229,38 +1209,26 @@ namespace spirv
 			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 		}
 
-		auto kind = type->getRawKind();
-
-		if ( kind == ast::type::Kind::eSampler )
+		if ( auto kind = type->getRawKind();
+			kind == ast::type::Kind::eSampler )
 		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Sampler >( type )
-				, mbrIndex
-				, parentId );
+			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Sampler >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eCombinedImage )
 		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::CombinedImage >( type )
-				, mbrIndex
-				, parentId );
+			result = doRegisterBaseType( std::static_pointer_cast< ast::type::CombinedImage >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eImage )
 		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Image >( type )
-				, mbrIndex
-				, parentId );
+			result = doRegisterBaseType( std::static_pointer_cast< ast::type::Image >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eSampledImage )
 		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::SampledImage >( type )
-				, mbrIndex
-				, parentId );
+			result = doRegisterBaseType( std::static_pointer_cast< ast::type::SampledImage >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eAccelerationStructure )
 		{
-			result = doRegisterBaseType( std::static_pointer_cast< ast::type::AccelerationStructure >( type )
-				, mbrIndex
-				, parentId
-				, debugStatement );
+			result = doRegisterBaseType( std::static_pointer_cast< ast::type::AccelerationStructure >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eStruct
 			|| kind == ast::type::Kind::eRayDesc )
@@ -1273,9 +1241,6 @@ namespace spirv
 		else
 		{
 			result = doRegisterBaseType( kind
-				, mbrIndex
-				, parentId
-				, arrayStride
 				, debugStatement );
 		}
 
@@ -1283,18 +1248,18 @@ namespace spirv
 	}
 
 	bool ModuleTypes::doAddMbrBuiltin( ast::Builtin pbuiltin
-		, DebugId outer
+		, DebugId const & outer
 		, uint32_t mbrIndex )
 	{
 		bool result = false;
 		ast::Vector< spv::Decoration > additionalDecorations{ m_allocator };
-		auto builtin = getBuiltin( pbuiltin, m_module.getExecutionModel(), additionalDecorations );
 
-		if ( builtin != spv::BuiltInMax )
+		if ( auto builtin = getBuiltin( pbuiltin, m_module.getExecutionModel(), additionalDecorations );
+			builtin != spv::BuiltInMax )
 		{
 			m_module.decorateMember( outer, mbrIndex, makeIdList( m_allocator, spv::Id( spv::DecorationBuiltIn ), spv::Id( builtin ) ) );
 
-			for ( auto & decoration : additionalDecorations )
+			for ( auto const & decoration : additionalDecorations )
 			{
 				m_module.decorateMember( outer, mbrIndex, decoration );
 			}

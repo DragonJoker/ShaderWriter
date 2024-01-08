@@ -7,7 +7,7 @@ namespace spirv
 {
 	Function::Function( ast::ShaderAllocatorBlock * alloc
 		, DebugId pid )
-		: id{ pid }
+		: id{ std::move( pid ) }
 		, declaration{ ast::StlAllocatorT< InstructionPtr >{ alloc } }
 		, cfg{ alloc }
 		, variables{ ast::StlAllocatorT< InstructionPtr >{ alloc } }
@@ -40,11 +40,11 @@ namespace spirv
 		{
 			auto instruction = popValue();
 
-			if ( isDeclarationInstruction( spv::Op( instruction->op.opData.opCode ) ) )
+			if ( isDeclarationInstruction( spv::Op( instruction->op.getOpData().opCode ) ) )
 			{
 				result.declaration.emplace_back( std::move( instruction ) );
 			}
-			else if ( instruction->op.opData.opCode == spv::OpFunctionEnd )
+			else if ( instruction->op.getOpData().opCode == spv::OpFunctionEnd )
 			{
 				result.cfg.blocks.back().instructions.push_back( std::move( result.cfg.blocks.back().blockEnd ) );
 				result.cfg.blocks.back().blockEnd = std::move( instruction );
