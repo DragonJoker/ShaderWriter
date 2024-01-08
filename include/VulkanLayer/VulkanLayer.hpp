@@ -193,7 +193,7 @@ namespace ast::vk
 		}
 
 		inline bool operator()( VkSpecializationInfoOpt const & lhs
-			, VkSpecializationInfoOpt const & rhs )
+			, VkSpecializationInfoOpt const & rhs )const
 		{
 			return ( lhs.has_value()
 				? ( rhs.has_value()
