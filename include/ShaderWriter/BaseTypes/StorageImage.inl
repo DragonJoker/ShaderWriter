@@ -1551,7 +1551,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1587,7 +1587,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1623,7 +1623,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1661,7 +1661,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1714,7 +1714,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1753,7 +1753,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1799,7 +1799,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1835,7 +1835,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1872,7 +1872,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1909,7 +1909,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1948,7 +1948,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -1989,7 +1989,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2036,7 +2036,7 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: StorageImage{ FormatT, writer, std::move( expr ), enabled }
+				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
 

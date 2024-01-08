@@ -383,8 +383,8 @@ namespace ast
 	{
 		auto & block = m_blocks.back();
 #if !defined( NDEBUG )
-		auto ires = block.registered.emplace( var );
-		assert( ires.second );
+		auto [_, reg] = block.registered.emplace( var );
+		assert( reg );
 #else
 		block.registered.emplace( var );
 #endif

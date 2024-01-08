@@ -249,36 +249,37 @@ namespace ast::vk
 			return createShaderSource( vkVersion
 				, spvVersion
 				, shader
-				, { shader.getType(), "main" } );
+				, EntryPointConfig{ shader.getType(), "main" } );
 		}
+
 		SpecializationInfoOpt createSpecializationInfo( Shader const & shader )
 		{
 			return createSpecializationInfo( shader
-				, { shader.getType(), "main" } );
+				, EntryPointConfig{ shader.getType(), "main" } );
 		}
 
 		PipelineShaderStageCreateInfo createShaderStage( Shader const & shader )
 		{
 			return createShaderStage( shader
-				, { shader.getType(), "main" } );
+				, EntryPointConfig{ shader.getType(), "main" } );
 		}
 
 		ShaderDataPtr createShaderData( Shader const & shader )
 		{
 			return createShaderData( shader
-				, { shader.getType(), "main" } );
+				, EntryPointConfig{ shader.getType(), "main" } );
 		}
 
 		ShaderModuleCreateInfo createShaderModule( Shader const & shader )
 		{
 			return createShaderModule( shader
-				, { shader.getType(), "main" } );
+				, EntryPointConfig{ shader.getType(), "main" } );
 		}
 
 		std::vector< VkPushConstantRange > createPushConstantRanges( Shader const & shader )
 		{
 			return createPushConstantRanges( shader
-				, { shader.getType(), "main" } );
+				, EntryPointConfig{ shader.getType(), "main" } );
 		}
 
 		std::vector< uint32_t > createShaderSource( uint32_t vkVersion
@@ -494,7 +495,7 @@ namespace ast::vk
 
 			while ( begin != end )
 			{
-				sorted.push_back( &( *begin ) );
+				sorted.push_back( std::to_address( begin ) );
 				++begin;
 			}
 

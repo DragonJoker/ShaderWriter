@@ -282,13 +282,13 @@ namespace glsl
 				{
 					ast::type::Scope memory;
 					ast::type::MemorySemantics semantics;
-					bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
 
-					if ( isControlBarrier )
+					if ( bool isControlBarrier = ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier );
+						isControlBarrier )
 					{
 						if ( expr->getArgList().size() < 3u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a control barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
@@ -298,7 +298,7 @@ namespace glsl
 					{
 						if ( expr->getArgList().size() < 2u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
@@ -937,9 +937,9 @@ namespace glsl
 		if ( intrinsicsConfig.requiresSeparateSamplers )
 		{
 			if ( ( !writerConfig.vulkanGlsl )
-				|| writerConfig.availableExtensions.end() == writerConfig.availableExtensions.find( KHR_vulkan_glsl ) )
+				|| !writerConfig.availableExtensions.contains( KHR_vulkan_glsl ) )
 			{
-				throw std::runtime_error{ "Separate Samplers are only supported with extension [" + KHR_vulkan_glsl.name + "] which is not available" };
+				throw ast::Exception{ "Separate Samplers are only supported with extension [" + KHR_vulkan_glsl.name + "] which is not available" };
 			}
 
 			writerConfig.requiredExtensions.insert( EXT_separate_samplers );
@@ -972,10 +972,10 @@ namespace glsl
 
 		if ( intrinsicsConfig.requiresBlendIndex
 			&& ( writerConfig.wantedVersion < v4_3
-				|| ( writerConfig.availableExtensions.end() == writerConfig.availableExtensions.find( ARB_explicit_attrib_location )
-					&& writerConfig.availableExtensions.end() == writerConfig.availableExtensions.find( ARB_separate_shader_objects ) ) ) )
+				|| ( !writerConfig.availableExtensions.contains( ARB_explicit_attrib_location )
+					&& !writerConfig.availableExtensions.contains( ARB_separate_shader_objects ) ) ) )
 		{
-			throw std::runtime_error{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
+			throw ast::Exception{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
 				+ ") doesn't support blend index attributes (required version: " + writeValue( v4_3 ) +
 				+" or extension [" + ARB_explicit_attrib_location.name + "])" };
 		}
@@ -994,55 +994,55 @@ namespace glsl
 
 		if ( intrinsicsConfig.requiresInt8 )
 		{
-			if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( NV_gpu_shader5 ) )
+			if ( writerConfig.availableExtensions.contains( NV_gpu_shader5 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
 			}
-			else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( EXT_shader_explicit_arithmetic_types_int8 ) )
+			else if ( writerConfig.availableExtensions.contains( EXT_shader_explicit_arithmetic_types_int8 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int8 );
 			}
 			else
 			{
-				throw std::runtime_error{ "int8_t and uint8_t need either of [" + EXT_shader_explicit_arithmetic_types_int8.name
+				throw ast::Exception{ "int8_t and uint8_t need either of [" + EXT_shader_explicit_arithmetic_types_int8.name
 					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
 		}
 
 		if ( intrinsicsConfig.requiresInt16 )
 		{
-			if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( NV_gpu_shader5 ) )
+			if ( writerConfig.availableExtensions.contains( NV_gpu_shader5 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
 			}
-			else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( EXT_shader_explicit_arithmetic_types_int16 ) )
+			else if ( writerConfig.availableExtensions.contains( EXT_shader_explicit_arithmetic_types_int16 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int16 );
 			}
 			else
 			{
-				throw std::runtime_error{ "int16_t and uint16_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
+				throw ast::Exception{ "int16_t and uint16_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
 					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
 		}
 
 		if ( intrinsicsConfig.requiresInt64 )
 		{
-			if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( ARB_gpu_shader_int64 ) )
+			if ( writerConfig.availableExtensions.contains( ARB_gpu_shader_int64 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( ARB_gpu_shader_int64 );
 			}
-			else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( NV_gpu_shader5 ) )
+			else if ( writerConfig.availableExtensions.contains( NV_gpu_shader5 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
 			}
-			else if ( writerConfig.availableExtensions.end() != writerConfig.availableExtensions.find( EXT_shader_explicit_arithmetic_types_int64 ) )
+			else if ( writerConfig.availableExtensions.contains( EXT_shader_explicit_arithmetic_types_int64 ) )
 			{
 				intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
 			}
 			else
 			{
-				throw std::runtime_error{ "int64_t and uint64_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
+				throw ast::Exception{ "int64_t and uint64_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
 					+ "] or [" + ARB_gpu_shader_int64.name + "]"
 					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
@@ -1052,7 +1052,7 @@ namespace glsl
 		{
 			if ( extension.reqVersion > writerConfig.wantedVersion )
 			{
-				throw std::runtime_error{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
+				throw ast::Exception{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
 					+ ") doesn't support extension [" + extension.name
 					+ "] (required version: " + writeValue( extension.reqVersion ) + ")" };
 			}

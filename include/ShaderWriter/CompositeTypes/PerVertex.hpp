@@ -16,8 +16,7 @@ namespace sdw
 {
 	struct PerVertex
 	{
-		SDW_API PerVertex( StructInstance const & instance
-			, ast::var::Flag flag );
+		SDW_API explicit PerVertex( StructInstance const & instance );
 
 		Vec4 position;
 		Float pointSize;

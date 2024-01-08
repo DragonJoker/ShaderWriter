@@ -417,14 +417,21 @@ namespace ast
 
 				struct OutputParam
 				{
+					OutputParam( ast::expr::ExprPtr pparam
+						, ast::var::VariablePtr palias )
+						: param{ std::move( pparam ) }
+						, alias{ std::move( palias ) }
+					{
+					}
+
 					ast::expr::ExprPtr param{};
 					ast::var::VariablePtr alias;
 				};
 				std::vector< OutputParam > outputParams;
 				auto funcVar = expr->getFn()->getVariable();
-				auto varIt = m_funcVarReplacements.find( funcVar->getId() );
 
-				if ( varIt != m_funcVarReplacements.end() )
+				if ( auto varIt = m_funcVarReplacements.find( funcVar->getId() );
+					varIt != m_funcVarReplacements.end() )
 				{
 					funcVar = varIt->second;
 				}
@@ -449,9 +456,8 @@ namespace ast
 
 							if ( doMakeAlias( std::move( newExpr ), true, aliasExpr, alias ) )
 							{
-								auto argIdent = findIdentifier( arg, kind, ast::var::Flag::eUniform );
-
-								if ( argIdent )
+								if ( auto argIdent = findIdentifier( arg, kind, ast::var::Flag::eUniform );
+									argIdent )
 								{
 									// For samplers and imges, the eUniform flag from the function parameter must be removed,
 									// since the alias can't have it.
@@ -464,7 +470,7 @@ namespace ast
 							if ( param->isOutputParam()
 								&& alias )
 							{
-								outputParams.push_back( { doSubmit( arg ), alias } );
+								outputParams.emplace_back( doSubmit( arg ), alias );
 							}
 						}
 						else
@@ -483,7 +489,7 @@ namespace ast
 						if ( param->isOutputParam()
 							&& alias )
 						{
-							outputParams.push_back( { doSubmit( arg ), alias } );
+							outputParams.emplace_back( doSubmit( arg ), alias );
 						}
 					}
 				}
@@ -688,9 +694,11 @@ namespace ast
 			{
 				TraceFunc;
 				auto kind = getNonArrayKind( type );
-				auto result = var::makeVariable( ++m_data.nextVarId
+				++m_data.nextVarId;
+				++m_data.aliasId;
+				auto result = var::makeVariable( m_data.nextVarId
 					, type
-					, "tmp_" + std::to_string( ++m_data.aliasId )
+					, "tmp_" + std::to_string( m_data.aliasId )
 					, ( var::Flag::eImplicit
 						| var::Flag::eLocale
 						| flags ) );
@@ -739,10 +747,8 @@ namespace ast
 					return false;
 				}
 
-				auto kind = getNonArrayKind( expr->getType() );
-
 				if ( !force
-					&& ( isOpaqueType( kind )
+					&& ( isOpaqueType( getNonArrayKind( expr->getType() ) )
 						|| !helpers::needsAlias( expr->getKind()
 							, helpers::isShaderVariable( *expr )
 							, param ) ) )
@@ -777,7 +783,7 @@ namespace ast
 			}
 
 			template< typename ExprT >
-			void doProcessAssignBinExprT( expr::Binary * expr )
+			void doProcessAssignBinExprT( expr::Binary const * expr )
 			{
 				TraceFunc;
 				expr::ExprPtr aliasExpr{};
@@ -797,7 +803,7 @@ namespace ast
 			}
 
 			template< typename ExprT >
-			void doProcessAssignUnExprT( expr::Binary * expr )
+			void doProcessAssignUnExprT( expr::Binary const * expr )
 			{
 				TraceFunc;
 				expr::ExprPtr aliasExpr{};
@@ -816,7 +822,7 @@ namespace ast
 			}
 
 			template< typename ExprT >
-			void doProcessBinExprT( expr::Binary * expr )
+			void doProcessBinExprT( expr::Binary const * expr )
 			{
 				TraceFunc;
 				m_result = m_exprCache.makeExpr< ExprT >( expr->getType()
@@ -825,7 +831,7 @@ namespace ast
 			}
 
 			template< typename ExprT >
-			void doProcessUnExprT( expr::Unary * expr )
+			void doProcessUnExprT( expr::Unary const * expr )
 			{
 				TraceFunc;
 				m_result = m_exprCache.makeExpr< ExprT >( expr->getType()
@@ -833,7 +839,7 @@ namespace ast
 			}
 
 			template< typename ExprT >
-			void doProcessPrePostIncDecExprT( expr::Unary * expr
+			void doProcessPrePostIncDecExprT( expr::Unary const * expr
 				, bool isPre )
 			{
 				TraceFunc;
@@ -945,7 +951,8 @@ namespace ast
 					}
 
 					expr::ExprList args;
-					var::VariablePtr lhsAlias, rhsAlias;
+					var::VariablePtr lhsAlias;
+					var::VariablePtr rhsAlias;
 					doMakeAlias( std::move( lhsExpr ), false, lhsExpr, lhsAlias );
 					doMakeAlias( std::move( rhsExpr ), false, rhsExpr, rhsAlias );
 
@@ -1281,7 +1288,8 @@ namespace ast
 				if ( stmt->isEntryPoint() )
 				{
 					if ( stmt->getType()->size() < 2u
-						&& ( m_outputGeometryLayoutStmt || m_inputGeometryLayoutStmt ) )
+						&& m_outputGeometryLayoutStmt
+						&& m_inputGeometryLayoutStmt )
 					{
 						auto funcVar = stmt->getFuncVar();
 						auto funcType = stmt->getType();
@@ -1306,7 +1314,7 @@ namespace ast
 							, funcType
 							, stmt->getName()
 							, funcVar->getFlags() );
-						m_funcVarReplacements.emplace( funcVar->getId(), funcVar );
+						m_funcVarReplacements.try_emplace( funcVar->getId(), funcVar );
 						auto cont = m_stmtCache.makeFunctionDecl( std::move( funcVar )
 							, stmt->getFlags() );
 						m_current = cont.get();

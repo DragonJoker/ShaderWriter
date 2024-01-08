@@ -368,7 +368,7 @@ namespace glsl
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported StorageImageAccess type." };
+			throw ast::Exception{ "Unsupported StorageImageAccess type." };
 		}
 
 		return result;

@@ -5,8 +5,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	StorageImage::StorageImage( ast::type::ImageFormat format
-		, ShaderWriter & writer
+	StorageImage::StorageImage( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }

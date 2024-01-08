@@ -447,7 +447,7 @@ namespace glsl
 	{
 		ast::type::traverseType( ptype, 1u
 			, [&config]( ast::type::TypePtr type
-				, uint32_t arraySize )
+				, [[maybe_unused]] uint32_t arraySize )
 			{
 				switch ( type->getRawKind() )
 				{

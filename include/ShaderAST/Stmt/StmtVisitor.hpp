@@ -60,9 +60,7 @@ namespace ast::stmt
 	class Visitor
 	{
 	protected:
-		SDAST_API Visitor()
-		{
-		}
+		SDAST_API Visitor()noexcept = default;
 
 	public:
 		SDAST_API virtual ~Visitor()noexcept = default;

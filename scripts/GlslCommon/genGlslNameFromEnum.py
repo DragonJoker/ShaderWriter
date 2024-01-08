@@ -98,7 +98,7 @@ def printValue( outs, enumName, match, prvGlslName, accumEnumValues ):
 
 def printFooter( outs, enumName ):
 	outs.write( "\t\tdefault:\n" )
-	outs.write( '\t\t\tthrow std::runtime_error{ "Unsupported ' + enumName + ' type." };\n' )
+	outs.write( '\t\t\tthrow ast::Exception{ "Unsupported ' + enumName + ' type." };\n' )
 	outs.write( "\t\t}\n" )
 	outs.write( "\n" )
 	outs.write( "\t\treturn result;\n" )

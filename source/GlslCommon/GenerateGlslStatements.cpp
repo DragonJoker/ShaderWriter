@@ -32,9 +32,9 @@ namespace glsl
 
 		namespace helpers
 		{
-			static uint32_t constexpr InvalidIndex = ~( 0u );
+			static uint32_t constexpr InvalidIndex = ~0u;
 
-			static bool isContainer( ast::stmt::Stmt * stmt )
+			static bool isContainer( ast::stmt::Stmt const * stmt )
 			{
 				switch ( stmt->getKind() )
 				{
@@ -100,7 +100,7 @@ namespace glsl
 			{
 				if ( writerConfig.vulkanGlsl )
 				{
-					static std::map< std::string, std::string > const toVkNames
+					static std::map< std::string, std::string, std::less<> > const toVkNames
 					{
 						{ "gl_InstanceID", "gl_InstanceIndex" },
 						{ "gl_VertexID", "gl_VertexIndex" },
@@ -130,7 +130,7 @@ namespace glsl
 				}
 				else
 				{
-					static std::map< std::string, std::string > const toGlNames
+					static std::map< std::string, std::string, std::less<> > const toGlNames
 					{
 						{ "gl_InstanceIndex", "gl_InstanceID" },
 						{ "gl_VertexIndex", "gl_VertexID" },
@@ -358,9 +358,9 @@ namespace glsl
 			static std::string getTypeArraySize( ast::type::ArrayPtr type )
 			{
 				std::string result;
-				auto arraySize = getArraySize( type );
 
-				if ( arraySize != ast::type::NotArray )
+				if ( auto arraySize = getArraySize( type );
+					arraySize != ast::type::NotArray )
 				{
 					if ( arraySize == ast::type::UnknownArraySize )
 					{
@@ -441,8 +441,7 @@ namespace glsl
 					: std::string{};
 			}
 
-			static std::string getType( ast::type::Kind kind
-				, ast::type::ImageConfiguration const & config )
+			static std::string getType( ast::type::Kind kind )
 			{
 				return ( kind == ast::type::Kind::eImage )
 					? "image"
@@ -678,7 +677,7 @@ namespace glsl
 			static bool hasExtension( StmtConfig const & config
 				, GlslExtension const & extension )
 			{
-				return config.availableExtensions.end() != config.availableExtensions.find( extension );
+				return config.availableExtensions.contains( extension );
 			}
 
 			static std::string getInOutLayout( StmtConfig const & config
@@ -877,7 +876,7 @@ namespace glsl
 					result = "^=";
 					break;
 				default:
-					throw std::runtime_error{ "Non operation expression" };
+					throw ast::Exception{ "Non operation expression" };
 				}
 
 				return result;
@@ -920,7 +919,7 @@ namespace glsl
 					result = "triangles_adjacency";
 					break;
 				default:
-					throw std::runtime_error{ "Unsupported input layout." };
+					throw ast::Exception{ "Unsupported input layout." };
 				}
 
 				return result;
@@ -942,7 +941,7 @@ namespace glsl
 					result = "triangle_strip";
 					break;
 				default:
-					throw std::runtime_error{ "Unsupported output layout." };
+					throw ast::Exception{ "Unsupported output layout." };
 				}
 
 				return result;
@@ -959,7 +958,7 @@ namespace glsl
 				case ast::type::PatchDomain::eQuads:
 					return "quads";
 				default:
-					throw std::runtime_error{ "Unsupported ast::type::PatchDomain." };
+					throw ast::Exception{ "Unsupported ast::type::PatchDomain." };
 				}
 			}
 
@@ -972,7 +971,7 @@ namespace glsl
 				case ast::type::PrimitiveOrdering::eCCW:
 					return "ccw";
 				default:
-					throw std::runtime_error{ "Unsupported ast::type::PatchDomain." };
+					throw ast::Exception{ "Unsupported ast::type::PatchDomain." };
 				}
 			}
 
@@ -987,7 +986,7 @@ namespace glsl
 				case ast::type::Partitioning::eFractionalOdd:
 					return "fractional_odd_spacing";
 				default:
-					throw std::runtime_error{ "Unsupported ast::type::Partitioning." };
+					throw ast::Exception{ "Unsupported ast::type::Partitioning." };
 				}
 			}
 
@@ -1004,7 +1003,7 @@ namespace glsl
 				case ast::type::OutputTopology::eQuad:
 					return "quads";
 				default:
-					throw std::runtime_error{ "Unsupported ast::type::OutputTopology." };
+					throw ast::Exception{ "Unsupported ast::type::OutputTopology." };
 				}
 			}
 
@@ -1012,7 +1011,7 @@ namespace glsl
 				, ast::type::ImageConfiguration const & config )
 			{
 				return getPrefix( config.sampledType )
-					+ getType( kind, config )
+					+ getType( kind )
 					+ getDimension( config.dimension )
 					+ getMS( config.isMS )
 					+ getArray( config.isArrayed );
@@ -1089,7 +1088,7 @@ namespace glsl
 					result = true;
 					break;
 				default:
-					throw std::runtime_error{ "Non unary expression" };
+					throw ast::Exception{ "Non unary expression" };
 				}
 
 				return result;
@@ -1104,7 +1103,7 @@ namespace glsl
 					auto & config = static_cast< ast::type::SampledImage const & >( *image.getType() ).getConfig();
 					auto isComparison = static_cast< ast::type::Sampler const & >( *sampler.getType() ).isComparison();
 					return getPrefix( config.sampledType )
-						+ getType( ast::type::Kind::eSampler, config )
+						+ getType( ast::type::Kind::eSampler )
 						+ getDimension( config.dimension )
 						+ getMS( config.isMS )
 						+ getArray( config.isArrayed )
@@ -1475,7 +1474,6 @@ namespace glsl
 			}
 
 			static void doAddStatement( std::string text
-				, StatementType type
 				, Statements & result
 				, uint32_t & line )
 			{
@@ -1490,7 +1488,7 @@ namespace glsl
 			{
 				if ( extension.coreVersion > shaderVersion )
 				{
-					doAddStatement( "#extension " + extension.name + ": enable", StatementType::eScopeLine, result, line );
+					doAddStatement( "#extension " + extension.name + ": enable", result, line );
 				}
 			}
 		}
@@ -1540,7 +1538,7 @@ namespace glsl
 				return doSubmit( expr.get(), currentColumn );
 			}
 
-			uint32_t doGetColumn( std::string const & text )
+			uint32_t doGetColumn( std::string const & text )const
 			{
 				return uint32_t( m_currentColumn + text.size() );
 			}
@@ -1587,8 +1585,8 @@ namespace glsl
 				result += doSubmit( value, 0u );
 			}
 
-			void doParse( uint32_t value
-				, std::string & result )const
+			void doParse( [[maybe_unused]] uint32_t value
+				, [[maybe_unused]] std::string const & result )const
 			{
 			}
 
@@ -1740,12 +1738,12 @@ namespace glsl
 				m_currentColumn += uint32_t( text.size() );
 			}
 
-			Wrapped wrap( ast::expr::Expr * expr )
+			Wrapped wrap( ast::expr::Expr * expr )const
 			{
 				return Wrapped{ expr, false };
 			}
 
-			Wrapped wrapMaybeNonUniform( ast::expr::Expr * expr )
+			Wrapped wrapMaybeNonUniform( ast::expr::Expr * expr )const
 			{
 				return Wrapped{ expr, true };
 			}
@@ -2021,7 +2019,7 @@ namespace glsl
 					{
 						if ( expr->getArgList().size() < 3u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a control barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
@@ -2031,7 +2029,7 @@ namespace glsl
 					{
 						if ( expr->getArgList().size() < 2u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
@@ -2354,7 +2352,7 @@ namespace glsl
 
 					if ( it == container->end() )
 					{
-						helpers::doAddStatement( "#version " + writeValue( config.wantedVersion ), StatementType::eScopeLine, result, line );
+						helpers::doAddStatement( "#version " + writeValue( config.wantedVersion ), result, line );
 
 						for ( auto & extension : intrinsics.requiredExtensions )
 						{
@@ -2392,24 +2390,24 @@ namespace glsl
 					: uint32_t( m_indents.back().size() );
 			}
 
-			std::string doSubmit( ast::expr::Expr * expr, ExprsColumns & exprs )
+			std::string doSubmit( ast::expr::Expr * expr, ExprsColumns & exprs )const
 			{
 				return ExprVisitor::submit( expr, m_config, m_aliases, m_withExprColumns, doGetStartColumn(), exprs );
 			}
 
-			std::pair< std::string, ExprsColumns > doSubmit( ast::expr::Expr * expr )
+			std::pair< std::string, ExprsColumns > doSubmit( ast::expr::Expr * expr )const
 			{
 				ExprsColumns exprs;
 				auto text = doSubmit( expr, exprs );
 				return { text, exprs };
 			}
 
-			ast::stmt::Stmt * getCurrentScope()
+			ast::stmt::Stmt * getCurrentScope()const
 			{
 				return m_scopes.back();
 			}
 
-			uint32_t doGetColumn( std::string const & text )
+			uint32_t doGetColumn( std::string const & text )const
 			{
 				return m_withExprColumns
 					? uint32_t( doGetStartColumn() + text.size() )
@@ -2419,17 +2417,13 @@ namespace glsl
 			void doAddStatement( std::string text
 				, ExprsColumns exprs
 				, StatementType type
-				, ast::stmt::Stmt * stmt
-				, ast::stmt::Stmt * scope = nullptr )
+				, ast::stmt::Stmt const * stmt
+				, ast::stmt::Stmt const * scope = nullptr )
 			{
-				if ( helpers::isScopeEndStatement( m_lastStmtType )
-					&& !helpers::isScopeEndStatement( type ) )
-				{
-					++m_currentLine;
-					m_result.source += "\n";
-				}
-				else if ( helpers::isScopeDeclStatement( type )
-					&& !helpers::isScopeBeginStatement( m_lastStmtType ) )
+				if ( ( helpers::isScopeEndStatement( m_lastStmtType )
+						&& !helpers::isScopeEndStatement( type ) )
+					|| ( helpers::isScopeDeclStatement( type )
+						&& !helpers::isScopeBeginStatement( m_lastStmtType ) ) )
 				{
 					++m_currentLine;
 					m_result.source += "\n";
@@ -2453,19 +2447,18 @@ namespace glsl
 
 			void doAddSimpleStatement( std::string const & text
 				, ExprsColumns exprs
-				, ast::stmt::Stmt * stmt )
+				, ast::stmt::Stmt const * stmt )
 			{
 				doAddStatement( text + ";", std::move( exprs ), m_scopeLines.back(), stmt );
 			}
 
 			void doAddInterruptStatement( std::string const & text
-				, ast::stmt::Stmt * stmt )
+				, ast::stmt::Stmt const * stmt )
 			{
 				doAddSimpleStatement( text, ExprsColumns{}, stmt );
 			}
 
-			void doAddBuiltinVarDeclStatement( ast::Builtin builtin
-				, ast::stmt::Stmt * stmt )
+			void doAddBuiltinVarDeclStatement( ast::stmt::Stmt const * stmt )
 			{
 				Statement current;
 				current.type = StatementType::eBuiltinVariableDecl;
@@ -2478,14 +2471,14 @@ namespace glsl
 			}
 
 			void doAddVariableDeclStatement( std::string text
-				, ast::stmt::Stmt * stmt )
+				, ast::stmt::Stmt const * stmt )
 			{
 				text += ";";
 				doAddStatement( std::move( text ), ExprsColumns{}, StatementType::eVariableDecl, stmt );
 			}
 
 			void doAddBlockVariableDeclStatement( std::string text
-				, ast::stmt::Stmt * stmt )
+				, ast::stmt::Stmt const * stmt )
 			{
 				doAddStatement( std::move( text ), ExprsColumns{}, StatementType::eVariableBlockDecl, stmt );
 			}
@@ -2500,7 +2493,7 @@ namespace glsl
 				m_indents.push_back( m_indents.back() + "    " );
 			}
 
-			void doEndScope( ast::stmt::Stmt * stmt
+			void doEndScope( ast::stmt::Stmt const * stmt
 				, StatementType scopeEnd
 				, std::string const & scopeEndText = std::string{} )
 			{
@@ -2524,18 +2517,18 @@ namespace glsl
 				, StatementType scopeBegin
 				, StatementType scopeLine
 				, StatementType scopeEnd
-				, std::string preEndLine = std::string{}
-				, std::string scopeEndText = std::string{} )
+				, std::string const & preEndLine = {}
+				, std::string const & scopeEndText = {} )
 			{
 				doBeginScope( stmt, scopeBegin, scopeLine );
 				visitContainerStmt( stmt );
 
 				if ( !preEndLine.empty() )
 				{
-					doAddSimpleStatement( std::move( preEndLine ), ExprsColumns{}, stmt );
+					doAddSimpleStatement( preEndLine, ExprsColumns{}, stmt );
 				}
 
-				doEndScope( stmt, scopeEnd, std::move( scopeEndText ) );
+				doEndScope( stmt, scopeEnd, scopeEndText );
 			}
 
 			void doParseStructBlock( ast::stmt::Stmt * stmt
@@ -2559,13 +2552,13 @@ namespace glsl
 
 					text += getTypeName( mbr.type ) + " " + mbr.name;
 					text += helpers::getTypeArraySize( mbr.type );
-					doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
+					doAddSimpleStatement( text, ExprsColumns{}, stmt );
 				}
 
 				doEndScope( stmt, StatementType::eStructureScopeEnd );
 			}
 			
-			bool doHasRuntimeArray( ast::type::Struct const & type )
+			bool doHasRuntimeArray( ast::type::Struct const & type )const
 			{
 				return type.end() != std::find_if( type.begin()
 					, type.end()
@@ -2589,21 +2582,21 @@ namespace glsl
 			}
 
 			void doParse( char const * const text
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += text;
 			}
 
 			void doParse( ast::expr::Expr * expr
-				, std::string & result )
+				, std::string & result )const
 			{
 				result += doSubmit( expr ).first;
 			}
 
 			uint32_t doParse( char const * const text
-				, ExprsColumns & exprs
-				, uint32_t curColumn
-				, std::string & result )
+				, [[maybe_unused]] ExprsColumns const & exprs
+				, [[maybe_unused]] uint32_t curColumn
+				, std::string & result )const
 			{
 				doParse( text, result );
 				return doGetColumn( result );
@@ -2612,7 +2605,7 @@ namespace glsl
 			uint32_t doParse( ast::expr::Expr * expr
 				, ExprsColumns & exprs
 				, uint32_t curColumn
-				, std::string & result )
+				, std::string & result )const
 			{
 				auto it = exprs.emplace( expr, RangeInfo{} ).first;
 				it->second.start = curColumn;
@@ -2621,9 +2614,9 @@ namespace glsl
 				return it->second.end;
 			}
 
-			void doJoinExprRec( std::string & result
-				, ExprsColumns & exprs
-				, uint32_t curColumn )
+			void doJoinExprRec( [[maybe_unused]] std::string & result
+				, [[maybe_unused]] ExprsColumns & exprs
+				, [[maybe_unused]] uint32_t curColumn )const
 			{
 			}
 
@@ -2632,27 +2625,27 @@ namespace glsl
 				, ExprsColumns & exprs
 				, uint32_t curColumn
 				, ParamT const & param
-				, ParamsT && ... params )
+				, ParamsT && ... params )const
 			{
 				curColumn = doParse( param, exprs, curColumn, result );
 				doJoinExprRec( result, exprs, curColumn, std::forward< ParamsT >( params )... );
 			}
 
-			void doJoinRec( std::string & result )
+			void doJoinRec( std::string & )const
 			{
 			}
 
 			template< typename ParamT, typename ... ParamsT >
 			void doJoinRec( std::string & result
 				, ParamT const & param
-				, ParamsT && ... params )
+				, ParamsT && ... params )const
 			{
 				doParse( param, result );
 				doJoinRec( result, std::forward< ParamsT >( params )... );
 			}
 
 			template< typename ... ParamsT >
-			std::pair< std::string, ExprsColumns > doJoin( ParamsT && ... params )
+			std::pair< std::string, ExprsColumns > doJoin( ParamsT && ... params )const
 			{
 				ExprsColumns exprs;
 				std::string text;
@@ -2724,7 +2717,7 @@ namespace glsl
 					, ", ", stmt->getNumGroupsY()
 					, ", ", stmt->getNumGroupsZ()
 					, ")" );
-				doAddSimpleStatement( std::move( text ), exprs, stmt );
+				doAddSimpleStatement( text, exprs, stmt );
 			}
 
 			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
@@ -2991,7 +2984,7 @@ namespace glsl
 			{
 				if ( stmt->getVariable()->isBuiltin() )
 				{
-					doAddBuiltinVarDeclStatement( stmt->getVariable()->getBuiltin(), stmt );
+					doAddBuiltinVarDeclStatement( stmt );
 				}
 				else
 				{
@@ -3046,7 +3039,7 @@ namespace glsl
 						+ ", local_size_z=" + writeValue( stmt->getWorkGroupsZ() ) + ") in";
 				}
 
-				doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
+				doAddSimpleStatement( text, ExprsColumns{}, stmt );
 			}
 
 			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
@@ -3076,7 +3069,7 @@ namespace glsl
 				text += ", " + helpers::getLayoutName( stmt->getPartitioning() );
 				text += ", " + helpers::getLayoutName( stmt->getPrimitiveOrdering() );
 				text += ") in";
-				doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
+				doAddSimpleStatement( text, ExprsColumns{}, stmt );
 			}
 
 			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
@@ -3090,10 +3083,10 @@ namespace glsl
 					std::string decl;
 					decl += m_indents.back() + "gl_PerVertex\n";
 					decl += m_indents.back() + "{\n";
-					decl += m_indents.back() + "	vec4 gl_Position;\n";
-					decl += m_indents.back() + "	float gl_PointSize;\n";
-					decl += m_indents.back() + "	float gl_ClipDistance[];\n";
-					decl += m_indents.back() + "	float gl_CullDistance[];\n";
+					decl += m_indents.back() + "\tvec4 gl_Position;\n";
+					decl += m_indents.back() + "\tfloat gl_PointSize;\n";
+					decl += m_indents.back() + "\tfloat gl_ClipDistance[];\n";
+					decl += m_indents.back() + "\tfloat gl_CullDistance[];\n";
 					decl += m_indents.back() + "}";
 
 					switch ( stmt->getSource() )
@@ -3129,7 +3122,7 @@ namespace glsl
 				if ( stmt->getExpr() )
 				{
 					auto [text, exprs] = doJoin( "return ", stmt->getExpr() );
-					doAddSimpleStatement( std::move( text ), std::move( exprs ), stmt );
+					doAddSimpleStatement( text, std::move( exprs ), stmt );
 				}
 				else
 				{
@@ -3230,7 +3223,7 @@ namespace glsl
 				auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
 				text = getTypeName( arrayType->getType() ) + " " + data->getName();
 				text += helpers::getTypeArraySize( arrayType );
-				doAddSimpleStatement( std::move( text ), ExprsColumns{}, stmt );
+				doAddSimpleStatement( text, ExprsColumns{}, stmt );
 				doEndScope( stmt, StatementType::eStructureScopeEnd, " " + stmt->getSsboInstance()->getName() );
 			}
 
@@ -3364,7 +3357,7 @@ namespace glsl
 			void doWriteBinding( uint32_t binding
 				, uint32_t set
 				, std::string const & sep
-				, std::string & result )
+				, std::string & result )const
 			{
 				if ( binding != helpers::InvalidIndex
 					&& helpers::hasExtension( m_config, ARB_shading_language_420pack ) )

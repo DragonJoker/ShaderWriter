@@ -49,8 +49,8 @@ namespace ast::type
 
 		while ( result && itl != lhs.end() )
 		{
-			auto lhsVar = *itl;
-			auto rhsVar = *itr;
+			auto & lhsVar = *itl;
+			auto & rhsVar = *itr;
 			result = lhsVar->getType()->getKind() == rhsVar->getType()->getKind()
 				&& lhsVar->getName() == rhsVar->getName()
 				&& lhsVar->isParam() == rhsVar->isParam()

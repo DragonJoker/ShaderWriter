@@ -12,6 +12,13 @@ namespace ast
 {
 	struct EntryPointConfig
 	{
+		explicit EntryPointConfig( ShaderStage pstage
+			, std::string pname = {} )
+			: stage{ pstage }
+			, name{ std::move( pname ) }
+		{
+		}
+
 		ShaderStage stage;
 		std::string name;
 	};
@@ -21,7 +28,7 @@ namespace ast
 		, expr::ExprCache & exprCache
 		, EntryPointConfig const & config
 		, stmt::Container * stmt );
-	SDAST_API EntryPointConfigArray listEntryPoints( stmt::Container * stmt );
+	SDAST_API EntryPointConfigArray listEntryPoints( stmt::Container const * stmt );
 }
 
 #endif

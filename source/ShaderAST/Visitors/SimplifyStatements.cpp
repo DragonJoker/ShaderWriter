@@ -65,7 +65,7 @@ namespace ast
 				return result;
 			}
 
-			static ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall * expr )
+			static ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall const * expr )
 			{
 				auto result = expr->getType();
 
@@ -127,6 +127,10 @@ namespace ast
 				case 4:
 					result = CompositeType::eVec4;
 					break;
+				default:
+					AST_Failure( "Unsupported count to deduce CompositeType from" );
+					result = CompositeType::eVec4;
+					break;
 				}
 
 				return result;
@@ -160,7 +164,7 @@ namespace ast
 				case ast::type::Kind::eInt32:
 					return exprCache.makeLiteral( typesCache, 0 );
 				case ast::type::Kind::eInt64:
-					return exprCache.makeLiteral( typesCache, 0ll );
+					return exprCache.makeLiteral( typesCache, 0LL );
 				case ast::type::Kind::eUInt8:
 					return exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
 				case ast::type::Kind::eUInt16:
@@ -168,7 +172,7 @@ namespace ast
 				case ast::type::Kind::eUInt32:
 					return exprCache.makeLiteral( typesCache, 0u );
 				case ast::type::Kind::eUInt64:
-					return exprCache.makeLiteral( typesCache, 0ull );
+					return exprCache.makeLiteral( typesCache, 0ULL );
 				case ast::type::Kind::eFloat:
 					return exprCache.makeLiteral( typesCache, 0.0f );
 				case ast::type::Kind::eDouble:
@@ -192,7 +196,7 @@ namespace ast
 				case ast::type::Kind::eInt32:
 					return exprCache.makeLiteral( typesCache, 1 );
 				case ast::type::Kind::eInt64:
-					return exprCache.makeLiteral( typesCache, 1ll );
+					return exprCache.makeLiteral( typesCache, 1LL );
 				case ast::type::Kind::eUInt8:
 					return exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
 				case ast::type::Kind::eUInt16:
@@ -200,7 +204,7 @@ namespace ast
 				case ast::type::Kind::eUInt32:
 					return exprCache.makeLiteral( typesCache, 1u );
 				case ast::type::Kind::eUInt64:
-					return exprCache.makeLiteral( typesCache, 1ull );
+					return exprCache.makeLiteral( typesCache, 1ULL );
 				case ast::type::Kind::eFloat:
 					return exprCache.makeLiteral( typesCache, 1.0f );
 				case ast::type::Kind::eDouble:
@@ -283,7 +287,7 @@ namespace ast
 				return result;
 			}
 
-			static constexpr uint32_t InvalidComponentCount = ~( 0u );
+			static constexpr uint32_t InvalidComponentCount = ~0u;
 
 			static uint32_t getReturnComponentCount( ast::expr::CombinedImageAccess value )
 			{
@@ -772,12 +776,12 @@ namespace ast
 					}
 
 				private:
-					expr::ExprPtr doSubmit( expr::Expr * expr )
+					expr::ExprPtr doSubmit( expr::Expr * expr )const
 					{
 						return submit( expr, m_index );
 					}
 
-					type::TypePtr doGetSwizzledType( type::TypePtr type )
+					type::TypePtr doGetSwizzledType( type::TypePtr type )const
 					{
 						return type->getTypesCache().getBasicType( getScalarType( type->getKind() ) );
 					}
@@ -1406,7 +1410,7 @@ namespace ast
 					case 3:
 						swizzleKind = ast::expr::SwizzleKind::e012;
 						break;
-					case 4:
+					default:
 						swizzleKind = ast::expr::SwizzleKind::e0123;
 						break;
 					}
@@ -1453,8 +1457,7 @@ namespace ast
 						else if ( isMatrixType( kind ) )
 						{
 							processed = true;
-							doConstructMatrix( expr
-								, arg
+							doConstructMatrix( arg
 								, expr->getType()->getKind()
 								, realArgs );
 						}
@@ -1779,7 +1782,7 @@ namespace ast
 					, expr->getRHS() );
 			}
 
-			void doConstructVector( ast::expr::CompositeConstruct * expr
+			void doConstructVector( ast::expr::CompositeConstruct const * expr
 				, ast::expr::ExprPtr const & newArg
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
@@ -1807,8 +1810,7 @@ namespace ast
 				}
 			}
 
-			void doConstructMatrix( ast::expr::CompositeConstruct * expr
-				, ast::expr::ExprPtr const & newArg
+			void doConstructMatrix( ast::expr::ExprPtr const & newArg
 				, ast::type::Kind destKind
 				, ast::expr::ExprList & args )
 			{
@@ -1857,13 +1859,9 @@ namespace ast
 							, std::move( compositeArgs ) ) );
 					}
 				}
-
-				for ( auto col = minColumnCount; col < dstColumnCount; ++col )
-				{
-				}
 			}
 
-			void doConstructOther( ast::expr::CompositeConstruct * expr
+			void doConstructOther( ast::expr::CompositeConstruct const * expr
 				, ast::expr::ExprList & args )
 			{
 				TraceFunc;
@@ -2163,7 +2161,7 @@ namespace ast
 					case 3:
 						composite = expr::CompositeType::eVec3;
 						break;
-					case 4:
+					default:
 						composite = expr::CompositeType::eVec4;
 						break;
 					}
@@ -2180,7 +2178,7 @@ namespace ast
 					case 3:
 						composite = expr::CompositeType::eMat3x2;
 						break;
-					case 4:
+					default:
 						composite = expr::CompositeType::eMat4x2;
 						break;
 					}
@@ -2197,7 +2195,7 @@ namespace ast
 					case 3:
 						composite = expr::CompositeType::eMat3x3;
 						break;
-					case 4:
+					default:
 						composite = expr::CompositeType::eMat4x3;
 						break;
 					}
@@ -2214,7 +2212,7 @@ namespace ast
 					case 3:
 						composite = expr::CompositeType::eMat3x4;
 						break;
-					case 4:
+					default:
 						composite = expr::CompositeType::eMat4x4;
 						break;
 					}

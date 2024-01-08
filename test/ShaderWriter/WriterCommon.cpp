@@ -1436,7 +1436,7 @@ namespace test
 		, Compilers const & compilers )
 	{
 		ast::EntryPointConfigArray entryPoints{ &shader.getAllocator() };
-		entryPoints.push_back( { shader.getType(), "main" } );
+		entryPoints.emplace_back( shader.getType(), "main" );
 		writeShader( shader
 			, entryPoints
 			, testCounts
