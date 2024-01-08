@@ -663,10 +663,8 @@ namespace ast
 	class Shader;
 	class ShaderBuilder;
 
-	using ShaderRef = std::reference_wrapper< Shader const >;
 	using ShaderPtr = std::unique_ptr< Shader >;
 	using ShaderArray = std::vector< Shader >;
-	using ShaderRefArray = std::vector< ShaderRef >;
 	using ShaderPtrArray = std::vector< ShaderPtr >;
 }
 

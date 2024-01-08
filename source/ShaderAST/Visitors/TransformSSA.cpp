@@ -10,8 +10,6 @@ See LICENSE file in root folder
 #include "ShaderAST/Visitors/GetExprName.hpp"
 #include "ShaderAST/Visitors/SimplifyStatements.hpp"
 
-#include <unordered_set>
-
 namespace ast
 {
 	namespace ssa
@@ -1456,7 +1454,7 @@ namespace ast
 		private:
 			SSAData & m_data;
 			bool m_normaliseStructs;
-			std::unordered_set< std::string > m_declaredStructs;
+			ast::UnorderedStringSet m_declaredStructs;
 			ast::stmt::Container * m_typeDeclarations;
 			type::TypesCache & m_typesCache;
 			stmt::FragmentLayout * m_fragmentLayoutStmt{};

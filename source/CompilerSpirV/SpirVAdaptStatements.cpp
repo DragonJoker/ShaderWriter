@@ -10,8 +10,6 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/CloneStmt.hpp>
 #include <ShaderAST/Visitors/ResolveConstants.hpp>
 
-#include <unordered_set>
-
 #pragma warning( disable: 4706 )
 
 namespace spirv

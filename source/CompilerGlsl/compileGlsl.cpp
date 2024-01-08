@@ -67,7 +67,7 @@ namespace glsl
 			, typesCache
 			, statements.get()
 			, specialisation );
-		return glsl::generateGlslStatements( config, std::move( intrinsics ), statements.get() ).source;
+		return glsl::generateGlslStatements( config, intrinsics, statements.get() ).source;
 	}
 	
 	std::string compileGlsl( ast::Shader const & shader

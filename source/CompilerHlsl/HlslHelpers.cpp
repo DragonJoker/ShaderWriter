@@ -262,7 +262,7 @@ namespace hlsl
 
 		static void declareStruct( ast::stmt::Container & stmt
 			, ast::type::StructPtr const & structType
-			, std::unordered_set< std::string > & declaredStructs )
+			, ast::UnorderedStringSet & declaredStructs )
 		{
 			if ( declaredStructs.emplace( structType->getName() ).second )
 			{
@@ -1562,7 +1562,7 @@ namespace hlsl
 	}
 
 	void IOMapping::writeGlobals( ast::stmt::Container & stmt
-		, std::unordered_set< std::string > & declaredStructs )const
+		, ast::UnorderedStringSet & declaredStructs )const
 	{
 		switch ( mode )
 		{
@@ -2208,7 +2208,7 @@ namespace hlsl
 	}
 
 	void Routine::writeGlobals( ast::stmt::Container & cont
-		, std::unordered_set< std::string > & declaredStructs )
+		, ast::UnorderedStringSet & declaredStructs )
 	{
 		m_highFreqOutputs.writeGlobals( cont, declaredStructs );
 		m_lowFreqInputs.writeGlobals( cont, declaredStructs );
@@ -2740,7 +2740,7 @@ namespace hlsl
 	}
 
 	ast::stmt::ContainerPtr AdaptationData::writeGlobals( ast::stmt::StmtCache & stmtCache
-		, std::unordered_set< std::string > & declaredStructs )
+		, ast::UnorderedStringSet & declaredStructs )
 	{
 		auto cont = stmtCache.makeContainer();
 		assert( m_currentRoutine );

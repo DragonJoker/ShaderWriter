@@ -3,9 +3,6 @@ See LICENSE file in root folder
 */
 #include "GlslAdaptStatements.hpp"
 
-#include "GlslHelpers.hpp"
-#include "GlslCombinedImageAccessFunctions.hpp"
-
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Type/TypeCache.hpp>
@@ -42,7 +39,7 @@ namespace glsl
 					case 3:
 						swizzle = ast::expr::SwizzleKind::e000;
 						break;
-					case 4:
+					default:
 						swizzle = ast::expr::SwizzleKind::e0000;
 						break;
 					}
@@ -59,7 +56,7 @@ namespace glsl
 					case 3:
 						swizzle = ast::expr::SwizzleKind::e011;
 						break;
-					case 4:
+					default:
 						swizzle = ast::expr::SwizzleKind::e0111;
 						break;
 					}
@@ -76,12 +73,12 @@ namespace glsl
 					case 3:
 						swizzle = ast::expr::SwizzleKind::e012;
 						break;
-					case 4:
+					default:
 						swizzle = ast::expr::SwizzleKind::e0122;
 						break;
 					}
 					break;
-				case 4:
+				default:
 					switch ( dstCount )
 					{
 					case 1:
@@ -93,7 +90,7 @@ namespace glsl
 					case 3:
 						swizzle = ast::expr::SwizzleKind::e012;
 						break;
-					case 4:
+					default:
 						swizzle = ast::expr::SwizzleKind::e0123;
 						break;
 					}
@@ -112,18 +109,18 @@ namespace glsl
 				, uint32_t & nextVarId
 				, IOVars & io )
 			{
-				auto ires = io.perVertexMbrs.emplace( builtin, nullptr );
+				auto [it, res] = io.perVertexMbrs.try_emplace( builtin );
 
-				if ( ires.second )
+				if ( res )
 				{
-					ires.first->second = exprCache.makeIdentifier( typesCache
-						, ast::var::makeBuiltin( ++nextVarId
+					++nextVarId;
+					it->second = exprCache.makeIdentifier( typesCache
+						, ast::var::makeBuiltin( nextVarId
 							, builtin
 							, type
 							, flags ) );
 				}
 
-				auto it = ires.first;
 				return ast::ExprCloner::submit( exprCache, it->second );
 			}
 
@@ -135,29 +132,29 @@ namespace glsl
 				, uint32_t & nextVarId
 				, IOVars & io )
 			{
-				auto ires = io.perPrimitiveMbrs.emplace( builtin, nullptr );
+				auto [it, res] = io.perPrimitiveMbrs.try_emplace( builtin );
 
-				if ( ires.second )
+				if ( res )
 				{
-					ires.first->second = exprCache.makeIdentifier( typesCache
-						, ast::var::makeBuiltin( ++nextVarId
+					++nextVarId;
+					it->second = exprCache.makeIdentifier( typesCache
+						, ast::var::makeBuiltin( nextVarId
 							, builtin
 							, type
 							, flags ) );
 				}
 
-				auto it = ires.first;
 				return ast::ExprCloner::submit( exprCache, it->second );
 			}
 
 			static void enableExtension( ast::stmt::StmtCache & stmtCache
-				, ast::stmt::ContainerPtr & cont
+				, ast::stmt::Container & cont
 				, GlslExtension const & extension
 				, uint32_t shaderVersion )
 			{
 				if ( extension.coreVersion > shaderVersion )
 				{
-					cont->addStmt( stmtCache.makePreprocExtension( extension.name
+					cont.addStmt( stmtCache.makePreprocExtension( extension.name
 						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 				}
 			}
@@ -579,9 +576,8 @@ namespace glsl
 
 			void visitAssignExpr( ast::expr::Assign * expr )override
 			{
-				auto lhs = expr->getLHS();
-
-				if ( lhs->getKind() == ast::expr::Kind::eMbrSelect )
+				if ( auto lhs = expr->getLHS();
+					lhs->getKind() == ast::expr::Kind::eMbrSelect )
 				{
 					auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *lhs );
 					auto outer = mbrSelect.getOuterExpr();
@@ -757,7 +753,8 @@ namespace glsl
 					uint32_t index = 0u;
 					for ( auto mbr : *getStructType( rayDesc->getType() ) )
 					{
-						args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index++, 0u ) );
+						args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index, 0u ) );
+						++index;
 					}
 					// Extract location from RayPayload type, to set it as last param.
 					args.push_back( m_exprCache.makeLiteral( m_typesCache
@@ -813,7 +810,8 @@ namespace glsl
 					// previous to last is numVertices, which is ignored
 					args.pop_back();
 					auto type = numPrimitives->getType();
-					auto var = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+					++m_adaptationData.nextVarId;
+					auto var = ast::var::makeBuiltin( m_adaptationData.nextVarId
 						, ast::Builtin::ePrimitiveCountNV
 						, type
 						, ast::var::Flag::eShaderOutput );
@@ -833,7 +831,8 @@ namespace glsl
 					auto numTasks = std::move( args.back() );
 					args.pop_back();
 					auto type = numTasks->getType();
-					auto var = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+					++m_adaptationData.nextVarId;
+					auto var = ast::var::makeBuiltin( m_adaptationData.nextVarId
 						, ast::Builtin::eTaskCountNV
 						, type
 						, ast::var::Flag::eShaderOutput );
@@ -906,7 +905,7 @@ namespace glsl
 			}
 
 		private:
-			void doProcessImageStore( ast::expr::StorageImageAccessCall * expr )
+			void doProcessImageStore( ast::expr::StorageImageAccessCall const * expr )
 			{
 				auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 				auto config = imgArgType->getConfig();
@@ -948,7 +947,7 @@ namespace glsl
 					, std::move( args ) );
 			}
 
-			void doProcessTextureShadow( ast::expr::CombinedImageAccessCall * expr )
+			void doProcessTextureShadow( ast::expr::CombinedImageAccessCall const * expr )
 			{
 				ast::expr::ExprList args;
 				// First parameter is the sampled image
@@ -1060,7 +1059,7 @@ namespace glsl
 					, std::move( args ) );
 			}
 
-			void doProcessTextureSample( ast::expr::CombinedImageAccessCall * expr )
+			void doProcessTextureSample( ast::expr::CombinedImageAccessCall const * expr )
 			{
 				auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 				auto config = imgArgType->getConfig();
@@ -1084,7 +1083,7 @@ namespace glsl
 				}
 			}
 
-			void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
+			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const * expr )
 			{
 				ast::expr::ExprList args;
 
@@ -1106,7 +1105,7 @@ namespace glsl
 					, std::move( args ) );
 			}
 
-			ast::expr::ExprPtr doProcessIOMbr( ast::expr::Expr * outer
+			ast::expr::ExprPtr doProcessIOMbr( ast::expr::Expr const * outer
 				, uint32_t mbrIndex
 				, uint64_t mbrFlags
 				, bool isInput
@@ -1115,9 +1114,9 @@ namespace glsl
 				assert( isStructType( outer->getType() ) );
 				auto structType = getStructType( outer->getType() );
 				auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
-				auto compType = getComponentType( mbr.type );
-
-				if ( ( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex || !isInput )
+				
+				if ( auto compType = getComponentType( mbr.type );
+					( m_adaptationData.writerConfig.shaderStage != ast::ShaderStage::eVertex || !isInput )
 					&& !isMeshStage( m_adaptationData.writerConfig.shaderStage )
 					&& !isRayTraceStage( m_adaptationData.writerConfig.shaderStage )
 					&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
@@ -1230,7 +1229,6 @@ namespace glsl
 						if ( structIt != io.builtinsStructs.end() )
 						{
 							it = io.vars.find( structIt->second.first );
-							mbrIndex -= structIt->second.second;
 						}
 					}
 
@@ -1320,7 +1318,7 @@ namespace glsl
 				return result;
 			}
 
-			ast::expr::ExprPtr doProcessMbr( ast::expr::Expr * outer
+			ast::expr::ExprPtr doProcessMbr( ast::expr::Expr const * outer
 				, uint32_t mbrIndex
 				, uint64_t mbrFlags )
 			{
@@ -1352,20 +1350,20 @@ namespace glsl
 				, AdaptationData & adaptationData )
 			{
 				auto result = stmtCache.makeContainer();
-				auto it = std::find_if( container->begin()
+
+				if ( auto it = std::find_if( container->begin()
 					, container->end()
 					, []( ast::stmt::StmtPtr const & lookup )
 					{
 						return lookup->getKind() == ast::stmt::Kind::ePreprocVersion;
 					} );
-
-				if ( it == container->end() )
+					it == container->end() )
 				{
 					result->addStmt( stmtCache.makePreprocVersion( writeValue( adaptationData.writerConfig.wantedVersion ) ) );
 
 					for ( auto & extension : adaptationData.intrinsicsConfig.requiredExtensions )
 					{
-						helpers::enableExtension( stmtCache, result, extension, adaptationData.writerConfig.wantedVersion );
+						helpers::enableExtension( stmtCache, *result, extension, adaptationData.writerConfig.wantedVersion );
 					}
 				}
 
@@ -1410,7 +1408,7 @@ namespace glsl
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
 				{
-					throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
+					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
 				}
 
 				if ( m_adaptationData.writerConfig.hasDescriptorSets )
@@ -1436,9 +1434,8 @@ namespace glsl
 				if ( stmt->getFlags() )
 				{
 					auto isEntryPoint = stmt->isEntryPoint();
-					auto funcType = stmt->getType();
 
-					for ( auto & param : *funcType )
+					for ( auto & param : *stmt->getType() )
 					{
 						auto type = param->getType();
 
@@ -1478,16 +1475,16 @@ namespace glsl
 							doProcess( param, static_cast< ast::type::MeshPrimitiveOutput const & >( *type ) );
 							break;
 						case ast::type::Kind::eTaskPayloadNV:
-							doProcess( param, static_cast< ast::type::TaskPayloadNV const & >( *type ) );
+							doProcessTaskPayload( param );
 							break;
 						case ast::type::Kind::eTaskPayload:
-							doProcess( param, static_cast< ast::type::TaskPayload const & >( *type ) );
+							doProcessTaskPayload( param );
 							break;
 						case ast::type::Kind::eTaskPayloadInNV:
-							doProcess( param, static_cast< ast::type::TaskPayloadInNV const & >( *type ) );
+							doProcessTaskPayload( param );
 							break;
 						case ast::type::Kind::eTaskPayloadIn:
-							doProcess( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
+							doProcessTaskPayload( param );
 							break;
 						default:
 						{
@@ -1629,7 +1626,7 @@ namespace glsl
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
 				{
-					throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
+					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
 				}
 
 				auto save = m_current;
@@ -1690,7 +1687,7 @@ namespace glsl
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
 				{
-					throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
+					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
 				}
 
 				if ( m_adaptationData.writerConfig.hasDescriptorSets )
@@ -1717,7 +1714,7 @@ namespace glsl
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
 				{
-					throw std::runtime_error{ "std430 layout is not supported, consider using std140" };
+					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
 				}
 
 				if ( m_adaptationData.writerConfig.hasDescriptorSets )
@@ -1750,7 +1747,6 @@ namespace glsl
 			{
 				m_result->addStmt( m_stmtCache.makePreprocVersion( preproc->getName() ) );
 				auto cont = m_stmtCache.makeContainer();
-				compileGlslTextureAccessFunctions( cont.get(), m_adaptationData.intrinsicsConfig );
 
 				if ( !cont->empty() )
 				{
@@ -1876,7 +1872,7 @@ namespace glsl
 								, getNonArrayType( mbr.type )->getKind()
 								, getArraySize( mbr.type )
 								, ast::type::Struct::InvalidLocation );
-							auto typeIt = io.vars.emplace( outBuiltinsType, ast::var::VariableList{} ).first;
+							auto typeIt = io.vars.try_emplace( outBuiltinsType ).first;
 							auto it = std::find_if( typeIt->second.begin()
 								, typeIt->second.end()
 								, [&name]( ast::var::VariablePtr const & lookup )
@@ -1886,7 +1882,8 @@ namespace glsl
 
 							if ( it == typeIt->second.end() )
 							{
-								auto mbrVar = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+								++m_adaptationData.nextVarId;
+								auto mbrVar = ast::var::makeBuiltin( m_adaptationData.nextVarId
 									, mbr.builtin
 									, mbr.type
 									, outBuiltinsType->getFlag() );
@@ -1897,7 +1894,7 @@ namespace glsl
 
 					if ( !outStructType->empty() )
 					{
-						io.othersStructs.emplace( structType, othersVar );
+						io.othersStructs.try_emplace( structType, othersVar );
 						declareType( outStructType );
 						m_current->addStmt( m_stmtCache.makeInOutVariableDecl( othersVar
 							, patchType.getLocation() ) );
@@ -1906,7 +1903,7 @@ namespace glsl
 
 					if ( !outBuiltinsType->empty() )
 					{
-						io.builtinsStructs.emplace( structType, std::make_pair( outBuiltinsType, uint32_t( outStructType->size() ) ) );
+						io.builtinsStructs.try_emplace( structType, outBuiltinsType, uint32_t( outStructType->size() ) );
 					}
 				}
 			}
@@ -1954,7 +1951,7 @@ namespace glsl
 								, getNonArrayType( mbr.type )->getKind()
 								, getArraySize( mbr.type )
 								, ast::type::Struct::InvalidLocation );
-							auto typeIt = io.vars.emplace( outBuiltinsType, ast::var::VariableList{} ).first;
+							auto typeIt = io.vars.try_emplace( outBuiltinsType ).first;
 							auto it = std::find_if( typeIt->second.begin()
 								, typeIt->second.end()
 								, [&name]( ast::var::VariablePtr const & lookup )
@@ -1964,7 +1961,8 @@ namespace glsl
 
 							if ( it == typeIt->second.end() )
 							{
-								auto mbrVar = ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+								++m_adaptationData.nextVarId;
+								auto mbrVar = ast::var::makeBuiltin( m_adaptationData.nextVarId
 									, mbr.builtin
 									, mbr.type
 									, outBuiltinsType->getFlag() );
@@ -1975,7 +1973,7 @@ namespace glsl
 
 					if ( !outStructType->empty() )
 					{
-						io.othersStructs.emplace( structType, othersVar );
+						io.othersStructs.try_emplace( structType, othersVar );
 						declareType( outStructType );
 						m_current->addStmt( m_stmtCache.makeInOutVariableDecl( othersVar
 							, patchType.getLocation() ) );
@@ -1984,7 +1982,7 @@ namespace glsl
 
 					if ( !outBuiltinsType->empty() )
 					{
-						io.builtinsStructs.emplace( structType, std::make_pair( outBuiltinsType, uint32_t( outStructType->size() ) ) );
+						io.builtinsStructs.try_emplace( structType, outBuiltinsType, uint32_t( outStructType->size() ) );
 					}
 				}
 			}
@@ -2086,26 +2084,7 @@ namespace glsl
 				}
 			}
 
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayloadNV const & taskType )
-			{
-				m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
-			}
-
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayload const & taskType )
-			{
-				m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
-			}
-
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayloadInNV const & taskType )
-			{
-				m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
-			}
-
-			void doProcess( ast::var::VariablePtr var
-				, ast::type::TaskPayloadIn const & taskType )
+			void doProcessTaskPayload( ast::var::VariablePtr var )
 			{
 				m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 			}
@@ -2113,9 +2092,8 @@ namespace glsl
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::ComputeInput const & compType )
 			{
-				auto type = compType.getType();
-
-				if ( isStructType( type ) )
+				if ( auto type = compType.getType();
+					isStructType( type ) )
 				{
 					auto structType = getStructType( type );
 					assert( structType->isShaderInput() );
@@ -2181,7 +2159,7 @@ namespace glsl
 					if ( isPerVertex( mbr.builtin
 						, m_adaptationData.writerConfig.shaderStage ) )
 					{
-						auto type = doDeclarePerVertex( isInput, io );
+						auto type = doDeclarePerVertex( isInput );
 						std::string outerName;
 
 						if ( type->getKind() == ast::type::Kind::eArray )
@@ -2212,7 +2190,7 @@ namespace glsl
 					else if ( isPerPrimitive( mbr.builtin
 						, m_adaptationData.writerConfig.shaderStage ) )
 					{
-						auto type = doDeclarePerPrimitive( isInput, io );
+						auto type = doDeclarePerPrimitive( isInput );
 						io.perPrimitive = ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, "gl_MeshPrimitivesNV" }
 						, type
 							, ( ast::var::Flag::eBuiltin
@@ -2223,15 +2201,15 @@ namespace glsl
 						auto name = ( mbr.builtin != ast::Builtin::eNone
 							? "gl_" + getName( mbr.builtin )
 							: "sdw" + ( isInput ? std::string{ "In" } : std::string{ "Out" } ) + "_" + mbr.name );
-						auto typeIt = io.vars.emplace( structType, ast::var::VariableList{} ).first;
-						auto it = std::find_if( typeIt->second.begin()
+						auto typeIt = io.vars.try_emplace( structType ).first;
+
+						if ( auto it = std::find_if( typeIt->second.begin()
 							, typeIt->second.end()
 							, [&name]( ast::var::VariablePtr const & lookup )
 							{
 								return name == lookup->getName();
 							} );
-
-						if ( it == typeIt->second.end() )
+							it == typeIt->second.end() )
 						{
 							auto mbrFlags = structType->getFlag()
 								| ( mbr.builtin != ast::Builtin::eNone
@@ -2255,14 +2233,15 @@ namespace glsl
 								mbrFlags = mbrFlags | ast::var::Flag::eFlat;
 							}
 
+							++m_adaptationData.nextVarId;
 							auto mbrVar = ( ( mbr.builtin != ast::Builtin::eNone )
-								? ast::var::makeBuiltin( ++m_adaptationData.nextVarId
+								? ast::var::makeBuiltin( m_adaptationData.nextVarId
 									, mbr.builtin
 									, ( arraySize == ast::type::NotArray
 										? mbrType
 										: m_typesCache.getArray( mbrType, arraySize ) )
 										, mbrFlags )
-								: ast::var::makeVariable( ast::EntityName{ ++m_adaptationData.nextVarId, name }
+								: ast::var::makeVariable( ast::EntityName{ m_adaptationData.nextVarId, name }
 									, ( arraySize == ast::type::NotArray
 										? mbrType
 										: m_typesCache.getArray( mbrType, arraySize ) )
@@ -2308,8 +2287,7 @@ namespace glsl
 				m_current = save;
 			}
 
-			ast::type::TypePtr doDeclarePerVertex( bool isInput
-				, IOVars & io )
+			ast::type::TypePtr doDeclarePerVertex( bool isInput )
 			{
 				if ( ( isInput && !m_inPerVertex )
 					|| ( !isInput && !m_outPerVertex ) )
@@ -2343,8 +2321,7 @@ namespace glsl
 				return m_outPerVertex;
 			}
 
-			ast::type::TypePtr doDeclarePerPrimitive( bool isInput
-				, IOVars & io )
+			ast::type::TypePtr doDeclarePerPrimitive( bool isInput )
 			{
 				if ( ( isInput && !m_inPerPrimitive )
 					|| ( !isInput && !m_outPerPrimitive ) )
@@ -2406,16 +2383,16 @@ namespace glsl
 		private:
 			ast::type::TypesCache & m_typesCache;
 			AdaptationData & m_adaptationData;
-			ast::stmt::ContainerPtr m_entryPointFinish;
-			ast::stmt::Container * m_globalsCont;
-			std::unordered_set< std::string > m_declaredStructs;
+			ast::stmt::ContainerPtr m_entryPointFinish{};
+			ast::stmt::Container * m_globalsCont{};
+			ast::UnorderedStringSet m_declaredStructs{};
 			uint32_t m_maxPoint{};
 			uint32_t m_maxPrimitives{};
-			ast::type::InputLayout m_inputLayout;
-			ast::type::TypePtr m_inPerVertex;
-			ast::type::TypePtr m_outPerVertex;
-			ast::type::TypePtr m_inPerPrimitive;
-			ast::type::TypePtr m_outPerPrimitive;
+			ast::type::InputLayout m_inputLayout{};
+			ast::type::TypePtr m_inPerVertex{};
+			ast::type::TypePtr m_outPerVertex{};
+			ast::type::TypePtr m_inPerPrimitive{};
+			ast::type::TypePtr m_outPerPrimitive{};
 			ast::var::VariablePtr m_meshVtxVar{};
 			ast::type::MeshVertexOutput const * m_meshVtxType{};
 			ast::var::VariablePtr m_meshPrimVar{};

@@ -14,6 +14,16 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	struct StringHash
+	{
+		using is_transparent = void;
+
+		std::size_t operator()( std::string_view v )const
+		{
+			return std::hash<std::string_view>{}( v );
+		}
+	};
+
 	template< typename TypeT >
 	class StlAllocatorT
 	{
@@ -83,6 +93,8 @@ namespace ast
 
 	template< typename KeyT, typename ValueT, typename HashT = std::hash< KeyT >, typename KeyEqualT = std::equal_to< KeyT > >
 	using UnorderedMap = std::unordered_map< KeyT, ValueT, HashT, KeyEqualT, StlMapAllocatorT< KeyT, ValueT > >;
+
+	using UnorderedStringSet = std::unordered_set< std::string, StringHash, std::equal_to<> >;
 }
 
 #endif

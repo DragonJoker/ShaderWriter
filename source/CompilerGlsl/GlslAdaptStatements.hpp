@@ -7,11 +7,7 @@ See LICENSE file in root folder
 
 #include "CompilerGlsl/compileGlsl.hpp"
 
-#include "GlslHelpers.hpp"
-
 #include <ShaderAST/Visitors/CloneStmt.hpp>
-
-#include <unordered_set>
 
 namespace glsl
 {

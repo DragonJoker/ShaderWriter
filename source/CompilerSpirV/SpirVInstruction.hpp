@@ -16,7 +16,6 @@ See LICENSE file in root folder
 #include <set>
 #include <string>
 #include <vector>
-#include <unordered_map>
 
 #pragma warning( push )
 #pragma warning( disable: 4201 )
