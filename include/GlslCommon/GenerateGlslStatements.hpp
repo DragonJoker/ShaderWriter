@@ -18,10 +18,10 @@ namespace glsl
 {
 	SDWGLC_API Statements generateGlslStatements( StmtConfig const & config
 		, IntrinsicsConfig const & intrinsics
-		, ast::stmt::Container * stmt
+		, ast::stmt::Container const & stmt
 		, bool withExprColumns = false );
 	SDWGLC_API std::string getExprName( StmtConfig const & config
-		, ast::expr::Expr * expr );
+		, ast::expr::Expr const & expr );
 }
 
 #endif

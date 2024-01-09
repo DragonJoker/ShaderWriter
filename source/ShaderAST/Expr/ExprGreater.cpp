@@ -20,7 +20,7 @@ namespace ast::expr
 	{
 	}
 
-	void Greater::accept( VisitorPtr vis )
+	void Greater::accept( VisitorPtr vis )const
 	{
 		vis->visitGreaterExpr( this );
 	}

@@ -34,7 +34,7 @@ namespace sdw
 			return m_expr->getType();
 		}
 
-		virtual expr::Expr * getExpr()const
+		virtual expr::Expr const * getExpr()const
 		{
 			return m_expr.get();
 		}

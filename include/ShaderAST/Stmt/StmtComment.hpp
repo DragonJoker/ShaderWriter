@@ -16,7 +16,7 @@ namespace ast::stmt
 		SDAST_API explicit Comment( StmtCache & stmtCache
 			, std::string text );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline std::string const & getText()const noexcept
 		{

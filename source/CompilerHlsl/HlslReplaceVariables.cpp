@@ -14,13 +14,13 @@ namespace hlsl
 		{
 		public:
 			static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
-				, ast::expr::Expr * expr
+				, ast::expr::Expr const & expr
 				, ast::var::VariablePtr origin
 				, ast::var::VariablePtr replacement )
 			{
 				ast::expr::ExprPtr result{};
 				VariableReplacer vis{ exprCache, result, origin, replacement };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
@@ -37,15 +37,15 @@ namespace hlsl
 
 			using ast::ExprCloner::doSubmit;
 
-			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override
 			{
 				ast::expr::ExprPtr result{};
 				VariableReplacer vis{ m_exprCache, result, m_origin, m_replacement };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
 				if ( expr->getVariable() == m_origin )
 				{
@@ -64,7 +64,7 @@ namespace hlsl
 	}
 
 	ast::expr::ExprPtr replaceVariables( ast::expr::ExprCache & exprCache
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, ast::var::VariablePtr origin
 		, ast::var::VariablePtr replacement )
 	{

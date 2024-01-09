@@ -16,7 +16,7 @@ namespace ast::stmt
 	{
 	}
 
-	void InOutRayPayloadVariableDecl::accept( VisitorPtr vis )
+	void InOutRayPayloadVariableDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitInOutRayPayloadVariableDeclStmt( this );
 	}

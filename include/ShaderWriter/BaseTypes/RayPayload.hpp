@@ -13,7 +13,7 @@ namespace sdw
 	struct RayPayload
 	{
 		SDW_API RayPayload( ShaderWriter & writer
-			, expr::Expr * expr
+			, expr::Expr const * expr
 			, bool enabled );
 
 		SDW_API void traceRay( AccelerationStructure const topLevel
@@ -29,7 +29,7 @@ namespace sdw
 			return m_plWriter;
 		}
 
-		ast::expr::Expr * getExpr()const
+		ast::expr::Expr const * getExpr()const
 		{
 			return m_plExpr;
 		}
@@ -41,7 +41,7 @@ namespace sdw
 
 	private:
 		ShaderWriter * m_plWriter;
-		expr::Expr * m_plExpr;
+		expr::Expr const * m_plExpr;
 		bool m_plEnabled;
 	};
 

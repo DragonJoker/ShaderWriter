@@ -17,7 +17,7 @@ namespace ast::expr
 	{
 	}
 
-	void UnaryPlus::accept( VisitorPtr vis )
+	void UnaryPlus::accept( VisitorPtr vis )const
 	{
 		vis->visitUnaryPlusExpr( this );
 	}

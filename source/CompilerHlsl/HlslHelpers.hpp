@@ -200,7 +200,7 @@ namespace hlsl
 
 		void initialiseMainVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
-			, VarVarMap & paramToEntryPoint );
+			, VarVarMap & paramToEntryPoint )const;
 		void initialisePatchVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
 			, uint64_t flags
@@ -212,13 +212,13 @@ namespace hlsl
 			, uint32_t mbrIndex
 			, uint64_t flags
 			, uint32_t location );
-		void addPendingMbr( ast::expr::Expr * outer
+		void addPendingMbr( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location );
 		ast::expr::ExprPtr processPending( std::string const & name );
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
@@ -232,7 +232,7 @@ namespace hlsl
 			, uint64_t flags
 			, uint32_t location
 			, uint32_t arraySize
-			, ast::type::IOStruct & structType );
+			, ast::type::IOStruct & structType )const;
 		PendingResult processPendingType( ast::type::TypePtr type
 			, std::string const & name
 			, ast::Builtin builtin
@@ -288,11 +288,11 @@ namespace hlsl
 			, ast::stmt::Container & stmt )const;
 
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
-		void addMbrBuiltin( ast::expr::Expr * outer
+		void addMbrBuiltin( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t index );
@@ -303,13 +303,13 @@ namespace hlsl
 		bool hasSeparateLFInput()const;
 		void addPendingInput( ast::var::VariablePtr var
 			, uint32_t location );
-		void addPendingMbrInput( ast::expr::Expr * outer
+		void addPendingMbrInput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location );
 		ast::expr::ExprPtr processPendingInput( std::string const & name );
 		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
@@ -323,13 +323,13 @@ namespace hlsl
 		bool hasSeparateLFOutput()const;
 		void addPendingOutput( ast::var::VariablePtr var
 			, uint32_t location );
-		void addPendingMbrOutput( ast::expr::Expr * outer
+		void addPendingMbrOutput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location );
 		ast::expr::ExprPtr processPendingOutput( std::string const & name );
 		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
@@ -388,11 +388,11 @@ namespace hlsl
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
 			, ast::stmt::Container & stmt )const;
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
-		void addMbrBuiltin( ast::expr::Expr * outer
+		void addMbrBuiltin( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t index );
@@ -406,13 +406,13 @@ namespace hlsl
 		bool hasSeparateLFInput()const;
 		void addPendingInput( ast::var::VariablePtr var
 			, uint32_t location );
-		void addPendingMbrInput( ast::expr::Expr * outer
+		void addPendingMbrInput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location );
 		ast::expr::ExprPtr processPendingInput( std::string const & name );
 		ast::expr::ExprPtr processPendingInput( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbrInput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
@@ -426,13 +426,13 @@ namespace hlsl
 		bool hasSeparateLFOutput()const;
 		void addPendingOutput( ast::var::VariablePtr var
 			, uint32_t location );
-		void addPendingMbrOutput( ast::expr::Expr * outer
+		void addPendingMbrOutput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location );
 		ast::expr::ExprPtr processPendingOutput( std::string const & name );
 		ast::expr::ExprPtr processPendingOutput( ast::var::VariablePtr var );
-		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr * outer
+		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );

@@ -18,7 +18,7 @@ namespace
 		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
 		auto rhs = exprCache.makeLiteral( typesCache, 10 );
 		auto stmt = stmtCache.makeSimple( exprCache.makeInit( std::move( lhs ), std::move( rhs ) ) );
-		testCounts << "StmtSimple:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtSimple:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eSimple );
 		check( stmt->getExpr()->getKind() == ast::expr::Kind::eInit );
@@ -32,7 +32,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeContainer();
-			testCounts << "StmtContainer (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtContainer (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eContainer );
 			check( stmt->empty() );
@@ -46,7 +46,7 @@ namespace
 			auto stmt = stmtCache.makeContainer();
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtContainer:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtContainer:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eContainer );
 			check( stmt->size() == 2u );
@@ -61,7 +61,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeCompound();
-			testCounts << "StmtCompound (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtCompound (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eCompound );
 			check( stmt->empty() );
@@ -75,7 +75,7 @@ namespace
 			auto stmt = stmtCache.makeCompound();
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtCompound:" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtCompound:" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eCompound );
 			check( stmt->size() == 2u );
@@ -89,7 +89,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeComment( "Coin glop miaou !!" );
-		testCounts << "StmtComment:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtComment:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eComment );
 		require( stmt->getText() == "Coin glop miaou !!" );
@@ -102,7 +102,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs" ) );
-		testCounts << "StmtVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eVariableDecl );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
@@ -117,7 +117,7 @@ namespace
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePerVertexDecl( ast::stmt::PerVertexDecl::Source::eTessellationControlInput
 			, typesCache.getInt32() );
-		testCounts << "StmtPerVertexDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtPerVertexDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePerVertexDecl );
 		require( stmt->getSource() == ast::stmt::PerVertexDecl::Source::eTessellationControlInput );
@@ -131,7 +131,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInOutVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput ), 1u );
-		testCounts << "StmtInOutVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInOutVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
 		check( stmt->getLocation() == 1u );
@@ -148,7 +148,7 @@ namespace
 		auto stmt = stmtCache.makeInOutStreamVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eGeometryStream )
 			, 1u
 			, 2u );
-		testCounts << "makeInOutStreamVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "makeInOutStreamVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
 		check( stmt->getLocation() == 1u );
@@ -167,7 +167,7 @@ namespace
 		auto stmt = stmtCache.makeInOutBlendVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eBlendIndex )
 			, 1u
 			, 2u );
-		testCounts << "StmtInOutBlendVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInOutBlendVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInOutVariableDecl );
 		check( stmt->getLocation() == 1u );
@@ -187,7 +187,7 @@ namespace
 		auto stmt = stmtCache.makeSpecialisationConstantDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "lhs", ast::var::Flag::eShaderInput | ast::var::Flag::eBlendIndex )
 			, 1u
 			, exprCache.makeLiteral( typesCache, 18 ) );
-		testCounts << "StmtSpecialisationConstantDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtSpecialisationConstantDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eSpecialisationConstantDecl );
 		check( stmt->getLocation() == 1u );
@@ -206,7 +206,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
-			testCounts << "StmtConstantBufferDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtConstantBufferDecl (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
@@ -219,7 +219,7 @@ namespace
 			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", ast::type::MemoryLayout::eStd140, 1u, 2u );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) ) );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) ) );
-			testCounts << "StmtConstantBufferDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtConstantBufferDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eConstantBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
@@ -236,7 +236,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makePushConstantsBufferDecl( "Buffer", ast::type::MemoryLayout::eC );
-			testCounts << "StmtPushConstantsBufferDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtPushConstantsBufferDecl (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::ePushConstantsBufferDecl );
 			check( stmt->getMemoryLayout() == ast::type::MemoryLayout::eC );
@@ -248,7 +248,7 @@ namespace
 			auto stmt = stmtCache.makePushConstantsBufferDecl( "Buffer", ast::type::MemoryLayout::eC );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) ) );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) ) );
-			testCounts << "StmtPushConstantsBufferDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtPushConstantsBufferDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::ePushConstantsBufferDecl );
 			check( stmt->getMemoryLayout() == ast::type::MemoryLayout::eC );
@@ -264,7 +264,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeShaderBufferDecl( typesCache, "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u, ++testCounts.nextVarId );
-			testCounts << "StmtShaderBufferDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtShaderBufferDecl (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
@@ -277,7 +277,7 @@ namespace
 			auto stmt = stmtCache.makeShaderBufferDecl( typesCache, "Buffer", ast::type::MemoryLayout::eStd430, 1u, 2u, ++testCounts.nextVarId );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) ) );
 			stmt->add( stmtCache.makeVariableDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) ) );
-			testCounts << "StmtShaderBufferDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtShaderBufferDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
@@ -300,7 +300,7 @@ namespace
 			auto data = ast::var::makeVariable( ++testCounts.nextVarId, type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
 			auto instance = ast::var::makeVariable( ++testCounts.nextVarId, type, "Inst", ast::var::Flag::eUniform );
 			auto stmt = stmtCache.makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
-			testCounts << "StmtShaderStructBufferDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtShaderStructBufferDecl (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderStructBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
@@ -318,7 +318,7 @@ namespace
 			auto data = ast::var::makeVariable( ++testCounts.nextVarId, type->getMember( "Data" ).type, "Data", ast::var::Flag::eUniform );
 			auto instance = ast::var::makeVariable( ++testCounts.nextVarId, type, "Inst", ast::var::Flag::eUniform );
 			auto stmt = stmtCache.makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
-			testCounts << "StmtShaderStructBufferDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtShaderStructBufferDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eShaderStructBufferDecl );
 			check( stmt->getBindingPoint() == 1u );
@@ -333,7 +333,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeSamplerDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getSampler(), "lhs" ), 1u, 2u );
-		testCounts << "StmtSamplerDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtSamplerDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eSamplerDecl );
 		check( stmt->getBindingPoint() == 1u );
@@ -350,7 +350,7 @@ namespace
 		ast::type::TypesCache typesCache;
 		ast::type::ImageConfiguration config{};
 		auto stmt = stmtCache.makeImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getImage( config ), "lhs" ), 1u, 2u );
-		testCounts << "StmtImageDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtImageDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eImageDecl );
 		check( stmt->getBindingPoint() == 1u );
@@ -367,7 +367,7 @@ namespace
 		ast::type::TypesCache typesCache;
 		ast::type::ImageConfiguration config{};
 		auto stmt = stmtCache.makeSampledImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getSampledImage( config ), "lhs" ), 1u, 2u );
-		testCounts << "StmtSampledImageDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtSampledImageDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eSampledImageDecl );
 		check( stmt->getBindingPoint() == 1u );
@@ -384,7 +384,7 @@ namespace
 		ast::type::TypesCache typesCache;
 		ast::type::ImageConfiguration config{};
 		auto stmt = stmtCache.makeCombinedImageDecl( ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getCombinedImage( config, true ), "lhs" ), 1u, 2u );
-		testCounts << "StmtTextureDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtTextureDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eCombinedImageDecl );
 		check( stmt->getBindingPoint() == 1u );
@@ -401,7 +401,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), {} ), "foo" ) );
-			testCounts << "StmtFunctionDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFunctionDecl (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
@@ -412,7 +412,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ) } ), "foo" ) );
-			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
@@ -423,7 +423,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), { ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" ), ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" ) } ), "foo" ) );
-			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFunctionDecl (empty body):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
@@ -436,7 +436,7 @@ namespace
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( ast::var::makeFunction( ++testCounts.nextVarId, typesCache.getFunction( typesCache.getInt32(), {} ), "foo" ) );
 			stmt->addStmt( stmtCache.makeReturn( exprCache.makeLiteral( typesCache, 10 ) ) );
-			testCounts << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFunctionDecl (empty parameters list):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
@@ -452,7 +452,7 @@ namespace
 				exprCache.makeAdd( typesCache.getInt32(),
 					exprCache.makeIdentifier( typesCache, *( stmt->getType()->begin() + 0u ) ),
 					exprCache.makeLiteral( typesCache, 10 ) ) ) );
-			testCounts << "StmtFunctionDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFunctionDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
@@ -468,7 +468,7 @@ namespace
 				exprCache.makeAdd( typesCache.getInt32(),
 					exprCache.makeIdentifier( typesCache, *( stmt->getType()->begin() + 0u ) ),
 					exprCache.makeIdentifier( typesCache, *( stmt->getType()->begin() + 1u ) ) ) ) );
-			testCounts << "StmtFunctionDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFunctionDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFunctionDecl );
 			check( stmt->getName() == "foo" );
@@ -486,7 +486,7 @@ namespace
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getStruct( ast::type::MemoryLayout::eStd140, "MyStruct" );
 			auto stmt = stmtCache.makeStructureDecl( type );
-			testCounts << "StmtStructureDecl (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtStructureDecl (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
 			check( stmt->getType()->getName() == "MyStruct" );
@@ -499,7 +499,7 @@ namespace
 			type->declMember( "i", typesCache.getInt32() );
 			type->declMember( "j", typesCache.getInt32() );
 			auto stmt = stmtCache.makeStructureDecl( type );
-			testCounts << "StmtStructureDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtStructureDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eStructureDecl );
 			check( stmt->getType()->getName() == "MyStruct" );
@@ -516,7 +516,7 @@ namespace
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
-			testCounts << "StmtIf (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtIf (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -532,7 +532,7 @@ namespace
 			auto stmt = stmtCache.makeIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtIf:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtIf:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eIf );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -553,7 +553,7 @@ namespace
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
 			auto stmt = stmtCache.makeIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			auto elseStmt = stmt->createElse();
-			testCounts << "StmtElse (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtElse (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( elseStmt->getKind() == ast::stmt::Kind::eElse );
 			check( elseStmt->empty() );
@@ -570,7 +570,7 @@ namespace
 			auto elseStmt = stmt->createElse();
 			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
 			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
-			testCounts << "StmtElse:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtElse:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( elseStmt->getKind() == ast::stmt::Kind::eElse );
 			check( elseStmt->size() == 2u );
@@ -589,7 +589,7 @@ namespace
 			auto j = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "j" );
 			auto stmt = stmtCache.makeIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			auto elseIfStmt = stmt->createElseIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "l" ) ) );
-			testCounts << "StmtElseIf (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtElseIf (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
 			check( elseIfStmt->empty() );
@@ -606,7 +606,7 @@ namespace
 			auto elseIfStmt = stmt->createElseIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "l" ) ) );
 			elseIfStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
 			elseIfStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
-			testCounts << "StmtElseIf:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtElseIf:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( elseIfStmt->getKind() == ast::stmt::Kind::eElseIf );
 			check( elseIfStmt->size() == 2u );
@@ -626,7 +626,7 @@ namespace
 			auto stmt = stmtCache.makeIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			stmt->createElseIf( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "l" ) ) );
 			stmt->createElse();
-			testCounts << "StmtElse (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtElse (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 		}
 		{
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -643,7 +643,7 @@ namespace
 			auto elseStmt = stmt->createElse();
 			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
 			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
-			testCounts << "StmtElse:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtElse:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 		}
 		testEnd();
 	}
@@ -656,7 +656,7 @@ namespace
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeWhile( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
-			testCounts << "StmtWhile (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtWhile (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -672,7 +672,7 @@ namespace
 			auto stmt = stmtCache.makeWhile( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtWhile:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtWhile:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -693,7 +693,7 @@ namespace
 			auto stmt = stmtCache.makeFor( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 0 ) )
 				, exprCache.makeLessEqual( typesCache, exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 10 ) )
 				, exprCache.makePreIncrement( exprCache.makeIdentifier( typesCache, k ) ) );
-			testCounts << "StmtFor (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFor (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFor );
 			check( stmt->getInitExpr()->getKind() == ast::expr::Kind::eInit );
@@ -716,7 +716,7 @@ namespace
 				, exprCache.makePreIncrement( exprCache.makeIdentifier( typesCache, k ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtFor:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtFor:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eFor );
 			check( stmt->getInitExpr()->getKind() == ast::expr::Kind::eInit );
@@ -738,7 +738,7 @@ namespace
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeDoWhile( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
-			testCounts << "StmtDoWhile (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtDoWhile (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -754,7 +754,7 @@ namespace
 			auto stmt = stmtCache.makeDoWhile( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getBool(), "k" ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtDoWhile:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtDoWhile:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eDoWhile );
 			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eIdentifier );
@@ -773,7 +773,7 @@ namespace
 			ast::type::TypesCache typesCache;
 			auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeIdentifier( typesCache, i ) ) );
-			testCounts << "StmtSwitch (empty):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtSwitch (empty):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
@@ -787,7 +787,7 @@ namespace
 			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeIdentifier( typesCache, i ) ) );
 			stmt->createCase( exprCache.makeSwitchCase( exprCache.makeLiteral( typesCache, 10 ) ) );
 			stmt->createDefault();
-			testCounts << "StmtSwitch (empty cases):\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtSwitch (empty cases):\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
@@ -807,7 +807,7 @@ namespace
 			auto defaultStmt = stmt->createDefault();
 			defaultStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			defaultStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
-			testCounts << "StmtSwitch:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtSwitch:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eSwitch );
 			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest );
@@ -823,7 +823,7 @@ namespace
 			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeReturn();
-			testCounts << "StmtReturn:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtReturn:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eReturn );
 		}
@@ -832,7 +832,7 @@ namespace
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			ast::type::TypesCache typesCache;
 			auto stmt = stmtCache.makeReturn( exprCache.makeLiteral( typesCache, 10 ) );
-			testCounts << "StmtReturn:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtReturn:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eReturn );
 			check( stmt->getExpr()->getKind() == ast::expr::Kind::eLiteral );
@@ -846,7 +846,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeDemote();
-		testCounts << "StmtDemote:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtDemote:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eDemote );
 		testEnd();
@@ -858,7 +858,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeTerminateInvocation();
-		testCounts << "StmtTerminateInvocation:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtTerminateInvocation:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eTerminateInvocation );
 		testEnd();
@@ -871,7 +871,7 @@ namespace
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInputGeometryLayout( typesCache.getVoid()
 			, ast::type::InputLayout::eLineStripWithAdjacency );
-		testCounts << "StmtInputGeometryLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInputGeometryLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInputGeometryLayout );
 		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
@@ -887,7 +887,7 @@ namespace
 		auto stmt = stmtCache.makeOutputGeometryLayout( typesCache.getVoid()
 			, ast::type::OutputLayout::eTriangleStrip
 			, 15u );
-		testCounts << "StmtOutputGeometryLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtOutputGeometryLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eOutputGeometryLayout );
 		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
@@ -905,7 +905,7 @@ namespace
 			, ast::type::OutputTopology::eTriangle
 			, 64u
 			, 126u );
-		testCounts << "StmtOutputGeometryLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtOutputGeometryLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eOutputMeshLayout );
 		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
@@ -921,7 +921,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInputComputeLayout( typesCache.getVoid(), 16, 32, 64 );
-		testCounts << "StmtInputComputeLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInputComputeLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInputComputeLayout );
 		check( stmt->getType()->getKind() == ast::type::Kind::eVoid );
@@ -937,7 +937,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocExtension( "GL_arb_coin", ast::stmt::PreprocExtension::ExtStatus::eEnabled );
-		testCounts << "PreprocExtension:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "PreprocExtension:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocExtension );
 		check( stmt->getName() == "GL_arb_coin" );
@@ -951,7 +951,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePreprocVersion( "430 core" );
-		testCounts << "PreprocVersion:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "PreprocVersion:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePreprocVersion );
 		check( stmt->getName() == "430 core" );
@@ -966,7 +966,7 @@ namespace
 		auto stmt = stmtCache.makeFragmentLayout( typesCache.getVoid()
 				, ast::FragmentOrigin::eLowerLeft
 			, ast::FragmentCenter::eCenterInteger );
-		testCounts << "StmtFragmentLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtFragmentLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eFragmentLayout );
 		check( stmt->getFragmentCenter() == ast::FragmentCenter::eCenterInteger );
@@ -985,7 +985,7 @@ namespace
 			, ast::type::OutputTopology::eQuad
 			, ast::type::PrimitiveOrdering::eCCW
 			, 4u );
-		testCounts << "StmtOutputTessellationControlLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtOutputTessellationControlLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eOutputTessellationControlLayout );
 		check( stmt->getDomain() == ast::type::PatchDomain::eQuads );
@@ -1005,7 +1005,7 @@ namespace
 			, ast::type::PatchDomain::eQuads
 			, ast::type::Partitioning::eFractionalEven
 			, ast::type::PrimitiveOrdering::eCCW );
-		testCounts << "StmtInputTessellationEvaluationLayout:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInputTessellationEvaluationLayout:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInputTessellationEvaluationLayout );
 		check( stmt->getDomain() == ast::type::PatchDomain::eQuads );
@@ -1023,7 +1023,7 @@ namespace
 		auto stmt = stmtCache.makeAccelerationStructureDecl( i
 			, 18u
 			, 52u );
-		testCounts << "StmtAccelerationStructureDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtAccelerationStructureDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eAccelerationStructureDecl );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
@@ -1041,7 +1041,7 @@ namespace
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeInOutRayPayloadVariableDecl( i
 			, 18u );
-		testCounts << "StmtInOutRayPayloadVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInOutRayPayloadVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInOutRayPayloadVariableDecl );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
@@ -1057,7 +1057,7 @@ namespace
 		ast::type::TypesCache typesCache;
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeHitAttributeVariableDecl( i );
-		testCounts << "StmtHitAttributeVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtHitAttributeVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eHitAttributeVariableDecl );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
@@ -1073,7 +1073,7 @@ namespace
 		auto i = ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeInOutCallableDataVariableDecl( i
 			, 18u );
-		testCounts << "StmtInOutCallableDataVariableDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtInOutCallableDataVariableDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eInOutCallableDataVariableDecl );
 		check( stmt->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
@@ -1088,7 +1088,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeBufferReferenceDecl( typesCache.getInt32() );
-		testCounts << "StmtBufferReferenceDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtBufferReferenceDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eBufferReferenceDecl );
 		check( stmt->getType()->getKind() == ast::type::Kind::eInt32 );
@@ -1101,7 +1101,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeTerminateRay();
-		testCounts << "StmtTerminateRay:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtTerminateRay:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eTerminateRay );
 		testEnd();
@@ -1113,7 +1113,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeIgnoreIntersection();
-		testCounts << "StmtIgnoreIntersection:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtIgnoreIntersection:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eIgnoreIntersection );
 		testEnd();
@@ -1126,14 +1126,14 @@ namespace
 		ast::type::TypesCache typesCache;
 		{
 			auto stmt = stmtCache.makeBreak( true );
-			testCounts << "StmtBreak:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtBreak:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eBreak );
 			require( stmt->isSwitchCaseBreak() );
 		}
 		{
 			auto stmt = stmtCache.makeBreak( false );
-			testCounts << "StmtBreak:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+			testCounts << "StmtBreak:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 			require( stmt->getKind() == ast::stmt::Kind::eBreak );
 			require( !stmt->isSwitchCaseBreak() );
@@ -1147,7 +1147,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makeContinue();
-		testCounts << "StmtContinue:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtContinue:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eContinue );
 		testEnd();
@@ -1164,7 +1164,7 @@ namespace
 		auto numGroupsZ = exprCache.makeLiteral( typesCache, 32u );
 		auto payload = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getTaskPayload( typesCache.getUInt32() ), "payload" ) );
 		auto stmt = stmtCache.makeDispatchMesh( std::move( numGroupsX ), std::move( numGroupsY ), std::move( numGroupsZ ), std::move( payload ) );
-		testCounts << "StmtDispatchMesh:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtDispatchMesh:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::eDispatchMesh );
 		require( stmt->getNumGroupsX()->getKind() == ast::expr::Kind::eLiteral );
@@ -1182,7 +1182,7 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		auto stmt = stmtCache.makePerPrimitiveDecl( typesCache.getInt32() );
-		testCounts << "StmtPerPrimitiveDecl:\n" << ast::debug::displayStatements( stmt.get() ) << test::endl;
+		testCounts << "StmtPerPrimitiveDecl:\n" << ast::debug::displayStatements( *stmt ) << test::endl;
 
 		require( stmt->getKind() == ast::stmt::Kind::ePerPrimitiveDecl );
 		check( stmt->getType()->getKind() == ast::type::Kind::eInt32 );

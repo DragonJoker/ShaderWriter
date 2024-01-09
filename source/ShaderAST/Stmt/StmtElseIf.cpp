@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void ElseIf::accept( VisitorPtr vis )
+	void ElseIf::accept( VisitorPtr vis )const
 	{
 		vis->visitElseIfStmt( this );
 	}

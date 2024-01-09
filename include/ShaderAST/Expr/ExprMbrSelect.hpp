@@ -20,11 +20,11 @@ namespace ast::expr
 			, uint32_t memberIndex
 			, uint64_t memberFlags );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		SDAST_API type::StructPtr getOuterType()const;
 		
-		inline Expr * getOuterExpr()const
+		inline Expr const * getOuterExpr()const
 		{
 			return m_outer.get();
 		}

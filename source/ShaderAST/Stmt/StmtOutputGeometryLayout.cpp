@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void OutputGeometryLayout::accept( VisitorPtr vis )
+	void OutputGeometryLayout::accept( VisitorPtr vis )const
 	{
 		vis->visitOutputGeometryLayoutStmt( this );
 	}

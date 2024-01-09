@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void SamplerDecl::accept( VisitorPtr vis )
+	void SamplerDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitSamplerDeclStmt( this );
 	}

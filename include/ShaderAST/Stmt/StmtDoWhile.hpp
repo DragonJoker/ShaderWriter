@@ -18,9 +18,9 @@ namespace ast::stmt
 		SDAST_API explicit DoWhile( StmtCache & stmtCache
 			, expr::ExprPtr ctrlExpr );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline expr::Expr * getCtrlExpr()const
+		inline expr::Expr const * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}

@@ -20,7 +20,7 @@ namespace ast::expr
 	{
 	}
 
-	void Equal::accept( VisitorPtr vis )
+	void Equal::accept( VisitorPtr vis )const
 	{
 		vis->visitEqualExpr( this );
 	}

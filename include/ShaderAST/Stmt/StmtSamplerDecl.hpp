@@ -18,7 +18,7 @@ namespace ast::stmt
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline var::VariablePtr getVariable()const
 		{

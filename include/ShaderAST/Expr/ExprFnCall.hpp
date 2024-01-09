@@ -24,14 +24,14 @@ namespace ast::expr
 			, ExprPtr instance
 			, ExprList argList );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline ExprList const & getArgList()const
 		{
 			return m_argList;
 		}
 
-		inline Identifier * getFn()const
+		inline Identifier const * getFn()const
 		{
 			return m_fn.get();
 		}
@@ -41,7 +41,7 @@ namespace ast::expr
 			return m_instance != nullptr;
 		}
 
-		inline Expr * getInstance()const
+		inline Expr const * getInstance()const
 		{
 			assert( isMember() );
 			return m_instance.get();

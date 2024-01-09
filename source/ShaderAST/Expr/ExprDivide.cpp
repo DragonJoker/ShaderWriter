@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void Divide::accept( VisitorPtr vis )
+	void Divide::accept( VisitorPtr vis )const
 	{
 		vis->visitDivideExpr( this );
 	}

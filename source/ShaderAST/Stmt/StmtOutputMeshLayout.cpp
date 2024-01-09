@@ -20,7 +20,7 @@ namespace ast::stmt
 	{
 	}
 
-	void OutputMeshLayout::accept( VisitorPtr vis )
+	void OutputMeshLayout::accept( VisitorPtr vis )const
 	{
 		vis->visitOutputMeshLayoutStmt( this );
 	}

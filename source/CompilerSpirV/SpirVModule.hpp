@@ -233,7 +233,7 @@ namespace spirv
 		SDWSPIRV_API NamesCache & getNameCache()noexcept;
 		SDWSPIRV_API ast::type::TypesCache & getTypesCache()const noexcept;
 		SDWSPIRV_API void declareDebugAccessChain( InstructionList & instructions
-			, ast::expr::Expr * expr
+			, ast::expr::Expr const & expr
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
 		SDWSPIRV_API ast::type::TypePtr getType( DebugId const & typeId )const;

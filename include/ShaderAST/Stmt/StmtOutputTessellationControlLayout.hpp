@@ -23,7 +23,7 @@ namespace ast::stmt
 			, type::PrimitiveOrdering order
 			, uint32_t outputVertices );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		type::TypePtr getType()const
 		{

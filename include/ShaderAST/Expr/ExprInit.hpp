@@ -17,14 +17,20 @@ namespace ast::expr
 			, IdentifierPtr identifier
 			, ExprPtr initialiser );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline Identifier * getIdentifier()const
+		bool hasIdentifier()const noexcept
 		{
-			return m_identifier.get();
+			return m_identifier != nullptr;
 		}
 
-		inline Expr * getInitialiser()const
+		Identifier const & getIdentifier()const noexcept
+		{
+			assert( hasIdentifier() );
+			return *m_identifier;
+		}
+
+		inline Expr const * getInitialiser()const noexcept
 		{
 			return m_initialiser.get();
 		}

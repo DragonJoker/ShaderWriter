@@ -20,16 +20,16 @@ namespace spirv
 {
 	namespace adapt
 	{
-		static ast::Builtin getBuiltin( ast::expr::MbrSelect const * expr )
+		static ast::Builtin getBuiltin( ast::expr::MbrSelect const & expr )
 		{
-			auto mbr = expr->getOuterType()->getMember( expr->getMemberIndex() );
+			auto mbr = expr.getOuterType()->getMember( expr.getMemberIndex() );
 			return mbr.builtin;
 		}
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, ast::stmt::Container * container
 		, ast::stmt::Container * ioDeclarations
 		, AdaptationData & adaptationData )
@@ -41,9 +41,9 @@ namespace spirv
 			, ioDeclarations
 			, adaptationData
 			, result };
-		expr->accept( &vis );
+		expr.accept( &vis );
 
-		if ( expr->isNonUniform() )
+		if ( expr.isNonUniform() )
 		{
 			result->updateFlag( ast::expr::Flag::eNonUniform );
 		}
@@ -65,21 +65,12 @@ namespace spirv
 	{
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr * expr )
+	ast::expr::ExprPtr ExprAdapter::doSubmit( ast::expr::Expr const & expr )
 	{
-		ast::expr::ExprPtr result{};
-		ExprAdapter vis{ m_exprCache, m_typesCache, m_container, m_ioDeclarations, m_adaptationData, result };
-		expr->accept( &vis );
-
-		if ( expr->isNonUniform() )
-		{
-			result->updateFlag( ast::expr::Flag::eNonUniform );
-		}
-
-		return result;
+		return submit( m_exprCache, m_typesCache, expr, m_container, m_ioDeclarations, m_adaptationData );
 	}
 
-	void ExprAdapter::visitAssignExpr( ast::expr::Assign * expr )
+	void ExprAdapter::visitAssignExpr( ast::expr::Assign const * expr )
 	{
 		TraceFunc;
 
@@ -133,7 +124,7 @@ namespace spirv
 					if ( componentCount == 1u )
 					{
 						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
-							, ExprCloner::submit( m_exprCache, builtinExpr )
+							, ExprCloner::submit( m_exprCache, *builtinExpr )
 							, std::move( baseIndex ) );
 						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
@@ -142,8 +133,8 @@ namespace spirv
 					else
 					{
 						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
-							, ExprCloner::submit( m_exprCache, builtinExpr )
-							, ExprCloner::submit( m_exprCache, baseIndex ) );
+							, ExprCloner::submit( m_exprCache, *builtinExpr )
+							, ExprCloner::submit( m_exprCache, *baseIndex ) );
 						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
 							, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
@@ -153,9 +144,9 @@ namespace spirv
 						{
 							m_container->addStmt( m_container->getStmtCache().makeSimple( std::move( m_result ) ) );
 							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
-								, ExprCloner::submit( m_exprCache, builtinExpr )
+								, ExprCloner::submit( m_exprCache, *builtinExpr )
 								, m_exprCache.makeAdd( m_typesCache.getUInt32()
-									, ExprCloner::submit( m_exprCache, baseIndex )
+									, ExprCloner::submit( m_exprCache, *baseIndex )
 									, m_exprCache.makeLiteral( m_typesCache, 1u ) ) );
 							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
@@ -167,9 +158,9 @@ namespace spirv
 						{
 							m_container->addStmt( m_container->getStmtCache().makeSimple( std::move( m_result ) ) );
 							m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
-								, ExprCloner::submit( m_exprCache, builtinExpr )
+								, ExprCloner::submit( m_exprCache, *builtinExpr )
 								, m_exprCache.makeAdd( m_typesCache.getUInt32()
-									, ExprCloner::submit( m_exprCache, baseIndex )
+									, ExprCloner::submit( m_exprCache, *baseIndex )
 									, m_exprCache.makeLiteral( m_typesCache, 2u ) ) );
 							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
@@ -187,7 +178,7 @@ namespace spirv
 		}
 	}
 
-	void ExprAdapter::visitFnCallExpr( ast::expr::FnCall * expr )
+	void ExprAdapter::visitFnCallExpr( ast::expr::FnCall const * expr )
 	{
 		auto funcVar = expr->getFn()->getVariable();
 
@@ -201,7 +192,7 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg ) );
+			args.emplace_back( doSubmit( *arg ) );
 		}
 
 		if ( expr->isMember() )
@@ -219,7 +210,7 @@ namespace spirv
 		}
 	}
 
-	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier * expr )
+	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier const * expr )
 	{
 		TraceFunc;
 
@@ -248,14 +239,14 @@ namespace spirv
 		}
 	}
 
-	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )
+	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )
 	{
 		TraceFunc;
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg ) );
+			args.emplace_back( doSubmit( *arg ) );
 		}
 
 		if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSetMeshOutputCountsNV )
@@ -304,7 +295,7 @@ namespace spirv
 				uint32_t index = 0u;
 				for ( auto mbr : *getStructType( rayDesc->getType() ) )
 				{
-					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index, 0u ) );
+					args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, *rayDesc ), index, 0u ) );
 					++index;
 				}
 				// Move the RayPayload back to last parameter.
@@ -322,11 +313,11 @@ namespace spirv
 		}
 	}
 
-	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect * expr )
+	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect const * expr )
 	{
 		TraceFunc;
 		m_result = m_adaptationData.config.processPendingMbr( m_exprCache
-			, expr->getOuterExpr()
+			, *expr->getOuterExpr()
 			, expr->getMemberIndex()
 			, *expr
 			, *this
@@ -346,7 +337,7 @@ namespace spirv
 				&& arraySize != getArraySize( expr->getType() )
 				&& expr->isShaderOutput()
 				&& ( !expr->isBuiltin()
-					|| isPerVertex( adapt::getBuiltin( expr ), m_adaptationData.config.stage ) ) )
+					|| isPerVertex( adapt::getBuiltin( *expr ), m_adaptationData.config.stage ) ) )
 			{
 				auto type = m_result->getType();
 				assert( type->getKind() == ast::type::Kind::eArray );
@@ -359,13 +350,13 @@ namespace spirv
 		}
 	}
 
-	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend * expr )
+	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend const * expr )
 	{
 		TraceFunc;
 		m_result = makeEmitVertex( m_exprCache, m_typesCache );
 	}
 
-	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		TraceFunc;
 		auto kind = expr->getCombinedImageAccess();
@@ -377,11 +368,11 @@ namespace spirv
 
 		for ( auto & arg : expr->getArgList() )
 		{
-			args.emplace_back( doSubmit( arg ) );
+			args.emplace_back( doSubmit( *arg ) );
 		}
 
 		if ( getBias( kind ) == spv::ImageOperandsBiasMask
-			&& args.size() > config.imageOperandsIndex + 1u )
+			&& args.size() > config.imageOperandsIndex + 1ULL )
 		{
 			// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.
 			auto biasArg = std::move( args.back() );

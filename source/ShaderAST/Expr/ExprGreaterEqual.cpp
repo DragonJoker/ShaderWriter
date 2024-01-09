@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void GreaterEqual::accept( VisitorPtr vis )
+	void GreaterEqual::accept( VisitorPtr vis )const
 	{
 		vis->visitGreaterEqualExpr( this );
 	}

@@ -12,7 +12,7 @@ namespace ast::stmt
 	{
 	}
 
-	void TerminateInvocation::accept( VisitorPtr vis )
+	void TerminateInvocation::accept( VisitorPtr vis )const
 	{
 		vis->visitTerminateInvocationStmt( this );
 	}

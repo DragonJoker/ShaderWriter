@@ -16,7 +16,7 @@ namespace ast::stmt
 		SDAST_API explicit PreprocVersion( StmtCache & stmtCache
 			, std::string name );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline std::string const & getName()const
 		{

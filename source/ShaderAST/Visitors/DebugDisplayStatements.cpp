@@ -1002,18 +1002,12 @@ namespace ast::debug
 		: public expr::SimpleVisitor
 	{
 	public:
-		static std::string submit( expr::Expr * expr )
+		static std::string submit( expr::Expr const & expr )
 		{
 			std::string result;
 			ExprVisitor vis{ result };
-			expr->accept( &vis );
+			expr.accept( &vis );
 			return result;
-		}
-
-		template< typename ExprT >
-		static std::string submit( expr::ExprPtrT< ExprT > const & expr )
-		{
-			return submit( expr.get() );
 		}
 
 	private:
@@ -1022,72 +1016,72 @@ namespace ast::debug
 		{
 		}
 
-		void wrap( ast::expr::Expr * expr )
+		void wrap( ast::expr::Expr const & expr )
 		{
-			bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
-				|| expr->getKind() == ast::expr::Kind::eIdentifier
-				|| expr->getKind() == ast::expr::Kind::eCompositeConstruct
-				|| expr->getKind() == ast::expr::Kind::eLiteral
-				|| expr->getKind() == ast::expr::Kind::eMbrSelect
-				|| expr->getKind() == ast::expr::Kind::eCast
-				|| expr->getKind() == ast::expr::Kind::eSwizzle
-				|| expr->getKind() == ast::expr::Kind::eArrayAccess
-				|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
-				|| expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall
-				|| expr->getKind() == ast::expr::Kind::eImageAccessCall
-				|| expr->getKind() == ast::expr::Kind::eUnaryMinus
-				|| expr->getKind() == ast::expr::Kind::eUnaryPlus
-				|| expr->getKind() == ast::expr::Kind::eCopy;
+			bool noParen = expr.getKind() == ast::expr::Kind::eFnCall
+				|| expr.getKind() == ast::expr::Kind::eIdentifier
+				|| expr.getKind() == ast::expr::Kind::eCompositeConstruct
+				|| expr.getKind() == ast::expr::Kind::eLiteral
+				|| expr.getKind() == ast::expr::Kind::eMbrSelect
+				|| expr.getKind() == ast::expr::Kind::eCast
+				|| expr.getKind() == ast::expr::Kind::eSwizzle
+				|| expr.getKind() == ast::expr::Kind::eArrayAccess
+				|| expr.getKind() == ast::expr::Kind::eIntrinsicCall
+				|| expr.getKind() == ast::expr::Kind::eCombinedImageAccessCall
+				|| expr.getKind() == ast::expr::Kind::eImageAccessCall
+				|| expr.getKind() == ast::expr::Kind::eUnaryMinus
+				|| expr.getKind() == ast::expr::Kind::eUnaryPlus
+				|| expr.getKind() == ast::expr::Kind::eCopy;
 
-			if ( expr->isNonUniform() )
+			if ( expr.isNonUniform() )
 			{
 				m_result += "[nonuniform] ";
 			}
 
 			if ( noParen )
 			{
-				expr->accept( this );
+				expr.accept( this );
 			}
 			else
 			{
 				m_result += "(";
-				expr->accept( this );
+				expr.accept( this );
 				m_result += ")";
 			}
 		}
 
-		void visitUnaryExpr( expr::Unary * expr )override
+		void visitUnaryExpr( expr::Unary const * expr )override
 		{
 			m_result += helpers::getOperatorName( expr->getKind() ) + " ";
-			wrap( expr->getOperand() );
+			wrap( *expr->getOperand() );
 		}
 
-		void visitBinaryExpr( expr::Binary * expr )override
+		void visitBinaryExpr( expr::Binary const * expr )override
 		{
-			wrap( expr->getLHS() );
+			wrap( *expr->getLHS() );
 
 			if ( expr->getKind() != expr::Kind::eArrayAccess )
 			{
 				if ( expr->getKind() == expr::Kind::eAlias )
 				{
 					m_result += " = ";
-					wrap( expr->getRHS() );
+					wrap( *expr->getRHS() );
 				}
 				else
 				{
 					m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
-					wrap( expr->getRHS() );
+					wrap( *expr->getRHS() );
 				}
 			}
 		}
 
-		void visitAggrInitExpr( expr::AggrInit * expr )override
+		void visitAggrInitExpr( expr::AggrInit const * expr )override
 		{
 			m_result += getTypeName( expr->getType() ) + " ";
 
-			if ( expr->getIdentifier() )
+			if ( expr->hasIdentifier() )
 			{
-				if ( expr->getIdentifier()->getVariable()->isStatic() )
+				if ( expr->getIdentifier().getVariable()->isStatic() )
 				{
 					m_result += "constexpr ";
 				}
@@ -1100,37 +1094,41 @@ namespace ast::debug
 
 			for ( auto & init : expr->getInitialisers() )
 			{
-				m_result += sep + submit( init.get() );
+				m_result += sep + submit( *init );
 				sep = ", ";
 			}
 
 			m_result += "}";
 		}
 
-		void visitAliasExpr( expr::Alias * expr )override
+		void visitAliasExpr( expr::Alias const * expr )override
 		{
-			wrap( expr->getIdentifier() );
-			m_result += " = ";
-			wrap( expr->getRHS() );
+			if ( expr->hasIdentifier() )
+			{
+				wrap( expr->getIdentifier() );
+				m_result += " = ";
+			}
+
+			wrap( *expr->getAliasedExpr() );
 		}
 
-		void visitArrayAccessExpr( expr::ArrayAccess * expr )override
+		void visitArrayAccessExpr( expr::ArrayAccess const * expr )override
 		{
-			wrap( expr->getLHS() );
+			wrap( *expr->getLHS() );
 			m_result += "[";
-			wrap( expr->getRHS() );
+			wrap( *expr->getRHS() );
 			m_result += "]";
 		}
 
-		void visitCastExpr( expr::Cast * expr )override
+		void visitCastExpr( expr::Cast const * expr )override
 		{
 			m_result += "cast<";
 			m_result += getTypeName( expr->getType() ) + ">(";
-			wrap( expr->getOperand() );
+			wrap( *expr->getOperand() );
 			m_result += ")";
 		}
 
-		void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+		void visitCompositeConstructExpr( expr::CompositeConstruct const * expr )override
 		{
 			m_result += "ctor<";
 			m_result += helpers::getCompositeName( expr->getComposite() ) + ", ";
@@ -1147,36 +1145,36 @@ namespace ast::debug
 			m_result += ")";
 		}
 
-		void visitMbrSelectExpr( expr::MbrSelect * expr )override
+		void visitMbrSelectExpr( expr::MbrSelect const * expr )override
 		{
-			wrap( expr->getOuterExpr() );
+			wrap( *expr->getOuterExpr() );
 			m_result += ".";
 			m_result += expr->getOuterType()->getMember( expr->getMemberIndex() ).name;
 		}
 
-		void visitFnCallExpr( expr::FnCall * expr )override
+		void visitFnCallExpr( expr::FnCall const * expr )override
 		{
 			if ( expr->isMember() )
 			{
-				wrap( expr->getInstance() );
+				wrap( *expr->getInstance() );
 				m_result += ".";
 			}
 
-			wrap( expr->getFn() );
+			wrap( *expr->getFn() );
 			m_result += "(";
 			std::string sep;
 
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				wrap( arg.get() );
+				wrap( *arg );
 				sep = ", ";
 			}
 
 			m_result += ")";
 		}
 
-		void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+		void visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )override
 		{
 			m_result += getName( expr->getIntrinsic() ) + "(";
 			std::string sep;
@@ -1184,14 +1182,14 @@ namespace ast::debug
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				wrap( arg.get() );
+				wrap( *arg );
 				sep = ", ";
 			}
 
 			m_result += ")";
 		}
 
-		void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
+		void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall const * expr )override
 		{
 			m_result += getName( expr->getCombinedImageAccess() ) + "(";
 			std::string sep;
@@ -1199,14 +1197,14 @@ namespace ast::debug
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				wrap( arg.get() );
+				wrap( *arg );
 				sep = ", ";
 			}
 
 			m_result += ")";
 		}
 
-		void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
+		void visitImageAccessCallExpr( expr::StorageImageAccessCall const * expr )override
 		{
 			m_result += getName( expr->getImageAccess() ) + "(";
 			std::string sep;
@@ -1214,17 +1212,17 @@ namespace ast::debug
 			for ( auto & arg : expr->getArgList() )
 			{
 				m_result += sep;
-				wrap( arg.get() );
+				wrap( *arg );
 				sep = ", ";
 			}
 
 			m_result += ")";
 		}
 
-		void visitIdentifierExpr( expr::Identifier * expr )override
+		void visitIdentifierExpr( expr::Identifier const * expr )override
 		{
 			auto var = expr->getVariable();
-			auto name = var->getName();
+			std::string name = var->getName();
 
 			while ( var->getOuter() )
 			{
@@ -1235,23 +1233,26 @@ namespace ast::debug
 			m_result += name;
 		}
 
-		void visitInitExpr( expr::Init * expr )override
+		void visitInitExpr( expr::Init const * expr )override
 		{
 			m_result += getTypeName( expr->getType() ) + " ";
 
-			if ( expr->getIdentifier()
-				&& expr->getIdentifier()->getVariable()->isConstant()
-				&& expr->getIdentifier()->getVariable()->isStatic() )
+			if ( expr->hasIdentifier() )
 			{
-				m_result += "constexpr ";
+				if ( expr->getIdentifier().getVariable()->isConstant()
+				&& expr->getIdentifier().getVariable()->isStatic() )
+				{
+					m_result += "constexpr ";
+				}
+
+				wrap( expr->getIdentifier() );
+				m_result += " = ";
 			}
 
-			wrap( expr->getIdentifier() );
-			m_result += " = ";
-			wrap( expr->getInitialiser() );
+			wrap( *expr->getInitialiser() );
 		}
 
-		void visitLiteralExpr( expr::Literal * expr )override
+		void visitLiteralExpr( expr::Literal const * expr )override
 		{
 			std::locale loc{ "C" };
 			std::stringstream stream;
@@ -1318,36 +1319,36 @@ namespace ast::debug
 			m_result += stream.str();
 		}
 
-		void visitQuestionExpr( expr::Question *expr )override
+		void visitQuestionExpr( expr::Question const * expr )override
 		{
 			m_result += "(";
-			wrap( expr->getCtrlExpr() );
+			wrap( *expr->getCtrlExpr() );
 			m_result += " ? ";
-			wrap( expr->getTrueExpr() );
+			wrap( *expr->getTrueExpr() );
 			m_result += " : ";
-			wrap( expr->getFalseExpr() );
+			wrap( *expr->getFalseExpr() );
 			m_result += ")";
 		}
 
-		void visitStreamAppendExpr( expr::StreamAppend * expr )override
+		void visitStreamAppendExpr( expr::StreamAppend const * expr )override
 		{
 			m_result += "Append ";
-			wrap( expr->getOperand() );
+			wrap( *expr->getOperand() );
 		}
 
-		void visitSwitchCaseExpr( expr::SwitchCase *expr )override
+		void visitSwitchCaseExpr( expr::SwitchCase const * expr )override
 		{
-			wrap( expr->getLabel() );
+			wrap( *expr->getLabel() );
 		}
 
-		void visitSwitchTestExpr( expr::SwitchTest *expr )override
+		void visitSwitchTestExpr( expr::SwitchTest const * expr )override
 		{
-			wrap( expr->getValue() );
+			wrap( *expr->getValue() );
 		}
 
-		void visitSwizzleExpr( expr::Swizzle * expr )override
+		void visitSwizzleExpr( expr::Swizzle const * expr )override
 		{
-			wrap( expr->getOuterExpr() );
+			wrap( *expr->getOuterExpr() );
 			m_result += "." + getName( expr->getSwizzle() );
 		}
 
@@ -1359,12 +1360,12 @@ namespace ast::debug
 		: public stmt::Visitor
 	{
 	public:
-		static std::string submit( stmt::Stmt * stmt
+		static std::string submit( stmt::Stmt const & stmt
 			, std::string indent = std::string{} )
 		{
 			std::string result;
 			StmtVisitor vis{ result, std::move( indent ) };
-			stmt->accept( &vis );
+			stmt.accept( &vis );
 			return result;
 		}
 
@@ -1427,7 +1428,7 @@ namespace ast::debug
 		std::string beginScope()
 		{
 			addStatement( "{" );
-			auto save = m_indent;
+			std::string save = m_indent;
 			m_indent += "\t";
 			return save;
 		}
@@ -1438,26 +1439,20 @@ namespace ast::debug
 			addStatement( "}" );
 		}
 
-		std::string doSubmit( ast::expr::Expr * expr )
+		std::string doSubmit( ast::expr::Expr const & expr )
 		{
-			declareStruct( expr->getType() );
+			declareStruct( expr.getType() );
 			return ExprVisitor::submit( expr );
 		}
 
-		std::string doSubmit( ast::expr::ExprPtr expr )
-		{
-			declareStruct( expr->getType() );
-			return ExprVisitor::submit( expr.get() );
-		}
-
-		void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl * stmt )override
+		void visitAccelerationStructureDeclStmt( stmt::AccelerationStructureDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( "AccelerationStructure " + helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitBreakStmt( stmt::Break * stmt )override
+		void visitBreakStmt( stmt::Break const * stmt )override
 		{
 			if ( stmt->isSwitchCaseBreak() )
 			{
@@ -1469,25 +1464,25 @@ namespace ast::debug
 			}
 		}
 
-		void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl * stmt )override
+		void visitBufferReferenceDeclStmt( stmt::BufferReferenceDecl const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "BufferReference(" + getTypeName( stmt->getType() ) + ")" );
 		}
 
-		void visitCommentStmt( stmt::Comment * stmt )override
+		void visitCommentStmt( stmt::Comment const * stmt )override
 		{
 			addStatement( "// " + stmt->getText() );
 		}
 
-		void visitCompoundStmt( stmt::Compound * stmt )override
+		void visitCompoundStmt( stmt::Compound const * stmt )override
 		{
 			auto save = beginScope();
 			visitContainerStmt( stmt );
 			endScope( save );
 		}
 
-		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl * stmt )override
+		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
 		{
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( "[Layout=" + helpers::getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
@@ -1495,7 +1490,7 @@ namespace ast::debug
 			visitCompoundStmt( stmt );
 		}
 
-		void visitContainerStmt( stmt::Container * stmt )override
+		void visitContainerStmt( stmt::Container const * stmt )override
 		{
 			for ( auto & curStmt : *stmt )
 			{
@@ -1503,65 +1498,65 @@ namespace ast::debug
 			}
 		}
 
-		void visitContinueStmt( stmt::Continue * stmt )override
+		void visitContinueStmt( stmt::Continue const * stmt )override
 		{
 			addStatement( "Continue" );
 		}
 
-		void visitDemoteStmt( stmt::Demote * stmt )override
+		void visitDemoteStmt( stmt::Demote const * stmt )override
 		{
 			addStatement( "Demote" );
 		}
 
-		void visitDispatchMeshStmt( stmt::DispatchMesh * stmt )override
+		void visitDispatchMeshStmt( stmt::DispatchMesh const * stmt )override
 		{
 			addStatement( "DispatchMesh "
-				+ doSubmit( stmt->getNumGroupsX() ) + ", "
-				+ doSubmit( stmt->getNumGroupsY() ) + ", "
-				+ doSubmit( stmt->getNumGroupsZ() ) + ", "
-				+ doSubmit( stmt->getPayload() ) );
+				+ doSubmit( *stmt->getNumGroupsX() ) + ", "
+				+ doSubmit( *stmt->getNumGroupsY() ) + ", "
+				+ doSubmit( *stmt->getNumGroupsZ() ) + ", "
+				+ doSubmit( *stmt->getPayload() ) );
 		}
 
-		void visitTerminateInvocationStmt( stmt::TerminateInvocation * stmt )override
+		void visitTerminateInvocationStmt( stmt::TerminateInvocation const * stmt )override
 		{
 			addStatement( "Terminate" );
 		}
 
-		void visitDoWhileStmt( stmt::DoWhile * stmt )override
+		void visitDoWhileStmt( stmt::DoWhile const * stmt )override
 		{
 			addStatement( "Do" );
 			visitCompoundStmt( stmt );
-			addStatement( "While (" + doSubmit( stmt->getCtrlExpr() ) + ")" );
+			addStatement( "While (" + doSubmit( *stmt->getCtrlExpr() ) + ")" );
 		}
 
-		void visitElseIfStmt( stmt::ElseIf * stmt )override
+		void visitElseIfStmt( stmt::ElseIf const * stmt )override
 		{
-			addStatement( "ElseIf (" + doSubmit( stmt->getCtrlExpr() ) + ")" );
+			addStatement( "ElseIf (" + doSubmit( *stmt->getCtrlExpr() ) + ")" );
 			visitCompoundStmt( stmt );
 		}
 
-		void visitElseStmt( stmt::Else * stmt )override
+		void visitElseStmt( stmt::Else const * stmt )override
 		{
 			addStatement( "Else" );
 			visitCompoundStmt( stmt );
 		}
 
-		void visitForStmt( stmt::For * stmt )override
+		void visitForStmt( stmt::For const * stmt )override
 		{
 			addStatement( "For ("
-				+ doSubmit( stmt->getInitExpr() ) + ", "
-				+ doSubmit( stmt->getCtrlExpr() ) + ", "
-				+ doSubmit( stmt->getIncrExpr() ) + ")" );
+				+ doSubmit( *stmt->getInitExpr() ) + ", "
+				+ doSubmit( *stmt->getCtrlExpr() ) + ", "
+				+ doSubmit( *stmt->getIncrExpr() ) + ")" );
 			visitCompoundStmt( stmt );
 		}
 
-		void visitFragmentLayoutStmt( stmt::FragmentLayout * stmt )override
+		void visitFragmentLayoutStmt( stmt::FragmentLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Origin=" + helpers::getOriginName( stmt->getFragmentOrigin() ) + ", Center=" + helpers::getCenterName( stmt->getFragmentCenter() ) + "]" );
 		}
 
-		void visitFunctionDeclStmt( stmt::FunctionDecl * stmt )override
+		void visitFunctionDeclStmt( stmt::FunctionDecl const * stmt )override
 		{
 			std::string text;
 			auto type = stmt->getType();
@@ -1584,9 +1579,9 @@ namespace ast::debug
 			visitCompoundStmt( stmt );
 		}
 
-		void visitIfStmt( stmt::If * stmt )override
+		void visitIfStmt( stmt::If const * stmt )override
 		{
-			addStatement( "If (" + doSubmit( stmt->getCtrlExpr() ) + ")" );
+			addStatement( "If (" + doSubmit( *stmt->getCtrlExpr() ) + ")" );
 			visitCompoundStmt( stmt );
 
 			for ( auto & elseIf : stmt->getElseIfList() )
@@ -1600,18 +1595,18 @@ namespace ast::debug
 			}
 		}
 
-		void visitImageDeclStmt( stmt::ImageDecl * stmt )override
+		void visitImageDeclStmt( stmt::ImageDecl const * stmt )override
 		{
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitIgnoreIntersectionStmt( stmt::IgnoreIntersection * stmt )override
+		void visitIgnoreIntersectionStmt( stmt::IgnoreIntersection const * stmt )override
 		{
 			addStatement( "IgnoreIntersection" );
 		}
 
-		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl * stmt )override
+		void visitInOutVariableDeclStmt( stmt::InOutVariableDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			std::string text = "[";
@@ -1647,14 +1642,14 @@ namespace ast::debug
 			addStatement( "InOutVariable " + helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override
+		void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			addStatement( "[Location=" + std::to_string( stmt->getLocation() ) + "]" );
-			addStatement( "SpecialisationConstant " + helpers::displayVar( stmt->getVariable() ) + "=" + doSubmit( stmt->getValue() ) );
+			addStatement( "SpecialisationConstant " + helpers::displayVar( stmt->getVariable() ) + "=" + doSubmit( *stmt->getValue() ) );
 		}
 
-		void visitInputComputeLayoutStmt( stmt::InputComputeLayout * stmt )override
+		void visitInputComputeLayoutStmt( stmt::InputComputeLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[GroupsX=" + std::to_string( stmt->getWorkGroupsX() )
@@ -1663,14 +1658,14 @@ namespace ast::debug
 			addStatement( "Compute" );
 		}
 
-		void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout * stmt )override
+		void visitInputGeometryLayoutStmt( stmt::InputGeometryLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Layout=" + helpers::getInputLayoutName( stmt->getLayout() ) + "]" );
 			addStatement( "GeometryInput" );
 		}
 
-		void visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout * stmt )override
+		void visitInputTessellationEvaluationLayoutStmt( stmt::InputTessellationEvaluationLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Domain=" + helpers::getDomainName( stmt->getDomain() )
@@ -1679,7 +1674,7 @@ namespace ast::debug
 			addStatement( "TessEvalInput" );
 		}
 
-		void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout * stmt )override
+		void visitOutputGeometryLayoutStmt( stmt::OutputGeometryLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Layout=" + helpers::getOutputLayoutName( stmt->getLayout() )
@@ -1687,7 +1682,7 @@ namespace ast::debug
 			addStatement( "GeometryOutput" );
 		}
 
-		void visitOutputMeshLayoutStmt( stmt::OutputMeshLayout * stmt )override
+		void visitOutputMeshLayoutStmt( stmt::OutputMeshLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Topology=" + helpers::getTopologyName( stmt->getTopology() )
@@ -1696,7 +1691,7 @@ namespace ast::debug
 			addStatement( "MeshOutput" );
 		}
 
-		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
+		void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Domain=" + helpers::getDomainName( stmt->getDomain() )
@@ -1707,13 +1702,13 @@ namespace ast::debug
 			addStatement( "TessControlOutput" );
 		}
 
-		void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl * stmt )override
+		void visitPerPrimitiveDeclStmt( stmt::PerPrimitiveDecl const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "PerPrimitive " + getTypeName( stmt->getType() ) );
 		}
 
-		void visitPerVertexDeclStmt( stmt::PerVertexDecl * stmt )override
+		void visitPerVertexDeclStmt( stmt::PerVertexDecl const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			std::string text = "PerVertex [";
@@ -1749,65 +1744,65 @@ namespace ast::debug
 			addStatement( text + "]" + getTypeName( stmt->getType() ) );
 		}
 
-		void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl * stmt )override
+		void visitPushConstantsBufferDeclStmt( stmt::PushConstantsBufferDecl const * stmt )override
 		{
 			addStatement( "PushContants " + stmt->getName() );
 			visitCompoundStmt( stmt );
 		}
 
-		void visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl * stmt )override
+		void visitHitAttributeVariableDeclStmt( stmt::HitAttributeVariableDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			addStatement( "HitAttribute " + helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl * stmt )override
+		void visitInOutCallableDataVariableDeclStmt( stmt::InOutCallableDataVariableDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			addStatement( "[Loc=" + std::to_string( stmt->getLocation() ) + "]" );
 			addStatement( "Callable " + helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl * stmt )override
+		void visitInOutRayPayloadVariableDeclStmt( stmt::InOutRayPayloadVariableDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			addStatement( "[Loc=" + std::to_string( stmt->getLocation() ) + "]" );
 			addStatement( "RayPayload " + helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitReturnStmt( stmt::Return * stmt )override
+		void visitReturnStmt( stmt::Return const * stmt )override
 		{
 			std::string text;
 
-			if ( stmt->getExpr() )
+			if ( auto expr = stmt->getExpr() )
 			{
-				declareStruct( stmt->getExpr()->getType() );
-				text += " " + doSubmit( stmt->getExpr() );
+				declareStruct( expr->getType() );
+				text += " " + doSubmit( *expr );
 			}
 
 			addStatement( "Return" + text );
 		}
 
-		void visitCombinedImageDeclStmt( stmt::CombinedImageDecl * stmt )override
+		void visitCombinedImageDeclStmt( stmt::CombinedImageDecl const * stmt )override
 		{
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( helpers::displayVar( stmt->getVariable() ) );
 			m_result += "\n";
 		}
 
-		void visitSampledImageDeclStmt( stmt::SampledImageDecl * stmt )override
+		void visitSampledImageDeclStmt( stmt::SampledImageDecl const * stmt )override
 		{
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitSamplerDeclStmt( stmt::SamplerDecl * stmt )override
+		void visitSamplerDeclStmt( stmt::SamplerDecl const * stmt )override
 		{
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl * stmt )override
+		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
@@ -1816,7 +1811,7 @@ namespace ast::debug
 			visitCompoundStmt( stmt );
 		}
 
-		void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl * stmt )override
+		void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )override
 		{
 			declareStruct( stmt->getSsboInstance()->getType() );
 			declareStruct( stmt->getData()->getType() );
@@ -1826,21 +1821,21 @@ namespace ast::debug
 			addStatement( "BufferInstance " + helpers::displayVar( stmt->getData() ) );
 		}
 
-		void visitSimpleStmt( stmt::Simple * stmt )override
+		void visitSimpleStmt( stmt::Simple const * stmt )override
 		{
-			addStatement( doSubmit( stmt->getExpr() ) );
+			addStatement( doSubmit( *stmt->getExpr() ) );
 		}
 
-		void visitStructureDeclStmt( stmt::StructureDecl * stmt )override
+		void visitStructureDeclStmt( stmt::StructureDecl const * stmt )override
 		{
 			declareStruct( stmt->getType() );
 		}
 
-		void visitSwitchCaseStmt( stmt::SwitchCase * stmt )override
+		void visitSwitchCaseStmt( stmt::SwitchCase const * stmt )override
 		{
 			if ( stmt->getCaseExpr() )
 			{
-				addStatement( "Case " + doSubmit( stmt->getCaseExpr() ) );
+				addStatement( "Case " + doSubmit( *stmt->getCaseExpr() ) );
 			}
 			else
 			{
@@ -1853,30 +1848,30 @@ namespace ast::debug
 			}
 		}
 
-		void visitSwitchStmt( stmt::Switch * stmt )override
+		void visitSwitchStmt( stmt::Switch const * stmt )override
 		{
-			addStatement( "Switch " + doSubmit( stmt->getTestExpr() ) );
+			addStatement( "Switch " + doSubmit( *stmt->getTestExpr() ) );
 			visitCompoundStmt( stmt );
 		}
 
-		void visitTerminateRayStmt( stmt::TerminateRay * stmt )override
+		void visitTerminateRayStmt( stmt::TerminateRay const * stmt )override
 		{
 			addStatement( "TerminateRay" );
 		}
 
-		void visitVariableDeclStmt( stmt::VariableDecl * stmt )override
+		void visitVariableDeclStmt( stmt::VariableDecl const * stmt )override
 		{
 			declareStruct( stmt->getVariable()->getType() );
 			addStatement( helpers::displayVar( stmt->getVariable() ) );
 		}
 
-		void visitWhileStmt( stmt::While * stmt )override
+		void visitWhileStmt( stmt::While const * stmt )override
 		{
-			addStatement( "While (" + doSubmit( stmt->getCtrlExpr() ) + ")" );
+			addStatement( "While (" + doSubmit( *stmt->getCtrlExpr() ) + ")" );
 			visitCompoundStmt( stmt );
 		}
 
-		void visitPreprocExtension( stmt::PreprocExtension * preproc )override
+		void visitPreprocExtension( stmt::PreprocExtension const * preproc )override
 		{
 			std::string type;
 
@@ -1899,7 +1894,7 @@ namespace ast::debug
 			addStatement( "ppExtension " + preproc->getName() + type );
 		}
 
-		void visitPreprocVersion( stmt::PreprocVersion * preproc )override
+		void visitPreprocVersion( stmt::PreprocVersion const * preproc )override
 		{
 			addStatement( "ppVersion " + preproc->getName() );
 		}
@@ -1984,12 +1979,12 @@ namespace ast::debug
 		ast::UnorderedStringSet m_declaredStructs;
 	};
 
-	std::string displayStatements( stmt::Stmt * stmt )
+	std::string displayStatements( stmt::Stmt const & stmt )
 	{
 		return StmtVisitor::submit( stmt );
 	}
 
-	std::string displayExpression( expr::Expr * expr )
+	std::string displayExpression( expr::Expr const & expr )
 	{
 		return ExprVisitor::submit( expr );
 	}

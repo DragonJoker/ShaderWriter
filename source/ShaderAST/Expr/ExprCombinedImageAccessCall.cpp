@@ -24,7 +24,7 @@ namespace ast::expr
 	{
 	}
 
-	void CombinedImageAccessCall::accept( VisitorPtr vis )
+	void CombinedImageAccessCall::accept( VisitorPtr vis )const
 	{
 		vis->visitCombinedImageAccessCallExpr( this );
 	}

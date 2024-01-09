@@ -34,7 +34,7 @@ namespace ast::expr
 	{
 	}
 
-	void Identifier::accept( VisitorPtr vis )
+	void Identifier::accept( VisitorPtr vis )const
 	{
 		vis->visitIdentifierExpr( this );
 	}

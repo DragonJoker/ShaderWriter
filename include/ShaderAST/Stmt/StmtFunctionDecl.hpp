@@ -40,7 +40,7 @@ namespace ast::stmt
 			, var::VariablePtr funcVar
 			, uint32_t flags );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		SDAST_API type::FunctionPtr getType()const;
 		SDAST_API std::string const & getName()const;

@@ -61,7 +61,7 @@ namespace ast::expr
 		return getStructType( m_outer->getType() );
 	}
 
-	void MbrSelect::accept( VisitorPtr vis )
+	void MbrSelect::accept( VisitorPtr vis )const
 	{
 		vis->visitMbrSelectExpr( this );
 	}

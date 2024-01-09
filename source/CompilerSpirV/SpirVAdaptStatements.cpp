@@ -22,12 +22,12 @@ namespace spirv
 			static ast::stmt::ContainerPtr submit( ast::stmt::StmtCache & stmtCache
 				, ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
-				, ast::stmt::Container * container
+				, ast::stmt::Container const & container
 				, AdaptationData & adaptationData )
 			{
 				auto result = stmtCache.makeContainer();
 				StmtAdapter vis{ stmtCache, exprCache, typesCache, result, adaptationData };
-				container->accept( &vis );
+				container.accept( &vis );
 				return result;
 			}
 
@@ -48,27 +48,27 @@ namespace spirv
 				m_current->addStmt( std::move( cont ) );
 			}
 
-			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override
 			{
 				return ExprAdapter::submit( m_exprCache, m_typesCache, expr, m_current, m_ioDeclarations, m_adaptationData );
 			}
 
-			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
+			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
 				AST_Failure( "Unexpected ElseIf statement." );
 			}
 
-			void visitElseStmt( ast::stmt::Else * stmt )override
+			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
 				AST_Failure( "Unexpected Else statement." );
 			}
 
-			void visitIfStmt( ast::stmt::If * stmt )override
+			void visitIfStmt( ast::stmt::If const * stmt )override
 			{
 				TraceFunc;
 				assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 				auto save = m_current;
-				auto cont = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
+				auto cont = m_stmtCache.makeIf( doSubmit( *stmt->getCtrlExpr() ) );
 				m_current = cont.get();
 				visitContainerStmt( stmt );
 				m_current = save;
@@ -85,18 +85,18 @@ namespace spirv
 				}
 			}
 
-			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
+			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
 				TraceFunc;
 				if ( stmt->getFlags() )
 				{
 					if ( stmt->isEntryPoint() )
 					{
-						doProcessEntryPoint( stmt );
+						doProcessEntryPoint( *stmt );
 					}
 					else if ( stmt->isPatchRoutine() )
 					{
-						doProcessPatchRoutine( stmt );
+						doProcessPatchRoutine( *stmt );
 					}
 				}
 				else
@@ -105,32 +105,32 @@ namespace spirv
 				}
 			}
 
-			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override
 			{
 				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeHitAttributeVariableDecl( stmt->getVariable() ) );
 			}
 
-			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl const * stmt )override
 			{
 				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( stmt->getVariable()
 					, stmt->getLocation() ) );
 			}
 
-			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl const * stmt )override
 			{
 				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( stmt->getVariable()
 					, stmt->getLocation() ) );
 			}
 
-			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
+			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
 				TraceFunc;
 			}
 
-			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
 			}
 
@@ -269,22 +269,22 @@ namespace spirv
 				}
 			}
 
-			void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt )
+			void doProcessEntryPoint( ast::stmt::FunctionDecl const & stmt )
 			{
 				TraceFunc;
-				auto & typesCache = stmt->getType()->getTypesCache();
+				auto & typesCache = stmt.getType()->getTypesCache();
 				auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
-				doProcessInOut( stmt->getType() );
+				doProcessInOut( stmt.getType() );
 				auto save = m_current;
-				auto funcVar = stmt->getFuncVar();
+				auto funcVar = stmt.getFuncVar();
 				funcVar = ast::var::makeVariable( funcVar->getId()
 					, funcType
-					, stmt->getName()
+					, stmt.getName()
 					, funcVar->getFlags() );
 				m_adaptationData.funcVarReplacements.try_emplace( funcVar->getId(), funcVar );
-				auto cont = m_stmtCache.makeFunctionDecl( funcVar, stmt->getFlags() );
+				auto cont = m_stmtCache.makeFunctionDecl( funcVar, stmt.getFlags() );
 				m_current = cont.get();
-				visitContainerStmt( stmt );
+				visitContainerStmt( &stmt );
 
 				for ( auto const & [_, pending] : m_pending )
 				{
@@ -296,16 +296,16 @@ namespace spirv
 				m_current->addStmt( std::move( cont ) );
 			}
 
-			void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
+			void doProcessPatchRoutine( ast::stmt::FunctionDecl const & stmt )
 			{
 				TraceFunc;
 				auto save = m_current;
 				auto cont = m_stmtCache.makeContainer();
 				m_current = cont.get();
-				visitContainerStmt( stmt );
+				visitContainerStmt( &stmt );
 				m_current = save;
-				m_pending.try_emplace( stmt->getName()
-					, stmt->getType(), std::move( cont ) );
+				m_pending.try_emplace( stmt.getName()
+					, stmt.getType(), std::move( cont ) );
 			}
 
 			void doProcessInOut( ast::type::FunctionPtr funcType )
@@ -404,7 +404,7 @@ namespace spirv
 	ast::stmt::ContainerPtr adaptStatements( ast::stmt::StmtCache & stmtCache
 		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
-		, ast::stmt::Container * container
+		, ast::stmt::Container const & container
 		, AdaptationData & adaptationData )
 	{
 		return adapt::StmtAdapter::submit( stmtCache

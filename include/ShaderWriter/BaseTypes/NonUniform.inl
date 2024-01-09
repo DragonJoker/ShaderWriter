@@ -5,13 +5,23 @@ namespace sdw
 {
 	//*************************************************************************
 
+	namespace nonunif
+	{
+		static expr::ExprPtr updateExpr( expr::ExprPtr expr )
+		{
+			expr->updateFlag( ast::expr::Flag::eNonUniform );
+			return sdw::makeCopy( std::move( expr ) );
+		}
+	}
+
+	//*************************************************************************
+
 	template< typename ValueT >
 	NonUniformT< ValueT >::NonUniformT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: ValueT{ writer, sdw::makeCopy( std::move( expr ) ), enabled }
+		: ValueT{ writer, nonunif::updateExpr( std::move( expr ) ), enabled }
 	{
-		this->getExpr()->updateFlag( ast::expr::Flag::eNonUniform );
 	}
 
 	template< typename ValueT >

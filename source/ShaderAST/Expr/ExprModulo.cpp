@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void Modulo::accept( VisitorPtr vis )
+	void Modulo::accept( VisitorPtr vis )const
 	{
 		vis->visitModuloExpr( this );
 	}

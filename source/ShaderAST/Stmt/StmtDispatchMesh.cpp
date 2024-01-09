@@ -20,7 +20,7 @@ namespace ast::stmt
 	{
 	}
 
-	void DispatchMesh::accept( VisitorPtr vis )
+	void DispatchMesh::accept( VisitorPtr vis )const
 	{
 		vis->visitDispatchMeshStmt( this );
 	}

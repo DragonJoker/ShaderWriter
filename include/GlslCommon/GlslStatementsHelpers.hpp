@@ -187,7 +187,7 @@ namespace glsl
 		eControlEnd,
 	};
 
-	using ExprsColumns = std::map< ast::expr::Expr *, RangeInfo >;
+	using ExprsColumns = std::map< ast::expr::Expr const *, RangeInfo >;
 
 	struct Statement
 	{
@@ -246,7 +246,8 @@ namespace glsl
 		, IntrinsicsConfig & config );
 
 	SDWGLC_API RangeInfo getColumnData( Statement const * statement
-		, ast::expr::Expr * expr );
+		, ast::expr::Expr const & expr );
+	SDWGLC_API RangeInfo getColumnData( Statement const * statement );
 
 	inline bool checkBufferMemoryBarrier( ast::type::MemorySemantics semantics )
 	{

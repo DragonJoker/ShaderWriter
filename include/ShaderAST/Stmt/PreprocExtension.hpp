@@ -25,7 +25,7 @@ namespace ast::stmt
 			, std::string name
 			, ExtStatus status );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline std::string const & getName()const
 		{

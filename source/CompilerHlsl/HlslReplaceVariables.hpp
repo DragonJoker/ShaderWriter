@@ -10,7 +10,7 @@ See LICENSE file in root folder
 namespace hlsl
 {
 	ast::expr::ExprPtr replaceVariables( ast::expr::ExprCache & exprCache
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, ast::var::VariablePtr origin
 		, ast::var::VariablePtr replacement );
 }

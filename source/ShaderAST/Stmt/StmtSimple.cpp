@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void Simple::accept( VisitorPtr vis )
+	void Simple::accept( VisitorPtr vis )const
 	{
 		vis->visitSimpleStmt( this );
 	}

@@ -21,7 +21,7 @@ namespace ast::expr
 			, ExprPtr operand
 			, Kind kind );
 
-		inline Expr * getOperand()const
+		inline Expr const * getOperand()const
 		{
 			return m_operand.get();
 		}

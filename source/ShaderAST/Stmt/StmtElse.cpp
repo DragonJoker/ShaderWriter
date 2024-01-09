@@ -12,7 +12,7 @@ namespace ast::stmt
 	{
 	}
 
-	void Else::accept( VisitorPtr vis )
+	void Else::accept( VisitorPtr vis )const
 	{
 		vis->visitElseStmt( this );
 	}

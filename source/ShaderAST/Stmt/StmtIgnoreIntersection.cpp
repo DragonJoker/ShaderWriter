@@ -12,7 +12,7 @@ namespace ast::stmt
 	{
 	}
 
-	void IgnoreIntersection::accept( VisitorPtr vis )
+	void IgnoreIntersection::accept( VisitorPtr vis )const
 	{
 		vis->visitIgnoreIntersectionStmt( this );
 	}

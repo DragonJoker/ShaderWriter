@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void FragmentLayout::accept( VisitorPtr vis )
+	void FragmentLayout::accept( VisitorPtr vis )const
 	{
 		vis->visitFragmentLayoutStmt( this );
 	}

@@ -22,7 +22,7 @@ namespace ast::expr
 			, CombinedImageAccess texelAccess
 			, ExprList argList );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline ExprList const & getArgList()const
 		{

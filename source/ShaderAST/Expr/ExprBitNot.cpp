@@ -17,7 +17,7 @@ namespace ast::expr
 	{
 	}
 
-	void BitNot::accept( VisitorPtr vis )
+	void BitNot::accept( VisitorPtr vis )const
 	{
 		vis->visitBitNotExpr( this );
 	}

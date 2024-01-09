@@ -25,7 +25,7 @@ namespace ast::stmt
 		addStmt( std::move( decl ) );
 	}
 
-	void ConstantBufferDecl::accept( VisitorPtr vis )
+	void ConstantBufferDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitConstantBufferDeclStmt( this );
 	}

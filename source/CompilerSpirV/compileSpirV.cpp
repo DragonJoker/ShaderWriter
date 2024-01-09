@@ -28,7 +28,7 @@ namespace spirv
 
 	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
-		, ast::stmt::Container * stmt
+		, ast::stmt::Container const * stmt
 		, ast::ShaderStage stage
 		, SpirVConfig & spirvConfig )
 	{
@@ -40,45 +40,45 @@ namespace spirv
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, stmt
+			, *stmt
 			, ssaData
 			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		ModuleConfig moduleConfig{ &allocator
 			, spirvConfig
 			, typesCache
 			, stage
 			, ssaData.nextVarId
 			, ssaData.aliasId };
-		spirv::fillConfig( statements.get()
+		spirv::fillConfig( *statements
 			, moduleConfig );
 		spirv::PreprocContext context;
 		AdaptationData adaptationData{ &allocator, context, std::move( moduleConfig ) };
 		statements = spirv::adaptStatements( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get()
+			, *statements
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
-		auto actions = listActions( statements.get() );
+			, *statements );
+		auto actions = listActions( *statements );
 		glsl::Statements debug;
 		glsl::StmtConfig stmtConfig;
 
 		if ( spirvConfig.debugLevel == DebugLevel::eDebugInfo )
 		{
 			auto intrinsicsConfig = glsl::fillConfig( stage
-				, statements.get() );
+				, *statements );
 
 			if ( intrinsicsConfig.requiresInt8 )
 			{
@@ -107,12 +107,12 @@ namespace spirv
 				, true
 				, spirvConfig.allocator };
 			glsl::checkConfig( stmtConfig, intrinsicsConfig );
-			debug = glsl::generateGlslStatements( stmtConfig, intrinsicsConfig, statements.get(), true );
+			debug = glsl::generateGlslStatements( stmtConfig, intrinsicsConfig, *statements, true );
 		}
 
 		return generateModule( compileExprCache
 			, typesCache
-			, statements.get()
+			, *statements
 			, stage
 			, adaptationData.config
 			, std::move( context )
@@ -169,7 +169,7 @@ namespace spirv
 	}
 
 	std::string writeSpirv( ast::Shader const & shader
-		, ast::stmt::Container * statements
+		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, SpirVConfig & config
 		, bool writeHeader )
@@ -204,7 +204,7 @@ namespace spirv
 	}
 
 	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
-		, ast::stmt::Container * statements
+		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, SpirVConfig & config )
 	{

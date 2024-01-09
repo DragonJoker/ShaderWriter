@@ -50,7 +50,7 @@ namespace ast::expr
 #endif
 	}
 
-	void AggrInit::accept( VisitorPtr vis )
+	void AggrInit::accept( VisitorPtr vis )const
 	{
 		vis->visitAggrInitExpr( this );
 	}

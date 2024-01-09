@@ -19,12 +19,27 @@ namespace ast::expr
 			, IdentifierPtr lhs
 			, ExprPtr rhs );
 
-		Identifier * getIdentifier()const
+		bool hasIdentifier()const noexcept
 		{
-			return static_cast< Identifier * >( Binary::getLHS() );
+			return getLHS() != nullptr;
 		}
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		Identifier const & getIdentifier()const noexcept
+		{
+			assert( hasIdentifier() );
+			return *static_cast< Identifier const * >( Binary::getLHS() );
+		}
+
+		Expr const * getAliasedExpr()const noexcept
+		{
+			return Binary::getRHS();
+		}
+
+		SDAST_API void accept( VisitorPtr vis )const override;
+
+	private:
+		using Binary::getLHS;
+		using Binary::getRHS;
 	};
 }
 

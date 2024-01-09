@@ -16,7 +16,7 @@ namespace ast::stmt
 	{
 	}
 
-	void InOutCallableDataVariableDecl::accept( VisitorPtr vis )
+	void InOutCallableDataVariableDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitInOutCallableDataVariableDeclStmt( this );
 	}

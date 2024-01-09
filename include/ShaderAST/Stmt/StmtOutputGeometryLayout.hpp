@@ -20,7 +20,7 @@ namespace ast::stmt
 			, type::OutputLayout layout
 			, uint32_t primCount );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		type::TypePtr getType()const
 		{

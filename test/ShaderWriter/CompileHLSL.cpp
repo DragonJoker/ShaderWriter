@@ -160,7 +160,7 @@ namespace test
 			arguments.push_back( DXC_ARG_DEBUG ); //-Zi
 			arguments.push_back( DXC_ARG_PACK_MATRIX_ROW_MAJOR ); //-Zp
 
-			DxcBuffer sourceBuffer;
+			DxcBuffer sourceBuffer{};
 			sourceBuffer.Ptr = pSource->GetBufferPointer();
 			sourceBuffer.Size = pSource->GetBufferSize();
 			sourceBuffer.Encoding = 0;
@@ -256,11 +256,12 @@ namespace test
 	{
 		struct HLSLContext
 		{
-			std::vector< uint32_t > getShaderModels()
+			std::vector< uint32_t > const & getShaderModels()const
 			{
 				return m_shaderModels;
 			}
 
+		private:
 			std::vector< uint32_t > m_shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u };
 		};
 	}
@@ -272,12 +273,12 @@ namespace test
 	}
 
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
-		, uint32_t infoIndex )
+		, [[maybe_unused]] uint32_t infoIndex )
 	{
 		return testCounts.hlsl->getShaderModels()[infoIndex];
 	}
 
-	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
+	uint32_t retrieveHLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
 		return uint32_t( testCounts.hlsl->getShaderModels().size() );
 	}

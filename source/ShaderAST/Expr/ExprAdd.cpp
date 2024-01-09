@@ -18,7 +18,7 @@ namespace ast::expr
 	{
 	}
 
-	void Add::accept( VisitorPtr vis )
+	void Add::accept( VisitorPtr vis )const
 	{
 		vis->visitAddExpr( this );
 	}

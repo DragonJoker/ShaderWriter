@@ -299,14 +299,14 @@ namespace sdw
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, expr::ExprPtr const & expr
+		, expr::Expr const & expr
 		, [[maybe_unused]] bool force )
 	{
 		return ExprCloner::submit( writer.getExprCache(), expr );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, expr::Expr * expr
+		, expr::Expr const * expr
 		, [[maybe_unused]] bool force )
 	{
 		return ExprCloner::submit( writer.getExprCache(), expr );
@@ -377,7 +377,7 @@ namespace sdw
 	}
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, expr::ExprPtr const & expr )
+		, expr::Expr const & expr )
 	{
 		expr::ExprList result;
 		result.emplace_back( makeExpr( writer, expr ) );
@@ -385,7 +385,7 @@ namespace sdw
 	}
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, expr::Expr * expr )
+		, expr::Expr const * expr )
 	{
 		expr::ExprList result;
 		result.emplace_back( makeExpr( writer, expr ) );

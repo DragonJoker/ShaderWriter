@@ -30,7 +30,7 @@ namespace sdw
 		}
 
 		addGlobalStmt( writer
-			, makeInOutCallableDataVariableDecl( getStmtCache( writer ), ast::findIdentifier( this->getExpr() )->getVariable(), location ) );
+			, makeInOutCallableDataVariableDecl( getStmtCache( writer ), ast::findIdentifier( *this->getExpr() )->getVariable(), location ) );
 	}
 
 	template< ast::var::Flag FlagT, typename ValueT >

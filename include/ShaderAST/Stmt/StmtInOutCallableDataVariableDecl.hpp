@@ -17,7 +17,7 @@ namespace ast::stmt
 			, var::VariablePtr variable
 			, uint32_t location );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline var::VariablePtr getVariable()const
 		{

@@ -25,29 +25,29 @@ namespace spirv
 {
 	namespace acnhlp
 	{
-		static bool isBuiltIn( ast::expr::Expr const * expr )
+		static bool isBuiltIn( ast::expr::Expr const & expr )
 		{
-			return expr->getKind() == ast::expr::Kind::eIdentifier
-				&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isBuiltin();
+			return expr.getKind() == ast::expr::Kind::eIdentifier
+				&& static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isBuiltin();
 		}
 
-		static bool isAccessChain( ast::expr::Expr const * expr
+		static bool isAccessChain( ast::expr::Expr const & expr
 			, bool isFromArray )
 		{
-			return expr->getKind() == ast::expr::Kind::eArrayAccess
-				|| expr->getKind() == ast::expr::Kind::eMbrSelect
-				|| ( expr->getKind() == ast::expr::Kind::eSwizzle
+			return expr.getKind() == ast::expr::Kind::eArrayAccess
+				|| expr.getKind() == ast::expr::Kind::eMbrSelect
+				|| ( expr.getKind() == ast::expr::Kind::eSwizzle
 					&& ( isFromArray
-						|| !isScalarType( expr->getType()->getKind() )
-						|| isBuiltIn( static_cast< ast::expr::Swizzle const & >( *expr ).getOuterExpr() ) ) )
-				|| ( expr->getKind() == ast::expr::Kind::eIdentifier
-					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isMemberVar() );
+						|| !isScalarType( expr.getType()->getKind() )
+						|| isBuiltIn( *static_cast< ast::expr::Swizzle const & >( expr ).getOuterExpr() ) ) )
+				|| ( expr.getKind() == ast::expr::Kind::eIdentifier
+					&& static_cast< ast::expr::Identifier const & >( expr ).getVariable()->isMemberVar() );
 		}
 
 		struct AccessChainExpr
 		{
 			ast::expr::Kind kind;
-			ast::expr::Expr * expr{};
+			ast::expr::Expr const * expr{};
 		};
 		using AccessChainExprArray = ast::Vector< AccessChainExpr >;
 
@@ -57,7 +57,7 @@ namespace spirv
 		public:
 			static AccessChainExprArray submit( ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
-				, ast::expr::Expr * expr
+				, ast::expr::Expr const & expr
 				, ast::expr::ExprList & idents )
 			{
 				return submit( exprCache
@@ -87,7 +87,7 @@ namespace spirv
 			static AccessChainExprArray submit( ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
 				, ast::expr::Kind kind
-				, ast::expr::Expr * expr
+				, ast::expr::Expr const & expr
 				, ast::expr::ExprList & idents
 				, bool parsingMbrSelect )
 			{
@@ -98,55 +98,55 @@ namespace spirv
 					, result
 					, idents
 					, parsingMbrSelect };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
 			void doAddExpr( ast::expr::Kind kind
-				, ast::expr::Expr * expr )
+				, ast::expr::Expr const & expr )
 			{
 				m_kind = kind;
-				m_result.push_back( { m_kind, expr } );
+				m_result.push_back( { m_kind, &expr } );
 			}
 
-			void visitUnaryExpr( ast::expr::Unary * expr )override
+			void visitUnaryExpr( ast::expr::Unary const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::Unary ?" );
 			}
 
-			void visitBinaryExpr( ast::expr::Binary * expr )override
+			void visitBinaryExpr( ast::expr::Binary const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::Binary ?" );
 			}
 
 			AccessChainExprArray doSubmit( ast::expr::Kind kind
-				, ast::expr::Expr * expr )
+				, ast::expr::Expr const & expr )
 			{
 				return submit( m_exprCache, m_typesCache, kind, expr, m_idents, m_parsingMbrSelect );
 			}
 
-			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
 			{
-				m_result = doSubmit( m_kind, expr->getOuterExpr() );
+				m_result = doSubmit( m_kind, *expr->getOuterExpr() );
 				m_result.push_back( { expr->getKind(), expr } );
 			}
 
-			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
+			void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override
 			{
-				auto lhs = doSubmit( m_kind, expr->getLHS() );
+				auto lhs = doSubmit( m_kind, *expr->getLHS() );
 				m_result = lhs;
 
-				if ( isAccessChain( expr->getRHS(), true ) )
+				if ( isAccessChain( *expr->getRHS(), true ) )
 				{
-					doAddExpr( expr->getKind(), expr );
+					doAddExpr( expr->getKind(), *expr );
 				}
 				else
 				{
-					doAddExpr( expr->getKind(), expr->getRHS() );
+					doAddExpr( expr->getKind(), *expr->getRHS() );
 				}
 			}
 
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
 				if ( expr->getVariable()->isMemberVar()
 					&& expr->getType()->isMember()
@@ -154,78 +154,78 @@ namespace spirv
 				{
 					m_idents.emplace_back( m_exprCache.makeIdentifier( m_typesCache, expr->getVariable()->getOuter() ) );
 					auto ident = m_idents.back().get();
-					m_result = doSubmit( m_kind, ident );
+					m_result = doSubmit( m_kind, *ident );
 				}
 
-				doAddExpr( m_kind, expr );
+				doAddExpr( m_kind, *expr );
 			}
 
-			void visitLiteralExpr( ast::expr::Literal * expr )override
+			void visitLiteralExpr( ast::expr::Literal const * expr )override
 			{
-				doAddExpr( m_kind, expr );
+				doAddExpr( m_kind, *expr );
 			}
 
-			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+			void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
 			{
 				if ( m_result.empty() )
 				{
-					m_result = doSubmit( m_kind, expr->getOuterExpr() );
+					m_result = doSubmit( m_kind, *expr->getOuterExpr() );
 				}
 
-				doAddExpr( m_kind, expr );
+				doAddExpr( m_kind, *expr );
 			}
 
-			void visitAggrInitExpr( ast::expr::AggrInit * )override
+			void visitAggrInitExpr( ast::expr::AggrInit const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::AggrInit ?" );
 			}
 
-			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::CompositeConstruct ?" );
 			}
 
-			void visitFnCallExpr( ast::expr::FnCall * )override
+			void visitFnCallExpr( ast::expr::FnCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::FnCall ?" );
 			}
 
-			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::StorageImageAccessCall ?" );
 			}
 
-			void visitInitExpr( ast::expr::Init * )override
+			void visitInitExpr( ast::expr::Init const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::Init ?" );
 			}
 
-			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * )override
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::IntrinsicCall ?" );
 			}
 
-			void visitQuestionExpr( ast::expr::Question * )override
+			void visitQuestionExpr( ast::expr::Question const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::Question ?" );
 			}
 
-			void visitStreamAppendExpr( ast::expr::StreamAppend * )override
+			void visitStreamAppendExpr( ast::expr::StreamAppend const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::StreamAppend" );
 			}
 
-			void visitSwitchCaseExpr( ast::expr::SwitchCase * )override
+			void visitSwitchCaseExpr( ast::expr::SwitchCase const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
 			}
 
-			void visitSwitchTestExpr( ast::expr::SwitchTest * )override
+			void visitSwitchTestExpr( ast::expr::SwitchTest const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
-			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
 			}
@@ -254,7 +254,7 @@ namespace spirv
 				assert( exprs.size() >= 2u );
 				auto it = exprs.begin();
 				result.push_back( submit( exprCache
-					, it->expr
+					, *it->expr
 					, context
 					, shaderModule
 					, currentBlock
@@ -271,7 +271,7 @@ namespace spirv
 							, currentDebugStatement )
 						, currentBlock
 						, currentDebugStatement
-						, glsl::getColumnData( currentDebugStatement, it->expr ) ) );
+						, glsl::getColumnData( currentDebugStatement, *it->expr ) ) );
 				}
 
 				return result;
@@ -298,43 +298,43 @@ namespace spirv
 			}
 
 			static DebugId submit( ast::expr::ExprCache & exprCache
-				, ast::expr::Expr * expr
+				, ast::expr::Expr const & expr
 				, PreprocContext const & context
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 			{
-				DebugId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr.getType() };
 				AccessChainCreator vis{ result
 					, exprCache
-					, expr->getKind()
+					, expr.getKind()
 					, DebugId{}
 					, context
 					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, DebugId parentId
-				, ast::expr::Expr * expr
+				, ast::expr::Expr const & expr
 				, PreprocContext const & context
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 			{
-				DebugId result{ 0u, expr->getType() };
+				DebugId result{ 0u, expr.getType() };
 				AccessChainCreator vis{ result
 					, exprCache
-					, expr->getKind()
+					, expr.getKind()
 					, std::move( parentId )
 					, context
 					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
@@ -359,30 +359,30 @@ namespace spirv
 				return result;
 			}
 
-			void visitUnaryExpr( ast::expr::Unary * expr )override
+			void visitUnaryExpr( ast::expr::Unary const * expr )override
 			{
-				m_result = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
+				m_result = generateModuleExpr( m_exprCache, *expr, m_context, m_currentBlock, m_module );
 			}
 
-			void visitBinaryExpr( ast::expr::Binary * expr )override
+			void visitBinaryExpr( ast::expr::Binary const * expr )override
 			{
-				m_result = generateModuleExpr( m_exprCache, expr, m_context, m_currentBlock, m_module );
+				m_result = generateModuleExpr( m_exprCache, *expr, m_context, m_currentBlock, m_module );
 			}
 
-			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
 			{
 				assert( m_parentId );
 				m_result = m_module.registerLiteral( expr->getMemberIndex() );
 			}
 
-			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
+			void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override
 			{
 				assert( m_parentId );
 
-				if ( isAccessChain( expr->getRHS(), true ) )
+				if ( isAccessChain( *expr->getRHS(), true ) )
 				{
 					m_result = makeAccessChain( m_exprCache
-						, expr->getRHS()
+						, *expr->getRHS()
 						, m_context
 						, m_module
 						, m_currentBlock
@@ -392,7 +392,7 @@ namespace spirv
 				{
 					m_result = submit( m_exprCache
 						, m_parentId
-						, expr->getRHS()
+						, *expr->getRHS()
 						, m_context
 						, m_module
 						, m_currentBlock
@@ -400,7 +400,7 @@ namespace spirv
 				}
 			}
 
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
 				auto var = expr->getVariable();
 
@@ -412,7 +412,7 @@ namespace spirv
 						, spv::StorageClassFunction
 						, m_currentBlock
 						, m_currentDebugStatement
-						, glsl::getColumnData( m_currentDebugStatement, expr ) );
+						, glsl::getColumnData( m_currentDebugStatement, *expr ) );
 				}
 				else if ( m_parentId
 					&& m_parentKind != ast::expr::Kind::eArrayAccess )
@@ -443,7 +443,7 @@ namespace spirv
 							, sourceInfo
 							, m_currentBlock
 							, m_currentDebugStatement
-							, glsl::getColumnData( m_currentDebugStatement, expr ) );
+							, glsl::getColumnData( m_currentDebugStatement, *expr ) );
 					}
 
 					if ( m_parentKind == ast::expr::Kind::eArrayAccess )
@@ -451,7 +451,7 @@ namespace spirv
 						m_result = m_module.loadVariable( m_result
 							, m_currentBlock
 							, m_currentDebugStatement
-							, glsl::getColumnData( m_currentDebugStatement, expr ) );
+							, glsl::getColumnData( m_currentDebugStatement, *expr ) );
 					}
 					else
 					{
@@ -462,14 +462,14 @@ namespace spirv
 							m_result = m_module.loadVariable( m_result
 								, m_currentBlock
 								, m_currentDebugStatement
-								, glsl::getColumnData( m_currentDebugStatement, expr ) );
+								, glsl::getColumnData( m_currentDebugStatement, *expr ) );
 							type = m_result->type;
 						}
 					}
 				}
 			}
 
-			void visitLiteralExpr( ast::expr::Literal * expr )override
+			void visitLiteralExpr( ast::expr::Literal const * expr )override
 			{
 				assert( m_parentId );
 
@@ -514,7 +514,7 @@ namespace spirv
 				}
 			}
 
-			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+			void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
 			{
 				assert( m_parentId );
 
@@ -525,7 +525,7 @@ namespace spirv
 				else
 				{
 					m_result = makeVectorShuffle( m_exprCache
-						, expr
+						, *expr
 						, m_context
 						, m_module
 						, m_currentBlock
@@ -533,57 +533,57 @@ namespace spirv
 				}
 			}
 
-			void visitAggrInitExpr( ast::expr::AggrInit * )override
+			void visitAggrInitExpr( ast::expr::AggrInit const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::AggrInit ?" );
 			}
 
-			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::CompositeConstruct ?" );
 			}
 
-			void visitFnCallExpr( ast::expr::FnCall * )override
+			void visitFnCallExpr( ast::expr::FnCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::FnCall ?" );
 			}
 
-			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::StorageImageAccessCall ?" );
 			}
 
-			void visitInitExpr( ast::expr::Init * )override
+			void visitInitExpr( ast::expr::Init const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::Init ?" );
 			}
 
-			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * )override
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::IntrinsicCall ?" );
 			}
 
-			void visitQuestionExpr( ast::expr::Question * )override
+			void visitQuestionExpr( ast::expr::Question const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::Question ?" );
 			}
 
-			void visitStreamAppendExpr( ast::expr::StreamAppend * )override
+			void visitStreamAppendExpr( ast::expr::StreamAppend const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::StreamAppend" );
 			}
 
-			void visitSwitchCaseExpr( ast::expr::SwitchCase * )override
+			void visitSwitchCaseExpr( ast::expr::SwitchCase const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
 			}
 
-			void visitSwitchTestExpr( ast::expr::SwitchTest * )override
+			void visitSwitchTestExpr( ast::expr::SwitchTest const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
-			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * )override
 			{
 				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
 			}
@@ -603,7 +603,7 @@ namespace spirv
 
 		static DebugId writeAccessChain( Block & currentBlock
 			, ValueIdList const & accessChain
-			, ast::expr::Expr * expr
+			, ast::expr::Expr const & expr
 			, Module & shaderModule )
 		{
 			if constexpr ( SPIRV_CacheAccessChains )
@@ -614,7 +614,7 @@ namespace spirv
 				if ( it == currentBlock.accessChains.end() )
 				{
 					// Register the type pointed to.
-					auto rawTypeId = shaderModule.registerType( expr->getType(), nullptr );
+					auto rawTypeId = shaderModule.registerType( expr.getType(), nullptr );
 					// Register the pointer to the type.
 					auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
 						, getStorageClass( shaderModule.getVersion(), ast::findIdentifier( expr )->getVariable() ) );
@@ -645,7 +645,7 @@ namespace spirv
 				}
 
 				// Register the type pointed to.
-				auto rawTypeId = shaderModule.registerType( expr->getType(), nullptr );
+				auto rawTypeId = shaderModule.registerType( expr.getType(), nullptr );
 				// Register the pointer to the type.
 				auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
 					, storageClass );
@@ -661,13 +661,13 @@ namespace spirv
 		}
 	}
 
-	bool isAccessChain( ast::expr::Expr const * expr )
+	bool isAccessChain( ast::expr::Expr const & expr )
 	{
 		return acnhlp::isAccessChain( expr, false );
 	}
 
 	DebugId makeAccessChain( ast::expr::ExprCache & exprCache
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, PreprocContext const & context
 		, Module & shaderModule
 		, Block & currentBlock
@@ -675,7 +675,7 @@ namespace spirv
 	{
 		// Create Access Chain.
 		ast::expr::ExprList idents;
-		auto accessChainExprs = acnhlp::AccessChainLineariser::submit( exprCache, expr->getTypesCache(), expr, idents );
+		auto accessChainExprs = acnhlp::AccessChainLineariser::submit( exprCache, expr.getTypesCache(), expr, idents );
 		auto accessChain = acnhlp::AccessChainCreator::submit( exprCache
 			, accessChainExprs
 			, context
@@ -694,23 +694,23 @@ namespace spirv
 	}
 
 	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache
-		, ast::expr::Swizzle const * expr
+		, ast::expr::Swizzle const & expr
 		, PreprocContext const & context
 		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement const * debugStatement )
 	{
-		auto typeId = shaderModule.registerType( expr->getType(), nullptr );
-		auto outerId = shaderModule.loadVariable( generateModuleExpr( exprCache, expr->getOuterExpr()
+		auto typeId = shaderModule.registerType( expr.getType(), nullptr );
+		auto outerId = shaderModule.loadVariable( generateModuleExpr( exprCache, *expr.getOuterExpr()
 				, context
 				, currentBlock
 				, shaderModule )
 			, currentBlock
 			, debugStatement
-			, glsl::getColumnData( debugStatement, expr->getOuterExpr() ) );
+			, glsl::getColumnData( debugStatement, *expr.getOuterExpr() ) );
 		DebugId result{ 0u, typeId->type };
 
-		if ( auto swizzleComponents = convert( getSwizzleComponents( shaderModule.allocator, expr->getSwizzle() ) );
+		if ( auto swizzleComponents = convert( getSwizzleComponents( shaderModule.allocator, expr.getSwizzle() ) );
 			swizzleComponents.size() == 1u )
 		{
 			ValueIdList extract{ &exprCache.getAllocator() };

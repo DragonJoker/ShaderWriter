@@ -31,7 +31,7 @@ namespace ast::stmt
 			, Source source
 			, type::TypePtr type );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline Source getSource()const
 		{

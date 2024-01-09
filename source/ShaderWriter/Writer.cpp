@@ -189,9 +189,9 @@ namespace sdw
 		, expr::ExprPtr incr
 		, std::function< void() > const & function )
 	{
-		m_builder->pushScope( getStmtCache().makeFor( makeExpr( *this, init )
-			, makeExpr( *this, cond )
-			, makeExpr( *this, incr ) ) );
+		m_builder->pushScope( getStmtCache().makeFor( makeExpr( *this, *init )
+			, makeExpr( *this, *cond )
+			, makeExpr( *this, *incr ) ) );
 		function();
 		m_builder->popScope();
 	}

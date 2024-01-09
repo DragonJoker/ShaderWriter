@@ -351,7 +351,6 @@ namespace test
 			, ::ast::stmt::Container * statements
 			, ::ast::ShaderStage stage
 			, std::vector< uint32_t > spirv
-			, std::string const & text
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
 			, bool checkRef )
@@ -359,7 +358,7 @@ namespace test
 			//auto parsedShader = spirv::parseSpirv( stage, spirv );
 			std::string errors;
 			auto result = test::compileSpirV( shader, spirv, errors, testCounts, infoIndex );
-			check( errors.empty() || !checkRef );
+			check( errors.empty() || !checkRef )
 
 			if ( !errors.empty() )
 			{
@@ -370,9 +369,8 @@ namespace test
 				if ( checkRef )
 				{
 					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.getTotalCount() ) + ".spv";
-					FILE * fileOut = fopen( fileName.c_str(), "wb" );
 
-					if ( fileOut )
+					if ( FILE * fileOut = fopen( fileName.c_str(), "wb" ) )
 					{
 						fwrite( spirv.data()
 							, sizeof( uint32_t )
@@ -382,9 +380,8 @@ namespace test
 					}
 
 					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.getTotalCount() ) + ".ref.spv";
-					FILE * fileIn = fopen( fileName.c_str(), "rb" );
 
-					if ( fileIn )
+					if ( FILE * fileIn = fopen( fileName.c_str(), "rb" ) )
 					{
 						fseek( fileIn, 0, SEEK_END );
 						auto size = ftell( fileIn );
@@ -403,7 +400,7 @@ namespace test
 						}
 
 						fclose( fileIn );
-						validateSpirV( shader, statements, stage, spirv, errors, testCounts, infoIndex, false );
+						validateSpirV( shader, statements, stage, spirv, testCounts, infoIndex, false );
 					}
 				}
 			}
@@ -416,55 +413,50 @@ namespace test
 			, ::ast::ShaderStage stage
 			, std::vector< uint32_t > const & spirv
 			, std::string const & text
-			, spirv::SpirVExtensionSet const & requiredExtensions
 			, ::sdw::SpecialisationInfo const & specialisation
-			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex
-			, bool display )
+			, uint32_t infoIndex )
 		{
-			auto isValidated = validateSpirV( shader, statements, stage, spirv, text, testCounts, infoIndex, true );
-			check( isValidated );
+			auto isValidated = validateSpirV( shader, statements, stage, spirv, testCounts, infoIndex, true );
+			check( isValidated )
 
-			if ( !isValidated )
-			{
 #if SDW_HasCompilerGlsl
 
-				if ( !isRayTraceStage( stage ) )
+			if ( !isValidated
+				&& !isRayTraceStage( stage ) )
+			{
+				try
 				{
-					try
-					{
-						auto cfg = getGlslConfig( glsl::v4_6 );
-						cfg.allocator = &testCounts.allocator;
-						auto glslangSpirv = compileGlslToSpv( stage
-							, glsl::compileGlsl( shader
-								, statements
-								, stage
-								, specialisation
-								, cfg ) );
-						std::string errors;
-						test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
+					auto cfg = getGlslConfig( glsl::v4_6 );
+					cfg.allocator = &testCounts.allocator;
+					auto glslangSpirv = compileGlslToSpv( stage
+						, glsl::compileGlsl( shader
+							, statements
+							, stage
+							, specialisation
+							, cfg ) );
+					std::string errors;
+					test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 
-						if ( !errors.empty() )
-						{
-							testCounts << "VkShaderModule creation raised messages, for glslang output:" << endl;
-							testCounts << errors << endl;
-						}
-					}
-					catch ( std::exception & exc )
+					if ( !errors.empty() )
 					{
-						testCounts << exc.what() << endl;
-						throw;
+						testCounts << "VkShaderModule creation raised messages, for glslang output:" << endl;
+						testCounts << errors << endl;
 					}
 				}
+				catch ( std::exception & exc )
+				{
+					testCounts << exc.what() << endl;
+					throw;
+				}
+			}
 
 #endif
-			}
 
 #if SDW_Test_HasSpirVTools
 			std::string errors;
-			auto consumer = [&errors]( spv_message_level_t level
-				, char const * source
+			auto consumer = [&errors]( [[maybe_unused]] spv_message_level_t level
+				, [[maybe_unused]] char const * source
 				, spv_position_t position
 				, char const * message )
 			{
@@ -476,7 +468,7 @@ namespace test
 			spvtools::ValidatorOptions valOptions;
 			valOptions.SetScalarBlockLayout( true );
 			isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions ) && isValidated;
-			check( isValidated );
+			check( isValidated )
 
 			if ( !errors.empty() )
 			{
@@ -560,7 +552,6 @@ namespace test
 
 		void testWriteDebug( ::ast::Shader const & shader
 			, ::ast::EntryPointConfigArray const & entryPoints
-			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, test::TestCounts & testCounts )
 		{
@@ -573,11 +564,11 @@ namespace test
 				{
 					testCounts.incIndent();
 					testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
-					auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+					auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
 
 					try
 					{
-						auto debug = ::sdw::writeDebug( statements.get() );
+						auto debug = ::sdw::writeDebug( *statements );
 						displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
 						success();
 					}
@@ -596,11 +587,11 @@ namespace test
 				{
 					testCounts.incIndent();
 					testCounts << printStage( entryPoint.stage ) << " stage, entry point :[" << entryPoint.name << "]" << endl;
-					auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+					auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
 
 					try
 					{
-						auto debug = ::sdw::writeDebugPreprocessed( shader, statements.get() );
+						auto debug = ::sdw::writeDebugPreprocessed( shader, *statements );
 						displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
 						success();
 					}
@@ -647,7 +638,7 @@ namespace test
 
 					try
 					{
-						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
 						glsl = glsl::compileGlsl( shader
 							, statements.get()
 							, entryPoint.stage
@@ -686,7 +677,7 @@ namespace test
 							, testCounts );
 					}
 
-					check( isCompiled );
+					check( isCompiled )
 
 					if ( !isCompiled )
 					{
@@ -703,7 +694,7 @@ namespace test
 			};
 			testCounts.incIndent();
 			testCounts << "GLSL version " << std::to_string( testCounts.getGlslVersion( infoIndex ) ) << endl;
-			checkNoThrow( validate() );
+			checkNoThrow( validate() )
 			testCounts.decIndent();
 
 #endif
@@ -717,7 +708,8 @@ namespace test
 		{
 			if ( compilers.glsl )
 			{
-				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getGlslInfosSize(); ++infoIndex )
+				auto count = testCounts.getGlslInfosSize();
+				for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 				{
 					testWriteGlslOnIndex( shader
 						, entryPoints
@@ -749,7 +741,7 @@ namespace test
 
 					try
 					{
-						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
 						hlsl = hlsl::compileHlsl( shader
 							, statements.get()
 							, entryPoint.stage
@@ -772,7 +764,7 @@ namespace test
 						, errors
 						, testCounts
 						, infoIndex );
-					check( isCompiled );
+					check( isCompiled )
 
 					if ( !isCompiled )
 					{
@@ -789,7 +781,7 @@ namespace test
 			auto minor = shaderModel % 10u;
 			auto model = std::to_string( major ) + "_" + std::to_string( minor );
 			testCounts << "HLSL Shader Model " << model << endl;
-			checkNoThrow( validate() );
+			checkNoThrow( validate() )
 			testCounts.decIndent();
 #endif
 		}
@@ -802,7 +794,8 @@ namespace test
 		{
 			if ( compilers.hlsl )
 			{
-				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getHlslInfosSize(); ++infoIndex )
+				auto count = testCounts.getHlslInfosSize();
+				for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 				{
 					testWriteHlslOnIndex( shader
 						, entryPoints
@@ -924,7 +917,7 @@ namespace test
 							}
 
 							config.allocator = &testCounts.allocator;
-							auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, shader.getStatements() );
+							auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
 							auto shaderModule = spirv::compileSpirV( *testCounts.allocatorBlock
 								, shader
 								, statements.get()
@@ -961,12 +954,9 @@ namespace test
 									, entryPoint.stage
 									, spirv
 									, textSpirv
-									, config.requiredExtensions
 									, specialisation
-									, compilers
 									, testCounts
-									, infoIndex
-									, availableExtensions );
+									, infoIndex );
 								success();
 							}
 #if SDW_Test_HasSpirVCross
@@ -1023,8 +1013,8 @@ namespace test
 				testCounts.incIndent();
 				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-				checkNoThrow( validate( false ) );
-				checkNoThrow( validate( true ) );
+				checkNoThrow( validate( false ) )
+				checkNoThrow( validate( true ) )
 				testCounts.decIndent();
 			}
 
@@ -1039,7 +1029,8 @@ namespace test
 		{
 			if ( compilers.spirV )
 			{
-				for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+				auto count = testCounts.getSpirvInfosSize();
+				for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 				{
 					testWriteSpirVOnIndex( shader
 						, entryPoints
@@ -1090,8 +1081,8 @@ namespace test
 						, shaders };
 					std::string errors;
 					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
-					check( isValidated );
-					check( errors.empty() );
+					check( isValidated )
+					check( errors.empty() )
 
 					if ( !isValidated
 						|| !errors.empty() )
@@ -1171,8 +1162,8 @@ namespace test
 						, shaders };
 					std::string errors;
 					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
-					check( isValidated );
-					check( errors.empty() );
+					check( isValidated )
+					check( errors.empty() )
 
 					if ( !isValidated
 						|| !errors.empty() )
@@ -1257,8 +1248,8 @@ namespace test
 
 					if ( errors.find( "failed to compile internal representation" ) == std::string::npos )
 					{
-						check( isValidated );
-						check( errors.empty() );
+						check( isValidated )
+						check( errors.empty() )
 
 						if ( !isValidated
 							|| !errors.empty() )
@@ -1422,7 +1413,7 @@ namespace test
 		, Compilers const & compilers )
 	{
 		auto specialisation = getSpecialisationInfo( shader );
-		testWriteDebug( shader, entryPoints, specialisation, compilers, testCounts );
+		testWriteDebug( shader, entryPoints, compilers, testCounts );
 		testWriteSpirV( shader, entryPoints, specialisation, compilers, testCounts );
 		testWriteGlsl( shader, entryPoints, specialisation, compilers, testCounts );
 		testWriteHlsl( shader, entryPoints, specialisation, compilers, testCounts );
@@ -1456,7 +1447,7 @@ namespace test
 		testCounts.incIndent();
 		testCounts << "Write program" << endl;
 		writeShader( shader
-			, ast::listEntryPoints( shader.getStatements() )
+			, ast::listEntryPoints( *shader.getStatements() )
 			, testCounts
 			, compilers );
 		testCounts.decIndent();
@@ -1478,14 +1469,15 @@ namespace test
 	}
 
 	void validateShaders( ast::Shader const & shader
-		, ast::EntryPointConfigArray entryPoints
+		, ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
 		testCounts.incIndent();
 		testCounts << "Validate shaders" << endl;
 
-		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+		auto count = testCounts.getSpirvInfosSize();
+		for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 		{
 			validateShaderOnIndex( shader
 				, entryPoints
@@ -1504,7 +1496,8 @@ namespace test
 		testCounts.incIndent();
 		testCounts << "Validate shaders" << endl;
 
-		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+		auto count = testCounts.getSpirvInfosSize();
+		for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 		{
 			validateShadersOnIndex( shaders
 				, testCounts
@@ -1522,7 +1515,8 @@ namespace test
 		testCounts.incIndent();
 		testCounts << "Validate shaders" << endl;
 
-		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+		auto count = testCounts.getSpirvInfosSize();
+		for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 		{
 			validateShadersOnIndex( shaders
 				, testCounts
@@ -1543,7 +1537,8 @@ namespace test
 		ast::EntryPointConfigArray entryPoints{ &shader.getAllocator() };
 		entryPoints.push_back( entryPoint );
 
-		for ( uint32_t infoIndex = 0u; infoIndex < testCounts.getSpirvInfosSize(); ++infoIndex )
+		auto count = testCounts.getSpirvInfosSize();
+		for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 		{
 			validateShaderOnIndex( shader
 				, entryPoints
@@ -1571,9 +1566,9 @@ namespace test
 	{
 		testCounts.incIndent();
 		testCounts << "Validate program" << endl;
-		auto entryPoints = ast::listEntryPoints( shader.getStatements() );
 
-		if ( entryPoints.size() > 1u )
+		if ( auto entryPoints = ast::listEntryPoints( *shader.getStatements() );
+			entryPoints.size() > 1u )
 		{
 			validateShaders( shader
 				, entryPoints

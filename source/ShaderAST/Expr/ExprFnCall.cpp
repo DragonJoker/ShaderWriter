@@ -36,7 +36,7 @@ namespace ast::expr
 	{
 	}
 
-	void FnCall::accept( VisitorPtr vis )
+	void FnCall::accept( VisitorPtr vis )const
 	{
 		vis->visitFnCallExpr( this );
 	}

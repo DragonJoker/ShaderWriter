@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void Less::accept( VisitorPtr vis )
+	void Less::accept( VisitorPtr vis )const
 	{
 		vis->visitLessExpr( this );
 	}

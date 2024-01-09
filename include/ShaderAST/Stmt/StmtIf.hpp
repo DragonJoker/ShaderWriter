@@ -22,14 +22,14 @@ namespace ast::stmt
 		SDAST_API Else * createElse();
 		SDAST_API ElseIf * createElseIf( expr::ExprPtr ctrlExpr );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline expr::Expr * getCtrlExpr()const noexcept
+		inline expr::Expr const * getCtrlExpr()const noexcept
 		{
 			return m_ctrlExpr.get();
 		}
 
-		inline Else * getElse()const noexcept
+		inline Else const * getElse()const noexcept
 		{
 			return m_else.get();
 		}

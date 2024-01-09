@@ -12,7 +12,7 @@ namespace sdw
 	struct CallableData
 	{
 		SDW_API CallableData( ShaderWriter & writer
-			, expr::Expr * expr
+			, expr::Expr const * expr
 			, bool enabled );
 
 		SDW_API void execute( UInt32 const & sbtRecordIndex )const;
@@ -22,7 +22,7 @@ namespace sdw
 			return m_plWriter;
 		}
 
-		ast::expr::Expr * getExpr()const
+		ast::expr::Expr const * getExpr()const
 		{
 			return m_plExpr;
 		}
@@ -34,7 +34,7 @@ namespace sdw
 
 	private:
 		ShaderWriter * m_plWriter;
-		expr::Expr * m_plExpr;
+		expr::Expr const * m_plExpr;
 		bool m_plEnabled;
 	};
 

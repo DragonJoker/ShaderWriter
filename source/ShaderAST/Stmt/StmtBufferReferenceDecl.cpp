@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void BufferReferenceDecl::accept( VisitorPtr vis )
+	void BufferReferenceDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitBufferReferenceDeclStmt( this );
 	}

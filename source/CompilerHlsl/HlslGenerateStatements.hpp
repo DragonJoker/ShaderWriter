@@ -11,8 +11,8 @@ namespace hlsl
 {
 	std::string generateStatements( HlslConfig const & writerConfig
 		, RoutineMap const & routines
-		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-		, ast::stmt::Stmt * stmt
+		, std::map< ast::var::VariablePtr, ast::expr::Expr const * > & aliases
+		, ast::stmt::Stmt const & stmt
 		, std::string indent = std::string{} );
 }
 

@@ -10,7 +10,7 @@ See LICENSE file in root folder
 namespace glsl
 {
 	SDWGLC_API IntrinsicsConfig fillConfig( ast::ShaderStage stage
-		, ast::stmt::Container * container );
+		, ast::stmt::Container const & container );
 	SDWGLC_API void checkConfig( StmtConfig & writerConfig
 		, IntrinsicsConfig & intrinsicsConfig );
 }

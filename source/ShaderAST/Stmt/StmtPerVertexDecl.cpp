@@ -16,7 +16,7 @@ namespace ast::stmt
 	{
 	}
 
-	void PerVertexDecl::accept( VisitorPtr vis )
+	void PerVertexDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitPerVertexDeclStmt( this );
 	}

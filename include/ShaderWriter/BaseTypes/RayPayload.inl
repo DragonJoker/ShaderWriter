@@ -34,7 +34,7 @@ namespace sdw
 		}
 
 		addGlobalStmt( writer
-			, makeInOutRayPayloadVariableDecl( getStmtCache( writer ), ast::findIdentifier( this->getExpr() )->getVariable(), location ) );
+			, makeInOutRayPayloadVariableDecl( getStmtCache( writer ), ast::findIdentifier( *this->getExpr() )->getVariable(), location ) );
 	}
 
 	template< ast::var::Flag FlagT, typename ValueT >

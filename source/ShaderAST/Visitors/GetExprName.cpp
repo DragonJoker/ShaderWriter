@@ -16,25 +16,18 @@ namespace ast
 			: public expr::SimpleVisitor
 		{
 		public:
-			static std::vector< expr::Identifier * > submit( expr::Expr * expr
+			static std::vector< expr::Identifier const * > submit( expr::Expr const & expr
 				, type::Kind kind
 				, var::Flag flag )
 			{
-				std::vector< expr::Identifier * > result;
+				std::vector< expr::Identifier const * > result;
 				IdentifiersExtractor vis{ result, kind, flag };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
-			static std::vector< expr::Identifier * > submit( expr::ExprPtr const & expr
-				, type::Kind kind
-				, var::Flag flag )
-			{
-				return submit( expr.get(), kind, flag );
-			}
-
 		private:
-			IdentifiersExtractor( std::vector< expr::Identifier * > & result
+			IdentifiersExtractor( std::vector< expr::Identifier const * > & result
 				, type::Kind kind
 				, var::Flag flag )
 				: m_result{ result }
@@ -67,22 +60,22 @@ namespace ast
 				return m_kind != type::Kind::eUndefined;
 			}
 
-			void visitUnaryExpr( expr::Unary * expr )override
+			void visitUnaryExpr( expr::Unary const * expr )override
 			{
 				expr->getOperand()->accept( this );
 			}
 
-			void visitBinaryExpr( expr::Binary * expr )override
+			void visitBinaryExpr( expr::Binary const * expr )override
 			{
 				expr->getLHS()->accept( this );
 				expr->getRHS()->accept( this );
 			}
 
-			void visitAggrInitExpr( expr::AggrInit * expr )override
+			void visitAggrInitExpr( expr::AggrInit const * expr )override
 			{
-				if ( expr->getIdentifier() )
+				if ( expr->hasIdentifier() )
 				{
-					expr->getIdentifier()->accept( this );
+					expr->getIdentifier().accept( this );
 				}
 
 				if ( checkToVisit() )
@@ -94,7 +87,7 @@ namespace ast
 				}
 			}
 
-			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
+			void visitCompositeConstructExpr( expr::CompositeConstruct const * expr )override
 			{
 				if ( checkToVisit() )
 				{
@@ -105,12 +98,12 @@ namespace ast
 				}
 			}
 
-			void visitMbrSelectExpr( expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( expr::MbrSelect const * expr )override
 			{
 				expr->getOuterExpr()->accept( this );
 			}
 
-			void visitFnCallExpr( expr::FnCall * expr )override
+			void visitFnCallExpr( expr::FnCall const * expr )override
 			{
 				expr->getFn()->accept( this );
 
@@ -123,7 +116,7 @@ namespace ast
 				}
 			}
 
-			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+			void visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )override
 			{
 				if ( checkToVisit() )
 				{
@@ -134,7 +127,7 @@ namespace ast
 				}
 			}
 
-			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall const * expr )override
 			{
 				if ( checkToVisit() )
 				{
@@ -145,7 +138,7 @@ namespace ast
 				}
 			}
 
-			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
+			void visitImageAccessCallExpr( expr::StorageImageAccessCall const * expr )override
 			{
 				if ( checkToVisit() )
 				{
@@ -156,7 +149,7 @@ namespace ast
 				}
 			}
 
-			void visitIdentifierExpr( expr::Identifier * expr )override
+			void visitIdentifierExpr( expr::Identifier const * expr )override
 			{
 				if ( isCompatible( expr->getVariable() ) )
 				{
@@ -164,9 +157,12 @@ namespace ast
 				}
 			}
 
-			void visitInitExpr( expr::Init * expr )override
+			void visitInitExpr( expr::Init const * expr )override
 			{
-				expr->getIdentifier()->accept( this );
+				if ( expr->hasIdentifier() )
+				{
+					expr->getIdentifier().accept( this );
+				}
 
 				if ( checkToVisit() )
 				{
@@ -174,11 +170,11 @@ namespace ast
 				}
 			}
 
-			void visitLiteralExpr( expr::Literal * expr )override
+			void visitLiteralExpr( expr::Literal const * expr )override
 			{
 			}
 
-			void visitQuestionExpr( expr::Question * expr )override
+			void visitQuestionExpr( expr::Question const * expr )override
 			{
 				expr->getCtrlExpr()->accept( this );
 
@@ -189,7 +185,7 @@ namespace ast
 				}
 			}
 
-			void visitStreamAppendExpr( expr::StreamAppend * expr )override
+			void visitStreamAppendExpr( expr::StreamAppend const * expr )override
 			{
 				if ( checkToVisit() )
 				{
@@ -197,41 +193,39 @@ namespace ast
 				}
 			}
 
-			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
+			void visitSwitchCaseExpr( expr::SwitchCase const * expr )override
 			{
 				expr->getLabel()->accept( this );
 			}
 
-			void visitSwitchTestExpr( expr::SwitchTest * expr )override
+			void visitSwitchTestExpr( expr::SwitchTest const * expr )override
 			{
 				expr->getValue()->accept( this );
 			}
 
-			void visitSwizzleExpr( expr::Swizzle * expr )override
+			void visitSwizzleExpr( expr::Swizzle const * expr )override
 			{
 				expr->getOuterExpr()->accept( this );
 			}
 
 		private:
-			std::vector< expr::Identifier * > & m_result;
+			std::vector< expr::Identifier const * > & m_result;
 			type::Kind m_kind;
 			var::Flag m_flag;
 		};
-
-		//*********************************************************************
 	}
 
 	//*************************************************************************
 
-	std::vector< expr::Identifier * > listCommaIdentifiers( expr::Expr * expr )
+	std::vector< expr::Identifier const * > listCommaIdentifiers( expr::Expr const & expr )
 	{
-		std::vector< expr::Identifier * > result;
+		std::vector< expr::Identifier const * > result;
 
-		if ( expr->getKind() == expr::Kind::eComma )
+		if ( expr.getKind() == expr::Kind::eComma )
 		{
-			auto comma = static_cast< expr::Comma * >( expr );
-			result = listCommaIdentifiers( comma->getLHS() );
-			auto rhsIdents = listCommaIdentifiers( comma->getRHS() );
+			auto & comma = static_cast< expr::Comma const & >( expr );
+			result = listCommaIdentifiers( *comma.getLHS() );
+			auto rhsIdents = listCommaIdentifiers( *comma.getRHS() );
 			result.insert( result.end(), rhsIdents.begin(), rhsIdents.end() );
 		}
 		else
@@ -245,21 +239,14 @@ namespace ast
 		return result;
 	}
 
-	std::vector< expr::Identifier * > listIdentifiers( expr::Expr * expr
+	std::vector< expr::Identifier const * > listIdentifiers( expr::Expr const & expr
 		, type::Kind kind
 		, var::Flag flag )
 	{
 		return IdentifiersExtractor::submit( expr, kind, flag );
 	}
 
-	std::vector< expr::Identifier * > listIdentifiers( expr::ExprPtr const & expr
-		, type::Kind kind
-		, var::Flag flag )
-	{
-		return IdentifiersExtractor::submit( expr, kind, flag );
-	}
-
-	expr::Identifier * findIdentifier( expr::Expr * expr
+	expr::Identifier const * findIdentifier( expr::Expr const & expr
 		, type::Kind kind
 		, var::Flag flag )
 	{
@@ -273,14 +260,7 @@ namespace ast
 		return result.front();
 	}
 
-	expr::Identifier * findIdentifier( expr::ExprPtr const & expr
-		, type::Kind kind
-		, var::Flag flag )
-	{
-		return findIdentifier( expr.get(), kind, flag );
-	}
-
-	std::string findName( expr::Expr * expr
+	std::string findName( expr::Expr const & expr
 		, type::Kind kind
 		, var::Flag flag )
 	{
@@ -292,13 +272,6 @@ namespace ast
 		}
 
 		return result;
-	}
-
-	std::string findName( expr::ExprPtr const & expr
-		, type::Kind kind
-		, var::Flag flag )
-	{
-		return findName( expr.get(), kind, flag );
 	}
 
 	//*************************************************************************

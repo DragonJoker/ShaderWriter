@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void PreprocVersion::accept( VisitorPtr vis )
+	void PreprocVersion::accept( VisitorPtr vis )const
 	{
 		vis->visitPreprocVersion( this );
 	}

@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void BitOr::accept( VisitorPtr vis )
+	void BitOr::accept( VisitorPtr vis )const
 	{
 		vis->visitBitOrExpr( this );
 	}

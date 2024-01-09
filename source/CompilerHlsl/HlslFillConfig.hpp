@@ -12,7 +12,7 @@ namespace hlsl
 {
 	IntrinsicsConfig fillConfig( HlslShader & shader
 		, AdaptationData & adaptationData
-		, ast::stmt::Container * container );
+		, ast::stmt::Container const & container );
 }
 
 #endif

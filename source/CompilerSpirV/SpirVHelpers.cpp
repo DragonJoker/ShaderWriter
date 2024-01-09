@@ -793,7 +793,7 @@ namespace spirv
 		}
 	}
 
-	void IOMapping::addPendingMbr( ast::expr::Expr * outer
+	void IOMapping::addPendingMbr( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location
@@ -879,7 +879,7 @@ namespace spirv
 	}
 
 	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::ExprCache & exprCache
-		, ast::expr::Expr * outer
+		, ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & pflags
 		, ExprAdapter & adapter
@@ -904,11 +904,11 @@ namespace spirv
 			, cont );
 
 		if ( result
-			&& outer->getKind() == ast::expr::Kind::eArrayAccess )
+			&& outer.getKind() == ast::expr::Kind::eArrayAccess )
 		{
 			auto type = result->getType();
 			assert( type->getKind() == ast::type::Kind::eArray );
-			auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+			auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
 			result = exprCache.makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
 				, std::move( result )
 				, adapter.doSubmit( arrayAccess.getRHS() ) );
@@ -954,15 +954,15 @@ namespace spirv
 		}
 
 		auto & [_, mbrIo] = *it;
-		auto pendingVar = mbrIo.var;
-		auto type = pendingVar->getType();
+		auto const & pendingVar = *mbrIo.var;
+		auto type = pendingVar.getType();
 		auto location = it->second.location;
 
 		if ( !mbrIo.result.var )
 		{
 			mbrIo.result = processPendingType( type
-				, pendingVar->getName()
-				, pendingVar->isBuiltin() ? pendingVar->getBuiltin() : ast::Builtin::eNone
+				, pendingVar.getName()
+				, pendingVar.isBuiltin() ? pendingVar.getBuiltin() : ast::Builtin::eNone
 				, mbrIo.flags
 				, location
 				, mbrIo.arraySize
@@ -1639,7 +1639,7 @@ namespace spirv
 	}
 
 	ast::expr::ExprPtr ModuleConfig::processPendingMbr( ast::expr::ExprCache & exprCache
-		, ast::expr::Expr * outer
+		, ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter
@@ -1701,7 +1701,7 @@ namespace spirv
 		return outputs.isValid( builtin );
 	}
 
-	void ModuleConfig::addMbrBuiltin( ast::expr::Expr * outer
+	void ModuleConfig::addMbrBuiltin( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location
@@ -3479,12 +3479,12 @@ namespace spirv
 		else
 		{
 			ast::expr::ExprList args;
-			auto newExpr = std::move( expr );
+			ast::expr::ExprPtr newExpr = std::move( expr );
 
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
 				args.emplace_back( exprCache.makeNotEqual( typesCache
-					, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
+					, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, *newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
 					, makeZero( exprCache, typesCache, type ) ) );
 			}
 
@@ -3515,13 +3515,13 @@ namespace spirv
 		else
 		{
 			ast::expr::ExprList args;
-			auto newExpr = std::move( expr );
+			ast::expr::ExprPtr newExpr = std::move( expr );
 			auto scalarType = typesCache.getBasicType( dstScalarType );
 
 			for ( auto i = 0u; i < componentCount; ++i )
 			{
 				args.emplace_back( exprCache.makeQuestion( scalarType
-					, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
+					, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, *newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
 					, makeOne( exprCache, typesCache, dstScalarType )
 					, makeZero( exprCache, typesCache, dstScalarType ) ) );
 			}

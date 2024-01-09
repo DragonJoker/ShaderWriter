@@ -19,7 +19,7 @@ namespace ast::expr
 		SDAST_API Identifier( ExprCache & exprCache
 			, Identifier const & rhs );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline var::VariablePtr getVariable()const
 		{

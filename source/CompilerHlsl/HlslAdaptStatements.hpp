@@ -13,7 +13,7 @@ namespace hlsl
 	ast::stmt::ContainerPtr adaptStatements( ast::stmt::StmtCache & stmtCache
 		, ast::expr::ExprCache & exprCache
 		, HlslShader & shader
-		, ast::stmt::Container * container
+		, ast::stmt::Container const & container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData );

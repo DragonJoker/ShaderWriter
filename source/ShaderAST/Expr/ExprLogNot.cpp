@@ -17,7 +17,7 @@ namespace ast::expr
 	{
 	}
 
-	void LogNot::accept( VisitorPtr vis )
+	void LogNot::accept( VisitorPtr vis )const
 	{
 		vis->visitLogNotExpr( this );
 	}

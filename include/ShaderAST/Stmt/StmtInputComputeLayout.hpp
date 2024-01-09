@@ -23,7 +23,7 @@ namespace ast::stmt
 			, uint32_t workGroupsY 
 			, uint32_t workGroupsZ );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		type::TypePtr getType()const
 		{

@@ -21,24 +21,13 @@ namespace ast
 		public:
 			static expr::ExprPtr submit( expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
-				, expr::Expr * expr
+				, expr::Expr const & expr
 				, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations )
 			{
 				expr::ExprPtr result{};
 				ExprSpecialiser vis{ exprCache, typesCache, specialisations, result };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
-			}
-
-			static expr::ExprPtr submit( expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
-				, expr::ExprPtr const & expr
-				, std::map< var::VariablePtr, expr::LiteralPtr > const & specialisations )
-			{
-				return submit( exprCache
-					, typesCache
-					, expr.get()
-					, specialisations );
 			}
 
 		private:
@@ -52,13 +41,13 @@ namespace ast
 			{
 			}
 
-			expr::ExprPtr doSubmit( expr::Expr * expr )override
+			expr::ExprPtr doSubmit( expr::Expr const & expr )override
 			{
 				expr::ExprPtr result{};
 				ExprSpecialiser vis{ m_exprCache, m_typesCache, m_specialisations, result };
-				expr->accept( &vis );
+				expr.accept( &vis );
 
-				if ( expr->isNonUniform() )
+				if ( expr.isNonUniform() )
 				{
 					result->updateFlag( ast::expr::Flag::eNonUniform );
 				}
@@ -66,13 +55,13 @@ namespace ast
 				return result;
 			}
 
-			void visitIdentifierExpr( expr::Identifier * expr )override
+			void visitIdentifierExpr( expr::Identifier const * expr )override
 			{
 				auto it = m_specialisations.find( expr->getVariable() );
 
 				if ( it != m_specialisations.end() )
 				{
-					m_result = doSubmit( it->second.get() );
+					m_result = doSubmit( *it->second );
 				}
 				else
 				{
@@ -92,12 +81,12 @@ namespace ast
 			static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
-				, stmt::Container * container
+				, stmt::Container const & container
 				, SpecialisationInfo const & specialisation )
 			{
 				auto result = stmtCache.makeContainer();
 				StmtVisitor vis{ stmtCache, exprCache, typesCache, specialisation, result };
-				container->accept( &vis );
+				container.accept( &vis );
 				return result;
 			}
 
@@ -112,12 +101,14 @@ namespace ast
 			{
 			}
 
-			expr::ExprPtr doSubmit( expr::Expr * expr )override
+			using StmtCloner::doSubmit;
+
+			expr::ExprPtr doSubmit( expr::Expr const & expr )override
 			{
 				return ExprSpecialiser::submit( m_exprCache, m_typesCache, expr, m_specialisations );
 			}
 
-			void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl * stmt )override
+			void visitSpecialisationConstantDeclStmt( stmt::SpecialisationConstantDecl const * stmt )override
 			{
 				auto it = std::find_if( m_specialisation.data.begin()
 					, m_specialisation.data.end()
@@ -212,7 +203,7 @@ namespace ast
 	stmt::ContainerPtr specialiseStatements( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, stmt::Container * container
+		, stmt::Container const & container
 		, SpecialisationInfo const & specialisation )
 	{
 		return specialise::StmtVisitor::submit( stmtCache

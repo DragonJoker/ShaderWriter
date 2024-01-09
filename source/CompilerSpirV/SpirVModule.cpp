@@ -1409,7 +1409,7 @@ namespace spirv
 	}
 
 	void Module::declareDebugAccessChain( InstructionList & instructions
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, glsl::Statement const * debugStatement
 		, DebugId & resultId )
 	{

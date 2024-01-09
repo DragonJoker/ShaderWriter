@@ -15,7 +15,7 @@ namespace ast::stmt
 	public:
 		SDAST_API explicit Demote( StmtCache & stmtCache );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 }
 

@@ -21,7 +21,7 @@ namespace ast::expr
 	{
 	}
 
-	void IntrinsicCall::accept( VisitorPtr vis )
+	void IntrinsicCall::accept( VisitorPtr vis )const
 	{
 		vis->visitIntrinsicCallExpr( this );
 	}

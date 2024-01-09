@@ -24,7 +24,7 @@ namespace ast::stmt
 		m_statements.emplace_back( std::move( stmt ) );
 	}
 
-	void Container::accept( VisitorPtr vis )
+	void Container::accept( VisitorPtr vis )const
 	{
 		vis->visitContainerStmt( this );
 	}

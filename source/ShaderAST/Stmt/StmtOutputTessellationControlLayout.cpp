@@ -24,7 +24,7 @@ namespace ast::stmt
 	{
 	}
 
-	void OutputTessellationControlLayout::accept( VisitorPtr vis )
+	void OutputTessellationControlLayout::accept( VisitorPtr vis )const
 	{
 		vis->visitOutputTessellationControlLayoutStmt( this );
 	}

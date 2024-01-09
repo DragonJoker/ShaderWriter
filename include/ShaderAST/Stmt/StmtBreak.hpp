@@ -16,7 +16,7 @@ namespace ast::stmt
 		SDAST_API explicit Break( StmtCache & stmtCache
 			, bool switchCaseBreak );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		bool isSwitchCaseBreak()const
 		{

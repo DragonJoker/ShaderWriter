@@ -26,7 +26,7 @@ namespace ast::expr
 	{
 	}
 
-	void Question::accept( VisitorPtr vis )
+	void Question::accept( VisitorPtr vis )const
 	{
 		vis->visitQuestionExpr( this );
 	}

@@ -12,7 +12,7 @@ namespace ast::stmt
 	{
 	}
 
-	void Continue::accept( VisitorPtr vis )
+	void Continue::accept( VisitorPtr vis )const
 	{
 		vis->visitContinueStmt( this );
 	}

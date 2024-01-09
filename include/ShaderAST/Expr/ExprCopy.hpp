@@ -16,7 +16,7 @@ namespace ast::expr
 		SDAST_API explicit Copy( ExprCache & exprCache
 			, ExprPtr op );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 }
 

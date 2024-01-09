@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void ArrayAccess::accept( VisitorPtr vis )
+	void ArrayAccess::accept( VisitorPtr vis )const
 	{
 		vis->visitArrayAccessExpr( this );
 	}

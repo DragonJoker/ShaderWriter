@@ -421,13 +421,34 @@ namespace glsl
 	}
 
 	RangeInfo getColumnData( Statement const * statement
-		, ast::expr::Expr * expr )
+		, ast::expr::Expr const & expr )
 	{
 		glsl::RangeInfo result;
 
 		if ( statement )
 		{
-			auto it = statement->exprs.find( expr );
+			auto it = statement->exprs.find( &expr );
+
+			if ( it != statement->exprs.end() )
+			{
+				result = it->second;
+			}
+			else
+			{
+				result = statement->source.columns;
+			}
+		}
+
+		return result;
+	}
+
+	RangeInfo getColumnData( Statement const * statement )
+	{
+		glsl::RangeInfo result;
+
+		if ( statement )
+		{
+			auto it = statement->exprs.find( nullptr );
 
 			if ( it != statement->exprs.end() )
 			{

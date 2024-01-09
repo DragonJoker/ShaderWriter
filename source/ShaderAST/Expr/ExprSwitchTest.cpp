@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void SwitchTest::accept( VisitorPtr vis )
+	void SwitchTest::accept( VisitorPtr vis )const
 	{
 		vis->visitSwitchTestExpr( this );
 	}

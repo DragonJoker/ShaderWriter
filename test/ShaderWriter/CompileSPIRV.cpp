@@ -85,8 +85,8 @@ namespace test
 	{
 		struct LayerProperties
 		{
-			VkLayerProperties properties;
-			std::vector<VkExtensionProperties> instanceExtensions;
+			VkLayerProperties properties{};
+			std::vector<VkExtensionProperties> instanceExtensions{};
 		};
 
 		struct Info
@@ -731,7 +731,7 @@ namespace test
 		{
 			auto createInfo = ast::vk::makeVkStruct< VkShaderModuleCreateInfo >();
 			createInfo.pCode = spirv.data();
-			createInfo.codeSize = uint32_t( spirv.size() * sizeof( uint32_t ) );
+			createInfo.codeSize = size_t( uint64_t( spirv.size() ) * sizeof( uint32_t ) );
 			VkShaderModule shaderModule;
 			bool result = false;
 
@@ -757,7 +757,12 @@ namespace test
 	{
 		struct SPIRVContext
 		{
-			SPIRVContext()
+			SPIRVContext( SPIRVContext const & ) = delete;
+			SPIRVContext & operator=( SPIRVContext const & ) = delete;
+			SPIRVContext( SPIRVContext && )noexcept = delete;
+			SPIRVContext & operator=( SPIRVContext && )noexcept = delete;
+
+			SPIRVContext()noexcept
 			{
 				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
@@ -782,7 +787,7 @@ namespace test
 				}
 			}
 
-			~SPIRVContext()
+			~SPIRVContext()noexcept
 			{
 				for ( auto & info : infos )
 				{
@@ -798,16 +803,14 @@ namespace test
 			{
 				auto result = std::make_unique< Info >( apiVersion, spvVersion );
 
-				if ( createInstance( *result ) )
+				if ( createInstance( *result )
+					&& !createDevice( *result ) )
 				{
-					if ( !createDevice( *result ) )
-					{
-						result->dbgDestroyDebugUtilsMessenger( result->instance
-							, *result->debugReportCallbacks.data()
-							, nullptr );
-						vkDestroyInstance( result->instance, nullptr );
-						throw std::runtime_error{ "Can't initialise Vulkan device" };
-					}
+					result->dbgDestroyDebugUtilsMessenger( result->instance
+						, *result->debugReportCallbacks.data()
+						, nullptr );
+					vkDestroyInstance( result->instance, nullptr );
+					throw std::runtime_error{ "Can't initialise Vulkan device" };
 				}
 
 				return result;
@@ -826,9 +829,9 @@ namespace test
 	}
 
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
-		, uint32_t infoIndex )
+		, [[maybe_unused]] uint32_t infoIndex )
 	{
-		auto & info = testCounts.spirv->infos[infoIndex];
+		auto const & info = testCounts.spirv->infos[infoIndex];
 		return info
 			? info->apiVersion
 			: 0u;
@@ -842,11 +845,11 @@ namespace test
 			return 0u;
 		}
 
-		auto & info = testCounts.spirv->infos[infoIndex];
+		auto const & info = testCounts.spirv->infos[infoIndex];
 		return info->spvVersion;
 	}
 
-	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts )
+	uint32_t retrieveSpirVInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
 		return uint32_t( testCounts.spirv->infos.size() );
 	}
@@ -1014,7 +1017,7 @@ namespace test
 			}
 		}
 
-		VkRenderPass createRenderPass( ast::vk::ProgramPipeline program
+		VkRenderPass createRenderPass( ast::vk::ProgramPipeline const & program
 			, ast::vk::BuilderContext const & context
 			, std::string & errors
 			, sdw_test::TestCounts & testCounts
@@ -1024,9 +1027,9 @@ namespace test
 			std::vector< VkAttachmentDescription > attachments;
 			std::vector< VkAttachmentReference > references;
 
-			for ( auto & attachmentIt : attachmentsMap )
+			for ( auto const & [_, attach] : attachmentsMap )
 			{
-				attachments.push_back( attachmentIt.second );
+				attachments.push_back( attach );
 				auto & attachment = attachments.back();
 				attachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
 				attachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -1100,8 +1103,7 @@ namespace test
 			return renderPass;
 		}
 
-		VkPipeline createComputePipeline( ast::vk::ProgramPipeline program
-			, ast::vk::PipelineBuilder const & builder
+		VkPipeline createComputePipeline( ast::vk::PipelineBuilder const & builder
 			, ast::vk::PipelineShaderStageCreateInfo const & shaderStage
 			, VkPipelineLayout pipelineLayout
 			, std::string & errors
@@ -1137,7 +1139,7 @@ namespace test
 			return pipeline;
 		}
 
-		VkPipeline createGraphicsPipeline( ast::vk::ProgramPipeline program
+		VkPipeline createGraphicsPipeline( ast::vk::ProgramPipeline const & program
 			, ast::vk::PipelineBuilder const & builder
 			, ast::vk::PipelineShaderStageArray const & shaderStages
 			, VkPipelineLayout pipelineLayout
@@ -1294,7 +1296,7 @@ namespace test
 		auto context = createBuilderContext( testCounts, infoIndex );
 		ast::vk::PipelineBuilder builder{ context, program };
 		ast::vk::VkShaderModuleArray modules;
-		checkNoThrow( modules = builder.createShaderModules() );
+		checkNoThrow( modules = builder.createShaderModules() )
 
 		if ( modules.empty() )
 		{
@@ -1304,9 +1306,9 @@ namespace test
 
 		bool result = false;
 		ast::vk::VkDescriptorSetLayoutArray descriptorLayouts;
-		checkNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() );
+		checkNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() )
 		VkPipelineLayout pipelineLayout{};
-		checkNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) );
+		checkNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) )
 
 		if ( !pipelineLayout )
 		{
@@ -1315,7 +1317,7 @@ namespace test
 		else
 		{
 			ast::vk::PipelineShaderStageArray shaderStages;
-			checkNoThrow( shaderStages = builder.createShaderStages( modules, {} ) );
+			checkNoThrow( shaderStages = builder.createShaderStages( modules, {} ) )
 
 			if ( shaderStages.size() == 1u )
 			{
@@ -1325,8 +1327,7 @@ namespace test
 				}
 				else
 				{
-					if ( VkPipeline pipeline = createComputePipeline( program
-						, builder
+					if ( VkPipeline pipeline = createComputePipeline( builder
 						, shaderStages.front()
 						, pipelineLayout
 						, errors

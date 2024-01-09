@@ -106,7 +106,7 @@ namespace hlsl
 	}
 
 	std::string compileHlsl( ast::Shader const & shader
-		, ast::stmt::Container * stmt
+		, ast::stmt::Container const * stmt
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
@@ -123,17 +123,17 @@ namespace hlsl
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, stmt
+			, *stmt
 			, ssaData
 			, false );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		HlslShader hlslShader{ shader, stage };
 		AdaptationData adaptationData{ compileExprCache
 			, hlslShader };
@@ -141,13 +141,13 @@ namespace hlsl
 		adaptationData.nextVarId = ssaData.nextVarId;
 		auto intrinsicsConfig = hlsl::fillConfig( hlslShader
 			, adaptationData
-			, statements.get() );
+			, *statements );
 		checkConfig( config, intrinsicsConfig );
 
 		statements = hlsl::adaptStatements( compileStmtCache
 			, compileExprCache
 			, hlslShader
-			, statements.get()
+			, *statements
 			, intrinsicsConfig
 			, config
 			, adaptationData );
@@ -155,14 +155,14 @@ namespace hlsl
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		statements = ast::specialiseStatements( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get()
+			, *statements
 			, specialisation );
-		std::map< ast::var::VariablePtr, ast::expr::Expr * > aliases;
-		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, statements.get() );
+		std::map< ast::var::VariablePtr, ast::expr::Expr const * > aliases;
+		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, *statements );
 	}
 
 	std::string compileHlsl( ast::Shader const & shader
