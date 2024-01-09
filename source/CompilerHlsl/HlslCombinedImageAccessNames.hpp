@@ -611,7 +611,7 @@ namespace hlsl
 			break;
 
 		default:
-			throw std::runtime_error{ "Unsupported CombinedImageAccess type." };
+			throw ast::Exception{ "Unsupported CombinedImageAccess type." };
 		}
 
 		return result;

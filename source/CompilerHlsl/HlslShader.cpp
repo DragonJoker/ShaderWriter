@@ -17,10 +17,10 @@ namespace hlsl
 	void HlslShader::registerVariable( ast::var::VariablePtr var )
 	{
 #if !defined( NDEBUG )
-		auto ires = m_registered.emplace( var->getName(), var );
-		assert( ires.second );
+		auto [_, res] = m_registered.try_emplace( var->getName(), var );
+		assert( res );
 #else
-		m_registered.emplace( var->getName(), var );
+		m_registered.try_emplace( var->getName(), var );
 #endif
 	}
 
@@ -29,34 +29,36 @@ namespace hlsl
 		, uint64_t flags )
 	{
 		auto name = ast::getName( builtin );
-		auto ires = m_registered.emplace( name, nullptr );
+		auto [it, res] = m_registered.try_emplace( name );
 
-		if ( ires.second )
+		if ( res )
 		{
-			ires.first->second = ast::var::makeBuiltin( ++m_shader.getData().nextVarId
+			++m_shader.getData().nextVarId;
+			it->second = ast::var::makeBuiltin( m_shader.getData().nextVarId
 				, builtin
 				, type
 				, flags );
 		}
 
-		return ires.first->second;
+		return it->second;
 	}
 
 	ast::var::VariablePtr HlslShader::registerName( std::string name
 		, ast::type::TypePtr type
 		, uint64_t flags )
 	{
-		auto ires = m_registered.emplace( name, nullptr );
+		auto [it, res] = m_registered.try_emplace( name );
 
-		if ( ires.second )
+		if ( res )
 		{
-			ires.first->second = ast::var::makeVariable( ++m_shader.getData().nextVarId
+			++m_shader.getData().nextVarId;
+			it->second = ast::var::makeVariable( m_shader.getData().nextVarId
 				, type
 				, std::move( name )
 				, flags );
 		}
 
-		return ires.first->second;
+		return it->second;
 	}
 
 	ast::var::VariablePtr HlslShader::registerName( std::string name
@@ -90,7 +92,8 @@ namespace hlsl
 				, type
 				, ast::var::Flag::eUniform );
 
-			m_samplers.emplace( std::move( name ), ast::SamplerInfo{ { type, { binding, set } } } );
+			m_samplers.try_emplace( std::move( name )
+				, ast::SamplerInfo{ { type, { binding, set } } } );
 		}
 		else
 		{
@@ -116,7 +119,8 @@ namespace hlsl
 				, type
 				, ast::var::Flag::eUniform );
 
-			m_images.emplace( std::move( name ), ast::ImageInfo{ { type, { binding, set } } } );
+			m_images.try_emplace( std::move( name )
+				, ast::ImageInfo{ { type, { binding, set } } } );
 		}
 		else
 		{
@@ -135,9 +139,8 @@ namespace hlsl
 			return true;
 		}
 
-		auto it = m_registered.find( name );
-
-		if ( it != m_registered.end() )
+		if ( auto it = m_registered.find( name );
+			it != m_registered.end() )
 		{
 			return true;
 		}
@@ -145,8 +148,7 @@ namespace hlsl
 		return false;
 	}
 
-	ast::var::VariablePtr HlslShader::getGlobalVariable( std::string const & name
-		, ast::type::TypePtr type )
+	ast::var::VariablePtr HlslShader::getGlobalVariable( std::string const & name )
 	{
 		auto result = ( m_shader.hasGlobalVariable( name )
 			? m_shader.getGlobalVariable( name )
@@ -160,7 +162,7 @@ namespace hlsl
 			{
 				std::string text;
 				text += "No registered variable with the name [" + name + "].";
-				throw std::runtime_error{ text };
+				throw ast::Exception{ text };
 			}
 
 			result = it->second;

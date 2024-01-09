@@ -15,17 +15,19 @@ namespace hlsl
 {
 	struct IntrinsicAdaptationInfo
 	{
-		struct
+		struct OperatorChange
 		{
-			bool toOperator{ false };
-			ast::expr::Kind operatorKind;
-		} operatorChange;
-		struct
+			bool toOperator{};
+			ast::expr::Kind operatorKind{};
+		};
+		struct AtomicChange
 		{
-			bool isAtomic{ false };
-			uint32_t outputIndex;
-		} atomicChange;
-		bool isStrictFloat{ false };
+			bool isAtomic{};
+			uint32_t outputIndex{};
+		};
+		OperatorChange operatorChange{};
+		AtomicChange atomicChange{};
+		bool isStrictFloat{};
 	};
 
 	inline IntrinsicAdaptationInfo getAdaptationInfo( ast::expr::Intrinsic value )
@@ -1368,7 +1370,7 @@ namespace hlsl
 		case ast::expr::Intrinsic::eSubgroupClusterXor2B:
 		case ast::expr::Intrinsic::eSubgroupClusterXor3B:
 		case ast::expr::Intrinsic::eSubgroupClusterXor4B:
-			throw std::runtime_error{ "Unsupported Intrinsic type in HLSL." };
+			throw ast::Exception{ "Unsupported Intrinsic type in HLSL." };
 
 		default:
 			break;

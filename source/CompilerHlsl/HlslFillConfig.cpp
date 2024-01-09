@@ -9,7 +9,6 @@ See LICENSE file in root folder
 #include "HlslIntrinsicConfig.hpp"
 #include "HlslIntrinsicFunctions.hpp"
 #include "HlslShader.hpp"
-#include "HlslStorageImageAccessFunctions.hpp"
 #include "HlslStorageImageAccessConfig.hpp"
 #include "HlslReplaceVariables.hpp"
 
@@ -162,11 +161,8 @@ namespace hlsl
 					&& !expr->isPerTask()
 					&& ( expr->isShaderInput() || expr->isShaderOutput() ) )
 				{
-					auto ident = ast::findIdentifier( expr );
-
-					if ( ident
-						&& ( ident->getVariable()->isPerTaskNV()
-							|| ident->getVariable()->isPerTask() ) )
+					if ( auto ident = ast::findIdentifier( expr );
+						ident && ( ident->getVariable()->isPerTaskNV() || ident->getVariable()->isPerTask() ) )
 					{
 						return;
 					}
@@ -222,7 +218,7 @@ namespace hlsl
 					{
 						if ( expr->getArgList().size() < 3u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a control barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
@@ -231,7 +227,7 @@ namespace hlsl
 					{
 						if ( expr->getArgList().size() < 2u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
 						}
 
 						memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
@@ -429,7 +425,7 @@ namespace hlsl
 
 			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
 			{
-				throw std::runtime_error{ "ast::stmt::BufferReferenceDecl are not supported in HLSL" };
+				throw ast::Exception{ "ast::stmt::BufferReferenceDecl are not supported in HLSL" };
 			}
 
 			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
@@ -503,17 +499,19 @@ namespace hlsl
 				{
 					auto name = ast::getName( member.builtin );
 					auto var = ( m_shader.hasGlobalVariable( name )
-						? m_shader.getGlobalVariable( name, member.type )
+						? m_shader.getGlobalVariable( name )
 						: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
 
 					if ( structType->isShaderOutput() )
 					{
-						m_adaptationData.addPendingOutput( var, index++ );
+						m_adaptationData.addPendingOutput( var, index );
 					}
 					else
 					{
-						m_adaptationData.addPendingInput( var, index++ );
+						m_adaptationData.addPendingInput( var, index );
 					}
+
+					++index;
 				}
 			}
 
@@ -527,17 +525,19 @@ namespace hlsl
 				{
 					auto name = ast::getName( member.builtin );
 					auto var = ( m_shader.hasGlobalVariable( name )
-						? m_shader.getGlobalVariable( name, member.type )
+						? m_shader.getGlobalVariable( name )
 						: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
 
 					if ( helpers::isOutput( stmt->getSource() ) )
 					{
-						m_adaptationData.addPendingOutput( var, index++ );
+						m_adaptationData.addPendingOutput( var, index );
 					}
 					else
 					{
-						m_adaptationData.addPendingInput( var, index++ );
+						m_adaptationData.addPendingInput( var, index );
 					}
+
+					++index;
 				}
 			}
 

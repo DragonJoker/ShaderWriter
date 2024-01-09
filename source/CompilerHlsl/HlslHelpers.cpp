@@ -223,7 +223,6 @@ namespace hlsl
 		}
 
 		static IOMappingMode getMode( ast::ShaderStage stage
-			, bool isMain
 			, bool isInput
 			, bool isHighFreq
 			, bool isPrimitiveIndices )
@@ -833,7 +832,7 @@ namespace hlsl
 			result = "^=";
 			break;
 		default:
-			throw std::runtime_error{ "Non operation expression" };
+			throw ast::Exception{ "Non operation expression" };
 		}
 
 		return result;
@@ -866,7 +865,7 @@ namespace hlsl
 			result = "triangleadj";
 			break;
 		default:
-			throw std::runtime_error{ "Unsupported input layout." };
+			throw ast::Exception{ "Unsupported input layout." };
 		}
 
 		return result;
@@ -888,7 +887,7 @@ namespace hlsl
 			result = "TriangleStream";
 			break;
 		default:
-			throw std::runtime_error{ "Unsupported output layout." };
+			throw ast::Exception{ "Unsupported output layout." };
 		}
 
 		return result;
@@ -910,7 +909,7 @@ namespace hlsl
 			result = "triangle";
 			break;
 		default:
-			throw std::runtime_error{ "Unsupported output topology." };
+			throw ast::Exception{ "Unsupported output topology." };
 		}
 
 		return result;
@@ -1050,9 +1049,9 @@ namespace hlsl
 		}
 
 		std::string result;
-		auto arraySize = getArraySize( type );
 
-		if ( arraySize != ast::type::NotArray )
+		if ( auto arraySize = getArraySize( type );
+			arraySize != ast::type::NotArray )
 		{
 			if ( arraySize == ast::type::UnknownArraySize )
 			{
@@ -1318,7 +1317,7 @@ namespace hlsl
 			}
 			break;
 		default:
-			throw std::runtime_error{ "Unsupported composite type." };
+			throw ast::Exception{ "Unsupported composite type." };
 		}
 
 		return result;
@@ -1417,9 +1416,8 @@ namespace hlsl
 				inc = getComponentCount( type );
 			}
 
-			auto arraySize = getArraySize( type );
-
-			if ( arraySize != ast::type::NotArray )
+			if ( auto arraySize = getArraySize( type );
+				arraySize != ast::type::NotArray )
 			{
 				inc *= arraySize;
 			}
@@ -1456,7 +1454,7 @@ namespace hlsl
 			result = true;
 			break;
 		default:
-			throw std::runtime_error{ "Non unary expression" };
+			throw ast::Exception{ "Non unary expression" };
 		}
 
 		return result;
@@ -1478,22 +1476,23 @@ namespace hlsl
 		, uint32_t & nextVarId )
 	{
 		auto it = linkedVars.find( var );
-		auto type = getNonArrayType( var->getType() );
 
-		if ( isTextureType( type->getKind() )
-			&& it == linkedVars.end() )
+		if ( auto type = getNonArrayType( var->getType() );
+			isTextureType( type->getKind() ) && it == linkedVars.end() )
 		{
 			auto sampledType = std::static_pointer_cast< ast::type::CombinedImage >( type );
 
 			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
 			{
-				auto texture = ast::var::makeVariable( ++nextVarId
+				++nextVarId;
+				auto texture = ast::var::makeVariable( nextVarId
 					, sampledType->getImageType()
 					, var->getName() + "_texture" );
-				auto sampler = ast::var::makeVariable( ++nextVarId
+				++nextVarId;
+				auto sampler = ast::var::makeVariable( nextVarId
 					, sampledType->getSamplerType()
 					, var->getName() + "_sampler" );
-				it = linkedVars.emplace( var, std::make_pair( texture, sampler ) ).first;
+				it = linkedVars.try_emplace( var, texture, sampler ).first;
 			}
 		}
 
@@ -1687,11 +1686,10 @@ namespace hlsl
 
 	void IOMapping::initialiseMainVar( ast::var::VariablePtr srcVar
 		, ast::type::TypePtr type
-		, uint64_t flags
 		, VarVarMap & paramToEntryPoint )
 	{
 		paramVar->updateType( type );
-		paramToEntryPoint.emplace( srcVar, mainVar );
+		paramToEntryPoint.try_emplace( srcVar, mainVar );
 	}
 
 	void IOMapping::initialisePatchVar( ast::var::VariablePtr srcVar
@@ -1699,7 +1697,7 @@ namespace hlsl
 		, uint64_t flags
 		, VarVarMap & paramToEntryPoint )
 	{
-		initialiseMainVar( srcVar, type, flags, paramToEntryPoint );
+		initialiseMainVar( srcVar, type, paramToEntryPoint );
 
 		if ( isStructType( srcVar->getType() ) )
 		{
@@ -1724,11 +1722,10 @@ namespace hlsl
 	void IOMapping::addPending( ast::var::VariablePtr pendingVar
 		, uint32_t location )
 	{
-		auto ires = m_pending.emplace( pendingVar->getName(), PendingIO{} );
+		auto [it, res] = m_pending.try_emplace( pendingVar->getName() );
 
-		if ( ires.second )
+		if ( res )
 		{
-			auto it = ires.first;
 			it->second.location = location;
 			it->second.var = pendingVar;
 		}
@@ -1752,7 +1749,7 @@ namespace hlsl
 			PendingIO io{};
 			io.location = location;
 			io.flags = flags;
-			m_pendingMbr.push_back( { outerVar, mbrIndex, std::move( io ) } );
+			m_pendingMbr.emplace_back( outerVar, mbrIndex, std::move( io ) );
 		}
 	}
 
@@ -1796,7 +1793,7 @@ namespace hlsl
 			return result;
 		}
 
-		auto & mbr = *it;
+		auto const & mbr = *it;
 
 		if ( outer->getKind() != ast::expr::Kind::eArrayAccess )
 		{
@@ -1823,37 +1820,35 @@ namespace hlsl
 			return nullptr;
 		}
 
-		auto & mbr = *it;
-		auto pendingVar = mbr.second.var;
+		auto & [_, mbr] = *it;
+		auto pendingVar = mbr.var;
 		auto type = pendingVar->getType();
 		auto location = it->second.location;
 
-		if ( mbr.second.result.mbrIndex == ast::type::Struct::NotFound )
+		if ( mbr.result.mbrIndex == ast::type::Struct::NotFound )
 		{
-			mbr.second.result = processPendingType( type
+			mbr.result = processPendingType( type
 				, pendingVar->getName()
 				, pendingVar->isBuiltin() ? pendingVar->getBuiltin() : ast::Builtin::eNone
-				, mbr.second.flags
+				, mbr.flags
 				, location );
 		}
 
-		if ( mbr.second.result.expr )
+		if ( mbr.result.expr )
 		{
-			return ast::ExprCloner::submit( exprCache, mbr.second.result.expr );
+			return ast::ExprCloner::submit( exprCache, mbr.result.expr );
 		}
 
 		auto & typesCache = shader->getTypesCache();
 		auto outerIdent = exprCache.makeIdentifier( typesCache, mainVar );
 		return exprCache.makeMbrSelect( std::move( outerIdent )
-			, mbr.second.result.mbrIndex
-			, mbr.second.result.flags );
+			, mbr.result.mbrIndex
+			, mbr.result.flags );
 	}
 
 	ast::expr::ExprPtr IOMapping::processPending( ast::var::VariablePtr srcVar )
 	{
-		auto result = processPending( srcVar->getName() );
-
-		if ( result )
+		if ( auto result = processPending( srcVar->getName() ) )
 		{
 			return result;
 		}
@@ -1976,12 +1971,12 @@ namespace hlsl
 	{
 		auto arraySize = getArraySize( type );
 		type = getNonArrayType( type );
-		auto compType = getComponentType( type );
 
-		if ( ( stage != ast::ShaderStage::eVertex || !isInput )
-			&& !isMeshStage( stage )
-			&& !isRayTraceStage( stage )
-			&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
+		if ( auto compType = getComponentType( type );
+			( stage != ast::ShaderStage::eVertex || !isInput )
+				&& !isMeshStage( stage )
+				&& !isRayTraceStage( stage )
+				&& ( isUnsignedIntType( compType ) || isSignedIntType( compType ) ) )
 		{
 			flags = flags | ast::var::Flag::eFlat;
 		}
@@ -2114,31 +2109,29 @@ namespace hlsl
 	Routine::Routine( ast::expr::ExprCache & pexprCache
 		, HlslShader & pshader
 		, AdaptationData * pparent
-		, bool pisMain
-		, std::string const & name )
+		, bool pisMain )
 		: exprCache{ pexprCache }
 		, shader{ &pshader }
 		, parent{ pparent }
 		, isMain{ pisMain }
 		, m_highFreqOutputs{ exprCache 
 			, *shader
-			, HlslHelpersInternal::getMode( shader->getType(), isMain, false, true, false )
+			, HlslHelpersInternal::getMode( shader->getType(), false, true, false )
 			, false
 			, false
 			, HlslHelpersInternal::getFuncName( isMain ) }
 		, m_lowFreqInputs{ exprCache 
 			, *shader
-			, HlslHelpersInternal::getMode( shader->getType(), isMain, true, false, false )
+			, HlslHelpersInternal::getMode( shader->getType(), true, false, false )
 			, true
 			, false
 			, HlslHelpersInternal::getFuncName( isMain ) }
 		, m_lowFreqOutputs{ exprCache 
 			, *shader
-			, HlslHelpersInternal::getMode( shader->getType(), isMain, false, false, false )
+			, HlslHelpersInternal::getMode( shader->getType(), false, false, false )
 			, false
 			, isMeshStage( shader->getType() )
 			, HlslHelpersInternal::getFuncName( isMain ) }
-		, m_primitiveIndices{}
 	{
 	}
 
@@ -2149,7 +2142,6 @@ namespace hlsl
 			, ast::type::makeGeometryOutputType( m_highFreqOutputs.paramStruct
 				, geomType.getLayout()
 				, geomType.getCount() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eOutputParam | ast::var::Flag::eShaderOutput
 			, paramToEntryPoint );
 	}
 
@@ -2163,7 +2155,6 @@ namespace hlsl
 				, tessType.getTopology()
 				, tessType.getOrder()
 				, tessType.getOutputVertices() )
-			, uint64_t( ast::var::Flag::eShaderOutput )
 			, paramToEntryPoint );
 	}
 
@@ -2173,7 +2164,6 @@ namespace hlsl
 		m_highFreqOutputs.initialiseMainVar( srcVar
 			, ast::type::makeMeshVertexOutputType( m_highFreqOutputs.paramStruct
 				, meshType.getMaxVertices() )
-			, uint64_t( ast::var::Flag::eShaderOutput )
 			, paramToEntryPoint );
 	}
 
@@ -2183,16 +2173,14 @@ namespace hlsl
 		m_highFreqOutputs.initialiseMainVar( srcVar
 			, ast::type::makeTessellationOutputPatchType( m_highFreqOutputs.paramStruct
 				, patchType.getLocation() )
-			, uint64_t( ast::var::Flag::eShaderOutput )
 			, paramToEntryPoint );
 	}
 
 	void Routine::initialiseHFOutput( ast::var::VariablePtr srcVar
-		, ast::type::TaskPayload const & taskType )
+		, ast::type::TaskPayload const & )
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
 			, ast::type::makeTaskPayloadType( m_highFreqOutputs.paramStruct )
-			, ast::var::Flag::eShaderOutput | ast::var::Flag::ePerTask
 			, paramToEntryPoint );
 	}
 
@@ -2203,7 +2191,6 @@ namespace hlsl
 			, ast::type::makeMeshPrimitiveOutputType( m_lowFreqOutputs.paramStruct
 				, meshType.getTopology()
 				, meshType.getMaxPrimitives() )
-			, ast::var::Flag::eShaderOutput | ast::var::Flag::ePerPrimitive
 			, paramToEntryPoint );
 	}
 
@@ -2271,9 +2258,8 @@ namespace hlsl
 
 	ast::expr::ExprPtr Routine::processPending( ast::var::VariablePtr var )
 	{
-		auto it = paramToEntryPoint.find( var );
-
-		if ( it != paramToEntryPoint.end() )
+		if ( auto it = paramToEntryPoint.find( var );
+			it != paramToEntryPoint.end() )
 		{
 			return exprCache.makeIdentifier( shader->getTypesCache()
 				, it->second );
@@ -2377,7 +2363,7 @@ namespace hlsl
 		return m_lowFreqOutputs;
 	}
 
-	bool Routine::isOutput( ast::Builtin builtin )
+	bool Routine::isOutput( ast::Builtin builtin )const
 	{
 		return m_highFreqOutputs.isValid( builtin );
 	}
@@ -2571,7 +2557,7 @@ namespace hlsl
 			io.var = shader->registerBuiltin( mbrBuiltin
 				, shader->getTypesCache().getArray( mbr.type, meshType.getMaxPrimitives() )
 				, mbrFlags );
-			m_primitiveIndices = { var, mbrIndex, std::move( io ) };
+			m_primitiveIndices = IOMapping::PendingMbrIO{ var, mbrIndex, std::move( io ) };
 		}
 		else
 		{
@@ -2587,25 +2573,24 @@ namespace hlsl
 	AdaptationData::AdaptationData( ast::expr::ExprCache & pexprCache
 		, HlslShader & pshader )
 		: exprCache{ pexprCache }
-		, m_highFreqInputs{ exprCache, pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, false, "Global" }
+		, m_highFreqInputs{ exprCache, pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, false ), true, false, "Global" }
 		, m_patchInputs{ ( pshader.getType() == ast::ShaderStage::eTessellationEvaluation
-			? std::make_unique< IOMapping >( exprCache, pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, true, false ), true, true, "Global" )
+			? std::make_unique< IOMapping >( exprCache, pshader, HlslHelpersInternal::getMode( pshader.getType(), true, true, false ), true, true, "Global" )
 			: nullptr ) }
 		, shader{ &pshader }
 	{
-		m_routines.emplace( "main"
-			, std::make_unique< Routine >( exprCache, pshader, this, true, "main" ) );
+		m_routines.try_emplace( "main"
+			, std::make_unique< Routine >( exprCache, pshader, this, true ) );
 		m_mainEntryPoint = m_routines["main"].get();
 	}
 
 	void AdaptationData::addEntryPoint( ast::stmt::FunctionDecl const & stmt )
 	{
-		m_routines.emplace( stmt.getName()
+		m_routines.try_emplace( stmt.getName()
 			, std::make_unique< Routine >( exprCache
 				, *shader
 				, this
-				, stmt.isEntryPoint()
-				, stmt.getName() ) );
+				, stmt.isEntryPoint() ) );
 	}
 
 	void AdaptationData::updateCurrentEntryPoint( ast::stmt::FunctionDecl const * stmt )
@@ -2631,7 +2616,6 @@ namespace hlsl
 	{
 		assert( m_currentRoutine );
 		auto funcType = stmt.getType();
-		auto isEntryPoint = stmt.isEntryPoint();
 
 		for ( auto & param : *funcType )
 		{
@@ -2652,7 +2636,7 @@ namespace hlsl
 				registerParam( param, static_cast< ast::type::TessellationInputPatch const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationControlInput:
-				registerParam( param, static_cast< ast::type::TessellationControlInput const & >( *type ), isEntryPoint );
+				registerParam( param, static_cast< ast::type::TessellationControlInput const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationEvaluationInput:
 				registerParam( param, static_cast< ast::type::TessellationEvaluationInput const & >( *type ) );
@@ -2661,10 +2645,10 @@ namespace hlsl
 				registerParam( param, static_cast< ast::type::ComputeInput const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationOutputPatch:
-				registerParam( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ), isEntryPoint );
+				registerParam( param, static_cast< ast::type::TessellationOutputPatch const & >( *type ) );
 				break;
 			case ast::type::Kind::eTessellationControlOutput:
-				registerParam( param, static_cast< ast::type::TessellationControlOutput const & >( *type ), isEntryPoint );
+				registerParam( param, static_cast< ast::type::TessellationControlOutput const & >( *type ) );
 				break;
 			case ast::type::Kind::eMeshVertexOutput:
 				registerParam( param, static_cast< ast::type::MeshVertexOutput const & >( *type ) );
@@ -2695,15 +2679,11 @@ namespace hlsl
 
 						if ( structType->isShaderInput() )
 						{
-							registerInput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, isEntryPoint );
+							registerInput( param, static_cast< ast::type::IOStruct const & >( *structType ) );
 						}
 						else if ( structType->isShaderOutput() )
 						{
-							registerOutput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, isEntryPoint );
+							registerOutput( param, static_cast< ast::type::IOStruct const & >( *structType ) );
 						}
 						else
 						{
@@ -2718,7 +2698,7 @@ namespace hlsl
 										registerInputMbr( param
 											, uint64_t( ast::var::Flag::eShaderInput )
 											, mbr.builtin
-											, index++
+											, index
 											, mbr.location );
 									}
 									else
@@ -2726,9 +2706,11 @@ namespace hlsl
 										registerInputMbr( param
 											, uint64_t( ast::var::Flag::eShaderOutput )
 											, mbr.builtin
-											, index++
+											, index
 											, mbr.location );
 									}
+
+									++index;
 								}
 							}
 						}
@@ -2762,7 +2744,7 @@ namespace hlsl
 		return cont;
 	}
 
-	ast::stmt::ContainerPtr AdaptationData::writeLocalesBegin( ast::stmt::StmtCache & stmtCache )
+	ast::stmt::ContainerPtr AdaptationData::writeLocalesBegin( ast::stmt::StmtCache & stmtCache )const
 	{
 		auto cont = stmtCache.makeContainer();
 		assert( m_currentRoutine );
@@ -2781,7 +2763,7 @@ namespace hlsl
 		return cont;
 	}
 
-	ast::stmt::ContainerPtr AdaptationData::writeLocalesEnd( ast::stmt::StmtCache & stmtCache )
+	ast::stmt::ContainerPtr AdaptationData::writeLocalesEnd( ast::stmt::StmtCache & stmtCache )const
 	{
 		auto cont = stmtCache.makeContainer();
 		assert( m_currentRoutine );
@@ -2801,7 +2783,7 @@ namespace hlsl
 	}
 
 	ast::type::TypePtr AdaptationData::fillParameters( ast::var::VariableList & parameters
-		, ast::stmt::Container & stmt )
+		, ast::stmt::Container & stmt )const
 	{
 		auto result = HlslHelpersInternal::getNonNull( m_highFreqInputs.fillParameters( parameters, stmt ), nullptr );
 
@@ -2846,9 +2828,8 @@ namespace hlsl
 			return nullptr;
 		}
 
-		auto it = m_currentRoutine->paramToEntryPoint.find( var );
-
-		if ( it != m_currentRoutine->paramToEntryPoint.end() )
+		if ( auto it = m_currentRoutine->paramToEntryPoint.find( var );
+			it != m_currentRoutine->paramToEntryPoint.end() )
 		{
 			return exprCache.makeIdentifier( shader->getTypesCache()
 				, it->second );
@@ -2923,7 +2904,7 @@ namespace hlsl
 		}
 	}
 
-	bool AdaptationData::isInput( ast::Builtin builtin )
+	bool AdaptationData::isInput( ast::Builtin builtin )const
 	{
 		return m_highFreqInputs.isValid( builtin );
 	}
@@ -3085,7 +3066,7 @@ namespace hlsl
 		entryPoint.addOutputVar( var, location );
 	}
 
-	bool AdaptationData::isOutput( ast::Builtin builtin )
+	bool AdaptationData::isOutput( ast::Builtin builtin )const
 	{
 		assert( m_currentRoutine );
 		return m_currentRoutine->isOutput( builtin );
@@ -3162,22 +3143,19 @@ namespace hlsl
 		, ast::type::FragmentInput const & fragType )
 	{
 		assert( m_currentRoutine );
-		auto type = fragType.getType();
 
-		if ( isStructType( type ) )
+		if ( auto type = fragType.getType();
+			isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeFragmentInputType( m_highFreqInputs.paramStruct
 				, fragType.getOrigin()
 				, fragType.getCenter() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3185,15 +3163,13 @@ namespace hlsl
 		, ast::type::ComputeInput const & compType )
 	{
 		assert( m_currentRoutine );
-		auto type = compType.getType();
 
-		if ( isStructType( type ) )
+		if ( auto type = compType.getType();
+			isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_currentRoutine->m_lowFreqInputs.initialiseMainVar( var
@@ -3201,7 +3177,6 @@ namespace hlsl
 				, compType.getLocalSizeX()
 				, compType.getLocalSizeY()
 				, compType.getLocalSizeZ() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3209,21 +3184,18 @@ namespace hlsl
 		, ast::type::GeometryInput const & geomType )
 	{
 		assert( m_currentRoutine );
-		auto type = geomType.getType();
 
-		if ( isStructType( type ) )
+		if ( auto type = geomType.getType();
+			isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeGeometryInputType( m_highFreqInputs.paramStruct
 				, geomType.getLayout() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3231,15 +3203,13 @@ namespace hlsl
 		, ast::type::GeometryOutput const & geomType )
 	{
 		assert( m_currentRoutine );
-		auto type = geomType.getType();
 
-		if ( isStructType( type ) )
+		if ( auto type = geomType.getType();
+			isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
-			registerOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_currentRoutine->initialiseHFOutput( var, geomType );
@@ -3250,9 +3220,9 @@ namespace hlsl
 	{
 		assert( m_currentRoutine );
 		assert( m_patchInputs );
-		auto type = patchType.getType();
 
-		if ( isStructType( type ) )
+		if ( auto type = patchType.getType();
+			isStructType( type ) )
 		{
 			auto structType = getStructType( type );
 			declareStruct( structType
@@ -3268,13 +3238,12 @@ namespace hlsl
 	}
 
 	void AdaptationData::registerParam( ast::var::VariablePtr var
-		, ast::type::TessellationOutputPatch const & patchType
-		, bool isEntryPoint )
+		, ast::type::TessellationOutputPatch const & patchType )
 	{
 		assert( m_currentRoutine );
-		auto type = patchType.getType();
 
-		if ( isStructType( type ) )
+		if ( auto type = patchType.getType();
+			isStructType( type ) )
 		{
 			declareStruct( getStructType( type )
 				, m_currentRoutine->globalDeclarations );
@@ -3284,8 +3253,7 @@ namespace hlsl
 	}
 
 	void AdaptationData::registerParam( ast::var::VariablePtr var
-		, ast::type::TessellationControlInput const & tessType
-		, bool isEntryPoint )
+		, ast::type::TessellationControlInput const & tessType )
 	{
 		assert( m_currentRoutine );
 		auto type = tessType.getType();
@@ -3297,23 +3265,19 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, isEntryPoint );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeTessellationControlInputType( m_highFreqInputs.paramStruct
 				, tessType.getInputVertices() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
 	void AdaptationData::registerParam( ast::var::VariablePtr var
-		, ast::type::TessellationControlOutput const & tessType
-		, bool isEntryPoint )
+		, ast::type::TessellationControlOutput const & tessType )
 	{
 		assert( m_currentRoutine );
 		auto type = tessType.getType();
@@ -3325,11 +3289,9 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
-			registerOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, isEntryPoint );
+			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_currentRoutine->initialiseHFOutput( var, tessType );
@@ -3348,11 +3310,9 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
@@ -3361,7 +3321,6 @@ namespace hlsl
 				, tessType.getPartitioning()
 				, tessType.getPrimitiveOrdering()
 				, tessType.getInputVertices() )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3378,11 +3337,9 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
-			registerOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_currentRoutine->initialiseHFOutput( var, meshType );
@@ -3402,11 +3359,9 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderOutput() );
-			registerOutput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_currentRoutine->initialiseLFOutput( var, meshType );
@@ -3425,16 +3380,13 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeTaskPayloadInNVType( m_highFreqInputs.paramStruct )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3451,22 +3403,18 @@ namespace hlsl
 
 		if ( isStructType( type ) )
 		{
-			auto & structType = *getStructType( type );
+			auto const & structType = *getStructType( type );
 			assert( structType.isShaderInput() );
-			registerInput( var
-				, static_cast< ast::type::IOStruct const & >( structType )
-				, true );
+			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeTaskPayloadInType( m_highFreqInputs.paramStruct )
-			, ast::var::Flag::eInputParam | ast::var::Flag::eShaderInput
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
 	void AdaptationData::registerInput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & structType
-		, bool isEntryPoint )
+		, ast::type::IOStruct const & structType )
 	{
 		uint32_t mbrIndex = 0u;
 
@@ -3475,14 +3423,14 @@ namespace hlsl
 			registerInputMbr( var
 				, structType.getFlag()
 				, mbr.builtin
-				, mbrIndex++
+				, mbrIndex
 				, mbr.location );
+			++mbrIndex;
 		}
 	}
 
 	void AdaptationData::registerOutput( ast::var::VariablePtr var
-		, ast::type::IOStruct const & structType
-		, bool isEntryPoint )
+		, ast::type::IOStruct const & structType )
 	{
 		uint32_t mbrIndex = 0u;
 
@@ -3491,8 +3439,9 @@ namespace hlsl
 			registerOutputMbr( var
 				, structType.getFlag()
 				, mbr.builtin
-				, mbrIndex++
+				, mbrIndex
 				, mbr.location );
+			++mbrIndex;
 		}
 	}
 
@@ -3557,7 +3506,7 @@ namespace hlsl
 	{
 		ast::type::traverseType( ptype, 1u
 			, [&config]( ast::type::TypePtr type
-				, uint32_t arraySize )
+				, [[maybe_unused]] uint32_t arraySize )
 			{
 				switch ( type->getRawKind() )
 				{

@@ -7,7 +7,6 @@ See LICENSE file in root folder
 #include "HlslExprAdapter.hpp"
 #include "HlslHelpers.hpp"
 #include "HlslIntrinsicFunctions.hpp"
-#include "HlslStorageImageAccessFunctions.hpp"
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
@@ -53,11 +52,10 @@ namespace hlsl
 				, m_shader{ shader }
 				, m_typesCache{ shader.getTypesCache() }
 			{
-				m_declaredStructs.insert( "RayDesc" );
+				m_declaredStructs.emplace( "RayDesc" );
 				auto cont = m_stmtCache.makeContainer();
 				compileHlslIntrinsicFunctions( cont.get(), m_intrinsicsConfig );
 				compileHlslTextureAccessFunctions( cont.get(), m_intrinsicsConfig );
-				compileHlslImageAccessFunctions( cont.get(), m_intrinsicsConfig );
 				m_intrinsics = cont.get();
 				m_current->addStmt( std::move( cont ) );
 
@@ -86,9 +84,8 @@ namespace hlsl
 				, ast::var::VariablePtr texture
 				, ast::var::VariablePtr sampler )
 			{
-				m_adaptationData.linkedVars.emplace( std::move( textureSampler )
-					, std::make_pair( std::move( texture )
-						, std::move( sampler ) ) );
+				m_adaptationData.linkedVars.try_emplace( std::move( textureSampler )
+					, std::move( texture ), std::move( sampler ) );
 			}
 
 			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
@@ -118,10 +115,8 @@ namespace hlsl
 						// Push the other parameters like any other function.
 						while ( it != funcType->end() )
 						{
-							auto type = ( *it )->getType();
-
-							if ( type->getRawKind() == ast::type::Kind::eHitAttribute
-								&& !isStructType( type ) )
+							if ( auto type = ( *it )->getType();
+								type->getRawKind() == ast::type::Kind::eHitAttribute && !isStructType( type ) )
 							{
 								auto & hitAttrType = static_cast< ast::type::HitAttribute const & >( *type );
 								// HLSL HitAttribute must be a structure
@@ -136,12 +131,12 @@ namespace hlsl
 
 								auto newType = m_rtCache.getHitAttribute( structType );
 								m_adaptationData.setHlslType( type, newType );
-								auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+								auto var = ast::var::makeVariable( m_adaptationData.getNextVarId()
 									, newType
 									, ( *it )->getName()
 									, ast::var::Flag::eShaderInput | ast::var::Flag::eInputParam | ( *it )->getFlags() );
 								params.push_back( var );
-								m_adaptationData.replacedVars.emplace( *it
+								m_adaptationData.replacedVars.try_emplace( *it
 									, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, var )
 										, 0u
 										, var->getFlags() ) );
@@ -172,10 +167,8 @@ namespace hlsl
 
 						while ( it != funcType->end() )
 						{
-							auto type = ( *it )->getType();
-
-							if ( type->getRawKind() == ast::type::Kind::eTaskPayload
-								|| type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
+							if ( auto type = ( *it )->getType();
+								type->getRawKind() == ast::type::Kind::eTaskPayload || type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
 							{
 								// HLSL Amplification payload must be declared as a global.
 								declareType( type );
@@ -244,11 +237,11 @@ namespace hlsl
 
 					auto newType = m_rtCache.getHitAttribute( structType );
 					m_adaptationData.setHlslType( type, newType );
-					auto replVar = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					auto replVar = ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, newType
 						, var->getName()
 						, var->getFlags() );
-					m_adaptationData.replacedVars.emplace( var
+					m_adaptationData.replacedVars.try_emplace( var
 						, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, replVar )
 							, 0u
 							, replVar->getFlags() ) );
@@ -284,11 +277,11 @@ namespace hlsl
 					auto newType = m_rtCache.getCallableData( structType
 						, callDataType.getLocation() );
 					m_adaptationData.setHlslType( type, newType );
-					auto replVar = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					auto replVar = ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, newType
 						, var->getName()
 						, var->getFlags() );
-					m_adaptationData.replacedVars.emplace( var
+					m_adaptationData.replacedVars.try_emplace( var
 						, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, replVar )
 							, 0u
 							, replVar->getFlags() ) );
@@ -325,11 +318,11 @@ namespace hlsl
 					auto newType = m_rtCache.getRayPayload( structType
 						, rayPayloadType.getLocation() );
 					m_adaptationData.setHlslType( type, newType );
-					auto replVar = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					auto replVar = ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, newType
 						, var->getName()
 						, var->getFlags() );
-					m_adaptationData.replacedVars.emplace( var
+					m_adaptationData.replacedVars.try_emplace( var
 						, m_exprCache.makeMbrSelect( m_exprCache.makeIdentifier( m_typesCache, replVar )
 							, 0u
 							, replVar->getFlags() ) );
@@ -463,7 +456,7 @@ namespace hlsl
 				declareType( ssboVar->getType() );
 				m_adaptationData.ssboList.push_back( ssboVar );
 				m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
-					, ast::var::makeVariable( ++m_adaptationData.nextVarId
+					, ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, ssboVar->getType()
 						, ssboVar->getName() + "Inst" )
 					, ssboVar
@@ -475,15 +468,16 @@ namespace hlsl
 				{
 					assert( curStmt->getKind() == ast::stmt::Kind::eVariableDecl );
 					auto var = static_cast< ast::stmt::VariableDecl const & >( *curStmt ).getVariable();
-					m_adaptationData.replacedVars.emplace( var
+					m_adaptationData.replacedVars.try_emplace( var
 						, m_exprCache.makeMbrSelect( m_exprCache.makeArrayAccess( ssboVar->getType()
 							, m_exprCache.makeIdentifier( m_typesCache
-								, ast::var::makeVariable( ++m_adaptationData.nextVarId
+								, ast::var::makeVariable( m_adaptationData.getNextVarId()
 									, m_typesCache.getArray( ssboVar->getType(), 1u )
 									, ssboVar->getName() ) )
 							, m_exprCache.makeLiteral( m_typesCache, 0 ) )
-							, mbrIndex++
+							, mbrIndex
 							, uint64_t( ast::var::Flag::eUniform ) ) );
+					++mbrIndex;
 				}
 			}
 
@@ -518,7 +512,7 @@ namespace hlsl
 			{
 			}
 
-			ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl * stmt )
+			ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl const * stmt )
 			{
 				ast::var::VariableList params;
 				// Split sampled textures in sampler + texture in parameters list.
@@ -547,7 +541,7 @@ namespace hlsl
 						, m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
 						, stmt->getName()
 						, stmt->getFuncVar()->getFlags() );
-					m_adaptationData.replacedFuncVars.emplace( funcVar->getId(), funcVar );
+					m_adaptationData.replacedFuncVars.try_emplace( funcVar->getId(), funcVar );
 				}
 
 				return m_stmtCache.makeFunctionDecl( std::move( funcVar ), stmt->getFlags() );

@@ -37,7 +37,7 @@ namespace sdw
 		{
 			if ( !mbrFlags && !optional )
 			{
-				throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
+				throw ast::Exception{ "Struct member [" + std::string( name ) + "] was not found." };
 			}
 
 			return T{ writer
@@ -115,7 +115,7 @@ namespace sdw
 		{
 			if ( !mbrFlags && !optional )
 			{
-				throw std::runtime_error{ "Struct member [" + std::string( name ) + "] was not found." };
+				throw ast::Exception{ "Struct member [" + std::string( name ) + "] was not found." };
 			}
 
 			return Array< T >{ writer

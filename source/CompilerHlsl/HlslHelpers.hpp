@@ -65,21 +65,28 @@ namespace hlsl
 	{
 		struct Function
 		{
+			Function( ast::type::FunctionPtr ptype
+				, ast::var::VariablePtr pvar )
+				: type{ std::move( ptype ) }
+				, var{ std::move( pvar ) }
+			{
+			}
+
 			ast::type::FunctionPtr type;
 			ast::var::VariablePtr var;
 		};
-		std::map< std::string, Function > imageSizeFuncs;
-		std::map< std::string, Function > imageAtomicAddFuncs;
-		std::map< std::string, Function > imageAtomicMinFuncs;
-		std::map< std::string, Function > imageAtomicMaxFuncs;
-		std::map< std::string, Function > imageAtomicAndFuncs;
-		std::map< std::string, Function > imageAtomicOrFuncs;
-		std::map< std::string, Function > imageAtomicXorFuncs;
-		std::map< std::string, Function > imageAtomicExchangeFuncs;
-		std::map< std::string, Function > imageAtomicCompSwapFuncs;
-		std::map< std::string, Function > imageLodFuncs;
-		std::map< std::string, Function > imageLevelsFuncs;
-		std::map< std::string, Function > imageStoreFuncs;
+		std::map< std::string, Function, std::less<> > imageSizeFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicAddFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicMinFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicMaxFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicAndFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicOrFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicXorFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicExchangeFuncs;
+		std::map< std::string, Function, std::less<> > imageAtomicCompSwapFuncs;
+		std::map< std::string, Function, std::less<> > imageLodFuncs;
+		std::map< std::string, Function, std::less<> > imageLevelsFuncs;
+		std::map< std::string, Function, std::less<> > imageStoreFuncs;
 	};
 
 	using VarReplacements = std::map< ast::var::VariablePtr, ast::expr::ExprPtr >;
@@ -97,6 +104,17 @@ namespace hlsl
 
 	struct PendingIO
 	{
+		explicit PendingIO( ast::var::VariablePtr pvar = {}
+			, uint32_t plocation = ast::type::Struct::InvalidLocation
+			, uint64_t pflags = {}
+			, PendingResult presult = {} )
+			: var{ pvar }
+			, location{ plocation }
+			, flags{ pflags }
+			, result{ std::move( presult ) }
+		{
+		}
+
 		ast::var::VariablePtr var{};
 		uint32_t location{ ast::type::Struct::InvalidLocation };
 		uint64_t flags{};
@@ -105,6 +123,17 @@ namespace hlsl
 
 	struct PendingMbrIO
 	{
+		explicit PendingMbrIO( uint32_t pmbrIndex = ast::type::Struct::NotFound
+			, uint32_t plocation = ast::type::Struct::InvalidLocation
+			, uint64_t pflags = {}
+			, PendingResult presult = {} )
+			: mbrIndex{ pmbrIndex }
+			, location{ plocation }
+			, flags{ pflags }
+			, result{ std::move( presult ) }
+		{
+		}
+
 		uint32_t mbrIndex{ ast::type::Struct::NotFound };
 		uint32_t location{ ast::type::Struct::InvalidLocation };
 		uint64_t flags{};
@@ -123,9 +152,18 @@ namespace hlsl
 	{
 		struct PendingMbrIO
 		{
-			ast::var::VariablePtr outer;
-			uint32_t index;
-			PendingIO io;
+			explicit PendingMbrIO( ast::var::VariablePtr pouter = {}
+				, uint32_t pindex = {}
+				, PendingIO pio = PendingIO{} )
+				: outer{ std::move( pouter ) }
+				, index{ pindex }
+				, io{ std::move( pio ) }
+			{
+			}
+
+			ast::var::VariablePtr outer{};
+			uint32_t index{};
+			PendingIO io{};
 		};
 
 		IOMapping( ast::expr::ExprCache & exprCache
@@ -162,7 +200,6 @@ namespace hlsl
 
 		void initialiseMainVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
-			, uint64_t flags
 			, VarVarMap & paramToEntryPoint );
 		void initialisePatchVar( ast::var::VariablePtr srcVar
 			, ast::type::TypePtr type
@@ -210,7 +247,7 @@ namespace hlsl
 			, std::vector< PendingMbrIO >::iterator & it );
 
 	private:
-		std::map< std::string, PendingIO > m_pending;
+		std::map< std::string, PendingIO, std::less<> > m_pending;
 		std::vector< PendingMbrIO > m_pendingMbr;
 	};
 
@@ -221,8 +258,7 @@ namespace hlsl
 		Routine( ast::expr::ExprCache & exprCache
 			, HlslShader & pshader
 			, AdaptationData * pparent
-			, bool pisMain
-			, std::string const & name );
+			, bool pisMain );
 
 		void initialiseHFOutput( ast::var::VariablePtr srcVar
 			, ast::type::GeometryOutput const & geomType );
@@ -238,9 +274,9 @@ namespace hlsl
 			, ast::type::MeshPrimitiveOutput const & meshType );
 
 		ast::expr::ExprCache & exprCache;
-		HlslShader * shader;
-		AdaptationData * parent;
-		bool isMain;
+		HlslShader * shader{};
+		AdaptationData * parent{};
+		bool isMain{};
 		VarVarMap paramToEntryPoint{};
 		ast::stmt::Container * globalDeclarations{};
 
@@ -280,7 +316,7 @@ namespace hlsl
 
 		IOMapping & getHFOutputs();
 		IOMapping & getLFOutputs();
-		bool isOutput( ast::Builtin builtin );
+		bool isOutput( ast::Builtin builtin )const;
 		bool hasSeparateHFOutput()const;
 		void addOutputVar( ast::var::VariablePtr var
 			, uint32_t location );
@@ -324,19 +360,17 @@ namespace hlsl
 			, ast::Builtin mbrBuiltin
 			, uint32_t mbrIndex
 			, uint32_t mbrLocation );
-		IOMapping & getInputMapping();
-		IOMapping & getOutputMapping();
 
 		private:
 			IOMapping m_highFreqOutputs;
 			IOMapping m_lowFreqInputs;
 			IOMapping m_lowFreqOutputs;
-			IOMapping::PendingMbrIO m_primitiveIndices;
+			IOMapping::PendingMbrIO m_primitiveIndices{};
 			ast::type::OutputTopology m_outputTopology{};
 	};
 
 	using RoutinePtr = std::unique_ptr< Routine >;
-	using RoutineMap = std::map< std::string, RoutinePtr >;
+	using RoutineMap = std::map< std::string, RoutinePtr, std::less<> >;
 
 	struct AdaptationData
 	{
@@ -349,10 +383,10 @@ namespace hlsl
 
 		ast::stmt::ContainerPtr writeGlobals( ast::stmt::StmtCache & stmtCache
 			, ast::UnorderedStringSet & declaredStructs );
-		ast::stmt::ContainerPtr writeLocalesBegin( ast::stmt::StmtCache & stmtCache );
-		ast::stmt::ContainerPtr writeLocalesEnd( ast::stmt::StmtCache & stmtCache );
+		ast::stmt::ContainerPtr writeLocalesBegin( ast::stmt::StmtCache & stmtCache )const;
+		ast::stmt::ContainerPtr writeLocalesEnd( ast::stmt::StmtCache & stmtCache )const;
 		ast::type::TypePtr fillParameters( ast::var::VariableList & parameters
-			, ast::stmt::Container & stmt );
+			, ast::stmt::Container & stmt )const;
 		ast::expr::ExprPtr processPending( ast::var::VariablePtr var );
 		ast::expr::ExprPtr processPendingMbr( ast::expr::Expr * outer
 			, uint32_t mbrIndex
@@ -367,7 +401,7 @@ namespace hlsl
 		IOMapping & getLFInputs();
 		void addInputVar( ast::var::VariablePtr var
 			, uint32_t location );
-		bool isInput( ast::Builtin builtin );
+		bool isInput( ast::Builtin builtin )const;
 		bool hasSeparateHFInput()const;
 		bool hasSeparateLFInput()const;
 		void addPendingInput( ast::var::VariablePtr var
@@ -387,7 +421,7 @@ namespace hlsl
 		IOMapping & getLFOutputs();
 		void addOutputVar( ast::var::VariablePtr var
 			, uint32_t location );
-		bool isOutput( ast::Builtin builtin );
+		bool isOutput( ast::Builtin builtin )const;
 		bool hasSeparateHFOutput()const;
 		bool hasSeparateLFOutput()const;
 		void addPendingOutput( ast::var::VariablePtr var
@@ -406,7 +440,7 @@ namespace hlsl
 		void setHlslType( ast::type::TypePtr orig
 			, ast::type::TypePtr repl )
 		{
-			m_replacedTypes.emplace( orig, repl );
+			m_replacedTypes.try_emplace( orig, repl );
 		}
 
 		bool isHlslType( ast::type::TypePtr type )const
@@ -437,6 +471,16 @@ namespace hlsl
 			return m_routines;
 		}
 
+		uint32_t getNextVarId()noexcept
+		{
+			return ++nextVarId;
+		}
+
+		uint32_t getNextAliasId()noexcept
+		{
+			return ++aliasId;
+		}
+
 	private:
 		void declareStruct( ast::type::StructPtr const & structType
 			, ast::stmt::Container * stmt );
@@ -451,14 +495,11 @@ namespace hlsl
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationInputPatch const & patchType );
 		void registerParam( ast::var::VariablePtr var
-			, ast::type::TessellationOutputPatch const & patchType
-			, bool isEntryPoint );
+			, ast::type::TessellationOutputPatch const & patchType );
 		void registerParam( ast::var::VariablePtr var
-			, ast::type::TessellationControlInput const & tessType
-			, bool isEntryPoint );
+			, ast::type::TessellationControlInput const & tessType );
 		void registerParam( ast::var::VariablePtr var
-			, ast::type::TessellationControlOutput const & tessType
-			, bool isEntryPoint );
+			, ast::type::TessellationControlOutput const & tessType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TessellationEvaluationInput const & tessType );
 		void registerParam( ast::var::VariablePtr var
@@ -470,11 +511,9 @@ namespace hlsl
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TaskPayloadIn const & taskType );
 		void registerInput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
-			, bool isEntryPoint );
+			, ast::type::IOStruct const & structType );
 		void registerOutput( ast::var::VariablePtr var
-			, ast::type::IOStruct const & structType
-			, bool isEntryPoint );
+			, ast::type::IOStruct const & structType );
 		void registerInputMbr( ast::var::VariablePtr var
 			, uint64_t outerFlags
 			, ast::Builtin mbrBuiltin
