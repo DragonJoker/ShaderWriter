@@ -17,7 +17,7 @@ namespace ast::expr
 	{
 	}
 
-	void PreDecrement::accept( VisitorPtr vis )
+	void PreDecrement::accept( VisitorPtr vis )const
 	{
 		vis->visitPreDecrementExpr( this );
 	}

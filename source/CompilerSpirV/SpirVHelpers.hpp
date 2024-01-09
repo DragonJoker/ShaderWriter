@@ -78,7 +78,7 @@ namespace spirv
 			, uint64_t flags
 			, uint32_t location
 			, uint32_t arraySize );
-		void addPendingMbr( ast::expr::Expr * outer
+		void addPendingMbr( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
@@ -93,7 +93,7 @@ namespace spirv
 			, ast::var::VariablePtr var
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPendingMbr( ast::expr::ExprCache & exprCache
-			, ast::expr::Expr * outer
+			, ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
@@ -192,14 +192,14 @@ namespace spirv
 			, ast::var::VariablePtr var
 			, ast::stmt::Container * cont );
 		ast::expr::ExprPtr processPendingMbr( ast::expr::ExprCache & exprCache
-			, ast::expr::Expr * outer
+			, ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont );
 		bool isInput( ast::Builtin builtin )const;
 		bool isOutput( ast::Builtin builtin )const;
-		void addMbrBuiltin( ast::expr::Expr * outer
+		void addMbrBuiltin( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
@@ -221,7 +221,7 @@ namespace spirv
 			inputs.addPending( var, location );
 		}
 
-		void addPendingMbrInput( ast::expr::Expr * outer
+		void addPendingMbrInput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
@@ -258,15 +258,15 @@ namespace spirv
 		}
 
 		ast::expr::ExprPtr processPendingMbrInput( ast::expr::ExprCache & exprCache
-			, ast::expr::Expr * outer
+			, ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont )
 		{
-			if ( isStructType( outer->getType() ) )
+			if ( isStructType( outer.getType() ) )
 			{
-				auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+				auto mbr = getStructType( outer.getType() )->getMember( mbrIndex );
 
 				if ( mbr.builtin != ast::Builtin::eNone )
 				{
@@ -298,7 +298,7 @@ namespace spirv
 			outputs.addPending( var, location );
 		}
 
-		void addPendingMbrOutput( ast::expr::Expr * outer
+		void addPendingMbrOutput( ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
@@ -335,15 +335,15 @@ namespace spirv
 		}
 
 		ast::expr::ExprPtr processPendingMbrOutput( ast::expr::ExprCache & exprCache
-			, ast::expr::Expr * outer
+			, ast::expr::Expr const & outer
 			, uint32_t mbrIndex
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter
 			, ast::stmt::Container * cont )
 		{
-			if ( isStructType( outer->getType() ) )
+			if ( isStructType( outer.getType() ) )
 			{
-				auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+				auto mbr = getStructType( outer.getType() )->getMember( mbrIndex );
 
 				if ( mbr.builtin != ast::Builtin::eNone )
 				{

@@ -110,7 +110,7 @@ namespace glsl
 				, uint32_t index
 				, IntrinsicsConfig & config )
 			{
-				auto mbr = *std::next( type.begin(), ptrdiff_t( index ) );
+				auto & mbr = *std::next( type.begin(), ptrdiff_t( index ) );
 
 				if ( mbr.builtin != ast::Builtin::eNone )
 				{
@@ -123,95 +123,86 @@ namespace glsl
 			: public ast::expr::SimpleVisitor
 		{
 		public:
-			static void submit( ast::expr::Expr * expr
+			static void submit( ast::expr::Expr const & expr
 				, IntrinsicsConfig & config )
 			{
 				ExprConfigFiller vis{ config };
-				expr->accept( &vis );
+				expr.accept( &vis );
 			}
-
-			static void submit( ast::expr::ExprPtr const & expr
-				, IntrinsicsConfig & config );
 
 		private:
 			explicit ExprConfigFiller( IntrinsicsConfig & config )
-				: ast::expr::SimpleVisitor{}
-				, m_config{ config }
+				: m_config{ config }
 			{
 			}
 
-			void doSubmit( ast::expr::Expr * expr )
+			void doSubmit( ast::expr::Expr const & expr )
 			{
-				expr->accept( this );
+				expr.accept( this );
 
-				if ( expr->isNonUniform() )
+				if ( expr.isNonUniform() )
 				{
 					m_config.requiredExtensions.insert( EXT_nonuniform_qualifier );
 				}
 			}
 
-			void doSubmit( ast::expr::ExprPtr const & expr )
-			{
-				doSubmit( expr.get() );
-			}
-
-			void visitUnaryExpr( ast::expr::Unary * expr )override
+			void visitUnaryExpr( ast::expr::Unary const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getOperand() );
+				doSubmit( *expr->getOperand() );
 			}
 
-			void visitBinaryExpr( ast::expr::Binary * expr )override
+			void visitBinaryExpr( ast::expr::Binary const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getLHS() );
-				doSubmit( expr->getRHS() );
+				doSubmit( *expr->getLHS() );
+				doSubmit( *expr->getRHS() );
 			}
 
-			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+			void visitAggrInitExpr( ast::expr::AggrInit const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 
-				if ( expr->getIdentifier() )
+				if ( expr->hasIdentifier() )
 				{
 					doSubmit( expr->getIdentifier() );
 				}
 
 				for ( auto & init : expr->getInitialisers() )
 				{
-					doSubmit( init );
+					doSubmit( *init );
 				}
 			}
 
-			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					doSubmit( arg );
+					doSubmit( *arg );
 				}
 			}
 
-			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 				helpers::checkBuiltin( *expr->getOuterType(), expr->getMemberIndex(), m_config );
-				doSubmit( expr->getOuterExpr() );
+				doSubmit( *expr->getOuterExpr() );
 			}
 
-			void visitFnCallExpr( ast::expr::FnCall * expr )override
+			void visitFnCallExpr( ast::expr::FnCall const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getFn() );
+				doSubmit( *expr->getFn() );
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					doSubmit( arg );
+					doSubmit( *arg );
 				}
 			}
 
-			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 
@@ -487,22 +478,22 @@ namespace glsl
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					doSubmit( arg );
+					doSubmit( *arg );
 				}
 			}
 
-			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 				getGlslConfig( expr->getCombinedImageAccess(), m_config );
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					doSubmit( arg );
+					doSubmit( *arg );
 				}
 			}
 
-			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 
@@ -529,58 +520,63 @@ namespace glsl
 
 				for ( auto & arg : expr->getArgList() )
 				{
-					doSubmit( arg );
+					doSubmit( *arg );
 				}
 			}
 
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 				helpers::checkBuiltin( *expr->getVariable(), m_config );
 			}
 
-			void visitInitExpr( ast::expr::Init * expr )override
+			void visitInitExpr( ast::expr::Init const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getIdentifier() );
-				doSubmit( expr->getInitialiser() );
+
+				if ( expr->hasIdentifier() )
+				{
+					doSubmit( expr->getIdentifier() );
+				}
+
+				doSubmit( *expr->getInitialiser() );
 			}
 
-			void visitLiteralExpr( ast::expr::Literal * expr )override
+			void visitLiteralExpr( ast::expr::Literal const * expr )override
 			{
 				checkType( expr->getType(), m_config );
 			}
 
-			void visitQuestionExpr( ast::expr::Question * expr )override
+			void visitQuestionExpr( ast::expr::Question const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getCtrlExpr() );
-				doSubmit( expr->getTrueExpr() );
-				doSubmit( expr->getFalseExpr() );
+				doSubmit( *expr->getCtrlExpr() );
+				doSubmit( *expr->getTrueExpr() );
+				doSubmit( *expr->getFalseExpr() );
 			}
 
-			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getOperand() );
+				doSubmit( *expr->getOperand() );
 			}
 
-			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+			void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getLabel() );
+				doSubmit( *expr->getLabel() );
 			}
 
-			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+			void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getValue() );
+				doSubmit( *expr->getValue() );
 			}
 
-			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+			void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
 			{
 				checkType( expr->getType(), m_config );
-				doSubmit( expr->getOuterExpr() );
+				doSubmit( *expr->getOuterExpr() );
 			}
 
 		private:
@@ -592,7 +588,7 @@ namespace glsl
 		{
 		public:
 			static IntrinsicsConfig submit( ast::ShaderStage stage
-				, ast::stmt::Container * container )
+				, ast::stmt::Container const & container )
 			{
 				IntrinsicsConfig result{ stage };
 
@@ -611,7 +607,7 @@ namespace glsl
 				}
 
 				StmtConfigFiller vis{ result };
-				container->accept( &vis );
+				container.accept( &vis );
 				return result;
 			}
 
@@ -621,19 +617,19 @@ namespace glsl
 			{
 			}
 
-			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
+			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
 			{
 				checkType( stmt->getType(), m_result );
 				m_result.requiredExtensions.insert( EXT_buffer_reference2 );
 				m_result.requiredExtensions.insert( EXT_scalar_block_layout );
 			}
 
-			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
+			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
 				visitContainerStmt( stmt );
 			}
 
-			void visitContainerStmt( ast::stmt::Container * cont )override
+			void visitContainerStmt( ast::stmt::Container const * cont )override
 			{
 				for ( auto & stmt : *cont )
 				{
@@ -641,62 +637,62 @@ namespace glsl
 				}
 			}
 
-			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
+			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl const * stmt )override
 			{
 				visitContainerStmt( stmt );
 			}
 
-			void visitCompoundStmt( ast::stmt::Compound * stmt )override
+			void visitCompoundStmt( ast::stmt::Compound const * stmt )override
 			{
 				visitContainerStmt( stmt );
 			}
 
-			void visitDoWhileStmt( ast::stmt::DoWhile * stmt )override
+			void visitDoWhileStmt( ast::stmt::DoWhile const * stmt )override
 			{
-				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getCtrlExpr(), m_result );
 				visitContainerStmt( stmt );
 			}
 
-			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
+			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
-				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getCtrlExpr(), m_result );
 				visitContainerStmt( stmt );
 			}
 
-			void visitElseStmt( ast::stmt::Else * stmt )override
-			{
-				visitContainerStmt( stmt );
-			}
-
-			void visitForStmt( ast::stmt::For * stmt )override
-			{
-				ExprConfigFiller::submit( stmt->getInitExpr(), m_result );
-				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
-				ExprConfigFiller::submit( stmt->getIncrExpr(), m_result );
-				visitContainerStmt( stmt );
-			}
-
-			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
+			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
 				visitContainerStmt( stmt );
 			}
 
-			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
+			void visitForStmt( ast::stmt::For const * stmt )override
+			{
+				ExprConfigFiller::submit( *stmt->getInitExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getCtrlExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getIncrExpr(), m_result );
+				visitContainerStmt( stmt );
+			}
+
+			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
+			{
+				visitContainerStmt( stmt );
+			}
+
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
 			}
 
-			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
 			}
 
-			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
 			}
 
-			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
+			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
 
@@ -706,9 +702,9 @@ namespace glsl
 				}
 			}
 
-			void visitIfStmt( ast::stmt::If * stmt )override
+			void visitIfStmt( ast::stmt::If const * stmt )override
 			{
-				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getCtrlExpr(), m_result );
 				visitContainerStmt( stmt );
 
 				for ( auto & elseIf : stmt->getElseIfList() )
@@ -722,33 +718,33 @@ namespace glsl
 				}
 			}
 
-			void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override
+			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
 				m_result.requiredExtensions.insert( ARB_shader_image_load_store );
 				auto image = std::static_pointer_cast< ast::type::Image >( stmt->getVariable()->getType() );
 				doParseImageConfig( image->getConfig() );
 			}
 
-			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override
+			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
 			}
 
-			void visitReturnStmt( ast::stmt::Return * stmt )override
+			void visitReturnStmt( ast::stmt::Return const * stmt )override
 			{
-				if ( stmt->getExpr() )
+				if ( auto expr = stmt->getExpr() )
 				{
-					ExprConfigFiller::submit( stmt->getExpr(), m_result );
+					ExprConfigFiller::submit( *expr, m_result );
 				}
 			}
 
-			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
+			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
 				auto image = std::static_pointer_cast< ast::type::CombinedImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 				doParseImageConfig( image->getConfig() );
 			}
 
-			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
+			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl const * stmt )override
 			{
 				m_result.requiredExtensions.insert( KHR_vulkan_glsl );
 				m_result.requiresSeparateSamplers = true;
@@ -756,13 +752,13 @@ namespace glsl
 				doParseImageConfig( image->getConfig() );
 			}
 
-			void visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )override
+			void visitSamplerDeclStmt( ast::stmt::SamplerDecl const * stmt )override
 			{
 				m_result.requiredExtensions.insert( KHR_vulkan_glsl );
 				m_result.requiresSeparateSamplers = true;
 			}
 
-			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
+			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
 				m_result.requiredExtensions.insert( ARB_shader_storage_buffer_object );
 
@@ -774,7 +770,7 @@ namespace glsl
 				visitContainerStmt( stmt );
 			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
+			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
 			{
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
 				{
@@ -789,12 +785,12 @@ namespace glsl
 				}
 			}
 
-			void visitSimpleStmt( ast::stmt::Simple * stmt )override
+			void visitSimpleStmt( ast::stmt::Simple const * stmt )override
 			{
-				ExprConfigFiller::submit( stmt->getExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getExpr(), m_result );
 			}
 
-			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
+			void visitStructureDeclStmt( ast::stmt::StructureDecl const * stmt )override
 			{
 				for ( auto & type : *stmt->getType() )
 				{
@@ -802,106 +798,106 @@ namespace glsl
 				}
 			}
 
-			void visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )override
+			void visitSwitchCaseStmt( ast::stmt::SwitchCase const * stmt )override
 			{
 				visitContainerStmt( stmt );
 			}
 
-			void visitSwitchStmt( ast::stmt::Switch * stmt )override
+			void visitSwitchStmt( ast::stmt::Switch const * stmt )override
 			{
-				ExprConfigFiller::submit( stmt->getTestExpr()->getValue(), m_result );
+				ExprConfigFiller::submit( *stmt->getTestExpr()->getValue(), m_result );
 				visitContainerStmt( stmt );
 			}
 
-			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
+			void visitVariableDeclStmt( ast::stmt::VariableDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
 			}
 
-			void visitWhileStmt( ast::stmt::While * stmt )override
+			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
-				ExprConfigFiller::submit( stmt->getCtrlExpr(), m_result );
+				ExprConfigFiller::submit( *stmt->getCtrlExpr(), m_result );
 				visitContainerStmt( stmt );
 			}
 
-			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * cont )override
+			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl const * stmt )override
 			{
 			}
 
-			void visitBreakStmt( ast::stmt::Break * cont )override
+			void visitBreakStmt( ast::stmt::Break const * stmt )override
 			{
 			}
 
-			void visitContinueStmt( ast::stmt::Continue * cont )override
+			void visitContinueStmt( ast::stmt::Continue const * stmt )override
 			{
 			}
 
-			void visitDemoteStmt( ast::stmt::Demote * stmt )override
+			void visitDemoteStmt( ast::stmt::Demote const * stmt )override
 			{
 				m_result.requiredExtensions.insert( EXT_demote_to_helper_invocation );
 			}
 
-			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
+			void visitDispatchMeshStmt( ast::stmt::DispatchMesh const * stmt )override
 			{
 			}
 
-			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
+			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation const * stmt )override
 			{
 			}
 
-			void visitCommentStmt( ast::stmt::Comment * stmt )override
+			void visitCommentStmt( ast::stmt::Comment const * stmt )override
 			{
 			}
 
-			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )override
+			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout const * stmt )override
 			{
 			}
 
-			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override
+			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection const * stmt )override
 			{
 			}
 
-			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
+			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout const * stmt )override
 			{
 			}
 
-			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
+			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout const * stmt )override
 			{
 			}
 
-			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override
+			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout const * stmt )override
 			{
 			}
 
-			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
+			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout const * stmt )override
 			{
 			}
 
-			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
+			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout const * stmt )override
 			{
 			}
 
-			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
+			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout const * stmt )override
 			{
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
+			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
 			{
 			}
 
-			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
+			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 			}
 
-			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
+			void visitTerminateRayStmt( ast::stmt::TerminateRay const * stmt )override
 			{
 			}
 
-			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
+			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override
 			{
 			}
 
-			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
 			}
 
@@ -920,7 +916,7 @@ namespace glsl
 	}
 
 	IntrinsicsConfig fillConfig( ast::ShaderStage stage
-		, ast::stmt::Container * container )
+		, ast::stmt::Container const & container )
 	{
 		return config::StmtConfigFiller::submit( stage, container );
 	}

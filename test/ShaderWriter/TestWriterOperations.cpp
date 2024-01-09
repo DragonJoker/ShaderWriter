@@ -66,7 +66,7 @@ namespace
 		, RHS const & rhs )
 	{
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret += writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -105,7 +105,7 @@ namespace
 	{
 		testBaseAssignOperators( writer, testCounts, ret, rhs );
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret %= writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -152,7 +152,7 @@ namespace
 	{
 		using CompType = sdw::RealTypeT< ValueTypeT< LHS, RHS > >;
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret = writer.cast< CompType >( lhs ) == writer.cast< CompType >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -211,7 +211,7 @@ namespace
 		, RHS const & rhs )
 	{
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) + writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -259,7 +259,7 @@ namespace
 	{
 		testBaseOperators( writer, testCounts, ret, lhs, rhs );
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) % writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -323,7 +323,7 @@ namespace
 		, RHS const & rhs )
 	{
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret += rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -390,7 +390,7 @@ namespace
 		, RHS const & rhs )
 	{
 		auto & statements = *writer.getBuilder().getContainer();
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		ret = lhs + rhs;
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -467,7 +467,7 @@ namespace
 
 	void testBool( test::sdw_test::TestCounts & testCounts )
 	{
-		sdw::expr::Expr * expr{};
+		sdw::expr::Expr const * expr{};
 		{
 			testBegin( "testBool" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };

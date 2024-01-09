@@ -17,7 +17,7 @@ namespace ast::expr
 			, type::TypePtr type
 			, ExprPtr operand );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 }
 

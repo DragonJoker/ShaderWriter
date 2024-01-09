@@ -27,8 +27,8 @@ namespace ast
 	SDAST_API stmt::ContainerPtr selectEntryPoint( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
 		, EntryPointConfig const & config
-		, stmt::Container * stmt );
-	SDAST_API EntryPointConfigArray listEntryPoints( stmt::Container const * stmt );
+		, stmt::Container const & stmt );
+	SDAST_API EntryPointConfigArray listEntryPoints( stmt::Container const & stmt );
 }
 
 #endif

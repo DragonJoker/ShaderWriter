@@ -25,7 +25,7 @@ namespace ast::stmt
 		SDAST_API explicit SwitchCase( StmtCache & stmtCache );
 
 	public:
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline expr::SwitchCase * getCaseExpr()const
 		{

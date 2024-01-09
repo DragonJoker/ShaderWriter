@@ -22,7 +22,7 @@ namespace ast::stmt
 
 		SDAST_API void addStmt( StmtPtr stmt );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline StmtPtr const & back()const
 		{

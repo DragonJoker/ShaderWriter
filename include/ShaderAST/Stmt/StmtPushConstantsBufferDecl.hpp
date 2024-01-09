@@ -21,7 +21,7 @@ namespace ast::stmt
 			, type::MemoryLayout layout );
 		SDAST_API void add( VariableDeclPtr decl );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline std::string const & getName()const
 		{

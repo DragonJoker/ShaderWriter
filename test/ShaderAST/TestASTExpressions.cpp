@@ -17,7 +17,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eBoolean );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eBool );
 			check( expr->getValue< ast::expr::LiteralType::eBool >() == false );
-			testCounts << "ExprLiteral: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprLiteral: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28,7 +28,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eFloat );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eFloat );
 			check( expr->getValue< ast::expr::LiteralType::eFloat >() == 1.0f );
-			testCounts << "ExprLiteral: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprLiteral: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -39,7 +39,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eInt32 );
 			check( expr->getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-			testCounts << "ExprLiteral: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprLiteral: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -50,7 +50,7 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eUInt32 );
 			require( expr->getLiteralType() == ast::expr::LiteralType::eUInt32 );
 			check( expr->getValue< ast::expr::LiteralType::eUInt32 >() == 10u );
-			testCounts << "ExprLiteral: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprLiteral: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		testEnd();
 	}
@@ -66,7 +66,7 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( expr->getVariable()->getName() == "var0" );
 		check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprIdentifier: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprIdentifier: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -91,7 +91,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprAdd: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprAdd: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -116,7 +116,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprMinus: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprMinus: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -141,7 +141,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprTimes: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprTimes: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -166,7 +166,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprDivide: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprDivide: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -191,7 +191,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprBitAnd: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprBitAnd: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -210,7 +210,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprBitNot: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprBitNot: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -235,7 +235,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprBitOr: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprBitOr: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -260,7 +260,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprBitXor: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprBitXor: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -285,7 +285,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprLogAnd: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLogAnd: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -304,7 +304,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprLogNot: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLogNot: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -329,7 +329,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprLogOr: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLogOr: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -354,7 +354,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprModulo: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprModulo: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -379,7 +379,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprLShift: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLShift: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -404,7 +404,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprRShift: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprRShift: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -429,7 +429,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprComma: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprComma: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -454,7 +454,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprArrayAccess: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprArrayAccess: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -479,7 +479,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -504,7 +504,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprAddAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprAddAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -529,7 +529,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprDivideAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprDivideAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -554,7 +554,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprMinusAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprMinusAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -579,7 +579,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprTimesAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprTimesAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -604,7 +604,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprModuloAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprModuloAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -629,7 +629,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprLShiftAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLShiftAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -654,7 +654,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprRShiftAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprRShiftAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -679,7 +679,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprAndAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprAndAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -704,7 +704,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprOrAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprOrAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -729,7 +729,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprXorAssign: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprXorAssign: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -754,7 +754,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprEqual: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprEqual: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -779,7 +779,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprGreater: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprGreater: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -804,7 +804,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprGreaterEqual: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprGreaterEqual: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -829,7 +829,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprLess: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLess: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -854,7 +854,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprLessEqual: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprLessEqual: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -879,7 +879,7 @@ namespace
 		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
 		require( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getRHS() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprNotEqual: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprNotEqual: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -898,7 +898,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprPostDecrement: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprPostDecrement: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -917,7 +917,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprPostIncrement: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprPostIncrement: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -936,7 +936,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprPreDecrement: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprPreDecrement: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -955,7 +955,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprPreIncrement: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprPreIncrement: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -974,7 +974,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprUnaryMinus: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprUnaryMinus: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -993,7 +993,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprUnaryPlus: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprUnaryPlus: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1012,7 +1012,7 @@ namespace
 		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		testCounts << "ExprCast: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprCast: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1034,7 +1034,7 @@ namespace
 		check( expr->getComponent() == ast::type::Kind::eFloat );
 
 		check( expr->getArgList().size() == 2u );
-		testCounts << "ExprCompositeConstruct: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprCompositeConstruct: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1057,7 +1057,7 @@ namespace
 			check( expr->getFn()->getVariable()->getName() == "func" );
 
 			check( expr->getArgList().empty() );
-			testCounts << "ExprFnCall: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprFnCall: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1084,7 +1084,7 @@ namespace
 			check( expr->getArgList()[0]->getType()->getKind() == ast::type::Kind::eInt32 );
 			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[0] ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-			testCounts << "ExprFnCall: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprFnCall: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1118,7 +1118,7 @@ namespace
 			check( expr->getArgList()[1]->getType()->getKind() == ast::type::Kind::eFloat );
 			require( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getLiteralType() == ast::expr::LiteralType::eFloat );
 			check( static_cast< ast::expr::Literal const & >( *expr->getArgList()[1] ).getValue< ast::expr::LiteralType::eFloat >() == 1.0f );
-			testCounts << "ExprFnCall: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprFnCall: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1141,7 +1141,7 @@ namespace
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
 			check( expr->getArgList().back()->getType()->getKind() == ast::type::Kind::eInt32 );
-			testCounts << "ExprIntrinsicCall: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprIntrinsicCall: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1165,7 +1165,7 @@ namespace
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
 			check( expr->getArgList().back()->getType() == typesCache.getImage( config ) );
-			testCounts << "ExprImageAccessCall: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprImageAccessCall: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1189,7 +1189,7 @@ namespace
 			check( expr->getArgList().size() == 1 );
 			check( expr->getArgList().back()->getKind() == ast::expr::Kind::eIdentifier );
 			check( expr->getArgList().back()->getType() == typesCache.getCombinedImage( config ) );
-			testCounts << "ExprCombinedImageAccessCall: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprCombinedImageAccessCall: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1208,14 +1208,15 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eArray );
 			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt32 );
 
-			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt32 );
-			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
-			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt32 );
+			require( expr->hasIdentifier() );
+			check( expr->getIdentifier().getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier().getType() ) == ast::type::Kind::eInt32 );
+			check( expr->getIdentifier().getVariable()->getName() == "lhs" );
+			check( expr->getIdentifier().getVariable()->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier().getVariable()->getType() ) == ast::type::Kind::eInt32 );
 
 			check( expr->getInitialisers().empty() );
-			testCounts << "ExprAggrInit (empty): " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprAggrInit (empty): " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1232,11 +1233,12 @@ namespace
 			check( expr->getType()->getKind() == ast::type::Kind::eArray );
 			check( getNonArrayKind( expr->getType() ) == ast::type::Kind::eInt32 );
 
-			check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getType() ) == ast::type::Kind::eInt32 );
-			check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
-			check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eArray );
-			check( getNonArrayKind( expr->getIdentifier()->getVariable()->getType() ) == ast::type::Kind::eInt32 );
+			require( expr->hasIdentifier() );
+			check( expr->getIdentifier().getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier().getType() ) == ast::type::Kind::eInt32 );
+			check( expr->getIdentifier().getVariable()->getName() == "lhs" );
+			check( expr->getIdentifier().getVariable()->getType()->getKind() == ast::type::Kind::eArray );
+			check( getNonArrayKind( expr->getIdentifier().getVariable()->getType() ) == ast::type::Kind::eInt32 );
 
 			check( expr->getInitialisers().size() == 4u );
 			int v = 10;
@@ -1250,7 +1252,7 @@ namespace
 				v += 10;
 			}
 
-			testCounts << "ExprAggrInit: " << ast::debug::displayExpression( expr ) << test::endl;
+			testCounts << "ExprAggrInit: " << ast::debug::displayExpression( *expr ) << test::endl;
 		}
 		testEnd();
 	}
@@ -1267,15 +1269,16 @@ namespace
 		require( expr->getKind() == ast::expr::Kind::eInit );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		check( expr->getIdentifier()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( expr->getIdentifier()->getVariable()->getName() == "lhs" );
-		check( expr->getIdentifier()->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
+		require( expr->hasIdentifier() );
+		check( expr->getIdentifier().getType()->getKind() == ast::type::Kind::eInt32 );
+		check( expr->getIdentifier().getVariable()->getName() == "lhs" );
+		check( expr->getIdentifier().getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 
 		require( expr->getInitialiser()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getInitialiser()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getInitialiser() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprInit: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprInit: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1298,7 +1301,7 @@ namespace
 
 		check( expr->getMemberIndex() == 0u );
 		check( expr->getMemberFlags() == uint64_t( ast::var::Flag::eShaderInput ) );
-		testCounts << "ExprMbrSelect: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprMbrSelect: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1329,7 +1332,7 @@ namespace
 		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getFalseExpr() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprQuestion: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprQuestion: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1348,7 +1351,7 @@ namespace
 		check( expr->getLabel()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
 		check( static_cast< ast::expr::Literal const & >( *expr->getLabel() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
-		testCounts << "ExprSwitchCase: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprSwitchCase: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1367,7 +1370,7 @@ namespace
 		check( expr->getValue()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
 		check( static_cast< ast::expr::Identifier const & >( *expr->getValue() ).getVariable()->getName() == "lhs" );
-		testCounts << "ExprSwitchTest: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprSwitchTest: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1382,7 +1385,7 @@ namespace
 		require( expr->getKind() == ast::expr::Kind::eCopy );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		testCounts << "ExprCopyTest: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprCopyTest: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1396,11 +1399,12 @@ namespace
 		auto expr = exprCache.makeAlias( typesCache.getInt32(), std::move( ident ), std::move( lit ) );
 
 		require( expr->getKind() == ast::expr::Kind::eAlias );
-		check( expr->getLHS()->getKind() == ast::expr::Kind::eIdentifier );
-		check( expr->getRHS()->getKind() == ast::expr::Kind::eLiteral );
+		require( expr->hasIdentifier() );
+		check( expr->getIdentifier().getKind() == ast::expr::Kind::eIdentifier );
+		check( expr->getAliasedExpr()->getKind() == ast::expr::Kind::eLiteral );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		testCounts << "ExprAliasTest: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprAliasTest: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1416,7 +1420,7 @@ namespace
 		require( expr->getOperand()->getKind() == ast::expr::Kind::eIdentifier );
 		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		testCounts << "ExprStramAppendTest: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprStramAppendTest: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 
@@ -1434,7 +1438,7 @@ namespace
 		check( expr->getType()->getKind() == ast::type::Kind::eVec2F );
 		check( expr->getSwizzle() == ast::expr::SwizzleKind::e03 );
 
-		testCounts << "ExprSwizzleTest: " << ast::debug::displayExpression( expr ) << test::endl;
+		testCounts << "ExprSwizzleTest: " << ast::debug::displayExpression( *expr ) << test::endl;
 		testEnd();
 	}
 }

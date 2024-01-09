@@ -68,265 +68,267 @@ namespace ast::expr
 	class Visitor
 	{
 	protected:
-		SDAST_API Visitor() = default;
+		SDAST_API Visitor()noexcept = default;
 
 	public:
-		SDAST_API virtual ~Visitor() = default;
+		SDAST_API virtual ~Visitor()noexcept = default;
 
-		SDAST_API virtual void visitAddExpr( Add * ) = 0;
-		SDAST_API virtual void visitAddAssignExpr( AddAssign * ) = 0;
-		SDAST_API virtual void visitAggrInitExpr( AggrInit * ) = 0;
-		SDAST_API virtual void visitAliasExpr( Alias * ) = 0;
-		SDAST_API virtual void visitAndAssignExpr( AndAssign * ) = 0;
-		SDAST_API virtual void visitArrayAccessExpr( ArrayAccess * ) = 0;
-		SDAST_API virtual void visitAssignExpr( Assign * ) = 0;
-		SDAST_API virtual void visitBitAndExpr( BitAnd * ) = 0;
-		SDAST_API virtual void visitBitNotExpr( BitNot * ) = 0;
-		SDAST_API virtual void visitBitOrExpr( BitOr * ) = 0;
-		SDAST_API virtual void visitBitXorExpr( BitXor * ) = 0;
-		SDAST_API virtual void visitCastExpr( Cast * ) = 0;
-		SDAST_API virtual void visitCommaExpr( Comma * ) = 0;
-		SDAST_API virtual void visitCompositeConstructExpr( CompositeConstruct * ) = 0;
-		SDAST_API virtual void visitCopyExpr( Copy * ) = 0;
-		SDAST_API virtual void visitDivideExpr( Divide * ) = 0;
-		SDAST_API virtual void visitDivideAssignExpr( DivideAssign * ) = 0;
-		SDAST_API virtual void visitEqualExpr( Equal * ) = 0;
-		SDAST_API virtual void visitFnCallExpr( FnCall * ) = 0;
-		SDAST_API virtual void visitGreaterExpr( Greater * ) = 0;
-		SDAST_API virtual void visitGreaterEqualExpr( GreaterEqual * ) = 0;
-		SDAST_API virtual void visitIdentifierExpr( Identifier * ) = 0;
-		SDAST_API virtual void visitImageAccessCallExpr( StorageImageAccessCall * ) = 0;
-		SDAST_API virtual void visitInitExpr( Init * ) = 0;
-		SDAST_API virtual void visitIntrinsicCallExpr( IntrinsicCall * ) = 0;
-		SDAST_API virtual void visitLessExpr( Less * ) = 0;
-		SDAST_API virtual void visitLessEqualExpr( LessEqual * ) = 0;
-		SDAST_API virtual void visitLiteralExpr( Literal * ) = 0;
-		SDAST_API virtual void visitLogAndExpr( LogAnd * ) = 0;
-		SDAST_API virtual void visitLogNotExpr( LogNot * ) = 0;
-		SDAST_API virtual void visitLogOrExpr( LogOr * ) = 0;
-		SDAST_API virtual void visitLShiftExpr( LShift * ) = 0;
-		SDAST_API virtual void visitLShiftAssignExpr( LShiftAssign * ) = 0;
-		SDAST_API virtual void visitMbrSelectExpr( MbrSelect * ) = 0;
-		SDAST_API virtual void visitMinusExpr( Minus * ) = 0;
-		SDAST_API virtual void visitMinusAssignExpr( MinusAssign * ) = 0;
-		SDAST_API virtual void visitModuloExpr( Modulo * ) = 0;
-		SDAST_API virtual void visitModuloAssignExpr( ModuloAssign * ) = 0;
-		SDAST_API virtual void visitNotEqualExpr( NotEqual * ) = 0;
-		SDAST_API virtual void visitOrAssignExpr( OrAssign * ) = 0;
-		SDAST_API virtual void visitPostDecrementExpr( PostDecrement * ) = 0;
-		SDAST_API virtual void visitPostIncrementExpr( PostIncrement * ) = 0;
-		SDAST_API virtual void visitPreDecrementExpr( PreDecrement * ) = 0;
-		SDAST_API virtual void visitPreIncrementExpr( PreIncrement * ) = 0;
-		SDAST_API virtual void visitQuestionExpr( Question * ) = 0;
-		SDAST_API virtual void visitRShiftExpr( RShift * ) = 0;
-		SDAST_API virtual void visitRShiftAssignExpr( RShiftAssign * ) = 0;
-		SDAST_API virtual void visitStreamAppendExpr( StreamAppend * ) = 0;
-		SDAST_API virtual void visitSwitchCaseExpr( SwitchCase * ) = 0;
-		SDAST_API virtual void visitSwitchTestExpr( SwitchTest * ) = 0;
-		SDAST_API virtual void visitSwizzleExpr( Swizzle * ) = 0;
-		SDAST_API virtual void visitCombinedImageAccessCallExpr( CombinedImageAccessCall * ) = 0;
-		SDAST_API virtual void visitTimesExpr( Times * ) = 0;
-		SDAST_API virtual void visitTimesAssignExpr( TimesAssign * ) = 0;
-		SDAST_API virtual void visitUnaryMinusExpr( UnaryMinus * ) = 0;
-		SDAST_API virtual void visitUnaryPlusExpr( UnaryPlus * ) = 0;
-		SDAST_API virtual void visitXorAssignExpr( XorAssign * ) = 0;
+		SDAST_API virtual void visitAddExpr( Add const * ) = 0;
+		SDAST_API virtual void visitAddAssignExpr( AddAssign const * ) = 0;
+		SDAST_API virtual void visitAggrInitExpr( AggrInit const * ) = 0;
+		SDAST_API virtual void visitAliasExpr( Alias const * ) = 0;
+		SDAST_API virtual void visitAndAssignExpr( AndAssign const * ) = 0;
+		SDAST_API virtual void visitArrayAccessExpr( ArrayAccess const * ) = 0;
+		SDAST_API virtual void visitAssignExpr( Assign const * ) = 0;
+		SDAST_API virtual void visitBitAndExpr( BitAnd const * ) = 0;
+		SDAST_API virtual void visitBitNotExpr( BitNot const * ) = 0;
+		SDAST_API virtual void visitBitOrExpr( BitOr const * ) = 0;
+		SDAST_API virtual void visitBitXorExpr( BitXor const * ) = 0;
+		SDAST_API virtual void visitCastExpr( Cast const * ) = 0;
+		SDAST_API virtual void visitCommaExpr( Comma const * ) = 0;
+		SDAST_API virtual void visitCompositeConstructExpr( CompositeConstruct const * ) = 0;
+		SDAST_API virtual void visitCopyExpr( Copy const * ) = 0;
+		SDAST_API virtual void visitDivideExpr( Divide const * ) = 0;
+		SDAST_API virtual void visitDivideAssignExpr( DivideAssign const * ) = 0;
+		SDAST_API virtual void visitEqualExpr( Equal const * ) = 0;
+		SDAST_API virtual void visitFnCallExpr( FnCall const * ) = 0;
+		SDAST_API virtual void visitGreaterExpr( Greater const * ) = 0;
+		SDAST_API virtual void visitGreaterEqualExpr( GreaterEqual const * ) = 0;
+		SDAST_API virtual void visitIdentifierExpr( Identifier const * ) = 0;
+		SDAST_API virtual void visitImageAccessCallExpr( StorageImageAccessCall const * ) = 0;
+		SDAST_API virtual void visitInitExpr( Init const * ) = 0;
+		SDAST_API virtual void visitIntrinsicCallExpr( IntrinsicCall const * ) = 0;
+		SDAST_API virtual void visitLessExpr( Less const * ) = 0;
+		SDAST_API virtual void visitLessEqualExpr( LessEqual const * ) = 0;
+		SDAST_API virtual void visitLiteralExpr( Literal const * ) = 0;
+		SDAST_API virtual void visitLogAndExpr( LogAnd const * ) = 0;
+		SDAST_API virtual void visitLogNotExpr( LogNot const * ) = 0;
+		SDAST_API virtual void visitLogOrExpr( LogOr const * ) = 0;
+		SDAST_API virtual void visitLShiftExpr( LShift const * ) = 0;
+		SDAST_API virtual void visitLShiftAssignExpr( LShiftAssign const * ) = 0;
+		SDAST_API virtual void visitMbrSelectExpr( MbrSelect const * ) = 0;
+		SDAST_API virtual void visitMinusExpr( Minus const * ) = 0;
+		SDAST_API virtual void visitMinusAssignExpr( MinusAssign const * ) = 0;
+		SDAST_API virtual void visitModuloExpr( Modulo const * ) = 0;
+		SDAST_API virtual void visitModuloAssignExpr( ModuloAssign const * ) = 0;
+		SDAST_API virtual void visitNotEqualExpr( NotEqual const * ) = 0;
+		SDAST_API virtual void visitOrAssignExpr( OrAssign const * ) = 0;
+		SDAST_API virtual void visitPostDecrementExpr( PostDecrement const * ) = 0;
+		SDAST_API virtual void visitPostIncrementExpr( PostIncrement const * ) = 0;
+		SDAST_API virtual void visitPreDecrementExpr( PreDecrement const * ) = 0;
+		SDAST_API virtual void visitPreIncrementExpr( PreIncrement const * ) = 0;
+		SDAST_API virtual void visitQuestionExpr( Question const * ) = 0;
+		SDAST_API virtual void visitRShiftExpr( RShift const * ) = 0;
+		SDAST_API virtual void visitRShiftAssignExpr( RShiftAssign const * ) = 0;
+		SDAST_API virtual void visitStreamAppendExpr( StreamAppend const * ) = 0;
+		SDAST_API virtual void visitSwitchCaseExpr( SwitchCase const * ) = 0;
+		SDAST_API virtual void visitSwitchTestExpr( SwitchTest const * ) = 0;
+		SDAST_API virtual void visitSwizzleExpr( Swizzle const * ) = 0;
+		SDAST_API virtual void visitCombinedImageAccessCallExpr( CombinedImageAccessCall const * ) = 0;
+		SDAST_API virtual void visitTimesExpr( Times const * ) = 0;
+		SDAST_API virtual void visitTimesAssignExpr( TimesAssign const * ) = 0;
+		SDAST_API virtual void visitUnaryMinusExpr( UnaryMinus const * ) = 0;
+		SDAST_API virtual void visitUnaryPlusExpr( UnaryPlus const * ) = 0;
+		SDAST_API virtual void visitXorAssignExpr( XorAssign const * ) = 0;
 	};
 	/**
 	*	Provides a base implementation of an expression visitor.
 	*	Implements all visits except the following:
-	*	- void visitUnaryExpr( ast::expr::Unary * expr )override;
-	*	- void visitBinaryExpr( ast::expr::Binary * expr )override;
-	*	- void visitAggrInitExpr( ast::expr::AggrInit * expr )override;
-	*	- void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override;
-	*	- void visitFnCallExpr( ast::expr::FnCall * expr )override;
-	*	- void visitIdentifierExpr( ast::expr::Identifier * expr )override;
-	*	- void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override;
-	*	- void visitInitExpr( ast::expr::Init * expr )override;
-	*	- void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
-	*	- void visitLiteralExpr( ast::expr::Literal * expr )override;
-	*	- void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
-	*	- void visitQuestionExpr( ast::expr::Question * expr )override;
-	*	- void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
-	*	- void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override;
-	*	- void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override;
-	*	- void visitSwizzleExpr( ast::expr::Swizzle * expr )override;
-	*	- void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
+	*	- void visitUnaryExpr( ast::expr::Unary const * expr )override;
+	*	- void visitBinaryExpr( ast::expr::Binary const * expr )override;
+	*	- void visitAggrInitExpr( ast::expr::AggrInit const * expr )override;
+	*	- void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override;
+	*	- void visitFnCallExpr( ast::expr::FnCall const * expr )override;
+	*	- void visitIdentifierExpr( ast::expr::Identifier const * expr )override;
+	*	- void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )override;
+	*	- void visitInitExpr( ast::expr::Init const * expr )override;
+	*	- void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override;
+	*	- void visitLiteralExpr( ast::expr::Literal const * expr )override;
+	*	- void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override;
+	*	- void visitQuestionExpr( ast::expr::Question const * expr )override;
+	*	- void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override;
+	*	- void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override;
+	*	- void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override;
+	*	- void visitSwizzleExpr( ast::expr::Swizzle const * expr )override;
+	*	- void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override;
 	*/
 	class SimpleVisitor
 		: public Visitor
 	{
 	protected:
-		SimpleVisitor() = default;
+		SDAST_API SimpleVisitor()noexcept = default;
 
 	public:
-		virtual void visitUnaryExpr( Unary * expr ) = 0;
-		virtual void visitBinaryExpr( Binary * expr ) = 0;
+		SDAST_API ~SimpleVisitor()noexcept override = default;
 
-		void visitAddExpr( Add * expr )override
+		virtual void visitUnaryExpr( Unary const * expr ) = 0;
+		virtual void visitBinaryExpr( Binary const * expr ) = 0;
+
+		void visitAddExpr( Add const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAddAssignExpr( AddAssign * expr )override
+		void visitAddAssignExpr( AddAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAliasExpr( Alias * expr )override
+		void visitAliasExpr( Alias const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAndAssignExpr( AndAssign * expr )override
+		void visitAndAssignExpr( AndAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitArrayAccessExpr( ArrayAccess * expr )override
+		void visitArrayAccessExpr( ArrayAccess const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitAssignExpr( Assign * expr )override
+		void visitAssignExpr( Assign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitBitAndExpr( BitAnd * expr )override
+		void visitBitAndExpr( BitAnd const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitBitNotExpr( BitNot * expr )override
+		void visitBitNotExpr( BitNot const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitBitOrExpr( BitOr * expr )override
+		void visitBitOrExpr( BitOr const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitBitXorExpr( BitXor * expr )override
+		void visitBitXorExpr( BitXor const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitCastExpr( Cast * expr )override
+		void visitCastExpr( Cast const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitCommaExpr( Comma * expr )override
+		void visitCommaExpr( Comma const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitCopyExpr( expr::Copy * expr )override
+		void visitCopyExpr( expr::Copy const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitDivideExpr( Divide * expr )override
+		void visitDivideExpr( Divide const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitDivideAssignExpr( DivideAssign * expr )override
+		void visitDivideAssignExpr( DivideAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitEqualExpr( Equal * expr )override
+		void visitEqualExpr( Equal const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitGreaterExpr( Greater * expr )override
+		void visitGreaterExpr( Greater const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitGreaterEqualExpr( GreaterEqual * expr )override
+		void visitGreaterEqualExpr( GreaterEqual const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLessExpr( Less * expr )override
+		void visitLessExpr( Less const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLessEqualExpr( LessEqual * expr )override
+		void visitLessEqualExpr( LessEqual const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLogAndExpr( LogAnd * expr )override
+		void visitLogAndExpr( LogAnd const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLogNotExpr( LogNot * expr )override
+		void visitLogNotExpr( LogNot const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitLogOrExpr( LogOr * expr )override
+		void visitLogOrExpr( LogOr const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLShiftExpr( LShift * expr )override
+		void visitLShiftExpr( LShift const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitLShiftAssignExpr( LShiftAssign * expr )override
+		void visitLShiftAssignExpr( LShiftAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitMinusExpr( Minus * expr )override
+		void visitMinusExpr( Minus const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitMinusAssignExpr( MinusAssign * expr )override
+		void visitMinusAssignExpr( MinusAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitModuloExpr( Modulo * expr )override
+		void visitModuloExpr( Modulo const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitModuloAssignExpr( ModuloAssign * expr )override
+		void visitModuloAssignExpr( ModuloAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitNotEqualExpr( NotEqual * expr )override
+		void visitNotEqualExpr( NotEqual const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitOrAssignExpr( OrAssign * expr )override
+		void visitOrAssignExpr( OrAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitPostDecrementExpr( PostDecrement * expr )override
+		void visitPostDecrementExpr( PostDecrement const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitPostIncrementExpr( PostIncrement * expr )override
+		void visitPostIncrementExpr( PostIncrement const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitPreDecrementExpr( PreDecrement * expr )override
+		void visitPreDecrementExpr( PreDecrement const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitPreIncrementExpr( PreIncrement * expr )override
+		void visitPreIncrementExpr( PreIncrement const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitRShiftExpr( RShift * expr )override
+		void visitRShiftExpr( RShift const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitRShiftAssignExpr( RShiftAssign * expr )override
+		void visitRShiftAssignExpr( RShiftAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitTimesExpr( Times * expr )override
+		void visitTimesExpr( Times const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitTimesAssignExpr( TimesAssign * expr )override
+		void visitTimesAssignExpr( TimesAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
-		void visitUnaryMinusExpr( UnaryMinus * expr )override
+		void visitUnaryMinusExpr( UnaryMinus const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitUnaryPlusExpr( UnaryPlus * expr )override
+		void visitUnaryPlusExpr( UnaryPlus const * expr )override
 		{
 			visitUnaryExpr( expr );
 		}
-		void visitXorAssignExpr( XorAssign * expr )override
+		void visitXorAssignExpr( XorAssign const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}

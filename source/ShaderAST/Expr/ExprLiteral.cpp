@@ -235,7 +235,7 @@ namespace ast::expr
 	{
 	}
 
-	void Literal::accept( VisitorPtr vis )
+	void Literal::accept( VisitorPtr vis )const
 	{
 		vis->visitLiteralExpr( this );
 	}

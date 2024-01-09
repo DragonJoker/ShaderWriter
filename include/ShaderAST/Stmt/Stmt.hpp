@@ -71,7 +71,7 @@ namespace ast::stmt
 			, Kind kind );
 		SDAST_API virtual ~Stmt()noexcept = default;
 
-		SDAST_API virtual void accept( VisitorPtr ) = 0;
+		SDAST_API virtual void accept( VisitorPtr )const = 0;
 
 		Kind getKind()const
 		{

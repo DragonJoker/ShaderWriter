@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void MinusAssign::accept( VisitorPtr vis )
+	void MinusAssign::accept( VisitorPtr vis )const
 	{
 		vis->visitMinusAssignExpr( this );
 	}

@@ -12,7 +12,7 @@ namespace ast::stmt
 	{
 	}
 
-	void TerminateRay::accept( VisitorPtr vis )
+	void TerminateRay::accept( VisitorPtr vis )const
 	{
 		vis->visitTerminateRayStmt( this );
 	}

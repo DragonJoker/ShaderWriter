@@ -23,7 +23,7 @@ namespace ast::stmt
 		assert( m_ssboInstance->getType()->getKind() == type::Kind::eStruct );
 	}
 
-	void ShaderStructBufferDecl::accept( VisitorPtr vis )
+	void ShaderStructBufferDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitShaderStructBufferDeclStmt( this );
 	}

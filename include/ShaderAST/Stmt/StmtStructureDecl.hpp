@@ -19,7 +19,7 @@ namespace ast::stmt
 		SDAST_API explicit StructureDecl( StmtCache & stmtCache
 			, type::StructPtr type );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline type::StructPtr getType()const
 		{

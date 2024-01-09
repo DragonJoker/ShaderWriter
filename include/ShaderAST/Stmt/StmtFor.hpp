@@ -20,19 +20,19 @@ namespace ast::stmt
 			, expr::ExprPtr ctrlExpr
 			, expr::ExprPtr incrExpr );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline expr::Expr * getInitExpr()const
+		inline expr::Expr const * getInitExpr()const
 		{
 			return m_initExpr.get();
 		}
 
-		inline expr::Expr * getCtrlExpr()const
+		inline expr::Expr const * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}
 
-		inline expr::Expr * getIncrExpr()const
+		inline expr::Expr const * getIncrExpr()const
 		{
 			return m_incrExpr.get();
 		}

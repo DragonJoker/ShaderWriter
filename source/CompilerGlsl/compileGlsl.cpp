@@ -17,7 +17,7 @@ See LICENSE file in root folder
 namespace glsl
 {
 	std::string compileGlsl( ast::Shader const & shader
-		, ast::stmt::Container * stmt
+		, ast::stmt::Container const * stmt
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig & config )
@@ -27,7 +27,7 @@ namespace glsl
 		auto & typesCache = shader.getTypesCache();
 		config.shaderStage = stage;
 		auto intrinsics = glsl::fillConfig( stage
-			, stmt );
+			, *stmt );
 		glsl::checkConfig( config, intrinsics );
 
 		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
@@ -37,17 +37,17 @@ namespace glsl
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, stmt
+			, *stmt
 			, ssaData
 			, true );
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		glsl::AdaptationData adaptationData{ stage
 			, config
 			, intrinsics
@@ -55,19 +55,19 @@ namespace glsl
 		statements = adaptStatements( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get()
+			, *statements
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
 		statements = ast::simplify( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get() );
+			, *statements );
 		statements = ast::specialiseStatements( compileStmtCache
 			, compileExprCache
 			, typesCache
-			, statements.get()
+			, *statements
 			, specialisation );
-		return glsl::generateGlslStatements( config, intrinsics, statements.get() ).source;
+		return glsl::generateGlslStatements( config, intrinsics, *statements ).source;
 	}
 	
 	std::string compileGlsl( ast::Shader const & shader

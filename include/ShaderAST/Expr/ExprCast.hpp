@@ -17,7 +17,7 @@ namespace ast::expr
 			, type::TypePtr dstType
 			, ExprPtr operand );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 
 	Expr const * removeCasts( Expr const & expr );

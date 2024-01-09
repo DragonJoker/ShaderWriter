@@ -17,7 +17,7 @@ namespace ast::expr
 	{
 	}
 
-	void Cast::accept( VisitorPtr vis )
+	void Cast::accept( VisitorPtr vis )const
 	{
 		vis->visitCastExpr( this );
 	}

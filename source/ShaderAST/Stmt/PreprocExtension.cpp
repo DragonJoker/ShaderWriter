@@ -16,7 +16,7 @@ namespace ast::stmt
 	{
 	}
 
-	void PreprocExtension::accept( VisitorPtr vis )
+	void PreprocExtension::accept( VisitorPtr vis )const
 	{
 		vis->visitPreprocExtension( this );
 	}

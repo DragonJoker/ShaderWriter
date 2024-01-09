@@ -20,7 +20,7 @@ namespace ast::stmt
 	{
 	}
 
-	void InputTessellationEvaluationLayout::accept( VisitorPtr vis )
+	void InputTessellationEvaluationLayout::accept( VisitorPtr vis )const
 	{
 		vis->visitInputTessellationEvaluationLayoutStmt( this );
 	}

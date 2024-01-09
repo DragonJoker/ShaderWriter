@@ -31,7 +31,7 @@ namespace ast::stmt
 		return result;
 	}
 
-	void Switch::accept( VisitorPtr vis )
+	void Switch::accept( VisitorPtr vis )const
 	{
 		vis->visitSwitchStmt( this );
 	}

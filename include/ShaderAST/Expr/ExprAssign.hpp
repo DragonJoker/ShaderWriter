@@ -19,7 +19,7 @@ namespace ast::expr
 			, ExprPtr rhs
 			, Kind kind = Kind::eAssign );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 }
 

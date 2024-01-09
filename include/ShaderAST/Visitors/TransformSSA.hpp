@@ -18,7 +18,7 @@ namespace ast
 	SDAST_API stmt::ContainerPtr transformSSA( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, stmt::Container * container
+		, stmt::Container const & container
 		, SSAData & ssaData
 		, bool normaliseStructs );
 }

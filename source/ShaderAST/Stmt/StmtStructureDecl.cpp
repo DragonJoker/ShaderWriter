@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void StructureDecl::accept( VisitorPtr vis )
+	void StructureDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitStructureDeclStmt( this );
 	}

@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void VariableDecl::accept( VisitorPtr vis )
+	void VariableDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitVariableDeclStmt( this );
 	}

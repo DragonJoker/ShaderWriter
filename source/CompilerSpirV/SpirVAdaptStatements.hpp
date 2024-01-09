@@ -28,7 +28,7 @@ namespace spirv
 	ast::stmt::ContainerPtr adaptStatements( ast::stmt::StmtCache & stmtCache
 		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
-		, ast::stmt::Container * container
+		, ast::stmt::Container const & container
 		, AdaptationData & adaptationData );
 }
 

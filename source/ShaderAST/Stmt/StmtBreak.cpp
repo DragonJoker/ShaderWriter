@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void Break::accept( VisitorPtr vis )
+	void Break::accept( VisitorPtr vis )const
 	{
 		vis->visitBreakStmt( this );
 	}

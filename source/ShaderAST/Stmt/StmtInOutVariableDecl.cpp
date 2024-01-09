@@ -20,7 +20,7 @@ namespace ast::stmt
 	{
 	}
 
-	void InOutVariableDecl::accept( VisitorPtr vis )
+	void InOutVariableDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitInOutVariableDeclStmt( this );
 	}

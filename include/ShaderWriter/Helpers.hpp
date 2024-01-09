@@ -110,10 +110,10 @@ namespace sdw
 		, type::MemorySemantics value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const * expr
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, ast::expr::ExprPtr const & expr
+		, ast::expr::Expr const & expr
 		, bool force = true );
 
 	template< typename T >
@@ -138,9 +138,9 @@ namespace sdw
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, long double value );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, ast::expr::Expr * expr );
+		, ast::expr::Expr const * expr );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, ast::expr::ExprPtr const & expr );
+		, ast::expr::Expr const & expr );
 
 	SDW_API expr::ExprPtr makeInit( var::VariablePtr var
 		, expr::ExprPtr init );

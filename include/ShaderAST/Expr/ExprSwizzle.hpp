@@ -18,9 +18,9 @@ namespace ast::expr
 			, ExprPtr outer
 			, SwizzleKind swizzle );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline Expr * getOuterExpr()const
+		inline Expr const * getOuterExpr()const
 		{
 			return m_outer.get();
 		}

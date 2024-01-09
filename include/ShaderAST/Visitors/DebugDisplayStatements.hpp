@@ -11,8 +11,8 @@ See LICENSE file in root folder
 
 namespace ast::debug
 {
-	SDAST_API std::string displayStatements( stmt::Stmt * stmt );
-	SDAST_API std::string displayExpression( expr::Expr * expr );
+	SDAST_API std::string displayStatements( stmt::Stmt const & stmt );
+	SDAST_API std::string displayExpression( expr::Expr const & expr );
 	SDAST_API std::string getTypeName( type::TypePtr type );
 	SDAST_API std::string getTypeName( type::Kind kind );
 	SDAST_API std::string getImageFormatName( type::ImageFormat value );
@@ -30,17 +30,6 @@ namespace ast::debug
 		, ast::type::ImageDim dim
 		, bool arrayed
 		, bool ms );
-
-	inline std::string displayExpression( expr::ExprPtr const & expr )
-	{
-		return displayExpression( expr.get() );
-	}
-
-	template< typename ExprT >
-	inline std::string displayExpression( expr::ExprPtrT< ExprT > const & expr )
-	{
-		return displayExpression( expr.get() );
-	}
 }
 
 #endif

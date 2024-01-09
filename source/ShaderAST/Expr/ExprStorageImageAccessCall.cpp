@@ -22,7 +22,7 @@ namespace ast::expr
 	{
 	}
 
-	void StorageImageAccessCall::accept( VisitorPtr vis )
+	void StorageImageAccessCall::accept( VisitorPtr vis )const
 	{
 		vis->visitImageAccessCallExpr( this );
 	}

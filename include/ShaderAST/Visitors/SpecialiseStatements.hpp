@@ -12,7 +12,7 @@ namespace ast
 	SDAST_API stmt::ContainerPtr specialiseStatements( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, stmt::Container * container
+		, stmt::Container const & container
 		, SpecialisationInfo const & specialisation );
 }
 

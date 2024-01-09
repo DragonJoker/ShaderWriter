@@ -101,7 +101,7 @@ namespace ast::expr
 
 		SDAST_API ExprPtr clone()const;
 
-		SDAST_API virtual void accept( VisitorPtr )
+		SDAST_API virtual void accept( VisitorPtr )const
 		{
 		}
 

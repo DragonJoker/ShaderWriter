@@ -21,7 +21,7 @@ namespace ast::stmt
 			, type::Partitioning partitioning
 			, type::PrimitiveOrdering order );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		type::TypePtr getType()const
 		{

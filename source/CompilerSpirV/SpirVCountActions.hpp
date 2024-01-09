@@ -34,7 +34,7 @@ namespace spirv
 	using FunctionActions = ast::Map< ast::EntityName, VarActions, EntityNameLess >;
 	using ShaderActions = ast::Map< std::string, FunctionActions >;
 
-	ShaderActions listActions( ast::stmt::Container * container );
+	ShaderActions listActions( ast::stmt::Container const & container );
 }
 
 #endif

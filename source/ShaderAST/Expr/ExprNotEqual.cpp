@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void NotEqual::accept( VisitorPtr vis )
+	void NotEqual::accept( VisitorPtr vis )const
 	{
 		vis->visitNotEqualExpr( this );
 	}

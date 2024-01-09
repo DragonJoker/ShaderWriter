@@ -327,7 +327,7 @@ namespace spirv::debug
 	}
 
 	void NonSemanticDebug::declareAccessChain( InstructionList & instructions
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, glsl::Statement const * debugStatement
 		, DebugId & resultId )
 	{
@@ -336,10 +336,10 @@ namespace spirv::debug
 			return;
 		}
 
-		resultId.debug = ValueId{ getNextId(), expr->getType() };
+		resultId.debug = ValueId{ getNextId(), expr.getType() };
 		declareVariable( instructions
 			, glsl::getExprName( *m_config, expr )
-			, expr->getType()
+			, expr.getType()
 			, resultId
 			, DebugId{}
 			, debugStatement
@@ -486,7 +486,7 @@ namespace spirv::debug
 
 	void NonSemanticDebug::makeLineExtension( InstructionList & instructions
 		, glsl::Statement const * debugStatement
-		, ast::expr::Expr * expr )
+		, ast::expr::Expr const & expr )
 	{
 		if ( !debugStatement )
 		{
@@ -495,7 +495,7 @@ namespace spirv::debug
 
 		auto columns = debugStatement->source.columns;
 
-		if ( auto it = debugStatement->exprs.find( expr );
+		if ( auto it = debugStatement->exprs.find( &expr );
 			it != debugStatement->exprs.end() )
 		{
 			columns = it->second;

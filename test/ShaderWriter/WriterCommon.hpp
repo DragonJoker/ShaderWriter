@@ -1190,7 +1190,7 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
 	SDWTest_API void validateShaders( ast::Shader const & shader
-		, ast::EntryPointConfigArray entryPoints
+		, ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
 	SDWTest_API void validateShaders( ast::ShaderArray const & shaders

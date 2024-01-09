@@ -9,8 +9,7 @@ See LICENSE file in root folder
 
 namespace ast
 {
-	SDAST_API expr::Expr * getOutermostExpr( expr::Expr * expr );
-	SDAST_API expr::Expr * getOutermostExpr( expr::ExprPtr const & expr );
+	SDAST_API expr::Expr const * getOutermostExpr( expr::Expr const & expr );
 }
 
 #endif

@@ -1686,7 +1686,7 @@ namespace hlsl
 
 	void IOMapping::initialiseMainVar( ast::var::VariablePtr srcVar
 		, ast::type::TypePtr type
-		, VarVarMap & paramToEntryPoint )
+		, VarVarMap & paramToEntryPoint )const
 	{
 		paramVar->updateType( type );
 		paramToEntryPoint.try_emplace( srcVar, mainVar );
@@ -1753,7 +1753,7 @@ namespace hlsl
 		}
 	}
 
-	void IOMapping::addPendingMbr( ast::expr::Expr * outer
+	void IOMapping::addPendingMbr( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
@@ -1766,7 +1766,7 @@ namespace hlsl
 			, location );
 	}
 
-	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::Expr * outer
+	ast::expr::ExprPtr IOMapping::processPendingMbr( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
@@ -1795,14 +1795,14 @@ namespace hlsl
 
 		auto const & mbr = *it;
 
-		if ( outer->getKind() != ast::expr::Kind::eArrayAccess )
+		if ( outer.getKind() != ast::expr::Kind::eArrayAccess )
 		{
 			return exprCache.makeMbrSelect( std::move( result )
 				, mbr.io.result.mbrIndex
 				, mbr.io.result.flags );
 		}
 
-		auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+		auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
 		auto type = getNonArrayType( result->getType() );
 		return exprCache.makeMbrSelect( exprCache.makeArrayAccess( type
 				, std::move( result )
@@ -1821,22 +1821,22 @@ namespace hlsl
 		}
 
 		auto & [_, mbr] = *it;
-		auto pendingVar = mbr.var;
-		auto type = pendingVar->getType();
+		auto const & pendingVar = *mbr.var;
+		auto type = pendingVar.getType();
 		auto location = it->second.location;
 
 		if ( mbr.result.mbrIndex == ast::type::Struct::NotFound )
 		{
 			mbr.result = processPendingType( type
-				, pendingVar->getName()
-				, pendingVar->isBuiltin() ? pendingVar->getBuiltin() : ast::Builtin::eNone
+				, pendingVar.getName()
+				, pendingVar.isBuiltin() ? pendingVar.getBuiltin() : ast::Builtin::eNone
 				, mbr.flags
 				, location );
 		}
 
 		if ( mbr.result.expr )
 		{
-			return ast::ExprCloner::submit( exprCache, mbr.result.expr );
+			return ast::ExprCloner::submit( exprCache, *mbr.result.expr );
 		}
 
 		auto & typesCache = shader->getTypesCache();
@@ -1879,7 +1879,7 @@ namespace hlsl
 		, uint64_t flags
 		, uint32_t location
 		, uint32_t arraySize
-		, ast::type::IOStruct & structType )
+		, ast::type::IOStruct & structType )const
 	{
 		if ( builtin != ast::Builtin::eNone )
 		{
@@ -2101,7 +2101,7 @@ namespace hlsl
 			it = m_pendingMbr.end();
 		}
 
-		return ast::ExprCloner::submit( exprCache, mbr.io.result.expr );
+		return ast::ExprCloner::submit( exprCache, *mbr.io.result.expr );
 	}
 
 	//*********************************************************************************************
@@ -2232,7 +2232,7 @@ namespace hlsl
 		return result;
 	}
 
-	ast::expr::ExprPtr Routine::processPendingMbr( ast::expr::Expr * outer
+	ast::expr::ExprPtr Routine::processPendingMbr( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
@@ -2278,7 +2278,7 @@ namespace hlsl
 		return nullptr;
 	}
 
-	void Routine::addMbrBuiltin( ast::expr::Expr * outer
+	void Routine::addMbrBuiltin( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
@@ -2321,7 +2321,7 @@ namespace hlsl
 		m_lowFreqInputs.addPending( var, location );
 	}
 
-	void Routine::addPendingMbrInput( ast::expr::Expr * outer
+	void Routine::addPendingMbrInput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
@@ -2342,7 +2342,7 @@ namespace hlsl
 		return m_lowFreqInputs.processPending( var );
 	}
 
-	ast::expr::ExprPtr Routine::processPendingMbrInput( ast::expr::Expr * outer
+	ast::expr::ExprPtr Routine::processPendingMbrInput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
@@ -2406,12 +2406,12 @@ namespace hlsl
 		}
 	}
 
-	void Routine::addPendingMbrOutput( ast::expr::Expr * outer
+	void Routine::addPendingMbrOutput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
 	{
-		auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+		auto mbr = getStructType( outer.getType() )->getMember( mbrIndex );
 
 		if ( !flags.isBuiltin()
 			|| HlslHelpersInternal::isHighFreq( mbr.builtin, false ) )
@@ -2464,7 +2464,7 @@ namespace hlsl
 		return result;
 	}
 
-	ast::expr::ExprPtr Routine::processPendingMbrOutput( ast::expr::Expr * outer
+	ast::expr::ExprPtr Routine::processPendingMbrOutput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
@@ -2476,15 +2476,15 @@ namespace hlsl
 
 		if ( !result )
 		{
-			auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+			auto mbr = getStructType( outer.getType() )->getMember( mbrIndex );
 
 			if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV
 				|| mbr.builtin == ast::Builtin::ePrimitivePointIndices
 				|| mbr.builtin == ast::Builtin::ePrimitiveLineIndices
 				|| mbr.builtin == ast::Builtin::ePrimitiveTriangleIndices )
 			{
-				assert( outer->getKind() == ast::expr::Kind::eArrayAccess );
-				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
+				assert( outer.getKind() == ast::expr::Kind::eArrayAccess );
+				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
 				auto type = getNonArrayType( m_primitiveIndices.io.var->getType() );
 				result = exprCache.makeArrayAccess( type
 					, exprCache.makeIdentifier( shader->getTypesCache(), m_primitiveIndices.io.var )
@@ -2797,7 +2797,7 @@ namespace hlsl
 		return result;
 	}
 
-	ast::expr::ExprPtr AdaptationData::processPendingMbr( ast::expr::Expr * outer
+	ast::expr::ExprPtr AdaptationData::processPendingMbr( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
@@ -2848,7 +2848,7 @@ namespace hlsl
 		return nullptr;
 	}
 
-	void AdaptationData::addMbrBuiltin( ast::expr::Expr * outer
+	void AdaptationData::addMbrBuiltin( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
@@ -2945,13 +2945,13 @@ namespace hlsl
 		}
 	}
 
-	void AdaptationData::addPendingMbrInput( ast::expr::Expr * outer
+	void AdaptationData::addPendingMbrInput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
 	{
 		assert( m_currentRoutine );
-		auto mbr = getStructType( outer->getType() )->getMember( mbrIndex );
+		auto mbr = getStructType( outer.getType() )->getMember( mbrIndex );
 
 		if ( HlslHelpersInternal::isHighFreq( mbr.builtin, true ) )
 		{
@@ -3015,7 +3015,7 @@ namespace hlsl
 		return result;
 	}
 
-	ast::expr::ExprPtr AdaptationData::processPendingMbrInput( ast::expr::Expr * outer
+	ast::expr::ExprPtr AdaptationData::processPendingMbrInput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
@@ -3093,7 +3093,7 @@ namespace hlsl
 		entryPoint.addPendingOutput( var, location );
 	}
 
-	void AdaptationData::addPendingMbrOutput( ast::expr::Expr * outer
+	void AdaptationData::addPendingMbrOutput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
@@ -3117,7 +3117,7 @@ namespace hlsl
 		return m_currentRoutine->processPendingOutput( var );
 	}
 
-	ast::expr::ExprPtr AdaptationData::processPendingMbrOutput( ast::expr::Expr * outer
+	ast::expr::ExprPtr AdaptationData::processPendingMbrOutput( ast::expr::Expr const & outer
 		, uint32_t mbrIndex
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )

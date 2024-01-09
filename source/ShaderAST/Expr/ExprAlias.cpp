@@ -18,7 +18,7 @@ namespace ast::expr
 	{
 	}
 
-	void Alias::accept( VisitorPtr vis )
+	void Alias::accept( VisitorPtr vis )const
 	{
 		vis->visitAliasExpr( this );
 	}

@@ -19,12 +19,12 @@ namespace ast::expr
 			, ExprPtr rhs
 			, Kind kind );
 
-		inline Expr * getLHS()const
+		inline Expr const * getLHS()const
 		{
 			return m_lhs.get();
 		}
 
-		inline Expr * getRHS()const
+		inline Expr const * getRHS()const
 		{
 			return m_rhs.get();
 		}

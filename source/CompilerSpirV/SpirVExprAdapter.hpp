@@ -19,7 +19,7 @@ namespace spirv
 	public:
 		static ast::expr::ExprPtr submit( ast::expr::ExprCache & exprCache
 			, ast::type::TypesCache & typesCache
-			, ast::expr::Expr * expr
+			, ast::expr::Expr const & expr
 			, ast::stmt::Container * container
 			, ast::stmt::Container * ioDeclarations
 			, AdaptationData & adaptationData );
@@ -33,14 +33,14 @@ namespace spirv
 			, ast::expr::ExprPtr & result );
 
 		using ast::ExprCloner::doSubmit;
-		ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override;
-		void visitAssignExpr( ast::expr::Assign * expr )override;
-		void visitFnCallExpr( ast::expr::FnCall * expr )override;
-		void visitIdentifierExpr( ast::expr::Identifier * expr )override;
-		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override;
-		void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override;
-		void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override;
-		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
+		ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override;
+		void visitAssignExpr( ast::expr::Assign const * expr )override;
+		void visitFnCallExpr( ast::expr::FnCall const * expr )override;
+		void visitIdentifierExpr( ast::expr::Identifier const * expr )override;
+		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override;
+		void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override;
+		void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override;
+		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override;
 
 	private:
 		ast::type::TypesCache & m_typesCache;

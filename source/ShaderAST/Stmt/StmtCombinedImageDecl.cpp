@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void CombinedImageDecl::accept( VisitorPtr vis )
+	void CombinedImageDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitCombinedImageDeclStmt( this );
 	}

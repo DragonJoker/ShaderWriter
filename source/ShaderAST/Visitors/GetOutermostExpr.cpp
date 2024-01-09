@@ -14,27 +14,30 @@ namespace ast
 			: public expr::SimpleVisitor
 		{
 		public:
-			static expr::Expr * submit( expr::Expr * expr )
+			static expr::Expr const * submit( expr::Expr const & expr )
 			{
-				expr::Expr * result{};
+				expr::Expr const * result{};
 				OutermostExprExtractor vis{ result };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
-			static expr::Expr * submit( expr::ExprPtr const & expr )
-			{
-				return submit( expr.get() );
-			}
-
 		private:
-			explicit OutermostExprExtractor( expr::Expr *& result )
+			explicit OutermostExprExtractor( expr::Expr const *& result )
 				: m_result{ result }
 			{
 			}
 
 		private:
-			void visitUnaryExpr( expr::Unary * expr )override
+			void visitOtherExpr( expr::Expr const & expr )
+			{
+				if ( !m_result )
+				{
+					m_result = &expr;
+				}
+			}
+
+			void visitUnaryExpr( expr::Unary const * expr )override
 			{
 				if ( !m_result )
 				{
@@ -42,7 +45,7 @@ namespace ast
 				}
 			}
 
-			void visitBinaryExpr( expr::Binary * expr )override
+			void visitBinaryExpr( expr::Binary const * expr )override
 			{
 				if ( !m_result )
 				{
@@ -50,28 +53,21 @@ namespace ast
 				}
 			}
 
-			void visitOtherExpr( expr::Expr * expr )
+			void visitAggrInitExpr( expr::AggrInit const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result
+					&& expr->hasIdentifier() )
 				{
-					m_result = expr;
+					expr->getIdentifier().accept( this );
 				}
 			}
 
-			void visitAggrInitExpr( expr::AggrInit * expr )override
+			void visitCompositeConstructExpr( expr::CompositeConstruct const * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getIdentifier()->accept( this );
-				}
+				visitOtherExpr( *expr );
 			}
 
-			void visitCompositeConstructExpr( expr::CompositeConstruct * expr )override
-			{
-				visitOtherExpr( expr );
-			}
-
-			void visitMbrSelectExpr( expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( expr::MbrSelect const * expr )override
 			{
 				if ( !m_result )
 				{
@@ -79,7 +75,7 @@ namespace ast
 				}
 			}
 
-			void visitFnCallExpr( expr::FnCall * expr )override
+			void visitFnCallExpr( expr::FnCall const * expr )override
 			{
 				if ( !m_result )
 				{
@@ -87,45 +83,46 @@ namespace ast
 				}
 			}
 
-			void visitIntrinsicCallExpr( expr::IntrinsicCall * expr )override
+			void visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )override
 			{
-				visitOtherExpr( expr );
+				visitOtherExpr( *expr );
 			}
 
-			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall const * expr )override
 			{
-				visitOtherExpr( expr );
+				visitOtherExpr( *expr );
 			}
 
-			void visitImageAccessCallExpr( expr::StorageImageAccessCall * expr )override
+			void visitImageAccessCallExpr( expr::StorageImageAccessCall const * expr )override
 			{
-				visitOtherExpr( expr );
+				visitOtherExpr( *expr );
 			}
 
-			void visitIdentifierExpr( expr::Identifier * expr )override
+			void visitIdentifierExpr( expr::Identifier const * expr )override
 			{
-				visitOtherExpr( expr );
+				visitOtherExpr( *expr );
 			}
 
-			void visitInitExpr( expr::Init * expr )override
+			void visitInitExpr( expr::Init const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result
+					&& expr->hasIdentifier() )
 				{
-					expr->getIdentifier()->accept( this );
+					expr->getIdentifier().accept( this );
 				}
 			}
 
-			void visitLiteralExpr( expr::Literal * expr )override
+			void visitLiteralExpr( expr::Literal const * expr )override
 			{
-				visitOtherExpr( expr );
+				visitOtherExpr( *expr );
 			}
 
-			void visitQuestionExpr( expr::Question * expr )override
+			void visitQuestionExpr( expr::Question const * expr )override
 			{
-				visitOtherExpr( expr );
+				visitOtherExpr( *expr );
 			}
 
-			void visitStreamAppendExpr( expr::StreamAppend * expr )override
+			void visitStreamAppendExpr( expr::StreamAppend const * expr )override
 			{
 				if ( !m_result )
 				{
@@ -133,17 +130,17 @@ namespace ast
 				}
 			}
 
-			void visitSwitchCaseExpr( expr::SwitchCase * expr )override
+			void visitSwitchCaseExpr( expr::SwitchCase const * expr )override
 			{
 				AST_Failure( "getOutermostExpr: Unexpected SwitchCase" );
 			}
 
-			void visitSwitchTestExpr( expr::SwitchTest * expr )override
+			void visitSwitchTestExpr( expr::SwitchTest const * expr )override
 			{
 				AST_Failure( "getOutermostExpr: Unexpected SwitchTest" );
 			}
 
-			void visitSwizzleExpr( expr::Swizzle * expr )override
+			void visitSwizzleExpr( expr::Swizzle const * expr )override
 			{
 				if ( !m_result )
 				{
@@ -152,16 +149,11 @@ namespace ast
 			}
 
 		private:
-			expr::Expr *& m_result;
+			expr::Expr const *& m_result;
 		};
 	}
 
-	expr::Expr * getOutermostExpr( ast::expr::Expr * expr )
-	{
-		return OutermostExprExtractor::submit( expr );
-	}
-
-	expr::Expr * getOutermostExpr( ast::expr::ExprPtr const & expr )
+	expr::Expr const * getOutermostExpr( ast::expr::Expr const & expr )
 	{
 		return OutermostExprExtractor::submit( expr );
 	}

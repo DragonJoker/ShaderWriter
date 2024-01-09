@@ -16,7 +16,7 @@ namespace ast::stmt
 		SDAST_API explicit HitAttributeVariableDecl( StmtCache & stmtCache
 			, var::VariablePtr variable );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline var::VariablePtr getVariable()const
 		{

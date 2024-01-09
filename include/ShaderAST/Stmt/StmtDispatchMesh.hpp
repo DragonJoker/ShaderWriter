@@ -19,24 +19,24 @@ namespace ast::stmt
 			, expr::ExprPtr numGroupsZ
 			, expr::ExprPtr payload );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline expr::Expr * getNumGroupsX()const
+		inline expr::Expr const * getNumGroupsX()const
 		{
 			return m_numGroupsX.get();
 		}
 
-		inline expr::Expr * getNumGroupsY()const
+		inline expr::Expr const * getNumGroupsY()const
 		{
 			return m_numGroupsY.get();
 		}
 
-		inline expr::Expr * getNumGroupsZ()const
+		inline expr::Expr const * getNumGroupsZ()const
 		{
 			return m_numGroupsZ.get();
 		}
 
-		inline expr::Expr * getPayload()const
+		inline expr::Expr const * getPayload()const
 		{
 			return m_payload.get();
 		}

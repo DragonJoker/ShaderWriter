@@ -16,7 +16,7 @@ namespace spirv
 {
 	ModulePtr generateModule( ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
-		, ast::stmt::Stmt * stmt
+		, ast::stmt::Stmt const & stmt
 		, ast::ShaderStage type
 		, ModuleConfig const & moduleConfig
 		, spirv::PreprocContext context
@@ -25,7 +25,7 @@ namespace spirv
 		, ShaderActions actions
 		, glsl::Statements debugStatements );
 	DebugId generateModuleExpr( ast::expr::ExprCache & exprCache
-		, ast::expr::Expr * expr
+		, ast::expr::Expr const & expr
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & shaderModule );

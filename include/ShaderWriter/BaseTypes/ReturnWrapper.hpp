@@ -25,7 +25,7 @@ namespace sdw
 		~ReturnWrapperT()noexcept override;
 
 		type::TypePtr getType()const override;
-		expr::Expr * getExpr()const override;
+		expr::Expr const * getExpr()const override;
 
 		sdw::expr::ExprPtr release()const;
 		expr::ExprPtr makeCondition();

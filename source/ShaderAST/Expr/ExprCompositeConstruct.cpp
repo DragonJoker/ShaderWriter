@@ -83,7 +83,7 @@ namespace ast::expr
 		m_argList.emplace_back( std::move( sampler ) );
 	}
 
-	void CompositeConstruct::accept( VisitorPtr vis )
+	void CompositeConstruct::accept( VisitorPtr vis )const
 	{
 		vis->visitCompositeConstructExpr( this );
 	}

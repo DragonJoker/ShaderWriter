@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void SpecialisationConstantDecl::accept( VisitorPtr vis )
+	void SpecialisationConstantDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitSpecialisationConstantDeclStmt( this );
 	}

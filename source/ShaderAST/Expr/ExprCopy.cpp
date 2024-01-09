@@ -14,7 +14,7 @@ namespace ast::expr
 	{
 	}
 
-	void Copy::accept( VisitorPtr vis )
+	void Copy::accept( VisitorPtr vis )const
 	{
 		vis->visitCopyExpr( this );
 	}

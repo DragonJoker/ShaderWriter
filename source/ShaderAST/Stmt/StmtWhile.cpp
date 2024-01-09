@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void While::accept( VisitorPtr vis )
+	void While::accept( VisitorPtr vis )const
 	{
 		vis->visitWhileStmt( this );
 	}

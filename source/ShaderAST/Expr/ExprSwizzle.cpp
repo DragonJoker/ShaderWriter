@@ -46,7 +46,7 @@ namespace ast::expr
 	{
 	}
 
-	void Swizzle::accept( VisitorPtr vis )
+	void Swizzle::accept( VisitorPtr vis )const
 	{
 		vis->visitSwizzleExpr( this );
 	}

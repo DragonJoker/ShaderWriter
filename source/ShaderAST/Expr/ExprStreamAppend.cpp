@@ -17,7 +17,7 @@ namespace ast::expr
 	{
 	}
 
-	void StreamAppend::accept( VisitorPtr vis )
+	void StreamAppend::accept( VisitorPtr vis )const
 	{
 		vis->visitStreamAppendExpr( this );
 	}

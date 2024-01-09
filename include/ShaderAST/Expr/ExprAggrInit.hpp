@@ -21,14 +21,20 @@ namespace ast::expr
 			, type::TypePtr type
 			, ExprList initialisers );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline Identifier * getIdentifier()const
+		bool hasIdentifier()const noexcept
 		{
-			return m_identifier.get();
+			return m_identifier != nullptr;
 		}
 
-		inline ExprList const & getInitialisers()const
+		Identifier const & getIdentifier()const noexcept
+		{
+			assert( hasIdentifier() );
+			return *m_identifier;
+		}
+
+		ExprList const & getInitialisers()const noexcept
 		{
 			return m_initialisers;
 		}

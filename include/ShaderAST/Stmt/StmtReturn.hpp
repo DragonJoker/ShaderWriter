@@ -18,9 +18,9 @@ namespace ast::stmt
 		SDAST_API explicit Return( StmtCache & stmtCache
 			, expr::ExprPtr expr );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline expr::Expr * getExpr()const
+		inline expr::Expr const * getExpr()const
 		{
 			return m_expr.get();
 		}

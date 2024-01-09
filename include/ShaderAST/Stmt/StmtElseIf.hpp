@@ -23,9 +23,9 @@ namespace ast::stmt
 			, expr::ExprPtr ctrlExpr );
 
 	public:
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline expr::Expr * getCtrlExpr()const
+		inline expr::Expr const * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}

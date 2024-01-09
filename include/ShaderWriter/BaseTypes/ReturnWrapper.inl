@@ -53,7 +53,7 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	expr::Expr * ReturnWrapperT< ValueT >::getExpr()const
+	expr::Expr const * ReturnWrapperT< ValueT >::getExpr()const
 	{
 		m_remnExpr = std::move( release() );
 		return m_remnExpr.get();
@@ -63,7 +63,7 @@ namespace sdw
 	sdw::expr::ExprPtr ReturnWrapperT< ValueT >::release()const
 	{
 		assert( this->m_expr.get() );
-		auto result = makeExpr( *this->getWriter(), this->m_expr );
+		auto result = makeExpr( *this->getWriter(), *this->m_expr );
 		const_cast< ReturnWrapperT< ValueT > & >( *this ).updateExpr( nullptr );
 		return result;
 	}

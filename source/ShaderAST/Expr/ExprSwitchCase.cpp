@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void SwitchCase::accept( VisitorPtr vis )
+	void SwitchCase::accept( VisitorPtr vis )const
 	{
 		vis->visitSwitchCaseExpr( this );
 	}

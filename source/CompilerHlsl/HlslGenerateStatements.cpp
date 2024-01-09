@@ -388,18 +388,18 @@ namespace hlsl
 		{
 		public:
 			static std::string submit( HlslConfig const & writerConfig
-				, ast::expr::Expr * expr
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases )
+				, ast::expr::Expr const & expr
+				, std::map< ast::var::VariablePtr, ast::expr::Expr const * > & aliases )
 			{
 				std::string result;
 				ExprVisitor vis{ writerConfig, aliases, result };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
 			}
 
 		private:
 			ExprVisitor( HlslConfig const & writerConfig
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+				, std::map< ast::var::VariablePtr, ast::expr::Expr const * > & aliases
 				, std::string & result )
 				: m_writerConfig{ writerConfig }
 				, m_result{ result }
@@ -407,32 +407,27 @@ namespace hlsl
 			{
 			}
 
-			std::string doSubmit( ast::expr::Expr * expr )
+			std::string doSubmit( ast::expr::Expr const & expr )
 			{
 				return submit( m_writerConfig, expr, m_aliases );
 			}
 
-			std::string doSubmit( ast::expr::ExprPtr const & expr )
+			void wrap( ast::expr::Expr const & expr )
 			{
-				return doSubmit( expr.get() );
-			}
-
-			void wrap( ast::expr::Expr * expr )
-			{
-				bool noParen = expr->getKind() == ast::expr::Kind::eFnCall
-					|| expr->getKind() == ast::expr::Kind::eAggrInit
-					|| expr->getKind() == ast::expr::Kind::eIdentifier
-					|| expr->getKind() == ast::expr::Kind::eLiteral
-					|| expr->getKind() == ast::expr::Kind::eMbrSelect
-					|| expr->getKind() == ast::expr::Kind::eCast
-					|| expr->getKind() == ast::expr::Kind::eSwizzle
-					|| expr->getKind() == ast::expr::Kind::eArrayAccess
-					|| expr->getKind() == ast::expr::Kind::eIntrinsicCall
-					|| expr->getKind() == ast::expr::Kind::eCombinedImageAccessCall
-					|| expr->getKind() == ast::expr::Kind::eImageAccessCall
-					|| expr->getKind() == ast::expr::Kind::eUnaryMinus
-					|| expr->getKind() == ast::expr::Kind::eUnaryPlus
-					|| expr->getKind() == ast::expr::Kind::eCopy;
+				bool noParen = expr.getKind() == ast::expr::Kind::eFnCall
+					|| expr.getKind() == ast::expr::Kind::eAggrInit
+					|| expr.getKind() == ast::expr::Kind::eIdentifier
+					|| expr.getKind() == ast::expr::Kind::eLiteral
+					|| expr.getKind() == ast::expr::Kind::eMbrSelect
+					|| expr.getKind() == ast::expr::Kind::eCast
+					|| expr.getKind() == ast::expr::Kind::eSwizzle
+					|| expr.getKind() == ast::expr::Kind::eArrayAccess
+					|| expr.getKind() == ast::expr::Kind::eIntrinsicCall
+					|| expr.getKind() == ast::expr::Kind::eCombinedImageAccessCall
+					|| expr.getKind() == ast::expr::Kind::eImageAccessCall
+					|| expr.getKind() == ast::expr::Kind::eUnaryMinus
+					|| expr.getKind() == ast::expr::Kind::eUnaryPlus
+					|| expr.getKind() == ast::expr::Kind::eCopy;
 
 				if ( noParen )
 				{
@@ -446,82 +441,82 @@ namespace hlsl
 				}
 			}
 
-			void visitAssignmentExpr( ast::expr::Binary const * expr )
+			void visitAssignmentExpr( ast::expr::Binary const & expr )
 			{
-				wrap( expr->getLHS() );
-				m_result += " " + getOperatorName( expr->getKind() ) + " ";
-				m_result += doSubmit( expr->getRHS() );
+				wrap( *expr.getLHS() );
+				m_result += " " + getOperatorName( expr.getKind() ) + " ";
+				m_result += doSubmit( *expr.getRHS() );
 			}
 
-			void visitUnaryExpr( ast::expr::Unary * expr )override
+			void visitUnaryExpr( ast::expr::Unary const * expr )override
 			{
 				if ( isUnaryPre( expr->getKind() ) )
 				{
 					m_result += getOperatorName( expr->getKind() );
-					wrap( expr->getOperand() );
+					wrap( *expr->getOperand() );
 				}
 				else
 				{
-					wrap( expr->getOperand() );
+					wrap( *expr->getOperand() );
 					m_result += getOperatorName( expr->getKind() );
 				}
 			}
 
-			void visitBinaryExpr( ast::expr::Binary * expr )override
+			void visitBinaryExpr( ast::expr::Binary const * expr )override
 			{
-				wrap( expr->getLHS() );
+				wrap( *expr->getLHS() );
 				m_result += " " + getOperatorName( expr->getKind() ) + " ";
-				wrap( expr->getRHS() );
+				wrap( *expr->getRHS() );
 			}
 
-			void visitAddAssignExpr( ast::expr::AddAssign * expr )override
+			void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitAndAssignExpr( ast::expr::AndAssign * expr )override
+			void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitAssignExpr( ast::expr::Assign * expr )override
+			void visitAssignExpr( ast::expr::Assign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitDivideAssignExpr( ast::expr::DivideAssign * expr )override
+			void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitLShiftAssignExpr( ast::expr::LShiftAssign * expr )override
+			void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitMinusAssignExpr( ast::expr::MinusAssign * expr )override
+			void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitModuloAssignExpr( ast::expr::ModuloAssign * expr )override
+			void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitOrAssignExpr( ast::expr::OrAssign * expr )override
+			void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitRShiftAssignExpr( ast::expr::RShiftAssign * expr )override
+			void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitTimesAssignExpr( ast::expr::TimesAssign * expr )override
+			void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
-			void visitXorAssignExpr( ast::expr::XorAssign * expr )override
+			void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 			{
-				visitAssignmentExpr( expr );
+				visitAssignmentExpr( *expr );
 			}
 
-			void visitAggrInitExpr( ast::expr::AggrInit * expr )override
+			void visitAggrInitExpr( ast::expr::AggrInit const * expr )override
 			{
-				if ( expr->getIdentifier() )
+				if ( expr->hasIdentifier() )
 				{
 					if ( expr->isConstant() )
 					{
@@ -530,7 +525,7 @@ namespace hlsl
 
 					m_result += getTypeName( expr->getType() ) + " ";
 					m_result += doSubmit( expr->getIdentifier() );
-					m_result += getTypeArraySize( expr->getIdentifier()->getType() );
+					m_result += getTypeArraySize( expr->getIdentifier().getType() );
 					m_result += " = ";
 				}
 
@@ -539,29 +534,29 @@ namespace hlsl
 
 				for ( auto & init : expr->getInitialisers() )
 				{
-					m_result += sep + doSubmit( init );
+					m_result += sep + doSubmit( *init );
 					sep = ", ";
 				}
 
 				m_result += "}";
 			}
 
-			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
+			void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override
 			{
-				wrap( expr->getLHS() );
+				wrap( *expr->getLHS() );
 				m_result += "[";
-				wrap( expr->getRHS() );
+				wrap( *expr->getRHS() );
 				m_result += "]";
 			}
 
-			void visitCastExpr( ast::expr::Cast * expr )override
+			void visitCastExpr( ast::expr::Cast const * expr )override
 			{
 				m_result += "((" + getTypeName( expr->getType() ) + ")(";
-				m_result += doSubmit( expr->getOperand() );
+				m_result += doSubmit( *expr->getOperand() );
 				m_result += "))";
 			}
 
-			void visitCompositeConstructExpr( ast::expr::CompositeConstruct * expr )override
+			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
 			{
 				assert( expr->getComposite() != ast::expr::CompositeType::eCombine
 					&& "Unexpected combine() at this point" );
@@ -571,16 +566,16 @@ namespace hlsl
 				for ( auto & arg : expr->getArgList() )
 				{
 					m_result += sep;
-					m_result += doSubmit( arg );
+					m_result += doSubmit( *arg );
 					sep = ", ";
 				}
 
 				m_result += ")";
 			}
 
-			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
 			{
-				wrap( expr->getOuterExpr() );
+				wrap( *expr->getOuterExpr() );
 				m_result += ".";
 				auto it = m_result.find( ".." );
 
@@ -593,35 +588,35 @@ namespace hlsl
 				m_result += adaptName( helpers::removeSemantics( expr->getOuterType()->getMember( expr->getMemberIndex() ).name ) );
 			}
 
-			void visitFnCallExpr( ast::expr::FnCall * expr )override
+			void visitFnCallExpr( ast::expr::FnCall const * expr )override
 			{
 				if ( expr->isMember() )
 				{
-					wrap( expr->getInstance() );
+					wrap( *expr->getInstance() );
 					m_result += ".";
 				}
 
-				m_result += doSubmit( expr->getFn() );
+				m_result += doSubmit( *expr->getFn() );
 				m_result += "(";
 				std::string sep;
 
 				for ( auto & arg : expr->getArgList() )
 				{
 					m_result += sep;
-					m_result += doSubmit( arg );
+					m_result += doSubmit( *arg );
 					sep = ", ";
 				}
 
 				m_result += ")";
 			}
 
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
 				auto it = m_aliases.find( expr->getVariable() );
 
 				if ( it != m_aliases.end() )
 				{
-					wrap( it->second );
+					wrap( *it->second );
 				}
 				else
 				{
@@ -629,7 +624,7 @@ namespace hlsl
 				}
 			}
 
-			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )override
 			{
 				if ( expr->getImageAccess() < ast::expr::StorageImageAccess::eImageLoad1DF
 					|| expr->getImageAccess() > ast::expr::StorageImageAccess::eImageLoad2DMSArrayU )
@@ -640,7 +635,7 @@ namespace hlsl
 					for ( auto & arg : expr->getArgList() )
 					{
 						m_result += sep;
-						m_result += doSubmit( arg );
+						m_result += doSubmit( *arg );
 						sep = ", ";
 					}
 
@@ -648,36 +643,40 @@ namespace hlsl
 				}
 				else
 				{
-					m_result += doSubmit( expr->getArgList()[0] );
+					m_result += doSubmit( *expr->getArgList()[0] );
 					m_result += "." + getHlslName( expr->getImageAccess() ) + "(";
-					m_result += doSubmit( expr->getArgList()[1] );
+					m_result += doSubmit( *expr->getArgList()[1] );
 
 					for ( size_t i = 2; i < expr->getArgList().size(); ++i )
 					{
 						auto & arg = expr->getArgList()[i];
 						m_result += ", ";
-						m_result += doSubmit( arg );
+						m_result += doSubmit( *arg );
 					}
 
 					m_result += ")";
 				}
 			}
 
-			void visitInitExpr( ast::expr::Init * expr )override
+			void visitInitExpr( ast::expr::Init const * expr )override
 			{
-				if ( expr->isConstant() )
+				if ( expr->hasIdentifier() )
 				{
-					m_result += "static const ";
+					if ( expr->isConstant() )
+					{
+						m_result += "static const ";
+					}
+
+					m_result += getTypeName( expr->getType() ) + " ";
+					m_result += doSubmit( expr->getIdentifier() );
+					m_result += getTypeArraySize( expr->getIdentifier().getType() );
+					m_result += " = ";
 				}
 
-				m_result += getTypeName( expr->getType() ) + " ";
-				m_result += doSubmit( expr->getIdentifier() );
-				m_result += getTypeArraySize( expr->getIdentifier()->getType() );
-				m_result += " = ";
-				m_result += doSubmit( expr->getInitialiser() );
+				m_result += doSubmit( *expr->getInitialiser() );
 			}
 
-			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override
 			{
 				if ( expr->getIntrinsic() == ast::expr::Intrinsic::eEndPrimitive
 					|| expr->getIntrinsic() == ast::expr::Intrinsic::eEmitStreamVertex
@@ -689,7 +688,7 @@ namespace hlsl
 
 					for ( auto & arg : argsList )
 					{
-						args.push_back( doSubmit( arg ) );
+						args.push_back( doSubmit( *arg ) );
 					}
 
 					auto mbrArg = std::move( args.front() );
@@ -712,130 +711,15 @@ namespace hlsl
 				{
 					if ( helpers::isNonMatchingOuterProduct( expr->getIntrinsic() ) )
 					{
-						m_result += "transpose(" + getHlslName( expr->getIntrinsic() ) + "(";
-						auto lhs = doSubmit( expr->getArgList().front() );
-						auto rhs = doSubmit( expr->getArgList().back() );
-
-						if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3F )
-						{
-							m_result += "float2x1(" + lhs + "), float1x3(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x4F )
-						{
-							m_result += "float2x1(" + lhs + "), float1x4(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x2F )
-						{
-							m_result += "float3x1(" + lhs + "), float1x2(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x4F )
-						{
-							m_result += "float3x1(" + lhs + "), float1x4(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x2F )
-						{
-							m_result += "float4x1(" + lhs + "), float1x2(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x3F )
-						{
-							m_result += "float4x1(" + lhs + "), float1x3(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3D )
-						{
-							m_result += "double2x1(" + lhs + "), double1x3(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x4D )
-						{
-							m_result += "double2x1(" + lhs + "), double1x4(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x2D )
-						{
-							m_result += "double3x1(" + lhs + "), double1x2(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x4D )
-						{
-							m_result += "double3x1(" + lhs + "), double1x4(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x2D )
-						{
-							m_result += "double4x1(" + lhs + "), double1x2(" + rhs + ")";
-						}
-						else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x3D )
-						{
-							m_result += "double4x1(" + lhs + "), double1x3(" + rhs + ")";
-						}
-
-						m_result += "))";
+						doProcessNonMatchingOuterProduct( *expr );
 					}
 					else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eControlBarrier )
 					{
-						if ( expr->getArgList().size() < 3u )
-						{
-							throw ast::Exception{ "Wrong number of parameters for a control barrier" };
-						}
-
-						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
-						auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[2] ) );
-
-						if ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl )
-						{
-							if ( memory == ast::type::Scope::eWorkgroup
-								|| memory == ast::type::Scope::eSubgroup )
-							{
-								m_result += "GroupMemoryBarrier()";
-							}
-							else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
-								|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
-							{
-								m_result += "AllMemoryBarrier()";
-							}
-							else
-							{
-								m_result += "DeviceMemoryBarrier()";
-							}
-						}
-						else
-						{
-							if ( memory == ast::type::Scope::eWorkgroup
-								|| memory == ast::type::Scope::eSubgroup )
-							{
-								m_result += "GroupMemoryBarrierWithGroupSync()";
-							}
-							else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
-								|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
-							{
-								m_result += "AllMemoryBarrierWithGroupSync()";
-							}
-							else
-							{
-								m_result += "DeviceMemoryBarrierWithGroupSync()";
-							}
-						}
+						doProcessControlBarrier( *expr );
 					}
 					else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eMemoryBarrier )
 					{
-						if ( expr->getArgList().size() < 2u )
-						{
-							throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
-						}
-
-						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
-						auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
-
-						if ( memory == ast::type::Scope::eWorkgroup
-							|| memory == ast::type::Scope::eSubgroup )
-						{
-							m_result += "GroupMemoryBarrier()";
-						}
-						else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
-							|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
-						{
-							m_result += "AllMemoryBarrier()";
-						}
-						else
-						{
-							m_result += "DeviceMemoryBarrier()";
-						}
+						doProcessMemoryBarrier( *expr );
 					}
 					else
 					{
@@ -845,7 +729,7 @@ namespace hlsl
 						for ( auto & arg : expr->getArgList() )
 						{
 							m_result += sep;
-							m_result += doSubmit( arg );
+							m_result += doSubmit( *arg );
 							sep = ", ";
 						}
 
@@ -854,7 +738,7 @@ namespace hlsl
 				}
 			}
 
-			void visitLiteralExpr( ast::expr::Literal * expr )override
+			void visitLiteralExpr( ast::expr::Literal const * expr )override
 			{
 				std::locale loc{ "C" };
 				std::stringstream stream;
@@ -925,123 +809,260 @@ namespace hlsl
 				m_result += stream.str();
 			}
 
-			void visitQuestionExpr( ast::expr::Question * expr )override
+			void visitQuestionExpr( ast::expr::Question const * expr )override
 			{
 				m_result += "(";
-				wrap( expr->getCtrlExpr() );
+				wrap( *expr->getCtrlExpr() );
 				m_result += " ? ";
-				wrap( expr->getTrueExpr() );
+				wrap( *expr->getTrueExpr() );
 				m_result += " : ";
-				wrap( expr->getFalseExpr() );
+				wrap( *expr->getFalseExpr() );
 				m_result += ")";
 			}
 
-			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
 				assert( expr->getOperand()->getKind() == ast::expr::Kind::eComma );
 				auto & commaExpr = static_cast< ast::expr::Comma const & >( *expr->getOperand() );
 
-				m_result += doSubmit( commaExpr.getLHS() );
+				m_result += doSubmit( *commaExpr.getLHS() );
 				m_result += "." + getHlslName( ast::expr::Intrinsic::eEmitVertex );
-				m_result += "(" + doSubmit( commaExpr.getRHS() );
+				m_result += "(" + doSubmit( *commaExpr.getRHS() );
 				m_result += ")";
 			}
 
-			void visitSwitchCaseExpr( ast::expr::SwitchCase * expr )override
+			void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
 			{
-				m_result += doSubmit( expr->getLabel() );
+				m_result += doSubmit( *expr->getLabel() );
 			}
 
-			void visitSwitchTestExpr( ast::expr::SwitchTest * expr )override
+			void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override
 			{
-				m_result += doSubmit( expr->getValue() );
+				m_result += doSubmit( *expr->getValue() );
 			}
 
-			void visitSwizzleExpr( ast::expr::Swizzle * expr )override
+			void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
 			{
-				wrap( expr->getOuterExpr() );
+				wrap( *expr->getOuterExpr() );
 				m_result += "." + getName( expr->getSwizzle() );
 			}
 
-			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override
 			{
 				if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureSize1DF
 					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureQueryLevelsCubeArrayU )
 				{
-					doProcessNonMemberTexture( expr );
+					doProcessNonMemberTexture( *expr );
 				}
 				else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
 					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
 				{
-					doProcessTextureGather( expr );
+					doProcessTextureGather( *expr );
 				}
 				else
 				{
-					doProcessMemberTexture( expr );
+					doProcessMemberTexture( *expr );
 				}
 			}
 
-			void visitAliasExpr( ast::expr::Alias * expr )override
+			void visitAliasExpr( ast::expr::Alias const * expr )override
 			{
 				// The alias var may have been turned to regular var, in adaptation.
-				if ( expr->getIdentifier()->getVariable()->isAlias() )
+				if ( expr->hasIdentifier() )
 				{
-					m_aliases.try_emplace( expr->getIdentifier()->getVariable(), expr->getRHS() );
+					if ( expr->getIdentifier().getVariable()->isAlias() )
+					{
+						m_aliases.try_emplace( expr->getIdentifier().getVariable(), expr->getAliasedExpr() );
+					}
+					else
+					{
+						if ( expr->isConstant() )
+						{
+							m_result += "static const ";
+						}
+
+						m_result += getTypeName( expr->getType() ) + " ";
+						m_result += doSubmit( expr->getIdentifier() );
+						m_result += getTypeArraySize( expr->getIdentifier().getType() );
+						m_result += " = ";
+						m_result += doSubmit( *expr->getAliasedExpr() );
+					}
 				}
 				else
 				{
-					if ( expr->isConstant() )
-					{
-						m_result += "static const ";
-					}
-
-					m_result += getTypeName( expr->getType() ) + " ";
-					m_result += doSubmit( expr->getIdentifier() );
-					m_result += getTypeArraySize( expr->getIdentifier()->getType() );
-					m_result += " = ";
-					m_result += doSubmit( expr->getRHS() );
+					m_result += doSubmit( *expr->getAliasedExpr() );
 				}
 			}
 
-			void doProcessMemberTexture( ast::expr::CombinedImageAccessCall const * expr )
+			void doProcessControlBarrier( ast::expr::IntrinsicCall const & expr )
 			{
-				m_result += doSubmit( expr->getArgList()[0] );
-				m_result += "." + getHlslName( expr->getCombinedImageAccess() ) + "(";
-				m_result += doSubmit( expr->getArgList()[1] );
-
-				for ( size_t i = 2; i < expr->getArgList().size(); ++i )
+				if ( expr.getArgList().size() < 3u )
 				{
-					auto & arg = expr->getArgList()[i];
+					throw ast::Exception{ "Wrong number of parameters for a control barrier" };
+				}
+
+				auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr.getArgList()[1] ) );
+				auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr.getArgList()[2] ) );
+
+				if ( m_writerConfig.shaderStage == ast::ShaderStage::eTessellationControl )
+				{
+					if ( memory == ast::type::Scope::eWorkgroup
+						|| memory == ast::type::Scope::eSubgroup )
+					{
+						m_result += "GroupMemoryBarrier()";
+					}
+					else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
+						|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
+					{
+						m_result += "AllMemoryBarrier()";
+					}
+					else
+					{
+						m_result += "DeviceMemoryBarrier()";
+					}
+				}
+				else
+				{
+					if ( memory == ast::type::Scope::eWorkgroup
+						|| memory == ast::type::Scope::eSubgroup )
+					{
+						m_result += "GroupMemoryBarrierWithGroupSync()";
+					}
+					else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
+						|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
+					{
+						m_result += "AllMemoryBarrierWithGroupSync()";
+					}
+					else
+					{
+						m_result += "DeviceMemoryBarrierWithGroupSync()";
+					}
+				}
+			}
+
+			void doProcessMemoryBarrier( ast::expr::IntrinsicCall const & expr )
+			{
+				if ( expr.getArgList().size() < 2u )
+				{
+					throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
+				}
+
+				auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr.getArgList()[0] ) );
+				auto semantics = ast::type::MemorySemantics( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr.getArgList()[1] ) );
+
+				if ( memory == ast::type::Scope::eWorkgroup
+					|| memory == ast::type::Scope::eSubgroup )
+				{
+					m_result += "GroupMemoryBarrier()";
+				}
+				else if ( ( semantics & ast::type::MemorySemanticsMask::eWorkgroupMemory ) == ast::type::MemorySemanticsMask::eWorkgroupMemory
+					|| ( semantics & ast::type::MemorySemanticsMask::eSubgroupMemory ) == ast::type::MemorySemanticsMask::eSubgroupMemory )
+				{
+					m_result += "AllMemoryBarrier()";
+				}
+				else
+				{
+					m_result += "DeviceMemoryBarrier()";
+				}
+			}
+
+			void doProcessNonMatchingOuterProduct( ast::expr::IntrinsicCall const & expr )
+			{
+				m_result += "transpose(" + getHlslName( expr.getIntrinsic() ) + "(";
+				auto lhs = doSubmit( *expr.getArgList().front() );
+				auto rhs = doSubmit( *expr.getArgList().back() );
+
+				if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3F )
+				{
+					m_result += "float2x1(" + lhs + "), float1x3(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x4F )
+				{
+					m_result += "float2x1(" + lhs + "), float1x4(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x2F )
+				{
+					m_result += "float3x1(" + lhs + "), float1x2(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x4F )
+				{
+					m_result += "float3x1(" + lhs + "), float1x4(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x2F )
+				{
+					m_result += "float4x1(" + lhs + "), float1x2(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x3F )
+				{
+					m_result += "float4x1(" + lhs + "), float1x3(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x3D )
+				{
+					m_result += "double2x1(" + lhs + "), double1x3(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct2x4D )
+				{
+					m_result += "double2x1(" + lhs + "), double1x4(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x2D )
+				{
+					m_result += "double3x1(" + lhs + "), double1x2(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct3x4D )
+				{
+					m_result += "double3x1(" + lhs + "), double1x4(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x2D )
+				{
+					m_result += "double4x1(" + lhs + "), double1x2(" + rhs + ")";
+				}
+				else if ( expr.getIntrinsic() == ast::expr::Intrinsic::eOuterProduct4x3D )
+				{
+					m_result += "double4x1(" + lhs + "), double1x3(" + rhs + ")";
+				}
+
+				m_result += "))";
+			}
+
+			void doProcessMemberTexture( ast::expr::CombinedImageAccessCall const & expr )
+			{
+				m_result += doSubmit( *expr.getArgList()[0] );
+				m_result += "." + getHlslName( expr.getCombinedImageAccess() ) + "(";
+				m_result += doSubmit( *expr.getArgList()[1] );
+
+				for ( size_t i = 2; i < expr.getArgList().size(); ++i )
+				{
+					auto & arg = expr.getArgList()[i];
 					m_result += ", ";
-					m_result += doSubmit( arg );
+					m_result += doSubmit( *arg );
 				}
 
 				m_result += ")";
 			}
 
-			void doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall const * expr )
+			void doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall const & expr )
 			{
-				m_result += getHlslName( expr->getCombinedImageAccess() ) + "(";
+				m_result += getHlslName( expr.getCombinedImageAccess() ) + "(";
 				std::string sep;
 
-				for ( auto & arg : expr->getArgList() )
+				for ( auto & arg : expr.getArgList() )
 				{
 					m_result += sep;
-					m_result += doSubmit( arg );
+					m_result += doSubmit( *arg );
 					sep = ", ";
 				}
 
 				m_result += ")";
 			}
 
-			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const * expr )
+			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const & expr )
 			{
 				// Image
-				m_result += doSubmit( expr->getArgList()[0] );
+				m_result += doSubmit( *expr.getArgList()[0] );
 				uint32_t compValue = 0u;
 
 				// Component value will determine Gather function name.
-				if ( auto component = expr->getArgList()[2].get();
+				if ( auto component = expr.getArgList()[2].get();
 					component->getKind() == ast::expr::Kind::eLiteral )
 				{
 					auto lit = static_cast< ast::expr::Literal const * >( component );
@@ -1057,7 +1078,7 @@ namespace hlsl
 					}
 				}
 
-				auto name = getHlslName( expr->getCombinedImageAccess() );
+				auto name = getHlslName( expr.getCombinedImageAccess() );
 
 				switch ( compValue )
 				{
@@ -1080,17 +1101,17 @@ namespace hlsl
 
 				m_result += "." + name + "(";
 				// Sampler
-				m_result += doSubmit( expr->getArgList()[1] );
+				m_result += doSubmit( *expr.getArgList()[1] );
 				// Coord
 				m_result += ", ";
-				m_result += doSubmit( expr->getArgList()[3] );
+				m_result += doSubmit( *expr.getArgList()[3] );
 				auto index = 4u;
 
-				while ( index < expr->getArgList().size() )
+				while ( index < expr.getArgList().size() )
 				{
-					auto & arg = expr->getArgList()[index];
+					auto & arg = expr.getArgList()[index];
 					m_result += ", ";
-					m_result += doSubmit( arg );
+					m_result += doSubmit( *arg );
 					++index;
 				}
 
@@ -1100,7 +1121,7 @@ namespace hlsl
 		private:
 			HlslConfig const & m_writerConfig;
 			std::string & m_result;
-			std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
+			std::map< ast::var::VariablePtr, ast::expr::Expr const * > & m_aliases;
 		};
 
 		class StmtVisitor
@@ -1109,21 +1130,21 @@ namespace hlsl
 		public:
 			static std::string submit( HlslConfig const & writerConfig
 				, RoutineMap const & routines
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-				, ast::stmt::Stmt * stmt
+				, std::map< ast::var::VariablePtr, ast::expr::Expr const * > & aliases
+				, ast::stmt::Stmt const & stmt
 				, std::string indent = std::string{} )
 			{
 				std::string result;
 				result += "// This shader was generated using ShaderWriter version " + helpers::printVersion() + "\n";
 				StmtVisitor vis{ writerConfig, routines, aliases, std::move( indent ), result };
-				stmt->accept( &vis );
+				stmt.accept( &vis );
 				return result;
 			}
 
 		private:
 			StmtVisitor( HlslConfig const & writerConfig
 				, RoutineMap const & routines
-				, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
+				, std::map< ast::var::VariablePtr, ast::expr::Expr const * > & aliases
 				, std::string indent
 				, std::string & result )
 				: m_writerConfig{ writerConfig }
@@ -1134,7 +1155,7 @@ namespace hlsl
 			{
 			}
 
-			std::string doSubmit( ast::expr::Expr * expr )
+			std::string doSubmit( ast::expr::Expr const & expr )
 			{
 				return ExprVisitor::submit( m_writerConfig, expr, m_aliases );
 			}
@@ -1149,7 +1170,7 @@ namespace hlsl
 				m_appendLineEnd = false;
 			}
 
-			void visitContainerStmt( ast::stmt::Container * stmt )override
+			void visitContainerStmt( ast::stmt::Container const * stmt )override
 			{
 				for ( auto & curStmt : *stmt )
 				{
@@ -1157,19 +1178,19 @@ namespace hlsl
 				}
 			}
 
-			void visitBreakStmt( ast::stmt::Break * stmt )override
+			void visitBreakStmt( ast::stmt::Break const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "break;\n";
 			}
 
-			void visitContinueStmt( ast::stmt::Continue * stmt )override
+			void visitContinueStmt( ast::stmt::Continue const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "continue;\n";
 			}
 
-			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
+			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
 				if ( !stmt->empty() )
 				{
@@ -1182,35 +1203,35 @@ namespace hlsl
 				}
 			}
 
-			void visitDemoteStmt( ast::stmt::Demote * stmt )override
+			void visitDemoteStmt( ast::stmt::Demote const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "discard;\n";
 			}
 
-			void visitDispatchMeshStmt( ast::stmt::DispatchMesh * stmt )override
+			void visitDispatchMeshStmt( ast::stmt::DispatchMesh const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "DispatchMesh";
-				m_result += "(" + doSubmit( stmt->getNumGroupsX() );
-				m_result += ", " + doSubmit( stmt->getNumGroupsY() );
-				m_result += ", " + doSubmit( stmt->getNumGroupsZ() );
+				m_result += "(" + doSubmit( *stmt->getNumGroupsX() );
+				m_result += ", " + doSubmit( *stmt->getNumGroupsY() );
+				m_result += ", " + doSubmit( *stmt->getNumGroupsZ() );
 
 				if ( stmt->getPayload() )
 				{
-					m_result += ", " + doSubmit( stmt->getPayload() );
+					m_result += ", " + doSubmit( *stmt->getPayload() );
 				}
 
 				m_result += ");\n";
 			}
 
-			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation * stmt )override
+			void visitTerminateInvocationStmt( ast::stmt::TerminateInvocation const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + "discard;\n";
 			}
 
-			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
+			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl const * stmt )override
 			{
 				if ( !stmt->empty() )
 				{
@@ -1223,13 +1244,13 @@ namespace hlsl
 				}
 			}
 
-			void visitCommentStmt( ast::stmt::Comment * stmt )override
+			void visitCommentStmt( ast::stmt::Comment const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + stmt->getText() + "\n";
 			}
 
-			void visitCompoundStmt( ast::stmt::Compound * stmt )override
+			void visitCompoundStmt( ast::stmt::Compound const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += "\n" + m_indent + "{\n";
@@ -1248,27 +1269,27 @@ namespace hlsl
 				}
 			}
 
-			void visitDoWhileStmt( ast::stmt::DoWhile * stmt )override
+			void visitDoWhileStmt( ast::stmt::DoWhile const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
 				m_result += m_indent + "do";
 				m_appendSemiColon = false;
 				visitCompoundStmt( stmt );
-				m_result += m_indent + "while (" + doSubmit( stmt->getCtrlExpr() ) + ");\n";
+				m_result += m_indent + "while (" + doSubmit( *stmt->getCtrlExpr() ) + ");\n";
 				m_appendLineEnd = true;
 			}
 
-			void visitElseIfStmt( ast::stmt::ElseIf * stmt )override
+			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
-				m_result += m_indent + "else if (" + doSubmit( stmt->getCtrlExpr() ) + ")";
+				m_result += m_indent + "else if (" + doSubmit( *stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
 				m_appendLineEnd = false;
 				visitCompoundStmt( stmt );
 				m_appendLineEnd = true;
 			}
 
-			void visitElseStmt( ast::stmt::Else * stmt )override
+			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
 				m_result += m_indent + "else";
 				m_appendSemiColon = false;
@@ -1277,24 +1298,24 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			void visitForStmt( ast::stmt::For * stmt )override
+			void visitForStmt( ast::stmt::For const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent + "for (" + doSubmit( stmt->getInitExpr() ) + "; ";
-				m_result += doSubmit( stmt->getCtrlExpr() ) + "; ";
-				m_result += doSubmit( stmt->getIncrExpr() ) + ")";
+				m_result += m_indent + "for (" + doSubmit( *stmt->getInitExpr() ) + "; ";
+				m_result += doSubmit( *stmt->getCtrlExpr() ) + "; ";
+				m_result += doSubmit( *stmt->getIncrExpr() ) + ")";
 				m_appendSemiColon = false;
 				visitCompoundStmt( stmt );
 				m_appendLineEnd = true;
 			}
 
-			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout * stmt )override
+			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout const * stmt )override
 			{
 				AST_Failure( "ast::stmt::FragmentLayout unexpected at that point" );
 			}
 
-			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
+			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1535,7 +1556,7 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl * stmt )override
+			void visitAccelerationStructureDeclStmt( ast::stmt::AccelerationStructureDecl const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
@@ -1546,30 +1567,30 @@ namespace hlsl
 				m_result += ";\n";
 			}
 
-			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
+			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
 			{
 			}
 
-			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
-			{
-				declareVariable( stmt->getVariable() );
-			}
-
-			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override
 			{
 				declareVariable( stmt->getVariable() );
 			}
 
-			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl const * stmt )override
 			{
 				declareVariable( stmt->getVariable() );
 			}
 
-			void visitIfStmt( ast::stmt::If * stmt )override
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl const * stmt )override
+			{
+				declareVariable( stmt->getVariable() );
+			}
+
+			void visitIfStmt( ast::stmt::If const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent + "if (" + doSubmit( stmt->getCtrlExpr() ) + ")";
+				m_result += m_indent + "if (" + doSubmit( *stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
 				visitCompoundStmt( stmt );
 
@@ -1586,7 +1607,7 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override
+			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
@@ -1606,22 +1627,22 @@ namespace hlsl
 				m_result += ";\n";
 			}
 
-			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection * stmt )override
+			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection const * stmt )override
 			{
 				m_result += m_indent + "IgnoreHit();\n";
 			}
 
-			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
+			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
 				AST_Failure( "ast::stmt::InOutVariableDecl unexpected at that point" );
 			}
 
-			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl * stmt )override
+			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl const * stmt )override
 			{
 				AST_Failure( "ast::stmt::SpecialisationConstantDecl unexpected at that point" );
 			}
 
-			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
+			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += "\n";
@@ -1646,48 +1667,48 @@ namespace hlsl
 				}
 			}
 
-			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
+			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout const * stmt )override
 			{
 				AST_Failure( "ast::stmt::InputGeometryLayout unexpected at that point" );
 			}
 
-			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout * stmt )override
+			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout const * stmt )override
 			{
 				AST_Failure( "ast::stmt::InputTessellationEvaluationLayout unexpected at that point" );
 			}
 
-			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
+			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout const * stmt )override
 			{
 				AST_Failure( "ast::stmt::OutputGeometryLayout unexpected at that point" );
 			}
 
-			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
+			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout const * stmt )override
 			{
 				AST_Failure( "ast::stmt::OutputMeshLayout unexpected at that point" );
 			}
 
-			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout * stmt )override
+			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout const * stmt )override
 			{
 				AST_Failure( "ast::stmt::visitOutputTessellationControlLayoutStmt unexpected at that point" );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
+			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
 			{
 				AST_Failure( "ast::stmt::PerPrimitiveDecl unexpected at that point" );
 			}
 
-			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
+			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				AST_Failure( "ast::stmt::PerVertexDecl unexpected at that point" );
 			}
 
-			void visitReturnStmt( ast::stmt::Return * stmt )override
+			void visitReturnStmt( ast::stmt::Return const * stmt )override
 			{
 				doAppendLineEnd();
 
-				if ( stmt->getExpr() )
+				if ( auto expr = stmt->getExpr() )
 				{
-					m_result += m_indent + "return " + doSubmit( stmt->getExpr() ) + ";\n";
+					m_result += m_indent + "return " + doSubmit( *expr ) + ";\n";
 				}
 				else
 				{
@@ -1695,12 +1716,12 @@ namespace hlsl
 				}
 			}
 
-			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
+			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
 				AST_Failure( "ast::stmt::CombinedImageDecl unexpected at that point" );
 			}
 
-			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
+			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
@@ -1708,7 +1729,7 @@ namespace hlsl
 				m_result += ": register(t" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
-			void visitSamplerDeclStmt( ast::stmt::SamplerDecl * stmt )override
+			void visitSamplerDeclStmt( ast::stmt::SamplerDecl const * stmt )override
 			{
 				doAppendLineEnd();
 				m_result += m_indent + getTypeName( stmt->getVariable()->getType() ) + " " + stmt->getVariable()->getName();
@@ -1716,7 +1737,7 @@ namespace hlsl
 				m_result += ": register(s" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
-			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
+			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1725,7 +1746,7 @@ namespace hlsl
 					+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
+			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
@@ -1734,25 +1755,25 @@ namespace hlsl
 					+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
-			void visitSimpleStmt( ast::stmt::Simple * stmt )override
+			void visitSimpleStmt( ast::stmt::Simple const * stmt )override
 			{
 				if ( stmt->getExpr()->getKind() == ast::expr::Kind::eAlias )
 				{
-					auto result = doSubmit( stmt->getExpr() );
+					auto result = doSubmit( *stmt->getExpr() );
 
 					if ( !result.empty() )
 					{
-						m_result += m_indent + doSubmit( stmt->getExpr() ) + ";\n";
+						m_result += m_indent + doSubmit( *stmt->getExpr() ) + ";\n";
 					}
 				}
 				else if ( stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
 				{
 					doAppendLineEnd();
-					m_result += m_indent + doSubmit( stmt->getExpr() ) + ";\n";
+					m_result += m_indent + doSubmit( *stmt->getExpr() ) + ";\n";
 				}
 			}
 
-			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
+			void visitStructureDeclStmt( ast::stmt::StructureDecl const * stmt )override
 			{
 				if ( !stmt->getType()->empty() )
 				{
@@ -1773,13 +1794,13 @@ namespace hlsl
 				}
 			}
 
-			void visitSwitchCaseStmt( ast::stmt::SwitchCase * stmt )override
+			void visitSwitchCaseStmt( ast::stmt::SwitchCase const * stmt )override
 			{
 				doAppendLineEnd();
 
 				if ( stmt->getCaseExpr() )
 				{
-					m_result += m_indent + "case " + doSubmit( stmt->getCaseExpr() ) + ":";
+					m_result += m_indent + "case " + doSubmit( *stmt->getCaseExpr() ) + ":";
 				}
 				else
 				{
@@ -1801,42 +1822,42 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			void visitSwitchStmt( ast::stmt::Switch * stmt )override
+			void visitSwitchStmt( ast::stmt::Switch const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent + "switch (" + doSubmit( stmt->getTestExpr() ) + ")";
+				m_result += m_indent + "switch (" + doSubmit( *stmt->getTestExpr() ) + ")";
 				m_appendSemiColon = false;
 				visitCompoundStmt( stmt );
 				m_appendLineEnd = true;
 			}
 
-			void visitTerminateRayStmt( ast::stmt::TerminateRay * stmt )override
+			void visitTerminateRayStmt( ast::stmt::TerminateRay const * stmt )override
 			{
 				m_result += m_indent + "AcceptHitAndEndSearch();\n";
 			}
 
-			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
+			void visitVariableDeclStmt( ast::stmt::VariableDecl const * stmt )override
 			{
 				declareVariable( stmt->getVariable() );
 			}
 
-			void visitWhileStmt( ast::stmt::While * stmt )override
+			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
 				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent + "while (" + doSubmit( stmt->getCtrlExpr() ) + ")";
+				m_result += m_indent + "while (" + doSubmit( *stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
 				visitCompoundStmt( stmt );
 				m_appendLineEnd = true;
 			}
 
-			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
+			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override
 			{
 				AST_Failure( "ast::stmt::PreprocExtension unexpected at that point" );
 			}
 
-			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
 				AST_Failure( "ast::stmt::PreprocVersion unexpected at that point" );
 			}
@@ -1868,7 +1889,7 @@ namespace hlsl
 		private:
 			HlslConfig const & m_writerConfig;
 			RoutineMap const & m_routines;
-			std::map< ast::var::VariablePtr, ast::expr::Expr * > & m_aliases;
+			std::map< ast::var::VariablePtr, ast::expr::Expr const * > & m_aliases;
 			std::string m_indent;
 			std::string & m_result;
 			bool m_appendSemiColon{ false };
@@ -1878,8 +1899,8 @@ namespace hlsl
 
 	std::string generateStatements( HlslConfig const & writerConfig
 		, RoutineMap const & routines
-		, std::map< ast::var::VariablePtr, ast::expr::Expr * > & aliases
-		, ast::stmt::Stmt * stmt
+		, std::map< ast::var::VariablePtr, ast::expr::Expr const * > & aliases
+		, ast::stmt::Stmt const & stmt
 		, std::string indent )
 	{
 		return vis::StmtVisitor::submit( writerConfig, routines, aliases, stmt, std::move( indent ) );

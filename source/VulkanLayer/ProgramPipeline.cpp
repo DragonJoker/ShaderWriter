@@ -984,7 +984,7 @@ namespace ast::vk
 		auto statements = ::ast::selectEntryPoint( shader.getStmtCache()
 			, shader.getExprCache()
 			, entryPoint
-			, shader.getStatements() );
+			, *shader.getStatements() );
 
 		if ( statements == nullptr )
 		{
@@ -1403,8 +1403,8 @@ namespace ast::vk
 		while ( lit != m_specializationInfos.end() )
 		{
 			// Check for map entries
-			if ( *lit && !*rit
-				|| !*lit && *rit )
+			if ( ( *lit && !*rit )
+				|| ( !*lit && *rit ) )
 			{
 				std::cerr << "Mismatch between the " << getName( m_revIndices.at( index ) )
 					<< " shader expected specialization infos and the user provided ones." << std::endl;

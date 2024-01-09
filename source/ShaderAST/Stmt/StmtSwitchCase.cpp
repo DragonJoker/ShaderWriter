@@ -19,7 +19,7 @@ namespace ast::stmt
 	{
 	}
 
-	void SwitchCase::accept( VisitorPtr vis )
+	void SwitchCase::accept( VisitorPtr vis )const
 	{
 		vis->visitSwitchCaseStmt( this );
 	}

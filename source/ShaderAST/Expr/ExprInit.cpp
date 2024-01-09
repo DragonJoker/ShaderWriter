@@ -21,7 +21,7 @@ namespace ast::expr
 	{
 	}
 
-	void Init::accept( VisitorPtr vis )
+	void Init::accept( VisitorPtr vis )const
 	{
 		vis->visitInitExpr( this );
 	}

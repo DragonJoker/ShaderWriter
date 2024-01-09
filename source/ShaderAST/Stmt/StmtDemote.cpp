@@ -12,7 +12,7 @@ namespace ast::stmt
 	{
 	}
 
-	void Demote::accept( VisitorPtr vis )
+	void Demote::accept( VisitorPtr vis )const
 	{
 		vis->visitDemoteStmt( this );
 	}

@@ -33,7 +33,7 @@ namespace ast::stmt
 		return m_elseIfs.back().get();
 	}
 
-	void If::accept( VisitorPtr vis )
+	void If::accept( VisitorPtr vis )const
 	{
 		vis->visitIfStmt( this );
 	}

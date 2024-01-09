@@ -147,7 +147,7 @@ namespace ast::expr
 
 		SDAST_API Literal( ExprCache & exprCache, Literal const & rhs );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		SDAST_API LiteralPtr castTo( LiteralType type )const;
 

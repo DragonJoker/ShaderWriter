@@ -9,7 +9,7 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	void fillConfig( ast::stmt::Container * cont
+	void fillConfig( ast::stmt::Container const & cont
 		, ModuleConfig & moduleConfig );
 }
 

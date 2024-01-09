@@ -24,7 +24,7 @@ namespace ast::stmt
 		SDAST_API SwitchCase * createCase( expr::SwitchCasePtr label );
 		SDAST_API SwitchCase * createDefault();
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline expr::SwitchTest * getTestExpr()const
 		{

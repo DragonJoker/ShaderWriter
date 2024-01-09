@@ -20,7 +20,7 @@ namespace ast::expr
 	{
 	}
 
-	void LessEqual::accept( VisitorPtr vis )
+	void LessEqual::accept( VisitorPtr vis )const
 	{
 		vis->visitLessEqualExpr( this );
 	}

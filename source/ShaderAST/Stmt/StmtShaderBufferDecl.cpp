@@ -38,7 +38,7 @@ namespace ast::stmt
 		return std::static_pointer_cast< type::Struct >( m_variable->getType() );
 	}
 
-	void ShaderBufferDecl::accept( VisitorPtr vis )
+	void ShaderBufferDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitShaderBufferDeclStmt( this );
 	}

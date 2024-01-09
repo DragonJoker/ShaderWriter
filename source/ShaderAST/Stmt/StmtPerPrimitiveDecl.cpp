@@ -14,7 +14,7 @@ namespace ast::stmt
 	{
 	}
 
-	void PerPrimitiveDecl::accept( VisitorPtr vis )
+	void PerPrimitiveDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitPerPrimitiveDeclStmt( this );
 	}

@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void For::accept( VisitorPtr vis )
+	void For::accept( VisitorPtr vis )const
 	{
 		vis->visitForStmt( this );
 	}

@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void LShift::accept( VisitorPtr vis )
+	void LShift::accept( VisitorPtr vis )const
 	{
 		vis->visitLShiftExpr( this );
 	}

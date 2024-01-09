@@ -878,12 +878,12 @@ namespace test
 	}
 
 	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
-		, uint32_t infoIndex )
+		, [[maybe_unused]] uint32_t infoIndex )
 	{
 		return testCounts.glsl->window.getGLSLVersions()[infoIndex];
 	}
 
-	uint32_t retrieveGLSLInfosSize( sdw_test::TestCounts const & testCounts )
+	uint32_t retrieveGLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
 		return uint32_t( testCounts.glsl->window.getGLSLVersions().size() );
 	}

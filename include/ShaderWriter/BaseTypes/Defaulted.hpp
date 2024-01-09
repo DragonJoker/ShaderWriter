@@ -66,7 +66,7 @@ namespace sdw
 			return *this;
 		}
 
-		expr::Expr * getExpr()const override
+		expr::Expr const * getExpr()const override
 		{
 			return m_wasEnabled
 				? ValueT::getExpr()

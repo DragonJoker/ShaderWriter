@@ -18,7 +18,7 @@ namespace ast::stmt
 	{
 	}
 
-	void AccelerationStructureDecl::accept( VisitorPtr vis )
+	void AccelerationStructureDecl::accept( VisitorPtr vis )const
 	{
 		vis->visitAccelerationStructureDeclStmt( this );
 	}

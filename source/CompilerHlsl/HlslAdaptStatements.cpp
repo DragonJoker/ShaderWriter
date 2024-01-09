@@ -26,14 +26,14 @@ namespace hlsl
 			static ast::stmt::ContainerPtr submit( ast::stmt::StmtCache & stmtCache
 				, ast::expr::ExprCache & exprCache
 				, HlslShader & shader
-				, ast::stmt::Container * container
+				, ast::stmt::Container const & container
 				, IntrinsicsConfig const & intrinsicsConfig
 				, HlslConfig const & writerConfig
 				, AdaptationData & adaptationData )
 			{
 				auto result = stmtCache.makeContainer();
 				StmtAdapter vis{ stmtCache, exprCache, shader, intrinsicsConfig, writerConfig, adaptationData, result };
-				container->accept( &vis );
+				container.accept( &vis );
 				return result;
 			}
 
@@ -66,7 +66,7 @@ namespace hlsl
 
 			using ast::StmtCloner::doSubmit;
 
-			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override
 			{
 				return ExprAdapter::submit( m_stmtCache
 					, m_exprCache
@@ -88,12 +88,12 @@ namespace hlsl
 					, std::move( texture ), std::move( sampler ) );
 			}
 
-			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl * stmt )override
+			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
+			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
 				auto funcType = stmt->getType();
 				declareType( funcType->getReturnType() );
@@ -207,7 +207,7 @@ namespace hlsl
 				else
 				{
 					auto save = m_current;
-					auto cont = rewriteFuncHeader( stmt );
+					auto cont = rewriteFuncHeader( *stmt );
 					m_current = cont.get();
 					visitContainerStmt( stmt );
 					m_current = save;
@@ -215,7 +215,7 @@ namespace hlsl
 				}
 			}
 
-			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
@@ -254,7 +254,7 @@ namespace hlsl
 				}
 			}
 
-			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
@@ -295,7 +295,7 @@ namespace hlsl
 				}
 			}
 
-			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
@@ -336,42 +336,42 @@ namespace hlsl
 				}
 			}
 
-			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
+			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
 				declareType( stmt->getVariable()->getType() );
 			}
 
-			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
+			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
+			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl * stmt )override
+			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl * stmt )override
+			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
+			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
+			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
+			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
 				auto originalVar = stmt->getVariable();
 				ast::type::TypePtr sampledType;
@@ -450,7 +450,7 @@ namespace hlsl
 				}
 			}
 
-			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
+			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
 				auto ssboVar = stmt->getVariable();
 				declareType( ssboVar->getType() );
@@ -481,7 +481,7 @@ namespace hlsl
 				}
 			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
+			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
 			{
 				declareType( stmt->getData()->getType() );
 				m_adaptationData.ssboList.push_back( stmt->getSsboInstance() );
@@ -492,31 +492,31 @@ namespace hlsl
 					, stmt->getDescriptorSet() ) );
 			}
 
-			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
+			void visitStructureDeclStmt( ast::stmt::StructureDecl const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
+			void visitVariableDeclStmt( ast::stmt::VariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
 				m_current->addStmt( m_stmtCache.makeVariableDecl( var ) );
 			}
 
-			void visitPreprocExtension( ast::stmt::PreprocExtension * preproc )override
+			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override
 			{
 			}
 
-			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
 			}
 
-			ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl const * stmt )
+			ast::stmt::FunctionDeclPtr rewriteFuncHeader( ast::stmt::FunctionDecl const & stmt )
 			{
 				ast::var::VariableList params;
 				// Split sampled textures in sampler + texture in parameters list.
-				for ( auto & param : *stmt->getType() )
+				for ( auto & param : *stmt.getType() )
 				{
 					auto it = updateLinkedVars( param
 						, m_adaptationData.linkedVars
@@ -533,18 +533,18 @@ namespace hlsl
 					}
 				}
 
-				auto funcVar = stmt->getFuncVar();
+				auto funcVar = stmt.getFuncVar();
 
-				if ( params.size() != stmt->getType()->size() )
+				if ( params.size() != stmt.getType()->size() )
 				{
-					funcVar = ast::var::makeVariable( stmt->getFuncVar()->getId()
-						, m_typesCache.getFunction( stmt->getType()->getReturnType(), params )
-						, stmt->getName()
-						, stmt->getFuncVar()->getFlags() );
+					funcVar = ast::var::makeVariable( stmt.getFuncVar()->getId()
+						, m_typesCache.getFunction( stmt.getType()->getReturnType(), params )
+						, stmt.getName()
+						, stmt.getFuncVar()->getFlags() );
 					m_adaptationData.replacedFuncVars.try_emplace( funcVar->getId(), funcVar );
 				}
 
-				return m_stmtCache.makeFunctionDecl( std::move( funcVar ), stmt->getFlags() );
+				return m_stmtCache.makeFunctionDecl( std::move( funcVar ), stmt.getFlags() );
 			}
 
 			void declareType( ast::type::TypePtr type )
@@ -579,7 +579,7 @@ namespace hlsl
 	ast::stmt::ContainerPtr adaptStatements( ast::stmt::StmtCache & stmtCache
 		, ast::expr::ExprCache & exprCache
 		, HlslShader & shader
-		, ast::stmt::Container * container
+		, ast::stmt::Container const & container
 		, IntrinsicsConfig const & intrinsicsConfig
 		, HlslConfig const & writerConfig
 		, AdaptationData & adaptationData )

@@ -20,7 +20,7 @@ namespace ast::stmt
 		SDAST_API explicit Else( StmtCache & stmtCache );
 
 	public:
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 }
 

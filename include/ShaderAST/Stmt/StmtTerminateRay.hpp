@@ -17,7 +17,7 @@ namespace ast::stmt
 	public:
 		SDAST_API explicit TerminateRay( StmtCache & stmtCache );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 }
 

@@ -27,7 +27,7 @@ namespace sdw
 		}
 
 		addStmt( writer
-			, makeHitAttributeVariableDecl( getStmtCache( writer ), ast::findIdentifier( this->getExpr() )->getVariable() ) );
+			, makeHitAttributeVariableDecl( getStmtCache( writer ), ast::findIdentifier( *this->getExpr() )->getVariable() ) );
 	}
 
 	template< typename ValueT >

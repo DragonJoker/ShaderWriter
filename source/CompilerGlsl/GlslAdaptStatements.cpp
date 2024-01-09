@@ -121,7 +121,7 @@ namespace glsl
 							, flags ) );
 				}
 
-				return ast::ExprCloner::submit( exprCache, it->second );
+				return ast::ExprCloner::submit( exprCache, *it->second );
 			}
 
 			static ast::expr::ExprPtr registerPerPrimitiveBuiltin( ast::expr::ExprCache & exprCache
@@ -144,7 +144,7 @@ namespace glsl
 							, flags ) );
 				}
 
-				return ast::ExprCloner::submit( exprCache, it->second );
+				return ast::ExprCloner::submit( exprCache, *it->second );
 			}
 
 			static void enableExtension( ast::stmt::StmtCache & stmtCache
@@ -523,24 +523,14 @@ namespace glsl
 			static ast::expr::ExprPtr submit( ast::stmt::StmtCache & stmtCache
 				, ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
-				, ast::expr::Expr * expr
+				, ast::expr::Expr const & expr
 				, AdaptationData & adaptationData
 				, ast::stmt::Container * container )
 			{
 				ast::expr::ExprPtr result{};
 				ExprAdapter vis{ stmtCache, exprCache, typesCache, adaptationData, container, result };
-				expr->accept( &vis );
+				expr.accept( &vis );
 				return result;
-			}
-
-			static ast::expr::ExprPtr submit( ast::stmt::StmtCache & stmtCache
-				, ast::expr::ExprCache & exprCache
-				, ast::type::TypesCache & typesCache
-				, ast::expr::ExprPtr const & expr
-				, AdaptationData & adaptationData
-				, ast::stmt::Container * container )
-			{
-				return submit( stmtCache, exprCache, typesCache, expr.get(), adaptationData, container );
 			}
 
 		private:
@@ -560,13 +550,13 @@ namespace glsl
 
 			using ast::ExprCloner::doSubmit;
 
-			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override
 			{
 				ast::expr::ExprPtr result{};
 				ExprAdapter vis{ m_stmtCache, m_exprCache, m_typesCache, m_adaptationData, m_container, result };
-				expr->accept( &vis );
+				expr.accept( &vis );
 
-				if ( expr->isNonUniform() )
+				if ( expr.isNonUniform() )
 				{
 					result->updateFlag( ast::expr::Flag::eNonUniform );
 				}
@@ -574,7 +564,7 @@ namespace glsl
 				return result;
 			}
 
-			void visitAssignExpr( ast::expr::Assign * expr )override
+			void visitAssignExpr( ast::expr::Assign const * expr )override
 			{
 				if ( auto lhs = expr->getLHS();
 					lhs->getKind() == ast::expr::Kind::eMbrSelect )
@@ -640,16 +630,16 @@ namespace glsl
 									, std::move( baseIndex ) );
 								m_result = m_exprCache.makeAssign( mbr.type
 									, std::move( m_result )
-									, doSubmit( expr->getRHS() ) );
+									, doSubmit( *expr->getRHS() ) );
 							}
 							else
 							{
 								m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 									, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
-									, ExprCloner::submit( m_exprCache, baseIndex ) );
+									, ExprCloner::submit( m_exprCache, *baseIndex ) );
 								m_result = m_exprCache.makeAssign( mbr.type
 									, std::move( m_result )
-									, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
+									, m_exprCache.makeSwizzle( doSubmit( *expr->getRHS() )
 										, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
 
 								if ( componentCount >= 2u )
@@ -658,11 +648,11 @@ namespace glsl
 									m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 										, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
 										, m_exprCache.makeAdd( m_typesCache.getUInt32()
-											, ExprCloner::submit( m_exprCache, baseIndex )
+											, ExprCloner::submit( m_exprCache, *baseIndex )
 											, m_exprCache.makeLiteral( m_typesCache, 1u ) ) );
 									m_result = m_exprCache.makeAssign( mbr.type
 										, std::move( m_result )
-										, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
+										, m_exprCache.makeSwizzle( doSubmit( *expr->getRHS() )
 											, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
 								}
 
@@ -672,11 +662,11 @@ namespace glsl
 									m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 										, m_exprCache.makeIdentifier( m_typesCache, *mbrIt )
 										, m_exprCache.makeAdd( m_typesCache.getUInt32()
-											, ExprCloner::submit( m_exprCache, baseIndex )
+											, ExprCloner::submit( m_exprCache, *baseIndex )
 											, m_exprCache.makeLiteral( m_typesCache, 2u ) ) );
 									m_result = m_exprCache.makeAssign( mbr.type
 										, std::move( m_result )
-										, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
+										, m_exprCache.makeSwizzle( doSubmit( *expr->getRHS() )
 											, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e2 } ) );
 								}
 							}
@@ -690,12 +680,12 @@ namespace glsl
 				}
 			}
 
-			void visitArrayAccessExpr( ast::expr::ArrayAccess * expr )override
+			void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override
 			{
 				ExprCloner::visitArrayAccessExpr( expr );
 			}
 
-			void visitIdentifierExpr( ast::expr::Identifier * expr )override
+			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
 				auto it = m_adaptationData.aliases.find( expr->getVariable() );
 
@@ -709,12 +699,12 @@ namespace glsl
 				}
 			}
 
-			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall * expr )override
+			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )override
 			{
 				if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
 					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU )
 				{
-					doProcessImageStore( expr );
+					doProcessImageStore( *expr );
 				}
 				else
 				{
@@ -722,7 +712,7 @@ namespace glsl
 				}
 			}
 
-			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall * expr )override
+			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override
 			{
 				if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eFma1F
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eFma4D
@@ -731,9 +721,9 @@ namespace glsl
 					assert( expr->getArgList().size() == 3u );
 					m_result = m_exprCache.makeAdd( expr->getType()
 						, m_exprCache.makeTimes( expr->getType()
-							, doSubmit( expr->getArgList()[0] )
-							, doSubmit( expr->getArgList()[1] ) )
-						, doSubmit( expr->getArgList()[2] ) );
+							, doSubmit( *expr->getArgList()[0] )
+							, doSubmit( *expr->getArgList()[1] ) )
+						, doSubmit( *expr->getArgList()[2] ) );
 				}
 				else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eTraceRay )
 				{
@@ -741,7 +731,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					auto payLoad = std::move( args.back() );
@@ -753,7 +743,7 @@ namespace glsl
 					uint32_t index = 0u;
 					for ( auto mbr : *getStructType( rayDesc->getType() ) )
 					{
-						args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, rayDesc ), index, 0u ) );
+						args.push_back( m_exprCache.makeMbrSelect( ExprCloner::submit( m_exprCache, *rayDesc ), index, 0u ) );
 						++index;
 					}
 					// Extract location from RayPayload type, to set it as last param.
@@ -769,7 +759,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					auto callData = std::move( args.back() );
@@ -787,7 +777,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					// Remove unused HitAttribute last param.
@@ -802,7 +792,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					auto numPrimitives = std::move( args.back() );
@@ -825,7 +815,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					auto numTasks = std::move( args.back() );
@@ -846,7 +836,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					m_result = m_exprCache.makeIntrinsicCall( expr->getType()
@@ -855,9 +845,9 @@ namespace glsl
 				}
 			}
 
-			void visitMbrSelectExpr( ast::expr::MbrSelect * expr )override
+			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
 			{
-				m_result = doProcessMbr( expr->getOuterExpr()
+				m_result = doProcessMbr( *expr->getOuterExpr()
 					, expr->getMemberIndex()
 					, expr->getMemberFlags() );
 
@@ -867,27 +857,27 @@ namespace glsl
 				}
 			}
 
-			void visitStreamAppendExpr( ast::expr::StreamAppend * expr )override
+			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
 				m_result = makeEmitVertex( m_exprCache, m_typesCache );
 			}
 
-			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override
+			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override
 			{
 				if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTexture1DShadowF
 					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF )
 				{
-					doProcessTextureShadow( expr );
+					doProcessTextureShadow( *expr );
 				}
 				else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTexture1DF
 					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4 )
 				{
-					doProcessTextureSample( expr );
+					doProcessTextureSample( *expr );
 				}
 				else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
 					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
 				{
-					doProcessTextureGather( expr );
+					doProcessTextureGather( *expr );
 				}
 				else
 				{
@@ -895,7 +885,7 @@ namespace glsl
 
 					for ( auto & arg : expr->getArgList() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 
 					m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
@@ -905,24 +895,24 @@ namespace glsl
 			}
 
 		private:
-			void doProcessImageStore( ast::expr::StorageImageAccessCall const * expr )
+			void doProcessImageStore( ast::expr::StorageImageAccessCall const & expr )
 			{
-				auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
+				auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
 				auto config = imgArgType->getConfig();
 				auto sampledType = m_typesCache.getSampledType( config.format );
 				auto glslType = m_typesCache.getVec4Type( getScalarType( sampledType->getKind() ) );
 				ast::expr::ExprList args;
 
-				for ( auto & arg : expr->getArgList() )
+				for ( auto & arg : expr.getArgList() )
 				{
-					if ( arg != expr->getArgList().back() )
+					if ( arg != expr.getArgList().back() )
 					{
-						args.emplace_back( doSubmit( arg ) );
+						args.emplace_back( doSubmit( *arg ) );
 					}
 					else
 					{
 						// Convert last parameter to appropriate gvec4 type.
-						auto result = doSubmit( arg );
+						auto result = doSubmit( *arg );
 
 						if ( sampledType != glslType )
 						{
@@ -942,46 +932,46 @@ namespace glsl
 					}
 				}
 
-				m_result = m_exprCache.makeStorageImageAccessCall( expr->getType()
-					, expr->getImageAccess()
+				m_result = m_exprCache.makeStorageImageAccessCall( expr.getType()
+					, expr.getImageAccess()
 					, std::move( args ) );
 			}
 
-			void doProcessTextureShadow( ast::expr::CombinedImageAccessCall const * expr )
+			void doProcessTextureShadow( ast::expr::CombinedImageAccessCall const & expr )
 			{
 				ast::expr::ExprList args;
 				// First parameter is the sampled image
-				args.emplace_back( doSubmit( expr->getArgList()[0] ) );
+				args.emplace_back( doSubmit( *expr.getArgList()[0] ) );
 				// For texture shadow functions, dref value is put inside the coords parameter, instead of being aside.
-				assert( expr->getArgList().size() >= 3u );
+				assert( expr.getArgList().size() >= 3u );
 
-				if ( expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowFBias
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProj1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureLod1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureOffset1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjLod1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF
-					|| expr->getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF )
+				if ( expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowFBias
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProj1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureLod1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureOffset1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjLod1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF
+					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF )
 				{
 					ast::expr::ExprList merged;
 
-					switch ( expr->getArgList()[1]->getType()->getKind() )
+					switch ( expr.getArgList()[1]->getType()->getKind() )
 					{
 					case ast::type::Kind::eFloat:
 						// Texture1DShadow accesses.
 						// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
-						merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
-						merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
-						merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
+						merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+						merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+						merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
 						args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec3
 							, ast::type::Kind::eFloat
 							, std::move( merged ) ) );
@@ -989,26 +979,26 @@ namespace glsl
 					case ast::type::Kind::eVec2F:
 					{
 						// TextureProj1DShadow accesses.
-						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
-						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
-						merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
-						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( expr->getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
+						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( *expr.getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
+						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( *expr.getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
+						merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
+						merged.emplace_back( m_exprCache.makeSwizzle( doSubmit( *expr.getArgList()[1] ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
 						args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
 							, ast::type::Kind::eFloat
 							, std::move( merged ) ) );
 					}
 					break;
 					case ast::type::Kind::eVec3F:
-						merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
-						merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
+						merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+						merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
 						args.emplace_back( m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
 							, ast::type::Kind::eFloat
 							, std::move( merged ) ) );
 						break;
 					case ast::type::Kind::eVec4F:
 						// If the first type was a vec4, forget about merging
-						args.emplace_back( doSubmit( expr->getArgList()[1] ) );
-						args.emplace_back( doSubmit( expr->getArgList()[2] ) );
+						args.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+						args.emplace_back( doSubmit( *expr.getArgList()[2] ) );
 						break;
 					default:
 						break;
@@ -1018,8 +1008,8 @@ namespace glsl
 				{
 					// Merge second and third parameters to the appropriate vector type (float=>vec2, vec2=>vec3, vec3=>vec4).
 					ast::expr::ExprList merged;
-					merged.emplace_back( doSubmit( expr->getArgList()[1] ) );
-					merged.emplace_back( doSubmit( expr->getArgList()[2] ) );
+					merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+					merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
 
 					switch ( merged[0]->getType()->getKind() )
 					{
@@ -1040,8 +1030,8 @@ namespace glsl
 						break;
 					case ast::type::Kind::eVec4F:
 						// If the first type was a vec4, forget about merging
-						args.emplace_back( doSubmit( expr->getArgList()[1] ) );
-						args.emplace_back( doSubmit( expr->getArgList()[2] ) );
+						args.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+						args.emplace_back( doSubmit( *expr.getArgList()[2] ) );
 						break;
 					default:
 						break;
@@ -1049,30 +1039,30 @@ namespace glsl
 				}
 
 				// Other parameters remain unchanged.
-				for ( size_t i = 3u; i < expr->getArgList().size(); ++i )
+				for ( size_t i = 3u; i < expr.getArgList().size(); ++i )
 				{
-					args.emplace_back( doSubmit( expr->getArgList()[i] ) );
+					args.emplace_back( doSubmit( *expr.getArgList()[i] ) );
 				}
 
-				m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
-					, expr->getCombinedImageAccess()
+				m_result = m_exprCache.makeCombinedImageAccessCall( expr.getType()
+					, expr.getCombinedImageAccess()
 					, std::move( args ) );
 			}
 
-			void doProcessTextureSample( ast::expr::CombinedImageAccessCall const * expr )
+			void doProcessTextureSample( ast::expr::CombinedImageAccessCall const & expr )
 			{
-				auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
+				auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr.getArgList()[0]->getType() );
 				auto config = imgArgType->getConfig();
 				auto callRetType = m_typesCache.getSampledType( config.format );
 				ast::expr::ExprList args;
 
-				for ( auto & arg : expr->getArgList() )
+				for ( auto & arg : expr.getArgList() )
 				{
-					args.emplace_back( doSubmit( arg ) );
+					args.emplace_back( doSubmit( *arg ) );
 				}
 
-				m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
-					, expr->getCombinedImageAccess()
+				m_result = m_exprCache.makeCombinedImageAccessCall( expr.getType()
+					, expr.getCombinedImageAccess()
 					, std::move( args ) );
 
 				auto glslRetType = m_typesCache.getVec4Type( getScalarType( callRetType->getKind() ) );
@@ -1083,13 +1073,13 @@ namespace glsl
 				}
 			}
 
-			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const * expr )
+			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const & expr )
 			{
 				ast::expr::ExprList args;
 
-				for ( auto & arg : expr->getArgList() )
+				for ( auto & arg : expr.getArgList() )
 				{
-					args.emplace_back( doSubmit( arg ) );
+					args.emplace_back( doSubmit( *arg ) );
 				}
 
 				// Component parameter is the last one in GLSL whilst it is the last before
@@ -1100,8 +1090,8 @@ namespace glsl
 				args.erase( it );
 				args.emplace_back( std::move( compArg ) );
 
-				m_result = m_exprCache.makeCombinedImageAccessCall( expr->getType()
-					, expr->getCombinedImageAccess()
+				m_result = m_exprCache.makeCombinedImageAccessCall( expr.getType()
+					, expr.getCombinedImageAccess()
 					, std::move( args ) );
 			}
 
@@ -1318,15 +1308,15 @@ namespace glsl
 				return result;
 			}
 
-			ast::expr::ExprPtr doProcessMbr( ast::expr::Expr const * outer
+			ast::expr::ExprPtr doProcessMbr( ast::expr::Expr const & outer
 				, uint32_t mbrIndex
 				, uint64_t mbrFlags )
 			{
-				auto result = doProcessIOMbr( outer, mbrIndex, mbrFlags, true, m_adaptationData.inputs );
+				auto result = doProcessIOMbr( &outer, mbrIndex, mbrFlags, true, m_adaptationData.inputs );
 
 				if ( !result )
 				{
-					result = doProcessIOMbr( outer, mbrIndex, mbrFlags, false, m_adaptationData.outputs );
+					result = doProcessIOMbr( &outer, mbrIndex, mbrFlags, false, m_adaptationData.outputs );
 				}
 
 				return result;
@@ -1346,18 +1336,18 @@ namespace glsl
 			static ast::stmt::ContainerPtr submit( ast::stmt::StmtCache & stmtCache
 				, ast::expr::ExprCache & exprCache
 				, ast::type::TypesCache & typesCache
-				, ast::stmt::Container * container
+				, ast::stmt::Container const & container
 				, AdaptationData & adaptationData )
 			{
 				auto result = stmtCache.makeContainer();
 
-				if ( auto it = std::find_if( container->begin()
-					, container->end()
+				if ( auto it = std::find_if( container.begin()
+					, container.end()
 					, []( ast::stmt::StmtPtr const & lookup )
 					{
 						return lookup->getKind() == ast::stmt::Kind::ePreprocVersion;
 					} );
-					it == container->end() )
+					it == container.end() )
 				{
 					result->addStmt( stmtCache.makePreprocVersion( writeValue( adaptationData.writerConfig.wantedVersion ) ) );
 
@@ -1368,7 +1358,7 @@ namespace glsl
 				}
 
 				StmtAdapter vis{ stmtCache, exprCache, typesCache, adaptationData, result.get(), result };
-				container->accept( &vis );
+				container.accept( &vis );
 				return result;
 			}
 
@@ -1393,7 +1383,7 @@ namespace glsl
 
 			using ast::StmtCloner::doSubmit;
 
-			ast::expr::ExprPtr doSubmit( ast::expr::Expr * expr )override
+			ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override
 			{
 				return ExprAdapter::submit( m_stmtCache
 					, m_exprCache
@@ -1403,7 +1393,7 @@ namespace glsl
 					, m_current );
 			}
 
-			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl * stmt )override
+			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
@@ -1429,7 +1419,7 @@ namespace glsl
 				}
 			}
 
-			void visitFunctionDeclStmt( ast::stmt::FunctionDecl * stmt )override
+			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
 				if ( stmt->getFlags() )
 				{
@@ -1523,11 +1513,11 @@ namespace glsl
 
 					if ( stmt->isEntryPoint() )
 					{
-						doProcessEntryPoint( stmt );
+						doProcessEntryPoint( *stmt );
 					}
 					else if ( stmt->isPatchRoutine() )
 					{
-						doProcessPatchRoutine( stmt );
+						doProcessPatchRoutine( *stmt );
 					}
 				}
 				else
@@ -1536,14 +1526,14 @@ namespace glsl
 				}
 			}
 
-			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl * stmt )override
+			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
 				m_globalsCont->addStmt( m_stmtCache.makeHitAttributeVariableDecl( var ) );
 			}
 
-			void visitImageDeclStmt( ast::stmt::ImageDecl * stmt )override
+			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
 				if ( m_adaptationData.writerConfig.hasDescriptorSets )
 				{
@@ -1557,7 +1547,7 @@ namespace glsl
 				}
 			}
 
-			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl * stmt )override
+			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
@@ -1574,7 +1564,7 @@ namespace glsl
 				}
 			}
 
-			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl * stmt )override
+			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
@@ -1591,37 +1581,37 @@ namespace glsl
 				}
 			}
 
-			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl * stmt )override
+			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
 				declareType( stmt->getVariable()->getType() );
 				StmtCloner::visitInOutVariableDeclStmt( stmt );
 			}
 
-			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout * stmt )override
+			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 				StmtCloner::visitInputComputeLayoutStmt( stmt );
 			}
 
-			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout * stmt )override
+			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 				StmtCloner::visitInputGeometryLayoutStmt( stmt );
 			}
 
-			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout * stmt )override
+			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 				StmtCloner::visitOutputGeometryLayoutStmt( stmt );
 			}
 
-			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout * stmt )override
+			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout const * stmt )override
 			{
 				declareType( stmt->getType() );
 				StmtCloner::visitOutputMeshLayoutStmt( stmt );
 			}
 
-			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl * stmt )override
+			void visitPushConstantsBufferDeclStmt( ast::stmt::PushConstantsBufferDecl const * stmt )override
 			{
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
@@ -1654,7 +1644,7 @@ namespace glsl
 				m_current->addStmt( std::move( cont ) );
 			}
 
-			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl * stmt )override
+			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
 				if ( m_adaptationData.writerConfig.hasDescriptorSets )
 				{
@@ -1668,7 +1658,7 @@ namespace glsl
 				}
 			}
 
-			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl * stmt )override
+			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl const * stmt )override
 			{
 				if ( m_adaptationData.writerConfig.hasDescriptorSets )
 				{
@@ -1682,7 +1672,7 @@ namespace glsl
 				}
 			}
 
-			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl * stmt )override
+			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
@@ -1707,7 +1697,7 @@ namespace glsl
 				}
 			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl * stmt )override
+			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
 			{
 				declareType( stmt->getData()->getType() );
 
@@ -1731,19 +1721,19 @@ namespace glsl
 				}
 			}
 
-			void visitStructureDeclStmt( ast::stmt::StructureDecl * stmt )override
+			void visitStructureDeclStmt( ast::stmt::StructureDecl const * stmt )override
 			{
 				declareType( stmt->getType() );
 			}
 
-			void visitVariableDeclStmt( ast::stmt::VariableDecl * stmt )override
+			void visitVariableDeclStmt( ast::stmt::VariableDecl const * stmt )override
 			{
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
 				ast::StmtCloner::visitVariableDeclStmt( stmt );
 			}
 
-			void visitPreprocVersion( ast::stmt::PreprocVersion * preproc )override
+			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
 				m_result->addStmt( m_stmtCache.makePreprocVersion( preproc->getName() ) );
 				auto cont = m_stmtCache.makeContainer();
@@ -2258,19 +2248,19 @@ namespace glsl
 				}
 			}
 
-			void doProcessEntryPoint( ast::stmt::FunctionDecl * stmt )
+			void doProcessEntryPoint( ast::stmt::FunctionDecl const & stmt )
 			{
 				auto funcType = m_typesCache.getFunction( m_typesCache.getVoid(), {} );
 				auto save = m_current;
-				auto cont = m_stmtCache.makeFunctionDecl( ast::var::makeVariable( stmt->getFuncVar()->getId()
+				auto cont = m_stmtCache.makeFunctionDecl( ast::var::makeVariable( stmt.getFuncVar()->getId()
 						, funcType
-						, stmt->getName()
-						, stmt->getFuncVar()->getFlags() )
-					, stmt->getFlags() );
+						, stmt.getName()
+						, stmt.getFuncVar()->getFlags() )
+					, stmt.getFlags() );
 				m_current = cont.get();
-				visitContainerStmt( stmt );
+				visitContainerStmt( &stmt );
 
-				if ( stmt->isEntryPoint() )
+				if ( stmt.isEntryPoint() )
 				{
 					visitContainerStmt( m_entryPointFinish.get() );
 				}
@@ -2279,11 +2269,11 @@ namespace glsl
 				m_current->addStmt( std::move( cont ) );
 			}
 
-			void doProcessPatchRoutine( ast::stmt::FunctionDecl * stmt )
+			void doProcessPatchRoutine( ast::stmt::FunctionDecl const & stmt )
 			{
 				auto save = m_current;
 				m_current = m_entryPointFinish.get();
-				visitContainerStmt( stmt );
+				visitContainerStmt( &stmt );
 				m_current = save;
 			}
 
@@ -2404,7 +2394,7 @@ namespace glsl
 	ast::stmt::ContainerPtr adaptStatements( ast::stmt::StmtCache & stmtCache
 		, ast::expr::ExprCache & exprCache
 		, ast::type::TypesCache & typesCache
-		, ast::stmt::Container * container
+		, ast::stmt::Container const & container
 		, AdaptationData & adaptationData )
 	{
 		return adapt::StmtAdapter::submit( stmtCache

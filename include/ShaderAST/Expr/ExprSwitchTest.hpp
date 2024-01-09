@@ -16,9 +16,9 @@ namespace ast::expr
 		SDAST_API explicit SwitchTest( ExprCache & exprCache
 			, ExprPtr value );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline Expr * getValue()const
+		inline Expr const * getValue()const
 		{
 			return m_value.get();
 		}

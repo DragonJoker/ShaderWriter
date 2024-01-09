@@ -20,7 +20,7 @@ namespace ast::stmt
 	{
 	}
 
-	void InputComputeLayout::accept( VisitorPtr vis )
+	void InputComputeLayout::accept( VisitorPtr vis )const
 	{
 		vis->visitInputComputeLayoutStmt( this );
 	}

@@ -88,7 +88,7 @@ namespace spirv::debug
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement );
 		void declareAccessChain( InstructionList & instructions
-			, ast::expr::Expr * expr
+			, ast::expr::Expr const & expr
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
 		void declareFunction( Function & function
@@ -116,7 +116,7 @@ namespace spirv::debug
 			, glsl::RangeInfo const & columns );
 		void makeLineExtension( InstructionList & instructions
 			, glsl::Statement const * debugStatement
-			, ast::expr::Expr * expr );
+			, ast::expr::Expr const & expr );
 
 		InstructionList const & getDeclarations()const noexcept
 		{

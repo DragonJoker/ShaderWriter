@@ -19,7 +19,7 @@ namespace ast::stmt
 	{
 	}
 
-	void Compound::accept( VisitorPtr vis )
+	void Compound::accept( VisitorPtr vis )const
 	{
 		vis->visitCompoundStmt( this );
 	}

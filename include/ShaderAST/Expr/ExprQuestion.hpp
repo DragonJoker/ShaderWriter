@@ -19,19 +19,19 @@ namespace ast::expr
 			, ExprPtr trueExpr
 			, ExprPtr falseExpr );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline Expr * getCtrlExpr()const
+		inline Expr const * getCtrlExpr()const
 		{
 			return m_ctrlExpr.get();
 		}
 
-		inline Expr * getTrueExpr()const
+		inline Expr const * getTrueExpr()const
 		{
 			return m_trueExpr.get();
 		}
 
-		inline Expr * getFalseExpr()const
+		inline Expr const * getFalseExpr()const
 		{
 			return m_falseExpr.get();
 		}

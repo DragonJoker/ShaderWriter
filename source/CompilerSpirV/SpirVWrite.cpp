@@ -1892,12 +1892,10 @@ namespace spirv
 			auto opCode = spv::Op( instruction.op.getOpData().opCode );
 			stream << spirv::getOperatorName( opCode );
 			writeStream( instruction.returnTypeId, stream, names );
-			uint32_t i = 0u;
 
 			for ( auto const & operand : instruction.operands )
 			{
 				writeStream( operand, stream, names );
-				++i;
 			}
 
 			if ( bool( instruction.name ) )

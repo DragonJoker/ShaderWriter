@@ -19,7 +19,7 @@ namespace ast::expr
 	{
 	}
 
-	void Comma::accept( VisitorPtr vis )
+	void Comma::accept( VisitorPtr vis )const
 	{
 		vis->visitCommaExpr( this );
 	}

@@ -7,7 +7,7 @@ See LICENSE file in root folder
 namespace sdw
 {
 	TaskPayloadNV::TaskPayloadNV( ShaderWriter & writer
-		, expr::Expr * expr
+		, expr::Expr const * expr
 		, bool enabled )
 		: m_plWriter{ &writer }
 		, m_plExpr{ expr }

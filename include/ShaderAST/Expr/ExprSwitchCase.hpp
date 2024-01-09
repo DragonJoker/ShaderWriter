@@ -16,7 +16,7 @@ namespace ast::expr
 		SDAST_API explicit SwitchCase( ExprCache & exprCache
 			, LiteralPtr label );
 
-		SDAST_API void accept( VisitorPtr vis )override;
+		SDAST_API void accept( VisitorPtr vis )const override;
 
 		inline Literal * getLabel()const
 		{
