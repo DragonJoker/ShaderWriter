@@ -66,47 +66,44 @@ namespace hlsl
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall * expr )override;
 		void visitTimesExpr( ast::expr::Times * expr )override;
 
-		void doPushSplImgArg( ast::expr::Expr & imageArg
+		void doPushSplImgArg( ast::expr::Expr const & imageArg
 			, ast::var::VariablePtr imageVar
-			, ast::expr::Expr & samplerArg
+			, ast::expr::Expr const & samplerArg
 			, ast::var::VariablePtr samplerVar
 			, bool writeSampler
 			, ast::expr::ExprList & args );
 		bool doProcessTextureArg( ast::expr::Expr & arg
 			, bool writeSampler
 			, ast::expr::ExprList & args );
-		void doProcessImageSize( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageLoad( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageStore( ast::expr::StorageImageAccessCall * expr
-			, std::map< std::string, FuncNames::Function > & imageStoreFuncs );
-		void doProcessImageAtomic( ast::expr::StorageImageAccessCall * expr
+		void doProcessImageSize( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageLoad( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageStore( ast::expr::StorageImageAccessCall const * expr
+			, std::map< std::string, FuncNames::Function, std::less<> > & imageStoreFuncs );
+		void doProcessImageAtomic( ast::expr::StorageImageAccessCall const * expr
 			, std::string const & name
-			, std::map< std::string, FuncNames::Function > & imageAtomicFuncs );
-		void doProcessImageAtomicAdd( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicMin( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicMax( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicAnd( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicOr( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicXor( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicExchange( ast::expr::StorageImageAccessCall * expr );
-		void doProcessImageAtomicCompSwap( ast::expr::StorageImageAccessCall * expr );
-		void doProcessTextureSize( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTextureQueryLod( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTextureQueryLevels( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTexelFetch( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTextureGradShadow( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall * expr );
-		void doProcessTexture( ast::expr::CombinedImageAccessCall * expr );
+			, std::map< std::string, FuncNames::Function, std::less<> > & imageAtomicFuncs );
+		void doProcessImageAtomicAdd( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicMin( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicMax( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicAnd( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicOr( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicXor( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicExchange( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessImageAtomicCompSwap( ast::expr::StorageImageAccessCall const * expr );
+		void doProcessTextureSize( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTextureQueryLod( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTextureQueryLevels( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTexelFetch( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTextureGradShadow( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTextureGather( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall const * expr );
+		void doProcessTexture( ast::expr::CombinedImageAccessCall const * expr );
 
 		ast::var::VariablePtr doMakeAlias( ast::type::TypePtr type );
 
-		ast::expr::ExprPtr doWriteUnpack1( ast::expr::Expr & index
-			, ast::expr::Expr & packed );
-		ast::expr::ExprPtr doWriteUnpack2( ast::expr::Expr & index
-			, ast::expr::Expr & packed );
-		ast::expr::ExprPtr doWriteUnpack3( ast::expr::Expr & index
-			, ast::expr::Expr & packed );
+		ast::expr::ExprPtr doWriteUnpack1( ast::expr::Expr & packed );
+		ast::expr::ExprPtr doWriteUnpack2( ast::expr::Expr & packed );
+		ast::expr::ExprPtr doWriteUnpack3( ast::expr::Expr & packed );
 
 	private:
 		ast::stmt::StmtCache & m_stmtCache;

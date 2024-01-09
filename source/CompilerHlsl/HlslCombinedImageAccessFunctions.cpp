@@ -18,7 +18,7 @@ namespace hlsl
 			auto cont = stmtCache.makeContainer();
 			cont->addStmt( stmtCache.makeComment( "float SDW_projectTexCoords2(float2 texCoords)" ) );
 			cont->addStmt( stmtCache.makeComment( "{" ) );
-			cont->addStmt( stmtCache.makeComment( "	return texCoords.x / texCoords.y;" ) );
+			cont->addStmt( stmtCache.makeComment( "\treturn texCoords.x / texCoords.y;" ) );
 			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -29,7 +29,7 @@ namespace hlsl
 			auto cont = stmtCache.makeContainer();
 			cont->addStmt( stmtCache.makeComment( "float2 SDW_projectTexCoords3(float3 texCoords)" ) );
 			cont->addStmt( stmtCache.makeComment( "{" ) );
-			cont->addStmt( stmtCache.makeComment( "	return texCoords.xy / texCoords.z;" ) );
+			cont->addStmt( stmtCache.makeComment( "\treturn texCoords.xy / texCoords.z;" ) );
 			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -40,7 +40,7 @@ namespace hlsl
 			auto cont = stmtCache.makeContainer();
 			cont->addStmt( stmtCache.makeComment( "float SDW_projectTexCoords4to1(float4 texCoords)" ) );
 			cont->addStmt( stmtCache.makeComment( "{" ) );
-			cont->addStmt( stmtCache.makeComment( "	return texCoords.x / texCoords.w;" ) );
+			cont->addStmt( stmtCache.makeComment( "\treturn texCoords.x / texCoords.w;" ) );
 			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -51,7 +51,7 @@ namespace hlsl
 			auto cont = stmtCache.makeContainer();
 			cont->addStmt( stmtCache.makeComment( "float2 SDW_projectTexCoords4To2(float4 texCoords)" ) );
 			cont->addStmt( stmtCache.makeComment( "{" ) );
-			cont->addStmt( stmtCache.makeComment( "	return texCoords.xy / texCoords.w;" ) );
+			cont->addStmt( stmtCache.makeComment( "\treturn texCoords.xy / texCoords.w;" ) );
 			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}
@@ -62,7 +62,7 @@ namespace hlsl
 			auto cont = stmtCache.makeContainer();
 			cont->addStmt( stmtCache.makeComment( "float3 SDW_projectTexCoords4(float4 texCoords)" ) );
 			cont->addStmt( stmtCache.makeComment( "{" ) );
-			cont->addStmt( stmtCache.makeComment( "	return texCoords.xyz / texCoords.w;" ) );
+			cont->addStmt( stmtCache.makeComment( "\treturn texCoords.xyz / texCoords.w;" ) );
 			cont->addStmt( stmtCache.makeComment( "}" ) );
 			container->addStmt( std::move( cont ) );
 		}

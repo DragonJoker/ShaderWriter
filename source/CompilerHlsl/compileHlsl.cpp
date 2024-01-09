@@ -21,86 +21,86 @@ namespace hlsl
 		{
 			if ( isRayTraceStage( writerConfig.shaderStage ) && writerConfig.shaderModel < hlsl::v6_3 )
 			{
-				throw std::runtime_error{ "Unsupported Ray Tracing stage for this shader model" };
+				throw ast::Exception{ "Unsupported Ray Tracing stage for this shader model" };
 			}
 
 			if ( isMeshStage( writerConfig.shaderStage ) && writerConfig.shaderModel < hlsl::v6_5 )
 			{
-				throw std::runtime_error{ "Unsupported Mesh/Amplification stage for this shader model" };
+				throw ast::Exception{ "Unsupported Mesh/Amplification stage for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresWaveOps && writerConfig.shaderModel < hlsl::v6_0 )
 			{
-				throw std::runtime_error{ "Unsupported Wave ops for this shader model" };
+				throw ast::Exception{ "Unsupported Wave ops for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresControlBarrier
 				&& writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 				&& writerConfig.shaderModel < hlsl::v6_0 )
 			{
-				throw std::runtime_error{ "Unsupported control barrier for this shader model" };
+				throw ast::Exception{ "Unsupported control barrier for this shader model" };
 			}
 
 			if ( writerConfig.shaderModel < hlsl::v5_0
 				&& ( writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 					|| writerConfig.shaderStage == ast::ShaderStage::eTessellationEvaluation ) )
 			{
-				throw std::runtime_error{ "Unsupported Tessellation stage for this shader model" };
+				throw ast::Exception{ "Unsupported Tessellation stage for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresDouble && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
-				throw std::runtime_error{ "Unsupported double type for this shader model" };
+				throw ast::Exception{ "Unsupported double type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresInt8 )
 			{
-				throw std::runtime_error{ "Unsupported byte type for this shader model" };
+				throw ast::Exception{ "Unsupported byte type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresAtomicAddFloat )
 			{
-				throw std::runtime_error{ "Unsupported atomic add with floating point" };
+				throw ast::Exception{ "Unsupported atomic add with floating point" };
 			}
 
 			if ( intrinsicsConfig.requiresInt16 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw std::runtime_error{ "Unsupported short type for this shader model" };
+				throw ast::Exception{ "Unsupported short type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresSInt64 )
 			{
-				throw std::runtime_error{ "Unsupported int64_t type" };
+				throw ast::Exception{ "Unsupported int64_t type" };
 			}
 
 			if ( intrinsicsConfig.requiresUInt64 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw std::runtime_error{ "Unsupported uint64_t type for this shader model" };
+				throw ast::Exception{ "Unsupported uint64_t type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
-				throw std::runtime_error{ "Unsupported UAV for this shader model" };
+				throw ast::Exception{ "Unsupported UAV for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresInterpolate && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw std::runtime_error{ "Unsupported interpolate for this shader model" };
+				throw ast::Exception{ "Unsupported interpolate for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresShadowOnTiled && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw std::runtime_error{ "Unsupported sample shadow for tiled resource, for this shader model" };
+				throw ast::Exception{ "Unsupported sample shadow for tiled resource, for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresGather && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw std::runtime_error{ "Unsupported gather, for this shader model" };
+				throw ast::Exception{ "Unsupported gather, for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresSampledIndex && writerConfig.shaderModel < hlsl::v4_1 )
 			{
-				throw std::runtime_error{ "Unsupported SV_SampleIndex for this shader model" };
+				throw ast::Exception{ "Unsupported SV_SampleIndex for this shader model" };
 			}
 		}
 	}

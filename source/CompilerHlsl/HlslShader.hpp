@@ -38,8 +38,7 @@ namespace hlsl
 			, uint32_t set
 			, bool enabled = true );
 		bool hasGlobalVariable( std::string const & name );
-		ast::var::VariablePtr getGlobalVariable( std::string const & name
-			, ast::type::TypePtr type );
+		ast::var::VariablePtr getGlobalVariable( std::string const & name );
 
 		inline ast::ShaderStage getType()const
 		{
@@ -55,9 +54,9 @@ namespace hlsl
 		ast::Shader const & m_shader;
 		ast::ShaderStage m_shaderStage;
 		mutable ast::type::TypesCache m_typesCache;
-		std::map< std::string, ast::var::VariablePtr > m_registered;
-		std::map< std::string, ast::SamplerInfo > m_samplers;
-		std::map< std::string, ast::ImageInfo > m_images;
+		std::map< std::string, ast::var::VariablePtr, std::less<> > m_registered;
+		std::map< std::string, ast::SamplerInfo, std::less<> > m_samplers;
+		std::map< std::string, ast::ImageInfo, std::less<> > m_images;
 	};
 }
 

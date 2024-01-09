@@ -26,9 +26,8 @@ namespace hlsl
 		{
 			static std::string removeSemantics( std::string const & name )
 			{
-				auto it = name.find_last_of( ":" );
-
-				if ( it != std::string::npos )
+				if ( auto it = name.find_last_of( ":" );
+					it != std::string::npos )
 				{
 					return name.substr( 0, it );
 				}
@@ -270,9 +269,9 @@ namespace hlsl
 			{
 				std::string result = getTypeName( member.type ) + " ";
 				auto name = adaptName( member.name );
-				auto index = name.find( ":" );
 
-				if ( index != std::string::npos )
+				if ( auto index = name.find( ":" );
+					index != std::string::npos )
 				{
 					// There are semantics for this variable.
 					name = name.substr( 0, index )
@@ -318,7 +317,6 @@ namespace hlsl
 			}
 
 			static std::string writeTessEvalIn( ast::type::TessellationInputPatch const & tesscType
-				, RoutineMap const & patchRoutines
 				, std::string const & indent )
 			{
 				std::string result;
@@ -348,9 +346,6 @@ namespace hlsl
 					if ( rit != patchRoutines.end() )
 					{
 						result += indent + "[patchconstantfunc(\"" + ( rit->first ) + "\")]\n";
-					}
-					else
-					{
 					}
 				}
 
@@ -451,7 +446,7 @@ namespace hlsl
 				}
 			}
 
-			void visitAssignmentExpr( ast::expr::Binary * expr )
+			void visitAssignmentExpr( ast::expr::Binary const * expr )
 			{
 				wrap( expr->getLHS() );
 				m_result += " " + getOperatorName( expr->getKind() ) + " ";
@@ -704,7 +699,7 @@ namespace hlsl
 					m_result += "." + getHlslName( expr->getIntrinsic() ) + "(";
 					std::string sep;
 
-					for ( auto & arg : args )
+					for ( auto const & arg : args )
 					{
 						m_result += sep;
 						m_result += arg;
@@ -776,7 +771,7 @@ namespace hlsl
 					{
 						if ( expr->getArgList().size() < 3u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a control barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a control barrier" };
 						}
 
 						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[1] ) );
@@ -821,7 +816,7 @@ namespace hlsl
 					{
 						if ( expr->getArgList().size() < 2u )
 						{
-							throw std::runtime_error{ "Wrong number of parameters for a memory barrier" };
+							throw ast::Exception{ "Wrong number of parameters for a memory barrier" };
 						}
 
 						auto memory = ast::type::Scope( getLiteralValue< ast::expr::LiteralType::eUInt32 >( *expr->getArgList()[0] ) );
@@ -991,7 +986,7 @@ namespace hlsl
 				// The alias var may have been turned to regular var, in adaptation.
 				if ( expr->getIdentifier()->getVariable()->isAlias() )
 				{
-					m_aliases.emplace( expr->getIdentifier()->getVariable(), expr->getRHS() );
+					m_aliases.try_emplace( expr->getIdentifier()->getVariable(), expr->getRHS() );
 				}
 				else
 				{
@@ -1008,7 +1003,7 @@ namespace hlsl
 				}
 			}
 
-			void doProcessMemberTexture( ast::expr::CombinedImageAccessCall * expr )
+			void doProcessMemberTexture( ast::expr::CombinedImageAccessCall const * expr )
 			{
 				m_result += doSubmit( expr->getArgList()[0] );
 				m_result += "." + getHlslName( expr->getCombinedImageAccess() ) + "(";
@@ -1024,7 +1019,7 @@ namespace hlsl
 				m_result += ")";
 			}
 
-			void doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall * expr )
+			void doProcessNonMemberTexture( ast::expr::CombinedImageAccessCall const * expr )
 			{
 				m_result += getHlslName( expr->getCombinedImageAccess() ) + "(";
 				std::string sep;
@@ -1039,16 +1034,15 @@ namespace hlsl
 				m_result += ")";
 			}
 
-			void doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
+			void doProcessTextureGather( ast::expr::CombinedImageAccessCall const * expr )
 			{
 				// Image
 				m_result += doSubmit( expr->getArgList()[0] );
 				uint32_t compValue = 0u;
 
 				// Component value will determine Gather function name.
-				auto component = expr->getArgList()[2].get();
-
-				if ( component->getKind() == ast::expr::Kind::eLiteral )
+				if ( auto component = expr->getArgList()[2].get();
+					component->getKind() == ast::expr::Kind::eLiteral )
 				{
 					auto lit = static_cast< ast::expr::Literal const * >( component );
 
@@ -1079,6 +1073,9 @@ namespace hlsl
 				case 3:
 					name = "GatherAlpha";
 					break;
+				default:
+					AST_Failure( "Unsupported count to determine Gather function name" );
+					throw ast::Exception{ "Unsupported count to determine Gather function name" };
 				}
 
 				m_result += "." + name + "(";
@@ -1387,9 +1384,7 @@ namespace hlsl
 						else if ( argType->getKind() == ast::type::Kind::eTessellationInputPatch )
 						{
 							auto & tesseiType = static_cast< ast::type::TessellationInputPatch const & >( *argType );
-							m_result += helpers::writeTessEvalIn( tesseiType
-								, m_routines
-								, m_indent );
+							m_result += helpers::writeTessEvalIn( tesseiType, m_indent );
 							argType = tesseiType.getType();
 
 							if ( argType->getKind() != ast::type::Kind::eVoid
@@ -1493,7 +1488,7 @@ namespace hlsl
 				std::string sep;
 				Semantic sem{ "", 0u };
 
-				for ( auto & param : params )
+				for ( auto const & param : params )
 				{
 					if ( param->isBuiltin() )
 					{
@@ -1544,7 +1539,7 @@ namespace hlsl
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
-				auto & var = *stmt->getVariable();
+				auto const & var = *stmt->getVariable();
 				m_result += getTypeName( var.getType() ) + " ";
 				m_result += var.getName();
 				m_result += ": register(t" + std::to_string( stmt->getBindingPoint() ) + ")";
@@ -1850,7 +1845,7 @@ namespace hlsl
 			{
 				doAppendLineEnd();
 				m_result += m_indent;
-				auto & var = *pvar;
+				auto const & var = *pvar;
 
 				if ( var.isStatic() )
 				{
@@ -1887,6 +1882,6 @@ namespace hlsl
 		, ast::stmt::Stmt * stmt
 		, std::string indent )
 	{
-		return vis::StmtVisitor::submit( writerConfig, routines, aliases, stmt, indent );
+		return vis::StmtVisitor::submit( writerConfig, routines, aliases, stmt, std::move( indent ) );
 	}
 }

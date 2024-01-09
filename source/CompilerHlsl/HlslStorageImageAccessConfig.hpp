@@ -970,7 +970,7 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeArrayF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange2DMSF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF:
-			throw std::runtime_error{ "Unsupported Intrinsic type in HLSL." };
+			throw ast::Exception{ "Unsupported Intrinsic type in HLSL." };
 
 		default:
 			AST_Failure( "Unsupported StorageImageAccess" );

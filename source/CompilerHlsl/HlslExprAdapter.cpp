@@ -74,14 +74,16 @@ namespace hlsl
 			, ast::expr::ExprPtr texcoords )
 		{
 			ast::var::VariableList params;
-			params.push_back( ast::var::makeVariable( ++nextVarId
+			++nextVarId;
+			params.push_back( ast::var::makeVariable( nextVarId
 				, typesCache.getVec2F()
 				, "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
+			++nextVarId;
 			return exprCache.makeFnCall( typesCache.getFloat()
 				, exprCache.makeIdentifier( typesCache
-					, ast::var::makeFunction( ++nextVarId
+					, ast::var::makeFunction( nextVarId
 						, typesCache.getFunction( typesCache.getFloat(), params )
 					, "SDW_projectTexCoords2" ) )
 				, std::move( args ) );
@@ -93,13 +95,15 @@ namespace hlsl
 			, ast::expr::ExprPtr texcoords )
 		{
 			ast::var::VariableList params;
-			params.push_back( ast::var::makeVariable( ++nextVarId
+			++nextVarId;
+			params.push_back( ast::var::makeVariable( nextVarId
 				, typesCache.getVec3F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
+			++nextVarId;
 			return exprCache.makeFnCall( typesCache.getVec2F()
 				, exprCache.makeIdentifier( typesCache
-					, ast::var::makeFunction( ++nextVarId
+					, ast::var::makeFunction( nextVarId
 						, typesCache.getFunction( typesCache.getVec2F(), params )
 					, "SDW_projectTexCoords3" ) )
 				, std::move( args ) );
@@ -111,13 +115,15 @@ namespace hlsl
 			, ast::expr::ExprPtr texcoords )
 		{
 			ast::var::VariableList params;
-			params.push_back( ast::var::makeVariable( ++nextVarId
+			++nextVarId;
+			params.push_back( ast::var::makeVariable( nextVarId
 				, typesCache.getVec4F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
+			++nextVarId;
 			return exprCache.makeFnCall( typesCache.getFloat()
 				, exprCache.makeIdentifier( typesCache
-					, ast::var::makeFunction( ++nextVarId
+					, ast::var::makeFunction( nextVarId
 						, typesCache.getFunction( typesCache.getFloat(), params )
 					, "SDW_projectTexCoords4To1" ) )
 				, std::move( args ) );
@@ -129,13 +135,15 @@ namespace hlsl
 			, ast::expr::ExprPtr texcoords )
 		{
 			ast::var::VariableList params;
-			params.push_back( ast::var::makeVariable( ++nextVarId
+			++nextVarId;
+			params.push_back( ast::var::makeVariable( nextVarId
 				, typesCache.getVec4F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
+			++nextVarId;
 			return exprCache.makeFnCall( typesCache.getVec2F()
 				, exprCache.makeIdentifier( typesCache
-					, ast::var::makeFunction( ++nextVarId
+					, ast::var::makeFunction( nextVarId
 						, typesCache.getFunction( typesCache.getVec2F(), params )
 					, "SDW_projectTexCoords4To2" ) )
 				, std::move( args ) );
@@ -147,13 +155,15 @@ namespace hlsl
 			, ast::expr::ExprPtr texcoords )
 		{
 			ast::var::VariableList params;
-			params.push_back( ast::var::makeVariable( ++nextVarId
+			++nextVarId;
+			params.push_back( ast::var::makeVariable( nextVarId
 				, typesCache.getVec4F(), "texcoords" ) );
 			ast::expr::ExprList args;
 			args.emplace_back( std::move( texcoords ) );
+			++nextVarId;
 			return exprCache.makeFnCall( typesCache.getVec3F()
 				, exprCache.makeIdentifier( typesCache
-					, ast::var::makeFunction( ++nextVarId
+					, ast::var::makeFunction( nextVarId
 						, typesCache.getFunction( typesCache.getVec3F(), params )
 					, "SDW_projectTexCoords4" ) )
 				, std::move( args ) );
@@ -599,7 +609,7 @@ namespace hlsl
 		{
 			// Can't assign directly from aggr init, need a temp var in between
 			auto & exprCache = expr->getExprCache();
-			auto var = m_adaptationData.shader->registerName( "tmp_" + std::to_string( ++m_adaptationData.aliasId ), expr->getType() );
+			auto var = m_adaptationData.shader->registerName( "tmp_" + std::to_string( m_adaptationData.getNextAliasId() ), expr->getType() );
 			m_container->addStmt( m_stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( m_typesCache, var )
 				, doSubmit( expr->getRHS() ) ) ) );
 			m_container->addStmt( m_stmtCache.makeSimple( exprCache.makeAssign( expr->getType()
@@ -758,9 +768,9 @@ namespace hlsl
 		}
 
 		auto funcVar = expr->getFn()->getVariable();
-		auto it = m_adaptationData.replacedFuncVars.find( funcVar->getId() );
 
-		if ( it != m_adaptationData.replacedFuncVars.end() )
+		if ( auto it = m_adaptationData.replacedFuncVars.find( funcVar->getId() );
+			it != m_adaptationData.replacedFuncVars.end() )
 		{
 			funcVar = it->second;
 		}
@@ -957,8 +967,7 @@ namespace hlsl
 				{
 				case ast::type::OutputTopology::ePoint:
 					{
-						ast::expr::ExprPtr indices = doWriteUnpack1( *expr->getArgList().front()
-							, *expr->getArgList().back() );
+						ast::expr::ExprPtr indices = doWriteUnpack1( *expr->getArgList().back() );
 						auto dstType = getNonArrayType( primitiveIndices->getType() );
 						auto dstIndex = m_exprCache.makeArrayAccess( dstType
 							, m_exprCache.makeIdentifier( m_typesCache, primitiveIndices )
@@ -968,8 +977,7 @@ namespace hlsl
 					break;
 				case ast::type::OutputTopology::eLine:
 					{
-						ast::expr::ExprPtr indices = doWriteUnpack2( *expr->getArgList().front()
-							, *expr->getArgList().back() );
+						ast::expr::ExprPtr indices = doWriteUnpack2( *expr->getArgList().back() );
 						auto dstType = getNonArrayType( primitiveIndices->getType() );
 						auto dstIndex = m_exprCache.makeArrayAccess( dstType
 							, m_exprCache.makeIdentifier( m_typesCache, primitiveIndices )
@@ -979,8 +987,7 @@ namespace hlsl
 					break;
 				case ast::type::OutputTopology::eTriangle:
 					{
-						ast::expr::ExprPtr indices = doWriteUnpack3( *expr->getArgList().front()
-							, *expr->getArgList().back() );
+						ast::expr::ExprPtr indices = doWriteUnpack3( *expr->getArgList().back() );
 						auto dstType = getNonArrayType( primitiveIndices->getType() );
 						auto dstIndex = m_exprCache.makeArrayAccess( dstType
 							, m_exprCache.makeIdentifier( m_typesCache, primitiveIndices )
@@ -1084,7 +1091,7 @@ namespace hlsl
 
 				if ( it != m_adaptationData.ssboList.end() )
 				{
-					auto tmp = ast::var::makeVariable( ++m_adaptationData.nextVarId
+					auto tmp = ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, expr->getType()
 						, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
 						, expr->getMemberFlags() );
@@ -1093,85 +1100,83 @@ namespace hlsl
 			}
 		}
 
-		if ( !m_result )
+		if ( !m_result
+			&& expr->isBuiltin() )
 		{
-			if ( expr->isBuiltin() )
+			auto writeFuncCall = [this]( ast::type::TypePtr retType
+				, std::string name )
 			{
-				auto writeFuncCall = [this]( ast::type::TypePtr retType
-					, std::string name )
-				{
-					return m_exprCache.makeFnCall( retType
-						, m_exprCache.makeIdentifier( m_typesCache
-							, ast::var::makeFunction( m_adaptationData.nextVarId
-								, m_typesCache.getFunction( retType, {} )
-								, std::move( name ) ) )
-						, {} );
-				};
-				auto mbr = structType->getMember( expr->getMemberIndex() );
+				return m_exprCache.makeFnCall( retType
+					, m_exprCache.makeIdentifier( m_typesCache
+						, ast::var::makeFunction( m_adaptationData.nextVarId
+							, m_typesCache.getFunction( retType, {} )
+							, std::move( name ) ) )
+					, {} );
+			};
+			auto mbr = structType->getMember( expr->getMemberIndex() );
 
-				switch ( mbr.builtin )
+			switch ( mbr.builtin )
+			{
+			case ast::Builtin::eLaunchID:
+				m_result = writeFuncCall( mbr.type, "DispatchRaysIndex" );
+				break;
+			case ast::Builtin::eLaunchSize:
+				m_result = writeFuncCall( mbr.type, "DispatchRaysDimensions" );
+				break;
+			case ast::Builtin::eInstanceCustomIndex:
+				m_result = writeFuncCall( mbr.type, "InstanceID" );
+				break;
+			case ast::Builtin::eInstanceID:
+				m_result = writeFuncCall( mbr.type, "InstanceIndex" );
+				break;
+			case ast::Builtin::eGeometryIndex:
+				m_result = writeFuncCall( mbr.type, "InstanceIndex" );
+				break;
+			case ast::Builtin::ePrimitiveID:
+				if ( isRayTraceStage( m_writerConfig.shaderStage ) )
 				{
-				case ast::Builtin::eLaunchID:
-					m_result = writeFuncCall( mbr.type, "DispatchRaysIndex" );
-					break;
-				case ast::Builtin::eLaunchSize:
-					m_result = writeFuncCall( mbr.type, "DispatchRaysDimensions" );
-					break;
-				case ast::Builtin::eInstanceCustomIndex:
-					m_result = writeFuncCall( mbr.type, "InstanceID" );
-					break;
-				case ast::Builtin::eInstanceID:
-					m_result = writeFuncCall( mbr.type, "InstanceIndex" );
-					break;
-				case ast::Builtin::eGeometryIndex:
-					m_result = writeFuncCall( mbr.type, "InstanceIndex" );
-					break;
-				case ast::Builtin::ePrimitiveID:
-					if ( isRayTraceStage( m_writerConfig.shaderStage ) )
-					{
-						m_result = writeFuncCall( mbr.type, "PrimitiveIndex" );
-					}
-					break;
-				case ast::Builtin::eWorldRayOrigin:
-					m_result = writeFuncCall( mbr.type, "WorldRayOrigin" );
-					break;
-				case ast::Builtin::eWorldRayDirection:
-					m_result = writeFuncCall( mbr.type, "WorldRayDirection" );
-					break;
-				case ast::Builtin::eObjectRayOrigin:
-					m_result = writeFuncCall( mbr.type, "ObjectRayOrigin" );
-					break;
-				case ast::Builtin::eObjectRayDirection:
-					m_result = writeFuncCall( mbr.type, "ObjectRayDirection" );
-					break;
-				case ast::Builtin::eRayTmin:
-					m_result = writeFuncCall( mbr.type, "RayTMin" );
-					break;
-				case ast::Builtin::eRayTmax:
-					m_result = writeFuncCall( mbr.type, "RayTCurrent" );
-					break;
-				case ast::Builtin::eIncomingRayFlags:
-					m_result = writeFuncCall( mbr.type, "RayFlags" );
-					break;
-				case ast::Builtin::eHitKind:
-					m_result = writeFuncCall( mbr.type, "HitKind" );
-					break;
-				case ast::Builtin::eObjectToWorld:
-					m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
-					break;
-				case ast::Builtin::eWorldToObject:
-					m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
-					break;
-				case ast::Builtin::eSubgroupSize:
-					m_result = writeFuncCall( mbr.type, "WaveGetLaneCount" );
-					break;
-				case ast::Builtin::eSubgroupLocalInvocationID:
-					m_result = writeFuncCall( mbr.type, "WaveGetLaneIndex" );
-					break;
-				default:
-					//noop
-					break;
+					m_result = writeFuncCall( mbr.type, "PrimitiveIndex" );
 				}
+				break;
+			case ast::Builtin::eWorldRayOrigin:
+				m_result = writeFuncCall( mbr.type, "WorldRayOrigin" );
+				break;
+			case ast::Builtin::eWorldRayDirection:
+				m_result = writeFuncCall( mbr.type, "WorldRayDirection" );
+				break;
+			case ast::Builtin::eObjectRayOrigin:
+				m_result = writeFuncCall( mbr.type, "ObjectRayOrigin" );
+				break;
+			case ast::Builtin::eObjectRayDirection:
+				m_result = writeFuncCall( mbr.type, "ObjectRayDirection" );
+				break;
+			case ast::Builtin::eRayTmin:
+				m_result = writeFuncCall( mbr.type, "RayTMin" );
+				break;
+			case ast::Builtin::eRayTmax:
+				m_result = writeFuncCall( mbr.type, "RayTCurrent" );
+				break;
+			case ast::Builtin::eIncomingRayFlags:
+				m_result = writeFuncCall( mbr.type, "RayFlags" );
+				break;
+			case ast::Builtin::eHitKind:
+				m_result = writeFuncCall( mbr.type, "HitKind" );
+				break;
+			case ast::Builtin::eObjectToWorld:
+				m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
+				break;
+			case ast::Builtin::eWorldToObject:
+				m_result = writeFuncCall( mbr.type, "ObjectToWorld3x4" );
+				break;
+			case ast::Builtin::eSubgroupSize:
+				m_result = writeFuncCall( mbr.type, "WaveGetLaneCount" );
+				break;
+			case ast::Builtin::eSubgroupLocalInvocationID:
+				m_result = writeFuncCall( mbr.type, "WaveGetLaneIndex" );
+				break;
+			default:
+				//noop
+				break;
 			}
 		}
 
@@ -1247,17 +1252,17 @@ namespace hlsl
 			|| HlslExprAdapterInternal::isMatrix( expr->getRHS()->getType()->getKind() ) )
 		{
 			ast::var::VariableList params;
-			params.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			params.push_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getLHS()->getType()
 				, "lhs" ) );
-			params.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			params.push_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getRHS()->getType()
 				, "rhs" ) );
 			ast::expr::ExprList argsList;
 			argsList.emplace_back( doSubmit( expr->getLHS() ) );
 			argsList.emplace_back( doSubmit( expr->getRHS() ) );
 			m_result = m_exprCache.makeFnCall( expr->getType()
-				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeVariable( ++m_adaptationData.nextVarId
+				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, m_typesCache.getFunction( expr->getType(), params )
 					, "mul" ) )
 				, std::move( argsList ) );
@@ -1270,9 +1275,9 @@ namespace hlsl
 		}
 	}
 
-	void ExprAdapter::doPushSplImgArg( ast::expr::Expr & imageArg
+	void ExprAdapter::doPushSplImgArg( ast::expr::Expr const & imageArg
 		, ast::var::VariablePtr imageVar
-		, ast::expr::Expr & samplerArg
+		, ast::expr::Expr const & samplerArg
 		, ast::var::VariablePtr samplerVar
 		, bool writeSampler
 		, ast::expr::ExprList & args )
@@ -1349,7 +1354,7 @@ namespace hlsl
 		return result;
 	}
 
-	void ExprAdapter::doProcessImageSize( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageSize( ast::expr::StorageImageAccessCall const * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1360,12 +1365,12 @@ namespace hlsl
 		{
 			ast::var::VariableList resVars;
 			ast::var::VariableList parameters;
-			auto image = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto image = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[0]->getType()
 				, "image" );
 			parameters.emplace_back( image );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
@@ -1375,44 +1380,47 @@ namespace hlsl
 			switch ( getComponentCount( expr->getType()->getKind() ) )
 			{
 			case 1:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eScalar;
 				break;
 			case 2:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimY" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec2;
 				break;
 			case 3:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimY" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimZ" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec3;
 				break;
+			default:
+				AST_Failure( "Invalid count for image size" );
+				throw ast::Exception{ "Invalid count for image size" };
 			}
 
 			// The call to image.GetDimensions
 			ast::expr::ExprList callArgs;
 
-			for ( auto & var : resVars )
+			for ( auto const & var : resVars )
 			{
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, var ) );
 			}
@@ -1420,7 +1428,7 @@ namespace hlsl
 			if ( config.dimension == ast::type::ImageDim::eCube
 				&& !config.isArrayed )
 			{
-				auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				auto var = ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dummy" );
 				cont->addStmt( m_stmtCache.makeVariableDecl( var ) );
@@ -1428,7 +1436,7 @@ namespace hlsl
 			}
 
 			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
-				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( m_adaptationData.getNextVarId()
 					, m_typesCache.getFunction( m_typesCache.getVoid(), resVars )
 					, "GetDimensions" ) )
 				, m_exprCache.makeIdentifier( m_typesCache, image )
@@ -1437,7 +1445,7 @@ namespace hlsl
 			// The return statement
 			ast::expr::ExprList resArgs;
 
-			for ( auto & var : resVars )
+			for ( auto const & var : resVars )
 			{
 				resArgs.emplace_back( m_exprCache.makeCast( m_typesCache.getInt32()
 					, m_exprCache.makeIdentifier( m_typesCache, var ) ) );
@@ -1454,7 +1462,7 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = m_adaptationData.funcs.imageSizeFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1465,7 +1473,7 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessImageLoad( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageLoad( ast::expr::StorageImageAccessCall const * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1473,28 +1481,30 @@ namespace hlsl
 		ast::expr::ExprList argList;
 		ast::var::VariableList paramList;
 		uint32_t index = 0u;
-		paramList.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+		paramList.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 			, expr->getArgList().front()->getType()
-			, "p" + std::to_string( index++ ) ) );
+			, "p" + std::to_string( index ) ) );
+		++index;
 
 		for ( auto it = expr->getArgList().begin() + 1u; it != expr->getArgList().end(); ++it )
 		{
 			argList.emplace_back( doSubmit( *it ) );
-			paramList.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			paramList.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, argList.back()->getType()
-				, "p" + std::to_string( index++ ) ) );
+				, "p" + std::to_string( index ) ) );
+			++index;
 		}
 
 		m_result = m_exprCache.makeMemberFnCall( callRetType
-			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
+			, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, m_typesCache.getFunction( expr->getType(), paramList )
 				, "Load" ) )
 			, doSubmit( expr->getArgList().front() )
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessImageStore( ast::expr::StorageImageAccessCall * expr
-		, std::map< std::string, FuncNames::Function > & imageStoreFuncs )
+	void ExprAdapter::doProcessImageStore( ast::expr::StorageImageAccessCall const * expr
+		, std::map< std::string, FuncNames::Function, std::less<> > & imageStoreFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1512,25 +1522,25 @@ namespace hlsl
 				|| expr->getImageAccess() == ast::expr::StorageImageAccess::eImageStore2DMSArrayU;
 			auto dataType = args.back()->getType();
 			ast::var::VariableList parameters;
-			parameters.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			parameters.push_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[0]->getType()
 				, "image" ) );
-			parameters.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			parameters.push_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[1]->getType()
 				, "coord" ) );
 
 			if ( hasSample )
 			{
-				parameters.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				parameters.push_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, expr->getArgList()[2]->getType()
 					, "sample" ) );
 			}
 
-			parameters.push_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			parameters.push_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, dataType
 				, "data" ) );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
@@ -1542,7 +1552,7 @@ namespace hlsl
 					, m_exprCache.makeIdentifier( m_typesCache, parameters[1] ) )
 				, m_exprCache.makeIdentifier( m_typesCache, parameters.back() ) ) ) );
 
-			it = imageStoreFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = imageStoreFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1558,9 +1568,9 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessImageAtomic( ast::expr::StorageImageAccessCall * expr
+	void ExprAdapter::doProcessImageAtomic( ast::expr::StorageImageAccessCall const * expr
 		, std::string const & name
-		, std::map< std::string, FuncNames::Function > & imageAtomicFuncs )
+		, std::map< std::string, FuncNames::Function, std::less<> > & imageAtomicFuncs )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1572,25 +1582,25 @@ namespace hlsl
 			// Declare the function
 			auto dataType = expr->getArgList()[2]->getType();
 			ast::var::VariableList parameters;
-			auto image = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto image = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[0]->getType()
 				, "image" );
-			auto coord = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto coord = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[1]->getType()
 				, "coord" );
-			auto data = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto data = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, dataType
 				, "data" );
 			parameters.emplace_back( image );
 			parameters.emplace_back( coord );
 			parameters.emplace_back( data );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			// Function content
-			auto res = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto res = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, dataType
 				, "res" );
 			cont->addStmt( m_stmtCache.makeVariableDecl( res ) );
@@ -1601,20 +1611,20 @@ namespace hlsl
 			callArgs.emplace_back( m_exprCache.makeArrayAccess( m_typesCache.getSampledType( config.format )
 				, m_exprCache.makeIdentifier( m_typesCache, image )
 				, m_exprCache.makeIdentifier( m_typesCache, coord ) ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p0" ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, data ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p1" ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, res ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p2" ) );
 
 			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
-				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( m_adaptationData.getNextVarId()
 					, m_typesCache.getFunction( m_typesCache.getVoid(), callParameters )
 					, "Interlocked" + name ) )
 				, std::move( callArgs ) ) ) );
@@ -1622,7 +1632,7 @@ namespace hlsl
 			//	The return statement
 			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
 
-			it = imageAtomicFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = imageAtomicFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1638,42 +1648,42 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessImageAtomicAdd( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicAdd( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "Add", m_adaptationData.funcs.imageAtomicAddFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicMin( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicMin( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "Min", m_adaptationData.funcs.imageAtomicMinFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicMax( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicMax( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "Max", m_adaptationData.funcs.imageAtomicMaxFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicAnd( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicAnd( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "And", m_adaptationData.funcs.imageAtomicAndFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicOr( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicOr( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "Or", m_adaptationData.funcs.imageAtomicOrFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicXor( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicXor( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "Xor", m_adaptationData.funcs.imageAtomicXorFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicExchange( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicExchange( ast::expr::StorageImageAccessCall const * expr )
 	{
 		doProcessImageAtomic( expr, "Exchange", m_adaptationData.funcs.imageAtomicExchangeFuncs );
 	}
 
-	void ExprAdapter::doProcessImageAtomicCompSwap( ast::expr::StorageImageAccessCall * expr )
+	void ExprAdapter::doProcessImageAtomicCompSwap( ast::expr::StorageImageAccessCall const * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1685,28 +1695,28 @@ namespace hlsl
 			// Declare the function
 			auto dataType = expr->getArgList()[2]->getType();
 			ast::var::VariableList parameters;
-			auto image = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto image = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[0]->getType()
 				, "image" );
-			auto coord = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto coord = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[1]->getType()
 				, "coord" );
-			auto compare = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto compare = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[2]->getType()
 				, "compare" );
-			auto data = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto data = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, dataType, "data" );
 			parameters.emplace_back( image );
 			parameters.emplace_back( coord );
 			parameters.emplace_back( compare );
 			parameters.emplace_back( data );
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
 			// Function content
-			auto res = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto res = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, dataType
 				, "res" );
 			cont->addStmt( m_stmtCache.makeVariableDecl( res ) );
@@ -1717,24 +1727,24 @@ namespace hlsl
 			callArgs.emplace_back( m_exprCache.makeArrayAccess( m_typesCache.getSampledType( config.format )
 				, m_exprCache.makeIdentifier( m_typesCache, image )
 				, m_exprCache.makeIdentifier( m_typesCache, coord ) ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p0" ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, compare ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p1" ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, data ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p2" ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, res ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
 				, "p3" ) );
 
 			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeFnCall( m_typesCache.getVoid()
-				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( m_adaptationData.getNextVarId()
 					, m_typesCache.getFunction( expr->getType(), callParameters )
 					, "InterlockedCompareExchange" ) )
 				, std::move( callArgs ) ) ) );
@@ -1742,7 +1752,7 @@ namespace hlsl
 			//	The return statement
 			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, res ) ) );
 
-			it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1758,7 +1768,7 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessTextureSize( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTextureSize( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1768,7 +1778,7 @@ namespace hlsl
 		if ( it == m_adaptationData.funcs.imageSizeFuncs.end() )
 		{
 			ast::var::VariableList parameters;
-			auto image = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto image = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, imgArgType->getImageType()
 				, "image" );
 			parameters.emplace_back( image );
@@ -1777,14 +1787,14 @@ namespace hlsl
 			if ( config.dimension != ast::type::ImageDim::eBuffer
 				&& config.dimension != ast::type::ImageDim::eRect )
 			{
-				lod = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				lod = ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, expr->getArgList()[1]->getType()
 					, "lod" );
 				parameters.emplace_back( lod );
 			}
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
@@ -1795,38 +1805,41 @@ namespace hlsl
 			switch ( getComponentCount( expr->getType()->getKind() ) )
 			{
 			case 1:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eScalar;
 				break;
 			case 2:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimY" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec2;
 				break;
 			case 3:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimY" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimZ" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				composite = ast::expr::CompositeType::eVec3;
 				break;
+			default:
+				AST_Failure( "Invalid count for image size" );
+				throw ast::Exception{ "Invalid count for texture size" };
 			}
 
 			// The call to image.GetDimensions
@@ -1837,41 +1850,44 @@ namespace hlsl
 			if ( lod )
 			{
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, lod ) );
-				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, callArgs.back()->getType()
-					, "p" + std::to_string( index++ ) ) );
+					, "p" + std::to_string( index ) ) );
+				++index;
 			}
 			else if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
 				callArgs.emplace_back( m_exprCache.makeLiteral( m_typesCache, 0u ) );
-				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, callArgs.back()->getType()
-					, "p" + std::to_string( index++ ) ) );
+					, "p" + std::to_string( index ) ) );
+				++index;
 			}
 
-			for ( auto & var : resVars )
+			for ( auto const & var : resVars )
 			{
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, var ) );
-				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, callArgs.back()->getType()
-					, "p" + std::to_string( index++ ) ) );
+					, "p" + std::to_string( index ) ) );
+				++index;
 			}
 
 			if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
-				auto var = ast::var::makeVariable( ++m_adaptationData.nextVarId
+				auto var = ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "levels" );
 				cont->addStmt( m_stmtCache.makeVariableDecl( var ) );
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, var ) );
-				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, callArgs.back()->getType()
-					, "p" + std::to_string( index++ ) ) );
+					, "p" + std::to_string( index ) ) );
 			}
 
 			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache
-					, ast::var::makeFunction( ++m_adaptationData.nextVarId
+					, ast::var::makeFunction( m_adaptationData.getNextVarId()
 						, m_typesCache.getFunction( expr->getType(), callParameters )
 						, "GetDimensions" ) )
 				, m_exprCache.makeIdentifier( m_typesCache, image )
@@ -1880,7 +1896,7 @@ namespace hlsl
 			// The return statement
 			ast::expr::ExprList resArgs;
 
-			for ( auto & var : resVars )
+			for ( auto const & var : resVars )
 			{
 				resArgs.emplace_back( m_exprCache.makeCast( m_typesCache.getInt32()
 					, m_exprCache.makeIdentifier( m_typesCache, var ) ) );
@@ -1897,7 +1913,7 @@ namespace hlsl
 					, std::move( resArgs ) ) ) );
 			}
 
-			it = m_adaptationData.funcs.imageSizeFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = m_adaptationData.funcs.imageSizeFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1916,7 +1932,7 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessTextureQueryLod( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTextureQueryLod( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -1926,13 +1942,13 @@ namespace hlsl
 		if ( it == m_adaptationData.funcs.imageLodFuncs.end() )
 		{
 			ast::var::VariableList parameters;
-			auto image = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto image = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, imgArgType->getImageType()
 				, "texImage" );
-			auto sampler = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto sampler = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, imgArgType->getSamplerType()
 				, "texSampler" );
-			auto coord = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto coord = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, expr->getArgList()[1]->getType()
 				, "P" );
 			parameters.emplace_back( image );
@@ -1940,7 +1956,7 @@ namespace hlsl
 			parameters.emplace_back( coord );
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
@@ -1950,18 +1966,19 @@ namespace hlsl
 			uint32_t index = 0u;
 			ast::var::VariableList callParameters;
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, sampler ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
-				, "p" + std::to_string( index++ ) ) );
+				, "p" + std::to_string( index ) ) );
+			++index;
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, coord ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
-				, "p" + std::to_string( index++ ) ) );
+				, "p" + std::to_string( index ) ) );
 
 			// The return statement
 			ast::expr::ExprList resArgs;
 			resArgs.emplace_back( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
-				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( ++m_adaptationData.nextVarId
+				, m_exprCache.makeIdentifier( m_typesCache, ast::var::makeFunction( m_adaptationData.getNextVarId()
 					, m_typesCache.getFunction( expr->getType(), callParameters )
 					, "CalculateLevelOfDetail" ) )
 				, m_exprCache.makeIdentifier( m_typesCache, image )
@@ -1972,7 +1989,7 @@ namespace hlsl
 				, ast::type::Kind::eFloat
 				, std::move( resArgs ) ) ) );
 
-			it = m_adaptationData.funcs.imageLodFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = m_adaptationData.funcs.imageLodFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -1991,7 +2008,7 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessTextureQueryLevels( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTextureQueryLevels( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr->getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
@@ -2001,13 +2018,13 @@ namespace hlsl
 		if ( it == m_adaptationData.funcs.imageLevelsFuncs.end() )
 		{
 			ast::var::VariableList parameters;
-			auto image = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto image = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, imgArgType->getImageType()
 				, "image" );
 			parameters.emplace_back( image );
 
 			auto functionType = m_typesCache.getFunction( expr->getType(), parameters );
-			auto functionVar = ast::var::makeFunction( ++m_adaptationData.nextVarId
+			auto functionVar = ast::var::makeFunction( m_adaptationData.getNextVarId()
 				, functionType
 				, funcName );
 			auto cont = m_stmtCache.makeFunctionDecl( functionVar );
@@ -2017,13 +2034,13 @@ namespace hlsl
 			switch ( config.dimension )
 			{
 			case ast::type::ImageDim::e1D:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				if ( config.isArrayed )
 				{
-					resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+					resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, uintType
 						, "dimY" ) );
 					cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
@@ -2032,32 +2049,32 @@ namespace hlsl
 			case ast::type::ImageDim::e2D:
 			case ast::type::ImageDim::eRect:
 			case ast::type::ImageDim::eCube:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimY" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				if ( config.isArrayed )
 				{
-					resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+					resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, uintType
 						, "dimZ" ) );
 					cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
 				}
 				break;
 			case ast::type::ImageDim::e3D:
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimX" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimY" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
-				resVars.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
 					, "dimZ" ) );
 				cont->addStmt( m_stmtCache.makeVariableDecl( resVars.back() ) );
@@ -2074,31 +2091,33 @@ namespace hlsl
 			if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
 				callArgs.emplace_back( m_exprCache.makeLiteral( m_typesCache, 0u ) );
-				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, callArgs.back()->getType()
-					, "p" + std::to_string( index++ ) ) );
+					, "p" + std::to_string( index ) ) );
+				++index;
 			}
 
-			for ( auto & var : resVars )
+			for ( auto const & var : resVars )
 			{
 				callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, var ) );
-				callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+				callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, callArgs.back()->getType()
-					, "p" + std::to_string( index++ ) ) );
+					, "p" + std::to_string( index ) ) );
+				++index;
 			}
 
-			auto levels = ast::var::makeVariable( ++m_adaptationData.nextVarId
+			auto levels = ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, uintType
 				, "levels" );
 			cont->addStmt( m_stmtCache.makeVariableDecl( levels ) );
 			callArgs.emplace_back( m_exprCache.makeIdentifier( m_typesCache, levels ) );
-			callParameters.emplace_back( ast::var::makeVariable( ++m_adaptationData.nextVarId
+			callParameters.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 				, callArgs.back()->getType()
-				, "p" + std::to_string( index++ ) ) );
+				, "p" + std::to_string( index ) ) );
 
 			cont->addStmt( m_stmtCache.makeSimple( m_exprCache.makeMemberFnCall( m_typesCache.getVoid()
 				, m_exprCache.makeIdentifier( m_typesCache
-					, ast::var::makeFunction( ++m_adaptationData.nextVarId
+					, ast::var::makeFunction( m_adaptationData.getNextVarId()
 						, m_typesCache.getFunction( expr->getType(), callParameters )
 						, "GetDimensions" ) )
 				, m_exprCache.makeIdentifier( m_typesCache, image )
@@ -2107,7 +2126,7 @@ namespace hlsl
 			// The return statement
 			cont->addStmt( m_stmtCache.makeReturn( m_exprCache.makeIdentifier( m_typesCache, levels ) ) );
 
-			it = m_adaptationData.funcs.imageLevelsFuncs.emplace( funcName, FuncNames::Function{ functionType, functionVar } ).first;
+			it = m_adaptationData.funcs.imageLevelsFuncs.try_emplace( funcName, functionType, functionVar ).first;
 			m_intrinsics->addStmt( std::move( cont ) );
 		}
 
@@ -2119,13 +2138,12 @@ namespace hlsl
 			, std::move( argList ) );
 	}
 
-	void ExprAdapter::doProcessTexelFetch( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTexelFetch( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
-		auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
-
-		if ( !isImage )
+		if ( auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
+			!isImage )
 		{
 			AST_Failure( "First parameter should be sampled image" );
 		}
@@ -2197,14 +2215,13 @@ namespace hlsl
 			, std::move( args ) );
 	}
 
-	void ExprAdapter::doProcessTextureGradShadow( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTextureGradShadow( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		// Sample grad doesn't support SampleComparisonState, replace it with a SampleCmp.
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
-		auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
-
-		if ( !isImage )
+		if ( auto isImage = doProcessTextureArg( *expr->getArgList()[0], false, args );
+			!isImage )
 		{
 			AST_Failure( "First parameter should be sampled image" );
 		}
@@ -2230,26 +2247,29 @@ namespace hlsl
 		visitCombinedImageAccessCallExpr( result.get() );
 	}
 
-	void ExprAdapter::doProcessTextureGather( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTextureGather( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		auto kind = expr->getCombinedImageAccess();
 		assert( expr->getArgList().size() >= 2u );
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
-		auto isImage = doProcessTextureArg( *expr->getArgList()[index++], true, args );
+		auto isImage = doProcessTextureArg( *expr->getArgList()[index], true, args );
+		++index;
 
 		if ( !isImage )
 		{
 			AST_Failure( "First parameter should be sampled image" );
 		}
 
-		auto coord = doSubmit( expr->getArgList()[index++] );
+		auto coord = doSubmit( expr->getArgList()[index] );
+		++index;
 
 		if ( !isShadow( kind ) )
 		{
 			// Component
-			args.emplace_back( doSubmit( expr->getArgList()[index++] ) );
+			args.emplace_back( doSubmit( expr->getArgList()[index] ) );
+			++index;
 		}
 
 		// Coord
@@ -2259,12 +2279,14 @@ namespace hlsl
 		{
 			// Dref value
 			assert( expr->getArgList().size() >= 3u );
-			args.emplace_back( doSubmit( expr->getArgList()[index++] ) );
+			args.emplace_back( doSubmit( expr->getArgList()[index] ) );
+			++index;
 		}
 
 		while ( index < expr->getArgList().size() )
 		{
-			auto & origArg = expr->getArgList()[index++];
+			auto & origArg = expr->getArgList()[index];
+			++index;
 
 			if ( origArg->getKind() == ast::expr::Kind::eAggrInit )
 			{
@@ -2284,14 +2306,15 @@ namespace hlsl
 			, std::move( args ) );
 	}
 
-	void ExprAdapter::doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		auto kind = expr->getCombinedImageAccess();
 		assert( expr->getArgList().size() >= 3u );
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
-		auto isImage = doProcessTextureArg( *expr->getArgList()[index++], true, args );
+		auto isImage = doProcessTextureArg( *expr->getArgList()[index], true, args );
+		++index;
 
 		if ( !isImage )
 		{
@@ -2301,21 +2324,24 @@ namespace hlsl
 		if ( !isShadow( kind ) )
 		{
 			// Component
-			args.emplace_back( doSubmit( expr->getArgList()[index++] ) );
+			args.emplace_back( doSubmit( expr->getArgList()[index] ) );
+			++index;
 		}
 
 		// Coord
-		args.emplace_back( doSubmit( expr->getArgList()[index++] ) );
+		args.emplace_back( doSubmit( expr->getArgList()[index] ) );
+		++index;
 
 		if ( isShadow( kind ) )
 		{
 			// Dref value
 			assert( expr->getArgList().size() >= 4u );
-			args.emplace_back( doSubmit( expr->getArgList()[index++] ) );
+			args.emplace_back( doSubmit( expr->getArgList()[index] ) );
+			++index;
 		}
 
 		// Next parameter contains the 4 offsets.
-		auto & offset = *expr->getArgList()[index++];
+		auto & offset = *expr->getArgList()[index];
 		assert( getArraySize( offset.getType() ) == 4u );
 		auto arrayType = std::static_pointer_cast< ast::type::Array >( offset.getType() );
 		args.emplace_back( ast::resolveConstants( m_exprCache
@@ -2340,7 +2366,7 @@ namespace hlsl
 			, std::move( args ) );
 	}
 
-	void ExprAdapter::doProcessTexture( ast::expr::CombinedImageAccessCall * expr )
+	void ExprAdapter::doProcessTexture( ast::expr::CombinedImageAccessCall const * expr )
 	{
 		ast::expr::ExprList args;
 		uint32_t index = 0u;
@@ -2387,16 +2413,15 @@ namespace hlsl
 
 	ast::var::VariablePtr ExprAdapter::doMakeAlias( ast::type::TypePtr type )
 	{
-		++m_adaptationData.aliasId;
-		return ast::var::makeVariable( ++m_adaptationData.nextVarId
+		m_adaptationData.getNextAliasId();
+		return ast::var::makeVariable( m_adaptationData.getNextVarId()
 			, std::move( type )
 			, "temp_" + std::to_string( m_adaptationData.aliasId )
 			, ( ast::var::Flag::eAlias
 				| ast::var::Flag::eTemp ) );
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doWriteUnpack1( ast::expr::Expr & index
-		, ast::expr::Expr & packed )
+	ast::expr::ExprPtr ExprAdapter::doWriteUnpack1( ast::expr::Expr & packed )
 	{
 		auto value = doSubmit( &packed );
 		return m_exprCache.makeBitAnd( packed.getType()
@@ -2404,8 +2429,7 @@ namespace hlsl
 			, m_exprCache.makeLiteral( m_typesCache, 0x000000FFu  ) );
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doWriteUnpack2( ast::expr::Expr & index
-		, ast::expr::Expr & packed )
+	ast::expr::ExprPtr ExprAdapter::doWriteUnpack2( ast::expr::Expr & packed )
 	{
 		ast::expr::ExprList args;
 		auto value = doSubmit( &packed );
@@ -2424,8 +2448,7 @@ namespace hlsl
 			, std::move( args ) );
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doWriteUnpack3( ast::expr::Expr & index
-		, ast::expr::Expr & packed )
+	ast::expr::ExprPtr ExprAdapter::doWriteUnpack3( ast::expr::Expr & packed )
 	{
 		ast::expr::ExprList args;
 		auto value = doSubmit( &packed );
