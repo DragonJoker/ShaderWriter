@@ -132,8 +132,7 @@ namespace sdw
 	{
 		SDW_DeclValue( SDW_API, CombinedImage );
 
-		SDW_API CombinedImage( ast::type::ImageFormat format
-			, ShaderWriter & writer
+		SDW_API CombinedImage( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 

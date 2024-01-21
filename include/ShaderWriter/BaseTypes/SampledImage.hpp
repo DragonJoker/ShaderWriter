@@ -13,8 +13,7 @@ namespace sdw
 	{
 		SDW_DeclValue( SDW_API, SampledImage );
 
-		SDW_API SampledImage( ast::type::ImageFormat format
-			, ShaderWriter & writer
+		SDW_API SampledImage( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 
