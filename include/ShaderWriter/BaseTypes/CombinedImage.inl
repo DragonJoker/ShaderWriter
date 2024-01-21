@@ -2812,7 +2812,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2885,7 +2885,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -2941,7 +2941,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3003,7 +3003,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3048,7 +3048,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3116,7 +3116,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3190,7 +3190,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3246,7 +3246,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3296,7 +3296,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3352,7 +3352,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3394,7 +3394,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 
@@ -3428,7 +3428,7 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled )
-				: CombinedImage{ FormatT, writer, std::move( expr ), enabled }
+				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
 

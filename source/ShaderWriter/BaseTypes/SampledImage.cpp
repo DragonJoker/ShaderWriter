@@ -5,8 +5,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	SampledImage::SampledImage( ast::type::ImageFormat /*format*/
-		, ShaderWriter & writer
+	SampledImage::SampledImage( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }

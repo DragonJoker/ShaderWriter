@@ -34,7 +34,7 @@ namespace sdw
 	SampledImageT< FormatT, DimT, ArrayedT, MsT >::SampledImageT( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
-		: SampledImage{ FormatT, writer, std::move( expr ), enabled }
+		: SampledImage{ writer, std::move( expr ), enabled }
 	{
 	}
 

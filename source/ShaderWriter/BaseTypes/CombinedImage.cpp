@@ -5,8 +5,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	CombinedImage::CombinedImage( ast::type::ImageFormat /*format*/
-		, ShaderWriter & writer
+	CombinedImage::CombinedImage( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
 		: Value{ writer, std::move( expr ), enabled }
