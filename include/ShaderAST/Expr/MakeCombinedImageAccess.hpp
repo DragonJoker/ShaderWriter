@@ -81996,6 +81996,64 @@ namespace ast::expr
 	*@return
 	*	float
 	*@param image
+	*	CombinedImage<Float, Cube, Shadow>
+	*@param[in] P
+	*	vec3f
+	*@param[in] refZ
+	*	float
+	*@param[in] lod
+	*	float
+	*/
+	inline CombinedImageAccessCallPtr makeTextureLodCubeShadowFR32( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr texture
+		, ExprPtr P
+		, ExprPtr refZ
+		, ExprPtr lod )
+	{
+		assert( P->getType()->getRawKind() == type::Kind::eVec3F );
+		assert( refZ->getType()->getRawKind() == type::Kind::eFloat );
+		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
+			, CombinedImageAccess::eTextureLodCubeShadowF
+			, std::move( texture )
+			, std::move( P )
+			, std::move( refZ )
+			, std::move( lod ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	CombinedImage<Float, Cube, Shadow>
+	*@param[in] P
+	*	vec3f
+	*@param[in] refZ
+	*	float
+	*@param[in] lod
+	*	float
+	*/
+	inline CombinedImageAccessCallPtr makeTextureLodCubeShadowFR16( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr texture
+		, ExprPtr P
+		, ExprPtr refZ
+		, ExprPtr lod )
+	{
+		assert( P->getType()->getRawKind() == type::Kind::eVec3F );
+		assert( refZ->getType()->getRawKind() == type::Kind::eFloat );
+		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
+			, CombinedImageAccess::eTextureLodCubeShadowF
+			, std::move( texture )
+			, std::move( P )
+			, std::move( refZ )
+			, std::move( lod ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
 	*	CombinedImage<Float, 1D, Array, Shadow>
 	*@param[in] P
 	*	vec2f
@@ -82045,6 +82103,122 @@ namespace ast::expr
 		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, CombinedImageAccess::eTextureLod1DArrayShadowF
+			, std::move( texture )
+			, std::move( P )
+			, std::move( refZ )
+			, std::move( lod ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	CombinedImage<Float, 2D, Array, Shadow>
+	*@param[in] P
+	*	vec3f
+	*@param[in] refZ
+	*	float
+	*@param[in] lod
+	*	float
+	*/
+	inline CombinedImageAccessCallPtr makeTextureLod2DArrayShadowFR32( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr texture
+		, ExprPtr P
+		, ExprPtr refZ
+		, ExprPtr lod )
+	{
+		assert( P->getType()->getRawKind() == type::Kind::eVec3F );
+		assert( refZ->getType()->getRawKind() == type::Kind::eFloat );
+		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
+			, CombinedImageAccess::eTextureLod2DArrayShadowF
+			, std::move( texture )
+			, std::move( P )
+			, std::move( refZ )
+			, std::move( lod ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	CombinedImage<Float, 2D, Array, Shadow>
+	*@param[in] P
+	*	vec3f
+	*@param[in] refZ
+	*	float
+	*@param[in] lod
+	*	float
+	*/
+	inline CombinedImageAccessCallPtr makeTextureLod2DArrayShadowFR16( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr texture
+		, ExprPtr P
+		, ExprPtr refZ
+		, ExprPtr lod )
+	{
+		assert( P->getType()->getRawKind() == type::Kind::eVec3F );
+		assert( refZ->getType()->getRawKind() == type::Kind::eFloat );
+		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
+			, CombinedImageAccess::eTextureLod2DArrayShadowF
+			, std::move( texture )
+			, std::move( P )
+			, std::move( refZ )
+			, std::move( lod ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	CombinedImage<Float, Cube, Array, Shadow>
+	*@param[in] P
+	*	vec4f
+	*@param[in] refZ
+	*	float
+	*@param[in] lod
+	*	float
+	*/
+	inline CombinedImageAccessCallPtr makeTextureLodCubeArrayShadowFR32( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr texture
+		, ExprPtr P
+		, ExprPtr refZ
+		, ExprPtr lod )
+	{
+		assert( P->getType()->getRawKind() == type::Kind::eVec4F );
+		assert( refZ->getType()->getRawKind() == type::Kind::eFloat );
+		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
+			, CombinedImageAccess::eTextureLodCubeArrayShadowF
+			, std::move( texture )
+			, std::move( P )
+			, std::move( refZ )
+			, std::move( lod ) );
+	}
+	/**
+	*@return
+	*	float
+	*@param image
+	*	CombinedImage<Float, Cube, Array, Shadow>
+	*@param[in] P
+	*	vec4f
+	*@param[in] refZ
+	*	float
+	*@param[in] lod
+	*	float
+	*/
+	inline CombinedImageAccessCallPtr makeTextureLodCubeArrayShadowFR16( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr texture
+		, ExprPtr P
+		, ExprPtr refZ
+		, ExprPtr lod )
+	{
+		assert( P->getType()->getRawKind() == type::Kind::eVec4F );
+		assert( refZ->getType()->getRawKind() == type::Kind::eFloat );
+		assert( lod->getType()->getRawKind() == type::Kind::eFloat );
+		return exprCache.makeCombinedImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
+			, CombinedImageAccess::eTextureLodCubeArrayShadowF
 			, std::move( texture )
 			, std::move( P )
 			, std::move( refZ )

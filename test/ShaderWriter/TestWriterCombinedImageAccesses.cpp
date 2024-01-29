@@ -718,7 +718,10 @@ namespace
 	struct TextureLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
+			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
+			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
+			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
+			|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 

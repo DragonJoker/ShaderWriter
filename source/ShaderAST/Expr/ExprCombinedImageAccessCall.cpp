@@ -267,7 +267,10 @@ namespace ast::expr
 		case CombinedImageAccess::eTextureProj2DRectShadowF:
 		case CombinedImageAccess::eTextureLod1DShadowF:
 		case CombinedImageAccess::eTextureLod2DShadowF:
+		case CombinedImageAccess::eTextureLodCubeShadowF:
 		case CombinedImageAccess::eTextureLod1DArrayShadowF:
+		case CombinedImageAccess::eTextureLod2DArrayShadowF:
+		case CombinedImageAccess::eTextureLodCubeArrayShadowF:
 		case CombinedImageAccess::eTextureOffset2DRectShadowF:
 		case CombinedImageAccess::eTextureOffset1DShadowF:
 		case CombinedImageAccess::eTextureOffset1DShadowFBias:

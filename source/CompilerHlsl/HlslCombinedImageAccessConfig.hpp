@@ -36,7 +36,10 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLod2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
@@ -75,7 +78,10 @@ namespace hlsl
 				|| value == ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureLod1DShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureLod2DShadowF
+				|| value == ast::expr::CombinedImageAccess::eTextureLodCubeShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF
+				|| value == ast::expr::CombinedImageAccess::eTextureLod2DArrayShadowF
+				|| value == ast::expr::CombinedImageAccess::eTextureLodCubeArrayShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureLodOffset2DShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF

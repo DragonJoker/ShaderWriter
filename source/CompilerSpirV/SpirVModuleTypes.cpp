@@ -164,6 +164,14 @@ namespace spirv
 			}
 		}
 
+		static size_t myHash( ast::type::TypePtr type
+			, ast::type::Trinary isComparison = ast::type::Trinary::eDontCare )noexcept
+		{
+			size_t result = std::hash< ast::type::TypePtr >{}( type );
+			result = ast::type::hashCombine( result, isComparison );
+			return result;
+		}
+
 		static size_t myHash( ast::type::ImageConfiguration const & config
 			, ast::type::Trinary isComparison )noexcept
 		{
@@ -323,13 +331,13 @@ namespace spirv
 	{
 		if ( auto rit = std::find_if( m_registeredTypes.begin()
 			, m_registeredTypes.end()
-			, [&typeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+			, [&typeId]( std::pair< size_t const, TypeId > const & lookup )
 			{
 				return lookup.second.id.id == typeId.id.id;
 			} );
 			rit != m_registeredTypes.end() )
 		{
-			return rit->first;
+			return rit->second->type;
 		}
 
 		return nullptr;
@@ -427,7 +435,7 @@ namespace spirv
 				auto componentId = instruction.operands[0];
 				auto cit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [componentId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [componentId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == componentId;
 					} );
@@ -436,7 +444,7 @@ namespace spirv
 					return;
 				}
 
-				auto kind = cit->first->getKind();
+				auto kind = cit->second->type->getKind();
 
 				if ( auto count = instruction.operands[1];
 					count == 2u )
@@ -465,7 +473,7 @@ namespace spirv
 				auto componentId = instruction.operands[0];
 				auto cit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [componentId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [componentId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == componentId;
 					} );
@@ -474,7 +482,7 @@ namespace spirv
 					return;
 				}
 
-				auto kind = cit->first->getKind();
+				auto kind = cit->second->type->getKind();
 
 				if ( auto count = instruction.operands[1];
 					count == 2u )
@@ -530,7 +538,7 @@ namespace spirv
 				auto imageId = instruction.operands[0u];
 				auto iit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [imageId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [imageId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == imageId;
 					} );
@@ -539,7 +547,7 @@ namespace spirv
 					return;
 				}
 
-				auto image = std::static_pointer_cast< ast::type::Image >( iit->first );
+				auto image = std::static_pointer_cast< ast::type::Image >( iit->second->type );
 				auto type = m_typesCache->getCombinedImage( image->getConfig() );
 				doRegisterBaseType( *instruction.resultId, type );
 			}
@@ -549,7 +557,7 @@ namespace spirv
 				auto elementId = instruction.operands[0];
 				auto cit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [elementId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [elementId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == elementId;
 					} );
@@ -559,7 +567,7 @@ namespace spirv
 				}
 
 				auto count = instruction.operands[1];
-				auto type = m_typesCache->getArray( cit->first, count );
+				auto type = m_typesCache->getArray( cit->second->type, count );
 				doRegisterBaseType( *instruction.resultId, type );
 			}
 			break;
@@ -568,7 +576,7 @@ namespace spirv
 				auto elementId = instruction.operands[0];
 				auto cit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [elementId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [elementId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == elementId;
 					} );
@@ -577,7 +585,7 @@ namespace spirv
 					return;
 				}
 
-				auto type = m_typesCache->getArray( cit->first );
+				auto type = m_typesCache->getArray( cit->second->type );
 				doRegisterBaseType( *instruction.resultId, type );
 			}
 			break;
@@ -587,7 +595,7 @@ namespace spirv
 				auto elementId = instruction.operands[1];
 				auto cit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [elementId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [elementId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == elementId;
 					} );
@@ -599,7 +607,7 @@ namespace spirv
 				auto key = ( uint64_t( cit->second.id.id ) << 33 )
 					| ( ( uint64_t( cit->second.isPointer() ) << 32 ) & 0x01 )
 					| ( uint64_t( storage ) << 1 );
-				auto type = m_typesCache->getPointerType( cit->first, convert( storage ) );
+				auto type = m_typesCache->getPointerType( cit->second->type, convert( storage ) );
 				m_registeredPointerTypes.try_emplace( key, *instruction.resultId, type );
 			}
 			break;
@@ -615,7 +623,7 @@ namespace spirv
 					auto subTypeId = instruction.operands[i];
 					auto cit = std::find_if( m_registeredTypes.begin()
 						, m_registeredTypes.end()
-						, [subTypeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+						, [subTypeId]( std::pair< size_t const, TypeId > const & lookup )
 						{
 							return lookup.second.id.id == subTypeId;
 						} );
@@ -624,14 +632,14 @@ namespace spirv
 						return;
 					}
 
-					if ( cit->first->getKind() == ast::type::Kind::eArray )
+					if ( cit->second->type->getKind() == ast::type::Kind::eArray )
 					{
 						type->declMember( names.getMember( structId, i )
-							, std::static_pointer_cast< ast::type::Array >( cit->first ) );
+							, std::static_pointer_cast< ast::type::Array >( cit->second->type ) );
 					}
 					else
 					{
-						type->declMember( names.getMember( structId, i ), cit->first );
+						type->declMember( names.getMember( structId, i ), cit->second->type );
 					}
 				}
 
@@ -645,7 +653,7 @@ namespace spirv
 				auto retTypeId = instruction.operands[0];
 				auto cit = std::find_if( m_registeredTypes.begin()
 					, m_registeredTypes.end()
-					, [retTypeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+					, [retTypeId]( std::pair< size_t const, TypeId > const & lookup )
 					{
 						return lookup.second.id.id == retTypeId;
 					} );
@@ -655,7 +663,7 @@ namespace spirv
 				}
 
 				TypeIdList types{ m_allocator };
-				auto returnType = cit->first;
+				auto returnType = cit->second->type;
 				types.emplace_back( cit->second );
 
 				for ( uint32_t i = 1u; i < uint32_t( instruction.operands.size() ); ++i )
@@ -663,7 +671,7 @@ namespace spirv
 					auto paramTypeId = instruction.operands[i];
 					cit = std::find_if( m_registeredTypes.begin()
 						, m_registeredTypes.end()
-						, [paramTypeId]( std::pair< ast::type::TypePtr const, TypeId > const & lookup )
+						, [paramTypeId]( std::pair< size_t const, TypeId > const & lookup )
 						{
 							return lookup.second.id.id == paramTypeId;
 						} );
@@ -687,7 +695,7 @@ namespace spirv
 					}
 					else
 					{
-						paramType = cit->first;
+						paramType = cit->second->type;
 					}
 
 					types.emplace_back( paramTypeId, paramType );
@@ -712,7 +720,7 @@ namespace spirv
 		TypeId result;
 		auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
 
-		if ( auto it = m_registeredTypes.find( unqualifiedType );
+		if ( auto it = m_registeredTypes.find( modtyp::myHash( unqualifiedType ) );
 			it == m_registeredTypes.end() )
 		{
 			result = doRegisterBaseType( unqualifiedType
@@ -745,12 +753,13 @@ namespace spirv
 				, arrayStride
 				, debugStatement );
 			auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
-			auto it = m_registeredTypes.find( unqualifiedType );
+			auto hash = modtyp::myHash( unqualifiedType );
+			auto it = m_registeredTypes.find( hash );
 
 			if ( it == m_registeredTypes.end() )
 			{
 				result.id.id = m_module.getNextId();
-				auto & resultId = m_registeredTypes.try_emplace( unqualifiedType, result ).first->second;
+				auto & resultId = m_registeredTypes.try_emplace( hash, result ).first->second;
 				
 				if ( auto arraySize = getArraySize( type );
 					arraySize != ast::type::UnknownArraySize )
@@ -970,7 +979,7 @@ namespace spirv
 	{
 		TypeId result{ 0u, type };
 		result.id.id = id;
-		return m_registeredTypes.try_emplace( type, result ).first->second;
+		return m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
 	}
 
 	TypeId & ModuleTypes::doRegisterBaseType( spv::Id id
@@ -1055,7 +1064,7 @@ namespace spirv
 		if ( res )
 		{
 			it->second = TypeId{ id, type };
-			auto const & resultId = m_registeredTypes.try_emplace( type, it->second ).first->second;
+			auto const & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, isComparison ), it->second ).first->second;
 			it->second = resultId;
 		}
 	}
@@ -1063,7 +1072,7 @@ namespace spirv
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::ImagePtr type
 		, ast::type::Trinary isComparison )
 	{
-		auto [it, res] = m_registeredImageTypes.try_emplace(modtyp::myHash(type->getConfig(), isComparison));
+		auto [it, res] = m_registeredImageTypes.try_emplace( modtyp::myHash( type->getConfig(), isComparison ) );
 
 		if ( res )
 		{
@@ -1076,7 +1085,7 @@ namespace spirv
 				, isComparison
 				, it->second.id
 				, sampledTypeId.id ) );
-			auto & resultId = m_registeredTypes.try_emplace( type, it->second ).first->second;
+			auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, isComparison ), it->second ).first->second;
 			m_nonSemanticDebug.registerImageType( std::move( type ), resultId );
 			it->second = resultId;
 		}
@@ -1100,7 +1109,7 @@ namespace spirv
 		result.id.id = m_module.getNextId();
 		m_declarations.push_back( makeAccelerationStructureTypeInstruction( m_module.getNameCache()
 			, result.id ) );
-		auto & resultId = m_registeredTypes.try_emplace( type, result ).first->second;
+		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
 		m_nonSemanticDebug.registerAccelerationStructureType( resultId );
 		return resultId;
 	}
@@ -1189,7 +1198,7 @@ namespace spirv
 			m_module.decorate( result, spv::DecorationBlock );
 		}
 
-		auto & resultId = m_registeredTypes.try_emplace( type, result ).first->second;
+		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
 		m_nonSemanticDebug.registerStructType( std::move( type )
 			, debugSubTypes
 			, debugStatement

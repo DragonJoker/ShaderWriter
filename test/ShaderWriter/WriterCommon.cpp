@@ -112,6 +112,7 @@ namespace test
 				result.insert( glsl::ARB_shader_draw_parameters );
 				result.insert( glsl::ARB_fragment_layer_viewport );
 				result.insert( glsl::ARB_tessellation_shader );
+				result.insert( glsl::EXT_texture_shadow_lod );
 			}
 
 			if ( glslVersion >= glsl::v1_5 )

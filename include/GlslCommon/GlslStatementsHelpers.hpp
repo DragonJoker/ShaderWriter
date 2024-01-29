@@ -80,6 +80,7 @@ namespace glsl
 	makeGlExtension( v1_1, v1_1, v4_1, EXT_gpu_shader4_1 );
 	makeGlExtension( v1_3, v1_3, v4_0, ARB_sample_shading );
 	makeGlExtension( v1_3, v1_3, v4_0, ARB_texture_query_lod );
+	makeGlExtension( v1_1, v1_1, v4_0, EXT_texture_shadow_lod );
 	makeGlExtension( v1_3, v1_3, v4_3, ARB_texture_query_levels );
 	makeGlExtension( v1_4, v1_4, v4_2, ARB_shading_language_420pack );
 	makeGlExtension( v1_4, v1_4, vUnk, ARB_shader_stencil_export );
