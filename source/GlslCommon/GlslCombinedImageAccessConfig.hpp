@@ -76,6 +76,11 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureQueryLevelsCubeArrayU:
 			config.requiredExtensions.insert( ARB_texture_query_levels );
 			break;
+		case ast::expr::CombinedImageAccess::eTextureLodCubeShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLod2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayShadowF:
+			config.requiredExtensions.insert( EXT_texture_shadow_lod );
+			break;
 		case ast::expr::CombinedImageAccess::eTextureGather2DF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeF:

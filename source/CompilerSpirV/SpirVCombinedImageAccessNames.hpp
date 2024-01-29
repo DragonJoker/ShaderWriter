@@ -464,7 +464,10 @@ namespace spirv
 
 		case ast::expr::CombinedImageAccess::eTextureLod1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod2DShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLod2DArrayShadowF:
+		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF:

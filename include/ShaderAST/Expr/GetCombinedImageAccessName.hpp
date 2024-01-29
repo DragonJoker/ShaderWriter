@@ -1818,8 +1818,20 @@ namespace ast::expr
 			result = "TextureLod2DShadowF";
 			break;
 
+		case CombinedImageAccess::eTextureLodCubeShadowF:
+			result = "TextureLodCubeShadowF";
+			break;
+
 		case CombinedImageAccess::eTextureLod1DArrayShadowF:
 			result = "TextureLod1DArrayShadowF";
+			break;
+
+		case CombinedImageAccess::eTextureLod2DArrayShadowF:
+			result = "TextureLod2DArrayShadowF";
+			break;
+
+		case CombinedImageAccess::eTextureLodCubeArrayShadowF:
+			result = "TextureLodCubeArrayShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset2DRectShadowF:

@@ -653,12 +653,12 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureLod1DShadowF,
 			expr::CombinedImageAccess::eTextureLod2DShadowF,
-			expr::CombinedImageAccess::eInvalid,
+			expr::CombinedImageAccess::eTextureLodCubeShadowF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLod1DArrayShadowF,
-			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
+			expr::CombinedImageAccess::eTextureLod2DArrayShadowF,
+			expr::CombinedImageAccess::eTextureLodCubeArrayShadowF,
 		};
 		static constexpr IntrinsicsList textureLodI
 		{
@@ -3384,6 +3384,7 @@ namespace sdw
 			, public QueryLevelsFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >
+			, public SampleRefLodFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
 			SDW_DeclValue( , CombinedImageFuncsT );
