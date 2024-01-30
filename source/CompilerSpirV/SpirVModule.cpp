@@ -19,8 +19,6 @@ See LICENSE file in root folder
 
 namespace spirv
 {
-	static bool constexpr SDW_Spirv_IntermediatesPerBlock = false;
-
 	//*************************************************************************
 
 	namespace spvmodule
@@ -92,9 +90,7 @@ namespace spirv
 		, m_currentScopeVariables{ &m_registeredVariables }
 		, m_registeredVariablesTypes{ allocator }
 		, m_registeredMemberVariables{ allocator }
-		, m_intermediates{ allocator }
-		, m_freeIntermediates{ allocator }
-		, m_busyIntermediates{ allocator }
+		, m_registeredExecutionModes{ allocator }
 		, m_pendingExecutionModes{ allocator }
 		, m_entryPointIO{ allocator }
 		, varDecorations{ allocator }
@@ -473,30 +469,10 @@ namespace spirv
 		{
 			storeVariable( variable
 				, sourceInfo.id
-				, currentBlock.instructions
+				, currentBlock
 				, debugStatement
 				, columns );
 		}
-	}
-
-	void Module::storeVariable( DebugId const & variable
-		, DebugId value
-		, InstructionList & instructions
-		, glsl::Statement const * debugStatement
-		, glsl::RangeInfo const & columns )
-	{
-		assert( variable.isPointer() );
-
-		if ( value.isPointer() )
-		{
-			value = loadVariable( value, instructions, debugStatement, columns );
-		}
-
-		m_nonSemanticDebug.makeLineExtension( instructions, debugStatement, columns );
-		instructions.push_back( makeInstruction< StoreInstruction >( getNameCache()
-			, variable.id
-			, value.id ) );
-		m_nonSemanticDebug.makeValueInstruction( instructions, variable, value );
 	}
 
 	void Module::storeVariable( DebugId const & variable
@@ -505,60 +481,7 @@ namespace spirv
 		, glsl::Statement const * debugStatement
 		, glsl::RangeInfo const & columns )
 	{
-		storeVariable( variable
-			, value
-			, currentBlock.instructions
-			, debugStatement
-			, columns );
-	}
-
-	DebugId Module::loadVariable( DebugId const & variableId
-		, InstructionList & instructions
-		, glsl::Statement const * debugStatement
-		, glsl::RangeInfo const & columns )
-	{
-		if ( variableId.isPointer() )
-		{
-			auto type = static_cast< ast::type::Pointer const & >( *variableId->type ).getPointerType();
-			m_nonSemanticDebug.makeLineExtension( instructions, debugStatement, columns );
-
-			if ( !hasRuntimeArray( type ) )
-			{
-				auto typeId = m_types.registerType( type, nullptr );
-				DebugId resultId{ getIntermediateResult(), typeId->type };
-
-				if ( variableId.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
-				{
-					// Loading from PhysicalStorageBuffer needs to set the alignment
-					auto structType = getStructType( type );
-					instructions.push_back( makeInstruction< LoadInstruction >( getNameCache()
-						, typeId.id
-						, resultId.id
-						, makeOperands( allocator
-							, variableId
-							, ValueId{ spv::Id( spv::MemoryAccessAlignedMask ) }
-							, ValueId{ ast::type::getAlignment( type
-								, ( structType
-									? structType->getMemoryLayout()
-									: ast::type::MemoryLayout::eScalar ) ) } ) ) );
-				}
-				else
-				{
-					instructions.push_back( makeInstruction< LoadInstruction >( getNameCache()
-						, typeId.id
-						, resultId.id
-						, makeOperands( allocator
-							, variableId
-							, ValueId{ spv::Id( spv::MemoryAccessMaskNone ) } ) ) );
-				}
-
-				m_nonSemanticDebug.makeValueInstruction( instructions, resultId, variableId );
-				lnkIntermediateResult( resultId, variableId );
-				return resultId;
-			}
-		}
-
-		return variableId;
+		currentBlock.storeVariable( variable, value, *this, m_types, debugStatement, columns, m_nonSemanticDebug );
 	}
 
 	DebugId Module::loadVariable( DebugId const & variableId
@@ -566,10 +489,7 @@ namespace spirv
 		, glsl::Statement const * debugStatement
 		, glsl::RangeInfo const & columns )
 	{
-		return loadVariable( variableId
-			, currentBlock.instructions
-			, debugStatement
-			, columns );
+		return currentBlock.loadVariable( variableId, *this, m_types, debugStatement, columns, m_nonSemanticDebug );
 	}
 
 	void Module::bindVariable( DebugId const & varId
@@ -762,7 +682,7 @@ namespace spirv
 				it->second.isOutParam = false;
 				doAddDebug( "ptr_" + name, id );
 				doAddVariable( block, name, id, it, DebugId{}, debugStatement );
-				m_nonSemanticDebug.declarePointerParam( m_currentFunction->promotedParams, "ptr_" + name, type, id, initialiser, debugStatement );
+				m_nonSemanticDebug.declarePointerParam( m_currentFunction->promotedParams.instructions, "ptr_" + name, type, id, initialiser, debugStatement );
 
 				if ( m_version >= v1_4
 					&& storage != spv::StorageClassFunction )
@@ -988,15 +908,18 @@ namespace spirv
 
 	void Module::registerExecutionMode( spv::ExecutionMode mode, ValueIdList const & operands )
 	{
-		if ( !entryPoint || entryPoint->operands.empty() )
+		if ( m_registeredExecutionModes.emplace( mode ).second )
 		{
-			m_pendingExecutionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
-				, makeOperands( allocator, 0u, spv::Id( mode ), operands ) ) );
-		}
-		else
-		{
-			executionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
-				, makeOperands( allocator, entryPoint->resultId.value(), spv::Id( mode ), operands ) ) );
+			if ( !entryPoint || entryPoint->operands.empty() )
+			{
+				m_pendingExecutionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
+					, makeOperands( allocator, 0u, spv::Id( mode ), operands ) ) );
+			}
+			else
+			{
+				executionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
+					, makeOperands( allocator, entryPoint->resultId.value(), spv::Id( mode ), operands ) ) );
+			}
 		}
 	}
 
@@ -1166,54 +1089,7 @@ namespace spirv
 
 	spv::Id Module::getIntermediateResult()
 	{
-		spv::Id result{};
-
-		if ( m_freeIntermediates.empty() )
-		{
-			result = getNextId();
-			m_intermediates.insert( result );
-			m_freeIntermediates.insert( result );
-		}
-
-		result = *m_freeIntermediates.begin();
-		m_freeIntermediates.erase( m_freeIntermediates.begin() );
-		return result;
-	}
-
-	void Module::lnkIntermediateResult( DebugId const & intermediate, DebugId const & var )
-	{
-		if ( !m_intermediates.contains( intermediate->id ) )
-		{
-			m_busyIntermediates.try_emplace( intermediate->id, var.id );
-		}
-	}
-
-	void Module::putIntermediateResult( ValueId const & id )
-	{
-		if constexpr ( SDW_Spirv_IntermediatesPerBlock )
-		{
-			if ( !m_intermediates.contains( id.id ) )
-			{
-				m_freeIntermediates.emplace( id );
-				std::erase_if( m_busyIntermediates
-					, [&id]( ast::UnorderedMap< spv::Id, ValueId >::value_type const & lookup )
-					{
-						return lookup.first == id.id || lookup.second == id;
-					} );
-			}
-		}
-	}
-
-	ValueId Module::getNonIntermediate( ValueId id )
-	{
-		while ( m_intermediates.contains( id.id ) )
-		{
-			auto it = m_busyIntermediates.find( id.id );
-			assert( it != m_busyIntermediates.end() );
-			id = it->second;
-		}
-
-		return id;
+		return getNextId();
 	}
 
 	Function * Module::beginFunction( std::string name
@@ -1309,7 +1185,7 @@ namespace spirv
 			{
 				auto & instructions = m_currentFunction->cfg.blocks.begin()->instructions;
 				{
-					auto params = std::move( m_currentFunction->promotedParams );
+					auto params = std::move( m_currentFunction->promotedParams.instructions );
 					std::reverse( params.begin(), params.end() );
 
 					for ( auto & param : params )
@@ -1318,7 +1194,7 @@ namespace spirv
 							, std::move( param ) );
 					}
 
-					m_currentFunction->promotedParams.clear();
+					m_currentFunction->promotedParams.instructions.clear();
 				}
 				{
 					auto debugStart = std::move( m_currentFunction->debugStart );

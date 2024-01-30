@@ -162,9 +162,6 @@ namespace spirv
 			, uint32_t maxPrimitives );
 		ValueId registerString( std::string text );
 		SDWSPIRV_API spv::Id getIntermediateResult();
-		SDWSPIRV_API void lnkIntermediateResult( DebugId const & intermediate, DebugId const & var );
-		SDWSPIRV_API void putIntermediateResult( ValueId const & id );
-		SDWSPIRV_API ValueId getNonIntermediate( ValueId id );
 
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
 			, DebugId varId
@@ -185,17 +182,8 @@ namespace spirv
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API void storeVariable( DebugId const & variable
-			, DebugId value
-			, InstructionList & instructions
-			, glsl::Statement const * debugStatement
-			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API void storeVariable( DebugId const & variable
 			, DebugId const & value
 			, Block & currentBlock
-			, glsl::Statement const * debugStatement
-			, glsl::RangeInfo const & columns );
-		SDWSPIRV_API DebugId loadVariable( DebugId const & variable
-			, InstructionList & instructions
 			, glsl::Statement const * debugStatement
 			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API DebugId loadVariable( DebugId const & variable
@@ -329,10 +317,8 @@ namespace spirv
 		ast::Map< std::string, VariableInfo, std::less<> > * m_currentScopeVariables;
 		ast::UnorderedMap< DebugId, TypeId, DebugIdHasher > m_registeredVariablesTypes;
 		ast::Map< std::string, std::pair< DebugId, DebugId >, std::less<> > m_registeredMemberVariables;
-		ast::UnorderedSet< spv::Id > m_intermediates;
-		ast::UnorderedSet< spv::Id > m_freeIntermediates;
-		ast::UnorderedMap< spv::Id, ValueId > m_busyIntermediates;
 		spv::ExecutionModel m_model{};
+		ast::Set< spv::ExecutionMode > m_registeredExecutionModes;
 		InstructionList m_pendingExecutionModes;
 		ValueIdSet m_entryPointIO;
 		DecorationMapIdMap varDecorations;

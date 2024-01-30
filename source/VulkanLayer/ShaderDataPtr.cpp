@@ -282,6 +282,11 @@ namespace ast::vk
 				return result;
 			}
 
+			for ( auto & lit : lhs )
+			{
+				result.emplace( *lit.second, static_cast< ResT const * >( lit.second ) );
+			}
+
 			mergeAttributes( result
 				, lhs
 				, [&rhs]( LhsMapVt const & itLhs )

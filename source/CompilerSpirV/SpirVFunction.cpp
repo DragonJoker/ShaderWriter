@@ -12,7 +12,7 @@ namespace spirv
 		, cfg{ alloc }
 		, variables{ ast::StlAllocatorT< InstructionPtr >{ alloc } }
 		, debugStart{ ast::StlAllocatorT< InstructionPtr >{ alloc } }
-		, promotedParams{ ast::StlAllocatorT< InstructionPtr >{ alloc } }
+		, promotedParams{ alloc }
 		, registeredVariables{ ast::StlMapAllocatorT< std::string, VariableInfo >{ alloc } }
 	{
 	}

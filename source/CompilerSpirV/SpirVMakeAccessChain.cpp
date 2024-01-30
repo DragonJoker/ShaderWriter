@@ -598,67 +598,6 @@ namespace spirv
 			ast::expr::Kind m_parentKind;
 			glsl::Statement * m_currentDebugStatement;
 		};
-
-		static bool constexpr SPIRV_CacheAccessChains = false;
-
-		static DebugId writeAccessChain( Block & currentBlock
-			, ValueIdList const & accessChain
-			, ast::expr::Expr const & expr
-			, Module & shaderModule )
-		{
-			if constexpr ( SPIRV_CacheAccessChains )
-			{
-				auto debugAccessChain = toTypeId( accessChain );
-				auto it = currentBlock.accessChains.find( debugAccessChain );
-
-				if ( it == currentBlock.accessChains.end() )
-				{
-					// Register the type pointed to.
-					auto rawTypeId = shaderModule.registerType( expr.getType(), nullptr );
-					// Register the pointer to the type.
-					auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
-						, getStorageClass( shaderModule.getVersion(), ast::findIdentifier( expr )->getVariable() ) );
-					// Reserve the ID for the result.
-					ValueId resultId{ shaderModule.getIntermediateResult(), pointerTypeId.id.type };
-					// Write access chain => resultId = pointerTypeId( outer.members + index ).
-					currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( shaderModule.getNameCache()
-						, pointerTypeId
-						, resultId
-						, accessChain ) );
-					it = currentBlock.accessChains.try_emplace( debugAccessChain, resultId ).first;
-				}
-
-				return it->second;
-			}
-			else
-			{
-				spv::StorageClass storageClass{};
-
-				if ( accessChain.front().isPointer() )
-				{
-					storageClass = convert( accessChain.front().getStorage() );
-				}
-				else
-				{
-					auto var = ast::findIdentifier( expr )->getVariable();
-					storageClass = getStorageClass( shaderModule.getVersion(), var );
-				}
-
-				// Register the type pointed to.
-				auto rawTypeId = shaderModule.registerType( expr.getType(), nullptr );
-				// Register the pointer to the type.
-				auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
-					, storageClass );
-				// Reserve the ID for the result.
-				DebugId result{ shaderModule.getIntermediateResult(), pointerTypeId->type };
-				// Write access chain => resultId = pointerTypeId( outer.members + index ).
-				currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( shaderModule.getNameCache()
-					, pointerTypeId.id
-					, result.id
-					, accessChain ) );
-				return result;
-			}
-		}
 	}
 
 	bool isAccessChain( ast::expr::Expr const & expr )
@@ -675,22 +614,16 @@ namespace spirv
 	{
 		// Create Access Chain.
 		ast::expr::ExprList idents;
-		auto accessChainExprs = acnhlp::AccessChainLineariser::submit( exprCache, expr.getTypesCache(), expr, idents );
 		auto accessChain = acnhlp::AccessChainCreator::submit( exprCache
-			, accessChainExprs
+			, acnhlp::AccessChainLineariser::submit( exprCache, expr.getTypesCache(), expr, idents )
 			, context
 			, shaderModule
 			, currentBlock
 			, debugStatement );
-		auto resultId = acnhlp::writeAccessChain( currentBlock
-			, convert( accessChain )
+		return currentBlock.writeAccessChain( convert( accessChain )
 			, expr
-			, shaderModule );
-		shaderModule.declareDebugAccessChain( currentBlock.instructions
-			, expr
-			, debugStatement
-			, resultId );
-		return resultId;
+			, shaderModule
+			, debugStatement );
 	}
 
 	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache

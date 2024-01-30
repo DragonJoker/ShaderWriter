@@ -92,7 +92,6 @@ layout(location=0) in vec4 sdwIn_position;
 layout(location=1) in vec4 sdwIn_colour;
 layout(location=0) out vec4 sdwOut_position;
 layout(location=1) out vec4 sdwOut_colour;
-
 out gl_PerVertex
 {
 	vec4 gl_Position;
@@ -111,21 +110,21 @@ void main()
 
 The following HLSL (Shader Model 5):
 ```hlsl
-struct HLSL_SDW_GlobalInput
+struct HLSL_SDW_GlobalVertInput
 {
 	float4 colour: TEXCOORD1;
 	float4 position: TEXCOORD0;
 };
 
-struct HLSL_SDW_MainOutput
+struct HLSL_SDW_MainVertOutput
 {
 	float4 colour: TEXCOORD1;
 	float4 position: TEXCOORD0;
 	float4 Position: SV_Position;
 };
 
-void main(in HLSL_SDW_GlobalInput sdwGlobalInput
-	, out HLSL_SDW_MainOutput sdwMainOutput)
+void main(in HLSL_SDW_GlobalVertInput sdwGlobalInput
+	, out HLSL_SDW_MainVertOutput sdwMainOutput)
 {
 	sdwMainOutput.colour = sdwGlobalInput.colour;
 	sdwMainOutput.position = sdwGlobalInput.position;
@@ -133,27 +132,27 @@ void main(in HLSL_SDW_GlobalInput sdwGlobalInput
 }
 ```
 
-And the following SPIR-V listing:
+And the following SPIR-V 1.6 listing:
 ```
 ; Magic:     0x07230203
-; Version:   0x00010300
-; Generator: 0x00210012
-; Bound:     18
+; Version:   0x00010600
+; Generator: 0x00210271
+; Bound:     17
 ; Schema:    0
 
         Capability Shader
-
+   %1 = ExtInstImport "GLSL.std.450"
         MemoryModel Logical GLSL450
-        EntryPoint Vertex %12 "main" %2 %6 %7 %9 %10
+        EntryPoint Vertex %13 "main" %2 %6 %7 %9 %10
 
-; Debug
+; Debug Names and Sources
         Source LanguageGLSL 460
         Name %2(sdwIn_colour) "sdwIn_colour"
         Name %6(sdwIn_position) "sdwIn_position"
         Name %7(sdwOut_colour) "sdwOut_colour"
         Name %9(sdwOut_position) "sdwOut_position"
         Name %10(OutPosition) "OutPosition"
-        Name %12(main) "main"
+        Name %13(main) "main"
 
 ; Decorations
         Decorate %10(OutPosition) BuiltIn Position
@@ -162,33 +161,32 @@ And the following SPIR-V listing:
         Decorate %9(sdwOut_position) Location 0
         Decorate %6(sdwIn_position) Location 0
 
-; Types, Constants, and Global Variables
-   %3 = TypeFloat 32
-   %4 = TypeVector %3(f32) 4
-   %5 = TypePointer Input %4(v4f32)
+; Constants and Types
+   %4 = TypeFloat 32
+   %3 = TypeVector %4(f32) 4
+   %5 = TypePointer Input %3(v4f32)
+   %8 = TypePointer Output %3(v4f32)
+  %12 = TypeVoid
+  %14 = TypeFunction %12(void)
+
+; Global Variables
    %2 = Variable %5(InputPtr<v4f32>) Input
    %6 = Variable %5(InputPtr<v4f32>) Input
-   %8 = TypePointer Output %4(v4f32)
    %7 = Variable %8(OutputPtr<v4f32>) Output
    %9 = Variable %8(OutputPtr<v4f32>) Output
   %10 = Variable %8(OutputPtr<v4f32>) Output
-  %11 = TypeVoid
-  %13 = TypeFunction %11
 
 ; Functions
-  %12 = Function %11 [None]  %13(func)
-  %14 = Label
-  %15 = Load %4(v4f32) %2(sdwIn_colour)
+ %13(main) = Function %12(void) [None]  %14(func)
+  %11 = Label
+  %15 = Load %3(v4f32) %2(sdwIn_colour)
         Store %7(sdwOut_colour) %15
-  %16 = Load %4(v4f32) %6(sdwIn_position)
+  %16 = Load %3(v4f32) %6(sdwIn_position)
         Store %9(sdwOut_position) %16
-  %17 = Load %4(v4f32) %6(sdwIn_position)
-        Store %10(OutPosition) %17
+        Store %10(OutPosition) %16
         Return
         FunctionEnd
 ```
-
-Some optimisations have been done, but more could be, with SPIR-V (the double load of `sdwIn_position`, for example, in this case).
 
 ## Contact
 

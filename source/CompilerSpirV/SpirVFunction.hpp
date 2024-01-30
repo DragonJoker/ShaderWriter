@@ -135,7 +135,7 @@ namespace spirv
 		// Used during construction.
 		InstructionList variables;
 		InstructionList debugStart;
-		InstructionList promotedParams;
+		Block promotedParams;
 		ast::Map< std::string, VariableInfo, std::less<> > registeredVariables;
 	};
 

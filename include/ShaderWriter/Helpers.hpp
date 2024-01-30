@@ -27,12 +27,22 @@ See LICENSE file in root folder
 namespace sdw
 {
 	using namespace ::ast;
-	
+
 	struct LocationHelper
 	{
 		uint32_t binding;
 		uint32_t set;
 	};
+
+	template< typename TypeT >
+	concept U32Compatible = std::is_same_v< uint32_t, uint32_t >
+		|| std::is_same_v< uint32_t, std::underlying_type_t< TypeT > >;
+
+	template< U32Compatible BindingT, U32Compatible SetT >
+	LocationHelper makeLocation( BindingT binding, SetT set )
+	{
+		return { .binding = uint32_t( binding ), .set = uint32_t( set ) };
+	}
 
 	template< typename ValueT >
 	ast::type::TypePtr makeType( ast::type::TypesCache & cache );
