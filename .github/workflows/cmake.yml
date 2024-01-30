@@ -207,6 +207,10 @@ jobs:
       shell: bash
       run: |
         ctest -C ${{ matrix.buildType }}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
     - name: Prepare success package
       if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
