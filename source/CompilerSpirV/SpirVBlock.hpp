@@ -7,8 +7,17 @@ See LICENSE file in root folder
 
 #include "SpirVInstruction.hpp"
 
+#include <GlslCommon/GlslStatementsHelpers.hpp>
+
 namespace spirv
 {
+	namespace debug
+	{
+		class NonSemanticDebug;
+	}
+
+	class ModuleTypes;
+
 	struct VariableInfo
 	{
 		explicit VariableInfo( DebugId pid = DebugId{}
@@ -48,6 +57,29 @@ namespace spirv
 		SDWSPIRV_API explicit Block( ast::ShaderAllocatorBlock * alloc
 			, spv::Id plabel = {} );
 
+		SDWSPIRV_API DebugId loadVariable( DebugId const & variable
+			, Module & shaderModule
+			, ModuleTypes & types
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns
+			, debug::NonSemanticDebug & nonSemanticDebug );
+		SDWSPIRV_API void storeVariable( DebugId const & variable
+			, DebugId value
+			, Module & shaderModule
+			, ModuleTypes & types
+			, glsl::Statement const * debugStatement
+			, glsl::RangeInfo const & columns
+			, debug::NonSemanticDebug & nonSemanticDebug );
+		SDWSPIRV_API void modifyVariable( DebugId const & variable );
+		SDWSPIRV_API DebugId writeAccessChain( ValueIdList const & accessChain
+			, ast::expr::Expr const & expr
+			, Module & shaderModule
+			, glsl::Statement const * debugStatement );
+		SDWSPIRV_API void writeAccessChain( DebugId const & accessChainId
+			, DebugId const & pointerTypeId
+			, ValueIdList const & accessChainOperands
+			, Module & shaderModule );
+
 		SDWSPIRV_API static Block deserialize( ast::ShaderAllocatorBlock * alloc
 			, InstructionPtr firstInstruction
 			, InstructionList::iterator & buffer
@@ -58,8 +90,9 @@ namespace spirv
 		InstructionList instructions;
 		InstructionPtr blockEnd{};
 		// Used during construction.
-		ast::UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > accessChains;
-		ast::UnorderedMap< DebugIdList, DebugId, DebugIdListHasher > vectorShuffles;
+		ast::ShaderAllocatorBlock * allocator;
+		ast::Map< DebugId, DebugId > variables;
+		ast::Vector< std::pair< DebugIdList, DebugId > > accessChains;
 		bool isInterrupted{};
 	};
 }

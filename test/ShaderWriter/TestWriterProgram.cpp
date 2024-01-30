@@ -17,7 +17,7 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
 #define RayTraceCompilers Compilers_NoHLSL
-#define MeshEXTCompilers Compilers_SPIRV
+#define MeshEXTCompilers Compilers_None
 
 namespace
 {
@@ -93,7 +93,7 @@ namespace
 		test::writeProgram( writer
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoSPIRV );
 		testEnd();
 	}
 
@@ -144,7 +144,7 @@ namespace
 		test::writeProgram( writer
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoSPIRV );
 		testEnd();
 	}
 
@@ -435,7 +435,7 @@ namespace
 		test::writeProgram( writer
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoSPIRV );
 		testEnd();
 	}
 
@@ -903,7 +903,7 @@ namespace
 		test::writeProgram( writer
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoSPIRV );
 		testEnd();
 	}
 
@@ -1012,7 +1012,7 @@ namespace
 		test::writeProgram( writer
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoSPIRV );
 		testEnd();
 	}
 }

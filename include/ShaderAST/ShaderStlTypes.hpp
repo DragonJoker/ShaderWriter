@@ -76,8 +76,11 @@ namespace ast
 		return false;
 	}
 
+	template< typename FirstT, typename SecondT >
+	using StlPairAllocatorT = StlAllocatorT< std::pair< FirstT, SecondT > >;
+
 	template< typename KeyT, typename ValueT >
-	using StlMapAllocatorT = StlAllocatorT< std::pair< KeyT const, ValueT > >;
+	using StlMapAllocatorT = StlPairAllocatorT< KeyT const, ValueT >;
 
 	template< typename ValueT >
 	using Vector = std::vector< ValueT, StlAllocatorT< ValueT > >;

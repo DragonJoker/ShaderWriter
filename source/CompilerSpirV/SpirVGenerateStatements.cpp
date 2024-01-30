@@ -619,11 +619,6 @@ namespace spirv
 				return DebugId{ m_module.getIntermediateResult(), type };
 			}
 
-			void putIntermediateResult( DebugId const & id )
-			{
-				m_module.putIntermediateResult( id.id );
-			}
-
 			uint32_t getVersion()const
 			{
 				return m_module.getVersion();
@@ -817,10 +812,10 @@ namespace spirv
 							, getStorageClass( getVersion(), static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
 						//   Create the access chain.
 						auto intermediateId = getIntermediateResult( pointerTypeId->type );
-						m_currentBlock.instructions.emplace_back( makeInstruction< AccessChainInstruction >( getNameCache()
-							, pointerTypeId.id
-							, intermediateId.id
-							, makeOperands( m_allocator, lhsId, componentId ) ) );
+						m_currentBlock.writeAccessChain( intermediateId
+							, pointerTypeId
+							, makeOperands( m_allocator, lhsId, componentId )
+							, m_module );
 						// - Store the RHS into this access chain.
 						storeVariable( intermediateId, rhsId, *expr );
 						m_result = intermediateId;
@@ -1045,6 +1040,10 @@ namespace spirv
 							id = makeFunctionAlias( srcId, arg->getType(), *arg );
 							outputParams.emplace_back( srcId, id, arg->getType() );
 						}
+						else
+						{
+							m_currentBlock.modifyVariable( id );
+						}
 					}
 					else
 					{
@@ -1225,7 +1224,6 @@ namespace spirv
 						, m_result.id
 						, op
 						, convert( accessParams ) ) );
-					putIntermediateResult( pointerId );
 				}
 			}
 
@@ -1622,8 +1620,6 @@ namespace spirv
 					, resultTypeId.id
 					, m_result.id
 					, makeOperands( m_allocator, resultCarryBorrowId, ValueId{ 0u } ) ) );
-
-				putIntermediateResult( intermediateId );
 			}
 
 			void handleMulExtendedIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall const * expr )
@@ -1679,10 +1675,6 @@ namespace spirv
 					, makeOperands( m_allocator, resultMulExtendedId, ValueId{ 0u } ) ) );
 				auto lsbId = getVariablePointer( lsbArg );
 				storeVariable( lsbId, intermediateLsb, *expr );
-
-				putIntermediateResult( intermediateMsb );
-				putIntermediateResult( intermediateLsb );
-				putIntermediateResult( resultMulExtendedId );
 			}
 
 			void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall const * expr )
