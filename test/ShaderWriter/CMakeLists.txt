@@ -98,7 +98,7 @@ set_target_properties( TestWriterCommon
 find_package( spirv_cross_core CONFIG )
 find_package( spirv_cross_glsl CONFIG )
 find_package( spirv_cross_hlsl CONFIG )
-if ( spirv_cross_core AND spirv_cross_glsl AND spirv_cross_hlsl )
+if ( TARGET spirv-cross-core AND TARGET spirv-cross-glsl AND TARGET spirv-cross-hlsl )
 	target_link_libraries( TestWriterCommon PRIVATE spirv-cross-core spirv-cross-glsl spirv-cross-hlsl )
 	target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasSpirVCross=1 )
 endif ()

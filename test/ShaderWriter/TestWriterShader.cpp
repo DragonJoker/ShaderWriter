@@ -12,53 +12,52 @@
 namespace
 {
 	template< sdw::var::Flag FlagT >
+	using ColourTStructT = sdw::IOStructInstanceHelperT< FlagT
+		, "Colour"
+		, sdw::IOVec4Field< "colour", 0u > >;
+	template< sdw::var::Flag FlagT >
+	using PosColStructT = sdw::MixedStructInstanceHelperT< FlagT
+		, "PosCol"
+		, sdw::type::MemoryLayout::eStd430
+		, sdw::IOVec4Field< "position", 0u >
+		, sdw::IOVec4Field< "colour", 1u > >;
+
+	template< sdw::var::Flag FlagT >
 	struct ColourT
-		: sdw::StructInstance
+		: public ColourTStructT< FlagT >
 	{
 		ColourT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, colour{ getMember< sdw::Vec4 >( "colour" ) }
+			: ColourTStructT< FlagT >{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , ColourT );
-
-		static ast::type::IOStructPtr makeIOType( ast::type::TypesCache & cache
-			, ast::EntryPoint entryPoint )
+		auto colour()const
 		{
-			auto result = cache.getIOStruct( "Colour"
-				, entryPoint
-				, FlagT );
+			return this->template getMember< "colour" >();
+		}
+	};
 
-			if ( result->empty() )
-			{
-				result->declMember( "colour"
-					, ast::type::Kind::eVec4F
-					, ast::type::NotArray
-					, 0u );
-			}
-
-			return result;
+	template< sdw::var::Flag FlagT >
+	struct PosColT
+		: public PosColStructT< FlagT >
+	{
+		PosColT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
+		{
 		}
 
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+		auto position()const
 		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eC
-				, "Colour" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "colour"
-					, ast::type::Kind::eVec4F
-					, ast::type::NotArray );
-			}
-
-			return result;
+			return this->template getMember< "position" >();
 		}
-
-		sdw::Vec4 colour;
+		auto colour()const
+		{
+			return this->template getMember< "colour" >();
+		}
 	};
 
 	template< sdw::var::Flag FlagT >
@@ -109,27 +108,6 @@ namespace
 		}
 
 		sdw::Vec4 position;
-	};
-
-	template< sdw::var::Flag FlagT >
-	using PosColStructT = sdw::IOStructInstanceHelperT< FlagT
-		, "PosCol"
-		, sdw::IOVec4Field< "position", 0u >
-		, sdw::IOVec4Field< "colour", 1u > >;
-
-	template< sdw::var::Flag FlagT >
-	struct PosColT
-		: public PosColStructT< FlagT >
-	{
-		PosColT( sdw::ShaderWriter & writer
-			, sdw::expr::ExprPtr expr
-			, bool enabled = true )
-			: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
-		{
-		}
-
-		auto position()const { return this->template getMember< "position" >(); }
-		auto colour()const { return this->template getMember< "colour" >(); }
 	};
 
 	template< sdw::var::Flag FlagT >
@@ -479,104 +457,64 @@ namespace
 	};
 
 	template< sdw::var::Flag FlagT >
+	using PNTriPatchStructT = sdw::MixedStructInstanceHelperT< FlagT
+		, "PNTriPatch"
+		, sdw::type::MemoryLayout::eC
+		, sdw::IOVec3Field< "wpB030", 0u >
+		, sdw::IOVec3Field< "wpB021", 1u >
+		, sdw::IOVec3Field< "wpB012", 2u >
+		, sdw::IOVec3Field< "wpB003", 3u >
+		, sdw::IOVec3Field< "wpB102", 4u >
+		, sdw::IOVec3Field< "wpB201", 5u >
+		, sdw::IOVec3Field< "wpB300", 6u >
+		, sdw::IOVec3Field< "wpB210", 7u >
+		, sdw::IOVec3Field< "wpB120", 8u >
+		, sdw::IOVec3Field< "wpB111", 9u > >;
+
+	template< sdw::var::Flag FlagT >
+	using PosColNmlStructT = sdw::MixedStructInstanceHelperT< FlagT
+		, "PosColNml"
+		, sdw::type::MemoryLayout::eStd430
+		, sdw::IOVec4Field< "position", 0u >
+		, sdw::IOVec3Field< "normal", 2u >
+		, sdw::IOVec4Field< "colour", 3u > >;
+	template< sdw::var::Flag FlagT >
 	struct PNTriPatchT
-		: sdw::StructInstance
+		: PNTriPatchStructT< FlagT >
 	{
 		PNTriPatchT( sdw::ShaderWriter & writer
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
-			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, wpB030{ getMember< sdw::Vec3 >( "wpB030" ) }
-			, wpB021{ getMember< sdw::Vec3 >( "wpB021" ) }
-			, wpB012{ getMember< sdw::Vec3 >( "wpB012" ) }
-			, wpB003{ getMember< sdw::Vec3 >( "wpB003" ) }
-			, wpB102{ getMember< sdw::Vec3 >( "wpB102" ) }
-			, wpB201{ getMember< sdw::Vec3 >( "wpB201" ) }
-			, wpB300{ getMember< sdw::Vec3 >( "wpB300" ) }
-			, wpB210{ getMember< sdw::Vec3 >( "wpB210" ) }
-			, wpB120{ getMember< sdw::Vec3 >( "wpB120" ) }
-			, wpB111{ getMember< sdw::Vec3 >( "wpB111" ) }
+			: PNTriPatchStructT< FlagT >{ writer, std::move( expr ), enabled }
 		{
 		}
 
-		SDW_DeclStructInstance( , PNTriPatchT );
+		auto wpB030()const { return this->template getMember< "wpB030" >(); }
+		auto wpB021()const { return this->template getMember< "wpB021" >(); }
+		auto wpB012()const { return this->template getMember< "wpB012" >(); }
+		auto wpB003()const { return this->template getMember< "wpB003" >(); }
+		auto wpB102()const { return this->template getMember< "wpB102" >(); }
+		auto wpB201()const { return this->template getMember< "wpB201" >(); }
+		auto wpB300()const { return this->template getMember< "wpB300" >(); }
+		auto wpB210()const { return this->template getMember< "wpB210" >(); }
+		auto wpB120()const { return this->template getMember< "wpB120" >(); }
+		auto wpB111()const { return this->template getMember< "wpB111" >(); }
+	};
 
-		template< sdw::var::Flag FlagU >
-		PNTriPatchT operator=( PNTriPatchT< FlagU > const & rhs )
+	template< sdw::var::Flag FlagT >
+	struct PosColNmlT
+		: PosColNmlStructT< FlagT >
+	{
+		PosColNmlT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: PosColNmlStructT< FlagT >{ writer, std::move( expr ), enabled }
 		{
-			wpB030 = rhs.wpB030;
-			wpB021 = rhs.wpB021;
-			wpB012 = rhs.wpB012;
-			wpB003 = rhs.wpB003;
-			wpB102 = rhs.wpB102;
-			wpB201 = rhs.wpB201;
-			wpB300 = rhs.wpB300;
-			wpB210 = rhs.wpB210;
-			wpB120 = rhs.wpB120;
-			wpB111 = rhs.wpB111;
-
-			return *this;
 		}
 
-		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
-			, ast::EntryPoint entryPoint )
-		{
-			auto result = cache.getIOStruct( "PNTriPatch"
-				, entryPoint
-				, FlagT );
-
-			if ( result->empty() )
-			{
-				uint32_t index = 0u;
-				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray, index++ );
-				result->end();
-			}
-
-			return result;
-		}
-
-		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( sdw::type::MemoryLayout::eC
-				, "PNTriPatch" );
-
-			if ( result->empty() )
-			{
-				result->declMember( "wpB030", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB021", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB012", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB003", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB102", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB201", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB300", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB210", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB120", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->declMember( "wpB111", sdw::type::Kind::eVec3F, sdw::type::NotArray );
-				result->end();
-			}
-
-			return result;
-		}
-
-		sdw::Vec3 wpB030;
-		sdw::Vec3 wpB021;
-		sdw::Vec3 wpB012;
-		sdw::Vec3 wpB003;
-		sdw::Vec3 wpB102;
-		sdw::Vec3 wpB201;
-		sdw::Vec3 wpB300;
-		sdw::Vec3 wpB210;
-		sdw::Vec3 wpB120;
-		sdw::Vec3 wpB111;
+		auto position()const { return this->template getMember< "position" >(); }
+		auto normal()const { return this->template getMember< "normal" >(); }
+		auto colour()const { return this->template getMember< "colour" >(); }
 	};
 
 	void vtx_frag( test::sdw_test::TestCounts & testCounts )
@@ -612,7 +550,7 @@ namespace
 					}
 					FI;
 
-					out.colour = in.colour();
+					out.colour() = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -677,7 +615,7 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.colour();
+					out.colour() = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -740,7 +678,7 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.colour();
+					out.colour() = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -803,7 +741,7 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&]( FragmentInT< PosColT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.colour();
+					out.colour() = in.colour();
 				} );
 
 			test::writeShader( writer
@@ -961,7 +899,7 @@ namespace
 			writer.implementMainT< PosNmlTexTanT, ColourT >( [&]( sdw::FragmentInT< PosNmlTexTanT > in
 				, sdw::FragmentOutT< ColourT > out )
 				{
-					out.colour = base_color_sampler.sample( in.texcoord ) + getEmissiveColor();
+					out.colour() = base_color_sampler.sample( in.texcoord ) + getEmissiveColor();
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -1089,7 +1027,7 @@ namespace
 						camera.getMember<sdw::Vec4>( "position" ).xyz() -
 						in.position );
 
-					out.colour = base_color_sampler.sample( in.texcoord ) + getEmissiveColor( in.texcoord );
+					out.colour() = base_color_sampler.sample( in.texcoord ) + getEmissiveColor( in.texcoord );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -1149,7 +1087,7 @@ namespace
 			writer.implementMainT< PositionT, ColourT >( [&]( sdw::FragmentInT< PositionT > in
 				, sdw::FragmentOutT< ColourT > out )
 				{
-					out.colour = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
+					out.colour() = vec4( 1.0_f, 0.0f, 1.0f, 0.0f );
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -1163,6 +1101,48 @@ namespace
 	void basicPipeline( test::sdw_test::TestCounts & testCounts )
 	{
 		testBegin( "basicPipeline" );
+		using namespace sdw;
+		ShaderArray shaders;
+		{
+			sdw::VertexWriter writer{ &testCounts.allocator };
+
+			sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
+			auto mvp = myUbo.declMember< sdw::Mat4 >( "mvp" );
+			myUbo.end();
+
+			writer.implementMainT< PosColT, ColourT >( [&]( VertexInT< PosColT > const & in
+				, VertexOutT< ColourT > out )
+				{
+					out.colour() = in.colour();
+					out.vtx.position = mvp * in.position();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		{
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+
+			writer.implementMainT< ColourT, ColourT >( [&]( FragmentInT< ColourT > const & in
+				, FragmentOutT< ColourT > out )
+				{
+					out.colour() = in.colour();
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		testEnd();
+	}
+
+	void geometryPipeline( test::sdw_test::TestCounts & testCounts )
+	{
+		testBegin( "geometryPipeline" );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1223,7 +1203,7 @@ namespace
 			writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = in.position;
+					out.colour() = in.position;
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -1442,7 +1422,7 @@ namespace
 					FI;
 
 					pxl_voxelVisibility.store( texcoord, 1_u );
-					out.colour = vec4( vec3( texcoord ), 1.0_f );
+					out.colour() = vec4( vec3( texcoord ), 1.0_f );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -1461,16 +1441,13 @@ namespace
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 
-			writer.implementMainT< SurfaceT, SurfaceT >( [&]( VertexInT< SurfaceT > in
-				, sdw::VertexOutT< SurfaceT > out )
+			writer.implementMainT< PosColNmlT, PosColNmlT >( [&]( VertexInT< PosColNmlT > in
+				, sdw::VertexOutT< PosColNmlT > out )
 				{
-					out.position = in.position;
-					out.normal = in.normal;
-					out.tangent = in.tangent;
-					out.bitangent = in.bitangent;
-					out.texture = in.texture;
-					out.instance = in.instance;
-					out.vtx.position = vec4( in.position, 1.0_f );
+					out.position() = in.position();
+					out.normal() = in.normal();
+					out.colour() = in.colour();
+					out.vtx.position = in.position();
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -1526,72 +1503,72 @@ namespace
 				, InVec3{ writer, "planePoint" }
 				, InVec3{ writer, "planeNormal " } );
 
-			writer.implementPatchRoutineT< SurfaceT, maxPoints, PNTriPatchT >( 6u
+			writer.implementPatchRoutineT< PosColNmlT, maxPoints, PNTriPatchT >( 6u
 				, [&]( TessControlPatchRoutineIn in
-					, TessControlListInT< SurfaceT, maxPoints > listIn
+					, TessControlListInT< PosColNmlT, maxPoints > listIn
 					, TrianglesTessPatchOutT< PNTriPatchT > patchOut )
 				{
-					// The original vertices stay the same
-					patchOut.wpB030 = listIn[0].position;
-					patchOut.wpB003 = listIn[1].position;
-					patchOut.wpB300 = listIn[2].position;
+				// The original vertices stay the same
+					patchOut.wpB030() = listIn[0].position().xyz();
+					patchOut.wpB003() = listIn[1].position().xyz();
+					patchOut.wpB300() = listIn[2].position().xyz();
 
 					// Edges are names according to the opposing vertex
 					auto edgeB300 = writer.declLocale( "edgeB300"
-						, patchOut.wpB003 - patchOut.wpB030 );
+						, patchOut.wpB003() - patchOut.wpB030() );
 					auto edgeB030 = writer.declLocale( "edgeB030"
-						, patchOut.wpB300 - patchOut.wpB003 );
+						, patchOut.wpB300() - patchOut.wpB003() );
 					auto edgeB003 = writer.declLocale( "edgeB003"
-						, patchOut.wpB030 - patchOut.wpB300 );
+						, patchOut.wpB030() - patchOut.wpB300() );
 
 					// Generate two midpoints on each edge
-					patchOut.wpB021 = patchOut.wpB030 + edgeB300 / 3.0f;
-					patchOut.wpB012 = patchOut.wpB030 + edgeB300 * 2.0f / 3.0f;
-					patchOut.wpB102 = patchOut.wpB003 + edgeB030 / 3.0f;
-					patchOut.wpB201 = patchOut.wpB003 + edgeB030 * 2.0f / 3.0f;
-					patchOut.wpB210 = patchOut.wpB300 + edgeB003 / 3.0f;
-					patchOut.wpB120 = patchOut.wpB300 + edgeB003 * 2.0f / 3.0f;
+					patchOut.wpB021() = patchOut.wpB030() + edgeB300 / 3.0f;
+					patchOut.wpB012() = patchOut.wpB030() + edgeB300 * 2.0f / 3.0f;
+					patchOut.wpB102() = patchOut.wpB003() + edgeB030 / 3.0f;
+					patchOut.wpB201() = patchOut.wpB003() + edgeB030 * 2.0f / 3.0f;
+					patchOut.wpB210() = patchOut.wpB300() + edgeB003 / 3.0f;
+					patchOut.wpB120() = patchOut.wpB300() + edgeB003 * 2.0f / 3.0f;
 
 					// Project each midpoint on the plane defined by the nearest vertex and its normal
-					patchOut.wpB021 = projectToPlane( patchOut.wpB021
-						, patchOut.wpB030
-						, listIn[0].normal );
-					patchOut.wpB012 = projectToPlane( patchOut.wpB012
-						, patchOut.wpB003
-						, listIn[1].normal );
-					patchOut.wpB102 = projectToPlane( patchOut.wpB102
-						, patchOut.wpB003
-						, listIn[1].normal );
-					patchOut.wpB201 = projectToPlane( patchOut.wpB201
-						, patchOut.wpB300
-						, listIn[2].normal );
-					patchOut.wpB210 = projectToPlane( patchOut.wpB210
-						, patchOut.wpB300
-						, listIn[2].normal );
-					patchOut.wpB120 = projectToPlane( patchOut.wpB120
-						, patchOut.wpB030
-						, listIn[0].normal );
+					patchOut.wpB021() = projectToPlane( patchOut.wpB021()
+						, patchOut.wpB030()
+						, listIn[0].normal() );
+					patchOut.wpB012() = projectToPlane( patchOut.wpB012()
+						, patchOut.wpB003()
+						, listIn[1].normal() );
+					patchOut.wpB102() = projectToPlane( patchOut.wpB102()
+						, patchOut.wpB003()
+						, listIn[1].normal() );
+					patchOut.wpB201() = projectToPlane( patchOut.wpB201()
+						, patchOut.wpB300()
+						, listIn[2].normal() );
+					patchOut.wpB210() = projectToPlane( patchOut.wpB210()
+						, patchOut.wpB300()
+						, listIn[2].normal() );
+					patchOut.wpB120() = projectToPlane( patchOut.wpB120()
+						, patchOut.wpB030()
+						, listIn[0].normal() );
 
 					// Handle the center
 					auto center = writer.declLocale( "center"
-						, ( patchOut.wpB003
-							+ patchOut.wpB030
-							+ patchOut.wpB300 ) / 3.0f );
-					patchOut.wpB111 = ( patchOut.wpB021
-						+ patchOut.wpB012
-						+ patchOut.wpB102
-						+ patchOut.wpB201
-						+ patchOut.wpB210
-						+ patchOut.wpB120 ) / 6.0f;
-					patchOut.wpB111 += ( patchOut.wpB111 - center ) / 2.0f;
+						, ( patchOut.wpB003()
+							+ patchOut.wpB030()
+							+ patchOut.wpB300() ) / 3.0f );
+					patchOut.wpB111() = ( patchOut.wpB021()
+						+ patchOut.wpB012()
+						+ patchOut.wpB102()
+						+ patchOut.wpB201()
+						+ patchOut.wpB210()
+						+ patchOut.wpB120() ) / 6.0f;
+					patchOut.wpB111() += ( patchOut.wpB111() - center ) / 2.0f;
 
 					// Calculate the distance from the camera to the three control points
 					auto eyeToVertexDistance0 = writer.declLocale( "eyeToVertexDistance0"
-						, distance( pos, listIn[0].position ) );
+						, distance( pos, listIn[0].position().xyz() ) );
 					auto eyeToVertexDistance1 = writer.declLocale( "eyeToVertexDistance1"
-						, distance( pos, listIn[1].position ) );
+						, distance( pos, listIn[1].position().xyz() ) );
 					auto eyeToVertexDistance2 = writer.declLocale( "eyeToVertexDistance2"
-						, distance( pos, listIn[2].position ) );
+						, distance( pos, listIn[2].position().xyz() ) );
 
 					// Calculate the tessellation levels
 					patchOut.tessLevelOuter[0] = getTessLevel( eyeToVertexDistance1, eyeToVertexDistance2 );
@@ -1600,27 +1577,15 @@ namespace
 					patchOut.tessLevelInner[0] = patchOut.tessLevelOuter[2];
 				} );
 
-			writer.implementMainT< SurfaceT, maxPoints, SurfaceT >( ast::type::Partitioning::eEqual
+			writer.implementMainT< PosColNmlT, maxPoints, ColourT >( ast::type::Partitioning::eEqual
 				, ast::type::OutputTopology::ePoint
 				, ast::type::PrimitiveOrdering::eCCW
 				, 3u
 				, [&]( TessControlMainIn in
-					, TessControlListInT< SurfaceT, maxPoints > listIn
-					, TrianglesTessControlListOutT< SurfaceT > listOut )
+					, TessControlListInT< PosColNmlT, maxPoints > listIn
+					, TrianglesTessControlListOutT< ColourT > listOut )
 				{
-					// Set the control points of the output patch
-					auto tbn = writer.declLocale( "tbn"
-						, mat3( normalize( listIn[in.invocationID].tangent )
-							, normalize( listIn[in.invocationID].bitangent )
-							, normalize( listIn[in.invocationID].normal ) ) );
-					auto v3MapNormal = writer.declLocale( "v3MapNormal"
-						, c3d_mapNormal.lod( listIn[in.invocationID].texture.xy(), 0.0_f ).xyz() );
-					v3MapNormal = normalize( v3MapNormal * 2.0_f - vec3( 1.0_f, 1.0_f, 1.0_f ) );
-					listOut.normal = normalize( tbn * v3MapNormal );
-					listOut.tangent = listIn[in.invocationID].tangent;
-					listOut.bitangent = listIn[in.invocationID].bitangent;
-					listOut.texture = listIn[in.invocationID].texture;
-					listOut.instance = listIn[in.invocationID].instance;
+					listOut.colour() = listIn[in.invocationID].colour();
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -1680,38 +1645,34 @@ namespace
 				, InVec3{ writer, "v1" }
 				, InVec3{ writer, "v2" } );
 
-			writer.implementMainT< SurfaceT, maxPoints, PNTriPatchT, SurfaceT >( 6u
+			auto interpolate4D = writer.implementFunction< Vec4 >( "interpolate4D"
+				, [&]( Vec3 const & tessCoord
+					, Vec4 const & v0
+					, Vec4 const & v1
+					, Vec4 const & v2 )
+				{
+					writer.returnStmt( vec4( tessCoord.x() ) * v0
+						+ vec4( tessCoord.y() ) * v1
+						+ vec4( tessCoord.z() ) * v2 );
+				}
+				, InVec3{ writer, "tessCoord" }
+				, InVec4{ writer, "v0" }
+				, InVec4{ writer, "v1" }
+				, InVec4{ writer, "v2" } );
+
+			writer.implementMainT< ColourT, maxPoints, PNTriPatchT, ColourT >( 6u
 				, type::Partitioning::eEqual
 				, type::PrimitiveOrdering::eCCW
 				, [&]( TessEvalMainIn mainIn
-					, TessEvalListInT< SurfaceT, maxPoints > listIn
+					, TessEvalListInT< ColourT, maxPoints > listIn
 					, TrianglesTessPatchInT< PNTriPatchT > patchIn
-					, TessEvalDataOutT< SurfaceT > out )
+					, TessEvalDataOutT< ColourT > out )
 				{
 					// Interpolate the attributes of the output vertex using the barycentric coordinates
-					out.normal = interpolate3D( patchIn.tessCoord
-						, listIn[0].normal
-						, listIn[1].normal
-						, listIn[2].normal );
-					out.tangent = interpolate3D( patchIn.tessCoord
-						, listIn[0].tangent
-						, listIn[1].tangent
-						, listIn[2].tangent );
-					out.bitangent = interpolate3D( patchIn.tessCoord
-						, listIn[0].bitangent
-						, listIn[1].bitangent
-						, listIn[2].bitangent );
-					out.texture = interpolate3D( patchIn.tessCoord
-						, listIn[0].texture
-						, listIn[1].texture
-						, listIn[2].texture );
-					out.instance = writer.cast< Int >( interpolate1D( patchIn.tessCoord
-						, listIn[0].instance
-						, listIn[1].instance
-						, listIn[2].instance ) );
-					out.normal = normalize( out.normal );
-					out.tangent = normalize( out.tangent );
-					out.bitangent = normalize( out.bitangent );
+					out.colour() = interpolate4D( patchIn.tessCoord
+						, listIn[0].colour()
+						, listIn[1].colour()
+						, listIn[2].colour() );
 
 					auto u = writer.declLocale( "u"
 						, patchIn.tessCoord.x() );
@@ -1733,18 +1694,19 @@ namespace
 					auto wPow2 = writer.declLocale( "wPow2"
 						, pow( w, 2.0_f ) );
 
-					out.position = patchIn.wpB300 * wPow3
-						+ patchIn.wpB030 * uPow3
-						+ patchIn.wpB003 * vPow3
-						+ patchIn.wpB210 * 3.0f * wPow2 * u
-						+ patchIn.wpB120 * 3.0f * w * uPow2
-						+ patchIn.wpB201 * 3.0f * wPow2 * v
-						+ patchIn.wpB021 * 3.0f * uPow2 * v
-						+ patchIn.wpB102 * 3.0f * w * vPow2
-						+ patchIn.wpB012 * 3.0f * u * vPow2
-						+ patchIn.wpB111 * 6.0f * w * u * v;
+					auto pos = writer.declLocale( "pos"
+						, patchIn.wpB300() * wPow3
+							+ patchIn.wpB030() * uPow3
+							+ patchIn.wpB003() * vPow3
+							+ patchIn.wpB210() * 3.0f * wPow2 * u
+							+ patchIn.wpB120() * 3.0f * w * uPow2
+							+ patchIn.wpB201() * 3.0f * wPow2 * v
+							+ patchIn.wpB021() * 3.0f * uPow2 * v
+							+ patchIn.wpB102() * 3.0f * w * vPow2
+							+ patchIn.wpB012() * 3.0f * u * vPow2
+							+ patchIn.wpB111() * 6.0f * w * u * v );
 
-					out.vtx.position = mtx * vec4( out.position, 1.0f );
+					out.vtx.position = mtx * vec4( pos, 1.0f );
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -1754,10 +1716,10 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 
-			writer.implementMainT< SurfaceT, ColourT >( [&]( FragmentInT< SurfaceT > in
+			writer.implementMainT< ColourT, ColourT >( [&]( FragmentInT< ColourT > in
 				, FragmentOutT< ColourT > out )
 				{
-					out.colour = vec4( vec3( in.normal ), 1.0_f );
+					out.colour() = in.colour();
 				} );
 			test::writeShader( writer
 				, testCounts
@@ -1934,6 +1896,7 @@ sdwTestSuiteMain( TestWriterShader )
 	arthapz( testCounts, true, true );
 	clipDistance( testCounts );
 	basicPipeline( testCounts );
+	geometryPipeline( testCounts );
 	voxelPipeline( testCounts );
 	tessellationPipeline( testCounts );
 	arraySsboTextureLookup( testCounts );
