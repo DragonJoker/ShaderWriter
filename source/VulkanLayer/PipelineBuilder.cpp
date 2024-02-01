@@ -125,7 +125,7 @@ namespace ast::vk
 			VkDescriptorSetLayout layout;
 
 			if ( auto res = m_context.vkCreateDescriptorSetLayout( m_context.device
-					, &createInfo
+					, &createInfo.data
 					, m_context.allocator
 					, &layout );
 				!checkError( res ) )

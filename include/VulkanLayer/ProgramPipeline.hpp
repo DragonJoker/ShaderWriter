@@ -59,7 +59,12 @@ namespace ast::vk
 		*	must be filled by the client (they're initialised with the appropriate size, which is in \p descriptorCount).
 		*	\see ast::vk::WriteDescriptorSet, and \see ast::vk::WriteDescriptorType.
 		*/
-		std::vector< WriteDescriptorSet > getDescriptorSetWrites( uint32_t setIndex )const;
+		WriteDescriptorSetArray getDescriptorSetWrites( uint32_t setIndex )const;
+		/**
+		*\return
+		*	Pre-filled arrays of WriteDescriptorSet for all descriptor sets.
+		*/
+		std::vector< WriteDescriptorSetArray > getDescriptorSetWrites()const;
 		/**
 		*\return
 		*	Pre-filled array of VkVertexInputAttributeDescription.
@@ -85,7 +90,7 @@ namespace ast::vk
 		*\return
 		*	Filled array of VkDescriptorSetLayoutCreateInfo (all memory held by ProgramPipeline).
 		*/
-		std::vector< VkDescriptorSetLayoutCreateInfo > getDescriptorLayouts()const;
+		std::vector< DescriptorSetLayoutCreateInfo > const & getDescriptorLayouts()const;
 		/**
 		*\return
 		*	Filled array of VkDescriptorPoolSize.
@@ -97,7 +102,7 @@ namespace ast::vk
 		*\return
 		*	Filled array of VkPushConstantRange.
 		*/
-		std::vector< VkPushConstantRange > const & getPushConstantRange()const;
+		std::vector< VkPushConstantRange > const & getPushConstantRanges()const;
 		/**
 		*\return
 		*	Filled VkPipelineLayoutCreateInfo.
@@ -454,15 +459,14 @@ namespace ast::vk
 			return result;
 		}
 
-		std::vector< ShaderModuleCreateInfo > createShaderModules( Shader const & shader
-			, EntryPointConfigArray::const_iterator begin
+		std::vector< ShaderModuleCreateInfo > createShaderModules( EntryPointConfigArray::const_iterator begin
 			, EntryPointConfigArray::const_iterator end )
 		{
 			std::vector< ShaderModuleCreateInfo > result;
 
 			while ( begin != end )
 			{
-				result.emplace_back( createShaderModule( shader ) );
+				result.emplace_back( createShaderModule( *begin ) );
 				++begin;
 			}
 

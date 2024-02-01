@@ -748,7 +748,7 @@ namespace ast::vk
 		, m_specializationInfos{ createSpecializationInfos( shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_stages{ createShaderStages( entryPoints.begin(), entryPoints.end() ) }
 		, m_data{ createShaderData( shader, entryPoints.begin(), entryPoints.end() ) }
-		, m_shaderModules{ createShaderModules( shader, entryPoints.begin(), entryPoints.end() ) }
+		, m_shaderModules{ createShaderModules( entryPoints.begin(), entryPoints.end() ) }
 		, m_pushConstantRanges{ createPushConstantRanges( shader, entryPoints.begin(), entryPoints.end() ) }
 		, m_descriptorLayouts{ createDescriptorLayouts() }
 		, m_descriptorPoolSizes{ createDescriptorPoolSizes() }
@@ -805,16 +805,9 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< VkDescriptorSetLayoutCreateInfo > ProgramPipeline::getDescriptorLayouts()const
+	std::vector< DescriptorSetLayoutCreateInfo > const & ProgramPipeline::getDescriptorLayouts()const
 	{
-		std::vector< VkDescriptorSetLayoutCreateInfo > result;
-
-		for ( auto & desc : m_descriptorLayouts )
-		{
-			result.push_back( desc.data );
-		}
-
-		return result;
+		return m_descriptorLayouts;
 	}
 
 	std::vector< VkDescriptorPoolSize > ProgramPipeline::getDescriptorPoolSizes( uint32_t maxSets )const
@@ -831,13 +824,18 @@ namespace ast::vk
 		return result;
 	}
 
-	std::vector< WriteDescriptorSet > ProgramPipeline::getDescriptorSetWrites( uint32_t setIndex )const
+	WriteDescriptorSetArray ProgramPipeline::getDescriptorSetWrites( uint32_t setIndex )const
 	{
 		assert( m_descriptorSetsWrites.size() > setIndex );
 		return m_descriptorSetsWrites[setIndex];
 	}
 
-	std::vector< VkPushConstantRange > const & ProgramPipeline::getPushConstantRange()const
+	std::vector< WriteDescriptorSetArray > ProgramPipeline::getDescriptorSetWrites()const
+	{
+		return m_descriptorSetsWrites;
+	}
+
+	std::vector< VkPushConstantRange > const & ProgramPipeline::getPushConstantRanges()const
 	{
 		return m_pushConstantRanges;
 	}

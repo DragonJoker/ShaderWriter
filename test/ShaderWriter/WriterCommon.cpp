@@ -177,13 +177,21 @@ namespace test
 				result = spv::ExecutionModelTaskNV;
 				break;
 			case ast::ShaderStage::eTask:
+#if SPV_VERSION >= 0x10600
 				result = spv::ExecutionModelTaskEXT;
+#else
+				result = spv::ExecutionModelTaskNV;
+#endif
 				break;
 			case ast::ShaderStage::eMeshNV:
-				result = spv::ExecutionModelMeshNV;
+				result = spv::ExecutionModelMax;
 				break;
 			case ast::ShaderStage::eMesh:
+#if SPV_VERSION >= 0x10600
 				result = spv::ExecutionModelMeshEXT;
+#else
+				result = spv::ExecutionModelMax;
+#endif
 				break;
 			case ast::ShaderStage::eCompute:
 				result = spv::ExecutionModelGLCompute;
@@ -208,13 +216,14 @@ namespace test
 				break;
 			default:
 				AST_Failure( "Unsupported shader stage flag" );
+				result = spv::ExecutionModelMax;
 				break;
 			}
 
 			return result;
 		}
 
-		void doSetEntryPoint( ast::ShaderStage stage
+		spv::ExecutionModel doSetEntryPoint( ast::ShaderStage stage
 			, spirv_cross::CompilerGLSL & compiler )
 		{
 			auto model = getExecutionModel( stage );
@@ -232,6 +241,8 @@ namespace test
 			{
 				compiler.set_entry_point( entryPoint, model );
 			}
+
+			return model;
 		}
 
 		void doSetupOptions( ast::ShaderStage stage
@@ -286,9 +297,15 @@ namespace test
 			, bool vulkanSemantics )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerGLSL >( spirv );
-			doSetEntryPoint( stage, *compiler );
-			doSetupOptions( stage, vulkanSemantics, *compiler );
-			return compileSpirV( "GLSL", *compiler, testCounts );
+			std::string result;
+
+			if ( doSetEntryPoint( stage, *compiler ) != spv::ExecutionModelMax )
+			{
+				doSetupOptions( stage, vulkanSemantics, *compiler );
+				result = compileSpirV( "GLSL", *compiler, testCounts );
+			}
+
+			return result;
 		}
 
 		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
@@ -296,10 +313,212 @@ namespace test
 			, test::TestCounts & testCounts )
 		{
 			auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
-			doSetEntryPoint( stage, *compiler );
-			doSetupHlslOptions( *compiler );
-			doSetupOptions( stage, false, *compiler );
-			return compileSpirV( "HLSL", *compiler, testCounts );
+			std::string result;
+
+			if ( doSetEntryPoint( stage, *compiler ) != spv::ExecutionModelMax )
+			{
+				doSetupHlslOptions( *compiler );
+				doSetupOptions( stage, false, *compiler );
+				result = compileSpirV( "HLSL", *compiler, testCounts );
+			}
+
+			return result;
+		}
+#endif
+
+#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
+		std::ostream & operator<<( std::ostream & stream, VkSpecializationMapEntry const & rhs )
+		{
+			stream << rhs.constantID << ", " << rhs.offset << ", " << rhs.size;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, ast::vk::PipelineShaderStageCreateInfo const & rhs )
+		{
+			stream << rhs->flags << ", " << rhs->stage << ", " << rhs->module << ", " << rhs->pName;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkWriteDescriptorSet const & rhs )
+		{
+			stream << rhs.dstSet << ", " << rhs.dstBinding << ", " << rhs.dstArrayElement << ", " << rhs.descriptorType;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkDescriptorImageInfo const & rhs )
+		{
+			stream << rhs.sampler << ", " << rhs.imageView << ", " << rhs.imageLayout;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkDescriptorBufferInfo const & rhs )
+		{
+			stream << rhs.buffer << ", " << rhs.offset << ", " << rhs.range;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkSpecializationInfo const & rhs )
+		{
+			stream << rhs.dataSize;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkVertexInputAttributeDescription const & rhs )
+		{
+			stream << rhs.location << ", " << rhs.binding << ", " << rhs.format << ", " << rhs.offset;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkAttachmentDescription const & rhs )
+		{
+			stream << rhs.flags << ", " << rhs.format << ", " << rhs.samples << ", " << rhs.loadOp << ", " << rhs.storeOp << ", " << rhs.stencilLoadOp << ", " << rhs.stencilStoreOp << ", " << rhs.initialLayout << ", " << rhs.finalLayout;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkShaderModuleCreateInfo const & rhs )
+		{
+			stream << rhs.flags << ", " << rhs.codeSize;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkDescriptorSetLayoutBinding const & rhs )
+		{
+			stream << rhs.binding << ", " << rhs.descriptorType << ", " << rhs.stageFlags << ", " << rhs.pImmutableSamplers;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkDescriptorSetLayoutCreateInfo const & rhs )
+		{
+			stream << rhs.flags;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkDescriptorPoolSize const & rhs )
+		{
+			stream << rhs.type << ", " << rhs.descriptorCount;
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, VkPushConstantRange const & rhs )
+		{
+			stream << rhs.stageFlags << ", " << rhs.offset << ", " << rhs.size;
+
+			return stream;
+		}
+
+		template< typename DataT, typename ValueT, typename CountT, size_t DataOffsetT, size_t CountOffsetT, size_t DivisorT >
+		std::ostream & operator<<( std::ostream & stream, ast::vk::ArrayHolder< DataT, ValueT, CountT, DataOffsetT, CountOffsetT, DivisorT > const & rhs )
+		{
+			stream << "  Base Values: " << rhs.data;
+
+			if ( !rhs.values.empty() )
+			{
+				stream << std::endl << "  Entries:" << std::endl;
+
+				for ( auto const & value : rhs.values )
+				{
+					stream << value << std::endl;
+				}
+			}
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, ast::vk::WriteDescriptorSet const & rhs )
+		{
+			std::visit( [&stream]( auto && arg )
+			{
+				stream << arg << std::endl;
+			}, rhs );
+
+			return stream;
+		}
+
+		template< typename DataT >
+		std::ostream & operator<<( std::ostream & stream, std::optional< DataT > const & rhs )
+		{
+			if ( rhs )
+			{
+				stream << *rhs << std::endl;
+			}
+
+			return stream;
+		}
+
+		template< typename DataT >
+		std::ostream & operator<<( std::ostream & stream, std::vector< DataT > const & rhs )
+		{
+			if ( !rhs.empty() )
+			{
+				stream << "  Entries:" << std::endl;
+
+				for ( auto const & data : rhs )
+				{
+					stream << "    " << data << std::endl;
+				}
+			}
+
+			return stream;
+		}
+
+		template< typename KeyT, typename DataT >
+		std::ostream & operator<<( std::ostream & stream, std::map< KeyT, DataT > const & rhs )
+		{
+			if ( !rhs.empty() )
+			{
+				stream << "  Entries:" << std::endl;
+
+				for ( auto const & [key, data] : rhs )
+				{
+					stream << "    " << key << ": " << data << std::endl;
+				}
+			}
+
+			return stream;
+		}
+
+		std::ostream & operator<<( std::ostream & stream, ast::vk::ProgramPipeline const & rhs )
+		{
+			stream << "Shader Stages: " << std::endl;
+			stream << rhs.getShaderStages() << std::endl;
+			stream << "Specialization Infos: " << std::endl;
+			stream << rhs.getSpecializationInfos() << std::endl;
+			stream << "DescriptorSet Writes: " << std::endl;
+			stream << rhs.getDescriptorSetWrites() << std::endl;
+			stream << "Vertex Attributes: " << std::endl;
+			stream << rhs.getVertexAttributes() << std::endl;
+			stream << "AttachmentDescriptions: " << std::endl;
+			stream << rhs.getAttachmentDescriptions() << std::endl;
+			stream << "ShaderModules: " << std::endl;
+			stream << rhs.getShaderModules() << std::endl;
+			stream << "DescriptorLayouts: " << std::endl;
+			stream << rhs.getDescriptorLayouts() << std::endl;
+			stream << "DescriptorPoolSizes: " << std::endl;
+			stream << rhs.getDescriptorPoolSizes( 1u ) << std::endl;
+			stream << "PushConstantRanges: " << std::endl;
+			stream << rhs.getPushConstantRanges() << std::endl;
+			return stream;
+		}
+
+		TestCounts & operator<<( TestCounts & counts, ast::vk::ProgramPipeline const & rhs )
+		{
+			std::stringstream stream;
+			stream.imbue( std::locale{ "C" } );
+			stream << rhs;
+			counts << stream.str();
+			return counts;
 		}
 #endif
 
@@ -416,7 +635,9 @@ namespace test
 			, std::string const & text
 			, ::sdw::SpecialisationInfo const & specialisation
 			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex )
+			, uint32_t infoIndex
+			, Compilers const & compilers
+			, spirv::SpirVExtensionSet const &requiredExtensions )
 		{
 			auto isValidated = validateSpirV( shader, statements, stage, spirv, testCounts, infoIndex, true );
 			check( isValidated )
@@ -486,25 +707,31 @@ namespace test
 #if SDW_Test_HasSpirVCross
 
 			if ( compilers.glsl
-				&& requiredExtensions.end() == requiredExtensions.find( spirv::KHR_terminate_invocation ) )
+				&& requiredExtensions.contains( spirv::KHR_terminate_invocation ) )
 			{
-				auto crossGlsl = test::validateSpirVToGlsl( spirv, stage, testCounts
-					, ( requiredExtensions.end() != requiredExtensions.find( spirv::KHR_terminate_invocation )
-						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_demote_to_helper_invocation )
-						|| requiredExtensions.end() != requiredExtensions.find( spirv::KHR_shader_subgroup )
-						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_shader_atomic_float_add )
-						|| requiredExtensions.end() != requiredExtensions.find( spirv::EXT_mesh_shader ) ) );
-				displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay && display, true );
+				if ( auto crossGlsl = test::validateSpirVToGlsl( spirv, stage, testCounts
+						, ( requiredExtensions.contains( spirv::KHR_terminate_invocation )
+							|| requiredExtensions.contains( spirv::EXT_demote_to_helper_invocation )
+							|| requiredExtensions.contains( spirv::KHR_shader_subgroup )
+							|| requiredExtensions.contains( spirv::EXT_shader_atomic_float_add )
+							|| requiredExtensions.contains( spirv::EXT_mesh_shader ) ) );
+						!crossGlsl.empty() )
+				{
+					displayShader( "SPIRV-Cross GLSL", crossGlsl, testCounts, compilers.forceDisplay, true );
+				}
 			}
 
 			if ( compilers.hlsl
 				&& !isRayTraceStage( stage )
 				&& !isMeshStage( stage )
-				&& requiredExtensions.end() == requiredExtensions.find( spirv::KHR_terminate_invocation )
-				&& requiredExtensions.end() == requiredExtensions.find( spirv::EXT_demote_to_helper_invocation ) )
+				&& requiredExtensions.contains( spirv::KHR_terminate_invocation )
+				&& requiredExtensions.contains( spirv::EXT_demote_to_helper_invocation ) )
 			{
-				auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
-				displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay && display, true );
+				if ( auto crossHlsl = test::validateSpirVToHlsl( spirv, stage, testCounts );
+					!crossHlsl.empty() )
+				{
+					displayShader( "SPIRV-Cross HLSL", crossHlsl, testCounts, compilers.forceDisplay, true );
+				}
 			}
 
 #endif
@@ -957,7 +1184,9 @@ namespace test
 									, textSpirv
 									, specialisation
 									, testCounts
-									, infoIndex );
+									, infoIndex
+									, compilers
+									, config.requiredExtensions );
 								success();
 							}
 #if SDW_Test_HasSpirVCross
@@ -1063,97 +1292,91 @@ namespace test
 			return result;
 		}
 
-		void validateShadersOnIndex( ast::ShaderArray const & shaders
+		auto spirvCrossValidate( ast::Shader const & shader
+			, ast::EntryPointConfigArray const & entryPoints
 			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex
-			, Compilers const & compilers )
+			, uint32_t infoIndex )
 		{
-#if SDW_Test_HasVulkan && SDW_HasCompilerSpirV && SDW_HasVulkanLayer
-			if ( compilers.spirV
-				&& testCounts.isSpirVInitialised( infoIndex ) )
-			{
-				testCounts.incIndent();
-				testCounts << "Vulkan " << printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
-					<< " - SPIR-V " << printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) << endl;
-
-				try
-				{
-					ast::vk::ProgramPipeline program{ testCounts.getSpirVVersion( infoIndex )
-						, shaders };
-					std::string errors;
-					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
-
-					if ( errors.find( "failed to compile internal representation" ) == std::string::npos
-						&& errors.find( "unexpected compilation failure" ) == std::string::npos )
-					{
-						check( isValidated )
-						check( errors.empty() )
-
-						if ( !isValidated
-							|| !errors.empty() )
-						{
-							if ( !errors.empty() )
-							{
-								testCounts << errors << endl;
-							}
-
 #if SDW_Test_HasSpirVCross
-							auto validate = [&]( ast::Shader const & shader )
-							{
-								spirv::SpirVConfig config{};
-								config.specVersion = testCounts.getSpirVVersion( infoIndex );
-								config.stmtCache = &testCounts.stmtCache;
-								config.exprCache = &testCounts.exprCache;
-								auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-								auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-									, shader.getType()
-									, testCounts
-									, true );
-								config.stmtCache = &testCounts.stmtCache;
-								config.exprCache = &testCounts.exprCache;
-								auto textSpirv = spirv::writeSpirv( shader, config );
-								displayShader( "SPIR-V", textSpirv, testCounts, true, false );
-								displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
-								auto cfg = getGlslConfig( glsl::v4_6 );
-								cfg.stmtCache = &testCounts.stmtCache;
-								cfg.exprCache = &testCounts.exprCache;
-								auto glslangSpirv = compileGlslToSpv( shader.getType()
-									, glsl::compileGlsl( shader
-										, ast::SpecialisationInfo{}
-										, cfg ) );
-								displayShader( "glslang SPIR-V"
-									, spirv::displaySpirv( glslangSpirv )
-									, testCounts
-									, true
-									, true );
-							};
-
-							for ( auto & shader : shaders )
-							{
-								checkNoThrow( validate( shader ) );
-							}
-#endif
-						}
-					}
-				}
-				catch ( std::exception & exc )
-				{
-					auto err = std::string{ exc.what() };
-
-					if ( err != std::string{ "Shader serialization failed." }
-						&& err.find( "failed to compile internal representation" ) == std::string::npos
-						&& err.find( "unexpected compilation failure" ) == std::string::npos )
-					{
-						failure( "Shader validation" );
-					}
-				}
-
-				testCounts.decIndent();
+			for ( auto const & entryPoint : entryPoints )
+			{
+				spirv::SpirVConfig config{};
+				config.debugLevel = spirv::DebugLevel::eNames;
+				auto statements = ::ast::selectEntryPoint( shader.getStmtCache()
+					, shader.getExprCache()
+					, entryPoint
+					, *shader.getStatements() );
+				config.specVersion = testCounts.getSpirVVersion( infoIndex );
+				auto sdwSpirV = spirv::serialiseSpirv( shader
+					, statements.get()
+					, entryPoint.stage
+					, config );
+				auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
+					, entryPoint.stage
+					, testCounts
+					, true );
+				auto textSpirv = spirv::writeSpirv( shader
+					, statements.get()
+					, entryPoint.stage
+					, config );
+				displayShader( "SPIR-V"
+					, textSpirv
+					, testCounts
+					, true
+					, false );
+				displayShader( "SpirV-Cross GLSL"
+					, crossGlsl
+					, testCounts
+					, true
+					, true );
+				auto cfg = getGlslConfig( glsl::v4_6 );
+				auto glslangSpirv = compileGlslToSpv( entryPoint.stage
+					, glsl::compileGlsl( shader
+						, statements.get()
+						, entryPoint.stage
+						, ast::SpecialisationInfo{}
+						, cfg ) );
+				displayShader( "glslang SPIR-V"
+					, spirv::displaySpirv( shader.getAllocator(), glslangSpirv )
+					, testCounts
+					, true
+					, false );
 			}
 #endif
 		}
 
-		void validateShadersOnIndex( ast::ShaderPtrArray const & shaders
+		ast::ShaderStage getShaderStage( ast::Shader const & shader )
+		{
+			return shader.getType();
+		}
+
+		ast::ShaderStage getShaderStage( ast::ShaderPtr const & shader )
+		{
+			return getShaderStage( *shader );
+		}
+
+		ast::ShaderAllocatorBlock * getAllocator( ast::Shader const & shader )
+		{
+			return &shader.getAllocator();
+		}
+
+		ast::ShaderAllocatorBlock * getAllocator( ast::ShaderPtr const & shader )
+		{
+			return getAllocator( *shader );
+		}
+
+		ast::Shader const & getShader( ast::Shader const & shader )
+		{
+			return shader;
+		}
+
+		ast::Shader const & getShader( ast::ShaderPtr const & shader )
+		{
+			return *shader;
+		}
+
+		template< typename ShaderArrayT >
+		void validateShadersOnIndex( ShaderArrayT const & shaders
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
 			, Compilers const & compilers )
@@ -1170,11 +1393,17 @@ namespace test
 				{
 					ast::vk::ProgramPipeline program{ testCounts.getSpirVVersion( infoIndex )
 						, shaders };
-					std::string errors;
-					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
 
-					if ( errors.find( "failed to compile internal representation" ) == std::string::npos
-						&& errors.find( "unexpected compilation failure" ) == std::string::npos )
+					if ( compilers.forceDisplay )
+					{
+						testCounts << program << endl;
+					}
+
+					std::string errors;
+
+					if ( auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+						errors.find( "failed to compile internal representation" ) == std::string::npos
+							&& errors.find( "unexpected compilation failure" ) == std::string::npos )
 					{
 						check( isValidated )
 						check( errors.empty() )
@@ -1185,44 +1414,18 @@ namespace test
 							if ( !errors.empty() )
 							{
 								testCounts << errors << endl;
+								testCounts << program << endl;
 							}
 
-#if SDW_Test_HasSpirVCross
-							auto validate = [&]( ast::Shader const & shader )
+							for ( auto const & shader : shaders )
 							{
-								spirv::SpirVConfig config{};
-								config.specVersion = testCounts.getSpirVVersion( infoIndex );
-								config.stmtCache = &testCounts.stmtCache;
-								config.exprCache = &testCounts.exprCache;
-								auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-								auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-									, shader.getType()
+								ast::EntryPointConfigArray entryPoints{ ast::StlAllocatorT< ast::EntryPointConfig >{ getAllocator( shader ) } };
+								entryPoints.emplace_back( getShaderStage( shader ), "main" );
+								checkNoThrow( spirvCrossValidate( getShader( shader )
+									, entryPoints
 									, testCounts
-									, true );
-								config.stmtCache = &testCounts.stmtCache;
-								config.exprCache = &testCounts.exprCache;
-								auto textSpirv = spirv::writeSpirv( shader, config );
-								displayShader( "SPIR-V", textSpirv, testCounts, true, false );
-								displayShader( "SpirV-Cross GLSL", crossGlsl, testCounts, true, true );
-								auto cfg = getGlslConfig( glsl::v4_6 );
-								cfg.stmtCache = &testCounts.stmtCache;
-								cfg.exprCache = &testCounts.exprCache;
-								auto glslangSpirv = compileGlslToSpv( shader.getType()
-									, glsl::compileGlsl( shader
-										, ast::SpecialisationInfo{}
-										, cfg ) );
-								displayShader( "glslang SPIR-V"
-									, spirv::displaySpirv( glslangSpirv )
-									, testCounts
-									, true
-									, true );
-							};
-
-							for ( auto & shader : shaders )
-							{
-								checkNoThrow( validate( shader ) );
+									, infoIndex ) );
 							}
-#endif
 						}
 					}
 				}
@@ -1262,11 +1465,17 @@ namespace test
 					ast::vk::ProgramPipeline program{ testCounts.getSpirVVersion( infoIndex )
 						, shader
 						, entryPoints };
-					std::string errors;
-					auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
 
-					if ( errors.find( "failed to compile internal representation" ) == std::string::npos
-						&& errors.find( "unexpected compilation failure" ) == std::string::npos )
+					if ( compilers.forceDisplay )
+					{
+						testCounts << program << endl;
+					}
+
+					std::string errors;
+
+					if ( auto isValidated = validateProgram( program, errors, testCounts, infoIndex );
+						errors.find( "failed to compile internal representation" ) == std::string::npos
+							&& errors.find( "unexpected compilation failure" ) == std::string::npos )
 					{
 						check( isValidated )
 						check( errors.empty() )
@@ -1279,46 +1488,7 @@ namespace test
 								testCounts << errors << endl;
 							}
 
-#if SDW_Test_HasSpirVCross
-							auto validate = [&]()
-								{
-									spirv::SpirVConfig config{};
-									config.specVersion = testCounts.getSpirVVersion( infoIndex );
-									config.stmtCache = &testCounts.stmtCache;
-									config.exprCache = &testCounts.exprCache;
-									auto sdwSpirV = spirv::serialiseSpirv( shader, config );
-									auto crossGlsl = test::validateSpirVToGlsl( sdwSpirV
-										, shader.getType()
-										, testCounts
-										, true );
-									config.stmtCache = &testCounts.stmtCache;
-									config.exprCache = &testCounts.exprCache;
-									auto textSpirv = spirv::writeSpirv( shader, config );
-									displayShader( "SPIR-V"
-										, textSpirv
-										, testCounts
-										, true
-										, false );
-									displayShader( "SpirV-Cross GLSL"
-										, crossGlsl
-										, testCounts
-										, true
-										, true );
-									auto cfg = getGlslConfig( glsl::v4_6 );
-									cfg.stmtCache = &testCounts.stmtCache;
-									cfg.exprCache = &testCounts.exprCache;
-									auto glslangSpirv = compileGlslToSpv( shader.getType()
-										, glsl::compileGlsl( shader
-											, ast::SpecialisationInfo{}
-									, cfg ) );
-									displayShader( "glslang SPIR-V"
-										, spirv::displaySpirv( glslangSpirv )
-										, testCounts
-										, true
-										, false );
-								};
-							checkNoThrow( validate() );
-#endif
+							checkNoThrow( spirvCrossValidate( shader, entryPoints, testCounts, infoIndex ) );
 						}
 					}
 				}
