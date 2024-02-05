@@ -481,11 +481,13 @@ namespace glsl
 				return result;
 			}
 
-			static std::string getInterpolationQualifier( ast::var::Variable const & var )
+			static std::string getInterpolationQualifier( ast::var::Variable const & var
+				, ast::ShaderStage shaderStage )
 			{
 				std::string result;
 
-				if ( var.isFlat() )
+				if ( var.isFlat()
+					&& ( shaderStage != ast::ShaderStage::eFragment || !var.isShaderOutput() ) )
 				{
 					result = "flat";
 				}
@@ -3013,7 +3015,7 @@ namespace glsl
 				else
 				{
 					std::string text = helpers::getInOutLayout( m_config, *stmt );
-					helpers::join( text, helpers::getInterpolationQualifier( *stmt->getVariable() ), " " );
+					helpers::join( text, helpers::getInterpolationQualifier( *stmt->getVariable(), m_config.shaderStage ), " " );
 					helpers::join( text, helpers::getDirectionName( *stmt->getVariable() ), " " );
 					helpers::join( text, getTypeName( stmt->getVariable()->getType() ), " " );
 					helpers::join( text, stmt->getVariable()->getName(), " " );
@@ -3354,7 +3356,7 @@ namespace glsl
 					{
 						std::string text;
 						helpers::join( text, helpers::getDirectionName( *var ), " " );
-						helpers::join( text, helpers::getInterpolationQualifier( *var ), " " );
+						helpers::join( text, helpers::getInterpolationQualifier( *var, m_config.shaderStage ), " " );
 						helpers::join( text, getTypeName( var->getType() ), " " );
 						helpers::join( text, var->getName(), " " );
 						text += helpers::getTypeArraySize( var->getType() );

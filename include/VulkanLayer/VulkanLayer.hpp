@@ -12,10 +12,13 @@ See LICENSE file in root folder
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>
 
+#pragma warning( push )
+#pragma warning( disable: 5262 )
 #include <map>
 #include <optional>
 #include <variant>
 #include <vector>
+#pragma warning( pop )
 
 namespace ast::vk
 {

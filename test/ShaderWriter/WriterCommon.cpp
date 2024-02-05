@@ -1074,6 +1074,7 @@ namespace test
 			, ::sdw::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts
+			, spirv::DebugLevel debugLevel
 			, uint32_t infoIndex )
 		{
 #if SDW_HasCompilerSpirV
@@ -1097,7 +1098,7 @@ namespace test
 							spirv::SpirVExtensionSet extensions;
 							spirv::SpirVConfig config{};
 							config.specVersion = testCounts.getSpirVVersion( infoIndex );
-							config.debugLevel = spirv::DebugLevel::eDebugInfo;
+							config.debugLevel = debugLevel;
 
 							if ( availableExtensions )
 							{
@@ -1134,6 +1135,7 @@ namespace test
 								{
 									extensions.emplace( spirv::KHR_16bit_storage );
 									extensions.emplace( spirv::KHR_shader_ballot );
+									extensions.emplace( spirv::KHR_shader_draw_parameters );
 								}
 
 								if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
@@ -1262,11 +1264,28 @@ namespace test
 				auto count = testCounts.getSpirvInfosSize();
 				for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 				{
+#if !defined( NDEBUG )
 					testWriteSpirVOnIndex( shader
 						, entryPoints
 						, specialisation
 						, compilers
 						, testCounts
+						, spirv::DebugLevel::eNone
+						, infoIndex );
+					testWriteSpirVOnIndex( shader
+						, entryPoints
+						, specialisation
+						, compilers
+						, testCounts
+						, spirv::DebugLevel::eNames
+						, infoIndex );
+#endif
+					testWriteSpirVOnIndex( shader
+						, entryPoints
+						, specialisation
+						, compilers
+						, testCounts
+						, spirv::DebugLevel::eDebugInfo
 						, infoIndex );
 				}
 			}
