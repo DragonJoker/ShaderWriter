@@ -25,7 +25,9 @@ See LICENSE file in root folder
 #	include <pwd.h>
 #elif defined( __APPLE__ )
 #	include <mach-o/dyld.h>
-#	include <cpuid.h>
+#   if !defined( __arm64__ )
+#	    include <cpuid.h>
+#   endif
 #	include <sys/sysctl.h>
 #endif
 
