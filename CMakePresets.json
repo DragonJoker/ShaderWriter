@@ -76,6 +76,36 @@
 			"generator": "Ninja"
 		},
 		{
+			"name": "dev-osx",
+			"hidden": true,
+			"inherits": "dev-base",
+			"generator": "Ninja"
+		},
+		{
+			"name": "dev-osx-debug",
+			"displayName": "ShaderWriter Developer Ninja Config for OSX, Debug",
+			"description": "Build configuration using Ninja, for ShaderWriter developers for OSX, Debug",
+			"inherits": "dev-osx",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
+				"CMAKE_BUILD_TYPE": "Debug",
+				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;tests;vklayer"
+			}
+		},
+		{
+			"name": "dev-osx-release",
+			"displayName": "ShaderWriter Developer Ninja Config for OSX, Release",
+			"description": "Build configuration using Ninja, for ShaderWriter developers for OSX, Release",
+			"inherits": "dev-osx",
+			"generator": "Ninja",
+			"cacheVariables": {
+				"CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
+				"CMAKE_BUILD_TYPE": "Release",
+				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;tests;vklayer"
+			}
+		},
+		{
 			"name": "ci",
 			"installDir": "${sourceDir}/package/ShaderWriter",
 			"displayName": "ShaderWriter CI Config",
