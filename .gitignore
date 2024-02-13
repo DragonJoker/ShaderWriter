@@ -1,6 +1,7 @@
 /.vscode
 /binaries
 /build
+/out
 /setup
 /doc/coverage
 /doc/x86

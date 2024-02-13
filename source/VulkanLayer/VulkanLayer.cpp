@@ -118,6 +118,12 @@ namespace ast::vk
 		case VK_ERROR_VIDEO_PROFILE_CODEC_NOT_SUPPORTED_KHR: stream << "vk_error_video_profile_codec_not_supported"; break;
 		case VK_ERROR_VIDEO_STD_VERSION_NOT_SUPPORTED_KHR: stream << "vk_error_video_std_version_not_supported"; break;
 #endif
+#if VK_KHR_video_encode_queue
+		case VK_ERROR_INVALID_VIDEO_STD_PARAMETERS_KHR: stream << "The specified Video Std parameters do not adhere to the syntactic or semantic requirements of the used video compression standard, or values derived from parameters according to the rules defines by the used video compression standard do not adhere to the capabilities of the video compression standard or the implementation."; break;
+#endif
+#if VK_EXT_shader_object
+		case VK_ERROR_INCOMPATIBLE_SHADER_BINARY_EXT: stream << "The provided binary shader code is not compatible with this device"; break;
+#endif
 		case VK_RESULT_MAX_ENUM: stream << "vk_result_max_enum"; break;
 		}
 
