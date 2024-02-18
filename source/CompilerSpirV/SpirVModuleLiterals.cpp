@@ -243,9 +243,10 @@ namespace spirv
 		auto typeId = m_module.registerType( type, nullptr );
 		auto it = std::find_if( m_registeredCompositeConstants.begin()
 			, m_registeredCompositeConstants.end()
-			, [&initialisers]( std::pair< DebugIdList, DebugId > const & lookup )
+			, [&initialisers, &typeId]( std::pair< DebugIdList, DebugId > const & lookup )
 			{
-				return lookup.first == initialisers;
+				return lookup.first == initialisers
+					&& lookup.second == typeId;
 			} );
 
 		if ( it == m_registeredCompositeConstants.end() )
