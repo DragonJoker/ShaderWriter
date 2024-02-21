@@ -2480,6 +2480,16 @@ namespace glsl
 								helpers::doAddStatement( "#extension " + extension.name + ": enable", result, line );
 							}
 						}
+
+						if ( intrinsics.requiresQuadControl )
+						{
+							helpers::doAddStatement( "layout(quad_derivatives) in;", result, line );
+						}
+
+						if ( intrinsics.requiresFullQuads )
+						{
+							helpers::doAddStatement( "layout(full_quads) in;", result, line );
+						}
 					}
 				}
 
@@ -2968,6 +2978,12 @@ namespace glsl
 				}
 
 				text += ")";
+
+				if ( stmt->hasMaximalReconvergence() )
+				{
+					text += " [[maximally_reconverges]]";
+				}
+
 				std::string preEndText;
 
 				if ( stmt->isEntryPoint()

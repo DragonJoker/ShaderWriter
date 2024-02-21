@@ -2718,6 +2718,24 @@ namespace sdw
 	SDW_API RetDVec4 subgroupQuadSwapDiagonal( DVec4 const value );
 	/**@}*/
 #pragma endregion
+#pragma region subgroupQuadAll
+	/**
+	*name
+	*	subgroupQuadAll
+	*/
+	/**@{*/
+	SDW_API RetBoolean subgroupQuadAll( Boolean const value );
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadAny
+	/**
+	*name
+	*	subgroupQuadAny
+	*/
+	/**@{*/
+	SDW_API RetBoolean subgroupQuadAny( Boolean const value );
+	/**@}*/
+#pragma endregion
 #pragma region readInvocation
 	/**
 	*name

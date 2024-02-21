@@ -490,6 +490,12 @@ namespace spirv
 				, nullopt
 				, nullopt );
 		}
+
+		static inline InstructionTypePtr make( NamesCache & nameCache
+			, ValueId returnTypeId, ValueId resultId, ValueIdList operands )
+		{
+			return make( nameCache, returnTypeId, resultId, operands.front() );
+		}
 	};
 
 	template< spv::Op OperatorT >

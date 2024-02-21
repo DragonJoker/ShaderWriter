@@ -323,7 +323,43 @@ namespace
 		sdw::Vec3 wpB111;
 	};
 
-	TEST_F( SDWTest, noSpecificIO )
+	using TessellationEvaluation = SDWTest;
+
+	TEST_F( TessellationEvaluation, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::TessellationEvaluationWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::TessellationEvaluationWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::TessellationEvaluationWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTessellationEvaluation, &testCounts.allocator };
+			sdw::TessellationEvaluationWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTessellationEvaluation, &testCounts.allocator };
+			sdw::TessellationEvaluationWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTessellationEvaluation, &testCounts.allocator };
+			sdw::TessellationEvaluationWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTessellationEvaluation, &testCounts.allocator };
+			sdw::TessellationEvaluationWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( TessellationEvaluation, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -358,7 +394,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInputOnly )
+	TEST_F( TessellationEvaluation, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -387,7 +423,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInputOnly )
+	TEST_F( TessellationEvaluation, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
@@ -417,7 +453,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInputOnly )
+	TEST_F( TessellationEvaluation, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -448,7 +484,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberOutputOnly )
+	TEST_F( TessellationEvaluation, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -477,7 +513,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalOutputOnly )
+	TEST_F( TessellationEvaluation, specificGlobalOutputOnly )
 	{
 		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
@@ -507,7 +543,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedOutputOnly )
+	TEST_F( TessellationEvaluation, specificMixedOutputOnly )
 	{
 		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
@@ -538,7 +574,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInAndOut )
+	TEST_F( TessellationEvaluation, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -568,7 +604,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInAndOut )
+	TEST_F( TessellationEvaluation, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -601,7 +637,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInAndOut )
+	TEST_F( TessellationEvaluation, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
@@ -637,7 +673,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, noSpecificIOPatch )
+	TEST_F( TessellationEvaluation, noSpecificIOPatch )
 	{
 		sdwTestBegin( "noSpecificIOPatch" );
 		using namespace sdw;
@@ -669,7 +705,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInputOnlyPatch )
+	TEST_F( TessellationEvaluation, specificMemberInputOnlyPatch )
 	{
 		sdwTestBegin( "specificMemberInputOnlyPatch" );
 		using namespace sdw;
@@ -701,7 +737,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInputOnlyPatch )
+	TEST_F( TessellationEvaluation, specificGlobalInputOnlyPatch )
 	{
 		sdwTestBegin( "specificGlobalInputOnlyPatch" );
 		using namespace sdw;
@@ -734,7 +770,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInputOnlyPatch )
+	TEST_F( TessellationEvaluation, specificMixedInputOnlyPatch )
 	{
 		sdwTestBegin( "specificMixedInputOnlyPatch" );
 		using namespace sdw;
@@ -768,7 +804,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberOutputOnlyPatch )
+	TEST_F( TessellationEvaluation, specificMemberOutputOnlyPatch )
 	{
 		sdwTestBegin( "specificMemberOutputOnlyPatch" );
 		using namespace sdw;
@@ -800,7 +836,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalOutputOnlyPatch )
+	TEST_F( TessellationEvaluation, specificGlobalOutputOnlyPatch )
 	{
 		sdwTestBegin( "specificGlobalOutputOnlyPatch" );
 		using namespace sdw;
@@ -833,7 +869,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedOutputOnlyPatch )
+	TEST_F( TessellationEvaluation, specificMixedOutputOnlyPatch )
 	{
 		sdwTestBegin( "specificMixedOutputOnlyPatch" );
 		using namespace sdw;
@@ -867,7 +903,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInAndOutPatch )
+	TEST_F( TessellationEvaluation, specificMemberInAndOutPatch )
 	{
 		sdwTestBegin( "specificMemberInAndOutPatch" );
 		using namespace sdw;
@@ -900,7 +936,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInAndOutPatch )
+	TEST_F( TessellationEvaluation, specificGlobalInAndOutPatch )
 	{
 		sdwTestBegin( "specificGlobalInAndOutPatch" );
 		using namespace sdw;
@@ -936,7 +972,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInAndOutPatch )
+	TEST_F( TessellationEvaluation, specificMixedInAndOutPatch )
 	{
 		sdwTestBegin( "specificMixedInAndOutPatch" );
 		using namespace sdw;
@@ -975,7 +1011,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, tessellationEvaluation )
+	TEST_F( TessellationEvaluation, tessellationEvaluation )
 	{
 		sdwTestBegin( "tessellationEvaluation" );
 		using namespace sdw;

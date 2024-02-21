@@ -122,6 +122,10 @@ namespace spirv
 	makeSpirVExtension( v1_4, v1_5, vUnk, KHR_ray_tracing );
 	// Enable this extension to be able to use EXT Mesh and Task shader stages
 	makeSpirVExtension( v1_6, v1_6, vUnk, EXT_mesh_shader );
+	// Enable this extension to be able to use ast::stmt::FunctionFlag::eMaximalReconvergence flag
+	makeSpirVExtension( v1_0, v1_6, vUnk, KHR_maximal_reconvergence );
+	// Enable this extension to be able to use ast::stmt::FunctionFlag::eFullQuads flag, subgroupQuadAll and subgroupQuadAny
+	makeSpirVExtension( v1_3, v1_6, vUnk, KHR_quad_control );
 	// Marker used to tell that the shader uses subgroup intrinsics.
 	makeSpirVMarker( v1_3, v1_3, v1_3, KHR_shader_subgroup );
 

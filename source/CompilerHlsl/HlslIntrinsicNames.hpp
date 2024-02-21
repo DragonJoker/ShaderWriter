@@ -1398,6 +1398,14 @@ namespace hlsl
 			result = "QuadReadLaneAt";
 			break;
 
+		case ast::expr::Intrinsic::eSubgroupQuadAll:
+			result = "QuadAll";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupQuadAny:
+			result = "QuadAny";
+			break;
+
 		default:
 			throw UnsupportedExtensionException{ "Unsupported Intrinsic type." };
 		}

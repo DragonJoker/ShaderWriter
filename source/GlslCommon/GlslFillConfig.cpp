@@ -472,6 +472,12 @@ namespace glsl
 					break;
 				case ast::expr::Intrinsic::eHelperInvocation:
 					break;
+				case ast::expr::Intrinsic::eSubgroupQuadAny:
+				case ast::expr::Intrinsic::eSubgroupQuadAll:
+					m_config.requiredExtensions.insert( EXT_maximal_reconvergence );
+					m_config.requiredExtensions.insert( EXT_shader_quad );
+					m_config.requiresQuadControl = true;
+					break;
 				default:
 					break;
 				}
@@ -675,6 +681,16 @@ namespace glsl
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
 				visitContainerStmt( stmt );
+
+				if ( stmt->hasMaximalReconvergence() )
+				{
+					m_result.requiredExtensions.insert( EXT_maximal_reconvergence );
+				}
+
+				if ( stmt->hasFullQuads() )
+				{
+					m_result.requiresFullQuads = true;
+				}
 			}
 
 			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override

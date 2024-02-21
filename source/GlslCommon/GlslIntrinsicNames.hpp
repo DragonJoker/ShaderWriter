@@ -1847,6 +1847,14 @@ namespace glsl
 			result = "subgroupQuadSwapDiagonal";
 			break;
 
+		case ast::expr::Intrinsic::eSubgroupQuadAll:
+			result = "subgroupQuadAll";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupQuadAny:
+			result = "subgroupQuadAny";
+			break;
+
 		case ast::expr::Intrinsic::eReadInvocation1F:
 		case ast::expr::Intrinsic::eReadInvocation2F:
 		case ast::expr::Intrinsic::eReadInvocation3F:

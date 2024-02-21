@@ -1577,6 +1577,9 @@ namespace spirv
 		case spv::CapabilityRayTracingKHR:
 			registerExtension( KHR_ray_tracing );
 			break;
+		case spv::CapabilityQuadControlKHR:
+			registerExtension( KHR_quad_control );
+			break;
 		case spv::CapabilityMax:
 			break;
 		default:
@@ -1623,7 +1626,7 @@ namespace spirv
 		if ( spirvConfig.availableExtensions
 			&& !spirvConfig.availableExtensions->contains( extension ) )
 		{
-			throw ast::Exception{ "Extension [" + extension.name + "] was not found in the list of available extension" };
+			throw ast::Exception{ "Extension [" + extension.name + "] was not found in the list of available extension (SPIR-V " + hlp::printSpvVersion( spirvConfig.specVersion ) + ")" };
 		}
 
 		requiredExtensions.insert( extension );
@@ -1655,6 +1658,16 @@ namespace spirv
 	void ModuleConfig::initialise( ast::stmt::FunctionDecl const & stmt )
 	{
 		auto funcType = stmt.getType();
+
+		if ( stmt.hasMaximalReconvergence() )
+		{
+			registerExtension( KHR_maximal_reconvergence );
+		}
+
+		if ( stmt.hasFullQuads() )
+		{
+			registerExtension( KHR_quad_control );
+		}
 
 		for ( auto & param : *funcType )
 		{
@@ -3437,6 +3450,10 @@ namespace spirv
 			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadSwap:
 			return makeInstruction< GroupNonUniformQuadSwapInstruction >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformQuadAnyKHR:
+			return makeInstruction< GroupNonUniformQuadAnyInstruction >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformQuadAllKHR:
+			return makeInstruction< GroupNonUniformQuadAllInstruction >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}

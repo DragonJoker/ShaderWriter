@@ -144,6 +144,14 @@ namespace spirv
 				{
 					config.registerCapability( spv::CapabilitySubgroupBallotKHR );
 				}
+				else if ( kind == ast::expr::Intrinsic::eSubgroupQuadAll
+					|| kind == ast::expr::Intrinsic::eSubgroupQuadAny )
+				{
+					config.registerCapability( spv::CapabilityQuadControlKHR );
+					config.executionModes.insert( spv::ExecutionModeQuadDerivativesKHR );
+					config.executionModes.insert( spv::ExecutionModeMaximallyReconvergesKHR );
+					config.registerExtension( KHR_maximal_reconvergence );
+				}
 				else if ( kind >= ast::expr::Intrinsic::eControlBarrier
 					&& kind <= ast::expr::Intrinsic::eMemoryBarrier )
 				{

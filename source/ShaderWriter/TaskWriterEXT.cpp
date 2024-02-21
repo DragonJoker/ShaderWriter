@@ -140,13 +140,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	TaskWriterEXT::TaskWriterEXT( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eTask, allocator }
+	TaskWriterEXT::TaskWriterEXT( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eTask, flags, allocator }
 	{
 	}
 
-	TaskWriterEXT::TaskWriterEXT( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eTask, builder }
+	TaskWriterEXT::TaskWriterEXT( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eTask, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eTask
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsEXT )

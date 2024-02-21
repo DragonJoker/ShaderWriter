@@ -1,5 +1,7 @@
 #include "WriterCommon.hpp"
 
+#include <ShaderWriter/RayTraceWriter.hpp>
+
 #pragma warning( disable:5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -52,7 +54,43 @@ namespace
 		sdw::Float outIntensity;
 	};
 
-	TEST_F( SDWTest, lightInf )
+	using Callable = SDWTest;
+
+	TEST_F( Callable, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::CallableWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::CallableWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::CallableWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::CallableWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eCallable, &testCounts.allocator };
+			sdw::CallableWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eCallable, &testCounts.allocator };
+			sdw::CallableWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eCallable, &testCounts.allocator };
+			sdw::CallableWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eCallable, &testCounts.allocator };
+			sdw::CallableWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( Callable, lightInf )
 	{
 		sdwTestBegin( "lightInf" );
 		using namespace sdw;
@@ -84,7 +122,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, lightPoint )
+	TEST_F( Callable, lightPoint )
 	{
 		sdwTestBegin( "lightPoint" );
 		using namespace sdw;
@@ -117,7 +155,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, lightSpot )
+	TEST_F( Callable, lightSpot )
 	{
 		sdwTestBegin( "lightSpot" );
 		using namespace sdw;

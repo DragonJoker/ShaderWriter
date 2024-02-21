@@ -6,16 +6,20 @@ See LICENSE file in root folder
 namespace sdw
 {
 	EntryPointWriter::EntryPointWriter( ast::ShaderStage type
+		, uint32_t flags
 		, ShaderAllocator * allocator )
 		: ShaderWriter{ type, allocator }
 		, m_entryPoint{ getEntryPointType( type ) }
+		, m_flags{ flags }
 	{
 	}
 
 	EntryPointWriter::EntryPointWriter( ast::ShaderStage type
-		, ShaderBuilder & builder )
+		, ShaderBuilder & builder
+		, uint32_t flags )
 		: ShaderWriter{ builder }
 		, m_entryPoint{ getEntryPointType( type ) }
+		, m_flags{ flags }
 	{
 	}
 

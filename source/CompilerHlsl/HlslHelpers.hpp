@@ -566,6 +566,9 @@ namespace hlsl
 		bool requiresUAV{ false };
 		bool requiresInterpolate{ false };
 		bool requiresAtomicAddFloat{ false };
+		bool requiresQuadControl{ false };
+		bool requiresFullQuads{ false };
+		bool requiresMaximalReconvergence{ false };
 
 		bool requiresACosh1F{ false };
 		bool requiresACosh2F{ false };

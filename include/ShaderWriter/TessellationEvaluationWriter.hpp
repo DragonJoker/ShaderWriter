@@ -164,8 +164,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit TessellationEvaluationWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit TessellationEvaluationWriter( ShaderBuilder & builder );
+		SDW_API explicit TessellationEvaluationWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit TessellationEvaluationWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit TessellationEvaluationWriter( ShaderAllocator * allocator = nullptr )
+			: TessellationEvaluationWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit TessellationEvaluationWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: TessellationEvaluationWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API TessellationEvaluationWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: TessellationEvaluationWriter{ builder, uint32_t( flag ) }
+		{
+		}
 		
 		template< template< ast::var::Flag FlagT > typename InT
 			, uint32_t MaxPointsT

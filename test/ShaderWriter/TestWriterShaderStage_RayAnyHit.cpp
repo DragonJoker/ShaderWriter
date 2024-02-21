@@ -247,7 +247,43 @@ namespace
 		sdw::Int textureId;
 	};
 
-	TEST_F( SDWTest, basic )
+	using RayAnyHit = SDWTest;
+
+	TEST_F( RayAnyHit, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::RayAnyHitWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::RayAnyHitWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::RayAnyHitWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::RayAnyHitWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayAnyHit, &testCounts.allocator };
+			sdw::RayAnyHitWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayAnyHit, &testCounts.allocator };
+			sdw::RayAnyHitWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayAnyHit, &testCounts.allocator };
+			sdw::RayAnyHitWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayAnyHit, &testCounts.allocator };
+			sdw::RayAnyHitWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( RayAnyHit, basic )
 	{
 		sdwTestBegin( "bufferReference" );
 		sdw::RayAnyHitWriter writer{ &testCounts.allocator };
@@ -271,7 +307,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, simple )
+	TEST_F( RayAnyHit, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;

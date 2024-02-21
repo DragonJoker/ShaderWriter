@@ -444,7 +444,43 @@ namespace
 	};
 	using MyVertexOut = MyVertexOutT< sdw::var::Flag::eNone >;
 
-	TEST_F( SDWTest, basicX )
+	using TaskEXT = SDWTest;
+
+	TEST_F( TaskEXT, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::TaskWriterEXT writer{ &testCounts.allocator };
+		}
+		{
+			sdw::TaskWriterEXT writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::TaskWriterEXT writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::TaskWriterEXT writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTask, &testCounts.allocator };
+			sdw::TaskWriterEXT writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTask, &testCounts.allocator };
+			sdw::TaskWriterEXT writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTask, &testCounts.allocator };
+			sdw::TaskWriterEXT writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTask, &testCounts.allocator };
+			sdw::TaskWriterEXT writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( TaskEXT, basicX )
 	{
 		sdwTestBegin( "basicX" );
 		using namespace sdw;
@@ -467,7 +503,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, cullMeshlet )
+	TEST_F( TaskEXT, cullMeshlet )
 	{
 		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
@@ -616,7 +652,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupBasicXDispatchFromPayload )
+	TEST_F( TaskEXT, subgroupBasicXDispatchFromPayload )
 	{
 		sdwTestBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
@@ -639,7 +675,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupBasicXDispatchFromWriter )
+	TEST_F( TaskEXT, subgroupBasicXDispatchFromWriter )
 	{
 		sdwTestBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;
@@ -662,7 +698,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, taskMeshPipelineTaskOnly )
+	TEST_F( TaskEXT, taskMeshPipelineTaskOnly )
 	{
 		sdwTestBegin( "taskMeshPipelineTaskOnly" );
 		{

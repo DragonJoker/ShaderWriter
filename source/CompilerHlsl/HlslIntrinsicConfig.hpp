@@ -1009,6 +1009,13 @@ namespace hlsl
 			config.requiresWaveOps = true;
 			break;
 
+		case ast::expr::Intrinsic::eSubgroupQuadAll:
+		case ast::expr::Intrinsic::eSubgroupQuadAny:
+			config.requiresWaveOps = true;
+			config.requiresQuadControl = true;
+			config.requiresMaximalReconvergence = true;
+			break;
+
 		case ast::expr::Intrinsic::eAtomicAddF:
 		case ast::expr::Intrinsic::eAtomicAdd2H:
 		case ast::expr::Intrinsic::eAtomicAdd4H:

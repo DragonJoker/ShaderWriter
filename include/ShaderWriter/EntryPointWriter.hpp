@@ -12,10 +12,12 @@ namespace sdw
 		: public ShaderWriter
 	{
 	protected:
-		SDW_API explicit EntryPointWriter( ast::ShaderStage type
-			, ShaderAllocator * allocator = nullptr );
-		SDW_API explicit EntryPointWriter( ast::ShaderStage type
-			, ShaderBuilder & builder );
+		SDW_API EntryPointWriter( ast::ShaderStage type
+			, uint32_t flags
+			, ShaderAllocator * allocator );
+		SDW_API EntryPointWriter( ast::ShaderStage type
+			, ShaderBuilder & builder
+			, uint32_t flags );
 		SDW_API ~EntryPointWriter()override = default;
 
 	public:

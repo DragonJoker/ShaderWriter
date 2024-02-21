@@ -62,9 +62,15 @@ namespace test::sdw_test
 
 					bool isCompiled{ false };
 
-					if ( config.vulkanGlsl )
+					if ( config.requiredExtensions.find( glsl::EXT_shader_quad ) != config.requiredExtensions.end()
+						|| config.requiredExtensions.find( glsl::EXT_maximal_reconvergence ) != config.requiredExtensions.end() )
 					{
-						if ( config.requiredExtensions.find( glsl::NV_gpu_shader5 ) != config.requiredExtensions.end() )
+						isCompiled = true;
+					}
+					else if ( config.vulkanGlsl )
+					{
+						if ( config.requiredExtensions.find( glsl::NV_gpu_shader5 ) != config.requiredExtensions.end()
+							|| config.requiredExtensions.find( glsl::EXT_shader_quad ) != config.requiredExtensions.end() )
 						{
 							isCompiled = true;
 						}

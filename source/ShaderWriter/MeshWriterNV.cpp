@@ -148,13 +148,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	MeshWriterNV::MeshWriterNV( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eMeshNV, allocator }
+	MeshWriterNV::MeshWriterNV( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eMeshNV, flags, allocator }
 	{
 	}
 
-	MeshWriterNV::MeshWriterNV( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eMeshNV, builder }
+	MeshWriterNV::MeshWriterNV( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eMeshNV, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eMeshNV
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV )

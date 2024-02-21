@@ -402,6 +402,16 @@ namespace test
 			, compilers );
 	}
 
+	void writeShader( sdw::PipelineWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers )
+	{
+		writeShader( writer.getShader()
+			, ast::listEntryPoints( *writer.getShader().getStatements() )
+			, testCounts
+			, compilers );
+	}
+
 	void writeProgram( ::ast::Shader const & shader
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )

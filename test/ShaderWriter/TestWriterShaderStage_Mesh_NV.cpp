@@ -857,7 +857,43 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-	TEST_F( SDWTest, pointX )
+	using MeshNV = SDWTest;
+
+	TEST_F( MeshNV, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::MeshWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::MeshWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::MeshWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::MeshWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, pointX )
 	{
 		sdwTestBegin( "pointX" );
 		using namespace sdw;
@@ -880,7 +916,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, point )
+	TEST_F( MeshNV, point )
 	{
 		sdwTestBegin( "point" );
 		using namespace sdw;
@@ -904,7 +940,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, lineX )
+	TEST_F( MeshNV, lineX )
 	{
 		sdwTestBegin( "lineX" );
 		using namespace sdw;
@@ -927,7 +963,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, line )
+	TEST_F( MeshNV, line )
 	{
 		sdwTestBegin( "line" );
 		using namespace sdw;
@@ -951,7 +987,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, triangleX )
+	TEST_F( MeshNV, triangleX )
 	{
 		sdwTestBegin( "triangleX" );
 		using namespace sdw;
@@ -975,7 +1011,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, triangle )
+	TEST_F( MeshNV, triangle )
 	{
 		sdwTestBegin( "triangle" );
 		using namespace sdw;
@@ -999,7 +1035,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, oneTriangle )
+	TEST_F( MeshNV, oneTriangle )
 	{
 		sdwTestBegin( "oneTriangle" );
 		using namespace sdw;
@@ -1040,7 +1076,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, taskPayload )
+	TEST_F( MeshNV, taskPayload )
 	{
 		sdwTestBegin( "taskPayload" );
 		using namespace sdw;
@@ -1067,7 +1103,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, renderMeshlet )
+	TEST_F( MeshNV, renderMeshlet )
 	{
 		sdwTestBegin( "renderMeshlet" );
 		using namespace sdw;
@@ -1173,7 +1209,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, meshletInstancing )
+	TEST_F( MeshNV, meshletInstancing )
 	{
 		sdwTestBegin( "meshletInstancing" );
 		using namespace sdw;
@@ -1324,7 +1360,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, checkConstantsLayout )
+	TEST_F( MeshNV, checkConstantsLayout )
 	{
 		sdwTestBegin( "checkConstantsLayout" );
 		using namespace sdw;
@@ -1355,7 +1391,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, cullMeshlet )
+	TEST_F( MeshNV, cullMeshlet )
 	{
 		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
@@ -1487,7 +1523,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, writePackedPrimitiveIndices )
+	TEST_F( MeshNV, writePackedPrimitiveIndices )
 	{
 		sdwTestBegin( "writePackedPrimitiveIndices" );
 		using namespace sdw;
@@ -1620,7 +1656,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupPointX )
+	TEST_F( MeshNV, subgroupPointX )
 	{
 		sdwTestBegin( "subgroupPointX" );
 		using namespace sdw;
@@ -1643,7 +1679,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupPoint )
+	TEST_F( MeshNV, subgroupPoint )
 	{
 		sdwTestBegin( "subgroupPoint" );
 		using namespace sdw;
@@ -1667,7 +1703,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupLineX )
+	TEST_F( MeshNV, subgroupLineX )
 	{
 		sdwTestBegin( "subgroupLineX" );
 		using namespace sdw;
@@ -1690,7 +1726,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupLine )
+	TEST_F( MeshNV, subgroupLine )
 	{
 		sdwTestBegin( "subgroupLine" );
 		using namespace sdw;
@@ -1714,7 +1750,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupTriangleX )
+	TEST_F( MeshNV, subgroupTriangleX )
 	{
 		sdwTestBegin( "subgroupTriangleX" );
 		using namespace sdw;
@@ -1738,7 +1774,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupTriangle )
+	TEST_F( MeshNV, subgroupTriangle )
 	{
 		sdwTestBegin( "subgroupTriangle" );
 		using namespace sdw;
@@ -1762,7 +1798,7 @@ namespace
 		sdwTestEnd()
 	}
 	
-	TEST_F( SDWTest, taskMeshPipelineMeshOnly )
+	TEST_F( MeshNV, taskMeshPipelineMeshOnly )
 	{
 		sdwTestBegin( "taskMeshPipelineMeshOnly" );
 		{

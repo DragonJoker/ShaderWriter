@@ -47,13 +47,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	CallableWriter::CallableWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eCallable, allocator }
+	CallableWriter::CallableWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eCallable, flags, allocator }
 	{
 	}
 
-	CallableWriter::CallableWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eCallable, builder }
+	CallableWriter::CallableWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eCallable, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eCallable
 			&& builder.getType() != ast::ShaderStage::eRayTrace )

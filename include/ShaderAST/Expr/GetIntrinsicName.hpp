@@ -5268,6 +5268,14 @@ namespace ast::expr
 			result = "SubgroupQuadSwapDiagonal4D";
 			break;
 
+		case Intrinsic::eSubgroupQuadAll:
+			result = "SubgroupQuadAll";
+			break;
+
+		case Intrinsic::eSubgroupQuadAny:
+			result = "SubgroupQuadAny";
+			break;
+
 
 	//Shader Invocation Group Functions
 		case Intrinsic::eReadInvocation1F:

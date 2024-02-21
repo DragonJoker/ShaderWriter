@@ -404,7 +404,43 @@ namespace
 		sdw::Float outIntensity;
 	};
 
-	TEST_F( SDWTest, simple )
+	using RayClosestHit = SDWTest;
+
+	TEST_F( RayClosestHit, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::RayClosestHitWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::RayClosestHitWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::RayClosestHitWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayClosestHit, &testCounts.allocator };
+			sdw::RayClosestHitWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayClosestHit, &testCounts.allocator };
+			sdw::RayClosestHitWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayClosestHit, &testCounts.allocator };
+			sdw::RayClosestHitWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayClosestHit, &testCounts.allocator };
+			sdw::RayClosestHitWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( RayClosestHit, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;
@@ -453,7 +489,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, vecTimesMtx )
+	TEST_F( RayClosestHit, vecTimesMtx )
 	{
 		sdwTestBegin( "vecTimesMtx" );
 		using namespace sdw;
@@ -502,7 +538,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, nonUniform )
+	TEST_F( RayClosestHit, nonUniform )
 	{
 		sdwTestBegin( "nonUniform" );
 		using namespace sdw;
@@ -538,7 +574,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, wavefrontLighting )
+	TEST_F( RayClosestHit, wavefrontLighting )
 	{
 		sdwTestBegin( "wavefrontLighting" );
 		using namespace sdw;
@@ -671,7 +707,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, basicExecCallable )
+	TEST_F( RayClosestHit, basicExecCallable )
 	{
 		sdwTestBegin( "basicExecCallable" );
 		using namespace sdw;
@@ -787,7 +823,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, execCallable )
+	TEST_F( RayClosestHit, execCallable )
 	{
 		sdwTestBegin( "execCallable" );
 		using namespace sdw;

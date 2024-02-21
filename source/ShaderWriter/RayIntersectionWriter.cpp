@@ -102,13 +102,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayIntersectionWriter::RayIntersectionWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eRayIntersection, allocator }
+	RayIntersectionWriter::RayIntersectionWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eRayIntersection, flags, allocator }
 	{
 	}
 
-	RayIntersectionWriter::RayIntersectionWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eRayIntersection, builder }
+	RayIntersectionWriter::RayIntersectionWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eRayIntersection, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eRayIntersection
 			&& builder.getType() != ast::ShaderStage::eRayTrace )

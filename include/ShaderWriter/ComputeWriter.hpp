@@ -14,7 +14,7 @@ namespace sdw
 	*	Compute.
 	*/
 	/**@{*/
-	SDW_API U32Vec3 getWorkGroupSize( ast::type::TypePtr type );
+	SDW_API U32Vec3 getWorkGroupSize( ast::type::Type const & type );
 	/**
 	*name
 	*	Compute inputs.
@@ -131,8 +131,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit ComputeWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit ComputeWriter( ShaderBuilder & builder );
+		SDW_API explicit ComputeWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit ComputeWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit ComputeWriter( ShaderAllocator * allocator = nullptr )
+			: ComputeWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit ComputeWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: ComputeWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API ComputeWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: ComputeWriter{ builder, uint32_t( flag ) }
+		{
+		}
 
 		SDW_API void implementMain( uint32_t localSizeX
 			, ComputeMainFuncT< VoidT > const & function );

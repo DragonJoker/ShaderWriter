@@ -810,15 +810,12 @@ namespace test
 		public:
 			SPIRVContext()noexcept
 			{
-#if SDW_AllSpirVVersions
-				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
-#else
+#if SDW_Test_Coverage
 				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_6 };
-#endif
-#if SDW_AllVulkanVersions
-				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
-#else
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_3 };
+#else
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
 #endif
 
 				uint32_t maxApiVersion{};
@@ -877,11 +874,7 @@ namespace test
 	static Info * retrieveInfo( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return testCounts.spirv().infos.back().get();
-#else
 		return testCounts.spirv().infos[infoIndex].get();
-#endif
 	}
 
 	bool retrieveIsSpirVInitialised( sdw_test::TestCounts const & testCounts
@@ -915,11 +908,7 @@ namespace test
 
 	uint32_t retrieveSpirVInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
-#if SDW_Test_Coverage
-		return 1u;
-#else
 		return uint32_t( testCounts.spirv().infos.size() );
-#endif
 	}
 
 	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
@@ -1479,6 +1468,10 @@ namespace test
 		{
 			if ( find( "VK_EXT_mesh_shader" ) )
 				result.emplace( spirv::EXT_mesh_shader );
+			if ( find( "VK_KHR_quad_control" ) )
+				result.emplace( spirv::KHR_quad_control );
+			if ( find( "VK_KHR_maximal_reconvergence" ) )
+				result.emplace( spirv::KHR_maximal_reconvergence );
 		}
 
 		if ( config.specVersion >= spirv::v1_5 )
@@ -1547,15 +1540,12 @@ namespace test
 		{
 			static std::vector< std::pair< uint32_t, uint32_t > > shaderModels = []()
 			{
-#if SDW_AllSpirVVersions
-					static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+#if SDW_Test_Coverage
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_6 };
+				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_3 };
 #else
-					static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_6 };
-#endif
-#if SDW_AllVulkanVersions
-					static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
-#else
-					static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_3 };
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
 #endif
 
 				uint32_t maxApiVersion{ vk1_3 };
@@ -1592,30 +1582,18 @@ namespace test
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return sdw_test::getShaderModels().back().first;
-#else
 		return sdw_test::getShaderModels()[infoIndex].first;
-#endif
 	}
 
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return sdw_test::getShaderModels().back().second;
-#else
 		return sdw_test::getShaderModels()[infoIndex].second;
-#endif
 	}
 
 	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-#if SDW_Test_Coverage
-		return 1u;
-#else
 		return uint32_t( sdw_test::getShaderModels().size() );
-#endif
 	}
 
 	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
@@ -1685,6 +1663,8 @@ namespace test
 		if ( config.specVersion >= spirv::v1_6 )
 		{
 			result.emplace( spirv::EXT_mesh_shader );
+			result.emplace( spirv::KHR_quad_control );
+			result.emplace( spirv::KHR_maximal_reconvergence );
 		}
 
 		if ( config.specVersion >= spirv::v1_5 )

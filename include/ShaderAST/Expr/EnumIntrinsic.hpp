@@ -1348,6 +1348,8 @@ namespace ast::expr
 		eSubgroupQuadSwapDiagonal2D,
 		eSubgroupQuadSwapDiagonal3D,
 		eSubgroupQuadSwapDiagonal4D,
+		eSubgroupQuadAll,
+		eSubgroupQuadAny,
 
 	//Shader Invocation Group Functions
 		eReadInvocation1F,

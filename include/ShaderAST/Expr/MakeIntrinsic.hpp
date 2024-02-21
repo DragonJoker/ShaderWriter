@@ -22865,6 +22865,36 @@ namespace ast::expr
 			, Intrinsic::eSubgroupQuadSwapDiagonal4D
 			, std::move( value ) );
 	}
+	/**
+	*@return
+	*	boolean
+	*@param[in] value
+	*	boolean
+	*/
+	inline IntrinsicCallPtr makeSubgroupQuadAll( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		AST_Assert( value->getType()->getRawKind() == type::Kind::eBoolean );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eSubgroupQuadAll
+			, std::move( value ) );
+	}
+	/**
+	*@return
+	*	boolean
+	*@param[in] value
+	*	boolean
+	*/
+	inline IntrinsicCallPtr makeSubgroupQuadAny( ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, ExprPtr value )
+	{
+		AST_Assert( value->getType()->getRawKind() == type::Kind::eBoolean );
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eBoolean )
+			, Intrinsic::eSubgroupQuadAny
+			, std::move( value ) );
+	}
 	//Shader Invocation Group Functions
 
 	/**

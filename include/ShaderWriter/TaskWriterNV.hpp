@@ -121,8 +121,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit TaskWriterNV( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit TaskWriterNV( ShaderBuilder & builder );
+		SDW_API explicit TaskWriterNV( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit TaskWriterNV( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit TaskWriterNV( ShaderAllocator * allocator = nullptr )
+			: TaskWriterNV{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit TaskWriterNV( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: TaskWriterNV{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API TaskWriterNV( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: TaskWriterNV{ builder, uint32_t( flag ) }
+		{
+		}
 
 		template< template< ast::var::Flag FlagT > typename PayloadT >
 		void dispatchMesh( UInt numGroups

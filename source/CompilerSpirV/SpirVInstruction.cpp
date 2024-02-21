@@ -653,6 +653,10 @@ namespace spirv
 				return DemoteInstruction::Config;
 			case spv::OpIgnoreIntersectionKHR:
 				return IgnoreIntersectionInstruction::Config;
+			case spv::OpGroupNonUniformQuadAllKHR:
+				return GroupNonUniformQuadAllInstruction::Config;
+			case spv::OpGroupNonUniformQuadAnyKHR:
+				return GroupNonUniformQuadAnyInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 #if !SDAST_ExceptAssert

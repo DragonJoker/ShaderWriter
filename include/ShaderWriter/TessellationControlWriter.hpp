@@ -219,8 +219,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit TessellationControlWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit TessellationControlWriter( ShaderBuilder & builder );
+		SDW_API explicit TessellationControlWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit TessellationControlWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit TessellationControlWriter( ShaderAllocator * allocator = nullptr )
+			: TessellationControlWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit TessellationControlWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: TessellationControlWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API TessellationControlWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: TessellationControlWriter{ builder, uint32_t( flag ) }
+		{
+		}
 		/**
 		*name
 		*	Patch routine declaration.

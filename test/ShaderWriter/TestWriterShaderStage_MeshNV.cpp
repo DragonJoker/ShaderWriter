@@ -853,210 +853,246 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-		TEST_F( SDWTest, pointX )
+	using MeshNV = SDWTest;
+
+	TEST_F( MeshNV, construction )
+	{
+		sdwTestBegin( "construction" );
 		{
-			sdwTestBegin( "pointX" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-					, 64u
-					, 126u
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOut vtxOut
-						, PointsMeshNVPrimitiveListOut primOut )
-					{} );
-				test::writeShader( writer
-					, testCounts
-					, Compilers_NoHLSL );
-			}
-			sdwTestEnd()
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
 		}
-
-		TEST_F( SDWTest, point )
 		{
-			sdwTestBegin( "point" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-					, TaskPayloadInNV{ writer }
-					, MeshVertexListOut{ writer, 64u }
-					, PointsMeshNVPrimitiveListOut{ writer, 126u }
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOut vtxOut
-						, PointsMeshNVPrimitiveListOut primOut )
-					{
-						primOut[0].primitiveIndex = 0_u;
-					} );
-				test::writeShader( writer
-					, testCounts
-					, Compilers_NoHLSL );
-			}
-			sdwTestEnd()
+			sdw::MeshWriterNV writer{ 0u, &testCounts.allocator };
 		}
-
-		TEST_F( SDWTest, lineX )
 		{
-			sdwTestBegin( "lineX" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-					, 64u
-					, 126u
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOut vtxOut
-						, LinesMeshNVPrimitiveListOut primOut )
-					{
-						primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
-					} );
-				test::writeShader( writer
-					, testCounts
-					, CurrentCompilers );
-			}
-			sdwTestEnd()
+			sdw::MeshWriterNV writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
 		}
-
-		TEST_F( SDWTest, line )
 		{
-			sdwTestBegin( "line" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-					, TaskPayloadInNV{ writer }
-					, MeshVertexListOut{ writer, 64u }
-					, LinesMeshNVPrimitiveListOut{ writer, 126u }
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOut vtxOut
-						, LinesMeshNVPrimitiveListOut primOut )
-					{
-						primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
-					} );
-				test::writeShader( writer
-					, testCounts
-					, CurrentCompilers );
-			}
-			sdwTestEnd()
+			sdw::MeshWriterNV writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
 		}
-
-		TEST_F( SDWTest, triangleX )
 		{
-			sdwTestBegin( "triangleX" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-					, 64u
-					, 126u
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOut vtxOut
-						, TrianglesMeshNVPrimitiveListOut primOut )
-					{
-						primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
-					} );
-				test::writeShader( writer
-					, testCounts
-					, CurrentCompilers );
-			}
-			sdwTestEnd()
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriterNV writer{ builder };
 		}
-
-		TEST_F( SDWTest, triangle )
 		{
-			sdwTestBegin( "triangle" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< VoidT, VoidT, VoidT >( 32u
-					, TaskPayloadInNV{ writer }
-					, MeshVertexListOut{ writer, 64u }
-					, TrianglesMeshNVPrimitiveListOut{ writer, 126u }
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOut vtxOut
-						, TrianglesMeshNVPrimitiveListOut primOut )
-					{
-						primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
-					} );
-				test::writeShader( writer
-					, testCounts
-					, CurrentCompilers );
-			}
-			sdwTestEnd()
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriterNV writer{ builder, 0u };
 		}
-
-		TEST_F( SDWTest, oneTriangle )
 		{
-			sdwTestBegin( "oneTriangle" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				const auto vertices = writer.declConstantArray< Vec3 >( "vertices"
-					, std::vector< Vec3 >{ vec3( -1.0_f, -1.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 1.0_f, -1.0_f, 0.0_f ) } );
-				const auto colors = writer.declConstantArray< Vec3 >( "colors"
-					, std::vector< Vec3 >{ vec3( 1.0_f, 0.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 0.0_f, 0.0_f, 1.0_f ) } );
-				writer.implementMainT< VoidT, PerVertexColourT, VoidT >( 32u
-					, TaskPayloadInNV{ writer }
-					, MeshVertexListOutT< PerVertexColourT >{ writer, 3u }
-					, TrianglesMeshNVPrimitiveListOut{ writer, 1u }
-					, [&]( MeshInNV in
-						, TaskPayloadInNV payload
-						, MeshVertexListOutT< PerVertexColourT > vtxOut
-						, TrianglesMeshNVPrimitiveListOut primOut )
-					{
-						primOut.setMeshOutputCounts( 3_u, 1_u );
-
-						// Vertices position
-						vtxOut[0].position = vec4( vertices[0], 1.0 );
-						vtxOut[1].position = vec4( vertices[1], 1.0 );
-						vtxOut[2].position = vec4( vertices[2], 1.0 );
-						// Vertices color
-						vtxOut[0].colour = vec4( colors[0], 1.0 );
-						vtxOut[1].colour = vec4( colors[1], 1.0 );
-						vtxOut[2].colour = vec4( colors[2], 1.0 );
-
-						primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
-					} );
-				test::writeShader( writer
-					, testCounts
-					, CurrentCompilers );
-			}
-			sdwTestEnd()
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriterNV writer{ builder, ast::stmt::FunctionFlag::eNone };
 		}
-
-		TEST_F( SDWTest, taskPayload )
 		{
-			sdwTestBegin( "taskPayload" );
-			using namespace sdw;
-			{
-				sdw::MeshWriterNV writer{ &testCounts.allocator };
-				writer.implementMainT< payload::PayloadT, VoidT, VoidT >( 32u
-					, TaskPayloadInNVT< payload::PayloadT >{ writer }
-					, MeshVertexListOut{ writer, 3u }
-					, TrianglesMeshNVPrimitiveListOut{ writer, 1u }
-					, [&]( MeshInNV in
-						, TaskPayloadInNVT< payload::PayloadT > payload
-						, MeshVertexListOut vtxOut
-						, TrianglesMeshNVPrimitiveListOut primOut )
+			ast::ShaderBuilder builder{ ast::ShaderStage::eMeshNV, &testCounts.allocator };
+			sdw::MeshWriterNV writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, pointX )
+	{
+		sdwTestBegin( "pointX" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOut vtxOut
+					, PointsMeshNVPrimitiveListOut primOut )
+				{} );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_NoHLSL );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, point )
+	{
+		sdwTestBegin( "point" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadInNV{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, PointsMeshNVPrimitiveListOut{ writer, 126u }
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOut vtxOut
+					, PointsMeshNVPrimitiveListOut primOut )
 				{
-					primOut.setMeshOutputCounts( 3_u, payload.meshletIndices[0u] );
+					primOut[0].primitiveIndex = 0_u;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_NoHLSL );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, lineX )
+	{
+		sdwTestBegin( "lineX" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOut vtxOut
+					, LinesMeshNVPrimitiveListOut primOut )
+				{
+					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, line )
+	{
+		sdwTestBegin( "line" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadInNV{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, LinesMeshNVPrimitiveListOut{ writer, 126u }
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOut vtxOut
+					, LinesMeshNVPrimitiveListOut primOut )
+				{
+					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, triangleX )
+	{
+		sdwTestBegin( "triangleX" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, 64u
+				, 126u
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshNVPrimitiveListOut primOut )
+				{
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
-				test::writeShader( writer
-					, testCounts
-					, CurrentCompilers );
-			}
-			sdwTestEnd()
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
 
-	TEST_F( SDWTest, renderMeshlet )
+	TEST_F( MeshNV, triangle )
+	{
+		sdwTestBegin( "triangle" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT, VoidT, VoidT >( 32u
+				, TaskPayloadInNV{ writer }
+				, MeshVertexListOut{ writer, 64u }
+				, TrianglesMeshNVPrimitiveListOut{ writer, 126u }
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshNVPrimitiveListOut primOut )
+				{
+					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, oneTriangle )
+	{
+		sdwTestBegin( "oneTriangle" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			const auto vertices = writer.declConstantArray< Vec3 >( "vertices"
+				, std::vector< Vec3 >{ vec3( -1.0_f, -1.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 1.0_f, -1.0_f, 0.0_f ) } );
+			const auto colors = writer.declConstantArray< Vec3 >( "colors"
+				, std::vector< Vec3 >{ vec3( 1.0_f, 0.0_f, 0.0_f ), vec3( 0.0_f, 1.0_f, 0.0_f ), vec3( 0.0_f, 0.0_f, 1.0_f ) } );
+			writer.implementMainT< VoidT, PerVertexColourT, VoidT >( 32u
+				, TaskPayloadInNV{ writer }
+				, MeshVertexListOutT< PerVertexColourT >{ writer, 3u }
+				, TrianglesMeshNVPrimitiveListOut{ writer, 1u }
+				, [&]( MeshInNV in
+					, TaskPayloadInNV payload
+					, MeshVertexListOutT< PerVertexColourT > vtxOut
+					, TrianglesMeshNVPrimitiveListOut primOut )
+				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
+
+					// Vertices position
+					vtxOut[0].position = vec4( vertices[0], 1.0 );
+					vtxOut[1].position = vec4( vertices[1], 1.0 );
+					vtxOut[2].position = vec4( vertices[2], 1.0 );
+					// Vertices color
+					vtxOut[0].colour = vec4( colors[0], 1.0 );
+					vtxOut[1].colour = vec4( colors[1], 1.0 );
+					vtxOut[2].colour = vec4( colors[2], 1.0 );
+
+					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, taskPayload )
+	{
+		sdwTestBegin( "taskPayload" );
+		using namespace sdw;
+		{
+			sdw::MeshWriterNV writer{ &testCounts.allocator };
+			writer.implementMainT< payload::PayloadT, VoidT, VoidT >( 32u
+				, TaskPayloadInNVT< payload::PayloadT >{ writer }
+				, MeshVertexListOut{ writer, 3u }
+				, TrianglesMeshNVPrimitiveListOut{ writer, 1u }
+				, [&]( MeshInNV in
+					, TaskPayloadInNVT< payload::PayloadT > payload
+					, MeshVertexListOut vtxOut
+					, TrianglesMeshNVPrimitiveListOut primOut )
+			{
+				primOut.setMeshOutputCounts( 3_u, payload.meshletIndices[0u] );
+				primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
+			} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( MeshNV, renderMeshlet )
 	{
 		sdwTestBegin( "renderMeshlet" );
 		using namespace sdw;
@@ -1179,7 +1215,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, meshletInstancing )
+	TEST_F( MeshNV, meshletInstancing )
 	{
 		sdwTestBegin( "meshletInstancing" );
 		using namespace sdw;
@@ -1347,7 +1383,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, checkConstantsLayout )
+	TEST_F( MeshNV, checkConstantsLayout )
 	{
 		sdwTestBegin( "checkConstantsLayout" );
 		using namespace sdw;
@@ -1376,7 +1412,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, cullMeshlet )
+	TEST_F( MeshNV, cullMeshlet )
 	{
 		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
@@ -1525,7 +1561,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, writePackedPrimitiveIndices )
+	TEST_F( MeshNV, writePackedPrimitiveIndices )
 	{
 		sdwTestBegin( "writePackedPrimitiveIndices" );
 		using namespace sdw;
@@ -1655,7 +1691,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupPointX )
+	TEST_F( MeshNV, subgroupPointX )
 	{
 		sdwTestBegin( "subgroupPointX" );
 		using namespace sdw;
@@ -1676,7 +1712,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupPoint )
+	TEST_F( MeshNV, subgroupPoint )
 	{
 		sdwTestBegin( "subgroupPoint" );
 		using namespace sdw;
@@ -1698,7 +1734,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupLineX )
+	TEST_F( MeshNV, subgroupLineX )
 	{
 		sdwTestBegin( "subgroupLineX" );
 		using namespace sdw;
@@ -1719,7 +1755,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupLine )
+	TEST_F( MeshNV, subgroupLine )
 	{
 		sdwTestBegin( "subgroupLine" );
 		using namespace sdw;
@@ -1741,7 +1777,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupTriangleX )
+	TEST_F( MeshNV, subgroupTriangleX )
 	{
 		sdwTestBegin( "subgroupTriangleX" );
 		using namespace sdw;
@@ -1763,7 +1799,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupTriangle )
+	TEST_F( MeshNV, subgroupTriangle )
 	{
 		sdwTestBegin( "subgroupTriangle" );
 		using namespace sdw;
@@ -1785,7 +1821,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, taskMeshPipelineMeshOnly )
+	TEST_F( MeshNV, taskMeshPipelineMeshOnly )
 	{
 		sdwTestBegin( "taskMeshPipelineMeshOnly" );
 		sdw::MeshWriterNV writer{ &testCounts.allocator };

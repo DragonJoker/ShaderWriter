@@ -38,7 +38,7 @@ namespace sdw
 		, localInvocationID{ getU32Vec3Member( *this, ast::Builtin::eLocalInvocationID ) }
 		, globalInvocationID{ getU32Vec3Member( *this, ast::Builtin::eGlobalInvocationID ) }
 		, localInvocationIndex{ getUInt32Member( *this, ast::Builtin::eLocalInvocationIndex ) }
-		, workGroupSize{ getWorkGroupSize( this->getType() ) }
+		, workGroupSize{ getWorkGroupSize( *this->getType() ) }
 	{
 	}
 

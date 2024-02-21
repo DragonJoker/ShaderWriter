@@ -36,6 +36,21 @@ namespace hlsl
 				throw UnsupportedExtensionException{ "Unsupported Wave ops for this shader model" };
 			}
 
+			if ( intrinsicsConfig.requiresQuadControl && writerConfig.shaderModel < hlsl::v6_7 )
+			{
+				throw UnsupportedExtensionException{ "Unsupported Quad control ops for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresFullQuads && writerConfig.shaderModel < hlsl::v6_7 )
+			{
+				throw UnsupportedExtensionException{ "Unsupported Full Quads for this shader model" };
+			}
+
+			if ( intrinsicsConfig.requiresMaximalReconvergence && writerConfig.shaderModel < hlsl::v6_7 )
+			{
+				throw UnsupportedExtensionException{ "Unsupported Maximal Reconvergence for this shader model" };
+			}
+
 			if ( intrinsicsConfig.requiresControlBarrier
 				&& writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 				&& writerConfig.shaderModel < hlsl::v6_0 )

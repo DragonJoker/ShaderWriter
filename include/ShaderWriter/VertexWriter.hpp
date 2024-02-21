@@ -78,8 +78,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit VertexWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit VertexWriter( ShaderBuilder & builder );
+		SDW_API explicit VertexWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit VertexWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit VertexWriter( ShaderAllocator * allocator = nullptr )
+			: VertexWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit VertexWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: VertexWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API VertexWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: VertexWriter{ builder, uint32_t( flag ) }
+		{
+		}
 
 		SDW_API void implementMain( VertexMainFuncT< VoidT, VoidT > const & function );
 

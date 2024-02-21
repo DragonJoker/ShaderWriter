@@ -75,16 +75,12 @@ if ( PROJECTS_COVERAGE )
 	target_compile_definitions( TestWriterCommon
 		PRIVATE
 			SDW_Test_SpirVAllDebugLevels=0
-			SDW_AllSpirVVersions=1
-			SDW_AllVulkanVersions=1
 			SDW_Test_Coverage=1
 		)
 else ()
 	target_compile_definitions( TestWriterCommon
 		PRIVATE
 			SDW_Test_SpirVAllDebugLevels=1
-			SDW_AllSpirVVersions=0
-			SDW_AllVulkanVersions=0
 			SDW_Test_Coverage=0
 		)
 	if ( SDW_TESTS_ENABLE_VALIDATION )
@@ -330,7 +326,7 @@ if ( SDW_ALL_TESTS )
 		float
 		double
 	)
-elseif ( PROJECTS_COVERAGE )
+elseif ( PROJECTS_COVERAGE OR SDW_TESTS_ENABLE_VALIDATION )
 	set( IMAGE_FORMATS
 		eRgTypeless
 		eR32f

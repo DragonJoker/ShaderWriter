@@ -5,13 +5,15 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	VertexWriter::VertexWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eVertex, allocator }
+	VertexWriter::VertexWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eVertex, flags, allocator }
 	{
 	}
 
-	VertexWriter::VertexWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eVertex, builder }
+	VertexWriter::VertexWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eVertex, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eVertex
 			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )

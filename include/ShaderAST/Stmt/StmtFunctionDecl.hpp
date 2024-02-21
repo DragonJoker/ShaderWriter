@@ -30,6 +30,8 @@ namespace ast::stmt
 		eRayIntersectionEntryPoint = 0x0001 << uint32_t( EntryPoint::eRayIntersection ),
 		eCallableEntryPoint = 0x0001 << uint32_t( EntryPoint::eCallable ),
 		eComputeEntryPoint = 0x0001 << uint32_t( EntryPoint::eCompute ),
+		eMaximalReconvergence = 0x0001 << ( uint32_t( EntryPoint::eCompute ) + 1u ),
+		eFullQuads = 0x0001 << ( uint32_t( EntryPoint::eCompute ) + 2u ),
 	};
 
 	class FunctionDecl
@@ -168,6 +170,16 @@ namespace ast::stmt
 		bool isPatchRoutine()const noexcept
 		{
 			return hasFlag( FunctionFlag::ePatchRoutine );
+		}
+
+		bool hasMaximalReconvergence()const
+		{
+			return hasFlag( FunctionFlag::eMaximalReconvergence );
+		}
+
+		bool hasFullQuads()const
+		{
+			return hasFlag( FunctionFlag::eFullQuads );
 		}
 
 	private:
