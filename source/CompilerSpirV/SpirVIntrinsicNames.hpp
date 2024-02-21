@@ -1880,6 +1880,14 @@ namespace spirv
 			result = spv::Id( spv::OpGroupNonUniformQuadSwap );
 			break;
 
+		case ast::expr::Intrinsic::eSubgroupQuadAll:
+			result = spv::Id( spv::OpGroupNonUniformQuadAllKHR );
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupQuadAny:
+			result = spv::Id( spv::OpGroupNonUniformQuadAnyKHR );
+			break;
+
 
 	//Shader Invocation Group Functions
 		case ast::expr::Intrinsic::eReadInvocation1F:

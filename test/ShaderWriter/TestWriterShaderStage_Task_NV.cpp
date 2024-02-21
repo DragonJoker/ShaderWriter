@@ -447,7 +447,43 @@ namespace
 	};
 	using MyVertexOut = MyVertexOutT< sdw::var::Flag::eNone >;
 
-	TEST_F( SDWTest, basicX )
+	using TaskNV = SDWTest;
+
+	TEST_F( TaskNV, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::TaskWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::TaskWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::TaskWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::TaskWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTaskNV, &testCounts.allocator };
+			sdw::TaskWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTaskNV, &testCounts.allocator };
+			sdw::TaskWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTaskNV, &testCounts.allocator };
+			sdw::TaskWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eTaskNV, &testCounts.allocator };
+			sdw::TaskWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( TaskNV, basicX )
 	{
 		sdwTestBegin( "basicX" );
 		using namespace sdw;
@@ -470,7 +506,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, cullMeshlet )
+	TEST_F( TaskNV, cullMeshlet )
 	{
 		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
@@ -617,7 +653,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupBasicX )
+	TEST_F( TaskNV, subgroupBasicX )
 	{
 		sdwTestBegin( "subgroupBasicX" );
 		using namespace sdw;
@@ -640,7 +676,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupBasicXDispatchFromPayload )
+	TEST_F( TaskNV, subgroupBasicXDispatchFromPayload )
 	{
 		sdwTestBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
@@ -663,7 +699,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, subgroupBasicXDispatchFromWriter )
+	TEST_F( TaskNV, subgroupBasicXDispatchFromWriter )
 	{
 		sdwTestBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;
@@ -686,7 +722,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, taskMeshPipelineTaskOnly )
+	TEST_F( TaskNV, taskMeshPipelineTaskOnly )
 	{
 		sdwTestBegin( "taskMeshPipelineTaskOnly" );
 		{

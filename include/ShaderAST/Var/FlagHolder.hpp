@@ -320,7 +320,6 @@ namespace ast::var
 		return uint64_t( lhs ) | uint64_t( rhs );
 	}
 
-
 	template< typename T, typename U >
 	constexpr bool checkFlag( T const & value, U const & flag )noexcept
 	{

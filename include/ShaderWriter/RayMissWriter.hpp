@@ -61,8 +61,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit RayMissWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit RayMissWriter( ShaderBuilder & builder );
+		SDW_API explicit RayMissWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayMissWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit RayMissWriter( ShaderAllocator * allocator = nullptr )
+			: RayMissWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit RayMissWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: RayMissWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API RayMissWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: RayMissWriter{ builder, uint32_t( flag ) }
+		{
+		}
 
 		template< typename PayloadT >
 		void implementMainT( uint32_t payloadLocation

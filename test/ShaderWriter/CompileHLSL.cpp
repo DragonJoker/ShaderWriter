@@ -262,7 +262,11 @@ namespace test
 			}
 
 		private:
-			std::vector< uint32_t > m_shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u };
+#if SDW_Test_Coverage
+			std::vector< uint32_t > m_shaderModels{ 40u, 60u, 67u };
+#else
+			std::vector< uint32_t > m_shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u, 67u };
+#endif
 		};
 	}
 
@@ -275,20 +279,12 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return testCounts.hlsl().getShaderModels().back();
-#else
 		return testCounts.hlsl().getShaderModels()[infoIndex];
-#endif
 	}
 
 	uint32_t retrieveHLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
-#if SDW_Test_Coverage
-		return 1u;
-#else
 		return uint32_t( testCounts.hlsl().getShaderModels().size() );
-#endif
 	}
 
 	bool createHLSLContext()
@@ -344,7 +340,11 @@ namespace test
 {
 	static std::vector< uint32_t > const & getShaderModels()
 	{
-		static std::vector< uint32_t > shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u };
+#if SDW_Test_Coverage
+		static std::vector< uint32_t > shaderModels{ 40u, 60u, 67u };
+#else
+		static std::vector< uint32_t > shaderModels{ 40u, 41u, 50u, 51u, 60u, 61u, 62u, 63u, 64u, 65u, 66u, 67u };
+#endif
 		return shaderModels;
 	}
 
@@ -357,20 +357,12 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return getShaderModels().back();
-#else
 		return getShaderModels()[infoIndex];
-#endif
 	}
 
 	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-#if SDW_Test_Coverage
-		return 1u;
-#else
 		return uint32_t( getShaderModels().size() );
-#endif
 	}
 
 	bool createHLSLContext()

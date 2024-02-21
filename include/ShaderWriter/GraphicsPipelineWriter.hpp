@@ -49,6 +49,13 @@ namespace sdw
 		void implementEntryPointT( FragmentInT< InT > in
 			, FragmentOutT< OutT > out
 			, FragmentMainFuncT< InT, OutT > const & function );
+
+		// Allows shaders to specify that full quads must be spawned for a fragment shader,
+		// enabling quad operations to always be well defined.
+		void enableFullQuads()noexcept
+		{
+			addFlag( ast::EntryPoint::eFragment, ast::stmt::FunctionFlag::eFullQuads );
+		}
 		/**@}*/
 #pragma endregion
 #pragma region Blend Output declaration

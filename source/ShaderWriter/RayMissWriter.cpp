@@ -68,13 +68,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayMissWriter::RayMissWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eRayMiss, allocator }
+	RayMissWriter::RayMissWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eRayMiss, flags, allocator }
 	{
 	}
 
-	RayMissWriter::RayMissWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eRayMiss, builder }
+	RayMissWriter::RayMissWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eRayMiss, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eRayMiss
 			&& builder.getType() != ast::ShaderStage::eRayTrace )

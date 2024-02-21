@@ -46,13 +46,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eTessellationEvaluation, allocator }
+	TessellationEvaluationWriter::TessellationEvaluationWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eTessellationEvaluation, flags, allocator }
 	{
 	}
 
-	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eTessellationEvaluation, builder }
+	TessellationEvaluationWriter::TessellationEvaluationWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eTessellationEvaluation, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eTessellationEvaluation
 			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )

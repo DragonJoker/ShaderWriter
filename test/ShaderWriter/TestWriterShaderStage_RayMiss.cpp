@@ -36,7 +36,43 @@ namespace
 		sdw::Vec3 hitValue;
 	};
 
-	TEST_F( SDWTest, simple )
+	using RayMiss = SDWTest;
+
+	TEST_F( RayMiss, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::RayMissWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::RayMissWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::RayMissWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::RayMissWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayMiss, &testCounts.allocator };
+			sdw::RayMissWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayMiss, &testCounts.allocator };
+			sdw::RayMissWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayMiss, &testCounts.allocator };
+			sdw::RayMissWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayMiss, &testCounts.allocator };
+			sdw::RayMissWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( RayMiss, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;

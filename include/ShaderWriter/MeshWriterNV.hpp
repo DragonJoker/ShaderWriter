@@ -249,8 +249,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit MeshWriterNV( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit MeshWriterNV( ShaderBuilder & builder );
+		SDW_API explicit MeshWriterNV( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit MeshWriterNV( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit MeshWriterNV( ShaderAllocator * allocator = nullptr )
+			: MeshWriterNV{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit MeshWriterNV( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: MeshWriterNV{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API MeshWriterNV( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: MeshWriterNV{ builder, uint32_t( flag ) }
+		{
+		}
 		/**
 		*	Points
 		*/

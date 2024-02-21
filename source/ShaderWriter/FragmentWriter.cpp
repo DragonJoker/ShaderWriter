@@ -7,13 +7,15 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	FragmentWriter::FragmentWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eFragment, allocator }
+	FragmentWriter::FragmentWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eFragment, flags, allocator }
 	{
 	}
 
-	FragmentWriter::FragmentWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eFragment, builder }
+	FragmentWriter::FragmentWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eFragment, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eFragment
 			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics

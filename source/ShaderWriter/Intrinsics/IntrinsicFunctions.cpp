@@ -13151,6 +13151,38 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region subgroupQuadAll
+	/**
+	*name
+	*	subgroupQuadAll
+	*/
+	/**@{*/
+	RetBoolean subgroupQuadAll( Boolean const value )
+	{
+		return RetBoolean{ *findWriter( value )
+			, expr::makeSubgroupQuadAll( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region subgroupQuadAny
+	/**
+	*name
+	*	subgroupQuadAny
+	*/
+	/**@{*/
+	RetBoolean subgroupQuadAny( Boolean const value )
+	{
+		return RetBoolean{ *findWriter( value )
+			, expr::makeSubgroupQuadAny( findExprCache( value )
+				, findTypesCache( value )
+				, makeExpr( value ) )
+			, areOptionalEnabled( value ) };
+	}
+	/**@}*/
+#pragma endregion
 #pragma region readInvocation
 	/**
 	*name

@@ -422,6 +422,16 @@ namespace hlsl
 					m_adaptationData.initialiseEntryPoint( *stmt );
 				}
 
+				if ( stmt->hasMaximalReconvergence() )
+				{
+					m_result.requiresMaximalReconvergence = true;
+				}
+
+				if ( stmt->hasFullQuads() )
+				{
+					m_result.requiresFullQuads = true;
+				}
+
 				visitContainerStmt( stmt );
 
 				m_adaptationData.updateCurrentEntryPoint( nullptr );

@@ -46,13 +46,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	GeometryWriter::GeometryWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eGeometry, allocator }
+	GeometryWriter::GeometryWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eGeometry, flags, allocator }
 	{
 	}
 
-	GeometryWriter::GeometryWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eGeometry, builder }
+	GeometryWriter::GeometryWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eGeometry, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eGeometry
 			&& builder.getType() != ast::ShaderStage::eTraditionalGraphics )

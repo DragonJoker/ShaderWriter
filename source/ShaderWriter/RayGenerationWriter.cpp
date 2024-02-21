@@ -49,13 +49,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayGenerationWriter::RayGenerationWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eRayGeneration, allocator }
+	RayGenerationWriter::RayGenerationWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eRayGeneration, flags, allocator }
 	{
 	}
 
-	RayGenerationWriter::RayGenerationWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eRayGeneration, builder }
+	RayGenerationWriter::RayGenerationWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eRayGeneration, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eRayGeneration
 			&& builder.getType() != ast::ShaderStage::eRayTrace )

@@ -173,6 +173,9 @@ namespace test
 	SDWTest_API void writeShader( sdw::ShaderWriter const & writer
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers );
+	SDWTest_API void writeShader( sdw::PipelineWriter const & writer
+		, sdw_test::TestCounts & testCounts
+		, Compilers const & compilers );
 	SDWTest_API void validateShaders( ast::Shader const & shader
 		, ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts

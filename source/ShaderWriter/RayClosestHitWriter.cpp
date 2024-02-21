@@ -106,13 +106,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayClosestHitWriter::RayClosestHitWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, allocator }
+	RayClosestHitWriter::RayClosestHitWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, flags, allocator }
 	{
 	}
 
-	RayClosestHitWriter::RayClosestHitWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, builder }
+	RayClosestHitWriter::RayClosestHitWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eRayClosestHit, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eRayClosestHit
 			&& builder.getType() != ast::ShaderStage::eRayTrace )

@@ -224,7 +224,43 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-	TEST_F( SDWTest, noSpecificIO )
+	using Fragment = SDWTest;
+
+	TEST_F( Fragment, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::FragmentWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::FragmentWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::FragmentWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eFragment, &testCounts.allocator };
+			sdw::FragmentWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eFragment, &testCounts.allocator };
+			sdw::FragmentWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eFragment, &testCounts.allocator };
+			sdw::FragmentWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eFragment, &testCounts.allocator };
+			sdw::FragmentWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( Fragment, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -255,7 +291,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, noSpecificIOT )
+	TEST_F( Fragment, noSpecificIOT )
 	{
 		sdwTestBegin( "noSpecificIOT" );
 		using namespace sdw;
@@ -286,7 +322,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInputOnly )
+	TEST_F( Fragment, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -306,7 +342,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInputOnly )
+	TEST_F( Fragment, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
@@ -327,7 +363,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInputOnly )
+	TEST_F( Fragment, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -348,7 +384,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberOutputOnly )
+	TEST_F( Fragment, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -368,7 +404,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalOutputOnly )
+	TEST_F( Fragment, specificGlobalOutputOnly )
 	{
 		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
@@ -389,7 +425,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedOutputOnly )
+	TEST_F( Fragment, specificMixedOutputOnly )
 	{
 		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
@@ -411,7 +447,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInAndOut )
+	TEST_F( Fragment, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -431,7 +467,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInAndOut )
+	TEST_F( Fragment, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -453,7 +489,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInAndOut )
+	TEST_F( Fragment, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
@@ -476,7 +512,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, fragment )
+	TEST_F( Fragment, fragment )
 	{
 		sdwTestBegin( "fragment" );
 		using namespace sdw;
@@ -556,7 +592,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, radianceComputer )
+	TEST_F( Fragment, radianceComputer )
 	{
 		sdwTestBegin( "radianceComputer" );
 		using namespace sdw;
@@ -613,7 +649,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, textureOffset )
+	TEST_F( Fragment, textureOffset )
 	{
 		auto name = "textureOffset";
 		sdwTestBegin( name );
@@ -638,7 +674,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, skybox )
+	TEST_F( Fragment, skybox )
 	{
 		sdwTestBegin( "skybox" );
 		using namespace sdw;
@@ -675,7 +711,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, reference )
+	TEST_F( Fragment, reference )
 	{
 		sdwTestBegin( "reference" );
 		using namespace sdw;
@@ -728,7 +764,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, terminate )
+	TEST_F( Fragment, terminate )
 	{
 		sdwTestBegin( "terminate" );
 		using namespace sdw;
@@ -752,7 +788,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, demote )
+	TEST_F( Fragment, demote )
 	{
 		sdwTestBegin( "demote" );
 		using namespace sdw;
@@ -776,7 +812,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, pixelInterlockOrdered )
+	TEST_F( Fragment, pixelInterlockOrdered )
 	{
 		sdwTestBegin( "pixelInterlockOrdered" );
 		using namespace sdw;
@@ -798,7 +834,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, pixelInterlockUnordered )
+	TEST_F( Fragment, pixelInterlockUnordered )
 	{
 		sdwTestBegin( "pixelInterlockUnordered" );
 		using namespace sdw;
@@ -821,7 +857,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, sampleInterlockOrdered )
+	TEST_F( Fragment, sampleInterlockOrdered )
 	{
 		sdwTestBegin( "sampleInterlockOrdered" );
 		using namespace sdw;
@@ -844,7 +880,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, sampleInterlockUnordered )
+	TEST_F( Fragment, sampleInterlockUnordered )
 	{
 		sdwTestBegin( "sampleInterlockUnordered" );
 		using namespace sdw;

@@ -864,14 +864,11 @@ namespace test
 	{
 		struct GLSLContext
 		{
-			static constexpr GLSLVersions glslVersions{ 330u
-				, 400u
-				, 410u
-				, 420u
-				, 430u
-				, 440u
-				, 450u
-				, 460u };
+#if SDW_Test_Coverage
+			static constexpr GLSLVersions glslVersions{ 330u, 420u, 460u };
+#else
+			static constexpr GLSLVersions glslVersions{ 330u, 400u, 410u, 420u, 430u, 440u, 450u, 460u };
+#endif
 
 			GLSLContext()
 				: window{ glslVersions }
@@ -891,20 +888,12 @@ namespace test
 	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return testCounts.glsl().window.getGLSLVersions().back();
-#else
 		return testCounts.glsl().window.getGLSLVersions()[infoIndex];
-#endif
 	}
 
 	uint32_t retrieveGLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
-#if SDW_Test_Coverage
-		return 1u;
-#else
 		return uint32_t( testCounts.glsl().window.getGLSLVersions().size() );
-#endif
 	}
 
 	bool createGLSLContext()
@@ -998,6 +987,8 @@ namespace test
 			insertExt( glsl::NV_mesh_shader );
 			insertExt( glsl::EXT_mesh_shader );
 			insertExt( glsl::EXT_buffer_reference2 );
+			insertExt( glsl::EXT_maximal_reconvergence );
+			insertExt( glsl::EXT_shader_quad );
 		}
 
 		if ( glslVersion >= glsl::v4_3 )
@@ -1089,14 +1080,11 @@ namespace test
 {
 	static std::vector< uint32_t > getShaderModels()
 	{
-		static const std::vector< uint32_t > glslVersions{ 330u
-			, 400u
-			, 410u
-			, 420u
-			, 430u
-			, 440u
-			, 450u
-			, 460u };
+#if SDW_Test_Coverage
+		static const std::vector< uint32_t > glslVersions{ 330u, 420u, 460u };
+#else
+		static const std::vector< uint32_t > glslVersions{ 330u, 400u, 410u, 420u, 430u, 440u, 450u, 460u };
+#endif
 		return glslVersions;
 	}
 
@@ -1108,21 +1096,13 @@ namespace test
 
 	uint32_t retrieveGLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
-#if SDW_Test_Coverage
-		return 1u;
-#else
 		return uint32_t( getShaderModels().size() );
-#endif
 	}
 
 	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-#if SDW_Test_Coverage
-		return getShaderModels().back();
-#else
 		return getShaderModels()[infoIndex];
-#endif
 	}
 
 	bool createGLSLContext()
@@ -1167,6 +1147,8 @@ namespace test
 			result.insert( glsl::NV_mesh_shader );
 			result.insert( glsl::EXT_mesh_shader );
 			result.insert( glsl::EXT_buffer_reference2 );
+			result.insert( glsl::EXT_maximal_reconvergence );
+			result.insert( glsl::EXT_shader_quad );
 		}
 
 		if ( glslVersion >= glsl::v4_3 )

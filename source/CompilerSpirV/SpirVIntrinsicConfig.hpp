@@ -1656,6 +1656,8 @@ namespace spirv
 		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal2D:
 		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal3D:
 		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D:
+		case ast::expr::Intrinsic::eSubgroupQuadAll:
+		case ast::expr::Intrinsic::eSubgroupQuadAny:
 			config.isExtension = false;
 			break;
 

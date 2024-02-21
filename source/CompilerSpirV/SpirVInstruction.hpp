@@ -586,6 +586,8 @@ namespace spirv
 	using GroupNonUniformShuffleDownInstruction = InstructionT< spv::OpGroupNonUniformShuffleDown, true, true, 3u, false, false >;
 	using GroupNonUniformQuadBroadcastInstruction = InstructionT< spv::OpGroupNonUniformQuadBroadcast, true, true, 3u, false, false >;
 	using GroupNonUniformQuadSwapInstruction = InstructionT< spv::OpGroupNonUniformQuadSwap, true, true, 3u, false, false >;
+	using GroupNonUniformQuadAllInstruction = InstructionT< spv::OpGroupNonUniformQuadAllKHR, true, true, 1u, false, false >;
+	using GroupNonUniformQuadAnyInstruction = InstructionT< spv::OpGroupNonUniformQuadAnyKHR, true, true, 1u, false, false >;
 	using WritePackedPrimitiveIndices4x8Instruction = InstructionT< spv::OpWritePackedPrimitiveIndices4x8NV, false, false, 2u, false, false >;
 	using EmitMeshTasksInstruction = VariadicInstructionT< spv::OpEmitMeshTasksEXT, false, false >;
 	using SetMeshOutputsInstruction = InstructionT< spv::OpSetMeshOutputsEXT, false, false, 2u, false, false >;

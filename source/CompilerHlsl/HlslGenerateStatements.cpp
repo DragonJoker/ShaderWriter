@@ -1533,6 +1533,11 @@ namespace hlsl
 						, m_indent );
 				}
 
+				if ( stmt->hasFullQuads() )
+				{
+					m_result += m_indent + "[WaveOpsIncludeHelperLanes]\n";
+				}
+
 				m_result += m_indent + getTypeName( retType );
 				m_result += " " + stmt->getName() + "(";
 				std::string sep;

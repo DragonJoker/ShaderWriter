@@ -175,7 +175,43 @@ namespace
 			, sdw::InParam< Ray > > m_hitAabb;
 	};
 
-	TEST_F( SDWTest, simple )
+	using RayIntersection = SDWTest;
+
+	TEST_F( RayIntersection, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::RayIntersectionWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::RayIntersectionWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::RayIntersectionWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::RayIntersectionWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayIntersection, &testCounts.allocator };
+			sdw::RayIntersectionWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayIntersection, &testCounts.allocator };
+			sdw::RayIntersectionWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayIntersection, &testCounts.allocator };
+			sdw::RayIntersectionWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayIntersection, &testCounts.allocator };
+			sdw::RayIntersectionWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( RayIntersection, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;

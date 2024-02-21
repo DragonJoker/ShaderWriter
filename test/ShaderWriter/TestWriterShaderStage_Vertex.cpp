@@ -233,7 +233,43 @@ namespace
 		sdw::Array< sdw::Vec4 > offset;
 	};
 
-	TEST_F( SDWTest, noSpecificIO )
+	using Vertex = SDWTest;
+
+	TEST_F( Vertex, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::VertexWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::VertexWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::VertexWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::VertexWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eVertex, &testCounts.allocator };
+			sdw::VertexWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eVertex, &testCounts.allocator };
+			sdw::VertexWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eVertex, &testCounts.allocator };
+			sdw::VertexWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eVertex, &testCounts.allocator };
+			sdw::VertexWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( Vertex, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -257,7 +293,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInputOnly )
+	TEST_F( Vertex, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -276,7 +312,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInputOnly )
+	TEST_F( Vertex, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
@@ -296,7 +332,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInputOnly )
+	TEST_F( Vertex, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -316,7 +352,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberOutputOnly )
+	TEST_F( Vertex, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -336,7 +372,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalOutputOnly )
+	TEST_F( Vertex, specificGlobalOutputOnly )
 	{
 		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
@@ -357,7 +393,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedOutputOnly )
+	TEST_F( Vertex, specificMixedOutputOnly )
 	{
 		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
@@ -379,7 +415,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInAndOut )
+	TEST_F( Vertex, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -399,7 +435,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInAndOut )
+	TEST_F( Vertex, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -421,7 +457,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInAndOut )
+	TEST_F( Vertex, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
@@ -444,7 +480,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, vertex )
+	TEST_F( Vertex, vertex )
 	{
 		sdwTestBegin( "vertex" );
 		using namespace sdw;
@@ -527,7 +563,7 @@ namespace
 		using OutputPosition = PositionT< sdw::var::Flag::eShaderOutput >;
 	}
 
-	TEST_F( SDWTest, constVectorShuffle )
+	TEST_F( Vertex, constVectorShuffle )
 	{
 		sdwTestBegin( "constVectorShuffle" );
 		using namespace sdw;
@@ -551,7 +587,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, smaaEdgeDetectionVS )
+	TEST_F( Vertex, smaaEdgeDetectionVS )
 	{
 		sdwTestBegin( "smaaEdgeDetectionVS" );
 		using namespace sdw;

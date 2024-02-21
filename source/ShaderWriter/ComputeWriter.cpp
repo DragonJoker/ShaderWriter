@@ -9,10 +9,10 @@ namespace sdw
 {
 	//*********************************************************************************************
 
-	U32Vec3 getWorkGroupSize( ast::type::TypePtr type )
+	U32Vec3 getWorkGroupSize( ast::type::Type const & type )
 	{
-		assert( type->getKind() == ast::type::Kind::eComputeInput );
-		auto & compType = static_cast< ast::type::ComputeInput const & >( *type );
+		assert( type.getKind() == ast::type::Kind::eComputeInput );
+		auto & compType = static_cast< ast::type::ComputeInput const & >( type );
 		return uvec3( UInt32{ compType.getLocalSizeX() }
 			, UInt32{ compType.getLocalSizeY() }
 			, UInt32{ compType.getLocalSizeZ() } );
@@ -20,13 +20,15 @@ namespace sdw
 
 	//*********************************************************************************************
 
-	ComputeWriter::ComputeWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eCompute, allocator }
+	ComputeWriter::ComputeWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eCompute, flags, allocator }
 	{
 	}
 
-	ComputeWriter::ComputeWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eCompute, builder }
+	ComputeWriter::ComputeWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eCompute, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eCompute )
 		{

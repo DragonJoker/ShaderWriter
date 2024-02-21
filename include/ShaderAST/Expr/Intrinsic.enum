@@ -1337,6 +1337,8 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eVec2D, ASTIntrName( subgroupQuadSwapDiagonal, SubgroupQuadSwapDiagonal, 2, D ), ASTIntrParams( ASTIntrParam( type::Kind::eVec2D, value ) ) )
 	ASTIntrValue( type::Kind::eVec3D, ASTIntrName( subgroupQuadSwapDiagonal, SubgroupQuadSwapDiagonal, 3, D ), ASTIntrParams( ASTIntrParam( type::Kind::eVec3D, value ) ) )
 	ASTIntrValue( type::Kind::eVec4D, ASTIntrName( subgroupQuadSwapDiagonal, SubgroupQuadSwapDiagonal, 4, D ), ASTIntrParams( ASTIntrParam( type::Kind::eVec4D, value ) ) )
+	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( subgroupQuadAll, SubgroupQuadAll ), ASTIntrParams( ASTIntrParam( type::Kind::eBoolean, value ) ) )
+	ASTIntrValue( type::Kind::eBoolean, ASTIntrName( subgroupQuadAny, SubgroupQuadAny ), ASTIntrParams( ASTIntrParam( type::Kind::eBoolean, value ) ) )
 
 	//Shader Invocation Group Functions
 	ASTIntrValue( type::Kind::eFloat, ASTIntrName( readInvocation, ReadInvocation, 1, F ), ASTIntrParams( ASTIntrParam( type::Kind::eFloat, value ), ASTIntrParam( type::Kind::eUInt, invocationIndex ) ) )

@@ -34143,6 +34143,54 @@ namespace checks
 		astTestEnd()
 	}
 
+	TEST( Intrinsic, SubgroupQuadAll )
+	{
+		astTestBegin( "testSubgroupQuadAll" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto value = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getBoolean(), "value" ) );
+			auto result = expr::makeSubgroupQuadAll( exprCache
+				, typesCache
+				, std::move( value ) );
+			checkExprDependant( testCounts, *result, "testSubgroupQuadAll", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto value = exprCache.makeLiteral( typesCache, true );
+			auto result = expr::makeSubgroupQuadAll( exprCache
+				, typesCache
+				, std::move( value ) );
+			checkExprDependant( testCounts, *result, "testSubgroupQuadAll", __LINE__ );
+		}
+		astTestEnd()
+	}
+
+	TEST( Intrinsic, SubgroupQuadAny )
+	{
+		astTestBegin( "testSubgroupQuadAny" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto value = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getBoolean(), "value" ) );
+			auto result = expr::makeSubgroupQuadAny( exprCache
+				, typesCache
+				, std::move( value ) );
+			checkExprDependant( testCounts, *result, "testSubgroupQuadAny", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto value = exprCache.makeLiteral( typesCache, true );
+			auto result = expr::makeSubgroupQuadAny( exprCache
+				, typesCache
+				, std::move( value ) );
+			checkExprDependant( testCounts, *result, "testSubgroupQuadAny", __LINE__ );
+		}
+		astTestEnd()
+	}
+
 	//Shader Invocation Group Functions
 
 	TEST( Intrinsic, ReadInvocation1F )

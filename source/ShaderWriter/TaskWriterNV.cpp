@@ -135,13 +135,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	TaskWriterNV::TaskWriterNV( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eTaskNV, allocator }
+	TaskWriterNV::TaskWriterNV( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eTaskNV, flags, allocator }
 	{
 	}
 
-	TaskWriterNV::TaskWriterNV( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eTaskNV, builder }
+	TaskWriterNV::TaskWriterNV( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eTaskNV, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eTaskNV
 			&& builder.getType() != ast::ShaderStage::eModernGraphicsNV )

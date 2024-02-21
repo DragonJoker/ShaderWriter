@@ -38,6 +38,7 @@ namespace hlsl
 	static uint32_t constexpr v6_4 = makeVersion( 6u, 4u );
 	static uint32_t constexpr v6_5 = makeVersion( 6u, 5u );
 	static uint32_t constexpr v6_6 = makeVersion( 6u, 6u );
+	static uint32_t constexpr v6_7 = makeVersion( 6u, 7u );
 
 	struct HlslConfig
 	{

@@ -40,8 +40,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit RayGenerationWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit RayGenerationWriter( ShaderBuilder & builder );
+		SDW_API explicit RayGenerationWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit RayGenerationWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit RayGenerationWriter( ShaderAllocator * allocator = nullptr )
+			: RayGenerationWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit RayGenerationWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: RayGenerationWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API RayGenerationWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: RayGenerationWriter{ builder, uint32_t( flag ) }
+		{
+		}
 
 		SDW_API void implementMain( RayGenerationMainFunc const & function );
 	};

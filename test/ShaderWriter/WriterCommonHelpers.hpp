@@ -9,6 +9,7 @@
 #include <ShaderWriter/BaseTypes/StorageImage.hpp>
 #include <ShaderWriter/BaseTypes/UInt.hpp>
 #include <ShaderWriter/Intrinsics/Intrinsics.hpp>
+#include <ShaderWriter/PipelineWriter.hpp>
 #include <ShaderWriter/Writer.hpp>
 #include <ShaderWriter/WriterDebug.hpp>
 #include <ShaderWriter/Source.hpp>

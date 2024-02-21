@@ -142,8 +142,27 @@ namespace sdw
 		: public EntryPointWriter
 	{
 	public:
-		SDW_API explicit GeometryWriter( ShaderAllocator * allocator = nullptr );
-		SDW_API explicit GeometryWriter( ShaderBuilder & builder );
+		SDW_API explicit GeometryWriter( uint32_t flags
+			, ShaderAllocator * allocator = nullptr );
+		SDW_API explicit GeometryWriter( ShaderBuilder & builder
+			, uint32_t flags = 0 );
+
+		SDW_API explicit GeometryWriter( ShaderAllocator * allocator = nullptr )
+			: GeometryWriter{ uint32_t( 0u ), allocator }
+		{
+		}
+
+		SDW_API explicit GeometryWriter( ast::stmt::FunctionFlag flag
+			, ShaderAllocator * allocator = nullptr )
+			: GeometryWriter{ uint32_t( flag ), allocator }
+		{
+		}
+
+		SDW_API GeometryWriter( ShaderBuilder & builder
+			, ast::stmt::FunctionFlag flag )
+			: GeometryWriter{ builder, uint32_t( flag ) }
+		{
+		}
 		/**
 		*name
 		*	Entry point declaration.

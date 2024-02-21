@@ -109,13 +109,15 @@ namespace sdw
 
 	//*************************************************************************
 
-	RayAnyHitWriter::RayAnyHitWriter( ShaderAllocator * allocator )
-		: EntryPointWriter{ ast::ShaderStage::eRayAnyHit, allocator }
+	RayAnyHitWriter::RayAnyHitWriter( uint32_t flags
+		, ShaderAllocator * allocator )
+		: EntryPointWriter{ ast::ShaderStage::eRayAnyHit, flags, allocator }
 	{
 	}
 
-	RayAnyHitWriter::RayAnyHitWriter( ShaderBuilder & builder )
-		: EntryPointWriter{ ast::ShaderStage::eRayAnyHit, builder }
+	RayAnyHitWriter::RayAnyHitWriter( ShaderBuilder & builder
+		, uint32_t flags )
+		: EntryPointWriter{ ast::ShaderStage::eRayAnyHit, builder, flags }
 	{
 		if ( builder.getType() != ast::ShaderStage::eRayAnyHit
 			&& builder.getType() != ast::ShaderStage::eRayTrace )

@@ -18,6 +18,11 @@ namespace sdw
 		SDW_API ~PipelineWriter()override = default;
 
 	public:
+		void enableMaximalReconvergence( ast::EntryPoint type )noexcept
+		{
+			addFlag( type, ast::stmt::FunctionFlag::eMaximalReconvergence );
+		}
+
 #pragma region Input declaration
 		/**
 		*name

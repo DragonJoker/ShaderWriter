@@ -55,7 +55,43 @@ namespace
 	};
 	using InputPosition = PositionT< sdw::var::Flag::eShaderInput >;
 
-	TEST_F( SDWTest, noSpecificIO )
+	using Geometry = SDWTest;
+
+	TEST_F( Geometry, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::GeometryWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::GeometryWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::GeometryWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::GeometryWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eGeometry, &testCounts.allocator };
+			sdw::GeometryWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eGeometry, &testCounts.allocator };
+			sdw::GeometryWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eGeometry, &testCounts.allocator };
+			sdw::GeometryWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eGeometry, &testCounts.allocator };
+			sdw::GeometryWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( Geometry, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -84,7 +120,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInputOnly )
+	TEST_F( Geometry, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -115,7 +151,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInputOnly )
+	TEST_F( Geometry, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalOnly" );
 		using namespace sdw;
@@ -147,7 +183,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInputOnly )
+	TEST_F( Geometry, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -179,7 +215,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberOutputOnly )
+	TEST_F( Geometry, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -215,7 +251,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMemberInAndOut )
+	TEST_F( Geometry, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -252,7 +288,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificGlobalInAndOut )
+	TEST_F( Geometry, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -290,7 +326,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, specificMixedInAndOut )
+	TEST_F( Geometry, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;

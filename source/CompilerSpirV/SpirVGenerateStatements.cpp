@@ -2813,6 +2813,17 @@ namespace spirv
 						, stmt->getName()
 						, convert( m_inputs )
 						, convert( m_outputs ) );
+
+					if ( stmt->hasMaximalReconvergence() )
+					{
+						m_result.registerExecutionMode( spv::ExecutionModeMaximallyReconvergesKHR );
+					}
+
+					if ( stmt->hasFullQuads() )
+					{
+						m_result.registerExecutionMode( spv::ExecutionModeQuadDerivativesKHR );
+						m_result.registerExecutionMode( spv::ExecutionModeRequireFullQuadsKHR );
+					}
 				}
 
 				if ( !m_currentBlock.blockEnd )

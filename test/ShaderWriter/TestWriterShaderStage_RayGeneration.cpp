@@ -5,7 +5,43 @@
 
 namespace
 {
-	TEST_F( SDWTest, noPayload )
+	using RayGeneration = SDWTest;
+
+	TEST_F( RayGeneration, construction )
+	{
+		sdwTestBegin( "construction" );
+		{
+			sdw::RayGenerationWriter writer{ &testCounts.allocator };
+		}
+		{
+			sdw::RayGenerationWriter writer{ 0u, &testCounts.allocator };
+		}
+		{
+			sdw::RayGenerationWriter writer{ ast::stmt::FunctionFlag::eNone, &testCounts.allocator };
+		}
+		{
+			sdw::RayGenerationWriter writer{ ast::stmt::FunctionFlag::eMaximalReconvergence, &testCounts.allocator };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayGeneration, &testCounts.allocator };
+			sdw::RayGenerationWriter writer{ builder };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayGeneration, &testCounts.allocator };
+			sdw::RayGenerationWriter writer{ builder, 0u };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayGeneration, &testCounts.allocator };
+			sdw::RayGenerationWriter writer{ builder, ast::stmt::FunctionFlag::eNone };
+		}
+		{
+			ast::ShaderBuilder builder{ ast::ShaderStage::eRayGeneration, &testCounts.allocator };
+			sdw::RayGenerationWriter writer{ builder, ast::stmt::FunctionFlag::eMaximalReconvergence };
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( RayGeneration, noPayload )
 	{
 		sdwTestBegin( "noPayload" );
 		using namespace sdw;
@@ -26,7 +62,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST_F( SDWTest, simple )
+	TEST_F( RayGeneration, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;
