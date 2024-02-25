@@ -18,7 +18,7 @@ jobs:
     strategy:
       matrix:
         os: [[windows-latest,x64-windows,msvc]]
-        buildType: [Release]
+        buildType: [Debug]
     runs-on: ${{ matrix.os[0] }}
     steps:
     - uses: actions/checkout@v2
@@ -26,6 +26,11 @@ jobs:
       run: |
         git submodule update --init -- "CMake"
         git submodule update --init -- "external/vcpkg"
+    - name: Setup OpenCppCoverage
+      id: setup_opencppcoverage
+      run: |
+        choco install OpenCppCoverage -y
+        echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
     - name: Setup vcpkg
       uses: lukka/run-vcpkg@v10
       with:
@@ -52,7 +57,7 @@ jobs:
       shell: bash
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
       run: |
-        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci-notest -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE
+        cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.buildType }} --preset ci -DPROJECTS_WARNINGS_AS_ERRORS=$PROJ_WAE -DPROJECTS_COVERAGE=ON
     - name: Build
       if: (steps.configure.conclusion == 'success')
       id: build
@@ -60,6 +65,17 @@ jobs:
       shell: bash
       run: |
         cmake --build . --parallel 2 --config ${{ matrix.buildType }}
+    - name: Build coverage report
+      if: (steps.build.conclusion == 'success')
+      working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}
+      shell: bash
+      run: |
+        cmake --build . --target ShaderWriterCoverage --config ${{ matrix.buildType }}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v4.0.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        file: ${{ github.workspace }}/doc/ShaderWriterCoverage.xml
     - name: Prepare success package
       if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
       working-directory: ${{runner.workspace}}/build-${{ matrix.buildType }}

@@ -275,12 +275,20 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
+#if SDW_Test_Coverage
+		return testCounts.hlsl->getShaderModels().back();
+#else
 		return testCounts.hlsl->getShaderModels()[infoIndex];
+#endif
 	}
 
 	uint32_t retrieveHLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
+#if SDW_Test_Coverage
+		return 1u;
+#else
 		return uint32_t( testCounts.hlsl->getShaderModels().size() );
+#endif
 	}
 
 	bool createHLSLContext( sdw_test::TestCounts & testCounts )
@@ -349,12 +357,20 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
+#if SDW_Test_Coverage
+		return getShaderModels().back();
+#else
 		return getShaderModels()[infoIndex];
+#endif
 	}
 
 	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
+#if SDW_Test_Coverage
+		return 1u;
+#else
 		return uint32_t( getShaderModels().size() );
+#endif
 	}
 
 	bool createHLSLContext( sdw_test::TestCounts & testCounts )

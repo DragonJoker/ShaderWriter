@@ -53,40 +53,53 @@ target_link_libraries( TestWriterCommon
 )
 target_add_compilation_flags( TestWriterCommon )
 
-if ( SDW_TESTS_ENABLE_VALIDATION )
-	set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
-	set( CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "" Release )
-	find_package( OpenGL )
-	find_package( Vulkan )
+if ( PROJECTS_COVERAGE )
+	target_compile_definitions( TestWriterCommon
+		PRIVATE
+			SDW_Test_SpirVAllDebugLevels=0
+			SDW_Test_Coverage=1
+		)
+else ()
+	target_compile_definitions( TestWriterCommon
+		PRIVATE
+			SDW_Test_SpirVAllDebugLevels=1
+			SDW_Test_Coverage=0
+		)
+	if ( SDW_TESTS_ENABLE_VALIDATION )
+		set( CMAKE_MAP_IMPORTED_CONFIG_MINSIZEREL "" Release )
+		set( CMAKE_MAP_IMPORTED_CONFIG_RELWITHDEBINFO "" Release )
+		find_package( OpenGL )
+		find_package( Vulkan )
 
-	if ( ( TARGET CompilerGlsl )
-		AND ( OpenGL_FOUND OR OPENGL_FOUND )
-		AND ( WIN32 ) )
-		if ( WIN32 )
-			target_link_libraries( TestWriterCommon PRIVATE OpenGL::GL )
-		else ()
-			find_package( X11 )
-			target_link_libraries( TestWriterCommon PRIVATE ${X11_X11_LIB} OpenGL::GLX OpenGL::OpenGL )
+		if ( ( TARGET CompilerGlsl )
+			AND ( OpenGL_FOUND OR OPENGL_FOUND )
+			AND ( WIN32 ) )
+			if ( WIN32 )
+				target_link_libraries( TestWriterCommon PRIVATE OpenGL::GL )
+			else ()
+				find_package( X11 )
+				target_link_libraries( TestWriterCommon PRIVATE ${X11_X11_LIB} OpenGL::GLX OpenGL::OpenGL )
+			endif ()
+			target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasOpenGL=1 )
 		endif ()
-		target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasOpenGL=1 )
-	endif ()
 
-	if ( ( TARGET CompilerSpirV )
-		AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
-		target_include_directories( TestWriterCommon PRIVATE ${Vulkan_INCLUDE_DIR} )
-		target_link_libraries( TestWriterCommon PRIVATE ${Vulkan_LIBRARY} )
-		target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasVulkan=1 )
-		if ( SDW_BUILD_VULKAN_LAYER )
-			target_link_libraries( TestWriterCommon PRIVATE sdw::VulkanLayer )
+		if ( ( TARGET CompilerSpirV )
+			AND ( Vulkan_FOUND OR VULKAN_FOUND ) )
+			target_include_directories( TestWriterCommon PRIVATE ${Vulkan_INCLUDE_DIR} )
+			target_link_libraries( TestWriterCommon PRIVATE ${Vulkan_LIBRARY} )
+			target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasVulkan=1 )
+			if ( SDW_BUILD_VULKAN_LAYER )
+				target_link_libraries( TestWriterCommon PRIVATE sdw::VulkanLayer )
+			endif ()
 		endif ()
-	endif ()
 
-	if ( ( TARGET CompilerHlsl ) AND WIN32 )
-		target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasDirect3D11=1 )
-		find_package( DXC )
-		if ( DXC_FOUND )
-			target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasDXC=1 )
-			target_link_libraries( TestWriterCommon PRIVATE DXC::dxc )
+		if ( ( TARGET CompilerHlsl ) AND WIN32 )
+			target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasDirect3D11=1 )
+			find_package( DXC )
+			if ( DXC_FOUND )
+				target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasDXC=1 )
+				target_link_libraries( TestWriterCommon PRIVATE DXC::dxc )
+			endif ()
 		endif ()
 	endif ()
 endif ()
@@ -111,13 +124,6 @@ endif ()
 
 set( TargetLinkLibraries
 )
-
-if ( PROJECTS_COVERAGE )
-	set( PROJECTS_COVERAGE_LIB_FILES
-		${PROJECTS_COVERAGE_LIB_FILES}
-		sdw::test::WriterCommon
-	)
-endif ()
 
 if ( SDW_ALL_TESTS )
 	set( IMAGE_FORMATS
@@ -146,7 +152,6 @@ if ( SDW_ALL_TESTS )
 		eR16u
 		eR8u
 	)
-
 	set( BO_TYPES
 		Int8
 		Int16
@@ -207,6 +212,13 @@ if ( SDW_ALL_TESTS )
 		DMat4x3
 		DMat4x4
 	)
+elseif ( PROJECTS_COVERAGE )
+	set( IMAGE_FORMATS
+		eRgba32f
+	)
+	set( BO_TYPES
+		Vec4
+	)
 else ()
 	set( IMAGE_FORMATS
 		eRgba32f
@@ -219,7 +231,6 @@ else ()
 		eRg32u
 		eR16u
 	)
-
 	set( BO_TYPES
 		Int8
 		UInt16
@@ -239,16 +250,6 @@ endif ()
 
 function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	set( REAL_TEST_NAME ${TEST_NAME}${NAME_SUFFIX} )
-	if ( PROJECTS_COVERAGE )
-		set( PROJECTS_COVERAGE_SRC_FILES
-			${PROJECTS_COVERAGE_SRC_FILES}
-			${TEST_FILE}
-		)
-		set( PROJECTS_COVERAGE_TEST_NAMES
-			${PROJECTS_COVERAGE_TEST_NAMES}
-			${REAL_TEST_NAME}
-		)
-	endif ()
 	add_executable( ${REAL_TEST_NAME}
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
@@ -283,9 +284,17 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 		)
 
 		if ( PROJECTS_COVERAGE )
-			OpenCppCoverage_add_target( ${REAL_TEST_NAME}
-				MODULES $<TARGET_FILE_NAME:ShaderAST> $<TARGET_FILE_NAME:ShaderWriter>
-				SOURCES ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/source
+			MyOpenCppCoverage_add_target( ${REAL_TEST_NAME}
+				MODULES
+					$<TARGET_FILE_NAME:ShaderAST>
+					$<TARGET_FILE_NAME:ShaderWriter>
+					$<TARGET_FILE_NAME:CompilerGlsl>
+					$<TARGET_FILE_NAME:CompilerHlsl>
+					$<TARGET_FILE_NAME:CompilerSpirV>
+					$<TARGET_FILE_NAME:GlslCommon>
+				SOURCES
+					${CMAKE_SOURCE_DIR}/include
+					${CMAKE_SOURCE_DIR}/source
 			)
 		endif ()
 	endif ()
@@ -328,18 +337,3 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} "" "" )
 	endif ()
 endforeach ()
-
-if ( PROJECTS_COVERAGE )
-	set( PROJECTS_COVERAGE_LIB_FILES
-		${PROJECTS_COVERAGE_LIB_FILES}
-		PARENT_SCOPE
-	)
-	set( PROJECTS_COVERAGE_SRC_FILES
-		${PROJECTS_COVERAGE_SRC_FILES}
-		PARENT_SCOPE
-	)
-	set( PROJECTS_COVERAGE_TEST_NAMES
-		${PROJECTS_COVERAGE_TEST_NAMES}
-		PARENT_SCOPE
-	)
-endif ()

@@ -2,16 +2,6 @@ file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
-	if ( PROJECTS_COVERAGE )
-		set( PROJECTS_COVERAGE_SRC_FILES
-			${PROJECTS_COVERAGE_SRC_FILES}
-			${TEST_FILE}
-		)
-		set( PROJECTS_COVERAGE_TEST_NAMES
-			${PROJECTS_COVERAGE_TEST_NAMES}
-			${TEST_NAME}
-		)
-	endif ()
 	add_executable( ${TEST_NAME}
 		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
@@ -37,9 +27,17 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		)
 
 		if ( PROJECTS_COVERAGE )
-			OpenCppCoverage_add_target( ${TEST_NAME}
-				MODULES $<TARGET_FILE_NAME:ShaderAST>
-				SOURCES ${CMAKE_SOURCE_DIR}/include ${CMAKE_SOURCE_DIR}/source
+			MyOpenCppCoverage_add_target( ${TEST_NAME}
+				MODULES
+					$<TARGET_FILE_NAME:ShaderAST>
+					$<TARGET_FILE_NAME:ShaderWriter>
+					$<TARGET_FILE_NAME:CompilerGlsl>
+					$<TARGET_FILE_NAME:CompilerHlsl>
+					$<TARGET_FILE_NAME:CompilerSpirV>
+					$<TARGET_FILE_NAME:GlslCommon>
+				SOURCES
+					${CMAKE_SOURCE_DIR}/include
+					${CMAKE_SOURCE_DIR}/source
 			)
 		endif ()
 	endif ()
@@ -52,14 +50,3 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		COMMAND ${TEST_NAME}
 	)
 endforeach ()
-
-if ( PROJECTS_COVERAGE )
-	set( PROJECTS_COVERAGE_SRC_FILES
-		${PROJECTS_COVERAGE_SRC_FILES}
-		PARENT_SCOPE
-	)
-	set( PROJECTS_COVERAGE_TEST_NAMES
-		${PROJECTS_COVERAGE_TEST_NAMES}
-		PARENT_SCOPE
-	)
-endif ()

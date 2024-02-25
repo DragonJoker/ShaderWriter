@@ -820,18 +820,28 @@ namespace test
 		};
 	}
 
+	static Info * retrieveInfo( sdw_test::TestCounts const & testCounts
+		, [[maybe_unused]] uint32_t infoIndex )
+	{
+#if SDW_Test_Coverage
+		return testCounts.spirv->infos.back().get();
+#else
+		return testCounts.spirv->infos[infoIndex].get();
+#endif
+	}
+
 	bool retrieveIsSpirVInitialised( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
-		return testCounts.spirv->infos[infoIndex]
-			&& testCounts.spirv->infos[infoIndex]->instance
-			&& testCounts.spirv->infos[infoIndex]->device;
+		return retrieveInfo( testCounts, infoIndex )
+			&& retrieveInfo( testCounts, infoIndex )->instance
+			&& retrieveInfo( testCounts, infoIndex )->device;
 	}
 
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
-		auto const & info = testCounts.spirv->infos[infoIndex];
+		auto info = retrieveInfo( testCounts, infoIndex );
 		return info
 			? info->apiVersion
 			: 0u;
@@ -845,13 +855,17 @@ namespace test
 			return 0u;
 		}
 
-		auto const & info = testCounts.spirv->infos[infoIndex];
+		auto info = retrieveInfo( testCounts, infoIndex );
 		return info->spvVersion;
 	}
 
 	uint32_t retrieveSpirVInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
+#if SDW_Test_Coverage
+		return 1u;
+#else
 		return uint32_t( testCounts.spirv->infos.size() );
+#endif
 	}
 
 	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
@@ -908,7 +922,7 @@ namespace test
 		, uint32_t infoIndex
 		, FuncT func )
 	{
-		auto & info = *testCounts.spirv->infos[infoIndex];
+		auto & info = *retrieveInfo( testCounts, infoIndex );
 		info.compiling = true;
 		bool result = func();
 		info.compiling = false;
@@ -953,7 +967,7 @@ namespace test
 			, infoIndex
 			, [&]()
 			{
-				auto & info = testCounts.spirv->infos[infoIndex];
+				auto info = retrieveInfo( testCounts, infoIndex );
 				return createShaderModule( *info, spirv );
 			} );
 
@@ -1270,7 +1284,7 @@ namespace test
 	{
 		ast::vk::BuilderContext result
 		{
-			testCounts.spirv->infos[infoIndex]->device,
+			retrieveInfo( testCounts, infoIndex )->device,
 			nullptr,
 			nullptr,
 			vkCreateGraphicsPipelines,
@@ -1428,18 +1442,30 @@ namespace test
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
+#if SDW_Test_Coverage
+		return sdw_test::getShaderModels().back().first;
+#else
 		return sdw_test::getShaderModels()[infoIndex].first;
+#endif
 	}
 
 	uint32_t retrieveSPIRVVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
+#if SDW_Test_Coverage
+		return sdw_test::getShaderModels().back().second;
+#else
 		return sdw_test::getShaderModels()[infoIndex].second;
+#endif
 	}
 
 	uint32_t retrieveSpirVInfosSize( sdw_test::TestCounts const & testCounts )
 	{
+#if SDW_Test_Coverage
+		return 1u;
+#else
 		return uint32_t( sdw_test::getShaderModels().size() );
+#endif
 	}
 
 	uint32_t getSpirVTargetEnv( sdw_test::TestCounts const & testCounts
