@@ -1264,7 +1264,7 @@ namespace test
 				auto count = testCounts.getSpirvInfosSize();
 				for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 				{
-#if !defined( NDEBUG )
+#if SDW_Test_SpirVAllDebugLevels
 					testWriteSpirVOnIndex( shader
 						, entryPoints
 						, specialisation

@@ -136,7 +136,7 @@ And the following SPIR-V 1.6 listing:
 ```
 ; Magic:     0x07230203
 ; Version:   0x00010600
-; Generator: 0x00210271
+; Generator: 0x00210280
 ; Bound:     17
 ; Schema:    0
 

@@ -880,12 +880,20 @@ namespace test
 	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
+#if SDW_Test_Coverage
+		return testCounts.glsl->window.getGLSLVersions().back();
+#else
 		return testCounts.glsl->window.getGLSLVersions()[infoIndex];
+#endif
 	}
 
 	uint32_t retrieveGLSLInfosSize( [[maybe_unused]] sdw_test::TestCounts const & testCounts )
 	{
+#if SDW_Test_Coverage
+		return 1u;
+#else
 		return uint32_t( testCounts.glsl->window.getGLSLVersions().size() );
+#endif
 	}
 
 	bool createGLSLContext( sdw_test::TestCounts & testCounts )
@@ -973,13 +981,21 @@ namespace test
 
 	uint32_t retrieveGLSLInfosSize( sdw_test::TestCounts const & testCounts )
 	{
+#if SDW_Test_Coverage
+		return 1u;
+#else
 		return uint32_t( getShaderModels().size() );
+#endif
 	}
 
 	uint32_t retrieveGLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex )
 	{
+#if SDW_Test_Coverage
+		return getShaderModels().back();
+#else
 		return getShaderModels()[infoIndex];
+#endif
 	}
 
 	bool createGLSLContext( sdw_test::TestCounts & testCounts )

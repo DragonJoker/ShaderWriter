@@ -4,6 +4,8 @@
 /out
 /setup
 /doc/coverage
+/doc/ShaderWriterCoverage
+/doc/ShaderWriterCoverage.xml
 /doc/x86
 /doc/x64
 /vcpkg_installed
