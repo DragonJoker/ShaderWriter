@@ -1,5 +1,6 @@
 <p align="center">
   <a href="https://github.com/DragonJoker/ShaderWriter/actions?query=workflow%3ABuild"><img alt="Build status" src="https://github.com/DragonJoker/ShaderWriter/workflows/Build/badge.svg"></a>
+  <a href="https://codecov.io/gh/DragonJoker/ShaderWriter"><img src="https://codecov.io/gh/DragonJoker/ShaderWriter/graph/badge.svg?token=DG48IQUK64"/></a>
 </p>
 
 

@@ -3241,10 +3241,6 @@ namespace spirv
 			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadSwap:
 			return makeInstruction< GroupNonUniformQuadSwapInstruction >( nameCache, returnTypeId, resultId, operands );
-		case spv::OpGroupNonUniformQuadAnyKHR:
-			return makeInstruction< GroupNonUniformQuadAnyInstruction >( nameCache, returnTypeId, resultId, operands );
-		case spv::OpGroupNonUniformQuadAllKHR:
-			return makeInstruction< GroupNonUniformQuadAllInstruction >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
