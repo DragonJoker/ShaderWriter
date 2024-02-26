@@ -132,139 +132,183 @@ namespace spirv
 			switch ( value )
 			{
 			case spv::ExecutionModeInvocations:
-				return "ModeInvocations";
+				return "Invocations";
 			case spv::ExecutionModeSpacingEqual:
-				return "ModeSpacingEqual";
+				return "SpacingEqual";
 			case spv::ExecutionModeSpacingFractionalEven:
-				return "ModeSpacingFractionalEven";
+				return "SpacingFractionalEven";
 			case spv::ExecutionModeSpacingFractionalOdd:
-				return "ModeSpacingFractionalOdd";
+				return "SpacingFractionalOdd";
 			case spv::ExecutionModeVertexOrderCw:
-				return "ModeVertexOrderCw";
+				return "VertexOrderCw";
 			case spv::ExecutionModeVertexOrderCcw:
-				return "ModeVertexOrderCcw";
+				return "VertexOrderCcw";
 			case spv::ExecutionModePixelCenterInteger:
-				return "ModePixelCenterInteger";
+				return "PixelCenterInteger";
 			case spv::ExecutionModeOriginUpperLeft:
-				return "ModeOriginUpperLeft";
+				return "OriginUpperLeft";
 			case spv::ExecutionModeOriginLowerLeft:
-				return "ModeOriginLowerLeft";
+				return "OriginLowerLeft";
 			case spv::ExecutionModeEarlyFragmentTests:
-				return "ModeEarlyFragmentTests";
+				return "EarlyFragmentTests";
 			case spv::ExecutionModePointMode:
-				return "ModePointMode";
+				return "PointMode";
 			case spv::ExecutionModeXfb:
-				return "ModeXfb";
+				return "Xfb";
 			case spv::ExecutionModeDepthReplacing:
-				return "ModeDepthReplacing";
+				return "DepthReplacing";
 			case spv::ExecutionModeDepthGreater:
-				return "ModeDepthGreater";
+				return "DepthGreater";
 			case spv::ExecutionModeDepthLess:
-				return "ModeDepthLess";
+				return "DepthLess";
 			case spv::ExecutionModeDepthUnchanged:
-				return "ModeDepthUnchanged";
+				return "DepthUnchanged";
 			case spv::ExecutionModeLocalSize:
-				return "ModeLocalSize";
+				return "LocalSize";
 			case spv::ExecutionModeLocalSizeHint:
-				return "ModeLocalSizeHint";
+				return "LocalSizeHint";
 			case spv::ExecutionModeInputPoints:
-				return "ModeInputPoints";
+				return "InputPoints";
 			case spv::ExecutionModeInputLines:
-				return "ModeInputLines";
+				return "InputLines";
 			case spv::ExecutionModeInputLinesAdjacency:
-				return "ModeInputLinesAdjacency";
+				return "InputLinesAdjacency";
 			case spv::ExecutionModeTriangles:
-				return "ModeTriangles";
+				return "Triangles";
 			case spv::ExecutionModeInputTrianglesAdjacency:
-				return "ModeInputTrianglesAdjacency";
+				return "InputTrianglesAdjacency";
 			case spv::ExecutionModeQuads:
-				return "ModeQuads";
+				return "Quads";
 			case spv::ExecutionModeIsolines:
-				return "ModeIsolines";
+				return "Isolines";
 			case spv::ExecutionModeOutputVertices:
-				return "ModeOutputVertices";
+				return "OutputVertices";
 			case spv::ExecutionModeOutputPoints:
-				return "ModeOutputPoints";
+				return "OutputPoints";
 			case spv::ExecutionModeOutputLineStrip:
-				return "ModeOutputLineStrip";
+				return "OutputLineStrip";
 			case spv::ExecutionModeOutputTriangleStrip:
-				return "ModeOutputTriangleStrip";
+				return "OutputTriangleStrip";
 			case spv::ExecutionModeVecTypeHint:
-				return "ModeVecTypeHint";
+				return "VecTypeHint";
 			case spv::ExecutionModeContractionOff:
-				return "ModeContractionOff";
+				return "ContractionOff";
 			case spv::ExecutionModeInitializer:
-				return "ModeInitializer";
+				return "Initializer";
 			case spv::ExecutionModeFinalizer:
-				return "ModeFinalizer";
+				return "Finalizer";
 			case spv::ExecutionModeSubgroupSize:
-				return "ModeSubgroupSize";
+				return "SubgroupSize";
 			case spv::ExecutionModeSubgroupsPerWorkgroup:
-				return "ModeSubgroupsPerWorkgroup";
+				return "SubgroupsPerWorkgroup";
 			case spv::ExecutionModeSubgroupsPerWorkgroupId:
-				return "ModeSubgroupsPerWorkgroupId";
+				return "SubgroupsPerWorkgroupId";
 			case spv::ExecutionModeLocalSizeId:
-				return "ModeLocalSizeId";
+				return "LocalSizeId";
 			case spv::ExecutionModeLocalSizeHintId:
-				return "ModeLocalSizeHintId";
+				return "LocalSizeHintId";
+			case spv::ExecutionModeNonCoherentColorAttachmentReadEXT:
+				return "NonCoherentColorAttachmentReadEXT";
+			case spv::ExecutionModeNonCoherentDepthAttachmentReadEXT:
+				return "NonCoherentDepthAttachmentReadEXT";
+			case spv::ExecutionModeNonCoherentStencilAttachmentReadEXT:
+				return "NonCoherentStencilAttachmentReadEXT";
 			case spv::ExecutionModeSubgroupUniformControlFlowKHR:
-				return "ModeSubgroupUniformControlFlowKHR";
+				return "SubgroupUniformControlFlowKHR";
 			case spv::ExecutionModePostDepthCoverage:
-				return "ModePostDepthCoverage";
+				return "PostDepthCoverage";
 			case spv::ExecutionModeDenormPreserve:
-				return "ModeDenormPreserve";
+				return "DenormPreserve";
 			case spv::ExecutionModeDenormFlushToZero:
-				return "ModeDenormFlushToZero";
+				return "DenormFlushToZero";
 			case spv::ExecutionModeSignedZeroInfNanPreserve:
-				return "ModeSignedZeroInfNanPreserve";
+				return "SignedZeroInfNanPreserve";
 			case spv::ExecutionModeRoundingModeRTE:
-				return "ModeRoundingModeRTE";
+				return "RoundingModeRTE";
 			case spv::ExecutionModeRoundingModeRTZ:
-				return "ModeRoundingModeRTZ";
+				return "RoundingModeRTZ";
+			case spv::ExecutionModeEarlyAndLateFragmentTestsAMD:
+				return "EarlyAndLateFragmentTestsAMD";
 			case spv::ExecutionModeStencilRefReplacingEXT:
-				return "ModeStencilRefReplacingEXT";
-			case spv::ExecutionModeOutputLinesNV:
-				return "ModeOutputLinesNV";
-			case spv::ExecutionModeOutputPrimitivesNV:
-				return "ModeOutputPrimitivesNV";
+				return "StencilRefReplacingEXT";
+			case spv::ExecutionModeCoalescingAMDX:
+				return "CoalescingAMDX";
+			case spv::ExecutionModeMaxNodeRecursionAMDX:
+				return "MaxNodeRecursionAMDX";
+			case spv::ExecutionModeStaticNumWorkgroupsAMDX:
+				return "StaticNumWorkgroupsAMDX";
+			case spv::ExecutionModeShaderIndexAMDX:
+				return "ShaderIndexAMDX";
+			case spv::ExecutionModeMaxNumWorkgroupsAMDX:
+				return "MaxNumWorkgroupsAMDX";
+			case spv::ExecutionModeStencilRefUnchangedFrontAMD:
+				return "StencilRefUnchangedFrontAMD";
+			case spv::ExecutionModeStencilRefGreaterFrontAMD:
+				return "StencilRefGreaterFrontAMD";
+			case spv::ExecutionModeStencilRefLessFrontAMD:
+				return "StencilRefLessFrontAMD";
+			case spv::ExecutionModeStencilRefUnchangedBackAMD:
+				return "StencilRefUnchangedBackAMD";
+			case spv::ExecutionModeStencilRefGreaterBackAMD:
+				return "StencilRefGreaterBackAMD";
+			case spv::ExecutionModeStencilRefLessBackAMD:
+				return "StencilRefLessBackAMD";
+			case spv::ExecutionModeQuadDerivativesKHR:
+				return "QuadDerivativesKHR";
+			case spv::ExecutionModeRequireFullQuadsKHR:
+				return "RequireFullQuadsKHR";
+			case spv::ExecutionModeOutputLinesEXT:
+				return "OutputLinesEXT";
+			case spv::ExecutionModeOutputPrimitivesEXT:
+				return "OutputPrimitivesEXT";
 			case spv::ExecutionModeDerivativeGroupQuadsNV:
-				return "ModeDerivativeGroupQuadsNV";
+				return "DerivativeGroupQuadsNV";
 			case spv::ExecutionModeDerivativeGroupLinearNV:
-				return "ModeDerivativeGroupLinearNV";
-			case spv::ExecutionModeOutputTrianglesNV:
-				return "ModeOutputTrianglesNV";
+				return "DerivativeGroupLinearNV";
+			case spv::ExecutionModeOutputTrianglesEXT:
+				return "OutputTrianglesEXT";
 			case spv::ExecutionModePixelInterlockOrderedEXT:
-				return "ModePixelInterlockOrderedEXT";
+				return "PixelInterlockOrderedEXT";
 			case spv::ExecutionModePixelInterlockUnorderedEXT:
-				return "ModePixelInterlockUnorderedEXT";
+				return "PixelInterlockUnorderedEXT";
 			case spv::ExecutionModeSampleInterlockOrderedEXT:
-				return "ModeSampleInterlockOrderedEXT";
+				return "SampleInterlockOrderedEXT";
 			case spv::ExecutionModeSampleInterlockUnorderedEXT:
-				return "ModeSampleInterlockUnorderedEXT";
+				return "SampleInterlockUnorderedEXT";
 			case spv::ExecutionModeShadingRateInterlockOrderedEXT:
-				return "ModeShadingRateInterlockOrderedEXT";
+				return "ShadingRateInterlockOrderedEXT";
 			case spv::ExecutionModeShadingRateInterlockUnorderedEXT:
-				return "ModeShadingRateInterlockUnorderedEXT";
+				return "ShadingRateInterlockUnorderedEXT";
 			case spv::ExecutionModeSharedLocalMemorySizeINTEL:
-				return "ModeSharedLocalMemorySizeINTEL";
+				return "SharedLocalMemorySizeINTEL";
 			case spv::ExecutionModeRoundingModeRTPINTEL:
-				return "ModeRoundingModeRTPINTEL";
+				return "RoundingModeRTPINTEL";
 			case spv::ExecutionModeRoundingModeRTNINTEL:
-				return "ModeRoundingModeRTNINTEL";
+				return "RoundingModeRTNINTEL";
 			case spv::ExecutionModeFloatingPointModeALTINTEL:
-				return "ModeFloatingPointModeALTINTEL";
+				return "FloatingPointModeALTINTEL";
 			case spv::ExecutionModeFloatingPointModeIEEEINTEL:
-				return "ModeFloatingPointModeIEEEINTEL";
+				return "FloatingPointModeIEEEINTEL";
 			case spv::ExecutionModeMaxWorkgroupSizeINTEL:
-				return "ModeMaxWorkgroupSizeINTEL";
+				return "MaxWorkgroupSizeINTEL";
 			case spv::ExecutionModeMaxWorkDimINTEL:
-				return "ModeMaxWorkDimINTEL";
+				return "MaxWorkDimINTEL";
 			case spv::ExecutionModeNoGlobalOffsetINTEL:
-				return "ModeNoGlobalOffsetINTEL";
+				return "NoGlobalOffsetINTEL";
 			case spv::ExecutionModeNumSIMDWorkitemsINTEL:
-				return "ModeNumSIMDWorkitemsINTEL";
+				return "NumSIMDWorkitemsINTEL";
 			case spv::ExecutionModeSchedulerTargetFmaxMhzINTEL:
-				return "ModeSchedulerTargetFmaxMhzINTEL";
+				return "SchedulerTargetFmaxMhzINTEL";
+			case spv::ExecutionModeMaximallyReconvergesKHR:
+				return "MaximallyReconvergesKHR";
+			case spv::ExecutionModeFPFastMathDefault:
+				return "FPFastMathDefault";
+			case spv::ExecutionModeStreamingInterfaceINTEL:
+				return "StreamingInterfaceINTEL";
+			case spv::ExecutionModeRegisterMapInterfaceINTEL:
+				return "RegisterMapInterfaceINTEL";
+			case spv::ExecutionModeNamedBarrierCountINTEL:
+				return "NamedBarrierCountINTEL";
 			default:
 				AST_Failure( "Unsupported ExecutionMode" );
 				return "Undefined";

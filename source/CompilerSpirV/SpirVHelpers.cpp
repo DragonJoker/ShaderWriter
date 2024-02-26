@@ -2528,6 +2528,14 @@ namespace spirv
 			return "ShaderViewportIndex";
 		case spv::CapabilityUniformDecoration:
 			return "UniformDecoration";
+		case spv::CapabilityCoreBuiltinsARM:
+			return "CoreBuiltinsARM";
+		case spv::CapabilityTileImageColorReadAccessEXT:
+			return "TileImageColorReadAccessEXT";
+		case spv::CapabilityTileImageDepthReadAccessEXT:
+			return "TileImageDepthReadAccessEXT";
+		case spv::CapabilityTileImageStencilReadAccessEXT:
+			return "TileImageStencilReadAccessEXT";
 		case spv::CapabilityFragmentShadingRateKHR:
 			return "FragmentShadingRateKHR";
 		case spv::CapabilitySubgroupBallotKHR:
@@ -2586,6 +2594,14 @@ namespace spirv
 			return "RayTraversalPrimitiveCullingKHR";
 		case spv::CapabilityRayTracingKHR:
 			return "RayTracingKHR";
+		case spv::CapabilityTextureSampleWeightedQCOM:
+			return "TextureSampleWeightedQCOM";
+		case spv::CapabilityTextureBoxFilterQCOM:
+			return "TextureBoxFilterQCOM";
+		case spv::CapabilityTextureBlockMatchQCOM:
+			return "TextureBlockMatchQCOM";
+		case spv::CapabilityTextureBlockMatch2QCOM:
+			return "TextureBlockMatch2QCOM";
 		case spv::CapabilityFloat16ImageAMD:
 			return "Float16ImageAMD";
 		case spv::CapabilityImageGatherBiasLodAMD:
@@ -2600,6 +2616,10 @@ namespace spirv
 			return "Int64ImageEXT";
 		case spv::CapabilityShaderClockKHR:
 			return "ShaderClockKHR";
+		case spv::CapabilityShaderEnqueueAMDX:
+			return "ShaderEnqueueAMDX";
+		case spv::CapabilityQuadControlKHR:
+			return "QuadControlKHR";
 		case spv::CapabilitySampleMaskOverrideCoverageNV:
 			return "SampleMaskOverrideCoverageNV";
 		case spv::CapabilityGeometryShaderPassthroughNV:
@@ -2616,10 +2636,10 @@ namespace spirv
 			return "FragmentFullyCoveredEXT";
 		case spv::CapabilityMeshShadingNV:
 			return "MeshShadingNV";
-		case spv::CapabilityMeshShadingEXT:
-			return "MeshShadingEXT";
 		case spv::CapabilityImageFootprintNV:
 			return "ImageFootprintNV";
+		case spv::CapabilityMeshShadingEXT:
+			return "MeshShadingEXT";
 		case spv::CapabilityFragmentBarycentricKHR:
 			return "FragmentBarycentricKHR";
 		case spv::CapabilityComputeDerivativeGroupQuadsNV:
@@ -2652,6 +2672,8 @@ namespace spirv
 			return "UniformTexelBufferArrayNonUniformIndexing";
 		case spv::CapabilityStorageTexelBufferArrayNonUniformIndexing:
 			return "StorageTexelBufferArrayNonUniformIndexing";
+		case spv::CapabilityRayTracingPositionFetchKHR:
+			return "RayTracingPositionFetchKHR";
 		case spv::CapabilityRayTracingNV:
 			return "RayTracingNV";
 		case spv::CapabilityRayTracingMotionBlurNV:
@@ -2678,8 +2700,20 @@ namespace spirv
 			return "FragmentShaderPixelInterlockEXT";
 		case spv::CapabilityDemoteToHelperInvocation:
 			return "DemoteToHelperInvocation";
+		case spv::CapabilityDisplacementMicromapNV:
+			return "DisplacementMicromapNV";
+		case spv::CapabilityRayTracingOpacityMicromapEXT:
+			return "RayTracingOpacityMicromapEXT";
+		case spv::CapabilityShaderInvocationReorderNV:
+			return "ShaderInvocationReorderNV";
 		case spv::CapabilityBindlessTextureNV:
 			return "BindlessTextureNV";
+		case spv::CapabilityRayQueryPositionFetchKHR:
+			return "RayQueryPositionFetchKHR";
+		case spv::CapabilityAtomicFloat16VectorNV:
+			return "AtomicFloat16VectorNV";
+		case spv::CapabilityRayTracingDisplacementMicromapNV:
+			return "RayTracingDisplacementMicromapNV";
 		case spv::CapabilitySubgroupShuffleINTEL:
 			return "SubgroupShuffleINTEL";
 		case spv::CapabilitySubgroupBufferBlockIOINTEL:
@@ -2744,12 +2778,20 @@ namespace spirv
 			return "FPGAClusterAttributesINTEL";
 		case spv::CapabilityLoopFuseINTEL:
 			return "LoopFuseINTEL";
+		case spv::CapabilityFPGADSPControlINTEL:
+			return "FPGADSPControlINTEL";
+		case spv::CapabilityMemoryAccessAliasingINTEL:
+			return "MemoryAccessAliasingINTEL";
+		case spv::CapabilityFPGAInvocationPipeliningAttributesINTEL:
+			return "FPGAInvocationPipeliningAttributesINTEL";
 		case spv::CapabilityFPGABufferLocationINTEL:
 			return "FPGABufferLocationINTEL";
 		case spv::CapabilityArbitraryPrecisionFixedPointINTEL:
 			return "ArbitraryPrecisionFixedPointINTEL";
 		case spv::CapabilityUSMStorageClassesINTEL:
 			return "USMStorageClassesINTEL";
+		case spv::CapabilityRuntimeAlignedAttributeINTEL:
+			return "RuntimeAlignedAttributeINTEL";
 		case spv::CapabilityIOPipesINTEL:
 			return "IOPipesINTEL";
 		case spv::CapabilityBlockingPipesINTEL:
@@ -2764,20 +2806,52 @@ namespace spirv
 			return "DotProductInput4x8BitPacked";
 		case spv::CapabilityDotProduct:
 			return "DotProduct";
+		case spv::CapabilityRayCullMaskKHR:
+			return "RayCullMaskKHR";
+		case spv::CapabilityCooperativeMatrixKHR:
+			return "CooperativeMatrixKHR";
 		case spv::CapabilityBitInstructions:
 			return "BitInstructions";
+		case spv::CapabilityGroupNonUniformRotateKHR:
+			return "GroupNonUniformRotateKHR";
+		case spv::CapabilityFloatControls2:
+			return "FloatControls2";
 		case spv::CapabilityAtomicFloat32AddEXT:
 			return "AtomicFloat32AddEXT";
 		case spv::CapabilityAtomicFloat64AddEXT:
 			return "AtomicFloat64AddEXT";
-		case spv::CapabilityLongConstantCompositeINTEL:
-			return "LongConstantCompositeINTEL";
+		case spv::CapabilityLongCompositesINTEL:
+			return "LongCompositesINTEL";
 		case spv::CapabilityOptNoneINTEL:
 			return "OptNoneINTEL";
 		case spv::CapabilityAtomicFloat16AddEXT:
 			return "AtomicFloat16AddEXT";
 		case spv::CapabilityDebugInfoModuleINTEL:
 			return "DebugInfoModuleINTEL";
+		case spv::CapabilityBFloat16ConversionINTEL:
+			return "BFloat16ConversionINTEL";
+		case spv::CapabilitySplitBarrierINTEL:
+			return "SplitBarrierINTEL";
+		case spv::CapabilityFPGAClusterAttributesV2INTEL:
+			return "FPGAClusterAttributesV2INTEL";
+		case spv::CapabilityFPGAKernelAttributesv2INTEL:
+			return "FPGAKernelAttributesv2INTEL";
+		case spv::CapabilityFPMaxErrorINTEL:
+			return "FPMaxErrorINTEL";
+		case spv::CapabilityFPGALatencyControlINTEL:
+			return "FPGALatencyControlINTEL";
+		case spv::CapabilityFPGAArgumentInterfacesINTEL:
+			return "FPGAArgumentInterfacesINTEL";
+		case spv::CapabilityGlobalVariableHostAccessINTEL:
+			return "GlobalVariableHostAccessINTEL";
+		case spv::CapabilityGlobalVariableFPGADecorationsINTEL:
+			return "GlobalVariableFPGADecorationsINTEL";
+		case spv::CapabilityGroupUniformArithmeticKHR:
+			return "GroupUniformArithmeticKHR";
+		case spv::CapabilityMaskedGatherScatterINTEL:
+			return "MaskedGatherScatterINTEL";
+		case spv::CapabilityCacheControlsINTEL:
+			return "CacheControlsINTEL";
 		default:
 			AST_Failure( "Unsupported Capability" );
 			return "Undefined";
@@ -3167,6 +3241,10 @@ namespace spirv
 			return makeInstruction< GroupNonUniformQuadBroadcastInstruction >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpGroupNonUniformQuadSwap:
 			return makeInstruction< GroupNonUniformQuadSwapInstruction >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformQuadAnyKHR:
+			return makeInstruction< GroupNonUniformQuadAnyInstruction >( nameCache, returnTypeId, resultId, operands );
+		case spv::OpGroupNonUniformQuadAllKHR:
+			return makeInstruction< GroupNonUniformQuadAllInstruction >( nameCache, returnTypeId, resultId, operands );
 		default:
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}

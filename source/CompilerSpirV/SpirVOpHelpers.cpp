@@ -1194,6 +1194,12 @@ namespace spirv
 			return "PtrNotEqual";
 		case spv::OpPtrDiff:
 			return "PtrDiff";
+		case spv::OpColorAttachmentReadEXT:
+			return "ColorAttachmentReadEXT";
+		case spv::OpDepthAttachmentReadEXT:
+			return "DepthAttachmentReadEXT";
+		case spv::OpStencilAttachmentReadEXT:
+			return "StencilAttachmentReadEXT";
 		case spv::OpTerminateInvocation:
 			return "TerminateInvocation";
 		case spv::OpSubgroupBallotKHR:
@@ -1206,6 +1212,8 @@ namespace spirv
 			return "SubgroupAnyKHR";
 		case spv::OpSubgroupAllEqualKHR:
 			return "SubgroupAllEqualKHR";
+		case spv::OpGroupNonUniformRotateKHR:
+			return "GroupNonUniformRotateKHR";
 		case spv::OpSubgroupReadInvocationKHR:
 			return "SubgroupReadInvocationKHR";
 		case spv::OpTraceRayKHR:
@@ -1230,6 +1238,16 @@ namespace spirv
 			return "UDotAccSat";
 		case spv::OpSUDotAccSat:
 			return "SUDotAccSat";
+		case spv::OpTypeCooperativeMatrixKHR:
+			return "TypeCooperativeMatrixKHR";
+		case spv::OpCooperativeMatrixLoadKHR:
+			return "CooperativeMatrixLoadKHR";
+		case spv::OpCooperativeMatrixStoreKHR:
+			return "CooperativeMatrixStoreKHR";
+		case spv::OpCooperativeMatrixMulAddKHR:
+			return "CooperativeMatrixMulAddKHR";
+		case spv::OpCooperativeMatrixLengthKHR:
+			return "CooperativeMatrixLengthKHR";
 		case spv::OpTypeRayQueryKHR:
 			return "TypeRayQueryKHR";
 		case spv::OpRayQueryInitializeKHR:
@@ -1244,6 +1262,22 @@ namespace spirv
 			return "RayQueryProceedKHR";
 		case spv::OpRayQueryGetIntersectionTypeKHR:
 			return "RayQueryGetIntersectionTypeKHR";
+		case spv::OpImageSampleWeightedQCOM:
+			return "ImageSampleWeightedQCOM";
+		case spv::OpImageBoxFilterQCOM:
+			return "ImageBoxFilterQCOM";
+		case spv::OpImageBlockMatchSSDQCOM:
+			return "ImageBlockMatchSSDQCOM";
+		case spv::OpImageBlockMatchSADQCOM:
+			return "ImageBlockMatchSADQCOM";
+		case spv::OpImageBlockMatchWindowSSDQCOM:
+			return "ImageBlockMatchWindowSSDQCOM";
+		case spv::OpImageBlockMatchWindowSADQCOM:
+			return "ImageBlockMatchWindowSADQCOM";
+		case spv::OpImageBlockMatchGatherSSDQCOM:
+			return "ImageBlockMatchGatherSSDQCOM";
+		case spv::OpImageBlockMatchGatherSADQCOM:
+			return "ImageBlockMatchGatherSADQCOM";
 		case spv::OpGroupIAddNonUniformAMD:
 			return "GroupIAddNonUniformAMD";
 		case spv::OpGroupFAddNonUniformAMD:
@@ -1266,12 +1300,96 @@ namespace spirv
 			return "FragmentFetchAMD";
 		case spv::OpReadClockKHR:
 			return "ReadClockKHR";
+		case spv::OpFinalizeNodePayloadsAMDX:
+			return "FinalizeNodePayloadsAMDX";
+		case spv::OpFinishWritingNodePayloadAMDX:
+			return "FinishWritingNodePayloadAMDX";
+		case spv::OpInitializeNodePayloadsAMDX:
+			return "InitializeNodePayloadsAMDX";
+		case spv::OpGroupNonUniformQuadAllKHR:
+			return "GroupNonUniformQuadAllKHR";
+		case spv::OpGroupNonUniformQuadAnyKHR:
+			return "GroupNonUniformQuadAnyKHR";
+		case spv::OpHitObjectRecordHitMotionNV:
+			return "HitObjectRecordHitMotionNV";
+		case spv::OpHitObjectRecordHitWithIndexMotionNV:
+			return "HitObjectRecordHitWithIndexMotionNV";
+		case spv::OpHitObjectRecordMissMotionNV:
+			return "HitObjectRecordMissMotionNV";
+		case spv::OpHitObjectGetWorldToObjectNV:
+			return "HitObjectGetWorldToObjectNV";
+		case spv::OpHitObjectGetObjectToWorldNV:
+			return "HitObjectGetObjectToWorldNV";
+		case spv::OpHitObjectGetObjectRayDirectionNV:
+			return "HitObjectGetObjectRayDirectionNV";
+		case spv::OpHitObjectGetObjectRayOriginNV:
+			return "HitObjectGetObjectRayOriginNV";
+		case spv::OpHitObjectTraceRayMotionNV:
+			return "HitObjectTraceRayMotionNV";
+		case spv::OpHitObjectGetShaderRecordBufferHandleNV:
+			return "HitObjectGetShaderRecordBufferHandleNV";
+		case spv::OpHitObjectGetShaderBindingTableRecordIndexNV:
+			return "HitObjectGetShaderBindingTableRecordIndexNV";
+		case spv::OpHitObjectRecordEmptyNV:
+			return "HitObjectRecordEmptyNV";
+		case spv::OpHitObjectTraceRayNV:
+			return "HitObjectTraceRayNV";
+		case spv::OpHitObjectRecordHitNV:
+			return "HitObjectRecordHitNV";
+		case spv::OpHitObjectRecordHitWithIndexNV:
+			return "HitObjectRecordHitWithIndexNV";
+		case spv::OpHitObjectRecordMissNV:
+			return "HitObjectRecordMissNV";
+		case spv::OpHitObjectExecuteShaderNV:
+			return "HitObjectExecuteShaderNV";
+		case spv::OpHitObjectGetCurrentTimeNV:
+			return "HitObjectGetCurrentTimeNV";
+		case spv::OpHitObjectGetAttributesNV:
+			return "HitObjectGetAttributesNV";
+		case spv::OpHitObjectGetHitKindNV:
+			return "HitObjectGetHitKindNV";
+		case spv::OpHitObjectGetPrimitiveIndexNV:
+			return "HitObjectGetPrimitiveIndexNV";
+		case spv::OpHitObjectGetGeometryIndexNV:
+			return "HitObjectGetGeometryIndexNV";
+		case spv::OpHitObjectGetInstanceIdNV:
+			return "HitObjectGetInstanceIdNV";
+		case spv::OpHitObjectGetInstanceCustomIndexNV:
+			return "HitObjectGetInstanceCustomIndexNV";
+		case spv::OpHitObjectGetWorldRayDirectionNV:
+			return "HitObjectGetWorldRayDirectionNV";
+		case spv::OpHitObjectGetWorldRayOriginNV:
+			return "HitObjectGetWorldRayOriginNV";
+		case spv::OpHitObjectGetRayTMaxNV:
+			return "HitObjectGetRayTMaxNV";
+		case spv::OpHitObjectGetRayTMinNV:
+			return "HitObjectGetRayTMinNV";
+		case spv::OpHitObjectIsEmptyNV:
+			return "HitObjectIsEmptyNV";
+		case spv::OpHitObjectIsHitNV:
+			return "HitObjectIsHitNV";
+		case spv::OpHitObjectIsMissNV:
+			return "HitObjectIsMissNV";
+		case spv::OpReorderThreadWithHitObjectNV:
+			return "ReorderThreadWithHitObjectNV";
+		case spv::OpReorderThreadWithHintNV:
+			return "ReorderThreadWithHintNV";
+		case spv::OpTypeHitObjectNV:
+			return "TypeHitObjectNV";
 		case spv::OpImageSampleFootprintNV:
 			return "ImageSampleFootprintNV";
+		case spv::OpEmitMeshTasksEXT:
+			return "EmitMeshTasksEXT";
+		case spv::OpSetMeshOutputsEXT:
+			return "SetMeshOutputsEXT";
 		case spv::OpGroupNonUniformPartitionNV:
 			return "GroupNonUniformPartitionNV";
 		case spv::OpWritePackedPrimitiveIndices4x8NV:
 			return "WritePackedPrimitiveIndices4x8NV";
+		case spv::OpFetchMicroTriangleVertexPositionNV:
+			return "FetchMicroTriangleVertexPositionNV";
+		case spv::OpFetchMicroTriangleVertexBarycentricNV:
+			return "FetchMicroTriangleVertexBarycentricNV";
 		case spv::OpReportIntersectionKHR:
 			return "ReportIntersectionKHR";
 		case spv::OpIgnoreIntersectionNV:
@@ -1284,6 +1402,8 @@ namespace spirv
 			return "TraceMotionNV";
 		case spv::OpTraceRayMotionNV:
 			return "TraceRayMotionNV";
+		case spv::OpRayQueryGetIntersectionTriangleVertexPositionsKHR:
+			return "RayQueryGetIntersectionTriangleVertexPositionsKHR";
 		case spv::OpTypeAccelerationStructureKHR:
 			return "TypeAccelerationStructureKHR";
 		case spv::OpExecuteCallableNV:
@@ -1716,6 +1836,12 @@ namespace spirv
 			return "ArbitraryFloatPowNINTEL";
 		case spv::OpLoopControlINTEL:
 			return "LoopControlINTEL";
+		case spv::OpAliasDomainDeclINTEL:
+			return "AliasDomainDeclINTEL";
+		case spv::OpAliasScopeDeclINTEL:
+			return "AliasScopeDeclINTEL";
+		case spv::OpAliasScopeListDeclINTEL:
+			return "AliasScopeListDeclINTEL";
 		case spv::OpFixedSqrtINTEL:
 			return "FixedSqrtINTEL";
 		case spv::OpFixedRecipINTEL:
@@ -1792,10 +1918,36 @@ namespace spirv
 			return "ConstantCompositeContinuedINTEL";
 		case spv::OpSpecConstantCompositeContinuedINTEL:
 			return "SpecConstantCompositeContinuedINTEL";
-		case spv::OpSetMeshOutputsEXT:
-			return "SetMeshOutputsEXT";
-		case spv::OpEmitMeshTasksEXT:
-			return "EmitMeshTasksEXT";
+		case spv::OpCompositeConstructContinuedINTEL:
+			return "CompositeConstructContinuedINTEL";
+		case spv::OpConvertFToBF16INTEL:
+			return "ConvertFToBF16INTEL";
+		case spv::OpConvertBF16ToFINTEL:
+			return "ConvertBF16ToFINTEL";
+		case spv::OpControlBarrierArriveINTEL:
+			return "ControlBarrierArriveINTEL";
+		case spv::OpControlBarrierWaitINTEL:
+			return "ControlBarrierWaitINTEL";
+		case spv::OpGroupIMulKHR:
+			return "GroupIMulKHR";
+		case spv::OpGroupFMulKHR:
+			return "GroupFMulKHR";
+		case spv::OpGroupBitwiseAndKHR:
+			return "GroupBitwiseAndKHR";
+		case spv::OpGroupBitwiseOrKHR:
+			return "GroupBitwiseOrKHR";
+		case spv::OpGroupBitwiseXorKHR:
+			return "GroupBitwiseXorKHR";
+		case spv::OpGroupLogicalAndKHR:
+			return "GroupLogicalAndKHR";
+		case spv::OpGroupLogicalOrKHR:
+			return "GroupLogicalOrKHR";
+		case spv::OpGroupLogicalXorKHR:
+			return "GroupLogicalXorKHR";
+		case spv::OpMaskedGatherINTEL:
+			return "MaskedGatherINTEL";
+		case spv::OpMaskedScatterINTEL:
+			return "MaskedScatterINTEL";
 		default:
 			assert( false );
 			return "Unknown";
