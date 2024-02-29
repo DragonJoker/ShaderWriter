@@ -570,8 +570,6 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eUndefined )];
 		case Kind::eVoid:
 			return m_basicTypes[size_t( Kind::eVoid )];
-		case Kind::eFunction:
-			return m_basicTypes[size_t( Kind::eFunction )];
 		case Kind::eBoolean:
 			return m_basicTypes[size_t( Kind::eBoolean )];
 		case Kind::eInt8:
@@ -702,8 +700,6 @@ namespace ast::type
 			return m_basicTypes[size_t( Kind::eMat4x3D )];
 		case Kind::eMat4x4D:
 			return m_basicTypes[size_t( Kind::eMat4x4D )];
-		case Kind::eAccelerationStructure:
-			return m_basicTypes[size_t( Kind::eAccelerationStructure )];
 		default:
 			AST_Failure( "Unexpected Kind" );
 			return nullptr;

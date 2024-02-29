@@ -282,7 +282,7 @@ namespace test
 
 #define testSuiteEnd()\
 	}\
-	catch ( std::exception & exc )\
+	catch ( ast::Exception & exc )\
 	{\
 		test::reportFailure( std::string{ "Test failed, Unhandled exception: " } + exc.what(), __FUNCTION__, __LINE__, testCounts );\
 	}\
@@ -303,7 +303,7 @@ namespace test
 
 #define testEnd()\
 	}\
-	catch ( std::exception & exc )\
+	catch ( ast::Exception & exc )\
 	{\
 		testCounts << testCounts.testName << " Failed: " << exc.what() << test::endl;\
 	}\
@@ -399,8 +399,13 @@ namespace test
 		( x ); \
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
+	catch ( ast::Exception & exc )\
+	{\
+		testCounts << testCounts.testName << " Success: Expected exception - " << exc.what() << test::endl;\
+	}\
 	catch ( ... )\
 	{\
+		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
 	}
 
 #define checkNoThrow( x )\
@@ -409,7 +414,7 @@ namespace test
 		testCounts.incTest();\
 		( x ); \
 	}\
-	catch ( std::exception & exc )\
+	catch ( ast::Exception & exc )\
 	{\
 		test::reportFailure( exc.what(), __FUNCTION__, __LINE__, testCounts );\
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\

@@ -1,5 +1,8 @@
 #include "Common.hpp"
 
+#include <ShaderAST/Expr/GetIntrinsicName.hpp>
+#include <ShaderAST/Expr/GetCombinedImageAccessName.hpp>
+#include <ShaderAST/Expr/GetStorageImageAccessName.hpp>
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderAST/Visitors/DebugDisplayStatements.hpp>
 
@@ -1044,7 +1047,7 @@ namespace
 		{
 			ast::expr::ExprList argList;
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			auto functionType = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{} );
 			auto funcName = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, functionType, "func" ) );
 			auto expr = exprCache.makeFnCall( typesCache.getInt32(), std::move( funcName ), std::move( argList ) );
@@ -1061,7 +1064,7 @@ namespace
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( exprCache.makeLiteral( typesCache, 10 ) );
 			auto functionType = typesCache.getFunction( typesCache.getInt32()
@@ -1088,7 +1091,7 @@ namespace
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( exprCache.makeLiteral( typesCache, 10 ) );
 			argList.emplace_back( exprCache.makeLiteral( typesCache, 1.0f ) );
@@ -1126,9 +1129,16 @@ namespace
 	void testExprIntrinsicCall( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprIntrinsicCall" );
+		for ( uint32_t intr = 0u; intr < uint32_t( ast::expr::Intrinsic::eCount ); ++intr )
+		{
+			ast::expr::getName( ast::expr::Intrinsic( intr ) );
+		}
+		ast::expr::getName( ast::expr::Intrinsic::eCount );
+		ast::expr::getName( ast::expr::Intrinsic::eInvalid );
+		checkThrow( ast::expr::getName( ast::expr::Intrinsic( uint32_t( ast::expr::Intrinsic::eCount ) + 1u ) ) );
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			argList.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getInt32(), "x" ) ) );
 			auto expr = exprCache.makeIntrinsicCall( typesCache.getInt32(), ast::expr::Intrinsic::eAbs1I, std::move( argList ) );
@@ -1149,9 +1159,16 @@ namespace
 	void testExprStorageImageAccessCall( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprStorageImageAccessCall" );
+		for ( uint32_t intr = 0u; intr < uint32_t( ast::expr::StorageImageAccess::eCount ); ++intr )
+		{
+			ast::expr::getName( ast::expr::StorageImageAccess( intr ) );
+		}
+		ast::expr::getName( ast::expr::StorageImageAccess::eCount );
+		ast::expr::getName( ast::expr::StorageImageAccess::eInvalid );
+		checkThrow( ast::expr::getName( ast::expr::StorageImageAccess( uint32_t( ast::expr::StorageImageAccess::eCount ) + 1u ) ) );
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getImage( config ), "x" ) ) );
@@ -1173,9 +1190,20 @@ namespace
 	void testExprCombinedImageAccessCall( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprCombinedImageAccessCall" );
+		for ( uint32_t intr = 0u; intr < uint32_t( ast::expr::CombinedImageAccess::eCount ); ++intr )
+		{
+			ast::expr::getName( ast::expr::CombinedImageAccess( intr ) );
+			ast::expr::isBiasAndOffset( ast::expr::CombinedImageAccess( intr ) );
+			ast::expr::isProj( ast::expr::CombinedImageAccess( intr ) );
+			ast::expr::isShadow( ast::expr::CombinedImageAccess( intr ) );
+			ast::expr::isShadowLodOffset( ast::expr::CombinedImageAccess( intr ) );
+		}
+		ast::expr::getName( ast::expr::CombinedImageAccess::eCount );
+		ast::expr::getName( ast::expr::CombinedImageAccess::eInvalid );
+		checkThrow( ast::expr::getName( ast::expr::CombinedImageAccess( uint32_t( ast::expr::CombinedImageAccess::eCount ) + 1u ) ) );
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			ast::expr::ExprList argList;
 			ast::type::ImageConfiguration config{};
 			argList.emplace_back( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getCombinedImage( config ), "x" ) ) );
@@ -1199,7 +1227,7 @@ namespace
 		testBegin( "testExprAggrInit" );
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getArray( typesCache.getInt32(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			auto expr = exprCache.makeAggrInit( std::move( lhs ), std::move( rhs ) );
@@ -1220,7 +1248,7 @@ namespace
 		}
 		{
 			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-		ast::type::TypesCache typesCache;
+			ast::type::TypesCache typesCache;
 			auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( ++testCounts.nextVarId, typesCache.getArray( typesCache.getInt32(), 4u ), "lhs" ) );
 			ast::expr::ExprList rhs;
 			rhs.emplace_back( exprCache.makeLiteral( typesCache, 10 ) );

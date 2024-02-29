@@ -86,6 +86,7 @@ if ( SDW_BUILD_VULKAN_LAYER AND Vulkan_FOUND )
 		PUBLIC
 			$<BUILD_INTERFACE:${Vulkan_INCLUDE_DIRS}>
 	)
+	target_add_coverage_flags( ${PROJECT_NAME} )
 	target_add_compilation_flags( ${PROJECT_NAME} )
 	target_install_headers( ${PROJECT_NAME}
 		${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}

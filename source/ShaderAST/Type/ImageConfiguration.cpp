@@ -21,9 +21,17 @@ namespace ast::type
 		, accessKind{ newAccessKind }
 	{
 		assert( ( this->sampledType == type::Kind::eHalf && isFloatFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec2H && isFloatFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec4H && isFloatFormat( format ) )
 			|| ( this->sampledType == type::Kind::eFloat && isFloatFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec2F && isFloatFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec4F && isFloatFormat( format ) )
 			|| ( this->sampledType == type::Kind::eInt && isSIntFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec2I && isSIntFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec4I && isSIntFormat( format ) )
 			|| ( this->sampledType == type::Kind::eUInt && isUIntFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec2U && isUIntFormat( format ) )
+			|| ( this->sampledType == type::Kind::eVec4U && isUIntFormat( format ) )
 			|| ( format == ImageFormat::eUnknown ) );
 	}
 

@@ -17,7 +17,10 @@ namespace ast::type
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
-		assert( m_arraySize > NotArray && "Can't create a 0 sized array" );
+		if ( m_arraySize == NotArray )
+		{
+			throw Exception{ "Can't create a 0 sized array" };
+		}
 	}
 
 	Array::Array( Struct * parent
@@ -29,7 +32,10 @@ namespace ast::type
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
-		assert( m_arraySize > NotArray && "Can't create a 0 sized array" );
+		if ( m_arraySize == NotArray )
+		{
+			throw Exception{ "Can't create a 0 sized array" };
+		}
 	}
 
 	Array::Array( Struct & parent

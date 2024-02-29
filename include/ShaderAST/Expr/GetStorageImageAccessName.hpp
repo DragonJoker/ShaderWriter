@@ -9,7 +9,7 @@ This file is generated, don't modify it!
 #pragma once
 
 #include "EnumStorageImageAccess.hpp"
-#include "Shader.hpp"
+#include "ShaderAST/Shader.hpp"
 
 #include <string>
 

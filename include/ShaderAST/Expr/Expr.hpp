@@ -86,10 +86,10 @@ namespace ast::expr
 	class Expr
 	{
 	public:
-		SDAST_API Expr( Expr const & ) = default;
-		SDAST_API Expr & operator=( Expr const & )noexcept = default;
-		SDAST_API Expr( Expr && )noexcept = default;
-		SDAST_API Expr & operator=( Expr && ) = default;
+		SDAST_API Expr( Expr const & ) = delete;
+		SDAST_API Expr & operator=( Expr const & )noexcept = delete;
+		SDAST_API Expr( Expr && )noexcept = delete;
+		SDAST_API Expr & operator=( Expr && ) = delete;
 		SDAST_API virtual ~Expr()noexcept = default;
 
 		SDAST_API Expr( ExprCache & exprCache

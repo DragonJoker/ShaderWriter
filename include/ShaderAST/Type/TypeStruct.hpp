@@ -344,8 +344,6 @@ namespace ast::type
 
 	using RayDescPtr = std::shared_ptr< RayDesc >;
 
-	SDAST_API bool isStructType( type::Type const & type );
-	SDAST_API bool isStructType( type::TypePtr type );
 	SDAST_API type::Struct const * getStructType( type::Type const & type );
 	SDAST_API type::StructPtr getStructType( type::TypePtr type );
 

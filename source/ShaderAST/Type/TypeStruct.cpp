@@ -393,6 +393,11 @@ namespace ast::type
 					, layout );
 			}
 
+			if ( kind == Kind::eVoid )
+			{
+				return 0u;
+			}
+
 			const uint32_t baseAlignment = getPackedBaseSize( kind );
 
 			if ( isScalarType( kind ) )
@@ -1244,119 +1249,6 @@ namespace ast::type
 	}
 
 	//*************************************************************************
-
-	bool isStructType( type::Type const & ptype )
-	{
-		auto type = &ptype;
-
-		while ( type->getRawKind() != type::Kind::eStruct
-			&& type->getRawKind() != type::Kind::eRayDesc )
-		{
-			if ( type->getRawKind() == type::Kind::ePointer )
-			{
-				type = static_cast< type::Pointer const & >( *type ).getPointerType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eRayPayload )
-			{
-				type = static_cast< type::RayPayload const & >( *type ).getDataType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eCallableData )
-			{
-				type = static_cast< type::CallableData const & >( *type ).getDataType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eHitAttribute )
-			{
-				type = static_cast< type::HitAttribute const & >( *type ).getDataType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eFragmentInput )
-			{
-				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eGeometryInput )
-			{
-				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
-
-				if ( type->getRawKind() == type::Kind::eArray )
-				{
-					return isStructType( static_cast< type::Array const & >( *type ).getType() );
-				}
-			}
-			else if ( type->getRawKind() == type::Kind::eGeometryOutput )
-			{
-				type = static_cast< type::GeometryOutput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eComputeInput )
-			{
-				type = static_cast< type::ComputeInput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTessellationInputPatch )
-			{
-				type = static_cast< type::TessellationInputPatch const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTessellationOutputPatch )
-			{
-				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTessellationControlInput )
-			{
-				type = static_cast< type::TessellationControlInput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTessellationControlOutput )
-			{
-				type = static_cast< type::TessellationControlOutput const & >( *type ).getType().get();
-
-				if ( type->getRawKind() == type::Kind::eArray )
-				{
-					return isStructType( static_cast< type::Array const & >( *type ).getType() );
-				}
-			}
-			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
-			{
-				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eMeshVertexOutput )
-			{
-				type = static_cast< type::MeshVertexOutput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eMeshPrimitiveOutput )
-			{
-				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTaskPayloadNV )
-			{
-				type = static_cast< type::TaskPayloadNV const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTaskPayload )
-			{
-				type = static_cast< type::TaskPayload const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTaskPayloadInNV )
-			{
-				type = static_cast< type::TaskPayloadInNV const & >( *type ).getType().get();
-			}
-			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
-			{
-				type = static_cast< type::TaskPayloadIn const & >( *type ).getType().get();
-			}
-			else
-			{
-				break;
-			}
-		}
-
-		if ( type->getRawKind() == type::Kind::eStruct
-			|| type->getRawKind() == type::Kind::eRayDesc )
-		{
-			return true;
-		}
-
-		return false;
-	}
-
-	bool isStructType( type::TypePtr type )
-	{
-		return isStructType( *type );
-	}
 
 	type::Struct const * getStructType( type::Type const & ptype )
 	{

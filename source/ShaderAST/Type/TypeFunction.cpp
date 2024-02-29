@@ -42,7 +42,7 @@ namespace ast::type
 
 	bool operator==( Function const & lhs, Function const & rhs )noexcept
 	{
-		auto result = static_cast< Type const & >( lhs ) == static_cast< Type const & >( rhs )
+		auto result = static_cast< Type const & >( *lhs.getReturnType() ) == static_cast< Type const & >( *rhs.getReturnType() )
 			&& lhs.size() == rhs.size();
 		auto itl = lhs.begin();
 		auto itr = rhs.begin();

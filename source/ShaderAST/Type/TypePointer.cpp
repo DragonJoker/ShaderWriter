@@ -46,8 +46,9 @@ namespace ast::type
 
 	bool operator==( Pointer const & lhs, Pointer const & rhs )
 	{
-		auto result = static_cast< Type const & >( lhs ) == static_cast< Type const & >( rhs )
-			&& lhs.getPointerType() == rhs.getPointerType();
+		auto result = *lhs.getPointerType() == *rhs.getPointerType()
+			&& lhs.getStorage() == rhs.getStorage()
+			&& lhs.isForward() == rhs.isForward();
 		return result;
 	}
 

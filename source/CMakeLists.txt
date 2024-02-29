@@ -68,8 +68,11 @@ else ()
 endif ()
 
 add_subdirectory( ShaderAST )
-add_subdirectory( ShaderWriter )
 add_subdirectory( VulkanLayer )
+
+if ( SDW_BUILD_WRITER )
+	add_subdirectory( ShaderWriter )
+endif ()
 
 if ( SDW_BUILD_EXPORTERS )
 	if ( SDW_BUILD_GLSL OR SDW_BUILD_SPIRV )
@@ -94,14 +97,25 @@ if ( SDW_BUILD_EXPORTERS )
 	)
 endif ()
 
-install(
-	TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
-	COMPONENT ShaderWriter
-	EXPORT ShaderWriter
-	RUNTIME DESTINATION bin
-	LIBRARY DESTINATION lib
-	ARCHIVE DESTINATION lib
-)
+if ( SDW_BUILD_WRITER )
+	install(
+		TARGETS ShaderAST ShaderWriter ${SDW_INSTEXP_LIST}
+		COMPONENT ShaderWriter
+		EXPORT ShaderWriter
+		RUNTIME DESTINATION bin
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+	)
+else ()
+	install(
+		TARGETS ShaderAST ${SDW_INSTEXP_LIST}
+		COMPONENT ShaderWriter
+		EXPORT ShaderWriter
+		RUNTIME DESTINATION bin
+		LIBRARY DESTINATION lib
+		ARCHIVE DESTINATION lib
+	)
+endif ()
 install( EXPORT ShaderWriter
 	COMPONENT ShaderWriter
 	FILE ShaderWriterConfig.cmake
