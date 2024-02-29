@@ -36,11 +36,18 @@ namespace ast
 		/**@{*/
 		SDAST_API bool hasFunction( std::string_view name
 			, ast::stmt::FunctionFlag flag )const;
+		SDAST_API bool hasFunction( std::string_view name
+			, uint32_t flags )const;
 		SDAST_API var::VariablePtr getFunction( std::string const & name
 			, ast::stmt::FunctionFlag flag );
+		SDAST_API var::VariablePtr getFunction( std::string const & name
+			, uint32_t flags );
 		SDAST_API var::VariablePtr registerFunction( std::string name
 			, type::FunctionPtr type
 			, ast::stmt::FunctionFlag flag );
+		SDAST_API var::VariablePtr registerFunction( std::string name
+			, type::FunctionPtr type
+			, uint32_t flags );
 		/**@}*/
 		/**
 		*name
@@ -227,12 +234,18 @@ namespace ast
 		struct Function
 		{
 			var::VariablePtr variable;
-			ast::stmt::FunctionFlag flag;
+			uint32_t flags;
+
+			Function( var::VariablePtr v
+				, uint32_t f )
+				: variable{ std::move( v ) }
+				, flags{ f }
+			{
+			}
 
 			Function( var::VariablePtr v
 				, ast::stmt::FunctionFlag f )
-				: variable{ std::move( v ) }
-				, flag{ f }
+				: Function{ std::move( v ), uint32_t( f ) }
 			{
 			}
 		};

@@ -67,7 +67,7 @@ namespace sdw
 	void RayGenerationWriter::implementMain( RayGenerationMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eRayGenerationEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eRayGenerationEntryPoint )
 			, function
 			, makeInParam( RayGenerationIn{ *this } ) );
 	}

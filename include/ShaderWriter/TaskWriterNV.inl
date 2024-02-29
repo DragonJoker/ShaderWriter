@@ -10,7 +10,7 @@ namespace sdw
 		, TaskNVMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTaskEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTaskEntryPointNV )
 			, function
 			, makeInParam( TaskInNV{ *this, taskCount } )
 			, makeParam( std::move( payload ) ) );
@@ -22,7 +22,7 @@ namespace sdw
 		, TaskNVSubgroupMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTaskEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTaskEntryPointNV )
 			, function
 			, makeInParam( TaskSubgroupInNV{ *this, taskCount } )
 			, makeParam( std::move( payload ) ) );

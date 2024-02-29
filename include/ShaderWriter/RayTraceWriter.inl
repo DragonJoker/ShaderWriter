@@ -23,7 +23,7 @@ namespace sdw
 		, CallableMainFuncT< ValueT > const & function )
 	{
 		( void )implementFunction< Void >( "mainCallable"
-			, ast::stmt::FunctionFlag::eCallableEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eCallable ) | uint32_t( ast::stmt::FunctionFlag::eCallableEntryPoint )
 			, function
 			, makeInParam( CallableIn{ *this } )
 			, makeInOutParam( std::move( data ) ) );
@@ -49,7 +49,7 @@ namespace sdw
 		, RayAnyHitMainFuncT< PayloadT, AttrT > const & function )
 	{
 		( void )implementFunction< Void >( "mainAnyHit"
-			, ast::stmt::FunctionFlag::eRayAnyHitEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eRayAnyHit ) | uint32_t( ast::stmt::FunctionFlag::eRayAnyHitEntryPoint )
 			, function
 			, makeInParam( RayAnyHitIn{ *this } )
 			, makeInOutParam( std::move( payload ) )
@@ -76,7 +76,7 @@ namespace sdw
 		, RayClosestHitMainFuncT< PayloadT, AttrT > const & function )
 	{
 		( void )implementFunction< Void >( "mainRayClosestHit"
-			, ast::stmt::FunctionFlag::eRayClosestHitEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eRayClosestHit ) | uint32_t( ast::stmt::FunctionFlag::eRayClosestHitEntryPoint )
 			, function
 			, makeInParam( RayClosestHitIn{ *this } )
 			, makeInOutParam( std::move( payload ) )
@@ -101,7 +101,7 @@ namespace sdw
 		, RayMissMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "mainRayMiss"
-			, ast::stmt::FunctionFlag::eRayMissEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eRayMiss ) | uint32_t( ast::stmt::FunctionFlag::eRayMissEntryPoint )
 			, function
 			, makeInParam( RayMissIn{ *this } )
 			, makeInOutParam( std::move( payload ) ) );

@@ -161,7 +161,7 @@ namespace sdw
 		, GeometryMainFuncT< InputArrT, OutStreamT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eGeometryEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eGeometryEntryPoint )
 			, function
 			, makeInParam( GeometryIn{ *this } )
 			, makeInParam( std::move( in ) )

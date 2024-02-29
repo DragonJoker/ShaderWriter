@@ -174,7 +174,7 @@ namespace sdw
 		, TessEvalMainFuncT< InT, MaxPointsT, PatchT, DomainT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint )
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( TessEvalListInT< InT, MaxPointsT >{ *this, DomainT, partitioning, ordering } )
@@ -237,7 +237,7 @@ namespace sdw
 		, IsolinesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint )
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( std::move( listIn ) )
@@ -255,7 +255,7 @@ namespace sdw
 		, TrianglesTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint )
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( std::move( listIn ) )
@@ -273,7 +273,7 @@ namespace sdw
 		, QuadsTessEvalMainFuncT< InT, MaxPointsT, PatchT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationEvaluationEntryPoint )
 			, function
 			, makeInParam( TessEvalMainIn{ *this } )
 			, makeInParam( std::move( listIn ) )

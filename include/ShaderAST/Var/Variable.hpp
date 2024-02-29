@@ -279,6 +279,16 @@ namespace ast::var
 			, Flag::eFunction );
 	}
 
+	inline VariablePtr makeFunction( uint32_t id
+		, type::FunctionPtr type
+		, std::string name
+		, uint64_t flags )
+	{
+		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
+			, type
+			, flags | uint64_t( Flag::eFunction ) );
+	}
+
 	inline VariablePtr getOutermost( VariablePtr var )
 	{
 		if ( var->isMemberVar() )

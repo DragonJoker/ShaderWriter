@@ -250,7 +250,7 @@ namespace sdw
 		, PointsMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPoint )
 			, function
 			, makeInParam( MeshInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
@@ -287,7 +287,7 @@ namespace sdw
 		, PointsMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPoint )
 			, function
 			, makeInParam( MeshSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
@@ -328,7 +328,7 @@ namespace sdw
 		, LinesMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPoint )
 			, function
 			, makeInParam( MeshInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
@@ -365,7 +365,7 @@ namespace sdw
 		, LinesMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPoint )
 			, function
 			, makeInParam( MeshSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
@@ -406,7 +406,7 @@ namespace sdw
 		, TrianglesMeshEXTMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPoint )
 			, function
 			, makeInParam( MeshInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )
@@ -443,7 +443,7 @@ namespace sdw
 		, TrianglesMeshEXTSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPoint )
 			, function
 			, makeInParam( MeshSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeInParam( std::move( payloadIn ) )

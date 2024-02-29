@@ -278,7 +278,7 @@ namespace sdw
 		, TessControlMainFuncT< InT, MaxPointsT, OutT, DomainT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationControlEntryPoint )
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( TessControlListInT< InT, MaxPointsT >{ *this, false } )
@@ -335,7 +335,7 @@ namespace sdw
 		, IsolinesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationControlEntryPoint )
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( std::move( in ) )
@@ -350,7 +350,7 @@ namespace sdw
 		, TrianglesTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationControlEntryPoint )
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( std::move( in ) )
@@ -365,7 +365,7 @@ namespace sdw
 		, QuadsTessControlMainFuncT< InT, MaxPointsT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTessellationControlEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTessellationControlEntryPoint )
 			, function
 			, makeInParam( TessControlMainIn{ *this } )
 			, makeInParam( std::move( in ) )

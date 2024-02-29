@@ -150,6 +150,11 @@ namespace sdw
 			, ast::stmt::FunctionFlag flag
 			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 			, ParamsT && ... params );
+		template< typename ReturnT, typename ... ParamsT >
+		Function< ReturnT, ParamsT... > implementFunction( std::string name
+			, uint32_t flags
+			, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
+			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Cast

@@ -73,7 +73,7 @@ namespace sdw
 		, ParamsT && ... params )
 	{
 		return implementFunction< ReturnT >( std::move( name )
-			, ast::stmt::FunctionFlag::eNone
+			, uint32_t( ast::stmt::FunctionFlag::eNone )
 			, function
 			, std::forward< ParamsT >( params )... );
 	}
@@ -84,11 +84,23 @@ namespace sdw
 		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
 		, ParamsT && ... params )
 	{
+		return implementFunction< ReturnT >( std::move( name )
+			, uint32_t( flag )
+			, function
+			, std::forward< ParamsT >( params )... );
+	}
+
+	template< typename ReturnT, typename ... ParamsT >
+	inline Function< ReturnT, ParamsT... > ShaderWriter::implementFunction( std::string name
+		, uint32_t flags
+		, std::function< void( ParamTranslaterT< ParamsT >... ) > const & function
+		, ParamsT && ... params )
+	{
 		ast::var::VariablePtr funcVar;
 
-		if ( m_builder->hasFunction( name, flag ) )
+		if ( m_builder->hasFunction( name, flags ) )
 		{
-			funcVar = m_builder->getFunction( name, flag );
+			funcVar = m_builder->getFunction( name, flags );
 			auto functionType = funcVar->getType();
 
 			if ( functionType->getKind() != ast::type::Kind::eFunction )
@@ -99,7 +111,7 @@ namespace sdw
 		else
 		{
 			ast::var::VariableList args;
-			stmt::FunctionDeclPtr decl = getFunctionHeader< ReturnT >( *this, args, name, flag, params... );
+			stmt::FunctionDeclPtr decl = getFunctionHeader< ReturnT >( *this, args, name, flags, params... );
 			funcVar = decl->getFuncVar();
 			m_builder->push( decl.get(), args );
 			details::doUpdateParams( decl->getType(), params... );

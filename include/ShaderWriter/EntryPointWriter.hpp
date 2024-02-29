@@ -110,8 +110,19 @@ namespace sdw
 			, uint64_t attributes
 			, type::TypePtr type );
 
+		uint32_t getEntryPointFlags()const noexcept
+		{
+			return m_flags;
+		}
+
+		void addFlag( ast::stmt::FunctionFlag flag )noexcept
+		{
+			m_flags |= uint32_t( flag );
+		}
+
 	private:
 		ast::EntryPoint m_entryPoint;
+		uint32_t m_flags{};
 	};
 }
 

@@ -44,7 +44,7 @@ namespace sdw
 	void RayTraceWriter::implementEntryPoint( RayGenerationMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "mainRayGeneration"
-			, ast::stmt::FunctionFlag::eRayGenerationEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eRayGeneration ) | uint32_t( ast::stmt::FunctionFlag::eRayGenerationEntryPoint )
 			, function
 			, makeInParam( RayGenerationIn{ *this } ) );
 	}
@@ -57,7 +57,7 @@ namespace sdw
 	void RayTraceWriter::implementEntryPoint( RayIntersectionMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "mainRayIntersection"
-			, ast::stmt::FunctionFlag::eRayIntersectionEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eRayIntersection ) | uint32_t( ast::stmt::FunctionFlag::eRayIntersectionEntryPoint )
 			, function
 			, makeInParam( RayIntersectionIn{ *this } ) );
 	}

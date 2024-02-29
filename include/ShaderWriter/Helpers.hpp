@@ -58,6 +58,10 @@ namespace sdw
 		, ast::type::FunctionPtr type
 		, std::string name
 		, stmt::FunctionFlag flag );
+	SDW_API ast::var::VariablePtr registerFunction( ShaderWriter & writer
+		, ast::type::FunctionPtr type
+		, std::string name
+		, uint32_t flags );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( Shader const & shader );

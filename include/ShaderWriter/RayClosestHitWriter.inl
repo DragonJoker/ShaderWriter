@@ -20,7 +20,7 @@ namespace sdw
 		, RayClosestHitMainFuncT< PayloadT, AttrT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eRayClosestHitEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eRayClosestHitEntryPoint )
 			, function
 			, makeInParam( RayClosestHitIn{ *this } )
 			, makeInOutParam( std::move( payload ) )

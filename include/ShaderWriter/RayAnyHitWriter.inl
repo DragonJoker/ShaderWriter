@@ -20,7 +20,7 @@ namespace sdw
 		, RayAnyHitMainFuncT< PayloadT, AttrT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eRayAnyHitEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eRayAnyHitEntryPoint )
 			, function
 			, makeInParam( RayAnyHitIn{ *this } )
 			, makeInOutParam( std::move( payload ) )
