@@ -166,7 +166,7 @@ namespace sdw
 		, PointsMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPointNV )
 			, function
 			, makeInParam( MeshInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
@@ -199,7 +199,7 @@ namespace sdw
 		, PointsMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPointNV )
 			, function
 			, makeInParam( MeshSubgroupInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
@@ -236,7 +236,7 @@ namespace sdw
 		, LinesMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPointNV )
 			, function
 			, makeInParam( MeshInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
@@ -269,7 +269,7 @@ namespace sdw
 		, LinesMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPointNV )
 			, function
 			, makeInParam( MeshSubgroupInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
@@ -306,7 +306,7 @@ namespace sdw
 		, TrianglesMeshNVMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPointNV )
 			, function
 			, makeInParam( MeshInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )
@@ -339,7 +339,7 @@ namespace sdw
 		, TrianglesMeshNVSubgroupMainFuncT< PayloadT, VertexT, PrimitiveT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eMeshEntryPointNV
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eMeshEntryPointNV )
 			, function
 			, makeInParam( MeshSubgroupInNV{ *this, localSizeX, 1u, 1u } )
 			, makeInParam( std::move( payloadIn ) )

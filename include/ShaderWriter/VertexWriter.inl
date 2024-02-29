@@ -120,7 +120,7 @@ namespace sdw
 		, VertexMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eVertexEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eVertexEntryPoint )
 			, function
 			, makeInParam( std::move( in ) )
 			, makeOutParam( std::move( out ) ) );

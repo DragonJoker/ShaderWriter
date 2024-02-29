@@ -42,7 +42,7 @@ namespace sdw
 		, FragmentMainFuncT< InT, OutT > const & function )
 	{
 		( void )implementFunction< Void >( "mainFragment"
-			, ast::stmt::FunctionFlag::eFragmentEntryPoint
+			, getEntryPointFlags( ast::EntryPoint::eFragment ) | uint32_t( ast::stmt::FunctionFlag::eFragmentEntryPoint )
 			, function
 			, makeInParam( std::move( in ) )
 			, makeOutParam( std::move( out ) ) );

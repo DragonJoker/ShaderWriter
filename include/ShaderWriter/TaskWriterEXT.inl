@@ -23,7 +23,7 @@ namespace sdw
 		, TaskEXTMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTaskEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTaskEntryPoint )
 			, function
 			, makeInParam( TaskInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeParam( std::move( payload ) ) );
@@ -37,7 +37,7 @@ namespace sdw
 		, TaskEXTSubgroupMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eTaskEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eTaskEntryPoint )
 			, function
 			, makeInParam( TaskSubgroupInEXT{ *this, localSizeX, localSizeY, localSizeZ } )
 			, makeParam( std::move( payload ) ) );

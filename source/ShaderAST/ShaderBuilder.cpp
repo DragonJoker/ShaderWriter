@@ -161,12 +161,18 @@ namespace ast
 	bool ShaderBuilder::hasFunction( std::string_view name
 		, ast::stmt::FunctionFlag flag )const
 	{
+		return hasFunction( name, uint32_t( flag ) );
+	}
+
+	bool ShaderBuilder::hasFunction( std::string_view name
+		, uint32_t flags )const
+	{
 		auto it = std::find_if( m_functions.begin()
 			, m_functions.end()
-			, [&name, flag]( Function const & lookup )
+			, [&name, flags]( Function const & lookup )
 			{
 				return lookup.variable->getName() == name
-					&& lookup.flag == flag;
+					&& lookup.flags == flags;
 			} );
 		return m_functions.end() != it;
 	}
@@ -174,12 +180,18 @@ namespace ast
 	var::VariablePtr ShaderBuilder::getFunction( std::string const & name
 		, ast::stmt::FunctionFlag flag )
 	{
+		return getFunction( name, uint32_t( flag ) );
+	}
+
+	var::VariablePtr ShaderBuilder::getFunction( std::string const & name
+		, uint32_t flags )
+	{
 		auto it = std::find_if( m_functions.begin()
 			, m_functions.end()
-			, [&name, flag]( Function const & lookup )
+			, [&name, flags]( Function const & lookup )
 			{
 				return lookup.variable->getName() == name
-					&& lookup.flag == flag;
+					&& lookup.flags == flags;
 			} );
 
 		if ( it == m_functions.end() )
@@ -196,12 +208,19 @@ namespace ast
 		, type::FunctionPtr type
 		, ast::stmt::FunctionFlag flag )
 	{
+		return registerFunction( std::move( name ), std::move( type ), uint32_t( flag ) );
+	}
+
+	var::VariablePtr ShaderBuilder::registerFunction( std::string name
+		, type::FunctionPtr type
+		, uint32_t flags )
+	{
 		if ( auto it = std::find_if( m_functions.begin()
 			, m_functions.end()
-			, [&name, flag]( Function const & lookup )
+			, [&name, flags]( Function const & lookup )
 			{
 				return lookup.variable->getName() == name
-					&& lookup.flag == flag;
+					&& lookup.flags == flags;
 			} );
 			it != m_functions.end() && type != it->variable->getType() )
 		{
@@ -215,7 +234,7 @@ namespace ast
 			, std::move( name ) );
 		m_shader->registerGlobalVariable( result );
 		m_blocks.front().registered.emplace( result );
-		m_functions.emplace_back( result, flag );
+		m_functions.emplace_back( result, flags );
 		return result;
 	}
 

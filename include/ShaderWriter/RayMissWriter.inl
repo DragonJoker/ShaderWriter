@@ -20,7 +20,7 @@ namespace sdw
 		, RayMissMainFuncT< PayloadT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eRayMissEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eRayMissEntryPoint )
 			, function
 			, makeInParam( RayMissIn{ *this } )
 			, makeInOutParam( std::move( payload ) ) );

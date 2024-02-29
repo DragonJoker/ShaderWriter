@@ -120,7 +120,7 @@ namespace sdw
 	void RayIntersectionWriter::implementMain( RayIntersectionMainFunc const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eRayIntersectionEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eRayIntersectionEntryPoint )
 			, function
 			, makeInParam( RayIntersectionIn{ *this } ) );
 	}

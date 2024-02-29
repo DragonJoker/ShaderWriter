@@ -181,7 +181,7 @@ namespace sdw
 		, ComputeMainFuncT< DataT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eComputeEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eComputeEntryPoint )
 			, function
 			, makeInParam( std::move( in ) ) );
 	}
@@ -216,7 +216,7 @@ namespace sdw
 		, SubgroupMainFuncT< DataT > const & function )
 	{
 		( void )implementFunction< Void >( "main"
-			, ast::stmt::FunctionFlag::eComputeEntryPoint
+			, getEntryPointFlags() | uint32_t( ast::stmt::FunctionFlag::eComputeEntryPoint )
 			, function
 			, makeInParam( std::move( in ) ) );
 	}

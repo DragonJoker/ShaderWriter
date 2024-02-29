@@ -122,6 +122,19 @@ namespace sdw
 			, uint32_t location
 			, uint64_t attributes
 			, type::TypePtr type );
+
+		uint32_t getEntryPointFlags( ast::EntryPoint v )const noexcept
+		{
+			return m_flags[size_t( v )];
+		}
+
+		void addFlag( ast::EntryPoint type, ast::stmt::FunctionFlag flag )noexcept
+		{
+			m_flags[size_t( type )] |= uint32_t( flag );
+		}
+
+	private:
+		std::array< uint32_t, size_t( ast::EntryPoint::eCompute ) + 1u > m_flags{};
 	};
 }
 

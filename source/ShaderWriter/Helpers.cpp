@@ -113,6 +113,14 @@ namespace sdw
 		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ), flag );
 	}
 
+	ast::var::VariablePtr registerFunction( ShaderWriter & writer
+		, ast::type::FunctionPtr type
+		, std::string name
+		, uint32_t flags )
+	{
+		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ), flags );
+	}
+
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer )
 	{
 		return writer.getStmtCache();
