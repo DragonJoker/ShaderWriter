@@ -11,7 +11,7 @@ set( MAIN_PROJECT_NAME "ShaderWriter" )
 # Set main project version numbers
 set( VERSION_MAJOR 2 )
 set( VERSION_MINOR 8 )
-set( VERSION_BUILD 0 )
+set( VERSION_BUILD 1 )
 set( VERSION_YEAR 2024 )
 
 if ( NOT DEFINED SDW_BUILD_SDW )
@@ -56,6 +56,7 @@ include( UnitTest )
 include( CompilationFlags )
 include( AStyleUtils )
 include( ExternalDependencies )
+include( Coverage )
 
 set( PROJECTS_UNITY_BUILD ${SDW_UNITY_BUILD} )
 
@@ -141,6 +142,8 @@ endmacro()
 #--------------------------------------------------------------------------------------------------
 #	Adding include dirs to include search path
 #--------------------------------------------------------------------------------------------------
+option( SDW_BUILD_WRITER "Build ShaderWriter library" ON )
+
 if ( NOT DEFINED SDW_BUILD_TESTS )
 	option( SDW_BUILD_TESTS "Build ShaderWriter test applications" OFF )
 endif ()

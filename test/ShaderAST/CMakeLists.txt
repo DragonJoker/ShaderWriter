@@ -25,21 +25,16 @@ foreach ( TEST_FILE ${TEST_FILES} )
 		target_compile_options( ${TEST_NAME} PRIVATE
 			-bigobj
 		)
-
-		if ( PROJECTS_COVERAGE )
-			MyOpenCppCoverage_add_target( ${TEST_NAME}
-				MODULES
-					$<TARGET_FILE_NAME:ShaderAST>
-					$<TARGET_FILE_NAME:ShaderWriter>
-					$<TARGET_FILE_NAME:CompilerGlsl>
-					$<TARGET_FILE_NAME:CompilerHlsl>
-					$<TARGET_FILE_NAME:CompilerSpirV>
-					$<TARGET_FILE_NAME:GlslCommon>
-				SOURCES
-					${CMAKE_SOURCE_DIR}/include
-					${CMAKE_SOURCE_DIR}/source
-			)
-		endif ()
+	endif ()
+	if ( PROJECTS_COVERAGE )
+		coverage_add_target( ${TEST_NAME}
+			MODULES
+				$<TARGET_FILE_NAME:ShaderAST>
+				$<TARGET_FILE_NAME:${TEST_NAME}>
+			SOURCES
+				${CMAKE_SOURCE_DIR}/include/ShaderAST
+				${CMAKE_SOURCE_DIR}/source/ShaderAST
+		)
 	endif ()
 
 	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 20 )

@@ -282,23 +282,22 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 		target_compile_options( ${REAL_TEST_NAME} PRIVATE
 			-bigobj
 		)
-
-		if ( PROJECTS_COVERAGE )
-			MyOpenCppCoverage_add_target( ${REAL_TEST_NAME}
-				MODULES
-					$<TARGET_FILE_NAME:ShaderAST>
-					$<TARGET_FILE_NAME:ShaderWriter>
-					$<TARGET_FILE_NAME:CompilerGlsl>
-					$<TARGET_FILE_NAME:CompilerHlsl>
-					$<TARGET_FILE_NAME:CompilerSpirV>
-					$<TARGET_FILE_NAME:GlslCommon>
-				SOURCES
-					${CMAKE_SOURCE_DIR}/include
-					${CMAKE_SOURCE_DIR}/source
-			)
-		endif ()
 	endif ()
-
+	if ( PROJECTS_COVERAGE )
+		coverage_add_target( ${REAL_TEST_NAME}
+			MODULES
+				$<TARGET_FILE_NAME:ShaderAST>
+				$<TARGET_FILE_NAME:ShaderWriter>
+				$<TARGET_FILE_NAME:CompilerGlsl>
+				$<TARGET_FILE_NAME:CompilerHlsl>
+				$<TARGET_FILE_NAME:CompilerSpirV>
+				$<TARGET_FILE_NAME:GlslCommon>
+				$<TARGET_FILE_NAME:${REAL_TEST_NAME}>
+			SOURCES
+				${CMAKE_SOURCE_DIR}/include
+				${CMAKE_SOURCE_DIR}/source
+		)
+	endif ()
 	add_test(
 		NAME ${REAL_TEST_NAME}
 		COMMAND ${REAL_TEST_NAME}

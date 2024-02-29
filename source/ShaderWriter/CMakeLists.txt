@@ -456,6 +456,7 @@ elseif ( PROJECTS_COMPILER_MSVC AND NOT SDW_BUILD_STATIC )
 		OPTIONAL
 	)
 endif ()
+target_add_coverage_flags( ${PROJECT_NAME} )
 target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}
 	ShaderWriter

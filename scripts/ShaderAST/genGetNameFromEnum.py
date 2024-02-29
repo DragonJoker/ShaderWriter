@@ -10,7 +10,7 @@ def printHeader( outs, match ):
 	outs.write( '#pragma once\n' )
 	outs.write( "\n" )
 	outs.write( '#include "Enum' + enumName + '.hpp"\n' )
-	outs.write( '#include "Shader.hpp"\n' )
+	outs.write( '#include "ShaderAST/Shader.hpp"\n' )
 	outs.write( "\n" )
 	outs.write( '#include <string>\n' )
 	outs.write( "\n" )

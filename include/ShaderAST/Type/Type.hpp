@@ -193,12 +193,7 @@ namespace ast::type
 		{
 		}
 
-		explicit constexpr operator uint32_t & ( )noexcept
-		{
-			return value;
-		}
-
-		explicit constexpr operator uint32_t const & ( )const noexcept
+		explicit constexpr operator uint32_t()const noexcept
 		{
 			return value;
 		}
@@ -356,17 +351,30 @@ namespace ast::type
 	SDAST_API bool isVectorType( Kind kind );
 	SDAST_API bool isVectorType( TypePtr type );
 	SDAST_API bool isMatrixType( Kind kind );
+	SDAST_API bool isMatrixType( TypePtr type );
 	SDAST_API bool isArrayType( Kind kind );
+	SDAST_API bool isArrayType( TypePtr type );
 	SDAST_API bool isStructType( Kind kind );
+	SDAST_API bool isStructType( Type const & type );
+	SDAST_API bool isStructType( TypePtr type );
 	SDAST_API bool isPointerType( Kind kind );
+	SDAST_API bool isPointerType( TypePtr type );
 	SDAST_API bool isSamplerType( Kind kind );
+	SDAST_API bool isSamplerType( TypePtr type );
 	SDAST_API bool isSampledImageType( Kind kind );
+	SDAST_API bool isSampledImageType( TypePtr type );
 	SDAST_API bool isImageType( Kind kind );
+	SDAST_API bool isImageType( TypePtr type );
 	SDAST_API bool isTextureType( Kind kind );
+	SDAST_API bool isTextureType( TypePtr type );
 	SDAST_API bool isAccelerationStructureType( Kind kind );
+	SDAST_API bool isAccelerationStructureType( TypePtr type );
 	SDAST_API bool isHitAttributeType( Kind kind );
+	SDAST_API bool isHitAttributeType( TypePtr type );
 	SDAST_API bool isRayPayloadType( Kind kind );
+	SDAST_API bool isRayPayloadType( TypePtr type );
 	SDAST_API bool isCallableDataType( Kind kind );
+	SDAST_API bool isCallableDataType( TypePtr type );
 	SDAST_API bool isOpaqueType( Kind kind );
 	SDAST_API bool isOpaqueType( TypePtr type );
 	/**
