@@ -38,9 +38,6 @@ namespace glsl
 			case ast::type::ImageDim::eCube:
 				result = "Cube";
 				break;
-			case ast::type::ImageDim::eRect:
-				result = "2DRect";
-				break;
 			case ast::type::ImageDim::eBuffer:
 				result = "Buffer";
 				break;

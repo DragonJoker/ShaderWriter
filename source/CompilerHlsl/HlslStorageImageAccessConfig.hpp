@@ -38,10 +38,6 @@ namespace hlsl
 			config.requiresImageSizeCubeArrayF = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageSize2DRectF:
-			config.requiresImageSize2DRectF = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageSize1DArrayF:
 			config.requiresImageSize1DArrayF = true;
 			break;
@@ -82,10 +78,6 @@ namespace hlsl
 			config.requiresImageSizeCubeArrayI = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageSize2DRectI:
-			config.requiresImageSize2DRectI = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageSize1DArrayI:
 			config.requiresImageSize1DArrayI = true;
 			break;
@@ -124,10 +116,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageSizeCubeArrayU:
 			config.requiresImageSizeCubeArrayU = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageSize2DRectU:
-			config.requiresImageSize2DRectU = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageSize1DArrayU:
@@ -186,10 +174,6 @@ namespace hlsl
 			config.requiresImageAtomicAdd3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectU:
-			config.requiresImageAtomicAdd2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicAddCubeU:
 			config.requiresImageAtomicAddCubeU = true;
 			break;
@@ -228,10 +212,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicAdd3DI:
 			config.requiresImageAtomicAdd3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectI:
-			config.requiresImageAtomicAdd2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicAddCubeI:
@@ -274,10 +254,6 @@ namespace hlsl
 			config.requiresImageAtomicMin3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicMin2DRectU:
-			config.requiresImageAtomicMin2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicMinCubeU:
 			config.requiresImageAtomicMinCubeU = true;
 			break;
@@ -316,10 +292,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicMin3DI:
 			config.requiresImageAtomicMin3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicMin2DRectI:
-			config.requiresImageAtomicMin2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicMinCubeI:
@@ -362,10 +334,6 @@ namespace hlsl
 			config.requiresImageAtomicMax3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicMax2DRectU:
-			config.requiresImageAtomicMax2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicMaxCubeU:
 			config.requiresImageAtomicMaxCubeU = true;
 			break;
@@ -404,10 +372,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicMax3DI:
 			config.requiresImageAtomicMax3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicMax2DRectI:
-			config.requiresImageAtomicMax2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicMaxCubeI:
@@ -450,10 +414,6 @@ namespace hlsl
 			config.requiresImageAtomicAnd3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicAnd2DRectU:
-			config.requiresImageAtomicAnd2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicAndCubeU:
 			config.requiresImageAtomicAndCubeU = true;
 			break;
@@ -492,10 +452,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicAnd3DI:
 			config.requiresImageAtomicAnd3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicAnd2DRectI:
-			config.requiresImageAtomicAnd2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicAndCubeI:
@@ -538,10 +494,6 @@ namespace hlsl
 			config.requiresImageAtomicOr3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicOr2DRectU:
-			config.requiresImageAtomicOr2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicOrCubeU:
 			config.requiresImageAtomicOrCubeU = true;
 			break;
@@ -580,10 +532,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicOr3DI:
 			config.requiresImageAtomicOr3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicOr2DRectI:
-			config.requiresImageAtomicOr2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicOrCubeI:
@@ -626,10 +574,6 @@ namespace hlsl
 			config.requiresImageAtomicXor3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicXor2DRectU:
-			config.requiresImageAtomicXor2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicXorCubeU:
 			config.requiresImageAtomicXorCubeU = true;
 			break;
@@ -668,10 +612,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicXor3DI:
 			config.requiresImageAtomicXor3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicXor2DRectI:
-			config.requiresImageAtomicXor2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicXorCubeI:
@@ -714,10 +654,6 @@ namespace hlsl
 			config.requiresImageAtomicExchange3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectU:
-			config.requiresImageAtomicExchange2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeU:
 			config.requiresImageAtomicExchangeCubeU = true;
 			break;
@@ -756,10 +692,6 @@ namespace hlsl
 
 		case ast::expr::StorageImageAccess::eImageAtomicExchange3DI:
 			config.requiresImageAtomicExchange3DI = true;
-			break;
-
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectI:
-			config.requiresImageAtomicExchange2DRectI = true;
 			break;
 
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeI:
@@ -802,10 +734,6 @@ namespace hlsl
 			config.requiresImageAtomicCompSwap3DU = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicCompSwap2DRectU:
-			config.requiresImageAtomicCompSwap2DRectU = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwapCubeU:
 			config.requiresImageAtomicCompSwapCubeU = true;
 			break;
@@ -846,10 +774,6 @@ namespace hlsl
 			config.requiresImageAtomicCompSwap3DI = true;
 			break;
 
-		case ast::expr::StorageImageAccess::eImageAtomicCompSwap2DRectI:
-			config.requiresImageAtomicCompSwap2DRectI = true;
-			break;
-
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwapCubeI:
 			config.requiresImageAtomicCompSwapCubeI = true;
 			break;
@@ -881,7 +805,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageLoad1DF:
 		case ast::expr::StorageImageAccess::eImageLoad2DF:
 		case ast::expr::StorageImageAccess::eImageLoad3DF:
-		case ast::expr::StorageImageAccess::eImageLoad2DRectF:
 		case ast::expr::StorageImageAccess::eImageLoadCubeF:
 		case ast::expr::StorageImageAccess::eImageLoadBufferF:
 		case ast::expr::StorageImageAccess::eImageLoad1DArrayF:
@@ -892,7 +815,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageLoad1DI:
 		case ast::expr::StorageImageAccess::eImageLoad2DI:
 		case ast::expr::StorageImageAccess::eImageLoad3DI:
-		case ast::expr::StorageImageAccess::eImageLoad2DRectI:
 		case ast::expr::StorageImageAccess::eImageLoadCubeI:
 		case ast::expr::StorageImageAccess::eImageLoadBufferI:
 		case ast::expr::StorageImageAccess::eImageLoad1DArrayI:
@@ -903,7 +825,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageLoad1DU:
 		case ast::expr::StorageImageAccess::eImageLoad2DU:
 		case ast::expr::StorageImageAccess::eImageLoad3DU:
-		case ast::expr::StorageImageAccess::eImageLoad2DRectU:
 		case ast::expr::StorageImageAccess::eImageLoadCubeU:
 		case ast::expr::StorageImageAccess::eImageLoadBufferU:
 		case ast::expr::StorageImageAccess::eImageLoad1DArrayU:
@@ -916,7 +837,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageStore1DF:
 		case ast::expr::StorageImageAccess::eImageStore2DF:
 		case ast::expr::StorageImageAccess::eImageStore3DF:
-		case ast::expr::StorageImageAccess::eImageStore2DRectF:
 		case ast::expr::StorageImageAccess::eImageStoreCubeF:
 		case ast::expr::StorageImageAccess::eImageStoreBufferF:
 		case ast::expr::StorageImageAccess::eImageStore1DArrayF:
@@ -927,7 +847,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageStore1DI:
 		case ast::expr::StorageImageAccess::eImageStore2DI:
 		case ast::expr::StorageImageAccess::eImageStore3DI:
-		case ast::expr::StorageImageAccess::eImageStore2DRectI:
 		case ast::expr::StorageImageAccess::eImageStoreCubeI:
 		case ast::expr::StorageImageAccess::eImageStoreBufferI:
 		case ast::expr::StorageImageAccess::eImageStore1DArrayI:
@@ -938,7 +857,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageStore1DU:
 		case ast::expr::StorageImageAccess::eImageStore2DU:
 		case ast::expr::StorageImageAccess::eImageStore3DU:
-		case ast::expr::StorageImageAccess::eImageStore2DRectU:
 		case ast::expr::StorageImageAccess::eImageStoreCubeU:
 		case ast::expr::StorageImageAccess::eImageStoreBufferU:
 		case ast::expr::StorageImageAccess::eImageStore1DArrayU:
@@ -951,7 +869,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DF:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd2DF:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd3DF:
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectF:
 		case ast::expr::StorageImageAccess::eImageAtomicAddCubeF:
 		case ast::expr::StorageImageAccess::eImageAtomicAddBufferF:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DArrayF:
@@ -962,7 +879,6 @@ namespace hlsl
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange2DF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange3DF:
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeBufferF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DArrayF:

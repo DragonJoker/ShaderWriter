@@ -188,8 +188,13 @@ namespace ast::type
 		{
 		}
 
-		explicit constexpr MemorySemantics( uint32_t v )noexcept
-			: value{ v }
+		explicit constexpr MemorySemantics( unsigned int v )noexcept
+			: value{ uint32_t( v ) }
+		{
+		}
+
+		explicit constexpr MemorySemantics( unsigned long v )noexcept
+			: value{ uint32_t( v ) }
 		{
 		}
 

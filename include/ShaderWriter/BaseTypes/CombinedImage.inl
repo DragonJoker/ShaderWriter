@@ -17,7 +17,7 @@ namespace sdw
 		size_t constexpr ImgBaseCount = size_t( type::ImageDim::eBuffer ) + 1u;
 		size_t constexpr ArrayImgCount = 3u;
 		size_t constexpr NonShadowImgCount = ImgBaseCount + ArrayImgCount;
-		size_t constexpr ShadowImgBaseCount = 4u;
+		size_t constexpr ShadowImgBaseCount = 3u;
 		size_t constexpr ShadowArrayImgBaseCount = 3u;
 		using IntrinsicsList = std::array< expr::CombinedImageAccess, NonShadowImgCount + ShadowImgBaseCount + ShadowArrayImgBaseCount >;
 
@@ -62,10 +62,6 @@ namespace sdw
 					{
 						return NonShadowImgCount +  2u;
 					}
-					else if constexpr ( DimT == type::ImageDim::eRect )
-					{
-						return NonShadowImgCount +  3u;
-					}
 					else
 					{
 						assert( false );
@@ -105,7 +101,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureSize2DF,
 			expr::CombinedImageAccess::eTextureSize3DF,
 			expr::CombinedImageAccess::eTextureSizeCubeF,
-			expr::CombinedImageAccess::eTextureSize2DRectF,
 			expr::CombinedImageAccess::eTextureSizeBufferF,
 
 			expr::CombinedImageAccess::eTextureSize1DArrayF,
@@ -115,7 +110,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureSize1DShadowF,
 			expr::CombinedImageAccess::eTextureSize2DShadowF,
 			expr::CombinedImageAccess::eTextureSizeCubeShadowF,
-			expr::CombinedImageAccess::eTextureSize2DRectShadowF,
 
 			expr::CombinedImageAccess::eTextureSize1DArrayShadowF,
 			expr::CombinedImageAccess::eTextureSize2DArrayShadowF,
@@ -127,7 +121,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureSize2DI,
 			expr::CombinedImageAccess::eTextureSize3DI,
 			expr::CombinedImageAccess::eTextureSizeCubeI,
-			expr::CombinedImageAccess::eTextureSize2DRectI,
 			expr::CombinedImageAccess::eTextureSizeBufferI,
 
 			expr::CombinedImageAccess::eTextureSize1DArrayI,
@@ -140,7 +133,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureSize2DU,
 			expr::CombinedImageAccess::eTextureSize3DU,
 			expr::CombinedImageAccess::eTextureSizeCubeU,
-			expr::CombinedImageAccess::eTextureSize2DRectU,
 			expr::CombinedImageAccess::eTextureSizeBufferU,
 
 			expr::CombinedImageAccess::eTextureSize1DArrayU,
@@ -155,7 +147,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLod3DF,
 			expr::CombinedImageAccess::eTextureQueryLodCubeF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLod1DArrayF,
 			expr::CombinedImageAccess::eTextureQueryLod2DArrayF,
@@ -164,7 +155,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLod1DShadowF,
 			expr::CombinedImageAccess::eTextureQueryLod2DShadowF,
 			expr::CombinedImageAccess::eTextureQueryLodCubeShadowF,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLod1DArrayShadowF,
 			expr::CombinedImageAccess::eTextureQueryLod2DArrayShadowF,
@@ -177,7 +167,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLod3DI,
 			expr::CombinedImageAccess::eTextureQueryLodCubeI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLod1DArrayI,
 			expr::CombinedImageAccess::eTextureQueryLod2DArrayI,
@@ -189,7 +178,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLod2DU,
 			expr::CombinedImageAccess::eTextureQueryLod3DU,
 			expr::CombinedImageAccess::eTextureQueryLodCubeU,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLod1DArrayU,
@@ -204,7 +192,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLevels3DF,
 			expr::CombinedImageAccess::eTextureQueryLevelsCubeF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLevels1DArrayF,
 			expr::CombinedImageAccess::eTextureQueryLevels2DArrayF,
@@ -213,7 +200,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLevels1DShadowF,
 			expr::CombinedImageAccess::eTextureQueryLevels2DShadowF,
 			expr::CombinedImageAccess::eTextureQueryLevelsCubeShadowF,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLevels1DArrayShadowF,
 			expr::CombinedImageAccess::eTextureQueryLevels2DArrayShadowF,
@@ -225,7 +211,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLevels2DI,
 			expr::CombinedImageAccess::eTextureQueryLevels3DI,
 			expr::CombinedImageAccess::eTextureQueryLevelsCubeI,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLevels1DArrayI,
@@ -239,7 +224,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureQueryLevels3DU,
 			expr::CombinedImageAccess::eTextureQueryLevelsCubeU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureQueryLevels1DArrayU,
 			expr::CombinedImageAccess::eTextureQueryLevels2DArrayU,
@@ -252,7 +236,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture2DF,
 			expr::CombinedImageAccess::eTexture3DF,
 			expr::CombinedImageAccess::eTextureCubeF,
-			expr::CombinedImageAccess::eTexture2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayF,
@@ -262,7 +245,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture1DShadowF,
 			expr::CombinedImageAccess::eTexture2DShadowF,
 			expr::CombinedImageAccess::eTextureCubeShadowF,
-			expr::CombinedImageAccess::eTexture2DRectShadowF,
 
 			expr::CombinedImageAccess::eTexture1DArrayShadowF,
 			expr::CombinedImageAccess::eTexture2DArrayShadowF,
@@ -274,7 +256,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture2DI,
 			expr::CombinedImageAccess::eTexture3DI,
 			expr::CombinedImageAccess::eTextureCubeI,
-			expr::CombinedImageAccess::eTexture2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayI,
@@ -287,7 +268,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture2DU,
 			expr::CombinedImageAccess::eTexture3DU,
 			expr::CombinedImageAccess::eTextureCubeU,
-			expr::CombinedImageAccess::eTexture2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayU,
@@ -302,7 +282,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture3DFBias,
 			expr::CombinedImageAccess::eTextureCubeFBias,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayFBias,
 			expr::CombinedImageAccess::eTexture2DArrayFBias,
@@ -311,7 +290,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture1DShadowFBias,
 			expr::CombinedImageAccess::eTexture2DShadowFBias,
 			expr::CombinedImageAccess::eTextureCubeShadowFBias,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayShadowFBias,
 			expr::CombinedImageAccess::eInvalid,
@@ -323,7 +301,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture2DIBias,
 			expr::CombinedImageAccess::eTexture3DIBias,
 			expr::CombinedImageAccess::eTextureCubeIBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayIBias,
@@ -337,7 +314,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexture3DUBias,
 			expr::CombinedImageAccess::eTextureCubeUBias,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexture1DArrayUBias,
 			expr::CombinedImageAccess::eTexture2DArrayUBias,
@@ -350,7 +326,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset2DF,
 			expr::CombinedImageAccess::eTextureOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureOffset2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureOffset1DArrayF,
@@ -360,7 +335,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset1DShadowF,
 			expr::CombinedImageAccess::eTextureOffset2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureOffset2DRectShadowF,
 
 			expr::CombinedImageAccess::eTextureOffset1DArrayShadowF,
 			expr::CombinedImageAccess::eTextureOffset2DArrayShadowF,
@@ -372,7 +346,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset2DI,
 			expr::CombinedImageAccess::eTextureOffset3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureOffset2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureOffset1DArrayI,
@@ -385,7 +358,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset2DU,
 			expr::CombinedImageAccess::eTextureOffset3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureOffset2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureOffset1DArrayU,
@@ -400,7 +372,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset3DFBias,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureOffset1DArrayFBias,
 			expr::CombinedImageAccess::eTextureOffset2DArrayFBias,
@@ -408,7 +379,6 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureOffset1DShadowFBias,
 			expr::CombinedImageAccess::eTextureOffset2DShadowFBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -420,7 +390,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset1DIBias,
 			expr::CombinedImageAccess::eTextureOffset2DIBias,
 			expr::CombinedImageAccess::eTextureOffset3DIBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
@@ -435,7 +404,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureOffset3DUBias,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureOffset1DArrayUBias,
 			expr::CombinedImageAccess::eTextureOffset2DArrayUBias,
@@ -448,7 +416,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj2DF3,
 			expr::CombinedImageAccess::eTextureProj3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProj2DRectF3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -458,7 +425,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj1DShadowF,
 			expr::CombinedImageAccess::eTextureProj2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProj2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -470,7 +436,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj2DI3,
 			expr::CombinedImageAccess::eTextureProj3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProj2DRectI3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -483,7 +448,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj2DU3,
 			expr::CombinedImageAccess::eTextureProj3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProj2DRectU3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -498,7 +462,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj3DFBias,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -506,7 +469,6 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureProj1DShadowFBias,
 			expr::CombinedImageAccess::eTextureProj2DShadowFBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -518,7 +480,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj1DI2Bias,
 			expr::CombinedImageAccess::eTextureProj2DI3Bias,
 			expr::CombinedImageAccess::eTextureProj3DIBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
@@ -533,7 +494,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProj3DUBias,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -546,7 +506,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset2DF3,
 			expr::CombinedImageAccess::eTextureProjOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjOffset2DRectF3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -556,7 +515,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset1DShadowF,
 			expr::CombinedImageAccess::eTextureProjOffset2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -568,7 +526,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset2DI3,
 			expr::CombinedImageAccess::eTextureProjOffset3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjOffset2DRectI3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -581,7 +538,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset2DU3,
 			expr::CombinedImageAccess::eTextureProjOffset3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjOffset2DRectU3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -596,7 +552,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset3DFBias,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -604,7 +559,6 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias,
 			expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -618,7 +572,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset3DIBias,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -629,7 +582,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjOffset1DU2Bias,
 			expr::CombinedImageAccess::eTextureProjOffset2DU3Bias,
 			expr::CombinedImageAccess::eTextureProjOffset3DUBias,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
@@ -645,7 +597,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLod3DF,
 			expr::CombinedImageAccess::eTextureLodCubeF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLod1DArrayF,
 			expr::CombinedImageAccess::eTextureLod2DArrayF,
@@ -654,7 +605,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLod1DShadowF,
 			expr::CombinedImageAccess::eTextureLod2DShadowF,
 			expr::CombinedImageAccess::eTextureLodCubeShadowF,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLod1DArrayShadowF,
 			expr::CombinedImageAccess::eTextureLod2DArrayShadowF,
@@ -667,7 +617,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLod3DI,
 			expr::CombinedImageAccess::eTextureLodCubeI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLod1DArrayI,
 			expr::CombinedImageAccess::eTextureLod2DArrayI,
@@ -679,7 +628,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLod2DU,
 			expr::CombinedImageAccess::eTextureLod3DU,
 			expr::CombinedImageAccess::eTextureLodCubeU,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLod1DArrayU,
@@ -694,7 +642,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLodOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLodOffset1DArrayF,
 			expr::CombinedImageAccess::eTextureLodOffset2DArrayF,
@@ -702,7 +649,6 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureLodOffset1DShadowF,
 			expr::CombinedImageAccess::eTextureLodOffset2DShadowF,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF,
@@ -716,7 +662,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLodOffset3DI,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureLodOffset1DArrayI,
 			expr::CombinedImageAccess::eTextureLodOffset2DArrayI,
@@ -727,7 +672,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureLodOffset1DU,
 			expr::CombinedImageAccess::eTextureLodOffset2DU,
 			expr::CombinedImageAccess::eTextureLodOffset3DU,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
@@ -743,7 +687,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjLod3DF,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -751,7 +694,6 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureProjLod1DShadowF,
 			expr::CombinedImageAccess::eTextureProjLod2DShadowF,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -765,7 +707,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjLod3DI,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -776,7 +717,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjLod1DU2,
 			expr::CombinedImageAccess::eTextureProjLod2DU3,
 			expr::CombinedImageAccess::eTextureProjLod3DU,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
@@ -792,7 +732,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjLodOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -800,7 +739,6 @@ namespace sdw
 
 			expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF,
 			expr::CombinedImageAccess::eTextureProjLodOffset2DShadowF,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -812,7 +750,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjLodOffset1DI2,
 			expr::CombinedImageAccess::eTextureProjLodOffset2DI3,
 			expr::CombinedImageAccess::eTextureProjLodOffset3DI,
-			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
 
@@ -827,7 +764,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjLodOffset3DU,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -840,7 +776,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexelFetch2DF,
 			expr::CombinedImageAccess::eTexelFetch3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTexelFetch2DRectF,
 			expr::CombinedImageAccess::eTexelFetchBufferF,
 
 			expr::CombinedImageAccess::eTexelFetch1DArrayF,
@@ -853,7 +788,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexelFetch2DI,
 			expr::CombinedImageAccess::eTexelFetch3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTexelFetch2DRectI,
 			expr::CombinedImageAccess::eTexelFetchBufferI,
 
 			expr::CombinedImageAccess::eTexelFetch1DArrayI,
@@ -866,7 +800,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexelFetch2DU,
 			expr::CombinedImageAccess::eTexelFetch3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTexelFetch2DRectU,
 			expr::CombinedImageAccess::eTexelFetchBufferU,
 
 			expr::CombinedImageAccess::eTexelFetch1DArrayU,
@@ -880,7 +813,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexelFetchOffset2DF,
 			expr::CombinedImageAccess::eTexelFetchOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTexelFetchOffset2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexelFetchOffset1DArrayF,
@@ -893,7 +825,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexelFetchOffset2DI,
 			expr::CombinedImageAccess::eTexelFetchOffset3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTexelFetchOffset2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexelFetchOffset1DArrayI,
@@ -906,7 +837,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTexelFetchOffset2DU,
 			expr::CombinedImageAccess::eTexelFetchOffset3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTexelFetchOffset2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTexelFetchOffset1DArrayU,
@@ -920,7 +850,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGrad2DF,
 			expr::CombinedImageAccess::eTextureGrad3DF,
 			expr::CombinedImageAccess::eTextureGradCubeF,
-			expr::CombinedImageAccess::eTextureGrad2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureGrad1DArrayF,
@@ -930,7 +859,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGrad1DShadowF,
 			expr::CombinedImageAccess::eTextureGrad2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGrad2DRectShadowF,
 
 			expr::CombinedImageAccess::eTextureGrad1DArrayShadowF,
 			expr::CombinedImageAccess::eInvalid,
@@ -942,7 +870,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGrad2DI,
 			expr::CombinedImageAccess::eTextureGrad3DI,
 			expr::CombinedImageAccess::eTextureGradCubeI,
-			expr::CombinedImageAccess::eTextureGrad2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureGrad1DArrayI,
@@ -955,7 +882,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGrad2DU,
 			expr::CombinedImageAccess::eTextureGrad3DU,
 			expr::CombinedImageAccess::eTextureGradCubeU,
-			expr::CombinedImageAccess::eTextureGrad2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureGrad1DArrayU,
@@ -969,7 +895,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGradOffset2DF,
 			expr::CombinedImageAccess::eTextureGradOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGradOffset2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureGradOffset1DArrayF,
@@ -979,7 +904,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGradOffset1DShadowF,
 			expr::CombinedImageAccess::eTextureGradOffset2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGradOffset2DRectShadowF,
 
 			expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF,
 			expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF,
@@ -991,7 +915,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGradOffset2DI,
 			expr::CombinedImageAccess::eTextureGradOffset3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGradOffset2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureGradOffset1DArrayI,
@@ -1004,7 +927,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGradOffset2DU,
 			expr::CombinedImageAccess::eTextureGradOffset3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGradOffset2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eTextureGradOffset1DArrayU,
@@ -1018,7 +940,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGrad2DF3,
 			expr::CombinedImageAccess::eTextureProjGrad3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGrad2DRectF3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1028,7 +949,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGrad1DShadowF,
 			expr::CombinedImageAccess::eTextureProjGrad2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -1040,7 +960,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGrad2DI3,
 			expr::CombinedImageAccess::eTextureProjGrad3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGrad2DRectI3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1053,7 +972,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGrad2DU3,
 			expr::CombinedImageAccess::eTextureProjGrad3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGrad2DRectU3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1067,7 +985,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGradOffset2DF3,
 			expr::CombinedImageAccess::eTextureProjGradOffset3DF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1077,7 +994,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF,
 			expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
@@ -1089,7 +1005,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGradOffset2DI3,
 			expr::CombinedImageAccess::eTextureProjGradOffset3DI,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1102,7 +1017,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureProjGradOffset2DU3,
 			expr::CombinedImageAccess::eTextureProjGradOffset3DU,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1116,7 +1030,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGather2DF,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherCubeF,
-			expr::CombinedImageAccess::eTextureGather2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1126,7 +1039,6 @@ namespace sdw
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGather2DShadowF,
 			expr::CombinedImageAccess::eTextureGatherCubeShadowF,
-			expr::CombinedImageAccess::eTextureGather2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGather2DArrayShadowF,
@@ -1138,7 +1050,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGather2DI,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherCubeI,
-			expr::CombinedImageAccess::eTextureGather2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1151,7 +1062,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGather2DU,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherCubeU,
-			expr::CombinedImageAccess::eTextureGather2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1165,7 +1075,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGatherOffset2DF,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffset2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1175,7 +1084,6 @@ namespace sdw
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherOffset2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF,
@@ -1187,7 +1095,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGatherOffset2DI,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffset2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1200,7 +1107,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGatherOffset2DU,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffset2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1214,7 +1120,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGatherOffsets2DF,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffsets2DRectF,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1224,7 +1129,6 @@ namespace sdw
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF,
 
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF,
@@ -1236,7 +1140,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGatherOffsets2DI,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffsets2DRectI,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -1249,7 +1152,6 @@ namespace sdw
 			expr::CombinedImageAccess::eTextureGatherOffsets2DU,
 			expr::CombinedImageAccess::eInvalid,
 			expr::CombinedImageAccess::eInvalid,
-			expr::CombinedImageAccess::eTextureGatherOffsets2DRectU,
 			expr::CombinedImageAccess::eInvalid,
 
 			expr::CombinedImageAccess::eInvalid,
@@ -3179,62 +3081,6 @@ namespace sdw
 			using SampleRefProjOffsetBiasFuncT< FormatT, DimT, ArrayedT, MsT >::proj;
 			using SampleRefProjLodFuncT< FormatT, DimT, ArrayedT, MsT >::projLod;
 			using SampleRefProjLodOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projLod;
-			using GradRefFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
-			using GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
-			using GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
-			using GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;
-			using GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-			using GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >::gather;
-
-			CombinedImageFuncsT( ShaderWriter & writer
-				, expr::ExprPtr expr
-				, bool enabled )
-				: CombinedImage{ writer, std::move( expr ), enabled }
-			{
-			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
-		};
-
-		//*************************************************************************
-
-		template< ast::type::ImageFormat FormatT
-			, ast::type::ImageDim DimT
-			, bool ArrayedT
-			, bool MsT
-			, bool DepthT >
-		struct CombinedImageFuncsT< FormatT
-			, DimT
-			, ArrayedT
-			, MsT
-			, DepthT
-			, std::enable_if_t< ( sdw::isRectShadowV< DimT, ArrayedT, DepthT > ) > >
-			: public CombinedImage
-			, public TexSizeFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
-			, public SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public SampleRefProjFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public SampleRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GradRefFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
-			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
-		{
-			SDW_DeclValue( , CombinedImageFuncsT );
-
-			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
-			using SampleRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
-			using SampleRefProjFuncT< FormatT, DimT, ArrayedT, MsT >::proj;
-			using SampleRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::proj;
 			using GradRefFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >::grad;
 			using GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >::projGrad;

@@ -85,46 +85,34 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DI:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeI:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGather2DU:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGather2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
 			config.requiredExtensions.insert( ARB_texture_gather );
 			break;
 		default:

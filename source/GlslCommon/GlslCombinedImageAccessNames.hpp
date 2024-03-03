@@ -28,8 +28,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeArrayF:
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectF:
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureSize1DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureSize2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureSize1DArrayShadowF:
@@ -40,7 +38,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureSize3DI:
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeI:
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeArrayI:
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureSize1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureSize2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureSizeBufferI:
@@ -49,7 +46,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureSize3DU:
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeU:
 		case ast::expr::CombinedImageAccess::eTextureSizeCubeArrayU:
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureSize1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureSize2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureSizeBufferU:
@@ -132,7 +128,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTexture2DArrayFBias:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayF:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayFBias:
-		case ast::expr::CombinedImageAccess::eTexture2DRectF:
 		case ast::expr::CombinedImageAccess::eTexture1DI:
 		case ast::expr::CombinedImageAccess::eTexture1DIBias:
 		case ast::expr::CombinedImageAccess::eTexture2DI:
@@ -147,7 +142,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTexture2DArrayIBias:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayI:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayIBias:
-		case ast::expr::CombinedImageAccess::eTexture2DRectI:
 		case ast::expr::CombinedImageAccess::eTexture1DU:
 		case ast::expr::CombinedImageAccess::eTexture1DUBias:
 		case ast::expr::CombinedImageAccess::eTexture2DU:
@@ -162,7 +156,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTexture2DArrayUBias:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayU:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayUBias:
-		case ast::expr::CombinedImageAccess::eTexture2DRectU:
 			result = "texture";
 			break;
 
@@ -176,8 +169,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProj2DF4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj3DF:
 		case ast::expr::CombinedImageAccess::eTextureProj3DFBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProj1DI2:
 		case ast::expr::CombinedImageAccess::eTextureProj1DI2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj1DI4:
@@ -188,8 +179,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProj2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj3DI:
 		case ast::expr::CombinedImageAccess::eTextureProj3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProj1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProj1DU2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj1DU4:
@@ -200,8 +189,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProj2DU4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj3DU:
 		case ast::expr::CombinedImageAccess::eTextureProj3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU4:
 			result = "textureProj";
 			break;
 
@@ -235,7 +222,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureOffset2DFBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DF:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DFBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayFBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayF:
@@ -246,7 +232,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureOffset2DIBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DI:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayIBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayI:
@@ -257,7 +242,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureOffset2DUBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DU:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayUBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayU:
@@ -268,21 +252,18 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTexelFetch1DF:
 		case ast::expr::CombinedImageAccess::eTexelFetch2DF:
 		case ast::expr::CombinedImageAccess::eTexelFetch3DF:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DRectF:
 		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayF:
 		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayF:
 		case ast::expr::CombinedImageAccess::eTexelFetchBufferF:
 		case ast::expr::CombinedImageAccess::eTexelFetch1DI:
 		case ast::expr::CombinedImageAccess::eTexelFetch2DI:
 		case ast::expr::CombinedImageAccess::eTexelFetch3DI:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DRectI:
 		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayI:
 		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayI:
 		case ast::expr::CombinedImageAccess::eTexelFetchBufferI:
 		case ast::expr::CombinedImageAccess::eTexelFetch1DU:
 		case ast::expr::CombinedImageAccess::eTexelFetch2DU:
 		case ast::expr::CombinedImageAccess::eTexelFetch3DU:
-		case ast::expr::CombinedImageAccess::eTexelFetch2DRectU:
 		case ast::expr::CombinedImageAccess::eTexelFetch1DArrayU:
 		case ast::expr::CombinedImageAccess::eTexelFetch2DArrayU:
 		case ast::expr::CombinedImageAccess::eTexelFetchBufferU:
@@ -292,19 +273,16 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DF:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DF:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset3DF:
-		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DRectF:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DArrayF:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DArrayF:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DI:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DI:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset3DI:
-		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DArrayI:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DArrayI:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DU:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DU:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset3DU:
-		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset1DArrayU:
 		case ast::expr::CombinedImageAccess::eTexelFetchOffset2DArrayU:
 			result = "texelFetchOffset";
@@ -320,8 +298,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DF:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DFBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DI2:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DI2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DI4:
@@ -332,8 +308,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DI:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DU2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DU4:
@@ -344,8 +318,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DU:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU4:
 			result = "textureProjOffset";
 			break;
 
@@ -407,7 +379,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGrad2DF:
 		case ast::expr::CombinedImageAccess::eTextureGrad3DF:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeF:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeArrayF:
@@ -415,7 +386,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGrad2DI:
 		case ast::expr::CombinedImageAccess::eTextureGrad3DI:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeI:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeArrayI:
@@ -423,7 +393,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGrad2DU:
 		case ast::expr::CombinedImageAccess::eTextureGrad3DU:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeU:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeArrayU:
@@ -433,19 +402,16 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayU:
 			result = "textureGradOffset";
@@ -456,22 +422,16 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad3DF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DI2:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad3DU:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
 			result = "textureProjGrad";
 			break;
 
@@ -480,22 +440,16 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
 			result = "textureProjGradOffset";
 			break;
 
@@ -510,7 +464,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowFBias:
 		case ast::expr::CombinedImageAccess::eTexture2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTexture2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayShadowF:
 			result = "texture";
 			break;
@@ -519,7 +472,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
 			result = "textureProj";
 			break;
 
@@ -532,7 +484,6 @@ namespace glsl
 			result = "textureLod";
 			break;
 
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DShadowF:
@@ -546,7 +497,6 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
 			result = "textureProjOffset";
 			break;
 
@@ -566,14 +516,12 @@ namespace glsl
 			result = "textureProjLodOffset";
 			break;
 
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayShadowF:
 			result = "textureGrad";
 			break;
 
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
@@ -583,13 +531,11 @@ namespace glsl
 
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
 			result = "textureProjGrad";
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
 			result = "textureProjGradOffset";
 			break;
 
@@ -599,41 +545,32 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DI:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeI:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGather2DU:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectU:
 			result = "textureGather";
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectU:
 			result = "textureGatherOffset";
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU:
 			result = "textureGatherOffsets";
 			break;
 
@@ -643,19 +580,16 @@ namespace glsl
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectShadowF:
 			result = "textureGather";
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
 			result = "textureGatherOffset";
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
 			result = "textureGatherOffsets";
 			break;
 

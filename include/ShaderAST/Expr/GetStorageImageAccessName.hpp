@@ -54,10 +54,6 @@ namespace ast::expr
 			result = "ImageSizeCubeArrayF";
 			break;
 
-		case StorageImageAccess::eImageSize2DRectF:
-			result = "ImageSize2DRectF";
-			break;
-
 		case StorageImageAccess::eImageSize1DArrayF:
 			result = "ImageSize1DArrayF";
 			break;
@@ -98,10 +94,6 @@ namespace ast::expr
 			result = "ImageSizeCubeArrayI";
 			break;
 
-		case StorageImageAccess::eImageSize2DRectI:
-			result = "ImageSize2DRectI";
-			break;
-
 		case StorageImageAccess::eImageSize1DArrayI:
 			result = "ImageSize1DArrayI";
 			break;
@@ -140,10 +132,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageSizeCubeArrayU:
 			result = "ImageSizeCubeArrayU";
-			break;
-
-		case StorageImageAccess::eImageSize2DRectU:
-			result = "ImageSize2DRectU";
 			break;
 
 		case StorageImageAccess::eImageSize1DArrayU:
@@ -204,10 +192,6 @@ namespace ast::expr
 			result = "ImageLoad3DF";
 			break;
 
-		case StorageImageAccess::eImageLoad2DRectF:
-			result = "ImageLoad2DRectF";
-			break;
-
 		case StorageImageAccess::eImageLoadCubeF:
 			result = "ImageLoadCubeF";
 			break;
@@ -248,10 +232,6 @@ namespace ast::expr
 			result = "ImageLoad3DI";
 			break;
 
-		case StorageImageAccess::eImageLoad2DRectI:
-			result = "ImageLoad2DRectI";
-			break;
-
 		case StorageImageAccess::eImageLoadCubeI:
 			result = "ImageLoadCubeI";
 			break;
@@ -290,10 +270,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageLoad3DU:
 			result = "ImageLoad3DU";
-			break;
-
-		case StorageImageAccess::eImageLoad2DRectU:
-			result = "ImageLoad2DRectU";
 			break;
 
 		case StorageImageAccess::eImageLoadCubeU:
@@ -338,10 +314,6 @@ namespace ast::expr
 			result = "ImageStore3DF";
 			break;
 
-		case StorageImageAccess::eImageStore2DRectF:
-			result = "ImageStore2DRectF";
-			break;
-
 		case StorageImageAccess::eImageStoreCubeF:
 			result = "ImageStoreCubeF";
 			break;
@@ -382,10 +354,6 @@ namespace ast::expr
 			result = "ImageStore3DI";
 			break;
 
-		case StorageImageAccess::eImageStore2DRectI:
-			result = "ImageStore2DRectI";
-			break;
-
 		case StorageImageAccess::eImageStoreCubeI:
 			result = "ImageStoreCubeI";
 			break;
@@ -424,10 +392,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageStore3DU:
 			result = "ImageStore3DU";
-			break;
-
-		case StorageImageAccess::eImageStore2DRectU:
-			result = "ImageStore2DRectU";
 			break;
 
 		case StorageImageAccess::eImageStoreCubeU:
@@ -472,10 +436,6 @@ namespace ast::expr
 			result = "ImageAtomicAdd3DU";
 			break;
 
-		case StorageImageAccess::eImageAtomicAdd2DRectU:
-			result = "ImageAtomicAdd2DRectU";
-			break;
-
 		case StorageImageAccess::eImageAtomicAddCubeU:
 			result = "ImageAtomicAddCubeU";
 			break;
@@ -514,10 +474,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicAdd3DI:
 			result = "ImageAtomicAdd3DI";
-			break;
-
-		case StorageImageAccess::eImageAtomicAdd2DRectI:
-			result = "ImageAtomicAdd2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicAddCubeI:
@@ -560,10 +516,6 @@ namespace ast::expr
 			result = "ImageAtomicAdd3DF";
 			break;
 
-		case StorageImageAccess::eImageAtomicAdd2DRectF:
-			result = "ImageAtomicAdd2DRectF";
-			break;
-
 		case StorageImageAccess::eImageAtomicAddCubeF:
 			result = "ImageAtomicAddCubeF";
 			break;
@@ -602,10 +554,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicMin3DU:
 			result = "ImageAtomicMin3DU";
-			break;
-
-		case StorageImageAccess::eImageAtomicMin2DRectU:
-			result = "ImageAtomicMin2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMinCubeU:
@@ -648,10 +596,6 @@ namespace ast::expr
 			result = "ImageAtomicMin3DI";
 			break;
 
-		case StorageImageAccess::eImageAtomicMin2DRectI:
-			result = "ImageAtomicMin2DRectI";
-			break;
-
 		case StorageImageAccess::eImageAtomicMinCubeI:
 			result = "ImageAtomicMinCubeI";
 			break;
@@ -690,10 +634,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicMax3DU:
 			result = "ImageAtomicMax3DU";
-			break;
-
-		case StorageImageAccess::eImageAtomicMax2DRectU:
-			result = "ImageAtomicMax2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicMaxCubeU:
@@ -736,10 +676,6 @@ namespace ast::expr
 			result = "ImageAtomicMax3DI";
 			break;
 
-		case StorageImageAccess::eImageAtomicMax2DRectI:
-			result = "ImageAtomicMax2DRectI";
-			break;
-
 		case StorageImageAccess::eImageAtomicMaxCubeI:
 			result = "ImageAtomicMaxCubeI";
 			break;
@@ -778,10 +714,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicAnd3DU:
 			result = "ImageAtomicAnd3DU";
-			break;
-
-		case StorageImageAccess::eImageAtomicAnd2DRectU:
-			result = "ImageAtomicAnd2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicAndCubeU:
@@ -824,10 +756,6 @@ namespace ast::expr
 			result = "ImageAtomicAnd3DI";
 			break;
 
-		case StorageImageAccess::eImageAtomicAnd2DRectI:
-			result = "ImageAtomicAnd2DRectI";
-			break;
-
 		case StorageImageAccess::eImageAtomicAndCubeI:
 			result = "ImageAtomicAndCubeI";
 			break;
@@ -866,10 +794,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicOr3DU:
 			result = "ImageAtomicOr3DU";
-			break;
-
-		case StorageImageAccess::eImageAtomicOr2DRectU:
-			result = "ImageAtomicOr2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicOrCubeU:
@@ -912,10 +836,6 @@ namespace ast::expr
 			result = "ImageAtomicOr3DI";
 			break;
 
-		case StorageImageAccess::eImageAtomicOr2DRectI:
-			result = "ImageAtomicOr2DRectI";
-			break;
-
 		case StorageImageAccess::eImageAtomicOrCubeI:
 			result = "ImageAtomicOrCubeI";
 			break;
@@ -954,10 +874,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicXor3DU:
 			result = "ImageAtomicXor3DU";
-			break;
-
-		case StorageImageAccess::eImageAtomicXor2DRectU:
-			result = "ImageAtomicXor2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicXorCubeU:
@@ -1000,10 +916,6 @@ namespace ast::expr
 			result = "ImageAtomicXor3DI";
 			break;
 
-		case StorageImageAccess::eImageAtomicXor2DRectI:
-			result = "ImageAtomicXor2DRectI";
-			break;
-
 		case StorageImageAccess::eImageAtomicXorCubeI:
 			result = "ImageAtomicXorCubeI";
 			break;
@@ -1042,10 +954,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicExchange3DU:
 			result = "ImageAtomicExchange3DU";
-			break;
-
-		case StorageImageAccess::eImageAtomicExchange2DRectU:
-			result = "ImageAtomicExchange2DRectU";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeU:
@@ -1088,10 +996,6 @@ namespace ast::expr
 			result = "ImageAtomicExchange3DI";
 			break;
 
-		case StorageImageAccess::eImageAtomicExchange2DRectI:
-			result = "ImageAtomicExchange2DRectI";
-			break;
-
 		case StorageImageAccess::eImageAtomicExchangeCubeI:
 			result = "ImageAtomicExchangeCubeI";
 			break;
@@ -1130,10 +1034,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicExchange3DF:
 			result = "ImageAtomicExchange3DF";
-			break;
-
-		case StorageImageAccess::eImageAtomicExchange2DRectF:
-			result = "ImageAtomicExchange2DRectF";
 			break;
 
 		case StorageImageAccess::eImageAtomicExchangeCubeF:
@@ -1176,10 +1076,6 @@ namespace ast::expr
 			result = "ImageAtomicCompSwap3DU";
 			break;
 
-		case StorageImageAccess::eImageAtomicCompSwap2DRectU:
-			result = "ImageAtomicCompSwap2DRectU";
-			break;
-
 		case StorageImageAccess::eImageAtomicCompSwapCubeU:
 			result = "ImageAtomicCompSwapCubeU";
 			break;
@@ -1218,10 +1114,6 @@ namespace ast::expr
 
 		case StorageImageAccess::eImageAtomicCompSwap3DI:
 			result = "ImageAtomicCompSwap3DI";
-			break;
-
-		case StorageImageAccess::eImageAtomicCompSwap2DRectI:
-			result = "ImageAtomicCompSwap2DRectI";
 			break;
 
 		case StorageImageAccess::eImageAtomicCompSwapCubeI:

@@ -387,8 +387,6 @@ namespace glsl
 					return "3D";
 				case ast::type::ImageDim::eCube:
 					return "Cube";
-				case ast::type::ImageDim::eRect:
-					return "2DRect";
 				case ast::type::ImageDim::eBuffer:
 					return "Buffer";
 				default:
@@ -867,9 +865,6 @@ namespace glsl
 					break;
 				case ast::expr::Kind::eAndAssign:
 					result = "&=";
-					break;
-				case ast::expr::Kind::eNotAssign:
-					result = "!=";
 					break;
 				case ast::expr::Kind::eOrAssign:
 					result = "|=";

@@ -239,6 +239,11 @@ namespace ast::type
 		return getBasicType( Kind::eBoolean );
 	}
 
+	TypePtr TypesCache::getBoolean()
+	{
+		return getBasicType( Kind::eBoolean );
+	}
+
 	TypePtr TypesCache::getInt8()
 	{
 		return getBasicType( Kind::eInt8 );
@@ -563,147 +568,217 @@ namespace ast::type
 	{
 		assert( kind >= Kind::eUndefined
 			&& kind <= Kind::eBasicTypesMax );
+		TypePtr result{};
 
 		switch ( kind )
 		{
 		case Kind::eUndefined:
-			return m_basicTypes[size_t( Kind::eUndefined )];
+			result = m_basicTypes[size_t( Kind::eUndefined )];
+			break;
 		case Kind::eVoid:
-			return m_basicTypes[size_t( Kind::eVoid )];
+			result = m_basicTypes[size_t( Kind::eVoid )];
+			break;
 		case Kind::eBoolean:
-			return m_basicTypes[size_t( Kind::eBoolean )];
+			result = m_basicTypes[size_t( Kind::eBoolean )];
+			break;
 		case Kind::eInt8:
-			return m_basicTypes[size_t( Kind::eInt8 )];
+			result = m_basicTypes[size_t( Kind::eInt8 )];
+			break;
 		case Kind::eInt16:
-			return m_basicTypes[size_t( Kind::eInt16 )];
+			result = m_basicTypes[size_t( Kind::eInt16 )];
+			break;
 		case Kind::eInt32:
-			return m_basicTypes[size_t( Kind::eInt32 )];
+			result = m_basicTypes[size_t( Kind::eInt32 )];
+			break;
 		case Kind::eInt64:
-			return m_basicTypes[size_t( Kind::eInt64 )];
+			result = m_basicTypes[size_t( Kind::eInt64 )];
+			break;
 		case Kind::eUInt8:
-			return m_basicTypes[size_t( Kind::eUInt8 )];
+			result = m_basicTypes[size_t( Kind::eUInt8 )];
+			break;
 		case Kind::eUInt16:
-			return m_basicTypes[size_t( Kind::eUInt16 )];
+			result = m_basicTypes[size_t( Kind::eUInt16 )];
+			break;
 		case Kind::eUInt32:
-			return m_basicTypes[size_t( Kind::eUInt32 )];
+			result = m_basicTypes[size_t( Kind::eUInt32 )];
+			break;
 		case Kind::eUInt64:
-			return m_basicTypes[size_t( Kind::eUInt64 )];
+			result = m_basicTypes[size_t( Kind::eUInt64 )];
+			break;
 		case Kind::eHalf:
-			return m_basicTypes[size_t( Kind::eHalf )];
+			result = m_basicTypes[size_t( Kind::eHalf )];
+			break;
 		case Kind::eFloat:
-			return m_basicTypes[size_t( Kind::eFloat )];
+			result = m_basicTypes[size_t( Kind::eFloat )];
+			break;
 		case Kind::eDouble:
-			return m_basicTypes[size_t( Kind::eDouble )];
+			result = m_basicTypes[size_t( Kind::eDouble )];
+			break;
 		case Kind::eVec2B:
-			return m_basicTypes[size_t( Kind::eVec2B )];
+			result = m_basicTypes[size_t( Kind::eVec2B )];
+			break;
 		case Kind::eVec3B:
-			return m_basicTypes[size_t( Kind::eVec3B )];
+			result = m_basicTypes[size_t( Kind::eVec3B )];
+			break;
 		case Kind::eVec4B:
-			return m_basicTypes[size_t( Kind::eVec4B )];
+			result = m_basicTypes[size_t( Kind::eVec4B )];
+			break;
 		case Kind::eVec2I8:
-			return m_basicTypes[size_t( Kind::eVec2I8 )];
+			result = m_basicTypes[size_t( Kind::eVec2I8 )];
+			break;
 		case Kind::eVec3I8:
-			return m_basicTypes[size_t( Kind::eVec3I8 )];
+			result = m_basicTypes[size_t( Kind::eVec3I8 )];
+			break;
 		case Kind::eVec4I8:
-			return m_basicTypes[size_t( Kind::eVec4I8 )];
+			result = m_basicTypes[size_t( Kind::eVec4I8 )];
+			break;
 		case Kind::eVec2I16:
-			return m_basicTypes[size_t( Kind::eVec2I16 )];
+			result = m_basicTypes[size_t( Kind::eVec2I16 )];
+			break;
 		case Kind::eVec3I16:
-			return m_basicTypes[size_t( Kind::eVec3I16 )];
+			result = m_basicTypes[size_t( Kind::eVec3I16 )];
+			break;
 		case Kind::eVec4I16:
-			return m_basicTypes[size_t( Kind::eVec4I16 )];
+			result = m_basicTypes[size_t( Kind::eVec4I16 )];
+			break;
 		case Kind::eVec2I32:
-			return m_basicTypes[size_t( Kind::eVec2I32 )];
+			result = m_basicTypes[size_t( Kind::eVec2I32 )];
+			break;
 		case Kind::eVec3I32:
-			return m_basicTypes[size_t( Kind::eVec3I32 )];
+			result = m_basicTypes[size_t( Kind::eVec3I32 )];
+			break;
 		case Kind::eVec4I32:
-			return m_basicTypes[size_t( Kind::eVec4I32 )];
+			result = m_basicTypes[size_t( Kind::eVec4I32 )];
+			break;
 		case Kind::eVec2I64:
-			return m_basicTypes[size_t( Kind::eVec2I64 )];
+			result = m_basicTypes[size_t( Kind::eVec2I64 )];
+			break;
 		case Kind::eVec3I64:
-			return m_basicTypes[size_t( Kind::eVec3I64 )];
+			result = m_basicTypes[size_t( Kind::eVec3I64 )];
+			break;
 		case Kind::eVec4I64:
-			return m_basicTypes[size_t( Kind::eVec4I64 )];
+			result = m_basicTypes[size_t( Kind::eVec4I64 )];
+			break;
 		case Kind::eVec2U8:
-			return m_basicTypes[size_t( Kind::eVec2U8 )];
+			result = m_basicTypes[size_t( Kind::eVec2U8 )];
+			break;
 		case Kind::eVec3U8:
-			return m_basicTypes[size_t( Kind::eVec3U8 )];
+			result = m_basicTypes[size_t( Kind::eVec3U8 )];
+			break;
 		case Kind::eVec4U8:
-			return m_basicTypes[size_t( Kind::eVec4U8 )];
+			result = m_basicTypes[size_t( Kind::eVec4U8 )];
+			break;
 		case Kind::eVec2U16:
-			return m_basicTypes[size_t( Kind::eVec2U16 )];
+			result = m_basicTypes[size_t( Kind::eVec2U16 )];
+			break;
 		case Kind::eVec3U16:
-			return m_basicTypes[size_t( Kind::eVec3U16 )];
+			result = m_basicTypes[size_t( Kind::eVec3U16 )];
+			break;
 		case Kind::eVec4U16:
-			return m_basicTypes[size_t( Kind::eVec4U16 )];
+			result = m_basicTypes[size_t( Kind::eVec4U16 )];
+			break;
 		case Kind::eVec2U32:
-			return m_basicTypes[size_t( Kind::eVec2U32 )];
+			result = m_basicTypes[size_t( Kind::eVec2U32 )];
+			break;
 		case Kind::eVec3U32:
-			return m_basicTypes[size_t( Kind::eVec3U32 )];
+			result = m_basicTypes[size_t( Kind::eVec3U32 )];
+			break;
 		case Kind::eVec4U32:
-			return m_basicTypes[size_t( Kind::eVec4U32 )];
+			result = m_basicTypes[size_t( Kind::eVec4U32 )];
+			break;
 		case Kind::eVec2U64:
-			return m_basicTypes[size_t( Kind::eVec2U64 )];
+			result = m_basicTypes[size_t( Kind::eVec2U64 )];
+			break;
 		case Kind::eVec3U64:
-			return m_basicTypes[size_t( Kind::eVec3U64 )];
+			result = m_basicTypes[size_t( Kind::eVec3U64 )];
+			break;
 		case Kind::eVec4U64:
-			return m_basicTypes[size_t( Kind::eVec4U64 )];
+			result = m_basicTypes[size_t( Kind::eVec4U64 )];
+			break;
 		case Kind::eVec2H:
-			return m_basicTypes[size_t( Kind::eVec2H )];
+			result = m_basicTypes[size_t( Kind::eVec2H )];
+			break;
 		case Kind::eVec4H:
-			return m_basicTypes[size_t( Kind::eVec4H )];
+			result = m_basicTypes[size_t( Kind::eVec4H )];
+			break;
 		case Kind::eVec2F:
-			return m_basicTypes[size_t( Kind::eVec2F )];
+			result = m_basicTypes[size_t( Kind::eVec2F )];
+			break;
 		case Kind::eVec3F:
-			return m_basicTypes[size_t( Kind::eVec3F )];
+			result = m_basicTypes[size_t( Kind::eVec3F )];
+			break;
 		case Kind::eVec4F:
-			return m_basicTypes[size_t( Kind::eVec4F )];
+			result = m_basicTypes[size_t( Kind::eVec4F )];
+			break;
 		case Kind::eVec2D:
-			return m_basicTypes[size_t( Kind::eVec2D )];
+			result = m_basicTypes[size_t( Kind::eVec2D )];
+			break;
 		case Kind::eVec3D:
-			return m_basicTypes[size_t( Kind::eVec3D )];
+			result = m_basicTypes[size_t( Kind::eVec3D )];
+			break;
 		case Kind::eVec4D:
-			return m_basicTypes[size_t( Kind::eVec4D )];
+			result = m_basicTypes[size_t( Kind::eVec4D )];
+			break;
 		case Kind::eMat2x2F:
-			return m_basicTypes[size_t( Kind::eMat2x2F )];
+			result = m_basicTypes[size_t( Kind::eMat2x2F )];
+			break;
 		case Kind::eMat2x3F:
-			return m_basicTypes[size_t( Kind::eMat2x3F )];
+			result = m_basicTypes[size_t( Kind::eMat2x3F )];
+			break;
 		case Kind::eMat2x4F:
-			return m_basicTypes[size_t( Kind::eMat2x4F )];
+			result = m_basicTypes[size_t( Kind::eMat2x4F )];
+			break;
 		case Kind::eMat3x2F:
-			return m_basicTypes[size_t( Kind::eMat3x2F )];
+			result = m_basicTypes[size_t( Kind::eMat3x2F )];
+			break;
 		case Kind::eMat3x3F:
-			return m_basicTypes[size_t( Kind::eMat3x3F )];
+			result = m_basicTypes[size_t( Kind::eMat3x3F )];
+			break;
 		case Kind::eMat3x4F:
-			return m_basicTypes[size_t( Kind::eMat3x4F )];
+			result = m_basicTypes[size_t( Kind::eMat3x4F )];
+			break;
 		case Kind::eMat4x2F:
-			return m_basicTypes[size_t( Kind::eMat4x2F )];
+			result = m_basicTypes[size_t( Kind::eMat4x2F )];
+			break;
 		case Kind::eMat4x3F:
-			return m_basicTypes[size_t( Kind::eMat4x3F )];
+			result = m_basicTypes[size_t( Kind::eMat4x3F )];
+			break;
 		case Kind::eMat4x4F:
-			return m_basicTypes[size_t( Kind::eMat4x4F )];
+			result = m_basicTypes[size_t( Kind::eMat4x4F )];
+			break;
 		case Kind::eMat2x2D:
-			return m_basicTypes[size_t( Kind::eMat2x2D )];
+			result = m_basicTypes[size_t( Kind::eMat2x2D )];
+			break;
 		case Kind::eMat2x3D:
-			return m_basicTypes[size_t( Kind::eMat2x3D )];
+			result = m_basicTypes[size_t( Kind::eMat2x3D )];
+			break;
 		case Kind::eMat2x4D:
-			return m_basicTypes[size_t( Kind::eMat2x4D )];
+			result = m_basicTypes[size_t( Kind::eMat2x4D )];
+			break;
 		case Kind::eMat3x2D:
-			return m_basicTypes[size_t( Kind::eMat3x2D )];
+			result = m_basicTypes[size_t( Kind::eMat3x2D )];
+			break;
 		case Kind::eMat3x3D:
-			return m_basicTypes[size_t( Kind::eMat3x3D )];
+			result = m_basicTypes[size_t( Kind::eMat3x3D )];
+			break;
 		case Kind::eMat3x4D:
-			return m_basicTypes[size_t( Kind::eMat3x4D )];
+			result = m_basicTypes[size_t( Kind::eMat3x4D )];
+			break;
 		case Kind::eMat4x2D:
-			return m_basicTypes[size_t( Kind::eMat4x2D )];
+			result = m_basicTypes[size_t( Kind::eMat4x2D )];
+			break;
 		case Kind::eMat4x3D:
-			return m_basicTypes[size_t( Kind::eMat4x3D )];
+			result = m_basicTypes[size_t( Kind::eMat4x3D )];
+			break;
 		case Kind::eMat4x4D:
-			return m_basicTypes[size_t( Kind::eMat4x4D )];
+			result = m_basicTypes[size_t( Kind::eMat4x4D )];
+			break;
 		default:
-			AST_Failure( "Unexpected Kind" );
-			return nullptr;
+			break;
 		}
+
+		assert( result && "Unsupported Kind" );
+		return result;
 	}
 
 	TypePtr TypesCache::getVec2Type( Kind kind )
@@ -756,188 +831,272 @@ namespace ast::type
 
 	Kind TypesCache::getVec2Kind( Kind kind )const
 	{
+		Kind result{ Kind::eUndefined };
+
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return Kind::eVec2B;
+			result = Kind::eVec2B;
+			break;
 		case Kind::eInt8:
-			return Kind::eVec2I8;
+			result = Kind::eVec2I8;
+			break;
 		case Kind::eInt16:
-			return Kind::eVec2I16;
+			result = Kind::eVec2I16;
+			break;
 		case Kind::eInt32:
-			return Kind::eVec2I32;
+			result = Kind::eVec2I32;
+			break;
 		case Kind::eInt64:
-			return Kind::eVec2I64;
+			result = Kind::eVec2I64;
+			break;
 		case Kind::eUInt8:
-			return Kind::eVec2U8;
+			result = Kind::eVec2U8;
+			break;
 		case Kind::eUInt16:
-			return Kind::eVec2U16;
+			result = Kind::eVec2U16;
+			break;
 		case Kind::eUInt32:
-			return Kind::eVec2U32;
+			result = Kind::eVec2U32;
+			break;
 		case Kind::eUInt64:
-			return Kind::eVec2U64;
+			result = Kind::eVec2U64;
+			break;
 		case Kind::eHalf:
-			return Kind::eVec2H;
+			result = Kind::eVec2H;
+			break;
 		case Kind::eFloat:
-			return Kind::eVec2F;
+			result = Kind::eVec2F;
+			break;
 		case Kind::eDouble:
-			return Kind::eVec2D;
+			result = Kind::eVec2D;
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return Kind::eUndefined;
+			break;
 		}
+
+		assert( result != Kind::eUndefined && "Unsupported component type" );
+		return result;
 	}
 
 	Kind TypesCache::getVec3Kind( Kind kind )const
 	{
+		Kind result{ Kind::eUndefined };
+
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return Kind::eVec3B;
+			result = Kind::eVec3B;
+			break;
 		case Kind::eInt8:
-			return Kind::eVec3I8;
+			result = Kind::eVec3I8;
+			break;
 		case Kind::eInt16:
-			return Kind::eVec3I16;
+			result = Kind::eVec3I16;
+			break;
 		case Kind::eInt32:
-			return Kind::eVec3I32;
+			result = Kind::eVec3I32;
+			break;
 		case Kind::eInt64:
-			return Kind::eVec3I64;
+			result = Kind::eVec3I64;
+			break;
 		case Kind::eUInt8:
-			return Kind::eVec3U8;
+			result = Kind::eVec3U8;
+			break;
 		case Kind::eUInt16:
-			return Kind::eVec3U16;
+			result = Kind::eVec3U16;
+			break;
 		case Kind::eUInt32:
-			return Kind::eVec3U32;
+			result = Kind::eVec3U32;
+			break;
 		case Kind::eUInt64:
-			return Kind::eVec3U64;
+			result = Kind::eVec3U64;
+			break;
 		case Kind::eFloat:
-			return Kind::eVec3F;
+			result = Kind::eVec3F;
+			break;
 		case Kind::eDouble:
-			return Kind::eVec3D;
+			result = Kind::eVec3D;
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return Kind::eUndefined;
+			break;
 		}
+
+		assert( result != Kind::eUndefined && "Unsupported component type" );
+		return result;
 	}
 
 	Kind TypesCache::getVec4Kind( Kind kind )const
 	{
+		Kind result{ Kind::eUndefined };
+
 		switch ( kind )
 		{
 		case Kind::eBoolean:
-			return Kind::eVec4B;
+			result = Kind::eVec4B;
+			break;
 		case Kind::eInt8:
-			return Kind::eVec4I8;
+			result = Kind::eVec4I8;
+			break;
 		case Kind::eInt16:
-			return Kind::eVec4I16;
+			result = Kind::eVec4I16;
+			break;
 		case Kind::eInt32:
-			return Kind::eVec4I32;
+			result = Kind::eVec4I32;
+			break;
 		case Kind::eInt64:
-			return Kind::eVec4I64;
+			result = Kind::eVec4I64;
+			break;
 		case Kind::eUInt8:
-			return Kind::eVec4U8;
+			result = Kind::eVec4U8;
+			break;
 		case Kind::eUInt16:
-			return Kind::eVec4U16;
+			result = Kind::eVec4U16;
+			break;
 		case Kind::eUInt32:
-			return Kind::eVec4U32;
+			result = Kind::eVec4U32;
+			break;
 		case Kind::eUInt64:
-			return Kind::eVec4U64;
+			result = Kind::eVec4U64;
+			break;
 		case Kind::eHalf:
-			return Kind::eVec4H;
+			result = Kind::eVec4H;
+			break;
 		case Kind::eFloat:
-			return Kind::eVec4F;
+			result = Kind::eVec4F;
+			break;
 		case Kind::eDouble:
-			return Kind::eVec4D;
+			result = Kind::eVec4D;
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return Kind::eUndefined;
+			break;
 		}
+
+		assert( result != Kind::eUndefined && "Unsupported component type" );
+		return result;
 	}
 
 	Kind TypesCache::getMat2Kind( Kind kind )const
 	{
+		Kind result{ Kind::eUndefined };
+
 		switch ( kind )
 		{
 		case Kind::eVec2F:
-			return Kind::eMat2x2F;
+			result = Kind::eMat2x2F;
+			break;
 		case Kind::eVec2D:
-			return Kind::eMat2x2D;
+			result = Kind::eMat2x2D;
+			break;
 		case Kind::eVec3F:
-			return Kind::eMat2x3F;
+			result = Kind::eMat2x3F;
+			break;
 		case Kind::eVec3D:
-			return Kind::eMat2x3D;
+			result = Kind::eMat2x3D;
+			break;
 		case Kind::eVec4F:
-			return Kind::eMat2x4F;
+			result = Kind::eMat2x4F;
+			break;
 		case Kind::eVec4D:
-			return Kind::eMat2x4D;
+			result = Kind::eMat2x4D;
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return Kind::eUndefined;
+			break;
 		}
+
+		assert( result != Kind::eUndefined && "Unsupported component type" );
+		return result;
 	}
 
 	Kind TypesCache::getMat3Kind( Kind kind )const
 	{
+		Kind result{ Kind::eUndefined };
+
 		switch ( kind )
 		{
 		case Kind::eVec2F:
-			return Kind::eMat3x2F;
+			result = Kind::eMat3x2F;
+			break;
 		case Kind::eVec2D:
-			return Kind::eMat3x2D;
+			result = Kind::eMat3x2D;
+			break;
 		case Kind::eVec3F:
-			return Kind::eMat3x3F;
+			result = Kind::eMat3x3F;
+			break;
 		case Kind::eVec3D:
-			return Kind::eMat3x3D;
+			result = Kind::eMat3x3D;
+			break;
 		case Kind::eVec4F:
-			return Kind::eMat3x4F;
+			result = Kind::eMat3x4F;
+			break;
 		case Kind::eVec4D:
-			return Kind::eMat3x4D;
+			result = Kind::eMat3x4D;
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return Kind::eUndefined;
+			break;
 		}
+
+		assert( result != Kind::eUndefined && "Unsupported component type" );
+		return result;
 	}
 
 	Kind TypesCache::getMat4Kind( Kind kind )const
 	{
+		Kind result{ Kind::eUndefined };
+
 		switch ( kind )
 		{
 		case Kind::eVec2F:
-			return Kind::eMat4x2F;
+			result = Kind::eMat4x2F;
+			break;
 		case Kind::eVec2D:
-			return Kind::eMat4x2D;
+			result = Kind::eMat4x2D;
+			break;
 		case Kind::eVec3F:
-			return Kind::eMat4x3F;
+			result = Kind::eMat4x3F;
+			break;
 		case Kind::eVec3D:
-			return Kind::eMat4x3D;
+			result = Kind::eMat4x3D;
+			break;
 		case Kind::eVec4F:
-			return Kind::eMat4x4F;
+			result = Kind::eMat4x4F;
+			break;
 		case Kind::eVec4D:
-			return Kind::eMat4x4D;
+			result = Kind::eMat4x4D;
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return Kind::eUndefined;
+			break;
 		}
+
+		assert( result != Kind::eUndefined && "Unsupported component type" );
+		return result;
 	}
 
 	TypePtr TypesCache::getVector( Kind kind, uint32_t count )
 	{
 		assert( isScalarType( kind ) );
+		TypePtr result{};
 
 		switch ( count )
 		{
 		case 1:
-			return getBasicType( kind );
+			result = getBasicType( kind );
+			break;
 		case 2:
-			return getVec2Type( kind );
+			result = getVec2Type( kind );
+			break;
 		case 3:
-			return getVec3Type( kind );
+			result = getVec3Type( kind );
+			break;
 		case 4:
-			return getVec4Type( kind );
+			result = getVec4Type( kind );
+			break;
 		default:
-			AST_Failure( "Unsupported component type." );
-			return nullptr;
+			break;
 		}
+
+		assert( result && "Unsupported component type" );
+		return result;
 	}
 
 	AccelerationStructurePtr TypesCache::getAccelerationStructure()
@@ -1021,122 +1180,180 @@ namespace ast::type
 
 	TypePtr TypesCache::getSampledType( ImageFormat format )
 	{
+		TypePtr result{};
+
 		switch ( format )
 		{
 		case ImageFormat::eUnknown:
-			return getBasicType( sampledType< ImageFormat::eUnknown > );
+			result = getBasicType( sampledType< ImageFormat::eUnknown > );
+			break;
 		case ImageFormat::eRgba32f:
-			return getBasicType( sampledType< ImageFormat::eRgba32f > );
+			result = getBasicType( sampledType< ImageFormat::eRgba32f > );
+			break;
 		case ImageFormat::eRgba16f:
-			return getBasicType( sampledType< ImageFormat::eRgba16f > );
+			result = getBasicType( sampledType< ImageFormat::eRgba16f > );
+			break;
 		case ImageFormat::eRg32f:
-			return getBasicType( sampledType< ImageFormat::eRg32f > );
+			result = getBasicType( sampledType< ImageFormat::eRg32f > );
+			break;
 		case ImageFormat::eRg16f:
-			return getBasicType( sampledType< ImageFormat::eRg16f > );
+			result = getBasicType( sampledType< ImageFormat::eRg16f > );
+			break;
 		case ImageFormat::eR32f:
-			return getBasicType( sampledType< ImageFormat::eR32f > );
+			result = getBasicType( sampledType< ImageFormat::eR32f > );
+			break;
 		case ImageFormat::eR16f:
-			return getBasicType( sampledType< ImageFormat::eR16f > );
+			result = getBasicType( sampledType< ImageFormat::eR16f > );
+			break;
 		case ImageFormat::eRgba32i:
-			return getBasicType( sampledType< ImageFormat::eRgba32i > );
+			result = getBasicType( sampledType< ImageFormat::eRgba32i > );
+			break;
 		case ImageFormat::eRgba16i:
-			return getBasicType( sampledType< ImageFormat::eRgba16i > );
+			result = getBasicType( sampledType< ImageFormat::eRgba16i > );
+			break;
 		case ImageFormat::eRgba8i:
-			return getBasicType( sampledType< ImageFormat::eRgba8i > );
+			result = getBasicType( sampledType< ImageFormat::eRgba8i > );
+			break;
 		case ImageFormat::eRg32i:
-			return getBasicType( sampledType< ImageFormat::eRg32i > );
+			result = getBasicType( sampledType< ImageFormat::eRg32i > );
+			break;
 		case ImageFormat::eRg16i:
-			return getBasicType( sampledType< ImageFormat::eRg16i > );
+			result = getBasicType( sampledType< ImageFormat::eRg16i > );
+			break;
 		case ImageFormat::eRg8i:
-			return getBasicType( sampledType< ImageFormat::eRg8i > );
+			result = getBasicType( sampledType< ImageFormat::eRg8i > );
+			break;
 		case ImageFormat::eR32i:
-			return getBasicType( sampledType< ImageFormat::eR32i > );
+			result = getBasicType( sampledType< ImageFormat::eR32i > );
+			break;
 		case ImageFormat::eR16i:
-			return getBasicType( sampledType< ImageFormat::eR16i > );
+			result = getBasicType( sampledType< ImageFormat::eR16i > );
+			break;
 		case ImageFormat::eR8i:
-			return getBasicType( sampledType< ImageFormat::eR8i > );
+			result = getBasicType( sampledType< ImageFormat::eR8i > );
+			break;
 		case ImageFormat::eRgba32u:
-			return getBasicType( sampledType< ImageFormat::eRgba32u > );
+			result = getBasicType( sampledType< ImageFormat::eRgba32u > );
+			break;
 		case ImageFormat::eRgba16u:
-			return getBasicType( sampledType< ImageFormat::eRgba16u > );
+			result = getBasicType( sampledType< ImageFormat::eRgba16u > );
+			break;
 		case ImageFormat::eRgba8u:
-			return getBasicType( sampledType< ImageFormat::eRgba8u > );
+			result = getBasicType( sampledType< ImageFormat::eRgba8u > );
+			break;
 		case ImageFormat::eRg32u:
-			return getBasicType( sampledType< ImageFormat::eRg32u > );
+			result = getBasicType( sampledType< ImageFormat::eRg32u > );
+			break;
 		case ImageFormat::eRg16u:
-			return getBasicType( sampledType< ImageFormat::eRg16u > );
+			result = getBasicType( sampledType< ImageFormat::eRg16u > );
+			break;
 		case ImageFormat::eRg8u:
-			return getBasicType( sampledType< ImageFormat::eRg8u > );
+			result = getBasicType( sampledType< ImageFormat::eRg8u > );
+			break;
 		case ImageFormat::eR32u:
-			return getBasicType( sampledType< ImageFormat::eR32u > );
+			result = getBasicType( sampledType< ImageFormat::eR32u > );
+			break;
 		case ImageFormat::eR16u:
-			return getBasicType( sampledType< ImageFormat::eR16u > );
+			result = getBasicType( sampledType< ImageFormat::eR16u > );
+			break;
 		case ImageFormat::eR8u:
-			return getBasicType( sampledType< ImageFormat::eR8u > );
+			result = getBasicType( sampledType< ImageFormat::eR8u > );
+			break;
 		default:
-			AST_Failure( "getSampledType: Unsupported ImageFormat" );
-			return nullptr;
+			break;
 		}
+
+		assert( result && "getSampledType: Unsupported ImageFormat" );
+		return result;
 	}
 
 	TypePtr TypesCache::getTexelType( ImageFormat format )
 	{
+		TypePtr result{};
+
 		switch ( format )
 		{
 		case ImageFormat::eUnknown:
-			return getBasicType( texelType< ImageFormat::eUnknown > );
+			result = getBasicType( texelType< ImageFormat::eUnknown > );
+			break;
 		case ImageFormat::eRgba32f:
-			return getBasicType( texelType< ImageFormat::eRgba32f > );
+			result = getBasicType( texelType< ImageFormat::eRgba32f > );
+			break;
 		case ImageFormat::eRgba16f:
-			return getBasicType( texelType< ImageFormat::eRgba16f > );
+			result = getBasicType( texelType< ImageFormat::eRgba16f > );
+			break;
 		case ImageFormat::eRg32f:
-			return getBasicType( texelType< ImageFormat::eRg32f > );
+			result = getBasicType( texelType< ImageFormat::eRg32f > );
+			break;
 		case ImageFormat::eRg16f:
-			return getBasicType( texelType< ImageFormat::eRg16f > );
+			result = getBasicType( texelType< ImageFormat::eRg16f > );
+			break;
 		case ImageFormat::eR32f:
-			return getBasicType( texelType< ImageFormat::eR32f > );
+			result = getBasicType( texelType< ImageFormat::eR32f > );
+			break;
 		case ImageFormat::eR16f:
-			return getBasicType( texelType< ImageFormat::eR16f > );
+			result = getBasicType( texelType< ImageFormat::eR16f > );
+			break;
 		case ImageFormat::eRgba32i:
-			return getBasicType( texelType< ImageFormat::eRgba32i > );
+			result = getBasicType( texelType< ImageFormat::eRgba32i > );
+			break;
 		case ImageFormat::eRgba16i:
-			return getBasicType( texelType< ImageFormat::eRgba16i > );
+			result = getBasicType( texelType< ImageFormat::eRgba16i > );
+			break;
 		case ImageFormat::eRgba8i:
-			return getBasicType( texelType< ImageFormat::eRgba8i > );
+			result = getBasicType( texelType< ImageFormat::eRgba8i > );
+			break;
 		case ImageFormat::eRg32i:
-			return getBasicType( texelType< ImageFormat::eRg32i > );
+			result = getBasicType( texelType< ImageFormat::eRg32i > );
+			break;
 		case ImageFormat::eRg16i:
-			return getBasicType( texelType< ImageFormat::eRg16i > );
+			result = getBasicType( texelType< ImageFormat::eRg16i > );
+			break;
 		case ImageFormat::eRg8i:
-			return getBasicType( texelType< ImageFormat::eRg8i > );
+			result = getBasicType( texelType< ImageFormat::eRg8i > );
+			break;
 		case ImageFormat::eR32i:
-			return getBasicType( texelType< ImageFormat::eR32i > );
+			result = getBasicType( texelType< ImageFormat::eR32i > );
+			break;
 		case ImageFormat::eR16i:
-			return getBasicType( texelType< ImageFormat::eR16i > );
+			result = getBasicType( texelType< ImageFormat::eR16i > );
+			break;
 		case ImageFormat::eR8i:
-			return getBasicType( texelType< ImageFormat::eR8i > );
+			result = getBasicType( texelType< ImageFormat::eR8i > );
+			break;
 		case ImageFormat::eRgba32u:
-			return getBasicType( texelType< ImageFormat::eRgba32u > );
+			result = getBasicType( texelType< ImageFormat::eRgba32u > );
+			break;
 		case ImageFormat::eRgba16u:
-			return getBasicType( texelType< ImageFormat::eRgba16u > );
+			result = getBasicType( texelType< ImageFormat::eRgba16u > );
+			break;
 		case ImageFormat::eRgba8u:
-			return getBasicType( texelType< ImageFormat::eRgba8u > );
+			result = getBasicType( texelType< ImageFormat::eRgba8u > );
+			break;
 		case ImageFormat::eRg32u:
-			return getBasicType( texelType< ImageFormat::eRg32u > );
+			result = getBasicType( texelType< ImageFormat::eRg32u > );
+			break;
 		case ImageFormat::eRg16u:
-			return getBasicType( texelType< ImageFormat::eRg16u > );
+			result = getBasicType( texelType< ImageFormat::eRg16u > );
+			break;
 		case ImageFormat::eRg8u:
-			return getBasicType( texelType< ImageFormat::eRg8u > );
+			result = getBasicType( texelType< ImageFormat::eRg8u > );
+			break;
 		case ImageFormat::eR32u:
-			return getBasicType( texelType< ImageFormat::eR32u > );
+			result = getBasicType( texelType< ImageFormat::eR32u > );
+			break;
 		case ImageFormat::eR16u:
-			return getBasicType( texelType< ImageFormat::eR16u > );
+			result = getBasicType( texelType< ImageFormat::eR16u > );
+			break;
 		case ImageFormat::eR8u:
-			return getBasicType( texelType< ImageFormat::eR8u > );
+			result = getBasicType( texelType< ImageFormat::eR8u > );
+			break;
 		default:
-			AST_Failure( "getTexelType: Unsupported ImageFormat" );
-			return nullptr;
+			break;
 		}
+
+		assert( result && "getTexelType: Unsupported ImageFormat" );
+		return result;
 	}
 
 	FunctionPtr TypesCache::getFunction( TypePtr returnType

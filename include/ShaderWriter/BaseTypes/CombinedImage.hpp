@@ -65,11 +65,6 @@ namespace sdw
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
-	static bool constexpr isRectV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT >
 	static bool constexpr isBufferV = ( !DepthT ) && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eBuffer );
 
 	template< ast::type::ImageDim DimT
@@ -101,11 +96,6 @@ namespace sdw
 		, bool ArrayedT
 		, bool DepthT >
 	static bool constexpr is2dShadowV = DepthT && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::e2D );
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool DepthT >
-	static bool constexpr isRectShadowV = DepthT && ( !ArrayedT ) && ( DimT == ast::type::ImageDim::eRect );
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT

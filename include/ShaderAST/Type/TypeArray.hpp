@@ -21,13 +21,11 @@ namespace ast::type
 		SDAST_API Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
-			, Array const & nonMbr
-			, uint32_t arraySize = UnknownArraySize );
+			, Array const & nonMbr );
 		SDAST_API Array( Struct & parent
 			, uint32_t index
 			, TypePtr type
-			, Array const & nonMbr
-			, uint32_t arraySize = UnknownArraySize );
+			, Array const & nonMbr );
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		inline TypePtr getType()const

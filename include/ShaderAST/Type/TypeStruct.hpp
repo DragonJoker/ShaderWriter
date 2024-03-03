@@ -218,7 +218,7 @@ namespace ast::type
 		std::vector< Member > m_members;
 		MemoryLayout m_layout;
 		var::Flag m_flag{};
-		EntryPoint m_entryPoint{};
+		EntryPoint m_entryPoint;
 	};
 
 	class BaseStruct

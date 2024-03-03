@@ -39,11 +39,6 @@ namespace ast::expr
 		{
 			return SwizzleKind::Value( uint16_t( lhs ) << rhs );
 		}
-
-		SwizzleKind::Value operator>>( SwizzleKind::Value lhs, uint32_t rhs )
-		{
-			return SwizzleKind::Value( uint16_t( lhs ) >> rhs );
-		}
 	}
 
 	SwizzleKind::SwizzleKind( SwizzleKind::Value value )
@@ -151,27 +146,6 @@ namespace ast::expr
 	{
 		m_value = m_value | rhs.m_value;
 		assert( isValid( *this ) );
-		return *this;
-	}
-
-	SwizzleKind & SwizzleKind::operator&=( SwizzleKind const & rhs )
-	{
-		m_value = m_value & rhs.m_value;
-		assert( isValid( *this ) );
-		return *this;
-	}
-
-	SwizzleKind & SwizzleKind::operator<<=( uint32_t rhs )
-	{
-		assert( ( rhs % 4u == 0u ) && rhs <= 12u );
-		m_value = m_value << rhs;
-		return *this;
-	}
-
-	SwizzleKind & SwizzleKind::operator>>=( uint32_t rhs )
-	{
-		assert( ( rhs % 4u == 0u ) && rhs <= 12u );
-		m_value = m_value >> rhs;
 		return *this;
 	}
 
@@ -1202,7 +1176,7 @@ namespace ast::expr
 			result = "wwww";
 			break;
 		default:
-			throw Exception{ "Not supported SwizzleKind" };
+			break;
 		}
 
 		return result;

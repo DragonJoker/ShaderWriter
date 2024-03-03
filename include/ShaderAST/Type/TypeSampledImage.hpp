@@ -37,20 +37,13 @@ namespace ast::type
 
 		Trinary getDepth()const
 		{
-			return m_depth
-				? *m_depth
-				: Trinary::eDontCare;
+			return m_depth;
 		}
 
-	private:
 		void updateComparison( bool comparison )
 		{
-			if ( m_depth == std::nullopt )
-			{
-				m_depth = comparison ? Trinary::eTrue : Trinary::eFalse;
-			}
-			else if ( ( Trinary::eTrue == *m_depth && !comparison )
-				|| ( Trinary::eFalse == *m_depth && comparison ) )
+			if ( ( Trinary::eTrue == m_depth && !comparison )
+				|| ( Trinary::eFalse == m_depth && comparison ) )
 			{
 				m_depth = Trinary::eDontCare;
 			}
@@ -58,9 +51,7 @@ namespace ast::type
 
 	private:
 		ImagePtr m_imageType;
-		std::optional< Trinary > m_depth;
-
-		friend class ast::expr::CompositeConstruct;
+		Trinary m_depth;
 	};
 	using SampledImagePtr = std::shared_ptr< SampledImage >;
 }

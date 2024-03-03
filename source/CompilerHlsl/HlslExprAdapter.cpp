@@ -239,24 +239,16 @@ namespace hlsl
 
 			case ast::expr::CombinedImageAccess::eTextureProj2DF3:
 			case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectF3:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProj2DI3:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectI3:
 			case ast::expr::CombinedImageAccess::eTextureProj2DU3:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectU3:
 			case ast::expr::CombinedImageAccess::eTextureProj2DF3Bias:
 			case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
 			case ast::expr::CombinedImageAccess::eTextureProj2DI3Bias:
 			case ast::expr::CombinedImageAccess::eTextureProj2DU3Bias:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF3:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI3:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU3:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3Bias:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3Bias:
@@ -271,37 +263,23 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF3:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
 				return writeProjectTexCoords3( exprCache, typesCache, nextVarId, std::move( texcoords ) );
 
 			case ast::expr::CombinedImageAccess::eTextureProj2DF4:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectF4:
 			case ast::expr::CombinedImageAccess::eTextureProj2DI4:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectI4:
 			case ast::expr::CombinedImageAccess::eTextureProj2DU4:
-			case ast::expr::CombinedImageAccess::eTextureProj2DRectU4:
 			case ast::expr::CombinedImageAccess::eTextureProj2DF4Bias:
 			case ast::expr::CombinedImageAccess::eTextureProj2DI4Bias:
 			case ast::expr::CombinedImageAccess::eTextureProj2DU4Bias:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF4:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI4:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4:
-			case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU4:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4Bias:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
 			case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
@@ -312,17 +290,11 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
 			case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF4:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
 				return writeProjectTexCoords4To2( exprCache, typesCache, nextVarId, std::move( texcoords ) );
 
 			case ast::expr::CombinedImageAccess::eTextureProj3DF:
@@ -359,15 +331,12 @@ namespace hlsl
 
 		static ast::expr::CombinedImageAccess getSampleCmp( ast::expr::CombinedImageAccess value )
 		{
-			assert( value >= ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF
-				&& value <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF );
+			assert( value >= ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
+				&& value <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF );
 			ast::expr::CombinedImageAccess result{};
 
 			switch ( value )
 			{
-			case ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF:
-				result = ast::expr::CombinedImageAccess::eTexture2DRectShadowF;
-				break;
 			case ast::expr::CombinedImageAccess::eTextureGrad1DShadowF:
 				result = ast::expr::CombinedImageAccess::eTexture1DShadowF;
 				break;
@@ -376,9 +345,6 @@ namespace hlsl
 				break;
 			case ast::expr::CombinedImageAccess::eTextureGrad1DArrayShadowF:
 				result = ast::expr::CombinedImageAccess::eTexture1DArrayShadowF;
-				break;
-			case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectShadowF:
-				result = ast::expr::CombinedImageAccess::eTextureOffset2DRectShadowF;
 				break;
 			case ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
 				result = ast::expr::CombinedImageAccess::eTextureOffset1DShadowF;
@@ -398,17 +364,11 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
 				result = ast::expr::CombinedImageAccess::eTextureProj2DShadowF;
 				break;
-			case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
-				result = ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF;
-				break;
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
 				result = ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF;
 				break;
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
 				result = ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF;
-				break;
-			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
-				result = ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF;
 				break;
 			default:
 				break;
@@ -531,7 +491,7 @@ namespace hlsl
 					index = uint32_t( lit.getValue< ast::expr::LiteralType::eUInt16 >() );
 					break;
 				case ast::expr::LiteralType::eUInt32:
-					index = lit.getValue< ast::expr::LiteralType::eUInt32 >();
+					index = uint32_t( lit.getValue< ast::expr::LiteralType::eUInt32 >() );
 					break;
 				case ast::expr::LiteralType::eUInt64:
 					index = uint32_t( lit.getValue< ast::expr::LiteralType::eUInt64 >() );
@@ -1027,23 +987,23 @@ namespace hlsl
 		{
 			doProcessTexelFetch( *expr );
 		}
-		else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF
-			&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF
+		else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
+			&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF
 			&& m_intrinsicsConfig.requiresShadowSampler )
 		{
 			doProcessTextureGradShadow( *expr );
 		}
 		else if ( ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
-				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectU )
+				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayU )
 			|| ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DShadowF
-				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF ) )
+				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF ) )
 		{
 			doProcessTextureGather( *expr );
 		}
 		else if ( ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DF
-				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
+				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU )
 			|| ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF
-				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF ) )
+				&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF ) )
 		{
 			doProcessTextureGatherOffsets( *expr );
 		}
@@ -1782,8 +1742,7 @@ namespace hlsl
 			parameters.emplace_back( image );
 			ast::var::VariablePtr lod;
 
-			if ( config.dimension != ast::type::ImageDim::eBuffer
-				&& config.dimension != ast::type::ImageDim::eRect )
+			if ( config.dimension != ast::type::ImageDim::eBuffer )
 			{
 				lod = ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, expr.getArgList()[1]->getType()
@@ -2045,7 +2004,6 @@ namespace hlsl
 				}
 				break;
 			case ast::type::ImageDim::e2D:
-			case ast::type::ImageDim::eRect:
 			case ast::type::ImageDim::eCube:
 				resVars.emplace_back( ast::var::makeVariable( m_adaptationData.getNextVarId()
 					, uintType
@@ -2157,28 +2115,11 @@ namespace hlsl
 		else
 		{
 			ast::expr::ExprList merged;
-
-			if ( expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetch2DRectF
-				|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetch2DRectI
-				|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetch2DRectU
-				|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetchOffset2DRectF
-				|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetchOffset2DRectI
-				|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetchOffset2DRectU )
-			{
-				// For those texel fetch functions, no lod, hence create a 0 lod.
-				assert( expr.getArgList().size() >= 2u );
-				// Merge second and literal(0) parameters to the appropriate vector type (int=>ivec2, ivec2=>ivec3, ivec3=>ivec4).
-				merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
-				merged.emplace_back( m_exprCache.makeLiteral( m_typesCache, 0 ) );
-			}
-			else
-			{
-				// For those texel fetch functions, lod is put inside the coords parameter, instead of being aside.
-				assert( expr.getArgList().size() >= 3u );
-				// Merge second and third parameters to the appropriate vector type (int=>ivec2, ivec2=>ivec3, ivec3=>ivec4).
-				merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
-				merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
-			}
+			// For those texel fetch functions, lod is put inside the coords parameter, instead of being aside.
+			assert( expr.getArgList().size() >= 3u );
+			// Merge second and third parameters to the appropriate vector type (int=>ivec2, ivec2=>ivec3, ivec3=>ivec4).
+			merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
+			merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
 
 			switch ( merged[0]->getType()->getKind() )
 			{

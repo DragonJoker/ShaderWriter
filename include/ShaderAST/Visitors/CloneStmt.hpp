@@ -16,6 +16,9 @@ namespace ast
 		SDAST_API static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
 			, expr::ExprCache & exprCache
 			, stmt::Container const & stmt );
+		SDAST_API static stmt::StmtPtr submit( stmt::StmtCache & stmtCache
+			, expr::ExprCache & exprCache
+			, stmt::Stmt const * stmt );
 
 	protected:
 		SDAST_API explicit StmtCloner( stmt::StmtCache & stmtCache

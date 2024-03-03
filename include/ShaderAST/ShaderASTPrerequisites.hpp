@@ -50,6 +50,9 @@ See LICENSE file in root folder
 #define AST_Failure( msg )\
 	assert( false && msg )
 
+#define AST_Exception( text )\
+	throw ast::Exception{ text }
+
 namespace ast
 {
 	class ShaderAllocator;

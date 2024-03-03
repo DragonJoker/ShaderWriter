@@ -27,6 +27,34 @@ namespace spirv
 
 	namespace hlp
 	{
+		static spv::Dim getImageDim( ast::type::ImageDim dimension )
+		{
+			spv::Dim result{};
+
+			switch ( dimension )
+			{
+			case ast::type::ImageDim::e1D:
+				result = spv::Dim1D;
+				break;
+			case ast::type::ImageDim::e2D:
+				result = spv::Dim2D;
+				break;
+			case ast::type::ImageDim::e3D:
+				result = spv::Dim3D;
+				break;
+			case ast::type::ImageDim::eCube:
+				result = spv::DimCube;
+				break;
+			case ast::type::ImageDim::eBuffer:
+				result = spv::DimBuffer;
+				break;
+			default:
+				break;
+			}
+
+			return result;
+		}
+
 		static spv::ImageFormat getImageFormat( ast::type::ImageFormat value )
 		{
 			switch ( value )
@@ -438,11 +466,6 @@ namespace spirv
 				if ( image.dimension == ast::type::ImageDim::e1D )
 				{
 					config.registerCapability( spv::CapabilitySampled1D );
-				}
-
-				if ( image.dimension == ast::type::ImageDim::eRect )
-				{
-					config.registerCapability( spv::CapabilitySampledRect );
 				}
 
 				if ( image.dimension == ast::type::ImageDim::eBuffer )
@@ -2941,7 +2964,7 @@ namespace spirv
 	{
 		ValueIdList operands{ nameCache.get_allocator() };
 		operands.push_back( sampledTypeId );
-		operands.emplace_back( spv::Id( config.dimension ) );
+		operands.emplace_back( spv::Id( hlp::getImageDim( config.dimension ) ) );
 		operands.emplace_back( isComparison == ast::type::Trinary::eTrue
 			? 1u
 			: ( isComparison == ast::type::Trinary::eFalse

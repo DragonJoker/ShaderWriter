@@ -1,5 +1,15 @@
 enable_testing()
 
+if ( NOT DEFINED SDW_GENERATE_SOURCE )
+	option( SDW_GENERATE_SOURCE "Build source files from .enum files, using Python" OFF )
+endif ()
+if ( SDW_GENERATE_SOURCE )
+	find_package( Python QUIET COMPONENTS Interpreter )
+endif ()
+
+get_filename_component( SDW_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR} DIRECTORY )
+get_filename_component( SDW_BINARY_DIR ${CMAKE_CURRENT_BINARY_DIR} DIRECTORY )
+
 set( TEST_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/Common.hpp
 )

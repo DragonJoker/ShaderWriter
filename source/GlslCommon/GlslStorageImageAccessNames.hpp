@@ -27,7 +27,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageSize3DF:
 		case ast::expr::StorageImageAccess::eImageSizeCubeF:
 		case ast::expr::StorageImageAccess::eImageSizeCubeArrayF:
-		case ast::expr::StorageImageAccess::eImageSize2DRectF:
 		case ast::expr::StorageImageAccess::eImageSize1DArrayF:
 		case ast::expr::StorageImageAccess::eImageSize2DArrayF:
 		case ast::expr::StorageImageAccess::eImageSizeBufferF:
@@ -38,7 +37,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageSize3DI:
 		case ast::expr::StorageImageAccess::eImageSizeCubeI:
 		case ast::expr::StorageImageAccess::eImageSizeCubeArrayI:
-		case ast::expr::StorageImageAccess::eImageSize2DRectI:
 		case ast::expr::StorageImageAccess::eImageSize1DArrayI:
 		case ast::expr::StorageImageAccess::eImageSize2DArrayI:
 		case ast::expr::StorageImageAccess::eImageSizeBufferI:
@@ -49,7 +47,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageSize3DU:
 		case ast::expr::StorageImageAccess::eImageSizeCubeU:
 		case ast::expr::StorageImageAccess::eImageSizeCubeArrayU:
-		case ast::expr::StorageImageAccess::eImageSize2DRectU:
 		case ast::expr::StorageImageAccess::eImageSize1DArrayU:
 		case ast::expr::StorageImageAccess::eImageSize2DArrayU:
 		case ast::expr::StorageImageAccess::eImageSizeBufferU:
@@ -72,7 +69,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageLoad1DF:
 		case ast::expr::StorageImageAccess::eImageLoad2DF:
 		case ast::expr::StorageImageAccess::eImageLoad3DF:
-		case ast::expr::StorageImageAccess::eImageLoad2DRectF:
 		case ast::expr::StorageImageAccess::eImageLoadCubeF:
 		case ast::expr::StorageImageAccess::eImageLoadBufferF:
 		case ast::expr::StorageImageAccess::eImageLoad1DArrayF:
@@ -83,7 +79,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageLoad1DI:
 		case ast::expr::StorageImageAccess::eImageLoad2DI:
 		case ast::expr::StorageImageAccess::eImageLoad3DI:
-		case ast::expr::StorageImageAccess::eImageLoad2DRectI:
 		case ast::expr::StorageImageAccess::eImageLoadCubeI:
 		case ast::expr::StorageImageAccess::eImageLoadBufferI:
 		case ast::expr::StorageImageAccess::eImageLoad1DArrayI:
@@ -94,7 +89,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageLoad1DU:
 		case ast::expr::StorageImageAccess::eImageLoad2DU:
 		case ast::expr::StorageImageAccess::eImageLoad3DU:
-		case ast::expr::StorageImageAccess::eImageLoad2DRectU:
 		case ast::expr::StorageImageAccess::eImageLoadCubeU:
 		case ast::expr::StorageImageAccess::eImageLoadBufferU:
 		case ast::expr::StorageImageAccess::eImageLoad1DArrayU:
@@ -110,7 +104,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageStore1DF:
 		case ast::expr::StorageImageAccess::eImageStore2DF:
 		case ast::expr::StorageImageAccess::eImageStore3DF:
-		case ast::expr::StorageImageAccess::eImageStore2DRectF:
 		case ast::expr::StorageImageAccess::eImageStoreCubeF:
 		case ast::expr::StorageImageAccess::eImageStoreBufferF:
 		case ast::expr::StorageImageAccess::eImageStore1DArrayF:
@@ -121,7 +114,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageStore1DI:
 		case ast::expr::StorageImageAccess::eImageStore2DI:
 		case ast::expr::StorageImageAccess::eImageStore3DI:
-		case ast::expr::StorageImageAccess::eImageStore2DRectI:
 		case ast::expr::StorageImageAccess::eImageStoreCubeI:
 		case ast::expr::StorageImageAccess::eImageStoreBufferI:
 		case ast::expr::StorageImageAccess::eImageStore1DArrayI:
@@ -132,7 +124,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageStore1DU:
 		case ast::expr::StorageImageAccess::eImageStore2DU:
 		case ast::expr::StorageImageAccess::eImageStore3DU:
-		case ast::expr::StorageImageAccess::eImageStore2DRectU:
 		case ast::expr::StorageImageAccess::eImageStoreCubeU:
 		case ast::expr::StorageImageAccess::eImageStoreBufferU:
 		case ast::expr::StorageImageAccess::eImageStore1DArrayU:
@@ -148,7 +139,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicAddCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicAddBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DArrayU:
@@ -159,7 +149,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicAddCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicAddBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DArrayI:
@@ -170,7 +159,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DF:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd2DF:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd3DF:
-		case ast::expr::StorageImageAccess::eImageAtomicAdd2DRectF:
 		case ast::expr::StorageImageAccess::eImageAtomicAddCubeF:
 		case ast::expr::StorageImageAccess::eImageAtomicAddBufferF:
 		case ast::expr::StorageImageAccess::eImageAtomicAdd1DArrayF:
@@ -184,7 +172,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicMin1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicMin2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicMin3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicMin2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicMinCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicMinBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicMin1DArrayU:
@@ -195,7 +182,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicMin1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicMin2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicMin3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicMin2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicMinCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicMinBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicMin1DArrayI:
@@ -209,7 +195,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicMax1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicMax2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicMax3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicMax2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicMaxCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicMaxBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicMax1DArrayU:
@@ -220,7 +205,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicMax1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicMax2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicMax3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicMax2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicMaxCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicMaxBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicMax1DArrayI:
@@ -234,7 +218,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicAnd1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicAnd2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicAnd3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicAnd2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicAndCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicAndBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicAnd1DArrayU:
@@ -245,7 +228,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicAnd1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicAnd2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicAnd3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicAnd2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicAndCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicAndBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicAnd1DArrayI:
@@ -259,7 +241,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicOr1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicOr2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicOr3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicOr2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicOrCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicOrBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicOr1DArrayU:
@@ -270,7 +251,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicOr1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicOr2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicOr3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicOr2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicOrCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicOrBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicOr1DArrayI:
@@ -284,7 +264,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicXor1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicXor2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicXor3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicXor2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicXorCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicXorBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicXor1DArrayU:
@@ -295,7 +274,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicXor1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicXor2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicXor3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicXor2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicXorCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicXorBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicXor1DArrayI:
@@ -309,7 +287,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DArrayU:
@@ -320,7 +297,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DArrayI:
@@ -331,7 +307,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange2DF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange3DF:
-		case ast::expr::StorageImageAccess::eImageAtomicExchange2DRectF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeCubeF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchangeBufferF:
 		case ast::expr::StorageImageAccess::eImageAtomicExchange1DArrayF:
@@ -345,7 +320,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap1DU:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap2DU:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap3DU:
-		case ast::expr::StorageImageAccess::eImageAtomicCompSwap2DRectU:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwapCubeU:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwapBufferU:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap1DArrayU:
@@ -356,7 +330,6 @@ namespace glsl
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap1DI:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap2DI:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap3DI:
-		case ast::expr::StorageImageAccess::eImageAtomicCompSwap2DRectI:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwapCubeI:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwapBufferI:
 		case ast::expr::StorageImageAccess::eImageAtomicCompSwap1DArrayI:

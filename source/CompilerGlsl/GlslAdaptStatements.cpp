@@ -865,17 +865,17 @@ namespace glsl
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override
 			{
 				if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTexture1DShadowF
-					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF )
+					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF )
 				{
 					doProcessTextureShadow( *expr );
 				}
 				else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTexture1DF
-					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4 )
+					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU )
 				{
 					doProcessTextureSample( *expr );
 				}
 				else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
-					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
+					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU )
 				{
 					doProcessTextureGather( *expr );
 				}

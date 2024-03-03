@@ -855,7 +855,7 @@ namespace hlsl
 					doProcessNonMemberTexture( *expr );
 				}
 				else if ( expr->getCombinedImageAccess() >= ast::expr::CombinedImageAccess::eTextureGather2DF
-					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU )
+					&& expr->getCombinedImageAccess() <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU )
 				{
 					doProcessTextureGather( *expr );
 				}
@@ -1074,7 +1074,7 @@ namespace hlsl
 					else
 					{
 						assert( lit->getLiteralType() == ast::expr::LiteralType::eUInt32 );
-						compValue = lit->getValue< ast::expr::LiteralType::eUInt32 >();
+						compValue = uint32_t( lit->getValue< ast::expr::LiteralType::eUInt32 >() );
 					}
 				}
 

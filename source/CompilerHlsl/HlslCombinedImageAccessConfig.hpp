@@ -27,20 +27,17 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTexture1DArrayShadowFBias:
 		case ast::expr::CombinedImageAccess::eTexture2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTexture2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProj1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLod2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DShadowF:
@@ -51,7 +48,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
@@ -63,13 +59,10 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
 			config.requiresShadowSampler = true;
 			config.requiresShadowOnTiled = ( value == ast::expr::CombinedImageAccess::eTextureCubeShadowF
 				|| value == ast::expr::CombinedImageAccess::eTextureCubeShadowFBias
@@ -97,14 +90,10 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
 			throw ast::Exception{ "Unsupported grad shadow" };
 
@@ -122,7 +111,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTexture2DArrayIBias:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayI:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayIBias:
-		case ast::expr::CombinedImageAccess::eTexture2DRectI:
 		case ast::expr::CombinedImageAccess::eTexture1DU:
 		case ast::expr::CombinedImageAccess::eTexture1DUBias:
 		case ast::expr::CombinedImageAccess::eTexture2DU:
@@ -137,7 +125,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTexture2DArrayUBias:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayU:
 		case ast::expr::CombinedImageAccess::eTextureCubeArrayUBias:
-		case ast::expr::CombinedImageAccess::eTexture2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureProj1DI2:
 		case ast::expr::CombinedImageAccess::eTextureProj1DI2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj1DI4:
@@ -148,8 +135,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProj2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj3DI:
 		case ast::expr::CombinedImageAccess::eTextureProj3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProj1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProj1DU2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj1DU4:
@@ -160,8 +145,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProj2DU4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj3DU:
 		case ast::expr::CombinedImageAccess::eTextureProj3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureLod1DI:
 		case ast::expr::CombinedImageAccess::eTextureLod2DI:
 		case ast::expr::CombinedImageAccess::eTextureLod3DI:
@@ -182,7 +165,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureOffset2DIBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DI:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayIBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayI:
@@ -193,7 +175,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureOffset2DUBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DU:
 		case ast::expr::CombinedImageAccess::eTextureOffset3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureOffset1DArrayUBias:
 		case ast::expr::CombinedImageAccess::eTextureOffset2DArrayU:
@@ -208,8 +189,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DI:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DIBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DU2Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset1DU4:
@@ -220,8 +199,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DU:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset3DUBias:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset1DI:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset2DI:
 		case ast::expr::CombinedImageAccess::eTextureLodOffset3DI:
@@ -256,7 +233,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureGrad2DI:
 		case ast::expr::CombinedImageAccess::eTextureGrad3DI:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeI:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeArrayI:
@@ -264,7 +240,6 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureGrad2DU:
 		case ast::expr::CombinedImageAccess::eTextureGrad3DU:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeU:
-		case ast::expr::CombinedImageAccess::eTextureGrad2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGrad1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGrad2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGradCubeArrayU:
@@ -273,25 +248,19 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad1DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad3DU:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureGradOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
@@ -299,15 +268,11 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DI:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
 			throw ast::Exception{ "Unsupported non-float texture sampling" };
 		default:
 			break;
@@ -337,46 +302,34 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DI:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayI:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeI:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGather2DU:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeU:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayI:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectI:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DU:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectU:
 		case ast::expr::CombinedImageAccess::eTextureGather2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGather2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
-		case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
 			config.requiresGather = true;
 			break;
 		default:
@@ -421,28 +374,12 @@ namespace hlsl
 			config.requiresTextureSize2DShadowF = true;
 			break;
 
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectF:
-			config.requiresTextureSize2DRectF = true;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectShadowF:
-			config.requiresTextureSize2DRectShadowF = true;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureSize2DI:
 			config.requiresTextureSize2DI = true;
 			break;
 
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectI:
-			config.requiresTextureSize2DRectI = true;
-			break;
-
 		case ast::expr::CombinedImageAccess::eTextureSize2DU:
 			config.requiresTextureSize2DU = true;
-			break;
-
-		case ast::expr::CombinedImageAccess::eTextureSize2DRectU:
-			config.requiresTextureSize2DRectU = true;
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureSize3DF:
@@ -800,20 +737,14 @@ namespace hlsl
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureProj2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectF3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DF3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3Bias:
@@ -824,47 +755,31 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI3:
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProjLod2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
 			config.requiresProjectTexCoords3 = true;
 			break;
 
 		case ast::expr::CombinedImageAccess::eTextureProj2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DF4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
@@ -875,17 +790,11 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
 			config.requiresProjectTexCoords4To2 = true;
 			break;
 

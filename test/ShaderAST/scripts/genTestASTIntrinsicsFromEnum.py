@@ -7,20 +7,76 @@ def typeKindToGlslType( kind ):
 
 def printHeader( outs, match ):
 	enumName = match.group( 1 )
-	outs.write( "/*\n" )
-	outs.write( "This file is generated, don't modify it!\n" )
-	outs.write( "*/\n" )
-	outs.write( "#ifndef ___AST_ExprMake" + enumName + "_H___\n" )
-	outs.write( "#define ___AST_ExprMake" + enumName + "_H___\n" )
-	outs.write( "#pragma once\n" )
-	outs.write( "\n" )
-	outs.write( '#include "ExprCache.hpp"\n' )
-	outs.write( '#include "Expr' + enumName + 'Call.hpp"\n' )
-	outs.write( "\n" )
-	outs.write( '#include <cassert>\n' )
-	outs.write( "\n" )
-	outs.write( "namespace ast::expr\n" )
-	outs.write( "{" )
+	outs.write( '#include "Common.hpp"\n' )
+	outs.write( '\n' )
+	outs.write( '#include <ShaderAST/Expr/Expr' + enumName + 'Call.hpp>\n' )
+	outs.write( '#include <ShaderAST/Expr/Make' + enumName + '.hpp>\n' )
+	outs.write( '#include <ShaderAST/Visitors/DebugDisplayStatements.hpp>\n' )
+	outs.write( '#include <ShaderAST/Visitors/GetExprName.hpp>\n' )
+	outs.write( '#include <ShaderAST/Visitors/ResolveConstants.hpp>\n' )
+	outs.write( '#include <ShaderAST/Visitors/SimplifyStatements.hpp>\n' )
+	outs.write( '#include <ShaderAST/Visitors/SpecialiseStatements.hpp>\n' )
+	outs.write( '#include <ShaderAST/Visitors/TransformSSA.hpp>\n' )
+	outs.write( '\n' )
+	outs.write( 'namespace checks\n' )
+	outs.write( '{\n' )
+	outs.write( '\tusing namespace ast;\n' )
+	outs.write( '\n' )
+	outs.write( '\tstatic stmt::ContainerPtr makeContainer( stmt::StmtCache & stmtCache\n' )
+	outs.write( '\t\t, expr::Expr const & expr )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\tauto container = stmtCache.makeContainer();\n' )
+	outs.write( '\t\tcontainer->addStmt( stmtCache.makeSimple( expr.clone() ) );\n' )
+	outs.write( '\t\treturn container;\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
+	outs.write( '\tstatic void checkExprDependant( test::TestCounts & testCounts\n' )
+	outs.write( '\t\t, expr::IntrinsicCall const & expr )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\tauto & exprCache = expr.getExprCache();\n' )
+	outs.write( '\t\tauto & typesCache = expr.getTypesCache();\n' )
+	outs.write( '\n' )
+	outs.write( '\t\ttestCounts << "Expr: " << ast::debug::displayExpression( expr ) << test::endl;\n' )
+	outs.write( '\t\tcheckNoThrow( ast::resolveConstants( exprCache, expr ) )\n' )
+	outs.write( '\n' )
+	outs.write( '\t\tauto clone = expr.clone();\n' )
+	outs.write( '\t\tclone->updateFlag( ast::expr::Flag::eNonUniform );\n' )
+	outs.write( '\t\ttestCounts << "NonUniform Clone: " << ast::debug::displayExpression( *clone ) << test::endl;\n' )
+	outs.write( '\t\tcheckNoThrow( ast::resolveConstants( exprCache, *clone ) )\n' )
+	outs.write( '\n' )
+	outs.write( '\t\tcheckNoThrow( ast::listCommaIdentifiers( expr ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::listIdentifiers( expr ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::listIdentifiers( expr, ast::type::Kind::eInt32 ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::listIdentifiers( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::listIdentifiers( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eInt32 ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) )\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) )\n' )
+	outs.write( '\t\ttestCounts << "Find default params: [" << ast::findName( expr ) << "]" << test::endl;\n' )
+	outs.write( '\t\ttestCounts << "Find typed: [" << ast::findName( expr, ast::type::Kind::eInt32 ) << "]" << test::endl;\n' )
+	outs.write( '\t\ttestCounts << "Find flagged: [" << ast::findName( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) << "]" << test::endl;\n' )
+	outs.write( '\t\ttestCounts << "Find typed and flagged: [" << ast::findName( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) << "]" << test::endl;\n' )
+	outs.write( '\n' )
+	outs.write( '\t\tast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };\n' )
+	outs.write( '\t\t{\n' )
+	outs.write( '\t\t\tast::SSAData data{ testCounts.nextVarId, 0u };\n' )
+	outs.write( '\t\t\tauto container = makeContainer( stmtCache, expr );\n' )
+	outs.write( '\t\t\tcontainer = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, false );\n' )
+	outs.write( '\t\t\tcontainer = ast::resolveConstants( stmtCache, exprCache, typesCache, *container );\n' )
+	outs.write( '\t\t\tcontainer = ast::simplify( stmtCache, exprCache, typesCache, *container );\n' )
+	outs.write( '\t\t\tcontainer = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, {} );\n' )
+	outs.write( '\t\t}\n' )
+	outs.write( '\t\t{\n' )
+	outs.write( '\t\t\tast::SSAData data{ testCounts.nextVarId, 0u };\n' )
+	outs.write( '\t\t\tauto container = makeContainer( stmtCache, expr );\n' )
+	outs.write( '\t\t\tcontainer = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, true );\n' )
+	outs.write( '\t\t\tcontainer = ast::resolveConstants( stmtCache, exprCache, typesCache, *container );\n' )
+	outs.write( '\t\t\tcontainer = ast::simplify( stmtCache, exprCache, typesCache, *container );\n' )
+	outs.write( '\t\t\tcontainer = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, {} );\n' )
+	outs.write( '\t\t}\n' )
+	outs.write( '\t}\n' )
+
 	return enumName
 
 def computeIntrinsicName( name ):
@@ -86,73 +142,18 @@ def discardArray( name ):
 def isArray( name ):
 	return name.find( "[" ) != -1
 
-def computeParams( params, sep ):
-	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( params )
-	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
-		resParam = intrParam.split( resParams.group( 1 ) )
-		index = 1
-		while len( resParam ) > index:
-			if resParam[index] == "ASTCppParam":
-				index += 1
-				result += sep + resParam[index] + " "
-				index += 1
-			else:
-				result += sep + " ExprPtr "
-				index += 2
-			result += discardArray( resParam[index] )
-			sep = "\n\t\t,"
-			index += 2
-	return result
+def computeGetTypeCall( paramType ):
+	rawParamType = paramType.replace( "type::Kind::e", "" )
+	if rawParamType == "UInt":
+		rawParamType += "32"
+	result = "get" + rawParamType + "("
+	if rawParamType == "HitAttribute" or rawParamType == "TaskPayloadNV":
+		result += " typesCache.getVoid() "
+	elif rawParamType == "CallableData" or rawParamType == "RayPayload":
+		result += " typesCache.getVoid(), 0u "
+	return result + ")"
 
-def computeParamsDoc( paramsGroup ):
-	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( paramsGroup )
-	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
-		resParam = intrParam.split( resParams.group( 1 ) )
-		index = 1
-		while len( resParam ) > index:
-			if resParam[index] == "ASTIntrOutParam":
-				typeQualifier = "[out]"
-			else:
-				typeQualifier = "[in]"
-			index += 1
-			typeName = typeKindToGlslType( resParam[index] )
-			index += 1
-			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[index] )
-			result += "\n\t*\t" + typeName
-			index += 2
-	return result
-
-def computeParamsDocEx( paramsGroup, lastTypeKind ):
-	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( paramsGroup )
-	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
-		resParam = intrParam.split( resParams.group( 1 ) )
-		index = 1
-		while len( resParam ) > index:
-			if resParam[index] == "ASTIntrOutParam":
-				typeQualifier = "[out]"
-			else:
-				typeQualifier = "[in]"
-			index += 1
-			typeName = typeKindToGlslType( resParam[index] )
-			index += 1
-			curIndex = index
-			index += 2
-			if len( resParam ) <= index:
-				typeName = typeKindToGlslType( lastTypeKind )
-			result += "\n\t*@param" + typeQualifier + " " + discardArray( resParam[curIndex] )
-			result += "\n\t*\t" + typeName
-	return result
-
-def assertParams( params, tabs ):
+def computeParams( params, tabs ):
 	result = ""
 	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
 	resParams = intrParams.match( params )
@@ -170,33 +171,11 @@ def assertParams( params, tabs ):
 				paramName = discardArray( resParam[index] )
 				if isArray( resParam[index] ):
 					index += 2
-					result += tabs + "assert( " + paramName + "->getType()->getRawKind() == type::Kind::eArray );\n"
-					result += tabs + "assert( type::getNonArrayType( " + paramName + "->getType() )->getRawKind() == " + paramType + " );\n"
+					result += tabs + "auto " + paramName + "Var = var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" );\n"
 				else:
 					index += 2
-					result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
-	return result
-
-def assertParamsEx( params, tabs, lastType ):
-	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( params )
-	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
-		resParam = intrParam.split( resParams.group( 1 ) )
-		index = 1
-		while len( resParam ) > index + 2:
-			if resParam[index] == "ASTCppParam":
-				index += 4
-			else:
-				index += 1
-				paramType = resParam[index]
-				index += 1
-				paramName = discardArray( resParam[index] )
-				index += 2
-				if len( resParam ) <= index + 2:
-					paramType = lastType
-				result += tabs + "assert( " + paramName + "->getType()->getRawKind() == " + paramType + " );\n"
+					result += tabs + "auto " + paramName + "Var = var::makeVariable( testCounts.getNextVarId(), typesCache." + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" );\n"
+				result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, " + paramName + "Var );\n"
 	return result
 
 def computeArgs( args ):
@@ -500,41 +479,18 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 		outs.write( computeArgs( paramsGroup ) + " );\n" )
 		outs.write( "\t}" )
 
-def printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
-	outs.write( "\n\t/**" )
-	outs.write( "\n\t*@return" )
-	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
-	if enumName == "CombinedImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "SampledImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
-		outs.write( "\n\t*@param sampler" )
-		outs.write( "\n\t*\tSampler" )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "StorageImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "StorageImage", functionGroup ) )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	else:
-		outs.write( computeParamsDoc( paramsGroup ) )
-	outs.write( "\n\t*/" )
-
 def printIntrinsic( outs, enumName, match ):
 	returnGroup = match.group( 1 )
 	functionGroup = match.group( 2 )
 	paramsGroup = match.group( 3 )
-	printIntrinsicDoc( outs, enumName, returnGroup, functionGroup, paramsGroup )
-	outs.write( "\n\tinline " + enumName + "CallPtr make" + computeIntrinsicName( functionGroup ) + "(" )
-	outs.write( " ExprCache & exprCache" )
-	outs.write( "\n\t\t, type::TypesCache & typesCache" )
-	outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
+	outs.write( "\n\tstatic void test" + computeIntrinsicName( functionGroup ) + "(test::TestCounts & testCounts )\n" )
 	outs.write( "\t{\n" )
-	outs.write( assertParams( paramsGroup, "\t\t" ) )
-	outs.write( "\t\treturn exprCache.make" + enumName + "Call( typesCache.getBasicType( " + returnGroup + " )\n" )
-	outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
+	outs.write( "\t\ttestBegin( \"test" + computeIntrinsicName( functionGroup ) + "\" );\n" )
+	outs.write( "\t\texpr::ExprCache exprCache{ *testCounts.allocatorBlock };\n" )
+	outs.write( "\t\ttype::TypesCache typesCache;\n" )
+	outs.write( computeParams( paramsGroup, "\t\t" ) )
+	outs.write( "\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
+	outs.write( "\t\t\t, typesCache" )
 	if enumName == "CombinedImageAccess":
 		outs.write( "\n\t\t\t, std::move( texture )" )
 	elif enumName == "SampledImageAccess":
@@ -543,35 +499,50 @@ def printIntrinsic( outs, enumName, match ):
 	elif enumName == "StorageImageAccess":
 		outs.write( "\n\t\t\t, std::move( image )" )
 	outs.write( computeArgs( paramsGroup ) + " );\n" )
+	outs.write( "\t\tcheckExprDependant( testCounts, *result );\n" )
+	outs.write( "\t\ttestEnd()\n" )
 	outs.write( "\t}" )
+	return "\n\tchecks::test" + computeIntrinsicName( functionGroup ) + "( testCounts );"
 
 def printFunction( outs, enumName, match ):
 	functionGroup = match.group( 2 )
 	intrinsicName = computeIntrinsicName( functionGroup )
+	test = ""
 	if intrinsicName.find( "Barrier" ) == -1:
 		if enumName == "CombinedImageAccess":
-			printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
+			test = printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
 		elif enumName == "SampledImageAccess":
-			printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
+			test = printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
 		elif enumName == "StorageImageAccess":
-			printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image", "\n\t\t\t, std::move( image )", match )
+			test = printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image", "\n\t\t\t, std::move( image )", match )
 		else:
-			printIntrinsic( outs, enumName, match )
+			test = printIntrinsic( outs, enumName, match )
+	return test
 
-def printFooter( outs ):
+def printFooter( outFile, outs, testsList ):
+	testsName = os.path.basename(outFile)
+	testsName = testsName.replace( ".cpp", "" )
+
 	outs.write( "\n}" )
 	outs.write( "\n" )
-	outs.write( "\n#endif" )
+	outs.write( "\ntestSuiteMain( " + testsName + " )" )
+	outs.write( "\n{" )
+	outs.write( "\n\ttestSuiteBegin()" )
+	outs.write( testsList )
+	outs.write( "\n\ttestSuiteEnd()" )
+	outs.write( "\n}" )
+	outs.write( "\n" )
+	outs.write( "\ntestSuiteLaunch( " + testsName + " )" )
 	outs.write( "\n" )
 
 def main( argv ):
 	inEnumFile = sys.argv[1]
-	outEnumFile = sys.argv[2]
+	outFile = sys.argv[2]
 
-	if not inEnumFile or not outEnumFile:
-		print("Usage: python genEnumFromEnum.py <inEnumFile> <outEnumFile>\n")
+	if not inEnumFile or not outFile:
+		print("Usage: python genTestASTIntrinsicsFromEnum.py <inEnumFile> <outFile>\n")
 		print("  <inEnumFile> is the file describing the intrinsics.")
-		print("  <outEnumFile> is the resulting file.")
+		print("  <outFile> is the resulting file.")
 		return
 
 	if not os.path.isfile(inEnumFile):
@@ -582,8 +553,9 @@ def main( argv ):
 	intrEnd = re.compile("^ASTIntrEnd$")
 	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
 	enumName = ""
-	with open(inEnumFile, "r") as ins:
-		with open(outEnumFile, "w", newline='\r\n') as outs:
+	testsList = ""
+	with open( inEnumFile, "r" ) as ins:
+		with open( outFile, "w", newline='\r\n' ) as outs:
 			array = []
 			for line in ins:
 				array.append( line )
@@ -593,9 +565,9 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					printFunction( outs, enumName, resultValue )
+					testsList += printFunction( outs, enumName, resultValue )
 				elif resultEnd:
-					printFooter( outs )
+					printFooter( outFile, outs, testsList )
 				else:
 					outs.write( line )
 

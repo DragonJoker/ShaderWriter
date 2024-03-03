@@ -30,71 +30,96 @@ namespace ast::expr
 	template<>
 	struct LiteralValueTraits< LiteralType::eBool >
 	{
+		static type::Kind constexpr typeKind{ type::Kind::eBoolean };
 		using type = bool;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt8 >
 	{
-		using type = int8_t;
+		static type::Kind constexpr typeKind{ type::Kind::eInt8 };
+		using type = signed char;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt16 >
 	{
-		using type = int16_t;
+		static type::Kind constexpr typeKind{ type::Kind::eInt16 };
+		using type = signed short;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt32 >
 	{
-		using type = int32_t;
+		static type::Kind constexpr typeKind{ type::Kind::eInt32 };
+		using type = signed int;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt64 >
 	{
-		using type = int64_t;
+		static type::Kind constexpr typeKind{ type::Kind::eInt64 };
+		using type = signed long long;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt8 >
 	{
-		using type = uint8_t;
+		static type::Kind constexpr typeKind{ type::Kind::eUInt8 };
+		using type = unsigned char;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt16 >
 	{
-		using type = uint16_t;
+		static type::Kind constexpr typeKind{ type::Kind::eUInt16 };
+		using type = unsigned short;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt32 >
 	{
-		using type = uint32_t;
+		static type::Kind constexpr typeKind{ type::Kind::eUInt32 };
+		using type = unsigned int;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt64 >
 	{
-		using type = uint64_t;
+		static type::Kind constexpr typeKind{ type::Kind::eUInt64 };
+		using type = unsigned long long;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eFloat >
 	{
+		static type::Kind constexpr typeKind{ type::Kind::eFloat };
 		using type = float;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eDouble >
 	{
+		static type::Kind constexpr typeKind{ type::Kind::eDouble };
 		using type = double;
 	};
 
 	template< LiteralType T >
 	using LiteralValueType = typename LiteralValueTraits< T >::type;
+	template< LiteralType T >
+	inline type::Kind constexpr literalValueKind = LiteralValueTraits< T >::typeKind;
+
+	using LitBool = LiteralValueType< LiteralType::eBool >;
+	using LitInt8 = LiteralValueType< LiteralType::eInt8 >;
+	using LitInt16 = LiteralValueType< LiteralType::eInt16 >;
+	using LitInt32 = LiteralValueType< LiteralType::eInt32 >;
+	using LitInt64 = LiteralValueType< LiteralType::eInt64 >;
+	using LitUInt8 = LiteralValueType< LiteralType::eUInt8 >;
+	using LitUInt16 = LiteralValueType< LiteralType::eUInt16 >;
+	using LitUInt32 = LiteralValueType< LiteralType::eUInt32 >;
+	using LitUInt64 = LiteralValueType< LiteralType::eUInt64 >;
+	using LitFloat32 = LiteralValueType< LiteralType::eFloat >;
+	using LitFloat64 = LiteralValueType< LiteralType::eDouble >;
 
 	class Literal
 		: public Expr
@@ -102,17 +127,17 @@ namespace ast::expr
 	public:
 		union Value
 		{
-			bool boolv;
-			int8_t int8v;
-			int16_t int16v;
-			int32_t int32v;
-			int64_t int64v;
-			uint8_t uint8v;
-			uint16_t uint16v;
-			uint32_t uint32v;
-			uint64_t uint64v;
-			float floatv;
-			double doublev;
+			LitBool boolv;
+			LitInt8 int8v;
+			LitInt16 int16v;
+			LitInt32 int32v;
+			LitInt64 int64v;
+			LitUInt8 uint8v;
+			LitUInt16 uint16v;
+			LitUInt32 uint32v;
+			LitUInt64 uint64v;
+			LitFloat32 floatv;
+			LitFloat64 doublev;
 		};
 
 	private:

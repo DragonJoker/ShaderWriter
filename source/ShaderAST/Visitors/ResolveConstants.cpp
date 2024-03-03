@@ -18,6 +18,18 @@ See LICENSE file in root folder
 
 namespace ast
 {
+	using expr::LitBool;
+	using expr::LitInt8;
+	using expr::LitInt16;
+	using expr::LitInt32;
+	using expr::LitInt64;
+	using expr::LitUInt8;
+	using expr::LitUInt16;
+	using expr::LitUInt32;
+	using expr::LitUInt64;
+	using expr::LitFloat32;
+	using expr::LitFloat64;
+
 	namespace constants
 	{
 		bool isAllLiterals( expr::Expr const & expr );
@@ -54,15 +66,15 @@ namespace ast
 				}
 				else if ( lit.getLiteralType() == expr::LiteralType::eUInt8 )
 				{
-					result = lit.getValue< expr::LiteralType::eUInt8 >();
+					result = uint32_t( lit.getValue< expr::LiteralType::eUInt8 >() );
 				}
 				else if ( lit.getLiteralType() == expr::LiteralType::eUInt16 )
 				{
-					result = lit.getValue< expr::LiteralType::eUInt16 >();
+					result = uint32_t( lit.getValue< expr::LiteralType::eUInt16 >() );
 				}
 				else if ( lit.getLiteralType() == expr::LiteralType::eUInt32 )
 				{
-					result = lit.getValue< expr::LiteralType::eUInt32 >();
+					result = uint32_t( lit.getValue< expr::LiteralType::eUInt32 >() );
 				}
 				else
 				{
@@ -642,42 +654,52 @@ namespace ast
 				static constexpr expr::LiteralType literal = expr::LiteralType::eBool;
 				static constexpr type::Kind kind = type::Kind::eBoolean;
 			};
-			template<> struct ValueTraitsT< int8_t >
+			template<> struct ValueTraitsT< signed char >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt8;
 				static constexpr type::Kind kind = type::Kind::eInt8;
 			};
-			template<> struct ValueTraitsT< int16_t >
+			template<> struct ValueTraitsT< signed short >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt16;
 				static constexpr type::Kind kind = type::Kind::eInt16;
 			};
-			template<> struct ValueTraitsT< int32_t >
+			template<> struct ValueTraitsT< signed int >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt32;
 				static constexpr type::Kind kind = type::Kind::eInt32;
 			};
-			template<> struct ValueTraitsT< int64_t >
+			template<> struct ValueTraitsT< signed long >
+			{
+				static constexpr expr::LiteralType literal = expr::LiteralType::eInt32;
+				static constexpr type::Kind kind = type::Kind::eInt32;
+			};
+			template<> struct ValueTraitsT< signed long long >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt64;
 				static constexpr type::Kind kind = type::Kind::eInt64;
 			};
-			template<> struct ValueTraitsT< uint8_t >
+			template<> struct ValueTraitsT< unsigned char >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt8;
 				static constexpr type::Kind kind = type::Kind::eUInt8;
 			};
-			template<> struct ValueTraitsT< uint16_t >
+			template<> struct ValueTraitsT< unsigned short >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt16;
 				static constexpr type::Kind kind = type::Kind::eUInt16;
 			};
-			template<> struct ValueTraitsT< uint32_t >
+			template<> struct ValueTraitsT< unsigned int >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt32;
 				static constexpr type::Kind kind = type::Kind::eUInt32;
 			};
-			template<> struct ValueTraitsT< uint64_t >
+			template<> struct ValueTraitsT< unsigned long >
+			{
+				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt32;
+				static constexpr type::Kind kind = type::Kind::eUInt32;
+			};
+			template<> struct ValueTraitsT< unsigned long long >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt64;
 				static constexpr type::Kind kind = type::Kind::eUInt64;
@@ -1467,450 +1489,450 @@ namespace ast
 					case ast::expr::Intrinsic::eDegrees2:
 					case ast::expr::Intrinsic::eDegrees3:
 					case ast::expr::Intrinsic::eDegrees4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( v * 180.0f / std::numbers::pi ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( v * 180.0f / std::numbers::pi ); } );
 					case ast::expr::Intrinsic::eRadians1F:
 					case ast::expr::Intrinsic::eRadians2F:
 					case ast::expr::Intrinsic::eRadians3F:
 					case ast::expr::Intrinsic::eRadians4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( v * std::numbers::pi / 180.0f ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( v * std::numbers::pi / 180.0f ); } );
 					case ast::expr::Intrinsic::eCos1:
 					case ast::expr::Intrinsic::eCos2:
 					case ast::expr::Intrinsic::eCos3:
 					case ast::expr::Intrinsic::eCos4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::cos( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::cos( v ) ); } );
 					case ast::expr::Intrinsic::eSin1:
 					case ast::expr::Intrinsic::eSin2:
 					case ast::expr::Intrinsic::eSin3:
 					case ast::expr::Intrinsic::eSin4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::sin( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sin( v ) ); } );
 					case ast::expr::Intrinsic::eTan1:
 					case ast::expr::Intrinsic::eTan2:
 					case ast::expr::Intrinsic::eTan3:
 					case ast::expr::Intrinsic::eTan4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::tan( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::tan( v ) ); } );
 					case ast::expr::Intrinsic::eCosh1:
 					case ast::expr::Intrinsic::eCosh2:
 					case ast::expr::Intrinsic::eCosh3:
 					case ast::expr::Intrinsic::eCosh4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::cosh( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::cosh( v ) ); } );
 					case ast::expr::Intrinsic::eSinh1:
 					case ast::expr::Intrinsic::eSinh2:
 					case ast::expr::Intrinsic::eSinh3:
 					case ast::expr::Intrinsic::eSinh4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::sinh( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sinh( v ) ); } );
 					case ast::expr::Intrinsic::eTanh1:
 					case ast::expr::Intrinsic::eTanh2:
 					case ast::expr::Intrinsic::eTanh3:
 					case ast::expr::Intrinsic::eTanh4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::tanh( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::tanh( v ) ); } );
 					case ast::expr::Intrinsic::eAcos1:
 					case ast::expr::Intrinsic::eAcos2:
 					case ast::expr::Intrinsic::eAcos3:
 					case ast::expr::Intrinsic::eAcos4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::acos( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::acos( v ) ); } );
 					case ast::expr::Intrinsic::eAsin1:
 					case ast::expr::Intrinsic::eAsin2:
 					case ast::expr::Intrinsic::eAsin3:
 					case ast::expr::Intrinsic::eAsin4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::asin( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::asin( v ) ); } );
 					case ast::expr::Intrinsic::eAtan1:
 					case ast::expr::Intrinsic::eAtan2:
 					case ast::expr::Intrinsic::eAtan3:
 					case ast::expr::Intrinsic::eAtan4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::atan( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::atan( v ) ); } );
 					case ast::expr::Intrinsic::eAtan21:
 					case ast::expr::Intrinsic::eAtan22:
 					case ast::expr::Intrinsic::eAtan23:
 					case ast::expr::Intrinsic::eAtan24:
-						return intrinsic2T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return float( ::atan2( v, w ) ); } );
+						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return LitFloat32( ::atan2( v, w ) ); } );
 					case ast::expr::Intrinsic::eAcosh1:
 					case ast::expr::Intrinsic::eAcosh2:
 					case ast::expr::Intrinsic::eAcosh3:
 					case ast::expr::Intrinsic::eAcosh4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::acosh( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::acosh( v ) ); } );
 					case ast::expr::Intrinsic::eAsinh1:
 					case ast::expr::Intrinsic::eAsinh2:
 					case ast::expr::Intrinsic::eAsinh3:
 					case ast::expr::Intrinsic::eAsinh4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::asinh( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::asinh( v ) ); } );
 					case ast::expr::Intrinsic::eAtanh1:
 					case ast::expr::Intrinsic::eAtanh2:
 					case ast::expr::Intrinsic::eAtanh3:
 					case ast::expr::Intrinsic::eAtanh4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::atanh( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::atanh( v ) ); } );
 					case ast::expr::Intrinsic::ePow1:
 					case ast::expr::Intrinsic::ePow2:
 					case ast::expr::Intrinsic::ePow3:
 					case ast::expr::Intrinsic::ePow4:
-						return intrinsic2T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return float( ::pow( v, w ) ); } );
+						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return LitFloat32( ::pow( v, w ) ); } );
 					case ast::expr::Intrinsic::eExp1:
 					case ast::expr::Intrinsic::eExp2:
 					case ast::expr::Intrinsic::eExp3:
 					case ast::expr::Intrinsic::eExp4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::exp( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::exp( v ) ); } );
 					case ast::expr::Intrinsic::eLog1:
 					case ast::expr::Intrinsic::eLog2:
 					case ast::expr::Intrinsic::eLog3:
 					case ast::expr::Intrinsic::eLog4:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::log( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::log( v ) ); } );
 					case ast::expr::Intrinsic::eExp21:
 					case ast::expr::Intrinsic::eExp22:
 					case ast::expr::Intrinsic::eExp23:
 					case ast::expr::Intrinsic::eExp24:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::exp2( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::exp2( v ) ); } );
 					case ast::expr::Intrinsic::eLog21:
 					case ast::expr::Intrinsic::eLog22:
 					case ast::expr::Intrinsic::eLog23:
 					case ast::expr::Intrinsic::eLog24:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::log2( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::log2( v ) ); } );
 					case ast::expr::Intrinsic::eSqrt1F:
 					case ast::expr::Intrinsic::eSqrt2F:
 					case ast::expr::Intrinsic::eSqrt3F:
 					case ast::expr::Intrinsic::eSqrt4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ::sqrt( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sqrt( v ) ); } );
 					case ast::expr::Intrinsic::eSqrt1D:
 					case ast::expr::Intrinsic::eSqrt2D:
 					case ast::expr::Intrinsic::eSqrt3D:
 					case ast::expr::Intrinsic::eSqrt4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return double( ::sqrt( v ) ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( ::sqrt( v ) ); } );
 					case ast::expr::Intrinsic::eInverseSqrt1F:
 					case ast::expr::Intrinsic::eInverseSqrt2F:
 					case ast::expr::Intrinsic::eInverseSqrt3F:
 					case ast::expr::Intrinsic::eInverseSqrt4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( 1.0f / ::sqrt( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( 1.0f / ::sqrt( v ) ); } );
 					case ast::expr::Intrinsic::eInverseSqrt1D:
 					case ast::expr::Intrinsic::eInverseSqrt2D:
 					case ast::expr::Intrinsic::eInverseSqrt3D:
 					case ast::expr::Intrinsic::eInverseSqrt4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return double( 1.0 / ::sqrt( v ) ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( 1.0 / ::sqrt( v ) ); } );
 					case ast::expr::Intrinsic::eAbs1F:
 					case ast::expr::Intrinsic::eAbs2F:
 					case ast::expr::Intrinsic::eAbs3F:
 					case ast::expr::Intrinsic::eAbs4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::abs( v ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::abs( v ); } );
 					case ast::expr::Intrinsic::eAbs1I:
 					case ast::expr::Intrinsic::eAbs2I:
 					case ast::expr::Intrinsic::eAbs3I:
 					case ast::expr::Intrinsic::eAbs4I:
-						return intrinsic1T< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v ){ return std::abs( v ); } );
+						return intrinsic1T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v ){ return std::abs( v ); } );
 					case ast::expr::Intrinsic::eAbs1D:
 					case ast::expr::Intrinsic::eAbs2D:
 					case ast::expr::Intrinsic::eAbs3D:
 					case ast::expr::Intrinsic::eAbs4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::abs( v ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::abs( v ); } );
 					case ast::expr::Intrinsic::eSign1F:
 					case ast::expr::Intrinsic::eSign2F:
 					case ast::expr::Intrinsic::eSign3F:
 					case ast::expr::Intrinsic::eSign4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( ( float( 0.0f ) < v ) - ( v < float( 0.0f ) ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ( LitFloat32( 0.0f ) < v ) - ( v < LitFloat32( 0.0f ) ) ); } );
 					case ast::expr::Intrinsic::eSign1I:
 					case ast::expr::Intrinsic::eSign2I:
 					case ast::expr::Intrinsic::eSign3I:
 					case ast::expr::Intrinsic::eSign4I:
-						return intrinsic1T< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v ){ return ( int32_t( 0 ) < v ) - ( v < int32_t( 0 ) ); } );
+						return intrinsic1T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v ){ return ( LitInt32( 0 ) < v ) - ( v < LitInt32( 0 ) ); } );
 					case ast::expr::Intrinsic::eSign1D:
 					case ast::expr::Intrinsic::eSign2D:
 					case ast::expr::Intrinsic::eSign3D:
 					case ast::expr::Intrinsic::eSign4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return double( ( double( 0 ) < v ) - ( v < double( 0 ) ) ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( ( LitFloat64( 0 ) < v ) - ( v < LitFloat64( 0 ) ) ); } );
 					case ast::expr::Intrinsic::eFloor1F:
 					case ast::expr::Intrinsic::eFloor2F:
 					case ast::expr::Intrinsic::eFloor3F:
 					case ast::expr::Intrinsic::eFloor4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::floor( v ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::floor( v ); } );
 					case ast::expr::Intrinsic::eFloor1D:
 					case ast::expr::Intrinsic::eFloor2D:
 					case ast::expr::Intrinsic::eFloor3D:
 					case ast::expr::Intrinsic::eFloor4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::floor( v ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::floor( v ); } );
 					case ast::expr::Intrinsic::eTrunc1F:
 					case ast::expr::Intrinsic::eTrunc2F:
 					case ast::expr::Intrinsic::eTrunc3F:
 					case ast::expr::Intrinsic::eTrunc4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::trunc( v ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::trunc( v ); } );
 					case ast::expr::Intrinsic::eTrunc1D:
 					case ast::expr::Intrinsic::eTrunc2D:
 					case ast::expr::Intrinsic::eTrunc3D:
 					case ast::expr::Intrinsic::eTrunc4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::trunc( v ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::trunc( v ); } );
 					case ast::expr::Intrinsic::eRound1F:
 					case ast::expr::Intrinsic::eRound2F:
 					case ast::expr::Intrinsic::eRound3F:
 					case ast::expr::Intrinsic::eRound4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::round( v ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::round( v ); } );
 					case ast::expr::Intrinsic::eRound1D:
 					case ast::expr::Intrinsic::eRound2D:
 					case ast::expr::Intrinsic::eRound3D:
 					case ast::expr::Intrinsic::eRound4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::round( v ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::round( v ); } );
 					case ast::expr::Intrinsic::eRoundEven1F:
 					case ast::expr::Intrinsic::eRoundEven2F:
 					case ast::expr::Intrinsic::eRoundEven3F:
 					case ast::expr::Intrinsic::eRoundEven4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return float( int( v + float( int( v ) % 2 ) ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( int( v + LitFloat32( int( v ) % 2 ) ) ); } );
 					case ast::expr::Intrinsic::eRoundEven1D:
 					case ast::expr::Intrinsic::eRoundEven2D:
 					case ast::expr::Intrinsic::eRoundEven3D:
 					case ast::expr::Intrinsic::eRoundEven4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return double( int( v + double( int( v ) % 2 ) ) ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( int( v + LitFloat64( int( v ) % 2 ) ) ); } );
 					case ast::expr::Intrinsic::eCeil1F:
 					case ast::expr::Intrinsic::eCeil2F:
 					case ast::expr::Intrinsic::eCeil3F:
 					case ast::expr::Intrinsic::eCeil4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::ceil( v ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::ceil( v ); } );
 					case ast::expr::Intrinsic::eCeil1D:
 					case ast::expr::Intrinsic::eCeil2D:
 					case ast::expr::Intrinsic::eCeil3D:
 					case ast::expr::Intrinsic::eCeil4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::ceil( v ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::ceil( v ); } );
 					case ast::expr::Intrinsic::eFract1F:
 					case ast::expr::Intrinsic::eFract2F:
 					case ast::expr::Intrinsic::eFract3F:
 					case ast::expr::Intrinsic::eFract4F:
-						return intrinsic1T< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return v - float( int64_t( v ) ); } );
+						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return v - LitFloat32( int64_t( v ) ); } );
 					case ast::expr::Intrinsic::eFract1D:
 					case ast::expr::Intrinsic::eFract2D:
 					case ast::expr::Intrinsic::eFract3D:
 					case ast::expr::Intrinsic::eFract4D:
-						return intrinsic1T< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return v - double( int64_t( v ) ); } );
+						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return v - LitFloat64( int64_t( v ) ); } );
 					case ast::expr::Intrinsic::eMod1F:
 					case ast::expr::Intrinsic::eMod2F:
 					case ast::expr::Intrinsic::eMod3F:
 					case ast::expr::Intrinsic::eMod4F:
-						return intrinsic2T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v - w * std::floor( v / w ); } );
+						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v - w * std::floor( v / w ); } );
 					case ast::expr::Intrinsic::eMod1D:
 					case ast::expr::Intrinsic::eMod2D:
 					case ast::expr::Intrinsic::eMod3D:
 					case ast::expr::Intrinsic::eMod4D:
-						return intrinsic2T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v - w * std::floor( v / w ); } );
+						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v - w * std::floor( v / w ); } );
 					case ast::expr::Intrinsic::eMin1F:
 					case ast::expr::Intrinsic::eMin2F:
 					case ast::expr::Intrinsic::eMin3F:
 					case ast::expr::Intrinsic::eMin4F:
-						return intrinsic2T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return std::min( v, w ); } );
+						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return std::min( v, w ); } );
 					case ast::expr::Intrinsic::eMin1D:
 					case ast::expr::Intrinsic::eMin2D:
 					case ast::expr::Intrinsic::eMin3D:
 					case ast::expr::Intrinsic::eMin4D:
-						return intrinsic2T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return std::min( v, w ); } );
+						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return std::min( v, w ); } );
 					case ast::expr::Intrinsic::eMin1I:
 					case ast::expr::Intrinsic::eMin2I:
 					case ast::expr::Intrinsic::eMin3I:
 					case ast::expr::Intrinsic::eMin4I:
-						return intrinsic2T< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return std::min( v, w ); } );
+						return intrinsic2T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return std::min( v, w ); } );
 					case ast::expr::Intrinsic::eMin1U:
 					case ast::expr::Intrinsic::eMin2U:
 					case ast::expr::Intrinsic::eMin3U:
 					case ast::expr::Intrinsic::eMin4U:
-						return intrinsic2T< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return std::min( v, w ); } );
+						return intrinsic2T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return std::min( v, w ); } );
 					case ast::expr::Intrinsic::eMax1F:
 					case ast::expr::Intrinsic::eMax2F:
 					case ast::expr::Intrinsic::eMax3F:
 					case ast::expr::Intrinsic::eMax4F:
-						return intrinsic2T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return std::max( v, w ); } );
+						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return std::max( v, w ); } );
 					case ast::expr::Intrinsic::eMax1D:
 					case ast::expr::Intrinsic::eMax2D:
 					case ast::expr::Intrinsic::eMax3D:
 					case ast::expr::Intrinsic::eMax4D:
-						return intrinsic2T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return std::max( v, w ); } );
+						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return std::max( v, w ); } );
 					case ast::expr::Intrinsic::eMax1I:
 					case ast::expr::Intrinsic::eMax2I:
 					case ast::expr::Intrinsic::eMax3I:
 					case ast::expr::Intrinsic::eMax4I:
-						return intrinsic2T< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return std::max( v, w ); } );
+						return intrinsic2T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return std::max( v, w ); } );
 					case ast::expr::Intrinsic::eMax1U:
 					case ast::expr::Intrinsic::eMax2U:
 					case ast::expr::Intrinsic::eMax3U:
 					case ast::expr::Intrinsic::eMax4U:
-						return intrinsic2T< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return std::max( v, w ); } );
+						return intrinsic2T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return std::max( v, w ); } );
 					case ast::expr::Intrinsic::eClamp1F:
 					case ast::expr::Intrinsic::eClamp2F:
 					case ast::expr::Intrinsic::eClamp3F:
 					case ast::expr::Intrinsic::eClamp4F:
-						return intrinsic3T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w, float x ){ return std::min( std::max( v, w ), x ); } );
+						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return std::min( std::max( v, w ), x ); } );
 					case ast::expr::Intrinsic::eClamp1D:
 					case ast::expr::Intrinsic::eClamp2D:
 					case ast::expr::Intrinsic::eClamp3D:
 					case ast::expr::Intrinsic::eClamp4D:
-						return intrinsic3T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w, double x ){ return std::min( std::max( v, w ), x ); } );
+						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return std::min( std::max( v, w ), x ); } );
 					case ast::expr::Intrinsic::eClamp1I:
 					case ast::expr::Intrinsic::eClamp2I:
 					case ast::expr::Intrinsic::eClamp3I:
 					case ast::expr::Intrinsic::eClamp4I:
-						return intrinsic3T< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w, int32_t x ){ return std::min( std::max( v, w ), x ); } );
+						return intrinsic3T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w, LitInt32 x ){ return std::min( std::max( v, w ), x ); } );
 					case ast::expr::Intrinsic::eClamp1U:
 					case ast::expr::Intrinsic::eClamp2U:
 					case ast::expr::Intrinsic::eClamp3U:
 					case ast::expr::Intrinsic::eClamp4U:
-						return intrinsic3T< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w, uint32_t x ){ return std::min( std::max( v, w ), x ); } );
+						return intrinsic3T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w, LitUInt32 x ){ return std::min( std::max( v, w ), x ); } );
 					case ast::expr::Intrinsic::eMix1F:
 					case ast::expr::Intrinsic::eMix2F:
 					case ast::expr::Intrinsic::eMix3F:
 					case ast::expr::Intrinsic::eMix4F:
-						return intrinsic3T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w, float x ){ return v * ( 1.0f - x ) + w * x; } );
+						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return v * ( 1.0f - x ) + w * x; } );
 					case ast::expr::Intrinsic::eMix1D:
 					case ast::expr::Intrinsic::eMix2D:
 					case ast::expr::Intrinsic::eMix3D:
 					case ast::expr::Intrinsic::eMix4D:
-						return intrinsic3T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w, double x ){ return v * ( 1.0f - x ) + w * x; } );
+						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return v * ( 1.0f - x ) + w * x; } );
 					case ast::expr::Intrinsic::eStep1F:
 					case ast::expr::Intrinsic::eStep2F:
 					case ast::expr::Intrinsic::eStep3F:
 					case ast::expr::Intrinsic::eStep4F:
-						return intrinsic2T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return w < v ? 0.0f : 1.0f; } );
+						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return w < v ? 0.0f : 1.0f; } );
 					case ast::expr::Intrinsic::eStep1D:
 					case ast::expr::Intrinsic::eStep2D:
 					case ast::expr::Intrinsic::eStep3D:
 					case ast::expr::Intrinsic::eStep4D:
-						return intrinsic2T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return w < v ? 0.0f : 1.0f; } );
+						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return w < v ? 0.0f : 1.0f; } );
 					case ast::expr::Intrinsic::eSmoothStep1F:
 					case ast::expr::Intrinsic::eSmoothStep2F:
 					case ast::expr::Intrinsic::eSmoothStep3F:
 					case ast::expr::Intrinsic::eSmoothStep4F:
-						return intrinsic3T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w, float x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0f ), 1.0f ); return t * t * ( 3.0f - 2.0f * t ); } );
+						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0f ), 1.0f ); return t * t * ( 3.0f - 2.0f * t ); } );
 					case ast::expr::Intrinsic::eSmoothStep1D:
 					case ast::expr::Intrinsic::eSmoothStep2D:
 					case ast::expr::Intrinsic::eSmoothStep3D:
 					case ast::expr::Intrinsic::eSmoothStep4D:
-						return intrinsic3T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w, double x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0 ), 1.0 ); return t * t * ( 3.0 - 2.0 * t ); } );
+						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0 ), 1.0 ); return t * t * ( 3.0 - 2.0 * t ); } );
 					case ast::expr::Intrinsic::eIsnan1F:
 					case ast::expr::Intrinsic::eIsnan2F:
 					case ast::expr::Intrinsic::eIsnan3F:
 					case ast::expr::Intrinsic::eIsnan4F:
-						return intrinsic1BoolT< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::isnan( v ); } );
+						return intrinsic1BoolT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::isnan( v ); } );
 					case ast::expr::Intrinsic::eIsnan1D:
 					case ast::expr::Intrinsic::eIsnan2D:
 					case ast::expr::Intrinsic::eIsnan3D:
 					case ast::expr::Intrinsic::eIsnan4D:
-						return intrinsic1BoolT< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::isnan( v ); } );
+						return intrinsic1BoolT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::isnan( v ); } );
 					case ast::expr::Intrinsic::eIsinf1F:
 					case ast::expr::Intrinsic::eIsinf2F:
 					case ast::expr::Intrinsic::eIsinf3F:
 					case ast::expr::Intrinsic::eIsinf4F:
-						return intrinsic1BoolT< float >( typesCache, exprCache, std::move( argsList ), []( float v ){ return std::isinf( v ); } );
+						return intrinsic1BoolT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::isinf( v ); } );
 					case ast::expr::Intrinsic::eIsinf1D:
 					case ast::expr::Intrinsic::eIsinf2D:
 					case ast::expr::Intrinsic::eIsinf3D:
 					case ast::expr::Intrinsic::eIsinf4D:
-						return intrinsic1BoolT< double >( typesCache, exprCache, std::move( argsList ), []( double v ){ return std::isinf( v ); } );
+						return intrinsic1BoolT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::isinf( v ); } );
 					case ast::expr::Intrinsic::eFma1F:
 					case ast::expr::Intrinsic::eFma2F:
 					case ast::expr::Intrinsic::eFma3F:
 					case ast::expr::Intrinsic::eFma4F:
-						return intrinsic3T< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w, float x ){ return std::fma( v, w, x ); } );
+						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return std::fma( v, w, x ); } );
 					case ast::expr::Intrinsic::eFma1D:
 					case ast::expr::Intrinsic::eFma2D:
 					case ast::expr::Intrinsic::eFma3D:
 					case ast::expr::Intrinsic::eFma4D:
-						return intrinsic3T< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w, double x ){ return std::fma( v, w, x ); } );
+						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return std::fma( v, w, x ); } );
 					case ast::expr::Intrinsic::eLessThan2F:
 					case ast::expr::Intrinsic::eLessThan3F:
 					case ast::expr::Intrinsic::eLessThan4F:
-						return intrinsicCompT< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v < w; } );
+						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v < w; } );
 					case ast::expr::Intrinsic::eLessThan2D:
 					case ast::expr::Intrinsic::eLessThan3D:
 					case ast::expr::Intrinsic::eLessThan4D:
-						return intrinsicCompT< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v < w; } );
+						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v < w; } );
 					case ast::expr::Intrinsic::eLessThan2I:
 					case ast::expr::Intrinsic::eLessThan3I:
 					case ast::expr::Intrinsic::eLessThan4I:
-						return intrinsicCompT< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return v < w; } );
+						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v < w; } );
 					case ast::expr::Intrinsic::eLessThan2U:
 					case ast::expr::Intrinsic::eLessThan3U:
 					case ast::expr::Intrinsic::eLessThan4U:
-						return intrinsicCompT< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return v < w; } );
+						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v < w; } );
 					case ast::expr::Intrinsic::eLessThanEqual2F:
 					case ast::expr::Intrinsic::eLessThanEqual3F:
 					case ast::expr::Intrinsic::eLessThanEqual4F:
-						return intrinsicCompT< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v <= w; } );
+						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v <= w; } );
 					case ast::expr::Intrinsic::eLessThanEqual2D:
 					case ast::expr::Intrinsic::eLessThanEqual3D:
 					case ast::expr::Intrinsic::eLessThanEqual4D:
-						return intrinsicCompT< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v <= w; } );
+						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v <= w; } );
 					case ast::expr::Intrinsic::eLessThanEqual2I:
 					case ast::expr::Intrinsic::eLessThanEqual3I:
 					case ast::expr::Intrinsic::eLessThanEqual4I:
-						return intrinsicCompT< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return v <= w; } );
+						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v <= w; } );
 					case ast::expr::Intrinsic::eLessThanEqual2U:
 					case ast::expr::Intrinsic::eLessThanEqual3U:
 					case ast::expr::Intrinsic::eLessThanEqual4U:
-						return intrinsicCompT< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return v <= w; } );
+						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v <= w; } );
 					case ast::expr::Intrinsic::eGreaterThan2F:
 					case ast::expr::Intrinsic::eGreaterThan3F:
 					case ast::expr::Intrinsic::eGreaterThan4F:
-						return intrinsicCompT< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v > w; } );
+						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v > w; } );
 					case ast::expr::Intrinsic::eGreaterThan2D:
 					case ast::expr::Intrinsic::eGreaterThan3D:
 					case ast::expr::Intrinsic::eGreaterThan4D:
-						return intrinsicCompT< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v > w; } );
+						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v > w; } );
 					case ast::expr::Intrinsic::eGreaterThan2I:
 					case ast::expr::Intrinsic::eGreaterThan3I:
 					case ast::expr::Intrinsic::eGreaterThan4I:
-						return intrinsicCompT< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return v > w; } );
+						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v > w; } );
 					case ast::expr::Intrinsic::eGreaterThan2U:
 					case ast::expr::Intrinsic::eGreaterThan3U:
 					case ast::expr::Intrinsic::eGreaterThan4U:
-						return intrinsicCompT< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return v > w; } );
+						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v > w; } );
 					case ast::expr::Intrinsic::eGreaterThanEqual2F:
 					case ast::expr::Intrinsic::eGreaterThanEqual3F:
 					case ast::expr::Intrinsic::eGreaterThanEqual4F:
-						return intrinsicCompT< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v >= w; } );
+						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v >= w; } );
 					case ast::expr::Intrinsic::eGreaterThanEqual2D:
 					case ast::expr::Intrinsic::eGreaterThanEqual3D:
 					case ast::expr::Intrinsic::eGreaterThanEqual4D:
-						return intrinsicCompT< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v >= w; } );
+						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v >= w; } );
 					case ast::expr::Intrinsic::eGreaterThanEqual2I:
 					case ast::expr::Intrinsic::eGreaterThanEqual3I:
 					case ast::expr::Intrinsic::eGreaterThanEqual4I:
-						return intrinsicCompT< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return v >= w; } );
+						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v >= w; } );
 					case ast::expr::Intrinsic::eGreaterThanEqual2U:
 					case ast::expr::Intrinsic::eGreaterThanEqual3U:
 					case ast::expr::Intrinsic::eGreaterThanEqual4U:
-						return intrinsicCompT< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return v >= w; } );
+						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v >= w; } );
 					case ast::expr::Intrinsic::eEqual2F:
 					case ast::expr::Intrinsic::eEqual3F:
 					case ast::expr::Intrinsic::eEqual4F:
-						return intrinsicCompT< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v == w; } );
+						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v == w; } );
 					case ast::expr::Intrinsic::eEqual2D:
 					case ast::expr::Intrinsic::eEqual3D:
 					case ast::expr::Intrinsic::eEqual4D:
-						return intrinsicCompT< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v == w; } );
+						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v == w; } );
 					case ast::expr::Intrinsic::eEqual2I:
 					case ast::expr::Intrinsic::eEqual3I:
 					case ast::expr::Intrinsic::eEqual4I:
-						return intrinsicCompT< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return v == w; } );
+						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v == w; } );
 					case ast::expr::Intrinsic::eEqual2U:
 					case ast::expr::Intrinsic::eEqual3U:
 					case ast::expr::Intrinsic::eEqual4U:
-						return intrinsicCompT< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return v == w; } );
+						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v == w; } );
 					case ast::expr::Intrinsic::eNotEqual2F:
 					case ast::expr::Intrinsic::eNotEqual3F:
 					case ast::expr::Intrinsic::eNotEqual4F:
-						return intrinsicCompT< float >( typesCache, exprCache, std::move( argsList ), []( float v, float w ){ return v != w; } );
+						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v != w; } );
 					case ast::expr::Intrinsic::eNotEqual2D:
 					case ast::expr::Intrinsic::eNotEqual3D:
 					case ast::expr::Intrinsic::eNotEqual4D:
-						return intrinsicCompT< double >( typesCache, exprCache, std::move( argsList ), []( double v, double w ){ return v != w; } );
+						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v != w; } );
 					case ast::expr::Intrinsic::eNotEqual2I:
 					case ast::expr::Intrinsic::eNotEqual3I:
 					case ast::expr::Intrinsic::eNotEqual4I:
-						return intrinsicCompT< int32_t >( typesCache, exprCache, std::move( argsList ), []( int32_t v, int32_t w ){ return v != w; } );
+						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v != w; } );
 					case ast::expr::Intrinsic::eNotEqual2U:
 					case ast::expr::Intrinsic::eNotEqual3U:
 					case ast::expr::Intrinsic::eNotEqual4U:
-						return intrinsicCompT< uint32_t >( typesCache, exprCache, std::move( argsList ), []( uint32_t v, uint32_t w ){ return v != w; } );
+						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v != w; } );
 					case ast::expr::Intrinsic::eAll2:
 					case ast::expr::Intrinsic::eAll3:
 					case ast::expr::Intrinsic::eAll4:
-						return intrinsicGatherT< bool >( typesCache, exprCache, std::move( argsList ), []( bool v, bool w ){ return v && w; } );
+						return intrinsicGatherT< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v, LitBool w ){ return v && w; } );
 					case ast::expr::Intrinsic::eAny2:
 					case ast::expr::Intrinsic::eAny3:
 					case ast::expr::Intrinsic::eAny4:
-						return intrinsicGatherT< bool >( typesCache, exprCache, std::move( argsList ), []( bool v, bool w ){ return v || w; } );
+						return intrinsicGatherT< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v, LitBool w ){ return v || w; } );
 					case ast::expr::Intrinsic::eNot2:
 					case ast::expr::Intrinsic::eNot3:
 					case ast::expr::Intrinsic::eNot4:
-						return intrinsic1T< bool >( typesCache, exprCache, std::move( argsList ), []( bool v ){ return !v; } );
+						return intrinsic1T< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v ){ return !v; } );
 					default:
 						AST_Failure( "Unsupported intrinsics for constant resolution" );
 						return nullptr;

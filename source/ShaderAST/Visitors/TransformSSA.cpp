@@ -313,9 +313,6 @@ namespace ast
 				case expr::Kind::eAndAssign:
 					doProcessAssignBinExprT< expr::BitAnd >( *expr );
 					break;
-				case expr::Kind::eNotAssign:
-					doProcessAssignUnExprT< expr::BitNot >( *expr );
-					break;
 				case expr::Kind::eOrAssign:
 					doProcessAssignBinExprT< expr::BitOr >( *expr );
 					break;

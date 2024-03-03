@@ -98,9 +98,9 @@ namespace spirv
 	// Enable this extension if you need any of the following intrinsic functions:
 	// atomicAddF, atomicAdd2H, atomicAdd4H
 	// atomicExchangeF, atomicExchange2H, atomicExchange4H
-	// imageAtomicAdd1DF, imageAtomicAdd2DF, imageAtomicAdd3DF, imageAtomicAdd2DRectF, imageAtomicAddCubeF, imageAtomicAddBufferF, imageAtomicAdd2DMSF
+	// imageAtomicAdd1DF, imageAtomicAdd2DF, imageAtomicAdd3DF, imageAtomicAddCubeF, imageAtomicAddBufferF, imageAtomicAdd2DMSF
 	// imageAtomicAdd1DArrayF, imageAtomicAdd2DArrayF, imageAtomicAddCubeArrayF, imageAtomicAdd2DMSArrayF
-	// imageAtomicExchange1DF, imageAtomicExchange2DF, imageAtomicExchange3DF, imageAtomicExchange2DRectF, imageAtomicExchangeCubeF, imageAtomicExchangeBufferF
+	// imageAtomicExchange1DF, imageAtomicExchange2DF, imageAtomicExchange3DF, imageAtomicExchangeCubeF, imageAtomicExchangeBufferF
 	// imageAtomicExchange1DArrayF, imageAtomicExchange2DArrayF, imageAtomicExchangeCubeArrayF, imageAtomicExchange2DMSF, imageAtomicExchange2DMSArrayF
 	makeSpirVExtension( v1_0, v1_5, vUnk, EXT_shader_atomic_float_add );
 	// Not used yet.

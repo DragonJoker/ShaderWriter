@@ -289,10 +289,6 @@ namespace spirv
 				{
 					m_config.registerCapability( spv::CapabilityImage1D );
 				}
-				else if ( config.dimension == ast::type::ImageDim::eRect )
-				{
-					m_config.registerCapability( spv::CapabilityImageRect );
-				}
 				else if ( config.dimension == ast::type::ImageDim::eBuffer )
 				{
 					m_config.registerCapability( spv::CapabilityImageBuffer );
@@ -363,7 +359,7 @@ namespace spirv
 				}
 
 				if ( kind >= ast::expr::CombinedImageAccess::eTextureGather2DShadowF
-					&& kind <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DRectShadowF )
+					&& kind <= ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF )
 				{
 					m_config.registerCapability( spv::CapabilityImageGatherExtended );
 				}
@@ -667,11 +663,6 @@ namespace spirv
 				if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 				{
 					m_result.registerCapability( spv::CapabilitySampled1D );
-				}
-
-				if ( imgType->getConfig().dimension == ast::type::ImageDim::eRect )
-				{
-					m_result.registerCapability( spv::CapabilitySampledRect );
 				}
 
 				if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )

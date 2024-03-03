@@ -211,7 +211,14 @@ namespace ast::expr
 	CommaPtr ExprCache::makeComma( ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		auto type = rhs->getType();
+		if ( !lhs && !rhs )
+		{
+			AST_Exception( "Comma expr without parameters" );
+		}
+
+		auto type = rhs
+			? rhs->getType()
+			: lhs->getType();
 		return makeExpr< Comma >( type
 			, std::move( lhs )
 			, std::move( rhs ) );

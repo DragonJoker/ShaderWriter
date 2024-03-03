@@ -304,9 +304,7 @@ def getMSType( name ):
 
 def getImageDim( name ):
 	result = ""
-	if name.find( "Rect" ) != -1:
-		result = "2DRect"
-	elif name.find( "1D" ) != -1:
+	if name.find( "1D" ) != -1:
 		result = "1D"
 	elif name.find( "2D" ) != -1:
 		result = "2D"
@@ -444,29 +442,28 @@ def printTextureFunction( outs, returnGroup, functionGroup, paramsGroup, imageTy
 	intrinsicName = computeIntrinsicName( functionGroup )
 	dim = getImageDim( postfix )
 	formats = getTexImgFormats( sampled, depth, retType, intrinsicName )
-	if dim != "2DRect":
-		imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
-		for fmt, ret in formats:
-			# Write function name and return
-			outs.write( "\n\tRet" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
-			# Write parameters
-			#	Image parameter
-			outs.write( " " + imageFullType + fmt + " const & image" )
-			#	Remaining function parameters
-			outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
-			# Header finished, write content
-			outs.write( "\n\t{" )
-			outs.write( "\n\t\treturn Ret" + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-			# Write arguments
-			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findExprCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-			#	Types cache argument
-			outs.write( "\n\t\t\t\t, findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-			#	Image argument
-			outs.write( "\n\t\t\t\t, makeExpr( image )" )
-			#	Remaining arguments
-			outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
-			outs.write( "\n\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
-			outs.write( "\n\t}" )
+	imageFullType = computeImageFullType( imageType, postfix, sampled, depth )
+	for fmt, ret in formats:
+		# Write function name and return
+		outs.write( "\n\tRet" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
+		# Write parameters
+		#	Image parameter
+		outs.write( " " + imageFullType + fmt + " const & image" )
+		#	Remaining function parameters
+		outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
+		# Header finished, write content
+		outs.write( "\n\t{" )
+		outs.write( "\n\t\treturn Ret" + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+		# Write arguments
+		outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findExprCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+		#	Types cache argument
+		outs.write( "\n\t\t\t\t, findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+		#	Image argument
+		outs.write( "\n\t\t\t\t, makeExpr( image )" )
+		#	Remaining arguments
+		outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
+		outs.write( "\n\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
+		outs.write( "\n\t}" )
 
 def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType ):
 	retType = typeKindToSdwType( returnGroup )
@@ -477,53 +474,52 @@ def printImageFunction( outs, returnGroup, functionGroup, paramsGroup, imageType
 	intrinsicName = computeIntrinsicName( functionGroup )
 	dim = getImageDim( postfix )
 	formats = getTexImgFormats( sampled, depth, retType, intrinsicName )
-	if dim != "2DRect":
-		isStore = intrinsicName.find( "Store" ) != -1
-		if isStore:
-			imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["W", "RW"] )
-		elif intrinsicName.find( "Load" ) != -1:
-			imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["R", "RW"] )
-		elif intrinsicName.find( "Atomic" ) != -1:
-			imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["RW"] )
-		else:
-			imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["R", "RW", "W"] )
-		for imageFullType in imageFullTypes:
-			for fmt, ret in formats:
-				if isStore:
-					# Write function name and return
-					outs.write( "\n\tRetVoid " + computeIntrinsicName( functionGroup ) + "(" )
-					# Write parameters
-					#	Image parameter
-					outs.write( " " + imageFullType + fmt + " const & image" )
-					#	Remaining function parameters
+	isStore = intrinsicName.find( "Store" ) != -1
+	if isStore:
+		imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["W", "RW"] )
+	elif intrinsicName.find( "Load" ) != -1:
+		imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["R", "RW"] )
+	elif intrinsicName.find( "Atomic" ) != -1:
+		imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["RW"] )
+	else:
+		imageFullTypes = computeImageFullTypes( imageType, postfix, sampled, depth, ["R", "RW", "W"] )
+	for imageFullType in imageFullTypes:
+		for fmt, ret in formats:
+			if isStore:
+				# Write function name and return
+				outs.write( "\n\tRetVoid " + computeIntrinsicName( functionGroup ) + "(" )
+				# Write parameters
+				#	Image parameter
+				outs.write( " " + imageFullType + fmt + " const & image" )
+				#	Remaining function parameters
+				outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
+				# Header finished, write content
+				outs.write( "\n\t{" )
+				outs.write( "\n\t\treturn RetVoid{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			else:
+				# Write function name and return
+				outs.write( "\n\tRet" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
+				# Write parameters
+				#	Image parameter
+				outs.write( " " + imageFullType + fmt + " const & image" )
+				#	Remaining function parameters
+				if intrinsicName.find( "Atomic" ) != -1:
 					outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
-					# Header finished, write content
-					outs.write( "\n\t{" )
-					outs.write( "\n\t\treturn RetVoid{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
 				else:
-					# Write function name and return
-					outs.write( "\n\tRet" + ret + " " + computeIntrinsicName( functionGroup ) + "(" )
-					# Write parameters
-					#	Image parameter
-					outs.write( " " + imageFullType + fmt + " const & image" )
-					#	Remaining function parameters
-					if intrinsicName.find( "Atomic" ) != -1:
-						outs.write( computeParamsEx( paramsGroup, "\n\t\t,", ret ) + " )" )
-					else:
-						outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
-					# Header finished, write content
-					outs.write( "\n\t{" )
-					outs.write( "\n\t\treturn Ret" + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-				# Write arguments
-				outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findExprCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-				#	Types cache
-				outs.write( "\n\t\t\t\t, findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
-				#	Image argument
-				outs.write( "\n\t\t\t\t, makeExpr( image )" )
-				#	Remaining arguments
-				outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
-				outs.write( "\n\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
-				outs.write( "\n\t}" )
+					outs.write( computeParams( paramsGroup, "\n\t\t,", 1 ) + " )" )
+				# Header finished, write content
+				outs.write( "\n\t{" )
+				outs.write( "\n\t\treturn Ret" + ret + "{ *findWriter( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			# Write arguments
+			outs.write( "\n\t\t\t, expr::make" + fullName + fmt + "( findExprCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			#	Types cache
+			outs.write( "\n\t\t\t\t, findTypesCache( image" + listParams( paramsGroup, ",", 1 ) + " )" )
+			#	Image argument
+			outs.write( "\n\t\t\t\t, makeExpr( image )" )
+			#	Remaining arguments
+			outs.write( computeArgs( paramsGroup, "\t\t\t\t", "\n\t\t\t\t," ) + " )" )
+			outs.write( "\n\t\t\t, areOptionalEnabled( image" + listParams( paramsGroup, ",", 1 ) + " ) };" )
+			outs.write( "\n\t}" )
 
 def printIntrinsicFunction( outs, returnGroup, functionGroup, paramsGroup ):
 	retType = typeKindToSdwType( returnGroup )

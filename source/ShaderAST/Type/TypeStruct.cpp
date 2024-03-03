@@ -452,6 +452,7 @@ namespace ast::type
 		, m_name{ rhs.getName() }
 		, m_layout{ rhs.m_layout }
 		, m_flag{ rhs.m_flag }
+		, m_entryPoint{ rhs.m_entryPoint }
 	{
 		doCopyMembers( rhs );
 	}
@@ -464,6 +465,7 @@ namespace ast::type
 		, m_name{ copy.getName() }
 		, m_layout{ copy.m_layout }
 		, m_flag{ copy.m_flag }
+		, m_entryPoint{ copy.m_entryPoint }
 	{
 		doCopyMembers( copy );
 	}
@@ -766,9 +768,21 @@ namespace ast::type
 			return { Struct::Member{}, false };
 		}
 
-		auto mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-			, *this
-			, uint32_t( size() ) );
+		TypePtr mbrType;
+
+		if ( arraySize != NotArray )
+		{
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
+				, *this
+				, uint32_t( size() ) );
+		}
+		else
+		{
+			mbrType = getTypesCache().getMemberType( type
+				, *this
+				, uint32_t( size() ) );
+		}
+
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
@@ -866,19 +880,13 @@ namespace ast::type
 
 		if ( arraySize != NotArray )
 		{
-			mbrType = getTypesCache().getIOStruct( type->getName()
-				, type->getEntryPoint()
-				, ast::var::Flag( type->getFlag() ) );
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
+			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
 				, *this
 				, uint32_t( size() ) );
 		}
 		else
 		{
-			mbrType = getTypesCache().getIOStruct( type->getName()
-				, type->getEntryPoint()
-				, ast::var::Flag( type->getFlag() ) );
-			mbrType = getTypesCache().getMemberType( mbrType
+			mbrType = getTypesCache().getMemberType( type
 				, *this
 				, uint32_t( size() ) );
 		}

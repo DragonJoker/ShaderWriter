@@ -330,13 +330,13 @@ namespace spirv
 					result = int32_t( lit.getValue< ast::expr::LiteralType::eBool >() );
 					break;
 				case ast::expr::LiteralType::eInt8:
-					result = lit.getValue< ast::expr::LiteralType::eInt8 >();
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eInt8 >() );
 					break;
 				case ast::expr::LiteralType::eInt16:
-					result = lit.getValue< ast::expr::LiteralType::eInt16 >();
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eInt16 >() );
 					break;
 				case ast::expr::LiteralType::eInt32:
-					result = lit.getValue< ast::expr::LiteralType::eInt32 >();
+					result = int32_t( lit.getValue< ast::expr::LiteralType::eInt32 >() );
 					break;
 				case ast::expr::LiteralType::eInt64:
 					result = int32_t( lit.getValue< ast::expr::LiteralType::eInt64 >() );

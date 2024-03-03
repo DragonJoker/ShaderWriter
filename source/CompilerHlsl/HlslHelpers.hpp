@@ -646,14 +646,12 @@ namespace hlsl
 		bool requiresTextureSize2DF{ false };
 		bool requiresTextureSize3DF{ false };
 		bool requiresTextureSizeCubeF{ false };
-		bool requiresTextureSize2DRectF{ false };
 		bool requiresTextureSize1DArrayF{ false };
 		bool requiresTextureSize2DArrayF{ false };
 		bool requiresTextureSizeCubeArrayF{ false };
 		bool requiresTextureSize1DShadowF{ false };
 		bool requiresTextureSize2DShadowF{ false };
 		bool requiresTextureSizeCubeShadowF{ false };
-		bool requiresTextureSize2DRectShadowF{ false };
 		bool requiresTextureSize1DArrayShadowF{ false };
 		bool requiresTextureSize2DArrayShadowF{ false };
 		bool requiresTextureSizeCubeArrayShadowF{ false };
@@ -662,7 +660,6 @@ namespace hlsl
 		bool requiresTextureSize2DI{ false };
 		bool requiresTextureSize3DI{ false };
 		bool requiresTextureSizeCubeI{ false };
-		bool requiresTextureSize2DRectI{ false };
 		bool requiresTextureSize1DArrayI{ false };
 		bool requiresTextureSize2DArrayI{ false };
 		bool requiresTextureSizeCubeArrayI{ false };
@@ -671,7 +668,6 @@ namespace hlsl
 		bool requiresTextureSize2DU{ false };
 		bool requiresTextureSize3DU{ false };
 		bool requiresTextureSizeCubeU{ false };
-		bool requiresTextureSize2DRectU{ false };
 		bool requiresTextureSize1DArrayU{ false };
 		bool requiresTextureSize2DArrayU{ false };
 		bool requiresTextureSizeCubeArrayU{ false };
@@ -740,7 +736,6 @@ namespace hlsl
 		bool requiresImageSize2DF{ false };
 		bool requiresImageSize3DF{ false };
 		bool requiresImageSizeCubeF{ false };
-		bool requiresImageSize2DRectF{ false };
 		bool requiresImageSize1DArrayF{ false };
 		bool requiresImageSize2DArrayF{ false };
 		bool requiresImageSizeCubeArrayF{ false };
@@ -751,7 +746,6 @@ namespace hlsl
 		bool requiresImageSize2DI{ false };
 		bool requiresImageSize3DI{ false };
 		bool requiresImageSizeCubeI{ false };
-		bool requiresImageSize2DRectI{ false };
 		bool requiresImageSize1DArrayI{ false };
 		bool requiresImageSize2DArrayI{ false };
 		bool requiresImageSizeCubeArrayI{ false };
@@ -762,7 +756,6 @@ namespace hlsl
 		bool requiresImageSize2DU{ false };
 		bool requiresImageSize3DU{ false };
 		bool requiresImageSizeCubeU{ false };
-		bool requiresImageSize2DRectU{ false };
 		bool requiresImageSize1DArrayU{ false };
 		bool requiresImageSize2DArrayU{ false };
 		bool requiresImageSizeCubeArrayU{ false };
@@ -779,7 +772,6 @@ namespace hlsl
 		bool requiresImageAtomicAdd2DU{ false };
 		bool requiresImageAtomicAdd3DU{ false };
 		bool requiresImageAtomicAddCubeU{ false };
-		bool requiresImageAtomicAdd2DRectU{ false };
 		bool requiresImageAtomicAdd1DArrayU{ false };
 		bool requiresImageAtomicAdd2DArrayU{ false };
 		bool requiresImageAtomicAddCubeArrayU{ false };
@@ -790,7 +782,6 @@ namespace hlsl
 		bool requiresImageAtomicAdd2DI{ false };
 		bool requiresImageAtomicAdd3DI{ false };
 		bool requiresImageAtomicAddCubeI{ false };
-		bool requiresImageAtomicAdd2DRectI{ false };
 		bool requiresImageAtomicAdd1DArrayI{ false };
 		bool requiresImageAtomicAdd2DArrayI{ false };
 		bool requiresImageAtomicAddCubeArrayI{ false };
@@ -803,7 +794,6 @@ namespace hlsl
 		bool requiresImageAtomicMin2DU{ false };
 		bool requiresImageAtomicMin3DU{ false };
 		bool requiresImageAtomicMinCubeU{ false };
-		bool requiresImageAtomicMin2DRectU{ false };
 		bool requiresImageAtomicMin1DArrayU{ false };
 		bool requiresImageAtomicMin2DArrayU{ false };
 		bool requiresImageAtomicMinCubeArrayU{ false };
@@ -814,7 +804,6 @@ namespace hlsl
 		bool requiresImageAtomicMin2DI{ false };
 		bool requiresImageAtomicMin3DI{ false };
 		bool requiresImageAtomicMinCubeI{ false };
-		bool requiresImageAtomicMin2DRectI{ false };
 		bool requiresImageAtomicMin1DArrayI{ false };
 		bool requiresImageAtomicMin2DArrayI{ false };
 		bool requiresImageAtomicMinCubeArrayI{ false };
@@ -825,7 +814,6 @@ namespace hlsl
 		bool requiresImageAtomicMax2DU{ false };
 		bool requiresImageAtomicMax3DU{ false };
 		bool requiresImageAtomicMaxCubeU{ false };
-		bool requiresImageAtomicMax2DRectU{ false };
 		bool requiresImageAtomicMax1DArrayU{ false };
 		bool requiresImageAtomicMax2DArrayU{ false };
 		bool requiresImageAtomicMaxCubeArrayU{ false };
@@ -836,7 +824,6 @@ namespace hlsl
 		bool requiresImageAtomicMax2DI{ false };
 		bool requiresImageAtomicMax3DI{ false };
 		bool requiresImageAtomicMaxCubeI{ false };
-		bool requiresImageAtomicMax2DRectI{ false };
 		bool requiresImageAtomicMax1DArrayI{ false };
 		bool requiresImageAtomicMax2DArrayI{ false };
 		bool requiresImageAtomicMaxCubeArrayI{ false };
@@ -847,7 +834,6 @@ namespace hlsl
 		bool requiresImageAtomicAnd2DU{ false };
 		bool requiresImageAtomicAnd3DU{ false };
 		bool requiresImageAtomicAndCubeU{ false };
-		bool requiresImageAtomicAnd2DRectU{ false };
 		bool requiresImageAtomicAnd1DArrayU{ false };
 		bool requiresImageAtomicAnd2DArrayU{ false };
 		bool requiresImageAtomicAndCubeArrayU{ false };
@@ -858,7 +844,6 @@ namespace hlsl
 		bool requiresImageAtomicAnd2DI{ false };
 		bool requiresImageAtomicAnd3DI{ false };
 		bool requiresImageAtomicAndCubeI{ false };
-		bool requiresImageAtomicAnd2DRectI{ false };
 		bool requiresImageAtomicAnd1DArrayI{ false };
 		bool requiresImageAtomicAnd2DArrayI{ false };
 		bool requiresImageAtomicAndCubeArrayI{ false };
@@ -869,7 +854,6 @@ namespace hlsl
 		bool requiresImageAtomicOr2DU{ false };
 		bool requiresImageAtomicOr3DU{ false };
 		bool requiresImageAtomicOrCubeU{ false };
-		bool requiresImageAtomicOr2DRectU{ false };
 		bool requiresImageAtomicOr1DArrayU{ false };
 		bool requiresImageAtomicOr2DArrayU{ false };
 		bool requiresImageAtomicOrCubeArrayU{ false };
@@ -880,7 +864,6 @@ namespace hlsl
 		bool requiresImageAtomicOr2DI{ false };
 		bool requiresImageAtomicOr3DI{ false };
 		bool requiresImageAtomicOrCubeI{ false };
-		bool requiresImageAtomicOr2DRectI{ false };
 		bool requiresImageAtomicOr1DArrayI{ false };
 		bool requiresImageAtomicOr2DArrayI{ false };
 		bool requiresImageAtomicOrCubeArrayI{ false };
@@ -891,7 +874,6 @@ namespace hlsl
 		bool requiresImageAtomicXor2DU{ false };
 		bool requiresImageAtomicXor3DU{ false };
 		bool requiresImageAtomicXorCubeU{ false };
-		bool requiresImageAtomicXor2DRectU{ false };
 		bool requiresImageAtomicXor1DArrayU{ false };
 		bool requiresImageAtomicXor2DArrayU{ false };
 		bool requiresImageAtomicXorCubeArrayU{ false };
@@ -902,7 +884,6 @@ namespace hlsl
 		bool requiresImageAtomicXor2DI{ false };
 		bool requiresImageAtomicXor3DI{ false };
 		bool requiresImageAtomicXorCubeI{ false };
-		bool requiresImageAtomicXor2DRectI{ false };
 		bool requiresImageAtomicXor1DArrayI{ false };
 		bool requiresImageAtomicXor2DArrayI{ false };
 		bool requiresImageAtomicXorCubeArrayI{ false };
@@ -913,7 +894,6 @@ namespace hlsl
 		bool requiresImageAtomicExchange2DU{ false };
 		bool requiresImageAtomicExchange3DU{ false };
 		bool requiresImageAtomicExchangeCubeU{ false };
-		bool requiresImageAtomicExchange2DRectU{ false };
 		bool requiresImageAtomicExchange1DArrayU{ false };
 		bool requiresImageAtomicExchange2DArrayU{ false };
 		bool requiresImageAtomicExchangeCubeArrayU{ false };
@@ -924,7 +904,6 @@ namespace hlsl
 		bool requiresImageAtomicExchange2DI{ false };
 		bool requiresImageAtomicExchange3DI{ false };
 		bool requiresImageAtomicExchangeCubeI{ false };
-		bool requiresImageAtomicExchange2DRectI{ false };
 		bool requiresImageAtomicExchange1DArrayI{ false };
 		bool requiresImageAtomicExchange2DArrayI{ false };
 		bool requiresImageAtomicExchangeCubeArrayI{ false };
@@ -935,7 +914,6 @@ namespace hlsl
 		bool requiresImageAtomicCompSwap2DU{ false };
 		bool requiresImageAtomicCompSwap3DU{ false };
 		bool requiresImageAtomicCompSwapCubeU{ false };
-		bool requiresImageAtomicCompSwap2DRectU{ false };
 		bool requiresImageAtomicCompSwap1DArrayU{ false };
 		bool requiresImageAtomicCompSwap2DArrayU{ false };
 		bool requiresImageAtomicCompSwapCubeArrayU{ false };
@@ -946,7 +924,6 @@ namespace hlsl
 		bool requiresImageAtomicCompSwap2DI{ false };
 		bool requiresImageAtomicCompSwap3DI{ false };
 		bool requiresImageAtomicCompSwapCubeI{ false };
-		bool requiresImageAtomicCompSwap2DRectI{ false };
 		bool requiresImageAtomicCompSwap1DArrayI{ false };
 		bool requiresImageAtomicCompSwap2DArrayI{ false };
 		bool requiresImageAtomicCompSwapCubeArrayI{ false };
