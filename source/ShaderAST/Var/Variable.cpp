@@ -61,7 +61,7 @@ namespace ast::var
 		, Builtin builtin
 		, type::TypePtr type
 		, uint64_t flags )
-		: FlagHolder{ flags }
+		: FlagHolder{ flags | Flag::eBuiltin }
 		, m_nameId{ id, var::getName( builtin, flags ) }
 		, m_type{ std::move( type ) }
 		, m_builtin{ builtin }

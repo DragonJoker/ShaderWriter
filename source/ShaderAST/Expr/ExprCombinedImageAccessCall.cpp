@@ -133,24 +133,16 @@ namespace ast::expr
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DF3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DF3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3Bias:
@@ -165,35 +157,21 @@ namespace ast::expr
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU3:
 		case ast::expr::CombinedImageAccess::eTextureProj2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProj2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProj2DF4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProj2DU4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjOffset2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
 		case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
@@ -204,17 +182,11 @@ namespace ast::expr
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
 		case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGrad2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectF4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectI4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
-		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DRectU4:
 		case ast::expr::CombinedImageAccess::eTextureProj3DF:
 		case ast::expr::CombinedImageAccess::eTextureProj3DI:
 		case ast::expr::CombinedImageAccess::eTextureProj3DU:
@@ -258,20 +230,17 @@ namespace ast::expr
 		case CombinedImageAccess::eTexture1DArrayShadowF:
 		case CombinedImageAccess::eTexture1DArrayShadowFBias:
 		case CombinedImageAccess::eTexture2DArrayShadowF:
-		case CombinedImageAccess::eTexture2DRectShadowF:
 		case CombinedImageAccess::eTextureCubeArrayShadowF:
 		case CombinedImageAccess::eTextureProj1DShadowF:
 		case CombinedImageAccess::eTextureProj1DShadowFBias:
 		case CombinedImageAccess::eTextureProj2DShadowF:
 		case CombinedImageAccess::eTextureProj2DShadowFBias:
-		case CombinedImageAccess::eTextureProj2DRectShadowF:
 		case CombinedImageAccess::eTextureLod1DShadowF:
 		case CombinedImageAccess::eTextureLod2DShadowF:
 		case CombinedImageAccess::eTextureLodCubeShadowF:
 		case CombinedImageAccess::eTextureLod1DArrayShadowF:
 		case CombinedImageAccess::eTextureLod2DArrayShadowF:
 		case CombinedImageAccess::eTextureLodCubeArrayShadowF:
-		case CombinedImageAccess::eTextureOffset2DRectShadowF:
 		case CombinedImageAccess::eTextureOffset1DShadowF:
 		case CombinedImageAccess::eTextureOffset1DShadowFBias:
 		case CombinedImageAccess::eTextureOffset2DShadowF:
@@ -282,7 +251,6 @@ namespace ast::expr
 		case CombinedImageAccess::eTextureProjOffset1DShadowFBias:
 		case CombinedImageAccess::eTextureProjOffset2DShadowF:
 		case CombinedImageAccess::eTextureProjOffset2DShadowFBias:
-		case CombinedImageAccess::eTextureProjOffset2DRectShadowF:
 		case CombinedImageAccess::eTextureLodOffset1DShadowF:
 		case CombinedImageAccess::eTextureLodOffset2DShadowF:
 		case CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
@@ -290,32 +258,25 @@ namespace ast::expr
 		case CombinedImageAccess::eTextureProjLod2DShadowF:
 		case CombinedImageAccess::eTextureProjLodOffset1DShadowF:
 		case CombinedImageAccess::eTextureProjLodOffset2DShadowF:
-		case CombinedImageAccess::eTextureGrad2DRectShadowF:
 		case CombinedImageAccess::eTextureGrad1DShadowF:
 		case CombinedImageAccess::eTextureGrad2DShadowF:
 		case CombinedImageAccess::eTextureGrad1DArrayShadowF:
-		case CombinedImageAccess::eTextureGradOffset2DRectShadowF:
 		case CombinedImageAccess::eTextureGradOffset1DShadowF:
 		case CombinedImageAccess::eTextureGradOffset2DShadowF:
 		case CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
 		case CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
 		case CombinedImageAccess::eTextureProjGrad1DShadowF:
 		case CombinedImageAccess::eTextureProjGrad2DShadowF:
-		case CombinedImageAccess::eTextureProjGrad2DRectShadowF:
 		case CombinedImageAccess::eTextureProjGradOffset1DShadowF:
 		case CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-		case CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
 		case CombinedImageAccess::eTextureGather2DShadowF:
 		case CombinedImageAccess::eTextureGather2DArrayShadowF:
 		case CombinedImageAccess::eTextureGatherCubeShadowF:
 		case CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-		case CombinedImageAccess::eTextureGather2DRectShadowF:
 		case CombinedImageAccess::eTextureGatherOffset2DShadowF:
 		case CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-		case CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
 		case CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
-		case CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
 			return true;
 		default:
 			return false;

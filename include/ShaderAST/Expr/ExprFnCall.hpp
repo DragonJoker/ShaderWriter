@@ -43,7 +43,6 @@ namespace ast::expr
 
 		inline Expr const * getInstance()const
 		{
-			assert( isMember() );
 			return m_instance.get();
 		}
 

@@ -3,6 +3,94 @@
 
 namespace
 {
+	std::string getImageFormatName( ast::type::ImageFormat value )
+	{
+		std::string result{ "Undefined" };
+
+		switch ( value )
+		{
+		case ast::type::ImageFormat::eUnknown:
+			result = "Unknown";
+			break;
+		case ast::type::ImageFormat::eRgba32f:
+			result = "RGBA32f";
+			break;
+		case ast::type::ImageFormat::eRgba16f:
+			result = "RGBA16f";
+			break;
+		case ast::type::ImageFormat::eRg32f:
+			result = "RG32f";
+			break;
+		case ast::type::ImageFormat::eRg16f:
+			result = "RG16f";
+			break;
+		case ast::type::ImageFormat::eR32f:
+			result = "R32f";
+			break;
+		case ast::type::ImageFormat::eR16f:
+			result = "R16f";
+			break;
+		case ast::type::ImageFormat::eRgba32i:
+			result = "RGBA32i";
+			break;
+		case ast::type::ImageFormat::eRgba16i:
+			result = "RGBA16i";
+			break;
+		case ast::type::ImageFormat::eRgba8i:
+			result = "RGBA8i";
+			break;
+		case ast::type::ImageFormat::eRg32i:
+			result = "RG32i";
+			break;
+		case ast::type::ImageFormat::eRg16i:
+			result = "RG16i";
+			break;
+		case ast::type::ImageFormat::eRg8i:
+			result = "RG8i";
+			break;
+		case ast::type::ImageFormat::eR32i:
+			result = "R32i";
+			break;
+		case ast::type::ImageFormat::eR16i:
+			result = "R16i";
+			break;
+		case ast::type::ImageFormat::eR8i:
+			result = "R8i";
+			break;
+		case ast::type::ImageFormat::eRgba32u:
+			result = "RGBA32u";
+			break;
+		case ast::type::ImageFormat::eRgba16u:
+			result = "RGBA16u";
+			break;
+		case ast::type::ImageFormat::eRgba8u:
+			result = "RGBA8u";
+			break;
+		case ast::type::ImageFormat::eRg32u:
+			result = "RG32u";
+			break;
+		case ast::type::ImageFormat::eRg16u:
+			result = "RG16u";
+			break;
+		case ast::type::ImageFormat::eRg8u:
+			result = "RG8u";
+			break;
+		case ast::type::ImageFormat::eR32u:
+			result = "R32u";
+			break;
+		case ast::type::ImageFormat::eR16u:
+			result = "R16u";
+			break;
+		case ast::type::ImageFormat::eR8u:
+			result = "R8u";
+			break;
+		default:
+			break;
+		}
+
+		return result;
+	}
+
 #define DummyMain \
 	writer.implementMainT< sdw::VoidT >( 16u, []( sdw::ComputeIn ){} )
 
@@ -289,7 +377,7 @@ namespace
 		, ast::type::AccessKind AccessT >
 	void testImageAccessFormat( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testImage" + ast::debug::getImageFormatName( FormatT ) );
+		testBegin( "testImage" + getImageFormatName( FormatT ) );
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
 			testImage< FormatT, AccessT, Img1DBase >( testCounts );

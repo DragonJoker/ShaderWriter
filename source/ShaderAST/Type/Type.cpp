@@ -853,6 +853,7 @@ namespace ast::type
 	{
 		assert( isVectorType( kind )
 			|| isMatrixType( kind ) );
+		expr::CompositeType result{ expr::CompositeType::eVec4 };
 
 		switch ( kind )
 		{
@@ -868,8 +869,8 @@ namespace ast::type
 		case Kind::eVec2F:
 		case Kind::eVec2D:
 		case Kind::eVec2H:
-			return expr::CompositeType::eVec2;
-
+			result = expr::CompositeType::eVec2;
+			break;
 		case Kind::eVec3B:
 		case Kind::eVec3I8:
 		case Kind::eVec3I16:
@@ -881,8 +882,8 @@ namespace ast::type
 		case Kind::eVec3U64:
 		case Kind::eVec3F:
 		case Kind::eVec3D:
-			return expr::CompositeType::eVec3;
-
+			result = expr::CompositeType::eVec3;
+			break;
 		case Kind::eVec4B:
 		case Kind::eVec4I8:
 		case Kind::eVec4I16:
@@ -895,70 +896,82 @@ namespace ast::type
 		case Kind::eVec4F:
 		case Kind::eVec4D:
 		case Kind::eVec4H:
-			return expr::CompositeType::eVec4;
-
+			result = expr::CompositeType::eVec4;
+			break;
 		case Kind::eMat2x2F:
 		case Kind::eMat2x2D:
-			return expr::CompositeType::eMat2x2;
-
+			result = expr::CompositeType::eMat2x2;
+			break;
 		case Kind::eMat2x3F:
 		case Kind::eMat2x3D:
-			return expr::CompositeType::eMat2x3;
-
+			result = expr::CompositeType::eMat2x3;
+			break;
 		case Kind::eMat2x4F:
 		case Kind::eMat2x4D:
-			return expr::CompositeType::eMat2x4;
-
+			result = expr::CompositeType::eMat2x4;
+			break;
 		case Kind::eMat3x2F:
 		case Kind::eMat3x2D:
-			return expr::CompositeType::eMat3x2;
-
+			result = expr::CompositeType::eMat3x2;
+			break;
 		case Kind::eMat3x3F:
 		case Kind::eMat3x3D:
-			return expr::CompositeType::eMat3x3;
-
+			result = expr::CompositeType::eMat3x3;
+			break;
 		case Kind::eMat3x4F:
 		case Kind::eMat3x4D:
-			return expr::CompositeType::eMat3x4;
-
+			result = expr::CompositeType::eMat3x4;
+			break;
 		case Kind::eMat4x2F:
 		case Kind::eMat4x2D:
-			return expr::CompositeType::eMat4x2;
-
+			result = expr::CompositeType::eMat4x2;
+			break;
 		case Kind::eMat4x3F:
 		case Kind::eMat4x3D:
-			return expr::CompositeType::eMat4x3;
-
+			result = expr::CompositeType::eMat4x3;
+			break;
 		case Kind::eMat4x4F:
 		case Kind::eMat4x4D:
-			return expr::CompositeType::eMat4x4;
-
+			result = expr::CompositeType::eMat4x4;
+			break;
 		default:
-			AST_Failure( "Unsupported type::Kind" );
-			return expr::CompositeType::eVec4;
+			break;
 		}
+
+		return result;
 	}
 
 	Type const & getNonArrayType( Type const & type )
 	{
+		Type const * result{};
+
 		switch ( type.getKind() )
 		{
 		case Kind::eArray:
-			return *static_cast< Array const & >( type ).getType();
+			result = static_cast< Array const & >( type ).getType().get();
+			break;
 		default:
-			return type;
+			result = &type;
+			break;
 		}
+
+		return *result;
 	}
 
 	TypePtr getNonArrayType( TypePtr type )
 	{
+		TypePtr result;
 		switch ( type->getKind() )
 		{
 		case Kind::eArray:
-			return std::static_pointer_cast< Array >( type )->getType();
+			result = std::static_pointer_cast< Array >( type )->getType();
+			break;
 		default:
-			return type;
+			result = type;
+			break;
 		}
+
+		return result;
 	}
 
 	Kind getNonArrayKind( Type const & type )
@@ -1037,32 +1050,48 @@ namespace ast::type
 
 	Type const & unwrapType( Type const & type )
 	{
+		Type const * result{};
+
 		switch ( type.getRawKind() )
 		{
 		case Kind::eRayPayload:
-			return *static_cast< RayPayload const & >( type ).getDataType();
+			result = static_cast< RayPayload const & >( type ).getDataType().get();
+			break;
 		case Kind::eCallableData:
-			return *static_cast< CallableData const & >( type ).getDataType();
+			result = static_cast< CallableData const & >( type ).getDataType().get();
+			break;
 		case Kind::eHitAttribute:
-			return *static_cast< HitAttribute const & >( type ).getDataType();
+			result = static_cast< HitAttribute const & >( type ).getDataType().get();
+			break;
 		default:
-			return type;
+			result = &type;
+			break;
 		}
+
+		return *result;
 	}
 
 	TypePtr unwrapType( TypePtr type )
 	{
+		TypePtr result;
+
 		switch ( type->getRawKind() )
 		{
 		case Kind::eRayPayload:
-			return static_cast< RayPayload const & >( *type ).getDataType();
+			result = static_cast< RayPayload const & >( *type ).getDataType();
+			break;
 		case Kind::eCallableData:
-			return static_cast< CallableData const & >( *type ).getDataType();
+			result = static_cast< CallableData const & >( *type ).getDataType();
+			break;
 		case Kind::eHitAttribute:
-			return static_cast< HitAttribute const & >( *type ).getDataType();
+			result = static_cast< HitAttribute const & >( *type ).getDataType();
+			break;
 		default:
-			return type;
+			result = type;
+			break;
 		}
+
+		return result;
 	}
 
 	//*************************************************************************

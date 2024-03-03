@@ -70,14 +70,6 @@ namespace ast::expr
 			result = "TextureSizeCubeArrayShadowF";
 			break;
 
-		case CombinedImageAccess::eTextureSize2DRectF:
-			result = "TextureSize2DRectF";
-			break;
-
-		case CombinedImageAccess::eTextureSize2DRectShadowF:
-			result = "TextureSize2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureSize1DArrayF:
 			result = "TextureSize1DArrayF";
 			break;
@@ -118,10 +110,6 @@ namespace ast::expr
 			result = "TextureSizeCubeArrayI";
 			break;
 
-		case CombinedImageAccess::eTextureSize2DRectI:
-			result = "TextureSize2DRectI";
-			break;
-
 		case CombinedImageAccess::eTextureSize1DArrayI:
 			result = "TextureSize1DArrayI";
 			break;
@@ -152,10 +140,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureSizeCubeArrayU:
 			result = "TextureSizeCubeArrayU";
-			break;
-
-		case CombinedImageAccess::eTextureSize2DRectU:
-			result = "TextureSize2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureSize1DArrayU:
@@ -444,10 +428,6 @@ namespace ast::expr
 			result = "TextureCubeArrayFBias";
 			break;
 
-		case CombinedImageAccess::eTexture2DRectF:
-			result = "Texture2DRectF";
-			break;
-
 		case CombinedImageAccess::eTexture1DI:
 			result = "Texture1DI";
 			break;
@@ -502,10 +482,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureCubeArrayIBias:
 			result = "TextureCubeArrayIBias";
-			break;
-
-		case CombinedImageAccess::eTexture2DRectI:
-			result = "Texture2DRectI";
 			break;
 
 		case CombinedImageAccess::eTexture1DU:
@@ -564,10 +540,6 @@ namespace ast::expr
 			result = "TextureCubeArrayUBias";
 			break;
 
-		case CombinedImageAccess::eTexture2DRectU:
-			result = "Texture2DRectU";
-			break;
-
 		case CombinedImageAccess::eTextureProj1DF2:
 			result = "TextureProj1DF2";
 			break;
@@ -606,14 +578,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProj3DFBias:
 			result = "TextureProj3DFBias";
-			break;
-
-		case CombinedImageAccess::eTextureProj2DRectF3:
-			result = "TextureProj2DRectF3";
-			break;
-
-		case CombinedImageAccess::eTextureProj2DRectF4:
-			result = "TextureProj2DRectF4";
 			break;
 
 		case CombinedImageAccess::eTextureProj1DI2:
@@ -656,14 +620,6 @@ namespace ast::expr
 			result = "TextureProj3DIBias";
 			break;
 
-		case CombinedImageAccess::eTextureProj2DRectI3:
-			result = "TextureProj2DRectI3";
-			break;
-
-		case CombinedImageAccess::eTextureProj2DRectI4:
-			result = "TextureProj2DRectI4";
-			break;
-
 		case CombinedImageAccess::eTextureProj1DU2:
 			result = "TextureProj1DU2";
 			break;
@@ -702,14 +658,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProj3DUBias:
 			result = "TextureProj3DUBias";
-			break;
-
-		case CombinedImageAccess::eTextureProj2DRectU3:
-			result = "TextureProj2DRectU3";
-			break;
-
-		case CombinedImageAccess::eTextureProj2DRectU4:
-			result = "TextureProj2DRectU4";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DF:
@@ -820,10 +768,6 @@ namespace ast::expr
 			result = "TextureOffset3DFBias";
 			break;
 
-		case CombinedImageAccess::eTextureOffset2DRectF:
-			result = "TextureOffset2DRectF";
-			break;
-
 		case CombinedImageAccess::eTextureOffset1DArrayF:
 			result = "TextureOffset1DArrayF";
 			break;
@@ -862,10 +806,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureOffset3DIBias:
 			result = "TextureOffset3DIBias";
-			break;
-
-		case CombinedImageAccess::eTextureOffset2DRectI:
-			result = "TextureOffset2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DArrayI:
@@ -908,10 +848,6 @@ namespace ast::expr
 			result = "TextureOffset3DUBias";
 			break;
 
-		case CombinedImageAccess::eTextureOffset2DRectU:
-			result = "TextureOffset2DRectU";
-			break;
-
 		case CombinedImageAccess::eTextureOffset1DArrayU:
 			result = "TextureOffset1DArrayU";
 			break;
@@ -940,10 +876,6 @@ namespace ast::expr
 			result = "TexelFetch3DF";
 			break;
 
-		case CombinedImageAccess::eTexelFetch2DRectF:
-			result = "TexelFetch2DRectF";
-			break;
-
 		case CombinedImageAccess::eTexelFetch1DArrayF:
 			result = "TexelFetch1DArrayF";
 			break;
@@ -966,10 +898,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTexelFetch3DI:
 			result = "TexelFetch3DI";
-			break;
-
-		case CombinedImageAccess::eTexelFetch2DRectI:
-			result = "TexelFetch2DRectI";
 			break;
 
 		case CombinedImageAccess::eTexelFetch1DArrayI:
@@ -996,10 +924,6 @@ namespace ast::expr
 			result = "TexelFetch3DU";
 			break;
 
-		case CombinedImageAccess::eTexelFetch2DRectU:
-			result = "TexelFetch2DRectU";
-			break;
-
 		case CombinedImageAccess::eTexelFetch1DArrayU:
 			result = "TexelFetch1DArrayU";
 			break;
@@ -1024,10 +948,6 @@ namespace ast::expr
 			result = "TexelFetchOffset3DF";
 			break;
 
-		case CombinedImageAccess::eTexelFetchOffset2DRectF:
-			result = "TexelFetchOffset2DRectF";
-			break;
-
 		case CombinedImageAccess::eTexelFetchOffset1DArrayF:
 			result = "TexelFetchOffset1DArrayF";
 			break;
@@ -1048,10 +968,6 @@ namespace ast::expr
 			result = "TexelFetchOffset3DI";
 			break;
 
-		case CombinedImageAccess::eTexelFetchOffset2DRectI:
-			result = "TexelFetchOffset2DRectI";
-			break;
-
 		case CombinedImageAccess::eTexelFetchOffset1DArrayI:
 			result = "TexelFetchOffset1DArrayI";
 			break;
@@ -1070,10 +986,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTexelFetchOffset3DU:
 			result = "TexelFetchOffset3DU";
-			break;
-
-		case CombinedImageAccess::eTexelFetchOffset2DRectU:
-			result = "TexelFetchOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTexelFetchOffset1DArrayU:
@@ -1124,14 +1036,6 @@ namespace ast::expr
 			result = "TextureProjOffset3DFBias";
 			break;
 
-		case CombinedImageAccess::eTextureProjOffset2DRectF3:
-			result = "TextureProjOffset2DRectF3";
-			break;
-
-		case CombinedImageAccess::eTextureProjOffset2DRectF4:
-			result = "TextureProjOffset2DRectF4";
-			break;
-
 		case CombinedImageAccess::eTextureProjOffset1DI2:
 			result = "TextureProjOffset1DI2";
 			break;
@@ -1172,14 +1076,6 @@ namespace ast::expr
 			result = "TextureProjOffset3DIBias";
 			break;
 
-		case CombinedImageAccess::eTextureProjOffset2DRectI3:
-			result = "TextureProjOffset2DRectI3";
-			break;
-
-		case CombinedImageAccess::eTextureProjOffset2DRectI4:
-			result = "TextureProjOffset2DRectI4";
-			break;
-
 		case CombinedImageAccess::eTextureProjOffset1DU2:
 			result = "TextureProjOffset1DU2";
 			break;
@@ -1218,14 +1114,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProjOffset3DUBias:
 			result = "TextureProjOffset3DUBias";
-			break;
-
-		case CombinedImageAccess::eTextureProjOffset2DRectU3:
-			result = "TextureProjOffset2DRectU3";
-			break;
-
-		case CombinedImageAccess::eTextureProjOffset2DRectU4:
-			result = "TextureProjOffset2DRectU4";
 			break;
 
 		case CombinedImageAccess::eTextureLodOffset1DF:
@@ -1424,10 +1312,6 @@ namespace ast::expr
 			result = "TextureGradCubeF";
 			break;
 
-		case CombinedImageAccess::eTextureGrad2DRectF:
-			result = "TextureGrad2DRectF";
-			break;
-
 		case CombinedImageAccess::eTextureGrad1DArrayF:
 			result = "TextureGrad1DArrayF";
 			break;
@@ -1454,10 +1338,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureGradCubeI:
 			result = "TextureGradCubeI";
-			break;
-
-		case CombinedImageAccess::eTextureGrad2DRectI:
-			result = "TextureGrad2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGrad1DArrayI:
@@ -1488,10 +1368,6 @@ namespace ast::expr
 			result = "TextureGradCubeU";
 			break;
 
-		case CombinedImageAccess::eTextureGrad2DRectU:
-			result = "TextureGrad2DRectU";
-			break;
-
 		case CombinedImageAccess::eTextureGrad1DArrayU:
 			result = "TextureGrad1DArrayU";
 			break;
@@ -1516,10 +1392,6 @@ namespace ast::expr
 			result = "TextureGradOffset3DF";
 			break;
 
-		case CombinedImageAccess::eTextureGradOffset2DRectF:
-			result = "TextureGradOffset2DRectF";
-			break;
-
 		case CombinedImageAccess::eTextureGradOffset1DArrayF:
 			result = "TextureGradOffset1DArrayF";
 			break;
@@ -1540,10 +1412,6 @@ namespace ast::expr
 			result = "TextureGradOffset3DI";
 			break;
 
-		case CombinedImageAccess::eTextureGradOffset2DRectI:
-			result = "TextureGradOffset2DRectI";
-			break;
-
 		case CombinedImageAccess::eTextureGradOffset1DArrayI:
 			result = "TextureGradOffset1DArrayI";
 			break;
@@ -1562,10 +1430,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureGradOffset3DU:
 			result = "TextureGradOffset3DU";
-			break;
-
-		case CombinedImageAccess::eTextureGradOffset2DRectU:
-			result = "TextureGradOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DArrayU:
@@ -1596,14 +1460,6 @@ namespace ast::expr
 			result = "TextureProjGrad3DF";
 			break;
 
-		case CombinedImageAccess::eTextureProjGrad2DRectF3:
-			result = "TextureProjGrad2DRectF3";
-			break;
-
-		case CombinedImageAccess::eTextureProjGrad2DRectF4:
-			result = "TextureProjGrad2DRectF4";
-			break;
-
 		case CombinedImageAccess::eTextureProjGrad1DI2:
 			result = "TextureProjGrad1DI2";
 			break;
@@ -1622,14 +1478,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProjGrad3DI:
 			result = "TextureProjGrad3DI";
-			break;
-
-		case CombinedImageAccess::eTextureProjGrad2DRectI3:
-			result = "TextureProjGrad2DRectI3";
-			break;
-
-		case CombinedImageAccess::eTextureProjGrad2DRectI4:
-			result = "TextureProjGrad2DRectI4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGrad1DU2:
@@ -1652,14 +1500,6 @@ namespace ast::expr
 			result = "TextureProjGrad3DU";
 			break;
 
-		case CombinedImageAccess::eTextureProjGrad2DRectU3:
-			result = "TextureProjGrad2DRectU3";
-			break;
-
-		case CombinedImageAccess::eTextureProjGrad2DRectU4:
-			result = "TextureProjGrad2DRectU4";
-			break;
-
 		case CombinedImageAccess::eTextureProjGradOffset1DF2:
 			result = "TextureProjGradOffset1DF2";
 			break;
@@ -1678,14 +1518,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProjGradOffset3DF:
 			result = "TextureProjGradOffset3DF";
-			break;
-
-		case CombinedImageAccess::eTextureProjGradOffset2DRectF3:
-			result = "TextureProjGradOffset2DRectF3";
-			break;
-
-		case CombinedImageAccess::eTextureProjGradOffset2DRectF4:
-			result = "TextureProjGradOffset2DRectF4";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset1DI2:
@@ -1708,14 +1540,6 @@ namespace ast::expr
 			result = "TextureProjGradOffset3DI";
 			break;
 
-		case CombinedImageAccess::eTextureProjGradOffset2DRectI3:
-			result = "TextureProjGradOffset2DRectI3";
-			break;
-
-		case CombinedImageAccess::eTextureProjGradOffset2DRectI4:
-			result = "TextureProjGradOffset2DRectI4";
-			break;
-
 		case CombinedImageAccess::eTextureProjGradOffset1DU2:
 			result = "TextureProjGradOffset1DU2";
 			break;
@@ -1734,14 +1558,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProjGradOffset3DU:
 			result = "TextureProjGradOffset3DU";
-			break;
-
-		case CombinedImageAccess::eTextureProjGradOffset2DRectU3:
-			result = "TextureProjGradOffset2DRectU3";
-			break;
-
-		case CombinedImageAccess::eTextureProjGradOffset2DRectU4:
-			result = "TextureProjGradOffset2DRectU4";
 			break;
 
 	
@@ -1782,10 +1598,6 @@ namespace ast::expr
 			result = "Texture2DArrayShadowF";
 			break;
 
-		case CombinedImageAccess::eTexture2DRectShadowF:
-			result = "Texture2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureCubeArrayShadowF:
 			result = "TextureCubeArrayShadowF";
 			break;
@@ -1804,10 +1616,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureProj2DShadowFBias:
 			result = "TextureProj2DShadowFBias";
-			break;
-
-		case CombinedImageAccess::eTextureProj2DRectShadowF:
-			result = "TextureProj2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureLod1DShadowF:
@@ -1832,10 +1640,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureLodCubeArrayShadowF:
 			result = "TextureLodCubeArrayShadowF";
-			break;
-
-		case CombinedImageAccess::eTextureOffset2DRectShadowF:
-			result = "TextureOffset2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureOffset1DShadowF:
@@ -1878,10 +1682,6 @@ namespace ast::expr
 			result = "TextureProjOffset2DShadowFBias";
 			break;
 
-		case CombinedImageAccess::eTextureProjOffset2DRectShadowF:
-			result = "TextureProjOffset2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureLodOffset1DShadowF:
 			result = "TextureLodOffset1DShadowF";
 			break;
@@ -1910,10 +1710,6 @@ namespace ast::expr
 			result = "TextureProjLodOffset2DShadowF";
 			break;
 
-		case CombinedImageAccess::eTextureGrad2DRectShadowF:
-			result = "TextureGrad2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureGrad1DShadowF:
 			result = "TextureGrad1DShadowF";
 			break;
@@ -1924,10 +1720,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureGrad1DArrayShadowF:
 			result = "TextureGrad1DArrayShadowF";
-			break;
-
-		case CombinedImageAccess::eTextureGradOffset2DRectShadowF:
-			result = "TextureGradOffset2DRectShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGradOffset1DShadowF:
@@ -1954,20 +1746,12 @@ namespace ast::expr
 			result = "TextureProjGrad2DShadowF";
 			break;
 
-		case CombinedImageAccess::eTextureProjGrad2DRectShadowF:
-			result = "TextureProjGrad2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureProjGradOffset1DShadowF:
 			result = "TextureProjGradOffset1DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureProjGradOffset2DShadowF:
 			result = "TextureProjGradOffset2DShadowF";
-			break;
-
-		case CombinedImageAccess::eTextureProjGradOffset2DRectShadowF:
-			result = "TextureProjGradOffset2DRectShadowF";
 			break;
 
 
@@ -1988,10 +1772,6 @@ namespace ast::expr
 			result = "TextureGatherCubeArrayF";
 			break;
 
-		case CombinedImageAccess::eTextureGather2DRectF:
-			result = "TextureGather2DRectF";
-			break;
-
 		case CombinedImageAccess::eTextureGather2DI:
 			result = "TextureGather2DI";
 			break;
@@ -2006,10 +1786,6 @@ namespace ast::expr
 
 		case CombinedImageAccess::eTextureGatherCubeArrayI:
 			result = "TextureGatherCubeArrayI";
-			break;
-
-		case CombinedImageAccess::eTextureGather2DRectI:
-			result = "TextureGather2DRectI";
 			break;
 
 		case CombinedImageAccess::eTextureGather2DU:
@@ -2028,20 +1804,12 @@ namespace ast::expr
 			result = "TextureGatherCubeArrayU";
 			break;
 
-		case CombinedImageAccess::eTextureGather2DRectU:
-			result = "TextureGather2DRectU";
-			break;
-
 		case CombinedImageAccess::eTextureGatherOffset2DF:
 			result = "TextureGatherOffset2DF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DArrayF:
 			result = "TextureGatherOffset2DArrayF";
-			break;
-
-		case CombinedImageAccess::eTextureGatherOffset2DRectF:
-			result = "TextureGatherOffset2DRectF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DI:
@@ -2052,20 +1820,12 @@ namespace ast::expr
 			result = "TextureGatherOffset2DArrayI";
 			break;
 
-		case CombinedImageAccess::eTextureGatherOffset2DRectI:
-			result = "TextureGatherOffset2DRectI";
-			break;
-
 		case CombinedImageAccess::eTextureGatherOffset2DU:
 			result = "TextureGatherOffset2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffset2DArrayU:
 			result = "TextureGatherOffset2DArrayU";
-			break;
-
-		case CombinedImageAccess::eTextureGatherOffset2DRectU:
-			result = "TextureGatherOffset2DRectU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DF:
@@ -2076,10 +1836,6 @@ namespace ast::expr
 			result = "TextureGatherOffsets2DArrayF";
 			break;
 
-		case CombinedImageAccess::eTextureGatherOffsets2DRectF:
-			result = "TextureGatherOffsets2DRectF";
-			break;
-
 		case CombinedImageAccess::eTextureGatherOffsets2DI:
 			result = "TextureGatherOffsets2DI";
 			break;
@@ -2088,20 +1844,12 @@ namespace ast::expr
 			result = "TextureGatherOffsets2DArrayI";
 			break;
 
-		case CombinedImageAccess::eTextureGatherOffsets2DRectI:
-			result = "TextureGatherOffsets2DRectI";
-			break;
-
 		case CombinedImageAccess::eTextureGatherOffsets2DU:
 			result = "TextureGatherOffsets2DU";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayU:
 			result = "TextureGatherOffsets2DArrayU";
-			break;
-
-		case CombinedImageAccess::eTextureGatherOffsets2DRectU:
-			result = "TextureGatherOffsets2DRectU";
 			break;
 
 
@@ -2122,10 +1870,6 @@ namespace ast::expr
 			result = "TextureGatherCubeArrayShadowF";
 			break;
 
-		case CombinedImageAccess::eTextureGather2DRectShadowF:
-			result = "TextureGather2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureGatherOffset2DShadowF:
 			result = "TextureGatherOffset2DShadowF";
 			break;
@@ -2134,20 +1878,12 @@ namespace ast::expr
 			result = "TextureGatherOffset2DArrayShadowF";
 			break;
 
-		case CombinedImageAccess::eTextureGatherOffset2DRectShadowF:
-			result = "TextureGatherOffset2DRectShadowF";
-			break;
-
 		case CombinedImageAccess::eTextureGatherOffsets2DShadowF:
 			result = "TextureGatherOffsets2DShadowF";
 			break;
 
 		case CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
 			result = "TextureGatherOffsets2DArrayShadowF";
-			break;
-
-		case CombinedImageAccess::eTextureGatherOffsets2DRectShadowF:
-			result = "TextureGatherOffsets2DRectShadowF";
 			break;
 
 		default:

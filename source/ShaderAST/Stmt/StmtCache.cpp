@@ -195,7 +195,7 @@ namespace ast::stmt
 	FunctionDeclPtr StmtCache::makeFunctionDecl( var::VariablePtr funcVar
 		, FunctionFlag flag )
 	{
-		return makeStmt< FunctionDecl >( std::move( funcVar )
+		return makeFunctionDecl( std::move( funcVar )
 			, uint32_t( flag ) );
 	}
 
@@ -247,7 +247,7 @@ namespace ast::stmt
 	InOutVariableDeclPtr StmtCache::makeInOutVariableDecl( var::VariablePtr variable
 		, uint32_t location )
 	{
-		return makeStmt< InOutVariableDecl >( std::move( variable )
+		return makeInOutVariableDecl( std::move( variable )
 			, location
 			, 0u
 			, 0u );
@@ -404,7 +404,7 @@ namespace ast::stmt
 	{
 		auto type = typesCache.getStruct( layout, ssboName );
 		assert( type != nullptr );
-		return makeStmt< ShaderBufferDecl >( var::makeVariable( nextVarId, type, ssboName + "_data" )
+		return makeShaderBufferDecl( var::makeVariable( nextVarId, type, ssboName + "_data" )
 			, bindingPoint
 			, bindingSet );
 	}

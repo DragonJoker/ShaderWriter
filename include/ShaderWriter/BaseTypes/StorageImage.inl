@@ -16,7 +16,7 @@ namespace sdw
 		size_t constexpr ArrayImgCount = 3u;
 		size_t constexpr NonMsImgCount = ImgDimBaseCount + ArrayImgCount;
 		size_t constexpr MsImgCount = 2u;
-		using StorateImageAccessIntrList = std::array< expr::StorageImageAccess, NonMsImgCount + ArrayImgCount >;
+		using StorateImageAccessIntrList = std::array< expr::StorageImageAccess, NonMsImgCount + MsImgCount >;
 
 		template< type::ImageDim DimT
 			, bool ArrayedT
@@ -60,7 +60,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageSize2DF,
 			expr::StorageImageAccess::eImageSize3DF,
 			expr::StorageImageAccess::eImageSizeCubeF,
-			expr::StorageImageAccess::eImageSize2DRectF,
 			expr::StorageImageAccess::eImageSizeBufferF,
 
 			expr::StorageImageAccess::eImageSize1DArrayF,
@@ -72,7 +71,6 @@ namespace sdw
 		};
 		static constexpr StorateImageAccessIntrList imageSamplesF
 		{
-			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
@@ -92,7 +90,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageLoad2DF,
 			expr::StorageImageAccess::eImageLoad3DF,
 			expr::StorageImageAccess::eImageLoadCubeF,
-			expr::StorageImageAccess::eImageLoad2DRectF,
 			expr::StorageImageAccess::eImageLoadBufferF,
 
 			expr::StorageImageAccess::eImageLoad1DArrayF,
@@ -108,7 +105,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageStore2DF,
 			expr::StorageImageAccess::eImageStore3DF,
 			expr::StorageImageAccess::eImageStoreCubeF,
-			expr::StorageImageAccess::eImageStore2DRectF,
 			expr::StorageImageAccess::eImageStoreBufferF,
 
 			expr::StorageImageAccess::eImageStore1DArrayF,
@@ -124,7 +120,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicAdd2DF,
 			expr::StorageImageAccess::eImageAtomicAdd3DF,
 			expr::StorageImageAccess::eImageAtomicAddCubeF,
-			expr::StorageImageAccess::eImageAtomicAdd2DRectF,
 			expr::StorageImageAccess::eImageAtomicAddBufferF,
 
 			expr::StorageImageAccess::eImageAtomicAdd1DArrayF,
@@ -140,7 +135,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicExchange2DF,
 			expr::StorageImageAccess::eImageAtomicExchange3DF,
 			expr::StorageImageAccess::eImageAtomicExchangeCubeF,
-			expr::StorageImageAccess::eImageAtomicExchange2DRectF,
 			expr::StorageImageAccess::eImageAtomicExchangeBufferF,
 
 			expr::StorageImageAccess::eImageAtomicExchange1DArrayF,
@@ -157,7 +151,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageSize2DI,
 			expr::StorageImageAccess::eImageSize3DI,
 			expr::StorageImageAccess::eImageSizeCubeI,
-			expr::StorageImageAccess::eImageSize2DRectI,
 			expr::StorageImageAccess::eImageSizeBufferI,
 
 			expr::StorageImageAccess::eImageSize1DArrayI,
@@ -169,7 +162,6 @@ namespace sdw
 		};
 		static constexpr StorateImageAccessIntrList imageSamplesI
 		{
-			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
@@ -189,7 +181,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageLoad2DI,
 			expr::StorageImageAccess::eImageLoad3DI,
 			expr::StorageImageAccess::eImageLoadCubeI,
-			expr::StorageImageAccess::eImageLoad2DRectI,
 			expr::StorageImageAccess::eImageLoadBufferI,
 
 			expr::StorageImageAccess::eImageLoad1DArrayI,
@@ -205,7 +196,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageStore2DI,
 			expr::StorageImageAccess::eImageStore3DI,
 			expr::StorageImageAccess::eImageStoreCubeI,
-			expr::StorageImageAccess::eImageStore2DRectI,
 			expr::StorageImageAccess::eImageStoreBufferI,
 
 			expr::StorageImageAccess::eImageStore1DArrayI,
@@ -221,7 +211,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicAdd2DI,
 			expr::StorageImageAccess::eImageAtomicAdd3DI,
 			expr::StorageImageAccess::eImageAtomicAddCubeI,
-			expr::StorageImageAccess::eImageAtomicAdd2DRectI,
 			expr::StorageImageAccess::eImageAtomicAddBufferI,
 
 			expr::StorageImageAccess::eImageAtomicAdd1DArrayI,
@@ -237,7 +226,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicMin2DI,
 			expr::StorageImageAccess::eImageAtomicMin3DI,
 			expr::StorageImageAccess::eImageAtomicMinCubeI,
-			expr::StorageImageAccess::eImageAtomicMin2DRectI,
 			expr::StorageImageAccess::eImageAtomicMinBufferI,
 
 			expr::StorageImageAccess::eImageAtomicMin1DArrayI,
@@ -253,7 +241,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicMax2DI,
 			expr::StorageImageAccess::eImageAtomicMax3DI,
 			expr::StorageImageAccess::eImageAtomicMaxCubeI,
-			expr::StorageImageAccess::eImageAtomicMax2DRectI,
 			expr::StorageImageAccess::eImageAtomicMaxBufferI,
 
 			expr::StorageImageAccess::eImageAtomicMax1DArrayI,
@@ -269,7 +256,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicAnd2DI,
 			expr::StorageImageAccess::eImageAtomicAnd3DI,
 			expr::StorageImageAccess::eImageAtomicAndCubeI,
-			expr::StorageImageAccess::eImageAtomicAnd2DRectI,
 			expr::StorageImageAccess::eImageAtomicAndBufferI,
 
 			expr::StorageImageAccess::eImageAtomicAnd1DArrayI,
@@ -285,7 +271,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicOr2DI,
 			expr::StorageImageAccess::eImageAtomicOr3DI,
 			expr::StorageImageAccess::eImageAtomicOrCubeI,
-			expr::StorageImageAccess::eImageAtomicOr2DRectI,
 			expr::StorageImageAccess::eImageAtomicOrBufferI,
 
 			expr::StorageImageAccess::eImageAtomicOr1DArrayI,
@@ -301,7 +286,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicXor2DI,
 			expr::StorageImageAccess::eImageAtomicXor3DI,
 			expr::StorageImageAccess::eImageAtomicXorCubeI,
-			expr::StorageImageAccess::eImageAtomicXor2DRectI,
 			expr::StorageImageAccess::eImageAtomicXorBufferI,
 
 			expr::StorageImageAccess::eImageAtomicXor1DArrayI,
@@ -317,7 +301,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicExchange2DI,
 			expr::StorageImageAccess::eImageAtomicExchange3DI,
 			expr::StorageImageAccess::eImageAtomicExchangeCubeI,
-			expr::StorageImageAccess::eImageAtomicExchange2DRectI,
 			expr::StorageImageAccess::eImageAtomicExchangeBufferI,
 
 			expr::StorageImageAccess::eImageAtomicExchange1DArrayI,
@@ -333,7 +316,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicCompSwap2DI,
 			expr::StorageImageAccess::eImageAtomicCompSwap3DI,
 			expr::StorageImageAccess::eImageAtomicCompSwapCubeI,
-			expr::StorageImageAccess::eImageAtomicCompSwap2DRectI,
 			expr::StorageImageAccess::eImageAtomicCompSwapBufferI,
 
 			expr::StorageImageAccess::eImageAtomicCompSwap1DArrayI,
@@ -350,7 +332,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageSize2DU,
 			expr::StorageImageAccess::eImageSize3DU,
 			expr::StorageImageAccess::eImageSizeCubeU,
-			expr::StorageImageAccess::eImageSize2DRectU,
 			expr::StorageImageAccess::eImageSizeBufferU,
 
 			expr::StorageImageAccess::eImageSize1DArrayU,
@@ -362,7 +343,6 @@ namespace sdw
 		};
 		static constexpr StorateImageAccessIntrList imageSamplesU
 		{
-			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
 			expr::StorageImageAccess::eInvalid,
@@ -382,7 +362,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageLoad2DU,
 			expr::StorageImageAccess::eImageLoad3DU,
 			expr::StorageImageAccess::eImageLoadCubeU,
-			expr::StorageImageAccess::eImageLoad2DRectU,
 			expr::StorageImageAccess::eImageLoadBufferU,
 
 			expr::StorageImageAccess::eImageLoad1DArrayU,
@@ -398,7 +377,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageStore2DU,
 			expr::StorageImageAccess::eImageStore3DU,
 			expr::StorageImageAccess::eImageStoreCubeU,
-			expr::StorageImageAccess::eImageStore2DRectU,
 			expr::StorageImageAccess::eImageStoreBufferU,
 
 			expr::StorageImageAccess::eImageStore1DArrayU,
@@ -414,7 +392,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicAdd2DU,
 			expr::StorageImageAccess::eImageAtomicAdd3DU,
 			expr::StorageImageAccess::eImageAtomicAddCubeU,
-			expr::StorageImageAccess::eImageAtomicAdd2DRectU,
 			expr::StorageImageAccess::eImageAtomicAddBufferU,
 
 			expr::StorageImageAccess::eImageAtomicAdd1DArrayU,
@@ -430,7 +407,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicMin2DU,
 			expr::StorageImageAccess::eImageAtomicMin3DU,
 			expr::StorageImageAccess::eImageAtomicMinCubeU,
-			expr::StorageImageAccess::eImageAtomicMin2DRectU,
 			expr::StorageImageAccess::eImageAtomicMinBufferU,
 
 			expr::StorageImageAccess::eImageAtomicMin1DArrayU,
@@ -446,7 +422,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicMax2DU,
 			expr::StorageImageAccess::eImageAtomicMax3DU,
 			expr::StorageImageAccess::eImageAtomicMaxCubeU,
-			expr::StorageImageAccess::eImageAtomicMax2DRectU,
 			expr::StorageImageAccess::eImageAtomicMaxBufferU,
 
 			expr::StorageImageAccess::eImageAtomicMax1DArrayU,
@@ -462,7 +437,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicAnd2DU,
 			expr::StorageImageAccess::eImageAtomicAnd3DU,
 			expr::StorageImageAccess::eImageAtomicAndCubeU,
-			expr::StorageImageAccess::eImageAtomicAnd2DRectU,
 			expr::StorageImageAccess::eImageAtomicAndBufferU,
 
 			expr::StorageImageAccess::eImageAtomicAnd1DArrayU,
@@ -478,7 +452,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicOr2DU,
 			expr::StorageImageAccess::eImageAtomicOr3DU,
 			expr::StorageImageAccess::eImageAtomicOrCubeU,
-			expr::StorageImageAccess::eImageAtomicOr2DRectU,
 			expr::StorageImageAccess::eImageAtomicOrBufferU,
 
 			expr::StorageImageAccess::eImageAtomicOr1DArrayU,
@@ -494,7 +467,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicXor2DU,
 			expr::StorageImageAccess::eImageAtomicXor3DU,
 			expr::StorageImageAccess::eImageAtomicXorCubeU,
-			expr::StorageImageAccess::eImageAtomicXor2DRectU,
 			expr::StorageImageAccess::eImageAtomicXorBufferU,
 
 			expr::StorageImageAccess::eImageAtomicXor1DArrayU,
@@ -510,7 +482,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicExchange2DU,
 			expr::StorageImageAccess::eImageAtomicExchange3DU,
 			expr::StorageImageAccess::eImageAtomicExchangeCubeU,
-			expr::StorageImageAccess::eImageAtomicExchange2DRectU,
 			expr::StorageImageAccess::eImageAtomicExchangeBufferU,
 
 			expr::StorageImageAccess::eImageAtomicExchange1DArrayU,
@@ -526,7 +497,6 @@ namespace sdw
 			expr::StorageImageAccess::eImageAtomicCompSwap2DU,
 			expr::StorageImageAccess::eImageAtomicCompSwap3DU,
 			expr::StorageImageAccess::eImageAtomicCompSwapCubeU,
-			expr::StorageImageAccess::eImageAtomicCompSwap2DRectU,
 			expr::StorageImageAccess::eImageAtomicCompSwapBufferU,
 
 			expr::StorageImageAccess::eImageAtomicCompSwap1DArrayU,

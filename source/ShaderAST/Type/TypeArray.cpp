@@ -26,24 +26,18 @@ namespace ast::type
 	Array::Array( Struct * parent
 		, uint32_t index
 		, TypePtr type
-		, Array const & nonMbr
-		, uint32_t arraySize )
+		, Array const & nonMbr )
 		: Type{ type->getTypesCache(), parent, index, nonMbr }
 		, m_type{ std::move( type ) }
-		, m_arraySize{ arraySize }
+		, m_arraySize{ nonMbr.getArraySize() }
 	{
-		if ( m_arraySize == NotArray )
-		{
-			throw Exception{ "Can't create a 0 sized array" };
-		}
 	}
 
 	Array::Array( Struct & parent
 		, uint32_t index
 		, TypePtr type
-		, Array const & nonMbr
-		, uint32_t arraySize )
-		: Array{ &parent, index, type, nonMbr, arraySize }
+		, Array const & nonMbr )
+		: Array{ &parent, index, type, nonMbr }
 	{
 	}
 
@@ -52,8 +46,7 @@ namespace ast::type
 		return std::make_shared< Array >( parent
 			, index
 			, getType()
-			, *this
-			, getArraySize() );
+			, *this );
 	}
 
 	//*************************************************************************

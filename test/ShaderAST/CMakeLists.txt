@@ -1,5 +1,22 @@
 file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
 
+set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/ShaderAST )
+
+if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
+	set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts )
+	file( GLOB_RECURSE ${PROJECT_NAME}_SCRIPT_FILES
+		${SCRIPT_DIR}/*.py
+	)
+	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
+	add_custom_command( OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/TestASTIntrinsics.cpp
+		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genTestASTIntrinsicsFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/TestASTIntrinsics.cpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TestASTIntrinsics.cpp ${CMAKE_CURRENT_SOURCE_DIR}/TestASTIntrinsics.cpp
+		COMMENT "Generating TestASTIntrinsics.cpp"
+		DEPENDS ${SCRIPT_DIR}/genTestASTIntrinsicsFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
+	)
+endif ()
+
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
 	add_executable( ${TEST_NAME}

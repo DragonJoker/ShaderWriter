@@ -13,14 +13,9 @@ namespace ast::debug
 {
 	SDAST_API std::string displayStatements( stmt::Stmt const & stmt );
 	SDAST_API std::string displayExpression( expr::Expr const & expr );
+	SDAST_API std::string getMemoryLayoutName( type::MemoryLayout value );
 	SDAST_API std::string getTypeName( type::TypePtr type );
 	SDAST_API std::string getTypeName( type::Kind kind );
-	SDAST_API std::string getImageFormatName( type::ImageFormat value );
-	SDAST_API std::string getImageTypeName( ast::type::ImageFormat format
-		, ast::type::ImageDim dim
-		, bool arrayed
-		, bool ms
-		, bool depth );
 	SDAST_API std::string getImageTypeName( ast::type::ImageFormat format
 		, ast::type::ImageDim dim
 		, bool arrayed
@@ -30,6 +25,19 @@ namespace ast::debug
 		, ast::type::ImageDim dim
 		, bool arrayed
 		, bool ms );
+	SDAST_API std::string getImageTypeName( ast::type::ImageFormat format
+		, ast::type::AccessKind access
+		, ast::type::ImageDim dim
+		, ast::type::Trinary sampled
+		, bool arrayed
+		, bool ms );
+	SDAST_API std::string getImageTypeName( ast::type::ImageFormat format
+		, ast::type::AccessKind access
+		, ast::type::ImageDim dim
+		, ast::type::Trinary sampled
+		, bool arrayed
+		, bool ms
+		, bool depth );
 }
 
 #endif

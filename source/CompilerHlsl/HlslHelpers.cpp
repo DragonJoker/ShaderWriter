@@ -625,7 +625,6 @@ namespace hlsl
 			result = "1D";
 			break;
 		case ast::type::ImageDim::e2D:
-		case ast::type::ImageDim::eRect:
 			result = "2D";
 			break;
 		case ast::type::ImageDim::e3D:
@@ -821,9 +820,6 @@ namespace hlsl
 			break;
 		case ast::expr::Kind::eAndAssign:
 			result = "&=";
-			break;
-		case ast::expr::Kind::eNotAssign:
-			result = "!=";
 			break;
 		case ast::expr::Kind::eOrAssign:
 			result = "|=";

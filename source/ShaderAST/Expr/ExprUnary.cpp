@@ -20,6 +20,10 @@ namespace ast::expr
 			, ( isExprConstant( operand ) ? Flag::eConstant : Flag::eNone ) }
 		, m_operand{ std::move( operand ) }
 	{
+		if ( !m_operand )
+		{
+			AST_Exception( "Unary expression without operand" );
+		}
 	}
 
 	Unary::Unary( ExprCache & exprCache

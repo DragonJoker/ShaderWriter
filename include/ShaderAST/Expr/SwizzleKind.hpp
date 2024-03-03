@@ -1408,9 +1408,6 @@ namespace ast::expr
 		SDAST_API SwizzleKind operator[]( uint32_t index )const;
 
 		SDAST_API SwizzleKind & operator|=( SwizzleKind const & rhs );
-		SDAST_API SwizzleKind & operator&=( SwizzleKind const & rhs );
-		SDAST_API SwizzleKind & operator<<=( uint32_t rhs );
-		SDAST_API SwizzleKind & operator>>=( uint32_t rhs );
 
 		SwizzleKind & operator=( Value const & rhs )noexcept
 		{
@@ -1474,34 +1471,6 @@ namespace ast::expr
 	};
 
 	SDAST_API std::string getName( SwizzleKind kind );
-
-	inline SwizzleKind operator|( SwizzleKind lhs, SwizzleKind rhs )
-	{
-		SwizzleKind result( lhs );
-		result |= rhs;
-		return result;
-	}
-
-	inline SwizzleKind operator&( SwizzleKind lhs, SwizzleKind rhs )
-	{
-		SwizzleKind result( lhs );
-		result &= rhs;
-		return result;
-	}
-
-	inline SwizzleKind operator<<( SwizzleKind lhs, uint32_t rhs )
-	{
-		SwizzleKind result( lhs );
-		result <<= rhs;
-		return result;
-	}
-
-	inline SwizzleKind operator>>( SwizzleKind lhs, uint32_t rhs )
-	{
-		SwizzleKind result( lhs );
-		result >>= rhs;
-		return result;
-	}
 }
 
 #endif

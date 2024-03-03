@@ -76,6 +76,7 @@ namespace ast::type
 		SDAST_API TypePtr getUndefined();
 		SDAST_API TypePtr getVoid();
 		SDAST_API TypePtr getBool();
+		SDAST_API TypePtr getBoolean();
 		SDAST_API TypePtr getInt8();
 		SDAST_API TypePtr getInt16();
 		SDAST_API TypePtr getInt32();

@@ -2168,9 +2168,6 @@ namespace spirv
 		case ast::expr::Kind::eBitNot:
 			AST_Failure( "Unexpected ast::expr::Kind::eBitNot" );
 			break;
-		case ast::expr::Kind::eNotAssign:
-			result = spv::OpNot;
-			break;
 		case ast::expr::Kind::eBitOr:
 		case ast::expr::Kind::eOrAssign:
 			result = spv::OpBitwiseOr;
@@ -2311,7 +2308,6 @@ namespace spirv
 		switch ( exprKind )
 		{
 		case ast::expr::Kind::eBitNot:
-		case ast::expr::Kind::eNotAssign:
 			result = spv::OpNot;
 			break;
 		case ast::expr::Kind::eLogNot:

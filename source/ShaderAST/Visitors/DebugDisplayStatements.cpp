@@ -26,84 +26,119 @@ namespace ast::debug
 	{
 		static std::string getImageFormatName( type::ImageFormat value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case ast::type::ImageFormat::eUnknown:
-				return "Unknown";
+				result = "Unknown";
+				break;
 			case ast::type::ImageFormat::eRgba32f:
-				return "RGBA32f";
+				result = "RGBA32f";
+				break;
 			case ast::type::ImageFormat::eRgba16f:
-				return "RGBA16f";
+				result = "RGBA16f";
+				break;
 			case ast::type::ImageFormat::eRg32f:
-				return "RG32f";
+				result = "RG32f";
+				break;
 			case ast::type::ImageFormat::eRg16f:
-				return "RG16f";
+				result = "RG16f";
+				break;
 			case ast::type::ImageFormat::eR32f:
-				return "R32f";
+				result = "R32f";
+				break;
 			case ast::type::ImageFormat::eR16f:
-				return "R16f";
+				result = "R16f";
+				break;
 			case ast::type::ImageFormat::eRgba32i:
-				return "RGBA32i";
+				result = "RGBA32i";
+				break;
 			case ast::type::ImageFormat::eRgba16i:
-				return "RGBA16i";
+				result = "RGBA16i";
+				break;
 			case ast::type::ImageFormat::eRgba8i:
-				return "RGBA8i";
+				result = "RGBA8i";
+				break;
 			case ast::type::ImageFormat::eRg32i:
-				return "RG32i";
+				result = "RG32i";
+				break;
 			case ast::type::ImageFormat::eRg16i:
-				return "RG16i";
+				result = "RG16i";
+				break;
 			case ast::type::ImageFormat::eRg8i:
-				return "RG8i";
+				result = "RG8i";
+				break;
 			case ast::type::ImageFormat::eR32i:
-				return "R32i";
+				result = "R32i";
+				break;
 			case ast::type::ImageFormat::eR16i:
-				return "R16i";
+				result = "R16i";
+				break;
 			case ast::type::ImageFormat::eR8i:
-				return "R8i";
+				result = "R8i";
+				break;
 			case ast::type::ImageFormat::eRgba32u:
-				return "RGBA32u";
+				result = "RGBA32u";
+				break;
 			case ast::type::ImageFormat::eRgba16u:
-				return "RGBA16u";
+				result = "RGBA16u";
+				break;
 			case ast::type::ImageFormat::eRgba8u:
-				return "RGBA8u";
+				result = "RGBA8u";
+				break;
 			case ast::type::ImageFormat::eRg32u:
-				return "RG32u";
+				result = "RG32u";
+				break;
 			case ast::type::ImageFormat::eRg16u:
-				return "RG16u";
+				result = "RG16u";
+				break;
 			case ast::type::ImageFormat::eRg8u:
-				return "RG8u";
+				result = "RG8u";
+				break;
 			case ast::type::ImageFormat::eR32u:
-				return "R32u";
+				result = "R32u";
+				break;
 			case ast::type::ImageFormat::eR16u:
-				return "R16u";
+				result = "R16u";
+				break;
 			case ast::type::ImageFormat::eR8u:
-				return "R8u";
+				result = "R8u";
+				break;
 			default:
-				AST_Failure( "Unsupported type::ImageFormat" );
-				return "Undefined";
+				break;
 			}
+
+			return result;
 		}
 
 		static std::string getImageDimName( type::ImageDim value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::ImageDim::e1D:
-				return "1D";
+				result = "1D";
+				break;
 			case type::ImageDim::e2D:
-				return "2D";
+				result = "2D";
+				break;
 			case type::ImageDim::e3D:
-				return "3D";
+				result = "3D";
+				break;
 			case type::ImageDim::eCube:
-				return "Cube";
-			case type::ImageDim::eRect:
-				return "Rect";
+				result = "Cube";
+				break;
 			case type::ImageDim::eBuffer:
-				return "Buffer";
+				result = "Buffer";
+				break;
 			default:
-				AST_Failure( "Unsupported type::ImageDim" );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getTrinaryName( type::Trinary value
@@ -144,37 +179,6 @@ namespace ast::debug
 				: falseTxt;
 		}
 
-		static std::string getImageTypeName( ast::type::ImageFormat format
-			, ast::type::ImageDim dim
-			, bool arrayed
-			, bool ms )
-		{
-			return getImageDimName( dim )
-				+ getImageFormatName( format )
-				+ getBoolName( arrayed, "Array", "" )
-				+ getBoolName( ms, "MS", "" );
-		}
-
-		static std::string getImageTypeName( ast::type::ImageFormat format
-			, ast::type::ImageDim dim
-			, bool arrayed
-			, bool ms
-			, bool depth )
-		{
-			return getImageTypeName( format, dim, arrayed, ms )
-				+ getBoolName( depth, "Shadow", "" );
-		}
-
-		static std::string getImageTypeName( ast::type::ImageFormat format
-			, ast::type::AccessKind access
-			, ast::type::ImageDim dim
-			, bool arrayed
-			, bool ms )
-		{
-			return getImageTypeName( format, dim, arrayed, ms )
-				+ getAccessName( access );
-		}
-
 		static std::string join( std::string const & lhs
 			, std::string const & rhs )
 		{
@@ -199,26 +203,6 @@ namespace ast::debug
 			return result;
 		}
 
-		static std::string getMemoryLayoutName( type::MemoryLayout value )
-		{
-			switch ( value )
-			{
-			case type::MemoryLayout::eStd140:
-				return "Std140";
-			case type::MemoryLayout::eStd430:
-				return "Std430";
-			case type::MemoryLayout::eC:
-				return "C";
-			case type::MemoryLayout::eScalar:
-				return "Scalar";
-			case type::MemoryLayout::eShaderRecord:
-				return "ShaderRecord";
-			default:
-				AST_Failure( "Unsupported type::MemoryLayout" );
-				return "Undefined";
-			}
-		}
-
 		static std::string computeArray( uint32_t arraySize )
 		{
 			std::string result;
@@ -240,7 +224,7 @@ namespace ast::debug
 
 		static std::string getTypeName( type::Kind kind )
 		{
-			std::string result;
+			std::string result{ "Unknown" };
 
 			switch ( kind )
 			{
@@ -521,11 +505,10 @@ namespace ast::debug
 				result = "TaskPayloadIn";
 				break;
 			default:
-				assert( false );
-				result = "Unknown";
 				break;
 			}
 
+			assert( result != "Unknown" );
 			return result;
 		}
 
@@ -533,140 +516,201 @@ namespace ast::debug
 
 		static std::string getInputLayoutName( type::InputLayout value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::InputLayout::ePointList:
-				return "PointList";
+				result = "PointList";
+				break;
 			case type::InputLayout::eLineList:
-				return "LineList";
+				result = "LineList";
+				break;
 			case type::InputLayout::eLineStrip:
-				return "LineStrip";
+				result = "LineStrip";
+				break;
 			case type::InputLayout::eTriangleList:
-				return "TriangleList";
+				result = "TriangleList";
+				break;
 			case type::InputLayout::eTriangleStrip:
-				return "TriangleStrip";
+				result = "TriangleStrip";
+				break;
 			case type::InputLayout::eTriangleFan:
-				return "TriangleFan";
+				result = "TriangleFan";
+				break;
 			case type::InputLayout::eLineListWithAdjacency:
-				return "LineListWithAdjacency";
+				result = "LineListWithAdjacency";
+				break;
 			case type::InputLayout::eLineStripWithAdjacency:
-				return "LineStripWithAdjacency";
+				result = "LineStripWithAdjacency";
+				break;
 			case type::InputLayout::eTriangleListWithAdjacency:
-				return "TriangleListWithAdjacency";
+				result = "TriangleListWithAdjacency";
+				break;
 			case type::InputLayout::eTriangleStripWithAdjacency:
-				return "TriangleStripWithAdjacency";
+				result = "TriangleStripWithAdjacency";
+				break;
 			default:
-				AST_Failure( "Unsupported input layout." );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getOutputLayoutName( type::OutputLayout value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::OutputLayout::ePointList:
-				return "PointList";
+				result = "PointList";
+				break;
 			case type::OutputLayout::eLineStrip:
-				return "LineStrip";
+				result = "LineStrip";
+				break;
 			case type::OutputLayout::eTriangleStrip:
-				return "TriangleStrip";
+				result = "TriangleStrip";
+				break;
 			default:
-				AST_Failure( "Unsupported output layout." );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getDomainName( type::PatchDomain value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::PatchDomain::eIsolines:
-				return "Isolines";
+				result = "Isolines";
+				break;
 			case type::PatchDomain::eTriangles:
-				return "Triangles";
+				result = "Triangles";
+				break;
 			case type::PatchDomain::eQuads:
-				return "Quads";
+				result = "Quads";
+				break;
 			default:
-				AST_Failure( "Unsupported type::PatchDomain." );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getPartitioningName( type::Partitioning value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::Partitioning::eEqual:
-				return "Equal";
+				result = "Equal";
+				break;
 			case type::Partitioning::eFractionalEven:
-				return "FractionalEven";
+				result = "FractionalEven";
+				break;
 			case type::Partitioning::eFractionalOdd:
-				return "FractionalOdd";
+				result = "FractionalOdd";
+				break;
 			default:
-				AST_Failure( "Unsupported type::Partitioning." );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getTopologyName( type::OutputTopology value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::OutputTopology::ePoint:
-				return "Point";
+				result = "Point";
+				break;
 			case type::OutputTopology::eLine:
-				return "Line";
+				result = "Line";
+				break;
 			case type::OutputTopology::eTriangle:
-				return "Triangle";
+				result = "Triangle";
+				break;
 			case type::OutputTopology::eQuad:
-				return "Quad";
+				result = "Quad";
+				break;
 			default:
-				AST_Failure( "Unsupported type::Partitioning." );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getOrderingName( type::PrimitiveOrdering value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case type::PrimitiveOrdering::eCW:
-				return "CW";
+				result = "CW";
+				break;
 			case type::PrimitiveOrdering::eCCW:
-				return "CCW";
+				result = "CCW";
+				break;
 			default:
-				AST_Failure( "Unsupported type::PrimitiveOrdering." );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getOriginName( FragmentOrigin value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case ast::FragmentOrigin::eLowerLeft:
-				return "LowerLeft";
+				result = "LowerLeft";
+				break;
 			case ast::FragmentOrigin::eUpperLeft:
-				return "UpperLeft";
+				result = "UpperLeft";
+				break;
 			default:
-				AST_Failure( "Unsupported FragmentOrigin" );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getCenterName( FragmentCenter value )
 		{
+			std::string result{ "Undefined" };
+
 			switch ( value )
 			{
 			case ast::FragmentCenter::eHalfPixel:
-				return "HalfPixel";
+				result = "HalfPixel";
+				break;
 			case ast::FragmentCenter::eCenterInteger:
-				return "CenterInteger";
+				result = "CenterInteger";
+				break;
 			default:
-				AST_Failure( "Unsupported FragmentCenter" );
-				return "Undefined";
+				break;
 			}
+
+			assert( result != "Undefined" );
+			return result;
 		}
 
 		static std::string getTypeName( type::Type const & type )
@@ -724,16 +768,23 @@ namespace ast::debug
 				break;
 			case type::Kind::eFragmentInput:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getOriginName( static_cast< type::FragmentInput const & >( type ).getOrigin() );
+				result += "," + getCenterName( static_cast< type::FragmentInput const & >( type ).getCenter() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::FragmentInput const & >( type ).getType() );
 				result += ">";
 				break;
 			case type::Kind::eGeometryInput:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getInputLayoutName( static_cast< type::GeometryInput const & >( type ).getLayout() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::GeometryInput const & >( type ).getType() );
 				result += ">";
 				break;
 			case type::Kind::eGeometryOutput:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getOutputLayoutName( static_cast< type::GeometryOutput const & >( type ).getLayout() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::GeometryOutput const & >( type ).getType() );
 				result += ">";
 				break;
@@ -744,6 +795,11 @@ namespace ast::debug
 				break;
 			case type::Kind::eTessellationControlOutput:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getDomainName( static_cast< type::TessellationControlOutput const & >( type ).getDomain() );
+				result += "," + getPartitioningName( static_cast< type::TessellationControlOutput const & >( type ).getPartitioning() );
+				result += "," + getTopologyName( static_cast< type::TessellationControlOutput const & >( type ).getTopology() );
+				result += "," + getOrderingName( static_cast< type::TessellationControlOutput const & >( type ).getOrder() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::TessellationControlOutput const & >( type ).getType() );
 				result += ">";
 				break;
@@ -755,11 +811,17 @@ namespace ast::debug
 				break;
 			case type::Kind::eTessellationEvaluationInput:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getDomainName( static_cast< type::TessellationEvaluationInput const & >( type ).getDomain() );
+				result += "," + getPartitioningName( static_cast< type::TessellationEvaluationInput const & >( type ).getPartitioning() );
+				result += "," + getOrderingName( static_cast< type::TessellationEvaluationInput const & >( type ).getPrimitiveOrdering() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::TessellationEvaluationInput const & >( type ).getType() );
 				result += ">";
 				break;
 			case type::Kind::eTessellationInputPatch:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getDomainName( static_cast< type::TessellationInputPatch const & >( type ).getDomain() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::TessellationInputPatch const & >( type ).getType() );
 				result += "(" + std::to_string( static_cast< type::TessellationInputPatch const & >( type ).getLocation() ) + ")";
 				result += ">";
@@ -771,6 +833,8 @@ namespace ast::debug
 				break;
 			case type::Kind::eMeshPrimitiveOutput:
 				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getTopologyName( static_cast< type::MeshPrimitiveOutput const & >( type ).getTopology() );
+				result += "]";
 				result += "<" + getTypeName( *static_cast< type::MeshPrimitiveOutput const & >( type ).getType() );
 				result += ">";
 				break;
@@ -814,6 +878,7 @@ namespace ast::debug
 			switch ( kind )
 			{
 			case ast::expr::Kind::eCopy:
+				result = " ";
 				break;
 			case ast::expr::Kind::eAdd:
 				result = "+";
@@ -857,9 +922,6 @@ namespace ast::debug
 			case ast::expr::Kind::eLogOr:
 				result = "||";
 				break;
-			case ast::expr::Kind::eCast:
-				result = "";
-				break;
 			case ast::expr::Kind::eEqual:
 				result = "==";
 				break;
@@ -880,9 +942,6 @@ namespace ast::debug
 				break;
 			case ast::expr::Kind::eComma:
 				result = ",";
-				break;
-			case ast::expr::Kind::eMbrSelect:
-				result = ".";
 				break;
 			case ast::expr::Kind::ePreIncrement:
 				result = "++";
@@ -929,9 +988,6 @@ namespace ast::debug
 			case ast::expr::Kind::eAndAssign:
 				result = "&=";
 				break;
-			case ast::expr::Kind::eNotAssign:
-				result = "!=";
-				break;
 			case ast::expr::Kind::eOrAssign:
 				result = "|=";
 				break;
@@ -939,9 +995,10 @@ namespace ast::debug
 				result = "^=";
 				break;
 			default:
-				throw Exception{ "Non operation expression" };
+				break;
 			}
 
+			assert( !result.empty() && "Non operation expression" );
 			return result;
 		}
 
@@ -951,6 +1008,9 @@ namespace ast::debug
 
 			switch ( value )
 			{
+			case ast::expr::CompositeType::eScalar:
+				result = "Scalar";
+				break;
 			case ast::expr::CompositeType::eVec2:
 				result = "Vec2";
 				break;
@@ -991,9 +1051,10 @@ namespace ast::debug
 				result = "Combine";
 				break;
 			default:
-				throw Exception{ "Unsupported expr::CompositeType" };
+				break;
 			}
 
+			assert( !result.empty() && "Unsupported expr::CompositeType" );
 			return result;
 		}
 	}
@@ -1058,20 +1119,16 @@ namespace ast::debug
 
 		void visitBinaryExpr( expr::Binary const * expr )override
 		{
-			wrap( *expr->getLHS() );
-
-			if ( expr->getKind() != expr::Kind::eArrayAccess )
+			if ( expr->getLHS() )
 			{
-				if ( expr->getKind() == expr::Kind::eAlias )
-				{
-					m_result += " = ";
-					wrap( *expr->getRHS() );
-				}
-				else
-				{
-					m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
-					wrap( *expr->getRHS() );
-				}
+				wrap( *expr->getLHS() );
+			}
+
+			m_result += " " + helpers::getOperatorName( expr->getKind() ) + " ";
+
+			if ( expr->getRHS() )
+			{
+				wrap( *expr->getRHS() );
 			}
 		}
 
@@ -1278,7 +1335,7 @@ namespace ast::debug
 				stream << expr->getValue< expr::LiteralType::eInt64 >() << "i64";
 				break;
 			case expr::LiteralType::eUInt8:
-				stream << uint32_t( expr->getValue< expr::LiteralType::eUInt32 >() ) << "u8";
+				stream << uint32_t( expr->getValue< expr::LiteralType::eUInt8 >() ) << "u8";
 				break;
 			case expr::LiteralType::eUInt16:
 				stream << expr->getValue< expr::LiteralType::eUInt16 >() << "u16";
@@ -1312,10 +1369,10 @@ namespace ast::debug
 				}
 				break;
 			default:
-				AST_Failure( "Unsupported literal type" );
 				break;
 			}
 
+			assert( !stream.str().empty() );
 			m_result += stream.str();
 		}
 
@@ -1382,6 +1439,7 @@ namespace ast::debug
 				}
 				
 				addStatement( "Structure " + structType->getName() );
+				addStatement( "[Layout=" + getMemoryLayoutName( structType->getMemoryLayout() ) + "]" );
 				auto save = beginScope();
 
 				for ( auto & mbr : *structType )
@@ -1485,7 +1543,7 @@ namespace ast::debug
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
 		{
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
-			addStatement( "[Layout=" + helpers::getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
+			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
 			addStatement( "ConstantsBuffer " + stmt->getName() );
 			visitCompoundStmt( stmt );
 		}
@@ -1806,7 +1864,7 @@ namespace ast::debug
 		{
 			declareStruct( stmt->getType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
-			addStatement( "[Layout=" + helpers::getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
+			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
 			addStatement( "StorageBuffer " + stmt->getSsboName() + " " + helpers::displayVar( stmt->getVariable() ) );
 			visitCompoundStmt( stmt );
 		}
@@ -1816,7 +1874,7 @@ namespace ast::debug
 			declareStruct( stmt->getSsboInstance()->getType() );
 			declareStruct( stmt->getData()->getType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
-			addStatement( "[Layout=" + helpers::getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
+			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
 			addStatement( "StorageBuffer " + stmt->getSsboName() + " " + helpers::displayVar( stmt->getSsboInstance() ) );
 			addStatement( "BufferInstance " + helpers::displayVar( stmt->getData() ) );
 		}
@@ -1989,6 +2047,35 @@ namespace ast::debug
 		return ExprVisitor::submit( expr );
 	}
 
+	std::string getMemoryLayoutName( type::MemoryLayout value )
+	{
+		std::string result{ "Undefined" };
+
+		switch ( value )
+		{
+		case type::MemoryLayout::eStd140:
+			result = "Std140";
+			break;
+		case type::MemoryLayout::eStd430:
+			result = "Std430";
+			break;
+		case type::MemoryLayout::eC:
+			result = "C";
+			break;
+		case type::MemoryLayout::eScalar:
+			result = "Scalar";
+			break;
+		case type::MemoryLayout::eShaderRecord:
+			result = "ShaderRecord";
+			break;
+		default:
+			break;
+		}
+
+		assert( result != "Undefined" );
+		return result;
+	}
+
 	std::string getTypeName( type::TypePtr type )
 	{
 		return helpers::getTypeName( *type );
@@ -1999,33 +2086,15 @@ namespace ast::debug
 		return helpers::getTypeName( kind );
 	}
 
-	std::string getImageFormatName( type::ImageFormat value )
-	{
-		return helpers::getImageFormatName( value );
-	}
-
-	std::string getImageTypeName( ast::type::ImageFormat format
-		, ast::type::ImageDim dim
-		, bool arrayed
-		, bool ms
-		, bool depth )
-	{
-		return helpers::getImageTypeName( format
-			, dim
-			, arrayed
-			, ms
-			, depth );
-	}
-
 	std::string getImageTypeName( ast::type::ImageFormat format
 		, ast::type::ImageDim dim
 		, bool arrayed
 		, bool ms )
 	{
-		return helpers::getImageTypeName( format
-			, dim
-			, arrayed
-			, ms );
+		return helpers::getImageDimName( dim )
+			+ helpers::getImageFormatName( format )
+			+ helpers::getBoolName( arrayed, "Array", "" )
+			+ helpers::getBoolName( ms, "MS", "" );
 	}
 
 	std::string getImageTypeName( ast::type::ImageFormat format
@@ -2034,10 +2103,30 @@ namespace ast::debug
 		, bool arrayed
 		, bool ms )
 	{
-		return helpers::getImageTypeName( format
-			, access
-			, dim
-			, arrayed
-			, ms );
+		return getImageTypeName( format, dim, arrayed, ms )
+			+ helpers::getAccessName( access );
+	}
+
+	std::string getImageTypeName( ast::type::ImageFormat format
+		, ast::type::AccessKind access
+		, ast::type::ImageDim dim
+		, ast::type::Trinary sampled
+		, bool arrayed
+		, bool ms )
+	{
+		return getImageTypeName( format, access, dim, arrayed, ms )
+			+ helpers::getTrinaryName( sampled, "Spl", "NSpl", "" );
+	}
+
+	std::string getImageTypeName( ast::type::ImageFormat format
+		, ast::type::AccessKind access
+		, ast::type::ImageDim dim
+		, ast::type::Trinary sampled
+		, bool arrayed
+		, bool ms
+		, bool depth )
+	{
+		return getImageTypeName( format, access, dim, sampled, arrayed, ms )
+			+ helpers::getBoolName( depth, "Shadow", "" );
 	}
 }

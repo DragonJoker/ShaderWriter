@@ -64,7 +64,6 @@ namespace ast::expr
 		eLShiftAssign,
 		eRShiftAssign,
 		eAndAssign,
-		eNotAssign,
 		eOrAssign,
 		eXorAssign,
 		eArrayAccess,

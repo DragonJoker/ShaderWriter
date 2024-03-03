@@ -7,6 +7,11 @@ See LICENSE file in root folder
 
 #include "Stmt.hpp"
 
+namespace ast
+{
+	class StmtCloner;
+}
+
 namespace ast::stmt
 {
 	class Container
@@ -51,6 +56,8 @@ namespace ast::stmt
 
 	private:
 		StmtList m_statements;
+
+		friend class ast::StmtCloner;
 	};
 }
 

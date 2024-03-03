@@ -22,61 +22,61 @@ namespace ast::expr
 		}
 
 		template<>
-		inline int8_t valueGetter< LiteralType::eInt8 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eInt8 > valueGetter< LiteralType::eInt8 >( Literal::Value const & lit )
 		{
 			return lit.int8v;
 		}
 
 		template<>
-		inline int16_t valueGetter< LiteralType::eInt16 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eInt16 > valueGetter< LiteralType::eInt16 >( Literal::Value const & lit )
 		{
 			return lit.int16v;
 		}
 
 		template<>
-		inline int32_t valueGetter< LiteralType::eInt32 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eInt32 > valueGetter< LiteralType::eInt32 >( Literal::Value const & lit )
 		{
 			return lit.int32v;
 		}
 
 		template<>
-		inline int64_t valueGetter< LiteralType::eInt64 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eInt64 > valueGetter< LiteralType::eInt64 >( Literal::Value const & lit )
 		{
 			return lit.int64v;
 		}
 
 		template<>
-		inline uint8_t valueGetter< LiteralType::eUInt8 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eUInt8 > valueGetter< LiteralType::eUInt8 >( Literal::Value const & lit )
 		{
 			return lit.uint8v;
 		}
 
 		template<>
-		inline uint16_t valueGetter< LiteralType::eUInt16 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eUInt16 > valueGetter< LiteralType::eUInt16 >( Literal::Value const & lit )
 		{
 			return lit.uint16v;
 		}
 
 		template<>
-		inline uint32_t valueGetter< LiteralType::eUInt32 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eUInt32 > valueGetter< LiteralType::eUInt32 >( Literal::Value const & lit )
 		{
 			return lit.uint32v;
 		}
 
 		template<>
-		inline uint64_t valueGetter< LiteralType::eUInt64 >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eUInt64 > valueGetter< LiteralType::eUInt64 >( Literal::Value const & lit )
 		{
 			return lit.uint64v;
 		}
 
 		template<>
-		inline float valueGetter< LiteralType::eFloat >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eFloat > valueGetter< LiteralType::eFloat >( Literal::Value const & lit )
 		{
 			return lit.floatv;
 		}
 
 		template<>
-		inline double valueGetter< LiteralType::eDouble >( Literal::Value const & lit )
+		inline LiteralValueType< LiteralType::eDouble > valueGetter< LiteralType::eDouble >( Literal::Value const & lit )
 		{
 			return lit.doublev;
 		}
@@ -147,56 +147,68 @@ namespace ast::expr
 			, expr::Literal const & rhs
 			, OperatorT op = OperatorT{} )
 		{
+			expr::LiteralPtr result;
+
 			switch ( rhs.getLiteralType() )
 			{
 			case expr::LiteralType::eBool:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, rhs.getValue< expr::LiteralType::eBool >() ) );
+				break;
 			case expr::LiteralType::eInt8:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eInt8 >() ) ) );
+				break;
 			case expr::LiteralType::eInt16:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eInt16 >() ) ) );
+				break;
 			case expr::LiteralType::eInt32:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eInt32 >() ) ) );
+				break;
 			case expr::LiteralType::eInt64:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eInt64 >() ) ) );
+				break;
 			case expr::LiteralType::eUInt8:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt8 >() ) ) );
+				break;
 			case expr::LiteralType::eUInt16:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt16 >() ) ) );
+				break;
 			case expr::LiteralType::eUInt32:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt32 >() ) ) );
+				break;
 			case expr::LiteralType::eUInt64:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eUInt64 >() ) ) );
+				break;
 			case expr::LiteralType::eFloat:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eFloat >() ) ) );
+				break;
 			case expr::LiteralType::eDouble:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eDouble >() ) ) );
-			default:
-				AST_Failure( "Unexpected operand type for a binary logical operator" );
-				return nullptr;
+				break;
 			}
+
+			return result;
 		}
 
 		template< typename OperatorT, typename LhsTypeT >
@@ -210,39 +222,38 @@ namespace ast::expr
 			{
 			case expr::LiteralType::eInt8:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eInt8 >( lhs )
-						, rhs.getValue< expr::LiteralType::eInt8 >() ) );
+					, static_cast< LitInt8 >( op( convert< expr::LiteralType::eInt8 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt8 >() ) ) );
 			case expr::LiteralType::eInt16:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eInt16 >( lhs )
-						, rhs.getValue< expr::LiteralType::eInt16 >() ) );
+					, static_cast< LitInt16 >( op( convert< expr::LiteralType::eInt16 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt16 >() ) ) );
 			case expr::LiteralType::eInt32:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eInt32 >( lhs )
-						, rhs.getValue< expr::LiteralType::eInt32 >() ) );
+					, static_cast< LitInt32 >( op( convert< expr::LiteralType::eInt32 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt32 >() ) ) );
 			case expr::LiteralType::eInt64:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eInt64 >( lhs )
-						, rhs.getValue< expr::LiteralType::eInt64 >() ) );
+					, static_cast< LitInt64 >( op( convert< expr::LiteralType::eInt64 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt64 >() ) ) );
 			case expr::LiteralType::eUInt8:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eUInt8 >( lhs )
-						, rhs.getValue< expr::LiteralType::eUInt8 >() ) );
+					, static_cast< LitUInt8 >( op( convert< expr::LiteralType::eUInt8 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt8 >() ) ) );
 			case expr::LiteralType::eUInt16:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eUInt16 >( lhs )
-						, rhs.getValue< expr::LiteralType::eUInt16 >() ) );
+					, static_cast< LitUInt16 >( op( convert< expr::LiteralType::eUInt16 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt16 >() ) ) );
 			case expr::LiteralType::eUInt32:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eUInt32 >( lhs )
-						, rhs.getValue< expr::LiteralType::eUInt32 >() ) );
+					, static_cast< LitUInt32 >( op( convert< expr::LiteralType::eUInt32 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt32 >() ) ) );
 			case expr::LiteralType::eUInt64:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eUInt64 >( lhs )
-						, rhs.getValue< expr::LiteralType::eUInt64 >() ) );
+					, static_cast< LitUInt64 >( op( convert< expr::LiteralType::eUInt64 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt64 >() ) ) );
 			default:
-				AST_Failure( "Unexpected operand type for a binary integral arithmetic operator operator" );
-				return nullptr;
+				AST_Exception( "Unexpected operand type for a binary integral arithmetic operator operator" );
 			}
 		}
 
@@ -266,15 +277,14 @@ namespace ast::expr
 				return binIntArithOp( exprCache, typesCache, lhs, rhs, op );
 			case expr::LiteralType::eFloat:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eFloat >( lhs )
-						, rhs.getValue< expr::LiteralType::eFloat >() ) );
+					, static_cast< LitFloat32 >( op( convert< expr::LiteralType::eFloat >( lhs )
+						, rhs.getValue< expr::LiteralType::eFloat >() ) ) );
 			case expr::LiteralType::eDouble:
 				return exprCache.makeLiteral( typesCache
-					, op( convert< expr::LiteralType::eDouble >( lhs )
-						, rhs.getValue< expr::LiteralType::eDouble >() ) );
+					, static_cast< LitFloat64 >( op( convert< expr::LiteralType::eDouble >( lhs )
+						, rhs.getValue< expr::LiteralType::eDouble >() ) ) );
 			default:
-				AST_Failure( "Unexpected operand type for a binary arithmetic operator operator" );
-				return nullptr;
+				AST_Exception( "Unexpected operand type for a binary arithmetic operator operator" );
 			}
 		}
 
@@ -285,27 +295,68 @@ namespace ast::expr
 			, expr::Literal const & rhs
 			, OperatorT op = OperatorT{} )
 		{
+			expr::LiteralPtr result;
+
 			switch ( rhs.getLiteralType() )
 			{
-			case expr::LiteralType::eInt8:
-			case expr::LiteralType::eInt16:
-			case expr::LiteralType::eInt32:
-			case expr::LiteralType::eInt64:
-			case expr::LiteralType::eUInt8:
-			case expr::LiteralType::eUInt16:
-			case expr::LiteralType::eUInt32:
-			case expr::LiteralType::eUInt64:
-			case expr::LiteralType::eFloat:
-			case expr::LiteralType::eDouble:
-				return binArithOp( exprCache, typesCache, lhs, rhs, op );
 			case expr::LiteralType::eBool:
-				return exprCache.makeLiteral( typesCache
+				result = exprCache.makeLiteral( typesCache
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, rhs.getValue< expr::LiteralType::eBool >() ) );
-			default:
-				AST_Failure( "Unexpected operand type for a binary arithmetic operator operator" );
-				return nullptr;
+				break;
+			case expr::LiteralType::eInt8:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eInt8 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt8 >() ) );
+				break;
+			case expr::LiteralType::eInt16:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eInt16 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt16 >() ) );
+				break;
+			case expr::LiteralType::eInt32:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eInt32 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt32 >() ) );
+				break;
+			case expr::LiteralType::eInt64:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eInt64 >( lhs )
+						, rhs.getValue< expr::LiteralType::eInt64 >() ) );
+				break;
+			case expr::LiteralType::eUInt8:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eUInt8 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt8 >() ) );
+				break;
+			case expr::LiteralType::eUInt16:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eUInt16 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt16 >() ) );
+				break;
+			case expr::LiteralType::eUInt32:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eUInt32 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt32 >() ) );
+				break;
+			case expr::LiteralType::eUInt64:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eUInt64 >( lhs )
+						, rhs.getValue< expr::LiteralType::eUInt64 >() ) );
+				break;
+			case expr::LiteralType::eFloat:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eFloat >( lhs )
+						, rhs.getValue< expr::LiteralType::eFloat >() ) );
+				break;
+			case expr::LiteralType::eDouble:
+				result = exprCache.makeLiteral( typesCache
+					, op( convert< expr::LiteralType::eDouble >( lhs )
+						, rhs.getValue< expr::LiteralType::eDouble >() ) );
+				break;
 			}
+
+			return result;
 		}
 
 		template< typename LhsTypeT >
@@ -532,39 +583,26 @@ namespace ast::expr
 			{
 				switch ( operand.getLiteralType() )
 				{
-				case expr::LiteralType::eBool:
-					return exprCache.makeLiteral( typesCache
-						, !operand.getValue< expr::LiteralType::eBool >() );
 				case expr::LiteralType::eInt8:
 					return exprCache.makeLiteral( typesCache
-						, -operand.getValue< expr::LiteralType::eInt8 >() );
+						, static_cast< LitInt8 >( -operand.getValue< expr::LiteralType::eInt8 >() ) );
 				case expr::LiteralType::eInt16:
 					return exprCache.makeLiteral( typesCache
-						, -operand.getValue< expr::LiteralType::eInt16 >() );
+						, static_cast< LitInt16 >( -operand.getValue< expr::LiteralType::eInt16 >() ) );
 				case expr::LiteralType::eInt32:
 					return exprCache.makeLiteral( typesCache
-						, -operand.getValue< expr::LiteralType::eInt32 >() );
+						, static_cast< LitInt32 >( -operand.getValue< expr::LiteralType::eInt32 >() ) );
 				case expr::LiteralType::eInt64:
 					return exprCache.makeLiteral( typesCache
-						, -operand.getValue< expr::LiteralType::eInt64 >() );
-				case expr::LiteralType::eUInt8:
-					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt8 >() );
-				case expr::LiteralType::eUInt32:
-					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt32 >() );
-				case expr::LiteralType::eUInt64:
-					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt64 >() );
+						, static_cast< LitInt64 >( -operand.getValue< expr::LiteralType::eInt64 >() ) );
 				case expr::LiteralType::eFloat:
 					return exprCache.makeLiteral( typesCache
-						, -operand.getValue< expr::LiteralType::eFloat >() );
+						, static_cast< LitFloat32 >( -operand.getValue< expr::LiteralType::eFloat >() ) );
 				case expr::LiteralType::eDouble:
 					return exprCache.makeLiteral( typesCache
-						, -operand.getValue< expr::LiteralType::eDouble >() );
+						, static_cast< LitFloat64 >( -operand.getValue< expr::LiteralType::eDouble >() ) );
 				default:
-					AST_Failure( "Unexpected operand type for ^ operator" );
-					return nullptr;
+					AST_Exception( "Unexpected operand type for unary minus operator" );
 				}
 			}
 		};
@@ -579,37 +617,36 @@ namespace ast::expr
 				{
 				case expr::LiteralType::eInt8:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt8 >() + 1 );
+						, static_cast< LitInt8 >( operand.getValue< expr::LiteralType::eInt8 >() + 1 ) );
 				case expr::LiteralType::eInt16:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt16 >() + 1 );
+						, static_cast< LitInt16 >( operand.getValue< expr::LiteralType::eInt16 >() + 1 ) );
 				case expr::LiteralType::eInt32:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt32 >() + 1 );
+						, static_cast< LitInt32 >( operand.getValue< expr::LiteralType::eInt32 >() + 1 ) );
 				case expr::LiteralType::eInt64:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt64 >() + 1 );
+						, static_cast< LitInt64 >( operand.getValue< expr::LiteralType::eInt64 >() + 1 ) );
 				case expr::LiteralType::eUInt8:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt8 >() + 1u );
+						, static_cast< LitUInt8 >( operand.getValue< expr::LiteralType::eUInt8 >() + 1u ) );
 				case expr::LiteralType::eUInt16:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt16 >() + 1u );
+						, static_cast< LitUInt16 >( operand.getValue< expr::LiteralType::eUInt16 >() + 1u ) );
 				case expr::LiteralType::eUInt32:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt32 >() + 1u );
+						, static_cast< LitUInt32 >( operand.getValue< expr::LiteralType::eUInt32 >() + 1u ) );
 				case expr::LiteralType::eUInt64:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt64 >() + 1u );
+						, static_cast< LitUInt64 >( operand.getValue< expr::LiteralType::eUInt64 >() + 1u ) );
 				case expr::LiteralType::eFloat:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eFloat >() + 1.0f );
+						, static_cast< LitFloat32 >( operand.getValue< expr::LiteralType::eFloat >() + 1.0f ) );
 				case expr::LiteralType::eDouble:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eDouble >() + 1.0 );
+						, static_cast< LitFloat64 >( operand.getValue< expr::LiteralType::eDouble >() + 1.0 ) );
 				default:
-					AST_Failure( "Unexpected operand type for pre-increment" );
-					return nullptr;
+					AST_Exception( "Unexpected operand type for pre-increment" );
 				}
 			}
 		};
@@ -624,37 +661,36 @@ namespace ast::expr
 				{
 				case expr::LiteralType::eInt8:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt8 >() - 1 );
+						, static_cast< LitInt8 >( operand.getValue< expr::LiteralType::eInt8 >() - 1 ) );
 				case expr::LiteralType::eInt16:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt16 >() - 1 );
+						, static_cast< LitInt16 >( operand.getValue< expr::LiteralType::eInt16 >() - 1 ) );
 				case expr::LiteralType::eInt32:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt32 >() - 1 );
+						, static_cast< LitInt32 >( operand.getValue< expr::LiteralType::eInt32 >() - 1 ) );
 				case expr::LiteralType::eInt64:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eInt64 >() - 1 );
+						, static_cast< LitInt64 >( operand.getValue< expr::LiteralType::eInt64 >() - 1 ) );
 				case expr::LiteralType::eUInt8:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt8 >() - 1u );
+						, static_cast< LitUInt8 >( operand.getValue< expr::LiteralType::eUInt8 >() - 1u ) );
 				case expr::LiteralType::eUInt16:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt16 >() - 1u );
+						, static_cast< LitUInt16 >( operand.getValue< expr::LiteralType::eUInt16 >() - 1u ) );
 				case expr::LiteralType::eUInt32:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt32 >() - 1u );
+						, static_cast< LitUInt32 >( operand.getValue< expr::LiteralType::eUInt32 >() - 1u ) );
 				case expr::LiteralType::eUInt64:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eUInt64 >() - 1u );
+						, static_cast< LitUInt64 >( operand.getValue< expr::LiteralType::eUInt64 >() - 1u ) );
 				case expr::LiteralType::eFloat:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eFloat >() - 1.0f );
+						, static_cast< LitFloat32 >( operand.getValue< expr::LiteralType::eFloat >() - 1.0f ) );
 				case expr::LiteralType::eDouble:
 					return exprCache.makeLiteral( typesCache
-						, operand.getValue< expr::LiteralType::eDouble >() - 1.0 );
+						, static_cast< LitFloat64 >( operand.getValue< expr::LiteralType::eDouble >() - 1.0 ) );
 				default:
-					AST_Failure( "Unexpected operand type for pre-increment" );
-					return nullptr;
+					AST_Exception( "Unexpected operand type for pre-increment" );
 				}
 			}
 		};
@@ -672,31 +708,30 @@ namespace ast::expr
 						, !operand.getValue< expr::LiteralType::eBool >() );
 				case expr::LiteralType::eInt8:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eInt8 >() );
+						, static_cast< LitInt8 >( ~operand.getValue< expr::LiteralType::eInt8 >() ) );
 				case expr::LiteralType::eInt16:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eInt16 >() );
+						, static_cast< LitInt16 >( ~operand.getValue< expr::LiteralType::eInt16 >() ) );
 				case expr::LiteralType::eInt32:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eInt32 >() );
+						, static_cast< LitInt32 >( ~operand.getValue< expr::LiteralType::eInt32 >() ) );
 				case expr::LiteralType::eInt64:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eInt64 >() );
+						, static_cast< LitInt64 >( ~operand.getValue< expr::LiteralType::eInt64 >() ) );
 				case expr::LiteralType::eUInt8:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt8 >() );
+						, static_cast< LitUInt8 >( ~operand.getValue< expr::LiteralType::eUInt8 >() ) );
 				case expr::LiteralType::eUInt16:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt16 >() );
+						, static_cast< LitUInt16 >( ~operand.getValue< expr::LiteralType::eUInt16 >() ) );
 				case expr::LiteralType::eUInt32:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt32 >() );
+						, static_cast< LitUInt32 >( ~operand.getValue< expr::LiteralType::eUInt32 >() ) );
 				case expr::LiteralType::eUInt64:
 					return exprCache.makeLiteral( typesCache
-						, ~operand.getValue< expr::LiteralType::eUInt64 >() );
+						, static_cast< LitUInt64 >( ~operand.getValue< expr::LiteralType::eUInt64 >() ) );
 				default:
-					AST_Failure( "Unexpected operand type for unary not" );
-					return nullptr;
+					AST_Exception( "Unexpected operand type for unary not" );
 				}
 			}
 		};
@@ -707,45 +742,57 @@ namespace ast::expr
 				, type::TypesCache & typesCache
 				, expr::Literal const & operand )
 			{
+				expr::LiteralPtr result;
+
 				switch ( operand.getLiteralType() )
 				{
 				case expr::LiteralType::eBool:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, !operand.getValue < expr::LiteralType::eBool >() );
+					break;
 				case expr::LiteralType::eInt8:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eInt8 >() == 0 );
+					break;
 				case expr::LiteralType::eInt16:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eInt16 >() == 0 );
+					break;
 				case expr::LiteralType::eInt32:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eInt32 >() == 0 );
+					break;
 				case expr::LiteralType::eInt64:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eInt64 >() == 0 );
+					break;
 				case expr::LiteralType::eUInt8:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eUInt8 >() == 0u );
+					break;
 				case expr::LiteralType::eUInt16:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eUInt16 >() == 0u );
+					break;
 				case expr::LiteralType::eUInt32:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eUInt32 >() == 0u );
+					break;
 				case expr::LiteralType::eUInt64:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eUInt64 >() == 0ull );
+					break;
 				case expr::LiteralType::eFloat:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eFloat >() == 0.0f );
+					break;
 				case expr::LiteralType::eDouble:
-					return exprCache.makeLiteral( typesCache
+					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eDouble >() == 0.0 );
-				default:
-					AST_Failure( "Unexpected operand type for unary not" );
-					return nullptr;
+					break;
 				}
+
+				return result;
 			}
 		};
 
@@ -773,45 +820,57 @@ namespace ast::expr
 					, type::TypesCache & typesCache
 					, expr::Literal const & operand )
 				{
+					expr::LiteralPtr result;
+
 					switch ( operand.getLiteralType() )
 					{
 					case expr::LiteralType::eBool:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eBool >() );
+						break;
 					case expr::LiteralType::eInt8:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eInt8 >() );
+						break;
 					case expr::LiteralType::eInt16:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eInt16 >() );
+						break;
 					case expr::LiteralType::eInt32:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eInt32 >() );
+						break;
 					case expr::LiteralType::eInt64:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eInt64 >() );
+						break;
 					case expr::LiteralType::eUInt8:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eUInt8 >() );
+						break;
 					case expr::LiteralType::eUInt16:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eUInt16 >() );
+						break;
 					case expr::LiteralType::eUInt32:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eUInt32 >() );
+						break;
 					case expr::LiteralType::eUInt64:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eUInt64 >() );
+						break;
 					case expr::LiteralType::eFloat:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eFloat >() );
+						break;
 					case expr::LiteralType::eDouble:
-						return castLiteral( exprCache, typesCache
+						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eDouble >() );
-					default:
-						AST_Failure( "Unexpected operand type for unary not" );
-						return nullptr;
+						break;
 					}
+
+					return result;
 				}
 			};
 
@@ -820,34 +879,46 @@ namespace ast::expr
 				, expr::LiteralType output
 				, expr::Literal const & operand )
 			{
+				expr::LiteralPtr result;
+
 				switch ( output )
 				{
 				case expr::LiteralType::eBool:
-					return CastTo< bool >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitBool >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eInt8:
-					return CastTo< int8_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitInt8 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eInt16:
-					return CastTo< int16_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitInt16 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eInt32:
-					return CastTo< int32_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitInt32 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eInt64:
-					return CastTo< int64_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitInt64 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eUInt8:
-					return CastTo< uint8_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitUInt8 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eUInt16:
-					return CastTo< uint16_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitUInt16 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eUInt32:
-					return CastTo< uint32_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitUInt32 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eUInt64:
-					return CastTo< uint64_t >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitUInt64 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eFloat:
-					return CastTo< float >::cast( exprCache, typesCache, operand );
+					result = CastTo< LitFloat32 >::cast( exprCache, typesCache, operand );
+					break;
 				case expr::LiteralType::eDouble:
-					return CastTo< double >::cast( exprCache, typesCache, operand );
-				default:
-					AST_Failure( "Unexpected operand type for unary not" );
-					return nullptr;
+					result = CastTo< LitFloat64 >::cast( exprCache, typesCache, operand );
+					break;
 				}
+
+				return result;
 			}
 		};
 
@@ -857,34 +928,46 @@ namespace ast::expr
 			, expr::Literal const & lhs
 			, expr::Literal const & rhs )
 		{
+			expr::LiteralPtr result;
+
 			switch ( lhs.getLiteralType() )
 			{
 			case expr::LiteralType::eBool:
-				return FuncT< bool >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eBool >(), rhs );
+				result = FuncT< LitBool >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eBool >(), rhs );
+				break;
 			case expr::LiteralType::eInt8:
-				return FuncT< int8_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt8 >(), rhs );
+				result = FuncT< LitInt8 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt8 >(), rhs );
+				break;
 			case expr::LiteralType::eInt16:
-				return FuncT< int16_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt16 >(), rhs );
+				result = FuncT< LitInt16 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt16 >(), rhs );
+				break;
 			case expr::LiteralType::eInt32:
-				return FuncT< int32_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt32 >(), rhs );
+				result = FuncT< LitInt32 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt32 >(), rhs );
+				break;
 			case expr::LiteralType::eInt64:
-				return FuncT< int64_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt64 >(), rhs );
+				result = FuncT< LitInt64 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eInt64 >(), rhs );
+				break;
 			case expr::LiteralType::eUInt8:
-				return FuncT< uint8_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt8 >(), rhs );
+				result = FuncT< LitUInt8 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt8 >(), rhs );
+				break;
 			case expr::LiteralType::eUInt16:
-				return FuncT< uint16_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt16 >(), rhs );
+				result = FuncT< LitUInt16 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt16 >(), rhs );
+				break;
 			case expr::LiteralType::eUInt32:
-				return FuncT< uint32_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt32 >(), rhs );
+				result = FuncT< LitUInt32 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt32 >(), rhs );
+				break;
 			case expr::LiteralType::eUInt64:
-				return FuncT< uint64_t >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt64 >(), rhs );
+				result = FuncT< LitUInt64 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eUInt64 >(), rhs );
+				break;
 			case expr::LiteralType::eFloat:
-				return FuncT< float >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eFloat >(), rhs );
+				result = FuncT< LitFloat32 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eFloat >(), rhs );
+				break;
 			case expr::LiteralType::eDouble:
-				return FuncT< double >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eDouble >(), rhs );
-			default:
-				AST_Failure( "Unexpected operand type" );
-				return nullptr;
+				result = FuncT< LitFloat64 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eDouble >(), rhs );
+				break;
 			}
+
+			return result;
 		}
 
 		template< typename FuncT >
@@ -919,7 +1002,7 @@ namespace ast::expr
 	{
 		if ( expr.getKind() != Kind::eLiteral )
 		{
-			throw Exception{ "Expected a literal expression" };
+			AST_Exception( "Expected a literal expression" );
 		}
 
 		return static_cast< Literal const & >( expr ).getValue< T >();

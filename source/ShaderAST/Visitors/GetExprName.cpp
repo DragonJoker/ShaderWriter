@@ -62,13 +62,23 @@ namespace ast
 
 			void visitUnaryExpr( expr::Unary const * expr )override
 			{
-				expr->getOperand()->accept( this );
+				if ( auto operand = expr->getOperand() )
+				{
+					operand->accept( this );
+				}
 			}
 
 			void visitBinaryExpr( expr::Binary const * expr )override
 			{
-				expr->getLHS()->accept( this );
-				expr->getRHS()->accept( this );
+				if ( auto lhs = expr->getLHS() )
+				{
+					lhs->accept( this );
+				}
+
+				if ( auto rhs = expr->getRHS() )
+				{
+					rhs->accept( this );
+				}
 			}
 
 			void visitAggrInitExpr( expr::AggrInit const * expr )override
@@ -224,9 +234,17 @@ namespace ast
 		if ( expr.getKind() == expr::Kind::eComma )
 		{
 			auto & comma = static_cast< expr::Comma const & >( expr );
-			result = listCommaIdentifiers( *comma.getLHS() );
-			auto rhsIdents = listCommaIdentifiers( *comma.getRHS() );
-			result.insert( result.end(), rhsIdents.begin(), rhsIdents.end() );
+
+			if ( comma.getLHS() )
+			{
+				result = listCommaIdentifiers( *comma.getLHS() );
+			}
+
+			if ( comma.getRHS() )
+			{
+				auto rhsIdents = listCommaIdentifiers( *comma.getRHS() );
+				result.insert( result.end(), rhsIdents.begin(), rhsIdents.end() );
+			}
 		}
 		else
 		{

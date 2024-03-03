@@ -18,6 +18,18 @@ namespace ast
 		return result;
 	}
 
+	stmt::StmtPtr StmtCloner::submit( stmt::StmtCache & stmtCache
+		, expr::ExprCache & exprCache
+		, stmt::Stmt const * stmt )
+	{
+		stmt::ContainerPtr result = stmtCache.makeContainer();
+		StmtCloner vis{ stmtCache, exprCache, result };
+		stmt->accept( &vis );
+		return result->empty()
+			? nullptr
+			: std::move( result->m_statements.front() );
+	}
+
 	StmtCloner::StmtCloner( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
 		, stmt::ContainerPtr & result )

@@ -549,5 +549,23 @@ namespace test
 		testCounts << function << ":" << line << " - " << error << endl;
 	}
 
+	void reportFailure( char const * const error
+		, char const * const callerFunction
+		, int callerLine
+		, char const * const calleeFunction
+		, int calleeLine
+		, TestCounts & testCounts )
+	{
+		if ( !testCounts.curTestErrors )
+		{
+			testCounts << "********************************************************************************" << endl;
+		}
+
+		testCounts.incErr();
+		testCounts << calleeFunction << ":" << calleeLine << endl
+			<< "  Called from " << callerFunction << ":" << callerLine << endl
+			<< "    " << error << endl;
+	}
+
 	//*********************************************************************************************
 }

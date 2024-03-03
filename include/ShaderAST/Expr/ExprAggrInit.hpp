@@ -40,7 +40,7 @@ namespace ast::expr
 		}
 
 	private:
-		IdentifierPtr m_identifier{};
+		IdentifierPtr m_identifier;
 		ExprList m_initialisers;
 	};
 }

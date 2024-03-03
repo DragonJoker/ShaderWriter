@@ -21,5 +21,9 @@ namespace ast::expr
 		, m_lhs{ std::move( lhs ) }
 		, m_rhs{ std::move( rhs ) }
 	{
+		if ( !m_lhs && !m_rhs )
+		{
+			AST_Exception( "Binary expression without operands" );
+		}
 	}
 }
