@@ -785,6 +785,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 					{
 						AST_Failure( "Unexpected AddAssign expression" );
@@ -810,6 +811,7 @@ namespace ast
 						doSwizzle( expr->clone() );
 					}
 
+					[[noreturn]]
 					void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 					{
 						AST_Failure( "Unexpected AndAssign expression" );
@@ -821,6 +823,7 @@ namespace ast
 						doSwizzle( expr->clone() );
 					}
 
+					[[noreturn]]
 					void visitAssignExpr( ast::expr::Assign const * expr )override
 					{
 						AST_Failure( "Unexpected Assign expression" );
@@ -930,6 +933,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 					{
 						AST_Failure( "Unexpected DivideAssign expression" );
@@ -1066,6 +1070,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 					{
 						AST_Failure( "Unexpected LShiftAssign expression" );
@@ -1087,6 +1092,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 					{
 						AST_Failure( "Unexpected MinusAssign expression" );
@@ -1102,6 +1108,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 					{
 						AST_Failure( "Unexpected ModuloAssign expression" );
@@ -1117,26 +1124,31 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 					{
 						AST_Failure( "Unexpected OrAssign expression" );
 					}
 
+					[[noreturn]]
 					void visitPostDecrementExpr( expr::PostDecrement const * expr )override
 					{
 						AST_Failure( "Unexpected PostDecrement expression" );
 					}
 
+					[[noreturn]]
 					void visitPostIncrementExpr( expr::PostIncrement const * expr )override
 					{
 						AST_Failure( "Unexpected PostIncrement expression" );
 					}
 
+					[[noreturn]]
 					void visitPreDecrementExpr( expr::PreDecrement const * expr )override
 					{
 						AST_Failure( "Unexpected PreDecrement expression" );
 					}
 
+					[[noreturn]]
 					void visitPreIncrementExpr( expr::PreIncrement const * expr )override
 					{
 						AST_Failure( "Unexpected PreIncrement expression" );
@@ -1158,21 +1170,25 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 					{
 						AST_Failure( "Unexpected RShiftAssign expression" );
 					}
 
+					[[noreturn]]
 					void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 					{
 						AST_Failure( "Unexpected StreamAppend expression" );
 					}
 
+					[[noreturn]]
 					void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
 					{
 						AST_Failure( "Unexpected SwitchCase expression" );
 					}
 
+					[[noreturn]]
 					void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override
 					{
 						AST_Failure( "Unexpected SwitchTest expression" );
@@ -1209,6 +1225,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
+					[[noreturn]]
 					void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 					{
 						AST_Failure( "Unexpected TimesAssign expression" );
@@ -1228,6 +1245,7 @@ namespace ast
 						m_result = m_exprCache.makeUnaryPlus( std::move( op ) );
 					}
 
+					[[noreturn]]
 					void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 					{
 						AST_Failure( "Unexpected XorAssign expression" );
@@ -2258,11 +2276,13 @@ namespace ast
 				m_current->addStmt( std::move( doWhileContent ) );
 			}
 
+			[[noreturn]]
 			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
 				AST_Failure( "Unexpected ElseIf statement." );
 			}
 
+			[[noreturn]]
 			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
 				AST_Failure( "Unexpected Else statement." );

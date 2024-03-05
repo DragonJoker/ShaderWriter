@@ -449,6 +449,7 @@ namespace spirv
 			{
 			}
 
+			[[noreturn]]
 			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
 				AST_Failure( "Unexpected While statement." );

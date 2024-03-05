@@ -53,11 +53,13 @@ namespace spirv
 				return ExprAdapter::submit( m_exprCache, m_typesCache, expr, m_current, m_ioDeclarations, m_adaptationData );
 			}
 
+			[[noreturn]]
 			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
 				AST_Failure( "Unexpected ElseIf statement." );
 			}
 
+			[[noreturn]]
 			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
 				AST_Failure( "Unexpected Else statement." );

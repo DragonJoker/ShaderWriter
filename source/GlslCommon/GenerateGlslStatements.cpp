@@ -400,7 +400,7 @@ namespace glsl
 					break;
 				}
 
-				AST_Assert( ( !result.empty() ) && "Unsupported ast::type::Kind" );
+				AST_Assert( ( value == ast::type::Kind::eFloat || !result.empty() ) && "Unsupported ast::type::Kind" );
 				return result;
 			}
 
@@ -2155,6 +2155,7 @@ namespace glsl
 				}
 			}
 
+			[[noreturn]]
 			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::StreamAppend expression." );
@@ -2820,6 +2821,7 @@ namespace glsl
 				}
 			}
 
+			[[noreturn]]
 			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
 				AST_Failure( "Unexpected ElseIf statement." );
@@ -2834,6 +2836,7 @@ namespace glsl
 					, StatementType::eLexicalScopeEnd );
 			}
 
+			[[noreturn]]
 			void visitForStmt( ast::stmt::For const * stmt )override
 			{
 				AST_Failure( "Unexpected For statement." );
@@ -3386,6 +3389,7 @@ namespace glsl
 				}
 			}
 
+			[[noreturn]]
 			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
 				AST_Failure( "Unexpected While statement." );
