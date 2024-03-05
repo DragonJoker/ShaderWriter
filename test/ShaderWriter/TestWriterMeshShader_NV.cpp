@@ -831,7 +831,7 @@ namespace
 
 	void pointX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "pointX" );
+		astTestBegin( "pointX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -849,12 +849,12 @@ namespace
 				, testCounts
 				, Compilers_SPIRV );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void point( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "point" );
+		astTestBegin( "point" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -873,12 +873,12 @@ namespace
 				, testCounts
 				, Compilers_SPIRV );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void lineX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "lineX" );
+		astTestBegin( "lineX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -896,12 +896,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void line( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "line" );
+		astTestBegin( "line" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -920,12 +920,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void triangleX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "triangleX" );
+		astTestBegin( "triangleX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -944,12 +944,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void triangle( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "triangle" );
+		astTestBegin( "triangle" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -968,12 +968,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void oneTriangle( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "oneTriangle" );
+		astTestBegin( "oneTriangle" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1009,12 +1009,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void taskPayload( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "taskPayload" );
+		astTestBegin( "taskPayload" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1036,12 +1036,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void renderMeshlet( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "renderMeshlet" );
+		astTestBegin( "renderMeshlet" );
 		using namespace sdw;
 		using namespace render;
 		{
@@ -1152,12 +1152,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void meshletInstancing( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "meshletInstancing" );
+		astTestBegin( "meshletInstancing" );
 		using namespace sdw;
 		using namespace instancing;
 		{
@@ -1313,12 +1313,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void checkConstantsLayout( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "checkConstantsLayout" );
+		astTestBegin( "checkConstantsLayout" );
 		using namespace sdw;
 		using namespace cull;
 		{
@@ -1344,12 +1344,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void cullMeshlet( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "cullMeshlet" );
+		astTestBegin( "cullMeshlet" );
 		using namespace sdw;
 		using namespace cull;
 		{
@@ -1486,12 +1486,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void writePackedPrimitiveIndices( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "writePackedPrimitiveIndices" );
+		astTestBegin( "writePackedPrimitiveIndices" );
 		using namespace sdw;
 		using namespace cull;
 		{
@@ -1619,12 +1619,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupPointX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupPointX" );
+		astTestBegin( "subgroupPointX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1642,12 +1642,12 @@ namespace
 				, testCounts
 				, Compilers_SPIRV );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupPoint( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupPoint" );
+		astTestBegin( "subgroupPoint" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1666,12 +1666,12 @@ namespace
 				, testCounts
 				, Compilers_SPIRV );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupLineX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupLineX" );
+		astTestBegin( "subgroupLineX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1689,12 +1689,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupLine( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupLine" );
+		astTestBegin( "subgroupLine" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1713,12 +1713,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupTriangleX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupTriangleX" );
+		astTestBegin( "subgroupTriangleX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1737,12 +1737,12 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupTriangle( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupTriangle" );
+		astTestBegin( "subgroupTriangle" );
 		using namespace sdw;
 		{
 			sdw::MeshWriter writer{ &testCounts.allocator };
@@ -1761,7 +1761,7 @@ namespace
 				, testCounts
 				, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

@@ -844,7 +844,9 @@ namespace test
 				return GL_COMPUTE_SHADER;
 			default:
 				AST_Failure( "Unsupported ShaderType." );
+#if !SDAST_ExceptAssert
 				return GL_VERTEX_SHADER;
+#endif
 			}
 		}
 	}

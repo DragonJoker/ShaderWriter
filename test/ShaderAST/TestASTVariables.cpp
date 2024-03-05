@@ -8,35 +8,50 @@
 
 namespace
 {
-	std::string printVariable( ast::var::Variable const & var )
+	using namespace ast;
+
+	std::string getArraySizeName( uint32_t arraySize )
 	{
 		std::string result;
-		result += ast::debug::getTypeName( var.getType() ) + " " + var.getName();
+
+		if ( arraySize != type::NotArray )
+		{
+			result += "[";
+
+			if ( arraySize != type::UnknownArraySize )
+			{
+				result += std::to_string( arraySize );
+			}
+
+			result += "]";
+		}
+
 		return result;
 	}
 
-	void testVariable( ast::type::Kind kind
+	void testVariable( type::Kind kind
 		, uint32_t arraySize
 		, test::TestCounts & testCounts )
 	{
-		ast::type::TypesCache cache;
-		ast::type::TypePtr type;
+		astTestBegin( "testVariable" + debug::getTypeName( kind ) + getArraySizeName( arraySize ) );
+		type::TypesCache cache;
+		type::TypePtr type;
 
 		switch ( kind )
 		{
-		case ast::type::Kind::eStruct:
-			type = cache.getStruct( ast::type::MemoryLayout::eStd140, "Dummy" );
+		case type::Kind::eStruct:
+			type = cache.getStruct( type::MemoryLayout::eStd140, "Dummy" );
 			break;
-		case ast::type::Kind::eImage:
-			type = cache.getImage( ast::type::ImageConfiguration{} );
+		case type::Kind::eImage:
+			type = cache.getImage( type::ImageConfiguration{} );
 			break;
-		case ast::type::Kind::eCombinedImage:
-			type = cache.getCombinedImage( ast::type::ImageConfiguration{}, false );
+		case type::Kind::eCombinedImage:
+			type = cache.getCombinedImage( type::ImageConfiguration{}, false );
 			break;
-		case ast::type::Kind::eSampledImage:
-			type = cache.getSampledImage( ast::type::ImageConfiguration{} );
+		case type::Kind::eSampledImage:
+			type = cache.getSampledImage( type::ImageConfiguration{} );
 			break;
-		case ast::type::Kind::eSampler:
+		case type::Kind::eSampler:
 			type = cache.getSampler();
 			break;
 		default:
@@ -44,311 +59,304 @@ namespace
 			break;
 		}
 
-		if ( arraySize != ast::type::NotArray )
+		if ( arraySize != type::NotArray )
 		{
 			type = cache.getArray( type, arraySize );
 		}
 
-		auto dummyVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "dummyVar" }, type );
-		check( dummyVar->getId() == testCounts.nextVarId )
-		check( dummyVar->getBuiltin() == ast::Builtin::eNone )
-		check( !dummyVar->isMemberVar() )
-		check( !dummyVar->getOuter() )
+		auto dummyVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "dummyVar" }, type );
+		astCheck( dummyVar->getId() == testCounts.nextVarId )
+		astCheck( dummyVar->getBuiltin() == Builtin::eNone )
+		astCheck( !dummyVar->isMemberVar() )
+		astCheck( !dummyVar->getOuter() )
 		{
-			ast::var::Variable coinVar{ ast::EntityName{ testCounts.getNextVarId(), "coinVar" }, type };
-			check( coinVar.getId() == testCounts.nextVarId )
-			check( !coinVar.isMemberVar() )
-			check( !coinVar.getOuter() )
+			var::Variable coinVar{ EntityName{ testCounts.getNextVarId(), "coinVar" }, type };
+			astCheck( coinVar.getId() == testCounts.nextVarId )
+			astCheck( !coinVar.isMemberVar() )
+			astCheck( !coinVar.getOuter() )
 		}
 		{
-			ast::var::Variable innerCoinVar{ ast::EntityName{ testCounts.getNextVarId(), "innerCoinVar" }, dummyVar, type };
-			check( innerCoinVar.getId() == testCounts.nextVarId )
-			check( innerCoinVar.getOuter() == dummyVar )
-			check( innerCoinVar.getOutermost() == dummyVar )
-			check( innerCoinVar.isMemberVar() )
+			var::Variable innerCoinVar{ EntityName{ testCounts.getNextVarId(), "innerCoinVar" }, dummyVar, type };
+			astCheck( innerCoinVar.getId() == testCounts.nextVarId )
+			astCheck( innerCoinVar.getOuter() == dummyVar )
+			astCheck( innerCoinVar.getOutermost() == dummyVar )
+			astCheck( innerCoinVar.isMemberVar() )
 		}
 		{
-			ast::var::Variable builtinVar{ testCounts.getNextVarId(), ast::Builtin::eBaseInstance, type, uint64_t( ast::var::Flag::eShaderInput ) };
-			check( builtinVar.getId() == testCounts.nextVarId )
-			check( builtinVar.isBuiltin() )
-			check( builtinVar.getBuiltin() == ast::Builtin::eBaseInstance )
-			check( !builtinVar.isMemberVar() )
-			check( !builtinVar.getOuter() )
+			var::Variable builtinVar{ testCounts.getNextVarId(), Builtin::eBaseInstance, type, uint64_t( var::Flag::eShaderInput ) };
+			astCheck( builtinVar.getId() == testCounts.nextVarId )
+			astCheck( builtinVar.isBuiltin() )
+			astCheck( builtinVar.getBuiltin() == Builtin::eBaseInstance )
+			astCheck( !builtinVar.isMemberVar() )
+			astCheck( !builtinVar.getOuter() )
 		}
 		{
-			auto functionVar = ast::var::makeFunction( testCounts.getNextVarId()
+			auto functionVar = var::makeFunction( testCounts.getNextVarId()
 				, cache.getFunction( type, {} )
 				, "func" );
-			check( functionVar->getId() == testCounts.nextVarId )
-			check( !functionVar->isBuiltin() )
-			check( !functionVar->isMemberVar() )
-			check( !functionVar->getOuter() )
+			astCheck( functionVar->getId() == testCounts.nextVarId )
+			astCheck( !functionVar->isBuiltin() )
+			astCheck( !functionVar->isMemberVar() )
+			astCheck( !functionVar->getOuter() )
 		}
 		{
-			auto functionVar = ast::var::makeFunction( testCounts.getNextVarId()
+			auto functionVar = var::makeFunction( testCounts.getNextVarId()
 				, cache.getFunction( type, {} )
 				, "func"
-				, uint64_t( ast::var::Flag::eConstant ) );
-			check( functionVar->getId() == testCounts.nextVarId )
-			check( !functionVar->isBuiltin() )
-			check( !functionVar->isMemberVar() )
-			check( !functionVar->getOuter() )
+				, uint64_t( var::Flag::eConstant ) );
+			astCheck( functionVar->getId() == testCounts.nextVarId )
+			astCheck( !functionVar->isBuiltin() )
+			astCheck( !functionVar->isMemberVar() )
+			astCheck( !functionVar->getOuter() )
 		}
 		{
-			auto builtinVar = ast::var::makeBuiltin( testCounts.getNextVarId(), ast::Builtin::eBaseInstance, type, ast::var::Flag::eShaderInput );
-			check( builtinVar->getId() == testCounts.nextVarId )
-			check( builtinVar->isBuiltin() )
-			check( builtinVar->getBuiltin() == ast::Builtin::eBaseInstance )
-			check( !builtinVar->isMemberVar() )
-			check( !builtinVar->getOuter() )
+			auto builtinVar = var::makeBuiltin( testCounts.getNextVarId(), Builtin::eBaseInstance, type, var::Flag::eShaderInput );
+			astCheck( builtinVar->getId() == testCounts.nextVarId )
+			astCheck( builtinVar->isBuiltin() )
+			astCheck( builtinVar->getBuiltin() == Builtin::eBaseInstance )
+			astCheck( !builtinVar->isMemberVar() )
+			astCheck( !builtinVar->getOuter() )
 		}
 		{
-			auto builtinVar = ast::var::makeBuiltin( testCounts.getNextVarId(), ast::Builtin::eBaseInstance, type, uint64_t( ast::var::Flag::eShaderInput ) );
-			check( builtinVar->getId() == testCounts.nextVarId )
-			check( builtinVar->isBuiltin() )
-			check( builtinVar->getBuiltin() == ast::Builtin::eBaseInstance )
-			check( !builtinVar->isMemberVar() )
-			check( !builtinVar->getOuter() )
+			auto builtinVar = var::makeBuiltin( testCounts.getNextVarId(), Builtin::eBaseInstance, type, uint64_t( var::Flag::eShaderInput ) );
+			astCheck( builtinVar->getId() == testCounts.nextVarId )
+			astCheck( builtinVar->isBuiltin() )
+			astCheck( builtinVar->getBuiltin() == Builtin::eBaseInstance )
+			astCheck( !builtinVar->isMemberVar() )
+			astCheck( !builtinVar->getOuter() )
 		}
 		{
-			auto coinVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "coinVar" }, type );
-			check( coinVar->getId() == testCounts.nextVarId )
-			check( !coinVar->isMemberVar() )
-			check( !coinVar->getOuter() )
+			auto coinVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "coinVar" }, type );
+			astCheck( coinVar->getId() == testCounts.nextVarId )
+			astCheck( !coinVar->isMemberVar() )
+			astCheck( !coinVar->getOuter() )
 		}
 		{
-			auto coinVar = ast::var::makeVariable( testCounts.getNextVarId(), type, "coinVar" );
-			check( coinVar->getId() == testCounts.nextVarId )
-			check( !coinVar->isMemberVar() )
-			check( !coinVar->getOuter() )
+			auto coinVar = var::makeVariable( testCounts.getNextVarId(), type, "coinVar" );
+			astCheck( coinVar->getId() == testCounts.nextVarId )
+			astCheck( !coinVar->isMemberVar() )
+			astCheck( !coinVar->getOuter() )
 		}
 		{
-			auto coinVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "coinVar" }, type, ast::var::Flag::eAlias );
-			check( coinVar->getId() == testCounts.nextVarId )
-			check( !coinVar->isMemberVar() )
-			check( !coinVar->getOuter() )
-			check( coinVar->isAlias() )
+			auto coinVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "coinVar" }, type, var::Flag::eAlias );
+			astCheck( coinVar->getId() == testCounts.nextVarId )
+			astCheck( !coinVar->isMemberVar() )
+			astCheck( !coinVar->getOuter() )
+			astCheck( coinVar->isAlias() )
 		}
 		{
-			auto coinVar = ast::var::makeVariable( testCounts.getNextVarId(), type, "coinVar", ast::var::Flag::eAlias );
-			check( coinVar->getId() == testCounts.nextVarId )
-			check( !coinVar->isMemberVar() )
-			check( !coinVar->getOuter() )
-			check( coinVar->isAlias() )
+			auto coinVar = var::makeVariable( testCounts.getNextVarId(), type, "coinVar", var::Flag::eAlias );
+			astCheck( coinVar->getId() == testCounts.nextVarId )
+			astCheck( !coinVar->isMemberVar() )
+			astCheck( !coinVar->getOuter() )
+			astCheck( coinVar->isAlias() )
 		}
 		{
-			auto coinVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "coinVar" }, type, uint64_t( ast::var::Flag::eAlias ) );
-			check( coinVar->getId() == testCounts.nextVarId )
-			check( !coinVar->isMemberVar() )
-			check( !coinVar->getOuter() )
-			check( coinVar->isAlias() )
+			auto coinVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "coinVar" }, type, uint64_t( var::Flag::eAlias ) );
+			astCheck( coinVar->getId() == testCounts.nextVarId )
+			astCheck( !coinVar->isMemberVar() )
+			astCheck( !coinVar->getOuter() )
+			astCheck( coinVar->isAlias() )
 		}
 		{
-			auto coinVar = ast::var::makeVariable( testCounts.getNextVarId(), type, "coinVar", uint64_t( ast::var::Flag::eAlias ) );
-			check( coinVar->getId() == testCounts.nextVarId )
-			check( !coinVar->isMemberVar() )
-			check( !coinVar->getOuter() )
-			check( coinVar->isAlias() )
+			auto coinVar = var::makeVariable( testCounts.getNextVarId(), type, "coinVar", uint64_t( var::Flag::eAlias ) );
+			astCheck( coinVar->getId() == testCounts.nextVarId )
+			astCheck( !coinVar->isMemberVar() )
+			astCheck( !coinVar->getOuter() )
+			astCheck( coinVar->isAlias() )
 		}
 		{
-			auto innerVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "innerVar" }, dummyVar, type );
-			check( innerVar->getId() == testCounts.nextVarId )
-			check( innerVar->getOuter() == dummyVar )
-			check( innerVar->getOutermost() == dummyVar )
-			check( innerVar->isMemberVar() )
+			auto innerVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "innerVar" }, dummyVar, type );
+			astCheck( innerVar->getId() == testCounts.nextVarId )
+			astCheck( innerVar->getOuter() == dummyVar )
+			astCheck( innerVar->getOutermost() == dummyVar )
+			astCheck( innerVar->isMemberVar() )
 			{
-				ast::var::Variable innerTempVar{ ast::EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type, ast::var::Flag::eTemp };
-				check( innerTempVar.getId() == testCounts.nextVarId )
-				check( innerTempVar.getOuter() == innerVar )
-				check( innerTempVar.getOutermost() == dummyVar )
-				check( innerTempVar.isMemberVar() )
-				check( innerTempVar.isTempVar() )
+				var::Variable innerTempVar{ EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type, var::Flag::eTemp };
+				astCheck( innerTempVar.getId() == testCounts.nextVarId )
+				astCheck( innerTempVar.getOuter() == innerVar )
+				astCheck( innerTempVar.getOutermost() == dummyVar )
+				astCheck( innerTempVar.isMemberVar() )
+				astCheck( innerTempVar.isTempVar() )
 			}
 			{
-				auto innerTempVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type );
-				check( innerTempVar->getId() == testCounts.nextVarId )
-				check( innerTempVar->getOuter() == innerVar )
-				check( innerTempVar->getOutermost() == dummyVar )
-				check( innerTempVar->isMemberVar() )
-				check( getOutermost( innerTempVar ) == dummyVar )
+				auto innerTempVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type );
+				astCheck( innerTempVar->getId() == testCounts.nextVarId )
+				astCheck( innerTempVar->getOuter() == innerVar )
+				astCheck( innerTempVar->getOutermost() == dummyVar )
+				astCheck( innerTempVar->isMemberVar() )
+				astCheck( getOutermost( innerTempVar ) == dummyVar )
 			}
 			{
-				auto innerTempVar = ast::var::makeVariable( testCounts.getNextVarId(), innerVar, type, "innerTempVar" );
-				check( innerTempVar->getId() == testCounts.nextVarId )
-				check( innerTempVar->getOuter() == innerVar )
-				check( innerTempVar->getOutermost() == dummyVar )
-				check( innerTempVar->isMemberVar() )
-				check( getOutermost( innerTempVar ) == dummyVar )
+				auto innerTempVar = var::makeVariable( testCounts.getNextVarId(), innerVar, type, "innerTempVar" );
+				astCheck( innerTempVar->getId() == testCounts.nextVarId )
+				astCheck( innerTempVar->getOuter() == innerVar )
+				astCheck( innerTempVar->getOutermost() == dummyVar )
+				astCheck( innerTempVar->isMemberVar() )
+				astCheck( getOutermost( innerTempVar ) == dummyVar )
 			}
 			{
-				auto innerTempVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type, ast::var::Flag::eTemp );
-				check( innerTempVar->getId() == testCounts.nextVarId )
-				check( innerTempVar->getOuter() == innerVar )
-				check( innerTempVar->getOutermost() == dummyVar )
-				check( innerTempVar->isMemberVar() )
-				check( innerTempVar->isTempVar() )
-				check( getOutermost( innerTempVar ) == dummyVar )
+				auto innerTempVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type, var::Flag::eTemp );
+				astCheck( innerTempVar->getId() == testCounts.nextVarId )
+				astCheck( innerTempVar->getOuter() == innerVar )
+				astCheck( innerTempVar->getOutermost() == dummyVar )
+				astCheck( innerTempVar->isMemberVar() )
+				astCheck( innerTempVar->isTempVar() )
+				astCheck( getOutermost( innerTempVar ) == dummyVar )
 			}
 			{
-				auto innerTempVar = ast::var::makeVariable( testCounts.getNextVarId(), innerVar, type, "innerTempVar", ast::var::Flag::eTemp );
-				check( innerTempVar->getId() == testCounts.nextVarId )
-				check( innerTempVar->getOuter() == innerVar )
-				check( innerTempVar->getOutermost() == dummyVar )
-				check( innerTempVar->isMemberVar() )
-				check( innerTempVar->isTempVar() )
-				check( getOutermost( innerTempVar ) == dummyVar )
+				auto innerTempVar = var::makeVariable( testCounts.getNextVarId(), innerVar, type, "innerTempVar", var::Flag::eTemp );
+				astCheck( innerTempVar->getId() == testCounts.nextVarId )
+				astCheck( innerTempVar->getOuter() == innerVar )
+				astCheck( innerTempVar->getOutermost() == dummyVar )
+				astCheck( innerTempVar->isMemberVar() )
+				astCheck( innerTempVar->isTempVar() )
+				astCheck( getOutermost( innerTempVar ) == dummyVar )
 			}
 			{
-				auto innerTempVar = ast::var::makeVariable( ast::EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type, uint64_t( ast::var::Flag::eTemp ) );
-				check( innerTempVar->getId() == testCounts.nextVarId )
-				check( innerTempVar->getOuter() == innerVar )
-				check( innerTempVar->getOutermost() == dummyVar )
-				check( innerTempVar->isMemberVar() )
-				check( innerTempVar->isTempVar() )
-				check( getOutermost( innerTempVar ) == dummyVar )
+				auto innerTempVar = var::makeVariable( EntityName{ testCounts.getNextVarId(), "innerTempVar" }, innerVar, type, uint64_t( var::Flag::eTemp ) );
+				astCheck( innerTempVar->getId() == testCounts.nextVarId )
+				astCheck( innerTempVar->getOuter() == innerVar )
+				astCheck( innerTempVar->getOutermost() == dummyVar )
+				astCheck( innerTempVar->isMemberVar() )
+				astCheck( innerTempVar->isTempVar() )
+				astCheck( getOutermost( innerTempVar ) == dummyVar )
 			}
 			{
-				auto innerTempVar = ast::var::makeVariable( testCounts.getNextVarId(), innerVar, type, "innerTempVar", uint64_t( ast::var::Flag::eTemp ) );
-				check( innerTempVar->getId() == testCounts.nextVarId )
-				check( innerTempVar->getOuter() == innerVar )
-				check( innerTempVar->getOutermost() == dummyVar )
-				check( innerTempVar->isMemberVar() )
-				check( innerTempVar->isTempVar() )
-				check( getOutermost( innerTempVar ) == dummyVar )
+				auto innerTempVar = var::makeVariable( testCounts.getNextVarId(), innerVar, type, "innerTempVar", uint64_t( var::Flag::eTemp ) );
+				astCheck( innerTempVar->getId() == testCounts.nextVarId )
+				astCheck( innerTempVar->getOuter() == innerVar )
+				astCheck( innerTempVar->getOutermost() == dummyVar )
+				astCheck( innerTempVar->isMemberVar() )
+				astCheck( innerTempVar->isTempVar() )
+				astCheck( getOutermost( innerTempVar ) == dummyVar )
 			}
 		}
-		testCounts << printVariable( *dummyVar ) << test::endl;
-		check( getNonArrayKind( dummyVar->getType() ) == kind )
-		check( getArraySize( dummyVar->getType() ) == arraySize )
-		check( dummyVar->getName() == "dummyVar" )
+		astCheck( getNonArrayKind( dummyVar->getType() ) == kind )
+		astCheck( getArraySize( dummyVar->getType() ) == arraySize )
+		astCheck( dummyVar->getName() == "dummyVar" )
 		{
-			check( !dummyVar->isShaderOutput() )
-			dummyVar->updateFlag( ast::var::Flag::eShaderOutput );
-			check( dummyVar->isShaderOutput() )
-			check( !dummyVar->isShaderInput() )
-			dummyVar->updateFlag( ast::var::Flag::eShaderInput );
-			check( dummyVar->isShaderInput() )
-			check( !dummyVar->isLocale() )
-			dummyVar->updateFlag( ast::var::Flag::eLocale );
-			check( dummyVar->isLocale() )
-			check( !dummyVar->isUniform() )
-			dummyVar->updateFlag( ast::var::Flag::eUniform );
-			check( dummyVar->isUniform() )
-			check( !dummyVar->isImplicit() )
-			dummyVar->updateFlag( ast::var::Flag::eImplicit );
-			check( dummyVar->isImplicit() )
-			check( !dummyVar->isFlat() )
-			dummyVar->updateFlag( ast::var::Flag::eFlat );
-			check( dummyVar->isFlat() )
-			check( !dummyVar->isLoopVar() )
-			dummyVar->updateFlag( ast::var::Flag::eLoopVar );
-			check( dummyVar->isLoopVar() )
-			check( !dummyVar->isMember() )
-			dummyVar->updateFlag( ast::var::Flag::eMember );
-			check( dummyVar->isMember() )
-			check( !dummyVar->isNoPerspective() )
-			dummyVar->updateFlag( ast::var::Flag::eNoPerspective );
-			check( dummyVar->isNoPerspective() )
-			check( !dummyVar->isPatch() )
-			check( !dummyVar->isPatchInput() )
-			dummyVar->updateFlag( ast::var::Flag::ePatchInput );
-			check( dummyVar->isPatchInput() )
-			check( !dummyVar->isPatchOutput() )
-			dummyVar->updateFlag( ast::var::Flag::ePatchOutput );
-			check( dummyVar->isPatchOutput() )
-			check( dummyVar->isPatch() )
-			check( !dummyVar->isCentroid() )
-			dummyVar->updateFlag( ast::var::Flag::eCentroid );
-			check( dummyVar->isCentroid() )
-			check( !dummyVar->isPerSample() )
-			dummyVar->updateFlag( ast::var::Flag::ePerSample );
-			check( dummyVar->isPerSample() )
-			check( !dummyVar->isGeometryStream() )
-			dummyVar->updateFlag( ast::var::Flag::eGeometryStream );
-			check( dummyVar->isGeometryStream() )
-			check( !dummyVar->isBlendIndex() )
-			dummyVar->updateFlag( ast::var::Flag::eBlendIndex );
-			check( dummyVar->isBlendIndex() )
-			check( !dummyVar->isTempVar() )
-			dummyVar->updateFlag( ast::var::Flag::eTemp );
-			check( dummyVar->isTempVar() )
-			check( !dummyVar->isAlias() )
-			dummyVar->updateFlag( ast::var::Flag::eAlias );
-			check( dummyVar->isAlias() )
-			check( !dummyVar->isStorageBuffer() )
-			dummyVar->updateFlag( ast::var::Flag::eStorageBuffer );
-			check( dummyVar->isStorageBuffer() )
-			check( !dummyVar->isIncomingRayPayload() )
-			dummyVar->updateFlag( ast::var::Flag::eIncomingRayPayload );
-			check( dummyVar->isIncomingRayPayload() )
-			check( !dummyVar->isRayPayload() )
-			dummyVar->updateFlag( ast::var::Flag::eRayPayload );
-			check( dummyVar->isRayPayload() )
-			check( !dummyVar->isIncomingCallableData() )
-			dummyVar->updateFlag( ast::var::Flag::eIncomingCallableData );
-			check( dummyVar->isIncomingCallableData() )
-			check( !dummyVar->isCallableData() )
-			dummyVar->updateFlag( ast::var::Flag::eCallableData );
-			check( dummyVar->isCallableData() )
-			check( !dummyVar->isHitAttribute() )
-			dummyVar->updateFlag( ast::var::Flag::eHitAttribute );
-			check( dummyVar->isHitAttribute() )
-			check( !dummyVar->isBufferReference() )
-			dummyVar->updateFlag( ast::var::Flag::eBufferReference );
-			check( dummyVar->isBufferReference() )
-			check( !dummyVar->isPerPrimitive() )
-			dummyVar->updateFlag( ast::var::Flag::ePerPrimitive );
-			check( dummyVar->isPerPrimitive() )
-			check( !dummyVar->isPerView() )
-			dummyVar->updateFlag( ast::var::Flag::ePerView );
-			check( dummyVar->isPerView() )
-			check( !dummyVar->isPerTaskNV() )
-			dummyVar->updateFlag( ast::var::Flag::ePerTaskNV );
-			check( dummyVar->isPerTaskNV() )
-			check( !dummyVar->isPerTask() )
-			dummyVar->updateFlag( ast::var::Flag::ePerTask );
-			check( dummyVar->isPerTask() )
-			check( !dummyVar->isShared() )
-			dummyVar->updateFlag( ast::var::Flag::eShared );
-			check( dummyVar->isShared() )
-			dummyVar->updateFlag( ast::var::Flag::eShared, false );
-			check( !dummyVar->isShared() )
+			astCheck( !dummyVar->isShaderOutput() )
+			dummyVar->updateFlag( var::Flag::eShaderOutput );
+			astCheck( dummyVar->isShaderOutput() )
+			astCheck( !dummyVar->isShaderInput() )
+			dummyVar->updateFlag( var::Flag::eShaderInput );
+			astCheck( dummyVar->isShaderInput() )
+			astCheck( !dummyVar->isLocale() )
+			dummyVar->updateFlag( var::Flag::eLocale );
+			astCheck( dummyVar->isLocale() )
+			astCheck( !dummyVar->isUniform() )
+			dummyVar->updateFlag( var::Flag::eUniform );
+			astCheck( dummyVar->isUniform() )
+			astCheck( !dummyVar->isImplicit() )
+			dummyVar->updateFlag( var::Flag::eImplicit );
+			astCheck( dummyVar->isImplicit() )
+			astCheck( !dummyVar->isFlat() )
+			dummyVar->updateFlag( var::Flag::eFlat );
+			astCheck( dummyVar->isFlat() )
+			astCheck( !dummyVar->isLoopVar() )
+			dummyVar->updateFlag( var::Flag::eLoopVar );
+			astCheck( dummyVar->isLoopVar() )
+			astCheck( !dummyVar->isMember() )
+			dummyVar->updateFlag( var::Flag::eMember );
+			astCheck( dummyVar->isMember() )
+			astCheck( !dummyVar->isNoPerspective() )
+			dummyVar->updateFlag( var::Flag::eNoPerspective );
+			astCheck( dummyVar->isNoPerspective() )
+			astCheck( !dummyVar->isPatch() )
+			astCheck( !dummyVar->isPatchInput() )
+			dummyVar->updateFlag( var::Flag::ePatchInput );
+			astCheck( dummyVar->isPatchInput() )
+			astCheck( !dummyVar->isPatchOutput() )
+			dummyVar->updateFlag( var::Flag::ePatchOutput );
+			astCheck( dummyVar->isPatchOutput() )
+			astCheck( dummyVar->isPatch() )
+			astCheck( !dummyVar->isCentroid() )
+			dummyVar->updateFlag( var::Flag::eCentroid );
+			astCheck( dummyVar->isCentroid() )
+			astCheck( !dummyVar->isPerSample() )
+			dummyVar->updateFlag( var::Flag::ePerSample );
+			astCheck( dummyVar->isPerSample() )
+			astCheck( !dummyVar->isGeometryStream() )
+			dummyVar->updateFlag( var::Flag::eGeometryStream );
+			astCheck( dummyVar->isGeometryStream() )
+			astCheck( !dummyVar->isBlendIndex() )
+			dummyVar->updateFlag( var::Flag::eBlendIndex );
+			astCheck( dummyVar->isBlendIndex() )
+			astCheck( !dummyVar->isTempVar() )
+			dummyVar->updateFlag( var::Flag::eTemp );
+			astCheck( dummyVar->isTempVar() )
+			astCheck( !dummyVar->isAlias() )
+			dummyVar->updateFlag( var::Flag::eAlias );
+			astCheck( dummyVar->isAlias() )
+			astCheck( !dummyVar->isStorageBuffer() )
+			dummyVar->updateFlag( var::Flag::eStorageBuffer );
+			astCheck( dummyVar->isStorageBuffer() )
+			astCheck( !dummyVar->isIncomingRayPayload() )
+			dummyVar->updateFlag( var::Flag::eIncomingRayPayload );
+			astCheck( dummyVar->isIncomingRayPayload() )
+			astCheck( !dummyVar->isRayPayload() )
+			dummyVar->updateFlag( var::Flag::eRayPayload );
+			astCheck( dummyVar->isRayPayload() )
+			astCheck( !dummyVar->isIncomingCallableData() )
+			dummyVar->updateFlag( var::Flag::eIncomingCallableData );
+			astCheck( dummyVar->isIncomingCallableData() )
+			astCheck( !dummyVar->isCallableData() )
+			dummyVar->updateFlag( var::Flag::eCallableData );
+			astCheck( dummyVar->isCallableData() )
+			astCheck( !dummyVar->isHitAttribute() )
+			dummyVar->updateFlag( var::Flag::eHitAttribute );
+			astCheck( dummyVar->isHitAttribute() )
+			astCheck( !dummyVar->isBufferReference() )
+			dummyVar->updateFlag( var::Flag::eBufferReference );
+			astCheck( dummyVar->isBufferReference() )
+			astCheck( !dummyVar->isPerPrimitive() )
+			dummyVar->updateFlag( var::Flag::ePerPrimitive );
+			astCheck( dummyVar->isPerPrimitive() )
+			astCheck( !dummyVar->isPerView() )
+			dummyVar->updateFlag( var::Flag::ePerView );
+			astCheck( dummyVar->isPerView() )
+			astCheck( !dummyVar->isPerTaskNV() )
+			dummyVar->updateFlag( var::Flag::ePerTaskNV );
+			astCheck( dummyVar->isPerTaskNV() )
+			astCheck( !dummyVar->isPerTask() )
+			dummyVar->updateFlag( var::Flag::ePerTask );
+			astCheck( dummyVar->isPerTask() )
+			astCheck( !dummyVar->isShared() )
+			dummyVar->updateFlag( var::Flag::eShared );
+			astCheck( dummyVar->isShared() )
+			dummyVar->updateFlag( var::Flag::eShared, false );
+			astCheck( !dummyVar->isShared() )
 		}
 		{
 			uint64_t flags{};
-			flags = flags | ast::var::Flag::eShared;
-			check( checkFlag( flags, ast::var::Flag::eShared ) )
-			flags = ast::var::Flag::ePerTask | flags;
-			check( checkFlag( flags, ast::var::Flag::ePerTask ) )
+			flags = flags | var::Flag::eShared;
+			astCheck( checkFlag( flags, var::Flag::eShared ) )
+			flags = var::Flag::ePerTask | flags;
+			astCheck( checkFlag( flags, var::Flag::ePerTask ) )
 		}
-	}
-
-	void testVariable( test::TestCounts & testCounts )
-	{
-		testBegin( "testVariable" );
-		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eArray ); ++i )
-		{
-			testVariable( ast::type::Kind( i ), ast::type::NotArray, testCounts );
-		}
-
-		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eArray ); ++i )
-		{
-			testVariable( ast::type::Kind( i ), ast::type::UnknownArraySize, testCounts );
-		}
-
-		for ( uint8_t i = uint8_t( ast::type::Kind::eMin ); i < uint8_t( ast::type::Kind::eArray ); ++i )
-		{
-			testVariable( ast::type::Kind( i ), 3u, testCounts );
-		}
-		testEnd();
+		astTestEnd()
 	}
 }
 
-testSuiteMain( TestASTVariables )
+astTestSuiteMain( TestASTVariables )
 {
-	testSuiteBegin();
-	testVariable( testCounts );
-	testSuiteEnd();
+	astTestSuiteBegin();
+	for ( uint8_t i = uint8_t( type::Kind::eMin ); i < uint8_t( type::Kind::eArray ); ++i )
+	{
+		testVariable( type::Kind( i ), type::NotArray, testCounts );
+	}
+
+	for ( uint8_t i = uint8_t( type::Kind::eMin ); i < uint8_t( type::Kind::eArray ); ++i )
+	{
+		testVariable( type::Kind( i ), type::UnknownArraySize, testCounts );
+	}
+
+	for ( uint8_t i = uint8_t( type::Kind::eMin ); i < uint8_t( type::Kind::eArray ); ++i )
+	{
+		testVariable( type::Kind( i ), 3u, testCounts );
+	}
+	astTestSuiteEnd();
 }
 
-testSuiteLaunch( TestASTVariables )
+astTestSuiteLaunch( TestASTVariables )

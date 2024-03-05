@@ -13,7 +13,7 @@ namespace
 	template< typename T >
 	void testUboRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -21,18 +21,18 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -58,18 +58,18 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -88,13 +88,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testUboRawArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -102,18 +102,18 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -139,18 +139,18 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -169,13 +169,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testUboRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -183,20 +183,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, false );
-			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( !retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -222,20 +222,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, false );
 			bo.end();
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, false );
-			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( !retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -254,13 +254,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testUboRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -268,20 +268,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
-			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( !retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -307,20 +307,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, false );
 			bo.end();
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, false );
-			check( !retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( !retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -339,13 +339,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testUboRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -353,20 +353,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, true );
-			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -392,20 +392,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, true );
 			bo.end();
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name, true );
-			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -424,13 +424,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testUboRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUboRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -438,20 +438,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", 1u, 1u };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
-			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -477,20 +477,20 @@ namespace
 			sdw::UniformBuffer bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto value = bo.template declMember< T >( name, 4u, true );
 			bo.end();
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name, true );
-			check( retrieved.isEnabled() );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( retrieved.isEnabled() );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -509,7 +509,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
@@ -517,20 +517,20 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testUboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -554,14 +554,14 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldT< T, "member" > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -580,7 +580,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 
 #endif
 	}
@@ -590,20 +590,20 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testUboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testUboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -627,14 +627,14 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::UniformBufferHelperStd140T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "UBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eConstantBufferDecl );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ConstantBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -653,7 +653,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 
 #endif
 	}
@@ -672,7 +672,7 @@ namespace
 	}
 }
 
-#define testName testConcat( TestWriterUboDeclarations, SDW_TestType )
+#define testName astTestConcat( TestWriterUboDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
 {

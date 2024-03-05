@@ -227,7 +227,7 @@ namespace
 
 	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "noSpecificIO" );
+		astTestBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -253,12 +253,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberInputOnly" );
+		astTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -273,12 +273,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificGlobalInputOnly" );
+		astTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -294,12 +294,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMixedInputOnly" );
+		astTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -315,12 +315,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberOutputOnly" );
+		astTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -335,12 +335,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificGlobalOutputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificGlobalOutputOnly" );
+		astTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -356,12 +356,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMixedOutputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMixedOutputOnly" );
+		astTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -378,12 +378,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberInAndOut" );
+		astTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -398,12 +398,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificGlobalInAndOut" );
+		astTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -420,12 +420,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMixedInAndOut" );
+		astTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -443,12 +443,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void fragment( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "fragment" );
+		astTestBegin( "fragment" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -523,12 +523,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void radianceComputer( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "radianceComputer" );
+		astTestBegin( "radianceComputer" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -580,13 +580,13 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void textureOffset( test::sdw_test::TestCounts & testCounts )
 	{
 		auto name = "textureOffset";
-		testBegin( name );
+		astTestBegin( name );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -605,12 +605,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void skybox( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "skybox" );
+		astTestBegin( "skybox" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -642,12 +642,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void reference( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "reference" );
+		astTestBegin( "reference" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -695,12 +695,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void terminate( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "terminate" );
+		astTestBegin( "terminate" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -719,12 +719,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void demote( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "demote" );
+		astTestBegin( "demote" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -743,7 +743,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

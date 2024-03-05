@@ -30,7 +30,7 @@ namespace
 	void testDegreesT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDegrees" + name );
+		astTestBegin( "testDegrees" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -52,7 +52,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDegrees( test::sdw_test::TestCounts & testCounts )
@@ -67,7 +67,7 @@ namespace
 	void testRadiansT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRadians" + name );
+		astTestBegin( "testRadians" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -89,7 +89,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRadians( test::sdw_test::TestCounts & testCounts )
@@ -104,7 +104,7 @@ namespace
 	void testCoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCosh" + name );
+		astTestBegin( "testCosh" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -126,7 +126,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCosh( test::sdw_test::TestCounts & testCounts )
@@ -141,7 +141,7 @@ namespace
 	void testSinhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSinh" + name );
+		astTestBegin( "testSinh" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -163,7 +163,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSinh( test::sdw_test::TestCounts & testCounts )
@@ -178,7 +178,7 @@ namespace
 	void testTanhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTanh" + name );
+		astTestBegin( "testTanh" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -200,7 +200,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTanh( test::sdw_test::TestCounts & testCounts )
@@ -215,7 +215,7 @@ namespace
 	void testCosT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCos" + name );
+		astTestBegin( "testCos" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -237,7 +237,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCos( test::sdw_test::TestCounts & testCounts )
@@ -252,7 +252,7 @@ namespace
 	void testSinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSin" + name );
+		astTestBegin( "testSin" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -274,7 +274,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSin( test::sdw_test::TestCounts & testCounts )
@@ -289,7 +289,7 @@ namespace
 	void testTanT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTan" + name );
+		astTestBegin( "testTan" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -311,7 +311,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTan( test::sdw_test::TestCounts & testCounts )
@@ -326,7 +326,7 @@ namespace
 	void testACosT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACos" + name );
+		astTestBegin( "testACos" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -348,7 +348,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testACos( test::sdw_test::TestCounts & testCounts )
@@ -363,7 +363,7 @@ namespace
 	void testASinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASin" + name );
+		astTestBegin( "testASin" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -385,7 +385,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testASin( test::sdw_test::TestCounts & testCounts )
@@ -400,7 +400,7 @@ namespace
 	void testATanT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATan" + name );
+		astTestBegin( "testATan" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -422,7 +422,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testATan( test::sdw_test::TestCounts & testCounts )
@@ -437,7 +437,7 @@ namespace
 	void testATan2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATan2" + name );
+		astTestBegin( "testATan2" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -461,7 +461,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testATan2( test::sdw_test::TestCounts & testCounts )
@@ -476,7 +476,7 @@ namespace
 	void testACoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACosh" + name );
+		astTestBegin( "testACosh" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -498,7 +498,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testACosh( test::sdw_test::TestCounts & testCounts )
@@ -513,7 +513,7 @@ namespace
 	void testASinhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASinh" + name );
+		astTestBegin( "testASinh" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -535,7 +535,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testASinh( test::sdw_test::TestCounts & testCounts )
@@ -550,7 +550,7 @@ namespace
 	void testATanhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATanh" + name );
+		astTestBegin( "testATanh" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -572,7 +572,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testATanh( test::sdw_test::TestCounts & testCounts )
@@ -587,7 +587,7 @@ namespace
 	void testPowT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPow" + name );
+		astTestBegin( "testPow" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -611,7 +611,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPow( test::sdw_test::TestCounts & testCounts )
@@ -626,7 +626,7 @@ namespace
 	void testExpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp" + name );
+		astTestBegin( "testExp" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -648,7 +648,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testExp( test::sdw_test::TestCounts & testCounts )
@@ -663,7 +663,7 @@ namespace
 	void testLogT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog" + name );
+		astTestBegin( "testLog" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -685,7 +685,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLog( test::sdw_test::TestCounts & testCounts )
@@ -700,7 +700,7 @@ namespace
 	void testExp2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp2_" + name );
+		astTestBegin( "testExp2_" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -722,7 +722,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testExp2( test::sdw_test::TestCounts & testCounts )
@@ -737,7 +737,7 @@ namespace
 	void testLog2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog2_" + name );
+		astTestBegin( "testLog2_" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -759,7 +759,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLog2( test::sdw_test::TestCounts & testCounts )
@@ -774,7 +774,7 @@ namespace
 	void testSqrtT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSqrt" + name );
+		astTestBegin( "testSqrt" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -796,7 +796,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSqrt( test::sdw_test::TestCounts & testCounts )
@@ -815,7 +815,7 @@ namespace
 	void testInverseSqrtT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInverseSqrt" + name );
+		astTestBegin( "testInverseSqrt" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -835,7 +835,7 @@ namespace
 				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInverseSqrt( test::sdw_test::TestCounts & testCounts )
@@ -854,7 +854,7 @@ namespace
 	void testAbsT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAbs" + name );
+		astTestBegin( "testAbs" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -876,7 +876,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAbs( test::sdw_test::TestCounts & testCounts )
@@ -899,7 +899,7 @@ namespace
 	void testSignT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSign" + name );
+		astTestBegin( "testSign" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -921,7 +921,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSign( test::sdw_test::TestCounts & testCounts )
@@ -944,7 +944,7 @@ namespace
 	void testFloorT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloor" + name );
+		astTestBegin( "testFloor" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -966,7 +966,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFloor( test::sdw_test::TestCounts & testCounts )
@@ -985,7 +985,7 @@ namespace
 	void testTruncT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTrunc" + name );
+		astTestBegin( "testTrunc" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1007,7 +1007,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTrunc( test::sdw_test::TestCounts & testCounts )
@@ -1026,7 +1026,7 @@ namespace
 	void testRoundT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRound" + name );
+		astTestBegin( "testRound" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1048,7 +1048,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRound( test::sdw_test::TestCounts & testCounts )
@@ -1067,7 +1067,7 @@ namespace
 	void testRoundEvenT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRoundEven" + name );
+		astTestBegin( "testRoundEven" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1089,7 +1089,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRoundEven( test::sdw_test::TestCounts & testCounts )
@@ -1108,7 +1108,7 @@ namespace
 	void testCeilT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCeil" + name );
+		astTestBegin( "testCeil" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1130,7 +1130,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCeil( test::sdw_test::TestCounts & testCounts )
@@ -1149,7 +1149,7 @@ namespace
 	void testFractT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFract" + name );
+		astTestBegin( "testFract" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1171,7 +1171,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFract( test::sdw_test::TestCounts & testCounts )
@@ -1190,7 +1190,7 @@ namespace
 	void testModT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMod" + name );
+		astTestBegin( "testMod" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1214,7 +1214,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMod( test::sdw_test::TestCounts & testCounts )
@@ -1233,7 +1233,7 @@ namespace
 	void testMinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMin" + name );
+		astTestBegin( "testMin" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1257,7 +1257,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMin( test::sdw_test::TestCounts & testCounts )
@@ -1284,7 +1284,7 @@ namespace
 	void testMaxT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMax" + name );
+		astTestBegin( "testMax" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1308,7 +1308,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMax( test::sdw_test::TestCounts & testCounts )
@@ -1335,7 +1335,7 @@ namespace
 	void testClampT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testClamp" + name );
+		astTestBegin( "testClamp" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1361,7 +1361,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testClamp( test::sdw_test::TestCounts & testCounts )
@@ -1380,7 +1380,7 @@ namespace
 	void testMixT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMix" + name );
+		astTestBegin( "testMix" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1406,7 +1406,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMix( test::sdw_test::TestCounts & testCounts )
@@ -1425,7 +1425,7 @@ namespace
 	void testStepT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testStep" + name );
+		astTestBegin( "testStep" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1449,7 +1449,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testStep( test::sdw_test::TestCounts & testCounts )
@@ -1468,7 +1468,7 @@ namespace
 	void testSmoothStepT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSmoothStep" + name );
+		astTestBegin( "testSmoothStep" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1494,7 +1494,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSmoothStep( test::sdw_test::TestCounts & testCounts )
@@ -1514,7 +1514,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testIsnan" + name );
+		astTestBegin( "testIsnan" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1552,7 +1552,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIsnan( test::sdw_test::TestCounts & testCounts )
@@ -1572,7 +1572,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testIsinf" + name );
+		astTestBegin( "testIsinf" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1610,7 +1610,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIsinf( test::sdw_test::TestCounts & testCounts )
@@ -1629,7 +1629,7 @@ namespace
 	void testFmaT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFma" + name );
+		astTestBegin( "testFma" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1655,7 +1655,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFma( test::sdw_test::TestCounts & testCounts )
@@ -1674,7 +1674,7 @@ namespace
 	void testFrexpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFrexp" + name );
+		astTestBegin( "testFrexp" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1698,7 +1698,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFrexp( test::sdw_test::TestCounts & testCounts )
@@ -1717,7 +1717,7 @@ namespace
 	void testLdexpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLdexp" + name );
+		astTestBegin( "testLdexp" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1741,7 +1741,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLdexp( test::sdw_test::TestCounts & testCounts )
@@ -1761,7 +1761,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testLength" + name );
+		astTestBegin( "testLength" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1783,7 +1783,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLength( test::sdw_test::TestCounts & testCounts )
@@ -1803,7 +1803,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testDistance" + name );
+		astTestBegin( "testDistance" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1827,7 +1827,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDistance( test::sdw_test::TestCounts & testCounts )
@@ -1847,7 +1847,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testDot" + name );
+		astTestBegin( "testDot" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1871,7 +1871,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDot( test::sdw_test::TestCounts & testCounts )
@@ -1889,7 +1889,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testCross" + name );
+		astTestBegin( "testCross" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1913,7 +1913,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCross( test::sdw_test::TestCounts & testCounts )
@@ -1927,7 +1927,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testNormalize" + name );
+		astTestBegin( "testNormalize" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1949,7 +1949,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNormalize( test::sdw_test::TestCounts & testCounts )
@@ -1969,7 +1969,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testFaceForward" + name );
+		astTestBegin( "testFaceForward" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1995,7 +1995,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFaceForward( test::sdw_test::TestCounts & testCounts )
@@ -2015,7 +2015,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testReflect" + name );
+		astTestBegin( "testReflect" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2039,7 +2039,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testReflect( test::sdw_test::TestCounts & testCounts )
@@ -2059,7 +2059,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testRefract" + name );
+		astTestBegin( "testRefract" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2085,7 +2085,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRefract( test::sdw_test::TestCounts & testCounts )
@@ -2104,7 +2104,7 @@ namespace
 	void testMatrixCompMultT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMatrixCompMult" + name );
+		astTestBegin( "testMatrixCompMult" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2128,7 +2128,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMatrixCompMult( test::sdw_test::TestCounts & testCounts )
@@ -2157,7 +2157,7 @@ namespace
 	void testOuterProductT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testOuterProduct" + name );
+		astTestBegin( "testOuterProduct" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2181,7 +2181,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testOuterProduct( test::sdw_test::TestCounts & testCounts )
@@ -2210,7 +2210,7 @@ namespace
 	void testTransposeT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTranspose" + name );
+		astTestBegin( "testTranspose" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2232,7 +2232,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTranspose( test::sdw_test::TestCounts & testCounts )
@@ -2262,7 +2262,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testDeterminant" + name );
+		astTestBegin( "testDeterminant" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2284,7 +2284,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDeterminant( test::sdw_test::TestCounts & testCounts )
@@ -2301,7 +2301,7 @@ namespace
 	void testInverseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInverse" + name );
+		astTestBegin( "testInverse" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2323,7 +2323,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInverse( test::sdw_test::TestCounts & testCounts )
@@ -2340,7 +2340,7 @@ namespace
 	void testLessThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLessThan" + name );
+		astTestBegin( "testLessThan" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2376,7 +2376,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLessThan( test::sdw_test::TestCounts & testCounts )
@@ -2399,7 +2399,7 @@ namespace
 	void testLessThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLessThanEqual" + name );
+		astTestBegin( "testLessThanEqual" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2435,7 +2435,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLessThanEqual( test::sdw_test::TestCounts & testCounts )
@@ -2458,7 +2458,7 @@ namespace
 	void testGreaterThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGreaterThan" + name );
+		astTestBegin( "testGreaterThan" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2494,7 +2494,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testGreaterThan( test::sdw_test::TestCounts & testCounts )
@@ -2517,7 +2517,7 @@ namespace
 	void testGreaterThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGreaterThanEqual" + name );
+		astTestBegin( "testGreaterThanEqual" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2553,7 +2553,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testGreaterThanEqual( test::sdw_test::TestCounts & testCounts )
@@ -2576,7 +2576,7 @@ namespace
 	void testEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testEqual" + name );
+		astTestBegin( "testEqual" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2612,7 +2612,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testEqual( test::sdw_test::TestCounts & testCounts )
@@ -2635,7 +2635,7 @@ namespace
 	void testNotEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNotEqual" + name );
+		astTestBegin( "testNotEqual" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2671,7 +2671,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNotEqual( test::sdw_test::TestCounts & testCounts )
@@ -2694,7 +2694,7 @@ namespace
 	void testAllT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAll" + name );
+		astTestBegin( "testAll" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2716,7 +2716,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAll( test::sdw_test::TestCounts & testCounts )
@@ -2730,7 +2730,7 @@ namespace
 	void testAnyT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAny" + name );
+		astTestBegin( "testAny" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2752,7 +2752,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAny( test::sdw_test::TestCounts & testCounts )
@@ -2766,7 +2766,7 @@ namespace
 	void testNotT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNot" + name );
+		astTestBegin( "testNot" + name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2800,7 +2800,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNot( test::sdw_test::TestCounts & testCounts )

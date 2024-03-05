@@ -13,20 +13,20 @@ namespace
 	template< typename T >
 	void testShaderInput( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_0";
 			auto value = writer.declInput< T >( name, sdw::EntryPoint::eFragment, 0u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
@@ -35,14 +35,14 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_1";
 			auto value = writer.declInputArray< T >( name, sdw::EntryPoint::eFragment, 1u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
@@ -51,13 +51,13 @@ namespace
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declInput< T >( "value", sdw::EntryPoint::eFragment, 0u, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
-			check( shader.getStatements()->size() == count );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
@@ -66,13 +66,13 @@ namespace
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declInputArray< T >( "value", sdw::EntryPoint::eFragment, 1u, 6u, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
-			check( shader.getStatements()->size() == count );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
@@ -81,15 +81,15 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_0_opt";
 			auto value = writer.declInput< T >( name, sdw::EntryPoint::eFragment, 0u, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
@@ -98,19 +98,19 @@ namespace
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "InputValue_1_opt";
 			auto value = writer.declInputArray< T >( name, sdw::EntryPoint::eFragment, 1u, 6u, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderInput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

@@ -407,7 +407,7 @@ namespace
 
 	void simple( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "simple" );
+		astTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -451,12 +451,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void vecTimesMtx( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "vecTimesMtx" );
+		astTestBegin( "vecTimesMtx" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -500,12 +500,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void nonUniform( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "nonUniform" );
+		astTestBegin( "nonUniform" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -536,12 +536,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void wavefrontLighting( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "wavefrontLighting" );
+		astTestBegin( "wavefrontLighting" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -669,12 +669,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void basicExecCallable( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "basicExecCallable" );
+		astTestBegin( "basicExecCallable" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -785,12 +785,12 @@ namespace
 				, testCounts
 				, Compilers_All );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void execCallable( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "execCallable" );
+		astTestBegin( "execCallable" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -906,7 +906,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

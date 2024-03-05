@@ -470,6 +470,44 @@ namespace test
 			: EXIT_SUCCESS;
 	}
 
+	//*************************************************************************************************
+
+	TestBlock::TestBlock( TestCounts & testCounts
+		, std::string text
+		, bool indent )
+		: testCounts{ testCounts }
+		, text{ std::move( text ) }
+		, indent{ indent }
+	{
+	}
+
+	TestBlock::~TestBlock()noexcept
+	{
+		testCounts.doPopBlock( this );
+	}
+
+	//*********************************************************************************************
+
+	uint32_t printBlocks( std::vector< TestBlock * > const & blocks
+		, uint32_t count
+		, TestCounts & testCounts )
+	{
+		for ( auto block : blocks )
+		{
+			if ( !block->indent )
+			{
+				testCounts.decIndent();
+				--count;
+			}
+
+			testCounts << block->text << endl;
+			testCounts.incIndent();
+			++count;
+		}
+
+		return count;
+	}
+
 	//*********************************************************************************************
 
 	TestCounts::TestCounts( TestSuite & parent )
@@ -504,6 +542,17 @@ namespace test
 		return result;
 	}
 
+	void TestCounts::printBlock( std::string const & text )
+	{
+		auto count = printBlocks( m_blocks, 0u, *this );
+		( *this ) << text << endl;
+
+		for ( auto i = 0u; i < count; ++i )
+		{
+			decIndent();
+		}
+	}
+
 	void TestCounts::incTest()
 	{
 		++suite.totalCount;
@@ -515,6 +564,81 @@ namespace test
 		++suite.errorCount;
 		++curTestErrors;
 		++result.errorCount;
+	}
+
+	void TestCounts::reportFailure( char const * const error
+		, char const * const function
+		, int line )
+	{
+		if ( !curTestErrors )
+		{
+			( *this ) << "********************************************************************************" << endl;
+		}
+
+		incErr();
+		( *this ) << function << ":" << line << ":" << endl;
+		incIndent();
+		auto count = printBlocks( m_blocks, 1u, *this );
+
+		if ( !m_nextErrors.empty() )
+		{
+			( *this ) << m_nextErrors << endl;
+			m_nextErrors.clear();
+		}
+
+		( *this ) << error << endl;
+
+		for ( auto i = 0u; i < count; ++i )
+		{
+			decIndent();
+		}
+	}
+
+	void TestCounts::reportFailure( char const * const error
+		, char const * const callerFunction
+		, int callerLine
+		, char const * const calleeFunction
+		, int calleeLine )
+	{
+		if ( !curTestErrors )
+		{
+			( *this ) << "********************************************************************************" << endl;
+		}
+
+		incErr();
+		( *this ) << calleeFunction << ":" << calleeLine << endl;
+		incIndent();
+		( *this ) << "Called from " << callerFunction << ":" << callerLine << endl;
+		incIndent();
+		auto count = printBlocks( m_blocks, 2u, *this );
+
+		if ( !m_nextErrors.empty() )
+		{
+			( *this ) << m_nextErrors << endl;
+			m_nextErrors.clear();
+		}
+
+		( *this ) << error << endl;
+
+		for ( auto i = 0u; i < count; ++i )
+		{
+			decIndent();
+		}
+
+		m_nextErrors.clear();
+	}
+
+	TestBlockPtr TestCounts::doPushBlock( std::string const & text, bool isIndented )
+	{
+		auto block = std::make_unique< TestBlock >( *this, text, isIndented );
+		m_blocks.emplace_back( block.get() );
+		return block;
+	}
+
+	void TestCounts::doPopBlock( TestBlock * block )
+	{
+		auto it = std::find( m_blocks.begin(), m_blocks.end(), block );
+		m_blocks.erase( it );
 	}
 
 	//*********************************************************************************************
@@ -540,13 +664,7 @@ namespace test
 		, int line
 		, TestCounts & testCounts )
 	{
-		if ( !testCounts.curTestErrors )
-		{
-			testCounts << "********************************************************************************" << endl;
-		}
-
-		testCounts.incErr();
-		testCounts << function << ":" << line << " - " << error << endl;
+		testCounts.reportFailure( error, function, line );
 	}
 
 	void reportFailure( char const * const error
@@ -556,15 +674,7 @@ namespace test
 		, int calleeLine
 		, TestCounts & testCounts )
 	{
-		if ( !testCounts.curTestErrors )
-		{
-			testCounts << "********************************************************************************" << endl;
-		}
-
-		testCounts.incErr();
-		testCounts << calleeFunction << ":" << calleeLine << endl
-			<< "  Called from " << callerFunction << ":" << callerLine << endl
-			<< "    " << error << endl;
+		testCounts.reportFailure( error, callerFunction, callerLine, calleeFunction, calleeLine );
 	}
 
 	//*********************************************************************************************

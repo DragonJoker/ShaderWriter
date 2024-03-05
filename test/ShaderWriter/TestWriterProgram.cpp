@@ -68,7 +68,7 @@ namespace
 
 	void basicPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "basicPipeline" );
+		astTestBegin( "basicPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
 		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
@@ -94,12 +94,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void geometryPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "geometryPipeline" );
+		astTestBegin( "geometryPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
 		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
@@ -145,7 +145,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	namespace tess
@@ -214,7 +214,7 @@ namespace
 
 	void tessellationPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "tessellationPipeline" );
+		astTestBegin( "tessellationPipeline" );
 		static uint32_t constexpr maxPoints = 3u;
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
@@ -436,7 +436,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	namespace raytrace
@@ -503,7 +503,7 @@ namespace
 
 	void rayTracePipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "rayTracePipeline" );
+		astTestBegin( "rayTracePipeline" );
 		sdw::RayTraceWriter writer{ &testCounts.allocator };
 
 		auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
@@ -596,7 +596,7 @@ namespace
 
 		test::writeProgram( writer
 			, testCounts, RayTraceCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	namespace mesh
@@ -691,7 +691,7 @@ namespace
 
 	void taskMeshPipelineEXT( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "taskMeshPipelineEXT" );
+		astTestBegin( "taskMeshPipelineEXT" );
 		sdw::ModernGraphicsWriterEXT writer{ &testCounts.allocator };
 
 		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
@@ -795,12 +795,12 @@ namespace
 			, testCounts, MeshEXTCompilers );
 		test::validateProgram( writer
 			, testCounts, MeshEXTCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void taskMeshPipelineNV( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "taskMeshPipelineNV" );
+		astTestBegin( "taskMeshPipelineNV" );
 		sdw::ModernGraphicsWriterNV writer{ &testCounts.allocator };
 
 		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
@@ -904,12 +904,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void taskMeshPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "taskMeshPipeline" );
+		astTestBegin( "taskMeshPipeline" );
 		sdw::ModernGraphicsWriter writer{ &testCounts.allocator };
 
 		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
@@ -1013,7 +1013,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

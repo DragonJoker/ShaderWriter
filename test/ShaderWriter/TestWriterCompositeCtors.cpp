@@ -104,7 +104,7 @@ namespace
 
 	void noFlatteningExpected( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "noFlatteningExpected" );
+		astTestBegin( "noFlatteningExpected" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -128,12 +128,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void flattenLiterals( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "flattenLiterals" );
+		astTestBegin( "flattenLiterals" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -167,12 +167,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void flattenVariables( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "flattenVariables" );
+		astTestBegin( "flattenVariables" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -206,12 +206,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void constIndexConstArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "constIndexConstArray" );
+		astTestBegin( "constIndexConstArray" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -235,12 +235,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void nonConstIndexConstArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "nonConstIndexConstArray" );
+		astTestBegin( "nonConstIndexConstArray" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -263,12 +263,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void swizzleConstCompositeCtor( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "swizzleConstCompositeCtor" );
+		astTestBegin( "swizzleConstCompositeCtor" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -295,12 +295,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void constCompositeCtorFuncParam( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "constCompositeCtorFuncParam" );
+		astTestBegin( "constCompositeCtorFuncParam" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -339,12 +339,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void constCompositeCtorVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "constCompositeCtorVariable" );
+		astTestBegin( "constCompositeCtorVariable" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -368,12 +368,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void compositeCtorIfElse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "compositeCtorIfElse" );
+		astTestBegin( "compositeCtorIfElse" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -410,12 +410,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void compositeCtorVec2FromInt( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "compositeCtorVec2FromInt" );
+		astTestBegin( "compositeCtorVec2FromInt" );
 		using namespace sdw;
 		VertexWriter writer{ &testCounts.allocator };
 		auto outUV = writer.declOutput< sdw::Vec2 >( "outUV", 0u );
@@ -429,12 +429,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void outputParam( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "outputParam" );
+		astTestBegin( "outputParam" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -482,12 +482,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void aggrInitMbrSelectLHS( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "aggrInitMbrSelectLHS" );
+		astTestBegin( "aggrInitMbrSelectLHS" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -524,12 +524,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void ternarySingleComponent( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "ternarySingleComponent" );
+		astTestBegin( "ternarySingleComponent" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -540,14 +540,14 @@ namespace
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeInT< VoidT > in )
 				{
-					auto check = writer.declLocale( "check"
+					auto astCheck = writer.declLocale( "astCheck"
 						, 0.0_f );
 					auto tValue = writer.declLocale( "tValue"
 						, 1.0_f );
 					auto fValue = writer.declLocale( "fValue"
 						, 2.0_f );
 					auto result = writer.declLocale( "result"
-						, writer.ternary( check > 0.0_f, tValue, fValue ) );
+						, writer.ternary( astCheck > 0.0_f, tValue, fValue ) );
 				} );
 
 			test::writeShader( writer
@@ -556,12 +556,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void ternaryMultipleComponent( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "ternaryMultipleComponent" );
+		astTestBegin( "ternaryMultipleComponent" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -572,14 +572,14 @@ namespace
 			writer.implementMainT< VoidT >( 32u
 				, [&]( ComputeInT< VoidT > in )
 				{
-					auto check = writer.declLocale( "check"
+					auto astCheck = writer.declLocale( "astCheck"
 						, 0.0_f );
 					auto tValue = writer.declLocale( "tValue"
 						, vec4( 1.0_f, 2.0_f, 3.0_f, 4.0_f ) );
 					auto fValue = writer.declLocale( "fValue"
 						, vec4( 5.0_f, 6.0_f, 7.0_f, 8.0_f ) );
 					auto result = writer.declLocale( "result"
-						, writer.ternary( check > 0.0_f, tValue, fValue ) );
+						, writer.ternary( astCheck > 0.0_f, tValue, fValue ) );
 					ssbo[0].a() = result;
 				} );
 
@@ -589,12 +589,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void less( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "less" );
+		astTestBegin( "less" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -620,12 +620,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void lessEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "lessEqual" );
+		astTestBegin( "lessEqual" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -651,12 +651,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void greater( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "greater" );
+		astTestBegin( "greater" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -682,12 +682,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void greaterEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "greaterEqual" );
+		astTestBegin( "greaterEqual" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -713,12 +713,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void equal( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "equal" );
+		astTestBegin( "equal" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -744,12 +744,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void notEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "notEqual" );
+		astTestBegin( "notEqual" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -775,12 +775,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void all( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "all" );
+		astTestBegin( "all" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -806,12 +806,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void any( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "any" );
+		astTestBegin( "any" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -837,12 +837,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void allVarCtrlExpr( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "allVarCtrlExpr" );
+		astTestBegin( "allVarCtrlExpr" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -877,12 +877,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void anyVarCtrlExpr( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "anyCtrlExpr" );
+		astTestBegin( "anyCtrlExpr" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -917,12 +917,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void allCtrlExpr( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "allCtrlExpr" );
+		astTestBegin( "allCtrlExpr" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -955,12 +955,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void anyCtrlExpr( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "anyCtrlExpr" );
+		astTestBegin( "anyCtrlExpr" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -993,12 +993,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void notAllCtrlExpr( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "notAllCtrlExpr" );
+		astTestBegin( "notAllCtrlExpr" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -1052,12 +1052,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void encodeColour( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "encodeColour" );
+		astTestBegin( "encodeColour" );
 		std::vector< std::unique_ptr< ast::Shader > > shaders;
 		using namespace sdw;
 		{
@@ -1105,12 +1105,12 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void globalConstantArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "globalConstantArray" );
+		astTestBegin( "globalConstantArray" );
 		std::vector< std::unique_ptr< ast::Shader > > shaders;
 		using namespace sdw;
 		{
@@ -1183,7 +1183,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

@@ -14,15 +14,15 @@ namespace
 	void checkStmt( sdw::stmt::SamplerDecl const & stmt
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		check( stmt.getBindingPoint() == binding );
-		check( stmt.getDescriptorSet() == set );
+		astCheck( stmt.getBindingPoint() == binding );
+		astCheck( stmt.getDescriptorSet() == set );
 	}
 
 	template< bool ComparisonT >
 	void checkSampler( sdw::type::Sampler const & sampler
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		check( sampler.isComparison() == ComparisonT );
+		astCheck( sampler.isComparison() == ComparisonT );
 	}
 
 	template< bool ComparisonT >
@@ -35,7 +35,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSampler" + nameBase );
+		astTestBegin( "testSampler" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -43,16 +43,16 @@ namespace
 			auto value = writer.declSampler< ComparisonT >( name
 				, binding
 				, set );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -63,21 +63,21 @@ namespace
 			auto name = "Value";
 			auto value = writer.declSampler< ComparisonT >( name
 				, { .binding = binding, .set = set } );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -90,7 +90,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerOptionalDisabled" + nameBase );
+		astTestBegin( "testSamplerOptionalDisabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -100,16 +100,16 @@ namespace
 				, binding
 				, set
 				, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
-			check( shader.getStatements()->size() == count );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -121,20 +121,20 @@ namespace
 			auto value = writer.declSampler< ComparisonT >( name
 				, { .binding = binding, .set = set }
 				, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
-			check( shader.getStatements()->size() == count );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -147,7 +147,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerOptionalEnabled" + nameBase );
+		astTestBegin( "testSamplerOptionalEnabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -156,17 +156,17 @@ namespace
 				, binding
 				, set
 				, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -178,22 +178,22 @@ namespace
 			auto value = writer.declSampler< ComparisonT >( name
 				, { .binding = binding, .set = set }
 				, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -206,7 +206,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerType" + nameBase );
+		astTestBegin( "testSamplerType" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -214,16 +214,16 @@ namespace
 			auto value = writer.declSampler< sdw::SamplerT< ComparisonT > >( name
 				, binding
 				, set );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -234,21 +234,21 @@ namespace
 			auto name = "Value";
 			auto value = writer.declSampler< sdw::SamplerT< ComparisonT > >( name
 				, { .binding = binding, .set = set } );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eSampler );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *var->getType() )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -261,7 +261,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerArray" + nameBase );
+		astTestBegin( "testSamplerArray" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -270,18 +270,18 @@ namespace
 				, binding
 				, set
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -293,23 +293,23 @@ namespace
 			auto value = writer.declSamplerArray< ComparisonT >( name
 				, { .binding = binding, .set = set }
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -322,7 +322,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerArrayOptionalDisabled" + nameBase );
+		astTestBegin( "testSamplerArrayOptionalDisabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -333,18 +333,18 @@ namespace
 				, set
 				, 4u
 				, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
-			check( shader.getStatements()->size() == count );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -357,22 +357,22 @@ namespace
 				, { .binding = binding, .set = set }
 				, 4u
 				, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
-			check( shader.getStatements()->size() == count );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -385,7 +385,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerArrayOptionalEnabled" + nameBase );
+		astTestBegin( "testSamplerArrayOptionalEnabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -395,19 +395,19 @@ namespace
 				, set
 				, 4u
 				, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -420,24 +420,24 @@ namespace
 				, { .binding = binding, .set = set }
 				, 4u
 				, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -450,7 +450,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		testBegin( "testSamplerArrayType" + nameBase );
+		astTestBegin( "testSamplerArrayType" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -459,18 +459,18 @@ namespace
 				, binding
 				, set
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
@@ -482,23 +482,23 @@ namespace
 			auto value = writer.declSamplerArray< sdw::SamplerT< ComparisonT > >( name
 				, { .binding = binding, .set = set }
 				, 4u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::Sampler > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			sdw::var::VariablePtr var = static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable();
-			check( var->getName() == name );
-			require( var->getType()->getKind() == sdw::type::Kind::eArray );
+			astCheck( var->getName() == name );
+			astRequire( var->getType()->getKind() == sdw::type::Kind::eArray );
 			auto elemType = static_cast< ast::type::Array const & >( *var->getType() ).getType();
-			require( elemType->getKind() == sdw::type::Kind::eSampler );
+			astRequire( elemType->getKind() == sdw::type::Kind::eSampler );
 			checkSampler< ComparisonT >( static_cast< sdw::type::Sampler const & >( *elemType )
 				, testCounts );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eSamplerDecl );
 			checkStmt( static_cast< sdw::stmt::SamplerDecl const & >( stmt ), testCounts );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< bool ComparisonT >

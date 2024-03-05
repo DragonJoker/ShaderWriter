@@ -250,7 +250,7 @@ namespace
 
 	void simple( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "simple" );
+		astTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayAnyHitWriter writer{ &testCounts.allocator };
@@ -319,7 +319,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

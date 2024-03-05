@@ -447,7 +447,7 @@ namespace
 
 	void basicX( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "basicX" );
+		astTestBegin( "basicX" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -465,12 +465,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void cullMeshlet( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "cullMeshlet" );
+		astTestBegin( "cullMeshlet" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -614,12 +614,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupBasicXDispatchFromPayload( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupBasicXDispatchFromPayload" );
+		astTestBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -637,12 +637,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupBasicXDispatchFromWriter( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupBasicXDispatchFromWriter" );
+		astTestBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -660,7 +660,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

@@ -9,7 +9,7 @@ namespace
 {
 	void testIf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIf" );
+		astTestBegin( "testIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 
@@ -23,12 +23,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIfElse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIfElse" );
+		astTestBegin( "testIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -45,12 +45,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIfElseIf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIfElseIf" );
+		astTestBegin( "testIfElseIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -68,12 +68,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIfElseIfElse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIfElseIfElse" );
+		astTestBegin( "testIfElseIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -95,12 +95,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSwitch( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSwitch" );
+		astTestBegin( "testSwitch" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -122,12 +122,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testForPlusEqual( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testForPlusEqual" );
+		astTestBegin( "testForPlusEqual" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -139,12 +139,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testForPreInc( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testForPreInc" );
+		astTestBegin( "testForPreInc" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -156,12 +156,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testForPostInc( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testForPostInc" );
+		astTestBegin( "testForPostInc" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -173,12 +173,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testForPreDec( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testForPreDec" );
+		astTestBegin( "testForPreDec" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
@@ -192,12 +192,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testForPostDec( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testForPostDec" );
+		astTestBegin( "testForPostDec" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
@@ -210,12 +210,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testForSuccessive( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testForSuccessive" );
+		astTestBegin( "testForSuccessive" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
@@ -249,12 +249,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testWhile( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testWhile" );
+		astTestBegin( "testWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -267,12 +267,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDoWhile( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDoWhile" );
+		astTestBegin( "testDoWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -285,12 +285,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedIf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedIf" );
+		astTestBegin( "testNestedIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -308,12 +308,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedIfElse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedIfElse" );
+		astTestBegin( "testNestedIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -348,12 +348,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedIfElseIf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedIfElseIf" );
+		astTestBegin( "testNestedIfElseIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -391,12 +391,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedIfElseIfElse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedIfElseIfElse" );
+		astTestBegin( "testNestedIfElseIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -460,12 +460,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedFor( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedFor" );
+		astTestBegin( "testNestedFor" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -481,12 +481,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedWhile( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedWhile" );
+		astTestBegin( "testNestedWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -505,12 +505,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNestedDoWhile( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNestedDoWhile" );
+		astTestBegin( "testNestedDoWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -529,12 +529,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTernary( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTernary" );
+		astTestBegin( "testTernary" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
@@ -545,12 +545,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstIfElseTrue( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstIfElseTrue" );
+		astTestBegin( "testConstIfElseTrue" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -573,12 +573,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstIfElseFalse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstIfElseFalse" );
+		astTestBegin( "testConstIfElseFalse" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -601,12 +601,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstIfElseIfTrueTrue( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstIfElseIfTrueTrue" );
+		astTestBegin( "testConstIfElseIfTrueTrue" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -634,12 +634,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstIfElseIfTrueFalse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstIfElseIfTrueFalse" );
+		astTestBegin( "testConstIfElseIfTrueFalse" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -667,12 +667,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstIfElseIfFalseTrue( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstIfElseIfFalseTrue" );
+		astTestBegin( "testConstIfElseIfFalseTrue" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -700,12 +700,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstIfElseIfFalseFalse( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstIfElseIfFalseFalse" );
+		astTestBegin( "testConstIfElseIfFalseFalse" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -733,12 +733,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstSwitch0( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstSwitch0" );
+		astTestBegin( "testConstSwitch0" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -771,12 +771,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstSwitch1( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstSwitch1" );
+		astTestBegin( "testConstSwitch1" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -809,12 +809,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void testConstSwitchDefault( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testConstSwitchDefault" );
+		astTestBegin( "testConstSwitchDefault" );
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -847,7 +847,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

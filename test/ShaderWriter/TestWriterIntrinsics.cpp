@@ -11,7 +11,7 @@ namespace
 	void testDegreesT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDegrees" + name );
+		astTestBegin( "testDegrees" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -23,7 +23,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDegrees( test::sdw_test::TestCounts & testCounts )
@@ -38,7 +38,7 @@ namespace
 	void testRadiansT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRadians" + name );
+		astTestBegin( "testRadians" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -50,7 +50,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRadians( test::sdw_test::TestCounts & testCounts )
@@ -65,7 +65,7 @@ namespace
 	void testCoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCosh" + name );
+		astTestBegin( "testCosh" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -77,7 +77,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCosh( test::sdw_test::TestCounts & testCounts )
@@ -92,7 +92,7 @@ namespace
 	void testSinhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSinh" + name );
+		astTestBegin( "testSinh" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -104,7 +104,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSinh( test::sdw_test::TestCounts & testCounts )
@@ -119,7 +119,7 @@ namespace
 	void testTanhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTanh" + name );
+		astTestBegin( "testTanh" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -131,7 +131,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTanh( test::sdw_test::TestCounts & testCounts )
@@ -146,7 +146,7 @@ namespace
 	void testCosT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCos" + name );
+		astTestBegin( "testCos" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -158,7 +158,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCos( test::sdw_test::TestCounts & testCounts )
@@ -173,7 +173,7 @@ namespace
 	void testSinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSin" + name );
+		astTestBegin( "testSin" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -185,7 +185,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSin( test::sdw_test::TestCounts & testCounts )
@@ -200,7 +200,7 @@ namespace
 	void testTanT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTan" + name );
+		astTestBegin( "testTan" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -212,7 +212,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTan( test::sdw_test::TestCounts & testCounts )
@@ -227,7 +227,7 @@ namespace
 	void testACosT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACos" + name );
+		astTestBegin( "testACos" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -239,7 +239,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testACos( test::sdw_test::TestCounts & testCounts )
@@ -254,7 +254,7 @@ namespace
 	void testASinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASin" + name );
+		astTestBegin( "testASin" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -266,7 +266,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testASin( test::sdw_test::TestCounts & testCounts )
@@ -281,7 +281,7 @@ namespace
 	void testATanT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATan" + name );
+		astTestBegin( "testATan" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -293,7 +293,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testATan( test::sdw_test::TestCounts & testCounts )
@@ -308,7 +308,7 @@ namespace
 	void testACoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testACosh" + name );
+		astTestBegin( "testACosh" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -320,7 +320,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testACosh( test::sdw_test::TestCounts & testCounts )
@@ -335,7 +335,7 @@ namespace
 	void testASinhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testASinh" + name );
+		astTestBegin( "testASinh" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -347,7 +347,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testASinh( test::sdw_test::TestCounts & testCounts )
@@ -362,7 +362,7 @@ namespace
 	void testATanhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testATanh" + name );
+		astTestBegin( "testATanh" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -374,7 +374,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testATanh( test::sdw_test::TestCounts & testCounts )
@@ -389,7 +389,7 @@ namespace
 	void testPowT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPow" + name );
+		astTestBegin( "testPow" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -402,7 +402,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPow( test::sdw_test::TestCounts & testCounts )
@@ -417,7 +417,7 @@ namespace
 	void testExpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp" + name );
+		astTestBegin( "testExp" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -429,7 +429,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testExp( test::sdw_test::TestCounts & testCounts )
@@ -444,7 +444,7 @@ namespace
 	void testLogT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog" + name );
+		astTestBegin( "testLog" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -456,7 +456,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLog( test::sdw_test::TestCounts & testCounts )
@@ -471,7 +471,7 @@ namespace
 	void testExp2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testExp2_" + name );
+		astTestBegin( "testExp2_" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -483,7 +483,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testExp2( test::sdw_test::TestCounts & testCounts )
@@ -498,7 +498,7 @@ namespace
 	void testLog2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLog2_" + name );
+		astTestBegin( "testLog2_" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -510,7 +510,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLog2( test::sdw_test::TestCounts & testCounts )
@@ -525,7 +525,7 @@ namespace
 	void testSqrtT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSqrt" + name );
+		astTestBegin( "testSqrt" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -537,7 +537,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSqrt( test::sdw_test::TestCounts & testCounts )
@@ -556,7 +556,7 @@ namespace
 	void testInverseSqrtT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInverseSqrt" + name );
+		astTestBegin( "testInverseSqrt" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -568,7 +568,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInverseSqrt( test::sdw_test::TestCounts & testCounts )
@@ -587,7 +587,7 @@ namespace
 	void testAbsT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAbs" + name );
+		astTestBegin( "testAbs" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -599,7 +599,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAbs( test::sdw_test::TestCounts & testCounts )
@@ -622,7 +622,7 @@ namespace
 	void testSignT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSign" + name );
+		astTestBegin( "testSign" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -634,7 +634,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSign( test::sdw_test::TestCounts & testCounts )
@@ -657,7 +657,7 @@ namespace
 	void testFloorT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloor" + name );
+		astTestBegin( "testFloor" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -669,7 +669,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFloor( test::sdw_test::TestCounts & testCounts )
@@ -688,7 +688,7 @@ namespace
 	void testTruncT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTrunc" + name );
+		astTestBegin( "testTrunc" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -700,7 +700,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTrunc( test::sdw_test::TestCounts & testCounts )
@@ -719,7 +719,7 @@ namespace
 	void testRoundT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRound" + name );
+		astTestBegin( "testRound" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -731,7 +731,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRound( test::sdw_test::TestCounts & testCounts )
@@ -750,7 +750,7 @@ namespace
 	void testRoundEvenT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testRoundEven" + name );
+		astTestBegin( "testRoundEven" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -762,7 +762,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRoundEven( test::sdw_test::TestCounts & testCounts )
@@ -781,7 +781,7 @@ namespace
 	void testCeilT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testCeil" + name );
+		astTestBegin( "testCeil" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -793,7 +793,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCeil( test::sdw_test::TestCounts & testCounts )
@@ -812,7 +812,7 @@ namespace
 	void testFractT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFract" + name );
+		astTestBegin( "testFract" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -824,7 +824,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFract( test::sdw_test::TestCounts & testCounts )
@@ -843,7 +843,7 @@ namespace
 	void testModT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMod" + name );
+		astTestBegin( "testMod" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -856,7 +856,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMod( test::sdw_test::TestCounts & testCounts )
@@ -875,7 +875,7 @@ namespace
 	void testModfT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testModf" + name );
+		astTestBegin( "testModf" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -888,7 +888,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testModf( test::sdw_test::TestCounts & testCounts )
@@ -907,7 +907,7 @@ namespace
 	void testMinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMin" + name );
+		astTestBegin( "testMin" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -920,7 +920,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMin( test::sdw_test::TestCounts & testCounts )
@@ -947,7 +947,7 @@ namespace
 	void testMaxT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMax" + name );
+		astTestBegin( "testMax" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -960,7 +960,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMax( test::sdw_test::TestCounts & testCounts )
@@ -987,7 +987,7 @@ namespace
 	void testClampT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testClamp" + name );
+		astTestBegin( "testClamp" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1001,7 +1001,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testClamp( test::sdw_test::TestCounts & testCounts )
@@ -1020,7 +1020,7 @@ namespace
 	void testMixT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMix" + name );
+		astTestBegin( "testMix" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1034,7 +1034,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMix( test::sdw_test::TestCounts & testCounts )
@@ -1053,7 +1053,7 @@ namespace
 	void testStepT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testStep" + name );
+		astTestBegin( "testStep" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1066,7 +1066,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testStep( test::sdw_test::TestCounts & testCounts )
@@ -1085,7 +1085,7 @@ namespace
 	void testSmoothStepT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSmoothStep" + name );
+		astTestBegin( "testSmoothStep" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1099,7 +1099,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSmoothStep( test::sdw_test::TestCounts & testCounts )
@@ -1119,7 +1119,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testIsnan" + name );
+		astTestBegin( "testIsnan" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1131,7 +1131,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIsnan( test::sdw_test::TestCounts & testCounts )
@@ -1151,7 +1151,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testIsinf" + name );
+		astTestBegin( "testIsinf" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1163,7 +1163,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIsinf( test::sdw_test::TestCounts & testCounts )
@@ -1182,7 +1182,7 @@ namespace
 	void testFloatBitsToIntT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloatBitsToInt" + name );
+		astTestBegin( "testFloatBitsToInt" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1195,7 +1195,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFloatBitsToInt( test::sdw_test::TestCounts & testCounts )
@@ -1210,7 +1210,7 @@ namespace
 	void testFloatBitsToUIntT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFloatBitsToUInt" + name );
+		astTestBegin( "testFloatBitsToUInt" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1223,7 +1223,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFloatBitsToUInt( test::sdw_test::TestCounts & testCounts )
@@ -1238,7 +1238,7 @@ namespace
 	void testIntBitsToFloatT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testIntBitsToFloat" + name );
+		astTestBegin( "testIntBitsToFloat" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1251,7 +1251,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testIntBitsToFloat( test::sdw_test::TestCounts & testCounts )
@@ -1266,7 +1266,7 @@ namespace
 	void testUIntBitsToFloatT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUIntBitsToFloat" + name );
+		astTestBegin( "testUIntBitsToFloat" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1279,7 +1279,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUIntBitsToFloat( test::sdw_test::TestCounts & testCounts )
@@ -1294,7 +1294,7 @@ namespace
 	void testFmaT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFma" + name );
+		astTestBegin( "testFma" + name );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1308,7 +1308,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFma( test::sdw_test::TestCounts & testCounts )
@@ -1327,7 +1327,7 @@ namespace
 	void testFrexpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFrexp" ) + name;
+		astTestBegin( "testFrexp" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1340,7 +1340,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFrexp( test::sdw_test::TestCounts & testCounts )
@@ -1359,7 +1359,7 @@ namespace
 	void testLdexpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLdexp" ) + name;
+		astTestBegin( "testLdexp" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1372,7 +1372,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLdexp( test::sdw_test::TestCounts & testCounts )
@@ -1389,7 +1389,7 @@ namespace
 
 	void testPackDouble2x32( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPackDouble2x32" );
+		astTestBegin( "testPackDouble2x32" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1402,12 +1402,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPackHalf2x16( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPackHalf2x16" );
+		astTestBegin( "testPackHalf2x16" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1420,12 +1420,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPackSnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPackSnorm2x16" );
+		astTestBegin( "testPackSnorm2x16" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1438,12 +1438,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPackUnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPackUnorm2x16" );
+		astTestBegin( "testPackUnorm2x16" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1456,12 +1456,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPackSnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPackSnorm4x8" );
+		astTestBegin( "testPackSnorm4x8" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1474,12 +1474,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testPackUnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testPackUnorm4x8" );
+		astTestBegin( "testPackUnorm4x8" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1492,12 +1492,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUnpackDouble2x32( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUnpackDouble2x32" );
+		astTestBegin( "testUnpackDouble2x32" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1510,12 +1510,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUnpackHalf2x16( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUnpackHalf2x16" );
+		astTestBegin( "testUnpackHalf2x16" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1528,12 +1528,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUnpackSnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUnpackSnorm2x16" );
+		astTestBegin( "testUnpackSnorm2x16" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1546,12 +1546,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUnpackUnorm2x16( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUnpackUnorm2x16" );
+		astTestBegin( "testUnpackUnorm2x16" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1564,12 +1564,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUnpackSnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUnpackSnorm4x8" );
+		astTestBegin( "testUnpackSnorm4x8" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1582,12 +1582,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUnpackUnorm4x8( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUnpackUnorm4x8" );
+		astTestBegin( "testUnpackUnorm4x8" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1600,7 +1600,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename ValueT >
@@ -1608,7 +1608,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testLength" ) + name;
+		astTestBegin( "testLength" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1620,7 +1620,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLength( test::sdw_test::TestCounts & testCounts )
@@ -1640,7 +1640,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testDistance" ) + name;
+		astTestBegin( "testDistance" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1653,7 +1653,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDistance( test::sdw_test::TestCounts & testCounts )
@@ -1673,7 +1673,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testDot" ) + name;
+		astTestBegin( "testDot" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1686,7 +1686,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDot( test::sdw_test::TestCounts & testCounts )
@@ -1704,7 +1704,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testCross" ) + name;
+		astTestBegin( "testCross" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1717,7 +1717,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testCross( test::sdw_test::TestCounts & testCounts )
@@ -1731,7 +1731,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testNormalize" ) + name;
+		astTestBegin( "testNormalize" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1743,7 +1743,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNormalize( test::sdw_test::TestCounts & testCounts )
@@ -1763,7 +1763,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testFaceForward" ) + name;
+		astTestBegin( "testFaceForward" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1777,7 +1777,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFaceForward( test::sdw_test::TestCounts & testCounts )
@@ -1797,7 +1797,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testReflect" ) + name;
+		astTestBegin( "testReflect" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1810,7 +1810,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testReflect( test::sdw_test::TestCounts & testCounts )
@@ -1830,7 +1830,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testRefract" ) + name;
+		astTestBegin( "testRefract" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1844,7 +1844,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testRefract( test::sdw_test::TestCounts & testCounts )
@@ -1863,7 +1863,7 @@ namespace
 	void testMatrixCompMultT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMatrixCompMult" ) + name;
+		astTestBegin( "testMatrixCompMult" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1877,7 +1877,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMatrixCompMult( test::sdw_test::TestCounts & testCounts )
@@ -1906,7 +1906,7 @@ namespace
 	void testMatrixMultT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMatrixMult" ) + name;
+		astTestBegin( "testMatrixMult" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1920,7 +1920,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMatrixMult( test::sdw_test::TestCounts & testCounts )
@@ -1937,7 +1937,7 @@ namespace
 	void testOuterProductT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testOuterProduct" ) + name;
+		astTestBegin( "testOuterProduct" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1951,7 +1951,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testOuterProduct( test::sdw_test::TestCounts & testCounts )
@@ -1980,7 +1980,7 @@ namespace
 	void testTransposeT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testTranspose" ) + name;
+		astTestBegin( "testTranspose" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -1993,7 +1993,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testTranspose( test::sdw_test::TestCounts & testCounts )
@@ -2023,7 +2023,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testDeterminant" ) + name;
+		astTestBegin( "testDeterminant" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2035,7 +2035,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDeterminant( test::sdw_test::TestCounts & testCounts )
@@ -2052,7 +2052,7 @@ namespace
 	void testInverseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInverse" ) + name;
+		astTestBegin( "testInverse" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2064,7 +2064,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInverse( test::sdw_test::TestCounts & testCounts )
@@ -2081,7 +2081,7 @@ namespace
 	void testLessThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLessThan" ) + name;
+		astTestBegin( "testLessThan" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2095,7 +2095,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLessThan( test::sdw_test::TestCounts & testCounts )
@@ -2118,7 +2118,7 @@ namespace
 	void testLessThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLessThanEqual" ) + name;
+		astTestBegin( "testLessThanEqual" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2132,7 +2132,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testLessThanEqual( test::sdw_test::TestCounts & testCounts )
@@ -2155,7 +2155,7 @@ namespace
 	void testGreaterThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGreaterThan" ) + name;
+		astTestBegin( "testGreaterThan" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2169,7 +2169,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testGreaterThan( test::sdw_test::TestCounts & testCounts )
@@ -2192,7 +2192,7 @@ namespace
 	void testGreaterThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGreaterThanEqual" ) + name;
+		astTestBegin( "testGreaterThanEqual" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2206,7 +2206,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testGreaterThanEqual( test::sdw_test::TestCounts & testCounts )
@@ -2229,7 +2229,7 @@ namespace
 	void testEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testEqual" ) + name;
+		astTestBegin( "testEqual" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2243,7 +2243,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testEqual( test::sdw_test::TestCounts & testCounts )
@@ -2266,7 +2266,7 @@ namespace
 	void testNotEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNotEqual" ) + name;
+		astTestBegin( "testNotEqual" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2280,7 +2280,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNotEqual( test::sdw_test::TestCounts & testCounts )
@@ -2303,7 +2303,7 @@ namespace
 	void testAllT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAll" ) + name;
+		astTestBegin( "testAll" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2316,7 +2316,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAll( test::sdw_test::TestCounts & testCounts )
@@ -2330,7 +2330,7 @@ namespace
 	void testAnyT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAny" ) + name;
+		astTestBegin( "testAny" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2343,7 +2343,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAny( test::sdw_test::TestCounts & testCounts )
@@ -2357,7 +2357,7 @@ namespace
 	void testNotT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testNot" ) + name;
+		astTestBegin( "testNot" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2370,7 +2370,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testNot( test::sdw_test::TestCounts & testCounts )
@@ -2384,7 +2384,7 @@ namespace
 	void testUaddCarryT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUaddCarry" ) + name;
+		astTestBegin( "testUaddCarry" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2400,7 +2400,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUaddCarry( test::sdw_test::TestCounts & testCounts )
@@ -2415,7 +2415,7 @@ namespace
 	void testUsubBorrowT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUsubBorrow" ) + name;
+		astTestBegin( "testUsubBorrow" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2431,7 +2431,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUsubBorrow( test::sdw_test::TestCounts & testCounts )
@@ -2446,7 +2446,7 @@ namespace
 	void testUmulExtendedT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testUmulExtended" ) + name;
+		astTestBegin( "testUmulExtended" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2462,7 +2462,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testUmulExtended( test::sdw_test::TestCounts & testCounts )
@@ -2477,7 +2477,7 @@ namespace
 	void testImulExtendedT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testImulExtended" ) + name;
+		astTestBegin( "testImulExtended" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2493,7 +2493,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testImulExtended( test::sdw_test::TestCounts & testCounts )
@@ -2508,7 +2508,7 @@ namespace
 	void testBitfieldExtractT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldExtract" ) + name;
+		astTestBegin( "testBitfieldExtract" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2523,7 +2523,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testBitfieldExtract( test::sdw_test::TestCounts & testCounts )
@@ -2542,7 +2542,7 @@ namespace
 	void testBitfieldInsertT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldInsert" ) + name;
+		astTestBegin( "testBitfieldInsert" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2558,7 +2558,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testBitfieldInsert( test::sdw_test::TestCounts & testCounts )
@@ -2577,7 +2577,7 @@ namespace
 	void testBitfieldReverseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitfieldReverse" ) + name;
+		astTestBegin( "testBitfieldReverse" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2590,7 +2590,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testBitfieldReverse( test::sdw_test::TestCounts & testCounts )
@@ -2609,7 +2609,7 @@ namespace
 	void testBitCountT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBitCount" ) + name;
+		astTestBegin( "testBitCount" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2622,7 +2622,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testBitCount( test::sdw_test::TestCounts & testCounts )
@@ -2641,7 +2641,7 @@ namespace
 	void testFindLSBT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFindLSB" ) + name;
+		astTestBegin( "testFindLSB" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2654,7 +2654,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFindLSB( test::sdw_test::TestCounts & testCounts )
@@ -2673,7 +2673,7 @@ namespace
 	void testFindMSBT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFindMSB" ) + name;
+		astTestBegin( "testFindMSB" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2686,7 +2686,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFindMSB( test::sdw_test::TestCounts & testCounts )
@@ -2706,7 +2706,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testAtomicAdd" ) + name;
+		astTestBegin( "testAtomicAdd" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2726,7 +2726,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicAdd( test::sdw_test::TestCounts & testCounts )
@@ -2742,7 +2742,7 @@ namespace
 	void testAtomicMinT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicMin" ) + name;
+		astTestBegin( "testAtomicMin" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2762,7 +2762,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicMin( test::sdw_test::TestCounts & testCounts )
@@ -2775,7 +2775,7 @@ namespace
 	void testAtomicMaxT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicMax" ) + name;
+		astTestBegin( "testAtomicMax" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2795,7 +2795,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicMax( test::sdw_test::TestCounts & testCounts )
@@ -2808,7 +2808,7 @@ namespace
 	void testAtomicAndT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicAnd" ) + name;
+		astTestBegin( "testAtomicAnd" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2828,7 +2828,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicAnd( test::sdw_test::TestCounts & testCounts )
@@ -2841,7 +2841,7 @@ namespace
 	void testAtomicOrT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicOr" ) + name;
+		astTestBegin( "testAtomicOr" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2861,7 +2861,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicOr( test::sdw_test::TestCounts & testCounts )
@@ -2874,7 +2874,7 @@ namespace
 	void testAtomicXorT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicXor" ) + name;
+		astTestBegin( "testAtomicXor" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2894,7 +2894,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicXor( test::sdw_test::TestCounts & testCounts )
@@ -2908,7 +2908,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		testBegin( "testAtomicExchange" ) + name;
+		astTestBegin( "testAtomicExchange" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2928,7 +2928,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, compilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicExchange( test::sdw_test::TestCounts & testCounts )
@@ -2944,7 +2944,7 @@ namespace
 	void testAtomicCompSwapT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testAtomicCompSwap" ) + name;
+		astTestBegin( "testAtomicCompSwap" ) + name;
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -2965,7 +2965,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testAtomicCompSwap( test::sdw_test::TestCounts & testCounts )
@@ -2978,7 +2978,7 @@ namespace
 	void testDFdxT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdx" ) + name;
+		astTestBegin( "testDFdx" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2990,7 +2990,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDFdx( test::sdw_test::TestCounts & testCounts )
@@ -3005,7 +3005,7 @@ namespace
 	void testDFdxCoarseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdxCoarse" ) + name;
+		astTestBegin( "testDFdxCoarse" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3017,7 +3017,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDFdxCoarse( test::sdw_test::TestCounts & testCounts )
@@ -3032,7 +3032,7 @@ namespace
 	void testDFdxFineT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdxFine" ) + name;
+		astTestBegin( "testDFdxFine" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3044,7 +3044,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDFdxFine( test::sdw_test::TestCounts & testCounts )
@@ -3059,7 +3059,7 @@ namespace
 	void testDFdyT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdy" ) + name;
+		astTestBegin( "testDFdy" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3071,7 +3071,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDFdy( test::sdw_test::TestCounts & testCounts )
@@ -3086,7 +3086,7 @@ namespace
 	void testDFdyCoarseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdyCoarse" ) + name;
+		astTestBegin( "testDFdyCoarse" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3098,7 +3098,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDFdyCoarse( test::sdw_test::TestCounts & testCounts )
@@ -3113,7 +3113,7 @@ namespace
 	void testDFdyFineT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDFdyFine" ) + name;
+		astTestBegin( "testDFdyFine" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3125,7 +3125,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDFdyFine( test::sdw_test::TestCounts & testCounts )
@@ -3140,7 +3140,7 @@ namespace
 	void testFwidthT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testFwidth" ) + name;
+		astTestBegin( "testFwidth" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3152,7 +3152,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testFwidth( test::sdw_test::TestCounts & testCounts )
@@ -3167,7 +3167,7 @@ namespace
 	void testInterpolateAtCentroidT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtCentroid" ) + name;
+		astTestBegin( "testInterpolateAtCentroid" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3179,7 +3179,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInterpolateAtCentroid( test::sdw_test::TestCounts & testCounts )
@@ -3194,7 +3194,7 @@ namespace
 	void testInterpolateAtSampleT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtSample" ) + name;
+		astTestBegin( "testInterpolateAtSample" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3206,7 +3206,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInterpolateAtSample( test::sdw_test::TestCounts & testCounts )
@@ -3221,7 +3221,7 @@ namespace
 	void testInterpolateAtOffsetT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testInterpolateAtOffset" ) + name;
+		astTestBegin( "testInterpolateAtOffset" ) + name;
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3233,7 +3233,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoHLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testInterpolateAtOffset( test::sdw_test::TestCounts & testCounts )
@@ -3246,7 +3246,7 @@ namespace
 
 	void testBarrier( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testBarrier" );
+		astTestBegin( "testBarrier" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3291,12 +3291,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMemoryBarrier( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMemoryBarrier" );
+		astTestBegin( "testMemoryBarrier" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3310,12 +3310,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMemoryBarrierBuffer( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMemoryBarrierBuffer" );
+		astTestBegin( "testMemoryBarrierBuffer" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3329,12 +3329,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMemoryBarrierShared( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMemoryBarrierShared" );
+		astTestBegin( "testMemoryBarrierShared" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3348,12 +3348,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testMemoryBarrierImage( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testMemoryBarrierImage" );
+		astTestBegin( "testMemoryBarrierImage" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3367,12 +3367,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testGroupMemoryBarrier( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testGroupMemoryBarrier" );
+		astTestBegin( "testGroupMemoryBarrier" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3386,7 +3386,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< sdw::var::Flag FlagT >
@@ -3441,7 +3441,7 @@ namespace
 
 	void testSetMeshOutputCountsNV( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSetMeshOutputCountsNV" );
+		astTestBegin( "testSetMeshOutputCountsNV" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -3460,12 +3460,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSetMeshOutputCounts( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSetMeshOutputCounts" );
+		astTestBegin( "testSetMeshOutputCounts" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterEXT writer{ &testCounts.allocator };
@@ -3486,12 +3486,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDispatchMeshNV( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDispatchMeshNV" );
+		astTestBegin( "testDispatchMeshNV" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
@@ -3506,12 +3506,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testDispatchMesh( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testDispatchMesh" );
+		astTestBegin( "testDispatchMesh" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -3528,12 +3528,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoGLSL );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testHelperInvocation( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testHelperInvocation" );
+		astTestBegin( "testHelperInvocation" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -3547,12 +3547,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_SPIRV );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBarrier( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupBarrier" );
+		astTestBegin( "testSubgroupBarrier" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3566,12 +3566,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMemoryBarrier( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupMemoryBarrier" );
+		astTestBegin( "testSubgroupMemoryBarrier" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3585,12 +3585,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMemoryBarrierBuffer( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupMemoryBarrierBuffer" );
+		astTestBegin( "testSubgroupMemoryBarrierBuffer" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3604,12 +3604,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMemoryBarrierShared( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupMemoryBarrierShared" );
+		astTestBegin( "testSubgroupMemoryBarrierShared" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3623,12 +3623,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMemoryBarrierImage( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupMemoryBarrierImage" );
+		astTestBegin( "testSubgroupMemoryBarrierImage" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3642,12 +3642,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupElect( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupElect" );
+		astTestBegin( "testSubgroupElect" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3661,12 +3661,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupAll( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupAll" );
+		astTestBegin( "testSubgroupAll" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3682,12 +3682,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupAny( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSubgroupAny" );
+		astTestBegin( "testSubgroupAny" );
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -3703,7 +3703,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename ValueT >
@@ -3711,7 +3711,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupAllEqual" + name );
+		astTestBegin( "testSubgroupAllEqual" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3724,7 +3724,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupAllEqual( test::sdw_test::TestCounts & testCounts )
@@ -3756,7 +3756,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBroadcast" + name );
+		astTestBegin( "testSubgroupBroadcast" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3770,7 +3770,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBroadcast( test::sdw_test::TestCounts & testCounts )
@@ -3802,7 +3802,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBroadcastFirst" + name );
+		astTestBegin( "testSubgroupBroadcastFirst" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3816,7 +3816,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBroadcastFirst( test::sdw_test::TestCounts & testCounts )
@@ -3846,7 +3846,7 @@ namespace
 	void testSubgroupBallot( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallot" );
+		astTestBegin( "testSubgroupBallot" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3860,13 +3860,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInverseBallot( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInverseBallot" );
+		astTestBegin( "testSubgroupInverseBallot" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3880,13 +3880,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBallotBitExtract( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallotBitExtract" );
+		astTestBegin( "testSubgroupBallotBitExtract" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3900,13 +3900,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBallotBitCount( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallotBitCount" );
+		astTestBegin( "testSubgroupBallotBitCount" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3920,13 +3920,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBallotInclusiveBitCount( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallotInclusiveBitCount" );
+		astTestBegin( "testSubgroupBallotInclusiveBitCount" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3940,13 +3940,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBallotExclusiveBitCount( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallotExclusiveBitCount" );
+		astTestBegin( "testSubgroupBallotExclusiveBitCount" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3960,13 +3960,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBallotFindLSB( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallotFindLSB" );
+		astTestBegin( "testSubgroupBallotFindLSB" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -3980,13 +3980,13 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupBallotFindMSB( test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupBallotFindLSB" );
+		astTestBegin( "testSubgroupBallotFindLSB" );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4000,7 +4000,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename ValueT >
@@ -4008,7 +4008,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupShuffle" + name );
+		astTestBegin( "testSubgroupShuffle" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4022,7 +4022,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupShuffle( test::sdw_test::TestCounts & testCounts )
@@ -4054,7 +4054,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupShuffleXor" + name );
+		astTestBegin( "testSubgroupShuffleXor" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4068,7 +4068,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupShuffleXor( test::sdw_test::TestCounts & testCounts )
@@ -4100,7 +4100,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupShuffleUp" + name );
+		astTestBegin( "testSubgroupShuffleUp" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4114,7 +4114,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupShuffleUp( test::sdw_test::TestCounts & testCounts )
@@ -4146,7 +4146,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupShuffleDown" + name );
+		astTestBegin( "testSubgroupShuffleDown" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4160,7 +4160,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupShuffleDown( test::sdw_test::TestCounts & testCounts )
@@ -4192,7 +4192,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupAdd" + name );
+		astTestBegin( "testSubgroupAdd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4206,7 +4206,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupAdd( test::sdw_test::TestCounts & testCounts )
@@ -4234,7 +4234,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveAdd" + name );
+		astTestBegin( "testSubgroupInclusiveAdd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4248,7 +4248,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveAdd( test::sdw_test::TestCounts & testCounts )
@@ -4276,7 +4276,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveAdd" + name );
+		astTestBegin( "testSubgroupExclusiveAdd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4290,7 +4290,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveAdd( test::sdw_test::TestCounts & testCounts )
@@ -4318,7 +4318,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterAdd" + name );
+		astTestBegin( "testSubgroupClusterAdd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4332,7 +4332,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterAdd( test::sdw_test::TestCounts & testCounts )
@@ -4360,7 +4360,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupMul" + name );
+		astTestBegin( "testSubgroupMul" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4374,7 +4374,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMul( test::sdw_test::TestCounts & testCounts )
@@ -4402,7 +4402,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveMul" + name );
+		astTestBegin( "testSubgroupInclusiveMul" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4416,7 +4416,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveMul( test::sdw_test::TestCounts & testCounts )
@@ -4444,7 +4444,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveMul" + name );
+		astTestBegin( "testSubgroupExclusiveMul" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4458,7 +4458,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveMul( test::sdw_test::TestCounts & testCounts )
@@ -4486,7 +4486,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterMul" + name );
+		astTestBegin( "testSubgroupClusterMul" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4500,7 +4500,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterMul( test::sdw_test::TestCounts & testCounts )
@@ -4528,7 +4528,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupMin" + name );
+		astTestBegin( "testSubgroupMin" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4542,7 +4542,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMin( test::sdw_test::TestCounts & testCounts )
@@ -4570,7 +4570,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveMin" + name );
+		astTestBegin( "testSubgroupInclusiveMin" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4584,7 +4584,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveMin( test::sdw_test::TestCounts & testCounts )
@@ -4612,7 +4612,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveMin" + name );
+		astTestBegin( "testSubgroupExclusiveMin" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4626,7 +4626,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveMin( test::sdw_test::TestCounts & testCounts )
@@ -4654,7 +4654,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterMin" + name );
+		astTestBegin( "testSubgroupClusterMin" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4668,7 +4668,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterMin( test::sdw_test::TestCounts & testCounts )
@@ -4696,7 +4696,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupMax" + name );
+		astTestBegin( "testSubgroupMax" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4710,7 +4710,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupMax( test::sdw_test::TestCounts & testCounts )
@@ -4738,7 +4738,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveMax" + name );
+		astTestBegin( "testSubgroupInclusiveMax" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4752,7 +4752,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveMax( test::sdw_test::TestCounts & testCounts )
@@ -4780,7 +4780,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveMax" + name );
+		astTestBegin( "testSubgroupExclusiveMax" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4794,7 +4794,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveMax( test::sdw_test::TestCounts & testCounts )
@@ -4822,7 +4822,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterMax" + name );
+		astTestBegin( "testSubgroupClusterMax" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4836,7 +4836,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterMax( test::sdw_test::TestCounts & testCounts )
@@ -4864,7 +4864,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupAnd" + name );
+		astTestBegin( "testSubgroupAnd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4878,7 +4878,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupAnd( test::sdw_test::TestCounts & testCounts )
@@ -4902,7 +4902,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveAnd" + name );
+		astTestBegin( "testSubgroupInclusiveAnd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4916,7 +4916,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveAnd( test::sdw_test::TestCounts & testCounts )
@@ -4940,7 +4940,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveAnd" + name );
+		astTestBegin( "testSubgroupExclusiveAnd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4954,7 +4954,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveAnd( test::sdw_test::TestCounts & testCounts )
@@ -4978,7 +4978,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterAnd" + name );
+		astTestBegin( "testSubgroupClusterAnd" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -4992,7 +4992,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterAnd( test::sdw_test::TestCounts & testCounts )
@@ -5016,7 +5016,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupOr" + name );
+		astTestBegin( "testSubgroupOr" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5030,7 +5030,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupOr( test::sdw_test::TestCounts & testCounts )
@@ -5054,7 +5054,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveOr" + name );
+		astTestBegin( "testSubgroupInclusiveOr" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5068,7 +5068,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveOr( test::sdw_test::TestCounts & testCounts )
@@ -5092,7 +5092,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveOr" + name );
+		astTestBegin( "testSubgroupExclusiveOr" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5106,7 +5106,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveOr( test::sdw_test::TestCounts & testCounts )
@@ -5130,7 +5130,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterOr" + name );
+		astTestBegin( "testSubgroupClusterOr" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5144,7 +5144,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterOr( test::sdw_test::TestCounts & testCounts )
@@ -5168,7 +5168,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupXor" + name );
+		astTestBegin( "testSubgroupXor" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5182,7 +5182,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupXor( test::sdw_test::TestCounts & testCounts )
@@ -5206,7 +5206,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupInclusiveXor" + name );
+		astTestBegin( "testSubgroupInclusiveXor" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5220,7 +5220,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupInclusiveXor( test::sdw_test::TestCounts & testCounts )
@@ -5244,7 +5244,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupExclusiveXor" + name );
+		astTestBegin( "testSubgroupExclusiveXor" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5258,7 +5258,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupExclusiveXor( test::sdw_test::TestCounts & testCounts )
@@ -5282,7 +5282,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupClusterXor" + name );
+		astTestBegin( "testSubgroupClusterXor" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5296,7 +5296,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupClusterXor( test::sdw_test::TestCounts & testCounts )
@@ -5320,7 +5320,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupQuadBroadcast" + name );
+		astTestBegin( "testSubgroupQuadBroadcast" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5334,7 +5334,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupQuadBroadcast( test::sdw_test::TestCounts & testCounts )
@@ -5366,7 +5366,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupQuadSwapHorizontal" + name );
+		astTestBegin( "testSubgroupQuadSwapHorizontal" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5380,7 +5380,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupQuadSwapHorizontal( test::sdw_test::TestCounts & testCounts )
@@ -5412,7 +5412,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupQuadSwapVertical" + name );
+		astTestBegin( "testSubgroupQuadSwapVertical" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5426,7 +5426,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupQuadSwapVertical( test::sdw_test::TestCounts & testCounts )
@@ -5458,7 +5458,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testSubgroupQuadSwapDiagonal" + name );
+		astTestBegin( "testSubgroupQuadSwapDiagonal" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5472,7 +5472,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testSubgroupQuadSwapDiagonal( test::sdw_test::TestCounts & testCounts )
@@ -5504,7 +5504,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testReadInvocation" + name );
+		astTestBegin( "testReadInvocation" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5518,7 +5518,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testReadInvocation( test::sdw_test::TestCounts & testCounts )
@@ -5546,7 +5546,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts )
 	{
 		using namespace sdw;
-		testBegin( "testReadFirstInvocation" + name );
+		astTestBegin( "testReadFirstInvocation" + name );
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			writer.implementMainT< VoidT >( 32u
@@ -5560,7 +5560,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void testReadFirstInvocation( test::sdw_test::TestCounts & testCounts )

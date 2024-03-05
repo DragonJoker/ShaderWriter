@@ -12,7 +12,7 @@ namespace
 	template< typename T >
 	void testSsboRaw( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -20,18 +20,18 @@ namespace
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved = test::getDefault< T >( writer );
@@ -60,18 +60,18 @@ namespace
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMember< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved = test::getDefault< T >( writer );
@@ -93,13 +93,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testSsboRawArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -107,18 +107,18 @@ namespace
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -147,18 +147,18 @@ namespace
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 4u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 4u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -180,13 +180,13 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testSsboRawArrayRuntime( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -194,18 +194,18 @@ namespace
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::UnknownArraySize );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::UnknownArraySize );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -234,18 +234,18 @@ namespace
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::UnknownArraySize );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::UnknownArraySize );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
 			auto retrieved = bo.template getMemberArray< T >( name );
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -267,7 +267,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
@@ -275,20 +275,20 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testSsboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testSsboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == ast::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == ast::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -315,14 +315,14 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == ast::type::NotArray );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == ast::type::NotArray );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -344,7 +344,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 
 #endif
 	}
@@ -354,20 +354,20 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testSsboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testSsboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -394,14 +394,14 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == 4u );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == 4u );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -423,7 +423,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 
 #endif
 	}
@@ -433,20 +433,20 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		testBegin( "testSsboHelperArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testSsboHelperArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", 1u, 1u };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -473,14 +473,14 @@ namespace
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
 			auto retrieved = bo.template getMember< "member" >();
-			check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
-			require( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
+			astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( retrieved.getType() ) == sdw::type::UnknownArraySize );
+			astRequire( retrieved.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *retrieved.getExpr() ).getVariable()->getName() == "member" );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
-			check( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderBufferDecl );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
 					retrieved[0] = test::getDefault< T >( writer );
@@ -502,7 +502,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 
 #endif
 	}
@@ -518,7 +518,7 @@ namespace
 	}
 }
 
-#define testName testConcat( TestWriterSsboDeclarations, SDW_TestType )
+#define testName astTestConcat( TestWriterSsboDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
 {
