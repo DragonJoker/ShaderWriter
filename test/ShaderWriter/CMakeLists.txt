@@ -214,7 +214,7 @@ if ( SDW_ALL_TESTS )
 	)
 elseif ( PROJECTS_COVERAGE )
 	set( IMAGE_FORMATS
-		eRgba32f
+		eR32f
 	)
 	set( BO_TYPES
 		Vec4

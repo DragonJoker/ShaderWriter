@@ -58,7 +58,7 @@ namespace
 
 	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "noSpecificIO" );
+		astTestBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -82,12 +82,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberInputOnly" );
+		astTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -113,12 +113,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificGlobalOnly" );
+		astTestBegin( "specificGlobalOnly" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -145,12 +145,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMixedInputOnly" );
+		astTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -177,12 +177,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberOutputOnly" );
+		astTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -213,12 +213,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMemberInAndOut" );
+		astTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -250,12 +250,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificGlobalInAndOut" );
+		astTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -288,12 +288,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "specificMixedInAndOut" );
+		astTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
@@ -326,7 +326,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

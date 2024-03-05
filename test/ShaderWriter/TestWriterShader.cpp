@@ -285,7 +285,7 @@ namespace
 
 	void vtx_frag( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "vtx_frag" );
+		astTestBegin( "vtx_frag" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -326,12 +326,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void charles( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles" );
+		astTestBegin( "charles" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -388,12 +388,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void charles_approx( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles_approx" );
+		astTestBegin( "charles_approx" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -449,12 +449,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void charles_latest( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles_latest" );
+		astTestBegin( "charles_latest" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -510,12 +510,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void drawID( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "drawID" );
+		astTestBegin( "drawID" );
 		using namespace sdw;
 
 		ShaderArray shaders;
@@ -543,12 +543,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void charles_drawID( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "charles_drawID" );
+		astTestBegin( "charles_drawID" );
 		using namespace sdw;
 
 	ShaderArray shaders;
@@ -614,12 +614,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void arthapzMin( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "arthapzMin" );
+		astTestBegin( "arthapzMin" );
 		sdw::ShaderArray shaders;
 		{
 			auto writer = sdw::VertexWriter{ &testCounts.allocator };
@@ -658,14 +658,14 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void arthapz( test::sdw_test::TestCounts & testCounts
 		, bool hasEmissiveMap
 		, bool hasNormalMap )
 	{
-		testBegin( "arthapz"
+		astTestBegin( "arthapz"
 			+ std::to_string( hasEmissiveMap )
 			+ std::to_string( hasNormalMap ) );
 		sdw::ShaderArray shaders;
@@ -785,12 +785,12 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void clipDistance( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "clipDistance" );
+		astTestBegin( "clipDistance" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -844,12 +844,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void basicPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "basicPipeline" );
+		astTestBegin( "basicPipeline" );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -886,12 +886,12 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void geometryPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "geometryPipeline" );
+		astTestBegin( "geometryPipeline" );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -961,12 +961,12 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void voxelPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "voxelPipeline" );
+		astTestBegin( "voxelPipeline" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 
@@ -1166,12 +1166,12 @@ namespace
 				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void tessellationPipeline( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "tessellationPipeline" );
+		astTestBegin( "tessellationPipeline" );
 		using namespace sdw;
 		static uint32_t constexpr maxPoints = 3u;
 		sdw::ShaderArray shaders;
@@ -1421,12 +1421,12 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void arraySsboTextureLookup( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "arraySsboTextureLookup" );
+		astTestBegin( "arraySsboTextureLookup" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1448,12 +1448,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void pcbHelper( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "pcbHelper" );
+		astTestBegin( "pcbHelper" );
 		using namespace sdw;
 		{
 			using PcbParent = sdw::PushConstantBufferHelperT< sdw::type::MemoryLayout::eC
@@ -1481,12 +1481,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void radianceComputer( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "radianceComputer" );
+		astTestBegin( "radianceComputer" );
 		std::vector< std::unique_ptr< ast::Shader > > shaders;
 		using namespace sdw;
 		{
@@ -1568,7 +1568,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

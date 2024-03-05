@@ -178,7 +178,7 @@ namespace
 
 	void simple( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "simple" );
+		astTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayIntersectionWriter writer{ &testCounts.allocator };
@@ -228,7 +228,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

@@ -46,7 +46,7 @@ namespace
 
 	void emptyMain( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "emptyMain" );
+		astTestBegin( "emptyMain" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -58,12 +58,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void builtins( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "builtins" );
+		astTestBegin( "builtins" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -81,12 +81,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void readWorkGroupSize( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "readWorkGroupSize" );
+		astTestBegin( "readWorkGroupSize" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -100,12 +100,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void compute( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "compute" );
+		astTestBegin( "compute" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
@@ -129,12 +129,12 @@ namespace
 			, testCounts, CurrentCompilers );
 #endif
 
-		testEnd();
+		astTestEnd();
 	}
 
 	void swizzles( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "swizzles" );
+		astTestBegin( "swizzles" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -179,12 +179,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void conversions( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "conversions" );
+		astTestBegin( "conversions" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -204,12 +204,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void simpleStore( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "simpleStore" );
+		astTestBegin( "simpleStore" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -231,12 +231,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void voxelToTexture( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "voxelToTexture" );
+		astTestBegin( "voxelToTexture" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 
@@ -334,12 +334,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void imageArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "imageArray" );
+		astTestBegin( "imageArray" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -362,12 +362,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void accessChainAlias( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "accessChainAlias" );
+		astTestBegin( "accessChainAlias" );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -389,12 +389,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void duplicateLoadTest( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "duplicateLoadTest" );
+		astTestBegin( "duplicateLoadTest" );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -423,12 +423,12 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupEmptyMain( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupEmptyMain" );
+		astTestBegin( "subgroupEmptyMain" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -440,12 +440,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupBuiltins( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupBuiltins" );
+		astTestBegin( "subgroupBuiltins" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -471,12 +471,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupCompute( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupCompute" );
+		astTestBegin( "subgroupCompute" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
@@ -499,12 +499,12 @@ namespace
 			, testCounts, CurrentCompilers );
 #endif
 
-		testEnd();
+		astTestEnd();
 	}
 
 	void subgroupSimpleStore( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "subgroupSimpleStore" );
+		astTestBegin( "subgroupSimpleStore" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -526,7 +526,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

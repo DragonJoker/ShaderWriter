@@ -9,7 +9,7 @@ namespace
 	template< typename T >
 	void testStruct( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -18,14 +18,14 @@ namespace
 			st.template declMember< T >( name );
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
+			astCheck( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			BeginMain
 			{
 				auto instance = st.getInstance( "st" + sdw::debug::getTypeName( sdw::typeEnumV< T > ), true );
 				auto retrieved = instance.template getMember< T >( name );
-				check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-				check( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
-				check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+				astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+				astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
+				astCheck( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			}
 			EndMain;
 
@@ -53,14 +53,14 @@ namespace
 			st.template declMember< T >( name, 4u );
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
-			check( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
+			astCheck( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			BeginMain
 			{
 				auto instance = st.getInstance( "stArray4" + sdw::debug::getTypeName( sdw::typeEnumV< T > ), true );
 				auto retrieved = instance.template getMemberArray< T >( name );
-				check( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
-				check( getArraySize( retrieved.getType() ) == 4u );
-				check( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
+				astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
+				astCheck( getArraySize( retrieved.getType() ) == 4u );
+				astCheck( retrieved.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			}
 			EndMain;
 
@@ -80,11 +80,11 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 
-#define testName testConcat( TestWriterStructDeclarations, SDW_TestType )
+#define testName astTestConcat( TestWriterStructDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
 {

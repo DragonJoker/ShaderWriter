@@ -5,7 +5,7 @@ namespace
 {
 	void singlePostIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "singlePostIncrement" );
+		astTestBegin( "singlePostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -15,16 +15,16 @@ namespace
 				auto i = writer.declLocale( "i", 0_u );
 				i++;
 				auto j = writer.declLocale( "j", i );
-				checkEqual( writer.getBuilder().getContainer()->size(), 3u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 3u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void singlePreIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "singlePreIncrement" );
+		astTestBegin( "singlePreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -34,16 +34,16 @@ namespace
 				auto i = writer.declLocale( "i", 0_u );
 				++i;
 				auto j = writer.declLocale( "j", i );
-				checkEqual( writer.getBuilder().getContainer()->size(), 3u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 3u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void assignPostIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "assignPostIncrement" );
+		astTestBegin( "assignPostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -52,16 +52,16 @@ namespace
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", i++ );
-				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void assignPreIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "assignPreIncrement" );
+		astTestBegin( "assignPreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -70,16 +70,16 @@ namespace
 			{
 				auto i = writer.declLocale( "i", 0_u );
 				auto j = writer.declLocale( "j", ++i );
-				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void condPostIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "condPostIncrement" );
+		astTestBegin( "condPostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -92,16 +92,16 @@ namespace
 					{
 						auto j = writer.declLocale( "j", i );
 					} );
-				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void condPreIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "condPreIncrement" );
+		astTestBegin( "condPreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -114,16 +114,16 @@ namespace
 					auto j = writer.declLocale( "j", i );
 				}
 				FI;
-				checkEqual( writer.getBuilder().getContainer()->size(), 2u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void loopPostIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "loopPostIncrement" );
+		astTestBegin( "loopPostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -143,20 +143,20 @@ namespace
 						{
 							auto j = writer.declLocale( "j", i );
 						} );
-					checkEqual( writer.getBuilder().getContainer()->size(), 1u );
-					checkEqual( writer.getBuilder().getContainer()->back()->getKind(), stmt::Kind::eFor );
+					astCheckEqual( writer.getBuilder().getContainer()->size(), 1u );
+					astCheckEqual( writer.getBuilder().getContainer()->back()->getKind(), stmt::Kind::eFor );
 					writerInt.popScope();
 				}
-				checkEqual( writer.getBuilder().getContainer()->size(), 1u );
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 1u );
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 
 	void loopPreIncrement( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "loopPreIncrement" );
+		astTestBegin( "loopPreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -168,17 +168,17 @@ namespace
 					auto j = writer.declLocale( "j", i );
 				}
 				ROF;
-				checkEqual( writer.getBuilder().getContainer()->size(), 1u );
-				beginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eContainer );
-					checkEqual( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).size(), 1u );
-					beginRequire( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back()->getKind() == stmt::Kind::eFor );
-					checkEqual( static_cast< stmt::For const & >( *static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back() ).size(), 1u );
-					endRequire;
-				endRequire;
+				astCheckEqual( writer.getBuilder().getContainer()->size(), 1u );
+				astBeginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eContainer );
+					astCheckEqual( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).size(), 1u );
+					astBeginRequire( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back()->getKind() == stmt::Kind::eFor );
+					astCheckEqual( static_cast< stmt::For const & >( *static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back() ).size(), 1u );
+					astEndRequire;
+				astEndRequire;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		testEnd();
+		astTestEnd();
 	}
 }
 

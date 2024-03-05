@@ -8,7 +8,7 @@ namespace
 {
 	void noPayload( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "noPayload" );
+		astTestBegin( "noPayload" );
 		using namespace sdw;
 		{
 			sdw::RayGenerationWriter writer{ &testCounts.allocator };
@@ -24,12 +24,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void simple( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "simple" );
+		astTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayGenerationWriter writer{ &testCounts.allocator };
@@ -76,7 +76,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

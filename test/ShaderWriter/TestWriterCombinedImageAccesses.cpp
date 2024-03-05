@@ -60,7 +60,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureSizeLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -80,7 +80,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	
@@ -95,7 +95,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureSize" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -115,7 +115,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -152,7 +152,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureQueryLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -166,7 +166,7 @@ namespace
 					, testCounts
 					, { true, true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -213,7 +213,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureQueryLevels" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -233,7 +233,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -276,7 +276,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexture" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -296,7 +296,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -313,7 +313,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -334,7 +334,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -377,7 +377,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -398,7 +398,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -418,7 +418,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -440,7 +440,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -479,7 +479,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProj" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -499,7 +499,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -517,7 +517,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -538,7 +538,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -577,7 +577,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -598,7 +598,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -616,7 +616,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -638,7 +638,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -681,7 +681,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -702,7 +702,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -724,7 +724,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLodShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -746,7 +746,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -788,7 +788,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -809,7 +809,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -830,7 +830,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -852,7 +852,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -894,7 +894,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -916,7 +916,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -935,7 +935,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -958,7 +958,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -999,7 +999,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetchLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1020,7 +1020,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1037,7 +1037,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetch" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1057,7 +1057,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1099,7 +1099,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTexelFetchConstOffsetLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1121,7 +1121,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1161,7 +1161,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1182,7 +1182,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1201,7 +1201,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1223,7 +1223,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1263,7 +1263,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1285,7 +1285,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1304,7 +1304,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1327,7 +1327,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1369,7 +1369,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1391,7 +1391,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1411,7 +1411,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureLodShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1434,7 +1434,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1473,7 +1473,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1494,7 +1494,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1512,7 +1512,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1534,7 +1534,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1574,7 +1574,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1596,7 +1596,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1615,7 +1615,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1638,7 +1638,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1682,7 +1682,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1704,7 +1704,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1724,7 +1724,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1747,7 +1747,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1790,7 +1790,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1813,7 +1813,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1835,7 +1835,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1859,7 +1859,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -1899,7 +1899,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1921,7 +1921,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -1940,7 +1940,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1963,7 +1963,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -2004,7 +2004,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2027,7 +2027,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -2047,7 +2047,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureProjShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2071,7 +2071,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -2111,7 +2111,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGather" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2132,7 +2132,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -2152,7 +2152,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2173,7 +2173,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -2212,7 +2212,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2234,7 +2234,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -2253,7 +2253,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2275,7 +2275,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -2307,7 +2307,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2330,7 +2330,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -2349,7 +2349,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadowOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2372,7 +2372,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -2411,7 +2411,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2435,7 +2435,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 
@@ -2454,7 +2454,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			testBegin( name );
+			astTestBegin( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2478,7 +2478,7 @@ namespace
 					test::writeShader( writer, testCounts, CurrentCompilers );
 				}
 			}
-			testEnd();
+			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -2527,7 +2527,7 @@ namespace
 
 #endif
 
-#define testName testConcat( TestWriterCombinedImageAccesses, SDW_TestImageFormat )
+#define testName astTestConcat( TestWriterCombinedImageAccesses, SDW_TestImageFormat )
 
 sdwTestSuiteMain( testName )
 {

@@ -1224,17 +1224,17 @@ namespace test
 		, sdw_test::TestCounts & testCounts );
 }
 
-#	define sdwTestSuiteMain( testName )\
-	static test::TestResults testConcat2( launch, testName )( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
+#define sdwTestSuiteMain( testName )\
+	static test::TestResults astNameConcat( launch, testName )( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
 
 #define sdwTestSuiteBegin()\
-	testSuiteBeginEx( testCounts )
+	astTestSuiteBeginEx( testCounts )
 
 #define sdwTestSuiteLaunch( name )\
-	testSuiteLaunchEx( name, test::sdw_test::TestSuite )
+	astTestSuiteLaunchEx( name, test::sdw_test::TestSuite )
 
 #define sdwTestSuiteEnd()\
-	testSuiteEnd()
+	astTestSuiteEnd()
 
 #pragma GCC diagnostic pop
 #pragma clang diagnostic pop

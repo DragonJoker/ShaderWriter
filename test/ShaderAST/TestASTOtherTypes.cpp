@@ -12,150 +12,150 @@ namespace
 {
 	void testMemorySemantics( test::TestCounts & testCounts )
 	{
-		testBegin( "testMemorySemantics" );
+		astTestBegin( "testMemorySemantics" );
 		{
 			ast::type::MemorySemantics semantics{};
-			check( uint32_t( semantics ) == 0u )
+			astCheck( uint32_t( semantics ) == 0u )
 			semantics = semantics | ast::type::MemorySemanticsMask::eAcquire;
-			check( semantics == ast::type::MemorySemanticsMask::eAcquire )
+			astCheck( semantics == ast::type::MemorySemanticsMask::eAcquire )
 			semantics = semantics & ast::type::MemorySemanticsMask( ~uint32_t( ast::type::MemorySemanticsMask::eAcquire ) );
-			check( uint32_t( semantics ) == 0u )
+			astCheck( uint32_t( semantics ) == 0u )
 			semantics = ast::type::MemorySemanticsMask::eAcquire | semantics;
-			check( semantics == ast::type::MemorySemanticsMask::eAcquire )
+			astCheck( semantics == ast::type::MemorySemanticsMask::eAcquire )
 			semantics = ast::type::MemorySemanticsMask::eAcquire & semantics;
-			check( ast::type::MemorySemanticsMask::eAcquire == semantics )
-			check( ast::type::MemorySemanticsMask::eAcquire == ast::type::MemorySemanticsMask::eAcquire )
+			astCheck( ast::type::MemorySemanticsMask::eAcquire == semantics )
+			astCheck( ast::type::MemorySemanticsMask::eAcquire == ast::type::MemorySemanticsMask::eAcquire )
 			auto rhs = semantics;
-			check( semantics == rhs )
+			astCheck( semantics == rhs )
 		}
 		{
 			ast::type::MemorySemantics semantics{ ast::type::MemorySemanticsMask::eAcquire };
-			check( uint32_t( semantics ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
+			astCheck( uint32_t( semantics ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
 		}
 		{
 			ast::type::MemorySemantics semantics{ uint32_t( ast::type::MemorySemanticsMask::eAcquire ) };
-			check( uint32_t( semantics ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
+			astCheck( uint32_t( semantics ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
 		}
 		{
 			auto semantics{ ast::type::MemorySemanticsMask::eAcquire | ast::type::MemorySemanticsMask::eAcquireRelease };
-			check( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquire ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
-			check( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) )
+			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquire ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
+			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) )
 			semantics = ast::type::MemorySemanticsMask::eAcquire & ast::type::MemorySemanticsMask::eAcquireRelease;
-			check( uint32_t( semantics ) == 0u )
+			astCheck( uint32_t( semantics ) == 0u )
 		}
 		{
 			ast::type::MemorySemantics lhs{ ast::type::MemorySemanticsMask::eAcquire };
 			ast::type::MemorySemantics rhs{ ast::type::MemorySemanticsMask::eAcquireRelease };
 			auto semantics{ lhs | rhs };
-			check( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquire ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
-			check( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) )
+			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquire ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
+			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) )
 			semantics = lhs & rhs;
-			check( uint32_t( semantics ) == 0u )
+			astCheck( uint32_t( semantics ) == 0u )
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testAccelerationStructure( test::TestCounts & testCounts )
 	{
-		testBegin( "testAccelerationStructure" );
+		astTestBegin( "testAccelerationStructure" );
 		ast::type::TypesCache typesCache;
 		auto type = typesCache.getAccelerationStructure();
-		testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-		testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-		check( type->getKind() == ast::type::Kind::eAccelerationStructure )
-		check( !isStructType( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getKind() == ast::type::Kind::eAccelerationStructure )
+		astCheck( !isStructType( type ) )
 
 		auto type2 = typesCache.getAccelerationStructure();
-		check( type2 == type )
-		testEnd()
+		astCheck( type2 == type )
+		astTestEnd()
 	}
 
 	void testArray( test::TestCounts & testCounts )
 	{
-		testBegin( "testArray" );
+		astTestBegin( "testArray" );
 		{
 			ast::type::TypesCache typesCache;
-			checkThrow( typesCache.getArray( typesCache.getInt32(), ast::type::NotArray ) )
+			astCheckThrow( typesCache.getArray( typesCache.getInt32(), ast::type::NotArray ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getArray( typesCache.getInt32(), ast::type::UnknownArraySize );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eArray )
-			check( type->getKind() == ast::type::Kind::eArray )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getArraySize() == ast::type::UnknownArraySize )
-			check( !isStructType( type ) )
-			check( isArrayType( type->getKind() ) )
-			check( getNonArrayKindRec( type ) == ast::type::Kind::eInt32 )
-			check( getNonArrayTypeRec( type ) == typesCache.getInt32() )
-			check( &getNonArrayTypeRec( *type ) == typesCache.getInt32().get() )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eArray )
+			astCheck( type->getKind() == ast::type::Kind::eArray )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getArraySize() == ast::type::UnknownArraySize )
+			astCheck( !isStructType( type ) )
+			astCheck( isArrayType( type->getKind() ) )
+			astCheck( getNonArrayKindRec( type ) == ast::type::Kind::eInt32 )
+			astCheck( getNonArrayTypeRec( type ) == typesCache.getInt32() )
+			astCheck( &getNonArrayTypeRec( *type ) == typesCache.getInt32().get() )
 
 			auto type2 = typesCache.getArray( typesCache.getInt32(), ast::type::UnknownArraySize );
-			check( type2 == type )
-			check( *type2 == *type )
+			astCheck( type2 == type )
+			astCheck( *type2 == *type )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getArray( typesCache.getInt32(), 18 );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eArray )
-			check( type->getKind() == ast::type::Kind::eArray )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getArraySize() == 18 )
-			check( !isStructType( type ) )
-			check( isArrayType( type->getKind() ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eArray )
+			astCheck( type->getKind() == ast::type::Kind::eArray )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getArraySize() == 18 )
+			astCheck( !isStructType( type ) )
+			astCheck( isArrayType( type->getKind() ) )
 
 			auto type2 = typesCache.getArray( typesCache.getInt32(), 18 );
-			check( type2 == type )
-			check( *type2 == *type )
+			astCheck( type2 == type )
+			astCheck( *type2 == *type )
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testCallableData( test::TestCounts & testCounts )
 	{
-		testBegin( "testCallableData" );
+		astTestBegin( "testCallableData" );
 		ast::type::TypesCache typesCache;
 		auto type = typesCache.getCallableData( typesCache.getInt32(), 17u );
-		testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-		testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-		check( type->getRawKind() == ast::type::Kind::eCallableData )
-		check( type->getKind() == ast::type::Kind::eInt32 )
-		check( type->getDataType() == typesCache.getInt32() )
-		check( type->getLocation() == 17u )
-		check( !isStructType( type ) )
-		check( isWrapperType( type ) )
-		check( unwrapType( type ) == typesCache.getInt32() )
-		check( &unwrapType( *type ) == typesCache.getInt32().get() )
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getRawKind() == ast::type::Kind::eCallableData )
+		astCheck( type->getKind() == ast::type::Kind::eInt32 )
+		astCheck( type->getDataType() == typesCache.getInt32() )
+		astCheck( type->getLocation() == 17u )
+		astCheck( !isStructType( type ) )
+		astCheck( isWrapperType( type ) )
+		astCheck( unwrapType( type ) == typesCache.getInt32() )
+		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
 
 		auto type2 = typesCache.getCallableData( typesCache.getInt32(), 17u );
-		check( type2 == type )
-		testEnd()
+		astCheck( type2 == type )
+		astTestEnd()
 	}
 
 	void testComputeIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testComputeIO" );
+		astTestBegin( "testComputeIO" );
 		ast::type::TypesCache typesCache;
 		auto type = ast::type::makeComputeInputType( typesCache.getInt32(), 17u, 18u, 19u );
-		testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-		testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-		check( type->getRawKind() == ast::type::Kind::eComputeInput )
-		check( type->getKind() == ast::type::Kind::eComputeInput )
-		check( type->getType() == typesCache.getInt32() )
-		check( type->getLocalSizeX() == 17u )
-		check( type->getLocalSizeY() == 18u )
-		check( type->getLocalSizeZ() == 19u )
-		check( !isStructType( type ) )
-		testEnd()
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getRawKind() == ast::type::Kind::eComputeInput )
+		astCheck( type->getKind() == ast::type::Kind::eComputeInput )
+		astCheck( type->getType() == typesCache.getInt32() )
+		astCheck( type->getLocalSizeX() == 17u )
+		astCheck( type->getLocalSizeY() == 18u )
+		astCheck( type->getLocalSizeZ() == 19u )
+		astCheck( !isStructType( type ) )
+		astTestEnd()
 	}
 
 	void testFragmentIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testFragmentIO" );
+		astTestBegin( "testFragmentIO" );
 		for ( uint32_t origin = 0u; origin < 2u; ++origin )
 		{
 			for ( uint32_t center = 0u; center < 2u; ++center )
@@ -164,90 +164,90 @@ namespace
 				auto type = ast::type::makeFragmentInputType( typesCache.getInt32()
 					, ast::FragmentOrigin( origin )
 					, ast::FragmentCenter( center ) );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( type->getRawKind() == ast::type::Kind::eFragmentInput )
-				check( type->getKind() == ast::type::Kind::eFragmentInput )
-				check( type->getType() == typesCache.getInt32() )
-				check( type->getOrigin() == ast::FragmentOrigin( origin ) )
-				check( type->getCenter() == ast::FragmentCenter( center ) )
-				check( !isStructType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( type->getRawKind() == ast::type::Kind::eFragmentInput )
+				astCheck( type->getKind() == ast::type::Kind::eFragmentInput )
+				astCheck( type->getType() == typesCache.getInt32() )
+				astCheck( type->getOrigin() == ast::FragmentOrigin( origin ) )
+				astCheck( type->getCenter() == ast::FragmentCenter( center ) )
+				astCheck( !isStructType( type ) )
 			}
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testFunction( test::TestCounts & testCounts )
 	{
-		testBegin( "testFunction" );
+		astTestBegin( "testFunction" );
 		{
 			ast::type::TypesCache typesCache;
 			auto type1 = typesCache.getFunction( typesCache.getVoid(), ast::var::VariableList{} );
-			testCounts << "Type: " << ast::debug::getTypeName( type1 ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type1->getKind() ) << test::endl;
-			check( type1->getRawKind() == ast::type::Kind::eFunction )
-			check( type1->getKind() == ast::type::Kind::eFunction )
-			check( type1->getReturnType() == typesCache.getVoid() )
-			check( type1->size() == 0u )
-			check( type1->empty() )
-			check( type1->begin() == type1->end() )
+			astCheckNoThrow( ast::debug::getTypeName( type1 ) )
+			astCheckNoThrow( ast::debug::getTypeName( type1->getKind() ) )
+			astCheck( type1->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type1->getKind() == ast::type::Kind::eFunction )
+			astCheck( type1->getReturnType() == typesCache.getVoid() )
+			astCheck( type1->size() == 0u )
+			astCheck( type1->empty() )
+			astCheck( type1->begin() == type1->end() )
 
 			auto p0 = ast::var::makeVariable( 0u, typesCache.getInt32(), "p0" );
 			auto type2 = typesCache.getFunction( typesCache.getVoid(), ast::var::VariableList{ p0 } );
-			testCounts << "Type: " << ast::debug::getTypeName( type2 ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type2->getKind() ) << test::endl;
-			check( type2->getRawKind() == ast::type::Kind::eFunction )
-			check( type2->getKind() == ast::type::Kind::eFunction )
-			check( type2->getReturnType() == typesCache.getVoid() )
-			check( type2->size() == 1u )
-			check( !type2->empty() )
-			check( type2->begin() != type2->end() )
-			check( *type2->begin() == type2->front() )
-			check( type2->back() == type2->front() )
-			check( type2->front() == p0 )
+			astCheckNoThrow( ast::debug::getTypeName( type2 ) )
+			astCheckNoThrow( ast::debug::getTypeName( type2->getKind() ) )
+			astCheck( type2->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type2->getKind() == ast::type::Kind::eFunction )
+			astCheck( type2->getReturnType() == typesCache.getVoid() )
+			astCheck( type2->size() == 1u )
+			astCheck( !type2->empty() )
+			astCheck( type2->begin() != type2->end() )
+			astCheck( *type2->begin() == type2->front() )
+			astCheck( type2->back() == type2->front() )
+			astCheck( type2->front() == p0 )
 
-			check( *type1 != *type2 )
+			astCheck( *type1 != *type2 )
 
 			auto type3 = typesCache.getFunction( typesCache.getVoid(), ast::var::VariableList{} );
-			check( type1 == type3 )
+			astCheck( type1 == type3 )
 			auto type4 = typesCache.getFunction( typesCache.getVoid(), ast::var::VariableList{ p0 } );
-			check( type2 == type4 )
+			astCheck( type2 == type4 )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{} );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eFunction )
-			check( type->getKind() == ast::type::Kind::eFunction )
-			check( type->getReturnType() == typesCache.getInt32() )
-			check( type->size() == 0u )
-			check( type->empty() )
-			check( type->begin() == type->end() )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type->getKind() == ast::type::Kind::eFunction )
+			astCheck( type->getReturnType() == typesCache.getInt32() )
+			astCheck( type->size() == 0u )
+			astCheck( type->empty() )
+			astCheck( type->begin() == type->end() )
 
 			auto type2 = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{} );
-			check( type2 == type )
-			check( *type == *type2 )
+			astCheck( type2 == type )
+			astCheck( *type == *type2 )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto p0 = ast::var::makeVariable( 0u, typesCache.getInt32(), "p0" );
 			auto type = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{ p0 } );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eFunction )
-			check( type->getKind() == ast::type::Kind::eFunction )
-			check( type->getReturnType() == typesCache.getInt32() )
-			check( type->size() == 1u )
-			check( !type->empty() )
-			check( type->begin() != type->end() )
-			check( *type->begin() == type->front() )
-			check( type->back() == type->front() )
-			check( type->front() == p0 )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type->getKind() == ast::type::Kind::eFunction )
+			astCheck( type->getReturnType() == typesCache.getInt32() )
+			astCheck( type->size() == 1u )
+			astCheck( !type->empty() )
+			astCheck( type->begin() != type->end() )
+			astCheck( *type->begin() == type->front() )
+			astCheck( type->back() == type->front() )
+			astCheck( type->front() == p0 )
 
 			auto type2 = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{ p0 } );
-			check( type2 == type )
-			check( *type == *type2 )
+			astCheck( type2 == type )
+			astCheck( *type == *type2 )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -255,90 +255,90 @@ namespace
 			structType->declMember( "mbr", ast::type::Kind::eInt32, ast::type::NotArray );
 			auto p0 = ast::var::makeVariable( 0u, structType, "p0" );
 			auto type = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{ p0 } );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eFunction )
-			check( type->getKind() == ast::type::Kind::eFunction )
-			check( type->getReturnType() == typesCache.getInt32() )
-			check( type->size() == 1u )
-			check( !type->empty() )
-			check( type->begin() != type->end() )
-			check( *type->begin() == type->front() )
-			check( type->back() == type->front() )
-			check( type->front() == p0 )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type->getKind() == ast::type::Kind::eFunction )
+			astCheck( type->getReturnType() == typesCache.getInt32() )
+			astCheck( type->size() == 1u )
+			astCheck( !type->empty() )
+			astCheck( type->begin() != type->end() )
+			astCheck( *type->begin() == type->front() )
+			astCheck( type->back() == type->front() )
+			astCheck( type->front() == p0 )
 
 			auto type2 = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{ p0 } );
-			check( type2 == type )
-			check( *type == *type2 )
+			astCheck( type2 == type )
+			astCheck( *type == *type2 )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto p0 = ast::var::makeVariable( 0u, typesCache.getInt32(), "p0" );
 			auto p1 = ast::var::makeVariable( 1u, typesCache.getFloat(), "p1" );
 			auto type1 = typesCache.getFunction( typesCache.getVoid(), ast::var::VariableList{ p0, p1 } );
-			testCounts << "Type: " << ast::debug::getTypeName( type1 ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type1->getKind() ) << test::endl;
-			check( type1->getRawKind() == ast::type::Kind::eFunction )
-			check( type1->getKind() == ast::type::Kind::eFunction )
-			check( type1->getReturnType() == typesCache.getVoid() )
-			check( type1->size() == 2u )
-			check( !type1->empty() )
-			check( type1->begin() != type1->end() )
-			check( *type1->begin() == type1->front() )
-			check( type1->front() == p0 )
-			check( type1->back() == p1 )
+			astCheckNoThrow( ast::debug::getTypeName( type1 ) )
+			astCheckNoThrow( ast::debug::getTypeName( type1->getKind() ) )
+			astCheck( type1->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type1->getKind() == ast::type::Kind::eFunction )
+			astCheck( type1->getReturnType() == typesCache.getVoid() )
+			astCheck( type1->size() == 2u )
+			astCheck( !type1->empty() )
+			astCheck( type1->begin() != type1->end() )
+			astCheck( *type1->begin() == type1->front() )
+			astCheck( type1->front() == p0 )
+			astCheck( type1->back() == p1 )
 
 			auto type2 = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{ p0, p1 } );
-			testCounts << "Type: " << ast::debug::getTypeName( type2 ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type2->getKind() ) << test::endl;
-			check( type2->getRawKind() == ast::type::Kind::eFunction )
-			check( type2->getKind() == ast::type::Kind::eFunction )
-			check( type2->getReturnType() == typesCache.getInt32() )
-			check( type2->size() == 2u )
-			check( !type2->empty() )
-			check( type2->begin() != type2->end() )
-			check( *type2->begin() == type2->front() )
-			check( type2->front() == p0 )
-			check( type2->back() == p1 )
+			astCheckNoThrow( ast::debug::getTypeName( type2 ) )
+			astCheckNoThrow( ast::debug::getTypeName( type2->getKind() ) )
+			astCheck( type2->getRawKind() == ast::type::Kind::eFunction )
+			astCheck( type2->getKind() == ast::type::Kind::eFunction )
+			astCheck( type2->getReturnType() == typesCache.getInt32() )
+			astCheck( type2->size() == 2u )
+			astCheck( !type2->empty() )
+			astCheck( type2->begin() != type2->end() )
+			astCheck( *type2->begin() == type2->front() )
+			astCheck( type2->front() == p0 )
+			astCheck( type2->back() == p1 )
 
-			check( *type1 != *type2 )
+			astCheck( *type1 != *type2 )
 
 			auto type3 = typesCache.getFunction( typesCache.getVoid(), ast::var::VariableList{ p0, p1 } );
-			check( type1 == type3 )
+			astCheck( type1 == type3 )
 			auto type4 = typesCache.getFunction( typesCache.getInt32(), ast::var::VariableList{ p0, p1 } );
-			check( type2 == type4 )
+			astCheck( type2 == type4 )
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testGeometryIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testGeometryIO" );
+		astTestBegin( "testGeometryIO" );
 		for ( uint32_t layout = 0u; layout <= uint32_t( ast::type::InputLayout::eTriangleStripWithAdjacency ); ++layout )
 		{
 			{
 				ast::type::TypesCache typesCache;
 				auto type = ast::type::makeGeometryInputType( typesCache.getInt32()
 					, ast::type::InputLayout( layout ) );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( type->getRawKind() == ast::type::Kind::eGeometryInput )
-				check( type->getKind() == ast::type::Kind::eGeometryInput )
-				check( type->getType() == typesCache.getInt32() )
-				check( type->getLayout() == ast::type::InputLayout( layout ) )
-				check( !isStructType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( type->getRawKind() == ast::type::Kind::eGeometryInput )
+				astCheck( type->getKind() == ast::type::Kind::eGeometryInput )
+				astCheck( type->getType() == typesCache.getInt32() )
+				astCheck( type->getLayout() == ast::type::InputLayout( layout ) )
+				astCheck( !isStructType( type ) )
 			}
 			{
 				ast::type::TypesCache typesCache;
 				auto type = ast::type::makeGeometryInputType( typesCache.getArray( typesCache.getInt32(), 4u )
 					, ast::type::InputLayout( layout ) );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( type->getRawKind() == ast::type::Kind::eGeometryInput )
-				check( type->getKind() == ast::type::Kind::eGeometryInput )
-				check( type->getType() == typesCache.getArray( typesCache.getInt32(), 4u ) )
-				check( type->getLayout() == ast::type::InputLayout( layout ) )
-				check( !isStructType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( type->getRawKind() == ast::type::Kind::eGeometryInput )
+				astCheck( type->getKind() == ast::type::Kind::eGeometryInput )
+				astCheck( type->getType() == typesCache.getArray( typesCache.getInt32(), 4u ) )
+				astCheck( type->getLayout() == ast::type::InputLayout( layout ) )
+				astCheck( !isStructType( type ) )
 			}
 		}
 		for ( uint32_t layout = 0u; layout <= uint32_t( ast::type::OutputLayout::eTriangleStrip ); ++layout )
@@ -347,131 +347,131 @@ namespace
 			auto type = ast::type::makeGeometryOutputType( typesCache.getInt32()
 				, ast::type::OutputLayout( layout )
 				, 15u );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eGeometryOutput )
-			check( type->getKind() == ast::type::Kind::eGeometryOutput )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getLayout() == ast::type::OutputLayout( layout ) )
-			check( type->getCount() == 15u )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eGeometryOutput )
+			astCheck( type->getKind() == ast::type::Kind::eGeometryOutput )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getLayout() == ast::type::OutputLayout( layout ) )
+			astCheck( type->getCount() == 15u )
+			astCheck( !isStructType( type ) )
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testHitAttribute( test::TestCounts & testCounts )
 	{
-		testBegin( "testHitAttribute" );
+		astTestBegin( "testHitAttribute" );
 		ast::type::TypesCache typesCache;
 		auto type = typesCache.getHitAttribute( typesCache.getInt32() );
-		testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-		testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-		check( type->getRawKind() == ast::type::Kind::eHitAttribute )
-		check( type->getKind() == ast::type::Kind::eInt32 )
-		check( type->getDataType() == typesCache.getInt32() )
-		check( !isStructType( type ) )
-		check( isWrapperType( type ) )
-		check( unwrapType( type ) == typesCache.getInt32() )
-		check( &unwrapType( *type ) == typesCache.getInt32().get() )
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getRawKind() == ast::type::Kind::eHitAttribute )
+		astCheck( type->getKind() == ast::type::Kind::eInt32 )
+		astCheck( type->getDataType() == typesCache.getInt32() )
+		astCheck( !isStructType( type ) )
+		astCheck( isWrapperType( type ) )
+		astCheck( unwrapType( type ) == typesCache.getInt32() )
+		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
 
 		auto type2 = typesCache.getHitAttribute( typesCache.getInt32() );
-		check( type2 == type )
-		testEnd()
+		astCheck( type2 == type )
+		astTestEnd()
 	}
 
 	void testMeshIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testMeshIO" );
+		astTestBegin( "testMeshIO" );
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeTaskPayloadInNVType( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
-			check( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getTaskPayloadInNV( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
-			check( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeTaskPayloadInType( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
-			check( type->getKind() == ast::type::Kind::eTaskPayloadIn )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadIn )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getTaskPayloadIn( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
-			check( type->getKind() == ast::type::Kind::eTaskPayloadIn )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadIn )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeMeshVertexOutputType( typesCache.getInt32(), 17u );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
-			check( type->getKind() == ast::type::Kind::eMeshVertexOutput )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getMaxVertices() == 17u )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
+			astCheck( type->getKind() == ast::type::Kind::eMeshVertexOutput )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getMaxVertices() == 17u )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getMeshVertexOutput( typesCache.getInt32(), 17u );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
-			check( type->getKind() == ast::type::Kind::eMeshVertexOutput )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getMaxVertices() == 17u )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
+			astCheck( type->getKind() == ast::type::Kind::eMeshVertexOutput )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getMaxVertices() == 17u )
+			astCheck( !isStructType( type ) )
 		}
 		for ( uint32_t topology = 0u; topology <= uint32_t( ast::type::OutputTopology::eQuad ); ++topology )
 		{
 			{
 				ast::type::TypesCache typesCache;
 				auto type = ast::type::makeMeshPrimitiveOutputType( typesCache.getInt32(), ast::type::OutputTopology( topology ), 17u );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
-				check( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
-				check( type->getType() == typesCache.getInt32() )
-				check( type->getTopology() == ast::type::OutputTopology( topology ) )
-				check( type->getMaxPrimitives() == 17u )
-				check( !isStructType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
+				astCheck( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
+				astCheck( type->getType() == typesCache.getInt32() )
+				astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
+				astCheck( type->getMaxPrimitives() == 17u )
+				astCheck( !isStructType( type ) )
 			}
 			{
 				ast::type::TypesCache typesCache;
 				auto type = typesCache.getMeshPrimitiveOutput( typesCache.getInt32(), ast::type::OutputTopology( topology ), 17u );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
-				check( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
-				check( type->getType() == typesCache.getInt32() )
-				check( type->getTopology() == ast::type::OutputTopology( topology ) )
-				check( type->getMaxPrimitives() == 17u )
-				check( !isStructType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
+				astCheck( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
+				astCheck( type->getType() == typesCache.getInt32() )
+				astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
+				astCheck( type->getMaxPrimitives() == 17u )
+				astCheck( !isStructType( type ) )
 			}
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testPointer( test::TestCounts & testCounts )
@@ -501,158 +501,158 @@ namespace
 			uint32_t( ast::type::Storage::eTaskPayloadWorkgroup ),
 			uint32_t( ast::type::Storage::eCodeSection ),
 		};
-		testBegin( "testPointer" );
+		astTestBegin( "testPointer" );
 		for ( auto storage : storages )
 		{
 			{
 				ast::type::TypesCache typesCache;
 				auto type = typesCache.getPointerType( typesCache.getInt32(), ast::type::Storage( storage ) );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( !isOpaqueType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( !isOpaqueType( type ) )
 				auto & pointer = static_cast< ast::type::Pointer const & >( *type );
-				check( pointer.getRawKind() == ast::type::Kind::ePointer )
-				check( pointer.getKind() == ast::type::Kind::ePointer )
-				check( pointer.getPointerType() == typesCache.getInt32() )
-				check( pointer.getStorage() == ast::type::Storage( storage ) )
-				check( !pointer.isForward() )
-				check( !isStructType( pointer ) )
-				check( getPointerLevel( type ) == 1u )
+				astCheck( pointer.getRawKind() == ast::type::Kind::ePointer )
+				astCheck( pointer.getKind() == ast::type::Kind::ePointer )
+				astCheck( pointer.getPointerType() == typesCache.getInt32() )
+				astCheck( pointer.getStorage() == ast::type::Storage( storage ) )
+				astCheck( !pointer.isForward() )
+				astCheck( !isStructType( pointer ) )
+				astCheck( getPointerLevel( type ) == 1u )
 
 				auto & type2 = static_cast< ast::type::Pointer const & >( *typesCache.getPointerType( typesCache.getInt32(), ast::type::Storage( storage ) ) );
-				check( &type2 == &pointer )
-				check( type2 == pointer )
+				astCheck( &type2 == &pointer )
+				astCheck( type2 == pointer )
 			}
 			{
 				ast::type::TypesCache typesCache;
 				auto type = typesCache.getForwardPointerType( typesCache.getInt32(), ast::type::Storage( storage ) );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( !isOpaqueType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( !isOpaqueType( type ) )
 				auto & pointer = static_cast< ast::type::Pointer const & >( *type );
-				check( pointer.getRawKind() == ast::type::Kind::ePointer )
-				check( pointer.getKind() == ast::type::Kind::ePointer )
-				check( pointer.getPointerType() == typesCache.getInt32() )
-				check( pointer.getStorage() == ast::type::Storage( storage ) )
-				check( pointer.isForward() )
-				check( !isStructType( pointer ) )
-				check( getPointerLevel( type ) == 1u )
+				astCheck( pointer.getRawKind() == ast::type::Kind::ePointer )
+				astCheck( pointer.getKind() == ast::type::Kind::ePointer )
+				astCheck( pointer.getPointerType() == typesCache.getInt32() )
+				astCheck( pointer.getStorage() == ast::type::Storage( storage ) )
+				astCheck( pointer.isForward() )
+				astCheck( !isStructType( pointer ) )
+				astCheck( getPointerLevel( type ) == 1u )
 
 				auto & type2 = static_cast< ast::type::Pointer const & >( *typesCache.getForwardPointerType( typesCache.getInt32(), ast::type::Storage( storage ) ) );
-				check( &type2 == &pointer )
-				check( type2 == pointer )
+				astCheck( &type2 == &pointer )
+				astCheck( type2 == pointer )
 			}
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testRayPayload( test::TestCounts & testCounts )
 	{
-		testBegin( "testRayPayload" );
+		astTestBegin( "testRayPayload" );
 		ast::type::TypesCache typesCache;
 		auto type = typesCache.getRayPayload( typesCache.getInt32(), 17u );
-		testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-		testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-		check( type->getRawKind() == ast::type::Kind::eRayPayload )
-		check( type->getKind() == ast::type::Kind::eInt32 )
-		check( type->getDataType() == typesCache.getInt32() )
-		check( type->getLocation() == 17u )
-		check( !isStructType( type ) )
-		check( isWrapperType( type ) )
-		check( unwrapType( type ) == typesCache.getInt32() )
-		check( &unwrapType( *type ) == typesCache.getInt32().get() )
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getRawKind() == ast::type::Kind::eRayPayload )
+		astCheck( type->getKind() == ast::type::Kind::eInt32 )
+		astCheck( type->getDataType() == typesCache.getInt32() )
+		astCheck( type->getLocation() == 17u )
+		astCheck( !isStructType( type ) )
+		astCheck( isWrapperType( type ) )
+		astCheck( unwrapType( type ) == typesCache.getInt32() )
+		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
 
 		auto type2 = typesCache.getRayPayload( typesCache.getInt32(), 17u );
-		check( type2 == type )
-		testEnd()
+		astCheck( type2 == type )
+		astTestEnd()
 	}
 
 	void testSampler( test::TestCounts & testCounts )
 	{
-		testBegin( "testSampler" );
+		astTestBegin( "testSampler" );
 		ast::type::TypesCache typesCache;
 		auto type = typesCache.getSampler( true );
-		testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-		testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-		check( type->getRawKind() == ast::type::Kind::eSampler )
-		check( type->getKind() == ast::type::Kind::eSampler )
-		check( type->isComparison() )
+		astCheckNoThrow( ast::debug::getTypeName( type ) )
+		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+		astCheck( type->getRawKind() == ast::type::Kind::eSampler )
+		astCheck( type->getKind() == ast::type::Kind::eSampler )
+		astCheck( type->isComparison() )
 
 		auto type2 = typesCache.getSampler( true );
-		check( type2 == type )
-		testEnd()
+		astCheck( type2 == type )
+		astTestEnd()
 	}
 
 	void testTaskIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testTaskIO" );
+		astTestBegin( "testTaskIO" );
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeTaskPayloadNVType( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
-			check( type->getKind() == ast::type::Kind::eTaskPayloadNV )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadNV )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getTaskPayloadNV( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
-			check( type->getKind() == ast::type::Kind::eTaskPayloadNV )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadNV )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeTaskPayloadType( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayload )
-			check( type->getKind() == ast::type::Kind::eTaskPayload )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayload )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayload )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getTaskPayload( typesCache.getInt32() );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTaskPayload )
-			check( type->getKind() == ast::type::Kind::eTaskPayload )
-			check( type->getType() == typesCache.getInt32() )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayload )
+			astCheck( type->getKind() == ast::type::Kind::eTaskPayload )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( !isStructType( type ) )
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testTessellationControlIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testTessellationControlIO" );
+		astTestBegin( "testTessellationControlIO" );
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeTessellationOutputPatchType( typesCache.getInt32(), 17u );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTessellationOutputPatch )
-			check( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getLocation() == 17u )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTessellationOutputPatch )
+			astCheck( type->getKind() == ast::type::Kind::eTessellationOutputPatch )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getLocation() == 17u )
+			astCheck( !isStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
 			auto type = ast::type::makeTessellationControlInputType( typesCache.getInt32(), 17u );
-			testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-			testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-			check( type->getRawKind() == ast::type::Kind::eTessellationControlInput )
-			check( type->getKind() == ast::type::Kind::eTessellationControlInput )
-			check( type->getType() == typesCache.getInt32() )
-			check( type->getInputVertices() == 17u )
-			check( !isStructType( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type ) )
+			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+			astCheck( type->getRawKind() == ast::type::Kind::eTessellationControlInput )
+			astCheck( type->getKind() == ast::type::Kind::eTessellationControlInput )
+			astCheck( type->getType() == typesCache.getInt32() )
+			astCheck( type->getInputVertices() == 17u )
+			astCheck( !isStructType( type ) )
 		}
 		for ( uint32_t domain = 0u; domain <= uint32_t( ast::type::PatchDomain::eQuads ); ++domain )
 		{
@@ -670,17 +670,17 @@ namespace
 								, ast::type::OutputTopology( topology )
 								, ast::type::PrimitiveOrdering( ordering )
 								, 17u );
-							testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-							testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-							check( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
-							check( type->getKind() == ast::type::Kind::eTessellationControlOutput )
-							check( type->getType() == typesCache.getInt32() )
-							check( type->getDomain() == ast::type::PatchDomain( domain ) )
-							check( type->getPartitioning() == ast::type::Partitioning( partitioning ) )
-							check( type->getTopology() == ast::type::OutputTopology( topology ) )
-							check( type->getOrder() == ast::type::PrimitiveOrdering( ordering ) )
-							check( type->getOutputVertices() == 17u )
-							check( !isStructType( type ) )
+							astCheckNoThrow( ast::debug::getTypeName( type ) )
+							astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+							astCheck( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
+							astCheck( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+							astCheck( type->getType() == typesCache.getInt32() )
+							astCheck( type->getDomain() == ast::type::PatchDomain( domain ) )
+							astCheck( type->getPartitioning() == ast::type::Partitioning( partitioning ) )
+							astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
+							astCheck( type->getOrder() == ast::type::PrimitiveOrdering( ordering ) )
+							astCheck( type->getOutputVertices() == 17u )
+							astCheck( !isStructType( type ) )
 						}
 						{
 							ast::type::TypesCache typesCache;
@@ -690,28 +690,28 @@ namespace
 								, ast::type::OutputTopology( topology )
 								, ast::type::PrimitiveOrdering( ordering )
 								, 17u );
-							testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-							testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-							check( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
-							check( type->getKind() == ast::type::Kind::eTessellationControlOutput )
-							check( type->getType() == typesCache.getArray( typesCache.getInt32(), 4u ) )
-							check( type->getDomain() == ast::type::PatchDomain( domain ) )
-							check( type->getPartitioning() == ast::type::Partitioning( partitioning ) )
-							check( type->getTopology() == ast::type::OutputTopology( topology ) )
-							check( type->getOrder() == ast::type::PrimitiveOrdering( ordering ) )
-							check( type->getOutputVertices() == 17u )
-							check( !isStructType( type ) )
+							astCheckNoThrow( ast::debug::getTypeName( type ) )
+							astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+							astCheck( type->getRawKind() == ast::type::Kind::eTessellationControlOutput )
+							astCheck( type->getKind() == ast::type::Kind::eTessellationControlOutput )
+							astCheck( type->getType() == typesCache.getArray( typesCache.getInt32(), 4u ) )
+							astCheck( type->getDomain() == ast::type::PatchDomain( domain ) )
+							astCheck( type->getPartitioning() == ast::type::Partitioning( partitioning ) )
+							astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
+							astCheck( type->getOrder() == ast::type::PrimitiveOrdering( ordering ) )
+							astCheck( type->getOutputVertices() == 17u )
+							astCheck( !isStructType( type ) )
 						}
 					}
 				}
 			}
 		}
-		testEnd()
+		astTestEnd()
 	}
 
 	void testTessellationEvaluationIO( test::TestCounts & testCounts )
 	{
-		testBegin( "testTessellationEvaluationIO" );
+		astTestBegin( "testTessellationEvaluationIO" );
 		for ( uint32_t domain = 0u; domain <= uint32_t( ast::type::PatchDomain::eQuads ); ++domain )
 		{
 			{
@@ -719,14 +719,14 @@ namespace
 				auto type = ast::type::makeTessellationInputPatchType( typesCache.getInt32()
 					, ast::type::PatchDomain( domain )
 					, 17u );
-				testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-				testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-				check( type->getRawKind() == ast::type::Kind::eTessellationInputPatch )
-				check( type->getKind() == ast::type::Kind::eTessellationInputPatch )
-				check( type->getType() == typesCache.getInt32() )
-				check( type->getDomain() == ast::type::PatchDomain( domain ) )
-				check( type->getLocation() == 17u )
-				check( !isStructType( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type ) )
+				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+				astCheck( type->getRawKind() == ast::type::Kind::eTessellationInputPatch )
+				astCheck( type->getKind() == ast::type::Kind::eTessellationInputPatch )
+				astCheck( type->getType() == typesCache.getInt32() )
+				astCheck( type->getDomain() == ast::type::PatchDomain( domain ) )
+				astCheck( type->getLocation() == 17u )
+				astCheck( !isStructType( type ) )
 			}
 			for ( uint32_t partitioning = 0u; partitioning <= uint32_t( ast::type::Partitioning::eFractionalOdd ); ++partitioning )
 			{
@@ -738,26 +738,26 @@ namespace
 						, ast::type::Partitioning( partitioning )
 						, ast::type::PrimitiveOrdering( ordering )
 						, 17u );
-					testCounts << "Type: " << ast::debug::getTypeName( type ) << test::endl;
-					testCounts << "Kind: " << ast::debug::getTypeName( type->getKind() ) << test::endl;
-					check( type->getRawKind() == ast::type::Kind::eTessellationEvaluationInput )
-					check( type->getKind() == ast::type::Kind::eTessellationEvaluationInput )
-					check( type->getType() == typesCache.getInt32() )
-					check( type->getDomain() == ast::type::PatchDomain( domain ) )
-					check( type->getPartitioning() == ast::type::Partitioning( partitioning ) )
-					check( type->getPrimitiveOrdering() == ast::type::PrimitiveOrdering( ordering ) )
-					check( type->getInputVertices() == 17u )
-					check( !isStructType( type ) )
+					astCheckNoThrow( ast::debug::getTypeName( type ) )
+					astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+					astCheck( type->getRawKind() == ast::type::Kind::eTessellationEvaluationInput )
+					astCheck( type->getKind() == ast::type::Kind::eTessellationEvaluationInput )
+					astCheck( type->getType() == typesCache.getInt32() )
+					astCheck( type->getDomain() == ast::type::PatchDomain( domain ) )
+					astCheck( type->getPartitioning() == ast::type::Partitioning( partitioning ) )
+					astCheck( type->getPrimitiveOrdering() == ast::type::PrimitiveOrdering( ordering ) )
+					astCheck( type->getInputVertices() == 17u )
+					astCheck( !isStructType( type ) )
 				}
 			}
 		}
-		testEnd()
+		astTestEnd()
 	}
 }
 
-testSuiteMain( TestASTOtherTypes )
+astTestSuiteMain( TestASTOtherTypes )
 {
-	testSuiteBegin()
+	astTestSuiteBegin()
 	testMemorySemantics( testCounts );
 	testAccelerationStructure( testCounts );
 	testArray( testCounts );
@@ -774,7 +774,7 @@ testSuiteMain( TestASTOtherTypes )
 	testTaskIO( testCounts );
 	testTessellationControlIO( testCounts );
 	testTessellationEvaluationIO( testCounts );
-	testSuiteEnd()
+	astTestSuiteEnd()
 }
 
-testSuiteLaunch( TestASTOtherTypes )
+astTestSuiteLaunch( TestASTOtherTypes )

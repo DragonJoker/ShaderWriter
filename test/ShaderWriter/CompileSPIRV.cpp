@@ -1027,7 +1027,9 @@ namespace test
 				return 32u;
 			default:
 				AST_Failure( "Unsupported VkFormat for a vertex attribute." );
+#if !SDAST_ExceptAssert
 				return 4u;
+#endif
 			}
 		}
 
@@ -1110,7 +1112,7 @@ namespace test
 						, context.allocator );
 				}
 
-				failure( "VkRenderPass creation." );
+				astFailure( "VkRenderPass creation." );
 				renderPass = nullptr;
 			}
 
@@ -1146,7 +1148,7 @@ namespace test
 						, builder.getAllocator() );
 				}
 
-				failure( "Pipeline creation" );
+				astFailure( "Pipeline creation" );
 				pipeline = nullptr;
 			}
 
@@ -1269,7 +1271,7 @@ namespace test
 
 				if ( errors.find( "failed to compile internal representation" ) == std::string::npos )
 				{
-					failure( "VkPipeline creation" );
+					astFailure( "VkPipeline creation" );
 				}
 
 				pipeline = nullptr;
@@ -1303,41 +1305,41 @@ namespace test
 	{
 		if ( program.getStageCount() == 0u )
 		{
-			failure( "No shader stage" );
+			astFailure( "No shader stage" );
 			return false;
 		}
 
 		auto context = createBuilderContext( testCounts, infoIndex );
 		ast::vk::PipelineBuilder builder{ context, program };
 		ast::vk::VkShaderModuleArray modules;
-		checkNoThrow( modules = builder.createShaderModules() )
+		astCheckNoThrow( modules = builder.createShaderModules() )
 
 		if ( modules.empty() )
 		{
-			failure( "No shader module" );
+			astFailure( "No shader module" );
 			return false;
 		}
 
 		bool result = false;
 		ast::vk::VkDescriptorSetLayoutArray descriptorLayouts;
-		checkNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() )
+		astCheckNoThrow( descriptorLayouts = builder.createDescriptorSetLayouts() )
 		VkPipelineLayout pipelineLayout{};
-		checkNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) )
+		astCheckNoThrow( pipelineLayout = builder.createPipelineLayout( descriptorLayouts ) )
 
 		if ( !pipelineLayout )
 		{
-			failure( "VkPipelineLayout creation" );
+			astFailure( "VkPipelineLayout creation" );
 		}
 		else
 		{
 			ast::vk::PipelineShaderStageArray shaderStages;
-			checkNoThrow( shaderStages = builder.createShaderStages( modules, {} ) )
+			astCheckNoThrow( shaderStages = builder.createShaderStages( modules, {} ) )
 
 			if ( shaderStages.size() == 1u )
 			{
 				if ( program.getStageFlags() != ast::vk::makeFlag( ast::ShaderStage::eCompute ) )
 				{
-					failure( "Not enough shader stages" );
+					astFailure( "Not enough shader stages" );
 				}
 				else
 				{

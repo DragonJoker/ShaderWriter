@@ -12,239 +12,239 @@ namespace
 	template< typename T >
 	void testShaderOutputBase( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_0";
 			auto value = writer.declOutput< T >( name, sdw::EntryPoint::eVertex, 0u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMainV;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_1";
 			auto value = writer.declOutputArray< T >( name, sdw::EntryPoint::eVertex, 1u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMainV;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutput< T >( "value", sdw::EntryPoint::eVertex, 0u, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( shader.getStatements()->size() == count );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMainV;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputArrayOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
 			auto value = writer.declOutputArray< T >( "value", sdw::EntryPoint::eVertex, 1u, 6u, false );
-			check( !value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( shader.getStatements()->size() == count );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( shader.getStatements()->size() == count );
 			DummyMainV;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_0_opt";
 			auto value = writer.declOutput< T >( name, sdw::EntryPoint::eVertex, 0u, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
 			DummyMainV;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputArrayOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_1_opt";
 			auto value = writer.declOutputArray< T >( name, sdw::EntryPoint::eVertex, 1u, 6u, true );
-			check( value.isEnabled() );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 1u );
 			DummyMainV;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderBlendOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "BlendOutputValue_0";
 			auto value = writer.declBlendOutput< T >( name, 0u, 1u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBlendIndex() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBlendIndex() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
 			DummyMainF;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderBlendOutputArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderBlendOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderBlendOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "BlendOutputValue_0";
 			auto value = writer.declBlendOutputArray< T >( name, 0u, 1u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBlendIndex() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBlendIndex() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getBlendIndex() == 1u );
 			DummyMainF;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderStreamOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "StreamOutputValue_0";
 			auto value = writer.declStreamOutput< T >( name, 0u, 1u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == sdw::type::NotArray );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isGeometryStream() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isGeometryStream() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
 			DummyMainG;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderStreamOutputArray( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testShaderStreamOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testShaderStreamOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "StreamOutputValue_0";
 			auto value = writer.declStreamOutputArray< T >( name, 0u, 1u, 6u );
-			check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			check( getArraySize( value.getType() ) == 6u );
-			require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
-			check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isGeometryStream() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isGeometryStream() );
 			auto & stmt = *shader.getStatements()->back();
-			require( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
-			check( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getLocation() == 0u );
+			astCheck( static_cast< sdw::stmt::InOutVariableDecl const & >( stmt ).getStreamIndex() == 1u );
 			DummyMainG;
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	template< typename T >

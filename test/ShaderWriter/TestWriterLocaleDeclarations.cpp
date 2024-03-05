@@ -6,7 +6,7 @@ namespace
 	template< typename T >
 	void testLocale( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astTestBegin( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -15,13 +15,13 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocale< T >( name );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -33,13 +33,13 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocale< T >( name, test::getDefault< T >( writer ) );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -51,13 +51,13 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == 6u );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == 6u );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -69,13 +69,13 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ) );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == 3u );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == 3u );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -87,13 +87,13 @@ namespace
 				{
 					auto count = builder.getContainer()->size();
 					auto value = writer.declLocale< T >( "value", false );
-					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					check( builder.getContainer()->size() == count );
+					astCheck( !value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( builder.getContainer()->size() == count );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -105,13 +105,13 @@ namespace
 				{
 					auto count = builder.getContainer()->size();
 					auto value = writer.declLocale< T >( "value", T{ writer, makeExpr( test::getDefault< T >( writer ) ), false } );
-					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					check( builder.getContainer()->size() == count );
+					astCheck( !value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( builder.getContainer()->size() == count );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -123,13 +123,13 @@ namespace
 				{
 					auto count = builder.getContainer()->size();
 					auto value = writer.declLocale< T >( "value", test::getDefault< T >( writer ), false );
-					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					check( builder.getContainer()->size() == count );
+					astCheck( !value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( builder.getContainer()->size() == count );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -141,13 +141,13 @@ namespace
 				{
 					auto count = builder.getContainer()->size();
 					auto value = writer.declLocaleArray< T >( "value", 6u, false );
-					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == 6u );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					check( builder.getContainer()->size() == count );
+					astCheck( !value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == 6u );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( builder.getContainer()->size() == count );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -159,13 +159,13 @@ namespace
 				{
 					auto count = builder.getContainer()->size();
 					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ), false );
-					check( !value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == 3u );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
-					check( builder.getContainer()->size() == count );
+					astCheck( !value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == 3u );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( builder.getContainer()->size() == count );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -177,14 +177,14 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocale< T >( name, true );
-					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == sdw::type::NotArray );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -196,14 +196,14 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 6u, true );
-					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == 6u );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == 6u );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -215,18 +215,18 @@ namespace
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
 					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ), true );
-					check( value.isEnabled() );
-					check( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-					check( getArraySize( value.getType() ) == 3u );
-					require( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-					check( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
+					astCheck( value.isEnabled() );
+					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
+					astCheck( getArraySize( value.getType() ) == 3u );
+					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
-					check( stmt.getKind() == sdw::stmt::Kind::eSimple );
+					astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 

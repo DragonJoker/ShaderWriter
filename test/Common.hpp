@@ -523,13 +523,30 @@ namespace test
 		uint32_t errorCount{ 0u };
 	};
 
+	struct TestBlock
+	{
+		TestBlock( TestCounts & testCounts
+			, std::string text
+			, bool indent );
+		~TestBlock()noexcept;
+
+		TestCounts & testCounts;
+		std::string text;
+		bool indent;
+	};
+
+	using TestBlockPtr = std::unique_ptr< TestBlock >;
+
 	struct TestCounts
 	{
+		friend struct TestBlock;
+
 		TestCounts( TestSuite & suite );
 		virtual ~TestCounts()noexcept;
 
 		void initialise();
 		TestResults cleanup();
+		void printBlock( std::string const & text );
 
 		uint32_t getTotalCount()
 		{
@@ -538,6 +555,14 @@ namespace test
 
 		void incTest();
 		void incErr();
+		void reportFailure( char const * const error
+			, char const * const function
+			, int line );
+		void reportFailure( char const * const error
+			, char const * const callerFunction
+			, int callerLine
+			, char const * const calleeFunction
+			, int calleeLine );
 
 		std::string testName;
 		uint32_t curTestErrors{ 0u };
@@ -570,9 +595,36 @@ namespace test
 			return nextVarId;
 		}
 
+		TestBlockPtr on( std::string const & text )
+		{
+			return doPushBlock( "On " + text, true );
+		}
+
+		TestBlockPtr when( std::string const & text )
+		{
+			return doPushBlock( "When " + text, true );
+		}
+
+		TestBlockPtr andWhen( std::string const & text )
+		{
+			return doPushBlock( "And " + text, false );
+		}
+
+		void appendToNextError( std::string const & text )
+		{
+			m_nextErrors += text + "\n";
+		}
+
+		void flushErrors()
+		{
+			m_nextErrors.clear();
+		}
+
 	private:
 		virtual void doInitialise(){}
 		virtual void doCleanup(){}
+		TestBlockPtr doPushBlock( std::string const & text, bool indent );
+		void doPopBlock( TestBlock * block );
 
 		void print( std::string const & text )
 		{
@@ -616,6 +668,8 @@ namespace test
 		TestResults result{};
 		std::atomic_bool m_initialised{ false };
 		std::atomic_bool m_cleaned{ true };
+		std::vector< TestBlock * > m_blocks;
+		std::string m_nextErrors;
 	};
 
 	static std::string_view endl{ "\n" };
@@ -736,61 +790,61 @@ namespace test
 		reportFailure( error.data(), callerFunction.c_str(), callerLine, calleeFunction, calleeLine, testCounts );
 	}
 
-#	define testSuiteMain( testName )\
+#	define astTestSuiteMain( testName )\
 	static test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
 
 #if defined( _MSC_VER )
-#	define testEval( V ) V
+#	define astTestEval( V ) V
 
-#	define testConcat2( lhs, rhs )\
-	testEval( lhs ) ## testEval( rhs )
+#	define astTestConcat2( lhs, rhs )\
+	astTestEval( lhs ) ## astTestEval( rhs )
 
-#	define testConcat3( lhs, mid, rhs )\
-	testConcat2( lhs, mid ) ## testEval( rhs )
+#	define astTestConcat3( lhs, mid, rhs )\
+	astTestConcat2( lhs, mid ) ## astTestEval( rhs )
 
-#	define testConcat( lhs, rhs )\
-	testConcat3( lhs, _, rhs )
+#	define astTestConcat( lhs, rhs )\
+	astTestConcat3( lhs, _, rhs )
 #else
-#	define testConcat2( lhs, rhs )\
+#	define astTestConcat2( lhs, rhs )\
 	lhs ## rhs
 
-#	define testConcat( lhs, rhs )\
+#	define astTestConcat( lhs, rhs )\
 	lhs ## _ ## rhs
 #endif
 
 #if defined( SDW_COMPILE_TESTS )
-#	define testSuiteLaunchEx( testName, suiteType )\
+#	define astTestSuiteLaunchEx( testName, suiteType )\
 	int main( int argv, char ** argc )\
 	{\
 		suiteType suite{ #testName };\
-		suite.registerTests< suiteType >( #testName, testConcat2( launch, testName ) );\
+		suite.registerTests< suiteType >( #testName, astTestConcat2( launch, testName ) );\
 		return suite.run();\
 	}
 #else
-#	define testSuiteLaunchEx( testName, suiteType )
+#	define astTestSuiteLaunchEx( testName, suiteType )
 #endif
 
-#define testSuiteLaunch( name )\
-	testSuiteLaunchEx( name, test::TestSuite )
+#define astTestSuiteLaunch( name )\
+	astTestSuiteLaunchEx( name, test::TestSuite )
 
-#define testStringify( x )\
+#define astTestStringify( x )\
 	#x
 
 #define testConcatStr2( x, y )\
-	testStringify( x ) testStringify( y )
+	astTestStringify( x ) astTestStringify( y )
 
-#define testConcatStr3( x, y, z )\
-	testConcatStr2( x, y ) testStringify( z )
+#define astTestConcatStr3( x, y, z )\
+	testConcatStr2( x, y ) astTestStringify( z )
 
-#define testConcatStr4( x, y, z, w )\
-	testConcatStr3( x, y, z ) testStringify( w )
+#define astTestConcatStr4( x, y, z, w )\
+	astTestConcatStr3( x, y, z ) astTestStringify( w )
 
-#define testSuiteBeginEx( testCounts )\
+#define astTestSuiteBeginEx( testCounts )\
 	testCounts.initialise();\
 	try\
 	{\
 
-#define testSuiteEnd()\
+#define astTestSuiteEnd()\
 	}\
 	catch ( ast::Exception & exc )\
 	{\
@@ -802,16 +856,16 @@ namespace test
 	}\
 	return testCounts.cleanup();
 
-#define testSuiteBegin()\
-	testSuiteBeginEx( testCounts )
+#define astTestSuiteBegin()\
+	astTestSuiteBeginEx( testCounts )
 
-#define testBegin( name )\
+#define astTestBegin( name )\
 	test::beginTest( testCounts, name );\
 	try\
 	{\
 		auto testName = testCounts.testName
 
-#define testEnd()\
+#define astTestEnd()\
 	}\
 	catch ( ast::Exception & exc )\
 	{\
@@ -823,14 +877,31 @@ namespace test
 	}\
 	test::endTest( testCounts );
 
-#define success()\
+#define astNameConcat_( X, Y ) X ## Y
+#define astNameConcat( X, Y ) astNameConcat_( X, Y )
+
+#define astOn( text )\
+	auto astNameConcat( onBlock, __LINE__ ) = ( testCounts ).on( text )
+
+#define astWhen( text )\
+	auto astNameConcat( whenBlock, __LINE__ ) = ( testCounts ).when( text )
+
+#define astAnd( text )\
+	auto astNameConcat( andBlock, __LINE__ ) = ( testCounts ).andWhen( text )
+
+#define astSuccess()\
+	testCounts.flushErrors();\
 	testCounts.incTest()
 
-#define failure( x )\
-	success();\
+#define astFailure( x )\
+	astSuccess();\
 	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts )\
 
-#define require( x )\
+#define astFailText( x )\
+	astSuccess();\
+	test::reportFailure( x, __FUNCTION__, __LINE__, testCounts )\
+
+#define astRequire( x )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -838,6 +909,7 @@ namespace test
 		{\
 			throw test::Exception{ "\n    Value: " + toString( x ) };\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
@@ -848,7 +920,7 @@ namespace test
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define beginRequire( x )\
+#define astBeginRequire( x )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -857,7 +929,8 @@ namespace test
 			throw test::Exception{ "\n    Value: " + toString( x ) };\
 		}
 
-#define endRequire\
+#define astEndRequire\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
@@ -868,7 +941,7 @@ namespace test
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define check( x )\
+#define astCheck( x )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -876,13 +949,14 @@ namespace test
 		{\
 			test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( ... )\
 	{\
 		test::reportFailure( testConcatStr2( x, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define checkEqual( x, y )\
+#define astCheckEqual( x, y )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -890,17 +964,18 @@ namespace test
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr4( x, " == ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define checkNotEqual( x, y )\
+#define astCheckNotEqual( x, y )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -908,37 +983,39 @@ namespace test
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr4( x, " != ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define checkThrow( x )\
+#define astCheckThrow( x )\
 	try\
 	{\
 		testCounts.incTest();\
-		( x ); \
+		( x );\
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
-	catch ( ast::Exception & exc )\
+	catch ( ast::Exception &  )\
 	{\
-		testCounts << testCounts.testName << " Success: Expected exception - " << exc.what() << test::endl;\
+		testCounts.flushErrors();\
 	}\
 	catch ( ... )\
 	{\
 		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
 	}
 
-#define checkNoThrow( x )\
+#define astCheckNoThrow( x )\
 	try\
 	{\
 		testCounts.incTest();\
-		( x ); \
+		( x );\
+		testCounts.flushErrors();\
 	}\
 	catch ( ast::Exception & exc )\
 	{\
@@ -950,7 +1027,7 @@ namespace test
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define subRequire( f, l, x )\
+#define astSubRequire( f, l, x )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -958,6 +1035,7 @@ namespace test
 		{\
 			throw test::Exception{ "\n    Value: " + toString( x ) };\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
@@ -968,7 +1046,7 @@ namespace test
 		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define subCheck( f, l, x )\
+#define astSubCheck( f, l, x )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -976,13 +1054,14 @@ namespace test
 		{\
 			test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( ... )\
 	{\
 		test::reportFailure( testConcatStr2( x, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define subCheckEqual( f, l, x, y )\
+#define astSubCheckEqual( f, l, x, y )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -990,17 +1069,18 @@ namespace test
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr4( x, " == ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define subCheckNotEqual( f, l, x, y )\
+#define astSubCheckNotEqual( f, l, x, y )\
 	try\
 	{\
 		testCounts.incTest();\
@@ -1008,37 +1088,39 @@ namespace test
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
 		}\
+		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr4( x, " != ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define subCheckThrow( f, l, x )\
+#define astSubCheckThrow( f, l, x )\
 	try\
 	{\
 		testCounts.incTest();\
-		( x ); \
+		( x );\
 		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}\
-	catch ( ast::Exception & exc )\
+	catch ( ast::Exception & )\
 	{\
-		testCounts << testCounts.testName << " Success: Expected exception - " << exc.what() << test::endl;\
+		testCounts.flushErrors();\
 	}\
 	catch ( ... )\
 	{\
 		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
 	}
 
-#define subCheckNoThrow( f, l, x )\
+#define astSubCheckNoThrow( f, l, x )\
 	try\
 	{\
 		testCounts.incTest();\
-		( x ); \
+		( x );\
+		testCounts.flushErrors();\
 	}\
 	catch ( ast::Exception & exc )\
 	{\

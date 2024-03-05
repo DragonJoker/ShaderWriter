@@ -55,7 +55,7 @@ namespace
 
 	void lightInf( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "lightInf" );
+		astTestBegin( "lightInf" );
 		using namespace sdw;
 		{
 			sdw::CallableWriter writer{ &testCounts.allocator };
@@ -82,12 +82,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void lightPoint( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "lightPoint" );
+		astTestBegin( "lightPoint" );
 		using namespace sdw;
 		{
 			sdw::CallableWriter writer{ &testCounts.allocator };
@@ -115,12 +115,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 
 	void lightSpot( test::sdw_test::TestCounts & testCounts )
 	{
-		testBegin( "lightSpot" );
+		astTestBegin( "lightSpot" );
 		using namespace sdw;
 		{
 			sdw::CallableWriter writer{ &testCounts.allocator };
@@ -152,7 +152,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		testEnd();
+		astTestEnd();
 	}
 }
 
