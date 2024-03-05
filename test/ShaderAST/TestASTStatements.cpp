@@ -14,6 +14,35 @@
 
 namespace
 {
+	ast::expr::ExprList makeList( ast::expr::ExprPtr arg0 )
+	{
+		ast::expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		return result;
+	}
+
+	ast::expr::ExprList makeList( ast::expr::ExprPtr arg0
+		, ast::expr::ExprPtr arg1 )
+	{
+		ast::expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		result.push_back( std::move( arg1 ) );
+		return result;
+	}
+
+	ast::expr::ExprList makeList( ast::expr::ExprPtr arg0
+		, ast::expr::ExprPtr arg1
+		, ast::expr::ExprPtr arg2
+		, ast::expr::ExprPtr arg3 )
+	{
+		ast::expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		result.push_back( std::move( arg1 ) );
+		result.push_back( std::move( arg2 ) );
+		result.push_back( std::move( arg3 ) );
+		return result;
+	}
+
 	std::string getStmtName( ast::stmt::Stmt const & stmt )
 	{
 		switch ( stmt.getKind() )
@@ -151,18 +180,26 @@ namespace
 		{
 			auto container = makeContainer( exprCache, stmt );
 			ast::SSAData data{ testCounts.nextVarId, 0u };
-			container = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, false );
-			container = ast::resolveConstants( stmtCache, exprCache, typesCache, *container );
-			container = ast::simplify( stmtCache, exprCache, typesCache, *container );
-			container = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, spec );
+			checkNoThrow( container = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, false ) )
+			checkNoThrow( container = ast::simplify( stmtCache, exprCache, typesCache, *container ) )
+			checkNoThrow( container = ast::resolveConstants( stmtCache, exprCache, typesCache, *container ) )
+			checkNoThrow( container = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
 		}
 		{
 			auto container = makeContainer( exprCache, stmt );
 			ast::SSAData data{ testCounts.nextVarId, 0u };
-			container = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, true );
-			container = ast::resolveConstants( stmtCache, exprCache, typesCache, *container );
-			container = ast::simplify( stmtCache, exprCache, typesCache, *container );
-			container = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, spec );
+			checkNoThrow( container = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, true ) )
+			checkNoThrow( container = ast::simplify( stmtCache, exprCache, typesCache, *container ) )
+			checkNoThrow( container = ast::resolveConstants( stmtCache, exprCache, typesCache, *container ) )
+			checkNoThrow( container = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
+		}
+		{
+			struct Visitor
+				: public ast::stmt::SimpleVisitor
+			{
+			};
+			Visitor vis;
+			checkNoThrow( stmt.accept( &vis ) )
 		}
 	}
 
@@ -172,16 +209,248 @@ namespace
 		ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs" ) );
-		auto rhs = exprCache.makeLiteral( typesCache, 10 );
-		auto stmt = stmtCache.makeSimple( exprCache.makeInit( std::move( lhs ), std::move( rhs ) ) );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		{
+			auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs" ) );
+			auto rhs = exprCache.makeLiteral( typesCache, 10 );
+			auto stmt = stmtCache.makeSimple( exprCache.makeInit( std::move( lhs ), std::move( rhs ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
 
-		require( stmt->getKind() == ast::stmt::Kind::eSimple )
-		check( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
-			
-		stmt = stmtCache.makeSimple( nullptr );
+			require( stmt->getKind() == ast::stmt::Kind::eSimple )
+			check( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
+		}
+		{
+			auto lhs = exprCache.makeIdentifier( typesCache
+				, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" ) );
+			auto stmt = stmtCache.makeSimple( exprCache.makeAggrInit( std::move( lhs )
+					, makeList( exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "a" ) )
+						, exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "b" ) ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eSimple )
+			check( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
+		}
+		{
+			auto lhs = exprCache.makeIdentifier( typesCache
+				, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" ) );
+			auto rhs = exprCache.makeLiteral( typesCache, 10 );
+			auto stmt = stmtCache.makeSimple( exprCache.makeAggrInit( std::move( lhs )
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eSimple )
+			check( stmt->getExpr()->getKind() == ast::expr::Kind::eAggrInit )
+		}
+		{
+			auto lhs = exprCache.makeIdentifier( typesCache
+				, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" ) );
+			auto stmt = stmtCache.makeSimple( exprCache.makeInit( std::move( lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2
+					, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eSimple )
+			check( stmt->getExpr()->getKind() == ast::expr::Kind::eInit )
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, lhs ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAggrInit( exprCache.makeIdentifier( typesCache, lhs )
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, lhs ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2
+					, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, lhs ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs" );
+			auto rhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "rhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAssign( typesCache.getInt32()
+				, exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeIdentifier( typesCache, rhs ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" );
+			auto rhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "rhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAggrInit( exprCache.makeIdentifier( typesCache, lhs )
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAssign( typesCache.getVec2I32()
+				, exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeIdentifier( typesCache, rhs ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" );
+			auto rhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "rhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2
+					, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAssign( typesCache.getVec2I32()
+				, exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeIdentifier( typesCache, rhs ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( typesCache.getInt32(), 2u ), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAggrInit( exprCache.makeIdentifier( typesCache, lhs )
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeArrayAccess( typesCache.getInt32()
+				, exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeLiteral( typesCache, 1 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec2I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec2, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeArrayAccess( typesCache.getInt32()
+				, exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeLiteral( typesCache, 1 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = exprCache.makeAggrInit( typesCache.getVec4I32()
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+					, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) );
+			auto stmt = stmtCache.makeSimple( exprCache.makeSwizzle( std::move( lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = exprCache.makeAggrInit( typesCache.getVec4I32()
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+					, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) );
+			auto stmt = stmtCache.makeSimple( exprCache.makeSwizzle( std::move( lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4, ast::type::Kind::eInt32
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+					, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) );
+			auto stmt = stmtCache.makeSimple( exprCache.makeSwizzle( std::move( lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4, ast::type::Kind::eInt32
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+					, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) );
+			auto stmt = stmtCache.makeSimple( exprCache.makeSwizzle( std::move( lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec4I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAggrInit( exprCache.makeIdentifier( typesCache, lhs )
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+					, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeSwizzle( exprCache.makeIdentifier( typesCache, lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec4I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeAggrInit( exprCache.makeIdentifier( typesCache, lhs )
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+					, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeSwizzle( exprCache.makeIdentifier( typesCache, lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec4I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+						, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeSwizzle( exprCache.makeIdentifier( typesCache, lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec4I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+						, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeSwizzle( exprCache.makeIdentifier( typesCache, lhs )
+				, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto container = stmtCache.makeContainer();
+			auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getVec4I32(), "lhs" );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+				, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4, ast::type::Kind::eInt32
+					, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+						, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) ) );
+			container->addStmt( stmtCache.makeSimple( exprCache.makeArrayAccess( typesCache.getInt32()
+				, exprCache.makeSwizzle( exprCache.makeIdentifier( typesCache, lhs ), ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } )
+				, exprCache.makeLiteral( typesCache, 1 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *container );
+		}
+		{
+			auto structType = typesCache.getStruct( ast::type::MemoryLayout::eC, "Test" );
+			structType->declMember( "a", ast::type::Kind::eVec4I32, ast::type::NotArray );
+			{
+				auto container = stmtCache.makeContainer();
+				auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), structType, "lhs" );
+				container->addStmt( stmtCache.makeSimple( exprCache.makeAggrInit( exprCache.makeIdentifier( typesCache, lhs )
+					, makeList( exprCache.makeAggrInit( typesCache.getVec4I32()
+						, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+							, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) ) ) );
+				container->addStmt( stmtCache.makeSimple( exprCache.makeMbrSelect( exprCache.makeIdentifier( typesCache, lhs ), 0u, 0u ) ) );
+				checkStmtDependant( testCounts, exprCache, typesCache, *container );
+			}
+			{
+				auto container = stmtCache.makeContainer();
+				auto lhs = ast::var::makeVariable( testCounts.getNextVarId(), structType, "lhs" );
+				container->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, lhs )
+					, exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4, ast::type::Kind::eInt32
+						, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 )
+							, exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) ) ) ) );
+				container->addStmt( stmtCache.makeSimple( exprCache.makeMbrSelect( exprCache.makeIdentifier( typesCache, lhs ), 0u, 0u ) ) );
+				checkStmtDependant( testCounts, exprCache, typesCache, *container );
+			}
+		}
+		auto stmt = stmtCache.makeSimple( nullptr );
 		ast::StmtCloner::submit( stmtCache, exprCache, stmt.get() );
+
 		testEnd()
 	}
 
@@ -865,6 +1134,38 @@ namespace
 			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean )
 			check( stmt->size() == 2u )
 		}
+		{
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" ) );
+			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" ) );
+			auto stmt = stmtCache.makeIf( exprCache.makeLiteral( typesCache, false ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eIf )
+			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eLiteral )
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean )
+			check( stmt->size() == 2u )
+		}
+		{
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto i = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" ) );
+			auto j = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" ) );
+			auto stmt = stmtCache.makeIf( exprCache.makeLiteral( typesCache, true ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( std::move( j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eIf )
+			check( stmt->getCtrlExpr()->getKind() == ast::expr::Kind::eLiteral )
+			check( stmt->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean )
+			check( stmt->size() == 2u )
+		}
 		testEnd()
 	}
 
@@ -898,6 +1199,62 @@ namespace
 			checkThrow( stmt->createElse() );
 			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
 			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( elseStmt->getKind() == ast::stmt::Kind::eElse )
+			check( elseStmt->size() == 2u )
+		}
+		{
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto i = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" );
+			auto j = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" );
+			auto stmt = stmtCache.makeIf( exprCache.makeLiteral( typesCache, true ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			{
+				auto subStmt = stmtCache.makeIf( exprCache.makeLiteral( typesCache, false ) );
+				subStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+				subStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+				auto subElseStmt = subStmt->createElse();
+				checkThrow( subStmt->createElse() );
+				subElseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+				subElseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+				stmt->addStmt( std::move( subStmt ) );
+			}
+			auto elseStmt = stmt->createElse();
+			checkThrow( stmt->createElse() );
+			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( elseStmt->getKind() == ast::stmt::Kind::eElse )
+			check( elseStmt->size() == 2u )
+		}
+		{
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto i = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" );
+			auto j = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" );
+			auto stmt = stmtCache.makeIf( exprCache.makeLiteral( typesCache, false ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			stmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			auto elseStmt = stmt->createElse();
+			checkThrow( stmt->createElse() );
+			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			elseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			{
+				auto subStmt = stmtCache.makeIf( exprCache.makeLiteral( typesCache, true ) );
+				subStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+				subStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+				auto subElseStmt = subStmt->createElse();
+				checkThrow( subStmt->createElse() );
+				subElseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, i ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+				subElseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+				stmt->addStmt( std::move( subStmt ) );
+			}
 			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
 
 			require( elseStmt->getKind() == ast::stmt::Kind::eElse )
@@ -1129,6 +1486,44 @@ namespace
 			auto j = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" );
 			auto k = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "k" );
 			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeIdentifier( typesCache, i ) ) );
+			auto caseStmt = stmt->createCase( exprCache.makeSwitchCase( exprCache.makeLiteral( typesCache, 10 ) ) );
+			caseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			caseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			auto defaultStmt = stmt->createDefault();
+			defaultStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			defaultStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eSwitch )
+			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest )
+			check( stmt->size() == 2u )
+		}
+		{
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto j = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" );
+			auto k = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "k" );
+			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeLiteral( typesCache, 10 ) ) );
+			auto caseStmt = stmt->createCase( exprCache.makeSwitchCase( exprCache.makeLiteral( typesCache, 10 ) ) );
+			caseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			caseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			auto defaultStmt = stmt->createDefault();
+			defaultStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
+			defaultStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 20 ) ) ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			require( stmt->getKind() == ast::stmt::Kind::eSwitch )
+			check( stmt->getTestExpr()->getKind() == ast::expr::Kind::eSwitchTest )
+			check( stmt->size() == 2u )
+		}
+		{
+			ast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			ast::expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto j = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" );
+			auto k = ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "k" );
+			auto stmt = stmtCache.makeSwitch( exprCache.makeSwitchTest( exprCache.makeLiteral( typesCache, 20 ) ) );
 			auto caseStmt = stmt->createCase( exprCache.makeSwitchCase( exprCache.makeLiteral( typesCache, 10 ) ) );
 			caseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, j ), exprCache.makeLiteral( typesCache, 10 ) ) ) );
 			caseStmt->addStmt( stmtCache.makeSimple( exprCache.makeInit( exprCache.makeIdentifier( typesCache, k ), exprCache.makeLiteral( typesCache, 20 ) ) ) );

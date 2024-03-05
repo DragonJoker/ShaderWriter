@@ -25,6 +25,15 @@ namespace checks
 		return toString( expr.getKind() );
 	}
 
+	static ExprList makeList( ExprPtr arg0
+		, ExprPtr arg1 )
+	{
+		ExprList result;
+		result.push_back( std::move( arg0 ) );
+		result.push_back( std::move( arg1 ) );
+		return result;
+	}
+
 	static bool isBinary( Expr const & expr )
 	{
 		return expr.getKind() == ast::expr::Kind::eAdd
@@ -182,6 +191,146 @@ namespace checks
 				subCheckNoThrow( function, line, container = ast::simplify( stmtCache, exprCache, typesCache, *container ) );
 				subCheckNoThrow( function, line, container = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, {} ) );
 			}
+		}
+		{
+			struct Visitor
+				: public ast::expr::SimpleVisitor
+			{
+				void visitUnaryExpr( ast::expr::Unary const * expr )override
+				{
+					if ( auto operand = expr->getOperand() )
+					{
+						operand->accept( this );
+					}
+				}
+				void visitBinaryExpr( ast::expr::Binary const * expr )override
+				{
+					if ( auto lhs = expr->getLHS() )
+					{
+						lhs->accept( this );
+					}
+					if ( auto rhs = expr->getRHS() )
+					{
+						rhs->accept( this );
+					}
+				}
+				void visitAggrInitExpr( ast::expr::AggrInit const * expr )override
+				{
+					if ( expr->hasIdentifier() )
+					{
+						expr->getIdentifier().accept( this );
+					}
+					for ( auto & arg : expr->getInitialisers() )
+					{
+						arg->accept( this );
+					}
+				}
+				void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+				void visitFnCallExpr( ast::expr::FnCall const * expr )override
+				{
+					if ( auto ident = expr->getFn() )
+					{
+						ident->accept( this );
+					}
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+				void visitIdentifierExpr( ast::expr::Identifier const * expr )override
+				{
+				}
+				void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+				void visitInitExpr( ast::expr::Init const * expr )override
+				{
+					if ( expr->hasIdentifier() )
+					{
+						expr->getIdentifier().accept( this );
+					}
+					if ( auto init = expr->getInitialiser() )
+					{
+						init->accept( this );
+					}
+				}
+				void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+				void visitLiteralExpr( ast::expr::Literal const * expr )override
+				{
+				}
+				void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
+				{
+					if ( auto outer = expr->getOuterExpr() )
+					{
+						outer->accept( this );
+					}
+				}
+				void visitQuestionExpr( ast::expr::Question const * expr )override
+				{
+					if ( auto ctrl = expr->getCtrlExpr() )
+					{
+						ctrl->accept( this );
+					}
+					if ( auto inner = expr->getTrueExpr() )
+					{
+						inner->accept( this );
+					}
+					if ( auto inner = expr->getFalseExpr() )
+					{
+						inner->accept( this );
+					}
+				}
+				void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
+				{
+					visitUnaryExpr( expr );
+				}
+				void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
+				{
+					if ( auto label = expr->getLabel() )
+					{
+						label->accept( this );
+					}
+				}
+				void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override
+				{
+					if ( auto value = expr->getValue() )
+					{
+						value->accept( this );
+					}
+				}
+				void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
+				{
+					if ( auto outer = expr->getOuterExpr() )
+					{
+						outer->accept( this );
+					}
+				}
+				void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override
+				{
+					for ( auto & arg : expr->getArgList() )
+					{
+						arg->accept( this );
+					}
+				}
+			};
+			Visitor vis;
+			subCheckNoThrow( function, line, expr.accept( &vis ) )
 		}
 	}
 
@@ -633,6 +782,18 @@ namespace checks
 			checkThrow( preDec( *expr ) )
 			checkThrow( preInc( *expr ) )
 		}
+		{
+			ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto expr = exprCache.makeLiteral( typesCache, 1L );
+			checkExprDependant( testCounts, *expr, "testExprIdentifier", __LINE__ );
+		}
+		{
+			ExprCache exprCache{ *testCounts.allocatorBlock };
+			ast::type::TypesCache typesCache;
+			auto expr = exprCache.makeLiteral( typesCache, 1UL );
+			checkExprDependant( testCounts, *expr, "testExprIdentifier", __LINE__ );
+		}
 		testExprFloatLiteral< LiteralType::eFloat, LiteralType::eDouble >( testCounts, "testExprLiteral", __LINE__ );
 		testExprFloatLiteral< LiteralType::eDouble, LiteralType::eFloat >( testCounts, "testExprLiteral", __LINE__ );
 		testExprSignedIntegerLiteral< LiteralType::eInt8, LiteralType::eUInt8 >( testCounts, "testExprLiteral", __LINE__ );
@@ -651,38 +812,41 @@ namespace checks
 		testBegin( "testExprIdentifier" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto expr = exprCache.makeIdentifier( typesCache
-			, ast::var::makeVariable( testCounts.getNextVarId()
-				, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "var0" )
-				, typesCache.getInt32()
-				, "var1" ) );
+		{
+			auto expr = exprCache.makeIdentifier( typesCache
+				, ast::var::makeVariable( testCounts.getNextVarId()
+					, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "var0" )
+					, typesCache.getInt32()
+					, "var1" ) );
 
-		require( expr->getKind() == Kind::eIdentifier )
-		require( expr->getFlags() == 0u )
-		check( !expr->isDummy() )
-		expr->updateFlag( ast::expr::Flag::eDummy );
-		check( expr->isDummy() )
-		expr->updateFlag( ast::expr::Flag::eDummy, false );
-		check( !expr->isDummy() )
-		check( !expr->isSpecialisationConstant() )
-		expr->updateFlag( ast::expr::Flag::eSpecialisationConstant );
-		check( expr->isSpecialisationConstant() )
-		check( !expr->isConstant() )
-		expr->updateFlag( ast::expr::Flag::eConstant );
-		check( expr->isConstant() )
-		check( !expr->isImplicit() )
-		expr->updateFlag( ast::expr::Flag::eImplicit );
-		check( expr->isImplicit() )
-		check( !expr->isNonUniform() )
-		expr->updateFlag( ast::expr::Flag::eNonUniform );
-		check( expr->isNonUniform() )
-		expr->updateFlag( ast::expr::Flag::eNonUniform, false );
-		check( !expr->isNonUniform() )
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 )
-		check( expr->getVariable()->getName() == "var1" )
-		check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 )
-		checkExprDependant( testCounts, *expr, "testExprIdentifier", __LINE__ );
-		checkThrow( getLiteralValue< ast::expr::LiteralType::eInt32 >( *expr ) )
+			require( expr->getKind() == Kind::eIdentifier )
+			require( expr->getFlags() == 0u )
+			check( !expr->isDummy() )
+			expr->updateFlag( ast::expr::Flag::eDummy );
+			check( expr->isDummy() )
+			checkNoThrow( expr->clone() )
+			expr->updateFlag( ast::expr::Flag::eDummy, false );
+			check( !expr->isDummy() )
+			check( !expr->isSpecialisationConstant() )
+			expr->updateFlag( ast::expr::Flag::eSpecialisationConstant );
+			check( expr->isSpecialisationConstant() )
+			check( !expr->isConstant() )
+			expr->updateFlag( ast::expr::Flag::eConstant );
+			check( expr->isConstant() )
+			check( !expr->isImplicit() )
+			expr->updateFlag( ast::expr::Flag::eImplicit );
+			check( expr->isImplicit() )
+			check( !expr->isNonUniform() )
+			expr->updateFlag( ast::expr::Flag::eNonUniform );
+			check( expr->isNonUniform() )
+			expr->updateFlag( ast::expr::Flag::eNonUniform, false );
+			check( !expr->isNonUniform() )
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 )
+			check( expr->getVariable()->getName() == "var1" )
+			check( expr->getVariable()->getType()->getKind() == ast::type::Kind::eInt32 )
+			checkExprDependant( testCounts, *expr, "testExprIdentifier", __LINE__ );
+			checkThrow( getLiteralValue< ast::expr::LiteralType::eInt32 >( *expr ) )
+		}
 		{
 			uint32_t flags{};
 			flags = flags | ast::expr::Flag::eDummy;
@@ -703,6 +867,15 @@ namespace checks
 	static void testExprAdd( test::TestCounts & testCounts )
 	{
 		testBegin( "testExprAdd" );
+		{
+			ast::Vector< uint32_t > a{ ast::StlAllocatorT< uint32_t >{ testCounts.allocatorBlock.get() } };
+			auto lhs = a.get_allocator();
+			ast::Vector< uint32_t > b{ ast::StlAllocatorT< uint32_t >{ testCounts.allocatorBlock.get() } };
+			auto rhs = b.get_allocator();
+			check( lhs == rhs );
+			check( !( lhs != rhs ) );
+			check( lhs.getAllocator() == rhs.getAllocator() );
+		}
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
 		{
@@ -730,6 +903,42 @@ namespace checks
 			auto lhs = exprCache.makeLiteral( typesCache, 20 );
 			auto rhs = exprCache.makeLiteral( typesCache, 10 );
 			auto expr = exprCache.makeAdd( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
+			checkExprDependant( testCounts, *expr, "testExprAdd", __LINE__ );
+		}
+		{
+			auto lhs = exprCache.makeAggrInit( typesCache.getVec2I32()
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) );
+			auto rhs = exprCache.makeAggrInit( typesCache.getVec2I32()
+				, makeList( exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) );
+			auto expr = exprCache.makeAdd( typesCache.getVec2I32(), std::move( lhs ), std::move( rhs ) );
+
+			check( expr->getKind() == Kind::eAdd );
+			check( expr->getType()->getKind() == ast::type::Kind::eVec2I32 );
+
+			require( expr->getLHS()->getKind() == Kind::eAggrInit );
+			check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eVec2I32 );
+
+			require( expr->getRHS()->getKind() == Kind::eAggrInit );
+			check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eVec2I32 );
+			checkExprDependant( testCounts, *expr, "testExprAdd", __LINE__ );
+		}
+		{
+			auto lhs = exprCache.makeCompositeConstruct( CompositeType::eVec2
+				, ast::type::Kind::eInt32
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) );
+			auto rhs = exprCache.makeCompositeConstruct( CompositeType::eVec2
+				, ast::type::Kind::eInt32
+				, makeList( exprCache.makeLiteral( typesCache, 30 ), exprCache.makeLiteral( typesCache, 40 ) ) );
+			auto expr = exprCache.makeAdd( typesCache.getVec2I32(), std::move( lhs ), std::move( rhs ) );
+
+			check( expr->getKind() == Kind::eAdd );
+			check( expr->getType()->getKind() == ast::type::Kind::eVec2I32 );
+
+			require( expr->getLHS()->getKind() == Kind::eCompositeConstruct );
+			check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eVec2I32 );
+
+			require( expr->getRHS()->getKind() == Kind::eCompositeConstruct );
+			check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eVec2I32 );
 			checkExprDependant( testCounts, *expr, "testExprAdd", __LINE__ );
 		}
 		testEnd()
@@ -1188,23 +1397,62 @@ namespace checks
 		testBegin( "testExprArrayAccess" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( typesCache.getInt32() ), "lhs" ) );
-		auto rhs = exprCache.makeLiteral( typesCache, 10 );
-		auto expr = exprCache.makeArrayAccess( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
+		{
+			auto lhs = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( typesCache.getInt32() ), "lhs" ) );
+			auto rhs = exprCache.makeLiteral( typesCache, 10 );
+			auto expr = exprCache.makeArrayAccess( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
 
-		check( expr->getKind() == Kind::eArrayAccess );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( expr->getKind() == Kind::eArrayAccess )
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 )
 
-		require( expr->getLHS()->getKind() == Kind::eIdentifier );
-		check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eArray );
-		check( static_cast< Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" );
-		check( static_cast< Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eArray );
+			require( expr->getLHS()->getKind() == Kind::eIdentifier )
+			check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eArray )
+			check( static_cast< Identifier const & >( *expr->getLHS() ).getVariable()->getName() == "lhs" )
+			check( static_cast< Identifier const & >( *expr->getLHS() ).getVariable()->getType()->getKind() == ast::type::Kind::eArray )
 
-		require( expr->getRHS()->getKind() == Kind::eLiteral );
-		check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 );
-		require( static_cast< Literal const & >( *expr->getRHS() ).getLiteralType() == LiteralType::eInt32 );
-		check( static_cast< Literal const & >( *expr->getRHS() ).getValue< LiteralType::eInt32 >() == 10 );
-		checkExprDependant( testCounts, *expr, "testExprArrayAccess", __LINE__ );
+			require( expr->getRHS()->getKind() == Kind::eLiteral )
+			check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 )
+			require( static_cast< Literal const & >( *expr->getRHS() ).getLiteralType() == LiteralType::eInt32 )
+			check( static_cast< Literal const & >( *expr->getRHS() ).getValue< LiteralType::eInt32 >() == 10 )
+			checkExprDependant( testCounts, *expr, "testExprArrayAccess", __LINE__ );
+		}
+		{
+			auto lhs = exprCache.makeAggrInit( typesCache.getArray( typesCache.getInt32(), 2u )
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) );
+			auto rhs = exprCache.makeLiteral( typesCache, 1 );
+			auto expr = exprCache.makeArrayAccess( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
+
+			check( expr->getKind() == Kind::eArrayAccess )
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 )
+
+			require( expr->getLHS()->getKind() == Kind::eAggrInit )
+			check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eArray )
+
+			require( expr->getRHS()->getKind() == Kind::eLiteral )
+			check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 )
+			require( static_cast< Literal const & >( *expr->getRHS() ).getLiteralType() == LiteralType::eInt32 )
+			check( static_cast< Literal const & >( *expr->getRHS() ).getValue< LiteralType::eInt32 >() == 1 )
+			checkExprDependant( testCounts, *expr, "testExprArrayAccess", __LINE__ );
+		}
+		{
+			auto lhs = exprCache.makeCompositeConstruct( CompositeType::eVec2
+				, ast::type::Kind::eInt32
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) );
+			auto rhs = exprCache.makeLiteral( typesCache, 1 );
+			auto expr = exprCache.makeArrayAccess( typesCache.getInt32(), std::move( lhs ), std::move( rhs ) );
+
+			check( expr->getKind() == Kind::eArrayAccess )
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 )
+
+			require( expr->getLHS()->getKind() == Kind::eCompositeConstruct )
+			check( expr->getLHS()->getType()->getKind() == ast::type::Kind::eVec2I32 )
+
+			require( expr->getRHS()->getKind() == Kind::eLiteral )
+			check( expr->getRHS()->getType()->getKind() == ast::type::Kind::eInt32 )
+			require( static_cast< Literal const & >( *expr->getRHS() ).getLiteralType() == LiteralType::eInt32 )
+			check( static_cast< Literal const & >( *expr->getRHS() ).getValue< LiteralType::eInt32 >() == 1 )
+			checkExprDependant( testCounts, *expr, "testExprArrayAccess", __LINE__ );
+		}
 		testEnd()
 	}
 
@@ -1782,18 +2030,29 @@ namespace checks
 		testBegin( "testExprUnaryMinus" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "op" ) );
-		auto expr = exprCache.makeUnaryMinus( std::move( op ) );
+		{
+			auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "op" ) );
+			auto expr = exprCache.makeUnaryMinus( std::move( op ) );
 
-		check( expr->getKind() == Kind::eUnaryMinus );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( expr->getKind() == Kind::eUnaryMinus );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		require( expr->getOperand()->getKind() == Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		checkExprDependant( testCounts, *expr, "testExprUnaryMinus", __LINE__ );
+			require( expr->getOperand()->getKind() == Kind::eIdentifier );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
+			check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
+			checkExprDependant( testCounts, *expr, "testExprUnaryMinus", __LINE__ );
+		}
+		{
+			auto expr = exprCache.makeUnaryMinus( exprCache.makeLiteral( typesCache, 10 ) );
 
+			check( expr->getKind() == Kind::eUnaryMinus );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+			require( expr->getOperand()->getKind() == Kind::eLiteral );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			checkExprDependant( testCounts, *expr, "testExprUnaryMinus", __LINE__ );
+		}
 		checkThrow( ast::expr::UnaryMinus( exprCache, typesCache.getInt32(), nullptr ) )
 		testEnd()
 	}
@@ -1803,17 +2062,29 @@ namespace checks
 		testBegin( "testExprUnaryPlus" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "op" ) );
-		auto expr = exprCache.makeUnaryPlus( std::move( op ) );
+		{
+			auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "op" ) );
+			auto expr = exprCache.makeUnaryPlus( std::move( op ) );
 
-		check( expr->getKind() == Kind::eUnaryPlus );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( expr->getKind() == Kind::eUnaryPlus );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		require( expr->getOperand()->getKind() == Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		checkExprDependant( testCounts, *expr, "testExprUnaryPlus", __LINE__ );
+			require( expr->getOperand()->getKind() == Kind::eIdentifier );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
+			check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
+			checkExprDependant( testCounts, *expr, "testExprUnaryPlus", __LINE__ );
+		}
+		{
+			auto expr = exprCache.makeUnaryPlus( exprCache.makeLiteral( typesCache, 10 ) );
+
+			check( expr->getKind() == Kind::eUnaryPlus );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+			require( expr->getOperand()->getKind() == Kind::eLiteral );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			checkExprDependant( testCounts, *expr, "testExprUnaryMinus", __LINE__ );
+		}
 		testEnd()
 	}
 
@@ -1822,17 +2093,45 @@ namespace checks
 		testBegin( "testExprCast" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "op" ) );
-		auto expr = exprCache.makeCast( typesCache.getFloat(), std::move( op ) );
+		{
+			auto op = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "op" ) );
+			auto expr = exprCache.makeCast( typesCache.getFloat(), std::move( op ) );
 
-		check( expr->getKind() == Kind::eCast );
-		check( expr->getType()->getKind() == ast::type::Kind::eFloat );
+			check( expr->getKind() == Kind::eCast );
+			check( expr->getType()->getKind() == ast::type::Kind::eFloat );
 
-		require( expr->getOperand()->getKind() == Kind::eIdentifier );
-		check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
-		check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		checkExprDependant( testCounts, *expr, "testExprCast", __LINE__ );
+			require( expr->getOperand()->getKind() == Kind::eIdentifier );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getName() == "op" );
+			check( static_cast< Identifier const & >( *expr->getOperand() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
+			checkExprDependant( testCounts, *expr, "testExprCast", __LINE__ );
+		}
+		{
+			auto op = exprCache.makeLiteral( typesCache, 10 );
+			auto expr = exprCache.makeCast( typesCache.getFloat(), std::move( op ) );
+
+			check( expr->getKind() == Kind::eCast );
+			check( expr->getType()->getKind() == ast::type::Kind::eFloat );
+
+			require( expr->getOperand()->getKind() == Kind::eLiteral );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Literal const & >( *expr->getOperand() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+			check( static_cast< Literal const & >( *expr->getOperand() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
+			checkExprDependant( testCounts, *expr, "testExprCast", __LINE__ );
+		}
+		{
+			auto op = exprCache.makeLiteral( typesCache, 10 );
+			auto expr = exprCache.makeCast( typesCache.getHalf(), std::move( op ) );
+
+			check( expr->getKind() == Kind::eCast );
+			check( expr->getType()->getKind() == ast::type::Kind::eHalf );
+
+			require( expr->getOperand()->getKind() == Kind::eLiteral );
+			check( expr->getOperand()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Literal const & >( *expr->getOperand() ).getLiteralType() == ast::expr::LiteralType::eInt32 );
+			check( static_cast< Literal const & >( *expr->getOperand() ).getValue< ast::expr::LiteralType::eInt32 >() == 10 );
+			checkExprDependant( testCounts, *expr, "testExprCast", __LINE__ );
+		}
 		testEnd()
 	}
 
@@ -2356,29 +2655,77 @@ namespace checks
 		testBegin( "testExprQuestion" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto ctrlExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getBool(), "ctrl" ) );
-		auto trueExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( 2u, typesCache.getInt32(), "lhs" ) );
-		auto falseExpr = exprCache.makeLiteral( typesCache, 10 );
-		auto expr = exprCache.makeQuestion( typesCache.getInt32(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
+		{
+			auto ctrlExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getBool(), "ctrl" ) );
+			auto trueExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( 2u, typesCache.getInt32(), "lhs" ) );
+			auto falseExpr = exprCache.makeLiteral( typesCache, 10 );
+			auto expr = exprCache.makeQuestion( typesCache.getInt32(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
 
-		require( expr->getKind() == Kind::eQuestion );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			require( expr->getKind() == Kind::eQuestion );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		require( expr->getCtrlExpr()->getKind() == Kind::eIdentifier );
-		check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
-		check( static_cast< Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBoolean );
-		check( static_cast< Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getName() == "ctrl" );
+			require( expr->getCtrlExpr()->getKind() == Kind::eIdentifier );
+			check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
+			check( static_cast< Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eBoolean );
+			check( static_cast< Identifier const & >( *expr->getCtrlExpr() ).getVariable()->getName() == "ctrl" );
 
-		require( expr->getTrueExpr()->getKind() == Kind::eIdentifier );
-		check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getName() == "lhs" );
+			require( expr->getTrueExpr()->getKind() == Kind::eIdentifier );
+			check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getName() == "lhs" );
 
-		require( expr->getFalseExpr()->getKind() == Kind::eLiteral );
-		check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
-		check( static_cast< Literal const & >( *expr->getFalseExpr() ).getLiteralType() == LiteralType::eInt32 );
-		check( static_cast< Literal const & >( *expr->getFalseExpr() ).getValue< LiteralType::eInt32 >() == 10 );
-		checkExprDependant( testCounts, *expr, "testExprQuestion", __LINE__ );
+			require( expr->getFalseExpr()->getKind() == Kind::eLiteral );
+			check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Literal const & >( *expr->getFalseExpr() ).getLiteralType() == LiteralType::eInt32 );
+			check( static_cast< Literal const & >( *expr->getFalseExpr() ).getValue< LiteralType::eInt32 >() == 10 );
+			checkExprDependant( testCounts, *expr, "testExprQuestion", __LINE__ );
+		}
+		{
+			auto ctrlExpr = exprCache.makeLiteral( typesCache, false );
+			auto trueExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( 2u, typesCache.getInt32(), "lhs" ) );
+			auto falseExpr = exprCache.makeLiteral( typesCache, 10 );
+			auto expr = exprCache.makeQuestion( typesCache.getInt32(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
+
+			require( expr->getKind() == Kind::eQuestion );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+			require( expr->getCtrlExpr()->getKind() == Kind::eLiteral );
+			check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eBoolean );
+
+			require( expr->getTrueExpr()->getKind() == Kind::eIdentifier );
+			check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getName() == "lhs" );
+
+			require( expr->getFalseExpr()->getKind() == Kind::eLiteral );
+			check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eInt32 );
+			check( static_cast< Literal const & >( *expr->getFalseExpr() ).getLiteralType() == LiteralType::eInt32 );
+			check( static_cast< Literal const & >( *expr->getFalseExpr() ).getValue< LiteralType::eInt32 >() == 10 );
+			checkExprDependant( testCounts, *expr, "testExprQuestion", __LINE__ );
+		}
+		{
+			auto ctrlExpr = exprCache.makeCompositeConstruct( CompositeType::eVec2, ast::type::Kind::eBoolean
+				, makeList( exprCache.makeLiteral( typesCache, false ), exprCache.makeLiteral( typesCache, true ) ) );
+			auto trueExpr = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( 2u, typesCache.getVec2I32(), "lhs" ) );
+			auto falseExpr = exprCache.makeCompositeConstruct( CompositeType::eVec2, ast::type::Kind::eInt32
+				, makeList( exprCache.makeLiteral( typesCache, 10 ), exprCache.makeLiteral( typesCache, 20 ) ) );
+			auto expr = exprCache.makeQuestion( typesCache.getVec2I32(), std::move( ctrlExpr ), std::move( trueExpr ), std::move( falseExpr ) );
+
+			require( expr->getKind() == Kind::eQuestion );
+			check( expr->getType()->getKind() == ast::type::Kind::eVec2I32 );
+
+			require( expr->getCtrlExpr()->getKind() == Kind::eCompositeConstruct );
+			check( expr->getCtrlExpr()->getType()->getKind() == ast::type::Kind::eVec2B );
+
+			require( expr->getTrueExpr()->getKind() == Kind::eIdentifier );
+			check( expr->getTrueExpr()->getType()->getKind() == ast::type::Kind::eVec2I32 );
+			check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getType()->getKind() == ast::type::Kind::eVec2I32 );
+			check( static_cast< Identifier const & >( *expr->getTrueExpr() ).getVariable()->getName() == "lhs" );
+
+			require( expr->getFalseExpr()->getKind() == Kind::eCompositeConstruct );
+			check( expr->getFalseExpr()->getType()->getKind() == ast::type::Kind::eVec2I32 );
+			checkExprDependant( testCounts, *expr, "testExprQuestion", __LINE__ );
+		}
 		testEnd()
 	}
 
@@ -2425,13 +2772,23 @@ namespace checks
 		testBegin( "testExprCopy" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "operand" ) );
-		auto expr = exprCache.makeCopy( std::move( value ) );
+		{
+			auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "operand" ) );
+			auto expr = exprCache.makeCopy( std::move( value ) );
 
-		require( expr->getKind() == Kind::eCopy );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			require( expr->getKind() == Kind::eCopy );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		checkExprDependant( testCounts, *expr, "testExprCopy", __LINE__ );
+			checkExprDependant( testCounts, *expr, "testExprCopy", __LINE__ );
+		}
+		{
+			auto expr = exprCache.makeCopy( exprCache.makeLiteral( typesCache, 10 ) );
+
+			require( expr->getKind() == Kind::eCopy );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+			checkExprDependant( testCounts, *expr, "testExprCopy", __LINE__ );
+		}
 		testEnd()
 	}
 
@@ -2459,14 +2816,25 @@ namespace checks
 		testBegin( "testExprStreamAppend" );
 		ExprCache exprCache{ *testCounts.allocatorBlock };
 		ast::type::TypesCache typesCache;
-		auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "operand" ) );
-		auto expr = exprCache.makeStreamAppend( std::move( value ) );
+		{
+			auto value = exprCache.makeIdentifier( typesCache, ast::var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "operand" ) );
+			auto expr = exprCache.makeStreamAppend( std::move( value ) );
 
-		require( expr->getKind() == Kind::eStreamAppend );
-		require( expr->getOperand()->getKind() == Kind::eIdentifier );
-		check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+			require( expr->getKind() == Kind::eStreamAppend );
+			require( expr->getOperand()->getKind() == Kind::eIdentifier );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
 
-		checkExprDependant( testCounts, *expr, "testExprStreamAppend", __LINE__ );
+			checkExprDependant( testCounts, *expr, "testExprStreamAppend", __LINE__ );
+		}
+		{
+			auto expr = exprCache.makeStreamAppend( exprCache.makeLiteral( typesCache, 10 ) );
+
+			require( expr->getKind() == Kind::eStreamAppend );
+			require( expr->getOperand()->getKind() == Kind::eLiteral );
+			check( expr->getType()->getKind() == ast::type::Kind::eInt32 );
+
+			checkExprDependant( testCounts, *expr, "testExprStreamAppend", __LINE__ );
+		}
 		testEnd()
 	}
 
