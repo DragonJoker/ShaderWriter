@@ -220,7 +220,7 @@ namespace hlsl
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
 				auto type = var->getType();
-				assert( type->getRawKind() == ast::type::Kind::eHitAttribute );
+				AST_Assert( type->getRawKind() == ast::type::Kind::eHitAttribute );
 
 				if ( !isStructType( type ) )
 				{
@@ -259,7 +259,7 @@ namespace hlsl
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
 				auto type = var->getType();
-				assert( type->getRawKind() == ast::type::Kind::eCallableData );
+				AST_Assert( type->getRawKind() == ast::type::Kind::eCallableData );
 
 				if ( !isStructType( type ) )
 				{
@@ -300,7 +300,7 @@ namespace hlsl
 				auto var = stmt->getVariable();
 				declareType( var->getType() );
 				auto type = var->getType();
-				assert( type->getRawKind() == ast::type::Kind::eRayPayload );
+				AST_Assert( type->getRawKind() == ast::type::Kind::eRayPayload );
 
 				if ( !isStructType( type ) )
 				{
@@ -466,7 +466,7 @@ namespace hlsl
 
 				for ( auto & curStmt : *stmt )
 				{
-					assert( curStmt->getKind() == ast::stmt::Kind::eVariableDecl );
+					AST_Assert( curStmt->getKind() == ast::stmt::Kind::eVariableDecl );
 					auto var = static_cast< ast::stmt::VariableDecl const & >( *curStmt ).getVariable();
 					m_adaptationData.replacedVars.try_emplace( var
 						, m_exprCache.makeMbrSelect( m_exprCache.makeArrayAccess( ssboVar->getType()

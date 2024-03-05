@@ -47,11 +47,24 @@ See LICENSE file in root folder
 #	define TraceFunc
 #endif
 
-#define AST_Failure( msg )\
-	assert( false && msg )
-
 #define AST_Exception( text )\
 	throw ast::Exception{ text }
+
+#if SDAST_ExceptAssert
+#	ifndef NDEBUG
+#	define AST_Assert( pred )\
+		( !!( pred ) ) || ( AST_Exception( #pred ), 0 )
+#	define AST_Failure( msg )\
+		AST_Exception( msg )
+#	else
+#		define AST_Failure( msg )
+#	endif
+#else
+#	define AST_Assert( pred )\
+		assert( pred )
+#	define AST_Failure( msg )\
+		AST_Assert( false && msg )
+#endif
 
 namespace ast
 {

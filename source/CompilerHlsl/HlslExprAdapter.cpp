@@ -175,6 +175,7 @@ namespace hlsl
 			, ast::expr::CombinedImageAccess access
 			, ast::expr::ExprPtr texcoords )
 		{
+			ast::expr::ExprPtr result{};
 			switch ( access )
 			{
 			case ast::expr::CombinedImageAccess::eTextureProj1DF2:
@@ -209,8 +210,8 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
-				return writeProjectTexCoords2( exprCache, typesCache, nextVarId, std::move( texcoords ) );
-
+				result = writeProjectTexCoords2( exprCache, typesCache, nextVarId, std::move( texcoords ) );
+				break;
 			case ast::expr::CombinedImageAccess::eTextureProj1DF4:
 			case ast::expr::CombinedImageAccess::eTextureProj1DI4:
 			case ast::expr::CombinedImageAccess::eTextureProj1DU4:
@@ -235,8 +236,8 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
-				return writeProjectTexCoords4To1( exprCache, typesCache, nextVarId, std::move( texcoords ) );
-
+				result = writeProjectTexCoords4To1( exprCache, typesCache, nextVarId, std::move( texcoords ) );
+				break;
 			case ast::expr::CombinedImageAccess::eTextureProj2DF3:
 			case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProj2DI3:
@@ -269,8 +270,8 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
-				return writeProjectTexCoords3( exprCache, typesCache, nextVarId, std::move( texcoords ) );
-
+				result = writeProjectTexCoords3( exprCache, typesCache, nextVarId, std::move( texcoords ) );
+				break;
 			case ast::expr::CombinedImageAccess::eTextureProj2DF4:
 			case ast::expr::CombinedImageAccess::eTextureProj2DI4:
 			case ast::expr::CombinedImageAccess::eTextureProj2DU4:
@@ -295,8 +296,8 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
-				return writeProjectTexCoords4To2( exprCache, typesCache, nextVarId, std::move( texcoords ) );
-
+				result = writeProjectTexCoords4To2( exprCache, typesCache, nextVarId, std::move( texcoords ) );
+				break;
 			case ast::expr::CombinedImageAccess::eTextureProj3DF:
 			case ast::expr::CombinedImageAccess::eTextureProj3DI:
 			case ast::expr::CombinedImageAccess::eTextureProj3DU:
@@ -321,17 +322,19 @@ namespace hlsl
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DF:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DI:
 			case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
-				return writeProjectTexCoords4( exprCache, typesCache, nextVarId, std::move( texcoords ) );
-
+				result = writeProjectTexCoords4( exprCache, typesCache, nextVarId, std::move( texcoords ) );
+				break;
 			default:
-				AST_Failure( "Expected a textureProj access function" );
-				return nullptr;
+				break;
 			}
+
+			AST_Assert( result && "Expected a textureProj access function" );
+			return result;
 		}
 
 		static ast::expr::CombinedImageAccess getSampleCmp( ast::expr::CombinedImageAccess value )
 		{
-			assert( value >= ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
+			AST_Assert( value >= ast::expr::CombinedImageAccess::eTextureGrad1DShadowF
 				&& value <= ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF );
 			ast::expr::CombinedImageAccess result{};
 
@@ -466,7 +469,7 @@ namespace hlsl
 
 			if ( mbr.builtin == ast::Builtin::eClipDistance )
 			{
-				assert( arrayIndex->getKind() == ast::expr::Kind::eLiteral );
+				AST_Assert( arrayIndex->getKind() == ast::expr::Kind::eLiteral );
 				auto & lit = static_cast< ast::expr::Literal const & >( *arrayIndex );
 				uint32_t index{};
 
@@ -572,7 +575,7 @@ namespace hlsl
 				&& !m_preventVarTypeReplacement )
 			{
 				m_result = ast::ExprCloner::submit( m_exprCache, *itReplaced->second );
-				assert( m_result );
+				AST_Assert( m_result );
 			}
 			else
 			{
@@ -1082,55 +1085,55 @@ namespace hlsl
 		switch ( adaptationInfo.operatorChange.operatorKind )
 		{
 		case ast::expr::Kind::eLess:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeLess( m_typesCache
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
 			break;
 
 		case ast::expr::Kind::eLessEqual:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeLessEqual( m_typesCache
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
 			break;
 
 		case ast::expr::Kind::eGreater:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeGreater( m_typesCache
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
 			break;
 
 		case ast::expr::Kind::eGreaterEqual:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeGreaterEqual( m_typesCache
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
 			break;
 
 		case ast::expr::Kind::eEqual:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeEqual( m_typesCache
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
 			break;
 
 		case ast::expr::Kind::eNotEqual:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeNotEqual( m_typesCache
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
 			break;
 
 		case ast::expr::Kind::eLogNot:
-			assert( expr.getArgList().size() == 1u );
+			AST_Assert( expr.getArgList().size() == 1u );
 			m_result = m_exprCache.makeLogNot( m_typesCache
 				, doSubmit( *expr.getArgList()[0] ) );
 			break;
 
 		case ast::expr::Kind::eTimes:
-			assert( expr.getArgList().size() == 2u );
+			AST_Assert( expr.getArgList().size() == 2u );
 			m_result = m_exprCache.makeTimes( expr.getArgList()[0]->getType()
 				, doSubmit( *expr.getArgList()[0] )
 				, doSubmit( *expr.getArgList()[1] ) );
@@ -1371,8 +1374,7 @@ namespace hlsl
 				composite = ast::expr::CompositeType::eVec3;
 				break;
 			default:
-				AST_Failure( "Invalid count for image size" );
-				throw ast::Exception{ "Invalid count for image size" };
+				AST_Exception( "Invalid count for image size" );
 			}
 
 			// The call to image.GetDimensions
@@ -1795,8 +1797,7 @@ namespace hlsl
 				composite = ast::expr::CompositeType::eVec3;
 				break;
 			default:
-				AST_Failure( "Invalid count for image size" );
-				throw ast::Exception{ "Invalid count for texture size" };
+				AST_Exception( "Invalid count for image size" );
 			}
 
 			// The call to image.GetDimensions
@@ -2109,14 +2110,14 @@ namespace hlsl
 			|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexelFetchBufferU )
 		{
 			// For those texel fetch functions, no lod, and none needed.
-			assert( expr.getArgList().size() >= 2u );
+			AST_Assert( expr.getArgList().size() >= 2u );
 			args.emplace_back( doSubmit( *expr.getArgList()[1] ) );
 		}
 		else
 		{
 			ast::expr::ExprList merged;
 			// For those texel fetch functions, lod is put inside the coords parameter, instead of being aside.
-			assert( expr.getArgList().size() >= 3u );
+			AST_Assert( expr.getArgList().size() >= 3u );
 			// Merge second and third parameters to the appropriate vector type (int=>ivec2, ivec2=>ivec3, ivec3=>ivec4).
 			merged.emplace_back( doSubmit( *expr.getArgList()[1] ) );
 			merged.emplace_back( doSubmit( *expr.getArgList()[2] ) );
@@ -2165,7 +2166,7 @@ namespace hlsl
 			AST_Failure( "First parameter should be sampled image" );
 		}
 
-		assert( expr.getArgList().size() >= 5u );
+		AST_Assert( expr.getArgList().size() >= 5u );
 		// Second param is texcoord
 		args.emplace_back( doSubmit( *expr.getArgList()[1] ) );
 		// Third param is dref value
@@ -2189,7 +2190,7 @@ namespace hlsl
 	void ExprAdapter::doProcessTextureGather( ast::expr::CombinedImageAccessCall const & expr )
 	{
 		auto kind = expr.getCombinedImageAccess();
-		assert( expr.getArgList().size() >= 2u );
+		AST_Assert( expr.getArgList().size() >= 2u );
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
@@ -2217,7 +2218,7 @@ namespace hlsl
 		if ( isShadow( kind ) )
 		{
 			// Dref value
-			assert( expr.getArgList().size() >= 3u );
+			AST_Assert( expr.getArgList().size() >= 3u );
 			args.emplace_back( doSubmit( *expr.getArgList()[index] ) );
 			++index;
 		}
@@ -2248,7 +2249,7 @@ namespace hlsl
 	void ExprAdapter::doProcessTextureGatherOffsets( ast::expr::CombinedImageAccessCall const & expr )
 	{
 		auto kind = expr.getCombinedImageAccess();
-		assert( expr.getArgList().size() >= 3u );
+		AST_Assert( expr.getArgList().size() >= 3u );
 		uint32_t index = 0u;
 		ast::expr::ExprList args;
 		// First parameter should be sampled image
@@ -2274,14 +2275,14 @@ namespace hlsl
 		if ( isShadow( kind ) )
 		{
 			// Dref value
-			assert( expr.getArgList().size() >= 4u );
+			AST_Assert( expr.getArgList().size() >= 4u );
 			args.emplace_back( doSubmit( *expr.getArgList()[index] ) );
 			++index;
 		}
 
 		// Next parameter contains the 4 offsets.
 		auto const & offset = *expr.getArgList()[index];
-		assert( getArraySize( offset.getType() ) == 4u );
+		AST_Assert( getArraySize( offset.getType() ) == 4u );
 		auto arrayType = std::static_pointer_cast< ast::type::Array >( offset.getType() );
 		args.emplace_back( ast::resolveConstants( m_exprCache
 			, *m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )

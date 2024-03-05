@@ -618,7 +618,13 @@ target_include_directories( ${PROJECT_NAME}
 		${INCLUDE_DIR}
 		${SOURCE_DIR}
 )
-target_add_coverage_flags( ${PROJECT_NAME} )
+if ( PROJECTS_COVERAGE )
+	target_add_coverage_flags( ${PROJECT_NAME} )
+	target_compile_definitions( ${PROJECT_NAME}
+		PUBLIC
+			SDAST_ExceptAssert=1
+	)
+endif ()
 target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}
 	ShaderWriter

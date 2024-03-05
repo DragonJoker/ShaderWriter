@@ -993,7 +993,7 @@ namespace ast::expr
 	template< LiteralType T >
 	inline LiteralValueType< T > Literal::getValue()const
 	{
-		assert( m_valueType == T );
+		AST_Assert( m_valueType == T );
 		return details::valueGetter< T >( m_value );
 	}
 

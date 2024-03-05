@@ -56,8 +56,10 @@ namespace spirv::debug
 			return mult * 8u;
 		default:
 			AST_Failure( "Unsupported type::Kind" );
-			return 0u;
 		}
+#if !SDAST_ExceptAssert
+		return 0u;
+#endif
 	}
 
 	uint32_t getEncoding( ast::type::Kind kind )
@@ -92,8 +94,10 @@ namespace spirv::debug
 			return uint32_t( spv::NonSemanticShaderDebugInfo100DebugBaseTypeAttributeEncoding::Boolean );
 		default:
 			AST_Failure( "Unsupported type::Kind" );
-			return uint32_t( spv::NonSemanticShaderDebugInfo100DebugBaseTypeAttributeEncoding::Unspecified );
 		}
+#if !SDAST_ExceptAssert
+		return uint32_t( spv::NonSemanticShaderDebugInfo100DebugBaseTypeAttributeEncoding::Unspecified );
+#endif
 	}
 
 	uint32_t getFlags( uint64_t varFlags )

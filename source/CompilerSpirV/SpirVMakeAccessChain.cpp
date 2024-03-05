@@ -251,7 +251,7 @@ namespace spirv
 				, glsl::Statement * currentDebugStatement )
 			{
 				DebugIdList result{ &exprCache.getAllocator() };
-				assert( exprs.size() >= 2u );
+				AST_Assert( exprs.size() >= 2u );
 				auto it = exprs.begin();
 				result.push_back( submit( exprCache
 					, *it->expr
@@ -371,13 +371,13 @@ namespace spirv
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
 			{
-				assert( m_parentId );
+				AST_Assert( m_parentId );
 				m_result = m_module.registerLiteral( expr->getMemberIndex() );
 			}
 
 			void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override
 			{
-				assert( m_parentId );
+				AST_Assert( m_parentId );
 
 				if ( isAccessChain( *expr->getRHS(), true ) )
 				{
@@ -406,7 +406,7 @@ namespace spirv
 
 				if ( var->isAlias() )
 				{
-					assert( !m_parentId || m_parentKind == ast::expr::Kind::eArrayAccess );
+					AST_Assert( !m_parentId || m_parentKind == ast::expr::Kind::eArrayAccess );
 					m_result = m_module.getVariablePointer( m_currentBlock
 						, var->getName()
 						, spv::StorageClassFunction
@@ -471,7 +471,7 @@ namespace spirv
 
 			void visitLiteralExpr( ast::expr::Literal const * expr )override
 			{
-				assert( m_parentId );
+				AST_Assert( m_parentId );
 
 				switch ( expr->getLiteralType() )
 				{
@@ -516,7 +516,7 @@ namespace spirv
 
 			void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
 			{
-				assert( m_parentId );
+				AST_Assert( m_parentId );
 
 				if ( expr->getSwizzle().isOneComponent() )
 				{
@@ -670,7 +670,7 @@ namespace spirv
 			result = intermediateId;
 		}
 
-		assert( !result.isPointer() );
+		AST_Assert( !result.isPointer() );
 		return result;
 	}
 }

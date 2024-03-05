@@ -322,7 +322,7 @@ namespace ast::type
 		{
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnull-dereference"
-			assert( m_typesCache );
+			AST_Assert( m_typesCache );
 			return *m_typesCache;
 #pragma GCC diagnostic pop
 		}

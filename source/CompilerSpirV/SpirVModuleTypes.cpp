@@ -21,7 +21,7 @@ namespace spirv
 			, ast::type::Struct const & qualified )
 		{
 			auto result = typesCache.getStruct( qualified.getMemoryLayout(), qualified.getName() );
-			assert( result->empty() || ( result->size() == qualified.size() ) );
+			AST_Assert( result->empty() || ( result->size() == qualified.size() ) );
 
 			if ( result->empty() && !qualified.empty() )
 			{
@@ -991,12 +991,12 @@ namespace spirv
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::Kind kind
 		, glsl::Statement const * debugStatement )
 	{
-		assert( kind != ast::type::Kind::eStruct );
-		assert( kind != ast::type::Kind::eRayDesc );
-		assert( kind != ast::type::Kind::eSampler );
-		assert( kind != ast::type::Kind::eImage );
-		assert( kind != ast::type::Kind::eSampledImage );
-		assert( kind != ast::type::Kind::eCombinedImage );
+		AST_Assert( kind != ast::type::Kind::eStruct );
+		AST_Assert( kind != ast::type::Kind::eRayDesc );
+		AST_Assert( kind != ast::type::Kind::eSampler );
+		AST_Assert( kind != ast::type::Kind::eImage );
+		AST_Assert( kind != ast::type::Kind::eSampledImage );
+		AST_Assert( kind != ast::type::Kind::eCombinedImage );
 
 		auto & resultId = doRegisterBaseType( m_module.getNextId(), kind );
 

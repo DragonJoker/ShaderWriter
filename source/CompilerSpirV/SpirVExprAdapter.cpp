@@ -88,7 +88,7 @@ namespace spirv
 				if ( mbr.builtin == ast::Builtin::ePrimitiveIndicesNV )
 				{
 					auto builtinExpr = m_adaptationData.config.processPending( m_exprCache, mbr.builtin, m_container );
-					assert( builtinExpr );
+					AST_Assert( builtinExpr );
 
 					// Compute base index, based on declared type of builtin
 					auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
@@ -291,7 +291,7 @@ namespace spirv
 				auto rayDesc = std::move( args.back() );
 				args.pop_back();
 				// Replace RayDesc parameter with its four members
-				assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
+				AST_Assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
 				uint32_t index = 0u;
 				for ( auto mbr : *getStructType( rayDesc->getType() ) )
 				{
@@ -340,7 +340,7 @@ namespace spirv
 					|| isPerVertex( adapt::getBuiltin( *expr ), m_adaptationData.config.stage ) ) )
 			{
 				auto type = m_result->getType();
-				assert( type->getKind() == ast::type::Kind::eArray );
+				AST_Assert( type->getKind() == ast::type::Kind::eArray );
 				m_result = m_exprCache.makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
 					, std::move( m_result )
 					, m_adaptationData.config.processPending( m_exprCache
@@ -383,7 +383,7 @@ namespace spirv
 #if !defined( NDEBUG )
 		for ( auto const & arg : args )
 		{
-			assert( arg != nullptr );
+			AST_Assert( arg != nullptr );
 		}
 #endif
 

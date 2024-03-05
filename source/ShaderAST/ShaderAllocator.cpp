@@ -19,7 +19,7 @@ namespace ast
 		, m_numLevels{ numLevels }
 		, m_minBlockSize{ minBlockSize }
 	{
-		assert( m_numLevels < 32 );
+		AST_Assert( m_numLevels < 32 );
 		m_freeLists.resize( m_numLevels + 1 );
 		m_freeLists[0u].push_back( getPointer( 0u ) );
 	}
@@ -330,7 +330,7 @@ namespace ast
 
 		auto & buddy = *it->second;
 		auto result = buddy.allocate( wholeSize );
-		assert( result != nullptr );
+		AST_Assert( result != nullptr );
 		return result;
 	}
 

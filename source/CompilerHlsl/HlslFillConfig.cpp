@@ -497,7 +497,7 @@ namespace hlsl
 				auto index = 0u;
 				auto type = getNonArrayType( stmt->getType() );
 				auto structType = getStructType( type );
-				assert( structType );
+				AST_Assert( structType );
 
 				for ( auto & member : *structType )
 				{
@@ -523,7 +523,7 @@ namespace hlsl
 			{
 				auto index = 0u;
 				auto type = getNonArrayType( stmt->getType() );
-				assert( type->getKind() == ast::type::Kind::eStruct );
+				AST_Assert( type->getKind() == ast::type::Kind::eStruct );
 
 				for ( auto & member : static_cast< ast::type::Struct const & >( *type ) )
 				{

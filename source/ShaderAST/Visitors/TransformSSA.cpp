@@ -433,7 +433,7 @@ namespace ast
 				for ( auto & init : expr->getInitialisers() )
 				{
 					initialisers.push_back( doSubmit( *init ) );
-					assert( initialisers.back() );
+					AST_Assert( initialisers.back() );
 				}
 
 				if ( expr->hasIdentifier() )
@@ -657,7 +657,7 @@ namespace ast
 				}
 				else
 				{
-					assert( condComponents == 1u );
+					AST_Assert( condComponents == 1u );
 					expr::ExprPtr argAlias{};
 					ast::var::VariablePtr alias;
 					doMakeAlias( doSubmit( *expr->getCtrlExpr() )
@@ -915,7 +915,7 @@ namespace ast
 				{
 					if ( !lhsScalar && !rhsScalar )
 					{
-						assert( lhs->getType()->getKind() == rhs->getType()->getKind()
+						AST_Assert( lhs->getType()->getKind() == rhs->getType()->getKind()
 							&& "TODO" );
 					}
 					else if ( lhsScalar )

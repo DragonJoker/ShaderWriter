@@ -38,7 +38,7 @@ namespace ast
 		{
 			static uint32_t getLiteralIndex( expr::Literal const & lit )
 			{
-				assert( lit.getLiteralType() == expr::LiteralType::eInt8
+				AST_Assert( lit.getLiteralType() == expr::LiteralType::eInt8
 					|| lit.getLiteralType() == expr::LiteralType::eInt16
 					|| lit.getLiteralType() == expr::LiteralType::eInt32
 					|| lit.getLiteralType() == expr::LiteralType::eInt64
@@ -87,35 +87,48 @@ namespace ast
 			static expr::LiteralType getLiteralType( type::Type const & type )
 			{
 				type::Kind kind = type.getKind();
+				auto result = expr::LiteralType::eFloat;
 
 				switch ( kind )
 				{
 				case type::Kind::eBoolean:
-					return expr::LiteralType::eBool;
+					result = expr::LiteralType::eBool;
+					break;
 				case type::Kind::eInt8:
-					return expr::LiteralType::eInt8;
+					result = expr::LiteralType::eInt8;
+					break;
 				case type::Kind::eInt16:
-					return expr::LiteralType::eInt16;
+					result = expr::LiteralType::eInt16;
+					break;
 				case type::Kind::eInt32:
-					return expr::LiteralType::eInt32;
+					result = expr::LiteralType::eInt32;
+					break;
 				case type::Kind::eInt64:
-					return expr::LiteralType::eInt64;
+					result = expr::LiteralType::eInt64;
+					break;
 				case type::Kind::eUInt8:
-					return expr::LiteralType::eUInt8;
+					result = expr::LiteralType::eUInt8;
+					break;
 				case type::Kind::eUInt16:
-					return expr::LiteralType::eUInt16;
+					result = expr::LiteralType::eUInt16;
+					break;
 				case type::Kind::eUInt32:
-					return expr::LiteralType::eUInt32;
+					result = expr::LiteralType::eUInt32;
+					break;
 				case type::Kind::eUInt64:
-					return expr::LiteralType::eUInt64;
+					result = expr::LiteralType::eUInt64;
+					break;
 				case type::Kind::eFloat:
-					return expr::LiteralType::eFloat;
+					result = expr::LiteralType::eFloat;
+					break;
 				case type::Kind::eDouble:
-					return expr::LiteralType::eDouble;
+					result = expr::LiteralType::eDouble;
+					break;
 				default:
-					AST_Failure( "Unsupported kind for a literal" );
-					return expr::LiteralType::eFloat;
+					break;
 				}
+
+				return result;
 			}
 
 			static bool needsVariableDecl( var::VariablePtr variable
@@ -309,72 +322,72 @@ namespace ast
 
 					void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 					{
-						AST_Failure( "Unexpected AddAssign expression" );
+						AST_Exception( "Unexpected AddAssign expression" );
 					}
 
 					void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 					{
-						AST_Failure( "Unexpected AndAssign expression" );
+						AST_Exception( "Unexpected AndAssign expression" );
 					}
 
 					void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 					{
-						AST_Failure( "Unexpected DivideAssign expression" );
+						AST_Exception( "Unexpected DivideAssign expression" );
 					}
 
 					void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 					{
-						AST_Failure( "Unexpected LShiftAssign expression" );
+						AST_Exception( "Unexpected LShiftAssign expression" );
 					}
 
 					void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 					{
-						AST_Failure( "Unexpected MinusAssign expression" );
+						AST_Exception( "Unexpected MinusAssign expression" );
 					}
 
 					void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 					{
-						AST_Failure( "Unexpected ModuloAssign expression" );
+						AST_Exception( "Unexpected ModuloAssign expression" );
 					}
 
 					void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 					{
-						AST_Failure( "Unexpected OrAssign expression" );
+						AST_Exception( "Unexpected OrAssign expression" );
 					}
 
 					void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 					{
-						AST_Failure( "Unexpected RShiftAssign expression" );
+						AST_Exception( "Unexpected RShiftAssign expression" );
 					}
 
 					void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 					{
-						AST_Failure( "Unexpected TimesAssign expression" );
+						AST_Exception( "Unexpected TimesAssign expression" );
 					}
 
 					void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 					{
-						AST_Failure( "Unexpected XorAssign expression" );
+						AST_Exception( "Unexpected XorAssign expression" );
 					}
 
 					void visitPostDecrementExpr(expr::PostDecrement const * expr )override
 					{
-						AST_Failure( "Unexpected PostDecrement expression" );
+						AST_Exception( "Unexpected PostDecrement expression" );
 					}
 
 					void visitPostIncrementExpr(expr::PostIncrement const * expr )override
 					{
-						AST_Failure( "Unexpected PostIncrement expression" );
+						AST_Exception( "Unexpected PostIncrement expression" );
 					}
 
 					void visitPreDecrementExpr(expr::PreDecrement const * expr )override
 					{
-						AST_Failure( "Unexpected PreDecrement expression" );
+						AST_Exception( "Unexpected PreDecrement expression" );
 					}
 
 					void visitPreIncrementExpr(expr::PreIncrement const * expr )override
 					{
-						AST_Failure( "Unexpected PreIncrement expression" );
+						AST_Exception( "Unexpected PreIncrement expression" );
 					}
 
 				private:
@@ -633,19 +646,22 @@ namespace ast
 
 			static expr::ExprPtr getNthValue( expr::Expr const & init, uint32_t index )
 			{
+				expr::ExprPtr result{};
+
 				if ( init.getKind() == expr::Kind::eAggrInit )
 				{
-					return static_cast< expr::AggrInit const & >( init ).getInitialisers()[index]->clone();
+					result = static_cast< expr::AggrInit const & >( init ).getInitialisers()[index]->clone();
 				}
 				else if ( init.getKind() == expr::Kind::eCompositeConstruct )
 				{
-					return static_cast< expr::CompositeConstruct const & >( init ).getArgList()[index]->clone();
+					result = static_cast< expr::CompositeConstruct const & >( init ).getArgList()[index]->clone();
 				}
 				else
 				{
-					AST_Failure( "Non valid expression type to retrieve index value on." );
-					return init.getExprCache().makeSwizzle( init.clone(), expr::SwizzleKind::fromOffset( index ) );
+					AST_Exception( "Non valid expression type to retrieve index value on." );
 				}
+
+				return result;
 			}
 
 			template< typename ValueT > struct ValueTraitsT;
@@ -744,7 +760,7 @@ namespace ast
 				}
 				else
 				{
-					throw std::invalid_argument{ "Can't process this expression" };
+					AST_Exception( "Can't process this expression" );
 				}
 
 				return result;
@@ -881,33 +897,40 @@ namespace ast
 				, DataT< ValueT, CountT > args
 				, FuncT func )
 			{
-				DataT< ValueU, CountT > result = process1T< ValueT, ValueU >( std::move( args ), func );
+				expr::ExprPtr result{};
+				DataT< ValueU, CountT > processed = process1T< ValueT, ValueU >( std::move( args ), func );
 
 				switch ( CountT )
 				{
 				case 1u:
-					return exprCache.makeLiteral( typesCache, result.front() );
+					result = exprCache.makeLiteral( typesCache, processed.front() );
+					break;
 				case 2u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] ) ) );
+					break;
 				case 3u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] )
-							, exprCache.makeLiteral( typesCache, result[2] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] )
+							, exprCache.makeLiteral( typesCache, processed[2] ) ) );
+					break;
 				case 4u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] )
-							, exprCache.makeLiteral( typesCache, result[2] )
-							, exprCache.makeLiteral( typesCache, result[3] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] )
+							, exprCache.makeLiteral( typesCache, processed[2] )
+							, exprCache.makeLiteral( typesCache, processed[3] ) ) );
+					break;
 				default:
-					return nullptr;
+					break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename ValueU, size_t CountT, typename FuncT >
@@ -917,33 +940,40 @@ namespace ast
 				, DataT< ValueT, CountT > args2
 				, FuncT func )
 			{
-				DataT< ValueU, CountT > result = process2T< ValueT, ValueU >( std::move( args1 ), std::move( args2 ), func );
+				expr::ExprPtr result{};
+				DataT< ValueU, CountT > processed = process2T< ValueT, ValueU >( std::move( args1 ), std::move( args2 ), func );
 
 				switch ( CountT )
 				{
 				case 1u:
-					return exprCache.makeLiteral( typesCache, result.front() );
+					result = exprCache.makeLiteral( typesCache, processed.front() );
+					break;
 				case 2u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] ) ) );
+					break;
 				case 3u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] )
-							, exprCache.makeLiteral( typesCache, result[2] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] )
+							, exprCache.makeLiteral( typesCache, processed[2] ) ) );
+					break;
 				case 4u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] )
-							, exprCache.makeLiteral( typesCache, result[2] )
-							, exprCache.makeLiteral( typesCache, result[3] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] )
+							, exprCache.makeLiteral( typesCache, processed[2] )
+							, exprCache.makeLiteral( typesCache, processed[3] ) ) );
+					break;
 				default:
-					return nullptr;
+					break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename ValueU, size_t CountT, typename FuncT >
@@ -954,33 +984,40 @@ namespace ast
 				, DataT< ValueT, CountT > args3
 				, FuncT func )
 			{
-				DataT< ValueU, CountT > result = process3T< ValueT, ValueU >( std::move( args1 ), std::move( args2 ), std::move( args3 ), func );
+				expr::ExprPtr result{};
+				DataT< ValueU, CountT > processed = process3T< ValueT, ValueU >( std::move( args1 ), std::move( args2 ), std::move( args3 ), func );
 
 				switch ( CountT )
 				{
 				case 1u:
-					return exprCache.makeLiteral( typesCache, result.front() );
+					result = exprCache.makeLiteral( typesCache, processed.front() );
+					break;
 				case 2u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] ) ) );
+					break;
 				case 3u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] )
-							, exprCache.makeLiteral( typesCache, result[2] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] )
+							, exprCache.makeLiteral( typesCache, processed[2] ) ) );
+					break;
 				case 4u:
-					return exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+					result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
 						, kindT< ValueU >
-						, makeList( exprCache.makeLiteral( typesCache, result[0] )
-							, exprCache.makeLiteral( typesCache, result[1] )
-							, exprCache.makeLiteral( typesCache, result[2] )
-							, exprCache.makeLiteral( typesCache, result[3] ) ) );
+						, makeList( exprCache.makeLiteral( typesCache, processed[0] )
+							, exprCache.makeLiteral( typesCache, processed[1] )
+							, exprCache.makeLiteral( typesCache, processed[2] )
+							, exprCache.makeLiteral( typesCache, processed[3] ) ) );
+					break;
 				default:
-					return nullptr;
+					break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, size_t CountT, typename FuncT >
@@ -989,17 +1026,24 @@ namespace ast
 				, DataT< ValueT, CountT > args
 				, FuncT func )
 			{
+				expr::ExprPtr result{};
+
 				switch ( CountT )
 				{
 				case 2u:
-					return exprCache.makeLiteral( typesCache, func( args[0], args[1] ) );
+					result = exprCache.makeLiteral( typesCache, func( args[0], args[1] ) );
+					break;
 				case 3u:
-					return exprCache.makeLiteral( typesCache, func( args[0], func( args[1], args[2] ) ) );
+					result = exprCache.makeLiteral( typesCache, func( args[0], func( args[1], args[2] ) ) );
+					break;
 				case 4u:
-					return exprCache.makeLiteral( typesCache, func( args[0], func( args[1], func( args[2], args[3] ) ) ) );
+					result = exprCache.makeLiteral( typesCache, func( args[0], func( args[1], func( args[2], args[3] ) ) ) );
+					break;
 				default:
-					return nullptr;
+					break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename FuncT >
@@ -1008,16 +1052,19 @@ namespace ast
 				, expr::ExprList args
 				, FuncT func )
 			{
-				auto & arg = *args.front();
+				expr::ExprPtr result{};
 
-				switch ( type::getComponentCount( arg.getType() ) )
+				switch ( auto & arg = *args.front();
+					type::getComponentCount( arg.getType() ) )
 				{
-				case 1u: return apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 1u >( arg ), func );
-				case 2u: return apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg ), func );
-				case 3u: return apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg ), func );
-				case 4u: return apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg ), func );
-				default: return nullptr;
+				case 1u: result = apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 1u >( arg ), func ); break;
+				case 2u: result = apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg ), func ); break;
+				case 3u: result = apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg ), func ); break;
+				case 4u: result = apply1T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg ), func ); break;
+				default: break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename FuncT >
@@ -1026,16 +1073,19 @@ namespace ast
 				, expr::ExprList args
 				, FuncT func )
 			{
-				auto & arg = *args.front();
+				expr::ExprPtr result{};
 
-				switch ( type::getComponentCount( arg.getType() ) )
+				switch ( auto & arg = *args.front();
+					type::getComponentCount( arg.getType() ) )
 				{
-				case 1u: return apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 1u >( arg ), func );
-				case 2u: return apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 2u >( arg ), func );
-				case 3u: return apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 3u >( arg ), func );
-				case 4u: return apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 4u >( arg ), func );
-				default: return nullptr;
+				case 1u: result = apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 1u >( arg ), func ); break;
+				case 2u: result = apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 2u >( arg ), func ); break;
+				case 3u: result = apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 3u >( arg ), func ); break;
+				case 4u: result = apply1T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 4u >( arg ), func ); break;
+				default: break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename FuncT >
@@ -1044,17 +1094,20 @@ namespace ast
 				, expr::ExprList args
 				, FuncT func )
 			{
-				auto & arg1 = *args.front();
+				expr::ExprPtr result{};
 				auto & arg2 = *args.back();
 
-				switch ( type::getComponentCount( arg1.getType() ) )
+				switch ( auto & arg1 = *args.front();
+					type::getComponentCount( arg1.getType() ) )
 				{
-				case 1u: return apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 1u >( arg1 ), getData< ValueT, 1u >( arg2 ), func );
-				case 2u: return apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg1 ), getData< ValueT, 2u >( arg2 ), func );
-				case 3u: return apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg1 ), getData< ValueT, 3u >( arg2 ), func );
-				case 4u: return apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg1 ), getData< ValueT, 4u >( arg2 ), func );
-				default: return nullptr;
+				case 1u: result = apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 1u >( arg1 ), getData< ValueT, 1u >( arg2 ), func ); break;
+				case 2u: result = apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg1 ), getData< ValueT, 2u >( arg2 ), func ); break;
+				case 3u: result = apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg1 ), getData< ValueT, 3u >( arg2 ), func ); break;
+				case 4u: result = apply2T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg1 ), getData< ValueT, 4u >( arg2 ), func ); break;
+				default: break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename FuncT >
@@ -1063,17 +1116,20 @@ namespace ast
 				, expr::ExprList args
 				, FuncT func )
 			{
-				auto & arg1 = *args.front();
+				expr::ExprPtr result{};
 				auto & arg2 = *args.back();
 
-				switch ( type::getComponentCount( arg1.getType() ) )
+				switch ( auto & arg1 = *args.front();
+					type::getComponentCount( arg1.getType() ) )
 				{
-				case 1u: return apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 1u >( arg1 ), getData< ValueT, 1u >( arg2 ), func );
-				case 2u: return apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 2u >( arg1 ), getData< ValueT, 2u >( arg2 ), func );
-				case 3u: return apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 3u >( arg1 ), getData< ValueT, 3u >( arg2 ), func );
-				case 4u: return apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 4u >( arg1 ), getData< ValueT, 4u >( arg2 ), func );
-				default: return nullptr;
+				case 1u: result = apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 1u >( arg1 ), getData< ValueT, 1u >( arg2 ), func ); break;
+				case 2u: result = apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 2u >( arg1 ), getData< ValueT, 2u >( arg2 ), func ); break;
+				case 3u: result = apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 3u >( arg1 ), getData< ValueT, 3u >( arg2 ), func ); break;
+				case 4u: result = apply2T< ValueT, bool >( typesCache, exprCache, getData< ValueT, 4u >( arg1 ), getData< ValueT, 4u >( arg2 ), func ); break;
+				default: break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename FuncT >
@@ -1082,18 +1138,21 @@ namespace ast
 				, expr::ExprList args
 				, FuncT func )
 			{
-				auto & arg1 = *args[0];
+				expr::ExprPtr result{};
 				auto & arg2 = *args[1];
 				auto & arg3 = *args[2];
 
-				switch ( type::getComponentCount( arg1.getType() ) )
+				switch ( auto & arg1 = *args[0];
+					type::getComponentCount( arg1.getType() ) )
 				{
-				case 1u: return apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 1u >( arg1 ), getData< ValueT, 1u >( arg2 ), getData< ValueT, 1u >( arg3 ), func );
-				case 2u: return apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg1 ), getData< ValueT, 2u >( arg2 ), getData< ValueT, 2u >( arg3 ), func );
-				case 3u: return apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg1 ), getData< ValueT, 3u >( arg2 ), getData< ValueT, 3u >( arg3 ), func );
-				case 4u: return apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg1 ), getData< ValueT, 4u >( arg2 ), getData< ValueT, 4u >( arg3 ), func );
-				default: return nullptr;
+				case 1u: result = apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 1u >( arg1 ), getData< ValueT, 1u >( arg2 ), getData< ValueT, 1u >( arg3 ), func ); break;
+				case 2u: result = apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg1 ), getData< ValueT, 2u >( arg2 ), getData< ValueT, 2u >( arg3 ), func ); break;
+				case 3u: result = apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg1 ), getData< ValueT, 3u >( arg2 ), getData< ValueT, 3u >( arg3 ), func ); break;
+				case 4u: result = apply3T< ValueT, ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg1 ), getData< ValueT, 4u >( arg2 ), getData< ValueT, 4u >( arg3 ), func ); break;
+				default: break;
 				}
+
+				return result;
 			}
 
 			template< typename ValueT, typename FuncT >
@@ -1102,378 +1161,375 @@ namespace ast
 				, expr::ExprList args
 				, FuncT func )
 			{
-				auto & arg = *args.front();
+				expr::ExprPtr result{};
 
-				switch ( type::getComponentCount( arg.getType() ) )
+				switch ( auto & arg = *args.front();
+					type::getComponentCount( arg.getType() ) )
 				{
-				case 2u: return gatherT< ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg ), func );
-				case 3u: return gatherT< ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg ), func );
-				case 4u: return gatherT< ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg ), func );
-				default: return nullptr;
+				case 2u: result = gatherT< ValueT >( typesCache, exprCache, getData< ValueT, 2u >( arg ), func ); break;
+				case 3u: result = gatherT< ValueT >( typesCache, exprCache, getData< ValueT, 3u >( arg ), func ); break;
+				case 4u: result = gatherT< ValueT >( typesCache, exprCache, getData< ValueT, 4u >( arg ), func ); break;
+				default: break;
 				}
+
+				return result;
 			}
 
 			static bool isConstantResolvable( expr::Intrinsic intrinsic )
 			{
-				switch ( intrinsic )
-				{
-				case ast::expr::Intrinsic::eDegrees1:
-				case ast::expr::Intrinsic::eDegrees2:
-				case ast::expr::Intrinsic::eDegrees3:
-				case ast::expr::Intrinsic::eDegrees4:
-				case ast::expr::Intrinsic::eRadians1F:
-				case ast::expr::Intrinsic::eRadians2F:
-				case ast::expr::Intrinsic::eRadians3F:
-				case ast::expr::Intrinsic::eRadians4F:
-				case ast::expr::Intrinsic::eCos1:
-				case ast::expr::Intrinsic::eCos2:
-				case ast::expr::Intrinsic::eCos3:
-				case ast::expr::Intrinsic::eCos4:
-				case ast::expr::Intrinsic::eSin1:
-				case ast::expr::Intrinsic::eSin2:
-				case ast::expr::Intrinsic::eSin3:
-				case ast::expr::Intrinsic::eSin4:
-				case ast::expr::Intrinsic::eTan1:
-				case ast::expr::Intrinsic::eTan2:
-				case ast::expr::Intrinsic::eTan3:
-				case ast::expr::Intrinsic::eTan4:
-				case ast::expr::Intrinsic::eCosh1:
-				case ast::expr::Intrinsic::eCosh2:
-				case ast::expr::Intrinsic::eCosh3:
-				case ast::expr::Intrinsic::eCosh4:
-				case ast::expr::Intrinsic::eSinh1:
-				case ast::expr::Intrinsic::eSinh2:
-				case ast::expr::Intrinsic::eSinh3:
-				case ast::expr::Intrinsic::eSinh4:
-				case ast::expr::Intrinsic::eTanh1:
-				case ast::expr::Intrinsic::eTanh2:
-				case ast::expr::Intrinsic::eTanh3:
-				case ast::expr::Intrinsic::eTanh4:
-				case ast::expr::Intrinsic::eAcos1:
-				case ast::expr::Intrinsic::eAcos2:
-				case ast::expr::Intrinsic::eAcos3:
-				case ast::expr::Intrinsic::eAcos4:
-				case ast::expr::Intrinsic::eAsin1:
-				case ast::expr::Intrinsic::eAsin2:
-				case ast::expr::Intrinsic::eAsin3:
-				case ast::expr::Intrinsic::eAsin4:
-				case ast::expr::Intrinsic::eAtan1:
-				case ast::expr::Intrinsic::eAtan2:
-				case ast::expr::Intrinsic::eAtan3:
-				case ast::expr::Intrinsic::eAtan4:
-				case ast::expr::Intrinsic::eAtan21:
-				case ast::expr::Intrinsic::eAtan22:
-				case ast::expr::Intrinsic::eAtan23:
-				case ast::expr::Intrinsic::eAtan24:
-				case ast::expr::Intrinsic::eAcosh1:
-				case ast::expr::Intrinsic::eAcosh2:
-				case ast::expr::Intrinsic::eAcosh3:
-				case ast::expr::Intrinsic::eAcosh4:
-				case ast::expr::Intrinsic::eAsinh1:
-				case ast::expr::Intrinsic::eAsinh2:
-				case ast::expr::Intrinsic::eAsinh3:
-				case ast::expr::Intrinsic::eAsinh4:
-				case ast::expr::Intrinsic::eAtanh1:
-				case ast::expr::Intrinsic::eAtanh2:
-				case ast::expr::Intrinsic::eAtanh3:
-				case ast::expr::Intrinsic::eAtanh4:
-				case ast::expr::Intrinsic::ePow1:
-				case ast::expr::Intrinsic::ePow2:
-				case ast::expr::Intrinsic::ePow3:
-				case ast::expr::Intrinsic::ePow4:
-				case ast::expr::Intrinsic::eExp1:
-				case ast::expr::Intrinsic::eExp2:
-				case ast::expr::Intrinsic::eExp3:
-				case ast::expr::Intrinsic::eExp4:
-				case ast::expr::Intrinsic::eLog1:
-				case ast::expr::Intrinsic::eLog2:
-				case ast::expr::Intrinsic::eLog3:
-				case ast::expr::Intrinsic::eLog4:
-				case ast::expr::Intrinsic::eExp21:
-				case ast::expr::Intrinsic::eExp22:
-				case ast::expr::Intrinsic::eExp23:
-				case ast::expr::Intrinsic::eExp24:
-				case ast::expr::Intrinsic::eLog21:
-				case ast::expr::Intrinsic::eLog22:
-				case ast::expr::Intrinsic::eLog23:
-				case ast::expr::Intrinsic::eLog24:
-				case ast::expr::Intrinsic::eSqrt1F:
-				case ast::expr::Intrinsic::eSqrt2F:
-				case ast::expr::Intrinsic::eSqrt3F:
-				case ast::expr::Intrinsic::eSqrt4F:
-				case ast::expr::Intrinsic::eSqrt1D:
-				case ast::expr::Intrinsic::eSqrt2D:
-				case ast::expr::Intrinsic::eSqrt3D:
-				case ast::expr::Intrinsic::eSqrt4D:
-				case ast::expr::Intrinsic::eInverseSqrt1F:
-				case ast::expr::Intrinsic::eInverseSqrt2F:
-				case ast::expr::Intrinsic::eInverseSqrt3F:
-				case ast::expr::Intrinsic::eInverseSqrt4F:
-				case ast::expr::Intrinsic::eInverseSqrt1D:
-				case ast::expr::Intrinsic::eInverseSqrt2D:
-				case ast::expr::Intrinsic::eInverseSqrt3D:
-				case ast::expr::Intrinsic::eInverseSqrt4D:
-				case ast::expr::Intrinsic::eAbs1F:
-				case ast::expr::Intrinsic::eAbs2F:
-				case ast::expr::Intrinsic::eAbs3F:
-				case ast::expr::Intrinsic::eAbs4F:
-				case ast::expr::Intrinsic::eAbs1I:
-				case ast::expr::Intrinsic::eAbs2I:
-				case ast::expr::Intrinsic::eAbs3I:
-				case ast::expr::Intrinsic::eAbs4I:
-				case ast::expr::Intrinsic::eAbs1D:
-				case ast::expr::Intrinsic::eAbs2D:
-				case ast::expr::Intrinsic::eAbs3D:
-				case ast::expr::Intrinsic::eAbs4D:
-				case ast::expr::Intrinsic::eSign1F:
-				case ast::expr::Intrinsic::eSign2F:
-				case ast::expr::Intrinsic::eSign3F:
-				case ast::expr::Intrinsic::eSign4F:
-				case ast::expr::Intrinsic::eSign1I:
-				case ast::expr::Intrinsic::eSign2I:
-				case ast::expr::Intrinsic::eSign3I:
-				case ast::expr::Intrinsic::eSign4I:
-				case ast::expr::Intrinsic::eSign1D:
-				case ast::expr::Intrinsic::eSign2D:
-				case ast::expr::Intrinsic::eSign3D:
-				case ast::expr::Intrinsic::eSign4D:
-				case ast::expr::Intrinsic::eFloor1F:
-				case ast::expr::Intrinsic::eFloor2F:
-				case ast::expr::Intrinsic::eFloor3F:
-				case ast::expr::Intrinsic::eFloor4F:
-				case ast::expr::Intrinsic::eFloor1D:
-				case ast::expr::Intrinsic::eFloor2D:
-				case ast::expr::Intrinsic::eFloor3D:
-				case ast::expr::Intrinsic::eFloor4D:
-				case ast::expr::Intrinsic::eTrunc1F:
-				case ast::expr::Intrinsic::eTrunc2F:
-				case ast::expr::Intrinsic::eTrunc3F:
-				case ast::expr::Intrinsic::eTrunc4F:
-				case ast::expr::Intrinsic::eTrunc1D:
-				case ast::expr::Intrinsic::eTrunc2D:
-				case ast::expr::Intrinsic::eTrunc3D:
-				case ast::expr::Intrinsic::eTrunc4D:
-				case ast::expr::Intrinsic::eRound1F:
-				case ast::expr::Intrinsic::eRound2F:
-				case ast::expr::Intrinsic::eRound3F:
-				case ast::expr::Intrinsic::eRound4F:
-				case ast::expr::Intrinsic::eRound1D:
-				case ast::expr::Intrinsic::eRound2D:
-				case ast::expr::Intrinsic::eRound3D:
-				case ast::expr::Intrinsic::eRound4D:
-				case ast::expr::Intrinsic::eRoundEven1F:
-				case ast::expr::Intrinsic::eRoundEven2F:
-				case ast::expr::Intrinsic::eRoundEven3F:
-				case ast::expr::Intrinsic::eRoundEven4F:
-				case ast::expr::Intrinsic::eRoundEven1D:
-				case ast::expr::Intrinsic::eRoundEven2D:
-				case ast::expr::Intrinsic::eRoundEven3D:
-				case ast::expr::Intrinsic::eRoundEven4D:
-				case ast::expr::Intrinsic::eCeil1F:
-				case ast::expr::Intrinsic::eCeil2F:
-				case ast::expr::Intrinsic::eCeil3F:
-				case ast::expr::Intrinsic::eCeil4F:
-				case ast::expr::Intrinsic::eCeil1D:
-				case ast::expr::Intrinsic::eCeil2D:
-				case ast::expr::Intrinsic::eCeil3D:
-				case ast::expr::Intrinsic::eCeil4D:
-				case ast::expr::Intrinsic::eFract1F:
-				case ast::expr::Intrinsic::eFract2F:
-				case ast::expr::Intrinsic::eFract3F:
-				case ast::expr::Intrinsic::eFract4F:
-				case ast::expr::Intrinsic::eFract1D:
-				case ast::expr::Intrinsic::eFract2D:
-				case ast::expr::Intrinsic::eFract3D:
-				case ast::expr::Intrinsic::eFract4D:
-				case ast::expr::Intrinsic::eMod1F:
-				case ast::expr::Intrinsic::eMod2F:
-				case ast::expr::Intrinsic::eMod3F:
-				case ast::expr::Intrinsic::eMod4F:
-				case ast::expr::Intrinsic::eMod1D:
-				case ast::expr::Intrinsic::eMod2D:
-				case ast::expr::Intrinsic::eMod3D:
-				case ast::expr::Intrinsic::eMod4D:
-				case ast::expr::Intrinsic::eMin1F:
-				case ast::expr::Intrinsic::eMin2F:
-				case ast::expr::Intrinsic::eMin3F:
-				case ast::expr::Intrinsic::eMin4F:
-				case ast::expr::Intrinsic::eMin1D:
-				case ast::expr::Intrinsic::eMin2D:
-				case ast::expr::Intrinsic::eMin3D:
-				case ast::expr::Intrinsic::eMin4D:
-				case ast::expr::Intrinsic::eMin1I:
-				case ast::expr::Intrinsic::eMin2I:
-				case ast::expr::Intrinsic::eMin3I:
-				case ast::expr::Intrinsic::eMin4I:
-				case ast::expr::Intrinsic::eMin1U:
-				case ast::expr::Intrinsic::eMin2U:
-				case ast::expr::Intrinsic::eMin3U:
-				case ast::expr::Intrinsic::eMin4U:
-				case ast::expr::Intrinsic::eMax1F:
-				case ast::expr::Intrinsic::eMax2F:
-				case ast::expr::Intrinsic::eMax3F:
-				case ast::expr::Intrinsic::eMax4F:
-				case ast::expr::Intrinsic::eMax1D:
-				case ast::expr::Intrinsic::eMax2D:
-				case ast::expr::Intrinsic::eMax3D:
-				case ast::expr::Intrinsic::eMax4D:
-				case ast::expr::Intrinsic::eMax1I:
-				case ast::expr::Intrinsic::eMax2I:
-				case ast::expr::Intrinsic::eMax3I:
-				case ast::expr::Intrinsic::eMax4I:
-				case ast::expr::Intrinsic::eMax1U:
-				case ast::expr::Intrinsic::eMax2U:
-				case ast::expr::Intrinsic::eMax3U:
-				case ast::expr::Intrinsic::eMax4U:
-				case ast::expr::Intrinsic::eClamp1F:
-				case ast::expr::Intrinsic::eClamp2F:
-				case ast::expr::Intrinsic::eClamp3F:
-				case ast::expr::Intrinsic::eClamp4F:
-				case ast::expr::Intrinsic::eClamp1D:
-				case ast::expr::Intrinsic::eClamp2D:
-				case ast::expr::Intrinsic::eClamp3D:
-				case ast::expr::Intrinsic::eClamp4D:
-				case ast::expr::Intrinsic::eClamp1I:
-				case ast::expr::Intrinsic::eClamp2I:
-				case ast::expr::Intrinsic::eClamp3I:
-				case ast::expr::Intrinsic::eClamp4I:
-				case ast::expr::Intrinsic::eClamp1U:
-				case ast::expr::Intrinsic::eClamp2U:
-				case ast::expr::Intrinsic::eClamp3U:
-				case ast::expr::Intrinsic::eClamp4U:
-				case ast::expr::Intrinsic::eMix1F:
-				case ast::expr::Intrinsic::eMix2F:
-				case ast::expr::Intrinsic::eMix3F:
-				case ast::expr::Intrinsic::eMix4F:
-				case ast::expr::Intrinsic::eMix1D:
-				case ast::expr::Intrinsic::eMix2D:
-				case ast::expr::Intrinsic::eMix3D:
-				case ast::expr::Intrinsic::eMix4D:
-				case ast::expr::Intrinsic::eStep1F:
-				case ast::expr::Intrinsic::eStep2F:
-				case ast::expr::Intrinsic::eStep3F:
-				case ast::expr::Intrinsic::eStep4F:
-				case ast::expr::Intrinsic::eStep1D:
-				case ast::expr::Intrinsic::eStep2D:
-				case ast::expr::Intrinsic::eStep3D:
-				case ast::expr::Intrinsic::eStep4D:
-				case ast::expr::Intrinsic::eSmoothStep1F:
-				case ast::expr::Intrinsic::eSmoothStep2F:
-				case ast::expr::Intrinsic::eSmoothStep3F:
-				case ast::expr::Intrinsic::eSmoothStep4F:
-				case ast::expr::Intrinsic::eSmoothStep1D:
-				case ast::expr::Intrinsic::eSmoothStep2D:
-				case ast::expr::Intrinsic::eSmoothStep3D:
-				case ast::expr::Intrinsic::eSmoothStep4D:
-				case ast::expr::Intrinsic::eIsnan1F:
-				case ast::expr::Intrinsic::eIsnan2F:
-				case ast::expr::Intrinsic::eIsnan3F:
-				case ast::expr::Intrinsic::eIsnan4F:
-				case ast::expr::Intrinsic::eIsnan1D:
-				case ast::expr::Intrinsic::eIsnan2D:
-				case ast::expr::Intrinsic::eIsnan3D:
-				case ast::expr::Intrinsic::eIsnan4D:
-				case ast::expr::Intrinsic::eIsinf1F:
-				case ast::expr::Intrinsic::eIsinf2F:
-				case ast::expr::Intrinsic::eIsinf3F:
-				case ast::expr::Intrinsic::eIsinf4F:
-				case ast::expr::Intrinsic::eIsinf1D:
-				case ast::expr::Intrinsic::eIsinf2D:
-				case ast::expr::Intrinsic::eIsinf3D:
-				case ast::expr::Intrinsic::eIsinf4D:
-				case ast::expr::Intrinsic::eFma1F:
-				case ast::expr::Intrinsic::eFma2F:
-				case ast::expr::Intrinsic::eFma3F:
-				case ast::expr::Intrinsic::eFma4F:
-				case ast::expr::Intrinsic::eFma1D:
-				case ast::expr::Intrinsic::eFma2D:
-				case ast::expr::Intrinsic::eFma3D:
-				case ast::expr::Intrinsic::eFma4D:
-				case ast::expr::Intrinsic::eLessThan2F:
-				case ast::expr::Intrinsic::eLessThan3F:
-				case ast::expr::Intrinsic::eLessThan4F:
-				case ast::expr::Intrinsic::eLessThan2D:
-				case ast::expr::Intrinsic::eLessThan3D:
-				case ast::expr::Intrinsic::eLessThan4D:
-				case ast::expr::Intrinsic::eLessThan2I:
-				case ast::expr::Intrinsic::eLessThan3I:
-				case ast::expr::Intrinsic::eLessThan4I:
-				case ast::expr::Intrinsic::eLessThan2U:
-				case ast::expr::Intrinsic::eLessThan3U:
-				case ast::expr::Intrinsic::eLessThan4U:
-				case ast::expr::Intrinsic::eLessThanEqual2F:
-				case ast::expr::Intrinsic::eLessThanEqual3F:
-				case ast::expr::Intrinsic::eLessThanEqual4F:
-				case ast::expr::Intrinsic::eLessThanEqual2D:
-				case ast::expr::Intrinsic::eLessThanEqual3D:
-				case ast::expr::Intrinsic::eLessThanEqual4D:
-				case ast::expr::Intrinsic::eLessThanEqual2I:
-				case ast::expr::Intrinsic::eLessThanEqual3I:
-				case ast::expr::Intrinsic::eLessThanEqual4I:
-				case ast::expr::Intrinsic::eLessThanEqual2U:
-				case ast::expr::Intrinsic::eLessThanEqual3U:
-				case ast::expr::Intrinsic::eLessThanEqual4U:
-				case ast::expr::Intrinsic::eGreaterThan2F:
-				case ast::expr::Intrinsic::eGreaterThan3F:
-				case ast::expr::Intrinsic::eGreaterThan4F:
-				case ast::expr::Intrinsic::eGreaterThan2D:
-				case ast::expr::Intrinsic::eGreaterThan3D:
-				case ast::expr::Intrinsic::eGreaterThan4D:
-				case ast::expr::Intrinsic::eGreaterThan2I:
-				case ast::expr::Intrinsic::eGreaterThan3I:
-				case ast::expr::Intrinsic::eGreaterThan4I:
-				case ast::expr::Intrinsic::eGreaterThan2U:
-				case ast::expr::Intrinsic::eGreaterThan3U:
-				case ast::expr::Intrinsic::eGreaterThan4U:
-				case ast::expr::Intrinsic::eGreaterThanEqual2F:
-				case ast::expr::Intrinsic::eGreaterThanEqual3F:
-				case ast::expr::Intrinsic::eGreaterThanEqual4F:
-				case ast::expr::Intrinsic::eGreaterThanEqual2D:
-				case ast::expr::Intrinsic::eGreaterThanEqual3D:
-				case ast::expr::Intrinsic::eGreaterThanEqual4D:
-				case ast::expr::Intrinsic::eGreaterThanEqual2I:
-				case ast::expr::Intrinsic::eGreaterThanEqual3I:
-				case ast::expr::Intrinsic::eGreaterThanEqual4I:
-				case ast::expr::Intrinsic::eGreaterThanEqual2U:
-				case ast::expr::Intrinsic::eGreaterThanEqual3U:
-				case ast::expr::Intrinsic::eGreaterThanEqual4U:
-				case ast::expr::Intrinsic::eEqual2F:
-				case ast::expr::Intrinsic::eEqual3F:
-				case ast::expr::Intrinsic::eEqual4F:
-				case ast::expr::Intrinsic::eEqual2D:
-				case ast::expr::Intrinsic::eEqual3D:
-				case ast::expr::Intrinsic::eEqual4D:
-				case ast::expr::Intrinsic::eEqual2I:
-				case ast::expr::Intrinsic::eEqual3I:
-				case ast::expr::Intrinsic::eEqual4I:
-				case ast::expr::Intrinsic::eEqual2U:
-				case ast::expr::Intrinsic::eEqual3U:
-				case ast::expr::Intrinsic::eEqual4U:
-				case ast::expr::Intrinsic::eNotEqual2F:
-				case ast::expr::Intrinsic::eNotEqual3F:
-				case ast::expr::Intrinsic::eNotEqual4F:
-				case ast::expr::Intrinsic::eNotEqual2D:
-				case ast::expr::Intrinsic::eNotEqual3D:
-				case ast::expr::Intrinsic::eNotEqual4D:
-				case ast::expr::Intrinsic::eNotEqual2I:
-				case ast::expr::Intrinsic::eNotEqual3I:
-				case ast::expr::Intrinsic::eNotEqual4I:
-				case ast::expr::Intrinsic::eNotEqual2U:
-				case ast::expr::Intrinsic::eNotEqual3U:
-				case ast::expr::Intrinsic::eNotEqual4U:
-				case ast::expr::Intrinsic::eAll2:
-				case ast::expr::Intrinsic::eAll3:
-				case ast::expr::Intrinsic::eAll4:
-				case ast::expr::Intrinsic::eAny2:
-				case ast::expr::Intrinsic::eAny3:
-				case ast::expr::Intrinsic::eAny4:
-				case ast::expr::Intrinsic::eNot2:
-				case ast::expr::Intrinsic::eNot3:
-				case ast::expr::Intrinsic::eNot4:
-					return true;
-				default:
-					return false;
-				}
+				return intrinsic == ast::expr::Intrinsic::eDegrees1
+					|| intrinsic == ast::expr::Intrinsic::eDegrees2
+					|| intrinsic == ast::expr::Intrinsic::eDegrees3
+					|| intrinsic == ast::expr::Intrinsic::eDegrees4
+					|| intrinsic == ast::expr::Intrinsic::eRadians1F
+					|| intrinsic == ast::expr::Intrinsic::eRadians2F
+					|| intrinsic == ast::expr::Intrinsic::eRadians3F
+					|| intrinsic == ast::expr::Intrinsic::eRadians4F
+					|| intrinsic == ast::expr::Intrinsic::eCos1
+					|| intrinsic == ast::expr::Intrinsic::eCos2
+					|| intrinsic == ast::expr::Intrinsic::eCos3
+					|| intrinsic == ast::expr::Intrinsic::eCos4
+					|| intrinsic == ast::expr::Intrinsic::eSin1
+					|| intrinsic == ast::expr::Intrinsic::eSin2
+					|| intrinsic == ast::expr::Intrinsic::eSin3
+					|| intrinsic == ast::expr::Intrinsic::eSin4
+					|| intrinsic == ast::expr::Intrinsic::eTan1
+					|| intrinsic == ast::expr::Intrinsic::eTan2
+					|| intrinsic == ast::expr::Intrinsic::eTan3
+					|| intrinsic == ast::expr::Intrinsic::eTan4
+					|| intrinsic == ast::expr::Intrinsic::eCosh1
+					|| intrinsic == ast::expr::Intrinsic::eCosh2
+					|| intrinsic == ast::expr::Intrinsic::eCosh3
+					|| intrinsic == ast::expr::Intrinsic::eCosh4
+					|| intrinsic == ast::expr::Intrinsic::eSinh1
+					|| intrinsic == ast::expr::Intrinsic::eSinh2
+					|| intrinsic == ast::expr::Intrinsic::eSinh3
+					|| intrinsic == ast::expr::Intrinsic::eSinh4
+					|| intrinsic == ast::expr::Intrinsic::eTanh1
+					|| intrinsic == ast::expr::Intrinsic::eTanh2
+					|| intrinsic == ast::expr::Intrinsic::eTanh3
+					|| intrinsic == ast::expr::Intrinsic::eTanh4
+					|| intrinsic == ast::expr::Intrinsic::eAcos1
+					|| intrinsic == ast::expr::Intrinsic::eAcos2
+					|| intrinsic == ast::expr::Intrinsic::eAcos3
+					|| intrinsic == ast::expr::Intrinsic::eAcos4
+					|| intrinsic == ast::expr::Intrinsic::eAsin1
+					|| intrinsic == ast::expr::Intrinsic::eAsin2
+					|| intrinsic == ast::expr::Intrinsic::eAsin3
+					|| intrinsic == ast::expr::Intrinsic::eAsin4
+					|| intrinsic == ast::expr::Intrinsic::eAtan1
+					|| intrinsic == ast::expr::Intrinsic::eAtan2
+					|| intrinsic == ast::expr::Intrinsic::eAtan3
+					|| intrinsic == ast::expr::Intrinsic::eAtan4
+					|| intrinsic == ast::expr::Intrinsic::eAtan21
+					|| intrinsic == ast::expr::Intrinsic::eAtan22
+					|| intrinsic == ast::expr::Intrinsic::eAtan23
+					|| intrinsic == ast::expr::Intrinsic::eAtan24
+					|| intrinsic == ast::expr::Intrinsic::eAcosh1
+					|| intrinsic == ast::expr::Intrinsic::eAcosh2
+					|| intrinsic == ast::expr::Intrinsic::eAcosh3
+					|| intrinsic == ast::expr::Intrinsic::eAcosh4
+					|| intrinsic == ast::expr::Intrinsic::eAsinh1
+					|| intrinsic == ast::expr::Intrinsic::eAsinh2
+					|| intrinsic == ast::expr::Intrinsic::eAsinh3
+					|| intrinsic == ast::expr::Intrinsic::eAsinh4
+					|| intrinsic == ast::expr::Intrinsic::eAtanh1
+					|| intrinsic == ast::expr::Intrinsic::eAtanh2
+					|| intrinsic == ast::expr::Intrinsic::eAtanh3
+					|| intrinsic == ast::expr::Intrinsic::eAtanh4
+					|| intrinsic == ast::expr::Intrinsic::ePow1
+					|| intrinsic == ast::expr::Intrinsic::ePow2
+					|| intrinsic == ast::expr::Intrinsic::ePow3
+					|| intrinsic == ast::expr::Intrinsic::ePow4
+					|| intrinsic == ast::expr::Intrinsic::eExp1
+					|| intrinsic == ast::expr::Intrinsic::eExp2
+					|| intrinsic == ast::expr::Intrinsic::eExp3
+					|| intrinsic == ast::expr::Intrinsic::eExp4
+					|| intrinsic == ast::expr::Intrinsic::eLog1
+					|| intrinsic == ast::expr::Intrinsic::eLog2
+					|| intrinsic == ast::expr::Intrinsic::eLog3
+					|| intrinsic == ast::expr::Intrinsic::eLog4
+					|| intrinsic == ast::expr::Intrinsic::eExp21
+					|| intrinsic == ast::expr::Intrinsic::eExp22
+					|| intrinsic == ast::expr::Intrinsic::eExp23
+					|| intrinsic == ast::expr::Intrinsic::eExp24
+					|| intrinsic == ast::expr::Intrinsic::eLog21
+					|| intrinsic == ast::expr::Intrinsic::eLog22
+					|| intrinsic == ast::expr::Intrinsic::eLog23
+					|| intrinsic == ast::expr::Intrinsic::eLog24
+					|| intrinsic == ast::expr::Intrinsic::eSqrt1F
+					|| intrinsic == ast::expr::Intrinsic::eSqrt2F
+					|| intrinsic == ast::expr::Intrinsic::eSqrt3F
+					|| intrinsic == ast::expr::Intrinsic::eSqrt4F
+					|| intrinsic == ast::expr::Intrinsic::eSqrt1D
+					|| intrinsic == ast::expr::Intrinsic::eSqrt2D
+					|| intrinsic == ast::expr::Intrinsic::eSqrt3D
+					|| intrinsic == ast::expr::Intrinsic::eSqrt4D
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt1F
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt2F
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt3F
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt4F
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt1D
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt2D
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt3D
+					|| intrinsic == ast::expr::Intrinsic::eInverseSqrt4D
+					|| intrinsic == ast::expr::Intrinsic::eAbs1F
+					|| intrinsic == ast::expr::Intrinsic::eAbs2F
+					|| intrinsic == ast::expr::Intrinsic::eAbs3F
+					|| intrinsic == ast::expr::Intrinsic::eAbs4F
+					|| intrinsic == ast::expr::Intrinsic::eAbs1I
+					|| intrinsic == ast::expr::Intrinsic::eAbs2I
+					|| intrinsic == ast::expr::Intrinsic::eAbs3I
+					|| intrinsic == ast::expr::Intrinsic::eAbs4I
+					|| intrinsic == ast::expr::Intrinsic::eAbs1D
+					|| intrinsic == ast::expr::Intrinsic::eAbs2D
+					|| intrinsic == ast::expr::Intrinsic::eAbs3D
+					|| intrinsic == ast::expr::Intrinsic::eAbs4D
+					|| intrinsic == ast::expr::Intrinsic::eSign1F
+					|| intrinsic == ast::expr::Intrinsic::eSign2F
+					|| intrinsic == ast::expr::Intrinsic::eSign3F
+					|| intrinsic == ast::expr::Intrinsic::eSign4F
+					|| intrinsic == ast::expr::Intrinsic::eSign1I
+					|| intrinsic == ast::expr::Intrinsic::eSign2I
+					|| intrinsic == ast::expr::Intrinsic::eSign3I
+					|| intrinsic == ast::expr::Intrinsic::eSign4I
+					|| intrinsic == ast::expr::Intrinsic::eSign1D
+					|| intrinsic == ast::expr::Intrinsic::eSign2D
+					|| intrinsic == ast::expr::Intrinsic::eSign3D
+					|| intrinsic == ast::expr::Intrinsic::eSign4D
+					|| intrinsic == ast::expr::Intrinsic::eFloor1F
+					|| intrinsic == ast::expr::Intrinsic::eFloor2F
+					|| intrinsic == ast::expr::Intrinsic::eFloor3F
+					|| intrinsic == ast::expr::Intrinsic::eFloor4F
+					|| intrinsic == ast::expr::Intrinsic::eFloor1D
+					|| intrinsic == ast::expr::Intrinsic::eFloor2D
+					|| intrinsic == ast::expr::Intrinsic::eFloor3D
+					|| intrinsic == ast::expr::Intrinsic::eFloor4D
+					|| intrinsic == ast::expr::Intrinsic::eTrunc1F
+					|| intrinsic == ast::expr::Intrinsic::eTrunc2F
+					|| intrinsic == ast::expr::Intrinsic::eTrunc3F
+					|| intrinsic == ast::expr::Intrinsic::eTrunc4F
+					|| intrinsic == ast::expr::Intrinsic::eTrunc1D
+					|| intrinsic == ast::expr::Intrinsic::eTrunc2D
+					|| intrinsic == ast::expr::Intrinsic::eTrunc3D
+					|| intrinsic == ast::expr::Intrinsic::eTrunc4D
+					|| intrinsic == ast::expr::Intrinsic::eRound1F
+					|| intrinsic == ast::expr::Intrinsic::eRound2F
+					|| intrinsic == ast::expr::Intrinsic::eRound3F
+					|| intrinsic == ast::expr::Intrinsic::eRound4F
+					|| intrinsic == ast::expr::Intrinsic::eRound1D
+					|| intrinsic == ast::expr::Intrinsic::eRound2D
+					|| intrinsic == ast::expr::Intrinsic::eRound3D
+					|| intrinsic == ast::expr::Intrinsic::eRound4D
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven1F
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven2F
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven3F
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven4F
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven1D
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven2D
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven3D
+					|| intrinsic == ast::expr::Intrinsic::eRoundEven4D
+					|| intrinsic == ast::expr::Intrinsic::eCeil1F
+					|| intrinsic == ast::expr::Intrinsic::eCeil2F
+					|| intrinsic == ast::expr::Intrinsic::eCeil3F
+					|| intrinsic == ast::expr::Intrinsic::eCeil4F
+					|| intrinsic == ast::expr::Intrinsic::eCeil1D
+					|| intrinsic == ast::expr::Intrinsic::eCeil2D
+					|| intrinsic == ast::expr::Intrinsic::eCeil3D
+					|| intrinsic == ast::expr::Intrinsic::eCeil4D
+					|| intrinsic == ast::expr::Intrinsic::eFract1F
+					|| intrinsic == ast::expr::Intrinsic::eFract2F
+					|| intrinsic == ast::expr::Intrinsic::eFract3F
+					|| intrinsic == ast::expr::Intrinsic::eFract4F
+					|| intrinsic == ast::expr::Intrinsic::eFract1D
+					|| intrinsic == ast::expr::Intrinsic::eFract2D
+					|| intrinsic == ast::expr::Intrinsic::eFract3D
+					|| intrinsic == ast::expr::Intrinsic::eFract4D
+					|| intrinsic == ast::expr::Intrinsic::eMod1F
+					|| intrinsic == ast::expr::Intrinsic::eMod2F
+					|| intrinsic == ast::expr::Intrinsic::eMod3F
+					|| intrinsic == ast::expr::Intrinsic::eMod4F
+					|| intrinsic == ast::expr::Intrinsic::eMod1D
+					|| intrinsic == ast::expr::Intrinsic::eMod2D
+					|| intrinsic == ast::expr::Intrinsic::eMod3D
+					|| intrinsic == ast::expr::Intrinsic::eMod4D
+					|| intrinsic == ast::expr::Intrinsic::eMin1F
+					|| intrinsic == ast::expr::Intrinsic::eMin2F
+					|| intrinsic == ast::expr::Intrinsic::eMin3F
+					|| intrinsic == ast::expr::Intrinsic::eMin4F
+					|| intrinsic == ast::expr::Intrinsic::eMin1D
+					|| intrinsic == ast::expr::Intrinsic::eMin2D
+					|| intrinsic == ast::expr::Intrinsic::eMin3D
+					|| intrinsic == ast::expr::Intrinsic::eMin4D
+					|| intrinsic == ast::expr::Intrinsic::eMin1I
+					|| intrinsic == ast::expr::Intrinsic::eMin2I
+					|| intrinsic == ast::expr::Intrinsic::eMin3I
+					|| intrinsic == ast::expr::Intrinsic::eMin4I
+					|| intrinsic == ast::expr::Intrinsic::eMin1U
+					|| intrinsic == ast::expr::Intrinsic::eMin2U
+					|| intrinsic == ast::expr::Intrinsic::eMin3U
+					|| intrinsic == ast::expr::Intrinsic::eMin4U
+					|| intrinsic == ast::expr::Intrinsic::eMax1F
+					|| intrinsic == ast::expr::Intrinsic::eMax2F
+					|| intrinsic == ast::expr::Intrinsic::eMax3F
+					|| intrinsic == ast::expr::Intrinsic::eMax4F
+					|| intrinsic == ast::expr::Intrinsic::eMax1D
+					|| intrinsic == ast::expr::Intrinsic::eMax2D
+					|| intrinsic == ast::expr::Intrinsic::eMax3D
+					|| intrinsic == ast::expr::Intrinsic::eMax4D
+					|| intrinsic == ast::expr::Intrinsic::eMax1I
+					|| intrinsic == ast::expr::Intrinsic::eMax2I
+					|| intrinsic == ast::expr::Intrinsic::eMax3I
+					|| intrinsic == ast::expr::Intrinsic::eMax4I
+					|| intrinsic == ast::expr::Intrinsic::eMax1U
+					|| intrinsic == ast::expr::Intrinsic::eMax2U
+					|| intrinsic == ast::expr::Intrinsic::eMax3U
+					|| intrinsic == ast::expr::Intrinsic::eMax4U
+					|| intrinsic == ast::expr::Intrinsic::eClamp1F
+					|| intrinsic == ast::expr::Intrinsic::eClamp2F
+					|| intrinsic == ast::expr::Intrinsic::eClamp3F
+					|| intrinsic == ast::expr::Intrinsic::eClamp4F
+					|| intrinsic == ast::expr::Intrinsic::eClamp1D
+					|| intrinsic == ast::expr::Intrinsic::eClamp2D
+					|| intrinsic == ast::expr::Intrinsic::eClamp3D
+					|| intrinsic == ast::expr::Intrinsic::eClamp4D
+					|| intrinsic == ast::expr::Intrinsic::eClamp1I
+					|| intrinsic == ast::expr::Intrinsic::eClamp2I
+					|| intrinsic == ast::expr::Intrinsic::eClamp3I
+					|| intrinsic == ast::expr::Intrinsic::eClamp4I
+					|| intrinsic == ast::expr::Intrinsic::eClamp1U
+					|| intrinsic == ast::expr::Intrinsic::eClamp2U
+					|| intrinsic == ast::expr::Intrinsic::eClamp3U
+					|| intrinsic == ast::expr::Intrinsic::eClamp4U
+					|| intrinsic == ast::expr::Intrinsic::eMix1F
+					|| intrinsic == ast::expr::Intrinsic::eMix2F
+					|| intrinsic == ast::expr::Intrinsic::eMix3F
+					|| intrinsic == ast::expr::Intrinsic::eMix4F
+					|| intrinsic == ast::expr::Intrinsic::eMix1D
+					|| intrinsic == ast::expr::Intrinsic::eMix2D
+					|| intrinsic == ast::expr::Intrinsic::eMix3D
+					|| intrinsic == ast::expr::Intrinsic::eMix4D
+					|| intrinsic == ast::expr::Intrinsic::eStep1F
+					|| intrinsic == ast::expr::Intrinsic::eStep2F
+					|| intrinsic == ast::expr::Intrinsic::eStep3F
+					|| intrinsic == ast::expr::Intrinsic::eStep4F
+					|| intrinsic == ast::expr::Intrinsic::eStep1D
+					|| intrinsic == ast::expr::Intrinsic::eStep2D
+					|| intrinsic == ast::expr::Intrinsic::eStep3D
+					|| intrinsic == ast::expr::Intrinsic::eStep4D
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep1F
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep2F
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep3F
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep4F
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep1D
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep2D
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep3D
+					|| intrinsic == ast::expr::Intrinsic::eSmoothStep4D
+					|| intrinsic == ast::expr::Intrinsic::eIsnan1F
+					|| intrinsic == ast::expr::Intrinsic::eIsnan2F
+					|| intrinsic == ast::expr::Intrinsic::eIsnan3F
+					|| intrinsic == ast::expr::Intrinsic::eIsnan4F
+					|| intrinsic == ast::expr::Intrinsic::eIsnan1D
+					|| intrinsic == ast::expr::Intrinsic::eIsnan2D
+					|| intrinsic == ast::expr::Intrinsic::eIsnan3D
+					|| intrinsic == ast::expr::Intrinsic::eIsnan4D
+					|| intrinsic == ast::expr::Intrinsic::eIsinf1F
+					|| intrinsic == ast::expr::Intrinsic::eIsinf2F
+					|| intrinsic == ast::expr::Intrinsic::eIsinf3F
+					|| intrinsic == ast::expr::Intrinsic::eIsinf4F
+					|| intrinsic == ast::expr::Intrinsic::eIsinf1D
+					|| intrinsic == ast::expr::Intrinsic::eIsinf2D
+					|| intrinsic == ast::expr::Intrinsic::eIsinf3D
+					|| intrinsic == ast::expr::Intrinsic::eIsinf4D
+					|| intrinsic == ast::expr::Intrinsic::eFma1F
+					|| intrinsic == ast::expr::Intrinsic::eFma2F
+					|| intrinsic == ast::expr::Intrinsic::eFma3F
+					|| intrinsic == ast::expr::Intrinsic::eFma4F
+					|| intrinsic == ast::expr::Intrinsic::eFma1D
+					|| intrinsic == ast::expr::Intrinsic::eFma2D
+					|| intrinsic == ast::expr::Intrinsic::eFma3D
+					|| intrinsic == ast::expr::Intrinsic::eFma4D
+					|| intrinsic == ast::expr::Intrinsic::eLessThan2F
+					|| intrinsic == ast::expr::Intrinsic::eLessThan3F
+					|| intrinsic == ast::expr::Intrinsic::eLessThan4F
+					|| intrinsic == ast::expr::Intrinsic::eLessThan2D
+					|| intrinsic == ast::expr::Intrinsic::eLessThan3D
+					|| intrinsic == ast::expr::Intrinsic::eLessThan4D
+					|| intrinsic == ast::expr::Intrinsic::eLessThan2I
+					|| intrinsic == ast::expr::Intrinsic::eLessThan3I
+					|| intrinsic == ast::expr::Intrinsic::eLessThan4I
+					|| intrinsic == ast::expr::Intrinsic::eLessThan2U
+					|| intrinsic == ast::expr::Intrinsic::eLessThan3U
+					|| intrinsic == ast::expr::Intrinsic::eLessThan4U
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual2F
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual3F
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual4F
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual2D
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual3D
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual4D
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual2I
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual3I
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual4I
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual2U
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual3U
+					|| intrinsic == ast::expr::Intrinsic::eLessThanEqual4U
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan2F
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan3F
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan4F
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan2D
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan3D
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan4D
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan2I
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan3I
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan4I
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan2U
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan3U
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThan4U
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual2F
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual3F
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual4F
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual2D
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual3D
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual4D
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual2I
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual3I
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual4I
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual2U
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual3U
+					|| intrinsic == ast::expr::Intrinsic::eGreaterThanEqual4U
+					|| intrinsic == ast::expr::Intrinsic::eEqual2F
+					|| intrinsic == ast::expr::Intrinsic::eEqual3F
+					|| intrinsic == ast::expr::Intrinsic::eEqual4F
+					|| intrinsic == ast::expr::Intrinsic::eEqual2D
+					|| intrinsic == ast::expr::Intrinsic::eEqual3D
+					|| intrinsic == ast::expr::Intrinsic::eEqual4D
+					|| intrinsic == ast::expr::Intrinsic::eEqual2I
+					|| intrinsic == ast::expr::Intrinsic::eEqual3I
+					|| intrinsic == ast::expr::Intrinsic::eEqual4I
+					|| intrinsic == ast::expr::Intrinsic::eEqual2U
+					|| intrinsic == ast::expr::Intrinsic::eEqual3U
+					|| intrinsic == ast::expr::Intrinsic::eEqual4U
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual2F
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual3F
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual4F
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual2D
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual3D
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual4D
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual2I
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual3I
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual4I
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual2U
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual3U
+					|| intrinsic == ast::expr::Intrinsic::eNotEqual4U
+					|| intrinsic == ast::expr::Intrinsic::eAll2
+					|| intrinsic == ast::expr::Intrinsic::eAll3
+					|| intrinsic == ast::expr::Intrinsic::eAll4
+					|| intrinsic == ast::expr::Intrinsic::eAny2
+					|| intrinsic == ast::expr::Intrinsic::eAny3
+					|| intrinsic == ast::expr::Intrinsic::eAny4
+					|| intrinsic == ast::expr::Intrinsic::eNot2
+					|| intrinsic == ast::expr::Intrinsic::eNot3
+					|| intrinsic == ast::expr::Intrinsic::eNot4;
 			}
 
 			static expr::ExprPtr resolveConstant( type::TypesCache & typesCache
@@ -1481,6 +1537,7 @@ namespace ast
 				, expr::Intrinsic intrinsic
 				, expr::ExprList argsList )
 			{
+				expr::ExprPtr result{};
 				try
 				{
 					switch ( intrinsic )
@@ -1489,459 +1546,555 @@ namespace ast
 					case ast::expr::Intrinsic::eDegrees2:
 					case ast::expr::Intrinsic::eDegrees3:
 					case ast::expr::Intrinsic::eDegrees4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( v * 180.0f / std::numbers::pi ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( v * 180.0f / std::numbers::pi ); } );
+						break;
 					case ast::expr::Intrinsic::eRadians1F:
 					case ast::expr::Intrinsic::eRadians2F:
 					case ast::expr::Intrinsic::eRadians3F:
 					case ast::expr::Intrinsic::eRadians4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( v * std::numbers::pi / 180.0f ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( v * std::numbers::pi / 180.0f ); } );
+						break;
 					case ast::expr::Intrinsic::eCos1:
 					case ast::expr::Intrinsic::eCos2:
 					case ast::expr::Intrinsic::eCos3:
 					case ast::expr::Intrinsic::eCos4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::cos( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::cos( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eSin1:
 					case ast::expr::Intrinsic::eSin2:
 					case ast::expr::Intrinsic::eSin3:
 					case ast::expr::Intrinsic::eSin4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sin( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sin( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eTan1:
 					case ast::expr::Intrinsic::eTan2:
 					case ast::expr::Intrinsic::eTan3:
 					case ast::expr::Intrinsic::eTan4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::tan( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::tan( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eCosh1:
 					case ast::expr::Intrinsic::eCosh2:
 					case ast::expr::Intrinsic::eCosh3:
 					case ast::expr::Intrinsic::eCosh4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::cosh( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::cosh( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eSinh1:
 					case ast::expr::Intrinsic::eSinh2:
 					case ast::expr::Intrinsic::eSinh3:
 					case ast::expr::Intrinsic::eSinh4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sinh( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sinh( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eTanh1:
 					case ast::expr::Intrinsic::eTanh2:
 					case ast::expr::Intrinsic::eTanh3:
 					case ast::expr::Intrinsic::eTanh4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::tanh( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::tanh( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAcos1:
 					case ast::expr::Intrinsic::eAcos2:
 					case ast::expr::Intrinsic::eAcos3:
 					case ast::expr::Intrinsic::eAcos4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::acos( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::acos( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAsin1:
 					case ast::expr::Intrinsic::eAsin2:
 					case ast::expr::Intrinsic::eAsin3:
 					case ast::expr::Intrinsic::eAsin4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::asin( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::asin( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAtan1:
 					case ast::expr::Intrinsic::eAtan2:
 					case ast::expr::Intrinsic::eAtan3:
 					case ast::expr::Intrinsic::eAtan4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::atan( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::atan( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAtan21:
 					case ast::expr::Intrinsic::eAtan22:
 					case ast::expr::Intrinsic::eAtan23:
 					case ast::expr::Intrinsic::eAtan24:
-						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return LitFloat32( ::atan2( v, w ) ); } );
+						result = intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return LitFloat32( ::atan2( v, w ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAcosh1:
 					case ast::expr::Intrinsic::eAcosh2:
 					case ast::expr::Intrinsic::eAcosh3:
 					case ast::expr::Intrinsic::eAcosh4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::acosh( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::acosh( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAsinh1:
 					case ast::expr::Intrinsic::eAsinh2:
 					case ast::expr::Intrinsic::eAsinh3:
 					case ast::expr::Intrinsic::eAsinh4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::asinh( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::asinh( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAtanh1:
 					case ast::expr::Intrinsic::eAtanh2:
 					case ast::expr::Intrinsic::eAtanh3:
 					case ast::expr::Intrinsic::eAtanh4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::atanh( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::atanh( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::ePow1:
 					case ast::expr::Intrinsic::ePow2:
 					case ast::expr::Intrinsic::ePow3:
 					case ast::expr::Intrinsic::ePow4:
-						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return LitFloat32( ::pow( v, w ) ); } );
+						result = intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return LitFloat32( ::pow( v, w ) ); } );
+						break;
 					case ast::expr::Intrinsic::eExp1:
 					case ast::expr::Intrinsic::eExp2:
 					case ast::expr::Intrinsic::eExp3:
 					case ast::expr::Intrinsic::eExp4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::exp( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::exp( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eLog1:
 					case ast::expr::Intrinsic::eLog2:
 					case ast::expr::Intrinsic::eLog3:
 					case ast::expr::Intrinsic::eLog4:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::log( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::log( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eExp21:
 					case ast::expr::Intrinsic::eExp22:
 					case ast::expr::Intrinsic::eExp23:
 					case ast::expr::Intrinsic::eExp24:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::exp2( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::exp2( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eLog21:
 					case ast::expr::Intrinsic::eLog22:
 					case ast::expr::Intrinsic::eLog23:
 					case ast::expr::Intrinsic::eLog24:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::log2( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::log2( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eSqrt1F:
 					case ast::expr::Intrinsic::eSqrt2F:
 					case ast::expr::Intrinsic::eSqrt3F:
 					case ast::expr::Intrinsic::eSqrt4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sqrt( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ::sqrt( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eSqrt1D:
 					case ast::expr::Intrinsic::eSqrt2D:
 					case ast::expr::Intrinsic::eSqrt3D:
 					case ast::expr::Intrinsic::eSqrt4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( ::sqrt( v ) ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( ::sqrt( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eInverseSqrt1F:
 					case ast::expr::Intrinsic::eInverseSqrt2F:
 					case ast::expr::Intrinsic::eInverseSqrt3F:
 					case ast::expr::Intrinsic::eInverseSqrt4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( 1.0f / ::sqrt( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( 1.0f / ::sqrt( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eInverseSqrt1D:
 					case ast::expr::Intrinsic::eInverseSqrt2D:
 					case ast::expr::Intrinsic::eInverseSqrt3D:
 					case ast::expr::Intrinsic::eInverseSqrt4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( 1.0 / ::sqrt( v ) ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( 1.0 / ::sqrt( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eAbs1F:
 					case ast::expr::Intrinsic::eAbs2F:
 					case ast::expr::Intrinsic::eAbs3F:
 					case ast::expr::Intrinsic::eAbs4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::abs( v ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::abs( v ); } );
+						break;
 					case ast::expr::Intrinsic::eAbs1I:
 					case ast::expr::Intrinsic::eAbs2I:
 					case ast::expr::Intrinsic::eAbs3I:
 					case ast::expr::Intrinsic::eAbs4I:
-						return intrinsic1T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v ){ return std::abs( v ); } );
+						result = intrinsic1T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v ){ return std::abs( v ); } );
+						break;
 					case ast::expr::Intrinsic::eAbs1D:
 					case ast::expr::Intrinsic::eAbs2D:
 					case ast::expr::Intrinsic::eAbs3D:
 					case ast::expr::Intrinsic::eAbs4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::abs( v ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::abs( v ); } );
+						break;
 					case ast::expr::Intrinsic::eSign1F:
 					case ast::expr::Intrinsic::eSign2F:
 					case ast::expr::Intrinsic::eSign3F:
 					case ast::expr::Intrinsic::eSign4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ( LitFloat32( 0.0f ) < v ) - ( v < LitFloat32( 0.0f ) ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( ( LitFloat32( 0.0f ) < v ) - ( v < LitFloat32( 0.0f ) ) ); } );
+						break;
 					case ast::expr::Intrinsic::eSign1I:
 					case ast::expr::Intrinsic::eSign2I:
 					case ast::expr::Intrinsic::eSign3I:
 					case ast::expr::Intrinsic::eSign4I:
-						return intrinsic1T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v ){ return ( LitInt32( 0 ) < v ) - ( v < LitInt32( 0 ) ); } );
+						result = intrinsic1T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v ){ return ( LitInt32( 0 ) < v ) - ( v < LitInt32( 0 ) ); } );
+						break;
 					case ast::expr::Intrinsic::eSign1D:
 					case ast::expr::Intrinsic::eSign2D:
 					case ast::expr::Intrinsic::eSign3D:
 					case ast::expr::Intrinsic::eSign4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( ( LitFloat64( 0 ) < v ) - ( v < LitFloat64( 0 ) ) ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( ( LitFloat64( 0 ) < v ) - ( v < LitFloat64( 0 ) ) ); } );
+						break;
 					case ast::expr::Intrinsic::eFloor1F:
 					case ast::expr::Intrinsic::eFloor2F:
 					case ast::expr::Intrinsic::eFloor3F:
 					case ast::expr::Intrinsic::eFloor4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::floor( v ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::floor( v ); } );
+						break;
 					case ast::expr::Intrinsic::eFloor1D:
 					case ast::expr::Intrinsic::eFloor2D:
 					case ast::expr::Intrinsic::eFloor3D:
 					case ast::expr::Intrinsic::eFloor4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::floor( v ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::floor( v ); } );
+						break;
 					case ast::expr::Intrinsic::eTrunc1F:
 					case ast::expr::Intrinsic::eTrunc2F:
 					case ast::expr::Intrinsic::eTrunc3F:
 					case ast::expr::Intrinsic::eTrunc4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::trunc( v ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::trunc( v ); } );
+						break;
 					case ast::expr::Intrinsic::eTrunc1D:
 					case ast::expr::Intrinsic::eTrunc2D:
 					case ast::expr::Intrinsic::eTrunc3D:
 					case ast::expr::Intrinsic::eTrunc4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::trunc( v ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::trunc( v ); } );
+						break;
 					case ast::expr::Intrinsic::eRound1F:
 					case ast::expr::Intrinsic::eRound2F:
 					case ast::expr::Intrinsic::eRound3F:
 					case ast::expr::Intrinsic::eRound4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::round( v ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::round( v ); } );
+						break;
 					case ast::expr::Intrinsic::eRound1D:
 					case ast::expr::Intrinsic::eRound2D:
 					case ast::expr::Intrinsic::eRound3D:
 					case ast::expr::Intrinsic::eRound4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::round( v ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::round( v ); } );
+						break;
 					case ast::expr::Intrinsic::eRoundEven1F:
 					case ast::expr::Intrinsic::eRoundEven2F:
 					case ast::expr::Intrinsic::eRoundEven3F:
 					case ast::expr::Intrinsic::eRoundEven4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( int( v + LitFloat32( int( v ) % 2 ) ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return LitFloat32( int( v + LitFloat32( int( v ) % 2 ) ) ); } );
+						break;
 					case ast::expr::Intrinsic::eRoundEven1D:
 					case ast::expr::Intrinsic::eRoundEven2D:
 					case ast::expr::Intrinsic::eRoundEven3D:
 					case ast::expr::Intrinsic::eRoundEven4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( int( v + LitFloat64( int( v ) % 2 ) ) ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return LitFloat64( int( v + LitFloat64( int( v ) % 2 ) ) ); } );
+						break;
 					case ast::expr::Intrinsic::eCeil1F:
 					case ast::expr::Intrinsic::eCeil2F:
 					case ast::expr::Intrinsic::eCeil3F:
 					case ast::expr::Intrinsic::eCeil4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::ceil( v ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::ceil( v ); } );
+						break;
 					case ast::expr::Intrinsic::eCeil1D:
 					case ast::expr::Intrinsic::eCeil2D:
 					case ast::expr::Intrinsic::eCeil3D:
 					case ast::expr::Intrinsic::eCeil4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::ceil( v ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::ceil( v ); } );
+						break;
 					case ast::expr::Intrinsic::eFract1F:
 					case ast::expr::Intrinsic::eFract2F:
 					case ast::expr::Intrinsic::eFract3F:
 					case ast::expr::Intrinsic::eFract4F:
-						return intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return v - LitFloat32( int64_t( v ) ); } );
+						result = intrinsic1T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return v - LitFloat32( int64_t( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eFract1D:
 					case ast::expr::Intrinsic::eFract2D:
 					case ast::expr::Intrinsic::eFract3D:
 					case ast::expr::Intrinsic::eFract4D:
-						return intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return v - LitFloat64( int64_t( v ) ); } );
+						result = intrinsic1T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return v - LitFloat64( int64_t( v ) ); } );
+						break;
 					case ast::expr::Intrinsic::eMod1F:
 					case ast::expr::Intrinsic::eMod2F:
 					case ast::expr::Intrinsic::eMod3F:
 					case ast::expr::Intrinsic::eMod4F:
-						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v - w * std::floor( v / w ); } );
+						result = intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v - w * std::floor( v / w ); } );
+						break;
 					case ast::expr::Intrinsic::eMod1D:
 					case ast::expr::Intrinsic::eMod2D:
 					case ast::expr::Intrinsic::eMod3D:
 					case ast::expr::Intrinsic::eMod4D:
-						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v - w * std::floor( v / w ); } );
+						result = intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v - w * std::floor( v / w ); } );
+						break;
 					case ast::expr::Intrinsic::eMin1F:
 					case ast::expr::Intrinsic::eMin2F:
 					case ast::expr::Intrinsic::eMin3F:
 					case ast::expr::Intrinsic::eMin4F:
-						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return std::min( v, w ); } );
+						result = intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return std::min( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMin1D:
 					case ast::expr::Intrinsic::eMin2D:
 					case ast::expr::Intrinsic::eMin3D:
 					case ast::expr::Intrinsic::eMin4D:
-						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return std::min( v, w ); } );
+						result = intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return std::min( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMin1I:
 					case ast::expr::Intrinsic::eMin2I:
 					case ast::expr::Intrinsic::eMin3I:
 					case ast::expr::Intrinsic::eMin4I:
-						return intrinsic2T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return std::min( v, w ); } );
+						result = intrinsic2T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return std::min( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMin1U:
 					case ast::expr::Intrinsic::eMin2U:
 					case ast::expr::Intrinsic::eMin3U:
 					case ast::expr::Intrinsic::eMin4U:
-						return intrinsic2T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return std::min( v, w ); } );
+						result = intrinsic2T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return std::min( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMax1F:
 					case ast::expr::Intrinsic::eMax2F:
 					case ast::expr::Intrinsic::eMax3F:
 					case ast::expr::Intrinsic::eMax4F:
-						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return std::max( v, w ); } );
+						result = intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return std::max( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMax1D:
 					case ast::expr::Intrinsic::eMax2D:
 					case ast::expr::Intrinsic::eMax3D:
 					case ast::expr::Intrinsic::eMax4D:
-						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return std::max( v, w ); } );
+						result = intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return std::max( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMax1I:
 					case ast::expr::Intrinsic::eMax2I:
 					case ast::expr::Intrinsic::eMax3I:
 					case ast::expr::Intrinsic::eMax4I:
-						return intrinsic2T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return std::max( v, w ); } );
+						result = intrinsic2T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return std::max( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eMax1U:
 					case ast::expr::Intrinsic::eMax2U:
 					case ast::expr::Intrinsic::eMax3U:
 					case ast::expr::Intrinsic::eMax4U:
-						return intrinsic2T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return std::max( v, w ); } );
+						result = intrinsic2T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return std::max( v, w ); } );
+						break;
 					case ast::expr::Intrinsic::eClamp1F:
 					case ast::expr::Intrinsic::eClamp2F:
 					case ast::expr::Intrinsic::eClamp3F:
 					case ast::expr::Intrinsic::eClamp4F:
-						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return std::min( std::max( v, w ), x ); } );
+						result = intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return std::min( std::max( v, w ), x ); } );
+						break;
 					case ast::expr::Intrinsic::eClamp1D:
 					case ast::expr::Intrinsic::eClamp2D:
 					case ast::expr::Intrinsic::eClamp3D:
 					case ast::expr::Intrinsic::eClamp4D:
-						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return std::min( std::max( v, w ), x ); } );
+						result = intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return std::min( std::max( v, w ), x ); } );
+						break;
 					case ast::expr::Intrinsic::eClamp1I:
 					case ast::expr::Intrinsic::eClamp2I:
 					case ast::expr::Intrinsic::eClamp3I:
 					case ast::expr::Intrinsic::eClamp4I:
-						return intrinsic3T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w, LitInt32 x ){ return std::min( std::max( v, w ), x ); } );
+						result = intrinsic3T< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w, LitInt32 x ){ return std::min( std::max( v, w ), x ); } );
+						break;
 					case ast::expr::Intrinsic::eClamp1U:
 					case ast::expr::Intrinsic::eClamp2U:
 					case ast::expr::Intrinsic::eClamp3U:
 					case ast::expr::Intrinsic::eClamp4U:
-						return intrinsic3T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w, LitUInt32 x ){ return std::min( std::max( v, w ), x ); } );
+						result = intrinsic3T< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w, LitUInt32 x ){ return std::min( std::max( v, w ), x ); } );
+						break;
 					case ast::expr::Intrinsic::eMix1F:
 					case ast::expr::Intrinsic::eMix2F:
 					case ast::expr::Intrinsic::eMix3F:
 					case ast::expr::Intrinsic::eMix4F:
-						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return v * ( 1.0f - x ) + w * x; } );
+						result = intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return v * ( 1.0f - x ) + w * x; } );
+						break;
 					case ast::expr::Intrinsic::eMix1D:
 					case ast::expr::Intrinsic::eMix2D:
 					case ast::expr::Intrinsic::eMix3D:
 					case ast::expr::Intrinsic::eMix4D:
-						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return v * ( 1.0f - x ) + w * x; } );
+						result = intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return v * ( 1.0f - x ) + w * x; } );
+						break;
 					case ast::expr::Intrinsic::eStep1F:
 					case ast::expr::Intrinsic::eStep2F:
 					case ast::expr::Intrinsic::eStep3F:
 					case ast::expr::Intrinsic::eStep4F:
-						return intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return w < v ? 0.0f : 1.0f; } );
+						result = intrinsic2T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return w < v ? 0.0f : 1.0f; } );
+						break;
 					case ast::expr::Intrinsic::eStep1D:
 					case ast::expr::Intrinsic::eStep2D:
 					case ast::expr::Intrinsic::eStep3D:
 					case ast::expr::Intrinsic::eStep4D:
-						return intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return w < v ? 0.0f : 1.0f; } );
+						result = intrinsic2T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return w < v ? 0.0f : 1.0f; } );
+						break;
 					case ast::expr::Intrinsic::eSmoothStep1F:
 					case ast::expr::Intrinsic::eSmoothStep2F:
 					case ast::expr::Intrinsic::eSmoothStep3F:
 					case ast::expr::Intrinsic::eSmoothStep4F:
-						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0f ), 1.0f ); return t * t * ( 3.0f - 2.0f * t ); } );
+						result = intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0f ), 1.0f ); return t * t * ( 3.0f - 2.0f * t ); } );
+						break;
 					case ast::expr::Intrinsic::eSmoothStep1D:
 					case ast::expr::Intrinsic::eSmoothStep2D:
 					case ast::expr::Intrinsic::eSmoothStep3D:
 					case ast::expr::Intrinsic::eSmoothStep4D:
-						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0 ), 1.0 ); return t * t * ( 3.0 - 2.0 * t ); } );
+						result = intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ auto t = std::min( std::max( ( x - v ) / ( w - v ) , 0.0 ), 1.0 ); return t * t * ( 3.0 - 2.0 * t ); } );
+						break;
 					case ast::expr::Intrinsic::eIsnan1F:
 					case ast::expr::Intrinsic::eIsnan2F:
 					case ast::expr::Intrinsic::eIsnan3F:
 					case ast::expr::Intrinsic::eIsnan4F:
-						return intrinsic1BoolT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::isnan( v ); } );
+						result = intrinsic1BoolT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::isnan( v ); } );
+						break;
 					case ast::expr::Intrinsic::eIsnan1D:
 					case ast::expr::Intrinsic::eIsnan2D:
 					case ast::expr::Intrinsic::eIsnan3D:
 					case ast::expr::Intrinsic::eIsnan4D:
-						return intrinsic1BoolT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::isnan( v ); } );
+						result = intrinsic1BoolT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::isnan( v ); } );
+						break;
 					case ast::expr::Intrinsic::eIsinf1F:
 					case ast::expr::Intrinsic::eIsinf2F:
 					case ast::expr::Intrinsic::eIsinf3F:
 					case ast::expr::Intrinsic::eIsinf4F:
-						return intrinsic1BoolT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::isinf( v ); } );
+						result = intrinsic1BoolT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v ){ return std::isinf( v ); } );
+						break;
 					case ast::expr::Intrinsic::eIsinf1D:
 					case ast::expr::Intrinsic::eIsinf2D:
 					case ast::expr::Intrinsic::eIsinf3D:
 					case ast::expr::Intrinsic::eIsinf4D:
-						return intrinsic1BoolT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::isinf( v ); } );
+						result = intrinsic1BoolT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v ){ return std::isinf( v ); } );
+						break;
 					case ast::expr::Intrinsic::eFma1F:
 					case ast::expr::Intrinsic::eFma2F:
 					case ast::expr::Intrinsic::eFma3F:
 					case ast::expr::Intrinsic::eFma4F:
-						return intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return std::fma( v, w, x ); } );
+						result = intrinsic3T< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w, LitFloat32 x ){ return std::fma( v, w, x ); } );
+						break;
 					case ast::expr::Intrinsic::eFma1D:
 					case ast::expr::Intrinsic::eFma2D:
 					case ast::expr::Intrinsic::eFma3D:
 					case ast::expr::Intrinsic::eFma4D:
-						return intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return std::fma( v, w, x ); } );
+						result = intrinsic3T< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w, LitFloat64 x ){ return std::fma( v, w, x ); } );
+						break;
 					case ast::expr::Intrinsic::eLessThan2F:
 					case ast::expr::Intrinsic::eLessThan3F:
 					case ast::expr::Intrinsic::eLessThan4F:
-						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v < w; } );
+						result = intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v < w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThan2D:
 					case ast::expr::Intrinsic::eLessThan3D:
 					case ast::expr::Intrinsic::eLessThan4D:
-						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v < w; } );
+						result = intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v < w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThan2I:
 					case ast::expr::Intrinsic::eLessThan3I:
 					case ast::expr::Intrinsic::eLessThan4I:
-						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v < w; } );
+						result = intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v < w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThan2U:
 					case ast::expr::Intrinsic::eLessThan3U:
 					case ast::expr::Intrinsic::eLessThan4U:
-						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v < w; } );
+						result = intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v < w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThanEqual2F:
 					case ast::expr::Intrinsic::eLessThanEqual3F:
 					case ast::expr::Intrinsic::eLessThanEqual4F:
-						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v <= w; } );
+						result = intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v <= w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThanEqual2D:
 					case ast::expr::Intrinsic::eLessThanEqual3D:
 					case ast::expr::Intrinsic::eLessThanEqual4D:
-						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v <= w; } );
+						result = intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v <= w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThanEqual2I:
 					case ast::expr::Intrinsic::eLessThanEqual3I:
 					case ast::expr::Intrinsic::eLessThanEqual4I:
-						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v <= w; } );
+						result = intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v <= w; } );
+						break;
 					case ast::expr::Intrinsic::eLessThanEqual2U:
 					case ast::expr::Intrinsic::eLessThanEqual3U:
 					case ast::expr::Intrinsic::eLessThanEqual4U:
-						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v <= w; } );
+						result = intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v <= w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThan2F:
 					case ast::expr::Intrinsic::eGreaterThan3F:
 					case ast::expr::Intrinsic::eGreaterThan4F:
-						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v > w; } );
+						result = intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v > w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThan2D:
 					case ast::expr::Intrinsic::eGreaterThan3D:
 					case ast::expr::Intrinsic::eGreaterThan4D:
-						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v > w; } );
+						result = intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v > w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThan2I:
 					case ast::expr::Intrinsic::eGreaterThan3I:
 					case ast::expr::Intrinsic::eGreaterThan4I:
-						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v > w; } );
+						result = intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v > w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThan2U:
 					case ast::expr::Intrinsic::eGreaterThan3U:
 					case ast::expr::Intrinsic::eGreaterThan4U:
-						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v > w; } );
+						result = intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v > w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThanEqual2F:
 					case ast::expr::Intrinsic::eGreaterThanEqual3F:
 					case ast::expr::Intrinsic::eGreaterThanEqual4F:
-						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v >= w; } );
+						result = intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v >= w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThanEqual2D:
 					case ast::expr::Intrinsic::eGreaterThanEqual3D:
 					case ast::expr::Intrinsic::eGreaterThanEqual4D:
-						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v >= w; } );
+						result = intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v >= w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThanEqual2I:
 					case ast::expr::Intrinsic::eGreaterThanEqual3I:
 					case ast::expr::Intrinsic::eGreaterThanEqual4I:
-						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v >= w; } );
+						result = intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v >= w; } );
+						break;
 					case ast::expr::Intrinsic::eGreaterThanEqual2U:
 					case ast::expr::Intrinsic::eGreaterThanEqual3U:
 					case ast::expr::Intrinsic::eGreaterThanEqual4U:
-						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v >= w; } );
+						result = intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v >= w; } );
+						break;
 					case ast::expr::Intrinsic::eEqual2F:
 					case ast::expr::Intrinsic::eEqual3F:
 					case ast::expr::Intrinsic::eEqual4F:
-						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v == w; } );
+						result = intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v == w; } );
+						break;
 					case ast::expr::Intrinsic::eEqual2D:
 					case ast::expr::Intrinsic::eEqual3D:
 					case ast::expr::Intrinsic::eEqual4D:
-						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v == w; } );
+						result = intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v == w; } );
+						break;
 					case ast::expr::Intrinsic::eEqual2I:
 					case ast::expr::Intrinsic::eEqual3I:
 					case ast::expr::Intrinsic::eEqual4I:
-						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v == w; } );
+						result = intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v == w; } );
+						break;
 					case ast::expr::Intrinsic::eEqual2U:
 					case ast::expr::Intrinsic::eEqual3U:
 					case ast::expr::Intrinsic::eEqual4U:
-						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v == w; } );
+						result = intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v == w; } );
+						break;
 					case ast::expr::Intrinsic::eNotEqual2F:
 					case ast::expr::Intrinsic::eNotEqual3F:
 					case ast::expr::Intrinsic::eNotEqual4F:
-						return intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v != w; } );
+						result = intrinsicCompT< LitFloat32 >( typesCache, exprCache, std::move( argsList ), []( LitFloat32 v, LitFloat32 w ){ return v != w; } );
+						break;
 					case ast::expr::Intrinsic::eNotEqual2D:
 					case ast::expr::Intrinsic::eNotEqual3D:
 					case ast::expr::Intrinsic::eNotEqual4D:
-						return intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v != w; } );
+						result = intrinsicCompT< LitFloat64 >( typesCache, exprCache, std::move( argsList ), []( LitFloat64 v, LitFloat64 w ){ return v != w; } );
+						break;
 					case ast::expr::Intrinsic::eNotEqual2I:
 					case ast::expr::Intrinsic::eNotEqual3I:
 					case ast::expr::Intrinsic::eNotEqual4I:
-						return intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v != w; } );
+						result = intrinsicCompT< LitInt32 >( typesCache, exprCache, std::move( argsList ), []( LitInt32 v, LitInt32 w ){ return v != w; } );
+						break;
 					case ast::expr::Intrinsic::eNotEqual2U:
 					case ast::expr::Intrinsic::eNotEqual3U:
 					case ast::expr::Intrinsic::eNotEqual4U:
-						return intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v != w; } );
+						result = intrinsicCompT< LitUInt32 >( typesCache, exprCache, std::move( argsList ), []( LitUInt32 v, LitUInt32 w ){ return v != w; } );
+						break;
 					case ast::expr::Intrinsic::eAll2:
 					case ast::expr::Intrinsic::eAll3:
 					case ast::expr::Intrinsic::eAll4:
-						return intrinsicGatherT< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v, LitBool w ){ return v && w; } );
+						result = intrinsicGatherT< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v, LitBool w ){ return v && w; } );
+						break;
 					case ast::expr::Intrinsic::eAny2:
 					case ast::expr::Intrinsic::eAny3:
 					case ast::expr::Intrinsic::eAny4:
-						return intrinsicGatherT< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v, LitBool w ){ return v || w; } );
+						result = intrinsicGatherT< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v, LitBool w ){ return v || w; } );
+						break;
 					case ast::expr::Intrinsic::eNot2:
 					case ast::expr::Intrinsic::eNot3:
 					case ast::expr::Intrinsic::eNot4:
-						return intrinsic1T< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v ){ return !v; } );
+						result = intrinsic1T< LitBool >( typesCache, exprCache, std::move( argsList ), []( LitBool v ){ return !v; } );
+						break;
 					default:
-						AST_Failure( "Unsupported intrinsics for constant resolution" );
-						return nullptr;
+						break;
 					}
 				}
-				catch ( std::invalid_argument & )
+				catch ( ast::Exception & )
 				{
-					return nullptr;
+					// Nothing to do here
 				}
+
+				return result;
 			}
 		}
 
@@ -2034,48 +2187,70 @@ namespace ast
 				, expr::Literal const & lhsLiteral
 				, expr::Literal const & rhsLiteral )
 			{
+				expr::ExprPtr result{};
+
 				switch ( expr.getKind() )
 				{
 				case expr::Kind::eAdd:
-					return lhsLiteral + rhsLiteral;
+					result = lhsLiteral + rhsLiteral;
+					break;
 				case expr::Kind::eBitAnd:
-					return lhsLiteral & rhsLiteral;
+					result = lhsLiteral & rhsLiteral;
+					break;
 				case expr::Kind::eBitOr:
-					return lhsLiteral | rhsLiteral;
+					result = lhsLiteral | rhsLiteral;
+					break;
 				case expr::Kind::eBitXor:
-					return lhsLiteral ^ rhsLiteral;
+					result = lhsLiteral ^ rhsLiteral;
+					break;
 				case expr::Kind::eDivide:
-					return lhsLiteral / rhsLiteral;
+					result = lhsLiteral / rhsLiteral;
+					break;
 				case expr::Kind::eLShift:
-					return lhsLiteral << rhsLiteral;
+					result = lhsLiteral << rhsLiteral;
+					break;
 				case expr::Kind::eMinus:
-					return lhsLiteral - rhsLiteral;
+					result = lhsLiteral - rhsLiteral;
+					break;
 				case expr::Kind::eModulo:
-					return lhsLiteral % rhsLiteral;
+					result = lhsLiteral % rhsLiteral;
+					break;
 				case expr::Kind::eRShift:
-					return lhsLiteral >> rhsLiteral;
+					result = lhsLiteral >> rhsLiteral;
+					break;
 				case expr::Kind::eTimes:
-					return lhsLiteral * rhsLiteral;
+					result = lhsLiteral * rhsLiteral;
+					break;
 				case expr::Kind::eLogAnd:
-					return lhsLiteral && rhsLiteral;
+					result = lhsLiteral && rhsLiteral;
+					break;
 				case expr::Kind::eLogOr:
-					return lhsLiteral || rhsLiteral;
+					result = lhsLiteral || rhsLiteral;
+					break;
 				case expr::Kind::eLess:
-					return lhsLiteral < rhsLiteral;
+					result = lhsLiteral < rhsLiteral;
+					break;
 				case expr::Kind::eLessEqual:
-					return lhsLiteral <= rhsLiteral;
+					result = lhsLiteral <= rhsLiteral;
+					break;
 				case expr::Kind::eGreater:
-					return lhsLiteral > rhsLiteral;
+					result = lhsLiteral > rhsLiteral;
+					break;
 				case expr::Kind::eGreaterEqual:
-					return lhsLiteral >= rhsLiteral;
+					result = lhsLiteral >= rhsLiteral;
+					break;
 				case expr::Kind::eEqual:
-					return lhsLiteral == rhsLiteral;
+					result = lhsLiteral == rhsLiteral;
+					break;
 				case expr::Kind::eNotEqual:
-					return lhsLiteral != rhsLiteral;
+					result = lhsLiteral != rhsLiteral;
+					break;
 				default:
-					AST_Failure( "Unexpected binary expression" );
-					return ExprCloner::submit( m_exprCache, expr );
+					break;
 				}
+
+				AST_Assert( result && "Unexpected binary expression" );
+				return result;
 			}
 
 			void doProcessLiteralBinaryExpr( expr::Binary const & expr
@@ -2154,7 +2329,7 @@ namespace ast
 					}
 					else
 					{
-						AST_Failure( "Out of bounds array access to constant aggr init." );
+						AST_Exception( "Out of bounds array access to constant aggr init." );
 					}
 				}
 				else if ( compIt != m_context.constCompositeExprs.end()
@@ -2170,7 +2345,7 @@ namespace ast
 					}
 					else
 					{
-						AST_Failure( "Out of bounds array access to constant aggr init." );
+						AST_Exception( "Out of bounds array access to constant aggr init." );
 					}
 				}
 
@@ -2204,7 +2379,7 @@ namespace ast
 					}
 					else
 					{
-						AST_Failure( "Out of bounds array access to constant aggr init." );
+						AST_Exception( "Out of bounds array access to constant aggr init." );
 					}
 				}
 
@@ -2322,30 +2497,17 @@ namespace ast
 					case expr::Kind::eLogNot:
 						m_result = !literal;
 						break;
-					case expr::Kind::ePostDecrement:
-						m_result = std::move( op );
-						break;
-					case expr::Kind::ePostIncrement:
-						m_result = std::move( op );
-						break;
-					case expr::Kind::ePreDecrement:
-						m_result = preDec( literal );
-						break;
-					case expr::Kind::ePreIncrement:
-						m_result = preInc( literal );
-						break;
 					case expr::Kind::eStreamAppend:
 						m_result = m_exprCache.makeStreamAppend( std::move( op ) );
 						break;
 					case expr::Kind::eUnaryMinus:
 						m_result = -literal;
 						break;
-					case expr::Kind::eUnaryPlus:
-						m_result = std::move( op );
-						break;
 					default:
 						AST_Failure( "Unexpected unary expression" );
+#if !SDAST_ExceptAssert
 						m_result = ExprCloner::submit( m_exprCache, expr );
+#endif
 						break;
 					}
 				}
@@ -2368,30 +2530,17 @@ namespace ast
 					case expr::Kind::eLogNot:
 						m_result = m_exprCache.makeLogNot( expr->getType(), std::move( op ) );
 						break;
-					case expr::Kind::ePostDecrement:
-						m_result = m_exprCache.makePostDecrement( std::move( op ) );
-						break;
-					case expr::Kind::ePostIncrement:
-						m_result = m_exprCache.makePostIncrement( std::move( op ) );
-						break;
-					case expr::Kind::ePreDecrement:
-						m_exprCache.makePreDecrement( std::move( op ) );
-						break;
-					case expr::Kind::ePreIncrement:
-						m_result = m_exprCache.makePreIncrement( std::move( op ) );
-						break;
 					case expr::Kind::eStreamAppend:
 						m_result = m_exprCache.makeStreamAppend( std::move( op ) );
 						break;
 					case expr::Kind::eUnaryMinus:
 						m_result = m_exprCache.makeUnaryMinus( std::move( op ) );
 						break;
-					case expr::Kind::eUnaryPlus:
-						m_result = m_exprCache.makeUnaryPlus( std::move( op ) );
-						break;
 					default:
 						AST_Failure( "Unexpected unary expression" );
+#if !SDAST_ExceptAssert
 						m_result = ExprCloner::submit( m_exprCache, expr );
+#endif
 						break;
 					}
 				}
@@ -2472,7 +2621,9 @@ namespace ast
 						break;
 					default:
 						AST_Failure( "Unexpected binary expression" );
+#if !SDAST_ExceptAssert
 						m_result = ExprCloner::submit( m_exprCache, expr );
+#endif
 						break;
 					}
 				}
@@ -2575,6 +2726,12 @@ namespace ast
 				TraceFunc;
 				m_allLiterals = false;
 				ExprCloner::visitCombinedImageAccessCallExpr( expr );
+			}
+
+			void visitCopyExpr( expr::Copy const * expr )override
+			{
+				TraceFunc;
+				visitUnaryExpr( expr );
 			}
 
 			void visitDivideExpr( expr::Divide const * expr )override
@@ -2836,7 +2993,7 @@ namespace ast
 				TraceFunc;
 				auto condComponents = getComponentCount( expr->getCtrlExpr()->getType()->getKind() );
 				// Components counts should be identical, after simplification pass.
-				assert( condComponents == getComponentCount( expr->getTrueExpr()->getType()->getKind() ) );
+				AST_Assert( condComponents == getComponentCount( expr->getTrueExpr()->getType()->getKind() ) );
 				bool allLiterals{ true };
 				auto ctrlExpr = doSubmit( *expr->getCtrlExpr(), allLiterals );
 				m_allLiterals = allLiterals && m_allLiterals;
@@ -2848,7 +3005,7 @@ namespace ast
 
 					if ( condComponents == 1u )
 					{
-						assert( ctrlExpr->getKind() == expr::Kind::eLiteral );
+						AST_Assert( ctrlExpr->getKind() == expr::Kind::eLiteral );
 						m_result = static_cast< expr::Literal const & >( *ctrlExpr ).getValue< expr::LiteralType::eBool >()
 							? doSubmit( *expr->getTrueExpr() )
 							: doSubmit( *expr->getFalseExpr() );
@@ -2863,7 +3020,7 @@ namespace ast
 						{
 							auto ctrlValue = doSubmit( *m_exprCache.makeSwizzle( ctrlExpr->clone()
 								, expr::SwizzleKind::fromOffset( i ) ) );
-							assert( ctrlValue->getKind() == expr::Kind::eLiteral );
+							AST_Assert( ctrlValue->getKind() == expr::Kind::eLiteral );
 							auto resultValue = static_cast< expr::Literal const & >( *ctrlValue ).getValue< expr::LiteralType::eBool >()
 								? trueExpr->clone()
 								: falseExpr->clone();
@@ -2912,6 +3069,12 @@ namespace ast
 					m_allLiterals = false;
 					ExprCloner::visitSwizzleExpr( expr );
 				}
+			}
+
+			void visitStreamAppendExpr( expr::StreamAppend const * expr )override
+			{
+				TraceFunc;
+				visitUnaryExpr( expr );
 			}
 
 			void visitTimesExpr( expr::Times const * expr )override
@@ -3093,68 +3256,6 @@ namespace ast
 				}
 			}
 
-			void processElseIfStmt( stmt::ElseIf const * stmt
-				, bool & first
-				, bool & stopped
-				, uint32_t & ifs
-				, uint32_t & elses )
-			{
-				TraceFunc;
-				if ( stopped )
-				{
-					return;
-				}
-
-				bool allLiterals{ true };
-				auto ctrlExpr = doSubmit( *stmt->getCtrlExpr(), allLiterals );
-
-				if ( ctrlExpr->getKind() == ast::expr::Kind::eLiteral )
-				{
-					auto & ctrlValue = static_cast< ast::expr::Literal const & >( *ctrlExpr );
-
-					if ( ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
-					{
-						processElseStmt( stmt, first, stopped );
-						stopped = true;
-					}
-				}
-				else if ( first )
-				{
-					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs );
-				}
-				else
-				{
-					auto save = m_current;
-					auto cont = m_stmtCache.makeContainer();
-					m_current = cont.get();
-					visitContainerStmt( stmt );
-					m_current = save;
-
-					if ( cont->empty() )
-					{
-						auto elseStmt = m_ifStmts.back()->createElse();
-						m_current = elseStmt;
-						auto ifStmt = m_stmtCache.makeIf( m_exprCache.makeLogNot( m_typesCache
-							, std::move( ctrlExpr ) ) );
-
-						m_ifStmts.push_back( ifStmt.get() );
-						m_current->addStmt( std::move( ifStmt ) );
-						m_contStack.push_back( save );
-						++ifs;
-						++elses;
-						m_current = save;
-						first = true;
-					}
-					else
-					{
-						auto elseStmt = m_ifStmts.back()->createElseIf( std::move( ctrlExpr ) );
-						m_current = elseStmt;
-						visitContainerStmt( cont.get() );
-						m_current = save;
-					}
-				}
-			}
-
 			void processElseStmt( stmt::Container const * stmt
 				, bool & first
 				, bool const & stopped )
@@ -3209,7 +3310,6 @@ namespace ast
 				bool first = true;
 				bool stopped = false;
 				uint32_t ifs{};
-				uint32_t elses{};
 
 				if ( ctrlExpr->getKind() == ast::expr::Kind::eLiteral )
 				{
@@ -3217,43 +3317,25 @@ namespace ast
 						ctrlValue.getValue< ast::expr::LiteralType::eBool >() )
 					{
 						visitContainerStmt( stmt );
-						return;
 					}
-
-					if ( stmt->getElseIfList().empty() )
+					else if ( stmt->getElse() )
 					{
-						if ( stmt->getElse() )
-						{
-							visitContainerStmt( stmt->getElse() );
-						}
-
-						return;
+						visitContainerStmt( stmt->getElse() );
 					}
 				}
 				else
 				{
 					processIfStmt( stmt, std::move( ctrlExpr ), first, stopped, ifs );
-				}
 
-				for ( auto & elseIf : stmt->getElseIfList() )
-				{
-					processElseIfStmt( elseIf.get(), first, stopped, ifs, elses );
-				}
+					if ( stmt->getElse() )
+					{
+						processElseStmt( stmt->getElse(), first, stopped );
+					}
 
-				if ( stmt->getElse() )
-				{
-					processElseStmt( stmt->getElse(), first, stopped );
-				}
-
-				while ( ifs-- )
-				{
-					m_ifStmts.pop_back();
-				}
-
-				while ( elses-- )
-				{
-					m_current = m_contStack.back();
-					m_contStack.pop_back();
+					while ( ifs-- )
+					{
+						m_ifStmts.pop_back();
+					}
 				}
 			}
 

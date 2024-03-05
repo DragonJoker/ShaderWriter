@@ -4063,7 +4063,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad1DF
 			, std::move( image )
@@ -4082,7 +4082,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad1DF
 			, std::move( image )
@@ -4101,7 +4101,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad1DF
 			, std::move( image )
@@ -4120,7 +4120,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad1DF
 			, std::move( image )
@@ -4139,7 +4139,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad1DF
 			, std::move( image )
@@ -4158,7 +4158,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad1DF
 			, std::move( image )
@@ -4177,7 +4177,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad2DF
 			, std::move( image )
@@ -4196,7 +4196,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad2DF
 			, std::move( image )
@@ -4215,7 +4215,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad2DF
 			, std::move( image )
@@ -4234,7 +4234,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad2DF
 			, std::move( image )
@@ -4253,7 +4253,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad2DF
 			, std::move( image )
@@ -4272,7 +4272,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad2DF
 			, std::move( image )
@@ -4291,7 +4291,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad3DF
 			, std::move( image )
@@ -4310,7 +4310,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad3DF
 			, std::move( image )
@@ -4329,7 +4329,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad3DF
 			, std::move( image )
@@ -4348,7 +4348,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad3DF
 			, std::move( image )
@@ -4367,7 +4367,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad3DF
 			, std::move( image )
@@ -4386,7 +4386,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad3DF
 			, std::move( image )
@@ -4405,7 +4405,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoadCubeF
 			, std::move( image )
@@ -4424,7 +4424,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoadCubeF
 			, std::move( image )
@@ -4443,7 +4443,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoadCubeF
 			, std::move( image )
@@ -4462,7 +4462,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoadCubeF
 			, std::move( image )
@@ -4481,7 +4481,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoadCubeF
 			, std::move( image )
@@ -4500,7 +4500,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoadCubeF
 			, std::move( image )
@@ -4519,7 +4519,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoadBufferF
 			, std::move( image )
@@ -4538,7 +4538,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoadBufferF
 			, std::move( image )
@@ -4557,7 +4557,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoadBufferF
 			, std::move( image )
@@ -4576,7 +4576,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoadBufferF
 			, std::move( image )
@@ -4595,7 +4595,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoadBufferF
 			, std::move( image )
@@ -4614,7 +4614,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoadBufferF
 			, std::move( image )
@@ -4633,7 +4633,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad1DArrayF
 			, std::move( image )
@@ -4652,7 +4652,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad1DArrayF
 			, std::move( image )
@@ -4671,7 +4671,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad1DArrayF
 			, std::move( image )
@@ -4690,7 +4690,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad1DArrayF
 			, std::move( image )
@@ -4709,7 +4709,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad1DArrayF
 			, std::move( image )
@@ -4728,7 +4728,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad1DArrayF
 			, std::move( image )
@@ -4747,7 +4747,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad2DArrayF
 			, std::move( image )
@@ -4766,7 +4766,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad2DArrayF
 			, std::move( image )
@@ -4785,7 +4785,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad2DArrayF
 			, std::move( image )
@@ -4804,7 +4804,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad2DArrayF
 			, std::move( image )
@@ -4823,7 +4823,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad2DArrayF
 			, std::move( image )
@@ -4842,7 +4842,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad2DArrayF
 			, std::move( image )
@@ -4861,7 +4861,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
@@ -4880,7 +4880,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
@@ -4899,7 +4899,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
@@ -4918,7 +4918,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
@@ -4937,7 +4937,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
@@ -4956,7 +4956,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoadCubeArrayF
 			, std::move( image )
@@ -4978,8 +4978,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad2DMSF
 			, std::move( image )
@@ -5002,8 +5002,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad2DMSF
 			, std::move( image )
@@ -5026,8 +5026,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad2DMSF
 			, std::move( image )
@@ -5050,8 +5050,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad2DMSF
 			, std::move( image )
@@ -5074,8 +5074,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad2DMSF
 			, std::move( image )
@@ -5098,8 +5098,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad2DMSF
 			, std::move( image )
@@ -5122,8 +5122,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4F )
 			, StorageImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
@@ -5146,8 +5146,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
@@ -5170,8 +5170,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2F )
 			, StorageImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
@@ -5194,8 +5194,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
@@ -5218,8 +5218,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
@@ -5242,8 +5242,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eHalf )
 			, StorageImageAccess::eImageLoad2DMSArrayF
 			, std::move( image )
@@ -5263,7 +5263,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5282,7 +5282,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5301,7 +5301,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5320,7 +5320,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5339,7 +5339,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5358,7 +5358,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5377,7 +5377,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5396,7 +5396,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5415,7 +5415,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad1DI
 			, std::move( image )
@@ -5434,7 +5434,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5453,7 +5453,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5472,7 +5472,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5491,7 +5491,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5510,7 +5510,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5529,7 +5529,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5548,7 +5548,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5567,7 +5567,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5586,7 +5586,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DI
 			, std::move( image )
@@ -5605,7 +5605,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5624,7 +5624,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5643,7 +5643,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5662,7 +5662,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5681,7 +5681,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5700,7 +5700,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5719,7 +5719,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5738,7 +5738,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5757,7 +5757,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad3DI
 			, std::move( image )
@@ -5776,7 +5776,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5795,7 +5795,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5814,7 +5814,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5833,7 +5833,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5852,7 +5852,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5871,7 +5871,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5890,7 +5890,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5909,7 +5909,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5928,7 +5928,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadCubeI
 			, std::move( image )
@@ -5947,7 +5947,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -5966,7 +5966,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -5985,7 +5985,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6004,7 +6004,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6023,7 +6023,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6042,7 +6042,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6061,7 +6061,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6080,7 +6080,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6099,7 +6099,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadBufferI
 			, std::move( image )
@@ -6118,7 +6118,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6137,7 +6137,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6156,7 +6156,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6175,7 +6175,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6194,7 +6194,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6213,7 +6213,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6232,7 +6232,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6251,7 +6251,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6270,7 +6270,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad1DArrayI
 			, std::move( image )
@@ -6289,7 +6289,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6308,7 +6308,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6327,7 +6327,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6346,7 +6346,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6365,7 +6365,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6384,7 +6384,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6403,7 +6403,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6422,7 +6422,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6441,7 +6441,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DArrayI
 			, std::move( image )
@@ -6460,7 +6460,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6479,7 +6479,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6498,7 +6498,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6517,7 +6517,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6536,7 +6536,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6555,7 +6555,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6574,7 +6574,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6593,7 +6593,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6612,7 +6612,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoadCubeArrayI
 			, std::move( image )
@@ -6634,8 +6634,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6658,8 +6658,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6682,8 +6682,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6706,8 +6706,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6730,8 +6730,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6754,8 +6754,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6778,8 +6778,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6802,8 +6802,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6826,8 +6826,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DMSI
 			, std::move( image )
@@ -6850,8 +6850,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -6874,8 +6874,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -6898,8 +6898,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4I )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -6922,8 +6922,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -6946,8 +6946,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -6970,8 +6970,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2I )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -6994,8 +6994,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -7018,8 +7018,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -7042,8 +7042,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageLoad2DMSArrayI
 			, std::move( image )
@@ -7063,7 +7063,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7082,7 +7082,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7101,7 +7101,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7120,7 +7120,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7139,7 +7139,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7158,7 +7158,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7177,7 +7177,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7196,7 +7196,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7215,7 +7215,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad1DU
 			, std::move( image )
@@ -7234,7 +7234,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7253,7 +7253,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7272,7 +7272,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7291,7 +7291,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7310,7 +7310,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7329,7 +7329,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7348,7 +7348,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7367,7 +7367,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7386,7 +7386,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DU
 			, std::move( image )
@@ -7405,7 +7405,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7424,7 +7424,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7443,7 +7443,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7462,7 +7462,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7481,7 +7481,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7500,7 +7500,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7519,7 +7519,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7538,7 +7538,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7557,7 +7557,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad3DU
 			, std::move( image )
@@ -7576,7 +7576,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7595,7 +7595,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7614,7 +7614,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7633,7 +7633,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7652,7 +7652,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7671,7 +7671,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7690,7 +7690,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7709,7 +7709,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7728,7 +7728,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadCubeU
 			, std::move( image )
@@ -7747,7 +7747,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7766,7 +7766,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7785,7 +7785,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7804,7 +7804,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7823,7 +7823,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7842,7 +7842,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7861,7 +7861,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7880,7 +7880,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7899,7 +7899,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadBufferU
 			, std::move( image )
@@ -7918,7 +7918,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -7937,7 +7937,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -7956,7 +7956,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -7975,7 +7975,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -7994,7 +7994,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -8013,7 +8013,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -8032,7 +8032,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -8051,7 +8051,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -8070,7 +8070,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad1DArrayU
 			, std::move( image )
@@ -8089,7 +8089,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8108,7 +8108,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8127,7 +8127,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8146,7 +8146,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8165,7 +8165,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8184,7 +8184,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8203,7 +8203,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8222,7 +8222,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8241,7 +8241,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DArrayU
 			, std::move( image )
@@ -8260,7 +8260,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8279,7 +8279,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8298,7 +8298,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8317,7 +8317,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8336,7 +8336,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8355,7 +8355,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8374,7 +8374,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8393,7 +8393,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8412,7 +8412,7 @@ namespace ast::expr
 		, ExprPtr image
 		, ExprPtr P )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoadCubeArrayU
 			, std::move( image )
@@ -8434,8 +8434,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8458,8 +8458,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8482,8 +8482,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8506,8 +8506,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8530,8 +8530,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8554,8 +8554,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8578,8 +8578,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8602,8 +8602,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8626,8 +8626,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DMSU
 			, std::move( image )
@@ -8650,8 +8650,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8674,8 +8674,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8698,8 +8698,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4U )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8722,8 +8722,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8746,8 +8746,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8770,8 +8770,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2U )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8794,8 +8794,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8818,8 +8818,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8842,8 +8842,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr sample )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageLoad2DMSArrayU
 			, std::move( image )
@@ -8866,8 +8866,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DF
 			, std::move( image )
@@ -8888,8 +8888,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DF
 			, std::move( image )
@@ -8910,8 +8910,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DF
 			, std::move( image )
@@ -8932,8 +8932,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DF
 			, std::move( image )
@@ -8954,8 +8954,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DF
 			, std::move( image )
@@ -8976,8 +8976,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DF
 			, std::move( image )
@@ -8998,8 +8998,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9020,8 +9020,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9042,8 +9042,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9064,8 +9064,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9086,8 +9086,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9108,8 +9108,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DF
 			, std::move( image )
@@ -9130,8 +9130,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9152,8 +9152,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9174,8 +9174,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9196,8 +9196,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9218,8 +9218,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9240,8 +9240,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DF
 			, std::move( image )
@@ -9262,8 +9262,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9284,8 +9284,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9306,8 +9306,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9328,8 +9328,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9350,8 +9350,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9372,8 +9372,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeF
 			, std::move( image )
@@ -9394,8 +9394,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9416,8 +9416,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9438,8 +9438,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9460,8 +9460,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9482,8 +9482,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9504,8 +9504,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferF
 			, std::move( image )
@@ -9526,8 +9526,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9548,8 +9548,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9570,8 +9570,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9592,8 +9592,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9614,8 +9614,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9636,8 +9636,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayF
 			, std::move( image )
@@ -9658,8 +9658,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -9680,8 +9680,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -9702,8 +9702,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -9724,8 +9724,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -9746,8 +9746,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -9768,8 +9768,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayF
 			, std::move( image )
@@ -9790,8 +9790,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -9812,8 +9812,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -9834,8 +9834,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -9856,8 +9856,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -9878,8 +9878,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -9900,8 +9900,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayF
 			, std::move( image )
@@ -9925,9 +9925,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -9952,9 +9952,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -9979,9 +9979,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10006,9 +10006,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10033,9 +10033,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10060,9 +10060,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSF
 			, std::move( image )
@@ -10087,9 +10087,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10114,9 +10114,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10141,9 +10141,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2F );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2F );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10168,9 +10168,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10195,9 +10195,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10222,9 +10222,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eHalf );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eHalf );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayF
 			, std::move( image )
@@ -10246,8 +10246,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10268,8 +10268,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10290,8 +10290,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10312,8 +10312,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10334,8 +10334,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10356,8 +10356,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10378,8 +10378,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10400,8 +10400,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10422,8 +10422,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DI
 			, std::move( image )
@@ -10444,8 +10444,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10466,8 +10466,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10488,8 +10488,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10510,8 +10510,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10532,8 +10532,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10554,8 +10554,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10576,8 +10576,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10598,8 +10598,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10620,8 +10620,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DI
 			, std::move( image )
@@ -10642,8 +10642,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10664,8 +10664,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10686,8 +10686,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10708,8 +10708,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10730,8 +10730,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10752,8 +10752,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10774,8 +10774,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10796,8 +10796,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10818,8 +10818,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DI
 			, std::move( image )
@@ -10840,8 +10840,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10862,8 +10862,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10884,8 +10884,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10906,8 +10906,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10928,8 +10928,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10950,8 +10950,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10972,8 +10972,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -10994,8 +10994,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -11016,8 +11016,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeI
 			, std::move( image )
@@ -11038,8 +11038,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11060,8 +11060,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11082,8 +11082,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11104,8 +11104,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11126,8 +11126,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11148,8 +11148,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11170,8 +11170,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11192,8 +11192,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11214,8 +11214,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferI
 			, std::move( image )
@@ -11236,8 +11236,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11258,8 +11258,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11280,8 +11280,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11302,8 +11302,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11324,8 +11324,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11346,8 +11346,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11368,8 +11368,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11390,8 +11390,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11412,8 +11412,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayI
 			, std::move( image )
@@ -11434,8 +11434,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11456,8 +11456,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11478,8 +11478,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11500,8 +11500,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11522,8 +11522,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11544,8 +11544,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11566,8 +11566,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11588,8 +11588,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11610,8 +11610,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayI
 			, std::move( image )
@@ -11632,8 +11632,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11654,8 +11654,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11676,8 +11676,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11698,8 +11698,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11720,8 +11720,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11742,8 +11742,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11764,8 +11764,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11786,8 +11786,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11808,8 +11808,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayI
 			, std::move( image )
@@ -11833,9 +11833,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -11860,9 +11860,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -11887,9 +11887,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -11914,9 +11914,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -11941,9 +11941,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -11968,9 +11968,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -11995,9 +11995,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -12022,9 +12022,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -12049,9 +12049,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSI
 			, std::move( image )
@@ -12076,9 +12076,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12103,9 +12103,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12130,9 +12130,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12157,9 +12157,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12184,9 +12184,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12211,9 +12211,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2I );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12238,9 +12238,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12265,9 +12265,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12292,9 +12292,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayI
 			, std::move( image )
@@ -12316,8 +12316,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12338,8 +12338,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12360,8 +12360,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12382,8 +12382,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12404,8 +12404,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12426,8 +12426,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12448,8 +12448,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12470,8 +12470,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12492,8 +12492,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DU
 			, std::move( image )
@@ -12514,8 +12514,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12536,8 +12536,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12558,8 +12558,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12580,8 +12580,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12602,8 +12602,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12624,8 +12624,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12646,8 +12646,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12668,8 +12668,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12690,8 +12690,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DU
 			, std::move( image )
@@ -12712,8 +12712,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12734,8 +12734,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12756,8 +12756,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12778,8 +12778,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12800,8 +12800,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12822,8 +12822,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12844,8 +12844,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12866,8 +12866,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12888,8 +12888,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore3DU
 			, std::move( image )
@@ -12910,8 +12910,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -12932,8 +12932,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -12954,8 +12954,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -12976,8 +12976,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -12998,8 +12998,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -13020,8 +13020,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -13042,8 +13042,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -13064,8 +13064,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -13086,8 +13086,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeU
 			, std::move( image )
@@ -13108,8 +13108,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13130,8 +13130,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13152,8 +13152,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13174,8 +13174,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13196,8 +13196,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13218,8 +13218,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13240,8 +13240,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13262,8 +13262,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13284,8 +13284,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreBufferU
 			, std::move( image )
@@ -13306,8 +13306,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13328,8 +13328,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13350,8 +13350,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13372,8 +13372,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13394,8 +13394,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13416,8 +13416,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13438,8 +13438,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13460,8 +13460,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13482,8 +13482,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore1DArrayU
 			, std::move( image )
@@ -13504,8 +13504,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13526,8 +13526,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13548,8 +13548,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13570,8 +13570,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13592,8 +13592,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13614,8 +13614,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13636,8 +13636,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13658,8 +13658,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13680,8 +13680,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DArrayU
 			, std::move( image )
@@ -13702,8 +13702,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13724,8 +13724,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13746,8 +13746,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13768,8 +13768,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13790,8 +13790,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13812,8 +13812,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13834,8 +13834,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13856,8 +13856,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13878,8 +13878,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStoreCubeArrayU
 			, std::move( image )
@@ -13903,9 +13903,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -13930,9 +13930,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -13957,9 +13957,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -13984,9 +13984,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -14011,9 +14011,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -14038,9 +14038,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -14065,9 +14065,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -14092,9 +14092,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -14119,9 +14119,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSU
 			, std::move( image )
@@ -14146,9 +14146,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14173,9 +14173,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14200,9 +14200,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14227,9 +14227,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14254,9 +14254,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14281,9 +14281,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2U );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2U );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14308,9 +14308,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14335,9 +14335,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14362,9 +14362,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVoid )
 			, StorageImageAccess::eImageStore2DMSArrayU
 			, std::move( image )
@@ -14390,8 +14390,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd1DU
 			, std::move( image )
@@ -14414,8 +14414,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd2DU
 			, std::move( image )
@@ -14438,8 +14438,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd3DU
 			, std::move( image )
@@ -14462,8 +14462,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAddCubeU
 			, std::move( image )
@@ -14486,8 +14486,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAddBufferU
 			, std::move( image )
@@ -14510,8 +14510,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd1DArrayU
 			, std::move( image )
@@ -14534,8 +14534,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd2DArrayU
 			, std::move( image )
@@ -14558,8 +14558,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAddCubeArrayU
 			, std::move( image )
@@ -14585,9 +14585,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd2DMSU
 			, std::move( image )
@@ -14614,9 +14614,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAdd2DMSArrayU
 			, std::move( image )
@@ -14640,8 +14640,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd1DI
 			, std::move( image )
@@ -14664,8 +14664,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd2DI
 			, std::move( image )
@@ -14688,8 +14688,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd3DI
 			, std::move( image )
@@ -14712,8 +14712,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAddCubeI
 			, std::move( image )
@@ -14736,8 +14736,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAddBufferI
 			, std::move( image )
@@ -14760,8 +14760,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd1DArrayI
 			, std::move( image )
@@ -14784,8 +14784,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd2DArrayI
 			, std::move( image )
@@ -14808,8 +14808,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAddCubeArrayI
 			, std::move( image )
@@ -14835,9 +14835,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd2DMSI
 			, std::move( image )
@@ -14864,9 +14864,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAdd2DMSArrayI
 			, std::move( image )
@@ -14890,8 +14890,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd1DF
 			, std::move( image )
@@ -14914,8 +14914,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd1DF
 			, std::move( image )
@@ -14938,8 +14938,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd1DF
 			, std::move( image )
@@ -14962,8 +14962,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd2DF
 			, std::move( image )
@@ -14986,8 +14986,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd2DF
 			, std::move( image )
@@ -15010,8 +15010,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd2DF
 			, std::move( image )
@@ -15034,8 +15034,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd3DF
 			, std::move( image )
@@ -15058,8 +15058,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd3DF
 			, std::move( image )
@@ -15082,8 +15082,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd3DF
 			, std::move( image )
@@ -15106,8 +15106,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAddCubeF
 			, std::move( image )
@@ -15130,8 +15130,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAddCubeF
 			, std::move( image )
@@ -15154,8 +15154,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAddCubeF
 			, std::move( image )
@@ -15178,8 +15178,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAddBufferF
 			, std::move( image )
@@ -15202,8 +15202,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAddBufferF
 			, std::move( image )
@@ -15226,8 +15226,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAddBufferF
 			, std::move( image )
@@ -15250,8 +15250,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd1DArrayF
 			, std::move( image )
@@ -15274,8 +15274,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd1DArrayF
 			, std::move( image )
@@ -15298,8 +15298,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd1DArrayF
 			, std::move( image )
@@ -15322,8 +15322,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd2DArrayF
 			, std::move( image )
@@ -15346,8 +15346,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd2DArrayF
 			, std::move( image )
@@ -15370,8 +15370,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() ==  type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd2DArrayF
 			, std::move( image )
@@ -15394,8 +15394,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAddCubeArrayF
 			, std::move( image )
@@ -15418,8 +15418,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAddCubeArrayF
 			, std::move( image )
@@ -15442,8 +15442,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAddCubeArrayF
 			, std::move( image )
@@ -15469,9 +15469,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd2DMSF
 			, std::move( image )
@@ -15498,9 +15498,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd2DMSF
 			, std::move( image )
@@ -15527,9 +15527,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd2DMSF
 			, std::move( image )
@@ -15556,9 +15556,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicAdd2DMSArrayF
 			, std::move( image )
@@ -15585,9 +15585,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicAdd2DMSArrayF
 			, std::move( image )
@@ -15614,9 +15614,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicAdd2DMSArrayF
 			, std::move( image )
@@ -15640,8 +15640,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin1DU
 			, std::move( image )
@@ -15664,8 +15664,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin2DU
 			, std::move( image )
@@ -15688,8 +15688,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin3DU
 			, std::move( image )
@@ -15712,8 +15712,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMinCubeU
 			, std::move( image )
@@ -15736,8 +15736,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMinBufferU
 			, std::move( image )
@@ -15760,8 +15760,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin1DArrayU
 			, std::move( image )
@@ -15784,8 +15784,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin2DArrayU
 			, std::move( image )
@@ -15808,8 +15808,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMinCubeArrayU
 			, std::move( image )
@@ -15835,9 +15835,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin2DMSU
 			, std::move( image )
@@ -15864,9 +15864,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMin2DMSArrayU
 			, std::move( image )
@@ -15890,8 +15890,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin1DI
 			, std::move( image )
@@ -15914,8 +15914,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin2DI
 			, std::move( image )
@@ -15938,8 +15938,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin3DI
 			, std::move( image )
@@ -15962,8 +15962,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMinCubeI
 			, std::move( image )
@@ -15986,8 +15986,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMinBufferI
 			, std::move( image )
@@ -16010,8 +16010,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin1DArrayI
 			, std::move( image )
@@ -16034,8 +16034,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin2DArrayI
 			, std::move( image )
@@ -16058,8 +16058,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMinCubeArrayI
 			, std::move( image )
@@ -16085,9 +16085,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin2DMSI
 			, std::move( image )
@@ -16114,9 +16114,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMin2DMSArrayI
 			, std::move( image )
@@ -16140,8 +16140,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax1DU
 			, std::move( image )
@@ -16164,8 +16164,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax2DU
 			, std::move( image )
@@ -16188,8 +16188,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax3DU
 			, std::move( image )
@@ -16212,8 +16212,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMaxCubeU
 			, std::move( image )
@@ -16236,8 +16236,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMaxBufferU
 			, std::move( image )
@@ -16260,8 +16260,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax1DArrayU
 			, std::move( image )
@@ -16284,8 +16284,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax2DArrayU
 			, std::move( image )
@@ -16308,8 +16308,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMaxCubeArrayU
 			, std::move( image )
@@ -16335,9 +16335,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax2DMSU
 			, std::move( image )
@@ -16364,9 +16364,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicMax2DMSArrayU
 			, std::move( image )
@@ -16390,8 +16390,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax1DI
 			, std::move( image )
@@ -16414,8 +16414,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax2DI
 			, std::move( image )
@@ -16438,8 +16438,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax3DI
 			, std::move( image )
@@ -16462,8 +16462,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMaxCubeI
 			, std::move( image )
@@ -16486,8 +16486,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMaxBufferI
 			, std::move( image )
@@ -16510,8 +16510,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax1DArrayI
 			, std::move( image )
@@ -16534,8 +16534,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax2DArrayI
 			, std::move( image )
@@ -16558,8 +16558,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMaxCubeArrayI
 			, std::move( image )
@@ -16585,9 +16585,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax2DMSI
 			, std::move( image )
@@ -16614,9 +16614,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicMax2DMSArrayI
 			, std::move( image )
@@ -16640,8 +16640,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd1DU
 			, std::move( image )
@@ -16664,8 +16664,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd2DU
 			, std::move( image )
@@ -16688,8 +16688,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd3DU
 			, std::move( image )
@@ -16712,8 +16712,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAndCubeU
 			, std::move( image )
@@ -16736,8 +16736,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAndBufferU
 			, std::move( image )
@@ -16760,8 +16760,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd1DArrayU
 			, std::move( image )
@@ -16784,8 +16784,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd2DArrayU
 			, std::move( image )
@@ -16808,8 +16808,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAndCubeArrayU
 			, std::move( image )
@@ -16835,9 +16835,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd2DMSU
 			, std::move( image )
@@ -16864,9 +16864,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicAnd2DMSArrayU
 			, std::move( image )
@@ -16890,8 +16890,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd1DI
 			, std::move( image )
@@ -16914,8 +16914,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd2DI
 			, std::move( image )
@@ -16938,8 +16938,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd3DI
 			, std::move( image )
@@ -16962,8 +16962,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAndCubeI
 			, std::move( image )
@@ -16986,8 +16986,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAndBufferI
 			, std::move( image )
@@ -17010,8 +17010,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd1DArrayI
 			, std::move( image )
@@ -17034,8 +17034,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd2DArrayI
 			, std::move( image )
@@ -17058,8 +17058,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAndCubeArrayI
 			, std::move( image )
@@ -17085,9 +17085,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd2DMSI
 			, std::move( image )
@@ -17114,9 +17114,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicAnd2DMSArrayI
 			, std::move( image )
@@ -17140,8 +17140,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr1DU
 			, std::move( image )
@@ -17164,8 +17164,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr2DU
 			, std::move( image )
@@ -17188,8 +17188,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr3DU
 			, std::move( image )
@@ -17212,8 +17212,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOrCubeU
 			, std::move( image )
@@ -17236,8 +17236,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOrBufferU
 			, std::move( image )
@@ -17260,8 +17260,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr1DArrayU
 			, std::move( image )
@@ -17284,8 +17284,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr2DArrayU
 			, std::move( image )
@@ -17308,8 +17308,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOrCubeArrayU
 			, std::move( image )
@@ -17335,9 +17335,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr2DMSU
 			, std::move( image )
@@ -17364,9 +17364,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicOr2DMSArrayU
 			, std::move( image )
@@ -17390,8 +17390,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr1DI
 			, std::move( image )
@@ -17414,8 +17414,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr2DI
 			, std::move( image )
@@ -17438,8 +17438,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr3DI
 			, std::move( image )
@@ -17462,8 +17462,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOrCubeI
 			, std::move( image )
@@ -17486,8 +17486,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOrBufferI
 			, std::move( image )
@@ -17510,8 +17510,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr1DArrayI
 			, std::move( image )
@@ -17534,8 +17534,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr2DArrayI
 			, std::move( image )
@@ -17558,8 +17558,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOrCubeArrayI
 			, std::move( image )
@@ -17585,9 +17585,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr2DMSI
 			, std::move( image )
@@ -17614,9 +17614,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicOr2DMSArrayI
 			, std::move( image )
@@ -17640,8 +17640,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor1DU
 			, std::move( image )
@@ -17664,8 +17664,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor2DU
 			, std::move( image )
@@ -17688,8 +17688,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor3DU
 			, std::move( image )
@@ -17712,8 +17712,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXorCubeU
 			, std::move( image )
@@ -17736,8 +17736,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXorBufferU
 			, std::move( image )
@@ -17760,8 +17760,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor1DArrayU
 			, std::move( image )
@@ -17784,8 +17784,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor2DArrayU
 			, std::move( image )
@@ -17808,8 +17808,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXorCubeArrayU
 			, std::move( image )
@@ -17835,9 +17835,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor2DMSU
 			, std::move( image )
@@ -17864,9 +17864,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicXor2DMSArrayU
 			, std::move( image )
@@ -17890,8 +17890,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor1DI
 			, std::move( image )
@@ -17914,8 +17914,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor2DI
 			, std::move( image )
@@ -17938,8 +17938,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor3DI
 			, std::move( image )
@@ -17962,8 +17962,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXorCubeI
 			, std::move( image )
@@ -17986,8 +17986,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXorBufferI
 			, std::move( image )
@@ -18010,8 +18010,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor1DArrayI
 			, std::move( image )
@@ -18034,8 +18034,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor2DArrayI
 			, std::move( image )
@@ -18058,8 +18058,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXorCubeArrayI
 			, std::move( image )
@@ -18085,9 +18085,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor2DMSI
 			, std::move( image )
@@ -18114,9 +18114,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicXor2DMSArrayI
 			, std::move( image )
@@ -18140,8 +18140,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange1DU
 			, std::move( image )
@@ -18164,8 +18164,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange2DU
 			, std::move( image )
@@ -18188,8 +18188,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange3DU
 			, std::move( image )
@@ -18212,8 +18212,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchangeCubeU
 			, std::move( image )
@@ -18236,8 +18236,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchangeBufferU
 			, std::move( image )
@@ -18260,8 +18260,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange1DArrayU
 			, std::move( image )
@@ -18284,8 +18284,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange2DArrayU
 			, std::move( image )
@@ -18308,8 +18308,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchangeCubeArrayU
 			, std::move( image )
@@ -18335,9 +18335,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange2DMSU
 			, std::move( image )
@@ -18364,9 +18364,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicExchange2DMSArrayU
 			, std::move( image )
@@ -18390,8 +18390,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange1DI
 			, std::move( image )
@@ -18414,8 +18414,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange2DI
 			, std::move( image )
@@ -18438,8 +18438,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange3DI
 			, std::move( image )
@@ -18462,8 +18462,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchangeCubeI
 			, std::move( image )
@@ -18486,8 +18486,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchangeBufferI
 			, std::move( image )
@@ -18510,8 +18510,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange1DArrayI
 			, std::move( image )
@@ -18534,8 +18534,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange2DArrayI
 			, std::move( image )
@@ -18558,8 +18558,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchangeCubeArrayI
 			, std::move( image )
@@ -18585,9 +18585,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange2DMSI
 			, std::move( image )
@@ -18614,9 +18614,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicExchange2DMSArrayI
 			, std::move( image )
@@ -18640,8 +18640,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange1DF
 			, std::move( image )
@@ -18664,8 +18664,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange1DF
 			, std::move( image )
@@ -18688,8 +18688,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange1DF
 			, std::move( image )
@@ -18712,8 +18712,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange2DF
 			, std::move( image )
@@ -18736,8 +18736,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange2DF
 			, std::move( image )
@@ -18760,8 +18760,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange2DF
 			, std::move( image )
@@ -18784,8 +18784,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange3DF
 			, std::move( image )
@@ -18808,8 +18808,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange3DF
 			, std::move( image )
@@ -18832,8 +18832,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange3DF
 			, std::move( image )
@@ -18856,8 +18856,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchangeCubeF
 			, std::move( image )
@@ -18880,8 +18880,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchangeCubeF
 			, std::move( image )
@@ -18904,8 +18904,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchangeCubeF
 			, std::move( image )
@@ -18928,8 +18928,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchangeBufferF
 			, std::move( image )
@@ -18952,8 +18952,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchangeBufferF
 			, std::move( image )
@@ -18976,8 +18976,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchangeBufferF
 			, std::move( image )
@@ -19000,8 +19000,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange1DArrayF
 			, std::move( image )
@@ -19024,8 +19024,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange1DArrayF
 			, std::move( image )
@@ -19048,8 +19048,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange1DArrayF
 			, std::move( image )
@@ -19072,8 +19072,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange2DArrayF
 			, std::move( image )
@@ -19096,8 +19096,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange2DArrayF
 			, std::move( image )
@@ -19120,8 +19120,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange2DArrayF
 			, std::move( image )
@@ -19144,8 +19144,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchangeCubeArrayF
 			, std::move( image )
@@ -19168,8 +19168,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchangeCubeArrayF
 			, std::move( image )
@@ -19192,8 +19192,8 @@ namespace ast::expr
 		, ExprPtr P
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchangeCubeArrayF
 			, std::move( image )
@@ -19219,9 +19219,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange2DMSF
 			, std::move( image )
@@ -19248,9 +19248,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange2DMSF
 			, std::move( image )
@@ -19277,9 +19277,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange2DMSF
 			, std::move( image )
@@ -19306,9 +19306,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec4H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec4H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec4H )
 			, StorageImageAccess::eImageAtomicExchange2DMSArrayF
 			, std::move( image )
@@ -19335,9 +19335,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eVec2H );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eVec2H );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eVec2H )
 			, StorageImageAccess::eImageAtomicExchange2DMSArrayF
 			, std::move( image )
@@ -19364,9 +19364,9 @@ namespace ast::expr
 		, ExprPtr sample
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eFloat );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eFloat );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eFloat )
 			, StorageImageAccess::eImageAtomicExchange2DMSArrayF
 			, std::move( image )
@@ -19393,9 +19393,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap1DU
 			, std::move( image )
@@ -19422,9 +19422,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DU
 			, std::move( image )
@@ -19451,9 +19451,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap3DU
 			, std::move( image )
@@ -19480,9 +19480,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwapCubeU
 			, std::move( image )
@@ -19509,9 +19509,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwapBufferU
 			, std::move( image )
@@ -19538,9 +19538,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap1DArrayU
 			, std::move( image )
@@ -19567,9 +19567,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DArrayU
 			, std::move( image )
@@ -19596,9 +19596,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwapCubeArrayU
 			, std::move( image )
@@ -19628,10 +19628,10 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DMSU
 			, std::move( image )
@@ -19662,10 +19662,10 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eUInt );
-		assert( data->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eUInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eUInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eUInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DMSArrayU
 			, std::move( image )
@@ -19693,9 +19693,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap1DI
 			, std::move( image )
@@ -19722,9 +19722,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DI
 			, std::move( image )
@@ -19751,9 +19751,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap3DI
 			, std::move( image )
@@ -19780,9 +19780,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwapCubeI
 			, std::move( image )
@@ -19809,9 +19809,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwapBufferI
 			, std::move( image )
@@ -19838,9 +19838,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap1DArrayI
 			, std::move( image )
@@ -19867,9 +19867,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DArrayI
 			, std::move( image )
@@ -19896,9 +19896,9 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwapCubeArrayI
 			, std::move( image )
@@ -19928,10 +19928,10 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec2I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec2I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DMSI
 			, std::move( image )
@@ -19962,10 +19962,10 @@ namespace ast::expr
 		, ExprPtr compare
 		, ExprPtr data )
 	{
-		assert( P->getType()->getRawKind() == type::Kind::eVec3I );
-		assert( sample->getType()->getRawKind() == type::Kind::eInt );
-		assert( compare->getType()->getRawKind() == type::Kind::eInt );
-		assert( data->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( P->getType()->getRawKind() == type::Kind::eVec3I );
+		AST_Assert( sample->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( compare->getType()->getRawKind() == type::Kind::eInt );
+		AST_Assert( data->getType()->getRawKind() == type::Kind::eInt );
 		return exprCache.makeStorageImageAccessCall( typesCache.getBasicType( type::Kind::eInt )
 			, StorageImageAccess::eImageAtomicCompSwap2DMSArrayI
 			, std::move( image )

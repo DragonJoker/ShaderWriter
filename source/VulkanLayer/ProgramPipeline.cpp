@@ -193,7 +193,7 @@ namespace ast::vk
 			case ast::ShaderStage::eRayIntersection:
 				return "RayIntersection";
 			default:
-				assert( false );
+				AST_Assert( false );
 				return "Unsupported";
 			}
 		}
@@ -686,8 +686,10 @@ namespace ast::vk
 				return VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER;
 			default:
 				AST_Failure( "Unsupported DescriptorType." );
-				return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 			}
+#if !SDAST_ExceptAssert
+			return VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
+#endif
 		}
 
 		VkWriteDescriptorSet makeWrite( uint32_t binding
@@ -826,7 +828,7 @@ namespace ast::vk
 
 	WriteDescriptorSetArray ProgramPipeline::getDescriptorSetWrites( uint32_t setIndex )const
 	{
-		assert( m_descriptorSetsWrites.size() > setIndex );
+		AST_Assert( m_descriptorSetsWrites.size() > setIndex );
 		return m_descriptorSetsWrites[setIndex];
 	}
 
@@ -842,7 +844,7 @@ namespace ast::vk
 
 	VkPipelineLayoutCreateInfo ProgramPipeline::getPipelineLayout( std::vector< VkDescriptorSetLayout > const & layouts )const
 	{
-		assert( layouts.size() == m_pipelineLayout.setLayoutCount );
+		AST_Assert( layouts.size() == m_pipelineLayout.setLayoutCount );
 		VkPipelineLayoutCreateInfo result{ m_pipelineLayout };
 		result.pSetLayouts = layouts.data();
 		return result;
@@ -853,8 +855,8 @@ namespace ast::vk
 	{
 		checkSpecializationInfos( specializationInfo );
 		PipelineShaderStageArray result{ m_stages };
-		assert( result.size() == modules.size() );
-		assert( specializationInfo.empty() || result.size() == specializationInfo.size() );
+		AST_Assert( result.size() == modules.size() );
+		AST_Assert( specializationInfo.empty() || result.size() == specializationInfo.size() );
 		auto lit = result.begin();
 		auto rit = modules.begin();
 		auto sit = specializationInfo.begin();

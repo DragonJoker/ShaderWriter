@@ -54,7 +54,7 @@ namespace ast::var
 			updateFlag( Flag::eConstant, true );
 		}
 
-		assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
+		AST_Assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
 	}
 
 	Variable::Variable( uint32_t id

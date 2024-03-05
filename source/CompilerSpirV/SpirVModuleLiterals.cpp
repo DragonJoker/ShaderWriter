@@ -371,7 +371,7 @@ namespace spirv
 #else
 #	pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif
-				assert( instruction.operands.size() >= 2 );
+				AST_Assert( instruction.operands.size() >= 2 );
 				m_registeredConstants.try_emplace( debugId, type );
 				m_registeredDoubleConstants.try_emplace( *reinterpret_cast< double const * >( instruction.operands.data() )
 					, debugId );

@@ -617,7 +617,7 @@ namespace hlsl
 
 	std::string getName( ast::type::ImageDim value )
 	{
-		std::string result;
+		std::string result{ "Undefined" };
 
 		switch ( value )
 		{
@@ -637,11 +637,10 @@ namespace hlsl
 			result = "Buffer";
 			break;
 		default:
-			AST_Failure( "Unsupported ast::type::ImageDim" );
-			result = "Undefined";
 			break;
 		}
 
+		AST_Assert( ( result != "Undefined" ) && "Unsupported ast::type::ImageDim" );
 		return result;
 	}
 
@@ -1613,7 +1612,7 @@ namespace hlsl
 		case hlsl::IOMappingMode::eLocalSeparateVar:
 			if ( separateVar && !isInput )
 			{
-				assert( mainVar == separateVar );
+				AST_Assert( mainVar == separateVar );
 				stmt.addStmt( stmt.getStmtCache().makeVariableDecl( separateVar ) );
 			}
 			break;
@@ -1755,7 +1754,7 @@ namespace hlsl
 		, uint32_t location )
 	{
 		auto ident = ast::findIdentifier( outer );
-		assert( ident );
+		AST_Assert( ident );
 		addPendingMbr( ident->getVariable()
 			, mbrIndex
 			, flags.getFlags()
@@ -2479,7 +2478,7 @@ namespace hlsl
 				|| mbr.builtin == ast::Builtin::ePrimitiveLineIndices
 				|| mbr.builtin == ast::Builtin::ePrimitiveTriangleIndices )
 			{
-				assert( outer.getKind() == ast::expr::Kind::eArrayAccess );
+				AST_Assert( outer.getKind() == ast::expr::Kind::eArrayAccess );
 				auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
 				auto type = getNonArrayType( m_primitiveIndices.io.var->getType() );
 				result = exprCache.makeArrayAccess( type
@@ -2544,7 +2543,7 @@ namespace hlsl
 			|| mbrBuiltin == ast::Builtin::ePrimitiveTriangleIndices )
 		{
 			auto type = var->getType();
-			assert( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput );
+			AST_Assert( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput );
 			auto & meshType = static_cast< ast::type::MeshPrimitiveOutput const & >( *type );
 			auto mbr = getStructType( type )->getMember( mbrIndex );
 			PendingIO io{};
@@ -2610,7 +2609,7 @@ namespace hlsl
 
 	void AdaptationData::initialiseEntryPoint( ast::stmt::FunctionDecl const & stmt )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto funcType = stmt.getType();
 
 		for ( auto & param : *funcType )
@@ -2721,7 +2720,7 @@ namespace hlsl
 		, ast::UnorderedStringSet & declaredStructs )
 	{
 		auto cont = stmtCache.makeContainer();
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( m_currentRoutine == m_mainEntryPoint )
 		{
@@ -2743,7 +2742,7 @@ namespace hlsl
 	ast::stmt::ContainerPtr AdaptationData::writeLocalesBegin( ast::stmt::StmtCache & stmtCache )const
 	{
 		auto cont = stmtCache.makeContainer();
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( m_currentRoutine == m_mainEntryPoint )
 		{
@@ -2762,7 +2761,7 @@ namespace hlsl
 	ast::stmt::ContainerPtr AdaptationData::writeLocalesEnd( ast::stmt::StmtCache & stmtCache )const
 	{
 		auto cont = stmtCache.makeContainer();
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( m_currentRoutine == m_mainEntryPoint )
 		{
@@ -2788,7 +2787,7 @@ namespace hlsl
 			result = HlslHelpersInternal::getNonNull( m_patchInputs->fillParameters( parameters, stmt ), nullptr );
 		}
 
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		result = HlslHelpersInternal::getNonNull( m_currentRoutine->fillParameters( parameters, stmt ), result );
 		return result;
 	}
@@ -2872,7 +2871,7 @@ namespace hlsl
 
 	IOMapping & AdaptationData::getLFInputs()
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->getLFInputs();
 	}
 
@@ -2912,7 +2911,7 @@ namespace hlsl
 
 	bool AdaptationData::hasSeparateLFInput()const
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->hasSeparateLFInput();
 	}
 
@@ -2946,7 +2945,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto mbr = getStructType( outer.getType() )->getMember( mbrIndex );
 
 		if ( HlslHelpersInternal::isHighFreq( mbr.builtin, true ) )
@@ -2977,7 +2976,7 @@ namespace hlsl
 
 	ast::expr::ExprPtr AdaptationData::processPendingInput( std::string const & name )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto result = m_highFreqInputs.processPending( name );
 
 		if ( m_patchInputs && !result )
@@ -2995,7 +2994,7 @@ namespace hlsl
 
 	ast::expr::ExprPtr AdaptationData::processPendingInput( ast::var::VariablePtr var )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto result = m_highFreqInputs.processPending( var );
 
 		if ( m_patchInputs && !result )
@@ -3016,7 +3015,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto result = m_highFreqInputs.processPendingMbr( outer
 			, mbrIndex
 			, flags
@@ -3043,13 +3042,13 @@ namespace hlsl
 
 	IOMapping & AdaptationData::getHFOutputs()
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->getHFOutputs();
 	}
 
 	IOMapping & AdaptationData::getLFOutputs()
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->getLFOutputs();
 	}
 
@@ -3064,19 +3063,19 @@ namespace hlsl
 
 	bool AdaptationData::isOutput( ast::Builtin builtin )const
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->isOutput( builtin );
 	}
 
 	bool AdaptationData::hasSeparateHFOutput()const
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->hasSeparateHFOutput();
 	}
 
 	bool AdaptationData::hasSeparateLFOutput()const
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->hasSeparateLFOutput();
 	}
 
@@ -3094,7 +3093,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		m_currentRoutine->addPendingMbrOutput( outer
 			, mbrIndex
 			, flags
@@ -3103,13 +3102,13 @@ namespace hlsl
 
 	ast::expr::ExprPtr AdaptationData::processPendingOutput( std::string const & name )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->processPendingOutput( name );
 	}
 
 	ast::expr::ExprPtr AdaptationData::processPendingOutput( ast::var::VariablePtr var )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->processPendingOutput( var );
 	}
 
@@ -3118,7 +3117,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		return m_currentRoutine->processPendingMbrOutput( outer
 			, mbrIndex
 			, flags
@@ -3138,13 +3137,13 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::FragmentInput const & fragType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( auto type = fragType.getType();
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3158,13 +3157,13 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( auto type = compType.getType();
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3179,13 +3178,13 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::GeometryInput const & geomType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( auto type = geomType.getType();
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3198,13 +3197,13 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::GeometryOutput const & geomType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( auto type = geomType.getType();
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3214,8 +3213,8 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationInputPatch const & patchType )
 	{
-		assert( m_currentRoutine );
-		assert( m_patchInputs );
+		AST_Assert( m_currentRoutine );
+		AST_Assert( m_patchInputs );
 
 		if ( auto type = patchType.getType();
 			isStructType( type ) )
@@ -3236,7 +3235,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationOutputPatch const & patchType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 
 		if ( auto type = patchType.getType();
 			isStructType( type ) )
@@ -3251,7 +3250,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationControlInput const & tessType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = tessType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eArray )
@@ -3262,7 +3261,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3275,7 +3274,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationControlOutput const & tessType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = tessType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eArray )
@@ -3286,7 +3285,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3296,7 +3295,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TessellationEvaluationInput const & tessType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = tessType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eArray )
@@ -3307,7 +3306,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3323,7 +3322,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::MeshVertexOutput const & meshType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = meshType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eArray )
@@ -3334,7 +3333,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3344,7 +3343,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::MeshPrimitiveOutput const & meshType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = meshType.getType();
 		m_currentRoutine->setOutputTopology( meshType.getTopology() );
 
@@ -3356,7 +3355,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3366,7 +3365,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TaskPayloadInNV const & taskType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = taskType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eArray )
@@ -3377,7 +3376,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3389,7 +3388,7 @@ namespace hlsl
 	void AdaptationData::registerParam( ast::var::VariablePtr var
 		, ast::type::TaskPayloadIn const & taskType )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto type = taskType.getType();
 
 		if ( type->getKind() == ast::type::Kind::eArray )
@@ -3400,7 +3399,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3447,7 +3446,7 @@ namespace hlsl
 		, uint32_t mbrIndex
 		, uint32_t mbrLocation )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		auto mbrFlags = ( outerFlags
 			| ( ( mbrBuiltin == ast::Builtin::eNone )
 				? ast::var::Flag::eNone
@@ -3489,7 +3488,7 @@ namespace hlsl
 		, uint32_t mbrIndex
 		, uint32_t mbrLocation )
 	{
-		assert( m_currentRoutine );
+		AST_Assert( m_currentRoutine );
 		m_currentRoutine->registerOutputMbr( var
 			, outerFlags
 			, mbrBuiltin

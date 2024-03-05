@@ -22,7 +22,7 @@ namespace glsl
 	{
 		static std::string getImageDimName( ast::type::ImageDim value )
 		{
-			std::string result;
+			std::string result{ "Undefined" };
 
 			switch ( value )
 			{
@@ -43,8 +43,6 @@ namespace glsl
 				break;
 			default:
 				AST_Failure( "Unsupported ast::type::ImageDim" );
-				result = "Undefined";
-				break;
 			}
 
 			return result;
@@ -278,7 +276,6 @@ namespace glsl
 			break;
 		default:
 			AST_Failure( "Unsupported type::Kind" );
-			break;
 		}
 
 		return result;
@@ -326,7 +323,7 @@ namespace glsl
 
 		if ( type->isComparison() )
 		{
-			assert( config.isSampled == ast::type::Trinary::eTrue );
+			AST_Assert( config.isSampled == ast::type::Trinary::eTrue );
 			result += "Shadow";
 		}
 

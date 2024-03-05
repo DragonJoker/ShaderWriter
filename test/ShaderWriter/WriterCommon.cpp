@@ -216,7 +216,9 @@ namespace test
 				break;
 			default:
 				AST_Failure( "Unsupported shader stage flag" );
+#if !SDAST_ExceptAssert
 				result = spv::ExecutionModelMax;
+#endif
 				break;
 			}
 

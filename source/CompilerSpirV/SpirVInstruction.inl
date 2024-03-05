@@ -1203,14 +1203,14 @@ namespace spirv
 		, bool hasName
 		, bool hasLabels )
 	{
-		assert( spv::OpNop != op );
-		assert( spv::Op( instruction.op.getOpData().opCount ) != 0u );
-		assert( spv::Op( instruction.op.getOpData().opCode ) == op );
-		assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
-		assert( bool( instruction.resultId ) == hasResultId );
-		assert( operandsCount == dynamicOperandCount || uint32_t( instruction.operands.size() ) == operandsCount );
-		assert( bool( instruction.packedName ) == hasName );
-		assert( bool( instruction.labels ) == hasLabels );
+		AST_Assert( spv::OpNop != op );
+		AST_Assert( spv::Op( instruction.op.getOpData().opCount ) != 0u );
+		AST_Assert( spv::Op( instruction.op.getOpData().opCode ) == op );
+		AST_Assert( bool( instruction.returnTypeId ) == hasReturnTypeId );
+		AST_Assert( bool( instruction.resultId ) == hasResultId );
+		AST_Assert( operandsCount == dynamicOperandCount || uint32_t( instruction.operands.size() ) == operandsCount );
+		AST_Assert( bool( instruction.packedName ) == hasName );
+		AST_Assert( bool( instruction.labels ) == hasLabels );
 	}
 
 	template< spv::Op OperatorT >

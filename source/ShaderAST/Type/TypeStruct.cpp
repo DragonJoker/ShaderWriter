@@ -38,6 +38,7 @@ namespace ast::type
 		uint32_t getNaiveSize( Kind kind )
 		{
 			uint32_t mult = 1u;
+			uint32_t result{};
 
 			while ( !isScalarType( kind ) )
 			{
@@ -50,23 +51,28 @@ namespace ast::type
 			case Kind::eDouble:
 			case Kind::eInt64:
 			case Kind::eUInt64:
-				return mult * 8u;
+				result = mult * 8u;
+				break;
 			case Kind::eFloat:
 			case Kind::eInt32:
 			case Kind::eUInt32:
-				return mult * 4u;
+				result = mult * 4u;
+				break;
 			case Kind::eInt16:
 			case Kind::eUInt16:
 			case Kind::eHalf:
-				return mult * 2u;
+				result = mult * 2u;
+				break;
 			case Kind::eBoolean:
 			case Kind::eInt8:
 			case Kind::eUInt8:
-				return mult * 1u;
+				result = mult * 1u;
+				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
-				return 0u;
 			}
+
+			return result;
 		}
 
 		uint32_t getNonArrayNaiveSize( Type const & type )
@@ -133,6 +139,8 @@ namespace ast::type
 
 		uint32_t getPackedBaseSize( Kind kind )
 		{
+			uint32_t result{};
+
 			while ( !isScalarType( kind ) )
 			{
 				kind = getComponentType( kind );
@@ -143,24 +151,28 @@ namespace ast::type
 			case Kind::eDouble:
 			case Kind::eInt64:
 			case Kind::eUInt64:
-				return 8u;
+				result = 8u;
+				break;
 			case Kind::eFloat:
 			case Kind::eInt32:
 			case Kind::eUInt32:
-				return 4u;
+				result = 4u;
+				break;
 			case Kind::eInt16:
 			case Kind::eUInt16:
 			case Kind::eHalf:
-				return 2u;
+				result = 2u;
+				break;
 			case Kind::eBoolean:
 			case Kind::eInt8:
 			case Kind::eUInt8:
-				return 1u;
-
+				result = 1u;
+				break;
 			default:
 				AST_Failure( "Unsupported type::Kind" );
-				return 0u;
 			}
+
+			return result;
 		}
 
 		uint32_t getPackedAlignment( Type const & type

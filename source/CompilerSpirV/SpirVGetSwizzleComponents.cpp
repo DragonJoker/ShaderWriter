@@ -21,7 +21,9 @@ namespace spirv
 				return UInt32List{ { 1, 0 }, ast::StlAllocatorT< uint32_t >( allocator ) };
 			default:
 				AST_Failure( "Impossible LHS swizzle kind for 2 components vector" );
+#if !SDAST_ExceptAssert
 				return UInt32List{ ast::StlAllocatorT< uint32_t >( allocator ) };
+#endif
 			}
 		}
 
@@ -44,7 +46,9 @@ namespace spirv
 				return UInt32List{ { 2, 1, 0 }, ast::StlAllocatorT< uint32_t >( allocator ) };
 			default:
 				AST_Failure( "Impossible LHS swizzle kind for 3 components vector" );
+#if !SDAST_ExceptAssert
 				return UInt32List{ ast::StlAllocatorT< uint32_t >( allocator ) };
+#endif
 			}
 		}
 
@@ -101,7 +105,9 @@ namespace spirv
 				return UInt32List{ { 3, 2, 1, 0 }, ast::StlAllocatorT< uint32_t >( allocator ) };
 			default:
 				AST_Failure( "Impossible LHS swizzle kind for 3 components vector" );
+#if !SDAST_ExceptAssert
 				return UInt32List{ ast::StlAllocatorT< uint32_t >( allocator ) };
+#endif
 			}
 		}
 
@@ -118,7 +124,7 @@ namespace spirv
 				{
 					return v + 2u;
 				} );
-			assert( !rhs.empty() );
+			AST_Assert( !rhs.empty() );
 
 			if ( rhs.size() == 1u )
 			{
@@ -140,11 +146,11 @@ namespace spirv
 			else if ( rhs.size() == 2u )
 			{
 				auto lhs = getSwizzle2Components( allocator, lhsSwizzle );
-				assert( lhs.size() == rhs.size() );
+				AST_Assert( lhs.size() == rhs.size() );
 				result = { rhs[lhs[0u]], rhs[lhs[1u]] };
 			}
 
-			assert( result.size() == 2u );
+			AST_Assert( result.size() == 2u );
 			return result;
 		}
 
@@ -161,7 +167,7 @@ namespace spirv
 				{
 					return v + 3u;
 				} );
-			assert( !rhs.empty() );
+			AST_Assert( !rhs.empty() );
 
 			if ( rhs.size() == 1u )
 			{
@@ -220,11 +226,11 @@ namespace spirv
 			else if ( rhs.size() == 3u )
 			{
 				auto lhs = getSwizzle3Components( allocator, lhsSwizzle );
-				assert( lhs.size() == rhs.size() );
+				AST_Assert( lhs.size() == rhs.size() );
 				result = { rhs[lhs[0u]], rhs[lhs[1u]], rhs[lhs[2u]] };
 			}
 
-			assert( result.size() == 3u );
+			AST_Assert( result.size() == 3u );
 			return result;
 		}
 
@@ -241,7 +247,7 @@ namespace spirv
 				{
 					return v + 4u;
 				} );
-			assert( !rhs.empty() );
+			AST_Assert( !rhs.empty() );
 
 			if ( rhs.size() == 1u )
 			{
@@ -433,11 +439,11 @@ namespace spirv
 			else if ( rhs.size() == 4u )
 			{
 				auto lhs = getSwizzle4Components( allocator, lhsSwizzle );
-				assert( lhs.size() == rhs.size() );
+				AST_Assert( lhs.size() == rhs.size() );
 				result = { rhs[lhs[0u]], rhs[lhs[1u]], rhs[lhs[2u]], rhs[lhs[3u]] };
 			}
 
-			assert( result.size() == 4u );
+			AST_Assert( result.size() == 4u );
 			return result;
 		}
 
@@ -1155,7 +1161,9 @@ namespace spirv
 			return UInt32List{ { 3, 3, 3, 3 }, ast::StlAllocatorT< uint32_t >( allocator ) };
 		default:
 			AST_Failure( "Unsupported SwizzleKind." );
+#if !SDAST_ExceptAssert
 			return UInt32List{ ast::StlAllocatorT< uint32_t >( allocator ) };
+#endif
 		}
 	}
 
@@ -1169,7 +1177,7 @@ namespace spirv
 
 	ast::expr::SwizzleKind getSwizzleComponents( uint32_t count )
 	{
-		assert( count > 0 && count < 4 );
+		AST_Assert( count > 0 && count < 4 );
 
 		switch ( count )
 		{

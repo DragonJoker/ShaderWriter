@@ -175,7 +175,7 @@ namespace ast::expr
 		, CompositeType composite
 		, type::Kind component )
 	{
-		assert( composite != CompositeType::eCombine
+		AST_Assert( composite != CompositeType::eCombine
 			&& ( isScalarType( component ) || isVectorType( component ) ) );
 		type::TypePtr result;
 
@@ -355,7 +355,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat2x2:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -373,7 +373,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat2x3:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -391,7 +391,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat2x4:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -409,7 +409,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat3x2:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -427,7 +427,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat3x3:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -445,7 +445,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat3x4:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -463,7 +463,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat4x2:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -481,7 +481,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat4x3:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
@@ -499,7 +499,7 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat4x4:
-			assert( isFloatType( component )
+			AST_Assert( isFloatType( component )
 				|| isDoubleType( component ) );
 			switch ( component )
 			{
