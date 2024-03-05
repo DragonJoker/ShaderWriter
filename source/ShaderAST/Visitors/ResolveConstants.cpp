@@ -2838,6 +2838,7 @@ namespace ast
 				ExprCloner::visitImageAccessCallExpr( expr );
 			}
 
+			[[noreturn]]
 			void visitInitExpr( expr::Init const * expr )override
 			{
 				AST_Failure( "Unexpected Init expression" );
@@ -3095,71 +3096,85 @@ namespace ast
 				m_result = doSubmit( expr->getOperand() );
 			}
 
+			[[noreturn]]
 			void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 			{
 				AST_Failure( "Unexpected AddAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 			{
 				AST_Failure( "Unexpected AndAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 			{
 				AST_Failure( "Unexpected DivideAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 			{
 				AST_Failure( "Unexpected LShiftAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 			{
 				AST_Failure( "Unexpected MinusAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ModuloAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 			{
 				AST_Failure( "Unexpected OrAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 			{
 				AST_Failure( "Unexpected RShiftAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 			{
 				AST_Failure( "Unexpected TimesAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 			{
 				AST_Failure( "Unexpected XorAssign expression" );
 			}
 
+			[[noreturn]]
 			void visitPostDecrementExpr(expr::PostDecrement const * expr )override
 			{
 				AST_Failure( "Unexpected PostDecrement expression" );
 			}
 
+			[[noreturn]]
 			void visitPostIncrementExpr(expr::PostIncrement const * expr )override
 			{
 				AST_Failure( "Unexpected PostIncrement expression" );
 			}
 
+			[[noreturn]]
 			void visitPreDecrementExpr(expr::PreDecrement const * expr )override
 			{
 				AST_Failure( "Unexpected PreDecrement expression" );
 			}
 
+			[[noreturn]]
 			void visitPreIncrementExpr(expr::PreIncrement const * expr )override
 			{
 				AST_Failure( "Unexpected PreIncrement expression" );

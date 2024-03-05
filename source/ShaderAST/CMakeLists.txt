@@ -624,6 +624,14 @@ if ( PROJECTS_COVERAGE )
 		PUBLIC
 			SDAST_ExceptAssert=1
 	)
+else ()
+	option( SDW_EXCEPT_ASSERT "AST_Assert throws exception instead of using assert()" OFF )
+	if ( SDW_EXCEPT_ASSERT )
+		target_compile_definitions( ${PROJECT_NAME}
+			PUBLIC
+				SDAST_ExceptAssert=1
+		)
+	endif ()
 endif ()
 target_add_compilation_flags( ${PROJECT_NAME} )
 target_install_headers_ex( ${PROJECT_NAME}

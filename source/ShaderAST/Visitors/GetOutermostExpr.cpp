@@ -39,7 +39,7 @@ namespace ast
 
 			void visitUnaryExpr( expr::Unary const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result && expr->getOperand() )
 				{
 					expr->getOperand()->accept( this );
 				}
@@ -47,7 +47,7 @@ namespace ast
 
 			void visitBinaryExpr( expr::Binary const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result && expr->getLHS() )
 				{
 					expr->getLHS()->accept( this );
 				}
@@ -69,7 +69,7 @@ namespace ast
 
 			void visitMbrSelectExpr( expr::MbrSelect const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result && expr->getOuterExpr() )
 				{
 					expr->getOuterExpr()->accept( this );
 				}
@@ -77,7 +77,7 @@ namespace ast
 
 			void visitFnCallExpr( expr::FnCall const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result && expr->getFn() )
 				{
 					expr->getFn()->accept( this );
 				}
@@ -124,12 +124,10 @@ namespace ast
 
 			void visitStreamAppendExpr( expr::StreamAppend const * expr )override
 			{
-				if ( !m_result )
-				{
-					expr->getOperand()->accept( this );
-				}
+				visitUnaryExpr( expr );
 			}
 
+			[[noreturn]]
 			void visitSwitchCaseExpr( expr::SwitchCase const * expr )override
 			{
 				AST_Failure( "getOutermostExpr: Unexpected SwitchCase" );
@@ -137,12 +135,15 @@ namespace ast
 
 			void visitSwitchTestExpr( expr::SwitchTest const * expr )override
 			{
-				AST_Failure( "getOutermostExpr: Unexpected SwitchTest" );
+				if ( !m_result )
+				{
+					expr->getValue()->accept( this );
+				}
 			}
 
 			void visitSwizzleExpr( expr::Swizzle const * expr )override
 			{
-				if ( !m_result )
+				if ( !m_result && expr->getOuterExpr() )
 				{
 					expr->getOuterExpr()->accept( this );
 				}

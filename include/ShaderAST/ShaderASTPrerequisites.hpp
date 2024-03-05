@@ -57,6 +57,7 @@ See LICENSE file in root folder
 #	define AST_Failure( msg )\
 		AST_Exception( msg )
 #	else
+#		define AST_Assert( pred )
 #		define AST_Failure( msg )
 #	endif
 #else

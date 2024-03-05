@@ -1492,91 +1492,109 @@ namespace spirv
 				}
 			}
 
+			[[noreturn]]
 			void visitPreDecrementExpr( ast::expr::PreDecrement const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::PreDecrement expression." );
 			}
 
+			[[noreturn]]
 			void visitPreIncrementExpr( ast::expr::PreIncrement const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::PreIncrement expression." );
 			}
 
+			[[noreturn]]
 			void visitPostDecrementExpr( ast::expr::PostDecrement const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::PostDecrement expression." );
 			}
 
+			[[noreturn]]
 			void visitPostIncrementExpr( ast::expr::PostIncrement const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::PostIncrement expression." );
 			}
 
+			[[noreturn]]
 			void visitUnaryPlusExpr( ast::expr::UnaryPlus const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::UnaryPlus expression." );
 			}
 
+			[[noreturn]]
 			void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::AddAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::AndAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::DivideAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::LShiftAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::MinusAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::ModuloAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::OrAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::RShiftAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::TimesAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::XorAssign expression." );
 			}
 
+			[[noreturn]]
 			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::StreamAppend expression." );
 			}
 
+			[[noreturn]]
 			void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchCase expression." );
 			}
 
+			[[noreturn]]
 			void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override
 			{
 				AST_Failure( "Unexpected ast::expr::SwitchTest expression." );
@@ -2607,6 +2625,7 @@ namespace spirv
 				consumeDebugStatement( glsl::StatementType::eControlEnd );
 			}
 
+			[[noreturn]]
 			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
 				AST_Failure( "Unexpected ElseIf statement." );
@@ -2622,6 +2641,7 @@ namespace spirv
 					, glsl::StatementType::eLexicalScopeEnd );
 			}
 
+			[[noreturn]]
 			void visitForStmt( ast::stmt::For const * stmt )override
 			{
 				AST_Failure( "Unexpected For statement." );
@@ -3286,6 +3306,7 @@ namespace spirv
 				}
 			}
 
+			[[noreturn]]
 			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
 				AST_Failure( "Unexpected While statement." );
