@@ -22,6 +22,39 @@ def printHeader( outs, match ):
 	outs.write( '{\n' )
 	outs.write( '\tusing namespace ast;\n' )
 	outs.write( '\n' )
+	outs.write( '\tstatic expr::ExprList makeList( expr::ExprPtr arg0\n' )
+	outs.write( '\t\t, expr::ExprPtr arg1 )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\texpr::ExprList result;\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg0 ) );\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg1 ) );\n' )
+	outs.write( '\t\treturn result;\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
+	outs.write( '\tstatic expr::ExprList makeList( expr::ExprPtr arg0\n' )
+	outs.write( '\t\t, expr::ExprPtr arg1\n' )
+	outs.write( '\t\t, expr::ExprPtr arg2 )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\texpr::ExprList result;\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg0 ) );\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg1 ) );\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg2 ) );\n' )
+	outs.write( '\t\treturn result;\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
+	outs.write( '\tstatic expr::ExprList makeList( expr::ExprPtr arg0\n' )
+	outs.write( '\t\t, expr::ExprPtr arg1\n' )
+	outs.write( '\t\t, expr::ExprPtr arg2\n' )
+	outs.write( '\t\t, expr::ExprPtr arg3 )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\texpr::ExprList result;\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg0 ) );\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg1 ) );\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg2 ) );\n' )
+	outs.write( '\t\tresult.push_back( std::move( arg3 ) );\n' )
+	outs.write( '\t\treturn result;\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
 	outs.write( '\tstatic stmt::ContainerPtr makeContainer( stmt::StmtCache & stmtCache\n' )
 	outs.write( '\t\t, expr::Expr const & expr )\n' )
 	outs.write( '\t{\n' )
@@ -53,10 +86,10 @@ def printHeader( outs, match ):
 	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eInt32 ) )\n' )
 	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) )\n' )
 	outs.write( '\t\tcheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) )\n' )
-	outs.write( '\t\ttestCounts << "Find default params: [" << ast::findName( expr ) << "]" << test::endl;\n' )
-	outs.write( '\t\ttestCounts << "Find typed: [" << ast::findName( expr, ast::type::Kind::eInt32 ) << "]" << test::endl;\n' )
-	outs.write( '\t\ttestCounts << "Find flagged: [" << ast::findName( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) << "]" << test::endl;\n' )
-	outs.write( '\t\ttestCounts << "Find typed and flagged: [" << ast::findName( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) << "]" << test::endl;\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findName( expr ) );\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findName( expr, ast::type::Kind::eInt32 ) );\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findName( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) );\n' )
+	outs.write( '\t\tcheckNoThrow( ast::findName( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) );\n' )
 	outs.write( '\n' )
 	outs.write( '\t\tast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };\n' )
 	outs.write( '\t\t{\n' )
@@ -146,7 +179,7 @@ def computeGetTypeCall( paramType ):
 	rawParamType = paramType.replace( "type::Kind::e", "" )
 	if rawParamType == "UInt":
 		rawParamType += "32"
-	result = "get" + rawParamType + "("
+	result = "typesCache.get" + rawParamType + "("
 	if rawParamType == "HitAttribute" or rawParamType == "TaskPayloadNV":
 		result += " typesCache.getVoid() "
 	elif rawParamType == "CallableData" or rawParamType == "RayPayload":
@@ -171,11 +204,188 @@ def computeParams( params, tabs ):
 				paramName = discardArray( resParam[index] )
 				if isArray( resParam[index] ):
 					index += 2
-					result += tabs + "auto " + paramName + "Var = var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" );\n"
+					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
 				else:
 					index += 2
-					result += tabs + "auto " + paramName + "Var = var::makeVariable( testCounts.getNextVarId(), typesCache." + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" );\n"
-				result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, " + paramName + "Var );\n"
+					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
+	return result
+
+def isLiteral( paramType ):
+	literals = ["Boolean", "Vec2B", "Vec3B", "Vec4B"]
+	literals.extend( ["Int8", "Int16", "Int32", "Int64", "Vec2I8", "Vec3I8", "Vec4I8"] )
+	literals.extend( ["Vec2I16", "Vec3I16", "Vec4I16"] )
+	literals.extend( ["Vec2I32", "Vec3I32", "Vec4I32"] )
+	literals.extend( ["Vec2I64", "Vec3I64", "Vec4I64"] )
+	literals.extend( ["UInt8", "UInt16", "UInt32", "UInt64"] )
+	literals.extend( ["Vec2U8", "Vec3U8", "Vec4U8"] )
+	literals.extend( ["Vec2U16", "Vec3U16", "Vec4U16"] )
+	literals.extend( ["Vec2U32", "Vec3U32", "Vec4U32"] )
+	literals.extend( ["Vec2U64", "Vec3U64", "Vec4U64"] )
+	literals.extend( ["Float", "Double"] )
+	literals.extend( ["Vec2F", "Vec3F", "Vec4F"] )
+	literals.extend( ["Vec2D", "Vec3D", "Vec4D"] )
+	rawParamType = paramType.replace( "type::Kind::e", "" )
+	return rawParamType in literals
+
+def computeComponentValue( litType ):
+	result = ""
+	if litType == "Boolean":
+		result = "exprCache.makeLiteral( typesCache, true )"
+	if litType == "Int8":
+		result = "exprCache.makeLiteral( typesCache, int8_t( 1 ) )"
+	elif litType == "Int16":
+		result = "exprCache.makeLiteral( typesCache, int16_t( 1 ) )"
+	elif litType == "Int32":
+		result = "exprCache.makeLiteral( typesCache, int32_t( 1 ) )"
+	elif litType == "Int64":
+		result = "exprCache.makeLiteral( typesCache, int64_t( 1 ) )"
+	elif litType == "UInt8":
+		result = "exprCache.makeLiteral( typesCache, uint8_t( 1 ) )"
+	elif litType == "UInt16":
+		result = "exprCache.makeLiteral( typesCache, uint16_t( 1 ) )"
+	elif litType == "UInt32":
+		result = "exprCache.makeLiteral( typesCache, uint32_t( 1 ) )"
+	elif litType == "UInt64":
+		result = "exprCache.makeLiteral( typesCache, uint64_t( 1 ) )"
+	elif litType == "Float":
+		result = "exprCache.makeLiteral( typesCache, 1.0f )"
+	elif litType == "Double":
+		result = "exprCache.makeLiteral( typesCache, 1.0 )"
+	return result
+
+def makeCompositeCtor( compType, compCount ):
+	compValue = computeComponentValue( compType )
+	result = "exprCache.makeCompositeConstruct( expr::CompositeType::eVec" + str( compCount ) + ", type::Kind::e" + compType
+	result += ", makeList( " + compValue
+	for i in range( 1, compCount ):
+		result += ", " + compValue
+	result += " ) )"
+	return result
+
+def computeLiteralValue( paramType ):
+	litType = paramType.replace( "type::Kind::e", "" )
+	result = ""
+	if litType == "Boolean":
+		result = computeComponentValue( litType )
+	elif litType == "Int8":
+		result = computeComponentValue( litType )
+	elif litType == "Int16":
+		result = computeComponentValue( litType )
+	elif litType == "Int32":
+		result = computeComponentValue( litType )
+	elif litType == "Int64":
+		result = computeComponentValue( litType )
+	elif litType == "UInt8":
+		result = computeComponentValue( litType )
+	elif litType == "UInt16":
+		result = computeComponentValue( litType )
+	elif litType == "UInt32":
+		result = computeComponentValue( litType )
+	elif litType == "UInt64":
+		result = computeComponentValue( litType )
+	elif litType == "Float":
+		result = computeComponentValue( litType )
+	elif litType == "Double":
+		result = computeComponentValue( litType )
+	elif litType == "Vec2B":
+		result = makeCompositeCtor( "Boolean", 2 )
+	elif litType == "Vec3B":
+		result = makeCompositeCtor( "Boolean", 3 )
+	elif litType == "Vec4B":
+		result = makeCompositeCtor( "Boolean", 4 )
+	elif litType == "Vec2I8":
+		result = makeCompositeCtor( "Int8", 2 )
+	elif litType == "Vec3I8":
+		result = makeCompositeCtor( "Int8", 3 )
+	elif litType == "Vec4I8":
+		result = makeCompositeCtor( "Int8", 4 )
+	elif litType == "Vec2I16":
+		result = makeCompositeCtor( "Int16", 2 )
+	elif litType == "Vec3I16":
+		result = makeCompositeCtor( "Int16", 3 )
+	elif litType == "Vec4I16":
+		result = makeCompositeCtor( "Int16", 4 )
+	elif litType == "Vec2I32":
+		result = makeCompositeCtor( "Int32", 2 )
+	elif litType == "Vec3I32":
+		result = makeCompositeCtor( "Int32", 3 )
+	elif litType == "Vec4I32":
+		result = makeCompositeCtor( "Int32", 4 )
+	elif litType == "Vec2I64":
+		result = makeCompositeCtor( "Int64", 2 )
+	elif litType == "Vec3I64":
+		result = makeCompositeCtor( "Int64", 3 )
+	elif litType == "Vec4I64":
+		result = makeCompositeCtor( "Int64", 4 )
+	elif litType == "Vec2U8":
+		result = makeCompositeCtor( "UInt8", 2 )
+	elif litType == "Vec3U8":
+		result = makeCompositeCtor( "UInt8", 3 )
+	elif litType == "Vec4U8":
+		result = makeCompositeCtor( "UInt8", 4 )
+	elif litType == "Vec2U16":
+		result = makeCompositeCtor( "UInt16", 2 )
+	elif litType == "Vec3U16":
+		result = makeCompositeCtor( "UInt16", 3 )
+	elif litType == "Vec4U16":
+		result = makeCompositeCtor( "UInt16", 4 )
+	elif litType == "Vec2U32":
+		result = makeCompositeCtor( "UInt32", 2 )
+	elif litType == "Vec3U32":
+		result = makeCompositeCtor( "UInt32", 3 )
+	elif litType == "Vec4U32":
+		result = makeCompositeCtor( "UInt32", 4 )
+	elif litType == "Vec2U64":
+		result = makeCompositeCtor( "UInt64", 2 )
+	elif litType == "Vec3U64":
+		result = makeCompositeCtor( "UInt64", 3 )
+	elif litType == "Vec4U64":
+		result = makeCompositeCtor( "UInt64", 4 )
+	elif litType == "Vec2F":
+		result = makeCompositeCtor( "Float", 2 )
+	elif litType == "Vec3F":
+		result = makeCompositeCtor( "Float", 3 )
+	elif litType == "Vec4F":
+		result = makeCompositeCtor( "Float", 4 )
+	elif litType == "Vec2D":
+		result = makeCompositeCtor( "Double", 2 )
+	elif litType == "Vec3D":
+		result = makeCompositeCtor( "Double", 3 )
+	elif litType == "Vec4D":
+		result = makeCompositeCtor( "Double", 4 )
+	return result
+
+def computeLiteralParams( params, tabs ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index + 2:
+			if resParam[index] == "ASTCppParam":
+				index += 4
+			else:
+				index += 1
+				paramType = resParam[index]
+				index += 1
+				paramName = discardArray( resParam[index] )
+				if isLiteral( paramType ):
+					paramInit = computeLiteralValue( paramType )
+					if isArray( resParam[index] ):
+						index += 2
+						result += tabs + "auto " + paramName + " = exprCache.makeAggrInit( typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), makeList( " + paramInit + ", " + paramInit + ", " + paramInit + ", " + paramInit + " );\n"
+					else:
+						index += 2
+						result += tabs + "auto " + paramName + " = " + paramInit + ";\n"
+				else:
+					if isArray( resParam[index] ):
+						index += 2
+						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
+					else:
+						index += 2
+						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
 	return result
 
 def computeArgs( args ):
@@ -188,7 +398,7 @@ def computeArgs( args ):
 		index = 2
 		while len( resArg ) > index:
 			index += 1
-			result += "\n\t\t\t, std::move( " + discardArray( resArg[index] ) + " )"
+			result += "\n\t\t\t\t, std::move( " + discardArray( resArg[index] ) + " )"
 			index += 3
 	return result
 
@@ -220,57 +430,9 @@ def getPostfix( functionGroup ):
 		result += resName1.group( 3 )
 	return result
 
-def getTextureName( texType, name ):
-	result = texType
-	postfix = getPostfix( name )
-	intrNameF = re.compile( "([^F]*)([F])" )
-	intrNameIU = re.compile( "([^IU]*)([IU])" )
-	resNameF = intrNameF.match( postfix )
-	resNameIU = intrNameIU.match( postfix )
-	if resNameF:
-		result = texType + resNameF.group( 1 )
-	elif resNameIU:
-		result = resNameIU.group( 2 ).lower() + texType + resNameIU.group( 1 )
-	return result
-
 def getDepthType( name ):
 	result = re.sub( "Shadow", "", name )
 	return "Shadow" if result != name else ""
-
-def getArrayType( name ):
-	result = re.sub( "Array", "", name )
-	return "Array" if result != name else ""
-
-def getDepthType( name ):
-	result = re.sub( "Shadow", "", name )
-	return "Shadow" if result != name else ""
-
-def getMSType( name ):
-	result = re.sub( "MS", "", name )
-	return "MS" if result != name else ""
-
-def getImageDim( name ):
-	result = ""
-	if name.find( "1D" ) != -1:
-		result = "1D"
-	elif name.find( "2D" ) != -1:
-		result = "2D"
-	elif name.find( "3D" ) != -1:
-		result = "3D"
-	elif name.find( "Cube" ) != -1:
-		result = "Cube"
-	elif name.find( "Buffer" ) != -1:
-		result = "Buffer"
-	return result
-	
-def getImageSampledType( postfix ):
-	sampled = postfix[len( postfix ) - 1]
-	result = "Float"
-	if sampled == "I":
-		result = "Int"
-	elif sampled == "U":
-		result = "UInt"
-	return result
 
 def getImageSampledTypePostfix( postfix ):
 	sampled = postfix[len( postfix ) - 1]
@@ -278,87 +440,6 @@ def getImageSampledTypePostfix( postfix ):
 	if sampled == "I" or sampled == "U":
 		result = sampled
 	return result
-
-def computeImageFullType( imageType, functionGroup ):
-	postfix = getPostfix( functionGroup )
-	sampled = getImageSampledType( postfix )
-	dim = getImageDim( postfix )
-	ms = getMSType( postfix )
-	array = getArrayType( postfix )
-	depth = getDepthType( postfix )
-	sep = ", "
-	seq = [sampled, dim]
-	if len( ms ):
-		seq.append( ms )
-	if len( array ):
-		seq.append( array )
-	if len( depth ):
-		seq.append( depth )
-	return imageType + "<" + ', '.join( seq ) + ">"
-
-def printTextureFunctionDoc( outs, enumName, returnGroup, functionGroup, paramsGroup ):
-	outs.write( "\n\t/**" )
-	outs.write( "\n\t*@return" )
-	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
-	if enumName == "CombinedImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "SampledImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
-		outs.write( "\n\t*@param sampler" )
-		outs.write( "\n\t*\tSampler" )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "StorageImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "StorageImage", functionGroup ) )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	else:
-		outs.write( computeParamsDoc( paramsGroup ) )
-	outs.write( "\n\t*/" )
-
-def printTextureFunctionDocExNR( outs, enumName, lastGroup, functionGroup, paramsGroup ):
-	outs.write( "\n\t/**" )
-	if enumName == "CombinedImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "SampledImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
-		outs.write( "\n\t*@param sampler" )
-		outs.write( "\n\t*\tSampler" )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "StorageImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "StorageImage", functionGroup ) )
-		outs.write( computeParamsDocEx( paramsGroup, lastGroup ) )
-	else:
-		outs.write( computeParamsDoc( paramsGroup ) )
-	outs.write( "\n\t*/" )
-
-def printTextureFunctionDocEx( outs, enumName, returnGroup, functionGroup, paramsGroup ):
-	outs.write( "\n\t/**" )
-	outs.write( "\n\t*@return" )
-	outs.write( "\n\t*\t" + typeKindToGlslType( returnGroup ) )
-	if enumName == "CombinedImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "CombinedImage", functionGroup ) )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "SampledImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "SampledImage", functionGroup ) )
-		outs.write( "\n\t*@param sampler" )
-		outs.write( "\n\t*\tSampler" )
-		outs.write( computeParamsDoc( paramsGroup ) )
-	elif enumName == "StorageImageAccess":
-		outs.write( "\n\t*@param image" )
-		outs.write( "\n\t*\t" + computeImageFullType( "Image", functionGroup ) )
-		outs.write( computeParamsDocEx( paramsGroup, returnGroup ) )
-	else:
-		outs.write( computeParamsDoc( paramsGroup ) )
-	outs.write( "\n\t*/" )
 
 def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 	returnGroup = match.group( 1 )
@@ -450,59 +531,50 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
 			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
 	for fmt, ret in formats:
-		if intrinsicName.find( "Store" ) != -1:
-			printTextureFunctionDocExNR( outs, enumName, ret, functionGroup, paramsGroup )
-		elif intrinsicName.find( "Atomic" ) != -1:
-			printTextureFunctionDocEx( outs, enumName, ret, functionGroup, paramsGroup )
-		else:
-			printTextureFunctionDoc( outs, enumName, ret, functionGroup, paramsGroup )
-
-		outs.write( "\n\tinline " + enumName + "CallPtr make" + intrinsicName + fmt + "(" )
-		outs.write( " ExprCache & exprCache" )
-		outs.write( "\n\t\t, type::TypesCache & typesCache" )
-		outs.write( imgSplInputs )
-		outs.write( computeParams( paramsGroup, "\n\t\t," ) + " )\n" )
+		outs.write( "\n\tstatic void test" + intrinsicName + fmt + "(test::TestCounts & testCounts )\n" )
 		outs.write( "\t{\n" )
-
-		if intrinsicName.find( "Store" ) != -1:
-			outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
-			outs.write( "\t\treturn exprCache.make" + enumName + "Call( typesCache.getBasicType( type::Kind::eVoid )\n" )
-		else:
-			if intrinsicName.find( "Atomic" ) != -1:
-				outs.write( assertParamsEx( paramsGroup, "\t\t", ret ) )
-			else:
-				outs.write( assertParams( paramsGroup, "\t\t" ) )
-			outs.write( "\t\treturn exprCache.make" + enumName + "Call( typesCache.getBasicType( " + ret + " )\n" )
-
+		outs.write( "\t\ttestBegin( \"test" + intrinsicName + fmt + "\" );\n" )
+		outs.write( "\t\texpr::ExprCache exprCache{ *testCounts.allocatorBlock };\n" )
+		outs.write( "\t\ttype::TypesCache typesCache;\n" )
+		outs.write( computeParams( paramsGroup, "\t\t" ) )
+		outs.write( imgSplInputs )
+		outs.write( "\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
+		outs.write( "\t\t\t, typesCache" )
+		outs.write( computeArgs( paramsGroup ) )
+		outs.write( imgSplMoves + " );\n" )
 		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
-		outs.write( imgSplMoves )
-		outs.write( computeArgs( paramsGroup ) + " );\n" )
+		outs.write( "\t\tcheckExprDependant( testCounts, *result );\n" )
+		outs.write( "\t\ttestEnd()\n" )
 		outs.write( "\t}" )
+		return "\n\tchecks::test" + intrinsicName + "( testCounts );"
 
 def printIntrinsic( outs, enumName, match ):
 	returnGroup = match.group( 1 )
 	functionGroup = match.group( 2 )
 	paramsGroup = match.group( 3 )
-	outs.write( "\n\tstatic void test" + computeIntrinsicName( functionGroup ) + "(test::TestCounts & testCounts )\n" )
+	intrinsicName = computeIntrinsicName( functionGroup )
+	outs.write( "\n\tstatic void test" + intrinsicName + "(test::TestCounts & testCounts )\n" )
 	outs.write( "\t{\n" )
-	outs.write( "\t\ttestBegin( \"test" + computeIntrinsicName( functionGroup ) + "\" );\n" )
+	outs.write( "\t\ttestBegin( \"test" + intrinsicName + "\" );\n" )
 	outs.write( "\t\texpr::ExprCache exprCache{ *testCounts.allocatorBlock };\n" )
 	outs.write( "\t\ttype::TypesCache typesCache;\n" )
-	outs.write( computeParams( paramsGroup, "\t\t" ) )
-	outs.write( "\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
-	outs.write( "\t\t\t, typesCache" )
-	if enumName == "CombinedImageAccess":
-		outs.write( "\n\t\t\t, std::move( texture )" )
-	elif enumName == "SampledImageAccess":
-		outs.write( "\n\t\t\t, std::move( image )" )
-		outs.write( "\n\t\t\t, std::move( sampler )" )
-	elif enumName == "StorageImageAccess":
-		outs.write( "\n\t\t\t, std::move( image )" )
+	outs.write( "\t\t{\n" )
+	outs.write( computeParams( paramsGroup, "\t\t\t" ) )
+	outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
+	outs.write( "\t\t\t\t, typesCache" )
 	outs.write( computeArgs( paramsGroup ) + " );\n" )
-	outs.write( "\t\tcheckExprDependant( testCounts, *result );\n" )
+	outs.write( "\t\t\tcheckExprDependant( testCounts, *result );\n" )
+	outs.write( "\t\t}\n" )
+	outs.write( "\t\t{\n" )
+	outs.write( computeLiteralParams( paramsGroup, "\t\t\t" ) )
+	outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
+	outs.write( "\t\t\t\t, typesCache" )
+	outs.write( computeArgs( paramsGroup ) + " );\n" )
+	outs.write( "\t\t\tcheckExprDependant( testCounts, *result );\n" )
+	outs.write( "\t\t}\n" )
 	outs.write( "\t\ttestEnd()\n" )
 	outs.write( "\t}" )
-	return "\n\tchecks::test" + computeIntrinsicName( functionGroup ) + "( testCounts );"
+	return "\n\tchecks::test" + intrinsicName + "( testCounts );"
 
 def printFunction( outs, enumName, match ):
 	functionGroup = match.group( 2 )
@@ -510,11 +582,11 @@ def printFunction( outs, enumName, match ):
 	test = ""
 	if intrinsicName.find( "Barrier" ) == -1:
 		if enumName == "CombinedImageAccess":
-			test = printTextureFunction( outs, enumName, "\n\t\t, ExprPtr texture", "\n\t\t\t, std::move( texture )", match )
+			test = printTextureFunction( outs, enumName, "\n\t\tExprPtr texture;", "\n\t\t\t, std::move( texture )", match )
 		elif enumName == "SampledImageAccess":
-			test = printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image\n\t\t, ExprPtr sampler", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
+			test = printTextureFunction( outs, enumName, "\n\t\tExprPtr image;\n\t\tExprPtr sampler;", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
 		elif enumName == "StorageImageAccess":
-			test = printTextureFunction( outs, enumName, "\n\t\t, ExprPtr image", "\n\t\t\t, std::move( image )", match )
+			test = printTextureFunction( outs, enumName, "\n\t\tExprPtr image;", "\n\t\t\t, std::move( image )", match )
 		else:
 			test = printIntrinsic( outs, enumName, match )
 	return test
