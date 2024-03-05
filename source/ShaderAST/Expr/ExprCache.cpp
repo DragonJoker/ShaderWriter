@@ -134,7 +134,7 @@ namespace ast::expr
 		, ExprPtr lhs
 		, ExprPtr rhs )
 	{
-		assert( lhs->getType()->getKind() == type::Kind::eArray
+		AST_Assert( lhs->getType()->getKind() == type::Kind::eArray
 			|| lhs->getType()->getKind() == type::Kind::eImage
 			|| lhs->getType()->getKind() == type::Kind::eGeometryInput
 			|| lhs->getType()->getKind() == type::Kind::eTessellationControlInput
@@ -609,7 +609,7 @@ namespace ast::expr
 	SwizzlePtr ExprCache::makeSwizzle( ExprPtr outer
 		, SwizzleKind swizzle )
 	{
-		assert( type::isVectorType( outer->getType() )
+		AST_Assert( type::isVectorType( outer->getType() )
 			|| ( type::isScalarType( outer->getType() )
 				&& ( swizzle == SwizzleKind::e0
 					|| swizzle == SwizzleKind::e00

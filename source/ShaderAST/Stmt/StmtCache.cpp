@@ -403,7 +403,7 @@ namespace ast::stmt
 		, uint32_t nextVarId )
 	{
 		auto type = typesCache.getStruct( layout, ssboName );
-		assert( type != nullptr );
+		AST_Assert( type != nullptr );
 		return makeShaderBufferDecl( var::makeVariable( nextVarId, type, ssboName + "_data" )
 			, bindingPoint
 			, bindingSet );

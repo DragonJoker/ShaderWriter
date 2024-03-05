@@ -23,9 +23,9 @@ namespace ast::expr
 				storage = pointer.getStorage();
 			}
 
-			assert( isStructType( outerType ) );
+			AST_Assert( isStructType( outerType ) );
 			auto structOuter = getStructType( outerType );
-			assert( structOuter->size() > memberIndex );
+			AST_Assert( structOuter->size() > memberIndex );
 			auto result = ( structOuter->begin() + memberIndex )->type;
 
 			if ( isPointer && result->getKind() != type::Kind::ePointer )
@@ -57,7 +57,7 @@ namespace ast::expr
 
 	type::StructPtr MbrSelect::getOuterType()const
 	{
-		assert( isStructType( m_outer->getType() ) );
+		AST_Assert( isStructType( m_outer->getType() ) );
 		return getStructType( m_outer->getType() );
 	}
 

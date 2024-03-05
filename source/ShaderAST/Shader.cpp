@@ -70,7 +70,7 @@ namespace ast
 
 	Shader const & Shader::fromOpaqueHandle(SdwShader shader)
 	{
-		assert( shader != nullptr );
+		AST_Assert( shader != nullptr );
 
 		return *reinterpret_cast< Shader const * >( shader );
 	}

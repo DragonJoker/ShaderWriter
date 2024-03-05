@@ -36,63 +36,19 @@ namespace glsl
 
 			static bool isContainer( ast::stmt::Stmt const & stmt )
 			{
-				switch ( stmt.getKind() )
-				{
-				case ast::stmt::Kind::eContainer:
-				case ast::stmt::Kind::eCompound:
-				case ast::stmt::Kind::eConstantBufferDecl:
-				case ast::stmt::Kind::ePushConstantsBufferDecl:
-				case ast::stmt::Kind::eShaderBufferDecl:
-				case ast::stmt::Kind::eIf:
-				case ast::stmt::Kind::eElse:
-				case ast::stmt::Kind::eElseIf:
-				case ast::stmt::Kind::eWhile:
-				case ast::stmt::Kind::eFor:
-				case ast::stmt::Kind::eDoWhile:
-				case ast::stmt::Kind::eSwitch:
-				case ast::stmt::Kind::eSwitchCase:
-					return true;
-				case ast::stmt::Kind::eSimple:
-				case ast::stmt::Kind::eComment:
-				case ast::stmt::Kind::eVariableDecl:
-				case ast::stmt::Kind::ePerPrimitiveDecl:
-				case ast::stmt::Kind::ePerVertexDecl:
-				case ast::stmt::Kind::eInOutVariableDecl:
-				case ast::stmt::Kind::eSpecialisationConstantDecl:
-				case ast::stmt::Kind::eShaderStructBufferDecl:
-				case ast::stmt::Kind::eSamplerDecl:
-				case ast::stmt::Kind::eImageDecl:
-				case ast::stmt::Kind::eSampledImageDecl:
-				case ast::stmt::Kind::eCombinedImageDecl:
-				case ast::stmt::Kind::eFunctionDecl:
-				case ast::stmt::Kind::eStructureDecl:
-				case ast::stmt::Kind::eReturn:
-				case ast::stmt::Kind::eBreak:
-				case ast::stmt::Kind::eContinue:
-				case ast::stmt::Kind::eDemote:
-				case ast::stmt::Kind::eTerminateInvocation:
-				case ast::stmt::Kind::eInputGeometryLayout:
-				case ast::stmt::Kind::eOutputGeometryLayout:
-				case ast::stmt::Kind::eInputComputeLayout:
-				case ast::stmt::Kind::eOutputMeshLayout:
-				case ast::stmt::Kind::eFragmentLayout:
-				case ast::stmt::Kind::eOutputTessellationControlLayout:
-				case ast::stmt::Kind::eInputTessellationEvaluationLayout:
-				case ast::stmt::Kind::eAccelerationStructureDecl:
-				case ast::stmt::Kind::eInOutRayPayloadVariableDecl:
-				case ast::stmt::Kind::eHitAttributeVariableDecl:
-				case ast::stmt::Kind::eInOutCallableDataVariableDecl:
-				case ast::stmt::Kind::eBufferReferenceDecl:
-				case ast::stmt::Kind::eTerminateRay:
-				case ast::stmt::Kind::eIgnoreIntersection:
-				case ast::stmt::Kind::eDispatchMesh:
-				case ast::stmt::Kind::ePreprocExtension:
-				case ast::stmt::Kind::ePreprocVersion:
-					return false;
-				default:
-					AST_Failure( "Unsupported stmt kind." );
-					return false;
-				}
+				return stmt.getKind() == ast::stmt::Kind::eContainer
+					|| stmt.getKind() == ast::stmt::Kind::eCompound
+					|| stmt.getKind() == ast::stmt::Kind::eConstantBufferDecl
+					|| stmt.getKind() == ast::stmt::Kind::ePushConstantsBufferDecl
+					|| stmt.getKind() == ast::stmt::Kind::eShaderBufferDecl
+					|| stmt.getKind() == ast::stmt::Kind::eIf
+					|| stmt.getKind() == ast::stmt::Kind::eElse
+					|| stmt.getKind() == ast::stmt::Kind::eElseIf
+					|| stmt.getKind() == ast::stmt::Kind::eWhile
+					|| stmt.getKind() == ast::stmt::Kind::eFor
+					|| stmt.getKind() == ast::stmt::Kind::eDoWhile
+					|| stmt.getKind() == ast::stmt::Kind::eSwitch
+					|| stmt.getKind() == ast::stmt::Kind::eSwitchCase;
 			}
 
 			static std::string adaptName( std::string const & name
@@ -377,52 +333,75 @@ namespace glsl
 
 			static std::string getDimension( ast::type::ImageDim value )
 			{
+				std::string result{ "Undefined" };
+
 				switch ( value )
 				{
 				case ast::type::ImageDim::e1D:
-					return "1D";
+					result = "1D";
+					break;
 				case ast::type::ImageDim::e2D:
-					return "2D";
+					result = "2D";
+					break;
 				case ast::type::ImageDim::e3D:
-					return "3D";
+					result = "3D";
+					break;
 				case ast::type::ImageDim::eCube:
-					return "Cube";
+					result = "Cube";
+					break;
 				case ast::type::ImageDim::eBuffer:
-					return "Buffer";
+					result = "Buffer";
+					break;
 				default:
-					AST_Failure( "Unsupported ast::type::ImageDim" );
-					return "Undefined";
+					break;
 				}
+
+				AST_Assert( ( result != "Undefined" ) && "Unsupported ast::type::ImageDim" );
+				return result;
 			}
 
 			static std::string getPrefix( ast::type::Kind value )
 			{
+				std::string result{};
+
 				switch ( value )
 				{
 				case ast::type::Kind::eInt8:
-					return "i8";
+					result = "i8";
+					break;
 				case ast::type::Kind::eInt16:
-					return "i16";
+					result = "i16";
+					break;
 				case ast::type::Kind::eInt32:
-					return "i";
+					result = "i";
+					break;
 				case ast::type::Kind::eInt64:
-					return "i64";
+					result = "i64";
+					break;
 				case ast::type::Kind::eUInt8:
-					return "u8";
+					result = "u8";
+					break;
 				case ast::type::Kind::eUInt16:
-					return "u16";
+					result = "u16";
+					break;
 				case ast::type::Kind::eUInt32:
-					return "u";
+					result = "u";
+					break;
 				case ast::type::Kind::eUInt64:
-					return "ul";
+					result = "ul";
+					break;
 				case ast::type::Kind::eFloat:
-					return std::string{};
+					result = std::string{};
+					break;
 				case ast::type::Kind::eHalf:
-					return "h";
+					result = "h";
+					break;
 				default:
-					AST_Failure( "Unsupported ast::type::Kind" );
-					return std::string{};
+					break;
 				}
+
+				AST_Assert( ( !result.empty() ) && "Unsupported ast::type::Kind" );
+				return result;
 			}
 
 			static std::string getArray( bool value )
@@ -599,79 +578,114 @@ namespace glsl
 
 			static std::string getFormatName( ast::type::ImageFormat format )
 			{
+				std::string result{ "rgba32f" };
+
 				switch ( format )
 				{
 				case ast::type::ImageFormat::eUnknown:
-					return "rgba32f";
+					result = "rgba32f";
+					break;
 				case ast::type::ImageFormat::eRgba32f:
-					return "rgba32f";
+					result = "rgba32f";
+					break;
 				case ast::type::ImageFormat::eRgba16f:
-					return "rgba16f";
+					result = "rgba16f";
+					break;
 				case ast::type::ImageFormat::eRg32f:
-					return "rg32f";
+					result = "rg32f";
+					break;
 				case ast::type::ImageFormat::eRg16f:
-					return "rg16f";
+					result = "rg16f";
+					break;
 				case ast::type::ImageFormat::eR32f:
-					return "r32f";
+					result = "r32f";
+					break;
 				case ast::type::ImageFormat::eR16f:
-					return "r16f";
+					result = "r16f";
+					break;
 				case ast::type::ImageFormat::eRgba32i:
-					return "rgba32i";
+					result = "rgba32i";
+					break;
 				case ast::type::ImageFormat::eRgba16i:
-					return "rgba16i";
+					result = "rgba16i";
+					break;
 				case ast::type::ImageFormat::eRgba8i:
-					return "rgba8i";
+					result = "rgba8i";
+					break;
 				case ast::type::ImageFormat::eRg32i:
-					return "rg32i";
+					result = "rg32i";
+					break;
 				case ast::type::ImageFormat::eRg16i:
-					return "rg16i";
+					result = "rg16i";
+					break;
 				case ast::type::ImageFormat::eRg8i:
-					return "rg8i";
+					result = "rg8i";
+					break;
 				case ast::type::ImageFormat::eR32i:
-					return "r32i";
+					result = "r32i";
+					break;
 				case ast::type::ImageFormat::eR16i:
-					return "r16i";
+					result = "r16i";
+					break;
 				case ast::type::ImageFormat::eR8i:
-					return "r8i";
+					result = "r8i";
+					break;
 				case ast::type::ImageFormat::eRgba32u:
-					return "rgba32ui";
+					result = "rgba32ui";
+					break;
 				case ast::type::ImageFormat::eRgba16u:
-					return "rgba16ui";
+					result = "rgba16ui";
+					break;
 				case ast::type::ImageFormat::eRgba8u:
-					return "rgba8ui";
+					result = "rgba8ui";
+					break;
 				case ast::type::ImageFormat::eRg32u:
-					return "rg32ui";
+					result = "rg32ui";
+					break;
 				case ast::type::ImageFormat::eRg16u:
-					return "rg16ui";
+					result = "rg16ui";
+					break;
 				case ast::type::ImageFormat::eRg8u:
-					return "rg8ui";
+					result = "rg8ui";
+					break;
 				case ast::type::ImageFormat::eR32u:
-					return "r32ui";
+					result = "r32ui";
+					break;
 				case ast::type::ImageFormat::eR16u:
-					return "r16ui";
+					result = "r16ui";
+					break;
 				case ast::type::ImageFormat::eR8u:
-					return "r8ui";
+					result = "r8ui";
+					break;
 				default:
-					AST_Failure( "Unsupported ast::type::ImageFormat" );
-					return "rgba32f";
+					break;
 				}
+
+				return result;
 			}
 
 			static std::string getMemoryLayoutName( ast::type::MemoryLayout layout )
 			{
+				std::string result{};
+
 				switch ( layout )
 				{
 				case ast::type::MemoryLayout::eStd140:
 				case ast::type::MemoryLayout::eC:
-					return "std140";
+					result = "std140";
+					break;
 				case ast::type::MemoryLayout::eStd430:
-					return "std430";
+					result = "std430";
+					break;
 				case ast::type::MemoryLayout::eScalar:
-					return "scalar";
+					result = "scalar";
+					break;
 				default:
-					AST_Failure( "Unsupported ast::type::MemoryLayout" );
-					return "std140";
+					break;
 				}
+
+				AST_Assert( !result.empty() && "Unsupported ast::type::MemoryLayout" );
+				return result;
 			}
 
 			static bool hasExtension( StmtConfig const & config
@@ -718,30 +732,40 @@ namespace glsl
 
 			static std::string getLayoutName( ast::FragmentOrigin value )
 			{
+				std::string result{};
+
 				switch ( value )
 				{
 				case ast::FragmentOrigin::eLowerLeft:
-					return "origin_lower_left";
+					result = "origin_lower_left";
+					break;
 				case ast::FragmentOrigin::eUpperLeft:
-					return "origin_upper_left";
+					result = "origin_upper_left";
+					break;
 				default:
-					AST_Failure( "Unsupported FragmentOrigin" );
-					return std::string{};
+					break;
 				}
+
+				AST_Assert( !result.empty() && "Unsupported FragmentOrigin" );
+				return result;
 			}
 
 			static std::string getLayoutName( ast::FragmentCenter value )
 			{
+				std::string result{};
+
 				switch ( value )
 				{
 				case ast::FragmentCenter::eHalfPixel:
-					return std::string{};
+					break;
 				case ast::FragmentCenter::eCenterInteger:
-					return "pixel_center_integer";
+					result = "pixel_center_integer";
+					break;
 				default:
-					AST_Failure( "Unsupported FragmentCenter" );
-					return std::string{};
+					break;
 				}
+
+				return result;
 			}
 
 			static std::string getOperatorName( ast::expr::Kind kind )
@@ -751,6 +775,7 @@ namespace glsl
 				switch ( kind )
 				{
 				case ast::expr::Kind::eCopy:
+					result = " ";
 					break;
 				case ast::expr::Kind::eAdd:
 					result = "+";
@@ -873,9 +898,10 @@ namespace glsl
 					result = "^=";
 					break;
 				default:
-					throw ast::Exception{ "Non operation expression" };
+					break;
 				}
 
+				AST_Assert( !result.empty() && "Non operation expression" );
 				return result;
 			}
 
@@ -916,9 +942,10 @@ namespace glsl
 					result = "triangles_adjacency";
 					break;
 				default:
-					throw ast::Exception{ "Unsupported input layout." };
+					break;
 				}
 
+				AST_Assert( !result.empty() && "Unsupported input layout" );
 				return result;
 			}
 
@@ -938,70 +965,103 @@ namespace glsl
 					result = "triangle_strip";
 					break;
 				default:
-					throw ast::Exception{ "Unsupported output layout." };
+					break;
 				}
 
+				AST_Assert( !result.empty() && "Unsupported output layout" );
 				return result;
 			}
 
 			static std::string getLayoutName( ast::type::PatchDomain value )
 			{
+				std::string result;
+
 				switch ( value )
 				{
 				case ast::type::PatchDomain::eIsolines:
-					return "isolines";
+					result = "isolines";
+					break;
 				case ast::type::PatchDomain::eTriangles:
-					return "triangles";
+					result = "triangles";
+					break;
 				case ast::type::PatchDomain::eQuads:
-					return "quads";
+					result = "quads";
+					break;
 				default:
-					throw ast::Exception{ "Unsupported ast::type::PatchDomain." };
+					break;
 				}
+
+				AST_Assert( !result.empty() && "Unsupported ast::type::PatchDomain" );
+				return result;
 			}
 
 			static std::string getLayoutName( ast::type::PrimitiveOrdering value )
 			{
+				std::string result;
+
 				switch ( value )
 				{
 				case ast::type::PrimitiveOrdering::eCW:
-					return "cw";
+					result = "cw";
+					break;
 				case ast::type::PrimitiveOrdering::eCCW:
-					return "ccw";
+					result = "ccw";
+					break;
 				default:
-					throw ast::Exception{ "Unsupported ast::type::PatchDomain." };
+					break;
 				}
+
+				AST_Assert( !result.empty() && "Unsupported ast::type::PatchDomain" );
+				return result;
 			}
 
 			static std::string getLayoutName( ast::type::Partitioning value )
 			{
+				std::string result;
+
 				switch ( value )
 				{
 				case ast::type::Partitioning::eEqual:
-					return "equal_spacing";
+					result = "equal_spacing";
+					break;
 				case ast::type::Partitioning::eFractionalEven:
-					return "fractional_even_spacing";
+					result = "fractional_even_spacing";
+					break;
 				case ast::type::Partitioning::eFractionalOdd:
-					return "fractional_odd_spacing";
+					result = "fractional_odd_spacing";
+					break;
 				default:
-					throw ast::Exception{ "Unsupported ast::type::Partitioning." };
+					break;
 				}
+
+				AST_Assert( !result.empty() && "Unsupported ast::type::Partitioning" );
+				return result;
 			}
 
 			static std::string getLayoutName( ast::type::OutputTopology value )
 			{
+				std::string result;
+
 				switch ( value )
 				{
 				case ast::type::OutputTopology::ePoint:
-					return "points";
+					result = "points";
+					break;
 				case ast::type::OutputTopology::eLine:
-					return "lines";
+					result = "lines";
+					break;
 				case ast::type::OutputTopology::eTriangle:
-					return "triangles";
+					result = "triangles";
+					break;
 				case ast::type::OutputTopology::eQuad:
-					return "quads";
+					result = "quads";
+					break;
 				default:
-					throw ast::Exception{ "Unsupported ast::type::OutputTopology." };
+					break;
 				}
+
+				AST_Assert( !result.empty() && "Unsupported ast::type::OutputTopology" );
+				return result;
 			}
 
 			static std::string getQualifiedName( ast::type::Kind kind
@@ -1085,7 +1145,7 @@ namespace glsl
 					result = true;
 					break;
 				default:
-					throw ast::Exception{ "Non unary expression" };
+					AST_Exception( "Non unary expression" );
 				}
 
 				return result;
@@ -1388,86 +1448,52 @@ namespace glsl
 
 			static bool isScopeBeginStatement( StatementType value )
 			{
-				switch ( value )
-				{
-				case glsl::StatementType::eNone:
-				case glsl::StatementType::eStructureDecl:
-				case glsl::StatementType::eStructureMemberDecl:
-				case glsl::StatementType::eFunctionDecl:
-				case glsl::StatementType::eVariableDecl:
-				case glsl::StatementType::eVariableBlockDecl:
-				case glsl::StatementType::eBuiltinVariableDecl:
-				case glsl::StatementType::eScopeLine:
-				case glsl::StatementType::eStructureScopeEnd:
-				case glsl::StatementType::eFunctionScopeEnd:
-				case glsl::StatementType::eLexicalScopeEnd:
-				case glsl::StatementType::eControlBegin:
-				case glsl::StatementType::eControlEnd:
-					return false;
-				case glsl::StatementType::eStructureScopeBegin:
-				case glsl::StatementType::eFunctionScopeBegin:
-				case glsl::StatementType::eLexicalScopeBegin:
-					return true;
-				default:
-					AST_Failure( "Unsupported StatementType." );
-					return false;
-				}
+				return value == glsl::StatementType::eNone
+					|| value == glsl::StatementType::eStructureDecl
+					|| value == glsl::StatementType::eStructureMemberDecl
+					|| value == glsl::StatementType::eFunctionDecl
+					|| value == glsl::StatementType::eVariableDecl
+					|| value == glsl::StatementType::eVariableBlockDecl
+					|| value == glsl::StatementType::eBuiltinVariableDecl
+					|| value == glsl::StatementType::eScopeLine
+					|| value == glsl::StatementType::eStructureScopeEnd
+					|| value == glsl::StatementType::eFunctionScopeEnd
+					|| value == glsl::StatementType::eLexicalScopeEnd
+					|| value == glsl::StatementType::eControlBegin
+					|| value == glsl::StatementType::eControlEnd;
 			}
 
 			static bool isScopeEndStatement( StatementType value )
 			{
-				switch ( value )
-				{
-				case glsl::StatementType::eNone:
-				case glsl::StatementType::eStructureDecl:
-				case glsl::StatementType::eStructureMemberDecl:
-				case glsl::StatementType::eFunctionDecl:
-				case glsl::StatementType::eVariableDecl:
-				case glsl::StatementType::eVariableBlockDecl:
-				case glsl::StatementType::eBuiltinVariableDecl:
-				case glsl::StatementType::eScopeLine:
-				case glsl::StatementType::eStructureScopeBegin:
-				case glsl::StatementType::eFunctionScopeBegin:
-				case glsl::StatementType::eLexicalScopeBegin:
-				case glsl::StatementType::eControlBegin:
-					return false;
-				case glsl::StatementType::eStructureScopeEnd:
-				case glsl::StatementType::eFunctionScopeEnd:
-				case glsl::StatementType::eLexicalScopeEnd:
-				case glsl::StatementType::eControlEnd:
-					return true;
-				default:
-					AST_Failure( "Unsupported StatementType." );
-					return false;
-				}
+				return value == glsl::StatementType::eNone
+					|| value == glsl::StatementType::eStructureDecl
+					|| value == glsl::StatementType::eStructureMemberDecl
+					|| value == glsl::StatementType::eFunctionDecl
+					|| value == glsl::StatementType::eVariableDecl
+					|| value == glsl::StatementType::eVariableBlockDecl
+					|| value == glsl::StatementType::eBuiltinVariableDecl
+					|| value == glsl::StatementType::eScopeLine
+					|| value == glsl::StatementType::eStructureScopeBegin
+					|| value == glsl::StatementType::eFunctionScopeBegin
+					|| value == glsl::StatementType::eLexicalScopeBegin
+					|| value == glsl::StatementType::eControlBegin;
 			}
 
 			static bool isScopeDeclStatement( StatementType value )
 			{
-				switch ( value )
-				{
-				case glsl::StatementType::eNone:
-				case glsl::StatementType::eScopeLine:
-				case glsl::StatementType::eStructureScopeBegin:
-				case glsl::StatementType::eStructureScopeEnd:
-				case glsl::StatementType::eFunctionScopeBegin:
-				case glsl::StatementType::eFunctionScopeEnd:
-				case glsl::StatementType::eLexicalScopeBegin:
-				case glsl::StatementType::eLexicalScopeEnd:
-				case glsl::StatementType::eStructureMemberDecl:
-				case glsl::StatementType::eVariableDecl:
-				case glsl::StatementType::eVariableBlockDecl:
-				case glsl::StatementType::eBuiltinVariableDecl:
-				case glsl::StatementType::eControlEnd:
-					return false;
-				case glsl::StatementType::eStructureDecl:
-				case glsl::StatementType::eFunctionDecl:
-				case glsl::StatementType::eControlBegin:
-					return true;
-				default:
-					AST_Failure( "Unsupported StatementType." );
-					return false;
-				}
+				return value == glsl::StatementType::eNone
+					|| value == glsl::StatementType::eScopeLine
+					|| value == glsl::StatementType::eStructureScopeBegin
+					|| value == glsl::StatementType::eStructureScopeEnd
+					|| value == glsl::StatementType::eFunctionScopeBegin
+					|| value == glsl::StatementType::eFunctionScopeEnd
+					|| value == glsl::StatementType::eLexicalScopeBegin
+					|| value == glsl::StatementType::eLexicalScopeEnd
+					|| value == glsl::StatementType::eStructureMemberDecl
+					|| value == glsl::StatementType::eVariableDecl
+					|| value == glsl::StatementType::eVariableBlockDecl
+					|| value == glsl::StatementType::eBuiltinVariableDecl
+					|| value == glsl::StatementType::eControlEnd;
 			}
 
 			static void doAddStatement( std::string text
@@ -2916,7 +2942,7 @@ namespace glsl
 					type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 				}
 
-				assert( type->getKind() == ast::type::Kind::eImage );
+				AST_Assert( type->getKind() == ast::type::Kind::eImage );
 				auto image = std::static_pointer_cast< ast::type::Image >( type );
 				std::string text = "layout(";
 				text += helpers::getFormatName( image->getConfig().format );
@@ -3160,7 +3186,7 @@ namespace glsl
 					type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 				}
 
-				assert( type->getKind() == ast::type::Kind::eSampledImage );
+				AST_Assert( type->getKind() == ast::type::Kind::eSampledImage );
 				auto sampledImage = std::static_pointer_cast< ast::type::SampledImage >( type );
 				std::string text;
 
@@ -3185,7 +3211,7 @@ namespace glsl
 					type = std::static_pointer_cast< ast::type::Array >( type )->getType();
 				}
 
-				assert( type->getKind() == ast::type::Kind::eCombinedImage );
+				AST_Assert( type->getKind() == ast::type::Kind::eCombinedImage );
 				auto sampledImage = std::static_pointer_cast< ast::type::CombinedImage >( type );
 				std::string text;
 

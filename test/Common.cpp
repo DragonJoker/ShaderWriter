@@ -281,7 +281,7 @@ namespace test
 
 		if ( !read )
 		{
-			assert( false );
+			AST_Assert( false );
 		}
 
 		pclose( fp );

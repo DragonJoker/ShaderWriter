@@ -70,322 +70,473 @@ namespace ast
 
 	std::string getName( EntryPoint entryPoint )
 	{
+		std::string result{ "Unknown" };
+
 		switch ( entryPoint )
 		{
 		case EntryPoint::eNone:
-			return std::string{};
+			result = std::string{};
+			break;
 		case EntryPoint::eVertex:
-			return "Vert";
+			result = "Vert";
+			break;
 		case EntryPoint::eTessellationControl:
-			return "Tesc";
+			result = "Tesc";
+			break;
 		case EntryPoint::eTessellationEvaluation:
-			return "Tese";
+			result = "Tese";
+			break;
 		case EntryPoint::eGeometry:
-			return "Geom";
+			result = "Geom";
+			break;
 		case EntryPoint::eMeshNV:
 		case EntryPoint::eMesh:
-			return "Mesh";
+			result = "Mesh";
+			break;
 		case EntryPoint::eTaskNV:
 		case EntryPoint::eTask:
-			return "Task";
+			result = "Task";
+			break;
 		case EntryPoint::eFragment:
-			return "Frag";
+			result = "Frag";
+			break;
 		case EntryPoint::eRayGeneration:
-			return "Rgen";
+			result = "Rgen";
+			break;
 		case EntryPoint::eRayAnyHit:
-			return "Rany";
+			result = "Rany";
+			break;
 		case EntryPoint::eRayClosestHit:
-			return "Rcls";
+			result = "Rcls";
+			break;
 		case EntryPoint::eRayMiss:
-			return "Rmis";
+			result = "Rmis";
+			break;
 		case EntryPoint::eRayIntersection:
-			return "Rint";
+			result = "Rint";
+			break;
 		case EntryPoint::eCallable:
-			return "Call";
+			result = "Call";
+			break;
 		case EntryPoint::eCompute:
-			return "Comp";
+			result = "Comp";
+			break;
 		default:
 			AST_Failure( "Unsupported EntryPoint" );
-			return "Unknown";
 		}
+
+		return result;
 	}
 
 	EntryPoint getEntryPointType( ShaderStage stage )
 	{
+		EntryPoint result{};
+
 		switch ( stage )
 		{
 		case ShaderStage::eVertex:
-			return EntryPoint::eVertex;
+			result = EntryPoint::eVertex;
+			break;
 		case ShaderStage::eTessellationControl:
-			return EntryPoint::eTessellationControl;
+			result = EntryPoint::eTessellationControl;
+			break;
 		case ShaderStage::eTessellationEvaluation:
-			return EntryPoint::eTessellationEvaluation;
+			result = EntryPoint::eTessellationEvaluation;
+			break;
 		case ShaderStage::eGeometry:
-			return EntryPoint::eGeometry;
+			result = EntryPoint::eGeometry;
+			break;
 		case ShaderStage::eFragment:
-			return EntryPoint::eFragment;
+			result = EntryPoint::eFragment;
+			break;
 		case ShaderStage::eCompute:
-			return EntryPoint::eCompute;
+			result = EntryPoint::eCompute;
+			break;
 		case ShaderStage::eTaskNV:
-			return EntryPoint::eTaskNV;
+			result = EntryPoint::eTaskNV;
+			break;
 		case ShaderStage::eMeshNV:
-			return EntryPoint::eMeshNV;
+			result = EntryPoint::eMeshNV;
+			break;
 		case ShaderStage::eTask:
-			return EntryPoint::eTask;
+			result = EntryPoint::eTask;
+			break;
 		case ShaderStage::eMesh:
-			return EntryPoint::eMesh;
+			result = EntryPoint::eMesh;
+			break;
 		case ShaderStage::eRayGeneration:
-			return EntryPoint::eRayGeneration;
+			result = EntryPoint::eRayGeneration;
+			break;
 		case ShaderStage::eRayAnyHit:
-			return EntryPoint::eRayAnyHit;
+			result = EntryPoint::eRayAnyHit;
+			break;
 		case ShaderStage::eRayClosestHit:
-			return EntryPoint::eRayClosestHit;
+			result = EntryPoint::eRayClosestHit;
+			break;
 		case ShaderStage::eRayMiss:
-			return EntryPoint::eRayMiss;
+			result = EntryPoint::eRayMiss;
+			break;
 		case ShaderStage::eRayIntersection:
-			return EntryPoint::eRayIntersection;
+			result = EntryPoint::eRayIntersection;
+			break;
 		case ShaderStage::eCallable:
-			return EntryPoint::eCallable;
+			result = EntryPoint::eCallable;
+			break;
 		default:
 			AST_Failure( "Unsupported ShaderStage" );
-			return EntryPoint::eNone;
 		}
+
+		return result;
 	}
 
 	ShaderStage getShaderStage( EntryPoint entryPoint )
 	{
+		ShaderStage result{ ShaderStage::eCompute };
+
 		switch ( entryPoint )
 		{
 		case EntryPoint::eVertex:
-			return ShaderStage::eVertex;
+			result = ShaderStage::eVertex;
+			break;
 		case EntryPoint::eTessellationControl:
-			return ShaderStage::eTessellationControl;
+			result = ShaderStage::eTessellationControl;
+			break;
 		case EntryPoint::eTessellationEvaluation:
-			return ShaderStage::eTessellationEvaluation;
+			result = ShaderStage::eTessellationEvaluation;
+			break;
 		case EntryPoint::eGeometry:
-			return ShaderStage::eGeometry;
+			result = ShaderStage::eGeometry;
+			break;
 		case EntryPoint::eFragment:
-			return ShaderStage::eFragment;
+			result = ShaderStage::eFragment;
+			break;
 		case EntryPoint::eCompute:
-			return ShaderStage::eCompute;
+			result = ShaderStage::eCompute;
+			break;
 		case EntryPoint::eTaskNV:
-			return ShaderStage::eTaskNV;
+			result = ShaderStage::eTaskNV;
+			break;
 		case EntryPoint::eMeshNV:
-			return ShaderStage::eMeshNV;
+			result = ShaderStage::eMeshNV;
+			break;
 		case EntryPoint::eTask:
-			return ShaderStage::eTask;
+			result = ShaderStage::eTask;
+			break;
 		case EntryPoint::eMesh:
-			return ShaderStage::eMesh;
+			result = ShaderStage::eMesh;
+			break;
 		case EntryPoint::eRayGeneration:
-			return ShaderStage::eRayGeneration;
+			result = ShaderStage::eRayGeneration;
+			break;
 		case EntryPoint::eRayAnyHit:
-			return ShaderStage::eRayAnyHit;
+			result = ShaderStage::eRayAnyHit;
+			break;
 		case EntryPoint::eRayClosestHit:
-			return ShaderStage::eRayClosestHit;
+			result = ShaderStage::eRayClosestHit;
+			break;
 		case EntryPoint::eRayMiss:
-			return ShaderStage::eRayMiss;
+			result = ShaderStage::eRayMiss;
+			break;
 		case EntryPoint::eRayIntersection:
-			return ShaderStage::eRayIntersection;
+			result = ShaderStage::eRayIntersection;
+			break;
 		case EntryPoint::eCallable:
-			return ShaderStage::eCallable;
+			result = ShaderStage::eCallable;
+			break;
 		default:
 			AST_Failure( "Unsupported EntryPoint" );
-			return ShaderStage::eCompute;
 		}
+
+		return result;
 	}
 
 	std::string getName( Builtin value )
 	{
+		std::string result{ "Undefined" };
+
 		switch ( value )
 		{
 		case Builtin::eNone:
-			return "None";
+			result = "None";
+			break;
 		case Builtin::ePosition:
-			return "Position";
+			result = "Position";
+			break;
 		case Builtin::ePointSize:
-			return "PointSize";
+			result = "PointSize";
+			break;
 		case Builtin::eClipDistance:
-			return "ClipDistance";
+			result = "ClipDistance";
+			break;
 		case Builtin::eCullDistance:
-			return "CullDistance";
+			result = "CullDistance";
+			break;
 		case Builtin::ePrimitiveID:
-			return "PrimitiveID";
+			result = "PrimitiveID";
+			break;
 		case Builtin::ePrimitiveIDIn:
-			return "PrimitiveIDIn";
+			result = "PrimitiveIDIn";
+			break;
 		case Builtin::eInvocationID:
-			return "InvocationID";
+			result = "InvocationID";
+			break;
 		case Builtin::eLayer:
-			return "Layer";
+			result = "Layer";
+			break;
 		case Builtin::eViewportIndex:
-			return "ViewportIndex";
+			result = "ViewportIndex";
+			break;
 		case Builtin::eTessLevelOuter:
-			return "TessLevelOuter";
+			result = "TessLevelOuter";
+			break;
 		case Builtin::eTessLevelInner:
-			return "TessLevelInner";
+			result = "TessLevelInner";
+			break;
 		case Builtin::eTessCoord:
-			return "TessCoord";
+			result = "TessCoord";
+			break;
 		case Builtin::ePatchVertices:
-			return "PatchVertices";
+			result = "PatchVertices";
+			break;
 		case Builtin::ePatchVerticesIn:
-			return "PatchVerticesIn";
+			result = "PatchVerticesIn";
+			break;
 		case Builtin::eFragCoord:
-			return "FragCoord";
+			result = "FragCoord";
+			break;
 		case Builtin::ePointCoord:
-			return "PointCoord";
+			result = "PointCoord";
+			break;
 		case Builtin::eFrontFacing:
-			return "FrontFacing";
+			result = "FrontFacing";
+			break;
 		case Builtin::eSampleID:
-			return "SampleID";
+			result = "SampleID";
+			break;
 		case Builtin::eSamplePosition:
-			return "SamplePosition";
+			result = "SamplePosition";
+			break;
 		case Builtin::eSampleMask:
-			return "SampleMask";
+			result = "SampleMask";
+			break;
 		case Builtin::eSampleMaskIn:
-			return "SampleMaskIn";
+			result = "SampleMaskIn";
+			break;
 		case Builtin::eFragDepth:
-			return "FragDepth";
+			result = "FragDepth";
+			break;
 		case Builtin::eHelperInvocation:
-			return "HelperInvocation";
+			result = "HelperInvocation";
+			break;
 		case Builtin::eNumWorkGroups:
-			return "NumWorkGroups";
+			result = "NumWorkGroups";
+			break;
 		case Builtin::eWorkGroupSize:
-			return "WorkGroupSize";
+			result = "WorkGroupSize";
+			break;
 		case Builtin::eWorkGroupID:
-			return "WorkGroupID";
+			result = "WorkGroupID";
+			break;
 		case Builtin::eLocalInvocationID:
-			return "LocalInvocationID";
+			result = "LocalInvocationID";
+			break;
 		case Builtin::eGlobalInvocationID:
-			return "GlobalInvocationID";
+			result = "GlobalInvocationID";
+			break;
 		case Builtin::eLocalInvocationIndex:
-			return "LocalInvocationIndex";
+			result = "LocalInvocationIndex";
+			break;
 		case Builtin::eWorkDim:
-			return "WorkDim";
+			result = "WorkDim";
+			break;
 		case Builtin::eGlobalSize:
-			return "GlobalSize";
+			result = "GlobalSize";
+			break;
 		case Builtin::eEnqueuedWorkgroupSize:
-			return "EnqueuedWorkgroupSize";
+			result = "EnqueuedWorkgroupSize";
+			break;
 		case Builtin::eGlobalLinearID:
-			return "GlobalLinearID";
+			result = "GlobalLinearID";
+			break;
 		case Builtin::eSubgroupSize:
-			return "SubgroupSize";
+			result = "SubgroupSize";
+			break;
 		case Builtin::eSubgroupMaxSize:
-			return "SubgroupMaxSize";
+			result = "SubgroupMaxSize";
+			break;
 		case Builtin::eNumSubgroups:
-			return "NumSubgroups";
+			result = "NumSubgroups";
+			break;
 		case Builtin::eNumEnqueuedSubgroups:
-			return "NumEnqueuedSubgroups";
+			result = "NumEnqueuedSubgroups";
+			break;
 		case Builtin::eSubgroupID:
-			return "SubgroupID";
+			result = "SubgroupID";
+			break;
 		case Builtin::eSubgroupLocalInvocationID:
-			return "SubgroupLocalInvocationID";
+			result = "SubgroupLocalInvocationID";
+			break;
 		case Builtin::eVertexIndex:
-			return "VertexIndex";
+			result = "VertexIndex";
+			break;
 		case Builtin::eInstanceIndex:
-			return "InstanceIndex";
+			result = "InstanceIndex";
+			break;
 		case Builtin::eInstanceID:
-			return "InstanceID";
+			result = "InstanceID";
+			break;
 		case Builtin::eSubgroupEqMask:
-			return "SubgroupEqMask";
+			result = "SubgroupEqMask";
+			break;
 		case Builtin::eSubgroupGeMask:
-			return "SubgroupGeMask";
+			result = "SubgroupGeMask";
+			break;
 		case Builtin::eSubgroupGtMask:
-			return "SubgroupGtMask";
+			result = "SubgroupGtMask";
+			break;
 		case Builtin::eSubgroupLeMask:
-			return "SubgroupLeMask";
+			result = "SubgroupLeMask";
+			break;
 		case Builtin::eSubgroupLtMask:
-			return "SubgroupLtMask";
+			result = "SubgroupLtMask";
+			break;
 		case Builtin::eBaseVertex:
-			return "BaseVertex";
+			result = "BaseVertex";
+			break;
 		case Builtin::eBaseInstance:
-			return "BaseInstance";
+			result = "BaseInstance";
+			break;
 		case Builtin::eDrawIndex:
-			return "DrawIndex";
+			result = "DrawIndex";
+			break;
 		case Builtin::eDeviceIndex:
-			return "DeviceIndex";
+			result = "DeviceIndex";
+			break;
 		case Builtin::eViewIndex:
-			return "ViewIndex";
+			result = "ViewIndex";
+			break;
 		case Builtin::eBaryCoordNoPerspAMD:
-			return "BaryCoordNoPerspAMD";
+			result = "BaryCoordNoPerspAMD";
+			break;
 		case Builtin::eBaryCoordNoPerspCentroidAMD:
-			return "BaryCoordNoPerspCentroidAMD";
+			result = "BaryCoordNoPerspCentroidAMD";
+			break;
 		case Builtin::eBaryCoordNoPerspSampleAMD:
-			return "BaryCoordNoPerspSampleAMD";
+			result = "BaryCoordNoPerspSampleAMD";
+			break;
 		case Builtin::eBaryCoordSmoothAMD:
-			return "BaryCoordSmoothAMD";
+			result = "BaryCoordSmoothAMD";
+			break;
 		case Builtin::eBaryCoordSmoothCentroidAMD:
-			return "BaryCoordSmoothCentroidAMD";
+			result = "BaryCoordSmoothCentroidAMD";
+			break;
 		case Builtin::eBaryCoordSmoothSampleAMD:
-			return "BaryCoordSmoothSampleAMD";
+			result = "BaryCoordSmoothSampleAMD";
+			break;
 		case Builtin::eBaryCoordPullModelAMD:
-			return "BaryCoordPullModelAMD";
+			result = "BaryCoordPullModelAMD";
+			break;
 		case Builtin::eFragStencilRefEXT:
-			return "FragStencilRefEXT";
+			result = "FragStencilRefEXT";
+			break;
 		case Builtin::eViewportMaskNV:
-			return "ViewportMaskNV";
+			result = "ViewportMaskNV";
+			break;
 		case Builtin::eSecondaryPositionNV:
-			return "SecondaryPositionNV";
+			result = "SecondaryPositionNV";
+			break;
 		case Builtin::eSecondaryViewportMaskNV:
-			return "SecondaryViewportMaskNV";
+			result = "SecondaryViewportMaskNV";
+			break;
 		case Builtin::ePositionPerViewNV:
-			return "PositionPerViewNV";
+			result = "PositionPerViewNV";
+			break;
 		case Builtin::eViewportMaskPerViewNV:
-			return "ViewportMaskPerViewNV";
+			result = "ViewportMaskPerViewNV";
+			break;
 		case Builtin::ePrimitiveIndicesNV:
-			return "PrimitiveIndicesNV";
+			result = "PrimitiveIndicesNV";
+			break;
 		case Builtin::ePrimitiveCountNV:
-			return "PrimitiveCountNV";
+			result = "PrimitiveCountNV";
+			break;
 		case Builtin::eTaskCountNV:
-			return "TaskCountNV";
+			result = "TaskCountNV";
+			break;
 		case Builtin::eClipDistancePerViewNV:
-			return "ClipDistancePerViewNV";
+			result = "ClipDistancePerViewNV";
+			break;
 		case Builtin::eCullDistancePerViewNV:
-			return "CullDistancePerViewNV";
+			result = "CullDistancePerViewNV";
+			break;
 		case Builtin::eLayerPerViewNV:
-			return "LayerPerViewNV";
+			result = "LayerPerViewNV";
+			break;
 		case Builtin::eMeshViewCountNV:
-			return "MeshViewCountNV";
+			result = "MeshViewCountNV";
+			break;
 		case Builtin::eMeshViewIndicesNV:
-			return "MeshViewIndicesNV";
+			result = "MeshViewIndicesNV";
+			break;
 		case Builtin::eLaunchID:
-			return "LaunchID";
+			result = "LaunchID";
+			break;
 		case Builtin::eLaunchSize:
-			return "LaunchSize";
+			result = "LaunchSize";
+			break;
 		case Builtin::eInstanceCustomIndex:
-			return "InstanceCustomIndex";
+			result = "InstanceCustomIndex";
+			break;
 		case Builtin::eGeometryIndex:
-			return "GeometryIndex";
+			result = "GeometryIndex";
+			break;
 		case Builtin::eWorldRayOrigin:
-			return "WorldRayOrigin";
+			result = "WorldRayOrigin";
+			break;
 		case Builtin::eWorldRayDirection:
-			return "WorldRayDirection";
+			result = "WorldRayDirection";
+			break;
 		case Builtin::eObjectRayOrigin:
-			return "ObjectRayOrigin";
+			result = "ObjectRayOrigin";
+			break;
 		case Builtin::eObjectRayDirection:
-			return "ObjectRayDirection";
+			result = "ObjectRayDirection";
+			break;
 		case Builtin::eRayTmin:
-			return "RayTmin";
+			result = "RayTmin";
+			break;
 		case Builtin::eRayTmax:
-			return "RayTmax";
+			result = "RayTmax";
+			break;
 		case Builtin::eIncomingRayFlags:
-			return "IncomingRayFlags";
+			result = "IncomingRayFlags";
+			break;
 		case Builtin::eHitKind:
-			return "HitKind";
+			result = "HitKind";
+			break;
 		case Builtin::eObjectToWorld:
-			return "ObjectToWorld";
+			result = "ObjectToWorld";
+			break;
 		case Builtin::eWorldToObject:
-			return "WorldToObject";
+			result = "WorldToObject";
+			break;
 		case Builtin::eCullPrimitive:
-			return "CullPrimitiveEXT";
+			result = "CullPrimitiveEXT";
+			break;
 		case Builtin::ePrimitivePointIndices:
-			return "PrimitivePointIndicesEXT";
+			result = "PrimitivePointIndicesEXT";
+			break;
 		case Builtin::ePrimitiveLineIndices:
-			return "PrimitiveLineIndicesEXT";
+			result = "PrimitiveLineIndicesEXT";
+			break;
 		case Builtin::ePrimitiveTriangleIndices:
-			return "PrimitiveTriangleIndicesEXT";
+			result = "PrimitiveTriangleIndicesEXT";
+			break;
 		default:
 			AST_Failure( "Unsupported Builtin" );
-			return "Undefined";
 		}
+
+		return result;
 	}
 
 	bool isPerVertex( Builtin value

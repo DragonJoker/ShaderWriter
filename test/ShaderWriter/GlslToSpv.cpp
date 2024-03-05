@@ -215,7 +215,9 @@ namespace test
 				return EShLangMiss;
 			default:
 				AST_Failure( "Unsupported shader stage." );
+#if !SDAST_ExceptAssert
 				return EShLangVertex;
+#endif
 			}
 		}
 

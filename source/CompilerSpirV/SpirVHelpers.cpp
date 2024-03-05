@@ -111,7 +111,9 @@ namespace spirv
 				return spv::ImageFormatR8ui;
 			default:
 				AST_Failure( "Unsupported ast::type::ImageFormat" );
+#if !SDAST_ExceptAssert
 				return spv::ImageFormatRgba32f;
+#endif
 			}
 		}
 
@@ -159,7 +161,9 @@ namespace spirv
 				AST_Failure( "Unexpected unary operation Op" );
 			}
 
+#if !SDAST_ExceptAssert
 			return nullptr;
+#endif
 		}
 
 		static InstructionPtr makeBinInstruction( NamesCache & nameCache
@@ -262,7 +266,9 @@ namespace spirv
 				AST_Failure( "Unexpected binary operation Op" );
 			}
 
+#if !SDAST_ExceptAssert
 			return nullptr;
+#endif
 		}
 
 		static bool isShaderInput( ast::Builtin builtin
@@ -823,7 +829,7 @@ namespace spirv
 		, uint32_t arraySize )
 	{
 		auto ident = ast::findIdentifier( outer );
-		assert( ident );
+		AST_Assert( ident );
 		addPendingMbr( ident->getVariable()
 			, mbrIndex
 			, flags.getFlags()
@@ -930,7 +936,7 @@ namespace spirv
 			&& outer.getKind() == ast::expr::Kind::eArrayAccess )
 		{
 			auto type = result->getType();
-			assert( type->getKind() == ast::type::Kind::eArray );
+			AST_Assert( type->getKind() == ast::type::Kind::eArray );
 			auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( outer );
 			result = exprCache.makeArrayAccess( static_cast< ast::type::Array const & >( *type ).getType()
 				, std::move( result )
@@ -1756,7 +1762,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, ast::type::NotArray );
@@ -1771,7 +1777,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, ast::type::NotArray );
@@ -1786,7 +1792,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, getArraySize( geomType.getLayout() ) );
@@ -1801,7 +1807,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, ast::type::NotArray );
@@ -1937,7 +1943,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getInputVertices() );
@@ -1952,7 +1958,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getOutputVertices() );
@@ -1972,7 +1978,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderInput() );
+			AST_Assert( structType.isShaderInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getInputVertices() );
@@ -1992,7 +1998,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, meshType.getMaxVertices() );
@@ -2012,7 +2018,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			assert( structType.isShaderOutput() );
+			AST_Assert( structType.isShaderOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, meshType.getMaxPrimitives() );
@@ -2326,7 +2332,9 @@ namespace spirv
 			return spv::BuiltInPrimitiveTriangleIndicesEXT;
 		default:
 			AST_Failure( "Unsupported ast::Builtin" );
+#if !SDAST_ExceptAssert
 			return spv::BuiltInMax;
+#endif
 		}
 	}
 
@@ -2877,7 +2885,9 @@ namespace spirv
 			return "CacheControlsINTEL";
 		default:
 			AST_Failure( "Unsupported Capability" );
+#if !SDAST_ExceptAssert
 			return "Undefined";
+#endif
 		}
 	}
 
@@ -2939,7 +2949,9 @@ namespace spirv
 			return ast::type::ImageFormat::eR8u;
 		default:
 			AST_Failure( "Unsupported spv::ImageFormat" );
+#if !SDAST_ExceptAssert
 			return ast::type::ImageFormat::eRgba32f;
+#endif
 		}
 	}
 
@@ -2994,8 +3006,8 @@ namespace spirv
 		, ast::type::Kind kind
 		, ValueId id )
 	{
-		assert( !id.isPointer() );
-		assert( !isStructType( kind )
+		AST_Assert( !id.isPointer() );
+		AST_Assert( !isStructType( kind )
 			&& !isOpaqueType( kind ) );
 
 		switch ( kind )
@@ -3030,7 +3042,9 @@ namespace spirv
 			AST_Failure( "Unexpected type kind" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeIntrinsicInstruction( NamesCache & nameCache
@@ -3044,10 +3058,10 @@ namespace spirv
 		case spv::OpEndStreamPrimitive:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndStreamPrimitive > >( nameCache, operands );
 		case spv::OpEmitVertex:
-			assert( operands.empty() );
+			AST_Assert( operands.empty() );
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEmitVertex > >( nameCache, operands );
 		case spv::OpEndPrimitive:
-			assert( operands.empty() );
+			AST_Assert( operands.empty() );
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpEndPrimitive > >( nameCache, operands );
 		case spv::OpControlBarrier:
 			return makeInstruction< VoidIntrinsicInstructionT< spv::OpControlBarrier > >( nameCache, operands );
@@ -3067,7 +3081,9 @@ namespace spirv
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeIntrinsicInstruction( NamesCache & nameCache
@@ -3268,7 +3284,9 @@ namespace spirv
 			AST_Failure( "Unexpected intrinsic call Op" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeSampledImageAccessInstruction( NamesCache & nameCache
@@ -3303,7 +3321,9 @@ namespace spirv
 			AST_Failure( "Unexpected texture access Op" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeTextureAccessInstruction( NamesCache & nameCache
@@ -3348,7 +3368,9 @@ namespace spirv
 			AST_Failure( "Unexpected texture access Op" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeImageAccessInstruction( NamesCache & nameCache
@@ -3367,7 +3389,9 @@ namespace spirv
 			return makeInstruction< ImageAccessInstructionT< spv::OpImageRead > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpImageWrite:
 			AST_Failure( "OpImageWrite has its own instruction type: ImageStoreInstruction, use makeInstruction" );
+#if !SDAST_ExceptAssert
 			return makeInstruction< VariadicInstructionT< spv::OpImageWrite, false, false > >( nameCache, operands );
+#endif
 		case spv::OpAtomicIAdd:
 			return makeInstruction< ImageAccessInstructionT< spv::OpAtomicIAdd > >( nameCache, returnTypeId, resultId, operands );
 		case spv::OpAtomicUMin:
@@ -3394,7 +3418,9 @@ namespace spirv
 			AST_Failure( "Unexpected image access Op" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeCastInstruction( NamesCache & nameCache
@@ -3429,7 +3455,9 @@ namespace spirv
 			AST_Failure( "Unexpected cast Op" );
 		}
 
+#if !SDAST_ExceptAssert
 		return nullptr;
+#endif
 	}
 
 	InstructionPtr makeUnInstruction( NamesCache & nameCache
@@ -3521,7 +3549,9 @@ namespace spirv
 			return exprCache.makeLiteral( typesCache, 0.0 );
 		default:
 			AST_Failure( "Unsupported type kind for 0 literal" );
+#if !SDAST_ExceptAssert
 			return nullptr;
+#endif
 		}
 	}
 
@@ -3555,7 +3585,9 @@ namespace spirv
 			return exprCache.makeLiteral( typesCache, 1.0 );
 		default:
 			AST_Failure( "Unsupported type kind for 0 literal" );
+#if !SDAST_ExceptAssert
 			return nullptr;
+#endif
 		}
 	}
 

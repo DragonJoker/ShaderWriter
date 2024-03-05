@@ -94,7 +94,9 @@ namespace spirv
 			}
 
 			AST_Failure( "Non terminated string" );
+#if !SDAST_ExceptAssert
 			return std::string{};
+#endif
 		}
 
 		static Instruction::Configuration const & getConfig( spv::Op opCode )
@@ -637,7 +639,9 @@ namespace spirv
 				return GroupNonUniformQuadSwapInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
+#if !SDAST_ExceptAssert
 				return dummy;
+#endif
 			}
 		}
 
@@ -822,7 +826,9 @@ namespace spirv
 			return ast::type::Storage::eTaskPayloadWorkgroup;
 		default:
 			AST_Failure( "Unsupported spv::StorageClass" );
+#if !SDAST_ExceptAssert
 			return ast::type::Storage::eFunction;
+#endif
 		}
 	}
 
@@ -876,7 +882,9 @@ namespace spirv
 			return spv::StorageClassTaskPayloadWorkgroupEXT;
 		default:
 			AST_Failure( "Unsupported ast::type::Storage" );
+#if !SDAST_ExceptAssert
 			return spv::StorageClassFunction;
+#endif
 		}
 	}
 
@@ -976,7 +984,7 @@ namespace spirv
 		if ( config.operandsCount )
 		{
 			auto count = op.getOpData().opCount - index;
-			assert( config.operandsCount == dynamicOperandCount
+			AST_Assert( config.operandsCount == dynamicOperandCount
 				|| config.operandsCount == count );
 			operands.resize( count );
 
@@ -1130,7 +1138,7 @@ namespace spirv
 	{
 		spirv::Op op;
 		op.setOpValue( buffer.popValue() );
-		assert( op.getOpData().opCode != spv::OpNop);
+		AST_Assert( op.getOpData().opCode != spv::OpNop);
 		auto & config = insthlp::getConfig( spv::Op( op.getOpData().opCode ) );
 		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}
@@ -1140,7 +1148,7 @@ namespace spirv
 	{
 		spirv::Op op;
 		op.setOpValue( buffer.popValue() );
-		assert( op.getOpData().opCode != spv::OpNop );
+		AST_Assert( op.getOpData().opCode != spv::OpNop );
 		auto & config = insthlp::getConfig( spv::Op( op.getOpData().opCode ) );
 		return std::make_unique< Instruction >( alloc, config, op, buffer );
 	}

@@ -52,7 +52,7 @@ namespace ast::type
 	{
 		if ( isMember() )
 		{
-			assert( m_nonMbr );
+			AST_Assert( m_nonMbr );
 			return m_nonMbr;
 		}
 
@@ -851,7 +851,7 @@ namespace ast::type
 
 	expr::CompositeType getCompositeType( Kind kind )
 	{
-		assert( isVectorType( kind )
+		AST_Assert( isVectorType( kind )
 			|| isMatrixType( kind ) );
 		expr::CompositeType result{ expr::CompositeType::eVec4 };
 

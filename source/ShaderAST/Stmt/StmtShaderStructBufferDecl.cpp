@@ -20,7 +20,7 @@ namespace ast::stmt
 		, m_bindingPoint{ bindingPoint }
 		, m_bindingSet{ bindingSet }
 	{
-		assert( m_ssboInstance->getType()->getKind() == type::Kind::eStruct );
+		AST_Assert( m_ssboInstance->getType()->getKind() == type::Kind::eStruct );
 	}
 
 	void ShaderStructBufferDecl::accept( VisitorPtr vis )const

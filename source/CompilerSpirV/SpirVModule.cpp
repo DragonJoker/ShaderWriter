@@ -267,7 +267,7 @@ namespace spirv
 		BufferCIt buffer{ spirv.cbegin(), 0u };
 		Header header{};
 		header.magic = buffer.popValue();
-		assert( header.magic == spv::MagicNumber );
+		AST_Assert( header.magic == spv::MagicNumber );
 		header.version = buffer.popValue();
 		header.builder = buffer.popValue();
 		header.boundIds = buffer.popValue();
@@ -801,7 +801,7 @@ namespace spirv
 
 	DebugId Module::registerMemberVariableIndex( ast::type::TypePtr type )
 	{
-		assert( type->isMember() );
+		AST_Assert( type->isMember() );
 		return registerLiteral( type->getIndex() );
 	}
 
@@ -815,8 +815,8 @@ namespace spirv
 			{
 				return pair.second.id == outer;
 			} );
-		assert( it != m_currentScopeVariables->end() );
-		assert( type->isMember() );
+		AST_Assert( it != m_currentScopeVariables->end() );
+		AST_Assert( type->isMember() );
 		auto fullName = it->first + "::" + name;
 		it = m_currentScopeVariables->find( fullName );
 
@@ -1512,7 +1512,7 @@ namespace spirv
 		, DebugId const & initialiser
 		, glsl::Statement const * debugStatement )
 	{
-		assert( varId.isPointer() );
+		AST_Assert( varId.isPointer() );
 		auto type = varId->type;
 		auto rawType = static_cast< ast::type::Pointer const & >( *type ).getPointerType();
 		auto rawTypeId = m_types.registerType( rawType, debugStatement );

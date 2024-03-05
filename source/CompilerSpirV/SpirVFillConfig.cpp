@@ -374,7 +374,7 @@ namespace spirv
 
 				if ( config.offsetIndex )
 				{
-					assert( expr->getArgList().size() >= config.offsetIndex );
+					AST_Assert( expr->getArgList().size() >= config.offsetIndex );
 					bool constOffset = expr->getArgList()[config.offsetIndex - 1ULL]->isConstant();
 
 					if ( getOffset( kind, constOffset ) == spv::ImageOperandsOffsetMask )
@@ -494,8 +494,10 @@ namespace spirv
 					break;
 				default:
 					AST_Failure( "Unexpected shader stage." );
-					m_result.registerCapability( spv::CapabilityShader );
 				}
+#if !SDAST_ExceptAssert
+				m_result.registerCapability( spv::CapabilityShader );
+#endif
 			}
 
 			void visitBreakStmt( ast::stmt::Break const * stmt )override

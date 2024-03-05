@@ -133,7 +133,7 @@ namespace spirv
 		, glsl::RangeInfo const & columns
 		, debug::NonSemanticDebug & nonSemanticDebug )
 	{
-		assert( variable.isPointer() );
+		AST_Assert( variable.isPointer() );
 
 		if ( value.isPointer() )
 		{

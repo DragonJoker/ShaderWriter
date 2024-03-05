@@ -18,7 +18,7 @@ namespace ast::expr::details
 	void getExprCache( ExprCache *& result
 		, ExprList const & list )
 	{
-		assert( !list.empty() );
+		AST_Assert( !list.empty() );
 		result = &list[0]->getExprCache();
 	}
 
@@ -31,7 +31,7 @@ namespace ast::expr::details
 	void getTypesCache( type::TypesCache *& result
 		, ExprList const & list )
 	{
-		assert( !list.empty() );
+		AST_Assert( !list.empty() );
 		result = &list[0]->getTypesCache();
 	}
 

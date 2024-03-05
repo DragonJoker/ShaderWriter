@@ -44,13 +44,13 @@ namespace ast::expr
 	SwizzleKind::SwizzleKind( SwizzleKind::Value value )
 		: m_value{ value }
 	{
-		assert( m_value == eUndefined
+		AST_Assert( m_value == eUndefined
 			|| isValid( *this ) );
 	}
 
 	SwizzleKind SwizzleKind::fromOffset( uint32_t offset )
 	{
-		assert( offset < 4u );
+		AST_Assert( offset < 4u );
 		return SwizzleKind( Value( ( 0x01 << offset ) << eShiftFourthComponentToFirst ) );
 	}
 
@@ -72,7 +72,7 @@ namespace ast::expr
 
 	uint32_t SwizzleKind::toIndex()const
 	{
-		assert( isOneComponent()
+		AST_Assert( isOneComponent()
 			 && "Can't get index of non single component" );
 
 		return ( m_value & e0 ) == m_value
@@ -106,7 +106,7 @@ namespace ast::expr
 
 	SwizzleKind::Value SwizzleKind::getSecondValue()const
 	{
-		assert( !isOneComponent()
+		AST_Assert( !isOneComponent()
 			&& "Invalid swizzle for second component search" );
 
 		return ( m_value & eMaskSecondComponent )
@@ -115,7 +115,7 @@ namespace ast::expr
 
 	SwizzleKind::Value SwizzleKind::getThirdValue()const
 	{
-		assert( !isOneComponent()
+		AST_Assert( !isOneComponent()
 			&& !isTwoComponents()
 			&& "Invalid swizzle for third component search" );
 
@@ -125,7 +125,7 @@ namespace ast::expr
 
 	SwizzleKind::Value SwizzleKind::getFourthValue()const
 	{
-		assert( !isOneComponent()
+		AST_Assert( !isOneComponent()
 			&& !isTwoComponents()
 			&& !isThreeComponents()
 			&& "Invalid swizzle for fourth component search" );
@@ -136,7 +136,7 @@ namespace ast::expr
 
 	SwizzleKind SwizzleKind::operator[]( uint32_t index )const
 	{
-		assert( index < getComponentsCount()
+		AST_Assert( index < getComponentsCount()
 			&& "Out of bounds array access to swizzle" );
 
 		return SwizzleKind{ ( m_value << ( index * 4u ) ) & eMaskFirstComponent };
@@ -145,7 +145,7 @@ namespace ast::expr
 	SwizzleKind & SwizzleKind::operator|=( SwizzleKind const & rhs )
 	{
 		m_value = m_value | rhs.m_value;
-		assert( isValid( *this ) );
+		AST_Assert( isValid( *this ) );
 		return *this;
 	}
 

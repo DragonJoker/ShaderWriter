@@ -43,8 +43,10 @@ namespace spirv
 				return "LanguageCPP_for_OpenCL";
 			default:
 				AST_Failure( "Unsupported SourceLanguage" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::AddressingModel value )
@@ -61,8 +63,10 @@ namespace spirv
 				return "PhysicalStorageBuffer64";
 			default:
 				AST_Failure( "Unsupported AddressingModel" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::MemoryModel value )
@@ -79,8 +83,10 @@ namespace spirv
 				return "Vulkan";
 			default:
 				AST_Failure( "Unsupported MemoryModel" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::ExecutionModel value )
@@ -123,8 +129,10 @@ namespace spirv
 				return "Callable";
 			default:
 				AST_Failure( "Unsupported ExecutionModel" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::ExecutionMode value )
@@ -311,8 +319,10 @@ namespace spirv
 				return "NamedBarrierCountINTEL";
 			default:
 				AST_Failure( "Unsupported ExecutionMode" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::AccessQualifier value )
@@ -327,8 +337,10 @@ namespace spirv
 				return "ReadWrite";
 			default:
 				AST_Failure( "Unsupported AccessQualifier" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::GLSLstd450 value )
@@ -503,8 +515,10 @@ namespace spirv
 				return "Count";
 			default:
 				AST_Failure( "Unsupported GLSLstd450" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::NonSemanticShaderDebugInfo100Instructions value )
@@ -601,8 +615,10 @@ namespace spirv
 				return "DebugTypeMatrix";
 			default:
 				AST_Failure( "Unsupported OpDebug" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::StorageClass value )
@@ -659,8 +675,10 @@ namespace spirv
 				return "HostOnlyINTEL";
 			default:
 				AST_Failure( "Unsupported StorageClass" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::ImageFormat value )
@@ -749,8 +767,10 @@ namespace spirv
 				return "R8ui";
 			default:
 				AST_Failure( "Unsupported ImageFormat" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::Dim value )
@@ -773,8 +793,10 @@ namespace spirv
 				return "SubpassData";
 			default:
 				AST_Failure( "Unsupported Dim" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::BuiltIn value )
@@ -979,8 +1001,10 @@ namespace spirv
 				return "CullPrimitiveEXT";
 			default:
 				AST_Failure( "Unsupported BuiltIn" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::Decoration value )
@@ -1195,8 +1219,10 @@ namespace spirv
 				return "MediaBlockIOINTEL";
 			default:
 				AST_Failure( "Unsupported Decoration" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::FunctionParameterAttribute value )
@@ -1221,7 +1247,9 @@ namespace spirv
 				return "NoReadWrite";
 			default:
 				AST_Failure( "Unsupported FunctionParameterAttribute" );
+#if !SDAST_ExceptAssert
 				return "Undefined";
+#endif
 			}
 		}
 
@@ -1239,8 +1267,10 @@ namespace spirv
 				return "RTN";
 			default:
 				AST_Failure( "Unsupported FPRoundingMode" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::LinkageType value )
@@ -1255,8 +1285,10 @@ namespace spirv
 				return "LinkOnceODR";
 			default:
 				AST_Failure( "Unsupported LinkageType" );
-				return "Undefined";
 			}
+#if !SDAST_ExceptAssert
+			return "Undefined";
+#endif
 		}
 
 		static std::string getName( spv::Scope value )
@@ -1958,7 +1990,7 @@ namespace spirv
 			writeWord( word, stream );
 			count( instruction, word );
 			auto opCode = spv::Op( instruction.op.getOpData().opCode );
-			assert( opCode == spv::OpName
+			AST_Assert( opCode == spv::OpName
 				|| opCode == spv::OpString
 				|| opCode == spv::OpMemberName
 				|| opCode == spv::OpSource
@@ -1992,7 +2024,7 @@ namespace spirv
 			{
 				stream << "        " << spirv::getOperatorName( opCode );
 				checkType< SourceInstruction >( instruction );
-				assert( instruction.operands.size() >= 2u );
+				AST_Assert( instruction.operands.size() >= 2u );
 				stream << " " << getSourceLanguageName( instruction.operands[0] );
 				stream << " " << instruction.operands[1];
 
@@ -2009,7 +2041,7 @@ namespace spirv
 			else if ( opCode == spv::OpSourceExtension )
 			{
 				checkType< SourceExtensionInstruction >( instruction );
-				assert( instruction.operands.empty() );
+				AST_Assert( instruction.operands.empty() );
 
 				if ( bool( instruction.name ) )
 				{
@@ -2032,7 +2064,7 @@ namespace spirv
 			writeWord( word, stream );
 			count( instruction, word );
 			auto opCode = spv::Op( instruction.op.getOpData().opCode );
-			assert( opCode == spv::OpDecorate || opCode == spv::OpMemberDecorate );
+			AST_Assert( opCode == spv::OpDecorate || opCode == spv::OpMemberDecorate );
 			stream << "        " << spirv::getOperatorName( opCode );
 			auto it = instruction.operands.begin();
 
@@ -2287,8 +2319,8 @@ namespace spirv
 			, NameCache & names
 			, ast::type::TypePtr type )
 		{
-			assert( bool( instruction.resultId ) );
-			assert( bool( instruction.returnTypeId ) );
+			AST_Assert( bool( instruction.resultId ) );
+			AST_Assert( bool( instruction.returnTypeId ) );
 			stream << writeId( instruction.resultId.value() ) << " =";
 			auto opCode = spv::Op( instruction.op.getOpData().opCode );
 			stream << " " << spirv::getOperatorName( opCode );
@@ -2354,7 +2386,7 @@ namespace spirv
 	#pragma GCC diagnostic pop
 						break;
 					case ast::type::Kind::eDouble:
-						assert( instruction.operands.size() >= 2 );
+						AST_Assert( instruction.operands.size() >= 2 );
 						{
 	#pragma GCC diagnostic push
 	#if defined( __clang__ )
@@ -2391,8 +2423,8 @@ namespace spirv
 			, NameCache & names
 			, ast::type::TypePtr type )
 		{
-			assert( bool( instruction.resultId ) );
-			assert( bool( instruction.returnTypeId ) );
+			AST_Assert( bool( instruction.resultId ) );
+			AST_Assert( bool( instruction.returnTypeId ) );
 			stream << writeId( instruction.resultId.value() ) << " =";
 			auto opCode = spv::Op( instruction.op.getOpData().opCode );
 			stream << " " << spirv::getOperatorName( opCode );
@@ -2458,7 +2490,7 @@ namespace spirv
 	#pragma GCC diagnostic pop
 						break;
 					case ast::type::Kind::eDouble:
-						assert( instruction.operands.size() >= 2 );
+						AST_Assert( instruction.operands.size() >= 2 );
 						{
 	#pragma GCC diagnostic push
 	#if defined( __clang__ )
@@ -2999,7 +3031,7 @@ namespace spirv
 			if ( instruction.operands.size() > 3u )
 			{
 				// Optional Weights.
-				assert( instruction.operands.size() == 5u );
+				AST_Assert( instruction.operands.size() == 5u );
 				stream << " " << instruction.operands[3];
 				stream << " " << instruction.operands[4];
 			}
@@ -3011,7 +3043,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			assert( instruction.operands.size() == 4u );
+			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
 			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
 			stream << " " << getMemorySemanticsName( instruction.operands[2] );
@@ -3023,7 +3055,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			assert( instruction.operands.size() == 4u );
+			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
 			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
 			stream << " " << getMemorySemanticsName( instruction.operands[2] );
@@ -3035,7 +3067,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			assert( instruction.operands.size() == 4u );
+			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
 			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
 			stream << " " << getMemorySemanticsName( instruction.operands[2] );
@@ -3047,7 +3079,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			assert( instruction.operands.size() == 4u );
+			AST_Assert( instruction.operands.size() == 4u );
 			writeStream( instruction.operands[0], stream, names );
 			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
 			stream << " " << getMemorySemanticsName( instruction.operands[2] );
@@ -3059,7 +3091,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			assert( instruction.operands.size() == 6u );
+			AST_Assert( instruction.operands.size() == 6u );
 			writeStream( instruction.operands[0], stream, names );
 			stream << " " << getName( spv::Scope( instruction.operands[1] ) );
 			stream << " " << getMemorySemanticsName( instruction.operands[2] );
@@ -3380,7 +3412,7 @@ namespace spirv
 			, std::ostream & stream
 			, size_t & word )
 		{
-			assert( ids.size() == 5u );
+			AST_Assert( ids.size() == 5u );
 			word += ids.size();
 			stream << "; Magic:     0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[0] << std::endl;
 			stream << "; Version:   0x" << std::hex << std::setw( 8u ) << std::setfill( '0' ) << ids[1] << std::endl;
@@ -3467,7 +3499,7 @@ namespace spirv
 
 	std::string NameCache::getFloatTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypeFloat );
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypeFloat );
 		auto width = instruction.operands[0];
 		std::string result;
 
@@ -3489,7 +3521,7 @@ namespace spirv
 
 	std::string NameCache::getIntTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypeInt );
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypeInt );
 		auto width = instruction.operands[0];
 		auto signedness = instruction.operands[1];
 		std::string result;
@@ -3525,34 +3557,34 @@ namespace spirv
 
 	std::string NameCache::getVecTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypeVector );
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypeVector );
 		std::string result = "v";
 		auto componentType = instruction.operands[0];
 		auto componentCount = instruction.operands[1];
 		result += std::to_string( componentCount );
 		auto it = types.find( componentType );
-		assert( it != types.end() );
+		AST_Assert( it != types.end() );
 		result += it->second;
 		return result;
 	}
 
 	std::string NameCache::getMatTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypeMatrix );
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypeMatrix );
 		std::string result = "m";
 		auto componentType = instruction.operands[0];
 		auto componentCount = instruction.operands[1];
 		result += std::to_string( componentCount );
 		auto it = types.find( componentType );
-		assert( it != types.end() );
+		AST_Assert( it != types.end() );
 		result += it->second;
 		return result;
 	}
 
 	std::string NameCache::getStructTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypeStruct );
-		assert( instruction.resultId.has_value() );
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypeStruct );
+		AST_Assert( instruction.resultId.has_value() );
 		auto resultId = instruction.resultId.value();
 
 		if ( auto it = names.find( resultId );
@@ -3566,11 +3598,11 @@ namespace spirv
 
 	std::string NameCache::getArrayTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypeArray );
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypeArray );
 		auto componentType = instruction.operands[0];
 		auto arraySize = getRaw( instruction.operands[1] );
 		auto it = types.find( componentType );
-		assert( it != types.end() );
+		AST_Assert( it != types.end() );
 		auto result = it->second;
 		result += "[" + arraySize + "]";
 		return result;
@@ -3578,7 +3610,7 @@ namespace spirv
 
 	std::string NameCache::getPtrTypeName( Instruction const & instruction )const
 	{
-		assert( instruction.op.getOpData().opCode == spv::OpTypePointer
+		AST_Assert( instruction.op.getOpData().opCode == spv::OpTypePointer
 			|| instruction.op.getOpData().opCode == spv::OpTypeForwardPointer );
 		auto storageClass = spv::StorageClass( instruction.operands[0] );
 		std::string result = wrthlp::getName( storageClass ) + "Ptr";

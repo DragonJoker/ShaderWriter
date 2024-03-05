@@ -15,28 +15,31 @@ namespace ast
 		{
 			static bool isEntryPointForStage( stmt::FunctionDecl const & stmt, ShaderStage stage )
 			{
+				bool result{};
+
 				switch ( stage )
 				{
-				case ShaderStage::eVertex: return stmt.isVertexEntryPoint();
-				case ShaderStage::eTessellationControl: return stmt.isTessellationControlEntryPoint();
-				case ShaderStage::eTessellationEvaluation: return stmt.isTessellationEvaluationEntryPoint();
-				case ShaderStage::eGeometry: return stmt.isGeometryEntryPoint();
-				case ShaderStage::eFragment: return stmt.isFragmentEntryPoint();
-				case ShaderStage::eCompute: return stmt.isComputeEntryPoint();
-				case ShaderStage::eTaskNV: return stmt.isTaskEntryPointNV();
-				case ShaderStage::eMeshNV: return stmt.isMeshEntryPointNV();
-				case ShaderStage::eTask: return stmt.isTaskEntryPoint();
-				case ShaderStage::eMesh: return stmt.isMeshEntryPoint();
-				case ShaderStage::eRayGeneration: return stmt.isRayGenerationEntryPoint();
-				case ShaderStage::eRayAnyHit: return stmt.isRayAnyHitEntryPoint();
-				case ShaderStage::eRayClosestHit: return stmt.isRayClosestHitEntryPoint();
-				case ShaderStage::eRayMiss: return stmt.isRayMissEntryPoint();
-				case ShaderStage::eRayIntersection: return stmt.isRayIntersectionEntryPoint();
-				case ShaderStage::eCallable: return stmt.isCallableEntryPoint();
+				case ShaderStage::eVertex: result = stmt.isVertexEntryPoint(); break;
+				case ShaderStage::eTessellationControl: result = stmt.isTessellationControlEntryPoint(); break;
+				case ShaderStage::eTessellationEvaluation: result = stmt.isTessellationEvaluationEntryPoint(); break;
+				case ShaderStage::eGeometry: result = stmt.isGeometryEntryPoint(); break;
+				case ShaderStage::eFragment: result = stmt.isFragmentEntryPoint(); break;
+				case ShaderStage::eCompute: result = stmt.isComputeEntryPoint(); break;
+				case ShaderStage::eTaskNV: result = stmt.isTaskEntryPointNV(); break;
+				case ShaderStage::eMeshNV: result = stmt.isMeshEntryPointNV(); break;
+				case ShaderStage::eTask: result = stmt.isTaskEntryPoint(); break;
+				case ShaderStage::eMesh: result = stmt.isMeshEntryPoint(); break;
+				case ShaderStage::eRayGeneration: result = stmt.isRayGenerationEntryPoint(); break;
+				case ShaderStage::eRayAnyHit: result = stmt.isRayAnyHitEntryPoint(); break;
+				case ShaderStage::eRayClosestHit: result = stmt.isRayClosestHitEntryPoint(); break;
+				case ShaderStage::eRayMiss: result = stmt.isRayMissEntryPoint(); break;
+				case ShaderStage::eRayIntersection: result = stmt.isRayIntersectionEntryPoint(); break;
+				case ShaderStage::eCallable: result = stmt.isCallableEntryPoint(); break;
 				default:
 					AST_Failure( "Unsupported shader stage to check for entry point." );
-					return false;
 				}
+
+				return result;
 			}
 
 			static ShaderStage getStageForEntryPoint( stmt::FunctionDecl const & stmt )
@@ -107,7 +110,9 @@ namespace ast
 				}
 
 				AST_Failure( "Unsupported entry point type to check for shader stage." );
+#if !SDAST_ExceptAssert
 				return ShaderStage::eCompute;
+#endif
 			}
 		}
 

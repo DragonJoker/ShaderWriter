@@ -792,7 +792,7 @@ namespace spirv
 					auto rhsId = loadVariable( doSubmit( *expr->getRHS() ), *expr->getRHS() );
 
 					auto lhsOuter = lhsSwizzle.getOuterExpr();
-					assert( lhsOuter->getKind() == ast::expr::Kind::eIdentifier
+					AST_Assert( lhsOuter->getKind() == ast::expr::Kind::eIdentifier
 						|| isAccessChain( *lhsOuter ) );
 
 					if ( lhsSwizzleKind.isOneComponent() )
@@ -807,7 +807,7 @@ namespace spirv
 						auto typeId = registerType( lhsSwizzle.getType(), nullptr );
 						//   Retrieve outermost identifier, to be able to retrieve its variable's storage class.
 						auto lhsOutermost = ast::getOutermostExpr( *lhsOuter );
-						assert( lhsOutermost->getKind() == ast::expr::Kind::eIdentifier );
+						AST_Assert( lhsOutermost->getKind() == ast::expr::Kind::eIdentifier );
 						auto pointerTypeId = registerPointerType( typeId
 							, getStorageClass( getVersion(), static_cast< ast::expr::Identifier const & >( *lhsOutermost ).getVariable() ) );
 						//   Create the access chain.
@@ -834,7 +834,7 @@ namespace spirv
 						shuffle.emplace_back( rhsId );
 						ast::expr::SwizzleKind rhsSwizzleKind;
 						auto rhsCount = getComponentCount( expr->getRHS()->getType()->getKind() );
-						assert( rhsCount <= 4u );
+						AST_Assert( rhsCount <= 4u );
 
 						switch ( rhsCount )
 						{
@@ -974,7 +974,7 @@ namespace spirv
 
 					if ( allLiterals )
 					{
-						assert( paramsCount == retCount );
+						AST_Assert( paramsCount == retCount );
 						m_result = registerLiteral( params, expr->getType() );
 					}
 					else
@@ -996,9 +996,9 @@ namespace spirv
 				DebugIdList params{ m_allocator };
 				bool allLiterals = true;
 				auto type = expr->getFn()->getType();
-				assert( type->getKind() == ast::type::Kind::eFunction );
+				AST_Assert( type->getKind() == ast::type::Kind::eFunction );
 				auto fnType = std::static_pointer_cast< ast::type::Function >( type );
-				assert( expr->getArgList().size() == fnType->size() );
+				AST_Assert( expr->getArgList().size() == fnType->size() );
 				auto it = fnType->begin();
 
 				struct OutputParam
@@ -1027,7 +1027,7 @@ namespace spirv
 					{
 						// Opaque and Output function parameters are pointers, hence their variables must not be loaded.
 						id = getVariablePointer( *arg );
-						assert( !isOpaqueType( param->getType()->getKind() )
+						AST_Assert( !isOpaqueType( param->getType()->getKind() )
 							|| id.getStorage() == ast::type::Storage::eUniformConstant );
 
 						if ( param->isOutputParam()
@@ -1111,7 +1111,7 @@ namespace spirv
 				auto isStore = expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
 					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU;
 				auto paramType = expr->getArgList()[0]->getType();
-				assert( paramType->getKind() == ast::type::Kind::eImage );
+				AST_Assert( paramType->getKind() == ast::type::Kind::eImage );
 				auto imageVarId = doSubmit( *expr->getArgList()[0].get() );
 				auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
 				auto intermediateId = loadVariable( imageVarId, *expr->getArgList()[0].get() );
@@ -1161,7 +1161,7 @@ namespace spirv
 				{
 					DebugIdList texelPointerParams{ m_allocator };
 					uint32_t index = 0u;
-					assert( imageVarId.isPointer() );
+					AST_Assert( imageVarId.isPointer() );
 					texelPointerParams.push_back( imageVarId );
 					++index;
 					texelPointerParams.push_back( params[index] );
@@ -1177,9 +1177,9 @@ namespace spirv
 						texelPointerParams.push_back( registerLiteral( 0u ) );
 					}
 
-					assert( expr->getArgList()[0]->getKind() == ast::expr::Kind::eIdentifier );
+					AST_Assert( expr->getArgList()[0]->getKind() == ast::expr::Kind::eIdentifier );
 					auto imgParam = static_cast< ast::expr::Identifier const & >( *expr->getArgList()[0] ).getType();
-					assert( imgParam->getKind() == ast::type::Kind::eImage );
+					AST_Assert( imgParam->getKind() == ast::type::Kind::eImage );
 					auto image = std::static_pointer_cast< ast::type::Image >( imgParam );
 					auto sampledType = m_typesCache.getBasicType( image->getConfig().sampledType );
 					auto sampledId = registerType( sampledType, nullptr );
@@ -1427,7 +1427,7 @@ namespace spirv
 
 				// Load the sampled image variable
 				auto sampledImageType = expr->getArgList()[0]->getType();
-				assert( sampledImageType->getKind() == ast::type::Kind::eCombinedImage );
+				AST_Assert( sampledImageType->getKind() == ast::type::Kind::eCombinedImage );
 				args[0] = loadVariable( args[0], *expr->getArgList()[0] );
 
 				if ( expr->getArgList().front()->isNonUniform() )
@@ -1450,12 +1450,12 @@ namespace spirv
 
 				if ( config.imageOperandsIndex )
 				{
-					assert( args.size() >= config.imageOperandsIndex );
+					AST_Assert( args.size() >= config.imageOperandsIndex );
 					bool constOffset = false;
 
 					if ( config.offsetIndex )
 					{
-						assert( expr->getArgList().size() >= config.offsetIndex );
+						AST_Assert( expr->getArgList().size() >= config.offsetIndex );
 						constOffset = expr->getArgList()[config.offsetIndex - 1ULL]->isConstant();
 					}
 
@@ -1589,7 +1589,7 @@ namespace spirv
 				// Arg 1 is lhs.
 				// Arg 2 is rhs.
 				// Arg 3 is carry or borrow.
-				assert( expr->getArgList().size() == 3u );
+				AST_Assert( expr->getArgList().size() == 3u );
 				DebugIdList params{ m_allocator };
 				params.push_back( loadVariable( doSubmit( *expr->getArgList()[0].get() ), *expr->getArgList()[0].get() ) );
 				params.push_back( loadVariable( doSubmit( *expr->getArgList()[1].get() ), *expr->getArgList()[1].get() ) );
@@ -1629,7 +1629,7 @@ namespace spirv
 				// Arg 2 is rhs.
 				// Arg 3 is msb.
 				// Arg 4 is lsb.
-				assert( expr->getArgList().size() == 4u );
+				AST_Assert( expr->getArgList().size() == 4u );
 				DebugIdList params{ m_allocator };
 				params.push_back( loadVariable( doSubmit( *expr->getArgList()[0].get() ), *expr->getArgList()[0].get() ) );
 				params.push_back( loadVariable( doSubmit( *expr->getArgList()[1].get() ), *expr->getArgList()[1].get() ) );
@@ -1722,7 +1722,7 @@ namespace spirv
 				{
 					// For modf and frexp intrinsics, second parameter is an output parameter,
 					// hence we need to pass it as a pointer to the call.
-					assert( expr->getArgList().size() == 2u );
+					AST_Assert( expr->getArgList().size() == 2u );
 					params.push_back( loadVariable( doSubmit( *expr->getArgList()[0] ), *expr->getArgList()[0] ) );
 					params.push_back( doSubmit( *expr->getArgList()[1] ) );
 				}
@@ -1976,7 +1976,7 @@ namespace spirv
 						, expr.getType()
 						, sourceInfo );
 					result = varInfo;
-					assert( result.isPointer() );
+					AST_Assert( result.isPointer() );
 
 					if ( result.getStorage() != sourceInfo.id.getStorage() )
 					{
@@ -1994,7 +1994,7 @@ namespace spirv
 					}
 				}
 
-				assert( result.isPointer() );
+				AST_Assert( result.isPointer() );
 				return result;
 			}
 
@@ -2316,7 +2316,7 @@ namespace spirv
 			{
 				if ( isDebugEnabled() )
 				{
-					assert( type == getCurrentDebugStatement()->type );
+					AST_Assert( type == getCurrentDebugStatement()->type );
 
 					if ( type == glsl::StatementType::eScopeLine )
 					{
@@ -2787,7 +2787,7 @@ namespace spirv
 				// It will be the else block if it exists, or the merge block.
 				Block elseBlock{ m_allocator };
 				auto falseBlockLabel = mergeBlock.label;
-				assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
+				AST_Assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 
 				if ( stmt->getElse() )
 				{
@@ -3151,7 +3151,7 @@ namespace spirv
 
 				for ( auto & it : *stmt )
 				{
-					assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
+					AST_Assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
 					auto & caseStmt = static_cast< ast::stmt::SwitchCase const & >( *it );
 
 					if ( caseStmt.getCaseExpr() )
@@ -3181,7 +3181,7 @@ namespace spirv
 
 					for ( auto & it : *stmt )
 					{
-						assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
+						AST_Assert( it->getKind() == ast::stmt::Kind::eSwitchCase );
 
 						if ( auto & caseStmt = static_cast< ast::stmt::SwitchCase const & >( *it );
 							caseStmt.getCaseExpr() )

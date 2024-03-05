@@ -566,7 +566,7 @@ namespace ast::type
 
 	TypePtr TypesCache::getBasicType( Kind kind )
 	{
-		assert( kind >= Kind::eUndefined
+		AST_Assert( kind >= Kind::eUndefined
 			&& kind <= Kind::eBasicTypesMax );
 		TypePtr result{};
 
@@ -777,7 +777,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result && "Unsupported Kind" );
+		AST_Assert( result && "Unsupported Kind" );
 		return result;
 	}
 
@@ -875,7 +875,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result != Kind::eUndefined && "Unsupported component type" );
+		AST_Assert( result != Kind::eUndefined && "Unsupported component type" );
 		return result;
 	}
 
@@ -922,7 +922,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result != Kind::eUndefined && "Unsupported component type" );
+		AST_Assert( result != Kind::eUndefined && "Unsupported component type" );
 		return result;
 	}
 
@@ -972,7 +972,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result != Kind::eUndefined && "Unsupported component type" );
+		AST_Assert( result != Kind::eUndefined && "Unsupported component type" );
 		return result;
 	}
 
@@ -1004,7 +1004,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result != Kind::eUndefined && "Unsupported component type" );
+		AST_Assert( result != Kind::eUndefined && "Unsupported component type" );
 		return result;
 	}
 
@@ -1036,7 +1036,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result != Kind::eUndefined && "Unsupported component type" );
+		AST_Assert( result != Kind::eUndefined && "Unsupported component type" );
 		return result;
 	}
 
@@ -1068,13 +1068,13 @@ namespace ast::type
 			break;
 		}
 
-		assert( result != Kind::eUndefined && "Unsupported component type" );
+		AST_Assert( result != Kind::eUndefined && "Unsupported component type" );
 		return result;
 	}
 
 	TypePtr TypesCache::getVector( Kind kind, uint32_t count )
 	{
-		assert( isScalarType( kind ) );
+		AST_Assert( isScalarType( kind ) );
 		TypePtr result{};
 
 		switch ( count )
@@ -1095,7 +1095,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result && "Unsupported component type" );
+		AST_Assert( result && "Unsupported component type" );
 		return result;
 	}
 
@@ -1263,7 +1263,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result && "getSampledType: Unsupported ImageFormat" );
+		AST_Assert( result && "getSampledType: Unsupported ImageFormat" );
 		return result;
 	}
 
@@ -1352,7 +1352,7 @@ namespace ast::type
 			break;
 		}
 
-		assert( result && "getTexelType: Unsupported ImageFormat" );
+		AST_Assert( result && "getTexelType: Unsupported ImageFormat" );
 		return result;
 	}
 

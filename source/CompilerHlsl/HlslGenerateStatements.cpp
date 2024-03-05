@@ -53,76 +53,105 @@ namespace hlsl
 
 			static std::string getName( ast::type::PatchDomain value )
 			{
+				std::string result{ "undefined" };
+
 				switch ( value )
 				{
 				case ast::type::PatchDomain::eIsolines:
-					return "isoline";
+					result = "isoline";
+					break;
 				case ast::type::PatchDomain::eTriangles:
-					return "tri";
+					result = "tri";
+					break;
 				case ast::type::PatchDomain::eQuads:
-					return "quad";
+					result = "quad";
+					break;
 				default:
-					AST_Failure( "Unsupported type::PatchDomain." );
-					return "undefined";
+					break;
 				}
+
+				AST_Assert( ( result != "undefined" ) && "Unsupported type::PatchDomain." );
+				return result;
 			}
 
 			static std::string getName( ast::type::Partitioning value )
 			{
+				std::string result{ "undefined" };
+
 				switch ( value )
 				{
 				case ast::type::Partitioning::eEqual:
-					return "integer";
+					result = "integer";
+					break;
 				case ast::type::Partitioning::eFractionalEven:
-					return "fractionaleven";
+					result = "fractionaleven";
+					break;
 				case ast::type::Partitioning::eFractionalOdd:
-					return "fractionalodd";
+					result = "fractionalodd";
+					break;
 				default:
-					AST_Failure( "Unsupported type::Partitioning." );
-					return "undefined";
+					break;
 				}
+
+				AST_Assert( ( result != "undefined" ) && "Unsupported type::Partitioning." );
+				return result;
 			}
 
 			static std::string getName( ast::type::OutputTopology domain
 				, ast::type::PrimitiveOrdering order )
 			{
+				std::string result{ "UNDEFINED" };
+
 				switch ( domain )
 				{
 				case ast::type::OutputTopology::ePoint:
-					return "point";
+					result = "point";
+					break;
 				case ast::type::OutputTopology::eLine:
-					return "line";
+					result = "line";
+					break;
 				case ast::type::OutputTopology::eTriangle:
 					switch ( order )
 					{
 					case ast::type::PrimitiveOrdering::eCW:
-						return "triangle_cw";
+						result = "triangle_cw";
+						break;
 					case ast::type::PrimitiveOrdering::eCCW:
-						return "triangle_ccw";
+						result = "triangle_ccw";
+						break;
 					default:
-						AST_Failure( "Unsupported type::PrimitiveOrdering." );
-						return "UNDEFINED";
+						break;
 					}
+					break;
 				default:
-					AST_Failure( "Unsupported type::OutputTopology." );
-					return "UNDEFINED";
+					break;
 				}
+
+				AST_Assert( ( result != "UNDEFINED" ) && "Unsupported type::PrimitiveOrdering." );
+				return result;
 			}
 
 			static std::string getName( ast::type::OutputTopology topology )
 			{
+				std::string result{ "UNDEFINED" };
+
 				switch ( topology )
 				{
 				case ast::type::OutputTopology::ePoint:
-					return "point";
+					result = "point";
+					break;
 				case ast::type::OutputTopology::eLine:
-					return "line";
+					result = "line";
+					break;
 				case ast::type::OutputTopology::eTriangle:
-					return "triangle";
+					result = "triangle";
+					break;
 				default:
-					AST_Failure( "Unsupported type::OutputTopology." );
-					return "UNDEFINED";
+					break;
 				}
+
+				AST_Assert( ( result != "UNDEFINED" ) && "Unsupported type::OutputTopology." );
+				return result;
 			}
 
 			static std::string writeIOMember( ast::ShaderStage stage
@@ -558,7 +587,7 @@ namespace hlsl
 
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
 			{
-				assert( expr->getComposite() != ast::expr::CompositeType::eCombine
+				AST_Assert( expr->getComposite() != ast::expr::CompositeType::eCombine
 					&& "Unexpected combine() at this point" );
 				m_result += getCtorName( expr->getComposite(), getScalarType( expr->getComponent() ) ) + "(";
 				std::string sep;
@@ -683,7 +712,7 @@ namespace hlsl
 					|| expr->getIntrinsic() == ast::expr::Intrinsic::eEndStreamPrimitive )
 				{
 					auto & argsList = expr->getArgList();
-					assert( argsList.size() >= 1u );
+					AST_Assert( argsList.size() >= 1u );
 					std::vector< std::string > args;
 
 					for ( auto & arg : argsList )
@@ -822,7 +851,7 @@ namespace hlsl
 
 			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
-				assert( expr->getOperand()->getKind() == ast::expr::Kind::eComma );
+				AST_Assert( expr->getOperand()->getKind() == ast::expr::Kind::eComma );
 				auto & commaExpr = static_cast< ast::expr::Comma const & >( *expr->getOperand() );
 
 				m_result += doSubmit( *commaExpr.getLHS() );
@@ -1073,7 +1102,7 @@ namespace hlsl
 					}
 					else
 					{
-						assert( lit->getLiteralType() == ast::expr::LiteralType::eUInt32 );
+						AST_Assert( lit->getLiteralType() == ast::expr::LiteralType::eUInt32 );
 						compValue = uint32_t( lit->getValue< ast::expr::LiteralType::eUInt32 >() );
 					}
 				}
@@ -1095,8 +1124,7 @@ namespace hlsl
 					name = "GatherAlpha";
 					break;
 				default:
-					AST_Failure( "Unsupported count to determine Gather function name" );
-					throw ast::Exception{ "Unsupported count to determine Gather function name" };
+					AST_Exception( "Unsupported count to determine Gather function name" );
 				}
 
 				m_result += "." + name + "(";

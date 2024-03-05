@@ -279,7 +279,7 @@ namespace spirv::debug
 		auto lineId = m_module.registerLiteral( debugStatement->source.lines.start );
 		auto columnId = m_module.registerLiteral( debugStatement->source.columns.start );
 		auto flagsId = m_module.registerLiteral( 0u );
-		assert( variableId.debug );
+		AST_Assert( variableId.debug );
 
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LocalVariable
 			, m_declarations
@@ -404,7 +404,7 @@ namespace spirv::debug
 			return;
 		}
 
-		assert( functionId.debug );
+		AST_Assert( functionId.debug );
 		auto compilerSignatureId = m_module.registerString( "ShaderWriter-v" + helpers::printVersion() );
 		auto cliArgumentsId = m_module.registerString( "-fullDebugInfo" );
 		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::EntryPoint

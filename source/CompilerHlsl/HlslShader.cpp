@@ -18,7 +18,7 @@ namespace hlsl
 	{
 #if !defined( NDEBUG )
 		auto [_, res] = m_registered.try_emplace( var->getName(), var );
-		assert( res );
+		AST_Assert( res );
 #else
 		m_registered.try_emplace( var->getName(), var );
 #endif

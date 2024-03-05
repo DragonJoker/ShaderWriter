@@ -137,7 +137,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -508,7 +508,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Unknown" );
+			AST_Assert( result != "Unknown" );
 			return result;
 		}
 
@@ -554,7 +554,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -577,7 +577,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -600,7 +600,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -623,7 +623,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -649,7 +649,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -669,7 +669,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -689,7 +689,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -709,7 +709,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( result != "Undefined" );
+			AST_Assert( result != "Undefined" );
 			return result;
 		}
 
@@ -998,7 +998,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( !result.empty() && "Non operation expression" );
+			AST_Assert( !result.empty() && "Non operation expression" );
 			return result;
 		}
 
@@ -1054,7 +1054,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( !result.empty() && "Unsupported expr::CompositeType" );
+			AST_Assert( !result.empty() && "Unsupported expr::CompositeType" );
 			return result;
 		}
 	}
@@ -1372,7 +1372,7 @@ namespace ast::debug
 				break;
 			}
 
-			assert( !stream.str().empty() );
+			AST_Assert( !stream.str().empty() );
 			m_result += stream.str();
 		}
 
@@ -2072,7 +2072,7 @@ namespace ast::debug
 			break;
 		}
 
-		assert( result != "Undefined" );
+		AST_Assert( result != "Undefined" );
 		return result;
 	}
 

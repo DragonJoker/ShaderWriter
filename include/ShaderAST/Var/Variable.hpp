@@ -102,7 +102,7 @@ namespace ast::var
 
 		bool isMemberVar()const
 		{
-			assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
+			AST_Assert( hasFlag( Flag::eMember ) == bool( m_outer ) );
 			return hasFlag( Flag::eMember )
 				&& m_outer;
 		}

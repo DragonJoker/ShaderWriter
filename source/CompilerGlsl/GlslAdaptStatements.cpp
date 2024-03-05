@@ -165,7 +165,7 @@ namespace glsl
 				switch ( stage )
 				{
 				case ast::ShaderStage::eVertex:
-					assert( !isInput );
+					AST_Assert( !isInput );
 					return ast::stmt::PerVertexDecl::eVertexOutput;
 				case ast::ShaderStage::eTessellationControl:
 					if ( isInput )
@@ -188,16 +188,14 @@ namespace glsl
 				case ast::ShaderStage::eMeshNV:
 				case ast::ShaderStage::eMesh:
 					return ast::stmt::PerVertexDecl::eMeshOutput;
-				case ast::ShaderStage::eFragment:
-					AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
-					return ast::stmt::PerVertexDecl::eVertexOutput;
-				case ast::ShaderStage::eCompute:
-					AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
-					return ast::stmt::PerVertexDecl::eVertexOutput;
 				default:
-					AST_Failure( "Unexpected shader stage." );
-					return ast::stmt::PerVertexDecl::eVertexOutput;
+					break;
 				}
+
+				AST_Failure( "Unexpected gl_PerVertex declaration for shader stage." );
+#if !SDAST_ExceptAssert
+				return ast::stmt::PerVertexDecl::eVertexOutput;
+#endif
 			}
 
 			static ast::type::StructPtr getPerVertexBaseType( ast::type::TypesCache & typesCache
@@ -331,7 +329,7 @@ namespace glsl
 				switch ( stage )
 				{
 				case ast::ShaderStage::eVertex:
-					assert( !isInput );
+					AST_Assert( !isInput );
 					return getPerVertexBaseType( typesCache
 						, ast::EntryPoint::eVertex
 						, isInput );
@@ -370,25 +368,23 @@ namespace glsl
 						, ast::EntryPoint::eGeometry
 						, isInput );
 				case ast::ShaderStage::eMeshNV:
-					assert( !isInput );
+					AST_Assert( !isInput );
 					return getMeshNVPerVertexArrayType( typesCache
 						, getArraySize( inputLayout )
 						, isInput );
 				case ast::ShaderStage::eMesh:
-					assert( !isInput );
+					AST_Assert( !isInput );
 					return getMeshPerVertexArrayType( typesCache
 						, getArraySize( inputLayout )
 						, isInput );
-				case ast::ShaderStage::eFragment:
-					AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
-					return nullptr;
-				case ast::ShaderStage::eCompute:
-					AST_Failure( "Unexpected gl_PerVertex declaration in compute shader." );
-					return nullptr;
 				default:
-					AST_Failure( "Unexpected shader stage." );
-					return nullptr;
+					break;
 				}
+
+				AST_Failure( "Unexpected gl_PerVertex declaration for shader stage." );
+#if !SDAST_ExceptAssert
+				return nullptr;
+#endif
 			}
 
 			static ast::type::StructPtr getPerPrimitiveNVBaseType( ast::type::TypesCache & typesCache
@@ -482,37 +478,23 @@ namespace glsl
 				switch ( stage )
 				{
 				case ast::ShaderStage::eMeshNV:
-					assert( !isInput );
+					AST_Assert( !isInput );
 					return getPerPrimitiveNVArrayType( typesCache
 						, maxPrimitives
 						, isInput );
 				case ast::ShaderStage::eMesh:
-					assert( !isInput );
+					AST_Assert( !isInput );
 					return getPerPrimitiveArrayType( typesCache
 						, maxPrimitives
 						, isInput );
-				case ast::ShaderStage::eVertex:
-					AST_Failure( "Unexpected gl_PerVertex declaration in vertex shader." );
-					return nullptr;
-				case ast::ShaderStage::eTessellationControl:
-					AST_Failure( "Unexpected gl_PerVertex declaration in tessellation control shader." );
-					return nullptr;
-				case ast::ShaderStage::eTessellationEvaluation:
-					AST_Failure( "Unexpected gl_PerVertex declaration in tessellation evaluation shader." );
-					return nullptr;
-				case ast::ShaderStage::eGeometry:
-					AST_Failure( "Unexpected gl_PerVertex declaration in geometry shader." );
-					return nullptr;
-				case ast::ShaderStage::eFragment:
-					AST_Failure( "Unexpected gl_PerVertex declaration in fragment shader." );
-					return nullptr;
-				case ast::ShaderStage::eCompute:
-					AST_Failure( "Unexpected gl_PerVertex declaration in compute shader." );
-					return nullptr;
 				default:
-					AST_Failure( "Unexpected shader stage." );
-					return nullptr;
+					break;
 				}
+
+				AST_Failure( "Unexpected gl_PerVertex declaration for shader stage." );
+#if !SDAST_ExceptAssert
+				return nullptr;
+#endif
 			}
 		}
 
@@ -581,7 +563,7 @@ namespace glsl
 						{
 							auto & io = m_adaptationData.outputs;
 							auto it = io.vars.find( structType );
-							assert( it != io.vars.end() );
+							AST_Assert( it != io.vars.end() );
 							auto mbrIt = std::find_if( it->second.begin()
 								, it->second.end()
 								, [&mbr]( ast::var::VariablePtr const & lookup )
@@ -590,7 +572,7 @@ namespace glsl
 										|| lookup->getName() == mbr.name
 										|| lookup->getName() == "gl_" + mbr.name;
 								} );
-							assert( mbrIt != it->second.end() );
+							AST_Assert( mbrIt != it->second.end() );
 
 							// Compute base index, based on declared type of builtin
 							auto & arrayAccess = static_cast< ast::expr::ArrayAccess const & >( *outer );
@@ -718,7 +700,7 @@ namespace glsl
 					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eFma4D
 					&& m_adaptationData.writerConfig.wantedVersion < v4_3 )
 				{
-					assert( expr->getArgList().size() == 3u );
+					AST_Assert( expr->getArgList().size() == 3u );
 					m_result = m_exprCache.makeAdd( expr->getType()
 						, m_exprCache.makeTimes( expr->getType()
 							, doSubmit( *expr->getArgList()[0] )
@@ -739,7 +721,7 @@ namespace glsl
 					auto rayDesc = std::move( args.back() );
 					args.pop_back();
 					// Replace RayDesc parameter with its four members
-					assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
+					AST_Assert( rayDesc->getType()->getRawKind() == ast::type::Kind::eRayDesc );
 					uint32_t index = 0u;
 					for ( auto mbr : *getStructType( rayDesc->getType() ) )
 					{
@@ -943,7 +925,7 @@ namespace glsl
 				// First parameter is the sampled image
 				args.emplace_back( doSubmit( *expr.getArgList()[0] ) );
 				// For texture shadow functions, dref value is put inside the coords parameter, instead of being aside.
-				assert( expr.getArgList().size() >= 3u );
+				AST_Assert( expr.getArgList().size() >= 3u );
 
 				if ( expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowF
 					|| expr.getCombinedImageAccess() == ast::expr::CombinedImageAccess::eTexture1DShadowFBias
@@ -1101,7 +1083,7 @@ namespace glsl
 				, bool isInput
 				, IOVars & io )
 			{
-				assert( isStructType( outer->getType() ) );
+				AST_Assert( isStructType( outer->getType() ) );
 				auto structType = getStructType( outer->getType() );
 				auto & mbr = *std::next( structType->begin(), ptrdiff_t( mbrIndex ) );
 				
@@ -1139,10 +1121,10 @@ namespace glsl
 						if ( indexExpr )
 						{
 							auto type = getNonArrayType( io.perVertex->getType() );
-							assert( isStructType( type ) );
+							AST_Assert( isStructType( type ) );
 							auto perVertexType = getStructType( type );
 							mbrIndex = perVertexType->findMember( mbr.builtin );
-							assert( mbrIndex != ast::type::Struct::NotFound );
+							AST_Assert( mbrIndex != ast::type::Struct::NotFound );
 							result = m_exprCache.makeArrayAccess( perVertexType
 								, m_exprCache.makeIdentifier( m_typesCache, io.perVertex )
 								, std::move( indexExpr ) );
@@ -1185,10 +1167,10 @@ namespace glsl
 						if ( indexExpr )
 						{
 							auto type = getNonArrayType( io.perPrimitive->getType() );
-							assert( isStructType( type ) );
+							AST_Assert( isStructType( type ) );
 							auto perPrimitiveType = getStructType( type );
 							mbrIndex = perPrimitiveType->findMember( mbr.builtin );
-							assert( mbrIndex != ast::type::Struct::NotFound );
+							AST_Assert( mbrIndex != ast::type::Struct::NotFound );
 							result = m_exprCache.makeArrayAccess( perPrimitiveType
 								, m_exprCache.makeIdentifier( m_typesCache, io.perPrimitive )
 								, std::move( indexExpr ) );
@@ -1232,7 +1214,7 @@ namespace glsl
 									|| lookup->getName() == mbr.name
 									|| lookup->getName() == "gl_" + mbr.name;
 							} );
-						assert( mbrIt != it->second.end() );
+						AST_Assert( mbrIt != it->second.end() );
 						result = m_exprCache.makeIdentifier( m_typesCache
 							, *mbrIt );
 					}
@@ -1280,7 +1262,7 @@ namespace glsl
 							}
 						}
 
-						assert( it != io.vars.end() );
+						AST_Assert( it != io.vars.end() );
 						auto mbrIt = std::find_if( it->second.begin()
 							, it->second.end()
 							, [&mbr]( ast::var::VariablePtr const & lookup )
@@ -1292,7 +1274,7 @@ namespace glsl
 									|| ( lookup->isBuiltin()
 										&& lookup->getName() == "gl_" + mbr.name );
 							} );
-						assert( mbrIt != it->second.end() );
+						AST_Assert( mbrIt != it->second.end() );
 						result = m_exprCache.makeIdentifier( m_typesCache
 							, *mbrIt );
 
@@ -1766,7 +1748,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderInput() );
+					AST_Assert( structType->isShaderInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::NotArray
@@ -1786,7 +1768,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderOutput() );
+					AST_Assert( structType->isShaderOutput() );
 					doProcessOutput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::NotArray
@@ -1807,7 +1789,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderInput() );
+					AST_Assert( structType->isShaderInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, getArraySize( geomType.getLayout() )
@@ -1986,7 +1968,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderInput() );
+					AST_Assert( structType->isShaderInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, 32u
@@ -2003,7 +1985,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderOutput() );
+					AST_Assert( structType->isShaderOutput() );
 					doProcessOutput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, arraySize
@@ -2027,7 +2009,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderInput() );
+					AST_Assert( structType->isShaderInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, 32u
@@ -2086,7 +2068,7 @@ namespace glsl
 					isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderInput() );
+					AST_Assert( structType->isShaderInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::NotArray
@@ -2349,7 +2331,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderOutput() );
+					AST_Assert( structType->isShaderOutput() );
 					doProcessOutput( m_meshVtxVar
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::UnknownArraySize
@@ -2361,7 +2343,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					assert( structType->isShaderOutput() );
+					AST_Assert( structType->isShaderOutput() );
 					doProcessOutput( m_meshPrimVar
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::UnknownArraySize

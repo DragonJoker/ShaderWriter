@@ -66,7 +66,7 @@ namespace spirv
 			void visitIfStmt( ast::stmt::If const * stmt )override
 			{
 				TraceFunc;
-				assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
+				AST_Assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 				auto save = m_current;
 				auto cont = m_stmtCache.makeIf( doSubmit( *stmt->getCtrlExpr() ) );
 				m_current = cont.get();

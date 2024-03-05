@@ -57,7 +57,7 @@ namespace ast
 
 				for ( auto & index : indices )
 				{
-					assert( index < values.size() );
+					AST_Assert( index < values.size() );
 					auto shifted = ast::expr::SwizzleKind::Value( values[index].getValue() >> shift );
 					auto ored = ast::expr::SwizzleKind::Value( result.getValue() | shifted );
 					result = ast::expr::SwizzleKind{ ored };
@@ -116,10 +116,13 @@ namespace ast
 			static expr::CompositeType getCompositeType( uint32_t count )
 			{
 				using expr::CompositeType;
-				CompositeType result = CompositeType::eScalar;
+				CompositeType result = CompositeType::eVec4;
 
 				switch ( count )
 				{
+				case 1:
+					result = CompositeType::eScalar;
+					break;
 				case 2:
 					result = CompositeType::eVec2;
 					break;
@@ -131,8 +134,6 @@ namespace ast
 					break;
 				default:
 					AST_Failure( "Unsupported count to deduce CompositeType from" );
-					result = CompositeType::eVec4;
-					break;
 				}
 
 				return result;
@@ -140,7 +141,7 @@ namespace ast
 
 			static ast::expr::SwizzleKind getSwizzleComponents( uint32_t count )
 			{
-				assert( count > 0 && count < 4 );
+				AST_Assert( count > 0 && count < 4 );
 
 				switch ( count )
 				{
@@ -157,64 +158,90 @@ namespace ast
 				, type::TypesCache & typesCache
 				, type::Kind scalarType )
 			{
+				expr::ExprPtr result{};
+
 				switch ( scalarType )
 				{
 				case ast::type::Kind::eInt8:
-					return exprCache.makeLiteral( typesCache, int8_t( 0 ) );
+					result = exprCache.makeLiteral( typesCache, int8_t( 0 ) );
+					break;
 				case ast::type::Kind::eInt16:
-					return exprCache.makeLiteral( typesCache, int16_t( 0 ) );
+					result = exprCache.makeLiteral( typesCache, int16_t( 0 ) );
+					break;
 				case ast::type::Kind::eInt32:
-					return exprCache.makeLiteral( typesCache, 0 );
+					result = exprCache.makeLiteral( typesCache, 0 );
+					break;
 				case ast::type::Kind::eInt64:
-					return exprCache.makeLiteral( typesCache, 0LL );
+					result = exprCache.makeLiteral( typesCache, 0LL );
+					break;
 				case ast::type::Kind::eUInt8:
-					return exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
+					result = exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
+					break;
 				case ast::type::Kind::eUInt16:
-					return exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
+					result = exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
+					break;
 				case ast::type::Kind::eUInt32:
-					return exprCache.makeLiteral( typesCache, 0u );
+					result = exprCache.makeLiteral( typesCache, 0u );
+					break;
 				case ast::type::Kind::eUInt64:
-					return exprCache.makeLiteral( typesCache, 0ULL );
+					result = exprCache.makeLiteral( typesCache, 0ULL );
+					break;
 				case ast::type::Kind::eFloat:
-					return exprCache.makeLiteral( typesCache, 0.0f );
+					result = exprCache.makeLiteral( typesCache, 0.0f );
+					break;
 				case ast::type::Kind::eDouble:
-					return exprCache.makeLiteral( typesCache, 0.0 );
+					result = exprCache.makeLiteral( typesCache, 0.0 );
+					break;
 				default:
 					AST_Failure( "Unsupported scalar type for literal creation." );
-					return nullptr;
 				}
+
+				return result;
 			}
 
 			static expr::ExprPtr makeOne( expr::ExprCache & exprCache
 				, type::TypesCache & typesCache
 				, type::Kind scalarType )
 			{
+				expr::ExprPtr result{};
+
 				switch ( scalarType )
 				{
 				case ast::type::Kind::eInt8:
-					return exprCache.makeLiteral( typesCache, int8_t( 1 ) );
+					result = exprCache.makeLiteral( typesCache, int8_t( 1 ) );
+					break;
 				case ast::type::Kind::eInt16:
-					return exprCache.makeLiteral( typesCache, int16_t( 1 ) );
+					result = exprCache.makeLiteral( typesCache, int16_t( 1 ) );
+					break;
 				case ast::type::Kind::eInt32:
-					return exprCache.makeLiteral( typesCache, 1 );
+					result = exprCache.makeLiteral( typesCache, 1 );
+					break;
 				case ast::type::Kind::eInt64:
-					return exprCache.makeLiteral( typesCache, 1LL );
+					result = exprCache.makeLiteral( typesCache, 1LL );
+					break;
 				case ast::type::Kind::eUInt8:
-					return exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
+					result = exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
+					break;
 				case ast::type::Kind::eUInt16:
-					return exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
+					result = exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
+					break;
 				case ast::type::Kind::eUInt32:
-					return exprCache.makeLiteral( typesCache, 1u );
+					result = exprCache.makeLiteral( typesCache, 1u );
+					break;
 				case ast::type::Kind::eUInt64:
-					return exprCache.makeLiteral( typesCache, 1ULL );
+					result = exprCache.makeLiteral( typesCache, 1ULL );
+					break;
 				case ast::type::Kind::eFloat:
-					return exprCache.makeLiteral( typesCache, 1.0f );
+					result = exprCache.makeLiteral( typesCache, 1.0f );
+					break;
 				case ast::type::Kind::eDouble:
-					return exprCache.makeLiteral( typesCache, 1.0 );
+					result = exprCache.makeLiteral( typesCache, 1.0 );
+					break;
 				default:
 					AST_Failure( "Unsupported scalar type for literal creation." );
-					return nullptr;
 				}
+
+				return result;
 			}
 
 			static ast::expr::ExprPtr makeToBoolCast( expr::ExprCache & exprCache
@@ -1288,7 +1315,7 @@ namespace ast
 					&& srcScalarType != ast::type::Kind::eBoolean )
 				{
 					// Conversion to bool scalar or vector type.
-					assert( dstComponents == srcComponents );
+					AST_Assert( dstComponents == srcComponents );
 					m_result = helpers::makeToBoolCast( m_exprCache, m_typesCache
 						, doSubmit( *expr->getOperand() ) );
 				}
@@ -1296,7 +1323,7 @@ namespace ast
 					&& dstScalarType != ast::type::Kind::eBoolean )
 				{
 					// Conversion from bool scalar or vector type.
-					assert( dstComponents == srcComponents );
+					AST_Assert( dstComponents == srcComponents );
 					m_result = helpers::makeFromBoolCast( m_exprCache, m_typesCache
 						, doSubmit( *expr->getOperand() )
 						, dstScalarType );
@@ -1318,7 +1345,7 @@ namespace ast
 
 				if ( returnComponentsCount != helpers::InvalidComponentCount && returnComponentsCount != count )
 				{
-					assert( returnComponentsCount > count );
+					AST_Assert( returnComponentsCount > count );
 					returnType = m_typesCache.getVector( getScalarType( returnType->getKind() ), returnComponentsCount );
 				}
 
@@ -1428,7 +1455,7 @@ namespace ast
 
 				if ( srcType != dstType )
 				{
-					assert( ast::type::getScalarType( srcType->getKind() ) == ast::type::getScalarType( dstType->getKind() ) );
+					AST_Assert( ast::type::getScalarType( srcType->getKind() ) == ast::type::getScalarType( dstType->getKind() ) );
 					auto dstCount = ast::type::getComponentCount( dstType );
 
 					if ( dstCount == 1u )
@@ -1457,7 +1484,7 @@ namespace ast
 				if ( intrinsic >= expr::Intrinsic::eMatrixCompMult2x2F
 					&& intrinsic <= expr::Intrinsic::eMatrixCompMult4x4D )
 				{
-					assert( expr->getArgList().size() == 2u );
+					AST_Assert( expr->getArgList().size() == 2u );
 					m_result = doWriteMatrixPerComponentBinaryOperation( expr::Kind::eTimes
 						, expr->getType()
 						, *expr->getArgList()[0]
@@ -1522,7 +1549,7 @@ namespace ast
 				}
 				else
 				{
-					assert( condComponents == 1u );
+					AST_Assert( condComponents == 1u );
 					ast::expr::ExprList args;
 					args.emplace_back( doSubmit( *expr->getCtrlExpr() ) );
 					m_result = m_exprCache.makeQuestion( expr->getType()
@@ -1845,7 +1872,7 @@ namespace ast
 				{
 					if ( !lhsScalar && !rhsScalar )
 					{
-						assert( lhs->getType()->getKind() == rhs->getType()->getKind()
+						AST_Assert( lhs->getType()->getKind() == rhs->getType()->getKind()
 							&& "TODO" );
 					}
 					else if ( lhsScalar )
@@ -1977,7 +2004,6 @@ namespace ast
 						break;
 					default:
 						AST_Failure( "Unsupported binary operation" );
-						break;
 					}
 				}
 
@@ -2092,7 +2118,6 @@ namespace ast
 						break;
 					default:
 						AST_Failure( "Unsupported binary operation" );
-						break;
 					}
 				}
 
@@ -2178,7 +2203,7 @@ namespace ast
 						, std::move( args ) );
 				}
 
-				assert( args.size() == 1u );
+				AST_Assert( args.size() == 1u );
 				return std::move( args[0] );
 			}
 
@@ -2279,7 +2304,7 @@ namespace ast
 		, bool & needMatchingVectors )
 	{
 		needMatchingVectors = true;
-		assert( exprKind != expr::Kind::eImageAccessCall
+		AST_Assert( exprKind != expr::Kind::eImageAccessCall
 			&& exprKind != expr::Kind::eIntrinsicCall
 			&& exprKind != expr::Kind::eCombinedImageAccessCall
 			&& "Unsupported expr::Kind" );

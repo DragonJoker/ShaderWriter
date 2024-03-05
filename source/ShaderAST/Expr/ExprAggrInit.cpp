@@ -24,7 +24,7 @@ namespace ast::expr
 #if !defined( NDEBUG )
 		for ( auto const & init : m_initialisers )
 		{
-			assert( init );
+			AST_Assert( init );
 		}
 #endif
 	}
@@ -45,7 +45,7 @@ namespace ast::expr
 #if !defined( NDEBUG )
 		for ( auto const & init : m_initialisers )
 		{
-			assert( init );
+			AST_Assert( init );
 		}
 #endif
 	}

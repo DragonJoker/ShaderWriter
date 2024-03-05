@@ -498,7 +498,7 @@ namespace spirv
 			break;
 		}
 
-		assert( result != 0u );
+		AST_Assert( result != 0u );
 		return result;
 	}
 
@@ -1949,7 +1949,7 @@ namespace spirv
 		case spv::OpMaskedScatterINTEL:
 			return "MaskedScatterINTEL";
 		default:
-			assert( false );
+			AST_Assert( false );
 			return "Unknown";
 		}
 	}
@@ -2091,7 +2091,7 @@ namespace spirv
 		, bool & needMatchingVectors )
 	{
 		needMatchingVectors = true;
-		assert( exprKind != ast::expr::Kind::eImageAccessCall
+		AST_Assert( exprKind != ast::expr::Kind::eImageAccessCall
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
 			&& exprKind != ast::expr::Kind::eCombinedImageAccessCall
 			&& "Unsupported ast::expr::Kind" );
@@ -2299,7 +2299,7 @@ namespace spirv
 	spv::Op getUnOpCode( ast::expr::Kind exprKind
 		, ast::type::Kind typeKind )
 	{
-		assert( exprKind != ast::expr::Kind::eImageAccessCall
+		AST_Assert( exprKind != ast::expr::Kind::eImageAccessCall
 			&& exprKind != ast::expr::Kind::eIntrinsicCall
 			&& exprKind != ast::expr::Kind::eCombinedImageAccessCall
 			&& "Unsupported ast::expr::Kind" );

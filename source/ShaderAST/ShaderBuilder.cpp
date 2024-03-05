@@ -78,7 +78,7 @@ namespace ast
 
 	void ShaderBuilder::saveNextExpr()
 	{
-		assert( m_savedStmt == nullptr );
+		AST_Assert( m_savedStmt == nullptr );
 		m_ignore = true;
 	}
 
@@ -403,7 +403,7 @@ namespace ast
 		auto & block = m_blocks.back();
 #if !defined( NDEBUG )
 		auto [_, reg] = block.registered.emplace( var );
-		assert( reg );
+		AST_Assert( reg );
 #else
 		block.registered.emplace( var );
 #endif
@@ -546,7 +546,7 @@ namespace ast
 		if ( enabled )
 		{
 			auto accType = getNonArrayType( type );
-			assert( accType->getKind() == type::Kind::eAccelerationStructure );
+			AST_Assert( accType->getKind() == type::Kind::eAccelerationStructure );
 			getData().accelerationStruct = AccStructInfo{ std::static_pointer_cast< type::AccelerationStructure >( accType )
 				, binding
 				, set };
@@ -570,7 +570,7 @@ namespace ast
 				, var::Flag::eUniform | var::Flag::eConstant );
 
 			auto splType = getNonArrayType( type );
-			assert( splType->getKind() == type::Kind::eSampler );
+			AST_Assert( splType->getKind() == type::Kind::eSampler );
 			getData().samplers.try_emplace( std::move( name )
 				, SamplerInfo{ { type, { binding, set } } } );
 		}
@@ -599,7 +599,7 @@ namespace ast
 				, var::Flag::eUniform | var::Flag::eConstant );
 
 			auto splType = getNonArrayType( type );
-			assert( splType->getKind() == type::Kind::eSampledImage );
+			AST_Assert( splType->getKind() == type::Kind::eSampledImage );
 
 			if ( static_cast< type::SampledImage const & >( *splType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
@@ -637,7 +637,7 @@ namespace ast
 				, var::Flag::eUniform | var::Flag::eConstant );
 
 			auto imgType = getNonArrayType( type );
-			assert( imgType->getKind() == type::Kind::eCombinedImage );
+			AST_Assert( imgType->getKind() == type::Kind::eCombinedImage );
 
 			if ( static_cast< type::CombinedImage const & >( *imgType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
@@ -675,7 +675,7 @@ namespace ast
 				, var::Flag::eUniform | var::Flag::eConstant );
 
 			auto imgType = getNonArrayType( type );
-			assert( imgType->getKind() == type::Kind::eImage );
+			AST_Assert( imgType->getKind() == type::Kind::eImage );
 
 			if ( static_cast< type::Image const & >( *imgType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{

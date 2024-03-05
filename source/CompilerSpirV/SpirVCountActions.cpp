@@ -268,7 +268,7 @@ namespace spirv
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
-				assert( m_currentActions == nullptr );
+				AST_Assert( m_currentActions == nullptr );
 				FunctionActions actions{ &stmt->getStmtCache().getAllocator() };
 				m_currentActions = &actions;
 				visitContainerStmt( stmt );
