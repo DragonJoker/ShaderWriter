@@ -400,23 +400,35 @@ namespace ast::vk
 
 	//*********************************************************************************************
 
-	ShaderDataPtr::ShaderDataPtr( ShaderData const & rhs
+	ShaderDataPtr::ShaderDataPtr( ShaderData::SsboMap const & pssbos
+		, ShaderData::UboMap const & pubos
+		, ShaderData::PcbMap const & ppcbs
+		, ShaderData::SamplerMap const & psamplers
+		, ShaderData::TextureMap const & ptextures
+		, ShaderData::TextureMap const & puniformTexels
+		, ShaderData::ImageMap const & pimages
+		, ShaderData::ImageMap const & pstorageTexels
+		, ShaderData::AllInputsMap const & pinputs
+		, ShaderData::AllOutputsMap const & poutputs
+		, ShaderData::InOutMap const & pinOuts
+		, AccStructInfo const & paccelerationStruct
+		, uint32_t ptessellationControlPoints
 		, EntryPoint entryPoint
 		, ShaderStageFlags stages )
-		: ssbos{ shddtptr::getPtr( rhs.ssbos ) }
-		, ubos{ shddtptr::getPtr( rhs.ubos ) }
-		, samplers{ shddtptr::getPtr( rhs.samplers ) }
-		, textures{ shddtptr::getPtr( rhs.textures ) }
-		, uniformTexels{ shddtptr::getPtr( rhs.uniformTexels ) }
-		, images{ shddtptr::getPtr( rhs.images ) }
-		, storageTexels{ shddtptr::getPtr( rhs.storageTexels ) }
+		: ssbos{ shddtptr::getPtr( pssbos ) }
+		, ubos{ shddtptr::getPtr( pubos ) }
+		, samplers{ shddtptr::getPtr( psamplers ) }
+		, textures{ shddtptr::getPtr( ptextures ) }
+		, uniformTexels{ shddtptr::getPtr( puniformTexels ) }
+		, images{ shddtptr::getPtr( pimages ) }
+		, storageTexels{ shddtptr::getPtr( pstorageTexels ) }
 		, descriptors{ gatherDescriptors( stages ) }
-		, pcbs{ shddtptr::getPtr( rhs.pcbs ) }
-		, inputs{ shddtptr::getPtr( rhs.inputs, entryPoint ) }
-		, outputs{ shddtptr::getPtr( rhs.outputs, entryPoint ) }
-		, inOuts{ shddtptr::getPtr( rhs.inOuts ) }
-		, accelerationStruct{ &rhs.accelerationStruct }
-		, tessellationControlPoints{ rhs.tessellationControlPoints }
+		, pcbs{ shddtptr::getPtr( ppcbs ) }
+		, inputs{ shddtptr::getPtr( pinputs, entryPoint ) }
+		, outputs{ shddtptr::getPtr( poutputs, entryPoint ) }
+		, inOuts{ shddtptr::getPtr( pinOuts ) }
+		, accelerationStruct{ &paccelerationStruct }
+		, tessellationControlPoints{ ptessellationControlPoints }
 	{
 	}
 

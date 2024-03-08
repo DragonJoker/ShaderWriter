@@ -305,6 +305,34 @@ namespace
 	}
 
 	template< typename ValueT >
+	void testATan2T( std::string name
+		, test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "testATan2" + name );
+		using namespace sdw;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT >( 1u, [&]( ComputeIn )
+				{
+					auto y = writer.declLocale< ValueT >( "y" );
+					auto x = writer.declLocale< ValueT >( "x" );
+					x = atan2( y, x );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+		}
+		astTestEnd();
+	}
+
+	void testATan2( test::sdw_test::TestCounts & testCounts )
+	{
+		testATan2T< sdw::Float >( "1F", testCounts );
+		testATan2T< sdw::Vec2 >( "2F", testCounts );
+		testATan2T< sdw::Vec3 >( "3F", testCounts );
+		testATan2T< sdw::Vec4 >( "4F", testCounts );
+	}
+
+	template< typename ValueT >
 	void testACoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
@@ -1014,6 +1042,14 @@ namespace
 		testClampT< sdw::DVec2 >( "2D", testCounts );
 		testClampT< sdw::DVec3 >( "3D", testCounts );
 		testClampT< sdw::DVec4 >( "4D", testCounts );
+		testClampT< sdw::Int32 >( "1I", testCounts );
+		testClampT< sdw::I32Vec2 >( "2I", testCounts );
+		testClampT< sdw::I32Vec3 >( "3I", testCounts );
+		testClampT< sdw::I32Vec4 >( "4I", testCounts );
+		testClampT< sdw::UInt32 >( "1U", testCounts );
+		testClampT< sdw::U32Vec2 >( "2U", testCounts );
+		testClampT< sdw::U32Vec3 >( "3U", testCounts );
+		testClampT< sdw::U32Vec4 >( "4U", testCounts );
 	}
 
 	template< typename ValueT >

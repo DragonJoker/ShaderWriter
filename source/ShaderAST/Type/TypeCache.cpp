@@ -1369,7 +1369,7 @@ namespace ast::type
 		return m_struct.getType( layout, name );
 	}
 
-	IOStructPtr TypesCache::getIOStruct( std::string name
+	IOStructPtr TypesCache::getIOStruct( std::string const & name
 		, ast::EntryPoint entryPoint
 		, var::Flag flag )
 	{
@@ -1382,18 +1382,9 @@ namespace ast::type
 			throw Exception{ "Non I/O structure." };
 		}
 
-		name += getName( entryPoint );
-		name += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
-			? std::string{ "Patch" }
-			: std::string{} );
-		name += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderOutput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
-			? std::string{ "Output" }
-			: ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) )
-				? std::string{ "Input" }
-				: std::string{} ) );
 		return ( hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
-			? m_inputStruct.getType( MemoryLayout::eC, std::move( name ), entryPoint, flag )
-			: m_outputStruct.getType( MemoryLayout::eC, std::move( name ), entryPoint, flag ) );
+			? m_inputStruct.getType( MemoryLayout::eC, name, entryPoint, flag )
+			: m_outputStruct.getType( MemoryLayout::eC, name, entryPoint, flag ) );
 	}
 
 	ArrayPtr TypesCache::getArray( TypePtr type

@@ -355,8 +355,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat2x2:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -373,8 +371,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat2x3:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -391,8 +387,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat2x4:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -409,8 +403,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat3x2:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -427,8 +419,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat3x3:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -445,8 +435,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat3x4:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -463,8 +451,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat4x2:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -481,8 +467,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat4x3:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -499,8 +483,6 @@ namespace ast::expr
 			}
 			break;
 		case expr::CompositeType::eMat4x4:
-			AST_Assert( isFloatType( component )
-				|| isDoubleType( component ) );
 			switch ( component )
 			{
 			case type::Kind::eFloat:
@@ -517,7 +499,6 @@ namespace ast::expr
 			}
 			break;
 		default:
-			AST_Failure( "Unsupported type::Kind" );
 			break;
 		}
 

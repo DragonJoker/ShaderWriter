@@ -30,6 +30,10 @@ namespace ast
 	public:
 		using value_type = TypeT;
 		using size_type = std::size_t;
+		using propagate_on_container_copy_assignment = std::true_type;
+		using propagate_on_container_move_assignment = std::true_type;
+		using propagate_on_container_swap = std::true_type;
+		using is_always_equal = std::true_type;
 
 		template< typename TypeU >
 		friend class StlAllocatorT;

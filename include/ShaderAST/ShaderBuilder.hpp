@@ -14,11 +14,24 @@ namespace ast
 	public:
 		SDAST_API explicit ShaderBuilder( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
+		SDAST_API void saveNextExpr();
+		SDAST_API expr::ExprPtr loadExpr( expr::ExprPtr expr );
+		/**
+		*name
+		*	Scope handling.
+		*/
+		/**@{*/
 		SDAST_API void push( stmt::Container * container
 			, var::VariableList const & vars );
 		SDAST_API void pop();
-		SDAST_API void saveNextExpr();
-		SDAST_API expr::ExprPtr loadExpr( expr::ExprPtr expr );
+		SDAST_API void pushScope( ast::stmt::ContainerPtr container );
+		SDAST_API void popScope();
+		/**@}*/
+		/**
+		*name
+		*	Control statements.
+		*/
+		/**@{*/
 		SDAST_API void beginIf( expr::ExprPtr condition );
 		SDAST_API void beginElseIf( expr::ExprPtr condition );
 		SDAST_API void beginElse();
@@ -27,8 +40,7 @@ namespace ast
 		SDAST_API void beginCase( expr::LiteralPtr literal );
 		SDAST_API void beginDefault();
 		SDAST_API void endSwitch();
-		SDAST_API void pushScope( ast::stmt::ContainerPtr container );
-		SDAST_API void popScope();
+		/**@}*/
 		/**
 		*name
 		*	Functions registration.
@@ -54,7 +66,7 @@ namespace ast
 		*	Variables registration.
 		*/
 		/**@{*/
-		SDAST_API uint32_t getNextVarId();
+		SDAST_API uint32_t getNextVarId()const;
 		SDAST_API bool hasGlobalVariable( std::string_view name )const;
 		SDAST_API bool hasVariable( std::string_view name
 			, bool isLocale )const;
@@ -147,13 +159,13 @@ namespace ast
 		SDAST_API void addStmt( stmt::StmtPtr stmt );
 		SDAST_API void addGlobalStmt( stmt::StmtPtr stmt );
 		SDAST_API void registerSsbo( std::string name
-			, SsboInfo const & info );
+			, SsboInfo const & info )const;
 		SDAST_API void registerUbo( std::string name
-			, UboInfo const & info );
+			, UboInfo const & info )const;
 		SDAST_API void registerPcb( std::string name
-			, InterfaceBlock const & info );
+			, InterfaceBlock const & info )const;
 		SDAST_API void registerShaderRecord( std::string name
-			, ShaderRecordInfo const & info );
+			, ShaderRecordInfo const & info )const;
 		SDAST_API expr::ExprPtr getDummyExpr( type::TypePtr type )const;
 		/**@}*/
 
@@ -202,26 +214,12 @@ namespace ast
 			return m_shader->getAllocator();
 		}
 
-		ShaderData const & getData()const
-		{
-			return m_shader->getData();
-		}
-
 	public:
 		struct Block
 		{
 			std::set< var::VariablePtr > registered;
 			stmt::Container * container;
 		};
-
-	private:
-		void doPushScope( ast::stmt::ContainerPtr container
-			, ast::var::VariableList const & vars );
-
-		ShaderData & getData()
-		{
-			return m_shader->getData();
-		}
 
 	private:
 		ShaderPtr m_shader;

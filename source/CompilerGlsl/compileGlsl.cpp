@@ -23,7 +23,7 @@ namespace glsl
 		, GlslConfig & config )
 	{
 		ast::SSAData ssaData;
-		ssaData.nextVarId = shader.getData().nextVarId;
+		ssaData.nextVarId = shader.getVarId();
 		auto & typesCache = shader.getTypesCache();
 		config.shaderStage = stage;
 		auto intrinsics = glsl::fillConfig( stage
@@ -46,7 +46,6 @@ namespace glsl
 			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, typesCache
 			, *statements );
 		glsl::AdaptationData adaptationData{ stage
 			, config

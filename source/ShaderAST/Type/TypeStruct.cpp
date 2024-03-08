@@ -13,9 +13,9 @@ namespace ast::type
 {
 	//*************************************************************************
 
-	namespace
+	namespace strct
 	{
-		uint32_t getAligned( uint32_t value, uint32_t align )
+		static uint32_t getAligned( uint32_t value, uint32_t align )
 		{
 			auto rem = value % align;
 			return ( rem
@@ -23,7 +23,7 @@ namespace ast::type
 				: value );
 		}
 
-		bool isVec4Padded( MemoryLayout layout )
+		static bool isVec4Padded( MemoryLayout layout )
 		{
 			switch ( layout )
 			{
@@ -35,7 +35,7 @@ namespace ast::type
 			}
 		}
 
-		uint32_t getNaiveSize( Kind kind )
+		static uint32_t getNaiveSize( Kind kind )
 		{
 			uint32_t mult = 1u;
 			uint32_t result{};
@@ -69,30 +69,14 @@ namespace ast::type
 				result = mult * 1u;
 				break;
 			default:
-				AST_Failure( "Unsupported type::Kind" );
+				break;
 			}
 
+			AST_Assert( result != 0 && "Unsupported type::Kind" );
 			return result;
 		}
 
-		uint32_t getNonArrayNaiveSize( Type const & type )
-		{
-			if ( isStructType( type ) )
-			{
-				auto mbr = getStructType( type )->back();
-				return mbr.offset + mbr.size;
-			}
-
-			if ( isArrayType( type.getKind() ) )
-			{
-				auto mbr = getStructType( type )->back();
-				return mbr.offset + mbr.size;
-			}
-
-			return getNaiveSize( type.getKind() );
-		}
-
-		uint32_t getLargestScalarElementSize( Struct const & type )
+		static uint32_t getLargestScalarElementSize( Struct const & type )
 		{
 			uint32_t result = 0u;
 
@@ -120,9 +104,9 @@ namespace ast::type
 			return result;
 		}
 
-		uint32_t getNaiveSize( Type const & type )
+		static uint32_t getNaiveSize( Type const & type )
 		{
-			if ( type.getKind() == ast::type::Kind::eArray )
+			if ( isArrayType( type.getKind() ) )
 			{
 				auto arraySize = getArraySize( type );
 
@@ -134,10 +118,16 @@ namespace ast::type
 				return arraySize * getNaiveSize( getNonArrayType( type ) );
 			}
 
-			return getNonArrayNaiveSize( type );
+			if ( isStructType( type ) )
+			{
+				auto mbr = getStructType( type )->back();
+				return mbr.offset + mbr.size;
+			}
+
+			return getNaiveSize( type.getKind() );
 		}
 
-		uint32_t getPackedBaseSize( Kind kind )
+		static uint32_t getPackedBaseSize( Kind kind )
 		{
 			uint32_t result{};
 
@@ -169,16 +159,17 @@ namespace ast::type
 				result = 1u;
 				break;
 			default:
-				AST_Failure( "Unsupported type::Kind" );
+				break;
 			}
 
+			AST_Assert( result != 0 && "Unsupported type::Kind" );
 			return result;
 		}
 
-		uint32_t getPackedAlignment( Type const & type
+		static uint32_t getPackedAlignment( Type const & type
 			, MemoryLayout layout );
 
-		uint32_t getPackedAlignment( Array const & type
+		static uint32_t getPackedAlignment( Array const & type
 			, MemoryLayout layout )
 		{
 			uint32_t minimumAlignment = 1;
@@ -200,7 +191,7 @@ namespace ast::type
 				, getPackedAlignment( *tmp, layout ) );
 		}
 
-		uint32_t getPackedAlignment( Struct const & type
+		static uint32_t getPackedAlignment( Struct const & type
 			, MemoryLayout layout )
 		{
 			// Rule 9. Structs alignments are maximum alignment of its members.
@@ -221,7 +212,7 @@ namespace ast::type
 			return alignment;
 		}
 
-		uint32_t getPackedAlignment( Kind kind
+		static uint32_t getPackedAlignment( Kind kind
 			, MemoryLayout layout )
 		{
 			const uint32_t baseAlignment = getPackedBaseSize( kind );
@@ -272,14 +263,13 @@ namespace ast::type
 			{
 				return 4u * baseAlignment;
 			}
-			else if ( componentCount == 3u )
+
+			if ( componentCount == 3u )
 			{
 				return 4u * baseAlignment;
 			}
-			else
-			{
-				return componentCount * baseAlignment;
-			}
+
+			return componentCount * baseAlignment;
 
 			// Rule 6 implied.
 
@@ -290,7 +280,7 @@ namespace ast::type
 			// Rule 9 is about structures.
 		}
 
-		uint32_t getPackedAlignment( Type const & type
+		static uint32_t getPackedAlignment( Type const & type
 			, MemoryLayout layout )
 		{
 			if ( auto arraySize = getArraySize( type );
@@ -311,31 +301,29 @@ namespace ast::type
 				, layout );
 		}
 
-		uint32_t getPackedSize( Type const & type
+		static uint32_t getPackedSize( Type const & type
 			, MemoryLayout layout );
 
-		uint32_t getPackedArrayStride( const Array & type
+		static uint32_t getPackedArrayStride( const Array & type
 			, MemoryLayout layout )
 		{
 			// Array stride is equal to aligned size of the underlying type.
 			auto arrayed = type.getType();
 			uint32_t size = getPackedSize( *arrayed, layout );
-			auto arraySize = getArraySize( *arrayed );
 
-			if ( arraySize == NotArray )
+			if ( auto arraySize = getArraySize( *arrayed );
+				arraySize == NotArray )
 			{
 				uint32_t alignment = getPackedAlignment( type, layout );
 				return getAligned( size, alignment );
 			}
-			else
-			{
-				// For multidimensional arrays, array stride always matches size of subtype.
-				// The alignment cannot change because multidimensional arrays are basically N * M array elements.
-				return size;
-			}
+
+			// For multidimensional arrays, array stride always matches size of subtype.
+			// The alignment cannot change because multidimensional arrays are basically N * M array elements.
+			return size;
 		}
 
-		uint32_t getPackedSize( Array const & type
+		static uint32_t getPackedSize( Array const & type
 			, MemoryLayout layout )
 		{
 			auto arraySize = type.getArraySize() == UnknownArraySize
@@ -345,7 +333,7 @@ namespace ast::type
 				, layout );
 		}
 
-		uint32_t getPackedSize( Struct const & type
+		static uint32_t getPackedSize( Struct const & type
 			, MemoryLayout layout )
 		{
 			uint32_t result{ 0u };
@@ -386,7 +374,7 @@ namespace ast::type
 			return result;
 		}
 
-		uint32_t getPackedSize( Type const & type
+		static uint32_t getPackedSize( Type const & type
 			, MemoryLayout layout )
 		{
 			if ( auto arraySize = getArraySize( type );
@@ -439,6 +427,99 @@ namespace ast::type
 
 			return columns * rows * baseAlignment;
 		}
+
+		static uint32_t getArrayStride( Array const & type
+			, MemoryLayout layout )
+		{
+			if ( layout == MemoryLayout::eC )
+			{
+				return strct::getNaiveSize( *type.getType() );
+			}
+
+			return strct::getPackedArrayStride( type, layout );
+		}
+
+		static TypePtr convertToBaseStruct( TypePtr type
+			, MemoryLayout layout )
+		{
+			auto arrayType = getNonArrayType( type );
+			auto arraySize = getArraySize( type );
+
+			if ( arrayType->getKind() == Kind::eStruct || arrayType->getKind() == Kind::eRayDesc )
+			{
+				auto structType = std::static_pointer_cast< Struct >( arrayType );
+
+				if ( structType->getFlag() != 0 )
+				{
+					structType = static_cast< IOStruct const & >( *structType ).getBaseStruct( layout );
+				}
+
+				arrayType = structType;
+			}
+
+			if ( arrayType->getKind() == Kind::eArray )
+			{
+				arrayType = convertToBaseStruct( std::static_pointer_cast< Array >( arrayType ), layout );
+			}
+
+			return ( ( arraySize == NotArray )
+				? arrayType
+				: arrayType->getTypesCache().getArray( arrayType, arraySize ) );
+		}
+
+		static TypePtr convertToIOStruct( TypePtr type
+			, EntryPoint entryPoint
+			, uint64_t flag
+			, uint32_t baseLocation )
+		{
+			auto arrayType = getNonArrayType( type );
+			auto arraySize = getArraySize( type );
+
+			if ( arrayType->getKind() == Kind::eStruct || arrayType->getKind() == Kind::eRayDesc )
+			{
+				auto structType = std::static_pointer_cast< Struct >( arrayType );
+
+				if ( structType->getFlag() == 0 )
+				{
+					structType = static_cast< BaseStruct const & >( *structType ).getIOStruct( entryPoint, var::Flag( flag ), baseLocation );
+				}
+
+				arrayType = structType;
+			}
+
+			if ( arrayType->getKind() == Kind::eArray )
+			{
+				arrayType = convertToIOStruct( std::static_pointer_cast< Array >( arrayType ), entryPoint, flag, baseLocation );
+			}
+
+			return ( ( arraySize == NotArray )
+				? arrayType
+				: arrayType->getTypesCache().getArray( arrayType, arraySize ) );
+		}
+
+		static TypePtr getMemberType( TypePtr type
+			, uint32_t arraySize
+			, Struct & parent
+			, uint32_t memberIndex )
+		{
+			auto & typesCache = type->getTypesCache();
+			TypePtr result = type;
+
+			if ( arraySize != NotArray )
+			{
+				result = typesCache.getMemberType( typesCache.getArray( result, arraySize )
+					, parent
+					, memberIndex );
+			}
+			else
+			{
+				result = typesCache.getMemberType( result
+					, parent
+					, memberIndex );
+			}
+
+			return result;
+		}
 	}
 
 	//*************************************************************************
@@ -448,7 +529,7 @@ namespace ast::type
 	{
 		auto result = getName( builtin );
 
-		if ( index != Struct::InvalidLocation )
+		if ( index != Struct::UndefinedIndex )
 		{
 			result += std::to_string( index );
 		}
@@ -457,17 +538,6 @@ namespace ast::type
 	}
 
 	//*************************************************************************
-
-	Struct::Struct( TypesCache & typesCache
-		, Struct const & rhs )
-		: Type{ typesCache, Kind::eStruct }
-		, m_name{ rhs.getName() }
-		, m_layout{ rhs.m_layout }
-		, m_flag{ rhs.m_flag }
-		, m_entryPoint{ rhs.m_entryPoint }
-	{
-		doCopyMembers( rhs );
-	}
 
 	Struct::Struct( TypesCache & typesCache
 		, Struct * parent
@@ -604,7 +674,7 @@ namespace ast::type
 				: m_members.back().offset + m_members.back().size );
 		}
 
-		return std::make_tuple( getSize( *type, m_layout )
+		return std::make_tuple( getSize( type, m_layout )
 			, offset
 			, it != m_members.end() );
 	}
@@ -624,15 +694,15 @@ namespace ast::type
 
 		if ( m_layout == MemoryLayout::eScalar )
 		{
-			minAlign = getLargestScalarElementSize( *this );
+			minAlign = strct::getLargestScalarElementSize( *this );
 		}
 
 		for ( auto & member : m_members )
 		{
 			uint32_t alignment = ( m_layout == MemoryLayout::eScalar
 				? minAlign
-				: ( prvIsStruct ? prvAlignment : getAlignment( *member.type, m_layout ) ) );
-			member.offset = getAligned( offset, alignment );
+				: ( prvIsStruct ? prvAlignment : getAlignment( member.type, m_layout ) ) );
+			member.offset = strct::getAligned( offset, alignment );
 			offset = member.offset + member.size;
 			prvAlignment = alignment;
 			prvIsStruct = isStructType( member.type );
@@ -667,62 +737,24 @@ namespace ast::type
 	}
 
 	std::pair< Struct::Member, bool > BaseStruct::declMember( Builtin builtin
-		, Kind kind
+		, TypePtr type
 		, uint32_t arraySize
 		, uint32_t index
 		, bool enabled )
 	{
+		AST_Assert( getStructType( *type ) == nullptr
+			&& "Don't use this function to declare struct member types" );
+
 		if ( !enabled )
 		{
 			return { Struct::Member{}, false };
 		}
 
-		TypePtr mbrType;
-		auto type = getTypesCache().getBasicType( kind );
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
+		auto mbrType = strct::getMemberType( std::move( type )
+			, arraySize
+			, *this
+			, uint32_t( size() ) );
 		return doCreateMember( mbrType, builtin, index );
-	}
-
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, Kind kind
-		, uint32_t arraySize
-		, bool enabled )
-	{
-		if ( !enabled )
-		{
-			return { Struct::Member{}, false };
-		}
-
-		TypePtr mbrType;
-		auto type = getTypesCache().getBasicType( kind );
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType, std::move( name ) );
 	}
 
 	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
@@ -735,185 +767,51 @@ namespace ast::type
 			return { Struct::Member{}, false };
 		}
 
-		if ( type->getKind() == Kind::eArray )
-		{
-			return declMember( std::move( name )
-				, std::static_pointer_cast< Array >( type )
-				, arraySize );
-		}
-
-		if ( type->getKind() == Kind::eStruct )
-		{
-			auto structType = getStructType( type );
-
-			if ( structType->getFlag() == 0u )
-			{
-				return declMember( std::move( name )
-					, std::static_pointer_cast< BaseStruct >( structType )
-					, arraySize );
-			}
-
-			return declMember( std::move( name )
-				, std::static_pointer_cast< IOStruct >( structType )
-				, arraySize );
-		}
-
-		if ( arraySize == NotArray )
-		{
-			return declMember( std::move( name )
-				, getNonArrayKind( type )
-				, getArraySize( type ) );
-		}
-
-		return declMember( std::move( name )
-			, type->getKind()
-			, arraySize );
-	}
-
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, ArrayPtr type
-		, uint32_t arraySize
-		, bool enabled )
-	{
-		if ( !enabled )
-		{
-			return { Struct::Member{}, false };
-		}
-
-		TypePtr mbrType;
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
+		auto mbrType = strct::getMemberType( strct::convertToBaseStruct( std::move( type ), getMemoryLayout() )
+			, arraySize
+			, *this
+			, uint32_t( size() ) );
 		return doCreateMember( mbrType, std::move( name ) );
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, ArrayPtr type
-		, bool enabled )
-	{
-		if ( !enabled )
-		{
-			return { Struct::Member{}, false };
-		}
-
-		auto kind = getNonArrayKind( type );
-
-		if ( kind == Kind::eStruct
-			|| kind == Kind::eRayDesc )
-		{
-			auto structType = std::static_pointer_cast< Struct >( type->getType() );
-
-			if ( structType->getFlag() )
-			{
-				return declMember( std::move( name )
-					, std::static_pointer_cast< IOStruct >( structType )
-					, type->getArraySize() );
-			}
-
-			return declMember( std::move( name )
-				, std::static_pointer_cast< BaseStruct >( structType )
-				, type->getArraySize() );
-		}
-
-		if ( kind == Kind::eArray )
-		{
-			return declMember( std::move( name )
-				, std::static_pointer_cast< Array >( type->getType() )
-				, type->getArraySize() );
-		}
-
-		return declMember( std::move( name )
-			, kind
-			, type->getArraySize() );
-	}
-
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, BaseStructPtr type
+	std::pair< Struct::Member, bool > BaseStruct::declMember( Builtin builtin
+		, Kind kind
 		, uint32_t arraySize
+		, uint32_t index
 		, bool enabled )
 	{
-		if ( !enabled )
-		{
-			return { Struct::Member{}, false };
-		}
-
-		TypePtr mbrType;
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getStruct( type->getMemoryLayout(), type->getName() );
-			mbrType = getTypesCache().getMemberType( mbrType
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType, std::move( name ) );
-	}
-
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, BaseStructPtr type
-		, bool enabled )
-	{
-		return declMember( std::move( name )
-			, type
-			, NotArray
+		return declMember( builtin
+			, getTypesCache().getBasicType( kind )
+			, arraySize
+			, index
 			, enabled );
 	}
 
 	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, IOStructPtr type
+		, Kind kind
 		, uint32_t arraySize
 		, bool enabled )
 	{
-		if ( !enabled )
-		{
-			return { Struct::Member{}, false };
-		}
-
-		TypePtr mbrType;
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType, std::move( name ) );
+		return declMember( std::move( name )
+			, getTypesCache().getBasicType( kind )
+			, arraySize
+			, enabled );
 	}
 
-	std::pair< Struct::Member, bool > BaseStruct::declMember( std::string name
-		, IOStructPtr type
-		, bool enabled )
+	IOStructPtr BaseStruct::getIOStruct( EntryPoint entryPoint, var::Flag flag, uint32_t baseLocation )const
 	{
-		return declMember( std::move( name )
-			, type
-			, NotArray
-			, enabled );
+		auto result = getTypesCache().getIOStruct( getName(), entryPoint, flag );
+
+		if ( result->empty() )
+		{
+			for ( auto const & member : *this )
+			{
+				result->declMember( "my" + ast::getName( member.builtin ), member.type, NotArray, baseLocation );
+				++baseLocation;
+			}
+		}
+
+		return result;
 	}
 
 	std::pair< Struct::Member, bool > BaseStruct::doCreateMember( TypePtr type
@@ -946,7 +844,7 @@ namespace ast::type
 
 		if ( exists )
 		{
-			return { getMember( builtin ), false };
+			return { getMember( builtin, index ), false };
 		}
 
 		Member result{ std::move( type )
@@ -963,204 +861,111 @@ namespace ast::type
 		, std::string name
 		, EntryPoint entryPoint
 		, var::Flag flag )
-		: Struct{ typesCache, layout, std::move( name ), flag, type::Kind::eStruct, entryPoint }
+		: Struct{ typesCache, layout, name + getNameSuffix( entryPoint, flag ), flag, type::Kind::eStruct, entryPoint }
+		, m_baseName{ std::move( name ) }
 	{
 	}
 
-	bool IOStruct::declMember( Builtin builtin
-		, Kind kind
-		, uint32_t arraySize
-		, uint32_t index )
-	{
-		TypePtr mbrType;
-		auto type = getTypesCache().getBasicType( kind );
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType, builtin, index ).second;
-	}
-
-	bool IOStruct::declMember( Builtin builtin
-		, ArrayPtr type
-		, uint32_t arraySize
-		, uint32_t index )
-	{
-		TypePtr mbrType;
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType, builtin, index ).second;
-	}
-
-	bool IOStruct::declMember( std::string name
-		, Kind kind
-		, uint32_t arraySize
-		, uint32_t location
-		, bool enabled )
-	{
-		if ( !enabled )
-		{
-			return false;
-		}
-
-		TypePtr mbrType;
-		auto type = getTypesCache().getBasicType( kind );
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( type
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType, std::move( name ), location ).second;
-	}
-
-	bool IOStruct::declMember( std::string name
-		, TypePtr type
-		, uint32_t location
-		, bool enabled )
-	{
-		return declMember( std::move( name )
-			, getNonArrayKind( type )
-			, getArraySize( type )
-			, location
-			, enabled );
-	}
-
-	bool IOStruct::declMember( std::string name
+	std::pair< Struct::Member, bool > IOStruct::declMember( Builtin builtin
 		, TypePtr type
 		, uint32_t arraySize
-		, uint32_t location
+		, uint32_t index
 		, bool enabled )
 	{
-		auto internalArraySize = getArraySize( type );
-		return declMember( std::move( name )
-			, getNonArrayKind( type )
-			, ( arraySize == NotArray
-				? internalArraySize
-				: ( internalArraySize == NotArray ? arraySize : internalArraySize * arraySize ) )
-			, location
-			, enabled );
-	}
+		AST_Assert( getStructType( *type ) == nullptr
+			&& "Don't use this function to declare struct member types" );
 
-	bool IOStruct::declMember( std::string name
-		, ArrayPtr type
-		, uint32_t arraySize
-		, uint32_t location
-		, bool enabled )
-	{
 		if ( !enabled )
 		{
-			return false;
+			return { Struct::Member{}, false };
 		}
 
-		auto mbrType = getTypesCache().getMemberType( getTypesCache().getArray( type, arraySize )
+		auto mbrType = strct::getMemberType( std::move( type )
+			, arraySize
 			, *this
 			, uint32_t( size() ) );
-		return doCreateMember( mbrType, std::move( name ), location ).second;
+		return doCreateMember( mbrType, builtin, index );
 	}
 
-	bool IOStruct::declMember( std::string name
-		, ArrayPtr type
+	std::pair< Struct::Member, bool > IOStruct::declMember( std::string name
+		, TypePtr type
+		, uint32_t arraySize
 		, uint32_t location
 		, bool enabled )
 	{
 		if ( !enabled )
 		{
-			return false;
+			return { Struct::Member{}, false };
 		}
 
-		auto kind = getNonArrayKind( type );
-
-		if ( kind == Kind::eStruct
-			|| kind == Kind::eRayDesc )
-		{
-			return declMember( std::move( name )
-				, std::static_pointer_cast< Struct >( type->getType() )
-				, type->getArraySize() );
-		}
-
-		if ( kind == Kind::eArray )
-		{
-			return declMember( std::move( name )
-				, type->getType()->getKind()
-				, type->getArraySize()
-				, location );
-		}
-
-		return declMember( std::move( name )
-			, kind
-			, type->getArraySize()
-			, location );
+		auto mbrType = strct::getMemberType( strct::convertToIOStruct( std::move( type ), getEntryPoint(), getFlag(), location )
+			, arraySize
+			, *this
+			, uint32_t( size() ) );
+		return doCreateMember( mbrType, std::move( name ), location );
 	}
 
-	bool IOStruct::declMember( std::string name
-		, StructPtr type
+	std::pair< Struct::Member, bool > IOStruct::declMember( Builtin builtin
+		, Kind kind
 		, uint32_t arraySize
+		, uint32_t index
 		, bool enabled )
 	{
-		if ( !enabled )
-		{
-			return false;
-		}
-
-		TypePtr mbrType = type;
-
-		if ( arraySize != NotArray )
-		{
-			mbrType = getTypesCache().getMemberType( getTypesCache().getArray( mbrType, arraySize )
-				, *this
-				, uint32_t( size() ) );
-		}
-		else
-		{
-			mbrType = getTypesCache().getMemberType( mbrType
-				, *this
-				, uint32_t( size() ) );
-		}
-
-		return doCreateMember( mbrType
-			, std::move( name )
-			, InvalidLocation ).second;
+		return declMember( builtin
+			, getTypesCache().getBasicType( kind )
+			, arraySize
+			, index
+			, enabled );
 	}
 
-	bool IOStruct::declMember( std::string name
-		, StructPtr type
+	std::pair< Struct::Member, bool > IOStruct::declMember( std::string name
+		, Kind kind
+		, uint32_t arraySize
+		, uint32_t location
 		, bool enabled )
 	{
 		return declMember( std::move( name )
-			, type
-			, NotArray
+			, getTypesCache().getBasicType( kind )
+			, arraySize
+			, location
 			, enabled );
+	}
+
+	BaseStructPtr IOStruct::getBaseStruct( MemoryLayout layout )const
+	{
+		auto result = getTypesCache().getStruct( layout, m_baseName );
+
+		if ( result->empty() )
+		{
+			for ( auto const & member : *this )
+			{
+				if ( member.builtin == Builtin::eNone )
+				{
+					result->declMember( member.name, member.type, NotArray );
+				}
+				else
+				{
+					result->declMember( "my" + ast::getName( member.builtin ), member.type, NotArray );
+				}
+			}
+		}
+
+		return result;
+	}
+
+	std::string IOStruct::getNameSuffix( ast::EntryPoint entryPoint
+		, var::Flag flag )
+	{
+		auto result = ast::getName( entryPoint );
+		result += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
+			? std::string{ "Patch" }
+			: std::string{} );
+		result += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderOutput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
+			? std::string{ "Output" }
+			: ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) )
+				? std::string{ "Input" }
+				: std::string{} ) );
+		return result;
 	}
 
 	std::pair< Struct::Member, bool > IOStruct::doCreateMember( TypePtr type
@@ -1192,7 +997,7 @@ namespace ast::type
 
 		if ( exists )
 		{
-			return { getMember( builtin ), false };
+			return { getMember( builtin, index ), false };
 		}
 
 		Member result{ std::move( type )
@@ -1334,8 +1139,6 @@ namespace ast::type
 				{
 					return getStructType( *static_cast< type::Array const & >( *type ).getType().get() );
 				}
-
-				return nullptr;
 			}
 			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
 			{
@@ -1491,10 +1294,10 @@ namespace ast::type
 	{
 		if ( layout == MemoryLayout::eC )
 		{
-			return getNaiveSize( type );
+			return strct::getNaiveSize( type );
 		}
 
-		return getPackedSize( type, layout );
+		return strct::getPackedSize( type, layout );
 	}
 
 	uint32_t getSize( TypePtr type
@@ -1511,7 +1314,7 @@ namespace ast::type
 			return 1u;
 		}
 
-		return getPackedAlignment( type, layout );
+		return strct::getPackedAlignment( type, layout );
 	}
 
 	uint32_t getAlignment( TypePtr type
@@ -1520,28 +1323,11 @@ namespace ast::type
 		return getAlignment( *type, layout );
 	}
 
-	uint32_t getArrayStride( Array const & type
-		, MemoryLayout layout )
-	{
-		if ( layout == MemoryLayout::eC )
-		{
-			return getNaiveSize( *type.getType() );
-		}
-
-		return getPackedArrayStride( type, layout );
-	}
-
-	uint32_t getArrayStride( ArrayPtr type
-		, MemoryLayout layout )
-	{
-		return getArrayStride( *type, layout );
-	}
-
 	uint32_t getArrayStride( Type const & type
 		, MemoryLayout layout )
 	{
 		return type.getKind() == Kind::eArray
-			? getArrayStride( static_cast< Array const & >( type ), layout )
+			? strct::getArrayStride( static_cast< Array const & >( type ), layout )
 			: 1u;
 	}
 
@@ -1558,7 +1344,14 @@ namespace ast::type
 			return false;
 		}
 
-		return getArraySize( getStructType( type )->back().type ) == UnknownArraySize;
+		auto structType = getStructType( type );
+
+		if ( structType->empty() )
+		{
+			return false;
+		}
+
+		return getArraySize( structType->back().type ) == UnknownArraySize;
 	}
 
 	//*************************************************************************

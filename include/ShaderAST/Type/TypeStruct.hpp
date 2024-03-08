@@ -31,13 +31,14 @@ namespace ast::type
 	public:
 		static constexpr uint32_t NotFound = ~0u;
 		static constexpr uint32_t InvalidLocation = ~0u;
+		static constexpr uint32_t UndefinedIndex = ~0u;
 
 		struct Member
 		{
 			Member() = default;
 			Member( TypePtr ptype
 				, Builtin pbuiltin
-				, uint32_t pbuiltinIndex = InvalidLocation )
+				, uint32_t pbuiltinIndex = UndefinedIndex )
 				: type{ std::move( ptype ) }
 				, builtin{ pbuiltin }
 				, name{ getRealName( pbuiltin, pbuiltinIndex ) }
@@ -80,12 +81,10 @@ namespace ast::type
 			uint32_t size{};
 			uint32_t arrayStride{};
 			uint32_t location{ InvalidLocation };
-			uint32_t builtinIndex{ InvalidLocation };
+			uint32_t builtinIndex{ UndefinedIndex };
 		};
 
 	private:
-		SDAST_API Struct( TypesCache & typesCache
-			, Struct const & rhs );
 		SDAST_API Struct( TypesCache & typesCache
 			, Struct * parent
 			, uint32_t index
@@ -108,9 +107,9 @@ namespace ast::type
 		SDAST_API Member getMember( std::string_view name )const;
 		SDAST_API uint32_t findMember( std::string_view name )const;
 		SDAST_API Member getMember( Builtin builtin
-			, uint32_t index = InvalidLocation )const;
+			, uint32_t index = UndefinedIndex )const;
 		SDAST_API uint32_t findMember( Builtin builtin
-			, uint32_t index = InvalidLocation )const;
+			, uint32_t index = UndefinedIndex )const;
 		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		bool hasMember( std::string_view name )const
@@ -119,7 +118,7 @@ namespace ast::type
 		}
 
 		bool hasMember( Builtin builtin
-			, uint32_t index = InvalidLocation )const
+			, uint32_t index = UndefinedIndex )const
 		{
 			return findMember( builtin, index ) != NotFound;
 		}
@@ -236,46 +235,52 @@ namespace ast::type
 			, std::string name );
 
 		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
-			, Kind kind
+			, TypePtr type
 			, uint32_t arraySize
-			, uint32_t index = InvalidLocation
-			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, Kind kind
-			, uint32_t arraySize = NotArray
+			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
 		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, TypePtr type
-			, uint32_t arraySize = NotArray
-			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, ArrayPtr type
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, ArrayPtr type
+		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+			, Kind kind
+			, uint32_t arraySize
+			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
 		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, BaseStructPtr type
+			, Kind kind
 			, uint32_t arraySize
 			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, BaseStructPtr type
-			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, IOStructPtr type
-			, uint32_t arraySize
-			, bool enabled = true );
-		SDAST_API std::pair< Member, bool > declMember( std::string name
-			, IOStructPtr type
-			, bool enabled = true );
+
+		SDAST_API IOStructPtr getIOStruct( EntryPoint entryPoint, var::Flag flag, uint32_t baseLocation )const;
+
+		std::pair< Member, bool > declMember( std::string name
+			, TypePtr type
+			, bool enabled = true )
+		{
+			return declMember( std::move( name )
+				, std::move( type )
+				, NotArray
+				, enabled );
+		}
+
+		std::pair< Member, bool > declMember( std::string name
+			, Kind kind
+			, bool enabled = true )
+		{
+			return declMember( std::move( name )
+				, kind
+				, NotArray
+				, enabled );
+		}
 
 	private:
 		std::pair< Member, bool > doCreateMember( TypePtr type
 			, std::string name );
 		std::pair< Member, bool > doCreateMember( TypePtr type
 			, Builtin builtin
-			, uint32_t index = InvalidLocation );
+			, uint32_t index );
 	};
 
 	class IOStruct
@@ -288,44 +293,55 @@ namespace ast::type
 			, EntryPoint entryPoint
 			, var::Flag flag );
 
-		SDAST_API bool declMember( Builtin builtin
-			, Kind kind
+		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+			, TypePtr type
 			, uint32_t arraySize
-			, uint32_t index = InvalidLocation );
-		SDAST_API bool declMember( Builtin builtin
-			, ArrayPtr type
-			, uint32_t arraySize
-			, uint32_t index = InvalidLocation );
-		SDAST_API bool declMember( std::string name
-			, Kind kind
-			, uint32_t arraySize
-			, uint32_t location
+			, uint32_t index = UndefinedIndex
 			, bool enabled = true );
-		SDAST_API bool declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( std::string name
 			, TypePtr type
 			, uint32_t arraySize
 			, uint32_t location
 			, bool enabled = true );
-		SDAST_API bool declMember( std::string name
+		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
+			, Kind kind
+			, uint32_t arraySize
+			, uint32_t index = UndefinedIndex
+			, bool enabled = true );
+		SDAST_API std::pair< Member, bool > declMember( std::string name
+			, Kind kind
+			, uint32_t arraySize
+			, uint32_t location
+			, bool enabled = true );
+
+		SDAST_API BaseStructPtr getBaseStruct( MemoryLayout layout )const;
+
+		SDAST_API static std::string getNameSuffix( ast::EntryPoint entryPoint
+			, var::Flag flag );
+
+		std::pair< Member, bool > declMember( std::string name
 			, TypePtr type
 			, uint32_t location
-			, bool enabled = true );
-		SDAST_API bool declMember( std::string name
-			, ArrayPtr type
-			, uint32_t arraySize
+			, bool enabled = true )
+		{
+			return declMember( std::move( name )
+				, std::move( type )
+				, NotArray
+				, location
+				, enabled );
+		}
+
+		std::pair< Member, bool > declMember( std::string name
+			, Kind kind
 			, uint32_t location
-			, bool enabled = true );
-		SDAST_API bool declMember( std::string name
-			, ArrayPtr type
-			, uint32_t location
-			, bool enabled = true );
-		SDAST_API bool declMember( std::string name
-			, StructPtr type
-			, uint32_t arraySize
-			, bool enabled = true );
-		SDAST_API bool declMember( std::string name
-			, StructPtr type
-			, bool enabled = true );
+			, bool enabled = true )
+		{
+			return declMember( std::move( name )
+				, kind
+				, NotArray
+				, location
+				, enabled );
+		}
 
 	private:
 		std::pair< Member, bool > doCreateMember( TypePtr type
@@ -333,7 +349,10 @@ namespace ast::type
 			, uint32_t location );
 		std::pair< Member, bool > doCreateMember( TypePtr type
 			, Builtin builtin
-			, uint32_t index = InvalidLocation );
+			, uint32_t index );
+
+	private:
+		std::string m_baseName;
 	};
 
 	struct RayDesc
@@ -363,10 +382,6 @@ namespace ast::type
 	SDAST_API uint32_t getAlignment( Type const & type
 		, MemoryLayout layout );
 	SDAST_API uint32_t getAlignment( TypePtr type
-		, MemoryLayout layout );
-	SDAST_API uint32_t getArrayStride( Array const & type
-		, MemoryLayout layout );
-	SDAST_API uint32_t getArrayStride( ArrayPtr type
 		, MemoryLayout layout );
 	SDAST_API uint32_t getArrayStride( Type const & type
 		, MemoryLayout layout );

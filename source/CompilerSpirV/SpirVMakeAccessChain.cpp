@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include "SpirVCombinedImageAccessConfig.hpp"
 #include "SpirVCombinedImageAccessNames.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 
@@ -109,16 +110,14 @@ namespace spirv
 				m_result.push_back( { m_kind, &expr } );
 			}
 
-			[[noreturn]]
 			void visitUnaryExpr( ast::expr::Unary const * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::Unary ?" );
+				ast::Logger::logError( "Unexpected ast::expr::Unary ?" );
 			}
 
-			[[noreturn]]
 			void visitBinaryExpr( ast::expr::Binary const * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::Binary ?" );
+				ast::Logger::logError( "Unexpected ast::expr::Binary ?" );
 			}
 
 			AccessChainExprArray doSubmit( ast::expr::Kind kind
@@ -177,70 +176,59 @@ namespace spirv
 				doAddExpr( m_kind, *expr );
 			}
 
-			[[noreturn]]
 			void visitAggrInitExpr( ast::expr::AggrInit const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::AggrInit ?" );
+				ast::Logger::logError( "Unexpected ast::expr::AggrInit ?" );
 			}
 
-			[[noreturn]]
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::CompositeConstruct ?" );
+				ast::Logger::logError( "Unexpected ast::expr::CompositeConstruct ?" );
 			}
 
-			[[noreturn]]
 			void visitFnCallExpr( ast::expr::FnCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::FnCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::FnCall ?" );
 			}
 
-			[[noreturn]]
 			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::StorageImageAccessCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::StorageImageAccessCall ?" );
 			}
 
-			[[noreturn]]
 			void visitInitExpr( ast::expr::Init const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::Init ?" );
+				ast::Logger::logError( "Unexpected ast::expr::Init ?" );
 			}
 
-			[[noreturn]]
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::IntrinsicCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::IntrinsicCall ?" );
 			}
 
-			[[noreturn]]
 			void visitQuestionExpr( ast::expr::Question const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::Question ?" );
+				ast::Logger::logError( "Unexpected ast::expr::Question ?" );
 			}
 
-			[[noreturn]]
 			void visitStreamAppendExpr( ast::expr::StreamAppend const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::StreamAppend" );
+				ast::Logger::logError( "Unexpected ast::expr::StreamAppend" );
 			}
 
-			[[noreturn]]
 			void visitSwitchCaseExpr( ast::expr::SwitchCase const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
+				ast::Logger::logError( "Unexpected ast::expr::SwitchCase ?" );
 			}
 
-			[[noreturn]]
 			void visitSwitchTestExpr( ast::expr::SwitchTest const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
+				ast::Logger::logError( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
-			[[noreturn]]
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::CombinedImageAccessCall ?" );
 			}
 
 		private:
@@ -546,70 +534,59 @@ namespace spirv
 				}
 			}
 
-			[[noreturn]]
 			void visitAggrInitExpr( ast::expr::AggrInit const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::AggrInit ?" );
+				ast::Logger::logError( "Unexpected ast::expr::AggrInit ?" );
 			}
 
-			[[noreturn]]
 			void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::CompositeConstruct ?" );
+				ast::Logger::logError( "Unexpected ast::expr::CompositeConstruct ?" );
 			}
 
-			[[noreturn]]
 			void visitFnCallExpr( ast::expr::FnCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::FnCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::FnCall ?" );
 			}
 
-			[[noreturn]]
 			void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::StorageImageAccessCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::StorageImageAccessCall ?" );
 			}
 
-			[[noreturn]]
 			void visitInitExpr( ast::expr::Init const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::Init ?" );
+				ast::Logger::logError( "Unexpected ast::expr::Init ?" );
 			}
 
-			[[noreturn]]
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::IntrinsicCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::IntrinsicCall ?" );
 			}
 
-			[[noreturn]]
 			void visitQuestionExpr( ast::expr::Question const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::Question ?" );
+				ast::Logger::logError( "Unexpected ast::expr::Question ?" );
 			}
 
-			[[noreturn]]
 			void visitStreamAppendExpr( ast::expr::StreamAppend const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::StreamAppend" );
+				ast::Logger::logError( "Unexpected ast::expr::StreamAppend" );
 			}
 
-			[[noreturn]]
 			void visitSwitchCaseExpr( ast::expr::SwitchCase const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::SwitchCase ?" );
+				ast::Logger::logError( "Unexpected ast::expr::SwitchCase ?" );
 			}
 
-			[[noreturn]]
 			void visitSwitchTestExpr( ast::expr::SwitchTest const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::SwitchTest ?" );
+				ast::Logger::logError( "Unexpected ast::expr::SwitchTest ?" );
 			}
 
-			[[noreturn]]
 			void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * )override
 			{
-				AST_Failure( "Unexpected ast::expr::CombinedImageAccessCall ?" );
+				ast::Logger::logError( "Unexpected ast::expr::CombinedImageAccessCall ?" );
 			}
 
 		private:

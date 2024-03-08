@@ -50,6 +50,7 @@ namespace
 		, stmt::Stmt const & stmt )
 	{
 		auto & stmtCache = stmt.getStmtCache();
+
 		if ( stmt.getKind() == stmt::Kind::eContainer )
 		{
 			return StmtCloner::submit( stmtCache, exprCache, static_cast< stmt::Container const & >( stmt ) );
@@ -60,15 +61,42 @@ namespace
 		return container;
 	}
 
+	stmt::ContainerPtr makeEntryPoint( test::TestCounts & testCounts
+		, expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, stmt::Stmt const & stmt
+		, ShaderStage stage )
+	{
+		auto entryPoint = getEntryPointType( stage );
+		auto & stmtCache = stmt.getStmtCache();
+		auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
+		auto funcVar = var::makeFunction( { testCounts.getNextVarId(), "main" }, funcType );
+		auto container = stmtCache.makeContainer();
+		auto funcDecl = stmtCache.makeFunctionDecl( funcVar, stmt::FunctionFlag( 1u << uint32_t( entryPoint ) ) );
+
+		if ( stmt.getKind() == stmt::Kind::eContainer )
+		{
+			funcDecl->addStmt( StmtCloner::submit( stmtCache, exprCache, static_cast< stmt::Container const & >( stmt ) ) );
+		}
+		else
+		{
+			funcDecl->addStmt( StmtCloner::submit( stmtCache, exprCache, &stmt ) );
+		}
+
+		container->addStmt( std::move( funcDecl ) );
+		return container;
+	}
+
 	void checkStmtDependant( test::TestCounts & testCounts
 		, expr::ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, stmt::Stmt const & stmt )
+		, stmt::Stmt const & stmt
+		, ShaderStage stage = ShaderStage::eCompute )
 	{
 		auto & stmtCache = stmt.getStmtCache();
 		if ( astOn( debug::displayStatements( stmt ) ) )
 		{
-			EntryPointConfig config{ ShaderStage::eCompute, "main" };
+			EntryPointConfig config{ stage, "main" };
 			SpecialisationInfo spec{};
 			SpecConstantData specData{};
 			specData.info.location = 1u;
@@ -83,7 +111,7 @@ namespace
 				SSAData data{ testCounts.nextVarId, 0u };
 				astCheckNoThrow( container = transformSSA( stmtCache, exprCache, typesCache, *container, data, false ) )
 				astCheckNoThrow( container = simplify( stmtCache, exprCache, typesCache, *container ) )
-				astCheckNoThrow( container = resolveConstants( stmtCache, exprCache, typesCache, *container ) )
+				astCheckNoThrow( container = resolveConstants( stmtCache, exprCache, *container ) )
 				astCheckNoThrow( container = specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
 			}
 			if ( astWhen( "SSA transform with normalised structs" ) )
@@ -94,7 +122,29 @@ namespace
 				SSAData data{ testCounts.nextVarId, 0u };
 				astCheckNoThrow( container = transformSSA( stmtCache, exprCache, typesCache, *container, data, true ) )
 				astCheckNoThrow( container = simplify( stmtCache, exprCache, typesCache, *container ) )
-				astCheckNoThrow( container = resolveConstants( stmtCache, exprCache, typesCache, *container ) )
+				astCheckNoThrow( container = resolveConstants( stmtCache, exprCache, *container ) )
+				astCheckNoThrow( container = specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
+			}
+			if ( astWhen( "SSA transform without normalised structs" ) )
+			{
+				auto container = makeEntryPoint( testCounts, exprCache, typesCache, stmt, stage );
+				astCheckNoThrow( listEntryPoints( *container ) )
+				astCheckNoThrow( selectEntryPoint( stmtCache, exprCache, config, *container ) )
+				SSAData data{ testCounts.nextVarId, 0u };
+				astCheckNoThrow( container = transformSSA( stmtCache, exprCache, typesCache, *container, data, false ) )
+				astCheckNoThrow( container = simplify( stmtCache, exprCache, typesCache, *container ) )
+				astCheckNoThrow( container = resolveConstants( stmtCache, exprCache, *container ) )
+				astCheckNoThrow( container = specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
+			}
+			if ( astWhen( "SSA transform with normalised structs" ) )
+			{
+				auto container = makeEntryPoint( testCounts, exprCache, typesCache, stmt, stage );
+				astCheckNoThrow( listEntryPoints( *container ) )
+				astCheckNoThrow( selectEntryPoint( stmtCache, exprCache, config, *container ) )
+				SSAData data{ testCounts.nextVarId, 0u };
+				astCheckNoThrow( container = transformSSA( stmtCache, exprCache, typesCache, *container, data, true ) )
+				astCheckNoThrow( container = simplify( stmtCache, exprCache, typesCache, *container ) )
+				astCheckNoThrow( container = resolveConstants( stmtCache, exprCache, *container ) )
 				astCheckNoThrow( container = specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
 			}
 			if ( astOn( "SimpleVisitor check" ) )
@@ -443,18 +493,36 @@ namespace
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
-		auto stmt = stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs" ) );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		{
+			auto stmt = stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs" ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
 
-		astRequire( stmt->getKind() == stmt::Kind::eVariableDecl )
-		astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
-		astCheck( stmt->getVariable()->getName() == "lhs" )
+			astRequire( stmt->getKind() == stmt::Kind::eVariableDecl )
+			astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
+			astCheck( stmt->getVariable()->getName() == "lhs" )
+		}
+		{
+			auto stmt = stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::eLocale ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			astRequire( stmt->getKind() == stmt::Kind::eVariableDecl )
+			astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
+			astCheck( stmt->getVariable()->getName() == "lhs" )
+		}
 		astTestEnd()
 	}
 
 	void testPerVertexDecl( test::TestCounts & testCounts )
 	{
 		astTestBegin( "testPerVertexDecl" );
+		std::map< stmt::PerVertexDecl::Source, ShaderStage > stages{ { stmt::PerVertexDecl::eVertexOutput, ShaderStage::eVertex }
+			, { stmt::PerVertexDecl::eTessellationControlInput, ShaderStage::eTessellationControl }
+			, { stmt::PerVertexDecl::eTessellationControlOutput, ShaderStage::eTessellationControl }
+			, { stmt::PerVertexDecl::eTessellationEvaluationInput, ShaderStage::eTessellationEvaluation }
+			, { stmt::PerVertexDecl::eTessellationEvaluationOutput, ShaderStage::eTessellationEvaluation }
+			, { stmt::PerVertexDecl::eGeometryInput, ShaderStage::eGeometry }
+			, { stmt::PerVertexDecl::eGeometryOutput, ShaderStage::eGeometry }
+			, { stmt::PerVertexDecl::eMeshOutput, ShaderStage::eMesh } };
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
@@ -463,7 +531,7 @@ namespace
 		{
 			auto stmt = stmtCache.makePerVertexDecl( stmt::PerVertexDecl::Source( source )
 				, typesCache.getInt32() );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, stages[stmt::PerVertexDecl::Source( source )] );
 
 			astRequire( stmt->getKind() == stmt::Kind::ePerVertexDecl )
 			astRequire( stmt->getSource() == stmt::PerVertexDecl::Source( source ) )
@@ -480,7 +548,7 @@ namespace
 		type::TypesCache typesCache;
 		{
 			auto stmt = stmtCache.makeInOutVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::eShaderInput ), 1u );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eCallable );
 
 			astRequire( stmt->getKind() == stmt::Kind::eInOutVariableDecl )
 			astCheck( stmt->getLocation() == 1u )
@@ -489,7 +557,7 @@ namespace
 		}
 		{
 			auto stmt = stmtCache.makeInOutVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::eShaderConstant ), 1u );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayAnyHit );
 
 			astRequire( stmt->getKind() == stmt::Kind::eInOutVariableDecl )
 			astCheck( stmt->getLocation() == 1u )
@@ -498,7 +566,7 @@ namespace
 		}
 		{
 			auto stmt = stmtCache.makeInOutVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::ePushConstant ), 1u );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayClosestHit );
 
 			astRequire( stmt->getKind() == stmt::Kind::eInOutVariableDecl )
 			astCheck( stmt->getLocation() == 1u )
@@ -517,7 +585,7 @@ namespace
 		auto stmt = stmtCache.makeInOutStreamVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::eShaderInput | var::Flag::eGeometryStream )
 			, 1u
 			, 2u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eGeometry );
 
 		astRequire( stmt->getKind() == stmt::Kind::eInOutVariableDecl )
 		astCheck( stmt->getLocation() == 1u )
@@ -537,7 +605,7 @@ namespace
 		auto stmt = stmtCache.makeInOutBlendVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::eShaderInput | var::Flag::eBlendIndex )
 			, 1u
 			, 2u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eFragment );
 
 		astRequire( stmt->getKind() == stmt::Kind::eInOutVariableDecl )
 		astCheck( stmt->getLocation() == 1u )
@@ -559,7 +627,7 @@ namespace
 			auto stmt = stmtCache.makeSpecialisationConstantDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "lhs", var::Flag::eShaderInput | var::Flag::eBlendIndex )
 				, 1u
 				, exprCache.makeLiteral( typesCache, 18 ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayMiss );
 
 			astRequire( stmt->getKind() == stmt::Kind::eSpecialisationConstantDecl )
 			astCheck( stmt->getLocation() == 1u )
@@ -687,6 +755,7 @@ namespace
 
 					spec.data.push_back( specData );
 
+#if SDAST_ExceptAssert
 					if ( kind == type::Kind::eVec2B )
 					{
 						astCheckThrow( container = specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
@@ -695,6 +764,7 @@ namespace
 					{
 						astCheckNoThrow( container = specialiseStatements( stmtCache, exprCache, typesCache, *container, spec ) )
 					}
+#endif
 				}
 			}
 		}
@@ -709,7 +779,7 @@ namespace
 			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			type::TypesCache typesCache;
 			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", type::MemoryLayout::eStd140, 1u, 2u );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eMeshNV );
 
 			astRequire( stmt->getKind() == stmt::Kind::eConstantBufferDecl )
 			astCheck( stmt->getBindingPoint() == 1u )
@@ -723,7 +793,7 @@ namespace
 			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", type::MemoryLayout::eStd140, 1u, 2u );
 			stmt->add( stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" ) ) );
 			stmt->add( stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" ) ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTask );
 
 			astRequire( stmt->getKind() == stmt::Kind::eConstantBufferDecl )
 			astCheck( stmt->getBindingPoint() == 1u )
@@ -741,7 +811,7 @@ namespace
 			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			type::TypesCache typesCache;
 			auto stmt = stmtCache.makePushConstantsBufferDecl( "Buffer", type::MemoryLayout::eC );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTaskNV );
 
 			astRequire( stmt->getKind() == stmt::Kind::ePushConstantsBufferDecl )
 			astCheck( stmt->getMemoryLayout() == type::MemoryLayout::eC )
@@ -803,6 +873,25 @@ namespace
 			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			type::TypesCache typesCache;
 			auto baseType = typesCache.getStruct( type::MemoryLayout::eStd430, "BaseType" );
+			auto array = typesCache.getArray( baseType );
+			auto type = typesCache.getStruct( type::MemoryLayout::eStd430, "BufferType" );
+			type->declMember( "Data", array );
+			auto data = var::makeVariable( testCounts.getNextVarId(), type->getMember( "Data" ).type, "Data", var::Flag::eUniform );
+			auto instance = var::makeVariable( testCounts.getNextVarId(), type, "Inst", var::Flag::eUniform );
+			auto stmt = stmtCache.makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+
+			astRequire( stmt->getKind() == stmt::Kind::eShaderStructBufferDecl )
+			astCheck( stmt->getBindingPoint() == 1u )
+			astCheck( stmt->getDescriptorSet() == 2u )
+		}
+		{
+			stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
+			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+			type::TypesCache typesCache;
+			auto baseType = typesCache.getIOStruct( "BaseType", ast::EntryPoint::eCompute, ast::var::Flag::eShaderInput );
+			baseType->declMember( Builtin::eGlobalInvocationID, type::Kind::eInt32, type::NotArray );
+			baseType->declMember( "mbr", type::Kind::eInt32, type::NotArray, 1u );
 			auto array = typesCache.getArray( baseType );
 			auto type = typesCache.getStruct( type::MemoryLayout::eStd430, "BufferType" );
 			type->declMember( "Data", array );
@@ -916,7 +1005,7 @@ namespace
 			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			type::TypesCache typesCache;
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32(), {} ), "foo" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eVertex );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "foo" )
@@ -1011,10 +1100,10 @@ namespace
 			auto inType = type::makeGeometryInputType( typesCache.getVoid(), type::InputLayout::eTriangleList );
 			auto outType = type::makeGeometryOutputType( typesCache.getVoid(), type::OutputLayout::eTriangleStrip, 3u );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
-				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" )
-					, var::makeVariable( testCounts.getNextVarId(), outType, "out" ) } )
-				, "mainGeom" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+					, { var::makeVariable( testCounts.getNextVarId(), inType, "in" )
+						, var::makeVariable( testCounts.getNextVarId(), outType, "out" ) } )
+					, "mainGeom" ) );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eGeometry );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "mainGeom" )
@@ -1029,7 +1118,7 @@ namespace
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" )
 					, var::makeVariable( testCounts.getNextVarId(), outType, "out" ) } )
 				, "mainTesc" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTessellationControl );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "mainTesc" )
@@ -1042,7 +1131,7 @@ namespace
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainTese" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTessellationEvaluation );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "mainTese" )
@@ -1055,7 +1144,7 @@ namespace
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainFrag" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eFragment );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "mainFrag" )
@@ -1068,7 +1157,7 @@ namespace
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainComp" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eCompute );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "mainComp" )
@@ -1083,7 +1172,7 @@ namespace
 				, { var::makeVariable( testCounts.getNextVarId(), outVertType, "vert" )
 					, var::makeVariable( testCounts.getNextVarId(), outPrimType, "prim" ) } )
 				, "mainMesh" ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eMesh );
 
 			astRequire( stmt->getKind() == stmt::Kind::eFunctionDecl )
 			astCheck( stmt->getName() == "mainMesh" )
@@ -1637,7 +1726,7 @@ namespace
 		type::TypesCache typesCache;
 		auto stmt = stmtCache.makeInputGeometryLayout( typesCache.getVoid()
 			, type::InputLayout::eLineStripWithAdjacency );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eGeometry );
 
 		astRequire( stmt->getKind() == stmt::Kind::eInputGeometryLayout )
 		astCheck( stmt->getType()->getKind() == type::Kind::eVoid )
@@ -1654,7 +1743,7 @@ namespace
 		auto stmt = stmtCache.makeOutputGeometryLayout( typesCache.getVoid()
 			, type::OutputLayout::eTriangleStrip
 			, 15u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eGeometry );
 
 		astRequire( stmt->getKind() == stmt::Kind::eOutputGeometryLayout )
 		astCheck( stmt->getType()->getKind() == type::Kind::eVoid )
@@ -1673,7 +1762,7 @@ namespace
 			, type::OutputTopology::eTriangle
 			, 64u
 			, 126u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eMesh );
 
 		astRequire( stmt->getKind() == stmt::Kind::eOutputMeshLayout )
 		astCheck( stmt->getType()->getKind() == type::Kind::eVoid )
@@ -1742,7 +1831,7 @@ namespace
 		auto stmt = stmtCache.makeFragmentLayout( typesCache.getVoid()
 				, FragmentOrigin::eLowerLeft
 			, FragmentCenter::eCenterInteger );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eFragment );
 
 		astRequire( stmt->getKind() == stmt::Kind::eFragmentLayout )
 		astCheck( stmt->getFragmentCenter() == FragmentCenter::eCenterInteger )
@@ -1762,7 +1851,7 @@ namespace
 			, type::OutputTopology::eQuad
 			, type::PrimitiveOrdering::eCCW
 			, 4u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTessellationControl );
 
 		astRequire( stmt->getKind() == stmt::Kind::eOutputTessellationControlLayout )
 		astCheck( stmt->getDomain() == type::PatchDomain::eQuads )
@@ -1783,7 +1872,7 @@ namespace
 			, type::PatchDomain::eQuads
 			, type::Partitioning::eFractionalEven
 			, type::PrimitiveOrdering::eCCW );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTessellationEvaluation );
 
 		astRequire( stmt->getKind() == stmt::Kind::eInputTessellationEvaluationLayout )
 		astCheck( stmt->getDomain() == type::PatchDomain::eQuads )
@@ -1802,7 +1891,7 @@ namespace
 		auto stmt = stmtCache.makeAccelerationStructureDecl( i
 			, 18u
 			, 52u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayGeneration );
 
 		astRequire( stmt->getKind() == stmt::Kind::eAccelerationStructureDecl )
 		astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
@@ -1821,7 +1910,7 @@ namespace
 		auto i = var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeInOutRayPayloadVariableDecl( i
 			, 18u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayIntersection );
 
 		astRequire( stmt->getKind() == stmt::Kind::eInOutRayPayloadVariableDecl )
 		astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
@@ -1838,7 +1927,7 @@ namespace
 		type::TypesCache typesCache;
 		auto i = var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeHitAttributeVariableDecl( i );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayAnyHit );
 
 		astRequire( stmt->getKind() == stmt::Kind::eHitAttributeVariableDecl )
 		astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
@@ -1855,7 +1944,7 @@ namespace
 		auto i = var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" );
 		auto stmt = stmtCache.makeInOutCallableDataVariableDecl( i
 			, 18u );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eCallable );
 
 		astRequire( stmt->getKind() == stmt::Kind::eInOutCallableDataVariableDecl )
 		astCheck( stmt->getVariable()->getType()->getKind() == type::Kind::eInt32 )
@@ -1885,7 +1974,7 @@ namespace
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
 		auto stmt = stmtCache.makeTerminateRay();
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayClosestHit );
 
 		astRequire( stmt->getKind() == stmt::Kind::eTerminateRay )
 		astTestEnd()
@@ -1898,7 +1987,7 @@ namespace
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
 		auto stmt = stmtCache.makeIgnoreIntersection();
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eRayIntersection );
 
 		astRequire( stmt->getKind() == stmt::Kind::eIgnoreIntersection )
 		astTestEnd()
@@ -1951,7 +2040,7 @@ namespace
 		auto numGroupsZ = exprCache.makeLiteral( typesCache, 32u );
 		auto payload = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getTaskPayload( typesCache.getUInt32() ), "payload" ) );
 		auto stmt = stmtCache.makeDispatchMesh( std::move( numGroupsX ), std::move( numGroupsY ), std::move( numGroupsZ ), std::move( payload ) );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTask );
 
 		astRequire( stmt->getKind() == stmt::Kind::eDispatchMesh )
 		astRequire( stmt->getNumGroupsX()->getKind() == expr::Kind::eLiteral )
@@ -1970,7 +2059,7 @@ namespace
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
 		auto stmt = stmtCache.makePerPrimitiveDecl( typesCache.getInt32() );
-		checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
+		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eVertex );
 
 		astRequire( stmt->getKind() == stmt::Kind::ePerPrimitiveDecl )
 		astCheck( stmt->getType()->getKind() == type::Kind::eInt32 )

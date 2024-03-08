@@ -10,6 +10,7 @@ set( ${PROJECT_NAME}_HEADER_FILES
 	${INCLUDE_DIR}/ShaderAllocator.hpp
 	${INCLUDE_DIR}/ShaderASTPrerequisites.hpp
 	${INCLUDE_DIR}/ShaderBuilder.hpp
+	${INCLUDE_DIR}/ShaderLog.hpp
 	${INCLUDE_DIR}/ShaderStlTypes.hpp
 )
 set( ${PROJECT_NAME}_SOURCE_FILES
@@ -17,6 +18,7 @@ set( ${PROJECT_NAME}_SOURCE_FILES
 	${SOURCE_DIR}/ShaderAllocator.cpp
 	${SOURCE_DIR}/ShaderASTPrerequisites.cpp
 	${SOURCE_DIR}/ShaderBuilder.cpp
+	${SOURCE_DIR}/ShaderLog.cpp
 )
 set( ${PROJECT_NAME}_NATVIS_FILES
 	${SOURCE_DIR}/ShaderAST.natvis

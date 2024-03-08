@@ -20,7 +20,7 @@ namespace ast::expr
 		SDAST_API void accept( VisitorPtr vis )const override;
 	};
 
-	Expr const * removeCasts( Expr const & expr );
+	SDAST_API Expr const * removeCasts( Expr const & expr );
 }
 
 #endif

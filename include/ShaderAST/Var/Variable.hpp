@@ -22,11 +22,6 @@ namespace ast::var
 			, Builtin builtin
 			, type::TypePtr type
 			, uint64_t flags );
-		SDAST_API Variable( EntityName nameId
-			, type::FunctionPtr type );
-		SDAST_API Variable( uint32_t id
-			, type::FunctionPtr type
-			, std::string name );
 
 		Variable( EntityName nameId
 			, VariablePtr outer
@@ -285,6 +280,23 @@ namespace ast::var
 		, uint64_t flags )
 	{
 		return std::make_shared< Variable >( EntityName{ id, std::move( name ) }
+			, type
+			, flags | uint64_t( Flag::eFunction ) );
+	}
+
+	inline VariablePtr makeFunction( EntityName nameId
+		, type::FunctionPtr type )
+	{
+		return std::make_shared< Variable >( std::move( nameId )
+			, type
+			, Flag::eFunction );
+	}
+
+	inline VariablePtr makeFunction( EntityName nameId
+		, type::FunctionPtr type
+		, uint64_t flags )
+	{
+		return std::make_shared< Variable >( std::move( nameId )
 			, type
 			, flags | uint64_t( Flag::eFunction ) );
 	}

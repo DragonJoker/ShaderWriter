@@ -34,7 +34,19 @@ namespace ast::vk
 		using OutputMap = std::map< AttributeInfo, OutputInfo const * >;
 		using InOutMap = std::map< InOutInfo, InOutInfo const * >;
 
-		ShaderDataPtr( ShaderData const & rhs
+		ShaderDataPtr( ShaderData::SsboMap const & ssbos
+			, ShaderData::UboMap const & ubos
+			, ShaderData::PcbMap const & ppcbs
+			, ShaderData::SamplerMap const & psamplers
+			, ShaderData::TextureMap const & ptextures
+			, ShaderData::TextureMap const & puniformTexels
+			, ShaderData::ImageMap const & pimages
+			, ShaderData::ImageMap const & pstorageTexels
+			, ShaderData::AllInputsMap const & pinputs
+			, ShaderData::AllOutputsMap const & poutputs
+			, ShaderData::InOutMap const & pinOuts
+			, AccStructInfo const & paccelerationStruct
+			, uint32_t tessellationControlPoints
 			, EntryPoint entryPoint
 			, ShaderStageFlags stages );
 

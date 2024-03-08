@@ -19,7 +19,7 @@ namespace ast::expr::details
 		, ExprList const & list )
 	{
 		AST_Assert( !list.empty() );
-		result = &list[0]->getExprCache();
+		getExprCache( result, list[0] );
 	}
 
 	void getTypesCache( type::TypesCache *& result

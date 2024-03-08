@@ -11,6 +11,7 @@ namespace hlsl
 		, ast::ShaderStage stage )
 		: m_shader{ shader }
 		, m_shaderStage{ stage }
+		, m_nextVarId{ shader.getVarId() }
 	{
 	}
 
@@ -33,8 +34,8 @@ namespace hlsl
 
 		if ( res )
 		{
-			++m_shader.getData().nextVarId;
-			it->second = ast::var::makeBuiltin( m_shader.getData().nextVarId
+			++m_nextVarId;
+			it->second = ast::var::makeBuiltin( m_nextVarId
 				, builtin
 				, type
 				, flags );
@@ -51,8 +52,8 @@ namespace hlsl
 
 		if ( res )
 		{
-			++m_shader.getData().nextVarId;
-			it->second = ast::var::makeVariable( m_shader.getData().nextVarId
+			++m_nextVarId;
+			it->second = ast::var::makeVariable( m_nextVarId
 				, type
 				, std::move( name )
 				, flags );

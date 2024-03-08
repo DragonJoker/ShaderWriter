@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/TransformSSA.hpp"
 
+#include "ShaderAST/ShaderLog.hpp"
 #include "ShaderAST/ShaderStlTypes.hpp"
 #include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
@@ -250,6 +251,9 @@ namespace ast
 
 				switch ( expr->getKind() )
 				{
+				case expr::Kind::eAlias:
+					m_result = expr->clone();
+					break;
 				case expr::Kind::eArrayAccess:
 					doProcessBinExprT< expr::ArrayAccess >( *expr );
 					break;
@@ -1167,16 +1171,14 @@ namespace ast
 					, *this );
 			}
 
-			[[noreturn]]
 			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
-				AST_Failure( "Unexpected ElseIf statement." );
+				ast::Logger::logError( "Unexpected ElseIf statement." );
 			}
 
-			[[noreturn]]
 			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
-				AST_Failure( "Unexpected Else statement." );
+				ast::Logger::logError( "Unexpected Else statement." );
 			}
 
 			void visitIfStmt( ast::stmt::If const * stmt )override

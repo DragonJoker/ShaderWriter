@@ -540,7 +540,6 @@ namespace ast::type
 		return isStructType( *type );
 	}
 
-
 	bool isSamplerType( Kind kind )
 	{
 		return kind == Kind::eSampler;

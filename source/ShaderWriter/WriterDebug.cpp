@@ -30,7 +30,7 @@ namespace sdw
 		ast::stmt::StmtCache compileStmtCache{ *allocator };
 		ast::expr::ExprCache compileExprCache{ *allocator };
 		ast::SSAData ssaData;
-		ssaData.nextVarId = shader.getData().nextVarId;
+		ssaData.nextVarId = shader.getVarId();
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, typesCache
@@ -43,7 +43,6 @@ namespace sdw
 			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, typesCache
 			, *statements );
 		return debug::displayStatements( *statements );
 	}

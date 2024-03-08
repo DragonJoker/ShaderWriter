@@ -72,7 +72,6 @@ namespace ast::type
 	{
 	public:
 		SDAST_API TypesCache();
-		SDAST_API ~TypesCache() = default;
 		SDAST_API TypePtr getUndefined();
 		SDAST_API TypePtr getVoid();
 		SDAST_API TypePtr getBool();
@@ -175,7 +174,7 @@ namespace ast::type
 		SDAST_API TypePtr getTexelType( ImageFormat format );
 		SDAST_API FunctionPtr getFunction( TypePtr returnType, var::VariableList parameters );
 		SDAST_API BaseStructPtr getStruct( MemoryLayout layout, std::string const & name );
-		SDAST_API IOStructPtr getIOStruct( std::string name, ast::EntryPoint entryPoint, var::Flag flag );
+		SDAST_API IOStructPtr getIOStruct( std::string const & name, ast::EntryPoint entryPoint, var::Flag flag );
 		SDAST_API ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize );
 
 		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex )const;

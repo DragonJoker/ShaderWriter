@@ -7,6 +7,7 @@ See LICENSE file in root folder
 #include "HlslStorageImageAccessNames.hpp"
 #include "HlslCombinedImageAccessNames.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 
@@ -1338,10 +1339,9 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			[[noreturn]]
 			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout const * stmt )override
 			{
-				AST_Failure( "ast::stmt::FragmentLayout unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::FragmentLayout unexpected at that point" );
 			}
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
@@ -1661,16 +1661,14 @@ namespace hlsl
 				m_result += m_indent + "IgnoreHit();\n";
 			}
 
-			[[noreturn]]
 			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
-				AST_Failure( "ast::stmt::InOutVariableDecl unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::InOutVariableDecl unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitSpecialisationConstantDeclStmt( ast::stmt::SpecialisationConstantDecl const * stmt )override
 			{
-				AST_Failure( "ast::stmt::SpecialisationConstantDecl unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::SpecialisationConstantDecl unexpected at that point" );
 			}
 
 			void visitInputComputeLayoutStmt( ast::stmt::InputComputeLayout const * stmt )override
@@ -1698,46 +1696,39 @@ namespace hlsl
 				}
 			}
 
-			[[noreturn]]
 			void visitInputGeometryLayoutStmt( ast::stmt::InputGeometryLayout const * stmt )override
 			{
-				AST_Failure( "ast::stmt::InputGeometryLayout unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::InputGeometryLayout unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitInputTessellationEvaluationLayoutStmt( ast::stmt::InputTessellationEvaluationLayout const * stmt )override
 			{
-				AST_Failure( "ast::stmt::InputTessellationEvaluationLayout unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::InputTessellationEvaluationLayout unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitOutputGeometryLayoutStmt( ast::stmt::OutputGeometryLayout const * stmt )override
 			{
-				AST_Failure( "ast::stmt::OutputGeometryLayout unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::OutputGeometryLayout unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitOutputMeshLayoutStmt( ast::stmt::OutputMeshLayout const * stmt )override
 			{
-				AST_Failure( "ast::stmt::OutputMeshLayout unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::OutputMeshLayout unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitOutputTessellationControlLayoutStmt( ast::stmt::OutputTessellationControlLayout const * stmt )override
 			{
-				AST_Failure( "ast::stmt::visitOutputTessellationControlLayoutStmt unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::visitOutputTessellationControlLayoutStmt unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitPerPrimitiveDeclStmt( ast::stmt::PerPrimitiveDecl const * stmt )override
 			{
-				AST_Failure( "ast::stmt::PerPrimitiveDecl unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::PerPrimitiveDecl unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitPerVertexDeclStmt( ast::stmt::PerVertexDecl const * stmt )override
 			{
-				AST_Failure( "ast::stmt::PerVertexDecl unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::PerVertexDecl unexpected at that point" );
 			}
 
 			void visitReturnStmt( ast::stmt::Return const * stmt )override
@@ -1754,10 +1745,9 @@ namespace hlsl
 				}
 			}
 
-			[[noreturn]]
 			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
-				AST_Failure( "ast::stmt::CombinedImageDecl unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::CombinedImageDecl unexpected at that point" );
 			}
 
 			void visitSampledImageDeclStmt( ast::stmt::SampledImageDecl const * stmt )override
@@ -1891,16 +1881,14 @@ namespace hlsl
 				m_appendLineEnd = true;
 			}
 
-			[[noreturn]]
 			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override
 			{
-				AST_Failure( "ast::stmt::PreprocExtension unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::PreprocExtension unexpected at that point" );
 			}
 
-			[[noreturn]]
 			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
-				AST_Failure( "ast::stmt::PreprocVersion unexpected at that point" );
+				ast::Logger::logError( "ast::stmt::PreprocVersion unexpected at that point" );
 			}
 
 			void declareVariable( ast::var::VariablePtr pvar )

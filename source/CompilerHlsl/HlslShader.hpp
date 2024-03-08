@@ -57,6 +57,7 @@ namespace hlsl
 		std::map< std::string, ast::var::VariablePtr, std::less<> > m_registered;
 		std::map< std::string, ast::SamplerInfo, std::less<> > m_samplers;
 		std::map< std::string, ast::ImageInfo, std::less<> > m_images;
+		uint32_t m_nextVarId;
 	};
 }
 
