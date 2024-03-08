@@ -2,6 +2,7 @@
 
 #include <ShaderAST/Var/Variable.hpp>
 #include <ShaderAST/Visitors/DebugDisplayStatements.hpp>
+#include <ShaderAST/Visitors/SimplifyStatements.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
@@ -14,11 +15,16 @@ namespace
 	{
 		astTestBegin( "testBase" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getUndefined();
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUndefined )
+#if SDAST_ExceptAssert
+			astCheckThrow( makeOne( exprCache, type ) )
+			astCheckThrow( makeZero( exprCache, type ) )
+#endif
 			astCheck( type->getIndex() == type::NotMember )
 			astCheck( type->getParent() == nullptr )
 			astCheck( !isWrapperType( *type ) )
@@ -151,11 +157,14 @@ namespace
 	{
 		astTestBegin( "testSIntBase" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getInt8();
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( isSignedInt8Type( type->getKind() ) )
@@ -192,6 +201,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -228,6 +239,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -264,6 +277,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -302,11 +317,14 @@ namespace
 	{
 		astTestBegin( "testUIntBase" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getUInt8();
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -343,6 +361,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -379,6 +399,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -415,6 +437,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -453,6 +477,7 @@ namespace
 	{
 		astTestBegin( "testFloatBase" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getHalf();
 			astCheckNoThrow( debug::getTypeName( type ) )
@@ -494,6 +519,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -530,6 +557,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eDouble )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -568,6 +597,7 @@ namespace
 	{
 		astTestBegin( "testBaseVecSInt" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getVec2B();
 			astCheckNoThrow( debug::getTypeName( type ) )
@@ -684,6 +714,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( isSignedInt8Type( type->getKind() ) )
@@ -720,6 +752,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3I8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( isSignedInt8Type( type->getKind() ) )
@@ -756,6 +790,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( isSignedInt8Type( type->getKind() ) )
@@ -792,6 +828,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -828,6 +866,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3I16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -864,6 +904,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -900,6 +942,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -936,6 +980,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3I32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -972,6 +1018,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1008,6 +1056,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1044,6 +1094,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3I64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1080,6 +1132,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1118,11 +1172,14 @@ namespace
 	{
 		astTestBegin( "testBaseVecUInt" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getVec2U8();
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1159,6 +1216,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3U8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1195,6 +1254,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U8 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1231,6 +1292,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1267,6 +1330,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3U16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1303,6 +1368,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U16 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1339,6 +1406,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1375,6 +1444,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3U32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1411,6 +1482,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1447,6 +1520,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1483,6 +1558,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3U64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1519,6 +1596,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U64 )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1557,6 +1636,7 @@ namespace
 	{
 		astTestBegin( "testBaseVecH" );
 		type::TypesCache typesCache;
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		{
 			auto type = typesCache.getVec2H();
 			astCheckNoThrow( debug::getTypeName( type ) )
@@ -1634,6 +1714,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1670,6 +1752,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3F )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1706,6 +1790,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1742,6 +1828,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2D )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1778,6 +1866,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3D )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )
@@ -1814,6 +1904,8 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4D )
+			astCheckNoThrow( makeOne( exprCache, type ) )
+			astCheckNoThrow( makeZero( exprCache, type ) )
 			astCheck( !isBoolType( type->getKind() ) )
 			astCheck( !isUnsignedInt8Type( type->getKind() ) )
 			astCheck( !isSignedInt8Type( type->getKind() ) )

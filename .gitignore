@@ -3,8 +3,8 @@
 /build
 /out
 /setup
-/doc/coverage
-/doc/ShaderWriterCoverage
+/doc/*coverage*
+/doc/*Coverage*
 /doc/ShaderWriterCoverage.xml
 /doc/x86
 /doc/x64

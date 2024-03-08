@@ -6,7 +6,7 @@ See LICENSE file in root folder
 #pragma once
 
 #include "BoInfo.hpp"
-#include "shader.h"
+#include "ast_shader.h"
 
 #include "ShaderAST/ShaderStlTypes.hpp"
 #include "ShaderAST/Expr/ExprCache.hpp"
@@ -46,6 +46,8 @@ namespace ast
 		using InputMap = std::map< std::string, InputInfo, std::less<> >;
 		using OutputMap = std::map< std::string, OutputInfo, std::less<> >;
 		using InOutMap = std::map< std::string, InOutInfo, std::less<> >;
+		using AllInputsMap = std::map< EntryPoint, ShaderData::InputMap, std::less<> >;
+		using AllOutputsMap = std::map< EntryPoint, ShaderData::OutputMap, std::less<> >;
 
 		SsboMap ssbos;
 		UboMap ubos;
@@ -59,8 +61,8 @@ namespace ast
 		TextureMap uniformTexels;
 		ImageMap images;
 		ImageMap storageTexels;
-		std::map< EntryPoint, InputMap, std::less<> > inputs;
-		std::map< EntryPoint, OutputMap, std::less<> > outputs;
+		AllInputsMap inputs;
+		AllOutputsMap outputs;
 		InOutMap inOuts;
 		AccStructInfo accelerationStruct;
 		uint32_t tessellationControlPoints{};
@@ -74,8 +76,8 @@ namespace ast
 	public:
 		SDAST_API Shader( Shader const & ) = delete;
 		SDAST_API Shader & operator=( Shader const & ) = delete;
-		SDAST_API Shader( Shader && )noexcept = default;
-		SDAST_API Shader & operator=( Shader && )noexcept = default;
+		SDAST_API Shader( Shader && rhs )noexcept;
+		SDAST_API Shader & operator=( Shader && rhs )noexcept = delete;
 
 		SDAST_API explicit Shader( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
@@ -88,6 +90,36 @@ namespace ast
 		SDAST_API var::VariablePtr getGlobalVariable( std::string_view const & name )const;
 		SDAST_API void registerGlobalVariable( var::VariablePtr var );
 		/**@}*/
+		/**
+		*name
+		*	Data helpers.
+		*/
+		/**@{*/
+		SDAST_API uint32_t getNextVarId();
+		SDAST_API void setTessellationControlPoints( uint32_t v );
+		SDAST_API void registerConstant( std::string name, type::TypePtr type );
+		SDAST_API void registerSpecConstant( std::string name, type::TypePtr type, uint32_t location );
+		SDAST_API void registerSampler( std::string name, type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void registerUniformTexelBuffer( std::string name, type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void registerStorageTexelBuffer( std::string name, type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void registerSampledImage( std::string name, type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void registerCombinedImage( std::string name, type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void registerStorageImage( std::string name, type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void setAccelerationStruct( type::TypePtr type, uint32_t binding, uint32_t set );
+		SDAST_API void registerInput( EntryPoint entryPoint
+			, std::string name
+			, uint32_t location
+			, type::TypePtr type );
+		SDAST_API void registerOutput( EntryPoint entryPoint
+			, std::string name
+			, uint32_t location
+			, type::TypePtr type );
+		SDAST_API void registerInOut( std::string name, type::TypePtr type );
+		SDAST_API void registerSsbo( std::string name, SsboInfo const & info );
+		SDAST_API void registerUbo( std::string name, UboInfo const & info );
+		SDAST_API void registerPcb( std::string name, InterfaceBlock const & info );
+		SDAST_API void registerShaderRecord( std::string name, ShaderRecordInfo const & info );
+		/**@}*/
 
 		SsboInfo const & getSsboInfo( std::string const & name )const
 		{
@@ -99,9 +131,24 @@ namespace ast
 			return m_data.ubos.at( name );
 		}
 
+		InterfaceBlock const & getPcbInfo( std::string const & name )const
+		{
+			return m_data.pcbs.at( name );
+		}
+
 		ShaderRecordInfo const & getShaderRecordInfo( std::string const & name )const
 		{
 			return m_data.shaderRecords.at( name );
+		}
+
+		AccStructInfo const & getAccelerationStructureInfo()const
+		{
+			return m_data.accelerationStruct;
+		}
+
+		uint32_t getTessellationControlPoints()const
+		{
+			return m_data.tessellationControlPoints;
 		}
 
 		type::TypePtr getInput( EntryPoint entryPoint
@@ -130,57 +177,77 @@ namespace ast
 			return sit->second.at( name ).type;
 		}
 
-		std::map< std::string, SpecConstantInfo, std::less<> > const & getSpecConstants()const
+		ShaderData::ConstantsMap const & getConstants()const
+		{
+			return m_data.constants;
+		}
+
+		ShaderData::SpecConstantsMap const & getSpecConstants()const
 		{
 			return m_data.specConstants;
 		}
 
-		std::map< std::string, UboInfo, std::less<> > const & getUbos()const
+		ShaderData::UboMap const & getUbos()const
 		{
 			return m_data.ubos;
 		}
 
-		std::map< std::string, SsboInfo, std::less<> > const & getSsbos()const
+		ShaderData::SsboMap const & getSsbos()const
 		{
 			return m_data.ssbos;
 		}
 
-		std::map< std::string, PcbInfo, std::less<> > const & getPcbs()const
+		ShaderData::PcbMap const & getPcbs()const
 		{
 			return m_data.pcbs;
 		}
 
-		std::map< std::string, ShaderRecordInfo, std::less<> > const & getShaderRecords()const
+		ShaderData::ShaderRecordMap const & getShaderRecords()const
 		{
 			return m_data.shaderRecords;
 		}
 
-		std::map< std::string, SamplerInfo, std::less<> > const & getSamplers()const
+		ShaderData::SamplerMap const & getSamplers()const
 		{
 			return m_data.samplers;
 		}
 
-		std::map< std::string, TextureInfo, std::less<> > const & getSampled()const
+		ShaderData::TextureMap const & getSampledImages()const
 		{
 			return m_data.sampled;
 		}
 
-		std::map< std::string, TextureInfo, std::less<> > const & getCombinedImages()const
+		ShaderData::TextureMap const & getCombinedImages()const
 		{
 			return m_data.textures;
 		}
 
-		std::map< std::string, TextureInfo, std::less<> > const & getUniformTexelBuffers()const
+		ShaderData::ImageMap const & getStorageImages()const
+		{
+			return m_data.images;
+		}
+
+		ShaderData::TextureMap const & getUniformTexelBuffers()const
 		{
 			return m_data.uniformTexels;
 		}
 
-		std::map< std::string, ImageInfo, std::less<> > const & getStorageTexelBuffers()const
+		ShaderData::ImageMap const & getStorageTexelBuffers()const
 		{
 			return m_data.storageTexels;
 		}
 
-		std::map< std::string, InputInfo, std::less<> > const & getInputs( EntryPoint entryPoint )const
+		ShaderData::AllInputsMap const & getAllInputs()const
+		{
+			return m_data.inputs;
+		}
+
+		ShaderData::AllOutputsMap const & getAllOutputs()const
+		{
+			return m_data.outputs;
+		}
+
+		ShaderData::InputMap const & getInputs( EntryPoint entryPoint )const
 		{
 			auto sit = m_data.inputs.find( entryPoint );
 
@@ -193,7 +260,7 @@ namespace ast
 			return sit->second;
 		}
 
-		std::map< std::string, OutputInfo, std::less<> > const & getOutputs( EntryPoint entryPoint )const
+		ShaderData::OutputMap const & getOutputs( EntryPoint entryPoint )const
 		{
 			auto sit = m_data.outputs.find( entryPoint );
 
@@ -206,7 +273,7 @@ namespace ast
 			return sit->second;
 		}
 
-		std::map< std::string, InOutInfo, std::less<> > const & getInOuts()const
+		ShaderData::InOutMap const & getInOuts()const
 		{
 			return m_data.inOuts;
 		}
@@ -241,19 +308,13 @@ namespace ast
 			return *m_allocator;
 		}
 
-		ShaderData const & getData()const
+		uint32_t getVarId()const noexcept
 		{
-			return m_data;
+			return m_data.nextVarId;
 		}
 
-		SDAST_API SdwShader getOpaqueHandle()const;
-		SDAST_API static Shader const & fromOpaqueHandle(SdwShader shader);
-
-	private:
-		ShaderData & getData()
-		{
-			return m_data;
-		}
+		SDAST_API AstShader getOpaqueHandle()const;
+		SDAST_API static Shader const & fromOpaqueHandle( AstShader shader );
 
 	private:
 		ast::ShaderStage m_type;

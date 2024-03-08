@@ -51,15 +51,10 @@ See LICENSE file in root folder
 	throw ast::Exception{ text }
 
 #if SDAST_ExceptAssert
-#	ifndef NDEBUG
 #	define AST_Assert( pred )\
 		( !!( pred ) ) || ( AST_Exception( #pred ), 0 )
 #	define AST_Failure( msg )\
 		AST_Exception( msg )
-#	else
-#		define AST_Assert( pred )
-#		define AST_Failure( msg )
-#	endif
 #else
 #	define AST_Assert( pred )\
 		assert( pred )

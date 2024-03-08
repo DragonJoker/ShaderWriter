@@ -1,5 +1,7 @@
 #include "Common.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
+
 #if defined( _WIN32 )
 #	include <Windows.h>
 #elif defined( __linux__ )
@@ -216,6 +218,26 @@ namespace test
 		{
 			return path.substr( 0, path.find_last_of( PathSeparator ) );
 		}
+
+		uint32_t printBlocks( std::vector< TestBlock * > const & blocks
+			, uint32_t count
+			, TestCounts & testCounts )
+		{
+			for ( auto block : blocks )
+			{
+				if ( !block->indent )
+				{
+					testCounts.decIndent();
+					--count;
+				}
+
+				testCounts << block->text << endl;
+				testCounts.incIndent();
+				++count;
+			}
+
+			return count;
+		}
 	}
 
 #if defined( _WIN32 )
@@ -431,6 +453,15 @@ namespace test
 
 				current.second = std::thread{ [this, run]()
 					{
+						ast::Logger::setErrorCallback( [&run]( std::string msg, bool newLine )
+							{
+								if ( newLine )
+								{
+									msg += "\n";
+								}
+
+								run->testCount->appendToNextError( msg );
+							} );
 						run->testCount->initialise();
 						auto result = run->launch( *this, *run->testCount );
 						auto memory = run->testCount->allocator.report();
@@ -484,28 +515,6 @@ namespace test
 	TestBlock::~TestBlock()noexcept
 	{
 		testCounts.doPopBlock( this );
-	}
-
-	//*********************************************************************************************
-
-	uint32_t printBlocks( std::vector< TestBlock * > const & blocks
-		, uint32_t count
-		, TestCounts & testCounts )
-	{
-		for ( auto block : blocks )
-		{
-			if ( !block->indent )
-			{
-				testCounts.decIndent();
-				--count;
-			}
-
-			testCounts << block->text << endl;
-			testCounts.incIndent();
-			++count;
-		}
-
-		return count;
 	}
 
 	//*********************************************************************************************

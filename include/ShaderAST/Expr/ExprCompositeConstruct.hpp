@@ -45,14 +45,14 @@ namespace ast::expr
 		ExprList m_argList;
 	};
 
-	uint32_t getComponentCount( CompositeType value );
-	type::TypePtr getCompositeType( type::TypesCache & typesCache
+	SDAST_API uint32_t getComponentCount( CompositeType value );
+	SDAST_API type::TypePtr getCompositeType( type::TypesCache & typesCache
 		, CompositeType composite
 		, type::Kind component );
-	type::TypePtr getCompositeType( type::TypesCache & typesCache
+	SDAST_API type::TypePtr getCompositeType( type::TypesCache & typesCache
 		, type::ImageConfiguration config
 		, bool isComparison );
-	type::TypePtr getCombinedType( type::TypePtr image
+	SDAST_API type::TypePtr getCombinedType( type::TypePtr image
 		, type::TypePtr sampler );
 }
 

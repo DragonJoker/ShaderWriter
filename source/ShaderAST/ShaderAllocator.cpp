@@ -2,6 +2,7 @@
 See LICENSE file in root folder
 */
 #include "ShaderAST/ShaderAllocator.hpp"
+#include "ShaderAST/ShaderLog.hpp"
 
 #pragma warning( push )
 #pragma warning( disable: 4365 )
@@ -28,28 +29,10 @@ namespace ast
 	{
 		for ( auto const & [offset, level] : m_allocated )
 		{
-			std::cout << "Leaked block at " << offset << ", for level " << level << " for " << m_minBlockSize << " block size buddy" << std::endl;
+			std::stringstream stream;
+			stream << "Leaked block at " << offset << ", for level " << level << " for " << m_minBlockSize << " block size buddy";
+			Logger::logError( stream.str() );
 		}
-	}
-
-	bool BuddyAllocator::hasAvailable( size_t size )const
-	{
-		auto level = doGetLevel( size );
-		bool result = !size;
-
-		if ( !result && size <= getTotalSize() )
-		{
-			auto it = m_freeLists.rend() - ( level + 1 );
-
-			while ( it != m_freeLists.rend() && it->empty() )
-			{
-				++it;
-			}
-
-			result = it != m_freeLists.rend();
-		}
-
-		return result;
 	}
 
 	BuddyAllocator::PointerType BuddyAllocator::allocate( size_t size )
@@ -65,7 +48,7 @@ namespace ast
 		}
 		else
 		{
-			throw std::bad_alloc{};
+			AST_Exception( "Can't allocate, larger than limit" );
 		}
 
 		return result;
@@ -92,7 +75,7 @@ namespace ast
 		}
 		else
 		{
-			std::cout << "Double delete at " << offset << std::endl;
+			Logger::logError( "Double delete at " + std::to_string( offset ) );
 		}
 
 		return result;
@@ -101,11 +84,6 @@ namespace ast
 	size_t BuddyAllocator::getTotalSize()const
 	{
 		return m_memory.size();
-	}
-
-	size_t BuddyAllocator::getAlignSize()const
-	{
-		return m_minBlockSize;
 	}
 
 	BuddyAllocator::PointerType BuddyAllocator::getPointer( uint32_t offset )
@@ -150,16 +128,10 @@ namespace ast
 		{
 			if ( level == 0 )
 			{
-				return nullptr;
+				AST_Exception( "Can't allocate, out of memory" );
 			}
 
 			auto buddy = doAllocate( level - 1 );
-
-			if ( !buddy )
-			{
-				return buddy;
-			}
-
 			freeList.push_back( PointerType( buddy ) );
 			freeList.push_back( PointerType( buddy + doGetLevelSize( level ) ) );
 		}
@@ -249,17 +221,38 @@ namespace ast
 	{
 		if ( m_allocator )
 		{
-			m_allocator->flushTo( m_savedCursor );
+			if ( m_allocator->m_allocationMode == AllocationMode::eIncremental )
+			{
+				m_allocator->flushTo( m_savedCursor );
+			}
+			else if ( m_allocator->m_allocationMode == AllocationMode::eFragmented )
+			{
+				for ( auto allocated : m_allocated )
+				{
+					m_allocator->deallocate( allocated.mem, allocated.size, allocated.count );
+				}
+			}
 		}
 	}
 
 	void * ShaderAllocatorBlock::allocate( size_t size, size_t count )
 	{
-		return m_allocator->allocate( size, count );
+		return m_allocated.emplace_back( m_allocator->allocate( size, count ), size, count ).mem;
 	}
 
 	void ShaderAllocatorBlock::deallocate( void * mem, size_t size, size_t count )noexcept
 	{
+		auto it = std::find_if( m_allocated.begin()
+			, m_allocated.end()
+			, [mem]( Allocation const & lookup )
+			{
+				return lookup.mem == mem;
+			} );
+		if ( it != m_allocated.end() )
+		{
+			m_allocated.erase( it );
+		}
+
 		m_allocator->deallocate( mem, size, count );
 	}
 
@@ -387,20 +380,14 @@ namespace ast
 
 			if ( currentIt != m_memory.end() )
 			{
-				try
+				for ( auto it = currentIt; it != m_memory.end(); ++it )
 				{
-					for ( auto it = currentIt; it != m_memory.end(); ++it )
-					{
-						it->offset = 0u;
-						m_pending.push_back( std::move( *it ) );
-					}
+					it->offset = 0u;
+					m_pending.push_back( std::move( *it ) );
+				}
 
-					m_memory.erase( currentIt, m_memory.end() );
-					m_currentMemory = &m_memory[size_t( cursor.index )];
-				}
-				catch ( ... )
-				{
-				}
+				m_memory.erase( currentIt, m_memory.end() );
+				m_currentMemory = &m_memory[size_t( cursor.index )];
 			}
 		}
 	}

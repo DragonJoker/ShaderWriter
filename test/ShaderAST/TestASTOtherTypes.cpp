@@ -10,51 +10,6 @@
 
 namespace
 {
-	void testMemorySemantics( test::TestCounts & testCounts )
-	{
-		astTestBegin( "testMemorySemantics" );
-		{
-			ast::type::MemorySemantics semantics{};
-			astCheck( uint32_t( semantics ) == 0u )
-			semantics = semantics | ast::type::MemorySemanticsMask::eAcquire;
-			astCheck( semantics == ast::type::MemorySemanticsMask::eAcquire )
-			semantics = semantics & ast::type::MemorySemanticsMask( ~uint32_t( ast::type::MemorySemanticsMask::eAcquire ) );
-			astCheck( uint32_t( semantics ) == 0u )
-			semantics = ast::type::MemorySemanticsMask::eAcquire | semantics;
-			astCheck( semantics == ast::type::MemorySemanticsMask::eAcquire )
-			semantics = ast::type::MemorySemanticsMask::eAcquire & semantics;
-			astCheck( ast::type::MemorySemanticsMask::eAcquire == semantics )
-			astCheck( ast::type::MemorySemanticsMask::eAcquire == ast::type::MemorySemanticsMask::eAcquire )
-			auto rhs = semantics;
-			astCheck( semantics == rhs )
-		}
-		{
-			ast::type::MemorySemantics semantics{ ast::type::MemorySemanticsMask::eAcquire };
-			astCheck( uint32_t( semantics ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
-		}
-		{
-			ast::type::MemorySemantics semantics{ uint32_t( ast::type::MemorySemanticsMask::eAcquire ) };
-			astCheck( uint32_t( semantics ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
-		}
-		{
-			auto semantics{ ast::type::MemorySemanticsMask::eAcquire | ast::type::MemorySemanticsMask::eAcquireRelease };
-			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquire ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
-			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) )
-			semantics = ast::type::MemorySemanticsMask::eAcquire & ast::type::MemorySemanticsMask::eAcquireRelease;
-			astCheck( uint32_t( semantics ) == 0u )
-		}
-		{
-			ast::type::MemorySemantics lhs{ ast::type::MemorySemanticsMask::eAcquire };
-			ast::type::MemorySemantics rhs{ ast::type::MemorySemanticsMask::eAcquireRelease };
-			auto semantics{ lhs | rhs };
-			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquire ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquire ) )
-			astCheck( ( uint32_t( semantics ) & uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) ) == uint32_t( ast::type::MemorySemanticsMask::eAcquireRelease ) )
-			semantics = lhs & rhs;
-			astCheck( uint32_t( semantics ) == 0u )
-		}
-		astTestEnd()
-	}
-
 	void testAccelerationStructure( test::TestCounts & testCounts )
 	{
 		astTestBegin( "testAccelerationStructure" );
@@ -64,6 +19,7 @@ namespace
 		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
 		astCheck( type->getKind() == ast::type::Kind::eAccelerationStructure )
 		astCheck( !isStructType( type ) )
+		astCheck( !hasRuntimeArray( type ) )
 
 		auto type2 = typesCache.getAccelerationStructure();
 		astCheck( type2 == type )
@@ -73,10 +29,12 @@ namespace
 	void testArray( test::TestCounts & testCounts )
 	{
 		astTestBegin( "testArray" );
+		if ( astOn( "Not array" ) )
 		{
 			ast::type::TypesCache typesCache;
 			astCheckThrow( typesCache.getArray( typesCache.getInt32(), ast::type::NotArray ) )
 		}
+		if ( astOn( "Dynamic array" ) )
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getArray( typesCache.getInt32(), ast::type::UnknownArraySize );
@@ -87,6 +45,8 @@ namespace
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( type->getArraySize() == ast::type::UnknownArraySize )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( type ) )
+			astCheck( !getStructType( *type ) )
 			astCheck( isArrayType( type->getKind() ) )
 			astCheck( getNonArrayKindRec( type ) == ast::type::Kind::eInt32 )
 			astCheck( getNonArrayTypeRec( type ) == typesCache.getInt32() )
@@ -96,6 +56,7 @@ namespace
 			astCheck( type2 == type )
 			astCheck( *type2 == *type )
 		}
+		if ( astOn( "Static array" ) )
 		{
 			ast::type::TypesCache typesCache;
 			auto type = typesCache.getArray( typesCache.getInt32(), 18 );
@@ -106,6 +67,8 @@ namespace
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( type->getArraySize() == 18 )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( type ) )
+			astCheck( !getStructType( *type ) )
 			astCheck( isArrayType( type->getKind() ) )
 
 			auto type2 = typesCache.getArray( typesCache.getInt32(), 18 );
@@ -127,6 +90,8 @@ namespace
 		astCheck( type->getDataType() == typesCache.getInt32() )
 		astCheck( type->getLocation() == 17u )
 		astCheck( !isStructType( type ) )
+		astCheck( !getStructType( type ) )
+		astCheck( !getStructType( *type ) )
 		astCheck( isWrapperType( type ) )
 		astCheck( unwrapType( type ) == typesCache.getInt32() )
 		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
@@ -150,6 +115,8 @@ namespace
 		astCheck( type->getLocalSizeY() == 18u )
 		astCheck( type->getLocalSizeZ() == 19u )
 		astCheck( !isStructType( type ) )
+		astCheck( !getStructType( type ) )
+		astCheck( !getStructType( *type ) )
 		astTestEnd()
 	}
 
@@ -172,6 +139,8 @@ namespace
 				astCheck( type->getOrigin() == ast::FragmentOrigin( origin ) )
 				astCheck( type->getCenter() == ast::FragmentCenter( center ) )
 				astCheck( !isStructType( type ) )
+				astCheck( !getStructType( type ) )
+				astCheck( !getStructType( *type ) )
 			}
 		}
 		astTestEnd()
@@ -327,6 +296,8 @@ namespace
 				astCheck( type->getType() == typesCache.getInt32() )
 				astCheck( type->getLayout() == ast::type::InputLayout( layout ) )
 				astCheck( !isStructType( type ) )
+				astCheck( !getStructType( type ) )
+				astCheck( !getStructType( *type ) )
 			}
 			{
 				ast::type::TypesCache typesCache;
@@ -339,6 +310,8 @@ namespace
 				astCheck( type->getType() == typesCache.getArray( typesCache.getInt32(), 4u ) )
 				astCheck( type->getLayout() == ast::type::InputLayout( layout ) )
 				astCheck( !isStructType( type ) )
+				astCheck( !getStructType( type ) )
+				astCheck( !getStructType( *type ) )
 			}
 		}
 		for ( uint32_t layout = 0u; layout <= uint32_t( ast::type::OutputLayout::eTriangleStrip ); ++layout )
@@ -355,6 +328,8 @@ namespace
 			astCheck( type->getLayout() == ast::type::OutputLayout( layout ) )
 			astCheck( type->getCount() == 15u )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( type ) )
+			astCheck( !getStructType( *type ) )
 		}
 		astTestEnd()
 	}
@@ -370,6 +345,8 @@ namespace
 		astCheck( type->getKind() == ast::type::Kind::eInt32 )
 		astCheck( type->getDataType() == typesCache.getInt32() )
 		astCheck( !isStructType( type ) )
+		astCheck( !getStructType( type ) )
+		astCheck( !getStructType( *type ) )
 		astCheck( isWrapperType( type ) )
 		astCheck( unwrapType( type ) == typesCache.getInt32() )
 		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
@@ -391,6 +368,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( type ) )
+			astCheck( !getStructType( *type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -401,6 +380,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -411,6 +392,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadIn )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -421,6 +404,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadIn )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -432,6 +417,8 @@ namespace
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( type->getMaxVertices() == 17u )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -443,6 +430,8 @@ namespace
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( type->getMaxVertices() == 17u )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		for ( uint32_t topology = 0u; topology <= uint32_t( ast::type::OutputTopology::eQuad ); ++topology )
 		{
@@ -457,6 +446,8 @@ namespace
 				astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
 				astCheck( type->getMaxPrimitives() == 17u )
 				astCheck( !isStructType( type ) )
+				astCheck( !getStructType( *type ) )
+				astCheck( !getStructType( type ) )
 			}
 			{
 				ast::type::TypesCache typesCache;
@@ -469,6 +460,8 @@ namespace
 				astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
 				astCheck( type->getMaxPrimitives() == 17u )
 				astCheck( !isStructType( type ) )
+				astCheck( !getStructType( *type ) )
+				astCheck( !getStructType( type ) )
 			}
 		}
 		astTestEnd()
@@ -517,6 +510,7 @@ namespace
 				astCheck( pointer.getStorage() == ast::type::Storage( storage ) )
 				astCheck( !pointer.isForward() )
 				astCheck( !isStructType( pointer ) )
+				astCheck( !getStructType( pointer ) )
 				astCheck( getPointerLevel( type ) == 1u )
 
 				auto & type2 = static_cast< ast::type::Pointer const & >( *typesCache.getPointerType( typesCache.getInt32(), ast::type::Storage( storage ) ) );
@@ -536,6 +530,7 @@ namespace
 				astCheck( pointer.getStorage() == ast::type::Storage( storage ) )
 				astCheck( pointer.isForward() )
 				astCheck( !isStructType( pointer ) )
+				astCheck( !getStructType( pointer ) )
 				astCheck( getPointerLevel( type ) == 1u )
 
 				auto & type2 = static_cast< ast::type::Pointer const & >( *typesCache.getForwardPointerType( typesCache.getInt32(), ast::type::Storage( storage ) ) );
@@ -558,6 +553,8 @@ namespace
 		astCheck( type->getDataType() == typesCache.getInt32() )
 		astCheck( type->getLocation() == 17u )
 		astCheck( !isStructType( type ) )
+		astCheck( !getStructType( *type ) )
+		astCheck( !getStructType( type ) )
 		astCheck( isWrapperType( type ) )
 		astCheck( unwrapType( type ) == typesCache.getInt32() )
 		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
@@ -595,6 +592,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadNV )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -605,6 +604,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadNV )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -615,6 +616,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayload )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -625,6 +628,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayload )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		astTestEnd()
 	}
@@ -642,6 +647,8 @@ namespace
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( type->getLocation() == 17u )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -653,6 +660,8 @@ namespace
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( type->getInputVertices() == 17u )
 			astCheck( !isStructType( type ) )
+			astCheck( !getStructType( *type ) )
+			astCheck( !getStructType( type ) )
 		}
 		for ( uint32_t domain = 0u; domain <= uint32_t( ast::type::PatchDomain::eQuads ); ++domain )
 		{
@@ -681,6 +690,8 @@ namespace
 							astCheck( type->getOrder() == ast::type::PrimitiveOrdering( ordering ) )
 							astCheck( type->getOutputVertices() == 17u )
 							astCheck( !isStructType( type ) )
+							astCheck( !getStructType( *type ) )
+							astCheck( !getStructType( type ) )
 						}
 						{
 							ast::type::TypesCache typesCache;
@@ -701,6 +712,8 @@ namespace
 							astCheck( type->getOrder() == ast::type::PrimitiveOrdering( ordering ) )
 							astCheck( type->getOutputVertices() == 17u )
 							astCheck( !isStructType( type ) )
+							astCheck( !getStructType( *type ) )
+							astCheck( !getStructType( type ) )
 						}
 					}
 				}
@@ -727,6 +740,8 @@ namespace
 				astCheck( type->getDomain() == ast::type::PatchDomain( domain ) )
 				astCheck( type->getLocation() == 17u )
 				astCheck( !isStructType( type ) )
+				astCheck( !getStructType( *type ) )
+				astCheck( !getStructType( type ) )
 			}
 			for ( uint32_t partitioning = 0u; partitioning <= uint32_t( ast::type::Partitioning::eFractionalOdd ); ++partitioning )
 			{
@@ -748,6 +763,8 @@ namespace
 					astCheck( type->getPrimitiveOrdering() == ast::type::PrimitiveOrdering( ordering ) )
 					astCheck( type->getInputVertices() == 17u )
 					astCheck( !isStructType( type ) )
+					astCheck( !getStructType( *type ) )
+					astCheck( !getStructType( type ) )
 				}
 			}
 		}
@@ -758,7 +775,6 @@ namespace
 astTestSuiteMain( TestASTOtherTypes )
 {
 	astTestSuiteBegin()
-	testMemorySemantics( testCounts );
 	testAccelerationStructure( testCounts );
 	testArray( testCounts );
 	testCallableData( testCounts );

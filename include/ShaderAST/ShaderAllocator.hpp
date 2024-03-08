@@ -40,13 +40,6 @@ namespace ast
 		*/
 		~BuddyAllocator();
 		/**
-		*\param[in]	size
-		*	The requested memory size.
-		*\return
-		*	\p true if there is enough remaining memory for given size.
-		*/
-		bool hasAvailable( size_t size )const;
-		/**
 		*	Allocates memory.
 		*\param[in]	size
 		*	The requested memory size.
@@ -66,7 +59,6 @@ namespace ast
 		*/
 		size_t getTotalSize()const;
 
-		size_t getAlignSize()const;
 		PointerType getPointer( uint32_t offset );
 		size_t getOffset( ConstPointerType pointer )const;
 
@@ -123,6 +115,22 @@ namespace ast
 	private:
 		ShaderAllocator * m_allocator;
 		MemoryCursor m_savedCursor{};
+		struct Allocation
+		{
+			Allocation( void * mem
+				, size_t size
+				, size_t count )
+				: mem{ mem }
+				, size{ size }
+				, count{ count }
+			{
+			}
+
+			void * mem;
+			size_t size;
+			size_t count;
+		};
+		std::vector< Allocation > m_allocated;
 	};
 
 	class ShaderAllocator

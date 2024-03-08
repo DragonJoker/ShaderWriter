@@ -76,6 +76,19 @@ namespace ast
 		m_blocks.erase( m_blocks.begin() + ptrdiff_t( m_blocks.size() - 1 ) );
 	}
 
+	void ShaderBuilder::pushScope( ast::stmt::ContainerPtr container )
+	{
+		m_currentStmts.emplace_back( std::move( container ) );
+		push( m_currentStmts.back().get(), ast::var::VariableList{} );
+	}
+
+	void ShaderBuilder::popScope()
+	{
+		pop();
+		addStmt( std::move( m_currentStmts.back() ) );
+		m_currentStmts.erase( m_currentStmts.begin() + ptrdiff_t( m_currentStmts.size() - 1u ) );
+	}
+
 	void ShaderBuilder::saveNextExpr()
 	{
 		AST_Assert( m_savedStmt == nullptr );
@@ -86,8 +99,7 @@ namespace ast
 	{
 		if ( m_savedStmt != nullptr )
 		{
-			auto result = ExprCloner::submit( expr->getExprCache()
-				, static_cast< stmt::Simple const & >( *m_savedStmt ).getExpr() );
+			auto result = static_cast< stmt::Simple const & >( *m_savedStmt ).getExpr()->clone();
 			m_savedStmt = nullptr;
 			return result;
 		}
@@ -105,18 +117,33 @@ namespace ast
 
 	void ShaderBuilder::beginElseIf( expr::ExprPtr condition )
 	{
+		if ( m_ifStmt.empty() )
+		{
+			AST_Exception( "No if statement" );
+		}
+
 		push( m_ifStmt.back()->createElseIf( std::move( condition ) )
 			, ast::var::VariableList{} );
 	}
 
 	void ShaderBuilder::beginElse()
 	{
+		if ( m_ifStmt.empty() )
+		{
+			AST_Exception( "No if statement" );
+		}
+
 		push( m_ifStmt.back()->createElse()
 			, ast::var::VariableList{} );
 	}
 
 	void ShaderBuilder::endIf()
 	{
+		if ( m_ifStmt.empty() )
+		{
+			AST_Exception( "No if statement" );
+		}
+
 		m_ifStmt.pop_back();
 	}
 
@@ -129,33 +156,34 @@ namespace ast
 
 	void ShaderBuilder::beginCase( expr::LiteralPtr literal )
 	{
+		if ( m_switchStmt.empty() )
+		{
+			AST_Exception( "No switch statement" );
+		}
+
 		push( m_switchStmt.back()->createCase( getExprCache().makeSwitchCase( std::move( literal ) ) )
 			, ast::var::VariableList{} );
 	}
 
 	void ShaderBuilder::beginDefault()
 	{
+		if ( m_switchStmt.empty() )
+		{
+			AST_Exception( "No switch statement" );
+		}
+
 		push( m_switchStmt.back()->createDefault()
 			, ast::var::VariableList{} );
 	}
 
 	void ShaderBuilder::endSwitch()
 	{
+		if ( m_switchStmt.empty() )
+		{
+			AST_Exception( "No switch statement" );
+		}
+
 		m_switchStmt.pop_back();
-	}
-
-	void ShaderBuilder::pushScope( ast::stmt::ContainerPtr container )
-	{
-		m_currentStmts.emplace_back( std::move( container ) );
-		push( m_currentStmts.back().get()
-			, ast::var::VariableList{} );
-	}
-
-	void ShaderBuilder::popScope()
-	{
-		pop();
-		addStmt( std::move( m_currentStmts.back() ) );
-		m_currentStmts.erase( m_currentStmts.begin() + ptrdiff_t( m_currentStmts.size() - 1u ) );
 	}
 
 	bool ShaderBuilder::hasFunction( std::string_view name
@@ -196,9 +224,7 @@ namespace ast
 
 		if ( it == m_functions.end() )
 		{
-			std::string text;
-			text += "No registered function with the name [" + std::string( name ) + "].";
-			throw Exception{ text };
+			AST_Exception( "No registered function with the name [" + std::string( name ) + "]." );
 		}
 
 		return it->variable;
@@ -224,9 +250,7 @@ namespace ast
 			} );
 			it != m_functions.end() && type != it->variable->getType() )
 		{
-			std::string text;
-			text += "A function with the name [" + std::string( name ) + "] is already registered, with a different type.";
-			throw Exception{ text };
+			AST_Exception( "A function with the name [" + std::string( name ) + "] is already registered, with a different type." );
 		}
 
 		auto result = var::makeFunction( getNextVarId()
@@ -238,9 +262,9 @@ namespace ast
 		return result;
 	}
 
-	uint32_t ShaderBuilder::getNextVarId()
+	uint32_t ShaderBuilder::getNextVarId()const
 	{
-		return ++getData().nextVarId;
+		return m_shader->getNextVarId();
 	}
 
 	bool ShaderBuilder::hasGlobalVariable( std::string_view name )const
@@ -321,9 +345,7 @@ namespace ast
 
 		if ( !found )
 		{
-			std::string text;
-			text += "No registered variable with the name [" + std::string( name ) + "].";
-			throw Exception{ text };
+			AST_Exception( "No registered variable with the name [" + std::string( name ) + "]." );
 		}
 
 		return *it;
@@ -390,9 +412,7 @@ namespace ast
 
 		if ( !found )
 		{
-			std::string text;
-			text += "No registered member variable with the name [" + std::string( name ) + "].";
-			throw Exception{ text };
+			AST_Exception( "No registered member variable with the name [" + std::string( name ) + "]." );
 		}
 
 		return *it;
@@ -414,7 +434,7 @@ namespace ast
 
 		if ( var->getType()->getRawKind() == type::Kind::eTessellationControlInput )
 		{
-			getData().tessellationControlPoints = static_cast< type::TessellationControlInput const & >( *var->getType() ).getInputVertices();
+			m_shader->setTessellationControlPoints( static_cast< type::TessellationControlInput const & >( *var->getType() ).getInputVertices() );
 		}
 	}
 
@@ -507,9 +527,7 @@ namespace ast
 			it != m_blocks.front().registered.end()
 				&& type != it->get()->getType() )
 		{
-			std::string text;
-			text += "A static constant with the name [" + std::string( name ) + "] is already registered, with a different type.";
-			throw Exception{ text };
+			AST_Exception( "A static constant with the name [" + std::string( name ) + "] is already registered, with a different type." );
 		}
 
 		auto result = m_blocks.front().registered.emplace( var::makeVariable( getNextVarId()
@@ -517,7 +535,7 @@ namespace ast
 			, name
 			, var::Flag::eStatic | var::Flag::eConstant ) ).first;
 		m_shader->registerGlobalVariable( *result );
-		getData().constants.try_emplace( std::move( name ), type );
+		m_shader->registerConstant( std::move( name ), std::move( type ) );
 		return *result;
 	}
 
@@ -528,8 +546,7 @@ namespace ast
 		auto result = registerName( name
 			, type
 			, var::Flag::eSpecialisationConstant );
-		getData().specConstants.try_emplace( std::move( name )
-			, SpecConstantInfo{ { type, location } } );
+		m_shader->registerSpecConstant( std::move( name ), std::move( type ), location );
 		return result;
 	}
 
@@ -547,9 +564,7 @@ namespace ast
 		{
 			auto accType = getNonArrayType( type );
 			AST_Assert( accType->getKind() == type::Kind::eAccelerationStructure );
-			getData().accelerationStruct = AccStructInfo{ std::static_pointer_cast< type::AccelerationStructure >( accType )
-				, binding
-				, set };
+			m_shader->setAccelerationStruct( std::move( accType ), binding, set );
 		}
 
 		return result;
@@ -571,8 +586,7 @@ namespace ast
 
 			auto splType = getNonArrayType( type );
 			AST_Assert( splType->getKind() == type::Kind::eSampler );
-			getData().samplers.try_emplace( std::move( name )
-				, SamplerInfo{ { type, { binding, set } } } );
+			m_shader->registerSampler( std::move( name ), std::move( type ), binding, set );
 		}
 		else
 		{
@@ -603,13 +617,11 @@ namespace ast
 
 			if ( static_cast< type::SampledImage const & >( *splType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
-				getData().uniformTexels.try_emplace( std::move( name )
-					, TextureInfo{ { type, { binding, set } } } );
+				m_shader->registerUniformTexelBuffer( std::move( name ), std::move( type ), binding, set );
 			}
 			else
 			{
-				getData().sampled.try_emplace( std::move( name )
-					, TextureInfo{ { type, { binding, set } } } );
+				m_shader->registerSampledImage( std::move( name ), std::move( type ), binding, set );
 			}
 		}
 		else
@@ -641,13 +653,11 @@ namespace ast
 
 			if ( static_cast< type::CombinedImage const & >( *imgType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
-				getData().uniformTexels.try_emplace( std::move( name )
-					, TextureInfo{ { type, { binding, set } } } );
+				m_shader->registerUniformTexelBuffer( std::move( name ), std::move( type ), binding, set );
 			}
 			else
 			{
-				getData().textures.try_emplace( std::move( name )
-					, TextureInfo{ { type, { binding, set } } } );
+				m_shader->registerCombinedImage( std::move( name ), std::move( type ), binding, set );
 			}
 		}
 		else
@@ -679,13 +689,11 @@ namespace ast
 
 			if ( static_cast< type::Image const & >( *imgType ).getConfig().dimension == type::ImageDim::eBuffer )
 			{
-				getData().storageTexels.try_emplace( std::move( name )
-					, ImageInfo{ { type, { binding, set } } } );
+				m_shader->registerStorageTexelBuffer( std::move( name ), std::move( type ), binding, set );
 			}
 			else
 			{
-				getData().images.try_emplace( std::move( name )
-					, ImageInfo{ { type, { binding, set } } } );
+				m_shader->registerStorageImage( std::move( name ), std::move( type ), binding, set );
 			}
 		}
 		else
@@ -704,18 +712,7 @@ namespace ast
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		auto & inputs = getData().inputs.try_emplace( entryPoint ).first->second;
-
-		if ( auto it = std::find_if( inputs.begin()
-			, inputs.end()
-			, [&location]( std::map< std::string, InputInfo >::value_type const & lookup )
-			{
-				return lookup.second.location == location;
-			} );
-			inputs.end() == it )
-		{
-			inputs.try_emplace( name, InputInfo{ { type, location } } );
-		}
+		m_shader->registerInput( entryPoint, name, location, type );
 
 		if ( hasVariable( name, false ) )
 		{
@@ -745,18 +742,7 @@ namespace ast
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		auto & outputs = getData().outputs.try_emplace( entryPoint ).first->second;
-
-		if ( auto it = std::find_if( outputs.begin()
-			, outputs.end()
-			, [&location]( std::map< std::string, OutputInfo >::value_type const & lookup )
-			{
-				return lookup.second.location == location;
-			} );
-			outputs.end() == it )
-		{
-			outputs.try_emplace( name, OutputInfo{ { type, location } } );
-		}
+		m_shader->registerOutput( entryPoint, name, location, type );
 
 		if ( hasVariable( name, false ) )
 		{
@@ -784,10 +770,7 @@ namespace ast
 		, uint64_t attributes
 		, type::TypePtr type )
 	{
-		if ( getData().inOuts.empty() )
-		{
-			getData().inOuts.try_emplace( name, InOutInfo{ { type } } );
-		}
+		m_shader->registerInOut( name, type );
 
 		if ( hasVariable( name, false ) )
 		{
@@ -901,38 +884,31 @@ namespace ast
 	}
 
 	void ShaderBuilder::registerSsbo( std::string name
-		, SsboInfo const & info )
+		, SsboInfo const & info )const
 	{
-		getData().ssbos.try_emplace( std::move( name ), info );
+		m_shader->registerSsbo( std::move( name ), info );
 	}
 
 	void ShaderBuilder::registerUbo( std::string name
-		, UboInfo const & info )
+		, UboInfo const & info )const
 	{
-		getData().ubos.try_emplace( std::move( name ), info );
+		m_shader->registerUbo( std::move( name ), info );
 	}
 
 	void ShaderBuilder::registerPcb( std::string name
-		, InterfaceBlock const & info )
+		, InterfaceBlock const & info )const
 	{
-		getData().pcbs.try_emplace( std::move( name ), info );
+		m_shader->registerPcb( std::move( name ), info );
 	}
 
 	void ShaderBuilder::registerShaderRecord( std::string name
-		, ShaderRecordInfo const & info )
+		, ShaderRecordInfo const & info )const
 	{
-		getData().shaderRecords.try_emplace( std::move( name ), info );
+		m_shader->registerShaderRecord( std::move( name ), info );
 	}
 
 	expr::ExprPtr ShaderBuilder::getDummyExpr( type::TypePtr type )const
 	{
 		return getExprCache().makeDummyExpr( type );
-	}
-
-	void ShaderBuilder::doPushScope( ast::stmt::ContainerPtr container
-		, ast::var::VariableList const & vars )
-	{
-		m_currentStmts.emplace_back( std::move( container ) );
-		push( m_currentStmts.back().get(), vars );
 	}
 }

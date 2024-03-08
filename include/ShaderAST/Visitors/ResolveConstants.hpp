@@ -13,7 +13,6 @@ namespace ast
 {
 	SDAST_API stmt::ContainerPtr resolveConstants( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
-		, type::TypesCache & typesCache
 		, stmt::Container const & stmt );
 	SDAST_API expr::ExprPtr resolveConstants( expr::ExprCache & exprCache
 		, expr::Expr const & expr );

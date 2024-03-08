@@ -520,19 +520,6 @@ namespace spirv
 		, ValueId typeId
 		, ValueId varId
 		, ValueId initialiser = ValueId{} );
-	ast::expr::ExprPtr makeZero( ast::expr::ExprCache & exprCache
-		, ast::type::TypesCache & typesCache
-		, ast::type::Kind kind );
-	ast::expr::ExprPtr makeOne( ast::expr::ExprCache & exprCache
-		, ast::type::TypesCache & typesCache
-		, ast::type::Kind kind );
-	ast::expr::ExprPtr makeToBoolCast( ast::expr::ExprCache & exprCache
-		, ast::type::TypesCache & typesCache
-		, ast::expr::ExprPtr expr );
-	ast::expr::ExprPtr makeFromBoolCast( ast::expr::ExprCache & exprCache
-		, ast::type::TypesCache & typesCache
-		, ast::expr::ExprPtr expr
-		, ast::type::Kind dstScalarType );
 	bool isPointerParam( ast::type::TypePtr type
 		, bool isOutputParam );
 	bool isPointerParam( ast::var::Variable const & param );

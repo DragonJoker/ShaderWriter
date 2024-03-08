@@ -65,54 +65,59 @@ def printHeader( outs, match ):
 	outs.write( '\t}\n' )
 	outs.write( '\n' )
 	outs.write( '\tstatic void checkExprDependant( test::TestCounts & testCounts\n' )
-	outs.write( '\t\t, expr::IntrinsicCall const & expr )\n' )
+	outs.write( '\t\t, expr::' + enumName + 'Call const & expr\n' )
+	outs.write( '\t\t, std::string const & function\n' )
+	outs.write( '\t\t, int line )\n' )
 	outs.write( '\t{\n' )
 	outs.write( '\t\tauto & exprCache = expr.getExprCache();\n' )
 	outs.write( '\t\tauto & typesCache = expr.getTypesCache();\n' )
 	outs.write( '\n' )
-	outs.write( '\t\tif ( astOn( ast::debug::displayExpression( expr ) ) )\n' )
+	outs.write( '\t\tif ( astOn( debug::displayExpression( expr ) ) )\n' )
 	outs.write( '\t\t{\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::resolveConstants( exprCache, expr ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::getOutermostExpr( expr ) )\n' )
+	outs.write( '\t\t\texpr::ExprPtr tmp;\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, tmp = simplify( exprCache, typesCache, expr ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, resolveConstants( exprCache, *tmp ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, getOutermostExpr( expr ) )\n' )
 	outs.write( '\n' )
 	outs.write( '\t\t\tauto clone = expr.clone();\n' )
-	outs.write( '\t\t\tclone->updateFlag( ast::expr::Flag::eNonUniform );\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::debug::displayExpression( *clone ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::resolveConstants( exprCache, *clone ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::getOutermostExpr( *clone ) )\n' )
+	outs.write( '\t\t\tclone->updateFlag( expr::Flag::eNonUniform );\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, debug::displayExpression( *clone ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, tmp = simplify( exprCache, typesCache, *clone ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, resolveConstants( exprCache, *tmp ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, getOutermostExpr( *clone ) )\n' )
 	outs.write( '\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::listCommaIdentifiers( expr ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::listIdentifiers( expr ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::listIdentifiers( expr, ast::type::Kind::eInt32 ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::listIdentifiers( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::listIdentifiers( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findIdentifier( expr ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eInt32 ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findIdentifier( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) )\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findName( expr ) );\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findName( expr, ast::type::Kind::eInt32 ) );\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findName( expr, ast::type::Kind::eUndefined, ast::var::Flag::eAlias ) );\n' )
-	outs.write( '\t\t\tastCheckNoThrow( ast::findName( expr, ast::type::Kind::eInt32, ast::var::Flag::eAlias ) );\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, listCommaIdentifiers( expr ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, listIdentifiers( expr ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, listIdentifiers( expr, type::Kind::eInt32 ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, listIdentifiers( expr, type::Kind::eUndefined, var::Flag::eAlias ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, listIdentifiers( expr, type::Kind::eInt32, var::Flag::eAlias ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findIdentifier( expr ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findIdentifier( expr, type::Kind::eInt32 ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findIdentifier( expr, type::Kind::eUndefined, var::Flag::eAlias ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findIdentifier( expr, type::Kind::eInt32, var::Flag::eAlias ) )\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findName( expr ) );\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findName( expr, type::Kind::eInt32 ) );\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findName( expr, type::Kind::eUndefined, var::Flag::eAlias ) );\n' )
+	outs.write( '\t\t\tastSubCheckNoThrow( function, line, findName( expr, type::Kind::eInt32, var::Flag::eAlias ) );\n' )
 	outs.write( '\n' )
-	outs.write( '\t\t\tast::stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };\n' )
+	outs.write( '\t\t\tstmt::StmtCache stmtCache{ *testCounts.allocatorBlock };\n' )
 	outs.write( '\t\t\tif ( astWhen( "SSA transform without normalised structs" ) )\n' )
 	outs.write( '\t\t\t{\n' )
-	outs.write( '\t\t\t\tast::SSAData data{ testCounts.nextVarId, 0u };\n' )
+	outs.write( '\t\t\t\tSSAData data{ testCounts.nextVarId, 0u };\n' )
 	outs.write( '\t\t\t\tauto container = makeContainer( stmtCache, expr );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, false );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::resolveConstants( stmtCache, exprCache, typesCache, *container );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::simplify( stmtCache, exprCache, typesCache, *container );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, {} );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = transformSSA( stmtCache, exprCache, typesCache, *container, data, false ) );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = simplify( stmtCache, exprCache, typesCache, *container ) );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = resolveConstants( stmtCache, exprCache, *container ) );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = specialiseStatements( stmtCache, exprCache, typesCache, *container, {} ) );\n' )
 	outs.write( '\t\t\t}\n' )
 	outs.write( '\t\t\tif ( astWhen( "SSA transform with normalised structs" ) )\n' )
 	outs.write( '\t\t\t{\n' )
-	outs.write( '\t\t\t\tast::SSAData data{ testCounts.nextVarId, 0u };\n' )
+	outs.write( '\t\t\t\tSSAData data{ testCounts.nextVarId, 0u };\n' )
 	outs.write( '\t\t\t\tauto container = makeContainer( stmtCache, expr );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::transformSSA( stmtCache, exprCache, typesCache, *container, data, true );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::resolveConstants( stmtCache, exprCache, typesCache, *container );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::simplify( stmtCache, exprCache, typesCache, *container );\n' )
-	outs.write( '\t\t\t\tcontainer = ast::specialiseStatements( stmtCache, exprCache, typesCache, *container, {} );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = transformSSA( stmtCache, exprCache, typesCache, *container, data, true ) );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = simplify( stmtCache, exprCache, typesCache, *container ) );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = resolveConstants( stmtCache, exprCache, *container ) );\n' )
+	outs.write( '\t\t\t\tastSubCheckNoThrow( function, line, container = specialiseStatements( stmtCache, exprCache, typesCache, *container, {} ) );\n' )
 	outs.write( '\t\t\t}\n' )
 	outs.write( '\t\t}\n' )
 	outs.write( '\t}\n' )
@@ -217,13 +222,39 @@ def computeParams( params, tabs ):
 					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
 	return result
 
+def computeTexParams( params, tabs, lastType ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index + 2:
+			if resParam[index] == "ASTCppParam":
+				index += 4
+			else:
+				index += 1
+				paramType = resParam[index]
+				index += 1
+				paramName = discardArray( resParam[index] )
+				if len( resParam ) <= index + 2:
+					paramType = lastType
+				if isArray( resParam[index] ):
+					index += 2
+					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
+				else:
+					index += 2
+					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
+	return result
+
 def isLiteral( paramType ):
 	literals = ["Boolean", "Vec2B", "Vec3B", "Vec4B"]
-	literals.extend( ["Int8", "Int16", "Int32", "Int64", "Vec2I8", "Vec3I8", "Vec4I8"] )
+	literals.extend( ["Int8", "Int16", "Int32", "Int64", "Int", "Vec2I8", "Vec3I8", "Vec4I8"] )
 	literals.extend( ["Vec2I16", "Vec3I16", "Vec4I16"] )
 	literals.extend( ["Vec2I32", "Vec3I32", "Vec4I32"] )
 	literals.extend( ["Vec2I64", "Vec3I64", "Vec4I64"] )
-	literals.extend( ["UInt8", "UInt16", "UInt32", "UInt64"] )
+	literals.extend( ["UInt8", "UInt16", "UInt32", "UInt64", "UInt"] )
 	literals.extend( ["Vec2U8", "Vec3U8", "Vec4U8"] )
 	literals.extend( ["Vec2U16", "Vec3U16", "Vec4U16"] )
 	literals.extend( ["Vec2U32", "Vec3U32", "Vec4U32"] )
@@ -244,6 +275,8 @@ def computeComponentValue( litType ):
 		result = "exprCache.makeLiteral( typesCache, int16_t( 1 ) )"
 	elif litType == "Int32":
 		result = "exprCache.makeLiteral( typesCache, int32_t( 1 ) )"
+	elif litType == "Int":
+		result = "exprCache.makeLiteral( typesCache, int32_t( 1 ) )"
 	elif litType == "Int64":
 		result = "exprCache.makeLiteral( typesCache, int64_t( 1 ) )"
 	elif litType == "UInt8":
@@ -251,6 +284,8 @@ def computeComponentValue( litType ):
 	elif litType == "UInt16":
 		result = "exprCache.makeLiteral( typesCache, uint16_t( 1 ) )"
 	elif litType == "UInt32":
+		result = "exprCache.makeLiteral( typesCache, uint32_t( 1 ) )"
+	elif litType == "UInt":
 		result = "exprCache.makeLiteral( typesCache, uint32_t( 1 ) )"
 	elif litType == "UInt64":
 		result = "exprCache.makeLiteral( typesCache, uint64_t( 1 ) )"
@@ -280,6 +315,8 @@ def computeLiteralValue( paramType ):
 		result = computeComponentValue( litType )
 	elif litType == "Int32":
 		result = computeComponentValue( litType )
+	elif litType == "Int":
+		result = computeComponentValue( litType )
 	elif litType == "Int64":
 		result = computeComponentValue( litType )
 	elif litType == "UInt8":
@@ -287,6 +324,8 @@ def computeLiteralValue( paramType ):
 	elif litType == "UInt16":
 		result = computeComponentValue( litType )
 	elif litType == "UInt32":
+		result = computeComponentValue( litType )
+	elif litType == "UInt":
 		result = computeComponentValue( litType )
 	elif litType == "UInt64":
 		result = computeComponentValue( litType )
@@ -382,7 +421,42 @@ def computeLiteralParams( params, tabs ):
 					paramInit = computeLiteralValue( paramType )
 					if isArray( resParam[index] ):
 						index += 2
-						result += tabs + "auto " + paramName + " = exprCache.makeAggrInit( typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), makeList( " + paramInit + ", " + paramInit + ", " + paramInit + ", " + paramInit + " );\n"
+						result += tabs + "auto " + paramName + " = exprCache.makeAggrInit( typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), makeList( " + paramInit + ", " + paramInit + ", " + paramInit + ", " + paramInit + " ) );\n"
+					else:
+						index += 2
+						result += tabs + "auto " + paramName + " = " + paramInit + ";\n"
+				else:
+					if isArray( resParam[index] ):
+						index += 2
+						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
+					else:
+						index += 2
+						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
+	return result
+
+def computeTexLiteralParams( params, tabs, lastType ):
+	result = ""
+	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	resParams = intrParams.match( params )
+	if resParams:
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		resParam = intrParam.split( resParams.group( 1 ) )
+		index = 1
+		while len( resParam ) > index + 2:
+			if resParam[index] == "ASTCppParam":
+				index += 4
+			else:
+				index += 1
+				paramType = resParam[index]
+				index += 1
+				paramName = discardArray( resParam[index] )
+				if len( resParam ) <= index + 2:
+					paramType = lastType
+				if isLiteral( paramType ):
+					paramInit = computeLiteralValue( paramType )
+					if isArray( resParam[index] ):
+						index += 2
+						result += tabs + "auto " + paramName + " = exprCache.makeAggrInit( typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), makeList( " + paramInit + ", " + paramInit + ", " + paramInit + ", " + paramInit + " ) );\n"
 					else:
 						index += 2
 						result += tabs + "auto " + paramName + " = " + paramInit + ";\n"
@@ -460,7 +534,7 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 	formats = list()
 	if sampled == 'I':
 		if intrinsicName.find( "Atomic" ) != -1:
-			formats.append( ( 'R32', 'type::Kind::eInt' ) )
+			formats.append( ( 'R32', 'type::Kind::eInt32' ) )
 		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
 			formats.append( ( 'Rgba32', retType ) )
 			formats.append( ( 'Rgba16', retType ) )
@@ -472,15 +546,15 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 			formats.append( ( 'R16', retType ) )
 			formats.append( ( 'R8', retType ) )
 		else:
-			formats.append( ( 'Rgba32', 'type::Kind::eVec4I' ) )
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4I' ) )
-			formats.append( ( 'Rgba8', 'type::Kind::eVec4I' ) )
-			formats.append( ( 'Rg32', 'type::Kind::eVec2I' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2I' ) )
-			formats.append( ( 'Rg8', 'type::Kind::eVec2I' ) )
-			formats.append( ( 'R32', 'type::Kind::eInt' ) )
-			formats.append( ( 'R16', 'type::Kind::eInt' ) )
-			formats.append( ( 'R8', 'type::Kind::eInt' ) )
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4I32' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4I32' ) )
+			formats.append( ( 'Rgba8', 'type::Kind::eVec4I32' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2I32' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2I32' ) )
+			formats.append( ( 'Rg8', 'type::Kind::eVec2I32' ) )
+			formats.append( ( 'R32', 'type::Kind::eInt32' ) )
+			formats.append( ( 'R16', 'type::Kind::eInt32' ) )
+			formats.append( ( 'R8', 'type::Kind::eInt32' ) )
 	elif sampled == 'U':
 		if intrinsicName.find( "Atomic" ) != -1:
 			formats.append( ( 'R32', 'type::Kind::eUInt' ) )
@@ -495,15 +569,15 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 			formats.append( ( 'R16', retType ) )
 			formats.append( ( 'R8', retType ) )
 		else:
-			formats.append( ( 'Rgba32', 'type::Kind::eVec4U' ) )
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4U' ) )
-			formats.append( ( 'Rgba8', 'type::Kind::eVec4U' ) )
-			formats.append( ( 'Rg32', 'type::Kind::eVec2U' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2U' ) )
-			formats.append( ( 'Rg8', 'type::Kind::eVec2U' ) )
-			formats.append( ( 'R32', 'type::Kind::eUInt' ) )
-			formats.append( ( 'R16', 'type::Kind::eUInt' ) )
-			formats.append( ( 'R8', 'type::Kind::eUInt' ) )
+			formats.append( ( 'Rgba32', 'type::Kind::eVec4U32' ) )
+			formats.append( ( 'Rgba16', 'type::Kind::eVec4U32' ) )
+			formats.append( ( 'Rgba8', 'type::Kind::eVec4U32' ) )
+			formats.append( ( 'Rg32', 'type::Kind::eVec2U32' ) )
+			formats.append( ( 'Rg16', 'type::Kind::eVec2U32' ) )
+			formats.append( ( 'Rg8', 'type::Kind::eVec2U32' ) )
+			formats.append( ( 'R32', 'type::Kind::eUInt32' ) )
+			formats.append( ( 'R16', 'type::Kind::eUInt32' ) )
+			formats.append( ( 'R8', 'type::Kind::eUInt32' ) )
 	else:
 		if intrinsicName.find( "Atomic" ) != -1:
 			formats.append( ( 'Rgba16', 'type::Kind::eVec4H' ) )
@@ -537,23 +611,47 @@ def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
 			formats.append( ( 'Rg16', 'type::Kind::eVec2F' ) )
 			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
 			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
+	result = ""
 	for fmt, ret in formats:
 		outs.write( "\n\tstatic void test" + intrinsicName + fmt + "(test::TestCounts & testCounts )\n" )
 		outs.write( "\t{\n" )
 		outs.write( "\t\tastTestBegin( \"test" + intrinsicName + fmt + "\" );\n" )
 		outs.write( "\t\texpr::ExprCache exprCache{ *testCounts.allocatorBlock };\n" )
 		outs.write( "\t\ttype::TypesCache typesCache;\n" )
-		outs.write( computeParams( paramsGroup, "\t\t" ) )
+		outs.write( '\t\tif ( astWhen( "Using identifier parameters" ) )\n' )
+		outs.write( "\t\t{\n" )
 		outs.write( imgSplInputs )
-		outs.write( "\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
-		outs.write( "\t\t\t, typesCache" )
-		outs.write( computeArgs( paramsGroup ) )
-		outs.write( imgSplMoves + " );\n" )
-		outs.write( "\t\t\t, " + computeEnum( enumName, functionGroup ) )
-		outs.write( "\t\tcheckExprDependant( testCounts, *result );\n" )
+		if intrinsicName.find( "Store" ) != -1:
+			outs.write( computeTexParams( paramsGroup, "\t\t\t", ret ) )
+		elif intrinsicName.find( "Atomic" ) != -1:
+			outs.write( computeTexParams( paramsGroup, "\t\t\t", ret ) )
+		else:
+			outs.write( computeParams( paramsGroup, "\t\t\t" ) )
+		outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + fmt + "( exprCache\n" )
+		outs.write( "\t\t\t\t, typesCache" )
+		outs.write( imgSplMoves )
+		outs.write( computeArgs( paramsGroup ) + " );\n" )
+		outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + fmt + "\", __LINE__ );\n" )
+		outs.write( "\t\t}\n" )
+		outs.write( '\t\tif ( astWhen( "Using literal parameters" ) )\n' )
+		outs.write( "\t\t{\n" )
+		outs.write( imgSplInputs )
+		if intrinsicName.find( "Store" ) != -1:
+			outs.write( computeTexLiteralParams( paramsGroup, "\t\t\t", ret ) )
+		elif intrinsicName.find( "Atomic" ) != -1:
+			outs.write( computeTexLiteralParams( paramsGroup, "\t\t\t", ret ) )
+		else:
+			outs.write( computeLiteralParams( paramsGroup, "\t\t\t" ) )
+		outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + fmt + "( exprCache\n" )
+		outs.write( "\t\t\t\t, typesCache" )
+		outs.write( imgSplMoves )
+		outs.write( computeArgs( paramsGroup ) + " );\n" )
+		outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + fmt + "\", __LINE__ );\n" )
+		outs.write( "\t\t}\n" )
 		outs.write( "\t\tastTestEnd()\n" )
 		outs.write( "\t}" )
-		return "\n\tchecks::test" + intrinsicName + "( testCounts );"
+		result += "\n\tchecks::test" + intrinsicName + fmt + "( testCounts );"
+	return result
 
 def printIntrinsic( outs, enumName, match ):
 	returnGroup = match.group( 1 )
@@ -571,7 +669,7 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
 	outs.write( "\t\t\t\t, typesCache" )
 	outs.write( computeArgs( paramsGroup ) + " );\n" )
-	outs.write( "\t\t\tcheckExprDependant( testCounts, *result );\n" )
+	outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + "\", __LINE__ );\n" )
 	outs.write( "\t\t}\n" )
 	outs.write( '\t\tif ( astWhen( "Using literal parameters" ) )\n' )
 	outs.write( "\t\t{\n" )
@@ -579,7 +677,7 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + "( exprCache\n" )
 	outs.write( "\t\t\t\t, typesCache" )
 	outs.write( computeArgs( paramsGroup ) + " );\n" )
-	outs.write( "\t\t\tcheckExprDependant( testCounts, *result );\n" )
+	outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + "\", __LINE__ );\n" )
 	outs.write( "\t\t}\n" )
 	outs.write( "\t\tastTestEnd()\n" )
 	outs.write( "\t}" )
@@ -591,11 +689,11 @@ def printFunction( outs, enumName, match ):
 	test = ""
 	if intrinsicName.find( "Barrier" ) == -1:
 		if enumName == "CombinedImageAccess":
-			test = printTextureFunction( outs, enumName, "\n\t\tExprPtr texture;", "\n\t\t\t, std::move( texture )", match )
-		elif enumName == "SampledImageAccess":
-			test = printTextureFunction( outs, enumName, "\n\t\tExprPtr image;\n\t\tExprPtr sampler;", "\n\t\t\t, std::move( image )\n\t\t\t, std::move( sampler )", match )
+			imgSplInputs = '\t\t\texpr::ExprPtr texture = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getCombinedImage( type::ImageConfiguration{} ), "texture" ) );\n'
+			test = printTextureFunction( outs, enumName, imgSplInputs, "\n\t\t\t\t, std::move( texture )", match )
 		elif enumName == "StorageImageAccess":
-			test = printTextureFunction( outs, enumName, "\n\t\tExprPtr image;", "\n\t\t\t, std::move( image )", match )
+			imgSplInputs = '\t\t\texpr::ExprPtr image = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getImage( type::ImageConfiguration{} ), "image" ) );\n'
+			test = printTextureFunction( outs, enumName, imgSplInputs, "\n\t\t\t\t, std::move( image )", match )
 		else:
 			test = printIntrinsic( outs, enumName, match )
 	return test

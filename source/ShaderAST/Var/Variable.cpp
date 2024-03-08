@@ -68,19 +68,6 @@ namespace ast::var
 	{
 	}
 
-	Variable::Variable( EntityName nameId
-		, type::FunctionPtr type )
-		: Variable{ std::move( nameId ), nullptr, std::move( type ), Flag::eFunction }
-	{
-	}
-
-	Variable::Variable( uint32_t id
-		, type::FunctionPtr type
-		, std::string name )
-		: Variable{ { id, std::move( name ) }, type }
-	{
-	}
-
 	std::string Variable::getFullName()const
 	{
 		return m_outer

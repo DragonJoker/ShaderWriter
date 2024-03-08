@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/SimplifyStatements.hpp"
 
+#include "ShaderAST/ShaderLog.hpp"
 #include "ShaderAST/Expr/ExprLiteral.hpp"
 #include "ShaderAST/Stmt/StmtCache.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
@@ -14,25 +15,74 @@ namespace ast
 	{
 		namespace helpers
 		{
-			static std::vector< expr::SwizzleKind > getSwizzleValues( expr::SwizzleKind swizzle )
+			static expr::ExprPtr makeToBoolCast( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
+				, expr::ExprPtr expr )
 			{
-				auto count = swizzle.getComponentsCount();
-				std::vector< expr::SwizzleKind > result;
-				result.emplace_back( swizzle.getFirstValue() );
+				auto componentCount = getComponentCount( expr->getType()->getKind() );
+				expr::ExprPtr result{};
+				auto type = expr->getType();
 
-				if ( count >= 2u )
+				if ( componentCount == 1u )
 				{
-					result.emplace_back( swizzle.getSecondValue() );
+					result = exprCache.makeNotEqual( typesCache
+						, std::move( expr )
+						, makeZero( exprCache, type ) );
+				}
+				else
+				{
+					expr::ExprList args;
+					expr::ExprPtr newExpr = std::move( expr );
+					type = typesCache.getBasicType( type::getScalarType( type->getKind() ) );
+
+					for ( auto i = 0u; i < componentCount; ++i )
+					{
+						args.emplace_back( exprCache.makeNotEqual( typesCache
+							, exprCache.makeSwizzle( ExprCloner::submit( exprCache, *newExpr ), expr::SwizzleKind::fromOffset( i ) )
+							, makeZero( exprCache, type ) ) );
+					}
+
+					result = exprCache.makeCompositeConstruct( getCompositeType( componentCount )
+						, type::Kind::eBoolean
+						, std::move( args ) );
 				}
 
-				if ( count >= 3u )
-				{
-					result.emplace_back( swizzle.getThirdValue() );
-				}
+				return result;
+			}
 
-				if ( count >= 4u )
+			static expr::ExprPtr makeFromBoolCast( expr::ExprCache & exprCache
+				, type::TypesCache & typesCache
+				, expr::ExprPtr expr
+				, type::Kind dstScalarType )
+			{
+				auto componentCount = getComponentCount( expr->getType()->getKind() );
+				expr::ExprPtr result{};
+
+				if ( componentCount == 1u )
 				{
-					result.emplace_back( swizzle.getFourthValue() );
+					auto scalarType = typesCache.getBasicType( dstScalarType );
+					result = exprCache.makeQuestion( scalarType
+						, std::move( expr )
+						, makeOne( exprCache, typesCache.getBasicType( dstScalarType ) )
+						, makeZero( exprCache, typesCache.getBasicType( dstScalarType ) ) );
+				}
+				else
+				{
+					expr::ExprList args;
+					expr::ExprPtr newExpr = std::move( expr );
+					auto scalarType = typesCache.getBasicType( dstScalarType );
+
+					for ( auto i = 0u; i < componentCount; ++i )
+					{
+						args.emplace_back( exprCache.makeQuestion( scalarType
+							, exprCache.makeSwizzle( ExprCloner::submit( exprCache, *newExpr ), expr::SwizzleKind::fromOffset( i ) )
+							, makeOne( exprCache, typesCache.getBasicType( dstScalarType ) )
+							, makeZero( exprCache, typesCache.getBasicType( dstScalarType ) ) ) );
+					}
+
+					result = exprCache.makeCompositeConstruct( getCompositeType( componentCount )
+						, dstScalarType
+						, std::move( args ) );
 				}
 
 				return result;
@@ -58,24 +108,24 @@ namespace ast
 				for ( auto & index : indices )
 				{
 					AST_Assert( index < values.size() );
-					auto shifted = ast::expr::SwizzleKind::Value( values[index].getValue() >> shift );
-					auto ored = ast::expr::SwizzleKind::Value( result.getValue() | shifted );
-					result = ast::expr::SwizzleKind{ ored };
+					auto shifted = expr::SwizzleKind::Value( values[index].getValue() >> shift );
+					auto ored = expr::SwizzleKind::Value( result.getValue() | shifted );
+					result = expr::SwizzleKind{ ored };
 					shift += 4u;
 				}
 
 				return result;
 			}
 
-			static ast::type::TypePtr getExpectedReturnType( ast::expr::StorageImageAccessCall const * expr )
+			static type::TypePtr getExpectedReturnType( expr::StorageImageAccessCall const * expr )
 			{
 				auto result = expr->getType();
 
-				if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageLoad1DF
-					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageLoad2DMSArrayU )
+				if ( expr->getImageAccess() >= expr::StorageImageAccess::eImageLoad1DF
+					&& expr->getImageAccess() <= expr::StorageImageAccess::eImageLoad2DMSArrayU )
 				{
-					auto scalar = ast::type::getScalarType( result->getKind() );
-					auto components = ast::type::getComponentCount( result );
+					auto scalar = type::getScalarType( result->getKind() );
+					auto components = type::getComponentCount( result );
 
 					if ( components != 4u )
 					{
@@ -86,621 +136,391 @@ namespace ast
 				return result;
 			}
 
-			static uint32_t getComponentsCount( expr::CompositeType type )
-			{
-				switch ( type )
-				{
-				case expr::CompositeType::eScalar:
-					return 1u;
-				case expr::CompositeType::eVec2:
-				case expr::CompositeType::eMat2x2:
-				case expr::CompositeType::eMat2x3:
-				case expr::CompositeType::eMat2x4:
-				case expr::CompositeType::eCombine:
-					return 2u;
-				case expr::CompositeType::eVec3:
-				case expr::CompositeType::eMat3x2:
-				case expr::CompositeType::eMat3x3:
-				case expr::CompositeType::eMat3x4:
-					return 3u;
-				case expr::CompositeType::eVec4:
-				case expr::CompositeType::eMat4x2:
-				case expr::CompositeType::eMat4x3:
-				case expr::CompositeType::eMat4x4:
-					return 4u;
-				}
-
-				return 0u;
-			}
-
-			static expr::CompositeType getCompositeType( uint32_t count )
-			{
-				using expr::CompositeType;
-				CompositeType result = CompositeType::eVec4;
-
-				switch ( count )
-				{
-				case 1:
-					result = CompositeType::eScalar;
-					break;
-				case 2:
-					result = CompositeType::eVec2;
-					break;
-				case 3:
-					result = CompositeType::eVec3;
-					break;
-				case 4:
-					result = CompositeType::eVec4;
-					break;
-				default:
-					AST_Failure( "Unsupported count to deduce CompositeType from" );
-				}
-
-				return result;
-			}
-
-			static ast::expr::SwizzleKind getSwizzleComponents( uint32_t count )
-			{
-				AST_Assert( count > 0 && count < 4 );
-
-				switch ( count )
-				{
-				case 1:
-					return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 };
-				case 2:
-					return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 };
-				default:
-					return ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e012 };
-				}
-			}
-
-			static expr::ExprPtr makeZero( expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
-				, type::Kind scalarType )
-			{
-				expr::ExprPtr result{};
-
-				switch ( scalarType )
-				{
-				case ast::type::Kind::eInt8:
-					result = exprCache.makeLiteral( typesCache, int8_t( 0 ) );
-					break;
-				case ast::type::Kind::eInt16:
-					result = exprCache.makeLiteral( typesCache, int16_t( 0 ) );
-					break;
-				case ast::type::Kind::eInt32:
-					result = exprCache.makeLiteral( typesCache, 0 );
-					break;
-				case ast::type::Kind::eInt64:
-					result = exprCache.makeLiteral( typesCache, 0LL );
-					break;
-				case ast::type::Kind::eUInt8:
-					result = exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
-					break;
-				case ast::type::Kind::eUInt16:
-					result = exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
-					break;
-				case ast::type::Kind::eUInt32:
-					result = exprCache.makeLiteral( typesCache, 0u );
-					break;
-				case ast::type::Kind::eUInt64:
-					result = exprCache.makeLiteral( typesCache, 0ULL );
-					break;
-				case ast::type::Kind::eFloat:
-					result = exprCache.makeLiteral( typesCache, 0.0f );
-					break;
-				case ast::type::Kind::eDouble:
-					result = exprCache.makeLiteral( typesCache, 0.0 );
-					break;
-				default:
-					AST_Failure( "Unsupported scalar type for literal creation." );
-				}
-
-				return result;
-			}
-
-			static expr::ExprPtr makeOne( expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
-				, type::Kind scalarType )
-			{
-				expr::ExprPtr result{};
-
-				switch ( scalarType )
-				{
-				case ast::type::Kind::eInt8:
-					result = exprCache.makeLiteral( typesCache, int8_t( 1 ) );
-					break;
-				case ast::type::Kind::eInt16:
-					result = exprCache.makeLiteral( typesCache, int16_t( 1 ) );
-					break;
-				case ast::type::Kind::eInt32:
-					result = exprCache.makeLiteral( typesCache, 1 );
-					break;
-				case ast::type::Kind::eInt64:
-					result = exprCache.makeLiteral( typesCache, 1LL );
-					break;
-				case ast::type::Kind::eUInt8:
-					result = exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
-					break;
-				case ast::type::Kind::eUInt16:
-					result = exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
-					break;
-				case ast::type::Kind::eUInt32:
-					result = exprCache.makeLiteral( typesCache, 1u );
-					break;
-				case ast::type::Kind::eUInt64:
-					result = exprCache.makeLiteral( typesCache, 1ULL );
-					break;
-				case ast::type::Kind::eFloat:
-					result = exprCache.makeLiteral( typesCache, 1.0f );
-					break;
-				case ast::type::Kind::eDouble:
-					result = exprCache.makeLiteral( typesCache, 1.0 );
-					break;
-				default:
-					AST_Failure( "Unsupported scalar type for literal creation." );
-				}
-
-				return result;
-			}
-
-			static ast::expr::ExprPtr makeToBoolCast( expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
-				, ast::expr::ExprPtr expr )
-			{
-				auto componentCount = getComponentCount( expr->getType()->getKind() );
-				ast::expr::ExprPtr result{};
-				auto type = expr->getType()->getKind();
-
-				if ( componentCount == 1u )
-				{
-					result = exprCache.makeNotEqual( typesCache
-						, std::move( expr )
-						, makeZero( exprCache, typesCache, type ) );
-				}
-				else
-				{
-					ast::expr::ExprList args;
-					expr::ExprPtr newExpr = std::move( expr );
-
-					for ( auto i = 0u; i < componentCount; ++i )
-					{
-						args.emplace_back( exprCache.makeNotEqual( typesCache
-							, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, *newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
-							, makeZero( exprCache, typesCache, type ) ) );
-					}
-
-					result = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount )
-						, ast::type::Kind::eBoolean
-						, std::move( args ) );
-				}
-
-				return result;
-			}
-
-			static ast::expr::ExprPtr makeFromBoolCast( expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
-				, ast::expr::ExprPtr expr
-				, ast::type::Kind dstScalarType )
-			{
-				auto componentCount = getComponentCount( expr->getType()->getKind() );
-				ast::expr::ExprPtr result{};
-
-				if ( componentCount == 1u )
-				{
-					auto scalarType = typesCache.getBasicType( dstScalarType );
-					result = exprCache.makeQuestion( scalarType
-						, std::move( expr )
-						, makeOne( exprCache, typesCache, dstScalarType )
-						, makeZero( exprCache, typesCache, dstScalarType ) );
-				}
-				else
-				{
-					ast::expr::ExprList args;
-					expr::ExprPtr newExpr = std::move( expr );
-					auto scalarType = typesCache.getBasicType( dstScalarType );
-
-					for ( auto i = 0u; i < componentCount; ++i )
-					{
-						args.emplace_back( exprCache.makeQuestion( scalarType
-							, exprCache.makeSwizzle( ast::ExprCloner::submit( exprCache, *newExpr ), ast::expr::SwizzleKind::fromOffset( i ) )
-							, makeOne( exprCache, typesCache, dstScalarType )
-							, makeZero( exprCache, typesCache, dstScalarType ) ) );
-					}
-
-					result = exprCache.makeCompositeConstruct( ast::expr::CompositeType( componentCount )
-						, dstScalarType
-						, std::move( args ) );
-				}
-
-				return result;
-			}
-
 			static constexpr uint32_t InvalidComponentCount = ~0u;
 
-			static uint32_t getReturnComponentCount( ast::expr::CombinedImageAccess value )
+			static uint32_t getReturnComponentCount( expr::CombinedImageAccess value )
 			{
 				switch ( value )
 				{
-				case ast::expr::CombinedImageAccess::eTexture1DShadowF:
-				case ast::expr::CombinedImageAccess::eTexture1DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTexture2DShadowF:
-				case ast::expr::CombinedImageAccess::eTexture2DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeShadowF:
-				case ast::expr::CombinedImageAccess::eTextureCubeShadowFBias:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayShadowFBias:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProj1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProj1DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProj2DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLod1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLod2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLod2DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DShadowF:
+				case expr::CombinedImageAccess::eTexture1DShadowF:
+				case expr::CombinedImageAccess::eTexture1DShadowFBias:
+				case expr::CombinedImageAccess::eTexture2DShadowF:
+				case expr::CombinedImageAccess::eTexture2DShadowFBias:
+				case expr::CombinedImageAccess::eTextureCubeShadowF:
+				case expr::CombinedImageAccess::eTextureCubeShadowFBias:
+				case expr::CombinedImageAccess::eTexture1DArrayShadowF:
+				case expr::CombinedImageAccess::eTexture1DArrayShadowFBias:
+				case expr::CombinedImageAccess::eTexture2DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureCubeArrayShadowF:
+				case expr::CombinedImageAccess::eTextureOffset1DShadowF:
+				case expr::CombinedImageAccess::eTextureOffset2DShadowF:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureOffset1DShadowFBias:
+				case expr::CombinedImageAccess::eTextureOffset2DShadowFBias:
+				case expr::CombinedImageAccess::eTextureGrad1DShadowF:
+				case expr::CombinedImageAccess::eTextureGrad2DShadowF:
+				case expr::CombinedImageAccess::eTextureGrad1DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureGradOffset1DShadowF:
+				case expr::CombinedImageAccess::eTextureGradOffset2DShadowF:
+				case expr::CombinedImageAccess::eTextureGradOffset1DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureProj1DShadowF:
+				case expr::CombinedImageAccess::eTextureProj1DShadowFBias:
+				case expr::CombinedImageAccess::eTextureProj2DShadowF:
+				case expr::CombinedImageAccess::eTextureProj2DShadowFBias:
+				case expr::CombinedImageAccess::eTextureProjGrad1DShadowF:
+				case expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
+				case expr::CombinedImageAccess::eTextureProjOffset1DShadowF:
+				case expr::CombinedImageAccess::eTextureProjOffset2DShadowF:
+				case expr::CombinedImageAccess::eTextureProjOffset1DShadowFBias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DShadowFBias:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DShadowF:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
+				case expr::CombinedImageAccess::eTextureLod1DShadowF:
+				case expr::CombinedImageAccess::eTextureLod2DShadowF:
+				case expr::CombinedImageAccess::eTextureLodCubeShadowF:
+				case expr::CombinedImageAccess::eTextureLod1DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureLod2DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureLodCubeArrayShadowF:
+				case expr::CombinedImageAccess::eTextureLodOffset1DShadowF:
+				case expr::CombinedImageAccess::eTextureLodOffset2DShadowF:
+				case expr::CombinedImageAccess::eTextureLodOffset1DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureProjLod1DShadowF:
+				case expr::CombinedImageAccess::eTextureProjLod2DShadowF:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DShadowF:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DShadowF:
 					return 1u;
 
-				case ast::expr::CombinedImageAccess::eTexture1DF:
-				case ast::expr::CombinedImageAccess::eTexture1DFBias:
-				case ast::expr::CombinedImageAccess::eTexture2DF:
-				case ast::expr::CombinedImageAccess::eTexture2DFBias:
-				case ast::expr::CombinedImageAccess::eTexture3DF:
-				case ast::expr::CombinedImageAccess::eTexture3DFBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeF:
-				case ast::expr::CombinedImageAccess::eTextureCubeFBias:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayF:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayFBias:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayF:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayFBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayF:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayFBias:
-				case ast::expr::CombinedImageAccess::eTexture1DI:
-				case ast::expr::CombinedImageAccess::eTexture1DIBias:
-				case ast::expr::CombinedImageAccess::eTexture2DI:
-				case ast::expr::CombinedImageAccess::eTexture2DIBias:
-				case ast::expr::CombinedImageAccess::eTexture3DI:
-				case ast::expr::CombinedImageAccess::eTexture3DIBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeI:
-				case ast::expr::CombinedImageAccess::eTextureCubeIBias:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayI:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayIBias:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayI:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayIBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayI:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayIBias:
-				case ast::expr::CombinedImageAccess::eTexture1DU:
-				case ast::expr::CombinedImageAccess::eTexture1DUBias:
-				case ast::expr::CombinedImageAccess::eTexture2DU:
-				case ast::expr::CombinedImageAccess::eTexture2DUBias:
-				case ast::expr::CombinedImageAccess::eTexture3DU:
-				case ast::expr::CombinedImageAccess::eTexture3DUBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeU:
-				case ast::expr::CombinedImageAccess::eTextureCubeUBias:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayU:
-				case ast::expr::CombinedImageAccess::eTexture1DArrayUBias:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayU:
-				case ast::expr::CombinedImageAccess::eTexture2DArrayUBias:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayU:
-				case ast::expr::CombinedImageAccess::eTextureCubeArrayUBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DF:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DF:
-				case ast::expr::CombinedImageAccess::eTextureOffset3DF:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DI:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DI:
-				case ast::expr::CombinedImageAccess::eTextureOffset3DI:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DU:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DU:
-				case ast::expr::CombinedImageAccess::eTextureOffset3DU:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DFBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DFBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset3DFBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayFBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayFBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DIBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DIBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset3DIBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayIBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayIBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DUBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DUBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset3DUBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset1DArrayUBias:
-				case ast::expr::CombinedImageAccess::eTextureOffset2DArrayUBias:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DF:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DF:
-				case ast::expr::CombinedImageAccess::eTextureGrad3DF:
-				case ast::expr::CombinedImageAccess::eTextureGradCubeF:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGradCubeArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DI:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DI:
-				case ast::expr::CombinedImageAccess::eTextureGrad3DI:
-				case ast::expr::CombinedImageAccess::eTextureGradCubeI:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGradCubeArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DU:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DU:
-				case ast::expr::CombinedImageAccess::eTextureGrad3DU:
-				case ast::expr::CombinedImageAccess::eTextureGradCubeU:
-				case ast::expr::CombinedImageAccess::eTextureGrad1DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGrad2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGradCubeArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset3DF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DI:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DI:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset3DI:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DU:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DU:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset3DU:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset1DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureProj1DF2:
-				case ast::expr::CombinedImageAccess::eTextureProj1DF2Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj1DF4:
-				case ast::expr::CombinedImageAccess::eTextureProj1DF4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DF3:
-				case ast::expr::CombinedImageAccess::eTextureProj2DF3Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DF4:
-				case ast::expr::CombinedImageAccess::eTextureProj2DF4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj3DF:
-				case ast::expr::CombinedImageAccess::eTextureProj3DFBias:
-				case ast::expr::CombinedImageAccess::eTextureProj1DI2:
-				case ast::expr::CombinedImageAccess::eTextureProj1DI2Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj1DI4:
-				case ast::expr::CombinedImageAccess::eTextureProj1DI4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DI3:
-				case ast::expr::CombinedImageAccess::eTextureProj2DI3Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DI4:
-				case ast::expr::CombinedImageAccess::eTextureProj2DI4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj3DI:
-				case ast::expr::CombinedImageAccess::eTextureProj3DIBias:
-				case ast::expr::CombinedImageAccess::eTextureProj1DU2:
-				case ast::expr::CombinedImageAccess::eTextureProj1DU2Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj1DU4:
-				case ast::expr::CombinedImageAccess::eTextureProj1DU4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DU3:
-				case ast::expr::CombinedImageAccess::eTextureProj2DU3Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj2DU4:
-				case ast::expr::CombinedImageAccess::eTextureProj2DU4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProj3DU:
-				case ast::expr::CombinedImageAccess::eTextureProj3DUBias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DF2:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset3DF:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DI2:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset3DI:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DU2:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset3DU:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DF2Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DF4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DF3Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DF4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset3DFBias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DI2Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DI4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DI3Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset3DIBias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DU2Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset1DU4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DU3Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
-				case ast::expr::CombinedImageAccess::eTextureProjOffset3DUBias:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DF2:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DF3:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad3DF:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DI2:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DI3:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad3DI:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DU2:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad1DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DU3:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad2DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjGrad3DU:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF2:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DF:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DI:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
-				case ast::expr::CombinedImageAccess::eTextureLod1DF:
-				case ast::expr::CombinedImageAccess::eTextureLod2DF:
-				case ast::expr::CombinedImageAccess::eTextureLod3DF:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeF:
-				case ast::expr::CombinedImageAccess::eTextureLod1DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureLod2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeArrayF:
-				case ast::expr::CombinedImageAccess::eTextureLod1DI:
-				case ast::expr::CombinedImageAccess::eTextureLod2DI:
-				case ast::expr::CombinedImageAccess::eTextureLod3DI:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeI:
-				case ast::expr::CombinedImageAccess::eTextureLod1DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureLod2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeArrayI:
-				case ast::expr::CombinedImageAccess::eTextureLod1DU:
-				case ast::expr::CombinedImageAccess::eTextureLod2DU:
-				case ast::expr::CombinedImageAccess::eTextureLod3DU:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeU:
-				case ast::expr::CombinedImageAccess::eTextureLod1DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureLod2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureLodCubeArrayU:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset3DF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DI:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DI:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset3DI:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DU:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DU:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset3DU:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset1DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureLodOffset2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DF2:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DF3:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjLod3DF:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DI2:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DI3:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjLod3DI:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DU2:
-				case ast::expr::CombinedImageAccess::eTextureProjLod1DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DU3:
-				case ast::expr::CombinedImageAccess::eTextureProjLod2DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjLod3DU:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DF2:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DF3:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DF4:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DF:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DI2:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI3:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DI:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DU2:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset1DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
-				case ast::expr::CombinedImageAccess::eTextureProjLodOffset3DU:
-				case ast::expr::CombinedImageAccess::eTexelFetch1DF:
-				case ast::expr::CombinedImageAccess::eTexelFetch2DF:
-				case ast::expr::CombinedImageAccess::eTexelFetch3DF:
-				case ast::expr::CombinedImageAccess::eTexelFetch1DArrayF:
-				case ast::expr::CombinedImageAccess::eTexelFetch2DArrayF:
-				case ast::expr::CombinedImageAccess::eTexelFetchBufferF:
-				case ast::expr::CombinedImageAccess::eTexelFetch1DI:
-				case ast::expr::CombinedImageAccess::eTexelFetch2DI:
-				case ast::expr::CombinedImageAccess::eTexelFetch3DI:
-				case ast::expr::CombinedImageAccess::eTexelFetch1DArrayI:
-				case ast::expr::CombinedImageAccess::eTexelFetch2DArrayI:
-				case ast::expr::CombinedImageAccess::eTexelFetchBufferI:
-				case ast::expr::CombinedImageAccess::eTexelFetch1DU:
-				case ast::expr::CombinedImageAccess::eTexelFetch2DU:
-				case ast::expr::CombinedImageAccess::eTexelFetch3DU:
-				case ast::expr::CombinedImageAccess::eTexelFetch1DArrayU:
-				case ast::expr::CombinedImageAccess::eTexelFetch2DArrayU:
-				case ast::expr::CombinedImageAccess::eTexelFetchBufferU:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset1DF:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset2DF:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset3DF:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset1DArrayF:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset2DArrayF:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset1DI:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset2DI:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset3DI:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset1DArrayI:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset2DArrayI:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset1DU:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset2DU:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset3DU:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset1DArrayU:
-				case ast::expr::CombinedImageAccess::eTexelFetchOffset2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGather2DF:
-				case ast::expr::CombinedImageAccess::eTextureGather2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeF:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGather2DI:
-				case ast::expr::CombinedImageAccess::eTextureGather2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeI:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGather2DU:
-				case ast::expr::CombinedImageAccess::eTextureGather2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeU:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DI:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DU:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DI:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayI:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DU:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU:
-				case ast::expr::CombinedImageAccess::eTextureGather2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
-				case ast::expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
+				case expr::CombinedImageAccess::eTexture1DF:
+				case expr::CombinedImageAccess::eTexture1DFBias:
+				case expr::CombinedImageAccess::eTexture2DF:
+				case expr::CombinedImageAccess::eTexture2DFBias:
+				case expr::CombinedImageAccess::eTexture3DF:
+				case expr::CombinedImageAccess::eTexture3DFBias:
+				case expr::CombinedImageAccess::eTextureCubeF:
+				case expr::CombinedImageAccess::eTextureCubeFBias:
+				case expr::CombinedImageAccess::eTexture1DArrayF:
+				case expr::CombinedImageAccess::eTexture1DArrayFBias:
+				case expr::CombinedImageAccess::eTexture2DArrayF:
+				case expr::CombinedImageAccess::eTexture2DArrayFBias:
+				case expr::CombinedImageAccess::eTextureCubeArrayF:
+				case expr::CombinedImageAccess::eTextureCubeArrayFBias:
+				case expr::CombinedImageAccess::eTexture1DI:
+				case expr::CombinedImageAccess::eTexture1DIBias:
+				case expr::CombinedImageAccess::eTexture2DI:
+				case expr::CombinedImageAccess::eTexture2DIBias:
+				case expr::CombinedImageAccess::eTexture3DI:
+				case expr::CombinedImageAccess::eTexture3DIBias:
+				case expr::CombinedImageAccess::eTextureCubeI:
+				case expr::CombinedImageAccess::eTextureCubeIBias:
+				case expr::CombinedImageAccess::eTexture1DArrayI:
+				case expr::CombinedImageAccess::eTexture1DArrayIBias:
+				case expr::CombinedImageAccess::eTexture2DArrayI:
+				case expr::CombinedImageAccess::eTexture2DArrayIBias:
+				case expr::CombinedImageAccess::eTextureCubeArrayI:
+				case expr::CombinedImageAccess::eTextureCubeArrayIBias:
+				case expr::CombinedImageAccess::eTexture1DU:
+				case expr::CombinedImageAccess::eTexture1DUBias:
+				case expr::CombinedImageAccess::eTexture2DU:
+				case expr::CombinedImageAccess::eTexture2DUBias:
+				case expr::CombinedImageAccess::eTexture3DU:
+				case expr::CombinedImageAccess::eTexture3DUBias:
+				case expr::CombinedImageAccess::eTextureCubeU:
+				case expr::CombinedImageAccess::eTextureCubeUBias:
+				case expr::CombinedImageAccess::eTexture1DArrayU:
+				case expr::CombinedImageAccess::eTexture1DArrayUBias:
+				case expr::CombinedImageAccess::eTexture2DArrayU:
+				case expr::CombinedImageAccess::eTexture2DArrayUBias:
+				case expr::CombinedImageAccess::eTextureCubeArrayU:
+				case expr::CombinedImageAccess::eTextureCubeArrayUBias:
+				case expr::CombinedImageAccess::eTextureOffset1DF:
+				case expr::CombinedImageAccess::eTextureOffset2DF:
+				case expr::CombinedImageAccess::eTextureOffset3DF:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayF:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayF:
+				case expr::CombinedImageAccess::eTextureOffset1DI:
+				case expr::CombinedImageAccess::eTextureOffset2DI:
+				case expr::CombinedImageAccess::eTextureOffset3DI:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayI:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayI:
+				case expr::CombinedImageAccess::eTextureOffset1DU:
+				case expr::CombinedImageAccess::eTextureOffset2DU:
+				case expr::CombinedImageAccess::eTextureOffset3DU:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayU:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayU:
+				case expr::CombinedImageAccess::eTextureOffset1DFBias:
+				case expr::CombinedImageAccess::eTextureOffset2DFBias:
+				case expr::CombinedImageAccess::eTextureOffset3DFBias:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayFBias:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayFBias:
+				case expr::CombinedImageAccess::eTextureOffset1DIBias:
+				case expr::CombinedImageAccess::eTextureOffset2DIBias:
+				case expr::CombinedImageAccess::eTextureOffset3DIBias:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayIBias:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayIBias:
+				case expr::CombinedImageAccess::eTextureOffset1DUBias:
+				case expr::CombinedImageAccess::eTextureOffset2DUBias:
+				case expr::CombinedImageAccess::eTextureOffset3DUBias:
+				case expr::CombinedImageAccess::eTextureOffset1DArrayUBias:
+				case expr::CombinedImageAccess::eTextureOffset2DArrayUBias:
+				case expr::CombinedImageAccess::eTextureGrad1DF:
+				case expr::CombinedImageAccess::eTextureGrad2DF:
+				case expr::CombinedImageAccess::eTextureGrad3DF:
+				case expr::CombinedImageAccess::eTextureGradCubeF:
+				case expr::CombinedImageAccess::eTextureGrad1DArrayF:
+				case expr::CombinedImageAccess::eTextureGrad2DArrayF:
+				case expr::CombinedImageAccess::eTextureGradCubeArrayF:
+				case expr::CombinedImageAccess::eTextureGrad1DI:
+				case expr::CombinedImageAccess::eTextureGrad2DI:
+				case expr::CombinedImageAccess::eTextureGrad3DI:
+				case expr::CombinedImageAccess::eTextureGradCubeI:
+				case expr::CombinedImageAccess::eTextureGrad1DArrayI:
+				case expr::CombinedImageAccess::eTextureGrad2DArrayI:
+				case expr::CombinedImageAccess::eTextureGradCubeArrayI:
+				case expr::CombinedImageAccess::eTextureGrad1DU:
+				case expr::CombinedImageAccess::eTextureGrad2DU:
+				case expr::CombinedImageAccess::eTextureGrad3DU:
+				case expr::CombinedImageAccess::eTextureGradCubeU:
+				case expr::CombinedImageAccess::eTextureGrad1DArrayU:
+				case expr::CombinedImageAccess::eTextureGrad2DArrayU:
+				case expr::CombinedImageAccess::eTextureGradCubeArrayU:
+				case expr::CombinedImageAccess::eTextureGradOffset1DF:
+				case expr::CombinedImageAccess::eTextureGradOffset2DF:
+				case expr::CombinedImageAccess::eTextureGradOffset3DF:
+				case expr::CombinedImageAccess::eTextureGradOffset1DArrayF:
+				case expr::CombinedImageAccess::eTextureGradOffset2DArrayF:
+				case expr::CombinedImageAccess::eTextureGradOffset1DI:
+				case expr::CombinedImageAccess::eTextureGradOffset2DI:
+				case expr::CombinedImageAccess::eTextureGradOffset3DI:
+				case expr::CombinedImageAccess::eTextureGradOffset1DArrayI:
+				case expr::CombinedImageAccess::eTextureGradOffset2DArrayI:
+				case expr::CombinedImageAccess::eTextureGradOffset1DU:
+				case expr::CombinedImageAccess::eTextureGradOffset2DU:
+				case expr::CombinedImageAccess::eTextureGradOffset3DU:
+				case expr::CombinedImageAccess::eTextureGradOffset1DArrayU:
+				case expr::CombinedImageAccess::eTextureGradOffset2DArrayU:
+				case expr::CombinedImageAccess::eTextureProj1DF2:
+				case expr::CombinedImageAccess::eTextureProj1DF2Bias:
+				case expr::CombinedImageAccess::eTextureProj1DF4:
+				case expr::CombinedImageAccess::eTextureProj1DF4Bias:
+				case expr::CombinedImageAccess::eTextureProj2DF3:
+				case expr::CombinedImageAccess::eTextureProj2DF3Bias:
+				case expr::CombinedImageAccess::eTextureProj2DF4:
+				case expr::CombinedImageAccess::eTextureProj2DF4Bias:
+				case expr::CombinedImageAccess::eTextureProj3DF:
+				case expr::CombinedImageAccess::eTextureProj3DFBias:
+				case expr::CombinedImageAccess::eTextureProj1DI2:
+				case expr::CombinedImageAccess::eTextureProj1DI2Bias:
+				case expr::CombinedImageAccess::eTextureProj1DI4:
+				case expr::CombinedImageAccess::eTextureProj1DI4Bias:
+				case expr::CombinedImageAccess::eTextureProj2DI3:
+				case expr::CombinedImageAccess::eTextureProj2DI3Bias:
+				case expr::CombinedImageAccess::eTextureProj2DI4:
+				case expr::CombinedImageAccess::eTextureProj2DI4Bias:
+				case expr::CombinedImageAccess::eTextureProj3DI:
+				case expr::CombinedImageAccess::eTextureProj3DIBias:
+				case expr::CombinedImageAccess::eTextureProj1DU2:
+				case expr::CombinedImageAccess::eTextureProj1DU2Bias:
+				case expr::CombinedImageAccess::eTextureProj1DU4:
+				case expr::CombinedImageAccess::eTextureProj1DU4Bias:
+				case expr::CombinedImageAccess::eTextureProj2DU3:
+				case expr::CombinedImageAccess::eTextureProj2DU3Bias:
+				case expr::CombinedImageAccess::eTextureProj2DU4:
+				case expr::CombinedImageAccess::eTextureProj2DU4Bias:
+				case expr::CombinedImageAccess::eTextureProj3DU:
+				case expr::CombinedImageAccess::eTextureProj3DUBias:
+				case expr::CombinedImageAccess::eTextureProjOffset1DF2:
+				case expr::CombinedImageAccess::eTextureProjOffset1DF4:
+				case expr::CombinedImageAccess::eTextureProjOffset2DF3:
+				case expr::CombinedImageAccess::eTextureProjOffset2DF4:
+				case expr::CombinedImageAccess::eTextureProjOffset3DF:
+				case expr::CombinedImageAccess::eTextureProjOffset1DI2:
+				case expr::CombinedImageAccess::eTextureProjOffset1DI4:
+				case expr::CombinedImageAccess::eTextureProjOffset2DI3:
+				case expr::CombinedImageAccess::eTextureProjOffset2DI4:
+				case expr::CombinedImageAccess::eTextureProjOffset3DI:
+				case expr::CombinedImageAccess::eTextureProjOffset1DU2:
+				case expr::CombinedImageAccess::eTextureProjOffset1DU4:
+				case expr::CombinedImageAccess::eTextureProjOffset2DU3:
+				case expr::CombinedImageAccess::eTextureProjOffset2DU4:
+				case expr::CombinedImageAccess::eTextureProjOffset3DU:
+				case expr::CombinedImageAccess::eTextureProjOffset1DF2Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset1DF4Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DF3Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DF4Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset3DFBias:
+				case expr::CombinedImageAccess::eTextureProjOffset1DI2Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset1DI4Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DI3Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DI4Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset3DIBias:
+				case expr::CombinedImageAccess::eTextureProjOffset1DU2Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset1DU4Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DU3Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset2DU4Bias:
+				case expr::CombinedImageAccess::eTextureProjOffset3DUBias:
+				case expr::CombinedImageAccess::eTextureProjGrad1DF2:
+				case expr::CombinedImageAccess::eTextureProjGrad1DF4:
+				case expr::CombinedImageAccess::eTextureProjGrad2DF3:
+				case expr::CombinedImageAccess::eTextureProjGrad2DF4:
+				case expr::CombinedImageAccess::eTextureProjGrad3DF:
+				case expr::CombinedImageAccess::eTextureProjGrad1DI2:
+				case expr::CombinedImageAccess::eTextureProjGrad1DI4:
+				case expr::CombinedImageAccess::eTextureProjGrad2DI3:
+				case expr::CombinedImageAccess::eTextureProjGrad2DI4:
+				case expr::CombinedImageAccess::eTextureProjGrad3DI:
+				case expr::CombinedImageAccess::eTextureProjGrad1DU2:
+				case expr::CombinedImageAccess::eTextureProjGrad1DU4:
+				case expr::CombinedImageAccess::eTextureProjGrad2DU3:
+				case expr::CombinedImageAccess::eTextureProjGrad2DU4:
+				case expr::CombinedImageAccess::eTextureProjGrad3DU:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DF2:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DF4:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DF3:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DF4:
+				case expr::CombinedImageAccess::eTextureProjGradOffset3DF:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DI2:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DI4:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DI3:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DI4:
+				case expr::CombinedImageAccess::eTextureProjGradOffset3DI:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DU2:
+				case expr::CombinedImageAccess::eTextureProjGradOffset1DU4:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
+				case expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
+				case expr::CombinedImageAccess::eTextureProjGradOffset3DU:
+				case expr::CombinedImageAccess::eTextureLod1DF:
+				case expr::CombinedImageAccess::eTextureLod2DF:
+				case expr::CombinedImageAccess::eTextureLod3DF:
+				case expr::CombinedImageAccess::eTextureLodCubeF:
+				case expr::CombinedImageAccess::eTextureLod1DArrayF:
+				case expr::CombinedImageAccess::eTextureLod2DArrayF:
+				case expr::CombinedImageAccess::eTextureLodCubeArrayF:
+				case expr::CombinedImageAccess::eTextureLod1DI:
+				case expr::CombinedImageAccess::eTextureLod2DI:
+				case expr::CombinedImageAccess::eTextureLod3DI:
+				case expr::CombinedImageAccess::eTextureLodCubeI:
+				case expr::CombinedImageAccess::eTextureLod1DArrayI:
+				case expr::CombinedImageAccess::eTextureLod2DArrayI:
+				case expr::CombinedImageAccess::eTextureLodCubeArrayI:
+				case expr::CombinedImageAccess::eTextureLod1DU:
+				case expr::CombinedImageAccess::eTextureLod2DU:
+				case expr::CombinedImageAccess::eTextureLod3DU:
+				case expr::CombinedImageAccess::eTextureLodCubeU:
+				case expr::CombinedImageAccess::eTextureLod1DArrayU:
+				case expr::CombinedImageAccess::eTextureLod2DArrayU:
+				case expr::CombinedImageAccess::eTextureLodCubeArrayU:
+				case expr::CombinedImageAccess::eTextureLodOffset1DF:
+				case expr::CombinedImageAccess::eTextureLodOffset2DF:
+				case expr::CombinedImageAccess::eTextureLodOffset3DF:
+				case expr::CombinedImageAccess::eTextureLodOffset1DArrayF:
+				case expr::CombinedImageAccess::eTextureLodOffset2DArrayF:
+				case expr::CombinedImageAccess::eTextureLodOffset1DI:
+				case expr::CombinedImageAccess::eTextureLodOffset2DI:
+				case expr::CombinedImageAccess::eTextureLodOffset3DI:
+				case expr::CombinedImageAccess::eTextureLodOffset1DArrayI:
+				case expr::CombinedImageAccess::eTextureLodOffset2DArrayI:
+				case expr::CombinedImageAccess::eTextureLodOffset1DU:
+				case expr::CombinedImageAccess::eTextureLodOffset2DU:
+				case expr::CombinedImageAccess::eTextureLodOffset3DU:
+				case expr::CombinedImageAccess::eTextureLodOffset1DArrayU:
+				case expr::CombinedImageAccess::eTextureLodOffset2DArrayU:
+				case expr::CombinedImageAccess::eTextureProjLod1DF2:
+				case expr::CombinedImageAccess::eTextureProjLod1DF4:
+				case expr::CombinedImageAccess::eTextureProjLod2DF3:
+				case expr::CombinedImageAccess::eTextureProjLod2DF4:
+				case expr::CombinedImageAccess::eTextureProjLod3DF:
+				case expr::CombinedImageAccess::eTextureProjLod1DI2:
+				case expr::CombinedImageAccess::eTextureProjLod1DI4:
+				case expr::CombinedImageAccess::eTextureProjLod2DI3:
+				case expr::CombinedImageAccess::eTextureProjLod2DI4:
+				case expr::CombinedImageAccess::eTextureProjLod3DI:
+				case expr::CombinedImageAccess::eTextureProjLod1DU2:
+				case expr::CombinedImageAccess::eTextureProjLod1DU4:
+				case expr::CombinedImageAccess::eTextureProjLod2DU3:
+				case expr::CombinedImageAccess::eTextureProjLod2DU4:
+				case expr::CombinedImageAccess::eTextureProjLod3DU:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DF2:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DF4:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DF3:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DF4:
+				case expr::CombinedImageAccess::eTextureProjLodOffset3DF:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DI2:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DI4:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DI3:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DI4:
+				case expr::CombinedImageAccess::eTextureProjLodOffset3DI:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DU2:
+				case expr::CombinedImageAccess::eTextureProjLodOffset1DU4:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DU3:
+				case expr::CombinedImageAccess::eTextureProjLodOffset2DU4:
+				case expr::CombinedImageAccess::eTextureProjLodOffset3DU:
+				case expr::CombinedImageAccess::eTexelFetch1DF:
+				case expr::CombinedImageAccess::eTexelFetch2DF:
+				case expr::CombinedImageAccess::eTexelFetch3DF:
+				case expr::CombinedImageAccess::eTexelFetch1DArrayF:
+				case expr::CombinedImageAccess::eTexelFetch2DArrayF:
+				case expr::CombinedImageAccess::eTexelFetchBufferF:
+				case expr::CombinedImageAccess::eTexelFetch1DI:
+				case expr::CombinedImageAccess::eTexelFetch2DI:
+				case expr::CombinedImageAccess::eTexelFetch3DI:
+				case expr::CombinedImageAccess::eTexelFetch1DArrayI:
+				case expr::CombinedImageAccess::eTexelFetch2DArrayI:
+				case expr::CombinedImageAccess::eTexelFetchBufferI:
+				case expr::CombinedImageAccess::eTexelFetch1DU:
+				case expr::CombinedImageAccess::eTexelFetch2DU:
+				case expr::CombinedImageAccess::eTexelFetch3DU:
+				case expr::CombinedImageAccess::eTexelFetch1DArrayU:
+				case expr::CombinedImageAccess::eTexelFetch2DArrayU:
+				case expr::CombinedImageAccess::eTexelFetchBufferU:
+				case expr::CombinedImageAccess::eTexelFetchOffset1DF:
+				case expr::CombinedImageAccess::eTexelFetchOffset2DF:
+				case expr::CombinedImageAccess::eTexelFetchOffset3DF:
+				case expr::CombinedImageAccess::eTexelFetchOffset1DArrayF:
+				case expr::CombinedImageAccess::eTexelFetchOffset2DArrayF:
+				case expr::CombinedImageAccess::eTexelFetchOffset1DI:
+				case expr::CombinedImageAccess::eTexelFetchOffset2DI:
+				case expr::CombinedImageAccess::eTexelFetchOffset3DI:
+				case expr::CombinedImageAccess::eTexelFetchOffset1DArrayI:
+				case expr::CombinedImageAccess::eTexelFetchOffset2DArrayI:
+				case expr::CombinedImageAccess::eTexelFetchOffset1DU:
+				case expr::CombinedImageAccess::eTexelFetchOffset2DU:
+				case expr::CombinedImageAccess::eTexelFetchOffset3DU:
+				case expr::CombinedImageAccess::eTexelFetchOffset1DArrayU:
+				case expr::CombinedImageAccess::eTexelFetchOffset2DArrayU:
+				case expr::CombinedImageAccess::eTextureGather2DF:
+				case expr::CombinedImageAccess::eTextureGather2DArrayF:
+				case expr::CombinedImageAccess::eTextureGatherCubeF:
+				case expr::CombinedImageAccess::eTextureGatherCubeArrayF:
+				case expr::CombinedImageAccess::eTextureGather2DI:
+				case expr::CombinedImageAccess::eTextureGather2DArrayI:
+				case expr::CombinedImageAccess::eTextureGatherCubeI:
+				case expr::CombinedImageAccess::eTextureGatherCubeArrayI:
+				case expr::CombinedImageAccess::eTextureGather2DU:
+				case expr::CombinedImageAccess::eTextureGather2DArrayU:
+				case expr::CombinedImageAccess::eTextureGatherCubeU:
+				case expr::CombinedImageAccess::eTextureGatherCubeArrayU:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DF:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DArrayF:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DI:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DArrayI:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DU:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DArrayU:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DF:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DArrayF:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DI:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DArrayI:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DU:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DArrayU:
+				case expr::CombinedImageAccess::eTextureGather2DShadowF:
+				case expr::CombinedImageAccess::eTextureGather2DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureGatherCubeShadowF:
+				case expr::CombinedImageAccess::eTextureGatherCubeArrayShadowF:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DShadowF:
+				case expr::CombinedImageAccess::eTextureGatherOffset2DArrayShadowF:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DShadowF:
+				case expr::CombinedImageAccess::eTextureGatherOffsets2DArrayShadowF:
 					return 4u;
 
 				default:
@@ -785,13 +605,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					[[noreturn]]
-					void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
-					{
-						AST_Failure( "Unexpected AddAssign expression" );
-					}
-
-					void visitAggrInitExpr( ast::expr::AggrInit const * expr )override
+					void visitAggrInitExpr( expr::AggrInit const * expr )override
 					{
 						TraceFunc;
 						if ( !expr->hasIdentifier()
@@ -805,28 +619,16 @@ namespace ast
 						}
 					}
 
-					void visitAliasExpr( ast::expr::Alias const * expr )override
+					void visitAliasExpr( expr::Alias const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
-					}
-
-					[[noreturn]]
-					void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
-					{
-						AST_Failure( "Unexpected AndAssign expression" );
 					}
 
 					void visitArrayAccessExpr( expr::ArrayAccess const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
-					}
-
-					[[noreturn]]
-					void visitAssignExpr( ast::expr::Assign const * expr )override
-					{
-						AST_Failure( "Unexpected Assign expression" );
 					}
 
 					void visitBitAndExpr( expr::BitAnd const * expr )override
@@ -877,20 +679,8 @@ namespace ast
 						TraceFunc;
 						auto lhs = doSubmit( *expr->getLHS() );
 						auto rhs = doSubmit( *expr->getRHS() );
-
-						if ( rhs && lhs )
-						{
-							m_result = m_exprCache.makeComma( std::move( lhs )
-								, std::move( rhs ) );
-						}
-						else if ( lhs )
-						{
-							m_result = std::move( lhs );
-						}
-						else if ( rhs )
-						{
-							m_result = std::move( rhs );
-						}
+						m_result = m_exprCache.makeComma( std::move( lhs )
+							, std::move( rhs ) );
 					}
 
 					void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall const * expr )override
@@ -899,17 +689,11 @@ namespace ast
 						doSwizzle( expr->clone() );
 					}
 
-					void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override
+					void visitCompositeConstructExpr( expr::CompositeConstruct const * expr )override
 					{
 						TraceFunc;
-						if ( expr->getArgList().size() > m_index )
-						{
-							m_result = doSubmit( *expr->getArgList()[m_index] );
-						}
-						else
-						{
-							doSwizzle( expr->clone() );
-						}
+						AST_Assert( m_index < expr->getArgList().size() );
+						m_result = doSubmit( *expr->getArgList()[m_index] );
 					}
 
 					void visitCopyExpr( expr::Copy const * expr )override
@@ -931,12 +715,6 @@ namespace ast
 						m_result = m_exprCache.makeDivide( doGetSwizzledType( expr->getType() )
 							, std::move( lhs )
 							, std::move( rhs ) );
-					}
-
-					[[noreturn]]
-					void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
-					{
-						AST_Failure( "Unexpected DivideAssign expression" );
 					}
 
 					void visitEqualExpr( expr::Equal const * expr )override
@@ -975,7 +753,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					void visitIdentifierExpr( ast::expr::Identifier const * expr )override
+					void visitIdentifierExpr( expr::Identifier const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
@@ -987,20 +765,14 @@ namespace ast
 						doSwizzle( expr->clone() );
 					}
 
-					void visitInitExpr( ast::expr::Init const * expr )override
+					void visitInitExpr( expr::Init const * expr )override
 					{
 						TraceFunc;
-						if ( expr->hasIdentifier() )
-						{
-							doSubmit( expr->getIdentifier() );
-						}
-						else
-						{
-							doSubmit( *expr->getInitialiser() );
-						}
+						AST_Assert( expr->hasIdentifier() );
+						doSubmit( expr->getIdentifier() );
 					}
 
-					void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override
+					void visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
@@ -1026,7 +798,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					void visitLiteralExpr( ast::expr::Literal const * expr )override
+					void visitLiteralExpr( expr::Literal const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
@@ -1070,13 +842,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					[[noreturn]]
-					void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
-					{
-						AST_Failure( "Unexpected LShiftAssign expression" );
-					}
-
-					void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
+					void visitMbrSelectExpr( expr::MbrSelect const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
@@ -1092,12 +858,6 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					[[noreturn]]
-					void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
-					{
-						AST_Failure( "Unexpected MinusAssign expression" );
-					}
-
 					void visitModuloExpr( expr::Modulo const * expr )override
 					{
 						TraceFunc;
@@ -1106,12 +866,6 @@ namespace ast
 						m_result = m_exprCache.makeModulo( doGetSwizzledType( expr->getType() )
 							, std::move( lhs )
 							, std::move( rhs ) );
-					}
-
-					[[noreturn]]
-					void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
-					{
-						AST_Failure( "Unexpected ModuloAssign expression" );
 					}
 
 					void visitNotEqualExpr( expr::NotEqual const * expr )override
@@ -1124,37 +878,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					[[noreturn]]
-					void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
-					{
-						AST_Failure( "Unexpected OrAssign expression" );
-					}
-
-					[[noreturn]]
-					void visitPostDecrementExpr( expr::PostDecrement const * expr )override
-					{
-						AST_Failure( "Unexpected PostDecrement expression" );
-					}
-
-					[[noreturn]]
-					void visitPostIncrementExpr( expr::PostIncrement const * expr )override
-					{
-						AST_Failure( "Unexpected PostIncrement expression" );
-					}
-
-					[[noreturn]]
-					void visitPreDecrementExpr( expr::PreDecrement const * expr )override
-					{
-						AST_Failure( "Unexpected PreDecrement expression" );
-					}
-
-					[[noreturn]]
-					void visitPreIncrementExpr( expr::PreIncrement const * expr )override
-					{
-						AST_Failure( "Unexpected PreIncrement expression" );
-					}
-
-					void visitQuestionExpr( ast::expr::Question const * expr )override
+					void visitQuestionExpr( expr::Question const * expr )override
 					{
 						TraceFunc;
 						doSwizzle( expr->clone() );
@@ -1170,31 +894,7 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					[[noreturn]]
-					void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
-					{
-						AST_Failure( "Unexpected RShiftAssign expression" );
-					}
-
-					[[noreturn]]
-					void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
-					{
-						AST_Failure( "Unexpected StreamAppend expression" );
-					}
-
-					[[noreturn]]
-					void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
-					{
-						AST_Failure( "Unexpected SwitchCase expression" );
-					}
-
-					[[noreturn]]
-					void visitSwitchTestExpr( ast::expr::SwitchTest const * expr )override
-					{
-						AST_Failure( "Unexpected SwitchTest expression" );
-					}
-
-					void visitSwizzleExpr( ast::expr::Swizzle const * expr )override
+					void visitSwizzleExpr( expr::Swizzle const * expr )override
 					{
 						TraceFunc;
 						auto componentCount = getComponentCount( expr->getType() );
@@ -1205,7 +905,7 @@ namespace ast
 						}
 						else if ( componentCount > m_index )
 						{
-							auto values = helpers::getSwizzleValues( expr->getSwizzle() );
+							auto values = getSwizzleValues( expr->getSwizzle() );
 							m_result = m_exprCache.makeSwizzle( expr->getOuterExpr()->clone()
 								, helpers::getFinalSwizzle( values, { m_index } ) );
 						}
@@ -1225,12 +925,6 @@ namespace ast
 							, std::move( rhs ) );
 					}
 
-					[[noreturn]]
-					void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
-					{
-						AST_Failure( "Unexpected TimesAssign expression" );
-					}
-
 					void visitUnaryMinusExpr( expr::UnaryMinus const * expr )override
 					{
 						TraceFunc;
@@ -1245,10 +939,84 @@ namespace ast
 						m_result = m_exprCache.makeUnaryPlus( std::move( op ) );
 					}
 
-					[[noreturn]]
-					void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
+					void visitAddAssignExpr( expr::AddAssign const * expr )override
 					{
-						AST_Failure( "Unexpected XorAssign expression" );
+					}
+
+					void visitAndAssignExpr( expr::AndAssign const * expr )override
+					{
+					}
+
+					void visitDivideAssignExpr( expr::DivideAssign const * expr )override
+					{
+					}
+
+					void visitLShiftAssignExpr( expr::LShiftAssign const * expr )override
+					{
+					}
+
+					void visitMinusAssignExpr( expr::MinusAssign const * expr )override
+					{
+					}
+
+					void visitModuloAssignExpr( expr::ModuloAssign const * expr )override
+					{
+					}
+
+					void visitOrAssignExpr( expr::OrAssign const * expr )override
+					{
+					}
+
+					void visitRShiftAssignExpr( expr::RShiftAssign const * expr )override
+					{
+					}
+
+					void visitTimesAssignExpr( expr::TimesAssign const * expr )override
+					{
+					}
+
+					void visitXorAssignExpr( expr::XorAssign const * expr )override
+					{
+					}
+
+					void visitAssignExpr( expr::Assign const * expr )override
+					{
+						Logger::logError( "Unexpected Assign expression" );
+					}
+
+					void visitPostDecrementExpr( expr::PostDecrement const * expr )override
+					{
+						Logger::logError( "Unexpected PostDecrement expression" );
+					}
+
+					void visitPostIncrementExpr( expr::PostIncrement const * expr )override
+					{
+						Logger::logError( "Unexpected PostIncrement expression" );
+					}
+
+					void visitPreDecrementExpr( expr::PreDecrement const * expr )override
+					{
+						Logger::logError( "Unexpected PreDecrement expression" );
+					}
+
+					void visitPreIncrementExpr( expr::PreIncrement const * expr )override
+					{
+						Logger::logError( "Unexpected PreIncrement expression" );
+					}
+
+					void visitStreamAppendExpr( expr::StreamAppend const * expr )override
+					{
+						Logger::logError( "Unexpected StreamAppend expression" );
+					}
+
+					void visitSwitchCaseExpr( expr::SwitchCase const * expr )override
+					{
+						Logger::logError( "Unexpected SwitchCase expression" );
+					}
+
+					void visitSwitchTestExpr( expr::SwitchTest const * expr )override
+					{
+						Logger::logError( "Unexpected SwitchTest expression" );
 					}
 
 				private:
@@ -1291,7 +1059,7 @@ namespace ast
 			}
 
 		private:
-			using ast::ExprCloner::doSubmit;
+			using ExprCloner::doSubmit;
 
 			expr::ExprPtr doSubmit( expr::Expr const & expr )override
 			{
@@ -1319,26 +1087,26 @@ namespace ast
 					, *expr->getRHS() );
 			}
 
-			void visitCastExpr( ast::expr::Cast const * expr )override
+			void visitCastExpr( expr::Cast const * expr )override
 			{
 				TraceFunc;
 				auto dstScalarType = getScalarType( expr->getType()->getKind() );
 				auto srcScalarType = getScalarType( expr->getOperand()->getType()->getKind() );
-#if !defined( NDEBUG )
+#if SDAST_ExceptAssert || !defined( NDEBUG )
 				auto dstComponents = getComponentCount( expr->getType()->getKind() );
 				auto srcComponents = getComponentCount( expr->getOperand()->getType()->getKind() );
 #endif
 
-				if ( dstScalarType == ast::type::Kind::eBoolean
-					&& srcScalarType != ast::type::Kind::eBoolean )
+				if ( dstScalarType == type::Kind::eBoolean
+					&& srcScalarType != type::Kind::eBoolean )
 				{
 					// Conversion to bool scalar or vector type.
 					AST_Assert( dstComponents == srcComponents );
 					m_result = helpers::makeToBoolCast( m_exprCache, m_typesCache
 						, doSubmit( *expr->getOperand() ) );
 				}
-				else if ( srcScalarType == ast::type::Kind::eBoolean
-					&& dstScalarType != ast::type::Kind::eBoolean )
+				else if ( srcScalarType == type::Kind::eBoolean
+					&& dstScalarType != type::Kind::eBoolean )
 				{
 					// Conversion from bool scalar or vector type.
 					AST_Assert( dstComponents == srcComponents );
@@ -1367,7 +1135,7 @@ namespace ast
 					returnType = m_typesCache.getVector( getScalarType( returnType->getKind() ), returnComponentsCount );
 				}
 
-				ast::expr::ExprList args;
+				expr::ExprList args;
 
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -1375,30 +1143,23 @@ namespace ast
 				}
 
 				m_result = m_exprCache.makeCombinedImageAccessCall( returnType
-						, kind
-						, std::move( args ) );
+					, kind
+					, std::move( args ) );
 
 				if ( returnComponentsCount != helpers::InvalidComponentCount && returnComponentsCount != count )
 				{
-					ast::expr::SwizzleKind swizzleKind;
+					expr::SwizzleKind swizzleKind;
 
-					switch ( count )
+					if ( count == 1u )
 					{
-					case 1:
-						swizzleKind = ast::expr::SwizzleKind::e0;
-						break;
-					case 2:
-						swizzleKind = ast::expr::SwizzleKind::e01;
-						break;
-					case 3:
-						swizzleKind = ast::expr::SwizzleKind::e012;
-						break;
-					default:
-						swizzleKind = ast::expr::SwizzleKind::e0123;
-						break;
+						m_result = m_exprCache.makeSwizzle( std::move( m_result )
+							, expr::SwizzleKind{ expr::SwizzleKind::e0 } );
 					}
-
-					m_result = m_exprCache.makeSwizzle( std::move( m_result ), swizzleKind );
+					else if ( count == 2u )
+					{
+						m_result = m_exprCache.makeSwizzle( std::move( m_result )
+							, expr::SwizzleKind{ expr::SwizzleKind::e01 } );
+					}
 				}
 			}
 
@@ -1409,29 +1170,27 @@ namespace ast
 				{
 					return ExprCloner::visitCompositeConstructExpr( expr );
 				}
-				else
+
+				expr::ExprList args;
+
+				for ( auto & arg : expr->getArgList() )
 				{
-					ast::expr::ExprList args;
-
-					for ( auto & arg : expr->getArgList() )
-					{
-						args.push_back( doSubmit( *arg ) );
-					}
-
-					// Flatten the composite constructs,
-					// to have one initialiser per result component.
-					expr::ExprList realArgs;
-					bool resultIsMatrix = isMatrixType( expr->getType()->getKind() );
-
-					for ( auto & arg : args )
-					{
-						doProcessCompositeCtorArg( *expr, std::move( arg ), resultIsMatrix, args.size(), realArgs );
-					}
-
-					m_result = m_exprCache.makeCompositeConstruct( expr->getComposite()
-						, expr->getComponent()
-						, std::move( realArgs ) );
+					args.push_back( doSubmit( *arg ) );
 				}
+
+				// Flatten the composite constructs,
+				// to have one initialiser per result component.
+				expr::ExprList realArgs;
+				bool resultIsMatrix = isMatrixType( expr->getType()->getKind() );
+
+				for ( auto & arg : args )
+				{
+					doProcessCompositeCtorArg( *expr, std::move( arg ), resultIsMatrix, args.size(), realArgs );
+				}
+
+				m_result = m_exprCache.makeCompositeConstruct( expr->getComposite()
+					, expr->getComponent()
+					, std::move( realArgs ) );
 			}
 
 			void visitDivideAssignExpr( expr::DivideAssign const * expr )override
@@ -1458,7 +1217,7 @@ namespace ast
 			void visitImageAccessCallExpr( expr::StorageImageAccessCall const * expr )override
 			{
 				TraceFunc;
-				ast::expr::ExprList args;
+				expr::ExprList args;
 
 				for ( auto & arg : expr->getArgList() )
 				{
@@ -1473,23 +1232,18 @@ namespace ast
 
 				if ( srcType != dstType )
 				{
-					AST_Assert( ast::type::getScalarType( srcType->getKind() ) == ast::type::getScalarType( dstType->getKind() ) );
-					auto dstCount = ast::type::getComponentCount( dstType );
+					AST_Assert( type::getScalarType( srcType->getKind() ) == type::getScalarType( dstType->getKind() ) );
+					auto dstCount = type::getComponentCount( dstType );
 
 					if ( dstCount == 1u )
 					{
 						m_result = m_exprCache.makeSwizzle( std::move( m_result )
-							, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } );
+							, expr::SwizzleKind{ expr::SwizzleKind::e0 } );
 					}
 					else if ( dstCount == 2u )
 					{
 						m_result = m_exprCache.makeSwizzle( std::move( m_result )
-							, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e01 } );
-					}
-					else if ( dstCount == 3u )
-					{
-						m_result = m_exprCache.makeSwizzle( std::move( m_result )
-							, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e012 } );
+							, expr::SwizzleKind{ expr::SwizzleKind::e01 } );
 					}
 				}
 			}
@@ -1568,10 +1322,10 @@ namespace ast
 				else
 				{
 					AST_Assert( condComponents == 1u );
-					ast::expr::ExprList args;
+					expr::ExprList args;
 					args.emplace_back( doSubmit( *expr->getCtrlExpr() ) );
 					m_result = m_exprCache.makeQuestion( expr->getType()
-						, doSubmit( *m_exprCache.makeCompositeConstruct( helpers::getCompositeType( opsComponents )
+						, doSubmit( *m_exprCache.makeCompositeConstruct( getCompositeType( opsComponents )
 							, expr->getCtrlExpr()->getType()->getKind()
 							, std::move( args ) ) )
 						, doSubmit( *expr->getTrueExpr() )
@@ -1597,7 +1351,7 @@ namespace ast
 					}
 					else
 					{
-						auto values = helpers::getSwizzleValues( outerSwizzle.getSwizzle() );
+						auto values = getSwizzleValues( outerSwizzle.getSwizzle() );
 						auto indices = getSwizzleIndices( expr->getSwizzle() );
 						m_result = m_exprCache.makeSwizzle( doSubmit( outerSwizzle.getOuterExpr() )
 							, helpers::getFinalSwizzle( values, indices ) );
@@ -1622,8 +1376,16 @@ namespace ast
 							}
 							else if ( compositeConstruct.getArgList().size() == type::getComponentCount( compositeConstruct.getType() ) )
 							{
-								m_result = doSubmit( **std::next( compositeConstruct.getArgList().begin()
-									, ptrdiff_t( expr->getSwizzle().toIndex() ) ) );
+								if ( auto index = expr->getSwizzle().toIndex();
+									index < compositeConstruct.getArgList().size() )
+								{
+									m_result = doSubmit( **std::next( compositeConstruct.getArgList().begin()
+										, ptrdiff_t( index ) ) );
+								}
+								else
+								{
+									AST_Exception( "Out of bounds swizzle index" );
+								}
 							}
 						}
 						else
@@ -1667,7 +1429,7 @@ namespace ast
 				, type::Kind kind
 				, expr::ExprList & realArgs )
 			{
-				for ( auto i = 0u; i < helpers::getComponentsCount( expr.getComposite() ); ++i )
+				for ( auto i = 0u; i < getComponentsCount( expr.getComposite() ); ++i )
 				{
 					realArgs.emplace_back( doSubmit( arg ) );
 				}
@@ -1771,7 +1533,7 @@ namespace ast
 					&& isMatrixType( kind ) == isMatrixType( expr.getComponent() ) )
 				{
 					if ( argsCount == 1u
-						&& helpers::getComponentsCount( expr.getComposite() ) > 1u )
+						&& getComponentsCount( expr.getComposite() ) > 1u )
 					{
 						processed = true;
 						// Flatten constructs in the form `vec3( 0.0 )` => `vec3( 0.0, 0.0, 0.0 )`
@@ -1799,10 +1561,10 @@ namespace ast
 				}
 			}
 
-			void doConstructVector( ast::expr::CompositeConstruct const & expr
-				, ast::expr::Expr const & newArg
-				, ast::type::Kind destKind
-				, ast::expr::ExprList & args )
+			void doConstructVector( expr::CompositeConstruct const & expr
+				, expr::Expr const & newArg
+				, type::Kind destKind
+				, expr::ExprList & args )
 			{
 				TraceFunc;
 				auto srcCount = getComponentCount( newArg.getType()->getKind() );
@@ -1812,7 +1574,7 @@ namespace ast
 				for ( auto i = 0u; i < count; ++i )
 				{
 					args.emplace_back( doSubmit( *m_exprCache.makeSwizzle( doSubmit( newArg )
-						, ast::expr::SwizzleKind::fromOffset( i ) ) ) );
+						, expr::SwizzleKind::fromOffset( i ) ) ) );
 				}
 
 				if ( getScalarType( newArg.getType()->getKind() ) != getScalarType( expr.getType()->getKind() ) )
@@ -1827,9 +1589,9 @@ namespace ast
 				}
 			}
 
-			void doConstructMatrix( ast::expr::Expr const & newArg
-				, ast::type::Kind destKind
-				, ast::expr::ExprList & args )
+			void doConstructMatrix( expr::Expr const & newArg
+				, type::Kind destKind
+				, expr::ExprList & args )
 			{
 				TraceFunc;
 				auto scalarType = getScalarType( destKind );
@@ -1841,14 +1603,14 @@ namespace ast
 
 				for ( auto col = 0u; col < minColumnCount; ++col )
 				{
-					auto arrayAccess = m_exprCache.makeArrayAccess( m_typesCache.getVector( scalarType, srcRowCount )
+					auto arrayAccess = doSubmit( *m_exprCache.makeArrayAccess( m_typesCache.getVector( scalarType, srcRowCount )
 						, doSubmit( newArg )
-						, m_exprCache.makeLiteral( m_typesCache, col ) );
+						, m_exprCache.makeLiteral( m_typesCache, col ) ) );
 
 					if ( dstRowCount < srcRowCount )
 					{
-						args.emplace_back( m_exprCache.makeSwizzle( std::move( arrayAccess )
-							, helpers::getSwizzleComponents( dstRowCount ) ) );
+						args.emplace_back( doSubmit( *m_exprCache.makeSwizzle( std::move( arrayAccess )
+							, getSwizzleComponents( dstRowCount ) ) ) );
 					}
 					else if ( dstRowCount == srcRowCount )
 					{
@@ -1856,22 +1618,22 @@ namespace ast
 					}
 					else
 					{
-						ast::expr::ExprList compositeArgs;
+						expr::ExprList compositeArgs;
 						compositeArgs.emplace_back( std::move( arrayAccess ) );
 
 						for ( auto row = srcRowCount; row < dstRowCount; ++row )
 						{
 							if ( row == col )
 							{
-								compositeArgs.emplace_back( helpers::makeOne( m_exprCache, m_typesCache, scalarType ) );
+								compositeArgs.emplace_back( makeOne( m_exprCache, m_typesCache.getBasicType( scalarType ) ) );
 							}
 							else
 							{
-								compositeArgs.emplace_back( helpers::makeZero( m_exprCache, m_typesCache, scalarType ) );
+								compositeArgs.emplace_back( makeZero( m_exprCache, m_typesCache.getBasicType( scalarType ) ) );
 							}
 						}
 
-						args.emplace_back( m_exprCache.makeCompositeConstruct( helpers::getCompositeType( dstRowCount )
+						args.emplace_back( m_exprCache.makeCompositeConstruct( getCompositeType( dstRowCount )
 							, scalarType
 							, std::move( compositeArgs ) ) );
 					}
@@ -1905,7 +1667,7 @@ namespace ast
 						}
 
 						auto kind = args.back()->getType()->getKind();
-						lhs = m_exprCache.makeCompositeConstruct( helpers::getCompositeType( getComponentCount( result->getKind() ) )
+						lhs = m_exprCache.makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
 							, kind
 							, std::move( args ) );
 					}
@@ -1921,7 +1683,7 @@ namespace ast
 						}
 
 						auto kind = args.back()->getType()->getKind();
-						rhs = m_exprCache.makeCompositeConstruct( helpers::getCompositeType( getComponentCount( result->getKind() ) )
+						rhs = m_exprCache.makeCompositeConstruct( getCompositeType( getComponentCount( result->getKind() ) )
 							, kind
 							, std::move( args ) );
 					}
@@ -2254,7 +2016,7 @@ namespace ast
 			{
 			}
 
-			using ast::StmtCloner::doSubmit;
+			using StmtCloner::doSubmit;
 
 			expr::ExprPtr doSubmit( expr::Expr const & expr )override
 			{
@@ -2266,7 +2028,7 @@ namespace ast
 				TraceFunc;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
 				auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
-				auto doWhileContent = m_stmtCache.makeDoWhile( ( scalarType != ast::type::Kind::eBoolean )
+				auto doWhileContent = m_stmtCache.makeDoWhile( ( scalarType != type::Kind::eBoolean )
 					? helpers::makeToBoolCast( m_exprCache, m_typesCache, std::move( ctrlExpr ) )
 					: std::move( ctrlExpr ) );
 				auto save = m_current;
@@ -2276,25 +2038,13 @@ namespace ast
 				m_current->addStmt( std::move( doWhileContent ) );
 			}
 
-			[[noreturn]]
-			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
-			{
-				AST_Failure( "Unexpected ElseIf statement." );
-			}
-
-			[[noreturn]]
-			void visitElseStmt( ast::stmt::Else const * stmt )override
-			{
-				AST_Failure( "Unexpected Else statement." );
-			}
-
 			void visitIfStmt( stmt::If const * stmt )override
 			{
 				TraceFunc;
 				auto save = m_current;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
 				auto scalarType = getScalarType( ctrlExpr->getType()->getKind() );
-				auto ifCont = m_stmtCache.makeIf( ( scalarType != ast::type::Kind::eBoolean )
+				auto ifCont = m_stmtCache.makeIf( ( scalarType != type::Kind::eBoolean )
 					? helpers::makeToBoolCast( m_exprCache, m_typesCache, std::move( ctrlExpr ) )
 					: std::move( ctrlExpr ) );
 				m_current = ifCont.get();
@@ -2344,6 +2094,30 @@ namespace ast
 		}
 	}
 
+	std::vector< expr::SwizzleKind > getSwizzleValues( expr::SwizzleKind swizzle )
+	{
+		auto count = swizzle.getComponentsCount();
+		std::vector< expr::SwizzleKind > result;
+		result.emplace_back( swizzle.getFirstValue() );
+
+		if ( count >= 2u )
+		{
+			result.emplace_back( swizzle.getSecondValue() );
+		}
+
+		if ( count >= 3u )
+		{
+			result.emplace_back( swizzle.getThirdValue() );
+		}
+
+		if ( count >= 4u )
+		{
+			result.emplace_back( swizzle.getFourthValue() );
+		}
+
+		return result;
+	}
+
 	std::vector< uint32_t > getSwizzleIndices( expr::SwizzleKind swizzle )
 	{
 		std::vector< uint32_t > result;
@@ -2368,10 +2142,634 @@ namespace ast
 		return result;
 	}
 
+	uint32_t getComponentsCount( expr::CompositeType type )
+	{
+		switch ( type )
+		{
+		case expr::CompositeType::eScalar:
+			return 1u;
+		case expr::CompositeType::eVec2:
+		case expr::CompositeType::eMat2x2:
+		case expr::CompositeType::eMat2x3:
+		case expr::CompositeType::eMat2x4:
+		case expr::CompositeType::eCombine:
+			return 2u;
+		case expr::CompositeType::eVec3:
+		case expr::CompositeType::eMat3x2:
+		case expr::CompositeType::eMat3x3:
+		case expr::CompositeType::eMat3x4:
+			return 3u;
+		case expr::CompositeType::eVec4:
+		case expr::CompositeType::eMat4x2:
+		case expr::CompositeType::eMat4x3:
+		case expr::CompositeType::eMat4x4:
+			return 4u;
+		}
+
+		return 0u;
+	}
+
+	expr::CompositeType getCompositeType( uint32_t count )
+	{
+		using expr::CompositeType;
+		CompositeType result = CompositeType::eVec4;
+
+		switch ( count )
+		{
+		case 1:
+			result = CompositeType::eScalar;
+			break;
+		case 2:
+			result = CompositeType::eVec2;
+			break;
+		case 3:
+			result = CompositeType::eVec3;
+			break;
+		case 4:
+			result = CompositeType::eVec4;
+			break;
+		default:
+			AST_Failure( "Unsupported count to deduce CompositeType from" );
+		}
+
+		return result;
+	}
+
+	expr::SwizzleKind getSwizzleComponents( uint32_t count )
+	{
+		AST_Assert( count > 0 && count < 4 );
+
+		switch ( count )
+		{
+		case 1:
+			return expr::SwizzleKind{ expr::SwizzleKind::e0 };
+		case 2:
+			return expr::SwizzleKind{ expr::SwizzleKind::e01 };
+		default:
+			return expr::SwizzleKind{ expr::SwizzleKind::e012 };
+		}
+	}
+
+	expr::ExprList makeList( expr::ExprPtr arg0 )
+	{
+		expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		return result;
+	}
+
+	expr::ExprList makeList( expr::ExprPtr arg0
+		, expr::ExprPtr arg1 )
+	{
+		expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		result.push_back( std::move( arg1 ) );
+		return result;
+	}
+
+	expr::ExprList makeList( expr::ExprPtr arg0
+		, expr::ExprPtr arg1
+		, expr::ExprPtr arg2 )
+	{
+		expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		result.push_back( std::move( arg1 ) );
+		result.push_back( std::move( arg2 ) );
+		return result;
+	}
+
+	expr::ExprList makeList( expr::ExprPtr arg0
+		, expr::ExprPtr arg1
+		, expr::ExprPtr arg2
+		, expr::ExprPtr arg3 )
+	{
+		expr::ExprList result;
+		result.push_back( std::move( arg0 ) );
+		result.push_back( std::move( arg1 ) );
+		result.push_back( std::move( arg2 ) );
+		result.push_back( std::move( arg3 ) );
+		return result;
+	}
+
+	expr::ExprPtr makeOne( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, type::Kind typeKind )
+	{
+		expr::ExprPtr result{};
+
+		switch ( typeKind )
+		{
+		case type::Kind::eInt8:
+			result = exprCache.makeLiteral( typesCache, int8_t( 1 ) );
+			break;
+		case type::Kind::eInt16:
+			result = exprCache.makeLiteral( typesCache, int16_t( 1 ) );
+			break;
+		case type::Kind::eInt32:
+			result = exprCache.makeLiteral( typesCache, 1 );
+			break;
+		case type::Kind::eInt64:
+			result = exprCache.makeLiteral( typesCache, 1LL );
+			break;
+		case type::Kind::eUInt8:
+			result = exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
+			break;
+		case type::Kind::eUInt16:
+			result = exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
+			break;
+		case type::Kind::eUInt32:
+			result = exprCache.makeLiteral( typesCache, 1u );
+			break;
+		case type::Kind::eUInt64:
+			result = exprCache.makeLiteral( typesCache, 1ULL );
+			break;
+		case type::Kind::eFloat:
+			result = exprCache.makeLiteral( typesCache, 1.0f );
+			break;
+		case type::Kind::eDouble:
+			result = exprCache.makeLiteral( typesCache, 1.0 );
+			break;
+		case type::Kind::eVec2I8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt8
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt8 ) ) );
+			break;
+		case type::Kind::eVec3I8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt8
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt8 ) ) );
+			break;
+		case type::Kind::eVec4I8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt8
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt8 ) ) );
+			break;
+		case type::Kind::eVec2I16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt16
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt16 ) ) );
+			break;
+		case type::Kind::eVec3I16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt16
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt16 ) ) );
+			break;
+		case type::Kind::eVec4I16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt16
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt16 ) ) );
+			break;
+		case type::Kind::eVec2I32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt32
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt32 ) ) );
+			break;
+		case type::Kind::eVec3I32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt32
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt32 ) ) );
+			break;
+		case type::Kind::eVec4I32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt32
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt32 ) ) );
+			break;
+		case type::Kind::eVec2I64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt64
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt64 ) ) );
+			break;
+		case type::Kind::eVec3I64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt64
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt64 ) ) );
+			break;
+		case type::Kind::eVec4I64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt64
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eInt64 ) ) );
+			break;
+		case type::Kind::eVec2U8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt8
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt8 ) ) );
+			break;
+		case type::Kind::eVec3U8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt8
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt8 ) ) );
+			break;
+		case type::Kind::eVec4U8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt8
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt8 ) ) );
+			break;
+		case type::Kind::eVec2U16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt16
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt16 ) ) );
+			break;
+		case type::Kind::eVec3U16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt16
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt16 ) ) );
+			break;
+		case type::Kind::eVec4U16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt16
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt16 ) ) );
+			break;
+		case type::Kind::eVec2U32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt32
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt32 ) ) );
+			break;
+		case type::Kind::eVec3U32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt32
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt32 ) ) );
+			break;
+		case type::Kind::eVec4U32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt32
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt32 ) ) );
+			break;
+		case type::Kind::eVec2U64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt64
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt64 ) ) );
+			break;
+		case type::Kind::eVec3U64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt64
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt64 ) ) );
+			break;
+		case type::Kind::eVec4U64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt64
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeOne( exprCache, typesCache, type::Kind::eUInt64 ) ) );
+			break;
+		case type::Kind::eVec2F:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eFloat
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eFloat )
+					, makeOne( exprCache, typesCache, type::Kind::eFloat ) ) );
+			break;
+		case type::Kind::eVec3F:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eFloat
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eFloat )
+					, makeOne( exprCache, typesCache, type::Kind::eFloat )
+					, makeOne( exprCache, typesCache, type::Kind::eFloat ) ) );
+			break;
+		case type::Kind::eVec4F:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eFloat
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eFloat )
+					, makeOne( exprCache, typesCache, type::Kind::eFloat )
+					, makeOne( exprCache, typesCache, type::Kind::eFloat )
+					, makeOne( exprCache, typesCache, type::Kind::eFloat ) ) );
+			break;
+		case type::Kind::eVec2D:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eDouble
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eDouble )
+					, makeOne( exprCache, typesCache, type::Kind::eDouble ) ) );
+			break;
+		case type::Kind::eVec3D:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eDouble
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eDouble )
+					, makeOne( exprCache, typesCache, type::Kind::eDouble )
+					, makeOne( exprCache, typesCache, type::Kind::eDouble ) ) );
+			break;
+		case type::Kind::eVec4D:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eDouble
+				, makeList( makeOne( exprCache, typesCache, type::Kind::eDouble )
+					, makeOne( exprCache, typesCache, type::Kind::eDouble )
+					, makeOne( exprCache, typesCache, type::Kind::eDouble )
+					, makeOne( exprCache, typesCache, type::Kind::eDouble ) ) );
+			break;
+		default:
+			AST_Failure( "Unsupported scalar type for literal creation." );
+		}
+
+		return result;
+	}
+
 	expr::ExprPtr makeOne( expr::ExprCache & exprCache
 		, type::TypePtr type )
 	{
-		return simpl::helpers::makeOne( exprCache, type->getTypesCache(), type->getKind() );
+		return makeOne( exprCache, type->getTypesCache(), type->getKind() );
+	}
+
+	expr::ExprPtr makeZero( expr::ExprCache & exprCache
+		, type::TypesCache & typesCache
+		, type::Kind typeKind )
+	{
+		expr::ExprPtr result{};
+
+		switch ( typeKind )
+		{
+		case type::Kind::eInt8:
+			result = exprCache.makeLiteral( typesCache, int8_t( 0 ) );
+			break;
+		case type::Kind::eInt16:
+			result = exprCache.makeLiteral( typesCache, int16_t( 0 ) );
+			break;
+		case type::Kind::eInt32:
+			result = exprCache.makeLiteral( typesCache, 0 );
+			break;
+		case type::Kind::eInt64:
+			result = exprCache.makeLiteral( typesCache, 0LL );
+			break;
+		case type::Kind::eUInt8:
+			result = exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
+			break;
+		case type::Kind::eUInt16:
+			result = exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
+			break;
+		case type::Kind::eUInt32:
+			result = exprCache.makeLiteral( typesCache, 0u );
+			break;
+		case type::Kind::eUInt64:
+			result = exprCache.makeLiteral( typesCache, 0ULL );
+			break;
+		case type::Kind::eFloat:
+			result = exprCache.makeLiteral( typesCache, 0.0f );
+			break;
+		case type::Kind::eDouble:
+			result = exprCache.makeLiteral( typesCache, 0.0 );
+			break;
+		case type::Kind::eVec2I8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt8
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt8 ) ) );
+			break;
+		case type::Kind::eVec3I8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt8
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt8 ) ) );
+			break;
+		case type::Kind::eVec4I8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt8
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt8 ) ) );
+			break;
+		case type::Kind::eVec2I16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt16
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt16 ) ) );
+			break;
+		case type::Kind::eVec3I16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt16
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt16 ) ) );
+			break;
+		case type::Kind::eVec4I16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt16
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt16 ) ) );
+			break;
+		case type::Kind::eVec2I32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt32
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt32 ) ) );
+			break;
+		case type::Kind::eVec3I32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt32
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt32 ) ) );
+			break;
+		case type::Kind::eVec4I32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt32
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt32 ) ) );
+			break;
+		case type::Kind::eVec2I64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eInt64
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt64 ) ) );
+			break;
+		case type::Kind::eVec3I64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eInt64
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt64 ) ) );
+			break;
+		case type::Kind::eVec4I64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eInt64
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eInt64 ) ) );
+			break;
+		case type::Kind::eVec2U8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt8
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt8 ) ) );
+			break;
+		case type::Kind::eVec3U8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt8
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt8 ) ) );
+			break;
+		case type::Kind::eVec4U8:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt8
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt8 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt8 ) ) );
+			break;
+		case type::Kind::eVec2U16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt16
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt16 ) ) );
+			break;
+		case type::Kind::eVec3U16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt16
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt16 ) ) );
+			break;
+		case type::Kind::eVec4U16:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt16
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt16 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt16 ) ) );
+			break;
+		case type::Kind::eVec2U32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt32
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt32 ) ) );
+			break;
+		case type::Kind::eVec3U32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt32
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt32 ) ) );
+			break;
+		case type::Kind::eVec4U32:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt32
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt32 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt32 ) ) );
+			break;
+		case type::Kind::eVec2U64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eUInt64
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt64 ) ) );
+			break;
+		case type::Kind::eVec3U64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eUInt64
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt64 ) ) );
+			break;
+		case type::Kind::eVec4U64:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eUInt64
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt64 )
+					, makeZero( exprCache, typesCache, type::Kind::eUInt64 ) ) );
+			break;
+		case type::Kind::eVec2F:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eFloat
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eFloat )
+					, makeZero( exprCache, typesCache, type::Kind::eFloat ) ) );
+			break;
+		case type::Kind::eVec3F:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eFloat
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eFloat )
+					, makeZero( exprCache, typesCache, type::Kind::eFloat )
+					, makeZero( exprCache, typesCache, type::Kind::eFloat ) ) );
+			break;
+		case type::Kind::eVec4F:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eFloat
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eFloat )
+					, makeZero( exprCache, typesCache, type::Kind::eFloat )
+					, makeZero( exprCache, typesCache, type::Kind::eFloat )
+					, makeZero( exprCache, typesCache, type::Kind::eFloat ) ) );
+			break;
+		case type::Kind::eVec2D:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec2
+				, type::Kind::eDouble
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eDouble )
+					, makeZero( exprCache, typesCache, type::Kind::eDouble ) ) );
+			break;
+		case type::Kind::eVec3D:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec3
+				, type::Kind::eDouble
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eDouble )
+					, makeZero( exprCache, typesCache, type::Kind::eDouble )
+					, makeZero( exprCache, typesCache, type::Kind::eDouble ) ) );
+			break;
+		case type::Kind::eVec4D:
+			result = exprCache.makeCompositeConstruct( expr::CompositeType::eVec4
+				, type::Kind::eDouble
+				, makeList( makeZero( exprCache, typesCache, type::Kind::eDouble )
+					, makeZero( exprCache, typesCache, type::Kind::eDouble )
+					, makeZero( exprCache, typesCache, type::Kind::eDouble )
+					, makeZero( exprCache, typesCache, type::Kind::eDouble ) ) );
+			break;
+		default:
+			AST_Failure( "Unsupported scalar type for literal creation." );
+		}
+
+		return result;
+	}
+
+	expr::ExprPtr makeZero( expr::ExprCache & exprCache
+		, type::TypePtr type )
+	{
+		return makeZero( exprCache, type->getTypesCache(), type->getKind() );
 	}
 
 	stmt::ContainerPtr simplify( stmt::StmtCache & stmtCache

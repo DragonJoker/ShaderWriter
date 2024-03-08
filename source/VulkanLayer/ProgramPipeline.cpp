@@ -1005,12 +1005,12 @@ namespace ast::vk
 	{
 		SpecializationInfoOpt result{ std::nullopt };
 
-		if ( !shader.getData().specConstants.empty() )
+		if ( !shader.getSpecConstants().empty() )
 		{
 			size_t size = 0u;
 			std::vector< VkSpecializationMapEntry > entries;
 
-			for ( auto const & [_, specConstant] : shader.getData().specConstants )
+			for ( auto const & [_, specConstant] : shader.getSpecConstants() )
 			{
 				auto specSize = type::getSize( specConstant.type
 					, type::MemoryLayout::eC );
@@ -1048,7 +1048,19 @@ namespace ast::vk
 	ShaderDataPtr ProgramPipeline::createShaderData( Shader const & shader
 		, EntryPointConfig const & entryPoint )
 	{
-		ShaderDataPtr result{ shader.getData()
+		ShaderDataPtr result{ shader.getSsbos()
+			, shader.getUbos()
+			, shader.getPcbs()
+			, shader.getSamplers()
+			, shader.getCombinedImages()
+			, shader.getUniformTexelBuffers()
+			, shader.getStorageImages()
+			, shader.getStorageTexelBuffers()
+			, shader.getAllInputs()
+			, shader.getAllOutputs()
+			, shader.getInOuts()
+			, shader.getAccelerationStructureInfo()
+			, shader.getTessellationControlPoints()
 			, getEntryPointType( entryPoint.stage )
 			, makeFlag( entryPoint.stage ) };
 		m_tessellationControlPoints = std::max( m_tessellationControlPoints, result.tessellationControlPoints );
@@ -1069,7 +1081,7 @@ namespace ast::vk
 		std::vector< VkPushConstantRange > result;
 		uint32_t size = 0u;
 
-		for ( auto const & [_, pcb] : shader.getData().pcbs )
+		for ( auto const & [_, pcb] : shader.getPcbs() )
 		{
 			auto pcbSize = getSize( pcb.getType()
 				, pcb.getType()->getMemoryLayout() );

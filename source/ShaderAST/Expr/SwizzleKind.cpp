@@ -6,7 +6,7 @@ namespace ast::expr
 {
 	namespace
 	{
-#if !defined( NDEBUG )
+#if SDAST_ExceptAssert || !defined( NDEBUG )
 		bool isValid( SwizzleKind::Value value )
 		{
 			return value == SwizzleKind::e0

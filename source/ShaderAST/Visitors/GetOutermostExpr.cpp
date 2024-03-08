@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/GetOutermostExpr.hpp"
 
+#include "ShaderAST/ShaderLog.hpp"
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 #include "ShaderAST/Var/Variable.hpp"
 
@@ -127,10 +128,9 @@ namespace ast
 				visitUnaryExpr( expr );
 			}
 
-			[[noreturn]]
 			void visitSwitchCaseExpr( expr::SwitchCase const * expr )override
 			{
-				AST_Failure( "getOutermostExpr: Unexpected SwitchCase" );
+				ast::Logger::logError( "getOutermostExpr: Unexpected SwitchCase" );
 			}
 
 			void visitSwitchTestExpr( expr::SwitchTest const * expr )override

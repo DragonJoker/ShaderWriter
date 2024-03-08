@@ -13,7 +13,7 @@ namespace ast::expr
 		: Expr{ exprCache
 			, sizeof( Init )
 			, getExprTypesCache( initialiser )
-			, identifier->getType()
+			, identifier ? identifier->getType() : initialiser->getType()
 			, Kind::eInit
 			, isExprConstant( initialiser, identifier ) ? Flag::eConstant : Flag::eNone }
 		, m_identifier{ std::move( identifier ) }

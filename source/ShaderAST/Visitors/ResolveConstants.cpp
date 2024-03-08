@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Visitors/ResolveConstants.hpp"
 
+#include "ShaderAST/ShaderLog.hpp"
 #include "ShaderAST/Expr/ExprCompositeConstruct.hpp"
 #include "ShaderAST/Expr/ExprLiteral.hpp"
 #include "ShaderAST/Expr/ExprVisitor.hpp"
@@ -655,6 +656,10 @@ namespace ast
 				else if ( init.getKind() == expr::Kind::eCompositeConstruct )
 				{
 					result = static_cast< expr::CompositeConstruct const & >( init ).getArgList()[index]->clone();
+				}
+				else if ( init.getKind() == expr::Kind::eAlias )
+				{
+					result = getNthValue( *static_cast< expr::Alias const & >( init ).getAliasedExpr(), index );
 				}
 				else
 				{
@@ -2155,7 +2160,7 @@ namespace ast
 				ExprEvaluator vis{ exprCache, context, allLiterals, isLHS, result };
 				expr.accept( &vis );
 
-				if ( expr.isNonUniform() )
+				if ( result && expr.isNonUniform() )
 				{
 					result->updateFlag( expr::Flag::eNonUniform );
 				}
@@ -2533,6 +2538,18 @@ namespace ast
 					case expr::Kind::eStreamAppend:
 						m_result = m_exprCache.makeStreamAppend( std::move( op ) );
 						break;
+					case expr::Kind::ePostIncrement:
+						m_result = m_exprCache.makePostIncrement( std::move( op ) );
+						break;
+					case expr::Kind::ePostDecrement:
+						m_result = m_exprCache.makePostDecrement( std::move( op ) );
+						break;
+					case expr::Kind::ePreIncrement:
+						m_result = m_exprCache.makePreIncrement( std::move( op ) );
+						break;
+					case expr::Kind::ePreDecrement:
+						m_result = m_exprCache.makePreDecrement( std::move( op ) );
+						break;
 					case expr::Kind::eUnaryMinus:
 						m_result = m_exprCache.makeUnaryMinus( std::move( op ) );
 						break;
@@ -2838,10 +2855,10 @@ namespace ast
 				ExprCloner::visitImageAccessCallExpr( expr );
 			}
 
-			[[noreturn]]
 			void visitInitExpr( expr::Init const * expr )override
 			{
-				AST_Failure( "Unexpected Init expression" );
+				m_allLiterals = false;
+				ast::Logger::logError( "Unexpected Init expression" );
 			}
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )override
@@ -2983,6 +3000,26 @@ namespace ast
 				visitBinaryExpr( expr );
 			}
 
+			void visitPostDecrementExpr( expr::PostDecrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitPostIncrementExpr( expr::PostIncrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitPreDecrementExpr( expr::PreDecrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
+			void visitPreIncrementExpr( expr::PreIncrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+			}
+
 			void visitRShiftExpr( expr::RShift const * expr )override
 			{
 				TraceFunc;
@@ -3096,88 +3133,54 @@ namespace ast
 				m_result = doSubmit( expr->getOperand() );
 			}
 
-			[[noreturn]]
 			void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 			{
-				AST_Failure( "Unexpected AddAssign expression" );
+				ast::Logger::logError( "Unexpected AddAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 			{
-				AST_Failure( "Unexpected AndAssign expression" );
+				ast::Logger::logError( "Unexpected AndAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 			{
-				AST_Failure( "Unexpected DivideAssign expression" );
+				ast::Logger::logError( "Unexpected DivideAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 			{
-				AST_Failure( "Unexpected LShiftAssign expression" );
+				ast::Logger::logError( "Unexpected LShiftAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 			{
-				AST_Failure( "Unexpected MinusAssign expression" );
+				ast::Logger::logError( "Unexpected MinusAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 			{
-				AST_Failure( "Unexpected ModuloAssign expression" );
+				ast::Logger::logError( "Unexpected ModuloAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 			{
-				AST_Failure( "Unexpected OrAssign expression" );
+				ast::Logger::logError( "Unexpected OrAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 			{
-				AST_Failure( "Unexpected RShiftAssign expression" );
+				ast::Logger::logError( "Unexpected RShiftAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 			{
-				AST_Failure( "Unexpected TimesAssign expression" );
+				ast::Logger::logError( "Unexpected TimesAssign expression" );
 			}
 
-			[[noreturn]]
 			void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 			{
-				AST_Failure( "Unexpected XorAssign expression" );
-			}
-
-			[[noreturn]]
-			void visitPostDecrementExpr(expr::PostDecrement const * expr )override
-			{
-				AST_Failure( "Unexpected PostDecrement expression" );
-			}
-
-			[[noreturn]]
-			void visitPostIncrementExpr(expr::PostIncrement const * expr )override
-			{
-				AST_Failure( "Unexpected PostIncrement expression" );
-			}
-
-			[[noreturn]]
-			void visitPreDecrementExpr(expr::PreDecrement const * expr )override
-			{
-				AST_Failure( "Unexpected PreDecrement expression" );
-			}
-
-			[[noreturn]]
-			void visitPreIncrementExpr(expr::PreIncrement const * expr )override
-			{
-				AST_Failure( "Unexpected PreIncrement expression" );
+				ast::Logger::logError( "Unexpected XorAssign expression" );
 			}
 
 		private:
@@ -3192,13 +3195,11 @@ namespace ast
 		public:
 			static stmt::ContainerPtr submit( stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
 				, stmt::Container const & stmt
 				, ConstantsContext & context )
 			{
-				std::vector< stmt::Container * > contStack;
 				auto result = stmtCache.makeContainer();
-				StmtEvaluator vis{ stmtCache, exprCache, typesCache, context, contStack, result };
+				StmtEvaluator vis{ stmtCache, exprCache, context, result };
 				stmt.accept( &vis );
 				return result;
 			}
@@ -3206,13 +3207,9 @@ namespace ast
 		private:
 			StmtEvaluator( stmt::StmtCache & stmtCache
 				, expr::ExprCache & exprCache
-				, type::TypesCache & typesCache
 				, ConstantsContext & context
-				, std::vector< stmt::Container * > & contStack
 				, stmt::ContainerPtr & result )
 				: StmtCloner{ stmtCache, exprCache, result }
-				, m_typesCache{ typesCache }
-				, m_contStack{ contStack }
 				, m_context{ context }
 			{
 			}
@@ -3583,8 +3580,6 @@ namespace ast
 			}
 
 		private:
-			type::TypesCache & m_typesCache;
-			std::vector< stmt::Container * > & m_contStack;
 			std::vector< stmt::Container const * > m_containers{};
 			ConstantsContext & m_context;
 		};
@@ -3605,11 +3600,10 @@ namespace ast
 
 	stmt::ContainerPtr resolveConstants( stmt::StmtCache & stmtCache
 		, expr::ExprCache & exprCache
-		, type::TypesCache & typesCache
 		, stmt::Container const & stmt )
 	{
 		constants::ConstantsContext context{ &stmtCache.getAllocator() };
-		return constants::StmtEvaluator::submit( stmtCache, exprCache, typesCache, stmt, context );
+		return constants::StmtEvaluator::submit( stmtCache, exprCache, stmt, context );
 	}
 
 	expr::ExprPtr resolveConstants( expr::ExprCache & exprCache

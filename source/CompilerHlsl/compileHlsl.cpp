@@ -112,7 +112,7 @@ namespace hlsl
 		, HlslConfig const & writerConfig )
 	{
 		ast::SSAData ssaData;
-		ssaData.nextVarId = shader.getData().nextVarId;
+		ssaData.nextVarId = shader.getVarId();
 		auto & typesCache = shader.getTypesCache();
 		auto config = writerConfig;
 		config.shaderStage = stage;
@@ -132,7 +132,6 @@ namespace hlsl
 			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, typesCache
 			, *statements );
 		HlslShader hlslShader{ shader, stage };
 		AdaptationData adaptationData{ compileExprCache

@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "SpirVCountActions.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 #include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
@@ -449,10 +450,9 @@ namespace spirv
 			{
 			}
 
-			[[noreturn]]
 			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
-				AST_Failure( "Unexpected While statement." );
+				ast::Logger::logError( "Unexpected While statement." );
 			}
 
 			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override

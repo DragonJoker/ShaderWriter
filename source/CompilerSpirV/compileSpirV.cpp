@@ -34,7 +34,7 @@ namespace spirv
 	{
 		ast::SSAData ssaData;
 		auto & typesCache = shader.getTypesCache();
-		ssaData.nextVarId = shader.getData().nextVarId;
+		ssaData.nextVarId = shader.getVarId();
 		ast::stmt::StmtCache compileStmtCache{ allocator };
 		ast::expr::ExprCache compileExprCache{ allocator };
 		auto statements = ast::transformSSA( compileStmtCache
@@ -49,7 +49,6 @@ namespace spirv
 			, *statements );
 		statements = ast::resolveConstants( compileStmtCache
 			, compileExprCache
-			, typesCache
 			, *statements );
 		ModuleConfig moduleConfig{ &allocator
 			, spirvConfig

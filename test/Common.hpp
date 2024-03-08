@@ -15,6 +15,7 @@
 #pragma clang diagnostic ignored "-Wextra-semi-stmt"
 #pragma GCC diagnostic ignored "-Wrestrict"
 #include <atomic>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <fstream>
@@ -25,6 +26,43 @@ template< typename ValueT >
 inline std::string toString( ValueT const & v )
 {
 	return std::to_string( v );
+}
+
+template< typename ValueT >
+inline std::string toString( std::unique_ptr< ValueT > const & v )
+{
+	std::stringstream stream;
+	stream << std::hex << std::setw( 8u ) << std::setfill( '0' ) << uintptr_t( v.get() );
+	return stream.str();
+}
+
+template< typename ValueT >
+inline std::string toString( std::shared_ptr< ValueT > const & v )
+{
+	std::stringstream stream;
+	stream << std::hex << std::setw( 8u ) << std::setfill( '0' ) << uintptr_t( v.get() );
+	return stream.str();
+}
+
+template< size_t SizeT >
+inline std::string toString( char const v[SizeT] )
+{
+	return std::string( v );
+}
+
+inline std::string toString( char const * const v )
+{
+	return std::string( v );
+}
+
+inline std::string const & toString( std::string const & v )
+{
+	return v;
+}
+
+inline std::string toString( ast::Builtin const & v )
+{
+	return getName( v );
 }
 
 inline std::string toString( ast::expr::LiteralType const & v )
@@ -960,7 +998,7 @@ namespace test
 	try\
 	{\
 		testCounts.incTest();\
-		if ( ( x ) != ( y ) )\
+		if ( !( ( x ) == ( y ) ) )\
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
 		}\
@@ -994,14 +1032,14 @@ namespace test
 		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define astCheckThrow( x )\
+#define astCheckThrowEx( x, excType )\
 	try\
 	{\
 		testCounts.incTest();\
 		( x );\
-		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed, expected exception not thrown." ), __FUNCTION__, __LINE__, testCounts );\
 	}\
-	catch ( ast::Exception &  )\
+	catch ( excType & )\
 	{\
 		testCounts.flushErrors();\
 	}\
@@ -1010,14 +1048,17 @@ namespace test
 		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
 	}
 
-#define astCheckNoThrow( x )\
+#define astCheckThrow( x )\
+	astCheckThrowEx( x, ast::Exception )
+
+#define astCheckNoThrowEx( x, excType )\
 	try\
 	{\
 		testCounts.incTest();\
 		( x );\
 		testCounts.flushErrors();\
 	}\
-	catch ( ast::Exception & exc )\
+	catch ( excType & exc )\
 	{\
 		test::reportFailure( exc.what(), __FUNCTION__, __LINE__, testCounts );\
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
@@ -1026,6 +1067,9 @@ namespace test
 	{\
 		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
 	}
+
+#define astCheckNoThrow( x )\
+	astCheckNoThrowEx( x, ast::Exception )
 
 #define astSubRequire( f, l, x )\
 	try\
@@ -1065,7 +1109,7 @@ namespace test
 	try\
 	{\
 		testCounts.incTest();\
-		if ( ( x ) != ( y ) )\
+		if ( !( ( x ) == ( y ) ) )\
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
 		}\
@@ -1099,14 +1143,14 @@ namespace test
 		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}
 
-#define astSubCheckThrow( f, l, x )\
+#define astSubCheckThrowEx( f, l, x, excType )\
 	try\
 	{\
 		testCounts.incTest();\
 		( x );\
-		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed, expected exception not thrown." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}\
-	catch ( ast::Exception & )\
+	catch ( excType & )\
 	{\
 		testCounts.flushErrors();\
 	}\
@@ -1115,14 +1159,17 @@ namespace test
 		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
 	}
 
-#define astSubCheckNoThrow( f, l, x )\
+#define astSubCheckThrow( f, l, x )\
+	astSubCheckThrowEx( f, l, x, ast::Exception )
+
+#define astSubCheckNoThrowEx( f, l, x, excType )\
 	try\
 	{\
 		testCounts.incTest();\
 		( x );\
 		testCounts.flushErrors();\
 	}\
-	catch ( ast::Exception & exc )\
+	catch ( excType & exc )\
 	{\
 		test::reportFailure( exc.what(), f, l, __FUNCTION__, __LINE__, testCounts );\
 		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
@@ -1132,3 +1179,6 @@ namespace test
 		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
 	}
 }
+
+#define astSubCheckNoThrow( f, l, x )\
+	astSubCheckNoThrowEx( f, l, x, ast::Exception )

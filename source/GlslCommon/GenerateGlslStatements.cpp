@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "GlslIntrinsicNames.hpp"
 #include "GlslStorageImageAccessNames.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 #include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
@@ -2155,10 +2156,9 @@ namespace glsl
 				}
 			}
 
-			[[noreturn]]
 			void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override
 			{
-				AST_Failure( "Unexpected ast::expr::StreamAppend expression." );
+				ast::Logger::logError( "Unexpected ast::expr::StreamAppend expression." );
 			}
 
 			void visitSwitchCaseExpr( ast::expr::SwitchCase const * expr )override
@@ -2821,10 +2821,9 @@ namespace glsl
 				}
 			}
 
-			[[noreturn]]
 			void visitElseIfStmt( ast::stmt::ElseIf const * stmt )override
 			{
-				AST_Failure( "Unexpected ElseIf statement." );
+				ast::Logger::logError( "Unexpected ElseIf statement." );
 			}
 
 			void visitElseStmt( ast::stmt::Else const * stmt )override
@@ -2836,10 +2835,9 @@ namespace glsl
 					, StatementType::eLexicalScopeEnd );
 			}
 
-			[[noreturn]]
 			void visitForStmt( ast::stmt::For const * stmt )override
 			{
-				AST_Failure( "Unexpected For statement." );
+				ast::Logger::logError( "Unexpected For statement." );
 			}
 
 			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout const * stmt )override
@@ -3389,10 +3387,9 @@ namespace glsl
 				}
 			}
 
-			[[noreturn]]
 			void visitWhileStmt( ast::stmt::While const * stmt )override
 			{
-				AST_Failure( "Unexpected While statement." );
+				ast::Logger::logError( "Unexpected While statement." );
 			}
 
 			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override
