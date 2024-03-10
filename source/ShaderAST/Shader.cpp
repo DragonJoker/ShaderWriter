@@ -35,10 +35,12 @@ namespace ast
 		, m_exprCache{ std::move( rhs.m_exprCache ) }
 		, m_container{ std::move( rhs.m_container ) }
 		, m_globalVariables{ std::move( rhs.m_globalVariables ) }
+		, m_data{ std::move( rhs.m_data ) }
 	{
 		rhs.m_ownAllocator = std::make_unique< ShaderAllocator >();
 		rhs.m_allocator = rhs.m_ownAllocator->getBlock();
 		rhs.m_globalVariables = Set< var::VariablePtr >{ rhs.m_allocator.get() };
+		rhs.m_data = {};
 	}
 
 	Shader::Shader( ast::ShaderStage type
