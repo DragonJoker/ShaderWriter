@@ -237,20 +237,30 @@ namespace ast
 
 	void * ShaderAllocatorBlock::allocate( size_t size, size_t count )
 	{
-		return m_allocated.emplace_back( m_allocator->allocate( size, count ), size, count ).mem;
+		auto result = m_allocator->allocate( size, count );
+
+		if ( m_allocator->m_allocationMode == AllocationMode::eFragmented )
+		{
+			m_allocated.emplace_back( result, size, count );
+		}
+
+		return result;
 	}
 
 	void ShaderAllocatorBlock::deallocate( void * mem, size_t size, size_t count )noexcept
 	{
-		auto it = std::find_if( m_allocated.begin()
-			, m_allocated.end()
-			, [mem]( Allocation const & lookup )
-			{
-				return lookup.mem == mem;
-			} );
-		if ( it != m_allocated.end() )
+		if ( m_allocator->m_allocationMode == AllocationMode::eFragmented )
 		{
-			m_allocated.erase( it );
+			auto it = std::find_if( m_allocated.begin()
+				, m_allocated.end()
+				, [mem]( Allocation const & lookup )
+				{
+					return lookup.mem == mem;
+				} );
+			if ( it != m_allocated.end() )
+			{
+				m_allocated.erase( it );
+			}
 		}
 
 		m_allocator->deallocate( mem, size, count );
