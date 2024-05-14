@@ -2656,6 +2656,32 @@ namespace spirv
 				}
 
 				consumeDebugStatement( glsl::StatementType::eVariableDecl );
+
+				switch ( stmt->getOrdering() )
+				{
+				case ast::InvocationOrdering::ePixelInterlockOrdered:
+					m_result.registerExecutionMode( spv::ExecutionModePixelInterlockOrderedEXT );
+					break;
+				case ast::InvocationOrdering::ePixelInterlockUnordered:
+					m_result.registerExecutionMode( spv::ExecutionModePixelInterlockUnorderedEXT );
+					break;
+				case ast::InvocationOrdering::eSampleInterlockOrdered:
+					m_result.registerExecutionMode( spv::ExecutionModeSampleInterlockOrderedEXT );
+					break;
+				case ast::InvocationOrdering::eSampleInterlockUnordered:
+					m_result.registerExecutionMode( spv::ExecutionModeSampleInterlockUnorderedEXT );
+					break;
+				case ast::InvocationOrdering::eShadingRateInterlockOrdered:
+					m_result.registerExecutionMode( spv::ExecutionModeShadingRateInterlockOrderedEXT );
+					break;
+				case ast::InvocationOrdering::eShadingRateInterlockUnordered:
+					m_result.registerExecutionMode( spv::ExecutionModeShadingRateInterlockUnorderedEXT );
+					break;
+				default:
+					break;
+				}
+
+				consumeDebugStatement( glsl::StatementType::eScopeLine );
 			}
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override

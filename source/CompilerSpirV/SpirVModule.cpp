@@ -880,7 +880,8 @@ namespace spirv
 		case spv::ExecutionModelGeometry:
 			break;
 		case spv::ExecutionModelFragment:
-			registerExecutionMode( spv::ExecutionModeOriginUpperLeft );
+			m_pendingExecutionModes.push_back( makeInstruction< ExecutionModeInstruction >( getNameCache()
+				, makeOperands( allocator, 0u, spv::Id( m_fragmentOrigin ), ValueIdList{ allocator } ) ) );
 			break;
 		case spv::ExecutionModelGLCompute:
 			break;
@@ -908,7 +909,12 @@ namespace spirv
 
 	void Module::registerExecutionMode( spv::ExecutionMode mode, ValueIdList const & operands )
 	{
-		if ( m_registeredExecutionModes.emplace( mode ).second )
+		if ( mode == spv::ExecutionModeOriginUpperLeft
+			|| mode == spv::ExecutionModeOriginLowerLeft )
+		{
+			m_fragmentOrigin = mode;
+		}
+		else if ( m_registeredExecutionModes.emplace( mode ).second )
 		{
 			if ( !entryPoint || entryPoint->operands.empty() )
 			{

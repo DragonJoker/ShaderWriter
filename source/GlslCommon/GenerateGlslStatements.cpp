@@ -769,6 +769,39 @@ namespace glsl
 				return result;
 			}
 
+			static std::string getLayoutName( ast::InvocationOrdering value )
+			{
+				std::string result{};
+
+				switch ( value )
+				{
+				case ast::InvocationOrdering::eNone:
+					break;
+				case ast::InvocationOrdering::ePixelInterlockOrdered:
+					result = "pixel_interlock_ordered";
+					break;
+				case ast::InvocationOrdering::ePixelInterlockUnordered:
+					result = "pixel_interlock_unordered";
+					break;
+				case ast::InvocationOrdering::eSampleInterlockOrdered:
+					result = "sample_interlock_ordered";
+					break;
+				case ast::InvocationOrdering::eSampleInterlockUnordered:
+					result = "sample_interlock_unordered";
+					break;
+				case ast::InvocationOrdering::eShadingRateInterlockOrdered:
+					result = "shading_rate_interlock_ordered";
+					break;
+				case ast::InvocationOrdering::eShadingRateInterlockUnordered:
+					result = "shading_rate_interlock_unordered";
+					break;
+				default:
+					break;
+				}
+
+				return result;
+			}
+
 			static std::string getOperatorName( ast::expr::Kind kind )
 			{
 				std::string result;
@@ -2844,17 +2877,36 @@ namespace glsl
 			{
 				std::string origin = helpers::getLayoutName( stmt->getFragmentOrigin() );
 				std::string center = helpers::getLayoutName( stmt->getFragmentCenter() );
+				std::string ordering = helpers::getLayoutName( stmt->getOrdering() );
 
 				if ( !origin.empty() || !center.empty() )
 				{
 					std::string text = "layout(";
-					text += origin;
-					text += ( ( origin.empty() || center.empty() )
-						? std::string{}
-						: std::string{ ", " } );
-					text += center;
+					std::string content = origin;
+
+					if ( !center.empty() )
+					{
+						if ( !content.empty() )
+						{
+							content += ", ";
+						}
+
+						content += center;
+					}
+
+					text += content;
 					text += ") in vec4 gl_FragCoord";
 					doAddVariableDeclStatement( std::move( text ), *stmt );
+				}
+				else
+				{
+					doAddSimpleStatement( std::string{}, ExprsColumns{}, *stmt );
+				}
+
+				if ( !ordering.empty() )
+				{
+					std::string text = "layout(" + ordering + ") in";
+					doAddSimpleStatement( text, ExprsColumns{}, *stmt );
 				}
 				else
 				{

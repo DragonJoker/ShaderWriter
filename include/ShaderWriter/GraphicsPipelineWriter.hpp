@@ -31,6 +31,7 @@ namespace sdw
 		SDW_API void implementEntryPoint( FragmentMainFuncT< VoidT, VoidT > const & function );
 		SDW_API void implementEntryPoint( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
+			, ast::InvocationOrdering ordering
 			, FragmentMainFuncT< VoidT, VoidT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
@@ -40,6 +41,7 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename OutT >
 		void implementEntryPointT( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
+			, ast::InvocationOrdering ordering
 			, FragmentMainFuncT< InT, OutT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
@@ -79,6 +81,16 @@ namespace sdw
 			, uint32_t dimension
 			, uint64_t attributes
 			, bool enabled = true );
+		/**@}*/
+#pragma endregion
+#pragma region Shader Interlock declaration
+		/**
+		*name
+		*	Shader Interlock declaration.
+		*/
+		/**@{*/
+		SDW_API void beginInvocationInterlock();
+		SDW_API void endInvocationInterlock();
 		/**@}*/
 #pragma endregion
 		/**@}*/

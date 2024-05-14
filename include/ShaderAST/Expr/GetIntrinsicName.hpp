@@ -5398,6 +5398,16 @@ namespace ast::expr
 			result = "ReadFirstInvocation4D";
 			break;
 
+
+	// Fragment Shader Interlock Functions
+		case Intrinsic::eBeginInvocationInterlock:
+			result = "BeginInvocationInterlock";
+			break;
+
+		case Intrinsic::eEndInvocationInterlock:
+			result = "EndInvocationInterlock";
+			break;
+
 		default:
 			throw Exception{ "Unsupported Intrinsic type." };
 		}

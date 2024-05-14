@@ -185,11 +185,13 @@ namespace ast::stmt
 
 	FragmentLayoutPtr StmtCache::makeFragmentLayout( type::TypePtr type
 		, FragmentOrigin origin
-		, FragmentCenter center )
+		, FragmentCenter center
+		, InvocationOrdering ordering )
 	{
 		return makeStmt< FragmentLayout >( type
 			, origin
-			, center );
+			, center
+			, ordering );
 	}
 
 	FunctionDeclPtr StmtCache::makeFunctionDecl( var::VariablePtr funcVar

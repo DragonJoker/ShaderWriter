@@ -202,7 +202,8 @@ namespace ast
 		TraceFunc;
 		m_current->addStmt( m_stmtCache.makeFragmentLayout( stmt->getType()
 			, stmt->getFragmentOrigin()
-			, stmt->getFragmentCenter() ) );
+			, stmt->getFragmentCenter()
+			, stmt->getOrdering() ) );
 	}
 
 	void StmtCloner::visitFunctionDeclStmt( stmt::FunctionDecl const * stmt )

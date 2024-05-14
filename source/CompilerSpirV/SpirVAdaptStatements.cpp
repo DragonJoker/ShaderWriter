@@ -151,7 +151,8 @@ namespace spirv
 				auto type = fragType.getType();
 				m_current->addStmt( m_stmtCache.makeFragmentLayout( type
 					, fragType.getOrigin()
-					, fragType.getCenter() ) );
+					, fragType.getCenter()
+					, fragType.getOrdering() ) );
 			}
 
 			void doProcess( ast::type::GeometryOutput const & geomType )

@@ -18,7 +18,8 @@ namespace ast::stmt
 		SDAST_API FragmentLayout( StmtCache & stmtCache
 			, type::TypePtr type
 			, FragmentOrigin origin
-			, FragmentCenter center );
+			, FragmentCenter center
+			, InvocationOrdering ordering );
 
 		SDAST_API void accept( VisitorPtr vis )const override;
 
@@ -37,10 +38,16 @@ namespace ast::stmt
 			return m_center;
 		}
 
+		InvocationOrdering getOrdering()const
+		{
+			return m_ordering;
+		}
+
 	private:
 		type::TypePtr m_type;
 		FragmentOrigin m_origin{ FragmentOrigin::eUpperLeft };
 		FragmentCenter m_center{ FragmentCenter::eHalfPixel };
+		InvocationOrdering m_ordering{ InvocationOrdering::eNone };
 	};
 }
 

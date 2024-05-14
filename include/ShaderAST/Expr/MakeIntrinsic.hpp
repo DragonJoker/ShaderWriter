@@ -23427,6 +23427,28 @@ namespace ast::expr
 			, Intrinsic::eReadFirstInvocation4D
 			, std::move( value ) );
 	}
+	// Fragment Shader Interlock Functions
+
+	/**
+	*@return
+	*	void
+	*/
+	inline IntrinsicCallPtr makeBeginInvocationInterlock( ExprCache & exprCache
+		, type::TypesCache & typesCache )
+	{
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eBeginInvocationInterlock );
+	}
+	/**
+	*@return
+	*	void
+	*/
+	inline IntrinsicCallPtr makeEndInvocationInterlock( ExprCache & exprCache
+		, type::TypesCache & typesCache )
+	{
+		return exprCache.makeIntrinsicCall( typesCache.getBasicType( type::Kind::eVoid )
+			, Intrinsic::eEndInvocationInterlock );
+	}
 }
 
 #endif

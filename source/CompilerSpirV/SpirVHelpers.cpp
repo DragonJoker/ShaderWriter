@@ -532,6 +532,28 @@ namespace spirv
 					break;
 				}
 			} );
+
+		if ( ptype->getKind() == ast::type::Kind::eFragmentInput )
+		{
+			switch ( auto ordering = static_cast< ast::type::FragmentInput const & >( *ptype ).getOrdering();
+				ordering )
+			{
+			case ast::InvocationOrdering::ePixelInterlockOrdered:
+			case ast::InvocationOrdering::ePixelInterlockUnordered:
+				config.registerCapability( spv::CapabilityFragmentShaderPixelInterlockEXT );
+				break;
+			case ast::InvocationOrdering::eSampleInterlockOrdered:
+			case ast::InvocationOrdering::eSampleInterlockUnordered:
+				config.registerCapability( spv::CapabilityFragmentShaderSampleInterlockEXT );
+				break;
+			case ast::InvocationOrdering::eShadingRateInterlockOrdered:
+			case ast::InvocationOrdering::eShadingRateInterlockUnordered:
+				config.registerCapability( spv::CapabilityFragmentShaderShadingRateInterlockEXT );
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	void checkBuiltin( ast::Builtin builtin
@@ -1429,13 +1451,12 @@ namespace spirv
 			break;
 		case spv::CapabilityCooperativeMatrixNV:
 			break;
-		case spv::CapabilityFragmentShaderSampleInterlockEXT:
-			break;
-		case spv::CapabilityFragmentShaderShadingRateInterlockEXT:
-			break;
 		case spv::CapabilityShaderSMBuiltinsNV:
 			break;
+		case spv::CapabilityFragmentShaderSampleInterlockEXT:
+		case spv::CapabilityFragmentShaderShadingRateInterlockEXT:
 		case spv::CapabilityFragmentShaderPixelInterlockEXT:
+			registerExtension( EXT_fragment_shader_interlock );
 			break;
 		case spv::CapabilityDemoteToHelperInvocationEXT:
 			add = registerExtension( EXT_demote_to_helper_invocation, true );

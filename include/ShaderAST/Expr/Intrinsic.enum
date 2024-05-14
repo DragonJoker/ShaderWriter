@@ -1371,4 +1371,8 @@ ASTIntrDecl( Intrinsic )
 	ASTIntrValue( type::Kind::eVec2D, ASTIntrName( readFirstInvocation, ReadFirstInvocation, 2, D ), ASTIntrParams( ASTIntrParam( type::Kind::eVec2D, value ) ) )
 	ASTIntrValue( type::Kind::eVec3D, ASTIntrName( readFirstInvocation, ReadFirstInvocation, 3, D ), ASTIntrParams( ASTIntrParam( type::Kind::eVec3D, value ) ) )
 	ASTIntrValue( type::Kind::eVec4D, ASTIntrName( readFirstInvocation, ReadFirstInvocation, 4, D ), ASTIntrParams( ASTIntrParam( type::Kind::eVec4D, value ) ) )
+
+	// Fragment Shader Interlock Functions
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( beginInvocationInterlock, BeginInvocationInterlock ) )
+	ASTIntrValue( type::Kind::eVoid, ASTIntrName( endInvocationInterlock, EndInvocationInterlock ) )
 ASTIntrEnd

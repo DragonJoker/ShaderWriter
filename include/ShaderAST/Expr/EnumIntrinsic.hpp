@@ -1383,6 +1383,10 @@ namespace ast::expr
 		eReadFirstInvocation3D,
 		eReadFirstInvocation4D,
 
+	// Fragment Shader Interlock Functions
+		eBeginInvocationInterlock,
+		eEndInvocationInterlock,
+
 	// Boundaries,
 		eCount,
 		eInvalid = ~( 0u ),

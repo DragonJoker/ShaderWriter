@@ -8,12 +8,14 @@ namespace ast::type
 	//*********************************************************************************************
 
 	FragmentInput::FragmentInput( TypePtr type
-		, ast::FragmentOrigin origin
-		, ast::FragmentCenter center )
+		, FragmentOrigin origin
+		, FragmentCenter center
+		, InvocationOrdering ordering )
 		: Type{ type->getTypesCache(), Kind::eFragmentInput }
 		, m_type{ type }
 		, m_origin{ origin }
 		, m_center{ center }
+		, m_ordering{ ordering }
 	{
 	}
 

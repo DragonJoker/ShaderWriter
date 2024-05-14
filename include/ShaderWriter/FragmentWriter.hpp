@@ -23,6 +23,7 @@ namespace sdw
 		FragmentInT( ShaderWriter & writer
 			, ast::FragmentOrigin origin
 			, ast::FragmentCenter center
+			, ast::InvocationOrdering ordering
 			, ParamsT && ... params );
 		template< typename ... ParamsT >
 		explicit FragmentInT( ShaderWriter & writer
@@ -101,6 +102,7 @@ namespace sdw
 		SDW_API void implementMain( FragmentMainFuncT< VoidT, VoidT > const & function );
 		SDW_API void implementMain( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
+			, ast::InvocationOrdering ordering
 			, FragmentMainFuncT< VoidT, VoidT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
@@ -110,6 +112,7 @@ namespace sdw
 			, template< ast::var::Flag FlagT > typename OutT >
 		void implementMainT( ast::FragmentOrigin origin
 			, ast::FragmentCenter center
+			, ast::InvocationOrdering ordering
 			, FragmentMainFuncT< InT, OutT > const & function );
 
 		template< template< ast::var::Flag FlagT > typename InT
@@ -147,6 +150,14 @@ namespace sdw
 			, uint32_t dimension
 			, uint64_t attributes
 			, bool enabled = true );
+		/**@}*/
+		/**
+		*name
+		*	Shader Interlock declaration.
+		*/
+		/**@{*/
+		SDW_API void beginInvocationInterlock();
+		SDW_API void endInvocationInterlock();
 		/**@}*/
 	};
 	/**@}*/

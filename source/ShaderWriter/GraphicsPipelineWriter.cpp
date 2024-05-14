@@ -3,8 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/GraphicsPipelineWriter.hpp"
 
-#include <ShaderAST/Stmt/StmtDemote.hpp>
-#include <ShaderAST/Stmt/StmtTerminateInvocation.hpp>
+#include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw
 {
@@ -36,9 +35,20 @@ namespace sdw
 
 	void GraphicsPipelineWriter::implementEntryPoint( ast::FragmentOrigin origin
 		, ast::FragmentCenter center
+		, ast::InvocationOrdering ordering
 		, FragmentMainFuncT< VoidT, VoidT > const & function )
 	{
-		implementEntryPointT( origin, center, function );
+		implementEntryPointT( origin, center, ordering, function );
+	}
+
+	void GraphicsPipelineWriter::beginInvocationInterlock()
+	{
+		sdw::beginInvocationInterlock( *this );
+	}
+
+	void GraphicsPipelineWriter::endInvocationInterlock()
+	{
+		sdw::endInvocationInterlock( *this );
 	}
 	/**@}*/
 }

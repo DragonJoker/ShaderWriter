@@ -1140,7 +1140,7 @@ namespace
 			astCheck( !stmt->isPatchRoutine() )
 		}
 		{
-			auto inType = type::makeFragmentInputType( typesCache.getVoid(), FragmentOrigin::eLowerLeft, FragmentCenter::eHalfPixel );
+			auto inType = type::makeFragmentInputType( typesCache.getVoid(), FragmentOrigin::eLowerLeft, FragmentCenter::eHalfPixel, InvocationOrdering::ePixelInterlockOrdered );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainFrag" ) );
@@ -1829,8 +1829,9 @@ namespace
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
 		auto stmt = stmtCache.makeFragmentLayout( typesCache.getVoid()
-				, FragmentOrigin::eLowerLeft
-			, FragmentCenter::eCenterInteger );
+			, FragmentOrigin::eLowerLeft
+			, FragmentCenter::eCenterInteger
+			, InvocationOrdering::ePixelInterlockOrdered );
 		checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eFragment );
 
 		astRequire( stmt->getKind() == stmt::Kind::eFragmentLayout )
