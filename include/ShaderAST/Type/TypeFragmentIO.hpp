@@ -13,8 +13,9 @@ namespace ast::type
 		: public Type
 	{
 		SDAST_API FragmentInput( TypePtr type
-			, ast::FragmentOrigin origin
-			, ast::FragmentCenter center );
+			, FragmentOrigin origin
+			, FragmentCenter center
+			, InvocationOrdering ordering );
 
 		TypePtr getType()const
 		{
@@ -31,20 +32,28 @@ namespace ast::type
 			return m_center;
 		}
 
+		InvocationOrdering getOrdering()const
+		{
+			return m_ordering;
+		}
+
 	private:
 		TypePtr m_type;
 		FragmentOrigin m_origin;
 		FragmentCenter m_center;
+		InvocationOrdering m_ordering;
 	};
 	using FragmentInputPtr = std::shared_ptr< FragmentInput >;
 
 	inline FragmentInputPtr makeFragmentInputType( TypePtr type
-		, ast::FragmentOrigin origin
-		, ast::FragmentCenter center )
+		, FragmentOrigin origin
+		, FragmentCenter center
+		, InvocationOrdering ordering )
 	{
 		return std::make_shared< FragmentInput >( type
 			, origin
-			, center );
+			, center
+			, ordering );
 	}
 }
 

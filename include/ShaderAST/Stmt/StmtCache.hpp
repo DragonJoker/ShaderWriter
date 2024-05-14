@@ -39,7 +39,7 @@ namespace ast::stmt
 		SDAST_API ElseIfPtr makeElseIf( expr::ExprPtr ctrlExpr );
 		SDAST_API ElsePtr makeElse();
 		SDAST_API ForPtr makeFor( expr::ExprPtr initExpr, expr::ExprPtr ctrlExpr, expr::ExprPtr incrExpr );
-		SDAST_API FragmentLayoutPtr makeFragmentLayout( type::TypePtr type, FragmentOrigin origin, FragmentCenter center );
+		SDAST_API FragmentLayoutPtr makeFragmentLayout( type::TypePtr type, FragmentOrigin origin, FragmentCenter center, InvocationOrdering ordering );
 		SDAST_API FunctionDeclPtr makeFunctionDecl( var::VariablePtr funcVar, FunctionFlag flag = {} );
 		SDAST_API FunctionDeclPtr makeFunctionDecl( var::VariablePtr funcVar, uint32_t flags );
 		SDAST_API HitAttributeVariableDeclPtr makeHitAttributeVariableDecl( var::VariablePtr variable );

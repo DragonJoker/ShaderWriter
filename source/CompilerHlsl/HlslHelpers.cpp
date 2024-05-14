@@ -3150,7 +3150,8 @@ namespace hlsl
 		m_highFreqInputs.initialiseMainVar( var
 			, ast::type::makeFragmentInputType( m_highFreqInputs.paramStruct
 				, fragType.getOrigin()
-				, fragType.getCenter() )
+				, fragType.getCenter()
+				, fragType.getOrdering() )
 			, m_currentRoutine->paramToEntryPoint );
 	}
 

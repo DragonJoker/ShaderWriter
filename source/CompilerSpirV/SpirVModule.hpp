@@ -319,6 +319,7 @@ namespace spirv
 		ast::Map< std::string, std::pair< DebugId, DebugId >, std::less<> > m_registeredMemberVariables;
 		spv::ExecutionModel m_model{};
 		ast::Set< spv::ExecutionMode > m_registeredExecutionModes;
+		spv::ExecutionMode m_fragmentOrigin{ spv::ExecutionModeOriginUpperLeft };
 		InstructionList m_pendingExecutionModes;
 		ValueIdSet m_entryPointIO;
 		DecorationMapIdMap varDecorations;

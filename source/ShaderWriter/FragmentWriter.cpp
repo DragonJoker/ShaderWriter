@@ -3,8 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderWriter/FragmentWriter.hpp"
 
-#include <ShaderAST/Stmt/StmtDemote.hpp>
-#include <ShaderAST/Stmt/StmtTerminateInvocation.hpp>
+#include "ShaderWriter/Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw
 {
@@ -32,8 +31,19 @@ namespace sdw
 
 	void FragmentWriter::implementMain( ast::FragmentOrigin origin
 		, ast::FragmentCenter center
+		, ast::InvocationOrdering ordering
 		, FragmentMainFuncT< VoidT, VoidT > const & function )
 	{
-		implementMainT( origin, center, function );
+		implementMainT( origin, center, ordering, function );
+	}
+
+	void FragmentWriter::beginInvocationInterlock()
+	{
+		sdw::beginInvocationInterlock( *this );
+	}
+
+	void FragmentWriter::endInvocationInterlock()
+	{
+		sdw::endInvocationInterlock( *this );
 	}
 }

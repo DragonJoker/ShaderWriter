@@ -33483,6 +33483,46 @@ namespace checks
 		}
 		astTestEnd()
 	}
+	// Fragment Shader Interlock Functions
+
+	static void testBeginInvocationInterlock(test::TestCounts & testCounts )
+	{
+		astTestBegin( "testBeginInvocationInterlock" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto result = expr::makeBeginInvocationInterlock( exprCache
+				, typesCache );
+			checkExprDependant( testCounts, *result, "testBeginInvocationInterlock", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto result = expr::makeBeginInvocationInterlock( exprCache
+				, typesCache );
+			checkExprDependant( testCounts, *result, "testBeginInvocationInterlock", __LINE__ );
+		}
+		astTestEnd()
+	}
+	static void testEndInvocationInterlock(test::TestCounts & testCounts )
+	{
+		astTestBegin( "testEndInvocationInterlock" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto result = expr::makeEndInvocationInterlock( exprCache
+				, typesCache );
+			checkExprDependant( testCounts, *result, "testEndInvocationInterlock", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto result = expr::makeEndInvocationInterlock( exprCache
+				, typesCache );
+			checkExprDependant( testCounts, *result, "testEndInvocationInterlock", __LINE__ );
+		}
+		astTestEnd()
+	}
 }
 
 astTestSuiteMain( TestASTIntrinsics )
@@ -34818,6 +34858,8 @@ astTestSuiteMain( TestASTIntrinsics )
 	checks::testReadFirstInvocation2D( testCounts );
 	checks::testReadFirstInvocation3D( testCounts );
 	checks::testReadFirstInvocation4D( testCounts );
+	checks::testBeginInvocationInterlock( testCounts );
+	checks::testEndInvocationInterlock( testCounts );
 	astTestSuiteEnd()
 }
 

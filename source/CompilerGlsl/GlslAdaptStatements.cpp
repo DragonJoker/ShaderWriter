@@ -1757,7 +1757,8 @@ namespace glsl
 
 				m_current->addStmt( m_stmtCache.makeFragmentLayout( type
 					, fragType.getOrigin()
-					, fragType.getCenter() ) );
+					, fragType.getCenter()
+					, fragType.getOrdering() ) );
 			}
 
 			void doProcess( ast::var::VariablePtr var

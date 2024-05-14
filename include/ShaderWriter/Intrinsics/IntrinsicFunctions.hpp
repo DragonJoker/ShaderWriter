@@ -2766,6 +2766,24 @@ namespace sdw
 	SDW_API RetDVec4 readFirstInvocation( DVec4 const value );
 	/**@}*/
 #pragma endregion
+#pragma region beginInvocationInterlock
+	/**
+	*name
+	*	beginInvocationInterlock
+	*/
+	/**@{*/
+	SDW_API RetVoid beginInvocationInterlock( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
+#pragma region endInvocationInterlock
+	/**
+	*name
+	*	endInvocationInterlock
+	*/
+	/**@{*/
+	SDW_API RetVoid endInvocationInterlock( ShaderWriter & writer );
+	/**@}*/
+#pragma endregion
 }
 
 #endif

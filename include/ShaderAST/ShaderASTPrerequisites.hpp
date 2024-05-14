@@ -153,6 +153,17 @@ namespace ast
 		eBackFacingTriangle = 0xFFu,
 	};
 
+	enum class InvocationOrdering
+	{
+		eNone = 0u,
+		ePixelInterlockOrdered = 1u,
+		ePixelInterlockUnordered = 2u,
+		eSampleInterlockOrdered = 3u,
+		eSampleInterlockUnordered = 4u,
+		eShadingRateInterlockOrdered = 5u,
+		eShadingRateInterlockUnordered = 6u,
+	};
+
 	enum class Builtin
 	{
 		eNone,

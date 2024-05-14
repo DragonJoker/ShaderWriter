@@ -21,6 +21,7 @@ namespace sdw
 	{
 		this->implementEntryPointT( ast::FragmentOrigin::eUpperLeft
 			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::eNone
 			, function );
 	}
 
@@ -28,9 +29,10 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename OutT >
 	inline void GraphicsPipelineWriter::implementEntryPointT( ast::FragmentOrigin origin
 		, ast::FragmentCenter center
+		, ast::InvocationOrdering ordering
 		, FragmentMainFuncT< InT, OutT > const & function )
 	{
-		this->implementEntryPointT( FragmentInT< InT >{ *this, origin, center }
+		this->implementEntryPointT( FragmentInT< InT >{ *this, origin, center, ordering }
 			, FragmentOutT< OutT >{ *this }
 			, function );
 	}

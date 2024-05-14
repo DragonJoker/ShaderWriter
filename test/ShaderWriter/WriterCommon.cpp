@@ -1102,6 +1102,7 @@ namespace test
 									extensions.emplace( spirv::EXT_descriptor_indexing );
 									extensions.emplace( spirv::EXT_physical_storage_buffer );
 									extensions.emplace( spirv::KHR_shader_subgroup );
+									extensions.emplace( spirv::EXT_fragment_shader_interlock );
 								}
 
 								if ( config.specVersion >= spirv::v1_2 )

@@ -12,13 +12,15 @@ namespace sdw
 	FragmentInT< DataT >::FragmentInT( ShaderWriter & writer
 		, ast::FragmentOrigin origin
 		, ast::FragmentCenter center
+		, ast::InvocationOrdering ordering
 		, ParamsT && ... params )
 		: FragmentInT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "fragIn"
 					, makeFragmentInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, origin
-						, center )
+						, center
+						, ordering )
 					, FlagT ) ) }
 	{
 	}
@@ -30,6 +32,7 @@ namespace sdw
 		: FragmentInT{ writer
 			, ast::FragmentOrigin::eUpperLeft
 			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::eNone
 			, std::forward< ParamsT >( params )... }
 	{
 	}
@@ -153,6 +156,7 @@ namespace sdw
 	{
 		this->implementMainT( ast::FragmentOrigin::eUpperLeft
 			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::eNone
 			, function );
 	}
 
@@ -160,9 +164,10 @@ namespace sdw
 		, template< ast::var::Flag FlagT > typename OutT >
 	inline void FragmentWriter::implementMainT( ast::FragmentOrigin origin
 		, ast::FragmentCenter center
+		, ast::InvocationOrdering ordering
 		, FragmentMainFuncT< InT, OutT > const & function )
 	{
-		this->implementMainT( FragmentInT< InT >{ *this, origin, center }
+		this->implementMainT( FragmentInT< InT >{ *this, origin, center, ordering }
 			, FragmentOutT< OutT >{ *this }
 			, function );
 	}

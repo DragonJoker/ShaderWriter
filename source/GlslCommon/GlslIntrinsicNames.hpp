@@ -1877,6 +1877,14 @@ namespace glsl
 			result = "readFirstInvocationARB";
 			break;
 
+		case ast::expr::Intrinsic::eBeginInvocationInterlock:
+			result = "beginInvocationInterlockARB";
+			break;
+
+		case ast::expr::Intrinsic::eEndInvocationInterlock:
+			result = "endInvocationInterlockARB";
+			break;
+
 		default:
 		case ast::expr::Intrinsic::eReadInvocation1D:
 		case ast::expr::Intrinsic::eReadInvocation2D:

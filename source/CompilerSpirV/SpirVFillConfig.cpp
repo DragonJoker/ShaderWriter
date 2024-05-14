@@ -576,6 +576,23 @@ namespace spirv
 
 			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout const * stmt )override
 			{
+				switch ( stmt->getOrdering() )
+				{
+				case ast::InvocationOrdering::ePixelInterlockOrdered:
+				case ast::InvocationOrdering::ePixelInterlockUnordered:
+					m_result.registerCapability( spv::CapabilityFragmentShaderPixelInterlockEXT );
+					break;
+				case ast::InvocationOrdering::eSampleInterlockOrdered:
+				case ast::InvocationOrdering::eSampleInterlockUnordered:
+					m_result.registerCapability( spv::CapabilityFragmentShaderSampleInterlockEXT );
+					break;
+				case ast::InvocationOrdering::eShadingRateInterlockOrdered:
+				case ast::InvocationOrdering::eShadingRateInterlockUnordered:
+					m_result.registerCapability( spv::CapabilityFragmentShaderShadingRateInterlockEXT );
+					break;
+				default:
+					break;
+				}
 			}
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override

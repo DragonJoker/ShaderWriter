@@ -93,6 +93,8 @@ namespace spirv
 	makeSpirVExtension( v1_0, v1_3, vUnk, NV_mesh_shader );
 	// Enable this extension to be able to enable use derivatives in compute shader stage.
 	makeSpirVExtension( v1_0, v1_3, vUnk, NV_compute_shader_derivatives );
+	// Enable this extension to allow use of beginInvocationInterlock and endInvocationInterlock intrinsic functions.
+	makeSpirVExtension( v1_0, v1_3, vUnk, EXT_fragment_shader_interlock );
 	// Enable this extension to prevent mapping of demote instruction to discard instruction.
 	makeSpirVExtension( v1_0, v1_4, v1_6, EXT_demote_to_helper_invocation );
 	// Enable this extension if you need any of the following intrinsic functions:

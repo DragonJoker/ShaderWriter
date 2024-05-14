@@ -76,7 +76,7 @@ namespace
 		myUbo.end();
 
 		// Vertex Shader
-		writer.implementEntryPointT< common::PosColT, common::ColourT >( [&]( sdw::VertexInT< common::PosColT > in
+		writer.implementEntryPointT< common::PosColT, common::ColourT >( [&]( sdw::VertexInT< common::PosColT > const & in
 			, sdw::VertexOutT< common::ColourT > out )
 			{
 				out.colour() = in.colour();
@@ -84,10 +84,15 @@ namespace
 			} );
 
 		// Fragment Shader
-		writer.implementEntryPointT< common::ColourT, common::ColourT >( [&]( sdw::FragmentInT< common::ColourT > in
-			, sdw::FragmentOutT< common::ColourT > out )
+		writer.implementEntryPointT< common::ColourT, common::ColourT >( ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::eSampleInterlockUnordered
+			, [&]( sdw::FragmentInT< common::ColourT > const & in
+				, sdw::FragmentOutT< common::ColourT > const & out )
 			{
+				writer.beginInvocationInterlock();
 				out.colour() = in.colour();
+				writer.endInvocationInterlock();
 			} );
 
 		test::writeProgram( writer

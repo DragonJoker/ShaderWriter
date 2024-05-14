@@ -513,4 +513,14 @@ namespace glsl
 					config.requiresInt64 = true;
 				}
 			} );
-	}}
+
+		if ( ptype->getKind() == ast::type::Kind::eFragmentInput )
+		{
+			if ( auto ordering = static_cast< ast::type::FragmentInput const & >( *ptype ).getOrdering();
+				ordering != ast::InvocationOrdering::eNone )
+			{
+				config.requiredExtensions.insert( ARB_fragment_shader_interlock );
+			}
+		}
+	}
+}

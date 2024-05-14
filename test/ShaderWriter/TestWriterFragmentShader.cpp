@@ -232,6 +232,37 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 
+			writer.implementMain( [&]( FragmentIn in
+				, FragmentOut out )
+				{
+					writer.declLocale( "clipDistance", in.clipDistance[0]);
+					writer.declLocale( "fragCoord", in.fragCoord );
+					writer.declLocale( "frontFacing", in.frontFacing );
+					//writer.declLocale( "layer", in.layer );
+					writer.declLocale( "pointCoord", in.pointCoord );
+					writer.declLocale( "primitiveID", in.primitiveID );
+					writer.declLocale( "sampleID", in.sampleID );
+					//writer.declLocale( "sampleMask", in.sampleMask[0]);
+					writer.declLocale( "samplePosition", in.samplePosition );
+					writer.declLocale( "viewportIndex", in.viewportIndex );
+
+					out.fragDepth = 0.0_f;
+					//out.sampleMask = in.sampleMask;
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		astTestEnd();
+	}
+
+	void noSpecificIOT( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "noSpecificIOT" );
+		using namespace sdw;
+		{
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+
 			writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
 				, FragmentOutT< VoidT > out )
 				{
@@ -745,12 +776,104 @@ namespace
 			, testCounts, CurrentCompilers );
 		astTestEnd();
 	}
+
+	void pixelInterlockOrdered( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "pixelInterlockOrdered" );
+		using namespace sdw;
+
+		sdw::FragmentWriter writer{ &testCounts.allocator };
+
+		writer.implementMainT< PositionT, ColourT >( ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::ePixelInterlockOrdered
+			, [&writer]( FragmentInT< PositionT > in
+				, FragmentOutT< ColourT > out )
+			{
+				writer.beginInvocationInterlock();
+				out.colour = vec4( in.position, 1.0_f );
+				writer.endInvocationInterlock();
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		astTestEnd();
+	}
+
+	void pixelInterlockUnordered( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "pixelInterlockUnordered" );
+		using namespace sdw;
+
+		sdw::FragmentWriter writer{ &testCounts.allocator };
+		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
+
+		writer.implementMainT< PositionT, ColourT >( ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::ePixelInterlockUnordered
+			, [&writer]( FragmentInT< PositionT > in
+				, FragmentOutT< ColourT > out )
+			{
+				writer.beginInvocationInterlock();
+				out.colour = vec4( in.position, 1.0_f );
+				writer.endInvocationInterlock();
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		astTestEnd();
+	}
+
+	void sampleInterlockOrdered( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "sampleInterlockOrdered" );
+		using namespace sdw;
+
+		sdw::FragmentWriter writer{ &testCounts.allocator };
+		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
+
+		writer.implementMainT< PositionT, ColourT >( ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::eSampleInterlockOrdered
+			, [&writer]( FragmentInT< PositionT > in
+				, FragmentOutT< ColourT > out )
+			{
+				writer.beginInvocationInterlock();
+				out.colour = vec4( in.position, 1.0_f );
+				writer.endInvocationInterlock();
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		astTestEnd();
+	}
+
+	void sampleInterlockUnordered( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "sampleInterlockUnordered" );
+		using namespace sdw;
+
+		sdw::FragmentWriter writer{ &testCounts.allocator };
+		auto offpos = writer.declInput< Vec3 >( "offpos", 1u );
+
+		writer.implementMainT< PositionT, ColourT >( ast::FragmentOrigin::eUpperLeft
+			, ast::FragmentCenter::eHalfPixel
+			, ast::InvocationOrdering::eSampleInterlockUnordered
+			, [&writer]( FragmentInT< PositionT > in
+				, FragmentOutT< ColourT > out )
+			{
+				writer.beginInvocationInterlock();
+				out.colour = vec4( in.position, 1.0_f );
+				writer.endInvocationInterlock();
+			} );
+		test::writeShader( writer
+			, testCounts, CurrentCompilers );
+		astTestEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterFragmentShader )
 {
 	sdwTestSuiteBegin();
 	noSpecificIO( testCounts );
+	noSpecificIOT( testCounts );
 	specificMemberInputOnly( testCounts );
 	specificGlobalInputOnly( testCounts );
 	specificMixedInputOnly( testCounts );
@@ -767,6 +890,10 @@ sdwTestSuiteMain( TestWriterFragmentShader )
 	reference( testCounts );
 	terminate( testCounts );
 	demote( testCounts );
+	pixelInterlockOrdered( testCounts );
+	pixelInterlockUnordered( testCounts );
+	sampleInterlockOrdered( testCounts );
+	sampleInterlockUnordered( testCounts );
 	sdwTestSuiteEnd();
 }
 

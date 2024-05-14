@@ -10,11 +10,13 @@ namespace ast::stmt
 	FragmentLayout::FragmentLayout( StmtCache & stmtCache
 		, type::TypePtr type
 		, FragmentOrigin origin
-		, FragmentCenter center )
+		, FragmentCenter center
+		, InvocationOrdering ordering )
 		: Stmt{ stmtCache, sizeof( FragmentLayout ), Kind::eFragmentLayout }
 		, m_type{ type }
 		, m_origin{ origin }
 		, m_center{ center }
+		, m_ordering{ ordering }
 	{
 	}
 

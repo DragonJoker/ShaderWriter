@@ -1920,6 +1920,14 @@ namespace spirv
 			result = spv::Id( spv::OpSubgroupFirstInvocationKHR );
 			break;
 
+		case ast::expr::Intrinsic::eBeginInvocationInterlock:
+			result = spv::Id( spv::OpBeginInvocationInterlockEXT );
+			break;
+
+		case ast::expr::Intrinsic::eEndInvocationInterlock:
+			result = spv::Id( spv::OpEndInvocationInterlockEXT );
+			break;
+
 		default:
 			throw ast::Exception{ "Unsupported Intrinsic type." };
 		}

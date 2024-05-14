@@ -127,20 +127,25 @@ namespace
 		{
 			for ( uint32_t center = 0u; center < 2u; ++center )
 			{
-				ast::type::TypesCache typesCache;
-				auto type = ast::type::makeFragmentInputType( typesCache.getInt32()
-					, ast::FragmentOrigin( origin )
-					, ast::FragmentCenter( center ) );
-				astCheckNoThrow( ast::debug::getTypeName( type ) )
-				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-				astCheck( type->getRawKind() == ast::type::Kind::eFragmentInput )
-				astCheck( type->getKind() == ast::type::Kind::eFragmentInput )
-				astCheck( type->getType() == typesCache.getInt32() )
-				astCheck( type->getOrigin() == ast::FragmentOrigin( origin ) )
-				astCheck( type->getCenter() == ast::FragmentCenter( center ) )
-				astCheck( !isStructType( type ) )
-				astCheck( !getStructType( type ) )
-				astCheck( !getStructType( *type ) )
+				for ( uint32_t ordering = 0u; ordering < 7u; ++ordering )
+				{
+					ast::type::TypesCache typesCache;
+					auto type = ast::type::makeFragmentInputType( typesCache.getInt32()
+						, ast::FragmentOrigin( origin )
+						, ast::FragmentCenter( center )
+						, ast::InvocationOrdering( ordering ) );
+					astCheckNoThrow( ast::debug::getTypeName( type ) )
+					astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
+					astCheck( type->getRawKind() == ast::type::Kind::eFragmentInput )
+					astCheck( type->getKind() == ast::type::Kind::eFragmentInput )
+					astCheck( type->getType() == typesCache.getInt32() )
+					astCheck( type->getOrigin() == ast::FragmentOrigin( origin ) )
+					astCheck( type->getCenter() == ast::FragmentCenter( center ) )
+					astCheck( type->getOrdering() == ast::InvocationOrdering( ordering ) )
+					astCheck( !isStructType( type ) )
+					astCheck( !getStructType( type ) )
+					astCheck( !getStructType( *type ) )
+				}
 			}
 		}
 		astTestEnd()

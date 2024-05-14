@@ -13455,4 +13455,34 @@ namespace sdw
 	}
 	/**@}*/
 #pragma endregion
+#pragma region beginInvocationInterlock
+	/**
+	*name
+	*	beginInvocationInterlock
+	*/
+	/**@{*/
+	RetVoid beginInvocationInterlock( ShaderWriter & writer )
+	{
+		return RetVoid{ *findWriter( writer )
+			, expr::makeBeginInvocationInterlock( findExprCache( writer )
+				, findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
+#pragma region endInvocationInterlock
+	/**
+	*name
+	*	endInvocationInterlock
+	*/
+	/**@{*/
+	RetVoid endInvocationInterlock( ShaderWriter & writer )
+	{
+		return RetVoid{ *findWriter( writer )
+			, expr::makeEndInvocationInterlock( findExprCache( writer )
+				, findTypesCache( writer ) )
+			, areOptionalEnabled( writer ) };
+	}
+	/**@}*/
+#pragma endregion
 }
