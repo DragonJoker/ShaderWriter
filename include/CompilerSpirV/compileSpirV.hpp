@@ -133,7 +133,6 @@ namespace spirv
 		uint32_t specVersion{ v1_1 };
 		SpirVExtensionSet * availableExtensions{};
 		DebugLevel debugLevel{};
-		ast::ShaderAllocator * allocator{};
 		// Filled by writeSpirv/serialiseSpirv
 		uint32_t requiredVersion{ vUnk };
 		SpirVExtensionSet requiredExtensions{};
@@ -158,19 +157,23 @@ namespace spirv
 		, bool writeHeader = true );
 	SDWSPIRV_API std::vector< uint32_t > serialiseModule( Module const & shaderModule );
 
-	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
+	SDWSPIRV_API std::string writeSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, SpirVConfig & config
 		, bool writeHeader = true );
-	SDWSPIRV_API std::string writeSpirv( ast::Shader const & shader
+	SDWSPIRV_API std::string writeSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, SpirVConfig & config
 		, bool writeHeader = true );
-	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, SpirVConfig & config );
-	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+	SDWSPIRV_API std::vector< uint32_t > serialiseSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, SpirVConfig & config );
 	SDWSPIRV_API std::string displaySpirv( ast::ShaderAllocatorBlock & allocator
 		, std::vector< uint32_t > const & spirv );

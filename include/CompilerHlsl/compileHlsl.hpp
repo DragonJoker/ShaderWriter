@@ -44,15 +44,16 @@ namespace hlsl
 		uint32_t shaderModel{ v5_0 };
 		ast::ShaderStage shaderStage;
 		bool flipVertY{ false };
-		ast::ShaderAllocator * allocator{};
 	};
 
-	SDWHLSL_API std::string compileHlsl( ast::Shader const & shader
+	SDWHLSL_API std::string compileHlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig );
-	SDWHLSL_API std::string compileHlsl( ast::Shader const & shader
+	SDWHLSL_API std::string compileHlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig );
 }

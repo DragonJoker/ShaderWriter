@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "HlslAdaptStatements.hpp"
 
 #include <ShaderAST/Visitors/ResolveConstants.hpp>
+#include <ShaderAST/Visitors/SelectEntryPoint.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
@@ -105,7 +106,8 @@ namespace hlsl
 		}
 	}
 
-	std::string compileHlsl( ast::Shader const & shader
+	std::string compileHlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * stmt
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
@@ -116,10 +118,8 @@ namespace hlsl
 		auto & typesCache = shader.getTypesCache();
 		auto config = writerConfig;
 		config.shaderStage = stage;
-		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
-		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
-		ast::stmt::StmtCache compileStmtCache{ *allocator };
-		ast::expr::ExprCache compileExprCache{ *allocator };
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, typesCache
@@ -164,12 +164,32 @@ namespace hlsl
 		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, *statements );
 	}
 
-	std::string compileHlsl( ast::Shader const & shader
+	std::string compileHlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
 	{
-		return compileHlsl( shader
-			, shader.getStatements()
+		ast::stmt::StmtCache compileStmtCache{ shader.getAllocator() };
+		ast::expr::ExprCache compileExprCache{ shader.getAllocator() };
+		auto entryPoints = ast::listEntryPoints( *shader.getStatements() );
+		auto it = std::find_if( entryPoints.begin()
+			, entryPoints.end()
+			, [&shader]( ast::EntryPointConfig const & lookup )
+			{
+				return lookup.stage == shader.getType();
+			} );
+		if ( it == entryPoints.end() )
+		{
+			return {};
+		}
+
+		auto statements = ast::selectEntryPoint( compileStmtCache
+			, compileExprCache
+			, *it
+			, *shader.getStatements() );
+		return compileHlsl( allocator
+			, shader
+			, statements.get()
 			, shader.getType()
 			, specialisation
 			, writerConfig );

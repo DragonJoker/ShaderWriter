@@ -981,17 +981,25 @@ namespace ast::vk
 		}
 
 		config.availableExtensions = &extensions;
-		auto statements = ::ast::selectEntryPoint( shader.getStmtCache()
-			, shader.getExprCache()
-			, entryPoint
-			, *shader.getStatements() );
+		std::vector< uint32_t > result;
+		ast::ShaderAllocator alloc;
 
-		if ( statements == nullptr )
+		if ( auto allocator = alloc.getBlock() )
 		{
-			throw ast::Exception{ "Shader entry point selection failed." };
-		}
+			ast::stmt::StmtCache compileStmtCache{ *allocator };
+			ast::expr::ExprCache compileExprCache{ *allocator };
+			auto statements = ::ast::selectEntryPoint( compileStmtCache
+				, compileExprCache
+				, entryPoint
+				, *shader.getStatements() );
 
-		auto result = spirv::serialiseSpirv( shader, statements.get(), entryPoint.stage, config );
+			if ( statements == nullptr )
+			{
+				throw ast::Exception{ "Shader entry point selection failed." };
+			}
+
+			result = spirv::serialiseSpirv( *allocator, shader, statements.get(), entryPoint.stage, config );
+		}
 
 		if ( result.empty() )
 		{
