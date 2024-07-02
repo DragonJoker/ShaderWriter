@@ -662,9 +662,9 @@ namespace test
 				try
 				{
 					auto cfg = getGlslConfig( glsl::v4_6 );
-					cfg.allocator = &testCounts.allocator;
 					auto glslangSpirv = compileGlslToSpv( stage
-						, glsl::compileGlsl( shader
+						, glsl::compileGlsl( *testCounts.allocatorBlock
+							, shader
 							, statements
 							, stage
 							, specialisation
@@ -849,7 +849,6 @@ namespace test
 					astOn( printEntryPoint( entryPoint ) );
 					std::string errors;
 					auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
-					config.allocator = &testCounts.allocator;
 
 					if ( isRayTraceStage( entryPoint.stage )
 						|| entryPoint.stage == ast::ShaderStage::eMesh
@@ -863,7 +862,8 @@ namespace test
 					try
 					{
 						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
-						glsl = glsl::compileGlsl( shader
+						glsl = glsl::compileGlsl( *testCounts.allocatorBlock
+							, shader
 							, statements.get()
 							, entryPoint.stage
 							, specialisation
@@ -957,14 +957,14 @@ namespace test
 					try
 					{
 						auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
-						hlsl = hlsl::compileHlsl( shader
+						hlsl = hlsl::compileHlsl( *testCounts.allocatorBlock
+							, shader
 							, statements.get()
 							, entryPoint.stage
 							, specialisation
 							, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex )
 								, entryPoint.stage
-								, false
-								, &testCounts.allocator } );
+								, false } );
 					}
 					catch ( std::exception & exc )
 					{
@@ -1072,6 +1072,7 @@ namespace test
 						for ( auto & entryPoint : entryPoints )
 						{
 							astOn( printEntryPoint( entryPoint ) );
+							auto allocator = testCounts.allocator.getBlock();
 							spirv::SpirVExtensionSet extensions;
 							spirv::SpirVConfig config{};
 							config.specVersion = testCounts.getSpirVVersion( infoIndex );
@@ -1125,7 +1126,6 @@ namespace test
 								config.availableExtensions = &extensions;
 							}
 
-							config.allocator = &testCounts.allocator;
 							auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
 							auto shaderModule = spirv::compileSpirV( *testCounts.allocatorBlock
 								, shader
@@ -1295,12 +1295,15 @@ namespace test
 			{
 				spirv::SpirVConfig config{};
 				config.debugLevel = spirv::DebugLevel::eNames;
-				auto statements = ::ast::selectEntryPoint( shader.getStmtCache()
-					, shader.getExprCache()
+				ast::stmt::StmtCache compileStmtCache{ *testCounts.allocatorBlock };
+				ast::expr::ExprCache compileExprCache{ *testCounts.allocatorBlock };
+				auto statements = ::ast::selectEntryPoint( compileStmtCache
+					, compileExprCache
 					, entryPoint
 					, *shader.getStatements() );
 				config.specVersion = testCounts.getSpirVVersion( infoIndex );
-				auto sdwSpirV = spirv::serialiseSpirv( shader
+				auto sdwSpirV = spirv::serialiseSpirv( *testCounts.allocatorBlock
+					, shader
 					, statements.get()
 					, entryPoint.stage
 					, config );
@@ -1308,7 +1311,8 @@ namespace test
 					, entryPoint.stage
 					, testCounts
 					, true );
-				auto textSpirv = spirv::writeSpirv( shader
+				auto textSpirv = spirv::writeSpirv( *testCounts.allocatorBlock
+					, shader
 					, statements.get()
 					, entryPoint.stage
 					, config );
@@ -1324,13 +1328,14 @@ namespace test
 					, true );
 				auto cfg = getGlslConfig( glsl::v4_6 );
 				auto glslangSpirv = compileGlslToSpv( entryPoint.stage
-					, glsl::compileGlsl( shader
+					, glsl::compileGlsl( *testCounts.allocatorBlock
+						, shader
 						, statements.get()
 						, entryPoint.stage
 						, ast::SpecialisationInfo{}
 						, cfg ) );
 				displayShader( "glslang SPIR-V"
-					, spirv::displaySpirv( shader.getAllocator(), glslangSpirv )
+					, spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv )
 					, testCounts
 					, true
 					, false );

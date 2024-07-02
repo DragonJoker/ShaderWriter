@@ -10,13 +10,15 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/ResolveConstants.hpp>
+#include <ShaderAST/Visitors/SelectEntryPoint.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
 namespace glsl
 {
-	std::string compileGlsl( ast::Shader const & shader
+	std::string compileGlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * stmt
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
@@ -30,10 +32,8 @@ namespace glsl
 			, *stmt );
 		glsl::checkConfig( config, intrinsics );
 
-		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
-		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
-		ast::stmt::StmtCache compileStmtCache{ *allocator };
-		ast::expr::ExprCache compileExprCache{ *allocator };
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
 		auto statements = ast::transformSSA( compileStmtCache
 			, compileExprCache
 			, typesCache
@@ -69,12 +69,32 @@ namespace glsl
 		return glsl::generateGlslStatements( config, intrinsics, *statements ).source;
 	}
 	
-	std::string compileGlsl( ast::Shader const & shader
+	std::string compileGlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::SpecialisationInfo const & specialisation
 		, GlslConfig & config )
 	{
-		return compileGlsl( shader
-			, shader.getStatements()
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
+		auto entryPoints = ast::listEntryPoints( *shader.getStatements() );
+		auto it = std::find_if( entryPoints.begin()
+			, entryPoints.end()
+			, [&shader]( ast::EntryPointConfig const & lookup )
+			{
+				return lookup.stage == shader.getType();
+			} );
+		if ( it == entryPoints.end() )
+		{
+			return {};
+		}
+
+		auto statements = ast::selectEntryPoint( compileStmtCache
+			, compileExprCache
+			, *it
+			, *shader.getStatements() );
+		return compileGlsl( allocator
+			, shader
+			, statements.get()
 			, shader.getType()
 			, specialisation
 			, config );

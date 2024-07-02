@@ -14,6 +14,7 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/Visitors/ResolveConstants.hpp>
+#include <ShaderAST/Visitors/SelectEntryPoint.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
@@ -103,8 +104,7 @@ namespace spirv
 				, true
 				, true
 				, true
-				, true
-				, spirvConfig.allocator };
+				, true };
 			glsl::checkConfig( stmtConfig, intrinsicsConfig );
 			debug = glsl::generateGlslStatements( stmtConfig, intrinsicsConfig, *statements, true );
 		}
@@ -125,9 +125,27 @@ namespace spirv
 		, ast::Shader const & shader
 		, SpirVConfig & spirvConfig )
 	{
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
+		auto entryPoints = ast::listEntryPoints( *shader.getStatements() );
+		auto it = std::find_if( entryPoints.begin()
+			, entryPoints.end()
+			, [&shader]( ast::EntryPointConfig const & lookup )
+			{
+				return lookup.stage == shader.getType();
+			} );
+		if ( it == entryPoints.end() )
+		{
+			return {};
+		}
+
+		auto statements = ast::selectEntryPoint( compileStmtCache
+			, compileExprCache
+			, *it
+			, *shader.getStatements() );
 		return compileSpirV( allocator
 			, shader
-			, shader.getStatements()
+			, statements.get()
 			, shader.getType()
 			, spirvConfig );
 	}
@@ -167,20 +185,19 @@ namespace spirv
 		return result;
 	}
 
-	std::string writeSpirv( ast::Shader const & shader
+	std::string writeSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, SpirVConfig & config
 		, bool writeHeader )
 	{
-		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
-		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
 		std::string result;
 
 		try
 		{
-			auto shaderModule = compileSpirV( *allocator, shader, statements, stage, config );
-			NameCache names{ allocator.get() };
+			auto shaderModule = compileSpirV( allocator, shader, statements, stage, config );
+			NameCache names{ &allocator };
 			result = Module::write( *shaderModule, names, writeHeader );
 		}
 		catch ( ast::Exception & exc )
@@ -191,29 +208,48 @@ namespace spirv
 		return result;
 	}
 
-	std::string writeSpirv( ast::Shader const & shader
+	std::string writeSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, SpirVConfig & config
 		, bool writeHeader )
 	{
-		return writeSpirv( shader
-			, shader.getStatements()
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
+		auto entryPoints = ast::listEntryPoints( *shader.getStatements() );
+		auto it = std::find_if( entryPoints.begin()
+			, entryPoints.end()
+			, [&shader]( ast::EntryPointConfig const & lookup )
+			{
+				return lookup.stage == shader.getType();
+			} );
+		if ( it == entryPoints.end() )
+		{
+			return {};
+		}
+
+		auto statements = ast::selectEntryPoint( compileStmtCache
+			, compileExprCache
+			, *it
+			, *shader.getStatements() );
+		return writeSpirv( allocator
+			, shader
+			, statements.get()
 			, shader.getType()
 			, config
 			, writeHeader );
 	}
 
-	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+	std::vector< uint32_t > serialiseSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, ast::stmt::Container const * statements
 		, ast::ShaderStage stage
 		, SpirVConfig & config )
 	{
-		auto ownAllocator = config.allocator ? nullptr : std::make_unique< ast::ShaderAllocator >();
-		auto allocator = config.allocator ? config.allocator->getBlock() : ownAllocator->getBlock();
 		std::vector< uint32_t > result;
 
 		try
 		{
-			auto shaderModule = compileSpirV( *allocator, shader, statements, stage, config );
+			auto shaderModule = compileSpirV( allocator, shader, statements, stage, config );
 			auto spirv = Module::serialize( *shaderModule );
 			result.insert( result.end(), spirv.begin(), spirv.end() );
 		}
@@ -225,11 +261,31 @@ namespace spirv
 		return result;
 	}
 
-	std::vector< uint32_t > serialiseSpirv( ast::Shader const & shader
+	std::vector< uint32_t > serialiseSpirv( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
 		, SpirVConfig & config )
 	{
-		return serialiseSpirv( shader
-			, shader.getStatements()
+		ast::stmt::StmtCache compileStmtCache{ allocator };
+		ast::expr::ExprCache compileExprCache{ allocator };
+		auto entryPoints = ast::listEntryPoints( *shader.getStatements() );
+		auto it = std::find_if( entryPoints.begin()
+			, entryPoints.end()
+			, [&shader]( ast::EntryPointConfig const & lookup )
+			{
+				return lookup.stage == shader.getType();
+			} );
+		if ( it == entryPoints.end() )
+		{
+			return {};
+		}
+
+		auto statements = ast::selectEntryPoint( compileStmtCache
+			, compileExprCache
+			, *it
+			, *shader.getStatements() );
+		return serialiseSpirv( allocator
+			, shader
+			, statements.get()
 			, shader.getType()
 			, config );
 	}
