@@ -166,7 +166,7 @@ namespace sdw
 
 	void ShaderWriter::pushScope()
 	{
-		m_builder->pushScope( getStmtCache().makeContainer() );
+		m_builder->pushScope( getStmtCache().makeCompound() );
 	}
 
 	void ShaderWriter::popScope()
