@@ -538,13 +538,40 @@ namespace test
 	class Exception
 		: public std::runtime_error
 	{
-		using std::runtime_error::runtime_error;
-
 	public:
+		explicit Exception( char const * const message
+			, char const * const function
+			, int32_t line )
+			: std::runtime_error{ message }
+			, m_function{ function }
+			, m_line{ line }
+		{
+		}
+
+		explicit Exception( std::string const & message
+			, char const * const function
+			, int32_t line )
+			: Exception{ message.c_str(), function, line }
+		{
+		}
+
 		std::string getText()const
 		{
 			return what();
 		}
+
+		std::string getFunction()const
+		{
+			return m_function;
+		}
+
+		int32_t getLine()const
+		{
+			return m_line;
+		}
+
+		std::string m_function;
+		int32_t m_line;
 	};
 
 	struct TestStringStreams
@@ -789,44 +816,16 @@ namespace test
 	void beginTest( TestCounts & testCounts
 		, std::string name );
 	void endTest( TestCounts & testCounts );
-	void reportFailure( char const * const error
-		, char const * const function
+	void reportFailure( std::string_view error
+		, std::string_view function
 		, int line
 		, TestCounts & testCounts );
-	void reportFailure( char const * const error
-		, char const * const callerFunction
+	void reportFailure( std::string_view error
+		, std::string_view callerFunction
 		, int callerLine
-		, char const * const calleeFunction
+		, std::string_view calleeFunction
 		, int calleeLine
 		, TestCounts & testCounts );
-
-	inline void reportFailure( std::string_view error
-		, char const * const function
-		, int line
-		, TestCounts & testCounts )
-	{
-		reportFailure( error.data(), function, line, testCounts );
-	}
-
-	inline void reportFailure( std::string_view error
-		, char const * const callerFunction
-		, int callerLine
-		, char const * const calleeFunction
-		, int calleeLine
-		, TestCounts & testCounts )
-	{
-		reportFailure( error.data(), callerFunction, callerLine, calleeFunction, calleeLine, testCounts );
-	}
-
-	inline void reportFailure( std::string_view error
-		, std::string const & callerFunction
-		, int callerLine
-		, char const * const calleeFunction
-		, int calleeLine
-		, TestCounts & testCounts )
-	{
-		reportFailure( error.data(), callerFunction.c_str(), callerLine, calleeFunction, calleeLine, testCounts );
-	}
 
 #	define astTestSuiteMain( testName )\
 	static test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
@@ -945,13 +944,13 @@ namespace test
 		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			throw test::Exception{ "\n    Value: " + toString( x ) };\
+			throw test::Exception{ testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__ };\
 		}\
 		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -964,7 +963,7 @@ namespace test
 		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			throw test::Exception{ "\n    Value: " + toString( x ) };\
+			throw test::Exception{ testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__ };\
 		}
 
 #define astEndRequire\
@@ -972,11 +971,11 @@ namespace test
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( "Unknown unhandled exception.", __FUNCTION__, __LINE__, testCounts );\
 	}
 
 #define astCheck( x )\
@@ -1000,13 +999,13 @@ namespace test
 		testCounts.incTest();\
 		if ( !( ( x ) == ( y ) ) )\
 		{\
-			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
+			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
 		}\
 		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -1019,13 +1018,13 @@ namespace test
 		testCounts.incTest();\
 		if ( ( x ) == ( y ) )\
 		{\
-			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
+			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
 		}\
 		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -1077,13 +1076,13 @@ namespace test
 		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			throw test::Exception{ "\n    Value: " + toString( x ) };\
+			throw test::Exception{ "\n    Value: " + toString( x ), __FUNCTION__, __LINE__ };\
 		}\
 		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), f, l, exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -1111,13 +1110,13 @@ namespace test
 		testCounts.incTest();\
 		if ( !( ( x ) == ( y ) ) )\
 		{\
-			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
+			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
 		}\
 		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), f, l, exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\
@@ -1130,13 +1129,13 @@ namespace test
 		testCounts.incTest();\
 		if ( ( x ) == ( y ) )\
 		{\
-			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ) };\
+			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
 		}\
 		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), f, l, __FUNCTION__, __LINE__, testCounts );\
+		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), f, l, exc.getFunction(), exc.getLine(), testCounts );\
 	}\
 	catch ( ... )\
 	{\

@@ -668,22 +668,22 @@ namespace test
 		}
 	}
 
-	void reportFailure( char const * const error
-		, char const * const function
+	void reportFailure( std::string_view error
+		, std::string_view function
 		, int line
 		, TestCounts & testCounts )
 	{
-		testCounts.reportFailure( error, function, line );
+		testCounts.reportFailure( error.data(), function.data(), line );
 	}
 
-	void reportFailure( char const * const error
-		, char const * const callerFunction
+	void reportFailure( std::string_view error
+		, std::string_view callerFunction
 		, int callerLine
-		, char const * const calleeFunction
+		, std::string_view calleeFunction
 		, int calleeLine
 		, TestCounts & testCounts )
 	{
-		testCounts.reportFailure( error, callerFunction, callerLine, calleeFunction, calleeLine );
+		testCounts.reportFailure( error.data(), callerFunction.data(), callerLine, calleeFunction.data(), calleeLine );
 	}
 
 	//*********************************************************************************************

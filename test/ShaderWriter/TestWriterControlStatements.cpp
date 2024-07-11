@@ -849,6 +849,70 @@ namespace
 			, testCounts, CurrentCompilers );
 		astTestEnd();
 	}
+
+	void testAnonymousScope( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "testAnonymousScope" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto i = writer.declSharedVariable< sdw::UInt >( "i" );
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					if (auto scope = makeScope( writer ) )
+					{
+						i = in.globalInvocationID.x();
+					}
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		astTestEnd();
+	}
+
+	void testNestedAnonymousScopes( test::sdw_test::TestCounts & testCounts )
+	{
+		astTestBegin( "testNestedAnonymousScopes" );
+		sdw::ShaderArray shaders;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto i = writer.declSharedVariable< sdw::UInt >( "i" );
+			auto j = writer.declSharedVariable< sdw::UInt >( "j" );
+			auto k = writer.declSharedVariable< sdw::UInt >( "k" );
+			auto l = writer.declSharedVariable< sdw::UInt >( "l" );
+			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
+				{
+					if (auto scope1 = makeScope( writer ) )
+					{
+						l = in.localInvocationIndex;
+						if ( auto scope2 = makeScope( writer ) )
+						{
+							k = in.globalInvocationID.z();
+							if ( auto scope3 = makeScope( writer ) )
+							{
+								j = in.globalInvocationID.y();
+								if ( auto scope4 = makeScope( writer ) )
+								{
+									i = in.globalInvocationID.x();
+								}
+								j += in.globalInvocationID.y();
+							}
+							k += in.globalInvocationID.z();
+						}
+						l += in.localInvocationIndex;
+					}
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		astTestEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterControlStatements )
@@ -884,6 +948,8 @@ sdwTestSuiteMain( TestWriterControlStatements )
 	testConstSwitch0( testCounts );
 	testConstSwitch1( testCounts );
 	testConstSwitchDefault( testCounts );
+	testAnonymousScope( testCounts );
+	testNestedAnonymousScopes( testCounts );
 	sdwTestSuiteEnd();
 }
 

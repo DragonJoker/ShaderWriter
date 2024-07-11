@@ -169,7 +169,7 @@ namespace
 				}
 				ROF;
 				astCheckEqual( writer.getBuilder().getContainer()->size(), 1u );
-				astBeginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eContainer );
+				astBeginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eCompound );
 					astCheckEqual( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).size(), 1u );
 					astBeginRequire( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back()->getKind() == stmt::Kind::eFor );
 					astCheckEqual( static_cast< stmt::For const & >( *static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).back() ).size(), 1u );
