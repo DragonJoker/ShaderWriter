@@ -137,6 +137,7 @@ namespace spirv
 		InstructionList debugStart;
 		Block promotedParams;
 		ast::Map< std::string, VariableInfo, std::less<> > registeredVariables;
+		ast::Vector< DebugId > debugParams;
 	};
 
 	using FunctionList = ast::Vector< Function >;

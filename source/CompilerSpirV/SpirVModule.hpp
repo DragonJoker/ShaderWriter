@@ -209,6 +209,8 @@ namespace spirv
 			, glsl::Statement const * scopeBeginDebugStatement
 			, glsl::Statement const * firstLineStatement );
 		SDWSPIRV_API Block newBlock();
+		SDWSPIRV_API void importParentBlockVars( Block & block
+			, ast::Vector< DebugId > const & parentVariables );
 		SDWSPIRV_API void endFunction();
 
 		SDWSPIRV_API spv::Id getNextId();

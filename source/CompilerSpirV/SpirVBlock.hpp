@@ -92,6 +92,7 @@ namespace spirv
 		// Used during construction.
 		ast::ShaderAllocatorBlock * allocator;
 		ast::Map< DebugId, DebugId > variables;
+		ast::Vector< DebugId > declaredVariables;
 		ast::Vector< std::pair< DebugIdList, DebugId > > accessChains;
 		bool isInterrupted{};
 	};

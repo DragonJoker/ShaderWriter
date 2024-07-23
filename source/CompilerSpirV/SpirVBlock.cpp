@@ -34,6 +34,7 @@ namespace spirv
 		, blockEnd{ std::move( rhs.blockEnd ) }
 		, allocator{ rhs.allocator }
 		, variables{ std::move( rhs.variables ) }
+		, declaredVariables{ std::move( rhs.declaredVariables ) }
 		, accessChains{ std::move( rhs.accessChains ) }
 		, isInterrupted{ rhs.isInterrupted }
 	{
@@ -49,6 +50,7 @@ namespace spirv
 		blockEnd = std::move( rhs.blockEnd );
 		allocator = rhs.allocator;
 		variables = std::move( rhs.variables );
+		declaredVariables = std::move( rhs.declaredVariables );
 		accessChains = std::move( rhs.accessChains );
 		isInterrupted = rhs.isInterrupted;
 
@@ -65,6 +67,7 @@ namespace spirv
 		, instructions{ alloc }
 		, allocator{ alloc }
 		, variables{ ast::StlMapAllocatorT< DebugId, DebugId >{ alloc } }
+		, declaredVariables{ ast::StlAllocatorT< DebugId >{ alloc } }
 		, accessChains{ ast::StlPairAllocatorT< DebugIdList, DebugId >{ alloc } }
 	{
 	}
