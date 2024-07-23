@@ -74,24 +74,26 @@ namespace spirv::debug
 		//
 		// Variables declarations
 		//
-		void declareVariable( InstructionList & instructions
+		void declareLocalVariable( InstructionList & instructions
+			, DebugId const & variableId );
+		DebugId declareVariable( InstructionList & instructions
 			, std::string const & name
 			, ast::type::TypePtr type
 			, DebugId variableId
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement
 			, bool isAccessChain = false );
-		void declarePointerParam( InstructionList & instructions
+		DebugId declarePointerParam( InstructionList & instructions
 			, std::string const & name
 			, ast::type::TypePtr type
 			, DebugId variableId
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement );
-		void declareAccessChain( InstructionList & instructions
+		DebugId declareAccessChain( InstructionList & instructions
 			, ast::expr::Expr const & expr
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
-		void declareFunction( Function & function
+		ast::Vector< DebugId > declareFunction( Function & function
 			, std::string const & name
 			, ast::var::VariableList const & params
 			, DebugIdList const & funcParams

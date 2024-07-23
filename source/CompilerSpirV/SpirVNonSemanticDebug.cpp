@@ -261,7 +261,20 @@ namespace spirv::debug
 			, debug::makeValueIdList( m_allocator, flagsId, funcTypes ) );
 	}
 
-	void NonSemanticDebug::declareVariable( InstructionList & instructions
+	void NonSemanticDebug::declareLocalVariable( InstructionList & instructions
+		, DebugId const & variableId )
+	{
+		if ( !m_enabled || !variableId.debug )
+		{
+			return;
+		}
+
+		makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::Declare
+			, instructions
+			, debug::makeValueIdList( m_allocator, variableId.debug, variableId.id, m_debugExpressionDummy ) );
+	}
+
+	DebugId NonSemanticDebug::declareVariable( InstructionList & instructions
 		, std::string const & name
 		, ast::type::TypePtr type
 		, DebugId variableId
@@ -271,7 +284,7 @@ namespace spirv::debug
 	{
 		if ( !m_enabled || !debugStatement )
 		{
-			return;
+			return variableId;
 		}
 
 		auto nameId = m_module.registerString( name );
@@ -300,9 +313,11 @@ namespace spirv::debug
 				, instructions
 				, debug::makeValueIdList( m_allocator, variableId.debug, initialiserId.id, m_debugExpressionDummy ) );
 		}
+
+		return variableId;
 	}
 
-	void NonSemanticDebug::declarePointerParam( InstructionList & instructions
+	DebugId NonSemanticDebug::declarePointerParam( InstructionList & instructions
 		, std::string const & name
 		, ast::type::TypePtr type
 		, DebugId variableId
@@ -311,33 +326,35 @@ namespace spirv::debug
 	{
 		if ( !m_enabled )
 		{
-			return;
+			return variableId;
 		}
 
 		// if debugStatement exists, the variable will be declared prior to this call
 		if ( !debugStatement )
 		{
-			declareVariable( instructions
+			return declareVariable( instructions
 				, name
 				, std::move( type )
 				, std::move( variableId )
 				, std::move( initialiser )
 				, m_currentFunctionFirstLineStatement );
 		}
+
+		return variableId;
 	}
 
-	void NonSemanticDebug::declareAccessChain( InstructionList & instructions
+	DebugId NonSemanticDebug::declareAccessChain( InstructionList & instructions
 		, ast::expr::Expr const & expr
 		, glsl::Statement const * debugStatement
 		, DebugId & resultId )
 	{
 		if ( !m_enabled || !debugStatement || !m_config )
 		{
-			return;
+			return resultId;
 		}
 
 		resultId.debug = ValueId{ getNextId(), expr.getType() };
-		declareVariable( instructions
+		return declareVariable( instructions
 			, glsl::getExprName( *m_config, expr )
 			, expr.getType()
 			, resultId
@@ -346,7 +363,7 @@ namespace spirv::debug
 			, true );
 	}
 
-	void NonSemanticDebug::declareFunction( Function & function
+	ast::Vector< DebugId > NonSemanticDebug::declareFunction( Function & function
 		, std::string const & name
 		, ast::var::VariableList const & params
 		, DebugIdList const & funcParams
@@ -354,9 +371,11 @@ namespace spirv::debug
 		, glsl::Statement const * scopeBeginDebugStatement
 		, glsl::Statement const * firstLineStatement )
 	{
+		ast::Vector< DebugId > result{ m_allocator };
+
 		if ( !m_enabled || !declDebugStatement || !scopeBeginDebugStatement || !firstLineStatement )
 		{
-			return;
+			return result;
 		}
 
 		m_currentFunctionFirstLineStatement = firstLineStatement;
@@ -387,6 +406,7 @@ namespace spirv::debug
 			auto paramTypeId = m_module.registerType( param->getType(), scopeBeginDebugStatement );
 			auto paramColumnId = m_module.registerLiteral( 0u );
 			auto paramFlagsId = m_module.registerLiteral( 0u );
+			result.emplace_back( *itParam );
 			makeDebugInstruction( spv::NonSemanticShaderDebugInfo100Instructions::LocalVariable
 				, m_declarations
 				, itParam->debug
@@ -395,6 +415,8 @@ namespace spirv::debug
 
 			++itParam;
 		}
+
+		return result;
 	}
 
 	void NonSemanticDebug::makeEntryPointInstruction( DebugId functionId )

@@ -2349,15 +2349,22 @@ namespace spirv
 				writeLine( instructions, getCurrentDebugStatement() );
 			}
 
-			void beginScope( Block & block )
+			void beginScope( Block & block
+				, ast::Vector< DebugId > const * parentVariables )
 			{
 				beginScope( block.instructions );
+
+				if ( parentVariables )
+				{
+					m_result.importParentBlockVars( block, *parentVariables );
+				}
 			}
 
 			glsl::Statement * parseScope( ast::stmt::Compound const * stmt
 				, glsl::StatementType scopeBegin
 				, glsl::StatementType scopeLine
-				, glsl::StatementType scopeEnd )
+				, glsl::StatementType scopeEnd
+				, ast::Vector< DebugId > const * parentVariables )
 			{
 				glsl::Statement * result{};
 
@@ -2369,7 +2376,7 @@ namespace spirv
 					if ( scopeBegin == glsl::StatementType::eLexicalScopeBegin )
 					{
 						m_debug.makeLexicalBlockInstruction( scopeBeginStmt );
-						beginScope( m_currentBlock );
+						beginScope( m_currentBlock, parentVariables );
 					}
 
 					m_scopeLines.push_back( scopeLine );
@@ -2475,7 +2482,8 @@ namespace spirv
 					parseScope( stmt
 						, glsl::StatementType::eStructureScopeBegin
 						, glsl::StatementType::eStructureMemberDecl
-						, glsl::StatementType::eStructureScopeEnd );
+						, glsl::StatementType::eStructureScopeEnd
+						, nullptr );
 					auto variableId = m_result.bindBufferVariable( stmt->getName()
 						, stmt->getBindingPoint()
 						, stmt->getDescriptorSet()
@@ -2544,7 +2552,8 @@ namespace spirv
 					parseScope( stmt
 						, glsl::StatementType::eStructureScopeBegin
 						, glsl::StatementType::eStructureMemberDecl
-						, glsl::StatementType::eStructureScopeEnd );
+						, glsl::StatementType::eStructureScopeEnd
+						, nullptr );
 				}
 			}
 
@@ -2559,12 +2568,14 @@ namespace spirv
 				parseScope( stmt
 					, glsl::StatementType::eLexicalScopeBegin
 					, glsl::StatementType::eScopeLine
-					, glsl::StatementType::eLexicalScopeEnd );
+					, glsl::StatementType::eLexicalScopeEnd
+					, nullptr );
 			}
 
 			void visitDoWhileStmt( ast::stmt::DoWhile const * stmt )override
 			{
 				TraceFunc;
+				auto parentBlockVariables = m_currentBlock.declaredVariables;
 				auto loopBlock = m_result.newBlock();
 				auto ifBlock = m_result.newBlock();
 				auto mergeBlock = m_result.newBlock();
@@ -2592,7 +2603,8 @@ namespace spirv
 				parseScope( stmt
 					, glsl::StatementType::eLexicalScopeBegin
 					, glsl::StatementType::eScopeLine
-					, glsl::StatementType::eLexicalScopeEnd );
+					, glsl::StatementType::eLexicalScopeEnd
+					, &parentBlockVariables );
 
 				// Branch current block to the continue target block.
 				endBlock( m_currentBlock, ifBlock.label );
@@ -2615,12 +2627,7 @@ namespace spirv
 
 			void visitElseStmt( ast::stmt::Else const * stmt )override
 			{
-				TraceFunc;
-				beginControl( m_currentBlock );
-				parseScope( stmt
-					, glsl::StatementType::eLexicalScopeBegin
-					, glsl::StatementType::eScopeLine
-					, glsl::StatementType::eLexicalScopeEnd );
+				ast::Logger::logError( "Unexpected Else statement." );
 			}
 
 			void visitForStmt( ast::stmt::For const * stmt )override
@@ -2807,6 +2814,7 @@ namespace spirv
 			{
 				TraceFunc;
 				++m_ifStmts;
+				auto parentBlockVariables = m_currentBlock.declaredVariables;
 				auto contentBlock = m_result.newBlock();
 				auto mergeBlock = m_result.newBlock();
 
@@ -2835,17 +2843,23 @@ namespace spirv
 				parseScope( stmt
 					, glsl::StatementType::eLexicalScopeBegin
 					, glsl::StatementType::eScopeLine
-					, glsl::StatementType::eLexicalScopeEnd );
+					, glsl::StatementType::eLexicalScopeEnd
+					, &parentBlockVariables );
 				endBlock( m_currentBlock, mergeBlock.label );
 
 				if ( stmt->getElse() )
 				{
 					m_currentBlock = std::move( elseBlock );
-					stmt->getElse()->accept( this );
+					beginControl( m_currentBlock );
+					parseScope( stmt->getElse()
+						, glsl::StatementType::eLexicalScopeBegin
+						, glsl::StatementType::eScopeLine
+						, glsl::StatementType::eLexicalScopeEnd
+						, &parentBlockVariables );
 					endBlock( m_currentBlock, mergeBlock.label );
 				}
 
-				beginScope( mergeBlock );
+				beginScope( mergeBlock, &parentBlockVariables );
 
 				// Current block becomes the merge block.
 				m_currentBlock = std::move( mergeBlock );
@@ -3169,6 +3183,7 @@ namespace spirv
 			void visitSwitchStmt( ast::stmt::Switch const * stmt )override
 			{
 				TraceFunc;
+				auto parentBlockVariables = m_currentBlock.declaredVariables;
 				ast::Vector< Block > caseBlocks{ m_allocator };
 				ast::Map< int32_t, spv::Id > caseBlocksIds{ m_allocator };
 				auto mergeBlock = m_result.newBlock();
@@ -3218,7 +3233,8 @@ namespace spirv
 							parseScope( &caseStmt
 								, glsl::StatementType::eLexicalScopeBegin
 								, glsl::StatementType::eScopeLine
-								, glsl::StatementType::eLexicalScopeEnd );
+								, glsl::StatementType::eLexicalScopeEnd
+								, &parentBlockVariables );
 
 							if ( m_currentBlock.isInterrupted )
 							{
@@ -3258,7 +3274,8 @@ namespace spirv
 					parseScope( defaultStmt
 						, glsl::StatementType::eLexicalScopeBegin
 						, glsl::StatementType::eScopeLine
-						, glsl::StatementType::eLexicalScopeEnd );
+						, glsl::StatementType::eLexicalScopeEnd
+						, &parentBlockVariables );
 				}
 
 				consumeDebugStatement( glsl::StatementType::eLexicalScopeEnd );
@@ -3393,7 +3410,8 @@ namespace spirv
 				parseScope( stmt
 					, glsl::StatementType::eStructureScopeBegin
 					, glsl::StatementType::eStructureMemberDecl
-					, glsl::StatementType::eStructureScopeEnd );
+					, glsl::StatementType::eStructureScopeEnd
+					, nullptr );
 			}
 
 			DebugId submitAndLoad( ast::expr::Expr const & expr )

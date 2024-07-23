@@ -1142,7 +1142,7 @@ namespace spirv
 		auto funcTypeId = m_types.registerFunctionType( funcTypes );
 		m_currentFunction->debugTypeId = funcTypeId.debug;
 		DebugId scopeLineId{};
-		m_nonSemanticDebug.declareFunction( *m_currentFunction
+		m_currentFunction->debugParams = m_nonSemanticDebug.declareFunction( *m_currentFunction
 			, name
 			, params
 			, funcParams
@@ -1180,6 +1180,16 @@ namespace spirv
 		result.instructions.push_back( makeInstruction< LabelInstruction >( getNameCache()
 			, ValueId{ result.label } ) );
 		return result;
+	}
+
+	void Module::importParentBlockVars( Block & block
+		, ast::Vector< DebugId > const & parentVariables )
+	{
+		for ( auto & debugVarDesc : parentVariables )
+		{
+			m_nonSemanticDebug.declareLocalVariable( block.instructions, debugVarDesc );
+			block.declaredVariables.push_back( debugVarDesc );
+		}
 	}
 
 	void Module::endFunction()
@@ -1562,7 +1572,8 @@ namespace spirv
 		}
 
 		m_registeredVariablesTypes.try_emplace( varId, rawTypeId );
-		m_nonSemanticDebug.declareVariable( block.instructions, name, type, varId, initialiser, debugStatement );
+		auto debugVarDesc = m_nonSemanticDebug.declareVariable( block.instructions, name, type, varId, initialiser, debugStatement );
+		block.declaredVariables.emplace_back( debugVarDesc );
 	}
 
 	//*************************************************************************

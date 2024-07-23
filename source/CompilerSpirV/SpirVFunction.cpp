@@ -14,6 +14,7 @@ namespace spirv
 		, debugStart{ ast::StlAllocatorT< InstructionPtr >{ alloc } }
 		, promotedParams{ alloc }
 		, registeredVariables{ ast::StlMapAllocatorT< std::string, VariableInfo >{ alloc } }
+		, debugParams{ ast::StlAllocatorT< DebugId >{ alloc } }
 	{
 	}
 
