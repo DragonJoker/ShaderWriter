@@ -2760,6 +2760,7 @@ namespace spirv
 				{
 					m_currentScopeId = m_function->id.debug;
 					beginScope( m_function->debugStart );
+					m_result.importParentBlockVars( m_currentBlock, m_function->debugParams );
 					m_scopeLines.push_back( glsl::StatementType::eScopeLine );
 					visitContainerStmt( stmt );
 					m_scopeLines.pop_back();
