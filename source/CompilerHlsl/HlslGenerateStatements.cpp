@@ -471,11 +471,11 @@ namespace hlsl
 				}
 			}
 
-			void visitAssignmentExpr( ast::expr::Binary const & expr )
+			void visitAssignmentExpr( ast::expr::Binary const * expr )override
 			{
-				wrap( *expr.getLHS() );
-				m_result += " " + getOperatorName( expr.getKind() ) + " ";
-				m_result += doSubmit( *expr.getRHS() );
+				wrap( *expr->getLHS() );
+				m_result += " " + getOperatorName( expr->getKind() ) + " ";
+				m_result += doSubmit( *expr->getRHS() );
 			}
 
 			void visitUnaryExpr( ast::expr::Unary const * expr )override
@@ -501,47 +501,47 @@ namespace hlsl
 
 			void visitAddAssignExpr( ast::expr::AddAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitAndAssignExpr( ast::expr::AndAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitAssignExpr( ast::expr::Assign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitDivideAssignExpr( ast::expr::DivideAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitLShiftAssignExpr( ast::expr::LShiftAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitMinusAssignExpr( ast::expr::MinusAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitModuloAssignExpr( ast::expr::ModuloAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitOrAssignExpr( ast::expr::OrAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitRShiftAssignExpr( ast::expr::RShiftAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitTimesAssignExpr( ast::expr::TimesAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 			void visitXorAssignExpr( ast::expr::XorAssign const * expr )override
 			{
-				visitAssignmentExpr( *expr );
+				visitAssignmentExpr( expr );
 			}
 
 			void visitAggrInitExpr( ast::expr::AggrInit const * expr )override
