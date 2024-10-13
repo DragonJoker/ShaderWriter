@@ -1779,7 +1779,7 @@ namespace spirv
 
 	void ModuleConfig::addStorage( ast::var::VariablePtr var )
 	{
-		storages.emplace( var, false );
+		storages.try_emplace( var, false );
 	}
 
 	void ModuleConfig::makeWritable( ast::var::VariablePtr var )
