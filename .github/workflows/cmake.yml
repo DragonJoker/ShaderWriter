@@ -75,7 +75,7 @@ jobs:
         cmake --build . --config ${{ matrix.buildType }} --target clean
     - name: Upload success package
       if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip
         path: ${{ github.workspace }}/ShaderWriter-${{ matrix.os[1] }}.zip
@@ -142,7 +142,7 @@ jobs:
         cmake --build . --config ${{ matrix.buildType }} --target clean
     - name: Upload success package
       if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip
         path: ${{ github.workspace }}/ShaderWriter-${{ matrix.os[1] }}.zip
@@ -222,7 +222,7 @@ jobs:
         cmake --build . --config ${{ matrix.buildType }} --target clean
     - name: Upload success package
       if: (github.event_name == 'push') && (steps.build.conclusion == 'success')
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: ShaderWriter-${{ matrix.os[1] }}.zip
         path: ${{ github.workspace }}/ShaderWriter-${{ matrix.os[1] }}.zip
