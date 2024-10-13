@@ -17,17 +17,20 @@ namespace ast::expr
 namespace spirv
 {
 	struct PreprocContext;
+	struct ModuleConfig;
 
 	bool isAccessChain( ast::expr::Expr const & expr );
 	DebugId makeAccessChain( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr const & expr
 		, PreprocContext const & context
+		, ModuleConfig const & config
 		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement * debugStatement );
 	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache
 		, ast::expr::Swizzle const & expr
 		, PreprocContext const & context
+		, ModuleConfig const & config
 		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement const * debugStatement );
