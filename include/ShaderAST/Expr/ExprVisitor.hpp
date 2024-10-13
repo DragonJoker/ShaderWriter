@@ -164,13 +164,18 @@ namespace ast::expr
 		virtual void visitUnaryExpr( Unary const * expr ) = 0;
 		virtual void visitBinaryExpr( Binary const * expr ) = 0;
 
+		virtual void visitAssignmentExpr( Binary const * expr )
+		{
+			visitBinaryExpr( expr );
+		}
+
 		void visitAddExpr( Add const * expr )override
 		{
 			visitBinaryExpr( expr );
 		}
 		void visitAddAssignExpr( AddAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitAliasExpr( Alias const * expr )override
 		{
@@ -178,7 +183,7 @@ namespace ast::expr
 		}
 		void visitAndAssignExpr( AndAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitArrayAccessExpr( ArrayAccess const * expr )override
 		{
@@ -186,7 +191,7 @@ namespace ast::expr
 		}
 		void visitAssignExpr( Assign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitBitAndExpr( BitAnd const * expr )override
 		{
@@ -222,7 +227,7 @@ namespace ast::expr
 		}
 		void visitDivideAssignExpr( DivideAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitEqualExpr( Equal const * expr )override
 		{
@@ -262,7 +267,7 @@ namespace ast::expr
 		}
 		void visitLShiftAssignExpr( LShiftAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitMinusExpr( Minus const * expr )override
 		{
@@ -270,7 +275,7 @@ namespace ast::expr
 		}
 		void visitMinusAssignExpr( MinusAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitModuloExpr( Modulo const * expr )override
 		{
@@ -278,7 +283,7 @@ namespace ast::expr
 		}
 		void visitModuloAssignExpr( ModuloAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitNotEqualExpr( NotEqual const * expr )override
 		{
@@ -286,7 +291,7 @@ namespace ast::expr
 		}
 		void visitOrAssignExpr( OrAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitPostDecrementExpr( PostDecrement const * expr )override
 		{
@@ -310,7 +315,7 @@ namespace ast::expr
 		}
 		void visitRShiftAssignExpr( RShiftAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitTimesExpr( Times const * expr )override
 		{
@@ -318,7 +323,7 @@ namespace ast::expr
 		}
 		void visitTimesAssignExpr( TimesAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 		void visitUnaryMinusExpr( UnaryMinus const * expr )override
 		{
@@ -330,7 +335,7 @@ namespace ast::expr
 		}
 		void visitXorAssignExpr( XorAssign const * expr )override
 		{
-			visitBinaryExpr( expr );
+			visitAssignmentExpr( expr );
 		}
 	};
 }

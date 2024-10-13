@@ -1794,7 +1794,7 @@ namespace glsl
 				return Wrapped{ &expr, true };
 			}
 
-			void visitAssignmentExpr( ast::expr::Binary const * expr )
+			void visitAssignmentExpr( ast::expr::Binary const * expr )override
 			{
 				doAppend( doJoin( wrap( *expr->getLHS() )
 					, " ", std::make_pair( expr, helpers::getOperatorName( expr->getKind() ) ), " "
