@@ -26,6 +26,7 @@ namespace spirv
 		, glsl::Statements debugStatements );
 	DebugId generateModuleExpr( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr const & expr
+		, ModuleConfig const & moduleConfig
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & shaderModule );

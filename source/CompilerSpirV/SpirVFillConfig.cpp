@@ -17,6 +17,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 
 #include <stdexcept>
 
@@ -222,6 +223,16 @@ namespace spirv
 				doSubmit( *expr->getRHS() );
 			}
 
+			void visitAssignmentExpr( ast::expr::Binary const * expr )override
+			{
+				visitBinaryExpr( expr );
+
+				if ( auto ident = ast::findIdentifier( *expr->getLHS() ) )
+				{
+					m_config.makeWritable( ident->getVariable() );
+				}
+			}
+
 			void visitAggrInitExpr( ast::expr::AggrInit const * expr )override
 			{
 				helpers::checkType( *expr, m_config );
@@ -320,6 +331,12 @@ namespace spirv
 				{
 					m_config.registerCapability( spv::CapabilityAtomicFloat32AddEXT );
 				}
+
+				if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
+					&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicCompSwap2DMSArrayI )
+				{
+					m_config.makeWritable( ast::findIdentifier( *expr->getArgList()[0] )->getVariable() );
+				}
 			}
 
 			void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override
@@ -329,6 +346,15 @@ namespace spirv
 				for ( auto & arg : expr->getArgList() )
 				{
 					doSubmit( *arg );
+				}
+
+				if ( expr->getIntrinsic() >= ast::expr::Intrinsic::eAtomicAddI
+					&& expr->getIntrinsic() <= ast::expr::Intrinsic::eAtomicCompSwapU )
+				{
+					if ( auto ident = ast::findIdentifier( *expr->getArgList()[0] ) )
+					{
+						m_config.makeWritable( ident->getVariable() );
+					}
 				}
 			}
 
@@ -433,6 +459,46 @@ namespace spirv
 			{
 				helpers::checkType( *expr, m_config );
 				doSubmit( *expr->getOuterExpr() );
+			}
+
+			void visitPostDecrementExpr( ast::expr::PostDecrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+
+				if ( auto ident = ast::findIdentifier( *expr ) )
+				{
+					m_config.makeWritable( ident->getVariable() );
+				}
+			}
+
+			void visitPostIncrementExpr( ast::expr::PostIncrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+
+				if ( auto ident = ast::findIdentifier( *expr ) )
+				{
+					m_config.makeWritable( ident->getVariable() );
+				}
+			}
+
+			void visitPreDecrementExpr( ast::expr::PreDecrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+
+				if ( auto ident = ast::findIdentifier( *expr ) )
+				{
+					m_config.makeWritable( ident->getVariable() );
+				}
+			}
+
+			void visitPreIncrementExpr( ast::expr::PreIncrement const * expr )override
+			{
+				visitUnaryExpr( expr );
+
+				if ( auto ident = ast::findIdentifier( *expr ) )
+				{
+					m_config.makeWritable( ident->getVariable() );
+				}
 			}
 
 		private:
@@ -677,6 +743,7 @@ namespace spirv
 
 			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
+				m_result.addStorage( stmt->getVariable() );
 				auto imgType = std::static_pointer_cast< ast::type::Image >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
 
 				if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
@@ -837,11 +904,13 @@ namespace spirv
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
 				visitContainerStmt( stmt );
+				m_result.addStorage( stmt->getVariable() );
 			}
 
 			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
 			{
 				doTraverseType( stmt->getSsboInstance()->getType() );
+				m_result.addStorage( stmt->getSsboInstance() );
 			}
 
 			void visitSimpleStmt( ast::stmt::Simple const * stmt )override

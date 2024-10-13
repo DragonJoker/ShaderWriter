@@ -204,6 +204,9 @@ namespace spirv
 			, ast::var::FlagHolder const & flags
 			, uint32_t location
 			, uint32_t arraySize );
+		void addStorage( ast::var::VariablePtr var );
+		void makeWritable( ast::var::VariablePtr var );
+		bool isWritable( ast::var::VariablePtr var )const;
 
 		ast::var::VariableList const & getInputs()const
 		{
@@ -413,6 +416,7 @@ namespace spirv
 		IOMapping outputs;
 		ast::Set< spv::Capability > requiredCapabilities;
 		SpirVExtensionSet requiredExtensions{};
+		ast::Map< ast::var::VariablePtr, bool > storages;
 	};
 
 	struct IntrinsicConfig
@@ -526,8 +530,9 @@ namespace spirv
 	void insertCapability( NamesCache & nameCache
 		, InstructionList & capabilities
 		, spv::Capability capa );
-	void decorateVar( ast::var::Variable const & var
+	void decorateVar( ast::var::VariablePtr var
 		, DebugId const & varId
+		, ModuleConfig const & config
 		, Module & shaderModule );
 	spv::StorageClass getStorageClass( uint32_t version
 		, ast::var::VariablePtr var

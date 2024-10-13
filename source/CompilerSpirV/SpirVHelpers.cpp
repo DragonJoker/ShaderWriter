@@ -1166,6 +1166,7 @@ namespace spirv
 		, inputs{ alloc, typesCache, stage, true, nextVarId }
 		, outputs{ alloc, typesCache, stage, false, nextVarId }
 		, requiredCapabilities{ alloc }
+		, storages{ alloc }
 	{
 		if ( spirvConfig.debugLevel == DebugLevel::eDebugInfo )
 		{
@@ -1774,6 +1775,32 @@ namespace spirv
 				, location
 				, arraySize );
 		}
+	}
+
+	void ModuleConfig::addStorage( ast::var::VariablePtr var )
+	{
+		storages.emplace( var, false );
+	}
+
+	void ModuleConfig::makeWritable( ast::var::VariablePtr var )
+	{
+		auto it = storages.find( var );
+
+		if ( it != storages.end() )
+		{
+			it->second = true;
+		}
+	}
+
+	bool ModuleConfig::isWritable( ast::var::VariablePtr var )const
+	{
+		if ( auto it = storages.find( var );
+			it != storages.end() )
+		{
+			return it->second;
+		}
+
+		return true;
 	}
 
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
@@ -3572,10 +3599,13 @@ namespace spirv
 		}
 	}
 
-	void decorateVar( ast::var::Variable const & var
+	void decorateVar( ast::var::VariablePtr varptr
 		, DebugId const & varId
+		, ModuleConfig const & config
 		, Module & shaderModule )
 	{
+		ast::var::Variable const & var = *varptr;
+
 		if ( var.isFlat() )
 		{
 			shaderModule.decorate( varId, spv::DecorationFlat );
@@ -3612,6 +3642,11 @@ namespace spirv
 			|| var.getType()->getKind() == ast::type::Kind::eTaskPayloadInNV )
 		{
 			shaderModule.decorate( varId, spv::DecorationPerTaskNV );
+		}
+
+		if ( !config.isWritable( varptr ) )
+		{
+			shaderModule.decorate( varId, spv::DecorationNonWritable );
 		}
 	}
 

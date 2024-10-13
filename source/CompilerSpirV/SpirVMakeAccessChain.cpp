@@ -247,6 +247,7 @@ namespace spirv
 			static DebugIdList submit( ast::expr::ExprCache & exprCache
 				, AccessChainExprArray const & exprs
 				, PreprocContext const & context
+				, ModuleConfig const & config
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
@@ -257,6 +258,7 @@ namespace spirv
 				result.push_back( submit( exprCache
 					, *it->expr
 					, context
+					, config
 					, shaderModule
 					, currentBlock
 					, currentDebugStatement ) );
@@ -267,6 +269,7 @@ namespace spirv
 							, result.back()
 							, *it
 							, context
+							, config
 							, shaderModule
 							, currentBlock
 							, currentDebugStatement )
@@ -284,12 +287,14 @@ namespace spirv
 				, ast::expr::Kind parentKind
 				, DebugId parentId
 				, PreprocContext const & context
+				, ModuleConfig const & config
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_result{ result }
 				, m_context{ context }
+				, m_config{ config }
 				, m_module{ shaderModule }
 				, m_currentBlock{ currentBlock }
 				, m_parentId{ std::move( parentId ) }
@@ -301,6 +306,7 @@ namespace spirv
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr const & expr
 				, PreprocContext const & context
+				, ModuleConfig const & config
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
@@ -311,6 +317,7 @@ namespace spirv
 					, expr.getKind()
 					, DebugId{}
 					, context
+					, config
 					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
@@ -322,6 +329,7 @@ namespace spirv
 				, DebugId parentId
 				, ast::expr::Expr const & expr
 				, PreprocContext const & context
+				, ModuleConfig const & config
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
@@ -332,6 +340,7 @@ namespace spirv
 					, expr.getKind()
 					, std::move( parentId )
 					, context
+					, config
 					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
@@ -343,6 +352,7 @@ namespace spirv
 				, DebugId parentId
 				, AccessChainExpr expr
 				, PreprocContext const & context
+				, ModuleConfig const & config
 				, Module & shaderModule
 				, Block & currentBlock
 				, glsl::Statement * currentDebugStatement )
@@ -353,6 +363,7 @@ namespace spirv
 					, expr.kind
 					, std::move( parentId )
 					, context
+					, config
 					, shaderModule
 					, currentBlock
 					, currentDebugStatement };
@@ -362,12 +373,12 @@ namespace spirv
 
 			void visitUnaryExpr( ast::expr::Unary const * expr )override
 			{
-				m_result = generateModuleExpr( m_exprCache, *expr, m_context, m_currentBlock, m_module );
+				m_result = generateModuleExpr( m_exprCache, *expr, m_config, m_context, m_currentBlock, m_module );
 			}
 
 			void visitBinaryExpr( ast::expr::Binary const * expr )override
 			{
-				m_result = generateModuleExpr( m_exprCache, *expr, m_context, m_currentBlock, m_module );
+				m_result = generateModuleExpr( m_exprCache, *expr, m_config, m_context, m_currentBlock, m_module );
 			}
 
 			void visitMbrSelectExpr( ast::expr::MbrSelect const * expr )override
@@ -385,6 +396,7 @@ namespace spirv
 					m_result = makeAccessChain( m_exprCache
 						, *expr->getRHS()
 						, m_context
+						, m_config
 						, m_module
 						, m_currentBlock
 						, m_currentDebugStatement );
@@ -395,6 +407,7 @@ namespace spirv
 						, m_parentId
 						, *expr->getRHS()
 						, m_context
+						, m_config
 						, m_module
 						, m_currentBlock
 						, m_currentDebugStatement );
@@ -436,7 +449,7 @@ namespace spirv
 						, expr->getType()
 						, sourceInfo ).id;
 
-					decorateVar( *var, m_result, m_module );
+					decorateVar( var, m_result, m_config, m_module );
 
 					if ( sourceInfo.needsStoreOnPromote() )
 					{
@@ -528,6 +541,7 @@ namespace spirv
 					m_result = makeVectorShuffle( m_exprCache
 						, *expr
 						, m_context
+						, m_config
 						, m_module
 						, m_currentBlock
 						, m_currentDebugStatement );
@@ -593,6 +607,7 @@ namespace spirv
 			ast::expr::ExprCache & m_exprCache;
 			DebugId & m_result;
 			PreprocContext const & m_context;
+			ModuleConfig const & m_config;
 			Module & m_module;
 			Block & m_currentBlock;
 			DebugId m_parentId;
@@ -609,6 +624,7 @@ namespace spirv
 	DebugId makeAccessChain( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr const & expr
 		, PreprocContext const & context
+		, ModuleConfig const & config
 		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement * debugStatement )
@@ -618,6 +634,7 @@ namespace spirv
 		auto accessChain = acnhlp::AccessChainCreator::submit( exprCache
 			, acnhlp::AccessChainLineariser::submit( exprCache, expr.getTypesCache(), expr, idents )
 			, context
+			, config
 			, shaderModule
 			, currentBlock
 			, debugStatement );
@@ -630,12 +647,14 @@ namespace spirv
 	DebugId makeVectorShuffle( ast::expr::ExprCache & exprCache
 		, ast::expr::Swizzle const & expr
 		, PreprocContext const & context
+		, ModuleConfig const & config
 		, Module & shaderModule
 		, Block & currentBlock
 		, glsl::Statement const * debugStatement )
 	{
 		auto typeId = shaderModule.registerType( expr.getType(), nullptr );
 		auto outerId = shaderModule.loadVariable( generateModuleExpr( exprCache, *expr.getOuterExpr()
+				, config
 				, context
 				, currentBlock
 				, shaderModule )

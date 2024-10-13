@@ -369,6 +369,7 @@ namespace spirv
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr const & expr
 				, PreprocContext const & context
+				, ModuleConfig const & moduleConfig
 				, Block & currentBlock
 				, Module & shaderModule
 				, glsl::Statement * currentDebugStatement )
@@ -377,6 +378,7 @@ namespace spirv
 				return submit( exprCache
 					, expr
 					, context
+					, moduleConfig
 					, currentBlock
 					, shaderModule
 					, allLiterals
@@ -386,6 +388,7 @@ namespace spirv
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr const & expr
 				, PreprocContext const & context
+				, ModuleConfig const & moduleConfig
 				, Block & currentBlock
 				, Module & shaderModule
 				, DebugId initialiser
@@ -396,6 +399,7 @@ namespace spirv
 				return submit( exprCache
 					, expr
 					, context
+					, moduleConfig
 					, currentBlock
 					, shaderModule
 					, allLiterals
@@ -407,6 +411,7 @@ namespace spirv
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr const & expr
 				, PreprocContext const & context
+				, ModuleConfig const & moduleConfig
 				, Block & currentBlock
 				, Module & shaderModule
 				, bool & allLiterals
@@ -416,6 +421,7 @@ namespace spirv
 				ExprVisitor vis{ result
 					, exprCache
 					, context
+					, moduleConfig
 					, currentBlock
 					, shaderModule
 					, allLiterals
@@ -433,6 +439,7 @@ namespace spirv
 			static DebugId submit( ast::expr::ExprCache & exprCache
 				, ast::expr::Expr const & expr
 				, PreprocContext const & context
+				, ModuleConfig const & moduleConfig
 				, Block & currentBlock
 				, Module & shaderModule
 				, bool & allLiterals
@@ -444,6 +451,7 @@ namespace spirv
 				ExprVisitor vis{ result
 					, exprCache
 					, context
+					, moduleConfig
 					, currentBlock
 					, shaderModule
 					, allLiterals
@@ -458,12 +466,14 @@ namespace spirv
 			ExprVisitor( DebugId & result
 				, ast::expr::ExprCache & exprCache
 				, PreprocContext const & context
+				, ModuleConfig const & moduleConfig
 				, Block & currentBlock
 				, Module & shaderModule
 				, bool & allLiterals
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
+				, m_moduleConfig{ moduleConfig }
 				, m_typesCache{ shaderModule.getTypesCache() }
 				, m_currentDebugStatement{ currentDebugStatement }
 				, m_result{ result }
@@ -478,6 +488,7 @@ namespace spirv
 			ExprVisitor( DebugId & result
 				, ast::expr::ExprCache & exprCache
 				, PreprocContext const & context
+				, ModuleConfig const & moduleConfig
 				, Block & currentBlock
 				, Module & shaderModule
 				, bool & allLiterals
@@ -486,6 +497,7 @@ namespace spirv
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
+				, m_moduleConfig{ moduleConfig }
 				, m_typesCache{ shaderModule.getTypesCache() }
 				, m_currentDebugStatement{ currentDebugStatement }
 				, m_result{ result }
@@ -500,20 +512,20 @@ namespace spirv
 
 			DebugId doSubmit( ast::expr::Expr const & expr )
 			{
-				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, m_currentDebugStatement );
+				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, m_currentDebugStatement );
 			}
 
 			DebugId doSubmit( ast::expr::Expr const & expr
 				, DebugId initialiser
 				, bool hasFuncInit )
 			{
-				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, std::move( initialiser ), hasFuncInit, m_currentDebugStatement );
+				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, std::move( initialiser ), hasFuncInit, m_currentDebugStatement );
 			}
 
 			DebugId doSubmit( ast::expr::Expr const & expr
 				, bool & allLiterals )
 			{
-				return submit( m_exprCache, expr, m_context, m_currentBlock, m_module, allLiterals, m_currentDebugStatement );
+				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, allLiterals, m_currentDebugStatement );
 			}
 
 			glsl::RangeInfo getColumnData( ast::expr::Expr const & expr )const
@@ -916,6 +928,7 @@ namespace spirv
 				m_result = makeAccessChain( m_exprCache
 					, *expr
 					, m_context
+					, m_moduleConfig
 					, m_module
 					, m_currentBlock
 					, m_currentDebugStatement );
@@ -928,6 +941,7 @@ namespace spirv
 				m_result = makeAccessChain( m_exprCache
 					, *expr
 					, m_context
+					, m_moduleConfig
 					, m_module
 					, m_currentBlock
 					, m_currentDebugStatement );
@@ -1090,6 +1104,7 @@ namespace spirv
 					m_result = makeAccessChain( m_exprCache
 						, *expr
 						, m_context
+						, m_moduleConfig
 						, m_module
 						, m_currentBlock
 						, m_currentDebugStatement );
@@ -1383,6 +1398,7 @@ namespace spirv
 					m_result = loadVariable( makeAccessChain( m_exprCache
 							, *expr
 							, m_context
+							, m_moduleConfig
 							, m_module
 							, m_currentBlock
 							, m_currentDebugStatement )
@@ -1393,6 +1409,7 @@ namespace spirv
 					m_result = loadVariable( makeVectorShuffle( m_exprCache
 							, *expr
 							, m_context
+							, m_moduleConfig
 							, m_module
 							, m_currentBlock
 							, m_currentDebugStatement )
@@ -1480,6 +1497,7 @@ namespace spirv
 				m_result = submit( m_exprCache
 					, *expr->getAliasedExpr()
 					, m_context
+					, m_moduleConfig
 					, m_currentBlock
 					, m_module
 					, m_currentDebugStatement );
@@ -2129,6 +2147,7 @@ namespace spirv
 		private:
 			ast::expr::ExprCache & m_exprCache;
 			spirv::PreprocContext const & m_context;
+			ModuleConfig const & m_moduleConfig;
 			ast::type::TypesCache & m_typesCache;
 			glsl::Statement * m_currentDebugStatement;
 			DebugId & m_result;
@@ -2253,6 +2272,7 @@ namespace spirv
 				return ExprVisitor::submit( m_exprCache
 					, expr
 					, m_context
+					, m_moduleConfig
 					, block
 					, m_result
 					, getCurrentDebugStatement() );
@@ -3141,7 +3161,7 @@ namespace spirv
 			void visitSimpleStmt( ast::stmt::Simple const * stmt )override
 			{
 				TraceFunc;
-				ExprVisitor::submit( m_exprCache, *stmt->getExpr(), m_context, m_currentBlock, m_result, getCurrentDebugStatement() );
+				ExprVisitor::submit( m_exprCache, *stmt->getExpr(), m_context, m_moduleConfig, m_currentBlock, m_result, getCurrentDebugStatement() );
 
 				if ( stmt->getExpr()->getKind() != ast::expr::Kind::eAlias
 					&& stmt->getExpr()->getKind() != ast::expr::Kind::eIdentifier )
@@ -3386,7 +3406,7 @@ namespace spirv
 						, getCurrentDebugStatement() ).id;
 				}
 
-				decorateVar( *var, result, m_result );
+				decorateVar( var, result, m_moduleConfig, m_result );
 				return result;
 			}
 
@@ -3474,6 +3494,7 @@ namespace spirv
 
 	DebugId generateModuleExpr( ast::expr::ExprCache & exprCache
 		, ast::expr::Expr const & expr
+		, ModuleConfig const & moduleConfig
 		, PreprocContext const & context
 		, Block & currentBlock
 		, Module & shaderModule )
@@ -3481,6 +3502,7 @@ namespace spirv
 		return vis::ExprVisitor::submit( exprCache
 			, expr
 			, context
+			, moduleConfig
 			, currentBlock
 			, shaderModule
 			, nullptr );
