@@ -1037,10 +1037,11 @@ namespace sdw
 	template< typename WriterT >
 	struct WriterScopeT
 	{
-	public:
+	private:
 		WriterScopeT( WriterScopeT const & rhs ) = delete;
-		WriterScopeT & operator=( WriterScopeT const& rhs ) = delete;
+		WriterScopeT & operator=( WriterScopeT const & rhs ) = delete;
 
+	public:
 		WriterScopeT( WriterScopeT && rhs )noexcept
 			: m_writer{ rhs.m_writer }
 		{

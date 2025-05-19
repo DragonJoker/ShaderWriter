@@ -13,10 +13,12 @@ namespace sdw
 	struct ReturnWrapperT
 		: public ValueT
 	{
+	private:
 		ReturnWrapperT( ReturnWrapperT const & rhs ) = delete;
 		ReturnWrapperT & operator=( ReturnWrapperT const & rhs ) = delete;
 		ReturnWrapperT & operator=( ReturnWrapperT && rhs )noexcept = delete;
 
+	public:
 		ReturnWrapperT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );

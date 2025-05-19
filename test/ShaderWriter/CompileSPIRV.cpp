@@ -757,11 +757,13 @@ namespace test
 	{
 		struct SPIRVContext
 		{
+		private:
 			SPIRVContext( SPIRVContext const & ) = delete;
 			SPIRVContext & operator=( SPIRVContext const & ) = delete;
 			SPIRVContext( SPIRVContext && )noexcept = delete;
 			SPIRVContext & operator=( SPIRVContext && )noexcept = delete;
 
+		public:
 			SPIRVContext()noexcept
 			{
 				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };

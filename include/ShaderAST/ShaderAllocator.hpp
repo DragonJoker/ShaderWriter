@@ -99,10 +99,12 @@ namespace ast
 
 	class ShaderAllocatorBlock
 	{
+	private:
+		ShaderAllocatorBlock( ShaderAllocatorBlock const & rhs ) = delete;
+		ShaderAllocatorBlock & operator=( ShaderAllocatorBlock const & rhs ) = delete;
+
 	public:
 		SDAST_API explicit ShaderAllocatorBlock( ShaderAllocator & allocator )noexcept;
-		SDAST_API ShaderAllocatorBlock( ShaderAllocatorBlock const & rhs ) = delete;
-		SDAST_API ShaderAllocatorBlock & operator=( ShaderAllocatorBlock const & rhs ) = delete;
 		SDAST_API ShaderAllocatorBlock( ShaderAllocatorBlock && rhs )noexcept;
 		SDAST_API ShaderAllocatorBlock & operator=( ShaderAllocatorBlock && rhs )noexcept;
 		SDAST_API ~ShaderAllocatorBlock()noexcept;

@@ -48,8 +48,11 @@ namespace spirv
 
 	struct Block
 	{
+	private:
 		Block( Block const & rhs ) = delete;
 		Block & operator=( Block const & rhs ) = delete;
+
+	public:
 		SDWSPIRV_API Block( Block && rhs )noexcept;
 		SDWSPIRV_API Block & operator=( Block && rhs )noexcept;
 		SDWSPIRV_API ~Block()noexcept = default;

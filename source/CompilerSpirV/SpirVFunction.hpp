@@ -115,8 +115,11 @@ namespace spirv
 
 	struct Function
 	{
+	private:
 		Function( Function const & rhs ) = delete;
 		Function & operator=( Function const & rhs ) = delete;
+
+	public:
 		SDWSPIRV_API Function( Function && rhs )noexcept = default;
 		SDWSPIRV_API Function & operator=( Function && rhs )noexcept = default;
 		SDWSPIRV_API ~Function()noexcept = default;
