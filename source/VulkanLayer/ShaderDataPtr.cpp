@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "VulkanLayer/ShaderDataPtr.hpp"
 
+#include <algorithm>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )

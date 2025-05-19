@@ -8,6 +8,8 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Type/TypeCache.hpp>
 
+#include <algorithm>
+
 namespace spirv
 {
 	//*************************************************************************

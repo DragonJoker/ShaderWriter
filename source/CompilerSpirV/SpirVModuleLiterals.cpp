@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 #include "CompilerSpirV/SpirVModule.hpp"
 
+#include <algorithm>
+
 namespace spirv
 {
 	//*************************************************************************

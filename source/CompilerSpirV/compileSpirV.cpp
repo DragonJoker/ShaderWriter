@@ -18,6 +18,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
+#include <algorithm>
 #include <iostream>
 
 namespace spirv

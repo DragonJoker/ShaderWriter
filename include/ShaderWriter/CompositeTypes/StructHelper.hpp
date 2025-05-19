@@ -10,6 +10,8 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/Void.hpp"
 
+#include <algorithm>
+
 namespace sdw
 {
 	template< size_t N >

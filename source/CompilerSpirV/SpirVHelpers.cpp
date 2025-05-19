@@ -20,6 +20,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 
+#include <algorithm>
 #include <sstream>
 
 namespace spirv

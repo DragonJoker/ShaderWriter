@@ -7,6 +7,7 @@ See LICENSE file in root folder
 
 #include <CompilerSpirV/compileSpirV.hpp>
 
+#include <algorithm>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )

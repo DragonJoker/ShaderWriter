@@ -11,6 +11,8 @@ See LICENSE file in root folder
 #include "ShaderAST/Visitors/GetExprName.hpp"
 #include "ShaderAST/Visitors/SimplifyStatements.hpp"
 
+#include <algorithm>
+
 namespace ast
 {
 	namespace ssa

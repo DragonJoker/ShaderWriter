@@ -14,6 +14,7 @@
 #	include <sys/sysctl.h>
 #endif
 
+#include <algorithm>
 #include <thread>
 
 namespace test
