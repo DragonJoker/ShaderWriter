@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "ShaderAST/ShaderAllocator.hpp"
 #include "ShaderAST/ShaderLog.hpp"
 
+#include <algorithm>
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )

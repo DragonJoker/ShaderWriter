@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtInputGeometryLayout.hpp>
 #include <ShaderAST/Stmt/StmtOutputGeometryLayout.hpp>
 
+#include <algorithm>
 #include <set>
 #include <unordered_set>
 

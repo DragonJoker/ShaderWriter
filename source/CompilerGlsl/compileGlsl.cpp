@@ -15,6 +15,8 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
+#include <algorithm>
+
 namespace glsl
 {
 	std::string compileGlsl( ast::ShaderAllocatorBlock & allocator
