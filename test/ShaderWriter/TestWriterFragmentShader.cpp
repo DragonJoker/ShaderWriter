@@ -588,9 +588,9 @@ namespace
 				auto nrSamples = writer.declLocale( "nrSamples"
 					, 0_i );
 
-				FOR( writer, Float, phi, 0.0_f, phi < 6.283185482025146484375_f, phi += sampleDelta )
+				sdwFOR( writer, Float, phi, 0.0_f, phi < 6.283185482025146484375_f, phi += sampleDelta )
 				{
-					FOR( writer, Float, theta, 0.0_f, theta < 1.57079637050628662109375_f, theta += sampleDelta )
+					sdwFOR( writer, Float, theta, 0.0_f, theta < 1.57079637050628662109375_f, theta += sampleDelta )
 					{
 						// spherical to cartesian (in tangent space)
 						auto tangentSample = writer.declLocale( "tangentSample"
@@ -602,9 +602,9 @@ namespace
 						irradiance += c3d_mapEnvironment.sample( sampleVec ).rgb() * cos( theta ) * sin( theta );
 						nrSamples = nrSamples + 1;
 					}
-					ROF;
+					sdwROF;
 				}
-				ROF;
+				sdwROF;
 
 				irradiance = irradiance * 3.1415927410125732421875_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
 				out.colour = vec4( irradiance, 1.0_f );
@@ -707,21 +707,21 @@ namespace
 					, vec4( 1.0_f, 1.0_f, 2.0_f, 1.0_f ) );
 				auto sv = s.getMemberArray< Vec4 >( "v" );
 
-				IF( writer, cond != 0_i )
+				sdwIF( writer, cond != 0_i )
 				{
 					color = color1 + sv[2];
 				}
-				ELSE
+				sdwELSE
 				{
 					color = sqrt( color2 ) * scale;
 				}
-				FI;
+				sdwFI;
 
-				FOR( writer, Int, i, 0_i, i < 4_i, ++i )
+				sdwFOR( writer, Int, i, 0_i, i < 4_i, ++i )
 				{
 					color *= multiplier;
 				}
-				ROF;
+				sdwROF;
 			} );
 
 		test::writeShader( writer
@@ -740,11 +740,11 @@ namespace
 		writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
 			, FragmentOutT< ColourT > out )
 			{
-				IF( writer, offpos.x() > 0.0_f )
+				sdwIF( writer, offpos.x() > 0.0_f )
 				{
 					writer.terminate();
 				}
-				FI;
+				sdwFI;
 
 				out.colour = vec4( in.position, 1.0_f );
 			} );
@@ -764,11 +764,11 @@ namespace
 		writer.implementMainT< PositionT, ColourT >( [&]( FragmentInT< PositionT > in
 			, FragmentOutT< ColourT > out )
 			{
-				IF( writer, offpos.x() > 0.0_f )
+				sdwIF( writer, offpos.x() > 0.0_f )
 				{
 					writer.demote();
 				}
-				FI;
+				sdwFI;
 
 				out.colour = vec4( in.position, 1.0_f );
 			} );

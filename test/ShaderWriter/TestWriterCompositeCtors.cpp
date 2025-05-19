@@ -387,21 +387,21 @@ namespace
 					auto value0 = writer.declLocale( "value0", vec4( 0.0_f ) );
 					auto value1 = writer.declLocale( "value1", vec4( 1.0_f ) );
 
-					IF( writer, ssbo[0].a().x() > 0.0_f )
+					sdwIF( writer, ssbo[0].a().x() > 0.0_f )
 					{
 						value1 = ssbo[0].a() * ssbo[0].b();
 					}
-					ELSE
+					sdwELSE
 					{
 						value0 = ssbo[1].a() * ssbo[1].b();
 					}
-					FI;
+					sdwFI;
 
-					IF( writer, in.localInvocationIndex == 0_u )
+					sdwIF( writer, in.localInvocationIndex == 0_u )
 					{
 						ssbo[2].a() = value0 + value1;
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer
@@ -501,11 +501,11 @@ namespace
 					auto result = writer.declLocale( "result"
 						, Intersection{ writer } );
 
-					IF( writer, sphereRadius < 0.0_f )
+					sdwIF( writer, sphereRadius < 0.0_f )
 					{
 						result.t() = max( 0.0_f, 1.0_f );
 					}
-					FI;
+					sdwFI;
 
 					writer.returnStmt( result );
 				}
@@ -860,15 +860,15 @@ namespace
 					auto result = writer.declLocale( "result"
 						, all( lhs == rhs ) );
 
-					IF( writer, result )
+					sdwIF( writer, result )
 					{
 						ssbo[0].e() = uvec4( 1u );
 					}
-					ELSE
+					sdwELSE
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer
@@ -900,15 +900,15 @@ namespace
 					auto result = writer.declLocale( "result"
 						, any( lhs == rhs ) );
 
-					IF( writer, result )
+					sdwIF( writer, result )
 					{
 						ssbo[0].e() = uvec4( 1u );
 					}
-					ELSE
+					sdwELSE
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer
@@ -938,15 +938,15 @@ namespace
 					auto rhs = writer.declLocale( "rhs"
 						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
 
-					IF( writer, all( lhs == rhs ) )
+					sdwIF( writer, all( lhs == rhs ) )
 					{
 						ssbo[0].e() = uvec4( 1u );
 					}
-					ELSE
+					sdwELSE
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer
@@ -976,15 +976,15 @@ namespace
 					auto rhs = writer.declLocale( "rhs"
 						, vec4( 1.0_f, 1.0_f, 1.0_f, 1.0_f ) );
 
-					IF( writer, any( lhs == rhs ) )
+					sdwIF( writer, any( lhs == rhs ) )
 					{
 						ssbo[0].e() = uvec4( 1u );
 					}
-					ELSE
+					sdwELSE
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer
@@ -1039,11 +1039,11 @@ namespace
 				{
 					auto v = writer.declLocale< MyStruct >( "v" );
 
-					IF( writer, !all( v.b == vec3( 0.0_f ) ) )
+					sdwIF( writer, !all( v.b == vec3( 0.0_f ) ) )
 					{
 						ssbo[0].e() = uvec4( 1u );
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer
@@ -1145,13 +1145,13 @@ namespace
 							auto result = writer.declLocale( "result"
 								, vec4( 0.0_f ) );
 
-							FOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
+							sdwFOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
 							{
 								auto value = writer.declLocale( "value"
 									, normalize( values[i] + ssbo[0].b().xyz() ) );
 								result.xyz() += value;
 							}
-							ROF;
+							sdwROF;
 
 							// final radiance is average of all the cones radiances
 							ssbo[0].a() = result;
@@ -1160,20 +1160,20 @@ namespace
 					auto result = writer.declLocale( "result"
 						, vec4( 0.0_f ) );
 
-					FOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
+					sdwFOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
 					{
 						auto value = writer.declLocale( "value"
 							, normalize( values[i] + ssbo[0].b().xyz() ) );
 						result.xyz() += value;
 					}
-					ROF;
+					sdwROF;
 
-					IF( writer, in.localInvocationIndex == 0_u )
+					sdwIF( writer, in.localInvocationIndex == 0_u )
 					{
 						// final radiance is average of all the cones radiances
 						ssbo[0].a() = result;
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer

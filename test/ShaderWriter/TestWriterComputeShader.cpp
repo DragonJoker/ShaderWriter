@@ -317,14 +317,14 @@ namespace
 					auto color = writer.declLocale( "color"
 						, decodeColor( voxels[in.globalInvocationID.x()].colorMask ) );
 
-					IF( writer, color.a() > 0.0_f )
+					sdwIF( writer, color.a() > 0.0_f )
 					{
 						auto coord = writer.declLocale( "coord"
 							, ivec3( unflatten( in.globalInvocationID.x()
 								, uvec3( writer.cast< UInt >( c3d_voxelResolution ) ) ) ) );
 						result.store( coord, color );
 					}
-					FI;
+					sdwFI;
 
 					voxels[in.globalInvocationID.x()].colorMask = 0_u;
 				} );

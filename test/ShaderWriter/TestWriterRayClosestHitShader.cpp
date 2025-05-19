@@ -282,11 +282,11 @@ namespace
 						// Lambertian
 						auto dotNL = writer.declLocale( "dotNL", max( dot( normal, lightDir ), 0.0_f ) );
 						auto c = writer.declLocale( "c", mat.diffuse * dotNL );
-						IF( writer, mat.illum >= 1_i )
+						sdwIF( writer, mat.illum >= 1_i )
 						{
 							c += mat.ambient;
 						}
-						FI
+						sdwFI
 							writer.returnStmt( c );
 					}
 					, sdw::InParam< WaveFrontMaterialT< LayoutT > >{ writer, "mat" }
@@ -309,11 +309,11 @@ namespace
 						, sdw::Vec3 lightDir
 						, sdw::Vec3 normal )
 					{
-						IF( writer, mat.illum < 2_i )
+						sdwIF( writer, mat.illum < 2_i )
 						{
 							writer.returnStmt( vec3( 0.0_f ) );
 						}
-						FI;
+						sdwFI;
 
 						// Compute specular only if not in shadow
 						auto const kPi = writer.declLocale( "kPi", 3.14159265_f );
@@ -601,18 +601,18 @@ namespace
 					auto lightDistance = writer.declLocale( "lightDistance", 100000.0_f );
 
 					// Point light
-					IF( writer, pcLightType == 0_i )
+					sdwIF( writer, pcLightType == 0_i )
 					{
 						auto lDir = writer.declLocale( "lDir", pcLightPosition - worldPos );
 						lightDistance = length( lDir );
 						lightIntensity = pcLightIntensity / ( lightDistance * lightDistance );
 						L = normalize( lDir );
 					}
-					ELSE  // Directional light
+					sdwELSE  // Directional light
 					{
 						L = normalize( pcLightPosition );
 					}
-					FI;
+					sdwFI;
 
 					// Material of the object
 					auto matIdx = writer.declLocale( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
@@ -620,19 +620,19 @@ namespace
 
 					// Diffuse
 					auto diffuse = writer.declLocale( "diffuse", mat.computeDiffuse( L, worldNrm ) );
-					IF( writer, mat.textureId >= 0_i )
+					sdwIF( writer, mat.textureId >= 0_i )
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
 						auto texCoord = writer.declLocale( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
 						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
 					}
-					FI;
+					sdwFI;
 
 					auto specular = writer.declLocale( "specular", vec3( 0.0_f ) );
 					auto attenuation = writer.declLocale( "attenuation", 1.0_f );
 
 					// Tracing shadow ray only if the light is visible from the surface
-					IF( writer, dot( worldNrm, L ) > 0.0_f )
+					sdwIF( writer, dot( worldNrm, L ) > 0.0_f )
 					{
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
 						auto ray = writer.declLocale< RayDesc >( "ray" );
@@ -650,18 +650,18 @@ namespace
 							, 1_u						// missIndex
 							, ray );
 
-						IF( writer, isShadowed )
+						sdwIF( writer, isShadowed )
 						{
 							attenuation = 0.3_f;
 						}
-						ELSE
+						sdwELSE
 						{
 							// Specular
 							specular = mat.computeSpecular( in.worldRayDirection, L, worldNrm );
 						}
-						FI;
+						sdwFI;
 					}
-					FI;
+					sdwFI;
 
 					prd.hitValue = vec3( lightIntensity * attenuation * ( diffuse + specular ) );
 				} );
@@ -736,19 +736,19 @@ namespace
 
 					// Diffuse
 					auto diffuse = writer.declLocale( "diffuse", mat.computeDiffuse( cLight.outLightDir, worldNrm ) );
-					IF( writer, mat.textureId >= 0_i )
+					sdwIF( writer, mat.textureId >= 0_i )
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
 						auto texCoord = writer.declLocale( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
 						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
 					}
-					FI;
+					sdwFI;
 
 					auto specular = writer.declLocale( "specular", vec3( 0.0_f ) );
 					auto attenuation = writer.declLocale( "attenuation", 1.0_f );
 
 					// Tracing shadow ray only if the light is visible from the surface
-					IF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
+					sdwIF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
 					{
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
 						auto ray = writer.declLocale< RayDesc >( "ray" );
@@ -766,18 +766,18 @@ namespace
 							, 1_u					// missIndex
 							, ray );
 
-						IF( writer, isShadowed )
+						sdwIF( writer, isShadowed )
 						{
 							attenuation = 0.3_f;
 						}
-						ELSE
+						sdwELSE
 						{
 							// Specular
 							specular = mat.computeSpecular( in.worldRayDirection, cLight.outLightDir, worldNrm );
 						}
-						FI;
+						sdwFI;
 					}
-					FI;
+					sdwFI;
 
 					prd.hitValue = vec3( cLight.outIntensity * attenuation * ( diffuse + specular ) );
 				} );
@@ -857,19 +857,19 @@ namespace
 
 					// Diffuse
 					auto diffuse = writer.declLocale( "diffuse", mat.computeDiffuse( cLight.outLightDir, worldNrm ) );
-					IF( writer, mat.textureId >= 0_i )
+					sdwIF( writer, mat.textureId >= 0_i )
 					{
 						auto txtId = writer.declLocale( "txtId", writer.cast< UInt >( mat.textureId + objDescs[writer.cast< UInt >( in.instanceCustomIndex )].txtOffset ) );
 						auto texCoord = writer.declLocale( "texCoord", v0.texCoord * barycentrics.x() + v1.texCoord * barycentrics.y() + v2.texCoord * barycentrics.z() );
 						diffuse *= textureSamplers[nonuniform( txtId )].lod( texCoord, 0.0_f ).xyz();
 					}
-					FI;
+					sdwFI;
 
 					auto specular = writer.declLocale( "specular", vec3( 0.0_f ) );
 					auto attenuation = writer.declLocale( "attenuation", 1.0_f );
 
 					// Tracing shadow ray only if the light is visible from the surface
-					IF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
+					sdwIF( writer, dot( worldNrm, cLight.outLightDir ) > 0.0_f )
 					{
 						auto flags = writer.declLocale( "flags", RayFlags::TerminateOnFirstHit() | RayFlags::Opaque() | RayFlags::SkipClosestHitShader() );
 						auto ray = writer.declLocale< RayDesc >( "ray" );
@@ -887,18 +887,18 @@ namespace
 							, 1_u					// missIndex
 							, ray );
 
-						IF( writer, isShadowed )
+						sdwIF( writer, isShadowed )
 						{
 							attenuation = 0.3_f;
 						}
-						ELSE
+						sdwELSE
 						{
 							// Specular
 							specular = mat.computeSpecular( in.worldRayDirection, cLight.outLightDir, worldNrm );
 						}
-						FI;
+						sdwFI;
 					}
-					FI;
+					sdwFI;
 
 					prd.hitValue = vec3( cLight.outIntensity * attenuation * ( diffuse + specular ) );
 				} );

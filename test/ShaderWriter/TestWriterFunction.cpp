@@ -1247,11 +1247,11 @@ namespace
 			, [&]( St const & m
 				, Vec4 const & p )
 			{
-				FOR( writer, UInt, i, 0_u, i < 4_u, ++i )
+				sdwFOR( writer, UInt, i, 0_u, i < 4_u, ++i )
 				{
 					m.b[i] *= p;
 				}
-				ROF;
+				sdwROF;
 				writer.returnStmt( m.a * p );
 			}
 			, InSt{ writer, "m" }
@@ -1362,11 +1362,11 @@ namespace
 			, [&]( St const & str
 				, Vec4 const & pos )
 			{
-				FOR( writer, UInt, i, 0_u, i < 4_u, ++i )
+				sdwFOR( writer, UInt, i, 0_u, i < 4_u, ++i )
 				{
 					str.b[i] *= pos;
 				}
-				ROF;
+				sdwROF;
 				writer.returnStmt( str.a * pos );
 			}
 			, InSt{ writer, "str" }
@@ -1651,11 +1651,11 @@ namespace
 			, [&]( Float test
 				, Float const & end )
 			{
-				WHILE( writer, test > end )
+				sdwWHILE( writer, test > end )
 				{
 					test -= end;
 				}
-				ELIHW;
+				sdwELIHW;
 
 				writer.returnStmt( test );
 			}
@@ -1696,11 +1696,11 @@ namespace
 				, Float ptest
 				, Float const & pend )
 			{
-				WHILE( writer, ptest > pend )
+				sdwWHILE( writer, ptest > pend )
 				{
 					ptest = foo01( pst.a.x(), pend );
 				}
-				ELIHW;
+				sdwELIHW;
 
 				writer.returnStmt( pst.a.x() );
 			}
@@ -1731,11 +1731,11 @@ namespace
 			, [&]( Float const & gamma
 				, Vec3 const & srgb )
 			{
-				IF( writer, gamma < 0.0_f )
+				sdwIF( writer, gamma < 0.0_f )
 				{
 					writer.returnStmt( srgb );
 				}
-				FI;
+				sdwFI;
 
 				writer.returnStmt( pow( srgb, vec3( gamma ) ) );
 			}
@@ -1787,15 +1787,15 @@ namespace
 		auto foo03 = writer.implementFunction< Float >( "foo03"
 			, [&]( Vec4 const & p )
 			{
-				IF( writer, p.x() )
+				sdwIF( writer, p.x() )
 				{
 					writer.returnStmt( p.y() );
 				}
-				ELSE
+				sdwELSE
 				{
 					writer.returnStmt( p.z() );
 				}
-				FI;
+				sdwFI;
 			}
 			, InVec4{ writer, "p" } );
 
@@ -1830,13 +1830,13 @@ namespace
 				auto t = writer.declLocale( "t"
 					, vec3( 0.5_f, 1.2_f, 1.0_f ) );
 
-				WHILE( writer, coord.z() < 15.0_f && coord.w() > 0.9_f )
+				sdwWHILE( writer, coord.z() < 15.0_f && coord.w() > 0.9_f )
 				{
 					coord.xyz() = fma( t, vec3( dir, 1.0_f ), coord.xyz() );
 					e = normalize( coord.xy() );
 					coord.w() = dot( e, vec2( 0.5_f, 0.5_f ) );
 				}
-				ELIHW;
+				sdwELIHW;
 
 				writer.returnStmt( coord.zw() );
 			}
@@ -1870,15 +1870,15 @@ namespace
 				auto bgColour = writer.declLocale( "bgColour", colour );
 				auto result = writer.declLocale( "result", colour );
 
-				IF( writer, type == 0_u )
+				sdwIF( writer, type == 0_u )
 				{
 					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
 				}
-				ELSEIF( type == 1_u )
+				sdwELSEIF( type == 1_u )
 				{
 					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
 				}
-				FI;
+				sdwFI;
 
 				writer.returnStmt( result );
 			}
@@ -1911,11 +1911,11 @@ namespace
 					, [&]( Float const & gamma
 						, Vec3 const & srgb )
 					{
-						IF( writer, gamma < 0.0_f )
+						sdwIF( writer, gamma < 0.0_f )
 						{
 							writer.returnStmt( srgb );
 						}
-						FI;
+						sdwFI;
 
 						writer.returnStmt( pow( srgb, vec3( gamma ) ) );
 					}

@@ -125,15 +125,15 @@ namespace
 						auto b = m_writer->declLocale( "b", 2.0_f * dot( oc, r.direction ) );
 						auto c = m_writer->declLocale( "c", dot( oc, oc ) - s.radius * s.radius );
 						auto discriminant = m_writer->declLocale( "discriminant", b * b - 4.0_f * a * c );
-						IF( *m_writer, discriminant < 0.0_f )
+						sdwIF( *m_writer, discriminant < 0.0_f )
 						{
 							m_writer->returnStmt( -1.0_f );
 						}
-						ELSE
+						sdwELSE
 						{
 							m_writer->returnStmt( ( -b - sqrt( discriminant ) ) / ( 2.0_f * a ) );
 						}
-						FI;
+						sdwFI
 					}
 					, sdw::InParam< Sphere >{ *m_writer, "s" }
 					, sdw::InParam< Ray >{ *m_writer, "r" } );
@@ -201,12 +201,12 @@ namespace
 					auto tHit = writer.declLocale( "tHit", -1.0_f );
 					auto hitKind = writer.declLocale( "hitKind", writer.ternary( in.primitiveID % 2_i == 0_i, KIND_SPHERE, KIND_CUBE ) );
 
-					IF( writer, hitKind == KIND_SPHERE )
+					sdwIF( writer, hitKind == KIND_SPHERE )
 					{
 						// Sphere intersection
 						tHit = ray.hitSphere( sphere );
 					}
-					ELSE
+					sdwELSE
 					{
 						// AABB intersection
 						auto aabb = writer.declLocale< Aabb >( "aabb" );
@@ -214,15 +214,15 @@ namespace
 						aabb.maximum = sphere.center + vec3( sphere.radius );
 						tHit = ray.hitAabb( aabb );
 					}
-					FI;
+					sdwFI
 
 					// Report hit point
-					IF( writer, tHit > 0.0_f )
+					sdwIF( writer, tHit > 0.0_f )
 					{
 						auto attribs = writer.declHitAttribute< sdw::Vec2 >( "attribs" );
 						attribs.reportIntersection( tHit, writer.cast< UInt >( hitKind ) );
 					}
-					FI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts

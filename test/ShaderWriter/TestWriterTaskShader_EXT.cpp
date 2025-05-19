@@ -526,11 +526,11 @@ namespace
 					, Float scale
 					, Vec3 viewPos )
 				{
-					IF( writer, ( instance.flags & CullFlag ) == 0_u )
+					sdwIF( writer, ( instance.flags & CullFlag ) == 0_u )
 					{
 						writer.returnStmt( Boolean{ true } );
 					}
-					FI;
+					sdwFI
 
 					// Do a cull test of the bounding sphere against the view frustum planes.
 					auto center = writer.declLocale( "center", vec4( c.boundingSphere.xyz(), 1.0_f ) * world );
@@ -538,19 +538,19 @@ namespace
 
 					for ( int i = 0; i < 6; ++i )
 					{
-						IF( writer, dot( center, constants.planes[i] ) < -radius )
+						sdwIF( writer, dot( center, constants.planes[i] ) < -radius )
 						{
 							writer.returnStmt( Boolean{ false } );
 						}
-						FI;
+						sdwFI
 					}
 
 					// Do normal cone culling
-					IF( writer, isConeDegenerate( c ) )
+					sdwIF( writer, isConeDegenerate( c ) )
 					{
 						writer.returnStmt( Boolean{ true } ); // Cone is degenerate - spread is wider than a hemisphere.
 					}
-					FI;
+					sdwFI
 
 					// Unpack the normal cone from its 8-bit uint compression
 					auto normalCone = writer.declLocale( "normalCone", unpackCone( c.normalCone ) );
@@ -564,11 +564,11 @@ namespace
 
 					// The normal cone w-component stores -cos(angle + 90 deg)
 					// This is the min dot product along the inverted axis from which all the meshlet's triangles are backface
-					IF( writer, dot( view, -axis ) > normalCone.w() )
+					sdwIF( writer, dot( view, -axis ) > normalCone.w() )
 					{
 						writer.returnStmt( Boolean{ false } );
 					}
-					FI;
+					sdwFI
 
 					// All tests passed - it will merit pixels
 					writer.returnStmt( Boolean{ true } );
@@ -590,22 +590,22 @@ namespace
 				auto visible = writer.declLocale( "visible", Boolean{ false } );
 
 				// Check bounds of meshlet cull data resource
-				IF( writer, dtid < meshInfos.meshletCount )
+				sdwIF( writer, dtid < meshInfos.meshletCount )
 				{
 					// Do visibility testing for this thread
 					visible = isVisible( meshletCullData[dtid]
 						, instance.world
 						, instance.scale, constants.cullViewPosition );
 				}
-				FI;
+				sdwFI
 
 				// Compact visible meshlets into the export payload array
-				IF( writer, visible )
+				sdwIF( writer, visible )
 				{
 					//auto index = writer.declLocale( "index", WavePrefixCountBits( visible ) );
 					payload.meshletIndices[7_u/*index*/] = dtid;
 				}
-				FI;
+				sdwFI
 
 				// Dispatch the required number of MS threadgroups to render the visible meshlets
 				//auto visibleCount = writer.declLocale( "visibleCount", WaveActiveCountBits( visible ) );

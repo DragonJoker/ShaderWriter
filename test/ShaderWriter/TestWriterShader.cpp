@@ -310,11 +310,11 @@ namespace
 			writer.implementMainT< PosColT, ColourT >( [&writer]( FragmentInT< PosColT > const & in
 				, FragmentOutT< ColourT > const & out )
 				{
-					IF( writer, in.position().x() < 0.0_f )
+					sdwIF( writer, in.position().x() < 0.0_f )
 					{
 						writer.demote();
 					}
-					FI
+					sdwFI
 
 					out.colour() = in.colour();
 				} );
@@ -1018,22 +1018,22 @@ namespace
 					auto axis = writer.declLocale( "axis", 0_u );
 
 					//Find the axis the maximize the projected area of this triangle
-					IF( writer, NdotXAxis > NdotYAxis && NdotXAxis > NdotZAxis )
+					sdwIF( writer, NdotXAxis > NdotYAxis && NdotXAxis > NdotZAxis )
 					{
 						proj = c3d_vpX;
 						axis = 1_u;
 					}
-					ELSEIF( NdotYAxis > NdotXAxis && NdotYAxis > NdotZAxis )
+					sdwELSEIF( NdotYAxis > NdotXAxis && NdotYAxis > NdotZAxis )
 					{
 						proj = c3d_vpY;
 						axis = 2_u;
 					}
-					ELSE
+					sdwELSE
 					{
 						proj = c3d_vpZ;
 						axis = 3_u;
 					}
-					FI
+						sdwFI
 
 					auto pos = writer.declLocaleArray< Vec4 >( "pos", 3u );
 
@@ -1122,7 +1122,7 @@ namespace
 			writer.implementMainT< IOVoxelGeomT, ColourT >( [&writer, c3d_size, &pxl_voxelVisibility]( FragmentInT< IOVoxelGeomT > const & in
 				, FragmentOutT< ColourT > const & out )
 				{
-					IF( writer
+					sdwIF( writer
 						, in.position().x() < in.aabb().x()
 						|| in.position().y() < in.aabb().y()
 						|| in.position().x() > in.aabb().z()
@@ -1130,7 +1130,7 @@ namespace
 					{
 						writer.terminate();
 					}
-					FI
+					sdwFI
 
 					auto width = writer.declLocale( "width"
 						, writer.cast< Int >( c3d_size.x() ) );
@@ -1140,23 +1140,23 @@ namespace
 							, width * writer.cast< Int >( in.fragCoord.z() ) ) );
 					auto texcoord = writer.declLocale< IVec3 >( "texcoord" );
 
-					IF( writer, in.axis() == 1_u )
+					sdwIF( writer, in.axis() == 1_u )
 					{
 						texcoord.x() = width - temp.z();
 						texcoord.z() = temp.x();
 						texcoord.y() = temp.y();
 					}
-					ELSEIF( in.axis() == 2_u )
+					sdwELSEIF( in.axis() == 2_u )
 					{
 						texcoord.z() = temp.y();
 						texcoord.y() = width - temp.z();
 						texcoord.x() = temp.x();
 					}
-					ELSE
+					sdwELSE
 					{
 						texcoord = temp;
 					}
-					FI
+					sdwFI
 
 					pxl_voxelVisibility.store( texcoord, 1_u );
 					out.colour() = vec4( vec3( texcoord ), 1.0_f );
@@ -1208,19 +1208,19 @@ namespace
 					auto avgDistance = writer.declLocale( "avgDistance"
 						, ( a + b ) / 2.0_f );
 
-					IF( writer, avgDistance <= 20.0_f )
+					sdwIF( writer, avgDistance <= 20.0_f )
 					{
 						writer.returnStmt( 256.0_f );
 					}
-					ELSEIF( avgDistance <= 50.0_f )
+					sdwELSEIF( avgDistance <= 50.0_f )
 					{
 						writer.returnStmt( 128.0_f );
 					}
-					ELSEIF( avgDistance <= 100.0_f )
+					sdwELSEIF( avgDistance <= 100.0_f )
 					{
 						writer.returnStmt( 64.0_f );
 					}
-					FI
+					sdwFI
 
 					writer.returnStmt( 16.0_f );
 				}
@@ -1541,9 +1541,9 @@ namespace
 					auto nrSamples = writer.declLocale( "nrSamples"
 						, 0_i );
 
-					FOR( writer, Float, phi, 0.0_f, phi < 6.253184_f, phi += sampleDelta )
+					sdwFOR( writer, Float, phi, 0.0_f, phi < 6.253184_f, phi += sampleDelta )
 					{
-						FOR( writer, Float, theta, 0.0_f, theta < 1.570796_f, theta += sampleDelta )
+						sdwFOR( writer, Float, theta, 0.0_f, theta < 1.570796_f, theta += sampleDelta )
 						{
 							// spherical to cartesian (in tangent space)
 							auto tangentSample = writer.declLocale( "tangentSample"
@@ -1555,9 +1555,9 @@ namespace
 							irradiance += c3d_mapEnvironment.lod( sampleVec, 0.0_f ).rgb() * cos( theta ) * sin( theta );
 							nrSamples = nrSamples + 1;
 						}
-						ROF;
+						sdwROF;
 					}
-					ROF;
+					sdwROF;
 
 					irradiance = irradiance * 3.141592_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
 					outColour = vec4( irradiance, 1.0_f );

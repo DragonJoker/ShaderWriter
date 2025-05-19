@@ -1103,19 +1103,19 @@ namespace
 					auto avgDistance = writer.declLocale( "avgDistance"
 						, ( a + b ) / 2.0_f );
 
-					IF( writer, avgDistance <= 20.0_f )
+					sdwIF( writer, avgDistance <= 20.0_f )
 					{
 						writer.returnStmt( 256.0_f );
 					}
-					ELSEIF( avgDistance <= 50.0_f )
+					sdwELSEIF( avgDistance <= 50.0_f )
 					{
 						writer.returnStmt( 128.0_f );
 					}
-					ELSEIF( avgDistance <= 100.0_f )
+					sdwELSEIF( avgDistance <= 100.0_f )
 					{
 						writer.returnStmt( 64.0_f );
 					}
-					FI;
+					sdwFI
 
 					writer.returnStmt( 16.0_f );
 				}
