@@ -15,11 +15,11 @@ namespace
 
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 1_i );
-				IF( writer, ctrlVar != 0_i )
+				sdwIF( writer, ctrlVar != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -33,15 +33,15 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 1_i );
-				IF( writer, ctrlVar != 0_i )
+				sdwIF( writer, ctrlVar != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				ELSE
+				sdwELSE
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -56,15 +56,15 @@ namespace
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 != 0_i )
+				sdwIF( writer, ctrlVar1 != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				ELSEIF( ctrlVar2 != 0_i )
+				sdwELSEIF( ctrlVar2 != 0_i )
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -79,19 +79,19 @@ namespace
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 != 0_i )
+				sdwIF( writer, ctrlVar1 != 0_i )
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				ELSEIF( ctrlVar2 != 0_i )
+				sdwELSEIF( ctrlVar2 != 0_i )
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
-				ELSE
+				sdwELSE
 				{
 					auto k = writer.declLocale< sdw::Int >( "k" );
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -105,20 +105,20 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrl = writer.declLocale< sdw::Int >( "ctrl" );
-				SWITCH( writer, ctrl )
+				sdwSWITCH( writer, ctrl )
 				{
-					CASE( 0 )
+					sdwCASE( 0 )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					ESAC;
-					CASE( 1 )
+					sdwESAC;
+					sdwCASE( 1 )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
-					ESAC;
+					sdwESAC;
 				}
-				HCTIWS;
+				sdwHCTIWS;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -131,11 +131,11 @@ namespace
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
-				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
+				sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
-				ROF;
+				sdwROF;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -148,11 +148,11 @@ namespace
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
-				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
+				sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
-				ROF;
+				sdwROF;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -165,11 +165,11 @@ namespace
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
-				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
+				sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
-				ROF;
+				sdwROF;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -183,11 +183,11 @@ namespace
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 				{
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
+					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					ROF;
+					sdwROF;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -202,10 +202,10 @@ namespace
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 				{
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
+					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
 					{
 					}
-					ROF;
+					sdwROF;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -220,31 +220,31 @@ namespace
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 				{
-					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
+					sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar += 10_i )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					ROF;
-					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
+					sdwROF;
+					sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					ROF;
-					FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
+					sdwROF;
+					sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					ROF;
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
+					sdwROF;
+					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					ROF;
-					FOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
+					sdwROF;
+					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					ROF;
+					sdwROF;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -259,11 +259,11 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 20_i );
-				WHILE( writer, ctrlVar != 0_i )
+				sdwWHILE( writer, ctrlVar != 0_i )
 				{
 					ctrlVar = ctrlVar - 1_i;
 				}
-				ELIHW;
+				sdwELIHW;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -277,11 +277,11 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar = writer.declLocale< sdw::Int >( "ctrlVar", 20_i );
-				DOWHILE( writer, ctrlVar != 0_i )
+				sdwDOWHILE( writer, ctrlVar != 0_i )
 				{
 					ctrlVar = ctrlVar - 1_i;
 				}
-				ELIHWOD;
+				sdwELIHWOD;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -295,16 +295,16 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
-				IF( writer, ctrlVar1 != 0_i )
+				sdwIF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 1_i );
-					IF( writer, ctrlVar2 != 0_i )
+					sdwIF( writer, ctrlVar2 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					FI;
+					sdwFI;
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -318,33 +318,33 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
-				IF( writer, ctrlVar1 != 0_i )
+				sdwIF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 1_i );
-					IF( writer, ctrlVar2 != 0_i )
+					sdwIF( writer, ctrlVar2 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
-					FI;
+					sdwFI;
 				}
-				ELSE
+				sdwELSE
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 1_i );
-					IF( writer, ctrlVar2 != 0_i )
+					sdwIF( writer, ctrlVar2 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "j" );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto j = writer.declLocale< sdw::Int >( "k" );
 					}
-					FI;
+					sdwFI;
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -359,35 +359,35 @@ namespace
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 != 0_i )
+				sdwIF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 != 0_i )
+					sdwIF( writer, ctrlVar3 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					ELSEIF( ctrlVar4 != 0_i )
+					sdwELSEIF( ctrlVar4 != 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
-					FI;
+					sdwFI;
 				}
-				ELSEIF( ctrlVar2 != 0_i )
+				sdwELSEIF( ctrlVar2 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 != 0_i )
+					sdwIF( writer, ctrlVar3 != 0_i )
 					{
 						auto k = writer.declLocale< sdw::Int >( "k" );
 					}
-					ELSEIF( ctrlVar4 != 0_i )
+					sdwELSEIF( ctrlVar4 != 0_i )
 					{
 						auto l = writer.declLocale< sdw::Int >( "l" );
 					}
-					FI;
+					sdwFI;
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -402,61 +402,61 @@ namespace
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 1_i );
 				auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 0_i );
-				IF( writer, ctrlVar1 != 0_i )
+				sdwIF( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 != 0_i )
+					sdwIF( writer, ctrlVar3 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					ELSEIF( ctrlVar4 != 0_i )
+					sdwELSEIF( ctrlVar4 != 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto k = writer.declLocale< sdw::Int >( "k" );
 					}
-					FI;
+					sdwFI;
 				}
-				ELSEIF( ctrlVar2 != 0_i )
+				sdwELSEIF( ctrlVar2 != 0_i )
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 != 0_i )
+					sdwIF( writer, ctrlVar3 != 0_i )
 					{
 						auto l = writer.declLocale< sdw::Int >( "l" );
 					}
-					ELSEIF( ctrlVar4 != 0_i )
+					sdwELSEIF( ctrlVar4 != 0_i )
 					{
 						auto m = writer.declLocale< sdw::Int >( "m" );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto n = writer.declLocale< sdw::Int >( "n" );
 					}
-					FI;
+					sdwFI;
 				}
-				ELSE
+				sdwELSE
 				{
 					auto ctrlVar3 = writer.declLocale< sdw::Int >( "ctrlVar3", 1_i );
 					auto ctrlVar4 = writer.declLocale< sdw::Int >( "ctrlVar4", 1_i );
-					IF( writer, ctrlVar3 != 0_i )
+					sdwIF( writer, ctrlVar3 != 0_i )
 					{
 						auto o = writer.declLocale< sdw::Int >( "o" );
 					}
-					ELSEIF( ctrlVar4 != 0_i )
+					sdwELSEIF( ctrlVar4 != 0_i )
 					{
 						auto p = writer.declLocale< sdw::Int >( "p" );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto q = writer.declLocale< sdw::Int >( "q" );
 					}
-					FI;
+					sdwFI;
 				}
-				FI;
+				sdwFI;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -469,15 +469,15 @@ namespace
 		sdw::VertexWriter writer{ &testCounts.allocator };
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
-				FOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
+				sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
 				{
-					FOR( writer, sdw::Int, ctrlVar2, 0_i, ctrlVar2 < 20_i, ++ctrlVar2 )
+					sdwFOR( writer, sdw::Int, ctrlVar2, 0_i, ctrlVar2 < 20_i, ++ctrlVar2 )
 					{
 						auto i = writer.declLocale( "i", ctrlVar2 );
 					}
-					ROF;
+					sdwROF;
 				}
-				ROF;
+				sdwROF;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -491,17 +491,17 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 20_i );
-				WHILE( writer, ctrlVar1 != 0_i )
+				sdwWHILE( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 20_i );
-					WHILE( writer, ctrlVar2 != 0_i )
+					sdwWHILE( writer, ctrlVar2 != 0_i )
 					{
 						ctrlVar2 = ctrlVar2 - 1_i;
 					}
-					ELIHW;
+					sdwELIHW;
 					ctrlVar1 = ctrlVar1 - 1_i;
 				}
-				ELIHW;
+				sdwELIHW;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -515,17 +515,17 @@ namespace
 		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
 			{
 				auto ctrlVar1 = writer.declLocale< sdw::Int >( "ctrlVar1", 20_i );
-				DOWHILE( writer, ctrlVar1 != 0_i )
+				sdwDOWHILE( writer, ctrlVar1 != 0_i )
 				{
 					auto ctrlVar2 = writer.declLocale< sdw::Int >( "ctrlVar2", 20_i );
-					DOWHILE( writer, ctrlVar2 != 0_i )
+					sdwDOWHILE( writer, ctrlVar2 != 0_i )
 					{
 						ctrlVar2 = ctrlVar2 - 1_i;
 					}
-					ELIHWOD;
+					sdwELIHWOD;
 					ctrlVar1 = ctrlVar1 - 1_i;
 				}
-				ELIHWOD;
+				sdwELIHWOD;
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -557,15 +557,15 @@ namespace
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
 					auto ctrlVar = writer.declConstant< sdw::Int >( "ctrlVar", 1_i );
-					IF( writer, ctrlVar != 0_i )
+					sdwIF( writer, ctrlVar != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -585,15 +585,15 @@ namespace
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
 					auto ctrlVar = writer.declConstant< sdw::Int >( "ctrlVar", 1_i );
-					IF( writer, ctrlVar == 0_i )
+					sdwIF( writer, ctrlVar == 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -614,19 +614,19 @@ namespace
 				{
 					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
 					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
-					IF( writer, ctrlVar1 != 0_i )
+					sdwIF( writer, ctrlVar1 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 					}
-					ELSEIF( ctrlVar2 == 0_i )
+					sdwELSEIF( ctrlVar2 == 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -647,19 +647,19 @@ namespace
 				{
 					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
 					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
-					IF( writer, ctrlVar1 != 0_i )
+					sdwIF( writer, ctrlVar1 != 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 					}
-					ELSEIF( ctrlVar2 != 0_i )
+					sdwELSEIF( ctrlVar2 != 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -680,19 +680,19 @@ namespace
 				{
 					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
 					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
-					IF( writer, ctrlVar1 == 0_i )
+					sdwIF( writer, ctrlVar1 == 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 					}
-					ELSEIF( ctrlVar2 == 0_i )
+					sdwELSEIF( ctrlVar2 == 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -713,19 +713,19 @@ namespace
 				{
 					auto ctrlVar1 = writer.declConstant< sdw::Int >( "ctrlVar1", 1_i );
 					auto ctrlVar2 = writer.declConstant< sdw::Int >( "ctrlVar2", 0_i );
-					IF( writer, ctrlVar1 == 0_i )
+					sdwIF( writer, ctrlVar1 == 0_i )
 					{
 						auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 					}
-					ELSEIF( ctrlVar2 != 0_i )
+					sdwELSEIF( ctrlVar2 != 0_i )
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					ELSE
+					sdwELSE
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -745,25 +745,25 @@ namespace
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
 					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 0_i );
-					SWITCH( writer, ctrl )
+					sdwSWITCH( writer, ctrl )
 					{
-						CASE( 0 )
+						sdwCASE( 0 )
 						{
 							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 						}
-						ESAC;
-						CASE( 1 )
+						sdwESAC;
+						sdwCASE( 1 )
 						{
 							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 						}
-						ESAC;
-						DEFAULT
+						sdwESAC;
+						sdwDEFAULT
 						{
 							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 						}
-						TLUAFED;
+						sdwTLUAFED;
 					}
-					HCTIWS;
+					sdwHCTIWS;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -783,25 +783,25 @@ namespace
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
 					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 1_i );
-					SWITCH( writer, ctrl )
+					sdwSWITCH( writer, ctrl )
 					{
-						CASE( 0 )
+						sdwCASE( 0 )
 						{
 							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 						}
-						ESAC;
-						CASE( 1 )
+						sdwESAC;
+						sdwCASE( 1 )
 						{
 							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 						}
-						ESAC;
-						DEFAULT
+						sdwESAC;
+						sdwDEFAULT
 						{
 							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 						}
-						TLUAFED;
+						sdwTLUAFED;
 					}
-					HCTIWS;
+					sdwHCTIWS;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -821,25 +821,25 @@ namespace
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
 					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 2_i );
-					SWITCH( writer, ctrl )
+					sdwSWITCH( writer, ctrl )
 					{
-						CASE( 0 )
+						sdwCASE( 0 )
 						{
 							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 						}
-						ESAC;
-						CASE( 1 )
+						sdwESAC;
+						sdwCASE( 1 )
 						{
 							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 						}
-						ESAC;
-						DEFAULT
+						sdwESAC;
+						sdwDEFAULT
 						{
 							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 						}
-						TLUAFED;
+						sdwTLUAFED;
 					}
-					HCTIWS;
+					sdwHCTIWS;
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );

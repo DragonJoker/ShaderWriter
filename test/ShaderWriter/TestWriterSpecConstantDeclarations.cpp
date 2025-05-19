@@ -22,10 +22,10 @@ namespace
 			astCheck( static_cast< sdw::stmt::SpecialisationConstantDecl const & >( stmt ).getLocation() == 0u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
-					IF( writer, value )
+					sdwIF( writer, value )
 					{
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
@@ -62,10 +62,10 @@ namespace
 			astCheck( static_cast< sdw::stmt::SpecialisationConstantDecl const & >( stmt ).getLocation() == 2u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
-					IF( writer, value )
+					sdwIF( writer, value )
 					{
 					}
-					FI;
+					sdwFI;
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}

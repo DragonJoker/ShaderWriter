@@ -1072,11 +1072,11 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfo.indexBytes == 4_u ) // 32-bit Vertex Indices
+					sdwIF( writer, meshInfo.indexBytes == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
-					ELSE // 16-bit Vertex Indices
+					sdwELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
 						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
@@ -1088,7 +1088,7 @@ namespace
 
 						writer.returnStmt( index );
 					}
-					FI;
+					sdwFI;
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "localIndex" } );
@@ -1125,13 +1125,13 @@ namespace
 
 					primOut.setMeshOutputCounts( m.vertCount, m.primCount );
 
-					IF( writer, gtid < m.primCount )
+					sdwIF( writer, gtid < m.primCount )
 					{
 						primOut[gtid].primitiveIndex = getPrimitive( m, gtid );
 					}
-					FI;
+					sdwFI;
 
-					IF( writer, gtid < m.vertCount )
+					sdwIF( writer, gtid < m.vertCount )
 					{
 						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( gtid, vertexIndex ) );
@@ -1140,7 +1140,7 @@ namespace
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
 					}
-					FI;
+					sdwFI;
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -1193,11 +1193,11 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfos.indexBytes == 4_u ) // 32-bit Vertex Indices
+					sdwIF( writer, meshInfos.indexBytes == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
-					ELSE // 16-bit Vertex Indices
+					sdwELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
 						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
@@ -1209,7 +1209,7 @@ namespace
 
 						writer.returnStmt( index );
 					}
-					FI;
+					sdwFI;
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "localIndex" } );
@@ -1258,7 +1258,7 @@ namespace
 					auto instanceCount = writer.declLocale( "instanceCount", 1_u );
 
 					// Last meshlet in mesh may be be packed - multiple instances submitted by a single threadgroup.
-					IF( writer, meshletIndex == meshInfos.meshletCount - 1_u )
+					sdwIF( writer, meshletIndex == meshInfos.meshletCount - 1_u )
 					{
 						auto instancesPerGroup = writer.declLocale( "instancesPerGroup", min( MaxVerts / m.vertCount, MaxPrims / m.primCount ) );
 
@@ -1269,7 +1269,7 @@ namespace
 						startInstance = packedIndex * instancesPerGroup;
 						instanceCount = min( drawParams.instanceCount - startInstance, instancesPerGroup );
 					}
-					FI;
+					sdwFI;
 
 					// Compute our total vertex & primitive counts
 					auto vertCount = writer.declLocale( "vertCount", m.vertCount * instanceCount );
@@ -1277,7 +1277,7 @@ namespace
 
 					primOut.setMeshOutputCounts( vertCount, primCount );
 
-					IF( writer, gtid < vertCount )
+					sdwIF( writer, gtid < vertCount )
 					{
 						auto readIndex = writer.declLocale( "readIndex", gtid % m.vertCount );  // Wrap our reads for packed instancing.
 						auto instanceId = writer.declLocale( "instanceId", gtid / m.vertCount ); // Instance index into this threadgroup's instances (only non-zero for packed threadgroups.)
@@ -1291,9 +1291,9 @@ namespace
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
 					}
-					FI;
+					sdwFI;
 
-					IF( writer, gtid < primCount )
+					sdwIF( writer, gtid < primCount )
 					{
 						auto readIndex = writer.declLocale( "readIndex", gtid % m.primCount );  // Wrap our reads for packed instancing.
 						auto instanceId = writer.declLocale( "instanceId", gtid / m.primCount ); // Instance index within this threadgroup (only non-zero in last meshlet threadgroups.)
@@ -1301,7 +1301,7 @@ namespace
 						// Must offset the vertex indices to this thread's instanced verts
 						primOut[gtid].primitiveIndex = getPrimitive( m, readIndex ) + ( m.vertCount * instanceId );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -1385,11 +1385,11 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfos.indexSize == 4_u ) // 32-bit Vertex Indices
+					sdwIF( writer, meshInfos.indexSize == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
-					ELSE // 16-bit Vertex Indices
+					sdwELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
 						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
@@ -1401,7 +1401,7 @@ namespace
 
 						writer.returnStmt( index );
 					}
-					FI;
+					sdwFI;
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "localIndex" } );
@@ -1444,11 +1444,11 @@ namespace
 					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
 
 					// Catch any out-of-range indices (in case too many MS threadgroups were dispatched from AS)
-					IF( writer, meshletIndex >= meshInfos.meshletCount )
+					sdwIF( writer, meshletIndex >= meshInfos.meshletCount )
 					{
 						writer.returnStmt();
 					}
-					FI;
+					sdwFI;
 
 					// Load the meshlet
 					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
@@ -1459,7 +1459,7 @@ namespace
 					//--------------------------------------------------------------------
 					// Export Primitive & Vertex Data
 
-					IF( writer, gtid < m.vertCount )
+					sdwIF( writer, gtid < m.vertCount )
 					{
 						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex ) );
@@ -1468,13 +1468,13 @@ namespace
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
 					}
-					FI;
+					sdwFI;
 
-					IF( writer, gtid < m.primCount )
+					sdwIF( writer, gtid < m.primCount )
 					{
 						primOut[gtid].primitiveIndex = getPrimitive( m, gtid );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -1517,11 +1517,11 @@ namespace
 				{
 					localIndex = m.vertOffset + localIndex;
 
-					IF( writer, meshInfos.indexSize == 4_u ) // 32-bit Vertex Indices
+					sdwIF( writer, meshInfos.indexSize == 4_u ) // 32-bit Vertex Indices
 					{
 						writer.returnStmt( uniqueVertexIndices[localIndex].index );
 					}
-					ELSE // 16-bit Vertex Indices
+					sdwELSE // 16-bit Vertex Indices
 					{
 						// Byte address must be 4-byte aligned.
 						auto wordOffset = writer.declLocale( "wordOffset", ( localIndex & 0x1_u ) );
@@ -1533,7 +1533,7 @@ namespace
 
 						writer.returnStmt( index );
 					}
-					FI;
+					sdwFI;
 				}
 				, InParam< Meshlet >{ writer, "m" }
 				, InUInt{ writer, "localIndex" } );
@@ -1576,11 +1576,11 @@ namespace
 					auto meshletIndex = writer.declLocale( "meshletIndex", payload.meshletIndices[gid] );
 
 					// Catch any out-of-range indices (in case too many MS threadgroups were dispatched from AS)
-					IF( writer, meshletIndex >= meshInfos.meshletCount )
+					sdwIF( writer, meshletIndex >= meshInfos.meshletCount )
 					{
 						writer.returnStmt();
 					}
-					FI;
+					sdwFI;
 
 					// Load the meshlet
 					auto m = writer.declLocale( "m", meshlets[meshletIndex] );
@@ -1591,7 +1591,7 @@ namespace
 					//--------------------------------------------------------------------
 					// Export Primitive & Vertex Data
 
-					IF( writer, gtid < m.vertCount )
+					sdwIF( writer, gtid < m.vertCount )
 					{
 						auto vertexIndex = writer.declLocale( "vertexIndex", getVertexIndex( m, gtid ) );
 						auto vertex = writer.declLocale( "vertex", getVertexAttributes( meshletIndex, vertexIndex ) );
@@ -1600,14 +1600,14 @@ namespace
 						vtxOut[gtid].normal = vertex.normal;
 						vtxOut[gtid].meshletIndex = vertex.meshletIndex;
 					}
-					FI;
+					sdwFI;
 
-					IF( writer, gtid < m.primCount )
+					sdwIF( writer, gtid < m.primCount )
 					{
 						auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + gtid].index );
 						primOut[gtid].primitiveIndex = uvec3( primIndices );
 					}
-					FI;
+					sdwFI;
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );

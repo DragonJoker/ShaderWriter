@@ -109,11 +109,11 @@ namespace
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
 				auto i = writer.declLocale( "i", 0_u );
-				IF( writer, ++i )
+				sdwIF( writer, ++i )
 				{
 					auto j = writer.declLocale( "j", i );
 				}
-				FI;
+				sdwFI;
 				astCheckEqual( writer.getBuilder().getContainer()->size(), 2u );
 			} );
 		test::writeShader( writer
@@ -163,11 +163,11 @@ namespace
 
 		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
 			{
-				FOR( writer, Int, i, 0_i, i < 12_i, ++i )
+				sdwFOR( writer, Int, i, 0_i, i < 12_i, ++i )
 				{
 					auto j = writer.declLocale( "j", i );
 				}
-				ROF;
+				sdwROF;
 				astCheckEqual( writer.getBuilder().getContainer()->size(), 1u );
 				astBeginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eCompound );
 					astCheckEqual( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).size(), 1u );

@@ -237,19 +237,19 @@ namespace
 				auto avgDistance = writer.declLocale( "avgDistance"
 					, ( a + b ) / 2.0_f );
 
-				IF( writer, avgDistance <= 20.0_f )
+				sdwIF( writer, avgDistance <= 20.0_f )
 				{
 					writer.returnStmt( 256.0_f );
 				}
-				ELSEIF( avgDistance <= 50.0_f )
+				sdwELSEIF( avgDistance <= 50.0_f )
 				{
 					writer.returnStmt( 128.0_f );
 				}
-				ELSEIF( avgDistance <= 100.0_f )
+				sdwELSEIF( avgDistance <= 100.0_f )
 				{
 					writer.returnStmt( 64.0_f );
 				}
-				FI;
+				sdwFI;
 
 				writer.returnStmt( 16.0_f );
 			}
@@ -720,11 +720,11 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					IF( writer, dot( center, cullPlanes[i] ) < -radius )
+					sdwIF( writer, dot( center, cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
-					FI;
+					sdwFI;
 				}
 
 				writer.returnStmt( sdw::Boolean{ true } );
@@ -747,11 +747,11 @@ namespace
 				auto idxOffset = writer.declLocale( "idxOffset", subgroupBallotExclusiveBitCount( vote ) );
 
 				// Compact visible meshlets into the export payload array
-				IF( writer, visible )
+				sdwIF( writer, visible )
 				{
 					payload.meshletIndices()[idxOffset] = meshletId;
 				}
-				FI;
+				sdwFI;
 
 				payload.dispatchMesh( tasks, 1_u, 1_u );
 			} );
@@ -772,13 +772,13 @@ namespace
 
 				primOut.setMeshOutputCounts( meshlet.vertCount(), meshlet.primCount() );
 
-				IF( writer, laneId < meshlet.primCount() )
+				sdwIF( writer, laneId < meshlet.primCount() )
 				{
 					primOut[laneId].primitiveIndex = primitiveIndices[meshlet.primOffset() + laneId].index();
 				}
-				FI;
+				sdwFI;
 
-				IF( writer, laneId < meshlet.vertCount() )
+				sdwIF( writer, laneId < meshlet.vertCount() )
 				{
 					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset() + laneId].index() );
 					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
@@ -786,7 +786,7 @@ namespace
 					vtxOut[laneId].position = mvp * vertex.position();
 					vtxOut[laneId].colour() = vertex.colour();
 				}
-				FI;
+				sdwFI;
 			} );
 
 		// Fragment Shader
@@ -829,11 +829,11 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					IF( writer, dot( center, cullPlanes[i] ) < -radius )
+					sdwIF( writer, dot( center, cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
-					FI;
+					sdwFI;
 				}
 
 				writer.returnStmt( sdw::Boolean{ true } );
@@ -856,11 +856,11 @@ namespace
 				auto idxOffset = writer.declLocale( "idxOffset", subgroupBallotExclusiveBitCount( vote ) );
 
 				// Compact visible meshlets into the export payload array
-				IF( writer, visible )
+				sdwIF( writer, visible )
 				{
 					payload.meshletIndices()[idxOffset] = meshletId;
 				}
-				FI;
+				sdwFI;
 
 				payload.dispatchMesh( tasks );
 			} );
@@ -881,13 +881,13 @@ namespace
 
 				primOut.setMeshOutputCounts( meshlet.vertCount(), meshlet.primCount() );
 
-				IF( writer, laneId < meshlet.primCount() )
+				sdwIF( writer, laneId < meshlet.primCount() )
 				{
 					primOut[laneId].primitiveIndex = primitiveIndices[meshlet.primOffset() + laneId].index();
 				}
-				FI;
+				sdwFI;
 
-				IF( writer, laneId < meshlet.vertCount() )
+				sdwIF( writer, laneId < meshlet.vertCount() )
 				{
 					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset() + laneId].index() );
 					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
@@ -895,7 +895,7 @@ namespace
 					vtxOut[laneId].position = mvp * vertex.position();
 					vtxOut[laneId].colour() = vertex.colour();
 				}
-				FI;
+				sdwFI;
 			} );
 
 		// Fragment Shader
@@ -938,11 +938,11 @@ namespace
 
 				for ( int i = 0; i < 6; ++i )
 				{
-					IF( writer, dot( center, cullPlanes[i] ) < -radius )
+					sdwIF( writer, dot( center, cullPlanes[i] ) < -radius )
 					{
 						writer.returnStmt( sdw::Boolean{ false } );
 					}
-					FI;
+					sdwFI;
 				}
 
 				writer.returnStmt( sdw::Boolean{ true } );
@@ -965,11 +965,11 @@ namespace
 				auto idxOffset = writer.declLocale( "idxOffset", subgroupBallotExclusiveBitCount( vote ) );
 
 				// Compact visible meshlets into the export payload array
-				IF( writer, visible )
+				sdwIF( writer, visible )
 				{
 					payload.meshletIndices()[idxOffset] = meshletId;
 				}
-				FI;
+				sdwFI;
 
 				payload.dispatchMesh( SDW_MeshLocalSize( tasks, 1_u, 1_u ) );
 			} );
@@ -990,13 +990,13 @@ namespace
 
 				primOut.setMeshOutputCounts( meshlet.vertCount(), meshlet.primCount() );
 
-				IF( writer, laneId < meshlet.primCount() )
+				sdwIF( writer, laneId < meshlet.primCount() )
 				{
 					primOut[laneId].primitiveIndex = primitiveIndices[meshlet.primOffset() + laneId].index();
 				}
-				FI;
+				sdwFI;
 
-				IF( writer, laneId < meshlet.vertCount() )
+				sdwIF( writer, laneId < meshlet.vertCount() )
 				{
 					auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset() + laneId].index() );
 					auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
@@ -1004,7 +1004,7 @@ namespace
 					vtxOut[laneId].position = mvp * vertex.position();
 					vtxOut[laneId].colour() = vertex.colour();
 				}
-				FI;
+				sdwFI;
 			} );
 
 		// Fragment Shader

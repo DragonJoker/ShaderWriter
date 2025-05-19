@@ -296,23 +296,23 @@ namespace
 					auto matIdx = writer.declLocale( "matIdx", matIndices[writer.cast< UInt >( in.primitiveID )] );
 					auto mat = writer.declLocale( "mat", materials[writer.cast< UInt >( matIdx )] );
 
-					IF( writer, mat.illum == 4_i )
+					sdwIF( writer, mat.illum == 4_i )
 					{
 						writer.returnStmt();
 					}
-					FI;
+					sdwFI;
 
 					auto seed = writer.declLocale( "seed", prd.seed );  // We don't want to modify the PRD
 
-					IF( writer, mat.dissolve == 0.0_f )
+					sdwIF( writer, mat.dissolve == 0.0_f )
 					{
 						writer.ignoreIntersection();
 					}
-					ELSEIF( rnd( seed ) > mat.dissolve )
+					sdwELSEIF( rnd( seed ) > mat.dissolve )
 					{
 						writer.ignoreIntersection();
 					}
-					FI;
+					sdwFI;
 				} );
 
 			test::writeShader( writer

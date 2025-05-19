@@ -1095,7 +1095,9 @@ namespace sdw
 	}
 }
 
-#define FOR( Writer, Type, Name, Init, Cond, Incr )\
+#if !defined( SDW_DISABLE_CTRL_MACROS )
+
+#define sdwFOR( Writer, Type, Name, Init, Cond, Incr )\
 	if ( auto writerScope = makeScope( Writer ) )\
 	{\
 		auto ctrlVar##Name = ( Writer ).registerLoopVar( #Name, Type::makeType( ( Writer ).getTypesCache() ) );\
@@ -1110,60 +1112,62 @@ namespace sdw
 			, sdw::makeExpr( Writer, incr##Name )\
 			, [&]()noexcept
 
-#define ROF\
+#define sdwROF\
  );\
 	}
 
-#define WHILE( Writer, Condition )\
+#define sdwWHILE( Writer, Condition )\
 	( Writer ).whileStmt( sdw::makeCondition( Condition )\
 		, [&]()noexcept
 
-#define ELIHW\
+#define sdwELIHW\
  );
 
-#define DOWHILE( Writer, Condition )\
+#define sdwDOWHILE( Writer, Condition )\
 	( Writer ).doWhileStmt( sdw::makeCondition( Condition )\
 		, [&]()noexcept
 
-#define ELIHWOD\
+#define sdwELIHWOD\
  );
 
-#define IF( Writer, Condition )\
+#define sdwIF( Writer, Condition )\
 	( Writer ).ifStmt( sdw::makeCondition( Condition )\
 		, [&]()noexcept
 
-#define ELSE\
+#define sdwELSE\
  ).elseStmt( [&]()noexcept
 
-#define ELSEIF( Condition )\
+#define sdwELSEIF( Condition )\
  ).elseIfStmt( sdw::makeCondition( Condition )\
 		, [&]()noexcept
 
-#define FI\
+#define sdwFI\
  ).endIf();
 
-#define SWITCH( Writer, Value )\
+#define sdwSWITCH( Writer, Value )\
 	if ( auto writerScope = makeScope( Writer ) )\
 	{\
 		writerScope->switchStmt( sdw::makeExpr( *writerScope, Value )\
 			, [&]()noexcept
 
-#define CASE( Literal )\
+#define sdwCASE( Literal )\
 			writerScope->caseStmt( sdw::makeLiteral( *writerScope, Literal )\
 				, [&]()noexcept
 
-#define ESAC\
+#define sdwESAC\
  )
 
-#define DEFAULT\
+#define sdwDEFAULT\
 			writerScope->defaultStmt( [&]()noexcept
 
-#define TLUAFED\
+#define sdwTLUAFED\
  )
 
-#define HCTIWS\
+#define sdwHCTIWS\
  ).endSwitch();\
 	}
+
+#endif
 
 #include "Writer.inl"
 
