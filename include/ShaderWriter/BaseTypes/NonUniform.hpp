@@ -13,9 +13,12 @@ namespace sdw
 	struct NonUniformT
 		: public ValueT
 	{
+	private:
 		NonUniformT( NonUniformT const & rhs ) = delete;
 		NonUniformT & operator=( NonUniformT const & rhs ) = delete;
 		NonUniformT & operator=( NonUniformT && rhs ) = delete;
+
+	public:
 		~NonUniformT()noexcept override = default;
 
 		NonUniformT( ShaderWriter & writer

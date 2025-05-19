@@ -118,8 +118,11 @@ namespace ast
 
 		struct Used
 		{
+		private:
 			Used( Used const & ) = delete;
 			Used & operator=( Used const & ) = delete;
+
+		public:
 			Used( Used && )noexcept = default;
 			Used & operator=( Used && )noexcept = default;
 

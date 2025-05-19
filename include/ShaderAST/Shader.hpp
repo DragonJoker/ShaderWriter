@@ -73,11 +73,13 @@ namespace ast
 	{
 		friend class ShaderBuilder;
 
+	private:
+		Shader( Shader const & ) = delete;
+		Shader & operator=( Shader const & ) = delete;
+		Shader & operator=( Shader && rhs )noexcept = delete;
+
 	public:
-		SDAST_API Shader( Shader const & ) = delete;
-		SDAST_API Shader & operator=( Shader const & ) = delete;
 		SDAST_API Shader( Shader && rhs )noexcept;
-		SDAST_API Shader & operator=( Shader && rhs )noexcept = delete;
 
 		SDAST_API explicit Shader( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
