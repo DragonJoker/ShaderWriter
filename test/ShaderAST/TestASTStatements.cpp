@@ -159,7 +159,7 @@ namespace
 		}
 	}
 
-	void testSimple( test::TestCounts & testCounts )
+	TEST( Statements, Simple )
 	{
 		astTestBegin( "testSimple" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -411,7 +411,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testContainer( test::TestCounts & testCounts )
+	TEST( Statements, Container )
 	{
 		astTestBegin( "testContainer" );
 		{
@@ -443,7 +443,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testCompound( test::TestCounts & testCounts )
+	TEST( Statements, Compound )
 	{
 		astTestBegin( "testCompound" );
 		{
@@ -473,7 +473,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testComment( test::TestCounts & testCounts )
+	TEST( Statements, Comment )
 	{
 		astTestBegin( "testComment" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -487,7 +487,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, VariableDecl )
 	{
 		astTestBegin( "testVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -512,7 +512,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testPerVertexDecl( test::TestCounts & testCounts )
+	TEST( Statements, PerVertexDecl )
 	{
 		astTestBegin( "testPerVertexDecl" );
 		std::map< stmt::PerVertexDecl::Source, ShaderStage > stages{ { stmt::PerVertexDecl::eVertexOutput, ShaderStage::eVertex }
@@ -540,7 +540,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInOutVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, InOutVariableDecl )
 	{
 		astTestBegin( "testInOutVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -576,7 +576,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInOutStreamVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, InOutStreamVariableDecl )
 	{
 		astTestBegin( "testInOutStreamVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -596,7 +596,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInOutBlendVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, InOutBlendVariableDecl )
 	{
 		astTestBegin( "testInOutBlendVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -616,7 +616,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testSpecialisationConstantDecl( test::TestCounts & testCounts )
+	TEST( Statements, SpecialisationConstantDecl )
 	{
 		astTestBegin( "testSpecialisationConstantDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -771,7 +771,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testConstantBufferDecl( test::TestCounts & testCounts )
+	TEST( Statements, ConstantBufferDecl )
 	{
 		astTestBegin( "testConstantBufferDecl" );
 		{
@@ -803,7 +803,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testPushConstantsBufferDecl( test::TestCounts & testCounts )
+	TEST( Statements, PushConstantsBufferDecl )
 	{
 		astTestBegin( "testPushConstantsBufferDecl" );
 		{
@@ -833,7 +833,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testShaderBufferDecl( test::TestCounts & testCounts )
+	TEST( Statements, ShaderBufferDecl )
 	{
 		astTestBegin( "testShaderBufferDecl" );
 		{
@@ -865,7 +865,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testShaderStructBufferDecl( test::TestCounts & testCounts )
+	TEST( Statements, ShaderStructBufferDecl )
 	{
 		astTestBegin( "testShaderStructBufferDecl" );
 		{
@@ -926,7 +926,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testSamplerDecl( test::TestCounts & testCounts )
+	TEST( Statements, SamplerDecl )
 	{
 		astTestBegin( "testSamplerDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -943,7 +943,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testImageDecl( test::TestCounts & testCounts )
+	TEST( Statements, ImageDecl )
 	{
 		astTestBegin( "testImageDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -961,7 +961,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testSampledImageDecl( test::TestCounts & testCounts )
+	TEST( Statements, SampledImageDecl )
 	{
 		astTestBegin( "testSampledImageDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -979,7 +979,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testCombinedImageDecl( test::TestCounts & testCounts )
+	TEST( Statements, CombinedImageDecl )
 	{
 		astTestBegin( "testCombinedImageDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -997,7 +997,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testFunctionDecl( test::TestCounts & testCounts )
+	TEST( Statements, FunctionDecl )
 	{
 		astTestBegin( "testFunctionDecl" );
 		{
@@ -1090,7 +1090,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testEntryPointDecl( test::TestCounts & testCounts )
+	TEST( Statements, EntryPointDecl )
 	{
 		astTestBegin( "testEntryPointDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1183,7 +1183,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testStructureDecl( test::TestCounts & testCounts )
+	TEST( Statements, StructureDecl )
 	{
 		astTestBegin( "testStructureDecl" );
 		for ( auto layout = 0u; layout <= uint32_t( type::MemoryLayout::eShaderRecord ); ++layout )
@@ -1231,7 +1231,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testIf( test::TestCounts & testCounts )
+	TEST( Statements, If )
 	{
 		astTestBegin( "testIf" );
 		{
@@ -1297,7 +1297,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testElse( test::TestCounts & testCounts )
+	TEST( Statements, Else )
 	{
 		astTestBegin( "testElse" );
 		{
@@ -1391,7 +1391,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testElseIf( test::TestCounts & testCounts )
+	TEST( Statements, ElseIf )
 	{
 		astTestBegin( "testElseIf" );
 		{
@@ -1427,7 +1427,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testElseIfElse( test::TestCounts & testCounts )
+	TEST( Statements, ElseIfElse )
 	{
 		astTestBegin( "testElseIf" );
 		{
@@ -1461,7 +1461,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testWhile( test::TestCounts & testCounts )
+	TEST( Statements, While )
 	{
 		astTestBegin( "testWhile" );
 		{
@@ -1495,7 +1495,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testFor( test::TestCounts & testCounts )
+	TEST( Statements, For )
 	{
 		astTestBegin( "testFor" );
 		{
@@ -1543,7 +1543,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testDoWhile( test::TestCounts & testCounts )
+	TEST( Statements, DoWhile )
 	{
 		astTestBegin( "testDoWhile" );
 		{
@@ -1577,7 +1577,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testSwitch( test::TestCounts & testCounts )
+	TEST( Statements, Switch )
 	{
 		astTestBegin( "testSwitch" );
 		{
@@ -1667,7 +1667,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testReturn( test::TestCounts & testCounts )
+	TEST( Statements, Return )
 	{
 		astTestBegin( "testReturn" );
 		{
@@ -1692,7 +1692,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testDemote( test::TestCounts & testCounts )
+	TEST( Statements, Demote )
 	{
 		astTestBegin( "testDemote" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1705,7 +1705,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testTerminateInvocation( test::TestCounts & testCounts )
+	TEST( Statements, TerminateInvocation )
 	{
 		astTestBegin( "testTerminateInvocation" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1718,7 +1718,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInputGeometryLayout( test::TestCounts & testCounts )
+	TEST( Statements, InputGeometryLayout )
 	{
 		astTestBegin( "testInputGeometryLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1734,7 +1734,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testOutputGeometryLayout( test::TestCounts & testCounts )
+	TEST( Statements, OutputGeometryLayout )
 	{
 		astTestBegin( "testOutputGeometryLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1752,7 +1752,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testOutputMeshLayout( test::TestCounts & testCounts )
+	TEST( Statements, OutputMeshLayout )
 	{
 		astTestBegin( "testOutputMeshLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1772,7 +1772,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInputComputeLayout( test::TestCounts & testCounts )
+	TEST( Statements, InputComputeLayout )
 	{
 		astTestBegin( "testInputComputeLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1789,7 +1789,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testPreprocExtension( test::TestCounts & testCounts )
+	TEST( Statements, PreprocExtension )
 	{
 		astTestBegin( "testPreprocExtension" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1808,7 +1808,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testPreprocVersion( test::TestCounts & testCounts )
+	TEST( Statements, PreprocVersion )
 	{
 		astTestBegin( "testPreprocVersion" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1822,7 +1822,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testFragmentLayout( test::TestCounts & testCounts )
+	TEST( Statements, FragmentLayout )
 	{
 		astTestBegin( "testFragmentLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1840,7 +1840,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testOutputTessellationControlLayout( test::TestCounts & testCounts )
+	TEST( Statements, OutputTessellationControlLayout )
 	{
 		astTestBegin( "testOutputTessellationControlLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1863,7 +1863,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInputTessellationEvaluationLayout( test::TestCounts & testCounts )
+	TEST( Statements, InputTessellationEvaluationLayout )
 	{
 		astTestBegin( "testInputTessellationEvaluationLayout" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1882,7 +1882,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testAccelerationStructureDecl( test::TestCounts & testCounts )
+	TEST( Statements, AccelerationStructureDecl )
 	{
 		astTestBegin( "testAccelerationStructureDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1902,7 +1902,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInOutRayPayloadVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, InOutRayPayloadVariableDecl )
 	{
 		astTestBegin( "testInOutRayPayloadVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1920,7 +1920,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testHitAttributeVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, HitAttributeVariableDecl )
 	{
 		astTestBegin( "testHitAttributeVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1936,7 +1936,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testInOutCallableDataVariableDecl( test::TestCounts & testCounts )
+	TEST( Statements, InOutCallableDataVariableDecl )
 	{
 		astTestBegin( "testInOutCallableDataVariableDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1954,7 +1954,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBufferReferenceDecl( test::TestCounts & testCounts )
+	TEST( Statements, BufferReferenceDecl )
 	{
 		astTestBegin( "testBufferReferenceDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1968,7 +1968,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testTerminateRay( test::TestCounts & testCounts )
+	TEST( Statements, TerminateRay )
 	{
 		astTestBegin( "testTerminateRay" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1981,7 +1981,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testIgnoreIntersection( test::TestCounts & testCounts )
+	TEST( Statements, IgnoreIntersection )
 	{
 		astTestBegin( "testIgnoreIntersection" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -1994,7 +1994,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBreak( test::TestCounts & testCounts )
+	TEST( Statements, Break )
 	{
 		astTestBegin( "testBreak" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -2017,7 +2017,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testContinue( test::TestCounts & testCounts )
+	TEST( Statements, Continue )
 	{
 		astTestBegin( "testContinue" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -2030,7 +2030,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testDispatchMesh( test::TestCounts & testCounts )
+	TEST( Statements, DispatchMesh )
 	{
 		astTestBegin( "testDispatchMesh" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -2053,7 +2053,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testPerPrimitiveDecl( test::TestCounts & testCounts )
+	TEST( Statements, PerPrimitiveDecl )
 	{
 		astTestBegin( "testPerPrimitiveDecl" );
 		stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
@@ -2067,63 +2067,3 @@ namespace
 		astTestEnd()
 	}
 }
-
-astTestSuiteMain( TestASTStatements )
-{
-	astTestSuiteBegin()
-	testPreprocExtension( testCounts );
-	testPreprocVersion( testCounts );
-	testAccelerationStructureDecl( testCounts );
-	testBreak( testCounts );
-	testBufferReferenceDecl( testCounts );
-	testCombinedImageDecl( testCounts );
-	testComment( testCounts );
-	testCompound( testCounts );
-	testConstantBufferDecl( testCounts );
-	testContainer( testCounts );
-	testContinue( testCounts );
-	testDemote( testCounts );
-	testDispatchMesh( testCounts );
-	testDoWhile( testCounts );
-	testElse( testCounts );
-	testElseIf( testCounts );
-	testElseIfElse( testCounts );
-	testFor( testCounts );
-	testFragmentLayout( testCounts );
-	testFunctionDecl( testCounts );
-	testEntryPointDecl( testCounts );
-	testHitAttributeVariableDecl( testCounts );
-	testIf( testCounts );
-	testIgnoreIntersection( testCounts );
-	testImageDecl( testCounts );
-	testInOutBlendVariableDecl( testCounts );
-	testInOutCallableDataVariableDecl( testCounts );
-	testInOutRayPayloadVariableDecl( testCounts );
-	testInOutStreamVariableDecl( testCounts );
-	testInOutVariableDecl( testCounts );
-	testInputComputeLayout( testCounts );
-	testInputGeometryLayout( testCounts );
-	testInputTessellationEvaluationLayout( testCounts );
-	testOutputGeometryLayout( testCounts );
-	testOutputMeshLayout( testCounts );
-	testOutputTessellationControlLayout( testCounts );
-	testPerPrimitiveDecl( testCounts );
-	testPerVertexDecl( testCounts );
-	testPushConstantsBufferDecl( testCounts );
-	testReturn( testCounts );
-	testSampledImageDecl( testCounts );
-	testSamplerDecl( testCounts );
-	testShaderBufferDecl( testCounts );
-	testShaderStructBufferDecl( testCounts );
-	testSimple( testCounts );
-	testSpecialisationConstantDecl( testCounts );
-	testStructureDecl( testCounts );
-	testSwitch( testCounts );
-	testTerminateInvocation( testCounts );
-	testTerminateRay( testCounts );
-	testVariableDecl( testCounts );
-	testWhile( testCounts );
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTStatements )

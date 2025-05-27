@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -6,10 +5,11 @@ namespace
 #define BeginMain writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentIn, sdw::FragmentOut )
 #define EndMain )
 
-	template< typename T >
-	void testStruct( test::sdw_test::TestCounts & testCounts )
+	using T = sdw::SDW_TestType;
+
+	TEST( SDW_TestSuiteName, testStruct )
 	{
-		astTestBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -80,17 +80,10 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 #define testName astTestConcat( TestWriterStructDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-	testStruct< sdw::SDW_TestType >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

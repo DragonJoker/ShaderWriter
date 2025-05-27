@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/Struct.hpp>
@@ -8,10 +7,11 @@ namespace
 {
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
-	template< typename T >
-	void testStructuredSsbo( test::sdw_test::TestCounts & testCounts )
+	using T = sdw::SDW_TestType;
+
+	TEST( SDW_TestSuiteName, testStructuredSsbo )
 	{
-		astTestBegin( "testStructuredSsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testStructuredSsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -148,13 +148,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd()
 	}
 
-	template< typename T >
-	void testArraySsbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testArraySsbo )
 	{
-		astTestBegin( "testArraySsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testArraySsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -217,18 +216,10 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd()
 	}
 }
 
 #define testName astTestConcat( TestWriterArraySsboDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-	testStructuredSsbo< sdw::SDW_TestType >( testCounts );
-	testArraySsbo< sdw::SDW_TestType >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

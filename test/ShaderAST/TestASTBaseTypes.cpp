@@ -11,7 +11,7 @@ namespace
 {
 	using namespace ast;
 
-	void testBase( test::TestCounts & testCounts )
+	TEST( BaseTypes, Base )
 	{
 		astTestBegin( "testBase" );
 		type::TypesCache typesCache;
@@ -153,7 +153,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testSIntBase( test::TestCounts & testCounts )
+	TEST( BaseTypes, SIntBase )
 	{
 		astTestBegin( "testSIntBase" );
 		type::TypesCache typesCache;
@@ -313,7 +313,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testUIntBase( test::TestCounts & testCounts )
+	TEST( BaseTypes, UIntBase )
 	{
 		astTestBegin( "testUIntBase" );
 		type::TypesCache typesCache;
@@ -473,7 +473,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testFloatBase( test::TestCounts & testCounts )
+	TEST( BaseTypes, FloatBase )
 	{
 		astTestBegin( "testFloatBase" );
 		type::TypesCache typesCache;
@@ -593,7 +593,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBaseVecSInt( test::TestCounts & testCounts )
+	TEST( BaseTypes, BaseVecSInt )
 	{
 		astTestBegin( "testBaseVecSInt" );
 		type::TypesCache typesCache;
@@ -1168,7 +1168,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBaseVecUInt( test::TestCounts & testCounts )
+	TEST( BaseTypes, BaseVecUInt )
 	{
 		astTestBegin( "testBaseVecUInt" );
 		type::TypesCache typesCache;
@@ -1632,7 +1632,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBaseVecFloat( test::TestCounts & testCounts )
+	TEST( BaseTypes, BaseVecFloat )
 	{
 		astTestBegin( "testBaseVecH" );
 		type::TypesCache typesCache;
@@ -1940,7 +1940,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBaseMatrixFloat( test::TestCounts & testCounts )
+	TEST( BaseTypes, BaseMatrixFloat )
 	{
 		astTestBegin( "testBaseMatrixFloat" );
 		type::TypesCache typesCache;
@@ -2280,7 +2280,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBaseMatrixDouble( test::TestCounts & testCounts )
+	TEST( BaseTypes, BaseMatrixDouble )
 	{
 		astTestBegin( "testBaseMatrixDouble" );
 		type::TypesCache typesCache;
@@ -2612,7 +2612,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testGetSampledType( test::TestCounts & testCounts )
+	TEST( BaseTypes, GetSampledType )
 	{
 		astTestBegin( "testGetSampledType" );
 		type::TypesCache typesCache;
@@ -2769,7 +2769,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testGetTexelType( test::TestCounts & testCounts )
+	TEST( BaseTypes, GetTexelType )
 	{
 		astTestBegin( "testGetTexelType" );
 		type::TypesCache typesCache;
@@ -2926,7 +2926,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBasicFunctions( test::TestCounts & testCounts )
+	TEST( BaseTypes, BasicFunctions )
 	{
 		astTestBegin( "testBasicFunctions" );
 		type::TypesCache typesCache;
@@ -2975,7 +2975,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBasicFunctionsSInt( test::TestCounts & testCounts )
+	TEST( BaseTypes, BasicFunctionsSInt )
 	{
 		astTestBegin( "testBasicFunctionsSInt" );
 		type::TypesCache typesCache;
@@ -3078,7 +3078,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBasicFunctionsUInt( test::TestCounts & testCounts )
+	TEST( BaseTypes, BasicFunctionsUInt )
 	{
 		astTestBegin( "testBasicFunctionsUInt" );
 		type::TypesCache typesCache;
@@ -3181,7 +3181,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBasicFunctionsFloat( test::TestCounts & testCounts )
+	TEST( BaseTypes, BasicFunctionsFloat )
 	{
 		astTestBegin( "testBasicFunctionsFloat" );
 		type::TypesCache typesCache;
@@ -3386,26 +3386,3 @@ namespace
 		astTestEnd()
 	}
 }
-
-astTestSuiteMain( TestASTBaseTypes )
-{
-	astTestSuiteBegin()
-	testBase( testCounts );
-	testSIntBase( testCounts );
-	testUIntBase( testCounts );
-	testFloatBase( testCounts );
-	testBaseVecSInt( testCounts );
-	testBaseVecUInt( testCounts );
-	testBaseVecFloat( testCounts );
-	testBaseMatrixFloat( testCounts );
-	testBaseMatrixDouble( testCounts );
-	testGetSampledType( testCounts );
-	testGetTexelType( testCounts );
-	testBasicFunctions( testCounts );
-	testBasicFunctionsSInt( testCounts );
-	testBasicFunctionsUInt( testCounts );
-	testBasicFunctionsFloat( testCounts );
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTBaseTypes )

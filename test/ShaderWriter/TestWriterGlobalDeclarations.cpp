@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -6,7 +5,7 @@ namespace
 	template< typename T >
 	void testGlobal( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testGlobal" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testGlobal" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & builder = writer.getBuilder();
@@ -223,52 +222,51 @@ namespace
 			auto & stmt = *builder.getContainer()->back();
 			astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 		}
-		astTestEnd();
+	}
+
+	TEST( SDW_TestSuiteName, testGlobalDeclarations )
+	{
+		sdwTestBegin( "testGlobalDeclarations" )
+		testGlobal< sdw::Boolean >( testCounts );
+		testGlobal< sdw::Int >( testCounts );
+		testGlobal< sdw::UInt >( testCounts );
+		testGlobal< sdw::Float >( testCounts );
+		testGlobal< sdw::Double >( testCounts );
+		testGlobal< sdw::Vec2 >( testCounts );
+		testGlobal< sdw::Vec3 >( testCounts );
+		testGlobal< sdw::Vec4 >( testCounts );
+		testGlobal< sdw::DVec2 >( testCounts );
+		testGlobal< sdw::DVec3 >( testCounts );
+		testGlobal< sdw::DVec4 >( testCounts );
+		testGlobal< sdw::BVec2 >( testCounts );
+		testGlobal< sdw::BVec3 >( testCounts );
+		testGlobal< sdw::BVec4 >( testCounts );
+		testGlobal< sdw::IVec2 >( testCounts );
+		testGlobal< sdw::IVec3 >( testCounts );
+		testGlobal< sdw::IVec4 >( testCounts );
+		testGlobal< sdw::UVec2 >( testCounts );
+		testGlobal< sdw::UVec3 >( testCounts );
+		testGlobal< sdw::UVec4 >( testCounts );
+		testGlobal< sdw::Mat2 >( testCounts );
+		testGlobal< sdw::Mat2x3 >( testCounts );
+		testGlobal< sdw::Mat2x4 >( testCounts );
+		testGlobal< sdw::Mat3 >( testCounts );
+		testGlobal< sdw::Mat3x2 >( testCounts );
+		testGlobal< sdw::Mat3x4 >( testCounts );
+		testGlobal< sdw::Mat4 >( testCounts );
+		testGlobal< sdw::Mat4x2 >( testCounts );
+		testGlobal< sdw::Mat4x3 >( testCounts );
+		testGlobal< sdw::DMat2 >( testCounts );
+		testGlobal< sdw::DMat2x3 >( testCounts );
+		testGlobal< sdw::DMat2x4 >( testCounts );
+		testGlobal< sdw::DMat3 >( testCounts );
+		testGlobal< sdw::DMat3x2 >( testCounts );
+		testGlobal< sdw::DMat3x4 >( testCounts );
+		testGlobal< sdw::DMat4 >( testCounts );
+		testGlobal< sdw::DMat4x2 >( testCounts );
+		testGlobal< sdw::DMat4x3 >( testCounts );
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterGlobalDeclarations )
-{
-	sdwTestSuiteBegin();
-	testGlobal< sdw::Boolean >( testCounts );
-	testGlobal< sdw::Int >( testCounts );
-	testGlobal< sdw::UInt >( testCounts );
-	testGlobal< sdw::Float >( testCounts );
-	testGlobal< sdw::Double >( testCounts );
-	testGlobal< sdw::Vec2 >( testCounts );
-	testGlobal< sdw::Vec3 >( testCounts );
-	testGlobal< sdw::Vec4 >( testCounts );
-	testGlobal< sdw::DVec2 >( testCounts );
-	testGlobal< sdw::DVec3 >( testCounts );
-	testGlobal< sdw::DVec4 >( testCounts );
-	testGlobal< sdw::BVec2 >( testCounts );
-	testGlobal< sdw::BVec3 >( testCounts );
-	testGlobal< sdw::BVec4 >( testCounts );
-	testGlobal< sdw::IVec2 >( testCounts );
-	testGlobal< sdw::IVec3 >( testCounts );
-	testGlobal< sdw::IVec4 >( testCounts );
-	testGlobal< sdw::UVec2 >( testCounts );
-	testGlobal< sdw::UVec3 >( testCounts );
-	testGlobal< sdw::UVec4 >( testCounts );
-	testGlobal< sdw::Mat2 >( testCounts );
-	testGlobal< sdw::Mat2x3 >( testCounts );
-	testGlobal< sdw::Mat2x4 >( testCounts );
-	testGlobal< sdw::Mat3 >( testCounts );
-	testGlobal< sdw::Mat3x2 >( testCounts );
-	testGlobal< sdw::Mat3x4 >( testCounts );
-	testGlobal< sdw::Mat4 >( testCounts );
-	testGlobal< sdw::Mat4x2 >( testCounts );
-	testGlobal< sdw::Mat4x3 >( testCounts );
-	testGlobal< sdw::DMat2 >( testCounts );
-	testGlobal< sdw::DMat2x3 >( testCounts );
-	testGlobal< sdw::DMat2x4 >( testCounts );
-	testGlobal< sdw::DMat3 >( testCounts );
-	testGlobal< sdw::DMat3x2 >( testCounts );
-	testGlobal< sdw::DMat3x4 >( testCounts );
-	testGlobal< sdw::DMat4 >( testCounts );
-	testGlobal< sdw::DMat4x2 >( testCounts );
-	testGlobal< sdw::DMat4x3 >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterGlobalDeclarations )

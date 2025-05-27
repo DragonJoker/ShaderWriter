@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -465,11 +464,12 @@ namespace
 		}
 	}
 
-	void testBool( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testBool )
 	{
 		sdw::expr::Expr const * expr{};
+		sdwTestBegin( "testBool" );
 		{
-			astTestBegin( "testBool" );
+			astOnStr( "testBool" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -505,10 +505,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testBoolOptEnabled" );
+			astOnStr( "testBoolOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -544,10 +543,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testBoolOptDisabled" );
+			astOnStr( "testBoolOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -562,15 +560,15 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
+		sdwTestEnd();
 	}
 
 	template< typename FloatT >
-	void testFloat( test::sdw_test::TestCounts & testCounts )
+	void testFloatT( test::sdw_test::TestCounts & testCounts )
 	{
 		{
-			astTestBegin( "testFloat" );
+			astOnStr( "testFloat" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -606,10 +604,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testFloatOptEnabled" );
+			astOnStr( "testFloatOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -643,10 +640,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testFloatOptDisabled" );
+			astOnStr( "testFloatOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -680,15 +676,22 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 	}
 
+	TEST( SDW_TestSuiteName, testFloat )
+	{
+		sdwTestBegin( "testFloat" )
+		testFloatT< sdw::Float >( testCounts );
+		testFloatT< sdw::Double >( testCounts );
+		sdwTestEnd()
+	}
+
 	template< typename IntT >
-	void testInt( test::sdw_test::TestCounts & testCounts )
+	void testIntT( test::sdw_test::TestCounts & testCounts )
 	{
 		{
-			astTestBegin( "testInt" );
+			astOnStr( "testInt" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -726,10 +729,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testIntOptEnabled" );
+			astOnStr( "testIntOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -763,10 +765,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testIntOptDisabled" );
+			astOnStr( "testIntOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -800,16 +801,23 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 	}
 
+	TEST( SDW_TestSuiteName, testInt )
+	{
+		sdwTestBegin( "testInt" )
+		testIntT< sdw::Int >( testCounts );
+		testIntT< sdw::UInt >( testCounts );
+		sdwTestEnd()
+	}
+
 	template< template< typename ComponentT > typename VecT, typename ComponentT >
-	void testVec( test::sdw_test::TestCounts & testCounts )
+	void testVecT( test::sdw_test::TestCounts & testCounts )
 	{
 		using VecType = VecT< ComponentT >;
 		{
-			astTestBegin( "testVec" );
+			astOnStr( "testVec" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -825,10 +833,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testVecOptEnabled" );
+			astOnStr( "testVecOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -843,10 +850,9 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 		{
-			astTestBegin( "testVecOptDisabled" );
+			astOnStr( "testVecOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -861,13 +867,32 @@ namespace
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
-			astTestEnd();
 		}
 	}
 
-	void boolCast( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testVec )
 	{
-		astTestBegin( "boolCast" );
+		sdwTestBegin( "testVec" )
+		testVecT< sdw::Vec2T, sdw::Half >( testCounts );
+		testVecT< sdw::Vec2T, sdw::Float >( testCounts );
+		testVecT< sdw::Vec2T, sdw::Double >( testCounts );
+		testVecT< sdw::Vec2T, sdw::Int >( testCounts );
+		testVecT< sdw::Vec2T, sdw::UInt >( testCounts );
+		testVecT< sdw::Vec3T, sdw::Float >( testCounts );
+		testVecT< sdw::Vec3T, sdw::Double >( testCounts );
+		testVecT< sdw::Vec3T, sdw::Int >( testCounts );
+		testVecT< sdw::Vec3T, sdw::UInt >( testCounts );
+		testVecT< sdw::Vec4T, sdw::Half >( testCounts );
+		testVecT< sdw::Vec4T, sdw::Float >( testCounts );
+		testVecT< sdw::Vec4T, sdw::Double >( testCounts );
+		testVecT< sdw::Vec4T, sdw::Int >( testCounts );
+		testVecT< sdw::Vec4T, sdw::UInt >( testCounts );
+		sdwTestEnd()
+	}
+
+	TEST( SDW_TestSuiteName, boolCast )
+	{
+		sdwTestBegin( "boolCast" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -886,34 +911,8 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterOperations )
-{
-	sdwTestSuiteBegin();
-	testBool( testCounts );
-	testFloat< sdw::Float >( testCounts );
-	testFloat< sdw::Double >( testCounts );
-	testInt< sdw::Int >( testCounts );
-	testInt< sdw::UInt >( testCounts );
-	testVec< sdw::Vec2T, sdw::Half >( testCounts );
-	testVec< sdw::Vec2T, sdw::Float >( testCounts );
-	testVec< sdw::Vec2T, sdw::Double >( testCounts );
-	testVec< sdw::Vec2T, sdw::Int >( testCounts );
-	testVec< sdw::Vec2T, sdw::UInt >( testCounts );
-	testVec< sdw::Vec3T, sdw::Float >( testCounts );
-	testVec< sdw::Vec3T, sdw::Double >( testCounts );
-	testVec< sdw::Vec3T, sdw::Int >( testCounts );
-	testVec< sdw::Vec3T, sdw::UInt >( testCounts );
-	testVec< sdw::Vec4T, sdw::Half >( testCounts );
-	testVec< sdw::Vec4T, sdw::Float >( testCounts );
-	testVec< sdw::Vec4T, sdw::Double >( testCounts );
-	testVec< sdw::Vec4T, sdw::Int >( testCounts );
-	testVec< sdw::Vec4T, sdw::UInt >( testCounts );
-	boolCast( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterOperations )

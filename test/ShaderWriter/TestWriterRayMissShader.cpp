@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -37,9 +36,9 @@ namespace
 		sdw::Vec3 hitValue;
 	};
 
-	void simple( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, simple )
 	{
-		astTestBegin( "simple" );
+		sdwTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayMissWriter writer{ &testCounts.allocator };
@@ -57,17 +56,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterRayMissShader )
-{
-	sdwTestSuiteBegin();
-
-	simple( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterRayMissShader )

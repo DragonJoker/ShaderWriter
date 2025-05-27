@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #if !defined( __APPLE__ )
@@ -23,7 +22,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageSize" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-			astTestBegin( name );
+			astOnStr( name );
 			using namespace sdw;
 			{
 				sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -43,7 +42,6 @@ namespace
 					, testCounts
 					, CurrentCompilers );
 			}
-			astTestEnd();
 		}
 	};
 	/**@}*/
@@ -66,7 +64,7 @@ namespace
 			if constexpr ( MsT )
 			{
 				auto name = "testImageSamples" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -86,7 +84,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -112,7 +109,7 @@ namespace
 			if constexpr ( sdw::isReadableV< AccessT > )
 			{
 				auto name = "testImageLoad" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -141,7 +138,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -168,7 +164,7 @@ namespace
 			if constexpr ( sdw::isWritableV< AccessT > )
 			{
 				auto name = "testImageStore" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -197,7 +193,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -226,7 +221,7 @@ namespace
 					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAdd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -273,7 +268,6 @@ namespace
 						, testCounts
 						, Compilers_SPIRV );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -301,7 +295,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMin" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -347,7 +341,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -375,7 +368,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMax" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -421,7 +414,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -449,7 +441,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAnd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -495,7 +487,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -523,7 +514,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicOr" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -569,7 +560,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -597,7 +587,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicXor" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -643,7 +633,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -672,7 +661,7 @@ namespace
 					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicExchange" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -719,7 +708,6 @@ namespace
 						, testCounts
 						, Compilers_SPIRV );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -747,7 +735,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicCompSwap" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astTestBegin( name );
+				astOnStr( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -800,7 +788,6 @@ namespace
 						, testCounts
 						, CurrentCompilers );
 				}
-				astTestEnd();
 			}
 		}
 	};
@@ -855,16 +842,36 @@ namespace
 		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
 	}
 
-	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
+	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
-		if constexpr ( FormatT == ast::type::ImageFormat::eR32f
-			|| FormatT == ast::type::ImageFormat::eR32i
-			|| FormatT == ast::type::ImageFormat::eR32u )
+		if constexpr ( ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32f
+			|| ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32i
+			|| ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32u )
 		{
-			testsImageFormats< ast::type::AccessKind::eReadWrite, FormatT, TesterT >( testCounts );
+			testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
 		}
 	}
+
+#if !defined( __APPLE__ )
+	TEST( SDW_TestSuiteName, testsImageAccesses )
+	{
+		sdwTestBegin( "testsImageAccesses" )
+		testsImage< ImageSizeTester >( testCounts );
+		testsImage< ImageSamplesTester >( testCounts );
+		testsImage< ImageLoadTester >( testCounts );
+		testsImage< ImageStoreTester >( testCounts );
+		testsImageAtomic< ImageAtomicAddTester >( testCounts );
+		testsImageAtomic< ImageAtomicMinTester >( testCounts );
+		testsImageAtomic< ImageAtomicMaxTester >( testCounts );
+		testsImageAtomic< ImageAtomicAndTester >( testCounts );
+		testsImageAtomic< ImageAtomicOrTester >( testCounts );
+		testsImageAtomic< ImageAtomicXorTester >( testCounts );
+		testsImageAtomic< ImageAtomicExchangeTester >( testCounts );
+		testsImageAtomic< ImageAtomicCompSwapTester >( testCounts );
+		sdwTestEnd()
+	}
+#endif
 }
 
 #endif
@@ -872,25 +879,3 @@ namespace
 #define testName astTestConcat( TestWriterStorageImageAccesses, SDW_TestImageFormat )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-#if !defined( __APPLE__ )
-
-	testsImage< ImageSizeTester >( testCounts );
-	testsImage< ImageSamplesTester >( testCounts );
-	testsImage< ImageLoadTester >( testCounts );
-	testsImage< ImageStoreTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAddTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMinTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMaxTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAndTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicOrTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicXorTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicExchangeTester >( testCounts );
-	testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicCompSwapTester >( testCounts );
-
-#endif
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

@@ -10,6 +10,7 @@ option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (
 find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
 find_package( Threads REQUIRED )
 set( TEST_WRITER_COMMON_HEADER_FILES
+	${TEST_COMMON_HEADER_FILES}
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.hpp
@@ -17,6 +18,7 @@ set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.hpp
 )
 set( TEST_WRITER_COMMON_SOURCE_FILES
+	${TEST_COMMON_SOURCE_FILES}
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.cpp
@@ -32,19 +34,23 @@ add_library( sdw::test::WriterCommon
 	ALIAS
 	TestWriterCommon
 )
+target_include_directories( TestWriterCommon
+	PUBLIC
+		${TEST_COMMON_INCLUDE_DIRS}
+)
 target_sources( TestWriterCommon
 	PRIVATE
 		${SDW_EDITORCONFIG_FILE}
 )
 target_link_libraries( TestWriterCommon
 	PUBLIC
+		GTest::gtest
 		sdw::ShaderAST
 		sdw::ShaderWriter
-		sdw::test::Common
 		${BinLibraries}
 		glslang::OSDependent
 		glslang::glslang
-		glslang::OGLCompiler
+		# glslang::OGLCompiler
 		glslang::SPIRV
 		glslang::SPVRemapper
 		Threads::Threads
@@ -103,6 +109,10 @@ else ()
 		endif ()
 	endif ()
 endif ()
+target_compile_definitions( TestWriterCommon
+	PUBLIC
+		TestCommon_EXPORTS=1
+)
 set_target_properties( TestWriterCommon
 	PROPERTIES
 		CXX_STANDARD 20
@@ -250,8 +260,8 @@ endif ()
 
 function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	set( REAL_TEST_NAME ${TEST_NAME}${NAME_SUFFIX} )
+	string( REPLACE "TestWriter" "" SHORT_TEST_NAME ${REAL_TEST_NAME} )
 	add_executable( ${REAL_TEST_NAME}
-		$<TARGET_OBJECTS:TestCommon>
 		${TEST_FILE}
 	)
 	target_sources( ${REAL_TEST_NAME} 
@@ -264,6 +274,7 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	target_compile_definitions( ${REAL_TEST_NAME} PRIVATE
 		${ADDITIONAL_DEFINITIONS}
 		SDW_COMPILE_TESTS
+		SDW_TestSuiteName=${SHORT_TEST_NAME}
 	)
 	target_add_compilation_flags( ${REAL_TEST_NAME} )
 	if ( "${NAME_SUFFIX}" STREQUAL "" )

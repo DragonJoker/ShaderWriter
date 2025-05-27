@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -225,9 +224,9 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, noSpecificIO )
 	{
-		astTestBegin( "noSpecificIO" );
+		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -253,12 +252,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void noSpecificIOT( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, noSpecificIOT )
 	{
-		astTestBegin( "noSpecificIOT" );
+		sdwTestBegin( "noSpecificIOT" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -284,12 +283,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInputOnly )
 	{
-		astTestBegin( "specificMemberInputOnly" );
+		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -304,12 +303,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInputOnly )
 	{
-		astTestBegin( "specificGlobalInputOnly" );
+		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -325,12 +324,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInputOnly )
 	{
-		astTestBegin( "specificMixedInputOnly" );
+		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -346,12 +345,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberOutputOnly )
 	{
-		astTestBegin( "specificMemberOutputOnly" );
+		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -366,12 +365,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalOutputOnly )
 	{
-		astTestBegin( "specificGlobalOutputOnly" );
+		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -387,12 +386,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedOutputOnly )
 	{
-		astTestBegin( "specificMixedOutputOnly" );
+		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -409,12 +408,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInAndOut )
 	{
-		astTestBegin( "specificMemberInAndOut" );
+		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -429,12 +428,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInAndOut )
 	{
-		astTestBegin( "specificGlobalInAndOut" );
+		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -451,12 +450,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInAndOut )
 	{
-		astTestBegin( "specificMixedInAndOut" );
+		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -474,12 +473,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void fragment( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, fragment )
 	{
-		astTestBegin( "fragment" );
+		sdwTestBegin( "fragment" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -554,12 +553,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void radianceComputer( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, radianceComputer )
 	{
-		astTestBegin( "radianceComputer" );
+		sdwTestBegin( "radianceComputer" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -611,13 +610,13 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void textureOffset( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, textureOffset )
 	{
 		auto name = "textureOffset";
-		astTestBegin( name );
+		sdwTestBegin( name );
 		using namespace sdw;
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -636,12 +635,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void skybox( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, skybox )
 	{
-		astTestBegin( "skybox" );
+		sdwTestBegin( "skybox" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -673,12 +672,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void reference( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, reference )
 	{
-		astTestBegin( "reference" );
+		sdwTestBegin( "reference" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -726,12 +725,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void terminate( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, terminate )
 	{
-		astTestBegin( "terminate" );
+		sdwTestBegin( "terminate" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -750,12 +749,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void demote( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, demote )
 	{
-		astTestBegin( "demote" );
+		sdwTestBegin( "demote" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -774,12 +773,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void pixelInterlockOrdered( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, pixelInterlockOrdered )
 	{
-		astTestBegin( "pixelInterlockOrdered" );
+		sdwTestBegin( "pixelInterlockOrdered" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -796,12 +795,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void pixelInterlockUnordered( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, pixelInterlockUnordered )
 	{
-		astTestBegin( "pixelInterlockUnordered" );
+		sdwTestBegin( "pixelInterlockUnordered" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -819,12 +818,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void sampleInterlockOrdered( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, sampleInterlockOrdered )
 	{
-		astTestBegin( "sampleInterlockOrdered" );
+		sdwTestBegin( "sampleInterlockOrdered" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -842,12 +841,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void sampleInterlockUnordered( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, sampleInterlockUnordered )
 	{
-		astTestBegin( "sampleInterlockUnordered" );
+		sdwTestBegin( "sampleInterlockUnordered" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -865,36 +864,8 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterFragmentShader )
-{
-	sdwTestSuiteBegin();
-	noSpecificIO( testCounts );
-	noSpecificIOT( testCounts );
-	specificMemberInputOnly( testCounts );
-	specificGlobalInputOnly( testCounts );
-	specificMixedInputOnly( testCounts );
-	specificMemberOutputOnly( testCounts );
-	specificGlobalOutputOnly( testCounts );
-	specificMixedOutputOnly( testCounts );
-	specificMemberInAndOut( testCounts );
-	specificGlobalInAndOut( testCounts );
-	specificMixedInAndOut( testCounts );
-	fragment( testCounts );
-	radianceComputer( testCounts );
-	textureOffset( testCounts );
-	skybox( testCounts );
-	reference( testCounts );
-	terminate( testCounts );
-	demote( testCounts );
-	pixelInterlockOrdered( testCounts );
-	pixelInterlockUnordered( testCounts );
-	sampleInterlockOrdered( testCounts );
-	sampleInterlockUnordered( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterFragmentShader )

@@ -60,7 +60,7 @@ namespace checks
 
 	static void checkExprDependant( test::TestCounts & testCounts
 		, expr::IntrinsicCall const & expr
-		, std::string const & function
+		, char const * const function
 		, int line )
 	{
 		auto & exprCache = expr.getExprCache();
@@ -115,9 +115,111 @@ namespace checks
 			}
 		}
 	}
+	struct BarrierParam
+	{
+		type::Scope executionScope;
+		type::Scope memoryScope;
+		type::MemorySemantics semantics;
+	};
+	using Barrier = testing::TestWithParam< BarrierParam >;
+
+	std::string getName( type::Scope p )
+	{
+		switch ( p )
+		{
+		case ast::type::Scope::eCrossDevice:
+			return "CrossDevice";
+		case ast::type::Scope::eDevice:
+			return "Device";
+		case ast::type::Scope::eWorkgroup:
+			return "Workgroup";
+		case ast::type::Scope::eSubgroup:
+			return "Subgroup";
+		case ast::type::Scope::eInvocation:
+			return "Invocation";
+		case ast::type::Scope::eQueueFamily:
+			return "QueueFamily";
+		case ast::type::Scope::eShaderCall:
+			return "ShaderCall";
+		default:
+			return "Undefined";
+		}
+	}
+
+	std::string getName( type::MemorySemantics p )
+	{
+		std::string result{ "None" };
+		if ( ( p & type::MemorySemanticsMask::eAcquire ) != type::MemorySemanticsMask::eNone )
+			result += "_Acquire";
+		if ( ( p & type::MemorySemanticsMask::eRelease ) != type::MemorySemanticsMask::eNone )
+			result += "_Release";
+		if ( ( p & type::MemorySemanticsMask::eAcquireRelease ) != type::MemorySemanticsMask::eNone )
+			result += "_AcquireRelease";
+		if ( ( p & type::MemorySemanticsMask::eSequentiallyConsistent ) != type::MemorySemanticsMask::eNone )
+			result += "_SequentiallyConsistent";
+		if ( ( p & type::MemorySemanticsMask::eUniformMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_UniformMemory";
+		if ( ( p & type::MemorySemanticsMask::eSubgroupMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_SubgroupMemory";
+		if ( ( p & type::MemorySemanticsMask::eWorkgroupMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_WorkgroupMemory";
+		if ( ( p & type::MemorySemanticsMask::eCrossWorkgroupMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_CrossWorkgroupMemory";
+		if ( ( p & type::MemorySemanticsMask::eAtomicCounterMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_AtomicCounterMemory";
+		if ( ( p & type::MemorySemanticsMask::eImageMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_ImageMemory";
+		if ( ( p & type::MemorySemanticsMask::eOutputMemory ) != type::MemorySemanticsMask::eNone )
+			result += "_OutputMemory";
+		if ( ( p & type::MemorySemanticsMask::eMakeAvailable ) != type::MemorySemanticsMask::eNone )
+			result += "_MakeAvailable";
+		if ( ( p & type::MemorySemanticsMask::eMakeVisible ) != type::MemorySemanticsMask::eNone )
+			result += "_MakeVisible";
+		if ( ( p & type::MemorySemanticsMask::eVolatile ) != type::MemorySemanticsMask::eNone )
+			result += "_Volatile";
+		return result;
+	}
+
+	std::string getBarrierParamName( BarrierParam p )
+	{
+		return getName( p.executionScope )
+			+ getName( p.memoryScope )
+			+ getName( p.semantics );
+	}
+
+	std::vector< BarrierParam > const barrierParams{ []()
+		{
+			static const std::array< type::MemorySemanticsMask, 15 > semanticMasks
+			{
+				type::MemorySemanticsMask::eNone,
+				type::MemorySemanticsMask::eAcquire,
+				type::MemorySemanticsMask::eRelease,
+				type::MemorySemanticsMask::eAcquireRelease,
+				type::MemorySemanticsMask::eSequentiallyConsistent,
+				type::MemorySemanticsMask::eUniformMemory,
+				type::MemorySemanticsMask::eSubgroupMemory,
+				type::MemorySemanticsMask::eWorkgroupMemory,
+				type::MemorySemanticsMask::eCrossWorkgroupMemory,
+				type::MemorySemanticsMask::eAtomicCounterMemory,
+				type::MemorySemanticsMask::eImageMemory,
+				type::MemorySemanticsMask::eOutputMemory,
+				type::MemorySemanticsMask::eMakeAvailable,
+				type::MemorySemanticsMask::eMakeVisible,
+				type::MemorySemanticsMask::eVolatile,
+			};
+			std::vector< BarrierParam > result;
+			for ( uint32_t s = 0; s < uint32_t( type::Scope::eShaderCall ); ++s )
+			{
+				for ( auto mask : semanticMasks )
+				{
+					result.push_back( { type::Scope( s ), type::Scope( s ), type::MemorySemantics{ mask } } );
+				}
+			}
+			return result;
+		}() };
 	// Angle and Trigonometry Functions
 
-	static void testDegrees1(test::TestCounts & testCounts )
+	TEST( Intrinsic, Degrees1 )
 	{
 		astTestBegin( "testDegrees1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -140,7 +242,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDegrees2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Degrees2 )
 	{
 		astTestBegin( "testDegrees2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -163,7 +266,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDegrees3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Degrees3 )
 	{
 		astTestBegin( "testDegrees3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -186,7 +290,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDegrees4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Degrees4 )
 	{
 		astTestBegin( "testDegrees4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -209,7 +314,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRadians1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Radians1F )
 	{
 		astTestBegin( "testRadians1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -232,7 +338,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRadians2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Radians2F )
 	{
 		astTestBegin( "testRadians2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -255,7 +362,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRadians3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Radians3F )
 	{
 		astTestBegin( "testRadians3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -278,7 +386,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRadians4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Radians4F )
 	{
 		astTestBegin( "testRadians4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -301,7 +410,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCos1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cos1 )
 	{
 		astTestBegin( "testCos1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -324,7 +434,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCos2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cos2 )
 	{
 		astTestBegin( "testCos2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -347,7 +458,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCos3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cos3 )
 	{
 		astTestBegin( "testCos3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -370,7 +482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCos4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cos4 )
 	{
 		astTestBegin( "testCos4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -393,7 +506,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSin1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sin1 )
 	{
 		astTestBegin( "testSin1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -416,7 +530,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSin2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sin2 )
 	{
 		astTestBegin( "testSin2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -439,7 +554,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSin3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sin3 )
 	{
 		astTestBegin( "testSin3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -462,7 +578,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSin4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sin4 )
 	{
 		astTestBegin( "testSin4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -485,7 +602,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTan1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tan1 )
 	{
 		astTestBegin( "testTan1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -508,7 +626,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTan2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tan2 )
 	{
 		astTestBegin( "testTan2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -531,7 +650,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTan3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tan3 )
 	{
 		astTestBegin( "testTan3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -554,7 +674,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTan4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tan4 )
 	{
 		astTestBegin( "testTan4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -577,7 +698,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCosh1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cosh1 )
 	{
 		astTestBegin( "testCosh1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -600,7 +722,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCosh2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cosh2 )
 	{
 		astTestBegin( "testCosh2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -623,7 +746,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCosh3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cosh3 )
 	{
 		astTestBegin( "testCosh3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -646,7 +770,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCosh4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Cosh4 )
 	{
 		astTestBegin( "testCosh4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -669,7 +794,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSinh1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sinh1 )
 	{
 		astTestBegin( "testSinh1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -692,7 +818,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSinh2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sinh2 )
 	{
 		astTestBegin( "testSinh2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -715,7 +842,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSinh3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sinh3 )
 	{
 		astTestBegin( "testSinh3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -738,7 +866,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSinh4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sinh4 )
 	{
 		astTestBegin( "testSinh4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -761,7 +890,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTanh1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tanh1 )
 	{
 		astTestBegin( "testTanh1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -784,7 +914,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTanh2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tanh2 )
 	{
 		astTestBegin( "testTanh2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -807,7 +938,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTanh3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tanh3 )
 	{
 		astTestBegin( "testTanh3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -830,7 +962,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTanh4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Tanh4 )
 	{
 		astTestBegin( "testTanh4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -853,7 +986,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcos1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acos1 )
 	{
 		astTestBegin( "testAcos1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -876,7 +1010,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcos2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acos2 )
 	{
 		astTestBegin( "testAcos2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -899,7 +1034,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcos3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acos3 )
 	{
 		astTestBegin( "testAcos3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -922,7 +1058,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcos4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acos4 )
 	{
 		astTestBegin( "testAcos4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -945,7 +1082,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsin1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asin1 )
 	{
 		astTestBegin( "testAsin1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -968,7 +1106,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsin2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asin2 )
 	{
 		astTestBegin( "testAsin2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -991,7 +1130,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsin3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asin3 )
 	{
 		astTestBegin( "testAsin3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1014,7 +1154,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsin4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asin4 )
 	{
 		astTestBegin( "testAsin4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1037,7 +1178,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan1 )
 	{
 		astTestBegin( "testAtan1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1060,7 +1202,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan2 )
 	{
 		astTestBegin( "testAtan2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1083,7 +1226,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan3 )
 	{
 		astTestBegin( "testAtan3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1106,7 +1250,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan4 )
 	{
 		astTestBegin( "testAtan4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1129,7 +1274,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan21(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan21 )
 	{
 		astTestBegin( "testAtan21" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1156,7 +1302,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan22(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan22 )
 	{
 		astTestBegin( "testAtan22" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1183,7 +1330,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan23(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan23 )
 	{
 		astTestBegin( "testAtan23" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1210,7 +1358,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtan24(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atan24 )
 	{
 		astTestBegin( "testAtan24" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1237,7 +1386,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcosh1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acosh1 )
 	{
 		astTestBegin( "testAcosh1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1260,7 +1410,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcosh2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acosh2 )
 	{
 		astTestBegin( "testAcosh2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1283,7 +1434,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcosh3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acosh3 )
 	{
 		astTestBegin( "testAcosh3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1306,7 +1458,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAcosh4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Acosh4 )
 	{
 		astTestBegin( "testAcosh4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1329,7 +1482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsinh1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asinh1 )
 	{
 		astTestBegin( "testAsinh1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1352,7 +1506,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsinh2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asinh2 )
 	{
 		astTestBegin( "testAsinh2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1375,7 +1530,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsinh3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asinh3 )
 	{
 		astTestBegin( "testAsinh3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1398,7 +1554,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAsinh4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Asinh4 )
 	{
 		astTestBegin( "testAsinh4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1421,7 +1578,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtanh1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atanh1 )
 	{
 		astTestBegin( "testAtanh1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1444,7 +1602,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtanh2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atanh2 )
 	{
 		astTestBegin( "testAtanh2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1467,7 +1626,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtanh3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atanh3 )
 	{
 		astTestBegin( "testAtanh3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1490,7 +1650,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtanh4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Atanh4 )
 	{
 		astTestBegin( "testAtanh4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1513,9 +1674,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Exponential Functions
 
-	static void testPow1(test::TestCounts & testCounts )
+	TEST( Intrinsic, Pow1 )
 	{
 		astTestBegin( "testPow1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1542,7 +1704,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPow2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Pow2 )
 	{
 		astTestBegin( "testPow2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1569,7 +1732,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPow3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Pow3 )
 	{
 		astTestBegin( "testPow3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1596,7 +1760,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPow4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Pow4 )
 	{
 		astTestBegin( "testPow4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1623,7 +1788,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp1 )
 	{
 		astTestBegin( "testExp1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1646,7 +1812,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp2 )
 	{
 		astTestBegin( "testExp2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1669,7 +1836,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp3 )
 	{
 		astTestBegin( "testExp3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1692,7 +1860,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp4 )
 	{
 		astTestBegin( "testExp4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1715,7 +1884,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log1 )
 	{
 		astTestBegin( "testLog1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1738,7 +1908,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log2 )
 	{
 		astTestBegin( "testLog2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1761,7 +1932,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log3 )
 	{
 		astTestBegin( "testLog3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1784,7 +1956,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log4 )
 	{
 		astTestBegin( "testLog4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1807,7 +1980,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp21(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp21 )
 	{
 		astTestBegin( "testExp21" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1830,7 +2004,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp22(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp22 )
 	{
 		astTestBegin( "testExp22" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1853,7 +2028,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp23(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp23 )
 	{
 		astTestBegin( "testExp23" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1876,7 +2052,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExp24(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Exp24 )
 	{
 		astTestBegin( "testExp24" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1899,7 +2076,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog21(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log21 )
 	{
 		astTestBegin( "testLog21" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1922,7 +2100,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog22(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log22 )
 	{
 		astTestBegin( "testLog22" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1945,7 +2124,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog23(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log23 )
 	{
 		astTestBegin( "testLog23" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1968,7 +2148,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLog24(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Log24 )
 	{
 		astTestBegin( "testLog24" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1991,7 +2172,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt1F )
 	{
 		astTestBegin( "testSqrt1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2014,7 +2196,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt2F )
 	{
 		astTestBegin( "testSqrt2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2037,7 +2220,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt3F )
 	{
 		astTestBegin( "testSqrt3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2060,7 +2244,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt4F )
 	{
 		astTestBegin( "testSqrt4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2083,7 +2268,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt1D )
 	{
 		astTestBegin( "testSqrt1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2106,7 +2292,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt2D )
 	{
 		astTestBegin( "testSqrt2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2129,7 +2316,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt3D )
 	{
 		astTestBegin( "testSqrt3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2152,7 +2340,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSqrt4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sqrt4D )
 	{
 		astTestBegin( "testSqrt4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2175,7 +2364,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt1F )
 	{
 		astTestBegin( "testInverseSqrt1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2198,7 +2388,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt2F )
 	{
 		astTestBegin( "testInverseSqrt2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2221,7 +2412,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt3F )
 	{
 		astTestBegin( "testInverseSqrt3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2244,7 +2436,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt4F )
 	{
 		astTestBegin( "testInverseSqrt4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2267,7 +2460,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt1D )
 	{
 		astTestBegin( "testInverseSqrt1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2290,7 +2484,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt2D )
 	{
 		astTestBegin( "testInverseSqrt2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2313,7 +2508,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt3D )
 	{
 		astTestBegin( "testInverseSqrt3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2336,7 +2532,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverseSqrt4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InverseSqrt4D )
 	{
 		astTestBegin( "testInverseSqrt4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2359,9 +2556,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Common Functions
 
-	static void testAbs1F(test::TestCounts & testCounts )
+	TEST( Intrinsic, Abs1F )
 	{
 		astTestBegin( "testAbs1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2384,7 +2582,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs2F )
 	{
 		astTestBegin( "testAbs2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2407,7 +2606,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs3F )
 	{
 		astTestBegin( "testAbs3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2430,7 +2630,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs4F )
 	{
 		astTestBegin( "testAbs4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2453,7 +2654,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs1I )
 	{
 		astTestBegin( "testAbs1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2476,7 +2678,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs2I )
 	{
 		astTestBegin( "testAbs2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2499,7 +2702,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs3I )
 	{
 		astTestBegin( "testAbs3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2522,7 +2726,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs4I )
 	{
 		astTestBegin( "testAbs4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2545,7 +2750,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs1D )
 	{
 		astTestBegin( "testAbs1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2568,7 +2774,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs2D )
 	{
 		astTestBegin( "testAbs2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2591,7 +2798,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs3D )
 	{
 		astTestBegin( "testAbs3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2614,7 +2822,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAbs4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Abs4D )
 	{
 		astTestBegin( "testAbs4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2637,7 +2846,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign1F )
 	{
 		astTestBegin( "testSign1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2660,7 +2870,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign2F )
 	{
 		astTestBegin( "testSign2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2683,7 +2894,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign3F )
 	{
 		astTestBegin( "testSign3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2706,7 +2918,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign4F )
 	{
 		astTestBegin( "testSign4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2729,7 +2942,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign1I )
 	{
 		astTestBegin( "testSign1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2752,7 +2966,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign2I )
 	{
 		astTestBegin( "testSign2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2775,7 +2990,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign3I )
 	{
 		astTestBegin( "testSign3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2798,7 +3014,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign4I )
 	{
 		astTestBegin( "testSign4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2821,7 +3038,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign1D )
 	{
 		astTestBegin( "testSign1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2844,7 +3062,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign2D )
 	{
 		astTestBegin( "testSign2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2867,7 +3086,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign3D )
 	{
 		astTestBegin( "testSign3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2890,7 +3110,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSign4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Sign4D )
 	{
 		astTestBegin( "testSign4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2913,7 +3134,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor1F )
 	{
 		astTestBegin( "testFloor1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2936,7 +3158,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor2F )
 	{
 		astTestBegin( "testFloor2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2959,7 +3182,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor3F )
 	{
 		astTestBegin( "testFloor3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2982,7 +3206,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor4F )
 	{
 		astTestBegin( "testFloor4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3005,7 +3230,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor1D )
 	{
 		astTestBegin( "testFloor1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3028,7 +3254,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor2D )
 	{
 		astTestBegin( "testFloor2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3051,7 +3278,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor3D )
 	{
 		astTestBegin( "testFloor3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3074,7 +3302,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloor4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Floor4D )
 	{
 		astTestBegin( "testFloor4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3097,7 +3326,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc1F )
 	{
 		astTestBegin( "testTrunc1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3120,7 +3350,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc2F )
 	{
 		astTestBegin( "testTrunc2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3143,7 +3374,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc3F )
 	{
 		astTestBegin( "testTrunc3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3166,7 +3398,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc4F )
 	{
 		astTestBegin( "testTrunc4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3189,7 +3422,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc1D )
 	{
 		astTestBegin( "testTrunc1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3212,7 +3446,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc2D )
 	{
 		astTestBegin( "testTrunc2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3235,7 +3470,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc3D )
 	{
 		astTestBegin( "testTrunc3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3258,7 +3494,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTrunc4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Trunc4D )
 	{
 		astTestBegin( "testTrunc4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3281,7 +3518,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round1F )
 	{
 		astTestBegin( "testRound1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3304,7 +3542,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round2F )
 	{
 		astTestBegin( "testRound2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3327,7 +3566,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round3F )
 	{
 		astTestBegin( "testRound3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3350,7 +3590,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round4F )
 	{
 		astTestBegin( "testRound4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3373,7 +3614,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round1D )
 	{
 		astTestBegin( "testRound1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3396,7 +3638,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round2D )
 	{
 		astTestBegin( "testRound2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3419,7 +3662,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round3D )
 	{
 		astTestBegin( "testRound3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3442,7 +3686,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRound4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Round4D )
 	{
 		astTestBegin( "testRound4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3465,7 +3710,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven1F )
 	{
 		astTestBegin( "testRoundEven1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3488,7 +3734,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven2F )
 	{
 		astTestBegin( "testRoundEven2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3511,7 +3758,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven3F )
 	{
 		astTestBegin( "testRoundEven3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3534,7 +3782,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven4F )
 	{
 		astTestBegin( "testRoundEven4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3557,7 +3806,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven1D )
 	{
 		astTestBegin( "testRoundEven1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3580,7 +3830,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven2D )
 	{
 		astTestBegin( "testRoundEven2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3603,7 +3854,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven3D )
 	{
 		astTestBegin( "testRoundEven3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3626,7 +3878,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRoundEven4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, RoundEven4D )
 	{
 		astTestBegin( "testRoundEven4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3649,7 +3902,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil1F )
 	{
 		astTestBegin( "testCeil1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3672,7 +3926,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil2F )
 	{
 		astTestBegin( "testCeil2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3695,7 +3950,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil3F )
 	{
 		astTestBegin( "testCeil3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3718,7 +3974,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil4F )
 	{
 		astTestBegin( "testCeil4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3741,7 +3998,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil1D )
 	{
 		astTestBegin( "testCeil1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3764,7 +4022,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil2D )
 	{
 		astTestBegin( "testCeil2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3787,7 +4046,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil3D )
 	{
 		astTestBegin( "testCeil3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3810,7 +4070,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCeil4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ceil4D )
 	{
 		astTestBegin( "testCeil4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3833,7 +4094,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract1F )
 	{
 		astTestBegin( "testFract1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3856,7 +4118,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract2F )
 	{
 		astTestBegin( "testFract2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3879,7 +4142,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract3F )
 	{
 		astTestBegin( "testFract3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3902,7 +4166,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract4F )
 	{
 		astTestBegin( "testFract4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3925,7 +4190,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract1D )
 	{
 		astTestBegin( "testFract1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3948,7 +4214,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract2D )
 	{
 		astTestBegin( "testFract2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3971,7 +4238,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract3D )
 	{
 		astTestBegin( "testFract3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3994,7 +4262,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFract4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fract4D )
 	{
 		astTestBegin( "testFract4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4017,7 +4286,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod1F )
 	{
 		astTestBegin( "testMod1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4044,7 +4314,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod2F )
 	{
 		astTestBegin( "testMod2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4071,7 +4342,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod3F )
 	{
 		astTestBegin( "testMod3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4098,7 +4370,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod4F )
 	{
 		astTestBegin( "testMod4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4125,7 +4398,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod1D )
 	{
 		astTestBegin( "testMod1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4152,7 +4426,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod2D )
 	{
 		astTestBegin( "testMod2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4179,7 +4454,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod3D )
 	{
 		astTestBegin( "testMod3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4206,7 +4482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMod4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mod4D )
 	{
 		astTestBegin( "testMod4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4233,7 +4510,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf1F )
 	{
 		astTestBegin( "testModf1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4260,7 +4538,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf2F )
 	{
 		astTestBegin( "testModf2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4287,7 +4566,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf3F )
 	{
 		astTestBegin( "testModf3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4314,7 +4594,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf4F )
 	{
 		astTestBegin( "testModf4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4341,7 +4622,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf1D )
 	{
 		astTestBegin( "testModf1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4368,7 +4650,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf2D )
 	{
 		astTestBegin( "testModf2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4395,7 +4678,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf3D )
 	{
 		astTestBegin( "testModf3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4422,7 +4706,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testModf4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Modf4D )
 	{
 		astTestBegin( "testModf4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4449,7 +4734,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min1F )
 	{
 		astTestBegin( "testMin1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4476,7 +4762,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min2F )
 	{
 		astTestBegin( "testMin2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4503,7 +4790,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min3F )
 	{
 		astTestBegin( "testMin3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4530,7 +4818,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min4F )
 	{
 		astTestBegin( "testMin4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4557,7 +4846,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min1D )
 	{
 		astTestBegin( "testMin1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4584,7 +4874,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min2D )
 	{
 		astTestBegin( "testMin2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4611,7 +4902,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min3D )
 	{
 		astTestBegin( "testMin3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4638,7 +4930,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min4D )
 	{
 		astTestBegin( "testMin4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4665,7 +4958,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min1I )
 	{
 		astTestBegin( "testMin1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4692,7 +4986,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min2I )
 	{
 		astTestBegin( "testMin2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4719,7 +5014,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min3I )
 	{
 		astTestBegin( "testMin3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4746,7 +5042,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min4I )
 	{
 		astTestBegin( "testMin4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4773,7 +5070,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min1U )
 	{
 		astTestBegin( "testMin1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4800,7 +5098,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min2U )
 	{
 		astTestBegin( "testMin2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4827,7 +5126,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min3U )
 	{
 		astTestBegin( "testMin3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4854,7 +5154,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMin4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Min4U )
 	{
 		astTestBegin( "testMin4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4881,7 +5182,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max1F )
 	{
 		astTestBegin( "testMax1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4908,7 +5210,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max2F )
 	{
 		astTestBegin( "testMax2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4935,7 +5238,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max3F )
 	{
 		astTestBegin( "testMax3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4962,7 +5266,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max4F )
 	{
 		astTestBegin( "testMax4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4989,7 +5294,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max1D )
 	{
 		astTestBegin( "testMax1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5016,7 +5322,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max2D )
 	{
 		astTestBegin( "testMax2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5043,7 +5350,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max3D )
 	{
 		astTestBegin( "testMax3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5070,7 +5378,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max4D )
 	{
 		astTestBegin( "testMax4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5097,7 +5406,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max1I )
 	{
 		astTestBegin( "testMax1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5124,7 +5434,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max2I )
 	{
 		astTestBegin( "testMax2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5151,7 +5462,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max3I )
 	{
 		astTestBegin( "testMax3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5178,7 +5490,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max4I )
 	{
 		astTestBegin( "testMax4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5205,7 +5518,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max1U )
 	{
 		astTestBegin( "testMax1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5232,7 +5546,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max2U )
 	{
 		astTestBegin( "testMax2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5259,7 +5574,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max3U )
 	{
 		astTestBegin( "testMax3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5286,7 +5602,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMax4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Max4U )
 	{
 		astTestBegin( "testMax4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5313,7 +5630,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp1F )
 	{
 		astTestBegin( "testClamp1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5344,7 +5662,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp2F )
 	{
 		astTestBegin( "testClamp2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5375,7 +5694,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp3F )
 	{
 		astTestBegin( "testClamp3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5406,7 +5726,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp4F )
 	{
 		astTestBegin( "testClamp4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5437,7 +5758,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp1D )
 	{
 		astTestBegin( "testClamp1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5468,7 +5790,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp2D )
 	{
 		astTestBegin( "testClamp2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5499,7 +5822,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp3D )
 	{
 		astTestBegin( "testClamp3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5530,7 +5854,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp4D )
 	{
 		astTestBegin( "testClamp4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5561,7 +5886,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp1I )
 	{
 		astTestBegin( "testClamp1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5592,7 +5918,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp2I )
 	{
 		astTestBegin( "testClamp2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5623,7 +5950,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp3I )
 	{
 		astTestBegin( "testClamp3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5654,7 +5982,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp4I )
 	{
 		astTestBegin( "testClamp4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5685,7 +6014,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp1U )
 	{
 		astTestBegin( "testClamp1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5716,7 +6046,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp2U )
 	{
 		astTestBegin( "testClamp2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5747,7 +6078,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp3U )
 	{
 		astTestBegin( "testClamp3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5778,7 +6110,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testClamp4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Clamp4U )
 	{
 		astTestBegin( "testClamp4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5809,7 +6142,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix1F )
 	{
 		astTestBegin( "testMix1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5840,7 +6174,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix2F )
 	{
 		astTestBegin( "testMix2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5871,7 +6206,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix3F )
 	{
 		astTestBegin( "testMix3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5902,7 +6238,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix4F )
 	{
 		astTestBegin( "testMix4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5933,7 +6270,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix1D )
 	{
 		astTestBegin( "testMix1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5964,7 +6302,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix2D )
 	{
 		astTestBegin( "testMix2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -5995,7 +6334,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix3D )
 	{
 		astTestBegin( "testMix3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6026,7 +6366,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMix4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Mix4D )
 	{
 		astTestBegin( "testMix4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6057,7 +6398,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step1F )
 	{
 		astTestBegin( "testStep1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6084,7 +6426,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step2F )
 	{
 		astTestBegin( "testStep2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6111,7 +6454,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step3F )
 	{
 		astTestBegin( "testStep3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6138,7 +6482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step4F )
 	{
 		astTestBegin( "testStep4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6165,7 +6510,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step1D )
 	{
 		astTestBegin( "testStep1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6192,7 +6538,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step2D )
 	{
 		astTestBegin( "testStep2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6219,7 +6566,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step3D )
 	{
 		astTestBegin( "testStep3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6246,7 +6594,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testStep4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Step4D )
 	{
 		astTestBegin( "testStep4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6273,7 +6622,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep1F )
 	{
 		astTestBegin( "testSmoothStep1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6304,7 +6654,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep2F )
 	{
 		astTestBegin( "testSmoothStep2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6335,7 +6686,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep3F )
 	{
 		astTestBegin( "testSmoothStep3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6366,7 +6718,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep4F )
 	{
 		astTestBegin( "testSmoothStep4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6397,7 +6750,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep1D )
 	{
 		astTestBegin( "testSmoothStep1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6428,7 +6782,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep2D )
 	{
 		astTestBegin( "testSmoothStep2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6459,7 +6814,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep3D )
 	{
 		astTestBegin( "testSmoothStep3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6490,7 +6846,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSmoothStep4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SmoothStep4D )
 	{
 		astTestBegin( "testSmoothStep4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6521,7 +6878,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan1F )
 	{
 		astTestBegin( "testIsnan1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6544,7 +6902,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan2F )
 	{
 		astTestBegin( "testIsnan2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6567,7 +6926,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan3F )
 	{
 		astTestBegin( "testIsnan3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6590,7 +6950,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan4F )
 	{
 		astTestBegin( "testIsnan4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6613,7 +6974,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan1D )
 	{
 		astTestBegin( "testIsnan1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6636,7 +6998,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan2D )
 	{
 		astTestBegin( "testIsnan2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6659,7 +7022,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan3D )
 	{
 		astTestBegin( "testIsnan3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6682,7 +7046,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsnan4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isnan4D )
 	{
 		astTestBegin( "testIsnan4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6705,7 +7070,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf1F )
 	{
 		astTestBegin( "testIsinf1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6728,7 +7094,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf2F )
 	{
 		astTestBegin( "testIsinf2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6751,7 +7118,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf3F )
 	{
 		astTestBegin( "testIsinf3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6774,7 +7142,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf4F )
 	{
 		astTestBegin( "testIsinf4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6797,7 +7166,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf1D )
 	{
 		astTestBegin( "testIsinf1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6820,7 +7190,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf2D )
 	{
 		astTestBegin( "testIsinf2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6843,7 +7214,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf3D )
 	{
 		astTestBegin( "testIsinf3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6866,7 +7238,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIsinf4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Isinf4D )
 	{
 		astTestBegin( "testIsinf4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6889,7 +7262,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToInt1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToInt1 )
 	{
 		astTestBegin( "testFloatBitsToInt1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6912,7 +7286,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToInt2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToInt2 )
 	{
 		astTestBegin( "testFloatBitsToInt2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6935,7 +7310,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToInt3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToInt3 )
 	{
 		astTestBegin( "testFloatBitsToInt3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6958,7 +7334,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToInt4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToInt4 )
 	{
 		astTestBegin( "testFloatBitsToInt4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -6981,7 +7358,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToUInt1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToUInt1 )
 	{
 		astTestBegin( "testFloatBitsToUInt1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7004,7 +7382,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToUInt2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToUInt2 )
 	{
 		astTestBegin( "testFloatBitsToUInt2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7027,7 +7406,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToUInt3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToUInt3 )
 	{
 		astTestBegin( "testFloatBitsToUInt3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7050,7 +7430,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFloatBitsToUInt4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FloatBitsToUInt4 )
 	{
 		astTestBegin( "testFloatBitsToUInt4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7073,7 +7454,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIntBitsToFloat1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, IntBitsToFloat1 )
 	{
 		astTestBegin( "testIntBitsToFloat1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7096,7 +7478,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIntBitsToFloat2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, IntBitsToFloat2 )
 	{
 		astTestBegin( "testIntBitsToFloat2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7119,7 +7502,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIntBitsToFloat3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, IntBitsToFloat3 )
 	{
 		astTestBegin( "testIntBitsToFloat3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7142,7 +7526,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testIntBitsToFloat4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, IntBitsToFloat4 )
 	{
 		astTestBegin( "testIntBitsToFloat4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7165,7 +7550,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUintBitsToFloat1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UintBitsToFloat1 )
 	{
 		astTestBegin( "testUintBitsToFloat1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7188,7 +7574,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUintBitsToFloat2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UintBitsToFloat2 )
 	{
 		astTestBegin( "testUintBitsToFloat2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7211,7 +7598,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUintBitsToFloat3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UintBitsToFloat3 )
 	{
 		astTestBegin( "testUintBitsToFloat3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7234,7 +7622,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUintBitsToFloat4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UintBitsToFloat4 )
 	{
 		astTestBegin( "testUintBitsToFloat4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7257,7 +7646,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma1F )
 	{
 		astTestBegin( "testFma1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7288,7 +7678,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma2F )
 	{
 		astTestBegin( "testFma2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7319,7 +7710,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma3F )
 	{
 		astTestBegin( "testFma3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7350,7 +7742,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma4F )
 	{
 		astTestBegin( "testFma4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7381,7 +7774,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma1D )
 	{
 		astTestBegin( "testFma1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7412,7 +7806,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma2D )
 	{
 		astTestBegin( "testFma2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7443,7 +7838,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma3D )
 	{
 		astTestBegin( "testFma3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7474,7 +7870,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFma4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fma4D )
 	{
 		astTestBegin( "testFma4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7505,7 +7902,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp1F )
 	{
 		astTestBegin( "testFrexp1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7532,7 +7930,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp2F )
 	{
 		astTestBegin( "testFrexp2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7559,7 +7958,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp3F )
 	{
 		astTestBegin( "testFrexp3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7586,7 +7986,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp4F )
 	{
 		astTestBegin( "testFrexp4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7613,7 +8014,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp1D )
 	{
 		astTestBegin( "testFrexp1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7640,7 +8042,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp2D )
 	{
 		astTestBegin( "testFrexp2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7667,7 +8070,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp3D )
 	{
 		astTestBegin( "testFrexp3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7694,7 +8098,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFrexp4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Frexp4D )
 	{
 		astTestBegin( "testFrexp4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7721,7 +8126,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp1F )
 	{
 		astTestBegin( "testLdexp1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7748,7 +8154,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp2F )
 	{
 		astTestBegin( "testLdexp2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7775,7 +8182,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp3F )
 	{
 		astTestBegin( "testLdexp3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7802,7 +8210,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp4F )
 	{
 		astTestBegin( "testLdexp4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7829,7 +8238,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp1D )
 	{
 		astTestBegin( "testLdexp1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7856,7 +8266,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp2D )
 	{
 		astTestBegin( "testLdexp2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7883,7 +8294,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp3D )
 	{
 		astTestBegin( "testLdexp3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7910,7 +8322,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLdexp4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Ldexp4D )
 	{
 		astTestBegin( "testLdexp4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7937,9 +8350,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Floating-point Pack and Unpack Functions
 
-	static void testPackDouble2x32(test::TestCounts & testCounts )
+	TEST( Intrinsic, PackDouble2x32 )
 	{
 		astTestBegin( "testPackDouble2x32" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7962,7 +8376,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPackHalf2x16(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, PackHalf2x16 )
 	{
 		astTestBegin( "testPackHalf2x16" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -7985,7 +8400,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPackSnorm2x16(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, PackSnorm2x16 )
 	{
 		astTestBegin( "testPackSnorm2x16" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8008,7 +8424,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPackSnorm4x8(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, PackSnorm4x8 )
 	{
 		astTestBegin( "testPackSnorm4x8" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8031,7 +8448,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPackUnorm2x16(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, PackUnorm2x16 )
 	{
 		astTestBegin( "testPackUnorm2x16" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8054,7 +8472,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testPackUnorm4x8(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, PackUnorm4x8 )
 	{
 		astTestBegin( "testPackUnorm4x8" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8077,7 +8496,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUnpackDouble2x32(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UnpackDouble2x32 )
 	{
 		astTestBegin( "testUnpackDouble2x32" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8100,7 +8520,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUnpackHalf2x16(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UnpackHalf2x16 )
 	{
 		astTestBegin( "testUnpackHalf2x16" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8123,7 +8544,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUnpackSnorm2x16(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UnpackSnorm2x16 )
 	{
 		astTestBegin( "testUnpackSnorm2x16" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8146,7 +8568,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUnpackSnorm4x8(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UnpackSnorm4x8 )
 	{
 		astTestBegin( "testUnpackSnorm4x8" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8169,7 +8592,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUnpackUnorm2x16(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UnpackUnorm2x16 )
 	{
 		astTestBegin( "testUnpackUnorm2x16" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8192,7 +8616,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUnpackUnorm4x8(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UnpackUnorm4x8 )
 	{
 		astTestBegin( "testUnpackUnorm4x8" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8215,9 +8640,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Geometric Functions
 
-	static void testLength1F(test::TestCounts & testCounts )
+	TEST( Intrinsic, Length1F )
 	{
 		astTestBegin( "testLength1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8240,7 +8666,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length2F )
 	{
 		astTestBegin( "testLength2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8263,7 +8690,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length3F )
 	{
 		astTestBegin( "testLength3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8286,7 +8714,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length4F )
 	{
 		astTestBegin( "testLength4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8309,7 +8738,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length1D )
 	{
 		astTestBegin( "testLength1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8332,7 +8762,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length2D )
 	{
 		astTestBegin( "testLength2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8355,7 +8786,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length3D )
 	{
 		astTestBegin( "testLength3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8378,7 +8810,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLength4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Length4D )
 	{
 		astTestBegin( "testLength4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8401,7 +8834,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance1F )
 	{
 		astTestBegin( "testDistance1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8428,7 +8862,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance2F )
 	{
 		astTestBegin( "testDistance2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8455,7 +8890,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance3F )
 	{
 		astTestBegin( "testDistance3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8482,7 +8918,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance4F )
 	{
 		astTestBegin( "testDistance4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8509,7 +8946,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance1D )
 	{
 		astTestBegin( "testDistance1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8536,7 +8974,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance2D )
 	{
 		astTestBegin( "testDistance2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8563,7 +9002,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance3D )
 	{
 		astTestBegin( "testDistance3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8590,7 +9030,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDistance4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Distance4D )
 	{
 		astTestBegin( "testDistance4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8617,7 +9058,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot1F )
 	{
 		astTestBegin( "testDot1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8644,7 +9086,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot2F )
 	{
 		astTestBegin( "testDot2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8671,7 +9114,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot3F )
 	{
 		astTestBegin( "testDot3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8698,7 +9142,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot4F )
 	{
 		astTestBegin( "testDot4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8725,7 +9170,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot1D )
 	{
 		astTestBegin( "testDot1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8752,7 +9198,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot2D )
 	{
 		astTestBegin( "testDot2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8779,7 +9226,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot3D )
 	{
 		astTestBegin( "testDot3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8806,7 +9254,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDot4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Dot4D )
 	{
 		astTestBegin( "testDot4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8833,7 +9282,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCrossF(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, CrossF )
 	{
 		astTestBegin( "testCrossF" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8860,7 +9310,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testCrossD(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, CrossD )
 	{
 		astTestBegin( "testCrossD" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8887,7 +9338,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize1F )
 	{
 		astTestBegin( "testNormalize1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8910,7 +9362,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize2F )
 	{
 		astTestBegin( "testNormalize2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8933,7 +9386,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize3F )
 	{
 		astTestBegin( "testNormalize3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8956,7 +9410,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize4F )
 	{
 		astTestBegin( "testNormalize4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -8979,7 +9434,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize1D )
 	{
 		astTestBegin( "testNormalize1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9002,7 +9458,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize2D )
 	{
 		astTestBegin( "testNormalize2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9025,7 +9482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize3D )
 	{
 		astTestBegin( "testNormalize3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9048,7 +9506,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNormalize4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Normalize4D )
 	{
 		astTestBegin( "testNormalize4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9071,7 +9530,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward1F )
 	{
 		astTestBegin( "testFaceForward1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9102,7 +9562,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward2F )
 	{
 		astTestBegin( "testFaceForward2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9133,7 +9594,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward3F )
 	{
 		astTestBegin( "testFaceForward3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9164,7 +9626,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward4F )
 	{
 		astTestBegin( "testFaceForward4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9195,7 +9658,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward1D )
 	{
 		astTestBegin( "testFaceForward1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9226,7 +9690,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward2D )
 	{
 		astTestBegin( "testFaceForward2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9257,7 +9722,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward3D )
 	{
 		astTestBegin( "testFaceForward3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9288,7 +9754,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFaceForward4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FaceForward4D )
 	{
 		astTestBegin( "testFaceForward4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9319,7 +9786,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect1F )
 	{
 		astTestBegin( "testReflect1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9346,7 +9814,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect2F )
 	{
 		astTestBegin( "testReflect2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9373,7 +9842,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect3F )
 	{
 		astTestBegin( "testReflect3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9400,7 +9870,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect4F )
 	{
 		astTestBegin( "testReflect4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9427,7 +9898,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect1D )
 	{
 		astTestBegin( "testReflect1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9454,7 +9926,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect2D )
 	{
 		astTestBegin( "testReflect2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9481,7 +9954,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect3D )
 	{
 		astTestBegin( "testReflect3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9508,7 +9982,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReflect4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Reflect4D )
 	{
 		astTestBegin( "testReflect4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9535,7 +10010,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract1F )
 	{
 		astTestBegin( "testRefract1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9566,7 +10042,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract2F )
 	{
 		astTestBegin( "testRefract2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9597,7 +10074,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract3F )
 	{
 		astTestBegin( "testRefract3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9628,7 +10106,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract4F )
 	{
 		astTestBegin( "testRefract4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9659,7 +10138,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract1D )
 	{
 		astTestBegin( "testRefract1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9690,7 +10170,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract2D )
 	{
 		astTestBegin( "testRefract2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9721,7 +10202,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract3D )
 	{
 		astTestBegin( "testRefract3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9752,7 +10234,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testRefract4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Refract4D )
 	{
 		astTestBegin( "testRefract4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9783,9 +10266,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Matrix Functions
 
-	static void testMatrixCompMult2x2F(test::TestCounts & testCounts )
+	TEST( Intrinsic, MatrixCompMult2x2F )
 	{
 		astTestBegin( "testMatrixCompMult2x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9812,7 +10296,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult2x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult2x3F )
 	{
 		astTestBegin( "testMatrixCompMult2x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9839,7 +10324,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult2x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult2x4F )
 	{
 		astTestBegin( "testMatrixCompMult2x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9866,7 +10352,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult3x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult3x2F )
 	{
 		astTestBegin( "testMatrixCompMult3x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9893,7 +10380,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult3x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult3x3F )
 	{
 		astTestBegin( "testMatrixCompMult3x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9920,7 +10408,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult3x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult3x4F )
 	{
 		astTestBegin( "testMatrixCompMult3x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9947,7 +10436,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult4x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult4x2F )
 	{
 		astTestBegin( "testMatrixCompMult4x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -9974,7 +10464,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult4x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult4x3F )
 	{
 		astTestBegin( "testMatrixCompMult4x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10001,7 +10492,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult4x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult4x4F )
 	{
 		astTestBegin( "testMatrixCompMult4x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10028,7 +10520,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult2x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult2x2D )
 	{
 		astTestBegin( "testMatrixCompMult2x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10055,7 +10548,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult2x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult2x3D )
 	{
 		astTestBegin( "testMatrixCompMult2x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10082,7 +10576,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult2x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult2x4D )
 	{
 		astTestBegin( "testMatrixCompMult2x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10109,7 +10604,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult3x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult3x2D )
 	{
 		astTestBegin( "testMatrixCompMult3x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10136,7 +10632,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult3x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult3x3D )
 	{
 		astTestBegin( "testMatrixCompMult3x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10163,7 +10660,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult3x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult3x4D )
 	{
 		astTestBegin( "testMatrixCompMult3x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10190,7 +10688,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult4x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult4x2D )
 	{
 		astTestBegin( "testMatrixCompMult4x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10217,7 +10716,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult4x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult4x3D )
 	{
 		astTestBegin( "testMatrixCompMult4x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10244,7 +10744,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testMatrixCompMult4x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, MatrixCompMult4x4D )
 	{
 		astTestBegin( "testMatrixCompMult4x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10271,7 +10772,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct2x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct2x2F )
 	{
 		astTestBegin( "testOuterProduct2x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10298,7 +10800,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct3x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct3x3F )
 	{
 		astTestBegin( "testOuterProduct3x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10325,7 +10828,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct4x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct4x4F )
 	{
 		astTestBegin( "testOuterProduct4x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10352,7 +10856,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct3x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct3x2F )
 	{
 		astTestBegin( "testOuterProduct3x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10379,7 +10884,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct2x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct2x3F )
 	{
 		astTestBegin( "testOuterProduct2x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10406,7 +10912,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct4x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct4x2F )
 	{
 		astTestBegin( "testOuterProduct4x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10433,7 +10940,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct2x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct2x4F )
 	{
 		astTestBegin( "testOuterProduct2x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10460,7 +10968,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct4x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct4x3F )
 	{
 		astTestBegin( "testOuterProduct4x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10487,7 +10996,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct3x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct3x4F )
 	{
 		astTestBegin( "testOuterProduct3x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10514,7 +11024,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct2x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct2x2D )
 	{
 		astTestBegin( "testOuterProduct2x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10541,7 +11052,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct3x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct3x3D )
 	{
 		astTestBegin( "testOuterProduct3x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10568,7 +11080,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct4x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct4x4D )
 	{
 		astTestBegin( "testOuterProduct4x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10595,7 +11108,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct3x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct3x2D )
 	{
 		astTestBegin( "testOuterProduct3x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10622,7 +11136,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct2x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct2x3D )
 	{
 		astTestBegin( "testOuterProduct2x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10649,7 +11164,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct4x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct4x2D )
 	{
 		astTestBegin( "testOuterProduct4x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10676,7 +11192,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct2x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct2x4D )
 	{
 		astTestBegin( "testOuterProduct2x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10703,7 +11220,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct4x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct4x3D )
 	{
 		astTestBegin( "testOuterProduct4x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10730,7 +11248,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testOuterProduct3x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, OuterProduct3x4D )
 	{
 		astTestBegin( "testOuterProduct3x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10757,7 +11276,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose2x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose2x2F )
 	{
 		astTestBegin( "testTranspose2x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10780,7 +11300,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose2x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose2x3F )
 	{
 		astTestBegin( "testTranspose2x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10803,7 +11324,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose2x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose2x4F )
 	{
 		astTestBegin( "testTranspose2x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10826,7 +11348,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose3x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose3x2F )
 	{
 		astTestBegin( "testTranspose3x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10849,7 +11372,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose3x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose3x3F )
 	{
 		astTestBegin( "testTranspose3x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10872,7 +11396,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose3x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose3x4F )
 	{
 		astTestBegin( "testTranspose3x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10895,7 +11420,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose4x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose4x2F )
 	{
 		astTestBegin( "testTranspose4x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10918,7 +11444,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose4x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose4x3F )
 	{
 		astTestBegin( "testTranspose4x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10941,7 +11468,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose4x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose4x4F )
 	{
 		astTestBegin( "testTranspose4x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10964,7 +11492,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose2x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose2x2D )
 	{
 		astTestBegin( "testTranspose2x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -10987,7 +11516,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose2x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose2x3D )
 	{
 		astTestBegin( "testTranspose2x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11010,7 +11540,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose2x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose2x4D )
 	{
 		astTestBegin( "testTranspose2x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11033,7 +11564,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose3x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose3x2D )
 	{
 		astTestBegin( "testTranspose3x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11056,7 +11588,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose3x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose3x3D )
 	{
 		astTestBegin( "testTranspose3x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11079,7 +11612,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose3x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose3x4D )
 	{
 		astTestBegin( "testTranspose3x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11102,7 +11636,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose4x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose4x2D )
 	{
 		astTestBegin( "testTranspose4x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11125,7 +11660,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose4x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose4x3D )
 	{
 		astTestBegin( "testTranspose4x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11148,7 +11684,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testTranspose4x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Transpose4x4D )
 	{
 		astTestBegin( "testTranspose4x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11171,7 +11708,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDeterminant2x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Determinant2x2F )
 	{
 		astTestBegin( "testDeterminant2x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11194,7 +11732,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDeterminant3x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Determinant3x3F )
 	{
 		astTestBegin( "testDeterminant3x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11217,7 +11756,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDeterminant4x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Determinant4x4F )
 	{
 		astTestBegin( "testDeterminant4x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11240,7 +11780,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDeterminant2x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Determinant2x2D )
 	{
 		astTestBegin( "testDeterminant2x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11263,7 +11804,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDeterminant3x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Determinant3x3D )
 	{
 		astTestBegin( "testDeterminant3x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11286,7 +11828,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDeterminant4x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Determinant4x4D )
 	{
 		astTestBegin( "testDeterminant4x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11309,7 +11852,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverse2x2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Inverse2x2F )
 	{
 		astTestBegin( "testInverse2x2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11332,7 +11876,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverse3x3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Inverse3x3F )
 	{
 		astTestBegin( "testInverse3x3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11355,7 +11900,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverse4x4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Inverse4x4F )
 	{
 		astTestBegin( "testInverse4x4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11378,7 +11924,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverse2x2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Inverse2x2D )
 	{
 		astTestBegin( "testInverse2x2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11401,7 +11948,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverse3x3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Inverse3x3D )
 	{
 		astTestBegin( "testInverse3x3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11424,7 +11972,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInverse4x4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Inverse4x4D )
 	{
 		astTestBegin( "testInverse4x4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11447,9 +11996,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Vector Relational Functions
 
-	static void testLessThan2F(test::TestCounts & testCounts )
+	TEST( Intrinsic, LessThan2F )
 	{
 		astTestBegin( "testLessThan2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11476,7 +12026,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan3F )
 	{
 		astTestBegin( "testLessThan3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11503,7 +12054,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan4F )
 	{
 		astTestBegin( "testLessThan4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11530,7 +12082,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan2D )
 	{
 		astTestBegin( "testLessThan2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11557,7 +12110,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan3D )
 	{
 		astTestBegin( "testLessThan3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11584,7 +12138,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan4D )
 	{
 		astTestBegin( "testLessThan4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11611,7 +12166,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan2I )
 	{
 		astTestBegin( "testLessThan2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11638,7 +12194,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan3I )
 	{
 		astTestBegin( "testLessThan3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11665,7 +12222,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan4I )
 	{
 		astTestBegin( "testLessThan4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11692,7 +12250,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan2U )
 	{
 		astTestBegin( "testLessThan2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11719,7 +12278,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan3U )
 	{
 		astTestBegin( "testLessThan3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11746,7 +12306,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThan4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThan4U )
 	{
 		astTestBegin( "testLessThan4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11773,7 +12334,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual2F )
 	{
 		astTestBegin( "testLessThanEqual2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11800,7 +12362,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual3F )
 	{
 		astTestBegin( "testLessThanEqual3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11827,7 +12390,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual4F )
 	{
 		astTestBegin( "testLessThanEqual4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11854,7 +12418,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual2D )
 	{
 		astTestBegin( "testLessThanEqual2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11881,7 +12446,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual3D )
 	{
 		astTestBegin( "testLessThanEqual3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11908,7 +12474,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual4D )
 	{
 		astTestBegin( "testLessThanEqual4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11935,7 +12502,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual2I )
 	{
 		astTestBegin( "testLessThanEqual2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11962,7 +12530,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual3I )
 	{
 		astTestBegin( "testLessThanEqual3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -11989,7 +12558,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual4I )
 	{
 		astTestBegin( "testLessThanEqual4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12016,7 +12586,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual2U )
 	{
 		astTestBegin( "testLessThanEqual2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12043,7 +12614,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual3U )
 	{
 		astTestBegin( "testLessThanEqual3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12070,7 +12642,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testLessThanEqual4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, LessThanEqual4U )
 	{
 		astTestBegin( "testLessThanEqual4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12097,7 +12670,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan2F )
 	{
 		astTestBegin( "testGreaterThan2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12124,7 +12698,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan3F )
 	{
 		astTestBegin( "testGreaterThan3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12151,7 +12726,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan4F )
 	{
 		astTestBegin( "testGreaterThan4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12178,7 +12754,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan2D )
 	{
 		astTestBegin( "testGreaterThan2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12205,7 +12782,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan3D )
 	{
 		astTestBegin( "testGreaterThan3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12232,7 +12810,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan4D )
 	{
 		astTestBegin( "testGreaterThan4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12259,7 +12838,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan2I )
 	{
 		astTestBegin( "testGreaterThan2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12286,7 +12866,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan3I )
 	{
 		astTestBegin( "testGreaterThan3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12313,7 +12894,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan4I )
 	{
 		astTestBegin( "testGreaterThan4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12340,7 +12922,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan2U )
 	{
 		astTestBegin( "testGreaterThan2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12367,7 +12950,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan3U )
 	{
 		astTestBegin( "testGreaterThan3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12394,7 +12978,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThan4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThan4U )
 	{
 		astTestBegin( "testGreaterThan4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12421,7 +13006,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual2F )
 	{
 		astTestBegin( "testGreaterThanEqual2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12448,7 +13034,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual3F )
 	{
 		astTestBegin( "testGreaterThanEqual3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12475,7 +13062,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual4F )
 	{
 		astTestBegin( "testGreaterThanEqual4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12502,7 +13090,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual2D )
 	{
 		astTestBegin( "testGreaterThanEqual2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12529,7 +13118,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual3D )
 	{
 		astTestBegin( "testGreaterThanEqual3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12556,7 +13146,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual4D )
 	{
 		astTestBegin( "testGreaterThanEqual4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12583,7 +13174,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual2I )
 	{
 		astTestBegin( "testGreaterThanEqual2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12610,7 +13202,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual3I )
 	{
 		astTestBegin( "testGreaterThanEqual3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12637,7 +13230,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual4I )
 	{
 		astTestBegin( "testGreaterThanEqual4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12664,7 +13258,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual2U )
 	{
 		astTestBegin( "testGreaterThanEqual2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12691,7 +13286,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual3U )
 	{
 		astTestBegin( "testGreaterThanEqual3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12718,7 +13314,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testGreaterThanEqual4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, GreaterThanEqual4U )
 	{
 		astTestBegin( "testGreaterThanEqual4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12745,7 +13342,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal2F )
 	{
 		astTestBegin( "testEqual2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12772,7 +13370,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal3F )
 	{
 		astTestBegin( "testEqual3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12799,7 +13398,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal4F )
 	{
 		astTestBegin( "testEqual4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12826,7 +13426,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal2D )
 	{
 		astTestBegin( "testEqual2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12853,7 +13454,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal3D )
 	{
 		astTestBegin( "testEqual3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12880,7 +13482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal4D )
 	{
 		astTestBegin( "testEqual4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12907,7 +13510,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal2I )
 	{
 		astTestBegin( "testEqual2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12934,7 +13538,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal3I )
 	{
 		astTestBegin( "testEqual3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12961,7 +13566,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal4I )
 	{
 		astTestBegin( "testEqual4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -12988,7 +13594,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal2U )
 	{
 		astTestBegin( "testEqual2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13015,7 +13622,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal3U )
 	{
 		astTestBegin( "testEqual3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13042,7 +13650,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEqual4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Equal4U )
 	{
 		astTestBegin( "testEqual4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13069,7 +13678,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual2F )
 	{
 		astTestBegin( "testNotEqual2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13096,7 +13706,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual3F )
 	{
 		astTestBegin( "testNotEqual3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13123,7 +13734,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual4F )
 	{
 		astTestBegin( "testNotEqual4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13150,7 +13762,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual2D )
 	{
 		astTestBegin( "testNotEqual2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13177,7 +13790,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual3D )
 	{
 		astTestBegin( "testNotEqual3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13204,7 +13818,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual4D )
 	{
 		astTestBegin( "testNotEqual4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13231,7 +13846,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual2I )
 	{
 		astTestBegin( "testNotEqual2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13258,7 +13874,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual3I )
 	{
 		astTestBegin( "testNotEqual3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13285,7 +13902,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual4I )
 	{
 		astTestBegin( "testNotEqual4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13312,7 +13930,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual2U )
 	{
 		astTestBegin( "testNotEqual2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13339,7 +13958,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual3U )
 	{
 		astTestBegin( "testNotEqual3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13366,7 +13986,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNotEqual4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, NotEqual4U )
 	{
 		astTestBegin( "testNotEqual4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13393,7 +14014,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAll2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, All2 )
 	{
 		astTestBegin( "testAll2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13416,7 +14038,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAll3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, All3 )
 	{
 		astTestBegin( "testAll3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13439,7 +14062,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAll4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, All4 )
 	{
 		astTestBegin( "testAll4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13462,7 +14086,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAny2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Any2 )
 	{
 		astTestBegin( "testAny2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13485,7 +14110,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAny3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Any3 )
 	{
 		astTestBegin( "testAny3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13508,7 +14134,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAny4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Any4 )
 	{
 		astTestBegin( "testAny4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13531,7 +14158,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNot2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Not2 )
 	{
 		astTestBegin( "testNot2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13554,7 +14182,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNot3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Not3 )
 	{
 		astTestBegin( "testNot3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13577,7 +14206,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testNot4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Not4 )
 	{
 		astTestBegin( "testNot4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13600,9 +14230,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Integer Functions
 
-	static void testUaddCarry1(test::TestCounts & testCounts )
+	TEST( Intrinsic, UaddCarry1 )
 	{
 		astTestBegin( "testUaddCarry1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13633,7 +14264,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUaddCarry2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UaddCarry2 )
 	{
 		astTestBegin( "testUaddCarry2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13664,7 +14296,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUaddCarry3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UaddCarry3 )
 	{
 		astTestBegin( "testUaddCarry3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13695,7 +14328,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUaddCarry4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UaddCarry4 )
 	{
 		astTestBegin( "testUaddCarry4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13726,7 +14360,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUsubBorrow1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UsubBorrow1 )
 	{
 		astTestBegin( "testUsubBorrow1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13757,7 +14392,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUsubBorrow2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UsubBorrow2 )
 	{
 		astTestBegin( "testUsubBorrow2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13788,7 +14424,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUsubBorrow3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UsubBorrow3 )
 	{
 		astTestBegin( "testUsubBorrow3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13819,7 +14456,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUsubBorrow4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UsubBorrow4 )
 	{
 		astTestBegin( "testUsubBorrow4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13850,7 +14488,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUmulExtended1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UmulExtended1 )
 	{
 		astTestBegin( "testUmulExtended1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13885,7 +14524,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUmulExtended2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UmulExtended2 )
 	{
 		astTestBegin( "testUmulExtended2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13920,7 +14560,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUmulExtended3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UmulExtended3 )
 	{
 		astTestBegin( "testUmulExtended3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13955,7 +14596,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testUmulExtended4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, UmulExtended4 )
 	{
 		astTestBegin( "testUmulExtended4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -13990,7 +14632,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testImulExtended1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ImulExtended1 )
 	{
 		astTestBegin( "testImulExtended1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14025,7 +14668,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testImulExtended2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ImulExtended2 )
 	{
 		astTestBegin( "testImulExtended2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14060,7 +14704,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testImulExtended3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ImulExtended3 )
 	{
 		astTestBegin( "testImulExtended3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14095,7 +14740,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testImulExtended4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ImulExtended4 )
 	{
 		astTestBegin( "testImulExtended4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14130,7 +14776,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract1I )
 	{
 		astTestBegin( "testBitfieldExtract1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14161,7 +14808,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract2I )
 	{
 		astTestBegin( "testBitfieldExtract2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14192,7 +14840,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract3I )
 	{
 		astTestBegin( "testBitfieldExtract3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14223,7 +14872,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract4I )
 	{
 		astTestBegin( "testBitfieldExtract4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14254,7 +14904,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract1U )
 	{
 		astTestBegin( "testBitfieldExtract1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14285,7 +14936,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract2U )
 	{
 		astTestBegin( "testBitfieldExtract2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14316,7 +14968,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract3U )
 	{
 		astTestBegin( "testBitfieldExtract3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14347,7 +15000,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldExtract4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldExtract4U )
 	{
 		astTestBegin( "testBitfieldExtract4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14378,7 +15032,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert1I )
 	{
 		astTestBegin( "testBitfieldInsert1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14413,7 +15068,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert2I )
 	{
 		astTestBegin( "testBitfieldInsert2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14448,7 +15104,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert3I )
 	{
 		astTestBegin( "testBitfieldInsert3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14483,7 +15140,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert4I )
 	{
 		astTestBegin( "testBitfieldInsert4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14518,7 +15176,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert1U )
 	{
 		astTestBegin( "testBitfieldInsert1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14553,7 +15212,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert2U )
 	{
 		astTestBegin( "testBitfieldInsert2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14588,7 +15248,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert3U )
 	{
 		astTestBegin( "testBitfieldInsert3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14623,7 +15284,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldInsert4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldInsert4U )
 	{
 		astTestBegin( "testBitfieldInsert4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14658,7 +15320,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse1I )
 	{
 		astTestBegin( "testBitfieldReverse1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14681,7 +15344,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse2I )
 	{
 		astTestBegin( "testBitfieldReverse2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14704,7 +15368,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse3I )
 	{
 		astTestBegin( "testBitfieldReverse3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14727,7 +15392,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse4I )
 	{
 		astTestBegin( "testBitfieldReverse4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14750,7 +15416,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse1U )
 	{
 		astTestBegin( "testBitfieldReverse1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14773,7 +15440,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse2U )
 	{
 		astTestBegin( "testBitfieldReverse2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14796,7 +15464,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse3U )
 	{
 		astTestBegin( "testBitfieldReverse3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14819,7 +15488,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitfieldReverse4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitfieldReverse4U )
 	{
 		astTestBegin( "testBitfieldReverse4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14842,7 +15512,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount1I )
 	{
 		astTestBegin( "testBitCount1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14865,7 +15536,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount2I )
 	{
 		astTestBegin( "testBitCount2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14888,7 +15560,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount3I )
 	{
 		astTestBegin( "testBitCount3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14911,7 +15584,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount4I )
 	{
 		astTestBegin( "testBitCount4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14934,7 +15608,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount1U )
 	{
 		astTestBegin( "testBitCount1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14957,7 +15632,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount2U )
 	{
 		astTestBegin( "testBitCount2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -14980,7 +15656,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount3U )
 	{
 		astTestBegin( "testBitCount3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15003,7 +15680,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testBitCount4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, BitCount4U )
 	{
 		astTestBegin( "testBitCount4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15026,7 +15704,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB1I )
 	{
 		astTestBegin( "testFindLSB1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15049,7 +15728,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB2I )
 	{
 		astTestBegin( "testFindLSB2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15072,7 +15752,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB3I )
 	{
 		astTestBegin( "testFindLSB3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15095,7 +15776,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB4I )
 	{
 		astTestBegin( "testFindLSB4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15118,7 +15800,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB1U )
 	{
 		astTestBegin( "testFindLSB1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15141,7 +15824,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB2U )
 	{
 		astTestBegin( "testFindLSB2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15164,7 +15848,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB3U )
 	{
 		astTestBegin( "testFindLSB3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15187,7 +15872,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindLSB4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindLSB4U )
 	{
 		astTestBegin( "testFindLSB4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15210,7 +15896,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB1I )
 	{
 		astTestBegin( "testFindMSB1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15233,7 +15920,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB2I )
 	{
 		astTestBegin( "testFindMSB2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15256,7 +15944,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB3I )
 	{
 		astTestBegin( "testFindMSB3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15279,7 +15968,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB4I )
 	{
 		astTestBegin( "testFindMSB4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15302,7 +15992,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB1U )
 	{
 		astTestBegin( "testFindMSB1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15325,7 +16016,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB2U )
 	{
 		astTestBegin( "testFindMSB2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15348,7 +16040,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB3U )
 	{
 		astTestBegin( "testFindMSB3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15371,7 +16064,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFindMSB4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, FindMSB4U )
 	{
 		astTestBegin( "testFindMSB4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15394,9 +16088,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Atomic Memory Functions
 
-	static void testAtomicAddI(test::TestCounts & testCounts )
+	TEST( Intrinsic, AtomicAddI )
 	{
 		astTestBegin( "testAtomicAddI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15423,7 +16118,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicAddU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicAddU )
 	{
 		astTestBegin( "testAtomicAddU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15450,7 +16146,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicAddF(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicAddF )
 	{
 		astTestBegin( "testAtomicAddF" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15477,7 +16174,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicAdd2H(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicAdd2H )
 	{
 		astTestBegin( "testAtomicAdd2H" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15504,7 +16202,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicAdd4H(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicAdd4H )
 	{
 		astTestBegin( "testAtomicAdd4H" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15531,7 +16230,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicMinI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicMinI )
 	{
 		astTestBegin( "testAtomicMinI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15558,7 +16258,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicMinU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicMinU )
 	{
 		astTestBegin( "testAtomicMinU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15585,7 +16286,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicMaxI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicMaxI )
 	{
 		astTestBegin( "testAtomicMaxI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15612,7 +16314,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicMaxU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicMaxU )
 	{
 		astTestBegin( "testAtomicMaxU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15639,7 +16342,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicAndI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicAndI )
 	{
 		astTestBegin( "testAtomicAndI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15666,7 +16370,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicAndU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicAndU )
 	{
 		astTestBegin( "testAtomicAndU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15693,7 +16398,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicOrI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicOrI )
 	{
 		astTestBegin( "testAtomicOrI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15720,7 +16426,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicOrU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicOrU )
 	{
 		astTestBegin( "testAtomicOrU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15747,7 +16454,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicXorI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicXorI )
 	{
 		astTestBegin( "testAtomicXorI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15774,7 +16482,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicXorU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicXorU )
 	{
 		astTestBegin( "testAtomicXorU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15801,7 +16510,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicExchangeI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicExchangeI )
 	{
 		astTestBegin( "testAtomicExchangeI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15828,7 +16538,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicExchangeU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicExchangeU )
 	{
 		astTestBegin( "testAtomicExchangeU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15855,7 +16566,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicExchangeF(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicExchangeF )
 	{
 		astTestBegin( "testAtomicExchangeF" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15882,7 +16594,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicExchange2H(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicExchange2H )
 	{
 		astTestBegin( "testAtomicExchange2H" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15909,7 +16622,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicExchange4H(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicExchange4H )
 	{
 		astTestBegin( "testAtomicExchange4H" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15936,7 +16650,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicCompSwapI(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicCompSwapI )
 	{
 		astTestBegin( "testAtomicCompSwapI" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15967,7 +16682,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testAtomicCompSwapU(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, AtomicCompSwapU )
 	{
 		astTestBegin( "testAtomicCompSwapU" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -15998,9 +16714,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Derivative Functions
 
-	static void testDFdx1(test::TestCounts & testCounts )
+	TEST( Intrinsic, DFdx1 )
 	{
 		astTestBegin( "testDFdx1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16023,7 +16740,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdx2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdx2 )
 	{
 		astTestBegin( "testDFdx2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16046,7 +16764,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdx3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdx3 )
 	{
 		astTestBegin( "testDFdx3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16069,7 +16788,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdx4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdx4 )
 	{
 		astTestBegin( "testDFdx4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16092,7 +16812,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxCoarse1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxCoarse1 )
 	{
 		astTestBegin( "testDFdxCoarse1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16115,7 +16836,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxCoarse2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxCoarse2 )
 	{
 		astTestBegin( "testDFdxCoarse2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16138,7 +16860,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxCoarse3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxCoarse3 )
 	{
 		astTestBegin( "testDFdxCoarse3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16161,7 +16884,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxCoarse4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxCoarse4 )
 	{
 		astTestBegin( "testDFdxCoarse4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16184,7 +16908,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxFine1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxFine1 )
 	{
 		astTestBegin( "testDFdxFine1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16207,7 +16932,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxFine2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxFine2 )
 	{
 		astTestBegin( "testDFdxFine2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16230,7 +16956,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxFine3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxFine3 )
 	{
 		astTestBegin( "testDFdxFine3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16253,7 +16980,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdxFine4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdxFine4 )
 	{
 		astTestBegin( "testDFdxFine4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16276,7 +17004,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdy1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdy1 )
 	{
 		astTestBegin( "testDFdy1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16299,7 +17028,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdy2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdy2 )
 	{
 		astTestBegin( "testDFdy2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16322,7 +17052,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdy3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdy3 )
 	{
 		astTestBegin( "testDFdy3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16345,7 +17076,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdy4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdy4 )
 	{
 		astTestBegin( "testDFdy4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16368,7 +17100,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyCoarse1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyCoarse1 )
 	{
 		astTestBegin( "testDFdyCoarse1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16391,7 +17124,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyCoarse2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyCoarse2 )
 	{
 		astTestBegin( "testDFdyCoarse2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16414,7 +17148,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyCoarse3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyCoarse3 )
 	{
 		astTestBegin( "testDFdyCoarse3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16437,7 +17172,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyCoarse4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyCoarse4 )
 	{
 		astTestBegin( "testDFdyCoarse4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16460,7 +17196,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyFine1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyFine1 )
 	{
 		astTestBegin( "testDFdyFine1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16483,7 +17220,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyFine2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyFine2 )
 	{
 		astTestBegin( "testDFdyFine2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16506,7 +17244,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyFine3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyFine3 )
 	{
 		astTestBegin( "testDFdyFine3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16529,7 +17268,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDFdyFine4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DFdyFine4 )
 	{
 		astTestBegin( "testDFdyFine4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16552,7 +17292,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFwidth1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fwidth1 )
 	{
 		astTestBegin( "testFwidth1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16575,7 +17316,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFwidth2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fwidth2 )
 	{
 		astTestBegin( "testFwidth2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16598,7 +17340,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFwidth3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fwidth3 )
 	{
 		astTestBegin( "testFwidth3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16621,7 +17364,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testFwidth4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, Fwidth4 )
 	{
 		astTestBegin( "testFwidth4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16644,9 +17388,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Interpolation Functions
 
-	static void testInterpolateAtCentroid1(test::TestCounts & testCounts )
+	TEST( Intrinsic, InterpolateAtCentroid1 )
 	{
 		astTestBegin( "testInterpolateAtCentroid1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16669,7 +17414,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtCentroid2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtCentroid2 )
 	{
 		astTestBegin( "testInterpolateAtCentroid2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16692,7 +17438,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtCentroid3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtCentroid3 )
 	{
 		astTestBegin( "testInterpolateAtCentroid3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16715,7 +17462,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtCentroid4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtCentroid4 )
 	{
 		astTestBegin( "testInterpolateAtCentroid4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16738,7 +17486,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtSample1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtSample1 )
 	{
 		astTestBegin( "testInterpolateAtSample1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16765,7 +17514,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtSample2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtSample2 )
 	{
 		astTestBegin( "testInterpolateAtSample2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16792,7 +17542,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtSample3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtSample3 )
 	{
 		astTestBegin( "testInterpolateAtSample3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16819,7 +17570,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtSample4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtSample4 )
 	{
 		astTestBegin( "testInterpolateAtSample4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16846,7 +17598,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtOffset1(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtOffset1 )
 	{
 		astTestBegin( "testInterpolateAtOffset1" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16873,7 +17626,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtOffset2(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtOffset2 )
 	{
 		astTestBegin( "testInterpolateAtOffset2" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16900,7 +17654,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtOffset3(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtOffset3 )
 	{
 		astTestBegin( "testInterpolateAtOffset3" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16927,7 +17682,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testInterpolateAtOffset4(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, InterpolateAtOffset4 )
 	{
 		astTestBegin( "testInterpolateAtOffset4" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16954,9 +17710,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Geometry Shader Functions
 
-	static void testEmitStreamVertex(test::TestCounts & testCounts )
+	TEST( Intrinsic, EmitStreamVertex )
 	{
 		astTestBegin( "testEmitStreamVertex" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -16979,7 +17736,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEndStreamPrimitive(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, EndStreamPrimitive )
 	{
 		astTestBegin( "testEndStreamPrimitive" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17002,7 +17760,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEmitVertex(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, EmitVertex )
 	{
 		astTestBegin( "testEmitVertex" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17021,7 +17780,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEndPrimitive(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, EndPrimitive )
 	{
 		astTestBegin( "testEndPrimitive" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17040,9 +17800,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Miscellaneous Functions
 
-	static void testHelperInvocation(test::TestCounts & testCounts )
+	TEST( Intrinsic, HelperInvocation )
 	{
 		astTestBegin( "testHelperInvocation" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17061,11 +17822,73 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Shader Invocation and Memory Control Functions
+
+	TEST_P( Barrier, ControlBarrier )
+	{
+		auto memoryScope = GetParam().memoryScope;
+		auto semantics = GetParam().semantics;
+		auto executionScope = GetParam().executionScope;
+		astTestBegin( "testControlBarrier" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto result = expr::makeControlBarrier( exprCache
+				, typesCache
+				, std::move( executionScope )
+				, std::move( memoryScope )
+				, std::move( semantics ) );
+			checkExprDependant( testCounts, *result, "testControlBarrier", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto result = expr::makeControlBarrier( exprCache
+				, typesCache
+				, std::move( executionScope )
+				, std::move( memoryScope )
+				, std::move( semantics ) );
+			checkExprDependant( testCounts, *result, "testControlBarrier", __LINE__ );
+		}
+		astTestEnd()
+	}
+	INSTANTIATE_TEST_SUITE_P( ControlBarrier, Barrier
+		, testing::ValuesIn( barrierParams )
+		, astTestNameP( BarrierParam, getBarrierParamName ) );
+
+	TEST_P( Barrier, MemoryBarrier )
+	{
+		auto memoryScope = GetParam().memoryScope;
+		auto semantics = GetParam().semantics;
+		astTestBegin( "testMemoryBarrier" );
+		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
+		type::TypesCache typesCache;
+		if ( astWhen( "Using identifier parameters" ) )
+		{
+			auto result = expr::makeMemoryBarrier( exprCache
+				, typesCache
+				, std::move( memoryScope )
+				, std::move( semantics ) );
+			checkExprDependant( testCounts, *result, "testMemoryBarrier", __LINE__ );
+		}
+		if ( astWhen( "Using literal parameters" ) )
+		{
+			auto result = expr::makeMemoryBarrier( exprCache
+				, typesCache
+				, std::move( memoryScope )
+				, std::move( semantics ) );
+			checkExprDependant( testCounts, *result, "testMemoryBarrier", __LINE__ );
+		}
+		astTestEnd()
+	}
+	INSTANTIATE_TEST_SUITE_P( MemoryBarrier, Barrier
+		, testing::ValuesIn( barrierParams )
+		, astTestNameP( BarrierParam, getBarrierParamName ) );
 
 	// Ray tracing Shader Functions
 
-	static void testTraceRay(test::TestCounts & testCounts )
+	TEST( Intrinsic, TraceRay )
 	{
 		astTestBegin( "testTraceRay" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17116,7 +17939,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReportIntersection(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReportIntersection )
 	{
 		astTestBegin( "testReportIntersection" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17147,7 +17971,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testExecuteCallable(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ExecuteCallable )
 	{
 		astTestBegin( "testExecuteCallable" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17174,9 +17999,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	//Mesh Shader NV Functions
 
-	static void testSetMeshOutputCountsNV(test::TestCounts & testCounts )
+	TEST( Intrinsic, SetMeshOutputCountsNV )
 	{
 		astTestBegin( "testSetMeshOutputCountsNV" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17203,7 +18029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testDispatchMeshNV(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, DispatchMeshNV )
 	{
 		astTestBegin( "testDispatchMeshNV" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17230,7 +18057,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testWritePackedPrimitiveIndices4x8NV(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, WritePackedPrimitiveIndices4x8NV )
 	{
 		astTestBegin( "testWritePackedPrimitiveIndices4x8NV" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17257,9 +18085,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	//Mesh Shader Functions
 
-	static void testSetMeshOutputCounts(test::TestCounts & testCounts )
+	TEST( Intrinsic, SetMeshOutputCounts )
 	{
 		astTestBegin( "testSetMeshOutputCounts" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17286,9 +18115,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	//Shader Subgroup Functions
 
-	static void testSubgroupElect(test::TestCounts & testCounts )
+	TEST( Intrinsic, SubgroupElect )
 	{
 		astTestBegin( "testSubgroupElect" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17307,7 +18137,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAll(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAll )
 	{
 		astTestBegin( "testSubgroupAll" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17330,7 +18161,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAny(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAny )
 	{
 		astTestBegin( "testSubgroupAny" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17353,7 +18185,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual1F )
 	{
 		astTestBegin( "testSubgroupAllEqual1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17376,7 +18209,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual2F )
 	{
 		astTestBegin( "testSubgroupAllEqual2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17399,7 +18233,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual3F )
 	{
 		astTestBegin( "testSubgroupAllEqual3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17422,7 +18257,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual4F )
 	{
 		astTestBegin( "testSubgroupAllEqual4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17445,7 +18281,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual1I )
 	{
 		astTestBegin( "testSubgroupAllEqual1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17468,7 +18305,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual2I )
 	{
 		astTestBegin( "testSubgroupAllEqual2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17491,7 +18329,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual3I )
 	{
 		astTestBegin( "testSubgroupAllEqual3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17514,7 +18353,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual4I )
 	{
 		astTestBegin( "testSubgroupAllEqual4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17537,7 +18377,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual1U )
 	{
 		astTestBegin( "testSubgroupAllEqual1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17560,7 +18401,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual2U )
 	{
 		astTestBegin( "testSubgroupAllEqual2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17583,7 +18425,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual3U )
 	{
 		astTestBegin( "testSubgroupAllEqual3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17606,7 +18449,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual4U )
 	{
 		astTestBegin( "testSubgroupAllEqual4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17629,7 +18473,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual1B )
 	{
 		astTestBegin( "testSubgroupAllEqual1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17652,7 +18497,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual2B )
 	{
 		astTestBegin( "testSubgroupAllEqual2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17675,7 +18521,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual3B )
 	{
 		astTestBegin( "testSubgroupAllEqual3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17698,7 +18545,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual4B )
 	{
 		astTestBegin( "testSubgroupAllEqual4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17721,7 +18569,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual1D )
 	{
 		astTestBegin( "testSubgroupAllEqual1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17744,7 +18593,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual2D )
 	{
 		astTestBegin( "testSubgroupAllEqual2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17767,7 +18617,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual3D )
 	{
 		astTestBegin( "testSubgroupAllEqual3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17790,7 +18641,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAllEqual4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAllEqual4D )
 	{
 		astTestBegin( "testSubgroupAllEqual4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17813,7 +18665,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast1F )
 	{
 		astTestBegin( "testSubgroupBroadcast1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17840,7 +18693,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast2F )
 	{
 		astTestBegin( "testSubgroupBroadcast2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17867,7 +18721,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast3F )
 	{
 		astTestBegin( "testSubgroupBroadcast3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17894,7 +18749,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast4F )
 	{
 		astTestBegin( "testSubgroupBroadcast4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17921,7 +18777,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast1I )
 	{
 		astTestBegin( "testSubgroupBroadcast1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17948,7 +18805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast2I )
 	{
 		astTestBegin( "testSubgroupBroadcast2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -17975,7 +18833,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast3I )
 	{
 		astTestBegin( "testSubgroupBroadcast3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18002,7 +18861,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast4I )
 	{
 		astTestBegin( "testSubgroupBroadcast4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18029,7 +18889,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast1U )
 	{
 		astTestBegin( "testSubgroupBroadcast1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18056,7 +18917,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast2U )
 	{
 		astTestBegin( "testSubgroupBroadcast2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18083,7 +18945,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast3U )
 	{
 		astTestBegin( "testSubgroupBroadcast3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18110,7 +18973,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast4U )
 	{
 		astTestBegin( "testSubgroupBroadcast4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18137,7 +19001,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast1B )
 	{
 		astTestBegin( "testSubgroupBroadcast1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18164,7 +19029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast2B )
 	{
 		astTestBegin( "testSubgroupBroadcast2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18191,7 +19057,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast3B )
 	{
 		astTestBegin( "testSubgroupBroadcast3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18218,7 +19085,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast4B )
 	{
 		astTestBegin( "testSubgroupBroadcast4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18245,7 +19113,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast1D )
 	{
 		astTestBegin( "testSubgroupBroadcast1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18272,7 +19141,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast2D )
 	{
 		astTestBegin( "testSubgroupBroadcast2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18299,7 +19169,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast3D )
 	{
 		astTestBegin( "testSubgroupBroadcast3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18326,7 +19197,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcast4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcast4D )
 	{
 		astTestBegin( "testSubgroupBroadcast4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18353,7 +19225,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst1F )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18376,7 +19249,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst2F )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18399,7 +19273,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst3F )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18422,7 +19297,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst4F )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18445,7 +19321,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst1I )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18468,7 +19345,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst2I )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18491,7 +19369,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst3I )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18514,7 +19393,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst4I )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18537,7 +19417,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst1U )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18560,7 +19441,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst2U )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18583,7 +19465,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst3U )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18606,7 +19489,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst4U )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18629,7 +19513,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst1B )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18652,7 +19537,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst2B )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18675,7 +19561,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst3B )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18698,7 +19585,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst4B )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18721,7 +19609,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst1D )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18744,7 +19633,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst2D )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18767,7 +19657,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst3D )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18790,7 +19681,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBroadcastFirst4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBroadcastFirst4D )
 	{
 		astTestBegin( "testSubgroupBroadcastFirst4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18813,7 +19705,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallot(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallot )
 	{
 		astTestBegin( "testSubgroupBallot" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18836,7 +19729,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInverseBallot(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInverseBallot )
 	{
 		astTestBegin( "testSubgroupInverseBallot" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18859,7 +19753,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallotBitExtract(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallotBitExtract )
 	{
 		astTestBegin( "testSubgroupBallotBitExtract" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18886,7 +19781,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallotBitCount(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallotBitCount )
 	{
 		astTestBegin( "testSubgroupBallotBitCount" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18909,7 +19805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallotInclusiveBitCount(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallotInclusiveBitCount )
 	{
 		astTestBegin( "testSubgroupBallotInclusiveBitCount" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18932,7 +19829,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallotExclusiveBitCount(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallotExclusiveBitCount )
 	{
 		astTestBegin( "testSubgroupBallotExclusiveBitCount" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18955,7 +19853,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallotFindLSB(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallotFindLSB )
 	{
 		astTestBegin( "testSubgroupBallotFindLSB" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -18978,7 +19877,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupBallotFindMSB(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupBallotFindMSB )
 	{
 		astTestBegin( "testSubgroupBallotFindMSB" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19001,7 +19901,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle1F )
 	{
 		astTestBegin( "testSubgroupShuffle1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19028,7 +19929,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle2F )
 	{
 		astTestBegin( "testSubgroupShuffle2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19055,7 +19957,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle3F )
 	{
 		astTestBegin( "testSubgroupShuffle3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19082,7 +19985,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle4F )
 	{
 		astTestBegin( "testSubgroupShuffle4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19109,7 +20013,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle1I )
 	{
 		astTestBegin( "testSubgroupShuffle1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19136,7 +20041,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle2I )
 	{
 		astTestBegin( "testSubgroupShuffle2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19163,7 +20069,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle3I )
 	{
 		astTestBegin( "testSubgroupShuffle3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19190,7 +20097,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle4I )
 	{
 		astTestBegin( "testSubgroupShuffle4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19217,7 +20125,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle1U )
 	{
 		astTestBegin( "testSubgroupShuffle1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19244,7 +20153,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle2U )
 	{
 		astTestBegin( "testSubgroupShuffle2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19271,7 +20181,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle3U )
 	{
 		astTestBegin( "testSubgroupShuffle3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19298,7 +20209,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle4U )
 	{
 		astTestBegin( "testSubgroupShuffle4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19325,7 +20237,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle1B )
 	{
 		astTestBegin( "testSubgroupShuffle1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19352,7 +20265,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle2B )
 	{
 		astTestBegin( "testSubgroupShuffle2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19379,7 +20293,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle3B )
 	{
 		astTestBegin( "testSubgroupShuffle3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19406,7 +20321,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle4B )
 	{
 		astTestBegin( "testSubgroupShuffle4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19433,7 +20349,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle1D )
 	{
 		astTestBegin( "testSubgroupShuffle1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19460,7 +20377,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle2D )
 	{
 		astTestBegin( "testSubgroupShuffle2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19487,7 +20405,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle3D )
 	{
 		astTestBegin( "testSubgroupShuffle3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19514,7 +20433,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffle4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffle4D )
 	{
 		astTestBegin( "testSubgroupShuffle4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19541,7 +20461,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor1F )
 	{
 		astTestBegin( "testSubgroupShuffleXor1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19568,7 +20489,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor2F )
 	{
 		astTestBegin( "testSubgroupShuffleXor2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19595,7 +20517,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor3F )
 	{
 		astTestBegin( "testSubgroupShuffleXor3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19622,7 +20545,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor4F )
 	{
 		astTestBegin( "testSubgroupShuffleXor4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19649,7 +20573,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor1I )
 	{
 		astTestBegin( "testSubgroupShuffleXor1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19676,7 +20601,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor2I )
 	{
 		astTestBegin( "testSubgroupShuffleXor2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19703,7 +20629,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor3I )
 	{
 		astTestBegin( "testSubgroupShuffleXor3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19730,7 +20657,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor4I )
 	{
 		astTestBegin( "testSubgroupShuffleXor4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19757,7 +20685,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor1U )
 	{
 		astTestBegin( "testSubgroupShuffleXor1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19784,7 +20713,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor2U )
 	{
 		astTestBegin( "testSubgroupShuffleXor2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19811,7 +20741,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor3U )
 	{
 		astTestBegin( "testSubgroupShuffleXor3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19838,7 +20769,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor4U )
 	{
 		astTestBegin( "testSubgroupShuffleXor4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19865,7 +20797,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor1B )
 	{
 		astTestBegin( "testSubgroupShuffleXor1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19892,7 +20825,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor2B )
 	{
 		astTestBegin( "testSubgroupShuffleXor2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19919,7 +20853,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor3B )
 	{
 		astTestBegin( "testSubgroupShuffleXor3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19946,7 +20881,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor4B )
 	{
 		astTestBegin( "testSubgroupShuffleXor4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -19973,7 +20909,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor1D )
 	{
 		astTestBegin( "testSubgroupShuffleXor1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20000,7 +20937,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor2D )
 	{
 		astTestBegin( "testSubgroupShuffleXor2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20027,7 +20965,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor3D )
 	{
 		astTestBegin( "testSubgroupShuffleXor3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20054,7 +20993,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleXor4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleXor4D )
 	{
 		astTestBegin( "testSubgroupShuffleXor4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20081,7 +21021,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp1F )
 	{
 		astTestBegin( "testSubgroupShuffleUp1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20108,7 +21049,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp2F )
 	{
 		astTestBegin( "testSubgroupShuffleUp2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20135,7 +21077,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp3F )
 	{
 		astTestBegin( "testSubgroupShuffleUp3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20162,7 +21105,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp4F )
 	{
 		astTestBegin( "testSubgroupShuffleUp4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20189,7 +21133,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp1I )
 	{
 		astTestBegin( "testSubgroupShuffleUp1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20216,7 +21161,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp2I )
 	{
 		astTestBegin( "testSubgroupShuffleUp2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20243,7 +21189,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp3I )
 	{
 		astTestBegin( "testSubgroupShuffleUp3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20270,7 +21217,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp4I )
 	{
 		astTestBegin( "testSubgroupShuffleUp4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20297,7 +21245,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp1U )
 	{
 		astTestBegin( "testSubgroupShuffleUp1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20324,7 +21273,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp2U )
 	{
 		astTestBegin( "testSubgroupShuffleUp2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20351,7 +21301,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp3U )
 	{
 		astTestBegin( "testSubgroupShuffleUp3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20378,7 +21329,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp4U )
 	{
 		astTestBegin( "testSubgroupShuffleUp4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20405,7 +21357,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp1B )
 	{
 		astTestBegin( "testSubgroupShuffleUp1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20432,7 +21385,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp2B )
 	{
 		astTestBegin( "testSubgroupShuffleUp2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20459,7 +21413,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp3B )
 	{
 		astTestBegin( "testSubgroupShuffleUp3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20486,7 +21441,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp4B )
 	{
 		astTestBegin( "testSubgroupShuffleUp4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20513,7 +21469,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp1D )
 	{
 		astTestBegin( "testSubgroupShuffleUp1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20540,7 +21497,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp2D )
 	{
 		astTestBegin( "testSubgroupShuffleUp2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20567,7 +21525,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp3D )
 	{
 		astTestBegin( "testSubgroupShuffleUp3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20594,7 +21553,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleUp4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleUp4D )
 	{
 		astTestBegin( "testSubgroupShuffleUp4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20621,7 +21581,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown1F )
 	{
 		astTestBegin( "testSubgroupShuffleDown1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20648,7 +21609,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown2F )
 	{
 		astTestBegin( "testSubgroupShuffleDown2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20675,7 +21637,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown3F )
 	{
 		astTestBegin( "testSubgroupShuffleDown3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20702,7 +21665,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown4F )
 	{
 		astTestBegin( "testSubgroupShuffleDown4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20729,7 +21693,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown1I )
 	{
 		astTestBegin( "testSubgroupShuffleDown1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20756,7 +21721,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown2I )
 	{
 		astTestBegin( "testSubgroupShuffleDown2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20783,7 +21749,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown3I )
 	{
 		astTestBegin( "testSubgroupShuffleDown3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20810,7 +21777,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown4I )
 	{
 		astTestBegin( "testSubgroupShuffleDown4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20837,7 +21805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown1U )
 	{
 		astTestBegin( "testSubgroupShuffleDown1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20864,7 +21833,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown2U )
 	{
 		astTestBegin( "testSubgroupShuffleDown2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20891,7 +21861,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown3U )
 	{
 		astTestBegin( "testSubgroupShuffleDown3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20918,7 +21889,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown4U )
 	{
 		astTestBegin( "testSubgroupShuffleDown4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20945,7 +21917,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown1B )
 	{
 		astTestBegin( "testSubgroupShuffleDown1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20972,7 +21945,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown2B )
 	{
 		astTestBegin( "testSubgroupShuffleDown2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -20999,7 +21973,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown3B )
 	{
 		astTestBegin( "testSubgroupShuffleDown3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21026,7 +22001,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown4B )
 	{
 		astTestBegin( "testSubgroupShuffleDown4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21053,7 +22029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown1D )
 	{
 		astTestBegin( "testSubgroupShuffleDown1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21080,7 +22057,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown2D )
 	{
 		astTestBegin( "testSubgroupShuffleDown2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21107,7 +22085,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown3D )
 	{
 		astTestBegin( "testSubgroupShuffleDown3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21134,7 +22113,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupShuffleDown4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupShuffleDown4D )
 	{
 		astTestBegin( "testSubgroupShuffleDown4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21161,7 +22141,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd1F )
 	{
 		astTestBegin( "testSubgroupAdd1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21184,7 +22165,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd2F )
 	{
 		astTestBegin( "testSubgroupAdd2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21207,7 +22189,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd3F )
 	{
 		astTestBegin( "testSubgroupAdd3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21230,7 +22213,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd4F )
 	{
 		astTestBegin( "testSubgroupAdd4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21253,7 +22237,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd1I )
 	{
 		astTestBegin( "testSubgroupAdd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21276,7 +22261,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd2I )
 	{
 		astTestBegin( "testSubgroupAdd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21299,7 +22285,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd3I )
 	{
 		astTestBegin( "testSubgroupAdd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21322,7 +22309,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd4I )
 	{
 		astTestBegin( "testSubgroupAdd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21345,7 +22333,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd1U )
 	{
 		astTestBegin( "testSubgroupAdd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21368,7 +22357,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd2U )
 	{
 		astTestBegin( "testSubgroupAdd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21391,7 +22381,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd3U )
 	{
 		astTestBegin( "testSubgroupAdd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21414,7 +22405,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd4U )
 	{
 		astTestBegin( "testSubgroupAdd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21437,7 +22429,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd1D )
 	{
 		astTestBegin( "testSubgroupAdd1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21460,7 +22453,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd2D )
 	{
 		astTestBegin( "testSubgroupAdd2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21483,7 +22477,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd3D )
 	{
 		astTestBegin( "testSubgroupAdd3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21506,7 +22501,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAdd4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAdd4D )
 	{
 		astTestBegin( "testSubgroupAdd4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21529,7 +22525,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul1F )
 	{
 		astTestBegin( "testSubgroupMul1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21552,7 +22549,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul2F )
 	{
 		astTestBegin( "testSubgroupMul2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21575,7 +22573,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul3F )
 	{
 		astTestBegin( "testSubgroupMul3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21598,7 +22597,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul4F )
 	{
 		astTestBegin( "testSubgroupMul4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21621,7 +22621,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul1I )
 	{
 		astTestBegin( "testSubgroupMul1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21644,7 +22645,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul2I )
 	{
 		astTestBegin( "testSubgroupMul2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21667,7 +22669,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul3I )
 	{
 		astTestBegin( "testSubgroupMul3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21690,7 +22693,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul4I )
 	{
 		astTestBegin( "testSubgroupMul4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21713,7 +22717,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul1U )
 	{
 		astTestBegin( "testSubgroupMul1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21736,7 +22741,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul2U )
 	{
 		astTestBegin( "testSubgroupMul2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21759,7 +22765,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul3U )
 	{
 		astTestBegin( "testSubgroupMul3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21782,7 +22789,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul4U )
 	{
 		astTestBegin( "testSubgroupMul4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21805,7 +22813,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul1D )
 	{
 		astTestBegin( "testSubgroupMul1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21828,7 +22837,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul2D )
 	{
 		astTestBegin( "testSubgroupMul2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21851,7 +22861,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul3D )
 	{
 		astTestBegin( "testSubgroupMul3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21874,7 +22885,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMul4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMul4D )
 	{
 		astTestBegin( "testSubgroupMul4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21897,7 +22909,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin1F )
 	{
 		astTestBegin( "testSubgroupMin1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21920,7 +22933,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin2F )
 	{
 		astTestBegin( "testSubgroupMin2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21943,7 +22957,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin3F )
 	{
 		astTestBegin( "testSubgroupMin3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21966,7 +22981,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin4F )
 	{
 		astTestBegin( "testSubgroupMin4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -21989,7 +23005,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin1I )
 	{
 		astTestBegin( "testSubgroupMin1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22012,7 +23029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin2I )
 	{
 		astTestBegin( "testSubgroupMin2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22035,7 +23053,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin3I )
 	{
 		astTestBegin( "testSubgroupMin3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22058,7 +23077,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin4I )
 	{
 		astTestBegin( "testSubgroupMin4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22081,7 +23101,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin1U )
 	{
 		astTestBegin( "testSubgroupMin1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22104,7 +23125,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin2U )
 	{
 		astTestBegin( "testSubgroupMin2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22127,7 +23149,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin3U )
 	{
 		astTestBegin( "testSubgroupMin3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22150,7 +23173,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin4U )
 	{
 		astTestBegin( "testSubgroupMin4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22173,7 +23197,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin1D )
 	{
 		astTestBegin( "testSubgroupMin1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22196,7 +23221,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin2D )
 	{
 		astTestBegin( "testSubgroupMin2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22219,7 +23245,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin3D )
 	{
 		astTestBegin( "testSubgroupMin3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22242,7 +23269,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMin4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMin4D )
 	{
 		astTestBegin( "testSubgroupMin4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22265,7 +23293,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax1F )
 	{
 		astTestBegin( "testSubgroupMax1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22288,7 +23317,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax2F )
 	{
 		astTestBegin( "testSubgroupMax2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22311,7 +23341,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax3F )
 	{
 		astTestBegin( "testSubgroupMax3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22334,7 +23365,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax4F )
 	{
 		astTestBegin( "testSubgroupMax4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22357,7 +23389,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax1I )
 	{
 		astTestBegin( "testSubgroupMax1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22380,7 +23413,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax2I )
 	{
 		astTestBegin( "testSubgroupMax2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22403,7 +23437,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax3I )
 	{
 		astTestBegin( "testSubgroupMax3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22426,7 +23461,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax4I )
 	{
 		astTestBegin( "testSubgroupMax4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22449,7 +23485,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax1U )
 	{
 		astTestBegin( "testSubgroupMax1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22472,7 +23509,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax2U )
 	{
 		astTestBegin( "testSubgroupMax2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22495,7 +23533,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax3U )
 	{
 		astTestBegin( "testSubgroupMax3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22518,7 +23557,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax4U )
 	{
 		astTestBegin( "testSubgroupMax4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22541,7 +23581,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax1D )
 	{
 		astTestBegin( "testSubgroupMax1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22564,7 +23605,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax2D )
 	{
 		astTestBegin( "testSubgroupMax2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22587,7 +23629,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax3D )
 	{
 		astTestBegin( "testSubgroupMax3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22610,7 +23653,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupMax4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupMax4D )
 	{
 		astTestBegin( "testSubgroupMax4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22633,7 +23677,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd1I )
 	{
 		astTestBegin( "testSubgroupAnd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22656,7 +23701,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd2I )
 	{
 		astTestBegin( "testSubgroupAnd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22679,7 +23725,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd3I )
 	{
 		astTestBegin( "testSubgroupAnd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22702,7 +23749,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd4I )
 	{
 		astTestBegin( "testSubgroupAnd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22725,7 +23773,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd1U )
 	{
 		astTestBegin( "testSubgroupAnd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22748,7 +23797,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd2U )
 	{
 		astTestBegin( "testSubgroupAnd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22771,7 +23821,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd3U )
 	{
 		astTestBegin( "testSubgroupAnd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22794,7 +23845,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd4U )
 	{
 		astTestBegin( "testSubgroupAnd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22817,7 +23869,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd1B )
 	{
 		astTestBegin( "testSubgroupAnd1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22840,7 +23893,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd2B )
 	{
 		astTestBegin( "testSubgroupAnd2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22863,7 +23917,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd3B )
 	{
 		astTestBegin( "testSubgroupAnd3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22886,7 +23941,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupAnd4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupAnd4B )
 	{
 		astTestBegin( "testSubgroupAnd4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22909,7 +23965,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr1I )
 	{
 		astTestBegin( "testSubgroupOr1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22932,7 +23989,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr2I )
 	{
 		astTestBegin( "testSubgroupOr2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22955,7 +24013,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr3I )
 	{
 		astTestBegin( "testSubgroupOr3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -22978,7 +24037,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr4I )
 	{
 		astTestBegin( "testSubgroupOr4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23001,7 +24061,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr1U )
 	{
 		astTestBegin( "testSubgroupOr1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23024,7 +24085,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr2U )
 	{
 		astTestBegin( "testSubgroupOr2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23047,7 +24109,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr3U )
 	{
 		astTestBegin( "testSubgroupOr3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23070,7 +24133,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr4U )
 	{
 		astTestBegin( "testSubgroupOr4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23093,7 +24157,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr1B )
 	{
 		astTestBegin( "testSubgroupOr1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23116,7 +24181,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr2B )
 	{
 		astTestBegin( "testSubgroupOr2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23139,7 +24205,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr3B )
 	{
 		astTestBegin( "testSubgroupOr3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23162,7 +24229,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupOr4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupOr4B )
 	{
 		astTestBegin( "testSubgroupOr4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23185,7 +24253,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor1I )
 	{
 		astTestBegin( "testSubgroupXor1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23208,7 +24277,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor2I )
 	{
 		astTestBegin( "testSubgroupXor2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23231,7 +24301,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor3I )
 	{
 		astTestBegin( "testSubgroupXor3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23254,7 +24325,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor4I )
 	{
 		astTestBegin( "testSubgroupXor4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23277,7 +24349,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor1U )
 	{
 		astTestBegin( "testSubgroupXor1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23300,7 +24373,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor2U )
 	{
 		astTestBegin( "testSubgroupXor2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23323,7 +24397,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor3U )
 	{
 		astTestBegin( "testSubgroupXor3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23346,7 +24421,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor4U )
 	{
 		astTestBegin( "testSubgroupXor4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23369,7 +24445,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor1B )
 	{
 		astTestBegin( "testSubgroupXor1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23392,7 +24469,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor2B )
 	{
 		astTestBegin( "testSubgroupXor2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23415,7 +24493,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor3B )
 	{
 		astTestBegin( "testSubgroupXor3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23438,7 +24517,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupXor4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupXor4B )
 	{
 		astTestBegin( "testSubgroupXor4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23461,7 +24541,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd1F )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23484,7 +24565,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd2F )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23507,7 +24589,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd3F )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23530,7 +24613,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd4F )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23553,7 +24637,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd1I )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23576,7 +24661,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd2I )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23599,7 +24685,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd3I )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23622,7 +24709,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd4I )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23645,7 +24733,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd1U )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23668,7 +24757,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd2U )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23691,7 +24781,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd3U )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23714,7 +24805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd4U )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23737,7 +24829,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd1D )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23760,7 +24853,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd2D )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23783,7 +24877,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd3D )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23806,7 +24901,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAdd4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAdd4D )
 	{
 		astTestBegin( "testSubgroupInclusiveAdd4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23829,7 +24925,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul1F )
 	{
 		astTestBegin( "testSubgroupInclusiveMul1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23852,7 +24949,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul2F )
 	{
 		astTestBegin( "testSubgroupInclusiveMul2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23875,7 +24973,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul3F )
 	{
 		astTestBegin( "testSubgroupInclusiveMul3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23898,7 +24997,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul4F )
 	{
 		astTestBegin( "testSubgroupInclusiveMul4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23921,7 +25021,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul1I )
 	{
 		astTestBegin( "testSubgroupInclusiveMul1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23944,7 +25045,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul2I )
 	{
 		astTestBegin( "testSubgroupInclusiveMul2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23967,7 +25069,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul3I )
 	{
 		astTestBegin( "testSubgroupInclusiveMul3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -23990,7 +25093,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul4I )
 	{
 		astTestBegin( "testSubgroupInclusiveMul4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24013,7 +25117,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul1U )
 	{
 		astTestBegin( "testSubgroupInclusiveMul1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24036,7 +25141,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul2U )
 	{
 		astTestBegin( "testSubgroupInclusiveMul2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24059,7 +25165,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul3U )
 	{
 		astTestBegin( "testSubgroupInclusiveMul3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24082,7 +25189,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul4U )
 	{
 		astTestBegin( "testSubgroupInclusiveMul4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24105,7 +25213,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul1D )
 	{
 		astTestBegin( "testSubgroupInclusiveMul1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24128,7 +25237,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul2D )
 	{
 		astTestBegin( "testSubgroupInclusiveMul2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24151,7 +25261,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul3D )
 	{
 		astTestBegin( "testSubgroupInclusiveMul3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24174,7 +25285,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMul4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMul4D )
 	{
 		astTestBegin( "testSubgroupInclusiveMul4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24197,7 +25309,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin1F )
 	{
 		astTestBegin( "testSubgroupInclusiveMin1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24220,7 +25333,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin2F )
 	{
 		astTestBegin( "testSubgroupInclusiveMin2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24243,7 +25357,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin3F )
 	{
 		astTestBegin( "testSubgroupInclusiveMin3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24266,7 +25381,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin4F )
 	{
 		astTestBegin( "testSubgroupInclusiveMin4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24289,7 +25405,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin1I )
 	{
 		astTestBegin( "testSubgroupInclusiveMin1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24312,7 +25429,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin2I )
 	{
 		astTestBegin( "testSubgroupInclusiveMin2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24335,7 +25453,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin3I )
 	{
 		astTestBegin( "testSubgroupInclusiveMin3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24358,7 +25477,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin4I )
 	{
 		astTestBegin( "testSubgroupInclusiveMin4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24381,7 +25501,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin1U )
 	{
 		astTestBegin( "testSubgroupInclusiveMin1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24404,7 +25525,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin2U )
 	{
 		astTestBegin( "testSubgroupInclusiveMin2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24427,7 +25549,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin3U )
 	{
 		astTestBegin( "testSubgroupInclusiveMin3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24450,7 +25573,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin4U )
 	{
 		astTestBegin( "testSubgroupInclusiveMin4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24473,7 +25597,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin1D )
 	{
 		astTestBegin( "testSubgroupInclusiveMin1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24496,7 +25621,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin2D )
 	{
 		astTestBegin( "testSubgroupInclusiveMin2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24519,7 +25645,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin3D )
 	{
 		astTestBegin( "testSubgroupInclusiveMin3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24542,7 +25669,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMin4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMin4D )
 	{
 		astTestBegin( "testSubgroupInclusiveMin4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24565,7 +25693,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax1F )
 	{
 		astTestBegin( "testSubgroupInclusiveMax1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24588,7 +25717,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax2F )
 	{
 		astTestBegin( "testSubgroupInclusiveMax2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24611,7 +25741,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax3F )
 	{
 		astTestBegin( "testSubgroupInclusiveMax3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24634,7 +25765,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax4F )
 	{
 		astTestBegin( "testSubgroupInclusiveMax4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24657,7 +25789,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax1I )
 	{
 		astTestBegin( "testSubgroupInclusiveMax1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24680,7 +25813,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax2I )
 	{
 		astTestBegin( "testSubgroupInclusiveMax2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24703,7 +25837,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax3I )
 	{
 		astTestBegin( "testSubgroupInclusiveMax3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24726,7 +25861,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax4I )
 	{
 		astTestBegin( "testSubgroupInclusiveMax4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24749,7 +25885,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax1U )
 	{
 		astTestBegin( "testSubgroupInclusiveMax1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24772,7 +25909,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax2U )
 	{
 		astTestBegin( "testSubgroupInclusiveMax2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24795,7 +25933,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax3U )
 	{
 		astTestBegin( "testSubgroupInclusiveMax3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24818,7 +25957,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax4U )
 	{
 		astTestBegin( "testSubgroupInclusiveMax4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24841,7 +25981,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax1D )
 	{
 		astTestBegin( "testSubgroupInclusiveMax1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24864,7 +26005,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax2D )
 	{
 		astTestBegin( "testSubgroupInclusiveMax2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24887,7 +26029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax3D )
 	{
 		astTestBegin( "testSubgroupInclusiveMax3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24910,7 +26053,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveMax4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveMax4D )
 	{
 		astTestBegin( "testSubgroupInclusiveMax4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24933,7 +26077,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd1I )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24956,7 +26101,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd2I )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -24979,7 +26125,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd3I )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25002,7 +26149,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd4I )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25025,7 +26173,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd1U )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25048,7 +26197,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd2U )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25071,7 +26221,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd3U )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25094,7 +26245,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd4U )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25117,7 +26269,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd1B )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25140,7 +26293,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd2B )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25163,7 +26317,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd3B )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25186,7 +26341,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveAnd4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveAnd4B )
 	{
 		astTestBegin( "testSubgroupInclusiveAnd4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25209,7 +26365,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr1I )
 	{
 		astTestBegin( "testSubgroupInclusiveOr1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25232,7 +26389,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr2I )
 	{
 		astTestBegin( "testSubgroupInclusiveOr2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25255,7 +26413,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr3I )
 	{
 		astTestBegin( "testSubgroupInclusiveOr3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25278,7 +26437,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr4I )
 	{
 		astTestBegin( "testSubgroupInclusiveOr4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25301,7 +26461,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr1U )
 	{
 		astTestBegin( "testSubgroupInclusiveOr1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25324,7 +26485,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr2U )
 	{
 		astTestBegin( "testSubgroupInclusiveOr2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25347,7 +26509,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr3U )
 	{
 		astTestBegin( "testSubgroupInclusiveOr3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25370,7 +26533,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr4U )
 	{
 		astTestBegin( "testSubgroupInclusiveOr4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25393,7 +26557,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr1B )
 	{
 		astTestBegin( "testSubgroupInclusiveOr1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25416,7 +26581,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr2B )
 	{
 		astTestBegin( "testSubgroupInclusiveOr2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25439,7 +26605,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr3B )
 	{
 		astTestBegin( "testSubgroupInclusiveOr3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25462,7 +26629,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveOr4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveOr4B )
 	{
 		astTestBegin( "testSubgroupInclusiveOr4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25485,7 +26653,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor1I )
 	{
 		astTestBegin( "testSubgroupInclusiveXor1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25508,7 +26677,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor2I )
 	{
 		astTestBegin( "testSubgroupInclusiveXor2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25531,7 +26701,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor3I )
 	{
 		astTestBegin( "testSubgroupInclusiveXor3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25554,7 +26725,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor4I )
 	{
 		astTestBegin( "testSubgroupInclusiveXor4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25577,7 +26749,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor1U )
 	{
 		astTestBegin( "testSubgroupInclusiveXor1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25600,7 +26773,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor2U )
 	{
 		astTestBegin( "testSubgroupInclusiveXor2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25623,7 +26797,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor3U )
 	{
 		astTestBegin( "testSubgroupInclusiveXor3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25646,7 +26821,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor4U )
 	{
 		astTestBegin( "testSubgroupInclusiveXor4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25669,7 +26845,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor1B )
 	{
 		astTestBegin( "testSubgroupInclusiveXor1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25692,7 +26869,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor2B )
 	{
 		astTestBegin( "testSubgroupInclusiveXor2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25715,7 +26893,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor3B )
 	{
 		astTestBegin( "testSubgroupInclusiveXor3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25738,7 +26917,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupInclusiveXor4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupInclusiveXor4B )
 	{
 		astTestBegin( "testSubgroupInclusiveXor4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25761,7 +26941,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd1F )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25784,7 +26965,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd2F )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25807,7 +26989,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd3F )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25830,7 +27013,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd4F )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25853,7 +27037,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd1I )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25876,7 +27061,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd2I )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25899,7 +27085,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd3I )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25922,7 +27109,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd4I )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25945,7 +27133,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd1U )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25968,7 +27157,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd2U )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -25991,7 +27181,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd3U )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26014,7 +27205,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd4U )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26037,7 +27229,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd1D )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26060,7 +27253,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd2D )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26083,7 +27277,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd3D )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26106,7 +27301,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAdd4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAdd4D )
 	{
 		astTestBegin( "testSubgroupExclusiveAdd4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26129,7 +27325,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul1F )
 	{
 		astTestBegin( "testSubgroupExclusiveMul1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26152,7 +27349,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul2F )
 	{
 		astTestBegin( "testSubgroupExclusiveMul2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26175,7 +27373,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul3F )
 	{
 		astTestBegin( "testSubgroupExclusiveMul3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26198,7 +27397,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul4F )
 	{
 		astTestBegin( "testSubgroupExclusiveMul4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26221,7 +27421,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul1I )
 	{
 		astTestBegin( "testSubgroupExclusiveMul1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26244,7 +27445,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul2I )
 	{
 		astTestBegin( "testSubgroupExclusiveMul2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26267,7 +27469,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul3I )
 	{
 		astTestBegin( "testSubgroupExclusiveMul3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26290,7 +27493,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul4I )
 	{
 		astTestBegin( "testSubgroupExclusiveMul4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26313,7 +27517,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul1U )
 	{
 		astTestBegin( "testSubgroupExclusiveMul1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26336,7 +27541,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul2U )
 	{
 		astTestBegin( "testSubgroupExclusiveMul2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26359,7 +27565,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul3U )
 	{
 		astTestBegin( "testSubgroupExclusiveMul3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26382,7 +27589,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul4U )
 	{
 		astTestBegin( "testSubgroupExclusiveMul4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26405,7 +27613,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul1D )
 	{
 		astTestBegin( "testSubgroupExclusiveMul1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26428,7 +27637,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul2D )
 	{
 		astTestBegin( "testSubgroupExclusiveMul2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26451,7 +27661,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul3D )
 	{
 		astTestBegin( "testSubgroupExclusiveMul3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26474,7 +27685,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMul4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMul4D )
 	{
 		astTestBegin( "testSubgroupExclusiveMul4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26497,7 +27709,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin1F )
 	{
 		astTestBegin( "testSubgroupExclusiveMin1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26520,7 +27733,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin2F )
 	{
 		astTestBegin( "testSubgroupExclusiveMin2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26543,7 +27757,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin3F )
 	{
 		astTestBegin( "testSubgroupExclusiveMin3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26566,7 +27781,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin4F )
 	{
 		astTestBegin( "testSubgroupExclusiveMin4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26589,7 +27805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin1I )
 	{
 		astTestBegin( "testSubgroupExclusiveMin1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26612,7 +27829,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin2I )
 	{
 		astTestBegin( "testSubgroupExclusiveMin2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26635,7 +27853,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin3I )
 	{
 		astTestBegin( "testSubgroupExclusiveMin3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26658,7 +27877,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin4I )
 	{
 		astTestBegin( "testSubgroupExclusiveMin4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26681,7 +27901,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin1U )
 	{
 		astTestBegin( "testSubgroupExclusiveMin1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26704,7 +27925,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin2U )
 	{
 		astTestBegin( "testSubgroupExclusiveMin2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26727,7 +27949,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin3U )
 	{
 		astTestBegin( "testSubgroupExclusiveMin3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26750,7 +27973,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin4U )
 	{
 		astTestBegin( "testSubgroupExclusiveMin4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26773,7 +27997,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin1D )
 	{
 		astTestBegin( "testSubgroupExclusiveMin1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26796,7 +28021,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin2D )
 	{
 		astTestBegin( "testSubgroupExclusiveMin2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26819,7 +28045,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin3D )
 	{
 		astTestBegin( "testSubgroupExclusiveMin3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26842,7 +28069,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMin4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMin4D )
 	{
 		astTestBegin( "testSubgroupExclusiveMin4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26865,7 +28093,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax1F )
 	{
 		astTestBegin( "testSubgroupExclusiveMax1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26888,7 +28117,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax2F )
 	{
 		astTestBegin( "testSubgroupExclusiveMax2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26911,7 +28141,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax3F )
 	{
 		astTestBegin( "testSubgroupExclusiveMax3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26934,7 +28165,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax4F )
 	{
 		astTestBegin( "testSubgroupExclusiveMax4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26957,7 +28189,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax1I )
 	{
 		astTestBegin( "testSubgroupExclusiveMax1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -26980,7 +28213,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax2I )
 	{
 		astTestBegin( "testSubgroupExclusiveMax2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27003,7 +28237,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax3I )
 	{
 		astTestBegin( "testSubgroupExclusiveMax3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27026,7 +28261,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax4I )
 	{
 		astTestBegin( "testSubgroupExclusiveMax4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27049,7 +28285,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax1U )
 	{
 		astTestBegin( "testSubgroupExclusiveMax1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27072,7 +28309,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax2U )
 	{
 		astTestBegin( "testSubgroupExclusiveMax2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27095,7 +28333,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax3U )
 	{
 		astTestBegin( "testSubgroupExclusiveMax3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27118,7 +28357,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax4U )
 	{
 		astTestBegin( "testSubgroupExclusiveMax4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27141,7 +28381,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax1D )
 	{
 		astTestBegin( "testSubgroupExclusiveMax1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27164,7 +28405,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax2D )
 	{
 		astTestBegin( "testSubgroupExclusiveMax2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27187,7 +28429,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax3D )
 	{
 		astTestBegin( "testSubgroupExclusiveMax3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27210,7 +28453,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveMax4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveMax4D )
 	{
 		astTestBegin( "testSubgroupExclusiveMax4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27233,7 +28477,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd1I )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27256,7 +28501,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd2I )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27279,7 +28525,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd3I )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27302,7 +28549,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd4I )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27325,7 +28573,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd1U )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27348,7 +28597,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd2U )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27371,7 +28621,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd3U )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27394,7 +28645,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd4U )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27417,7 +28669,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd1B )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27440,7 +28693,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd2B )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27463,7 +28717,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd3B )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27486,7 +28741,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveAnd4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveAnd4B )
 	{
 		astTestBegin( "testSubgroupExclusiveAnd4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27509,7 +28765,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr1I )
 	{
 		astTestBegin( "testSubgroupExclusiveOr1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27532,7 +28789,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr2I )
 	{
 		astTestBegin( "testSubgroupExclusiveOr2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27555,7 +28813,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr3I )
 	{
 		astTestBegin( "testSubgroupExclusiveOr3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27578,7 +28837,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr4I )
 	{
 		astTestBegin( "testSubgroupExclusiveOr4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27601,7 +28861,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr1U )
 	{
 		astTestBegin( "testSubgroupExclusiveOr1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27624,7 +28885,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr2U )
 	{
 		astTestBegin( "testSubgroupExclusiveOr2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27647,7 +28909,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr3U )
 	{
 		astTestBegin( "testSubgroupExclusiveOr3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27670,7 +28933,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr4U )
 	{
 		astTestBegin( "testSubgroupExclusiveOr4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27693,7 +28957,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr1B )
 	{
 		astTestBegin( "testSubgroupExclusiveOr1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27716,7 +28981,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr2B )
 	{
 		astTestBegin( "testSubgroupExclusiveOr2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27739,7 +29005,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr3B )
 	{
 		astTestBegin( "testSubgroupExclusiveOr3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27762,7 +29029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveOr4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveOr4B )
 	{
 		astTestBegin( "testSubgroupExclusiveOr4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27785,7 +29053,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor1I )
 	{
 		astTestBegin( "testSubgroupExclusiveXor1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27808,7 +29077,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor2I )
 	{
 		astTestBegin( "testSubgroupExclusiveXor2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27831,7 +29101,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor3I )
 	{
 		astTestBegin( "testSubgroupExclusiveXor3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27854,7 +29125,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor4I )
 	{
 		astTestBegin( "testSubgroupExclusiveXor4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27877,7 +29149,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor1U )
 	{
 		astTestBegin( "testSubgroupExclusiveXor1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27900,7 +29173,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor2U )
 	{
 		astTestBegin( "testSubgroupExclusiveXor2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27923,7 +29197,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor3U )
 	{
 		astTestBegin( "testSubgroupExclusiveXor3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27946,7 +29221,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor4U )
 	{
 		astTestBegin( "testSubgroupExclusiveXor4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27969,7 +29245,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor1B )
 	{
 		astTestBegin( "testSubgroupExclusiveXor1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -27992,7 +29269,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor2B )
 	{
 		astTestBegin( "testSubgroupExclusiveXor2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28015,7 +29293,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor3B )
 	{
 		astTestBegin( "testSubgroupExclusiveXor3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28038,7 +29317,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupExclusiveXor4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupExclusiveXor4B )
 	{
 		astTestBegin( "testSubgroupExclusiveXor4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28061,7 +29341,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd1F )
 	{
 		astTestBegin( "testSubgroupClusterAdd1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28088,7 +29369,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd2F )
 	{
 		astTestBegin( "testSubgroupClusterAdd2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28115,7 +29397,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd3F )
 	{
 		astTestBegin( "testSubgroupClusterAdd3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28142,7 +29425,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd4F )
 	{
 		astTestBegin( "testSubgroupClusterAdd4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28169,7 +29453,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd1I )
 	{
 		astTestBegin( "testSubgroupClusterAdd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28196,7 +29481,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd2I )
 	{
 		astTestBegin( "testSubgroupClusterAdd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28223,7 +29509,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd3I )
 	{
 		astTestBegin( "testSubgroupClusterAdd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28250,7 +29537,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd4I )
 	{
 		astTestBegin( "testSubgroupClusterAdd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28277,7 +29565,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd1U )
 	{
 		astTestBegin( "testSubgroupClusterAdd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28304,7 +29593,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd2U )
 	{
 		astTestBegin( "testSubgroupClusterAdd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28331,7 +29621,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd3U )
 	{
 		astTestBegin( "testSubgroupClusterAdd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28358,7 +29649,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd4U )
 	{
 		astTestBegin( "testSubgroupClusterAdd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28385,7 +29677,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd1D )
 	{
 		astTestBegin( "testSubgroupClusterAdd1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28412,7 +29705,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd2D )
 	{
 		astTestBegin( "testSubgroupClusterAdd2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28439,7 +29733,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd3D )
 	{
 		astTestBegin( "testSubgroupClusterAdd3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28466,7 +29761,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAdd4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAdd4D )
 	{
 		astTestBegin( "testSubgroupClusterAdd4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28493,7 +29789,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul1F )
 	{
 		astTestBegin( "testSubgroupClusterMul1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28520,7 +29817,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul2F )
 	{
 		astTestBegin( "testSubgroupClusterMul2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28547,7 +29845,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul3F )
 	{
 		astTestBegin( "testSubgroupClusterMul3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28574,7 +29873,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul4F )
 	{
 		astTestBegin( "testSubgroupClusterMul4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28601,7 +29901,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul1I )
 	{
 		astTestBegin( "testSubgroupClusterMul1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28628,7 +29929,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul2I )
 	{
 		astTestBegin( "testSubgroupClusterMul2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28655,7 +29957,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul3I )
 	{
 		astTestBegin( "testSubgroupClusterMul3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28682,7 +29985,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul4I )
 	{
 		astTestBegin( "testSubgroupClusterMul4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28709,7 +30013,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul1U )
 	{
 		astTestBegin( "testSubgroupClusterMul1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28736,7 +30041,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul2U )
 	{
 		astTestBegin( "testSubgroupClusterMul2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28763,7 +30069,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul3U )
 	{
 		astTestBegin( "testSubgroupClusterMul3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28790,7 +30097,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul4U )
 	{
 		astTestBegin( "testSubgroupClusterMul4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28817,7 +30125,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul1D )
 	{
 		astTestBegin( "testSubgroupClusterMul1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28844,7 +30153,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul2D )
 	{
 		astTestBegin( "testSubgroupClusterMul2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28871,7 +30181,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul3D )
 	{
 		astTestBegin( "testSubgroupClusterMul3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28898,7 +30209,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMul4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMul4D )
 	{
 		astTestBegin( "testSubgroupClusterMul4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28925,7 +30237,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin1F )
 	{
 		astTestBegin( "testSubgroupClusterMin1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28952,7 +30265,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin2F )
 	{
 		astTestBegin( "testSubgroupClusterMin2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -28979,7 +30293,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin3F )
 	{
 		astTestBegin( "testSubgroupClusterMin3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29006,7 +30321,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin4F )
 	{
 		astTestBegin( "testSubgroupClusterMin4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29033,7 +30349,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin1I )
 	{
 		astTestBegin( "testSubgroupClusterMin1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29060,7 +30377,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin2I )
 	{
 		astTestBegin( "testSubgroupClusterMin2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29087,7 +30405,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin3I )
 	{
 		astTestBegin( "testSubgroupClusterMin3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29114,7 +30433,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin4I )
 	{
 		astTestBegin( "testSubgroupClusterMin4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29141,7 +30461,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin1U )
 	{
 		astTestBegin( "testSubgroupClusterMin1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29168,7 +30489,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin2U )
 	{
 		astTestBegin( "testSubgroupClusterMin2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29195,7 +30517,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin3U )
 	{
 		astTestBegin( "testSubgroupClusterMin3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29222,7 +30545,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin4U )
 	{
 		astTestBegin( "testSubgroupClusterMin4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29249,7 +30573,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin1D )
 	{
 		astTestBegin( "testSubgroupClusterMin1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29276,7 +30601,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin2D )
 	{
 		astTestBegin( "testSubgroupClusterMin2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29303,7 +30629,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin3D )
 	{
 		astTestBegin( "testSubgroupClusterMin3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29330,7 +30657,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMin4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMin4D )
 	{
 		astTestBegin( "testSubgroupClusterMin4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29357,7 +30685,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax1F )
 	{
 		astTestBegin( "testSubgroupClusterMax1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29384,7 +30713,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax2F )
 	{
 		astTestBegin( "testSubgroupClusterMax2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29411,7 +30741,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax3F )
 	{
 		astTestBegin( "testSubgroupClusterMax3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29438,7 +30769,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax4F )
 	{
 		astTestBegin( "testSubgroupClusterMax4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29465,7 +30797,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax1I )
 	{
 		astTestBegin( "testSubgroupClusterMax1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29492,7 +30825,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax2I )
 	{
 		astTestBegin( "testSubgroupClusterMax2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29519,7 +30853,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax3I )
 	{
 		astTestBegin( "testSubgroupClusterMax3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29546,7 +30881,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax4I )
 	{
 		astTestBegin( "testSubgroupClusterMax4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29573,7 +30909,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax1U )
 	{
 		astTestBegin( "testSubgroupClusterMax1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29600,7 +30937,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax2U )
 	{
 		astTestBegin( "testSubgroupClusterMax2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29627,7 +30965,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax3U )
 	{
 		astTestBegin( "testSubgroupClusterMax3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29654,7 +30993,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax4U )
 	{
 		astTestBegin( "testSubgroupClusterMax4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29681,7 +31021,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax1D )
 	{
 		astTestBegin( "testSubgroupClusterMax1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29708,7 +31049,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax2D )
 	{
 		astTestBegin( "testSubgroupClusterMax2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29735,7 +31077,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax3D )
 	{
 		astTestBegin( "testSubgroupClusterMax3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29762,7 +31105,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterMax4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterMax4D )
 	{
 		astTestBegin( "testSubgroupClusterMax4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29789,7 +31133,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd1I )
 	{
 		astTestBegin( "testSubgroupClusterAnd1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29816,7 +31161,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd2I )
 	{
 		astTestBegin( "testSubgroupClusterAnd2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29843,7 +31189,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd3I )
 	{
 		astTestBegin( "testSubgroupClusterAnd3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29870,7 +31217,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd4I )
 	{
 		astTestBegin( "testSubgroupClusterAnd4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29897,7 +31245,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd1U )
 	{
 		astTestBegin( "testSubgroupClusterAnd1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29924,7 +31273,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd2U )
 	{
 		astTestBegin( "testSubgroupClusterAnd2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29951,7 +31301,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd3U )
 	{
 		astTestBegin( "testSubgroupClusterAnd3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -29978,7 +31329,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd4U )
 	{
 		astTestBegin( "testSubgroupClusterAnd4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30005,7 +31357,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd1B )
 	{
 		astTestBegin( "testSubgroupClusterAnd1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30032,7 +31385,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd2B )
 	{
 		astTestBegin( "testSubgroupClusterAnd2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30059,7 +31413,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd3B )
 	{
 		astTestBegin( "testSubgroupClusterAnd3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30086,7 +31441,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterAnd4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterAnd4B )
 	{
 		astTestBegin( "testSubgroupClusterAnd4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30113,7 +31469,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr1I )
 	{
 		astTestBegin( "testSubgroupClusterOr1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30140,7 +31497,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr2I )
 	{
 		astTestBegin( "testSubgroupClusterOr2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30167,7 +31525,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr3I )
 	{
 		astTestBegin( "testSubgroupClusterOr3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30194,7 +31553,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr4I )
 	{
 		astTestBegin( "testSubgroupClusterOr4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30221,7 +31581,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr1U )
 	{
 		astTestBegin( "testSubgroupClusterOr1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30248,7 +31609,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr2U )
 	{
 		astTestBegin( "testSubgroupClusterOr2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30275,7 +31637,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr3U )
 	{
 		astTestBegin( "testSubgroupClusterOr3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30302,7 +31665,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr4U )
 	{
 		astTestBegin( "testSubgroupClusterOr4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30329,7 +31693,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr1B )
 	{
 		astTestBegin( "testSubgroupClusterOr1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30356,7 +31721,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr2B )
 	{
 		astTestBegin( "testSubgroupClusterOr2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30383,7 +31749,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr3B )
 	{
 		astTestBegin( "testSubgroupClusterOr3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30410,7 +31777,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterOr4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterOr4B )
 	{
 		astTestBegin( "testSubgroupClusterOr4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30437,7 +31805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor1I )
 	{
 		astTestBegin( "testSubgroupClusterXor1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30464,7 +31833,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor2I )
 	{
 		astTestBegin( "testSubgroupClusterXor2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30491,7 +31861,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor3I )
 	{
 		astTestBegin( "testSubgroupClusterXor3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30518,7 +31889,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor4I )
 	{
 		astTestBegin( "testSubgroupClusterXor4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30545,7 +31917,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor1U )
 	{
 		astTestBegin( "testSubgroupClusterXor1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30572,7 +31945,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor2U )
 	{
 		astTestBegin( "testSubgroupClusterXor2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30599,7 +31973,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor3U )
 	{
 		astTestBegin( "testSubgroupClusterXor3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30626,7 +32001,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor4U )
 	{
 		astTestBegin( "testSubgroupClusterXor4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30653,7 +32029,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor1B )
 	{
 		astTestBegin( "testSubgroupClusterXor1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30680,7 +32057,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor2B )
 	{
 		astTestBegin( "testSubgroupClusterXor2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30707,7 +32085,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor3B )
 	{
 		astTestBegin( "testSubgroupClusterXor3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30734,7 +32113,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupClusterXor4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupClusterXor4B )
 	{
 		astTestBegin( "testSubgroupClusterXor4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30761,7 +32141,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast1F )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30788,7 +32169,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast2F )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30815,7 +32197,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast3F )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30842,7 +32225,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast4F )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30869,7 +32253,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast1I )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30896,7 +32281,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast2I )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30923,7 +32309,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast3I )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30950,7 +32337,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast4I )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -30977,7 +32365,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast1U )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31004,7 +32393,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast2U )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31031,7 +32421,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast3U )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31058,7 +32449,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast4U )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31085,7 +32477,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast1B )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31112,7 +32505,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast2B )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31139,7 +32533,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast3B )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31166,7 +32561,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast4B )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31193,7 +32589,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast1D )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31220,7 +32617,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast2D )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31247,7 +32645,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast3D )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31274,7 +32673,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadBroadcast4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadBroadcast4D )
 	{
 		astTestBegin( "testSubgroupQuadBroadcast4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31301,7 +32701,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal1F )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31324,7 +32725,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal2F )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31347,7 +32749,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal3F )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31370,7 +32773,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal4F )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31393,7 +32797,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal1I )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31416,7 +32821,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal2I )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31439,7 +32845,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal3I )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31462,7 +32869,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal4I )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31485,7 +32893,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal1U )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31508,7 +32917,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal2U )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31531,7 +32941,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal3U )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31554,7 +32965,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal4U )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31577,7 +32989,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal1B )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31600,7 +33013,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal2B )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31623,7 +33037,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal3B )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31646,7 +33061,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal4B )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31669,7 +33085,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal1D )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31692,7 +33109,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal2D )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31715,7 +33133,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal3D )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31738,7 +33157,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapHorizontal4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapHorizontal4D )
 	{
 		astTestBegin( "testSubgroupQuadSwapHorizontal4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31761,7 +33181,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical1F )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31784,7 +33205,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical2F )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31807,7 +33229,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical3F )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31830,7 +33253,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical4F )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31853,7 +33277,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical1I )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31876,7 +33301,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical2I )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31899,7 +33325,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical3I )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31922,7 +33349,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical4I )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31945,7 +33373,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical1U )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31968,7 +33397,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical2U )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -31991,7 +33421,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical3U )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32014,7 +33445,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical4U )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32037,7 +33469,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical1B )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32060,7 +33493,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical2B )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32083,7 +33517,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical3B )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32106,7 +33541,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical4B )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32129,7 +33565,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical1D )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32152,7 +33589,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical2D )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32175,7 +33613,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical3D )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32198,7 +33637,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapVertical4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapVertical4D )
 	{
 		astTestBegin( "testSubgroupQuadSwapVertical4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32221,7 +33661,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal1F )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32244,7 +33685,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal2F )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32267,7 +33709,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal3F )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32290,7 +33733,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal4F )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32313,7 +33757,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal1I )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32336,7 +33781,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal2I )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32359,7 +33805,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal3I )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32382,7 +33829,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal4I )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32405,7 +33853,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal1U )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32428,7 +33877,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal2U )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32451,7 +33901,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal3U )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32474,7 +33925,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal4U )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32497,7 +33949,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal1B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal1B )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal1B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32520,7 +33973,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal2B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal2B )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal2B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32543,7 +33997,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal3B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal3B )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal3B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32566,7 +34021,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal4B(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal4B )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal4B" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32589,7 +34045,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal1D )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32612,7 +34069,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal2D )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32635,7 +34093,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal3D )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32658,7 +34117,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testSubgroupQuadSwapDiagonal4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, SubgroupQuadSwapDiagonal4D )
 	{
 		astTestBegin( "testSubgroupQuadSwapDiagonal4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32681,9 +34141,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	//Shader Invocation Group Functions
 
-	static void testReadInvocation1F(test::TestCounts & testCounts )
+	TEST( Intrinsic, ReadInvocation1F )
 	{
 		astTestBegin( "testReadInvocation1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32710,7 +34171,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation2F )
 	{
 		astTestBegin( "testReadInvocation2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32737,7 +34199,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation3F )
 	{
 		astTestBegin( "testReadInvocation3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32764,7 +34227,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation4F )
 	{
 		astTestBegin( "testReadInvocation4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32791,7 +34255,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation1I )
 	{
 		astTestBegin( "testReadInvocation1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32818,7 +34283,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation2I )
 	{
 		astTestBegin( "testReadInvocation2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32845,7 +34311,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation3I )
 	{
 		astTestBegin( "testReadInvocation3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32872,7 +34339,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation4I )
 	{
 		astTestBegin( "testReadInvocation4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32899,7 +34367,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation1U )
 	{
 		astTestBegin( "testReadInvocation1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32926,7 +34395,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation2U )
 	{
 		astTestBegin( "testReadInvocation2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32953,7 +34423,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation3U )
 	{
 		astTestBegin( "testReadInvocation3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -32980,7 +34451,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation4U )
 	{
 		astTestBegin( "testReadInvocation4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33007,7 +34479,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation1D )
 	{
 		astTestBegin( "testReadInvocation1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33034,7 +34507,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation2D )
 	{
 		astTestBegin( "testReadInvocation2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33061,7 +34535,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation3D )
 	{
 		astTestBegin( "testReadInvocation3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33088,7 +34563,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadInvocation4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadInvocation4D )
 	{
 		astTestBegin( "testReadInvocation4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33115,7 +34591,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation1F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation1F )
 	{
 		astTestBegin( "testReadFirstInvocation1F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33138,7 +34615,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation2F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation2F )
 	{
 		astTestBegin( "testReadFirstInvocation2F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33161,7 +34639,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation3F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation3F )
 	{
 		astTestBegin( "testReadFirstInvocation3F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33184,7 +34663,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation4F(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation4F )
 	{
 		astTestBegin( "testReadFirstInvocation4F" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33207,7 +34687,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation1I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation1I )
 	{
 		astTestBegin( "testReadFirstInvocation1I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33230,7 +34711,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation2I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation2I )
 	{
 		astTestBegin( "testReadFirstInvocation2I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33253,7 +34735,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation3I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation3I )
 	{
 		astTestBegin( "testReadFirstInvocation3I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33276,7 +34759,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation4I(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation4I )
 	{
 		astTestBegin( "testReadFirstInvocation4I" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33299,7 +34783,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation1U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation1U )
 	{
 		astTestBegin( "testReadFirstInvocation1U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33322,7 +34807,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation2U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation2U )
 	{
 		astTestBegin( "testReadFirstInvocation2U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33345,7 +34831,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation3U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation3U )
 	{
 		astTestBegin( "testReadFirstInvocation3U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33368,7 +34855,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation4U(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation4U )
 	{
 		astTestBegin( "testReadFirstInvocation4U" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33391,7 +34879,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation1D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation1D )
 	{
 		astTestBegin( "testReadFirstInvocation1D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33414,7 +34903,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation2D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation2D )
 	{
 		astTestBegin( "testReadFirstInvocation2D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33437,7 +34927,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation3D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation3D )
 	{
 		astTestBegin( "testReadFirstInvocation3D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33460,7 +34951,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testReadFirstInvocation4D(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, ReadFirstInvocation4D )
 	{
 		astTestBegin( "testReadFirstInvocation4D" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33483,9 +34975,10 @@ namespace checks
 		}
 		astTestEnd()
 	}
+
 	// Fragment Shader Interlock Functions
 
-	static void testBeginInvocationInterlock(test::TestCounts & testCounts )
+	TEST( Intrinsic, BeginInvocationInterlock )
 	{
 		astTestBegin( "testBeginInvocationInterlock" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33504,7 +34997,8 @@ namespace checks
 		}
 		astTestEnd()
 	}
-	static void testEndInvocationInterlock(test::TestCounts & testCounts )
+
+	TEST( Intrinsic, EndInvocationInterlock )
 	{
 		astTestBegin( "testEndInvocationInterlock" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -33524,1343 +35018,3 @@ namespace checks
 		astTestEnd()
 	}
 }
-
-astTestSuiteMain( TestASTIntrinsics )
-{
-	astTestSuiteBegin()
-	checks::testDegrees1( testCounts );
-	checks::testDegrees2( testCounts );
-	checks::testDegrees3( testCounts );
-	checks::testDegrees4( testCounts );
-	checks::testRadians1F( testCounts );
-	checks::testRadians2F( testCounts );
-	checks::testRadians3F( testCounts );
-	checks::testRadians4F( testCounts );
-	checks::testCos1( testCounts );
-	checks::testCos2( testCounts );
-	checks::testCos3( testCounts );
-	checks::testCos4( testCounts );
-	checks::testSin1( testCounts );
-	checks::testSin2( testCounts );
-	checks::testSin3( testCounts );
-	checks::testSin4( testCounts );
-	checks::testTan1( testCounts );
-	checks::testTan2( testCounts );
-	checks::testTan3( testCounts );
-	checks::testTan4( testCounts );
-	checks::testCosh1( testCounts );
-	checks::testCosh2( testCounts );
-	checks::testCosh3( testCounts );
-	checks::testCosh4( testCounts );
-	checks::testSinh1( testCounts );
-	checks::testSinh2( testCounts );
-	checks::testSinh3( testCounts );
-	checks::testSinh4( testCounts );
-	checks::testTanh1( testCounts );
-	checks::testTanh2( testCounts );
-	checks::testTanh3( testCounts );
-	checks::testTanh4( testCounts );
-	checks::testAcos1( testCounts );
-	checks::testAcos2( testCounts );
-	checks::testAcos3( testCounts );
-	checks::testAcos4( testCounts );
-	checks::testAsin1( testCounts );
-	checks::testAsin2( testCounts );
-	checks::testAsin3( testCounts );
-	checks::testAsin4( testCounts );
-	checks::testAtan1( testCounts );
-	checks::testAtan2( testCounts );
-	checks::testAtan3( testCounts );
-	checks::testAtan4( testCounts );
-	checks::testAtan21( testCounts );
-	checks::testAtan22( testCounts );
-	checks::testAtan23( testCounts );
-	checks::testAtan24( testCounts );
-	checks::testAcosh1( testCounts );
-	checks::testAcosh2( testCounts );
-	checks::testAcosh3( testCounts );
-	checks::testAcosh4( testCounts );
-	checks::testAsinh1( testCounts );
-	checks::testAsinh2( testCounts );
-	checks::testAsinh3( testCounts );
-	checks::testAsinh4( testCounts );
-	checks::testAtanh1( testCounts );
-	checks::testAtanh2( testCounts );
-	checks::testAtanh3( testCounts );
-	checks::testAtanh4( testCounts );
-	checks::testPow1( testCounts );
-	checks::testPow2( testCounts );
-	checks::testPow3( testCounts );
-	checks::testPow4( testCounts );
-	checks::testExp1( testCounts );
-	checks::testExp2( testCounts );
-	checks::testExp3( testCounts );
-	checks::testExp4( testCounts );
-	checks::testLog1( testCounts );
-	checks::testLog2( testCounts );
-	checks::testLog3( testCounts );
-	checks::testLog4( testCounts );
-	checks::testExp21( testCounts );
-	checks::testExp22( testCounts );
-	checks::testExp23( testCounts );
-	checks::testExp24( testCounts );
-	checks::testLog21( testCounts );
-	checks::testLog22( testCounts );
-	checks::testLog23( testCounts );
-	checks::testLog24( testCounts );
-	checks::testSqrt1F( testCounts );
-	checks::testSqrt2F( testCounts );
-	checks::testSqrt3F( testCounts );
-	checks::testSqrt4F( testCounts );
-	checks::testSqrt1D( testCounts );
-	checks::testSqrt2D( testCounts );
-	checks::testSqrt3D( testCounts );
-	checks::testSqrt4D( testCounts );
-	checks::testInverseSqrt1F( testCounts );
-	checks::testInverseSqrt2F( testCounts );
-	checks::testInverseSqrt3F( testCounts );
-	checks::testInverseSqrt4F( testCounts );
-	checks::testInverseSqrt1D( testCounts );
-	checks::testInverseSqrt2D( testCounts );
-	checks::testInverseSqrt3D( testCounts );
-	checks::testInverseSqrt4D( testCounts );
-	checks::testAbs1F( testCounts );
-	checks::testAbs2F( testCounts );
-	checks::testAbs3F( testCounts );
-	checks::testAbs4F( testCounts );
-	checks::testAbs1I( testCounts );
-	checks::testAbs2I( testCounts );
-	checks::testAbs3I( testCounts );
-	checks::testAbs4I( testCounts );
-	checks::testAbs1D( testCounts );
-	checks::testAbs2D( testCounts );
-	checks::testAbs3D( testCounts );
-	checks::testAbs4D( testCounts );
-	checks::testSign1F( testCounts );
-	checks::testSign2F( testCounts );
-	checks::testSign3F( testCounts );
-	checks::testSign4F( testCounts );
-	checks::testSign1I( testCounts );
-	checks::testSign2I( testCounts );
-	checks::testSign3I( testCounts );
-	checks::testSign4I( testCounts );
-	checks::testSign1D( testCounts );
-	checks::testSign2D( testCounts );
-	checks::testSign3D( testCounts );
-	checks::testSign4D( testCounts );
-	checks::testFloor1F( testCounts );
-	checks::testFloor2F( testCounts );
-	checks::testFloor3F( testCounts );
-	checks::testFloor4F( testCounts );
-	checks::testFloor1D( testCounts );
-	checks::testFloor2D( testCounts );
-	checks::testFloor3D( testCounts );
-	checks::testFloor4D( testCounts );
-	checks::testTrunc1F( testCounts );
-	checks::testTrunc2F( testCounts );
-	checks::testTrunc3F( testCounts );
-	checks::testTrunc4F( testCounts );
-	checks::testTrunc1D( testCounts );
-	checks::testTrunc2D( testCounts );
-	checks::testTrunc3D( testCounts );
-	checks::testTrunc4D( testCounts );
-	checks::testRound1F( testCounts );
-	checks::testRound2F( testCounts );
-	checks::testRound3F( testCounts );
-	checks::testRound4F( testCounts );
-	checks::testRound1D( testCounts );
-	checks::testRound2D( testCounts );
-	checks::testRound3D( testCounts );
-	checks::testRound4D( testCounts );
-	checks::testRoundEven1F( testCounts );
-	checks::testRoundEven2F( testCounts );
-	checks::testRoundEven3F( testCounts );
-	checks::testRoundEven4F( testCounts );
-	checks::testRoundEven1D( testCounts );
-	checks::testRoundEven2D( testCounts );
-	checks::testRoundEven3D( testCounts );
-	checks::testRoundEven4D( testCounts );
-	checks::testCeil1F( testCounts );
-	checks::testCeil2F( testCounts );
-	checks::testCeil3F( testCounts );
-	checks::testCeil4F( testCounts );
-	checks::testCeil1D( testCounts );
-	checks::testCeil2D( testCounts );
-	checks::testCeil3D( testCounts );
-	checks::testCeil4D( testCounts );
-	checks::testFract1F( testCounts );
-	checks::testFract2F( testCounts );
-	checks::testFract3F( testCounts );
-	checks::testFract4F( testCounts );
-	checks::testFract1D( testCounts );
-	checks::testFract2D( testCounts );
-	checks::testFract3D( testCounts );
-	checks::testFract4D( testCounts );
-	checks::testMod1F( testCounts );
-	checks::testMod2F( testCounts );
-	checks::testMod3F( testCounts );
-	checks::testMod4F( testCounts );
-	checks::testMod1D( testCounts );
-	checks::testMod2D( testCounts );
-	checks::testMod3D( testCounts );
-	checks::testMod4D( testCounts );
-	checks::testModf1F( testCounts );
-	checks::testModf2F( testCounts );
-	checks::testModf3F( testCounts );
-	checks::testModf4F( testCounts );
-	checks::testModf1D( testCounts );
-	checks::testModf2D( testCounts );
-	checks::testModf3D( testCounts );
-	checks::testModf4D( testCounts );
-	checks::testMin1F( testCounts );
-	checks::testMin2F( testCounts );
-	checks::testMin3F( testCounts );
-	checks::testMin4F( testCounts );
-	checks::testMin1D( testCounts );
-	checks::testMin2D( testCounts );
-	checks::testMin3D( testCounts );
-	checks::testMin4D( testCounts );
-	checks::testMin1I( testCounts );
-	checks::testMin2I( testCounts );
-	checks::testMin3I( testCounts );
-	checks::testMin4I( testCounts );
-	checks::testMin1U( testCounts );
-	checks::testMin2U( testCounts );
-	checks::testMin3U( testCounts );
-	checks::testMin4U( testCounts );
-	checks::testMax1F( testCounts );
-	checks::testMax2F( testCounts );
-	checks::testMax3F( testCounts );
-	checks::testMax4F( testCounts );
-	checks::testMax1D( testCounts );
-	checks::testMax2D( testCounts );
-	checks::testMax3D( testCounts );
-	checks::testMax4D( testCounts );
-	checks::testMax1I( testCounts );
-	checks::testMax2I( testCounts );
-	checks::testMax3I( testCounts );
-	checks::testMax4I( testCounts );
-	checks::testMax1U( testCounts );
-	checks::testMax2U( testCounts );
-	checks::testMax3U( testCounts );
-	checks::testMax4U( testCounts );
-	checks::testClamp1F( testCounts );
-	checks::testClamp2F( testCounts );
-	checks::testClamp3F( testCounts );
-	checks::testClamp4F( testCounts );
-	checks::testClamp1D( testCounts );
-	checks::testClamp2D( testCounts );
-	checks::testClamp3D( testCounts );
-	checks::testClamp4D( testCounts );
-	checks::testClamp1I( testCounts );
-	checks::testClamp2I( testCounts );
-	checks::testClamp3I( testCounts );
-	checks::testClamp4I( testCounts );
-	checks::testClamp1U( testCounts );
-	checks::testClamp2U( testCounts );
-	checks::testClamp3U( testCounts );
-	checks::testClamp4U( testCounts );
-	checks::testMix1F( testCounts );
-	checks::testMix2F( testCounts );
-	checks::testMix3F( testCounts );
-	checks::testMix4F( testCounts );
-	checks::testMix1D( testCounts );
-	checks::testMix2D( testCounts );
-	checks::testMix3D( testCounts );
-	checks::testMix4D( testCounts );
-	checks::testStep1F( testCounts );
-	checks::testStep2F( testCounts );
-	checks::testStep3F( testCounts );
-	checks::testStep4F( testCounts );
-	checks::testStep1D( testCounts );
-	checks::testStep2D( testCounts );
-	checks::testStep3D( testCounts );
-	checks::testStep4D( testCounts );
-	checks::testSmoothStep1F( testCounts );
-	checks::testSmoothStep2F( testCounts );
-	checks::testSmoothStep3F( testCounts );
-	checks::testSmoothStep4F( testCounts );
-	checks::testSmoothStep1D( testCounts );
-	checks::testSmoothStep2D( testCounts );
-	checks::testSmoothStep3D( testCounts );
-	checks::testSmoothStep4D( testCounts );
-	checks::testIsnan1F( testCounts );
-	checks::testIsnan2F( testCounts );
-	checks::testIsnan3F( testCounts );
-	checks::testIsnan4F( testCounts );
-	checks::testIsnan1D( testCounts );
-	checks::testIsnan2D( testCounts );
-	checks::testIsnan3D( testCounts );
-	checks::testIsnan4D( testCounts );
-	checks::testIsinf1F( testCounts );
-	checks::testIsinf2F( testCounts );
-	checks::testIsinf3F( testCounts );
-	checks::testIsinf4F( testCounts );
-	checks::testIsinf1D( testCounts );
-	checks::testIsinf2D( testCounts );
-	checks::testIsinf3D( testCounts );
-	checks::testIsinf4D( testCounts );
-	checks::testFloatBitsToInt1( testCounts );
-	checks::testFloatBitsToInt2( testCounts );
-	checks::testFloatBitsToInt3( testCounts );
-	checks::testFloatBitsToInt4( testCounts );
-	checks::testFloatBitsToUInt1( testCounts );
-	checks::testFloatBitsToUInt2( testCounts );
-	checks::testFloatBitsToUInt3( testCounts );
-	checks::testFloatBitsToUInt4( testCounts );
-	checks::testIntBitsToFloat1( testCounts );
-	checks::testIntBitsToFloat2( testCounts );
-	checks::testIntBitsToFloat3( testCounts );
-	checks::testIntBitsToFloat4( testCounts );
-	checks::testUintBitsToFloat1( testCounts );
-	checks::testUintBitsToFloat2( testCounts );
-	checks::testUintBitsToFloat3( testCounts );
-	checks::testUintBitsToFloat4( testCounts );
-	checks::testFma1F( testCounts );
-	checks::testFma2F( testCounts );
-	checks::testFma3F( testCounts );
-	checks::testFma4F( testCounts );
-	checks::testFma1D( testCounts );
-	checks::testFma2D( testCounts );
-	checks::testFma3D( testCounts );
-	checks::testFma4D( testCounts );
-	checks::testFrexp1F( testCounts );
-	checks::testFrexp2F( testCounts );
-	checks::testFrexp3F( testCounts );
-	checks::testFrexp4F( testCounts );
-	checks::testFrexp1D( testCounts );
-	checks::testFrexp2D( testCounts );
-	checks::testFrexp3D( testCounts );
-	checks::testFrexp4D( testCounts );
-	checks::testLdexp1F( testCounts );
-	checks::testLdexp2F( testCounts );
-	checks::testLdexp3F( testCounts );
-	checks::testLdexp4F( testCounts );
-	checks::testLdexp1D( testCounts );
-	checks::testLdexp2D( testCounts );
-	checks::testLdexp3D( testCounts );
-	checks::testLdexp4D( testCounts );
-	checks::testPackDouble2x32( testCounts );
-	checks::testPackHalf2x16( testCounts );
-	checks::testPackSnorm2x16( testCounts );
-	checks::testPackSnorm4x8( testCounts );
-	checks::testPackUnorm2x16( testCounts );
-	checks::testPackUnorm4x8( testCounts );
-	checks::testUnpackDouble2x32( testCounts );
-	checks::testUnpackHalf2x16( testCounts );
-	checks::testUnpackSnorm2x16( testCounts );
-	checks::testUnpackSnorm4x8( testCounts );
-	checks::testUnpackUnorm2x16( testCounts );
-	checks::testUnpackUnorm4x8( testCounts );
-	checks::testLength1F( testCounts );
-	checks::testLength2F( testCounts );
-	checks::testLength3F( testCounts );
-	checks::testLength4F( testCounts );
-	checks::testLength1D( testCounts );
-	checks::testLength2D( testCounts );
-	checks::testLength3D( testCounts );
-	checks::testLength4D( testCounts );
-	checks::testDistance1F( testCounts );
-	checks::testDistance2F( testCounts );
-	checks::testDistance3F( testCounts );
-	checks::testDistance4F( testCounts );
-	checks::testDistance1D( testCounts );
-	checks::testDistance2D( testCounts );
-	checks::testDistance3D( testCounts );
-	checks::testDistance4D( testCounts );
-	checks::testDot1F( testCounts );
-	checks::testDot2F( testCounts );
-	checks::testDot3F( testCounts );
-	checks::testDot4F( testCounts );
-	checks::testDot1D( testCounts );
-	checks::testDot2D( testCounts );
-	checks::testDot3D( testCounts );
-	checks::testDot4D( testCounts );
-	checks::testCrossF( testCounts );
-	checks::testCrossD( testCounts );
-	checks::testNormalize1F( testCounts );
-	checks::testNormalize2F( testCounts );
-	checks::testNormalize3F( testCounts );
-	checks::testNormalize4F( testCounts );
-	checks::testNormalize1D( testCounts );
-	checks::testNormalize2D( testCounts );
-	checks::testNormalize3D( testCounts );
-	checks::testNormalize4D( testCounts );
-	checks::testFaceForward1F( testCounts );
-	checks::testFaceForward2F( testCounts );
-	checks::testFaceForward3F( testCounts );
-	checks::testFaceForward4F( testCounts );
-	checks::testFaceForward1D( testCounts );
-	checks::testFaceForward2D( testCounts );
-	checks::testFaceForward3D( testCounts );
-	checks::testFaceForward4D( testCounts );
-	checks::testReflect1F( testCounts );
-	checks::testReflect2F( testCounts );
-	checks::testReflect3F( testCounts );
-	checks::testReflect4F( testCounts );
-	checks::testReflect1D( testCounts );
-	checks::testReflect2D( testCounts );
-	checks::testReflect3D( testCounts );
-	checks::testReflect4D( testCounts );
-	checks::testRefract1F( testCounts );
-	checks::testRefract2F( testCounts );
-	checks::testRefract3F( testCounts );
-	checks::testRefract4F( testCounts );
-	checks::testRefract1D( testCounts );
-	checks::testRefract2D( testCounts );
-	checks::testRefract3D( testCounts );
-	checks::testRefract4D( testCounts );
-	checks::testMatrixCompMult2x2F( testCounts );
-	checks::testMatrixCompMult2x3F( testCounts );
-	checks::testMatrixCompMult2x4F( testCounts );
-	checks::testMatrixCompMult3x2F( testCounts );
-	checks::testMatrixCompMult3x3F( testCounts );
-	checks::testMatrixCompMult3x4F( testCounts );
-	checks::testMatrixCompMult4x2F( testCounts );
-	checks::testMatrixCompMult4x3F( testCounts );
-	checks::testMatrixCompMult4x4F( testCounts );
-	checks::testMatrixCompMult2x2D( testCounts );
-	checks::testMatrixCompMult2x3D( testCounts );
-	checks::testMatrixCompMult2x4D( testCounts );
-	checks::testMatrixCompMult3x2D( testCounts );
-	checks::testMatrixCompMult3x3D( testCounts );
-	checks::testMatrixCompMult3x4D( testCounts );
-	checks::testMatrixCompMult4x2D( testCounts );
-	checks::testMatrixCompMult4x3D( testCounts );
-	checks::testMatrixCompMult4x4D( testCounts );
-	checks::testOuterProduct2x2F( testCounts );
-	checks::testOuterProduct3x3F( testCounts );
-	checks::testOuterProduct4x4F( testCounts );
-	checks::testOuterProduct3x2F( testCounts );
-	checks::testOuterProduct2x3F( testCounts );
-	checks::testOuterProduct4x2F( testCounts );
-	checks::testOuterProduct2x4F( testCounts );
-	checks::testOuterProduct4x3F( testCounts );
-	checks::testOuterProduct3x4F( testCounts );
-	checks::testOuterProduct2x2D( testCounts );
-	checks::testOuterProduct3x3D( testCounts );
-	checks::testOuterProduct4x4D( testCounts );
-	checks::testOuterProduct3x2D( testCounts );
-	checks::testOuterProduct2x3D( testCounts );
-	checks::testOuterProduct4x2D( testCounts );
-	checks::testOuterProduct2x4D( testCounts );
-	checks::testOuterProduct4x3D( testCounts );
-	checks::testOuterProduct3x4D( testCounts );
-	checks::testTranspose2x2F( testCounts );
-	checks::testTranspose2x3F( testCounts );
-	checks::testTranspose2x4F( testCounts );
-	checks::testTranspose3x2F( testCounts );
-	checks::testTranspose3x3F( testCounts );
-	checks::testTranspose3x4F( testCounts );
-	checks::testTranspose4x2F( testCounts );
-	checks::testTranspose4x3F( testCounts );
-	checks::testTranspose4x4F( testCounts );
-	checks::testTranspose2x2D( testCounts );
-	checks::testTranspose2x3D( testCounts );
-	checks::testTranspose2x4D( testCounts );
-	checks::testTranspose3x2D( testCounts );
-	checks::testTranspose3x3D( testCounts );
-	checks::testTranspose3x4D( testCounts );
-	checks::testTranspose4x2D( testCounts );
-	checks::testTranspose4x3D( testCounts );
-	checks::testTranspose4x4D( testCounts );
-	checks::testDeterminant2x2F( testCounts );
-	checks::testDeterminant3x3F( testCounts );
-	checks::testDeterminant4x4F( testCounts );
-	checks::testDeterminant2x2D( testCounts );
-	checks::testDeterminant3x3D( testCounts );
-	checks::testDeterminant4x4D( testCounts );
-	checks::testInverse2x2F( testCounts );
-	checks::testInverse3x3F( testCounts );
-	checks::testInverse4x4F( testCounts );
-	checks::testInverse2x2D( testCounts );
-	checks::testInverse3x3D( testCounts );
-	checks::testInverse4x4D( testCounts );
-	checks::testLessThan2F( testCounts );
-	checks::testLessThan3F( testCounts );
-	checks::testLessThan4F( testCounts );
-	checks::testLessThan2D( testCounts );
-	checks::testLessThan3D( testCounts );
-	checks::testLessThan4D( testCounts );
-	checks::testLessThan2I( testCounts );
-	checks::testLessThan3I( testCounts );
-	checks::testLessThan4I( testCounts );
-	checks::testLessThan2U( testCounts );
-	checks::testLessThan3U( testCounts );
-	checks::testLessThan4U( testCounts );
-	checks::testLessThanEqual2F( testCounts );
-	checks::testLessThanEqual3F( testCounts );
-	checks::testLessThanEqual4F( testCounts );
-	checks::testLessThanEqual2D( testCounts );
-	checks::testLessThanEqual3D( testCounts );
-	checks::testLessThanEqual4D( testCounts );
-	checks::testLessThanEqual2I( testCounts );
-	checks::testLessThanEqual3I( testCounts );
-	checks::testLessThanEqual4I( testCounts );
-	checks::testLessThanEqual2U( testCounts );
-	checks::testLessThanEqual3U( testCounts );
-	checks::testLessThanEqual4U( testCounts );
-	checks::testGreaterThan2F( testCounts );
-	checks::testGreaterThan3F( testCounts );
-	checks::testGreaterThan4F( testCounts );
-	checks::testGreaterThan2D( testCounts );
-	checks::testGreaterThan3D( testCounts );
-	checks::testGreaterThan4D( testCounts );
-	checks::testGreaterThan2I( testCounts );
-	checks::testGreaterThan3I( testCounts );
-	checks::testGreaterThan4I( testCounts );
-	checks::testGreaterThan2U( testCounts );
-	checks::testGreaterThan3U( testCounts );
-	checks::testGreaterThan4U( testCounts );
-	checks::testGreaterThanEqual2F( testCounts );
-	checks::testGreaterThanEqual3F( testCounts );
-	checks::testGreaterThanEqual4F( testCounts );
-	checks::testGreaterThanEqual2D( testCounts );
-	checks::testGreaterThanEqual3D( testCounts );
-	checks::testGreaterThanEqual4D( testCounts );
-	checks::testGreaterThanEqual2I( testCounts );
-	checks::testGreaterThanEqual3I( testCounts );
-	checks::testGreaterThanEqual4I( testCounts );
-	checks::testGreaterThanEqual2U( testCounts );
-	checks::testGreaterThanEqual3U( testCounts );
-	checks::testGreaterThanEqual4U( testCounts );
-	checks::testEqual2F( testCounts );
-	checks::testEqual3F( testCounts );
-	checks::testEqual4F( testCounts );
-	checks::testEqual2D( testCounts );
-	checks::testEqual3D( testCounts );
-	checks::testEqual4D( testCounts );
-	checks::testEqual2I( testCounts );
-	checks::testEqual3I( testCounts );
-	checks::testEqual4I( testCounts );
-	checks::testEqual2U( testCounts );
-	checks::testEqual3U( testCounts );
-	checks::testEqual4U( testCounts );
-	checks::testNotEqual2F( testCounts );
-	checks::testNotEqual3F( testCounts );
-	checks::testNotEqual4F( testCounts );
-	checks::testNotEqual2D( testCounts );
-	checks::testNotEqual3D( testCounts );
-	checks::testNotEqual4D( testCounts );
-	checks::testNotEqual2I( testCounts );
-	checks::testNotEqual3I( testCounts );
-	checks::testNotEqual4I( testCounts );
-	checks::testNotEqual2U( testCounts );
-	checks::testNotEqual3U( testCounts );
-	checks::testNotEqual4U( testCounts );
-	checks::testAll2( testCounts );
-	checks::testAll3( testCounts );
-	checks::testAll4( testCounts );
-	checks::testAny2( testCounts );
-	checks::testAny3( testCounts );
-	checks::testAny4( testCounts );
-	checks::testNot2( testCounts );
-	checks::testNot3( testCounts );
-	checks::testNot4( testCounts );
-	checks::testUaddCarry1( testCounts );
-	checks::testUaddCarry2( testCounts );
-	checks::testUaddCarry3( testCounts );
-	checks::testUaddCarry4( testCounts );
-	checks::testUsubBorrow1( testCounts );
-	checks::testUsubBorrow2( testCounts );
-	checks::testUsubBorrow3( testCounts );
-	checks::testUsubBorrow4( testCounts );
-	checks::testUmulExtended1( testCounts );
-	checks::testUmulExtended2( testCounts );
-	checks::testUmulExtended3( testCounts );
-	checks::testUmulExtended4( testCounts );
-	checks::testImulExtended1( testCounts );
-	checks::testImulExtended2( testCounts );
-	checks::testImulExtended3( testCounts );
-	checks::testImulExtended4( testCounts );
-	checks::testBitfieldExtract1I( testCounts );
-	checks::testBitfieldExtract2I( testCounts );
-	checks::testBitfieldExtract3I( testCounts );
-	checks::testBitfieldExtract4I( testCounts );
-	checks::testBitfieldExtract1U( testCounts );
-	checks::testBitfieldExtract2U( testCounts );
-	checks::testBitfieldExtract3U( testCounts );
-	checks::testBitfieldExtract4U( testCounts );
-	checks::testBitfieldInsert1I( testCounts );
-	checks::testBitfieldInsert2I( testCounts );
-	checks::testBitfieldInsert3I( testCounts );
-	checks::testBitfieldInsert4I( testCounts );
-	checks::testBitfieldInsert1U( testCounts );
-	checks::testBitfieldInsert2U( testCounts );
-	checks::testBitfieldInsert3U( testCounts );
-	checks::testBitfieldInsert4U( testCounts );
-	checks::testBitfieldReverse1I( testCounts );
-	checks::testBitfieldReverse2I( testCounts );
-	checks::testBitfieldReverse3I( testCounts );
-	checks::testBitfieldReverse4I( testCounts );
-	checks::testBitfieldReverse1U( testCounts );
-	checks::testBitfieldReverse2U( testCounts );
-	checks::testBitfieldReverse3U( testCounts );
-	checks::testBitfieldReverse4U( testCounts );
-	checks::testBitCount1I( testCounts );
-	checks::testBitCount2I( testCounts );
-	checks::testBitCount3I( testCounts );
-	checks::testBitCount4I( testCounts );
-	checks::testBitCount1U( testCounts );
-	checks::testBitCount2U( testCounts );
-	checks::testBitCount3U( testCounts );
-	checks::testBitCount4U( testCounts );
-	checks::testFindLSB1I( testCounts );
-	checks::testFindLSB2I( testCounts );
-	checks::testFindLSB3I( testCounts );
-	checks::testFindLSB4I( testCounts );
-	checks::testFindLSB1U( testCounts );
-	checks::testFindLSB2U( testCounts );
-	checks::testFindLSB3U( testCounts );
-	checks::testFindLSB4U( testCounts );
-	checks::testFindMSB1I( testCounts );
-	checks::testFindMSB2I( testCounts );
-	checks::testFindMSB3I( testCounts );
-	checks::testFindMSB4I( testCounts );
-	checks::testFindMSB1U( testCounts );
-	checks::testFindMSB2U( testCounts );
-	checks::testFindMSB3U( testCounts );
-	checks::testFindMSB4U( testCounts );
-	checks::testAtomicAddI( testCounts );
-	checks::testAtomicAddU( testCounts );
-	checks::testAtomicAddF( testCounts );
-	checks::testAtomicAdd2H( testCounts );
-	checks::testAtomicAdd4H( testCounts );
-	checks::testAtomicMinI( testCounts );
-	checks::testAtomicMinU( testCounts );
-	checks::testAtomicMaxI( testCounts );
-	checks::testAtomicMaxU( testCounts );
-	checks::testAtomicAndI( testCounts );
-	checks::testAtomicAndU( testCounts );
-	checks::testAtomicOrI( testCounts );
-	checks::testAtomicOrU( testCounts );
-	checks::testAtomicXorI( testCounts );
-	checks::testAtomicXorU( testCounts );
-	checks::testAtomicExchangeI( testCounts );
-	checks::testAtomicExchangeU( testCounts );
-	checks::testAtomicExchangeF( testCounts );
-	checks::testAtomicExchange2H( testCounts );
-	checks::testAtomicExchange4H( testCounts );
-	checks::testAtomicCompSwapI( testCounts );
-	checks::testAtomicCompSwapU( testCounts );
-	checks::testDFdx1( testCounts );
-	checks::testDFdx2( testCounts );
-	checks::testDFdx3( testCounts );
-	checks::testDFdx4( testCounts );
-	checks::testDFdxCoarse1( testCounts );
-	checks::testDFdxCoarse2( testCounts );
-	checks::testDFdxCoarse3( testCounts );
-	checks::testDFdxCoarse4( testCounts );
-	checks::testDFdxFine1( testCounts );
-	checks::testDFdxFine2( testCounts );
-	checks::testDFdxFine3( testCounts );
-	checks::testDFdxFine4( testCounts );
-	checks::testDFdy1( testCounts );
-	checks::testDFdy2( testCounts );
-	checks::testDFdy3( testCounts );
-	checks::testDFdy4( testCounts );
-	checks::testDFdyCoarse1( testCounts );
-	checks::testDFdyCoarse2( testCounts );
-	checks::testDFdyCoarse3( testCounts );
-	checks::testDFdyCoarse4( testCounts );
-	checks::testDFdyFine1( testCounts );
-	checks::testDFdyFine2( testCounts );
-	checks::testDFdyFine3( testCounts );
-	checks::testDFdyFine4( testCounts );
-	checks::testFwidth1( testCounts );
-	checks::testFwidth2( testCounts );
-	checks::testFwidth3( testCounts );
-	checks::testFwidth4( testCounts );
-	checks::testInterpolateAtCentroid1( testCounts );
-	checks::testInterpolateAtCentroid2( testCounts );
-	checks::testInterpolateAtCentroid3( testCounts );
-	checks::testInterpolateAtCentroid4( testCounts );
-	checks::testInterpolateAtSample1( testCounts );
-	checks::testInterpolateAtSample2( testCounts );
-	checks::testInterpolateAtSample3( testCounts );
-	checks::testInterpolateAtSample4( testCounts );
-	checks::testInterpolateAtOffset1( testCounts );
-	checks::testInterpolateAtOffset2( testCounts );
-	checks::testInterpolateAtOffset3( testCounts );
-	checks::testInterpolateAtOffset4( testCounts );
-	checks::testEmitStreamVertex( testCounts );
-	checks::testEndStreamPrimitive( testCounts );
-	checks::testEmitVertex( testCounts );
-	checks::testEndPrimitive( testCounts );
-	checks::testHelperInvocation( testCounts );
-	checks::testTraceRay( testCounts );
-	checks::testReportIntersection( testCounts );
-	checks::testExecuteCallable( testCounts );
-	checks::testSetMeshOutputCountsNV( testCounts );
-	checks::testDispatchMeshNV( testCounts );
-	checks::testWritePackedPrimitiveIndices4x8NV( testCounts );
-	checks::testSetMeshOutputCounts( testCounts );
-	checks::testSubgroupElect( testCounts );
-	checks::testSubgroupAll( testCounts );
-	checks::testSubgroupAny( testCounts );
-	checks::testSubgroupAllEqual1F( testCounts );
-	checks::testSubgroupAllEqual2F( testCounts );
-	checks::testSubgroupAllEqual3F( testCounts );
-	checks::testSubgroupAllEqual4F( testCounts );
-	checks::testSubgroupAllEqual1I( testCounts );
-	checks::testSubgroupAllEqual2I( testCounts );
-	checks::testSubgroupAllEqual3I( testCounts );
-	checks::testSubgroupAllEqual4I( testCounts );
-	checks::testSubgroupAllEqual1U( testCounts );
-	checks::testSubgroupAllEqual2U( testCounts );
-	checks::testSubgroupAllEqual3U( testCounts );
-	checks::testSubgroupAllEqual4U( testCounts );
-	checks::testSubgroupAllEqual1B( testCounts );
-	checks::testSubgroupAllEqual2B( testCounts );
-	checks::testSubgroupAllEqual3B( testCounts );
-	checks::testSubgroupAllEqual4B( testCounts );
-	checks::testSubgroupAllEqual1D( testCounts );
-	checks::testSubgroupAllEqual2D( testCounts );
-	checks::testSubgroupAllEqual3D( testCounts );
-	checks::testSubgroupAllEqual4D( testCounts );
-	checks::testSubgroupBroadcast1F( testCounts );
-	checks::testSubgroupBroadcast2F( testCounts );
-	checks::testSubgroupBroadcast3F( testCounts );
-	checks::testSubgroupBroadcast4F( testCounts );
-	checks::testSubgroupBroadcast1I( testCounts );
-	checks::testSubgroupBroadcast2I( testCounts );
-	checks::testSubgroupBroadcast3I( testCounts );
-	checks::testSubgroupBroadcast4I( testCounts );
-	checks::testSubgroupBroadcast1U( testCounts );
-	checks::testSubgroupBroadcast2U( testCounts );
-	checks::testSubgroupBroadcast3U( testCounts );
-	checks::testSubgroupBroadcast4U( testCounts );
-	checks::testSubgroupBroadcast1B( testCounts );
-	checks::testSubgroupBroadcast2B( testCounts );
-	checks::testSubgroupBroadcast3B( testCounts );
-	checks::testSubgroupBroadcast4B( testCounts );
-	checks::testSubgroupBroadcast1D( testCounts );
-	checks::testSubgroupBroadcast2D( testCounts );
-	checks::testSubgroupBroadcast3D( testCounts );
-	checks::testSubgroupBroadcast4D( testCounts );
-	checks::testSubgroupBroadcastFirst1F( testCounts );
-	checks::testSubgroupBroadcastFirst2F( testCounts );
-	checks::testSubgroupBroadcastFirst3F( testCounts );
-	checks::testSubgroupBroadcastFirst4F( testCounts );
-	checks::testSubgroupBroadcastFirst1I( testCounts );
-	checks::testSubgroupBroadcastFirst2I( testCounts );
-	checks::testSubgroupBroadcastFirst3I( testCounts );
-	checks::testSubgroupBroadcastFirst4I( testCounts );
-	checks::testSubgroupBroadcastFirst1U( testCounts );
-	checks::testSubgroupBroadcastFirst2U( testCounts );
-	checks::testSubgroupBroadcastFirst3U( testCounts );
-	checks::testSubgroupBroadcastFirst4U( testCounts );
-	checks::testSubgroupBroadcastFirst1B( testCounts );
-	checks::testSubgroupBroadcastFirst2B( testCounts );
-	checks::testSubgroupBroadcastFirst3B( testCounts );
-	checks::testSubgroupBroadcastFirst4B( testCounts );
-	checks::testSubgroupBroadcastFirst1D( testCounts );
-	checks::testSubgroupBroadcastFirst2D( testCounts );
-	checks::testSubgroupBroadcastFirst3D( testCounts );
-	checks::testSubgroupBroadcastFirst4D( testCounts );
-	checks::testSubgroupBallot( testCounts );
-	checks::testSubgroupInverseBallot( testCounts );
-	checks::testSubgroupBallotBitExtract( testCounts );
-	checks::testSubgroupBallotBitCount( testCounts );
-	checks::testSubgroupBallotInclusiveBitCount( testCounts );
-	checks::testSubgroupBallotExclusiveBitCount( testCounts );
-	checks::testSubgroupBallotFindLSB( testCounts );
-	checks::testSubgroupBallotFindMSB( testCounts );
-	checks::testSubgroupShuffle1F( testCounts );
-	checks::testSubgroupShuffle2F( testCounts );
-	checks::testSubgroupShuffle3F( testCounts );
-	checks::testSubgroupShuffle4F( testCounts );
-	checks::testSubgroupShuffle1I( testCounts );
-	checks::testSubgroupShuffle2I( testCounts );
-	checks::testSubgroupShuffle3I( testCounts );
-	checks::testSubgroupShuffle4I( testCounts );
-	checks::testSubgroupShuffle1U( testCounts );
-	checks::testSubgroupShuffle2U( testCounts );
-	checks::testSubgroupShuffle3U( testCounts );
-	checks::testSubgroupShuffle4U( testCounts );
-	checks::testSubgroupShuffle1B( testCounts );
-	checks::testSubgroupShuffle2B( testCounts );
-	checks::testSubgroupShuffle3B( testCounts );
-	checks::testSubgroupShuffle4B( testCounts );
-	checks::testSubgroupShuffle1D( testCounts );
-	checks::testSubgroupShuffle2D( testCounts );
-	checks::testSubgroupShuffle3D( testCounts );
-	checks::testSubgroupShuffle4D( testCounts );
-	checks::testSubgroupShuffleXor1F( testCounts );
-	checks::testSubgroupShuffleXor2F( testCounts );
-	checks::testSubgroupShuffleXor3F( testCounts );
-	checks::testSubgroupShuffleXor4F( testCounts );
-	checks::testSubgroupShuffleXor1I( testCounts );
-	checks::testSubgroupShuffleXor2I( testCounts );
-	checks::testSubgroupShuffleXor3I( testCounts );
-	checks::testSubgroupShuffleXor4I( testCounts );
-	checks::testSubgroupShuffleXor1U( testCounts );
-	checks::testSubgroupShuffleXor2U( testCounts );
-	checks::testSubgroupShuffleXor3U( testCounts );
-	checks::testSubgroupShuffleXor4U( testCounts );
-	checks::testSubgroupShuffleXor1B( testCounts );
-	checks::testSubgroupShuffleXor2B( testCounts );
-	checks::testSubgroupShuffleXor3B( testCounts );
-	checks::testSubgroupShuffleXor4B( testCounts );
-	checks::testSubgroupShuffleXor1D( testCounts );
-	checks::testSubgroupShuffleXor2D( testCounts );
-	checks::testSubgroupShuffleXor3D( testCounts );
-	checks::testSubgroupShuffleXor4D( testCounts );
-	checks::testSubgroupShuffleUp1F( testCounts );
-	checks::testSubgroupShuffleUp2F( testCounts );
-	checks::testSubgroupShuffleUp3F( testCounts );
-	checks::testSubgroupShuffleUp4F( testCounts );
-	checks::testSubgroupShuffleUp1I( testCounts );
-	checks::testSubgroupShuffleUp2I( testCounts );
-	checks::testSubgroupShuffleUp3I( testCounts );
-	checks::testSubgroupShuffleUp4I( testCounts );
-	checks::testSubgroupShuffleUp1U( testCounts );
-	checks::testSubgroupShuffleUp2U( testCounts );
-	checks::testSubgroupShuffleUp3U( testCounts );
-	checks::testSubgroupShuffleUp4U( testCounts );
-	checks::testSubgroupShuffleUp1B( testCounts );
-	checks::testSubgroupShuffleUp2B( testCounts );
-	checks::testSubgroupShuffleUp3B( testCounts );
-	checks::testSubgroupShuffleUp4B( testCounts );
-	checks::testSubgroupShuffleUp1D( testCounts );
-	checks::testSubgroupShuffleUp2D( testCounts );
-	checks::testSubgroupShuffleUp3D( testCounts );
-	checks::testSubgroupShuffleUp4D( testCounts );
-	checks::testSubgroupShuffleDown1F( testCounts );
-	checks::testSubgroupShuffleDown2F( testCounts );
-	checks::testSubgroupShuffleDown3F( testCounts );
-	checks::testSubgroupShuffleDown4F( testCounts );
-	checks::testSubgroupShuffleDown1I( testCounts );
-	checks::testSubgroupShuffleDown2I( testCounts );
-	checks::testSubgroupShuffleDown3I( testCounts );
-	checks::testSubgroupShuffleDown4I( testCounts );
-	checks::testSubgroupShuffleDown1U( testCounts );
-	checks::testSubgroupShuffleDown2U( testCounts );
-	checks::testSubgroupShuffleDown3U( testCounts );
-	checks::testSubgroupShuffleDown4U( testCounts );
-	checks::testSubgroupShuffleDown1B( testCounts );
-	checks::testSubgroupShuffleDown2B( testCounts );
-	checks::testSubgroupShuffleDown3B( testCounts );
-	checks::testSubgroupShuffleDown4B( testCounts );
-	checks::testSubgroupShuffleDown1D( testCounts );
-	checks::testSubgroupShuffleDown2D( testCounts );
-	checks::testSubgroupShuffleDown3D( testCounts );
-	checks::testSubgroupShuffleDown4D( testCounts );
-	checks::testSubgroupAdd1F( testCounts );
-	checks::testSubgroupAdd2F( testCounts );
-	checks::testSubgroupAdd3F( testCounts );
-	checks::testSubgroupAdd4F( testCounts );
-	checks::testSubgroupAdd1I( testCounts );
-	checks::testSubgroupAdd2I( testCounts );
-	checks::testSubgroupAdd3I( testCounts );
-	checks::testSubgroupAdd4I( testCounts );
-	checks::testSubgroupAdd1U( testCounts );
-	checks::testSubgroupAdd2U( testCounts );
-	checks::testSubgroupAdd3U( testCounts );
-	checks::testSubgroupAdd4U( testCounts );
-	checks::testSubgroupAdd1D( testCounts );
-	checks::testSubgroupAdd2D( testCounts );
-	checks::testSubgroupAdd3D( testCounts );
-	checks::testSubgroupAdd4D( testCounts );
-	checks::testSubgroupMul1F( testCounts );
-	checks::testSubgroupMul2F( testCounts );
-	checks::testSubgroupMul3F( testCounts );
-	checks::testSubgroupMul4F( testCounts );
-	checks::testSubgroupMul1I( testCounts );
-	checks::testSubgroupMul2I( testCounts );
-	checks::testSubgroupMul3I( testCounts );
-	checks::testSubgroupMul4I( testCounts );
-	checks::testSubgroupMul1U( testCounts );
-	checks::testSubgroupMul2U( testCounts );
-	checks::testSubgroupMul3U( testCounts );
-	checks::testSubgroupMul4U( testCounts );
-	checks::testSubgroupMul1D( testCounts );
-	checks::testSubgroupMul2D( testCounts );
-	checks::testSubgroupMul3D( testCounts );
-	checks::testSubgroupMul4D( testCounts );
-	checks::testSubgroupMin1F( testCounts );
-	checks::testSubgroupMin2F( testCounts );
-	checks::testSubgroupMin3F( testCounts );
-	checks::testSubgroupMin4F( testCounts );
-	checks::testSubgroupMin1I( testCounts );
-	checks::testSubgroupMin2I( testCounts );
-	checks::testSubgroupMin3I( testCounts );
-	checks::testSubgroupMin4I( testCounts );
-	checks::testSubgroupMin1U( testCounts );
-	checks::testSubgroupMin2U( testCounts );
-	checks::testSubgroupMin3U( testCounts );
-	checks::testSubgroupMin4U( testCounts );
-	checks::testSubgroupMin1D( testCounts );
-	checks::testSubgroupMin2D( testCounts );
-	checks::testSubgroupMin3D( testCounts );
-	checks::testSubgroupMin4D( testCounts );
-	checks::testSubgroupMax1F( testCounts );
-	checks::testSubgroupMax2F( testCounts );
-	checks::testSubgroupMax3F( testCounts );
-	checks::testSubgroupMax4F( testCounts );
-	checks::testSubgroupMax1I( testCounts );
-	checks::testSubgroupMax2I( testCounts );
-	checks::testSubgroupMax3I( testCounts );
-	checks::testSubgroupMax4I( testCounts );
-	checks::testSubgroupMax1U( testCounts );
-	checks::testSubgroupMax2U( testCounts );
-	checks::testSubgroupMax3U( testCounts );
-	checks::testSubgroupMax4U( testCounts );
-	checks::testSubgroupMax1D( testCounts );
-	checks::testSubgroupMax2D( testCounts );
-	checks::testSubgroupMax3D( testCounts );
-	checks::testSubgroupMax4D( testCounts );
-	checks::testSubgroupAnd1I( testCounts );
-	checks::testSubgroupAnd2I( testCounts );
-	checks::testSubgroupAnd3I( testCounts );
-	checks::testSubgroupAnd4I( testCounts );
-	checks::testSubgroupAnd1U( testCounts );
-	checks::testSubgroupAnd2U( testCounts );
-	checks::testSubgroupAnd3U( testCounts );
-	checks::testSubgroupAnd4U( testCounts );
-	checks::testSubgroupAnd1B( testCounts );
-	checks::testSubgroupAnd2B( testCounts );
-	checks::testSubgroupAnd3B( testCounts );
-	checks::testSubgroupAnd4B( testCounts );
-	checks::testSubgroupOr1I( testCounts );
-	checks::testSubgroupOr2I( testCounts );
-	checks::testSubgroupOr3I( testCounts );
-	checks::testSubgroupOr4I( testCounts );
-	checks::testSubgroupOr1U( testCounts );
-	checks::testSubgroupOr2U( testCounts );
-	checks::testSubgroupOr3U( testCounts );
-	checks::testSubgroupOr4U( testCounts );
-	checks::testSubgroupOr1B( testCounts );
-	checks::testSubgroupOr2B( testCounts );
-	checks::testSubgroupOr3B( testCounts );
-	checks::testSubgroupOr4B( testCounts );
-	checks::testSubgroupXor1I( testCounts );
-	checks::testSubgroupXor2I( testCounts );
-	checks::testSubgroupXor3I( testCounts );
-	checks::testSubgroupXor4I( testCounts );
-	checks::testSubgroupXor1U( testCounts );
-	checks::testSubgroupXor2U( testCounts );
-	checks::testSubgroupXor3U( testCounts );
-	checks::testSubgroupXor4U( testCounts );
-	checks::testSubgroupXor1B( testCounts );
-	checks::testSubgroupXor2B( testCounts );
-	checks::testSubgroupXor3B( testCounts );
-	checks::testSubgroupXor4B( testCounts );
-	checks::testSubgroupInclusiveAdd1F( testCounts );
-	checks::testSubgroupInclusiveAdd2F( testCounts );
-	checks::testSubgroupInclusiveAdd3F( testCounts );
-	checks::testSubgroupInclusiveAdd4F( testCounts );
-	checks::testSubgroupInclusiveAdd1I( testCounts );
-	checks::testSubgroupInclusiveAdd2I( testCounts );
-	checks::testSubgroupInclusiveAdd3I( testCounts );
-	checks::testSubgroupInclusiveAdd4I( testCounts );
-	checks::testSubgroupInclusiveAdd1U( testCounts );
-	checks::testSubgroupInclusiveAdd2U( testCounts );
-	checks::testSubgroupInclusiveAdd3U( testCounts );
-	checks::testSubgroupInclusiveAdd4U( testCounts );
-	checks::testSubgroupInclusiveAdd1D( testCounts );
-	checks::testSubgroupInclusiveAdd2D( testCounts );
-	checks::testSubgroupInclusiveAdd3D( testCounts );
-	checks::testSubgroupInclusiveAdd4D( testCounts );
-	checks::testSubgroupInclusiveMul1F( testCounts );
-	checks::testSubgroupInclusiveMul2F( testCounts );
-	checks::testSubgroupInclusiveMul3F( testCounts );
-	checks::testSubgroupInclusiveMul4F( testCounts );
-	checks::testSubgroupInclusiveMul1I( testCounts );
-	checks::testSubgroupInclusiveMul2I( testCounts );
-	checks::testSubgroupInclusiveMul3I( testCounts );
-	checks::testSubgroupInclusiveMul4I( testCounts );
-	checks::testSubgroupInclusiveMul1U( testCounts );
-	checks::testSubgroupInclusiveMul2U( testCounts );
-	checks::testSubgroupInclusiveMul3U( testCounts );
-	checks::testSubgroupInclusiveMul4U( testCounts );
-	checks::testSubgroupInclusiveMul1D( testCounts );
-	checks::testSubgroupInclusiveMul2D( testCounts );
-	checks::testSubgroupInclusiveMul3D( testCounts );
-	checks::testSubgroupInclusiveMul4D( testCounts );
-	checks::testSubgroupInclusiveMin1F( testCounts );
-	checks::testSubgroupInclusiveMin2F( testCounts );
-	checks::testSubgroupInclusiveMin3F( testCounts );
-	checks::testSubgroupInclusiveMin4F( testCounts );
-	checks::testSubgroupInclusiveMin1I( testCounts );
-	checks::testSubgroupInclusiveMin2I( testCounts );
-	checks::testSubgroupInclusiveMin3I( testCounts );
-	checks::testSubgroupInclusiveMin4I( testCounts );
-	checks::testSubgroupInclusiveMin1U( testCounts );
-	checks::testSubgroupInclusiveMin2U( testCounts );
-	checks::testSubgroupInclusiveMin3U( testCounts );
-	checks::testSubgroupInclusiveMin4U( testCounts );
-	checks::testSubgroupInclusiveMin1D( testCounts );
-	checks::testSubgroupInclusiveMin2D( testCounts );
-	checks::testSubgroupInclusiveMin3D( testCounts );
-	checks::testSubgroupInclusiveMin4D( testCounts );
-	checks::testSubgroupInclusiveMax1F( testCounts );
-	checks::testSubgroupInclusiveMax2F( testCounts );
-	checks::testSubgroupInclusiveMax3F( testCounts );
-	checks::testSubgroupInclusiveMax4F( testCounts );
-	checks::testSubgroupInclusiveMax1I( testCounts );
-	checks::testSubgroupInclusiveMax2I( testCounts );
-	checks::testSubgroupInclusiveMax3I( testCounts );
-	checks::testSubgroupInclusiveMax4I( testCounts );
-	checks::testSubgroupInclusiveMax1U( testCounts );
-	checks::testSubgroupInclusiveMax2U( testCounts );
-	checks::testSubgroupInclusiveMax3U( testCounts );
-	checks::testSubgroupInclusiveMax4U( testCounts );
-	checks::testSubgroupInclusiveMax1D( testCounts );
-	checks::testSubgroupInclusiveMax2D( testCounts );
-	checks::testSubgroupInclusiveMax3D( testCounts );
-	checks::testSubgroupInclusiveMax4D( testCounts );
-	checks::testSubgroupInclusiveAnd1I( testCounts );
-	checks::testSubgroupInclusiveAnd2I( testCounts );
-	checks::testSubgroupInclusiveAnd3I( testCounts );
-	checks::testSubgroupInclusiveAnd4I( testCounts );
-	checks::testSubgroupInclusiveAnd1U( testCounts );
-	checks::testSubgroupInclusiveAnd2U( testCounts );
-	checks::testSubgroupInclusiveAnd3U( testCounts );
-	checks::testSubgroupInclusiveAnd4U( testCounts );
-	checks::testSubgroupInclusiveAnd1B( testCounts );
-	checks::testSubgroupInclusiveAnd2B( testCounts );
-	checks::testSubgroupInclusiveAnd3B( testCounts );
-	checks::testSubgroupInclusiveAnd4B( testCounts );
-	checks::testSubgroupInclusiveOr1I( testCounts );
-	checks::testSubgroupInclusiveOr2I( testCounts );
-	checks::testSubgroupInclusiveOr3I( testCounts );
-	checks::testSubgroupInclusiveOr4I( testCounts );
-	checks::testSubgroupInclusiveOr1U( testCounts );
-	checks::testSubgroupInclusiveOr2U( testCounts );
-	checks::testSubgroupInclusiveOr3U( testCounts );
-	checks::testSubgroupInclusiveOr4U( testCounts );
-	checks::testSubgroupInclusiveOr1B( testCounts );
-	checks::testSubgroupInclusiveOr2B( testCounts );
-	checks::testSubgroupInclusiveOr3B( testCounts );
-	checks::testSubgroupInclusiveOr4B( testCounts );
-	checks::testSubgroupInclusiveXor1I( testCounts );
-	checks::testSubgroupInclusiveXor2I( testCounts );
-	checks::testSubgroupInclusiveXor3I( testCounts );
-	checks::testSubgroupInclusiveXor4I( testCounts );
-	checks::testSubgroupInclusiveXor1U( testCounts );
-	checks::testSubgroupInclusiveXor2U( testCounts );
-	checks::testSubgroupInclusiveXor3U( testCounts );
-	checks::testSubgroupInclusiveXor4U( testCounts );
-	checks::testSubgroupInclusiveXor1B( testCounts );
-	checks::testSubgroupInclusiveXor2B( testCounts );
-	checks::testSubgroupInclusiveXor3B( testCounts );
-	checks::testSubgroupInclusiveXor4B( testCounts );
-	checks::testSubgroupExclusiveAdd1F( testCounts );
-	checks::testSubgroupExclusiveAdd2F( testCounts );
-	checks::testSubgroupExclusiveAdd3F( testCounts );
-	checks::testSubgroupExclusiveAdd4F( testCounts );
-	checks::testSubgroupExclusiveAdd1I( testCounts );
-	checks::testSubgroupExclusiveAdd2I( testCounts );
-	checks::testSubgroupExclusiveAdd3I( testCounts );
-	checks::testSubgroupExclusiveAdd4I( testCounts );
-	checks::testSubgroupExclusiveAdd1U( testCounts );
-	checks::testSubgroupExclusiveAdd2U( testCounts );
-	checks::testSubgroupExclusiveAdd3U( testCounts );
-	checks::testSubgroupExclusiveAdd4U( testCounts );
-	checks::testSubgroupExclusiveAdd1D( testCounts );
-	checks::testSubgroupExclusiveAdd2D( testCounts );
-	checks::testSubgroupExclusiveAdd3D( testCounts );
-	checks::testSubgroupExclusiveAdd4D( testCounts );
-	checks::testSubgroupExclusiveMul1F( testCounts );
-	checks::testSubgroupExclusiveMul2F( testCounts );
-	checks::testSubgroupExclusiveMul3F( testCounts );
-	checks::testSubgroupExclusiveMul4F( testCounts );
-	checks::testSubgroupExclusiveMul1I( testCounts );
-	checks::testSubgroupExclusiveMul2I( testCounts );
-	checks::testSubgroupExclusiveMul3I( testCounts );
-	checks::testSubgroupExclusiveMul4I( testCounts );
-	checks::testSubgroupExclusiveMul1U( testCounts );
-	checks::testSubgroupExclusiveMul2U( testCounts );
-	checks::testSubgroupExclusiveMul3U( testCounts );
-	checks::testSubgroupExclusiveMul4U( testCounts );
-	checks::testSubgroupExclusiveMul1D( testCounts );
-	checks::testSubgroupExclusiveMul2D( testCounts );
-	checks::testSubgroupExclusiveMul3D( testCounts );
-	checks::testSubgroupExclusiveMul4D( testCounts );
-	checks::testSubgroupExclusiveMin1F( testCounts );
-	checks::testSubgroupExclusiveMin2F( testCounts );
-	checks::testSubgroupExclusiveMin3F( testCounts );
-	checks::testSubgroupExclusiveMin4F( testCounts );
-	checks::testSubgroupExclusiveMin1I( testCounts );
-	checks::testSubgroupExclusiveMin2I( testCounts );
-	checks::testSubgroupExclusiveMin3I( testCounts );
-	checks::testSubgroupExclusiveMin4I( testCounts );
-	checks::testSubgroupExclusiveMin1U( testCounts );
-	checks::testSubgroupExclusiveMin2U( testCounts );
-	checks::testSubgroupExclusiveMin3U( testCounts );
-	checks::testSubgroupExclusiveMin4U( testCounts );
-	checks::testSubgroupExclusiveMin1D( testCounts );
-	checks::testSubgroupExclusiveMin2D( testCounts );
-	checks::testSubgroupExclusiveMin3D( testCounts );
-	checks::testSubgroupExclusiveMin4D( testCounts );
-	checks::testSubgroupExclusiveMax1F( testCounts );
-	checks::testSubgroupExclusiveMax2F( testCounts );
-	checks::testSubgroupExclusiveMax3F( testCounts );
-	checks::testSubgroupExclusiveMax4F( testCounts );
-	checks::testSubgroupExclusiveMax1I( testCounts );
-	checks::testSubgroupExclusiveMax2I( testCounts );
-	checks::testSubgroupExclusiveMax3I( testCounts );
-	checks::testSubgroupExclusiveMax4I( testCounts );
-	checks::testSubgroupExclusiveMax1U( testCounts );
-	checks::testSubgroupExclusiveMax2U( testCounts );
-	checks::testSubgroupExclusiveMax3U( testCounts );
-	checks::testSubgroupExclusiveMax4U( testCounts );
-	checks::testSubgroupExclusiveMax1D( testCounts );
-	checks::testSubgroupExclusiveMax2D( testCounts );
-	checks::testSubgroupExclusiveMax3D( testCounts );
-	checks::testSubgroupExclusiveMax4D( testCounts );
-	checks::testSubgroupExclusiveAnd1I( testCounts );
-	checks::testSubgroupExclusiveAnd2I( testCounts );
-	checks::testSubgroupExclusiveAnd3I( testCounts );
-	checks::testSubgroupExclusiveAnd4I( testCounts );
-	checks::testSubgroupExclusiveAnd1U( testCounts );
-	checks::testSubgroupExclusiveAnd2U( testCounts );
-	checks::testSubgroupExclusiveAnd3U( testCounts );
-	checks::testSubgroupExclusiveAnd4U( testCounts );
-	checks::testSubgroupExclusiveAnd1B( testCounts );
-	checks::testSubgroupExclusiveAnd2B( testCounts );
-	checks::testSubgroupExclusiveAnd3B( testCounts );
-	checks::testSubgroupExclusiveAnd4B( testCounts );
-	checks::testSubgroupExclusiveOr1I( testCounts );
-	checks::testSubgroupExclusiveOr2I( testCounts );
-	checks::testSubgroupExclusiveOr3I( testCounts );
-	checks::testSubgroupExclusiveOr4I( testCounts );
-	checks::testSubgroupExclusiveOr1U( testCounts );
-	checks::testSubgroupExclusiveOr2U( testCounts );
-	checks::testSubgroupExclusiveOr3U( testCounts );
-	checks::testSubgroupExclusiveOr4U( testCounts );
-	checks::testSubgroupExclusiveOr1B( testCounts );
-	checks::testSubgroupExclusiveOr2B( testCounts );
-	checks::testSubgroupExclusiveOr3B( testCounts );
-	checks::testSubgroupExclusiveOr4B( testCounts );
-	checks::testSubgroupExclusiveXor1I( testCounts );
-	checks::testSubgroupExclusiveXor2I( testCounts );
-	checks::testSubgroupExclusiveXor3I( testCounts );
-	checks::testSubgroupExclusiveXor4I( testCounts );
-	checks::testSubgroupExclusiveXor1U( testCounts );
-	checks::testSubgroupExclusiveXor2U( testCounts );
-	checks::testSubgroupExclusiveXor3U( testCounts );
-	checks::testSubgroupExclusiveXor4U( testCounts );
-	checks::testSubgroupExclusiveXor1B( testCounts );
-	checks::testSubgroupExclusiveXor2B( testCounts );
-	checks::testSubgroupExclusiveXor3B( testCounts );
-	checks::testSubgroupExclusiveXor4B( testCounts );
-	checks::testSubgroupClusterAdd1F( testCounts );
-	checks::testSubgroupClusterAdd2F( testCounts );
-	checks::testSubgroupClusterAdd3F( testCounts );
-	checks::testSubgroupClusterAdd4F( testCounts );
-	checks::testSubgroupClusterAdd1I( testCounts );
-	checks::testSubgroupClusterAdd2I( testCounts );
-	checks::testSubgroupClusterAdd3I( testCounts );
-	checks::testSubgroupClusterAdd4I( testCounts );
-	checks::testSubgroupClusterAdd1U( testCounts );
-	checks::testSubgroupClusterAdd2U( testCounts );
-	checks::testSubgroupClusterAdd3U( testCounts );
-	checks::testSubgroupClusterAdd4U( testCounts );
-	checks::testSubgroupClusterAdd1D( testCounts );
-	checks::testSubgroupClusterAdd2D( testCounts );
-	checks::testSubgroupClusterAdd3D( testCounts );
-	checks::testSubgroupClusterAdd4D( testCounts );
-	checks::testSubgroupClusterMul1F( testCounts );
-	checks::testSubgroupClusterMul2F( testCounts );
-	checks::testSubgroupClusterMul3F( testCounts );
-	checks::testSubgroupClusterMul4F( testCounts );
-	checks::testSubgroupClusterMul1I( testCounts );
-	checks::testSubgroupClusterMul2I( testCounts );
-	checks::testSubgroupClusterMul3I( testCounts );
-	checks::testSubgroupClusterMul4I( testCounts );
-	checks::testSubgroupClusterMul1U( testCounts );
-	checks::testSubgroupClusterMul2U( testCounts );
-	checks::testSubgroupClusterMul3U( testCounts );
-	checks::testSubgroupClusterMul4U( testCounts );
-	checks::testSubgroupClusterMul1D( testCounts );
-	checks::testSubgroupClusterMul2D( testCounts );
-	checks::testSubgroupClusterMul3D( testCounts );
-	checks::testSubgroupClusterMul4D( testCounts );
-	checks::testSubgroupClusterMin1F( testCounts );
-	checks::testSubgroupClusterMin2F( testCounts );
-	checks::testSubgroupClusterMin3F( testCounts );
-	checks::testSubgroupClusterMin4F( testCounts );
-	checks::testSubgroupClusterMin1I( testCounts );
-	checks::testSubgroupClusterMin2I( testCounts );
-	checks::testSubgroupClusterMin3I( testCounts );
-	checks::testSubgroupClusterMin4I( testCounts );
-	checks::testSubgroupClusterMin1U( testCounts );
-	checks::testSubgroupClusterMin2U( testCounts );
-	checks::testSubgroupClusterMin3U( testCounts );
-	checks::testSubgroupClusterMin4U( testCounts );
-	checks::testSubgroupClusterMin1D( testCounts );
-	checks::testSubgroupClusterMin2D( testCounts );
-	checks::testSubgroupClusterMin3D( testCounts );
-	checks::testSubgroupClusterMin4D( testCounts );
-	checks::testSubgroupClusterMax1F( testCounts );
-	checks::testSubgroupClusterMax2F( testCounts );
-	checks::testSubgroupClusterMax3F( testCounts );
-	checks::testSubgroupClusterMax4F( testCounts );
-	checks::testSubgroupClusterMax1I( testCounts );
-	checks::testSubgroupClusterMax2I( testCounts );
-	checks::testSubgroupClusterMax3I( testCounts );
-	checks::testSubgroupClusterMax4I( testCounts );
-	checks::testSubgroupClusterMax1U( testCounts );
-	checks::testSubgroupClusterMax2U( testCounts );
-	checks::testSubgroupClusterMax3U( testCounts );
-	checks::testSubgroupClusterMax4U( testCounts );
-	checks::testSubgroupClusterMax1D( testCounts );
-	checks::testSubgroupClusterMax2D( testCounts );
-	checks::testSubgroupClusterMax3D( testCounts );
-	checks::testSubgroupClusterMax4D( testCounts );
-	checks::testSubgroupClusterAnd1I( testCounts );
-	checks::testSubgroupClusterAnd2I( testCounts );
-	checks::testSubgroupClusterAnd3I( testCounts );
-	checks::testSubgroupClusterAnd4I( testCounts );
-	checks::testSubgroupClusterAnd1U( testCounts );
-	checks::testSubgroupClusterAnd2U( testCounts );
-	checks::testSubgroupClusterAnd3U( testCounts );
-	checks::testSubgroupClusterAnd4U( testCounts );
-	checks::testSubgroupClusterAnd1B( testCounts );
-	checks::testSubgroupClusterAnd2B( testCounts );
-	checks::testSubgroupClusterAnd3B( testCounts );
-	checks::testSubgroupClusterAnd4B( testCounts );
-	checks::testSubgroupClusterOr1I( testCounts );
-	checks::testSubgroupClusterOr2I( testCounts );
-	checks::testSubgroupClusterOr3I( testCounts );
-	checks::testSubgroupClusterOr4I( testCounts );
-	checks::testSubgroupClusterOr1U( testCounts );
-	checks::testSubgroupClusterOr2U( testCounts );
-	checks::testSubgroupClusterOr3U( testCounts );
-	checks::testSubgroupClusterOr4U( testCounts );
-	checks::testSubgroupClusterOr1B( testCounts );
-	checks::testSubgroupClusterOr2B( testCounts );
-	checks::testSubgroupClusterOr3B( testCounts );
-	checks::testSubgroupClusterOr4B( testCounts );
-	checks::testSubgroupClusterXor1I( testCounts );
-	checks::testSubgroupClusterXor2I( testCounts );
-	checks::testSubgroupClusterXor3I( testCounts );
-	checks::testSubgroupClusterXor4I( testCounts );
-	checks::testSubgroupClusterXor1U( testCounts );
-	checks::testSubgroupClusterXor2U( testCounts );
-	checks::testSubgroupClusterXor3U( testCounts );
-	checks::testSubgroupClusterXor4U( testCounts );
-	checks::testSubgroupClusterXor1B( testCounts );
-	checks::testSubgroupClusterXor2B( testCounts );
-	checks::testSubgroupClusterXor3B( testCounts );
-	checks::testSubgroupClusterXor4B( testCounts );
-	checks::testSubgroupQuadBroadcast1F( testCounts );
-	checks::testSubgroupQuadBroadcast2F( testCounts );
-	checks::testSubgroupQuadBroadcast3F( testCounts );
-	checks::testSubgroupQuadBroadcast4F( testCounts );
-	checks::testSubgroupQuadBroadcast1I( testCounts );
-	checks::testSubgroupQuadBroadcast2I( testCounts );
-	checks::testSubgroupQuadBroadcast3I( testCounts );
-	checks::testSubgroupQuadBroadcast4I( testCounts );
-	checks::testSubgroupQuadBroadcast1U( testCounts );
-	checks::testSubgroupQuadBroadcast2U( testCounts );
-	checks::testSubgroupQuadBroadcast3U( testCounts );
-	checks::testSubgroupQuadBroadcast4U( testCounts );
-	checks::testSubgroupQuadBroadcast1B( testCounts );
-	checks::testSubgroupQuadBroadcast2B( testCounts );
-	checks::testSubgroupQuadBroadcast3B( testCounts );
-	checks::testSubgroupQuadBroadcast4B( testCounts );
-	checks::testSubgroupQuadBroadcast1D( testCounts );
-	checks::testSubgroupQuadBroadcast2D( testCounts );
-	checks::testSubgroupQuadBroadcast3D( testCounts );
-	checks::testSubgroupQuadBroadcast4D( testCounts );
-	checks::testSubgroupQuadSwapHorizontal1F( testCounts );
-	checks::testSubgroupQuadSwapHorizontal2F( testCounts );
-	checks::testSubgroupQuadSwapHorizontal3F( testCounts );
-	checks::testSubgroupQuadSwapHorizontal4F( testCounts );
-	checks::testSubgroupQuadSwapHorizontal1I( testCounts );
-	checks::testSubgroupQuadSwapHorizontal2I( testCounts );
-	checks::testSubgroupQuadSwapHorizontal3I( testCounts );
-	checks::testSubgroupQuadSwapHorizontal4I( testCounts );
-	checks::testSubgroupQuadSwapHorizontal1U( testCounts );
-	checks::testSubgroupQuadSwapHorizontal2U( testCounts );
-	checks::testSubgroupQuadSwapHorizontal3U( testCounts );
-	checks::testSubgroupQuadSwapHorizontal4U( testCounts );
-	checks::testSubgroupQuadSwapHorizontal1B( testCounts );
-	checks::testSubgroupQuadSwapHorizontal2B( testCounts );
-	checks::testSubgroupQuadSwapHorizontal3B( testCounts );
-	checks::testSubgroupQuadSwapHorizontal4B( testCounts );
-	checks::testSubgroupQuadSwapHorizontal1D( testCounts );
-	checks::testSubgroupQuadSwapHorizontal2D( testCounts );
-	checks::testSubgroupQuadSwapHorizontal3D( testCounts );
-	checks::testSubgroupQuadSwapHorizontal4D( testCounts );
-	checks::testSubgroupQuadSwapVertical1F( testCounts );
-	checks::testSubgroupQuadSwapVertical2F( testCounts );
-	checks::testSubgroupQuadSwapVertical3F( testCounts );
-	checks::testSubgroupQuadSwapVertical4F( testCounts );
-	checks::testSubgroupQuadSwapVertical1I( testCounts );
-	checks::testSubgroupQuadSwapVertical2I( testCounts );
-	checks::testSubgroupQuadSwapVertical3I( testCounts );
-	checks::testSubgroupQuadSwapVertical4I( testCounts );
-	checks::testSubgroupQuadSwapVertical1U( testCounts );
-	checks::testSubgroupQuadSwapVertical2U( testCounts );
-	checks::testSubgroupQuadSwapVertical3U( testCounts );
-	checks::testSubgroupQuadSwapVertical4U( testCounts );
-	checks::testSubgroupQuadSwapVertical1B( testCounts );
-	checks::testSubgroupQuadSwapVertical2B( testCounts );
-	checks::testSubgroupQuadSwapVertical3B( testCounts );
-	checks::testSubgroupQuadSwapVertical4B( testCounts );
-	checks::testSubgroupQuadSwapVertical1D( testCounts );
-	checks::testSubgroupQuadSwapVertical2D( testCounts );
-	checks::testSubgroupQuadSwapVertical3D( testCounts );
-	checks::testSubgroupQuadSwapVertical4D( testCounts );
-	checks::testSubgroupQuadSwapDiagonal1F( testCounts );
-	checks::testSubgroupQuadSwapDiagonal2F( testCounts );
-	checks::testSubgroupQuadSwapDiagonal3F( testCounts );
-	checks::testSubgroupQuadSwapDiagonal4F( testCounts );
-	checks::testSubgroupQuadSwapDiagonal1I( testCounts );
-	checks::testSubgroupQuadSwapDiagonal2I( testCounts );
-	checks::testSubgroupQuadSwapDiagonal3I( testCounts );
-	checks::testSubgroupQuadSwapDiagonal4I( testCounts );
-	checks::testSubgroupQuadSwapDiagonal1U( testCounts );
-	checks::testSubgroupQuadSwapDiagonal2U( testCounts );
-	checks::testSubgroupQuadSwapDiagonal3U( testCounts );
-	checks::testSubgroupQuadSwapDiagonal4U( testCounts );
-	checks::testSubgroupQuadSwapDiagonal1B( testCounts );
-	checks::testSubgroupQuadSwapDiagonal2B( testCounts );
-	checks::testSubgroupQuadSwapDiagonal3B( testCounts );
-	checks::testSubgroupQuadSwapDiagonal4B( testCounts );
-	checks::testSubgroupQuadSwapDiagonal1D( testCounts );
-	checks::testSubgroupQuadSwapDiagonal2D( testCounts );
-	checks::testSubgroupQuadSwapDiagonal3D( testCounts );
-	checks::testSubgroupQuadSwapDiagonal4D( testCounts );
-	checks::testReadInvocation1F( testCounts );
-	checks::testReadInvocation2F( testCounts );
-	checks::testReadInvocation3F( testCounts );
-	checks::testReadInvocation4F( testCounts );
-	checks::testReadInvocation1I( testCounts );
-	checks::testReadInvocation2I( testCounts );
-	checks::testReadInvocation3I( testCounts );
-	checks::testReadInvocation4I( testCounts );
-	checks::testReadInvocation1U( testCounts );
-	checks::testReadInvocation2U( testCounts );
-	checks::testReadInvocation3U( testCounts );
-	checks::testReadInvocation4U( testCounts );
-	checks::testReadInvocation1D( testCounts );
-	checks::testReadInvocation2D( testCounts );
-	checks::testReadInvocation3D( testCounts );
-	checks::testReadInvocation4D( testCounts );
-	checks::testReadFirstInvocation1F( testCounts );
-	checks::testReadFirstInvocation2F( testCounts );
-	checks::testReadFirstInvocation3F( testCounts );
-	checks::testReadFirstInvocation4F( testCounts );
-	checks::testReadFirstInvocation1I( testCounts );
-	checks::testReadFirstInvocation2I( testCounts );
-	checks::testReadFirstInvocation3I( testCounts );
-	checks::testReadFirstInvocation4I( testCounts );
-	checks::testReadFirstInvocation1U( testCounts );
-	checks::testReadFirstInvocation2U( testCounts );
-	checks::testReadFirstInvocation3U( testCounts );
-	checks::testReadFirstInvocation4U( testCounts );
-	checks::testReadFirstInvocation1D( testCounts );
-	checks::testReadFirstInvocation2D( testCounts );
-	checks::testReadFirstInvocation3D( testCounts );
-	checks::testReadFirstInvocation4D( testCounts );
-	checks::testBeginInvocationInterlock( testCounts );
-	checks::testEndInvocationInterlock( testCounts );
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTIntrinsics )

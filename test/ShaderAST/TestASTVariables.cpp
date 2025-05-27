@@ -16,24 +16,23 @@ namespace
 
 		if ( arraySize != type::NotArray )
 		{
-			result += "[";
+			result += "_";
 
 			if ( arraySize != type::UnknownArraySize )
 			{
 				result += std::to_string( arraySize );
 			}
 
-			result += "]";
+			result += "_";
 		}
 
 		return result;
 	}
 
-	void testVariable( type::Kind kind
-		, uint32_t arraySize
-		, test::TestCounts & testCounts )
+	void testVariable( test::TestCounts & testCounts
+		, type::Kind kind
+		, uint32_t arraySize )
 	{
-		astTestBegin( "testVariable" + debug::getTypeName( kind ) + getArraySizeName( arraySize ) );
 		type::TypesCache cache;
 		type::TypePtr type;
 
@@ -371,28 +370,67 @@ namespace
 			flags = var::Flag::ePerTask | flags;
 			astCheck( checkFlag( flags, var::Flag::ePerTask ) )
 		}
+	}
+
+	static constexpr std::array< uint32_t, 3U > supportedArraySizes{ type::NotArray
+		, type::UnknownArraySize
+		, 3U };
+
+	struct TestVariable
+	{
+		type::Kind kind;
+		size_t arraySizeIndex;
+
+		TestVariable & operator+( int i )
+		{
+			if ( arraySizeIndex < supportedArraySizes.size() - 1U )
+			{
+				++arraySizeIndex;
+				return *this;
+			}
+			arraySizeIndex = 0U;
+
+			if ( kind != type::Kind::eBasicTypesMax )
+			{
+				kind = type::Kind( uint8_t( kind ) + 1 );
+				return *this;
+			}
+			kind = type::Kind::eBoolean;
+
+			return *this;
+		}
+
+	private:
+		friend bool operator<( TestVariable const & lhs, TestVariable const & rhs )
+		{
+			return ( uint8_t( lhs.kind ) < uint8_t( rhs.kind )
+				|| ( lhs.kind == rhs.kind
+					&& ( uint8_t( lhs.arraySizeIndex ) < uint8_t( rhs.arraySizeIndex ) ) ) );
+		}
+	};
+
+	static constexpr TestVariable minVariable{ type::Kind::eBoolean
+		, 0U };
+
+	static constexpr TestVariable maxVariable{ type::Kind::eBasicTypesMax
+		, supportedArraySizes.size() - 1 };
+
+	std::string getVariableName( TestVariable const & v )
+	{
+		return debug::getTypeName( v.kind ) + getArraySizeName( supportedArraySizes[v.arraySizeIndex] );
+	}
+
+	using Variables = testing::TestWithParam< TestVariable >;
+
+	TEST_P( Variables, TestVariable )
+	{
+		auto param = GetParam();
+		astTestBegin( "testVariable" + getVariableName( param ) );
+		testVariable( testCounts, param.kind, supportedArraySizes[param.arraySizeIndex] );
 		astTestEnd()
 	}
 }
 
-astTestSuiteMain( TestASTVariables )
-{
-	astTestSuiteBegin();
-	for ( auto i = uint8_t( type::Kind::eMin ); i < uint8_t( type::Kind::eArray ); ++i )
-	{
-		testVariable( type::Kind( i ), type::NotArray, testCounts );
-	}
-
-	for ( auto i = uint8_t( type::Kind::eMin ); i < uint8_t( type::Kind::eArray ); ++i )
-	{
-		testVariable( type::Kind( i ), type::UnknownArraySize, testCounts );
-	}
-
-	for ( auto i = uint8_t( type::Kind::eMin ); i < uint8_t( type::Kind::eArray ); ++i )
-	{
-		testVariable( type::Kind( i ), 3u, testCounts );
-	}
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTVariables )
+INSTANTIATE_TEST_SUITE_P( TestASTVariables, Variables
+	, testing::Range( minVariable, maxVariable )
+	, astTestNameP( TestVariable, getVariableName ) );

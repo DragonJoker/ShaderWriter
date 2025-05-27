@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -9,10 +8,11 @@
 
 namespace
 {
-	template< typename T >
-	void testSsboRaw( test::sdw_test::TestCounts & testCounts )
+	using T = sdw::SDW_TestType;
+
+	TEST( SDW_TestSuiteName, testSsboRaw )
 	{
-		astTestBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -93,13 +93,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testSsboRawArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSsboRawArray )
 	{
-		astTestBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -180,13 +179,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testSsboRawArrayRuntime( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSsboRawArrayRuntime )
 	{
-		astTestBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -267,15 +265,14 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testSsboHelper( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSsboHelper )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testSsboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -291,7 +288,7 @@ namespace
 			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
-					retrieved[0] = test::getDefault< T >( writer );
+					retrieved = test::getDefault< T >( writer );
 				} );
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -325,7 +322,7 @@ namespace
 			astCheck( static_cast< sdw::stmt::ShaderBufferDecl const & >( stmt ).getDescriptorSet() == 1u );
 			writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
 				{
-					retrieved[0] = test::getDefault< T >( writer );
+					retrieved = test::getDefault< T >( writer );
 				} );
 
 			if constexpr ( std::is_same_v< T, sdw::UInt16 >
@@ -344,17 +341,16 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	template< typename T >
-	void testSsboHelperArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSsboHelperArray )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testSsboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -423,17 +419,16 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	template< typename T >
-	void testSsboHelperArrayRuntime( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSsboHelperArrayRuntime )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testSsboHelperArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboHelperArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -502,29 +497,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
-	}
-
-	template< typename T >
-	void testSsbo( test::sdw_test::TestCounts & testCounts )
-	{
-		testSsboRaw< T >( testCounts );
-		testSsboRawArray< T >( testCounts );
-		testSsboRawArrayRuntime< T >( testCounts );
-		testSsboHelperArray< T >( testCounts );
-		testSsboHelperArrayRuntime< T >( testCounts );
 	}
 }
 
 #define testName astTestConcat( TestWriterSsboDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-	testSsbo< sdw::SDW_TestType >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

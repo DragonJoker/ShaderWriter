@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/UniformBuffer.hpp>
@@ -10,10 +9,11 @@ namespace
 {
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
-	template< typename T >
-	void testUboRaw( test::sdw_test::TestCounts & testCounts )
+	using T = sdw::SDW_TestType;
+
+	TEST( SDW_TestSuiteName, testUboRaw )
 	{
-		astTestBegin( "testUboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -88,13 +88,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testUboRawArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboRawArray )
 	{
-		astTestBegin( "testUboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -169,13 +168,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testUboRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboRawOptionalDisabled )
 	{
-		astTestBegin( "testUboRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -254,13 +252,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testUboRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboRawOptionalDisabledArray )
 	{
-		astTestBegin( "testUboRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -339,13 +336,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testUboRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboRawOptionalEnabled )
 	{
-		astTestBegin( "testUboRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -424,13 +420,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testUboRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboRawOptionalEnabledArray )
 	{
-		astTestBegin( "testUboRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -509,15 +504,14 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testUboHelper( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboHelper )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testUboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -580,17 +574,16 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	template< typename T >
-	void testUboHelperArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testUboHelperArray )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testUboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testUboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -653,32 +646,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
-	}
-
-	template< typename T >
-	void testUbo( test::sdw_test::TestCounts & testCounts )
-	{
-		testUboRaw< T >( testCounts );
-		testUboRawArray< T >( testCounts );
-		testUboRawOptionalDisabled< T >( testCounts );
-		testUboRawOptionalDisabledArray< T >( testCounts );
-		testUboRawOptionalEnabled< T >( testCounts );
-		testUboRawOptionalEnabledArray< T >( testCounts );
-		testUboHelper< T >( testCounts );
-		testUboHelperArray< T >( testCounts );
 	}
 }
 
 #define testName astTestConcat( TestWriterUboDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-	testUbo< sdw::SDW_TestType >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

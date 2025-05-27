@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma warning( disable:5245 )
@@ -40,9 +39,9 @@ namespace
 	}
 
 	template< typename T >
-	void testConstant( test::sdw_test::TestCounts & testCounts )
+	void testConstantT( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -117,52 +116,52 @@ namespace
 			arrayMain( writer, value, 4u );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
+	}
+
+	TEST( SDW_TestSuiteName, testConstant )
+	{
+		sdwTestBegin( "testConstant" );
+		testConstantT< sdw::Boolean >( testCounts );
+		testConstantT< sdw::Int >( testCounts );
+		testConstantT< sdw::UInt >( testCounts );
+		testConstantT< sdw::Float >( testCounts );
+		testConstantT< sdw::Double >( testCounts );
+		testConstantT< sdw::Vec2 >( testCounts );
+		testConstantT< sdw::Vec3 >( testCounts );
+		testConstantT< sdw::Vec4 >( testCounts );
+		testConstantT< sdw::DVec2 >( testCounts );
+		testConstantT< sdw::DVec3 >( testCounts );
+		testConstantT< sdw::DVec4 >( testCounts );
+		testConstantT< sdw::BVec2 >( testCounts );
+		testConstantT< sdw::BVec3 >( testCounts );
+		testConstantT< sdw::BVec4 >( testCounts );
+		testConstantT< sdw::IVec2 >( testCounts );
+		testConstantT< sdw::IVec3 >( testCounts );
+		testConstantT< sdw::IVec4 >( testCounts );
+		testConstantT< sdw::UVec2 >( testCounts );
+		testConstantT< sdw::UVec3 >( testCounts );
+		testConstantT< sdw::UVec4 >( testCounts );
+		testConstantT< sdw::Mat2 >( testCounts );
+		testConstantT< sdw::Mat2x3 >( testCounts );
+		testConstantT< sdw::Mat2x4 >( testCounts );
+		testConstantT< sdw::Mat3 >( testCounts );
+		testConstantT< sdw::Mat3x2 >( testCounts );
+		testConstantT< sdw::Mat3x4 >( testCounts );
+		testConstantT< sdw::Mat4 >( testCounts );
+		testConstantT< sdw::Mat4x2 >( testCounts );
+		testConstantT< sdw::Mat4x3 >( testCounts );
+		testConstantT< sdw::DMat2 >( testCounts );
+		testConstantT< sdw::DMat2x3 >( testCounts );
+		testConstantT< sdw::DMat2x4 >( testCounts );
+		testConstantT< sdw::DMat3 >( testCounts );
+		testConstantT< sdw::DMat3x2 >( testCounts );
+		testConstantT< sdw::DMat3x4 >( testCounts );
+		testConstantT< sdw::DMat4 >( testCounts );
+		testConstantT< sdw::DMat4x2 >( testCounts );
+		testConstantT< sdw::DMat4x3 >( testCounts );
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterConstantDeclarations )
-{
-	sdwTestSuiteBegin();
-	testConstant< sdw::Boolean >( testCounts );
-	testConstant< sdw::Int >( testCounts );
-	testConstant< sdw::UInt >( testCounts );
-	testConstant< sdw::Float >( testCounts );
-	testConstant< sdw::Double >( testCounts );
-	testConstant< sdw::Vec2 >( testCounts );
-	testConstant< sdw::Vec3 >( testCounts );
-	testConstant< sdw::Vec4 >( testCounts );
-	testConstant< sdw::DVec2 >( testCounts );
-	testConstant< sdw::DVec3 >( testCounts );
-	testConstant< sdw::DVec4 >( testCounts );
-	testConstant< sdw::BVec2 >( testCounts );
-	testConstant< sdw::BVec3 >( testCounts );
-	testConstant< sdw::BVec4 >( testCounts );
-	testConstant< sdw::IVec2 >( testCounts );
-	testConstant< sdw::IVec3 >( testCounts );
-	testConstant< sdw::IVec4 >( testCounts );
-	testConstant< sdw::UVec2 >( testCounts );
-	testConstant< sdw::UVec3 >( testCounts );
-	testConstant< sdw::UVec4 >( testCounts );
-	testConstant< sdw::Mat2 >( testCounts );
-	testConstant< sdw::Mat2x3 >( testCounts );
-	testConstant< sdw::Mat2x4 >( testCounts );
-	testConstant< sdw::Mat3 >( testCounts );
-	testConstant< sdw::Mat3x2 >( testCounts );
-	testConstant< sdw::Mat3x4 >( testCounts );
-	testConstant< sdw::Mat4 >( testCounts );
-	testConstant< sdw::Mat4x2 >( testCounts );
-	testConstant< sdw::Mat4x3 >( testCounts );
-	testConstant< sdw::DMat2 >( testCounts );
-	testConstant< sdw::DMat2x3 >( testCounts );
-	testConstant< sdw::DMat2x4 >( testCounts );
-	testConstant< sdw::DMat3 >( testCounts );
-	testConstant< sdw::DMat3x2 >( testCounts );
-	testConstant< sdw::DMat3x4 >( testCounts );
-	testConstant< sdw::DMat4 >( testCounts );
-	testConstant< sdw::DMat4x2 >( testCounts );
-	testConstant< sdw::DMat4x3 >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterConstantDeclarations )

@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma warning( disable:5245 )
@@ -53,9 +52,9 @@ namespace
 		sdw::Float outIntensity;
 	};
 
-	void lightInf( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, lightInf )
 	{
-		astTestBegin( "lightInf" );
+		sdwTestBegin( "lightInf" );
 		using namespace sdw;
 		{
 			sdw::CallableWriter writer{ &testCounts.allocator };
@@ -82,12 +81,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void lightPoint( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, lightPoint )
 	{
-		astTestBegin( "lightPoint" );
+		sdwTestBegin( "lightPoint" );
 		using namespace sdw;
 		{
 			sdw::CallableWriter writer{ &testCounts.allocator };
@@ -115,12 +114,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void lightSpot( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, lightSpot )
 	{
-		astTestBegin( "lightSpot" );
+		sdwTestBegin( "lightSpot" );
 		using namespace sdw;
 		{
 			sdw::CallableWriter writer{ &testCounts.allocator };
@@ -152,19 +151,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterCallableShader )
-{
-	sdwTestSuiteBegin();
-
-	lightInf( testCounts );
-	lightPoint( testCounts );
-	lightSpot( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterCallableShader )

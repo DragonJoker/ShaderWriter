@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -794,9 +793,9 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-	void pointX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, pointX )
 	{
-		astTestBegin( "pointX" );
+		sdwTestBegin( "pointX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -812,12 +811,12 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void point( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, point )
 	{
-		astTestBegin( "point" );
+		sdwTestBegin( "point" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -834,12 +833,12 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void lineX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, lineX )
 	{
-		astTestBegin( "lineX" );
+		sdwTestBegin( "lineX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -855,12 +854,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void line( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, line )
 	{
-		astTestBegin( "line" );
+		sdwTestBegin( "line" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -877,12 +876,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void triangleX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, triangleX )
 	{
-		astTestBegin( "triangleX" );
+		sdwTestBegin( "triangleX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -899,12 +898,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void triangle( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, triangle )
 	{
-		astTestBegin( "triangle" );
+		sdwTestBegin( "triangle" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -921,12 +920,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void oneTriangle( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, oneTriangle )
 	{
-		astTestBegin( "oneTriangle" );
+		sdwTestBegin( "oneTriangle" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -960,12 +959,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void taskPayload( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, taskPayload )
 	{
-		astTestBegin( "taskPayload" );
+		sdwTestBegin( "taskPayload" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -985,12 +984,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void renderMeshlet( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, renderMeshlet )
 	{
-		astTestBegin( "renderMeshlet" );
+		sdwTestBegin( "renderMeshlet" );
 		using namespace sdw;
 		using namespace render;
 		{
@@ -1108,12 +1107,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void meshletInstancing( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, meshletInstancing )
 	{
-		astTestBegin( "meshletInstancing" );
+		sdwTestBegin( "meshletInstancing" );
 		using namespace sdw;
 		using namespace instancing;
 		{
@@ -1276,12 +1275,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void checkConstantsLayout( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, checkConstantsLayout )
 	{
-		astTestBegin( "checkConstantsLayout" );
+		sdwTestBegin( "checkConstantsLayout" );
 		using namespace sdw;
 		using namespace cull;
 		{
@@ -1305,12 +1304,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void cullMeshlet( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, cullMeshlet )
 	{
-		astTestBegin( "cullMeshlet" );
+		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
 		using namespace cull;
 		{
@@ -1454,12 +1453,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void writePackedPrimitiveIndices( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, writePackedPrimitiveIndices )
 	{
-		astTestBegin( "writePackedPrimitiveIndices" );
+		sdwTestBegin( "writePackedPrimitiveIndices" );
 		using namespace sdw;
 		using namespace cull;
 		{
@@ -1584,12 +1583,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupPointX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupPointX )
 	{
-		astTestBegin( "subgroupPointX" );
+		sdwTestBegin( "subgroupPointX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -1605,12 +1604,12 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupPoint( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupPoint )
 	{
-		astTestBegin( "subgroupPoint" );
+		sdwTestBegin( "subgroupPoint" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -1627,12 +1626,12 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupLineX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupLineX )
 	{
-		astTestBegin( "subgroupLineX" );
+		sdwTestBegin( "subgroupLineX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -1648,12 +1647,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupLine( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupLine )
 	{
-		astTestBegin( "subgroupLine" );
+		sdwTestBegin( "subgroupLine" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -1670,12 +1669,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupTriangleX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupTriangleX )
 	{
-		astTestBegin( "subgroupTriangleX" );
+		sdwTestBegin( "subgroupTriangleX" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -1692,12 +1691,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupTriangle( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupTriangle )
 	{
-		astTestBegin( "subgroupTriangle" );
+		sdwTestBegin( "subgroupTriangle" );
 		using namespace sdw;
 		{
 			sdw::MeshWriterNV writer{ &testCounts.allocator };
@@ -1714,35 +1713,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterMeshShaderNV )
-{
-	sdwTestSuiteBegin();
-
-	pointX( testCounts );
-	point( testCounts );
-	lineX( testCounts );
-	line( testCounts );
-	triangleX( testCounts );
-	triangle( testCounts );
-	oneTriangle( testCounts );
-	taskPayload( testCounts );
-	renderMeshlet( testCounts );
-	meshletInstancing( testCounts );
-	checkConstantsLayout( testCounts );
-	cullMeshlet( testCounts );
-	writePackedPrimitiveIndices( testCounts );
-	subgroupPointX( testCounts );
-	subgroupPoint( testCounts );
-	subgroupLineX( testCounts );
-	subgroupLine( testCounts );
-	subgroupTriangleX( testCounts );
-	subgroupTriangle( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterMeshShaderNV )

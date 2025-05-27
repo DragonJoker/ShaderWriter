@@ -1,6 +1,41 @@
-file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
+project( TestASTCommon )
 
-set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/ShaderAST )
+set( ${PROJECT_NAME}_DESCRIPTION "${PROJECT_NAME} library" )
+set( ${PROJECT_NAME}_VERSION_MAJOR 0 )
+set( ${PROJECT_NAME}_VERSION_MINOR 6 )
+set( ${PROJECT_NAME}_VERSION_BUILD 0 )
+
+add_library( ${PROJECT_NAME}
+	STATIC
+		${TEST_COMMON_HEADER_FILES}
+		${TEST_COMMON_SOURCE_FILES}
+)
+target_sources( ${PROJECT_NAME}
+	PRIVATE
+		${SDW_EDITORCONFIG_FILE}
+)
+target_include_directories( ${PROJECT_NAME}
+	PUBLIC
+		${TEST_COMMON_INCLUDE_DIRS}
+)
+target_compile_definitions( ${PROJECT_NAME}
+	PUBLIC
+		TestCommon_STATIC
+)
+target_link_libraries( ${PROJECT_NAME}
+	PUBLIC
+		sdw::ShaderAST
+	PRIVATE
+		GTest::gtest
+)
+target_add_compilation_flags( ${PROJECT_NAME} )
+set_target_properties( ${PROJECT_NAME}
+	PROPERTIES
+		CXX_STANDARD 20
+		CXX_EXTENSIONS OFF
+		FOLDER "Tests/ShaderAST"
+		DEBUG_POSTFIX "d"
+)
 
 if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	set( SCRIPT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/scripts )
@@ -8,6 +43,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 		${SCRIPT_DIR}/*.py
 	)
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
+	set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/ShaderAST )
 	add_custom_command( OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/TestASTIntrinsics.cpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
 		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genTestASTIntrinsicsFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/TestASTIntrinsics.cpp
@@ -17,48 +53,54 @@ if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	)
 endif ()
 
-foreach ( TEST_FILE ${TEST_FILES} )
-	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
-	add_executable( ${TEST_NAME}
-		$<TARGET_OBJECTS:TestCommon>
+macro( create_test TEST_FILE )
+	get_filename_component( TARGET_NAME ${TEST_FILE} NAME_WE )
+	string( REPLACE "TestAST" "" TEST_NAME ${TARGET_NAME} )
+	add_executable( ${TARGET_NAME}
 		${TEST_FILE}
 	)
-	target_sources( ${TEST_NAME}
+	target_sources( ${TARGET_NAME}
 		PRIVATE
 			${SDW_EDITORCONFIG_FILE}
 	)
-	target_link_libraries( ${TEST_NAME}
+	target_link_libraries( ${TARGET_NAME}
 		PRIVATE
-			sdw::ShaderAST
-			sdw::test::Common
-			${BinLibraries}
+			GTest::gtest_main
+			${PROJECT_NAME}
 	)
-	target_compile_definitions( ${TEST_NAME} PRIVATE
-		SDW_COMPILE_TESTS
+	target_compile_definitions( ${TARGET_NAME}
+		PRIVATE
+			AST_TestSuiteName=${TEST_NAME}
 	)
-	target_add_compilation_flags( ${TEST_NAME} )
-
-	if ( MSVC )
-		target_compile_options( ${TEST_NAME} PRIVATE
-			-bigobj
-		)
-	endif ()
+	target_add_compilation_flags( ${TARGET_NAME} )
+	target_compile_options( ${TARGET_NAME}
+		PRIVATE
+			$<$<CXX_COMPILER_ID:MSVC>:/bigobj>
+	)
+	set_target_properties( ${TARGET_NAME}
+		PROPERTIES
+			CXX_STANDARD 20
+			CXX_EXTENSIONS OFF
+			FOLDER "Tests/ShaderAST"
+			DEBUG_POSTFIX "d"
+	)
 	if ( PROJECTS_COVERAGE )
-		coverage_add_target( ${TEST_NAME}
+		coverage_add_target( ${TARGET_NAME}
 			MODULES
 				$<TARGET_FILE_NAME:ShaderAST>
-				$<TARGET_FILE_NAME:${TEST_NAME}>
+				$<TARGET_FILE_NAME:${TARGET_NAME}>
 			SOURCES
 				${CMAKE_SOURCE_DIR}/include/ShaderAST
 				${CMAKE_SOURCE_DIR}/source/ShaderAST
 		)
 	endif ()
 
-	set_property( TARGET ${TEST_NAME} PROPERTY CXX_STANDARD 20 )
-	set_property( TARGET ${TEST_NAME} PROPERTY FOLDER "Tests/ShaderAST" )
-
-	add_test(
-		NAME ${TEST_NAME}
-		COMMAND ${TEST_NAME}
+	add_test( NAME ${TARGET_NAME}
+		COMMAND ${TARGET_NAME}
 	)
+endmacro()
+
+file( GLOB TEST_FILES ${CMAKE_CURRENT_SOURCE_DIR}/Test*.cpp )
+foreach ( TEST_FILE ${TEST_FILES} )
+	create_test( ${TEST_FILE} )
 endforeach ()

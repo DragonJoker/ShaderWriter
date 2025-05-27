@@ -590,9 +590,8 @@ namespace test
 			//auto parsedShader = spirv::parseSpirv( stage, spirv );
 			std::string errors;
 			auto result = test::compileSpirV( shader, spirv, errors, testCounts, infoIndex );
-			testCounts.appendToNextError( "VkShaderModule creation raised messages, for CompilerSpv output:" );
-			testCounts.appendToNextError( errors );
-			astCheck( errors.empty() || !checkRef )
+			if ( !errors.empty() && checkRef )
+				GTEST_NONFATAL_FAILURE_( ( "\nVkShaderModule creation raised messages, for CompilerSpv output:\n" + errors ).c_str() );
 
 			if ( !errors.empty() )
 			{
@@ -600,7 +599,7 @@ namespace test
 
 				if ( checkRef )
 				{
-					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.getTotalCount() ) + ".spv";
+					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( uintptr_t( statements ) ) + ".spv";
 
 					if ( FILE * fileOut = fopen( fileName.c_str(), "wb" ) )
 					{
@@ -611,7 +610,7 @@ namespace test
 						fclose( fileOut );
 					}
 
-					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( testCounts.getTotalCount() ) + ".ref.spv";
+					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( uintptr_t( statements ) ) + ".ref.spv";
 
 					if ( FILE * fileIn = fopen( fileName.c_str(), "rb" ) )
 					{
@@ -671,9 +670,8 @@ namespace test
 							, cfg ) );
 					std::string errors;
 					test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
-					testCounts.appendToNextError( "VkShaderModule creation raised messages, for glslang output:" );
-					testCounts.appendToNextError( errors );
-					astCheck( errors.empty() )
+					if ( !errors.empty() )
+						GTEST_NONFATAL_FAILURE_( ( "\nVkShaderModule creation raised messages, for glslang output:\n" + errors ).c_str() );
 				}
 				catch ( std::exception & exc )
 				{
@@ -699,11 +697,10 @@ namespace test
 			spvtools::ValidatorOptions valOptions;
 			valOptions.SetScalarBlockLayout( true );
 			isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions ) && isValidated;
-			testCounts.appendToNextError( printShader( "SPIR-V", text, false ) );
-			astCheck( isValidated )
-			testCounts.appendToNextError( "SPIR-V validation raised messages:" );
-			testCounts.appendToNextError( errors );
-			astCheck( errors.empty() )
+			if ( !isValidated )
+				GTEST_NONFATAL_FAILURE_( ( "\n" + printShader( "SPIR-V", text, false ) ).c_str() );
+			if ( !errors.empty() )
+				GTEST_NONFATAL_FAILURE_( (  "\nSPIR-V validation raised messages:\n" + errors ).c_str() );
 #endif
 
 #if SDW_Test_HasSpirVCross
@@ -803,11 +800,11 @@ namespace test
 						{
 							auto debug = ::sdw::writeDebug( *statements );
 							displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
-							astSuccess();
+							SUCCEED();
 						}
 						catch ( std::exception & exc )
 						{
-							astFailText( exc.what() );
+							GTEST_NONFATAL_FAILURE_( exc.what() );
 						}
 					}
 				}
@@ -822,11 +819,11 @@ namespace test
 						{
 							auto debug = ::sdw::writeDebugPreprocessed( shader, *statements );
 							displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
-							astSuccess();
+							SUCCEED();
 						}
 						catch ( std::exception & exc )
 						{
-							astFailText( exc.what() );
+							GTEST_NONFATAL_FAILURE_( exc.what() );
 						}
 					}
 				}
@@ -900,9 +897,9 @@ namespace test
 							, testCounts );
 					}
 
-					testCounts.appendToNextError( printShader( "GLSL", glsl, true ) );
-					testCounts.appendToNextError( errors );
 					astCheck( isCompiled )
+					if ( !isCompiled )
+						GTEST_NONFATAL_FAILURE_( ( "\n" + printShader( "GLSL", glsl, true ) + errors ).c_str() );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{
@@ -978,9 +975,9 @@ namespace test
 						, errors
 						, testCounts
 						, infoIndex );
-					testCounts.appendToNextError( printShader( "HLSL", hlsl, true ) );
-					testCounts.appendToNextError( errors );
 					astCheck( isCompiled )
+					if ( !isCompiled )
+						GTEST_NONFATAL_FAILURE_( ( "\n" + printShader( "HLSL", hlsl, true ) + errors ).c_str() );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{
@@ -1141,12 +1138,11 @@ namespace test
 							}
 
 							std::vector< uint32_t > spirv;
+							auto print = printShader( "SPIR-V", textSpirv, false );
 							try
 							{
-								auto print = printShader( "SPIR-V", textSpirv, false );
-								testCounts.appendToNextError( print );
 								spirv = spirv::serialiseModule( *shaderModule );
-								astSuccess();
+								SUCCEED();
 
 								if ( compilers.forceDisplay )
 								{
@@ -1155,13 +1151,12 @@ namespace test
 							}
 							catch ( ... )
 							{
-								astFailure( "testWriteSpirV" );
+								GTEST_NONFATAL_FAILURE_( ( "\n" + print ).c_str() );
 								throw;
 							}
 
 							try
 							{
-								testCounts.appendToNextError( printShader( "SPIR-V", textSpirv, false ) );
 								test::validateSpirV( shader
 									, statements.get()
 									, entryPoint.stage
@@ -1172,7 +1167,7 @@ namespace test
 									, infoIndex
 									, compilers
 									, config.requiredExtensions );
-								astSuccess();
+								SUCCEED();
 							}
 #if SDW_Test_HasSpirVCross
 							catch ( spirv_cross::CompilerError & exc )
@@ -1197,14 +1192,15 @@ namespace test
 									&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
 									&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
 								{
-									astFailText( "spirv_cross exception: " + text );
+									auto err = "spirv_cross exception:\n" + text + "\n" + print.c_str();
+									GTEST_NONFATAL_FAILURE_( err.c_str() );
 									throw;
 								}
 							}
 #endif
 							catch ( std::exception & )
 							{
-								astFailure( "testWriteSpirV" );
+								GTEST_NONFATAL_FAILURE_( "testWriteSpirV" );
 								throw;
 							}
 						}
@@ -1404,12 +1400,12 @@ namespace test
 						errors.find( "failed to compile internal representation" ) == std::string::npos
 							&& errors.find( "unexpected compilation failure" ) == std::string::npos )
 					{
-						testCounts.appendToNextError( errors );
-						testCounts.appendToNextError( stream.str() );
 						astCheck( isValidated && errors.empty() )
 
 						if ( !isValidated || !errors.empty() )
 						{
+							GTEST_NONFATAL_FAILURE_( ( errors + "\n" + stream.str() ).c_str() );
+
 							for ( auto const & shader : shaders )
 							{
 								ast::EntryPointConfigArray entryPoints{ ast::StlAllocatorT< ast::EntryPointConfig >{ getAllocator( shader ) } };
@@ -1430,7 +1426,7 @@ namespace test
 						&& err.find( "failed to compile internal representation" ) == std::string::npos
 						&& err.find( "unexpected compilation failure" ) == std::string::npos )
 					{
-						astFailure( "Shader validation" );
+						GTEST_NONFATAL_FAILURE_( ( "Shader validation:\n" + err ).c_str() );
 					}
 				}
 			}
@@ -1466,11 +1462,11 @@ namespace test
 						errors.find( "failed to compile internal representation" ) == std::string::npos
 							&& errors.find( "unexpected compilation failure" ) == std::string::npos )
 					{
-						testCounts.appendToNextError( errors );
 						astCheck( isValidated && errors.empty() )
 
 						if ( !isValidated || !errors.empty() )
 						{
+							GTEST_NONFATAL_FAILURE_( errors.c_str() );
 							astCheckNoThrow( spirvCrossValidate( shader, entryPoints, testCounts, infoIndex ) );
 						}
 					}
@@ -1482,7 +1478,7 @@ namespace test
 							&& err.find( "failed to compile internal representation" ) == std::string::npos
 							&& err.find( "unexpected compilation failure" ) == std::string::npos )
 					{
-						astFailure( "Shader validation" );
+						GTEST_NONFATAL_FAILURE_( ( "Shader validation:\n" + err ).c_str() );
 					}
 				}
 			}
@@ -1492,19 +1488,17 @@ namespace test
 
 	namespace sdw_test
 	{
-		TestSuite::TestSuite( std::string name )
-			: test::TestSuite{ std::move( name ) }
+		void TestSuite::SetUp()
 		{
 			initialiseGlslang();
 		}
-		
-		TestSuite::~TestSuite()
+
+		void TestSuite::TearDown()
 		{
 			cleanupGlslang();
 		}
 
-		TestCounts::TestCounts( test::TestSuite & psuite )
-			: test::TestCounts{ psuite }
+		TestCounts::TestCounts()
 		{
 		}
 

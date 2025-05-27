@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/UniformBuffer.hpp>
@@ -85,7 +84,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamLiteral( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -104,13 +103,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -129,13 +127,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamConstantArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamConstantArray" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamConstantArray" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 		auto c = writer.declConstantArray< ValueT >( "c"
@@ -156,13 +153,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -182,13 +178,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamArrayVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -209,13 +204,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamInputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -236,13 +230,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -264,13 +257,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamUniformVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -294,13 +286,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -324,13 +315,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -355,13 +345,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -381,13 +370,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleOutParamArrayVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -408,13 +396,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -435,13 +422,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -465,13 +451,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -496,13 +481,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -522,13 +506,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInOutParamArrayVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -549,13 +532,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -577,13 +559,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -607,13 +588,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSingleInOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSingleInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testSingleInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -638,13 +618,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamLiteral( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -667,13 +646,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -697,13 +675,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -727,13 +704,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamInputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -758,13 +734,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -793,13 +768,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamUniformVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -827,13 +801,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -861,13 +834,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -896,13 +868,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -926,13 +897,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -957,13 +927,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -987,13 +956,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1022,13 +990,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1052,13 +1019,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1083,13 +1049,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1117,13 +1082,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
 	template< typename ValueT >
 	void testArrayInOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testArrayInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOnStr( "testArrayInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1152,12 +1116,11 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void paramInArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInArray )
 	{
-		astTestBegin( "paramInArray" );
+		sdwTestBegin( "paramInArray" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 		
@@ -1175,12 +1138,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramInOutVec4( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInOutVec4 )
 	{
-		astTestBegin( "paramInOutVec4" );
+		sdwTestBegin( "paramInOutVec4" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1199,12 +1162,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramInMat4InVec4( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInMat4InVec4 )
 	{
-		astTestBegin( "paramInMat4InVec4" );
+		sdwTestBegin( "paramInMat4InVec4" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1232,12 +1195,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramInStInVec4( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInStInVec4 )
 	{
-		astTestBegin( "paramInStInVec4" );
+		sdwTestBegin( "paramInStInVec4" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1266,12 +1229,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramInSpImgInVec2( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInSpImgInVec2 )
 	{
-		astTestBegin( "paramInSpImgInVec2" );
+		sdwTestBegin( "paramInSpImgInVec2" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1294,12 +1257,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramInVec4Ass( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInVec4Ass )
 	{
-		astTestBegin( "paramInVec4Ass" );
+		sdwTestBegin( "paramInVec4Ass" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1319,12 +1282,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void params( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, params )
 	{
-		astTestBegin( "params" );
+		sdwTestBegin( "params" );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1411,12 +1374,12 @@ namespace
 			, testCounts );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void arrayParamAccessInOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, arrayParamAccessInOut )
 	{
-		astTestBegin( "arrayAccessInOut" );
+		sdwTestBegin( "arrayAccessInOut" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1442,12 +1405,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void vecParamAccessInIndex( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, vecParamAccessInIndex )
 	{
-		astTestBegin( "vecAccessInIndex" );
+		sdwTestBegin( "vecAccessInIndex" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1469,12 +1432,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void rImageParamForward( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, rImageParamForward )
 	{
-		astTestBegin( "rImageParamForward" );
+		sdwTestBegin( "rImageParamForward" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1504,12 +1467,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void wImageParamForward( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, wImageParamForward )
 	{
-		astTestBegin( "wImageParamForward" );
+		sdwTestBegin( "wImageParamForward" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1539,12 +1502,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void rwImageParamForward( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, rwImageParamForward )
 	{
-		astTestBegin( "rwImageParamForward" );
+		sdwTestBegin( "rwImageParamForward" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1574,12 +1537,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void structInParam( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, structInParam )
 	{
-		astTestBegin( "structInParam" );
+		sdwTestBegin( "structInParam" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1602,12 +1565,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void structInParamForward( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, structInParamForward )
 	{
-		astTestBegin( "structInParamForward" );
+		sdwTestBegin( "structInParamForward" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1638,12 +1601,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramInWhile( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramInWhile )
 	{
-		astTestBegin( "paramInWhile" );
+		sdwTestBegin( "paramInWhile" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1671,12 +1634,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramMbrAccessInWhile( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramMbrAccessInWhile )
 	{
-		astTestBegin( "paramMbrAccessInWhile" );
+		sdwTestBegin( "paramMbrAccessInWhile" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1718,12 +1681,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void removeGamma( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, removeGamma )
 	{
-		astTestBegin( "removeGamma" );
+		sdwTestBegin( "removeGamma" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1751,12 +1714,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void returns( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, returns )
 	{
-		astTestBegin( "returns" );
+		sdwTestBegin( "returns" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1811,12 +1774,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void returnAfterWhile( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, returnAfterWhile )
 	{
-		astTestBegin( "returnAfterWhile" );
+		sdwTestBegin( "returnAfterWhile" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1853,12 +1816,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void paramIfElseIf( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, paramIfElseIf )
 	{
-		astTestBegin( "fog" );
+		sdwTestBegin( "fog" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1896,12 +1859,12 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void nestedFunctionDecl( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, nestedFunctionDecl )
 	{
-		astTestBegin( "nestedFunctionDecl" );
+		sdwTestBegin( "nestedFunctionDecl" );
 		using namespace sdw;
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 
@@ -1929,11 +1892,11 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
-	void testParams( test::sdw_test::TestCounts & testCounts )
+	void testParamsT( test::sdw_test::TestCounts & testCounts )
 	{
 		testSingleInParamLiteral< ValueT >( testCounts );
 		testSingleInParamConstant< ValueT >( testCounts );
@@ -1998,48 +1961,27 @@ namespace
 		testArrayInOutParamStorageVariable< ValueT >( testCounts );
 		testArrayInOutParamStructMember< ValueT >( testCounts );
 	}
+
+	TEST( SDW_TestSuiteName, testParams )
+	{
+		sdwTestBegin( "testParams" )
+		testParamsT< sdw::Int >( testCounts );
+		testParamsT< sdw::UInt >( testCounts );
+		testParamsT< sdw::Float >( testCounts );
+		testParamsT< sdw::IVec2 >( testCounts );
+		testParamsT< sdw::UVec2 >( testCounts );
+		testParamsT< sdw::Vec2 >( testCounts );
+		testParamsT< sdw::IVec3 >( testCounts );
+		testParamsT< sdw::UVec3 >( testCounts );
+		testParamsT< sdw::Vec3 >( testCounts );
+		testParamsT< sdw::IVec4 >( testCounts );
+		testParamsT< sdw::UVec4 >( testCounts );
+		testParamsT< sdw::Vec4 >( testCounts );
+		testParamsT< sdw::Mat2 >( testCounts );
+		testParamsT< sdw::Mat3 >( testCounts );
+		testParamsT< sdw::Mat4 >( testCounts );
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain( TestWriterFunction )
-{
-	sdwTestSuiteBegin();
-	testParams< sdw::Int >( testCounts );
-	testParams< sdw::UInt >( testCounts );
-	testParams< sdw::Float >( testCounts );
-	testParams< sdw::IVec2 >( testCounts );
-	testParams< sdw::UVec2 >( testCounts );
-	testParams< sdw::Vec2 >( testCounts );
-	testParams< sdw::IVec3 >( testCounts );
-	testParams< sdw::UVec3 >( testCounts );
-	testParams< sdw::Vec3 >( testCounts );
-	testParams< sdw::IVec4 >( testCounts );
-	testParams< sdw::UVec4 >( testCounts );
-	testParams< sdw::Vec4 >( testCounts );
-	testParams< sdw::Mat2 >( testCounts );
-	testParams< sdw::Mat3 >( testCounts );
-	testParams< sdw::Mat4 >( testCounts );
-	paramInArray( testCounts );
-	paramInOutVec4( testCounts );
-	paramInMat4InVec4( testCounts );
-	paramInStInVec4( testCounts );
-	paramInSpImgInVec2( testCounts );
-	paramInVec4Ass( testCounts );
-	params( testCounts );
-	arrayParamAccessInOut( testCounts );
-	vecParamAccessInIndex( testCounts );
-	rImageParamForward( testCounts );
-	wImageParamForward( testCounts );
-	rwImageParamForward( testCounts );
-	structInParam( testCounts );
-	structInParamForward( testCounts );
-	removeGamma( testCounts );
-	returns( testCounts );
-	returnAfterWhile( testCounts );
-	paramInWhile( testCounts );
-	paramMbrAccessInWhile( testCounts );
-	paramIfElseIf( testCounts );
-	nestedFunctionDecl( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterFunction )

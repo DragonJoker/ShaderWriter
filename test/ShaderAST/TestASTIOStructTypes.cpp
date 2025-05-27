@@ -11,23 +11,137 @@ namespace
 {
 	using namespace ast;
 
-	std::string getName( type::MemoryLayout layout )
+	std::string getName( EntryPoint entryPoint )
 	{
-		switch ( layout )
+		std::string result{ "Unknown" };
+
+		switch ( entryPoint )
 		{
-		case type::MemoryLayout::eStd140:
-			return "Std140";
-		case type::MemoryLayout::eStd430:
-			return "Std430";
-		case type::MemoryLayout::eC:
-			return "C";
-		case type::MemoryLayout::eScalar:
-			return "Scalar";
-		case type::MemoryLayout::eShaderRecord:
-			return "ShaderRecord";
+		case EntryPoint::eNone:
+			result = std::string{};
+			break;
+		case EntryPoint::eVertex:
+			result = "Vert";
+			break;
+		case EntryPoint::eTessellationControl:
+			result = "Tesc";
+			break;
+		case EntryPoint::eTessellationEvaluation:
+			result = "Tese";
+			break;
+		case EntryPoint::eGeometry:
+			result = "Geom";
+			break;
+		case EntryPoint::eMeshNV:
+		case EntryPoint::eMesh:
+			result = "Mesh";
+			break;
+		case EntryPoint::eTaskNV:
+		case EntryPoint::eTask:
+			result = "Task";
+			break;
+		case EntryPoint::eFragment:
+			result = "Frag";
+			break;
+		case EntryPoint::eRayGeneration:
+			result = "Rgen";
+			break;
+		case EntryPoint::eRayAnyHit:
+			result = "Rany";
+			break;
+		case EntryPoint::eRayClosestHit:
+			result = "Rcls";
+			break;
+		case EntryPoint::eRayMiss:
+			result = "Rmis";
+			break;
+		case EntryPoint::eRayIntersection:
+			result = "Rint";
+			break;
+		case EntryPoint::eCallable:
+			result = "Call";
+			break;
+		case EntryPoint::eCompute:
+			result = "Comp";
+			break;
 		default:
-			return "Unknown";
+			AST_Failure( "Unsupported EntryPoint" );
 		}
+
+		return result;
+	}
+
+	std::string getName( ast::EntryPoint entryPoint
+		, var::Flag flag )
+	{
+		std::string result{ "Unknown" };
+
+		switch ( entryPoint )
+		{
+		case EntryPoint::eNone:
+			result = std::string{};
+			break;
+		case EntryPoint::eVertex:
+			result = "Vert";
+			break;
+		case EntryPoint::eTessellationControl:
+			result = "Tesc";
+			break;
+		case EntryPoint::eTessellationEvaluation:
+			result = "Tese";
+			break;
+		case EntryPoint::eGeometry:
+			result = "Geom";
+			break;
+		case EntryPoint::eMeshNV:
+			result = "MeshNV";
+			break;
+		case EntryPoint::eMesh:
+			result = "Mesh";
+			break;
+		case EntryPoint::eTaskNV:
+			result = "TaskNV";
+			break;
+		case EntryPoint::eTask:
+			result = "Task";
+			break;
+		case EntryPoint::eFragment:
+			result = "Frag";
+			break;
+		case EntryPoint::eRayGeneration:
+			result = "Rgen";
+			break;
+		case EntryPoint::eRayAnyHit:
+			result = "Rany";
+			break;
+		case EntryPoint::eRayClosestHit:
+			result = "Rcls";
+			break;
+		case EntryPoint::eRayMiss:
+			result = "Rmis";
+			break;
+		case EntryPoint::eRayIntersection:
+			result = "Rint";
+			break;
+		case EntryPoint::eCallable:
+			result = "Call";
+			break;
+		case EntryPoint::eCompute:
+			result = "Comp";
+			break;
+		default:
+			AST_Failure( "Unsupported EntryPoint" );
+		}
+
+		result += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
+			? std::string{ "Patch" }
+		: std::string{} );
+		result += ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderOutput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchOutput ) )
+			? std::string{ "Output" }
+			: ( ( hasFlag( uint64_t( flag ), ast::var::Flag::eShaderInput ) || hasFlag( uint64_t( flag ), ast::var::Flag::ePatchInput ) )
+				? std::string{ "Input" }
+		: std::string{} ) );
+		return result;
 	}
 
 	uint32_t updateCount( uint32_t & count, std::string & name )
@@ -37,23 +151,17 @@ namespace
 		return count;
 	}
 
-	void testStruct( test::TestCounts & testCounts, type::MemoryLayout layout, type::Kind mbrKind )
+	void testIOStruct( test::TestCounts & testCounts, EntryPoint entryPoint, var::Flag flag, type::Kind mbrKind )
 	{
 		{
 			type::TypesCache typesCache;
-			auto type = typesCache.getStruct( layout, "test" );
+			std::string structName = "test" + type::IOStruct::getNameSuffix( entryPoint, flag );
+			auto type = typesCache.getIOStruct( "test", entryPoint, flag );
 			astCheck( type->getRawKind() == type::Kind::eStruct )
 			astCheck( type->getKind() == type::Kind::eStruct )
-			astCheck( type->getMemoryLayout() == layout )
-			astCheck( type->getName() == "test" )
-			astCheck( type->getFlag() == 0u )
-			astCheck( !type->isShaderInput() )
-			astCheck( !type->isShaderOutput() )
-			astCheck( !type->isPatchInput() )
-			astCheck( !type->isPatchOutput() )
-			astCheck( !type->isPerTaskNV() )
-			astCheck( !type->isPerTask() )
-			astCheck( type->getEntryPoint() == EntryPoint::eNone )
+			astCheck( type->getName() == structName )
+			astCheck( type->getFlag() == uint64_t( flag ) )
+			astCheck( type->getEntryPoint() == entryPoint )
 			astCheck( type->size() == 0u )
 			astCheck( type->empty() )
 			astCheck( type->begin() == type->end() )
@@ -164,7 +272,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, mbrKind, false ).second )
+					astCheck( !type->declMember( name, mbrKind, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -172,8 +280,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, mbrKind, type::NotArray, true ).second )
-					astCheck( !type->declMember( name, mbrKind, type::NotArray, true ).second )
+					astCheck( type->declMember( name, mbrKind, type::NotArray, 18u, true ).second )
+					astCheck( !type->declMember( name, mbrKind, type::NotArray, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -185,7 +293,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), false ).second )
+					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -193,8 +301,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, true ).second )
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, true ).second )
+					astCheck( type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, 18u, true ).second )
+					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), type::NotArray, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -206,7 +314,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), false ).second )
+					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -214,8 +322,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, true ).second )
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, true ).second )
+					astCheck( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, 18u, true ).second )
+					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), type::NotArray, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -227,7 +335,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getStruct( layout, "mbr" ), false ).second )
+					astCheck( !type->declMember( name, typesCache.getStruct( type::MemoryLayout::eC, "mbr" ), 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -235,10 +343,10 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					auto structType = typesCache.getStruct( layout, "mbr" );
+					auto structType = typesCache.getStruct( type::MemoryLayout::eC, "mbr" );
 					structType->declMember( "mbmbr", mbrKind );
-					astCheck( type->declMember( name, structType, type::NotArray, true ).second )
-					astCheck( !type->declMember( name, structType, type::NotArray, true ).second )
+					astCheck( type->declMember( name, structType, type::NotArray, 18u, true ).second )
+					astCheck( !type->declMember( name, structType, type::NotArray, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -250,7 +358,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", EntryPoint::eCompute, var::Flag::eShaderInput ), false ).second )
+					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -258,10 +366,10 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					auto structType = typesCache.getIOStruct( "iombr", EntryPoint::eCompute, var::Flag::eShaderInput );
+					auto structType = typesCache.getIOStruct( "iombr", entryPoint, flag );
 					structType->declMember( "mbmbr", mbrKind, 1u );
-					astCheck( type->declMember( name, structType, type::NotArray, true ).second )
-					astCheck( !type->declMember( name, structType, type::NotArray, true ).second )
+					astCheck( type->declMember( name, structType, type::NotArray, 18u, true ).second )
+					astCheck( !type->declMember( name, structType, type::NotArray, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -273,7 +381,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, mbrKind, 4u, false ).second )
+					astCheck( !type->declMember( name, mbrKind, 4u, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -281,8 +389,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, mbrKind, 4u, true ).second )
-					astCheck( !type->declMember( name, mbrKind, 4u, true ).second )
+					astCheck( type->declMember( name, mbrKind, 4u, 18u, true ).second )
+					astCheck( !type->declMember( name, mbrKind, 4u, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -294,7 +402,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, false ).second )
+					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -302,8 +410,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, true ).second )
+					astCheck( type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, true ).second )
+					astCheck( !type->declMember( name, typesCache.getBasicType( mbrKind ), 4u, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -315,7 +423,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, false ).second )
+					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -323,8 +431,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, true ).second )
+					astCheck( type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, true ).second )
+					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -336,7 +444,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getStruct( layout, "mbr" ), 4u, false ).second )
+					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -344,8 +452,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getStruct( layout, "mbr" ), 4u, true ).second )
-					astCheck( !type->declMember( name, typesCache.getStruct( layout, "mbr" ), 4u, true ).second )
+					astCheck( type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, true ).second )
+					astCheck( !type->declMember( name, typesCache.getIOStruct( "iombr", entryPoint, flag ), 4u, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( !hasRuntimeArray( type ) )
@@ -357,7 +465,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, mbrKind, type::UnknownArraySize, false ).second )
+					astCheck( !type->declMember( name, mbrKind, type::UnknownArraySize, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -365,8 +473,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, mbrKind, type::UnknownArraySize, true ).second )
-					astCheck( !type->declMember( name, mbrKind, type::UnknownArraySize, true ).second )
+					astCheck( type->declMember( name, mbrKind, type::UnknownArraySize, 18u, true ).second )
+					astCheck( !type->declMember( name, mbrKind, type::UnknownArraySize, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( hasRuntimeArray( type ) )
@@ -378,7 +486,7 @@ namespace
 			{
 				if ( astWhen( "Non enabled" ) )
 				{
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, false ).second )
+					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, false ).second )
 					astCheck( !type->hasMember( name ) )
 					astCheck( type->findMember( name ) == type::Struct::NotFound )
 					astCheckThrow( type->getMember( name ) )
@@ -386,8 +494,8 @@ namespace
 				}
 				if ( astWhen( "Enabled" ) )
 				{
-					astCheck( type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, true ).second )
-					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, true ).second )
+					astCheck( type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, true ).second )
+					astCheck( !type->declMember( name, typesCache.getArray( typesCache.getArray( typesCache.getBasicType( mbrKind ), 4u ), 4u ), type::UnknownArraySize, 18u, true ).second )
 					astCheck( type->hasMember( name ) )
 					astCheck( type->findMember( name ) != type::Struct::NotFound )
 					astCheck( hasRuntimeArray( type ) )
@@ -401,32 +509,42 @@ namespace
 				astCheck( mbrType->getNonMemberType() == typesCache.getBasicType( mbrKind ).get() )
 			}
 			{
-				auto type2 = typesCache.getStruct( layout, "test" );
+				auto type2 = typesCache.getIOStruct( "test", entryPoint, flag );
 				astCheck( type == type2 )
 				astCheck( *type == *type2 )
 			}
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 		}
-		{
-			type::TypesCache typesCache;
-			astCheckThrow( typesCache.getIOStruct( "test", EntryPoint::eNone, var::Flag::eNone ) )
-		}
 	}
 
-	struct StructType
+	static constexpr std::array< var::Flag, 5U > supportedFlags{ var::Flag::eShaderInput
+		, var::Flag::eShaderOutput
+		, var::Flag::ePatchInput
+		, var::Flag::ePatchOutput
+		, var::Flag::ePerTask };
+
+	struct IOStructType
 	{
 		type::Kind member;
-		type::MemoryLayout layout;
+		EntryPoint entryPoint;
+		size_t flagIndex;
 
-		StructType & operator+( int i )
+		IOStructType & operator+( int i )
 		{
-			if ( layout != type::MemoryLayout::eShaderRecord )
+			if ( flagIndex < supportedFlags.size() - 1u )
 			{
-				layout = type::MemoryLayout( uint8_t( layout ) + 1 );
+				++flagIndex;
 				return *this;
 			}
-			layout = type::MemoryLayout::eStd140;
+			flagIndex = 0u;
+
+			if ( entryPoint != EntryPoint::eCompute )
+			{
+				entryPoint = EntryPoint( uint8_t( entryPoint ) + 1 );
+				return *this;
+			}
+			entryPoint = EntryPoint::eVertex;
 
 			if ( member != type::Kind::eBasicTypesMax )
 			{
@@ -439,36 +557,40 @@ namespace
 		}
 
 	private:
-		friend bool operator<( StructType const & lhs, StructType const & rhs )
+		friend bool operator<( IOStructType const & lhs, IOStructType const & rhs )
 		{
 			return ( uint8_t( lhs.member ) < uint8_t( rhs.member )
 				|| ( lhs.member == rhs.member
-					&& ( uint8_t( lhs.layout ) < uint8_t( rhs.layout ) ) ) );
+					&& ( uint8_t( lhs.entryPoint ) < uint8_t( rhs.entryPoint )
+						|| ( lhs.entryPoint == rhs.entryPoint
+							&& ( uint8_t( lhs.flagIndex ) < uint8_t( rhs.flagIndex ) ) ) ) ) );
 		}
 	};
 
-	static constexpr StructType minStructType{ type::Kind::eBoolean
-		, type::MemoryLayout::eStd140 };
+	static constexpr IOStructType minIOStructType{ type::Kind::eBoolean
+		, EntryPoint::eVertex
+		, 0u };
 
-	static constexpr StructType maxStructType{ type::Kind::eBasicTypesMax
-		, type::MemoryLayout::eShaderRecord };
+	static constexpr IOStructType maxIOStructType{ type::Kind::eBasicTypesMax
+		, EntryPoint::eCompute
+		, supportedFlags.size() - 1u };
 
-	std::string getStructTypeName( StructType const & v )
+	std::string getIOStructTypeName( IOStructType const & v )
 	{
-		return getName( v.layout ) + debug::getTypeName( v.member );
+		return getName( v.entryPoint, supportedFlags[v.flagIndex] ) + debug::getTypeName( v.member );
 	}
 
-	using StructTypes = testing::TestWithParam< StructType >;
+	using IOStructTypes = testing::TestWithParam< IOStructType >;
 
-	TEST_P( StructTypes, Struct )
+	TEST_P( IOStructTypes, IOStruct )
 	{
 		auto param = GetParam();
-		astTestBegin( "testStruct" + getStructTypeName( param ) );
-		testStruct( testCounts, param.layout, param.member );
+		astTestBegin( "testIOStruct" + getIOStructTypeName( param ) );
+		testIOStruct( testCounts, param.entryPoint, supportedFlags[param.flagIndex], param.member );
 		astTestEnd()
 	}
 }
 
-INSTANTIATE_TEST_SUITE_P( TestASTStructTypes, StructTypes
-	, testing::Range( minStructType, maxStructType )
-	, astTestNameP( StructType, getStructTypeName ) );
+INSTANTIATE_TEST_SUITE_P( TestASTIOStructTypes, IOStructTypes
+	, testing::Range( minIOStructType, maxIOStructType )
+	, astTestNameP( IOStructType, getIOStructTypeName ) );

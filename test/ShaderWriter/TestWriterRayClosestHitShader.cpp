@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -405,9 +404,9 @@ namespace
 		sdw::Float outIntensity;
 	};
 
-	void simple( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, simple )
 	{
-		astTestBegin( "simple" );
+		sdwTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -451,12 +450,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void vecTimesMtx( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, vecTimesMtx )
 	{
-		astTestBegin( "vecTimesMtx" );
+		sdwTestBegin( "vecTimesMtx" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -500,12 +499,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void nonUniform( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, nonUniform )
 	{
-		astTestBegin( "nonUniform" );
+		sdwTestBegin( "nonUniform" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -536,12 +535,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void wavefrontLighting( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, wavefrontLighting )
 	{
-		astTestBegin( "wavefrontLighting" );
+		sdwTestBegin( "wavefrontLighting" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -669,12 +668,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void basicExecCallable( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, basicExecCallable )
 	{
-		astTestBegin( "basicExecCallable" );
+		sdwTestBegin( "basicExecCallable" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -785,12 +784,12 @@ namespace
 				, testCounts
 				, Compilers_All );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void execCallable( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, execCallable )
 	{
-		astTestBegin( "execCallable" );
+		sdwTestBegin( "execCallable" );
 		using namespace sdw;
 		{
 			sdw::RayClosestHitWriter writer{ &testCounts.allocator };
@@ -906,22 +905,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterRayClosestHitShader )
-{
-	sdwTestSuiteBegin();
-
-	simple( testCounts );
-	vecTimesMtx( testCounts );
-	nonUniform( testCounts );
-	wavefrontLighting( testCounts );
-	basicExecCallable( testCounts );
-	execCallable( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterRayClosestHitShader )

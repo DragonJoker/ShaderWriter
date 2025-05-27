@@ -58,7 +58,8 @@
 				"SDW_GENERATE_SOURCE": true,
 				"SDW_UNITY_BUILD": false,
 				"PROJECTS_WARNINGS_AS_ERRORS": true,
-				"PROJECTS_OUTPUT_DIR": "${sourceDir}"
+				"PROJECTS_OUTPUT_DIR": "${sourceDir}",
+				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;tests;vklayer"
 			}
 		},
 		{
@@ -66,7 +67,10 @@
 			"displayName": "ShaderWriter Developer Visual Studio Config",
 			"description": "Build configuration using Visual Studio, for ShaderWriter developers",
 			"inherits": "dev-base",
-			"generator": "Visual Studio 17 2022"
+			"generator": "Visual Studio 17 2022",
+			"cacheVariables": {
+				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;tests;vklayer"
+			}
 		},
 		{
 			"name": "dev-ninja",

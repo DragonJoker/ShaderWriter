@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -8,10 +7,11 @@ namespace
 {
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
-	template< typename T >
-	void testPcbRaw( test::sdw_test::TestCounts & testCounts )
+	using T = sdw::SDW_TestType;
+
+	TEST( SDW_TestSuiteName, testPcbRaw )
 	{
-		astTestBegin( "testPcbRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -47,13 +47,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testPcbRawArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbRawArray )
 	{
-		astTestBegin( "testPcbRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -89,13 +88,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testPcbRawOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbRawOptionalDisabled )
 	{
-		astTestBegin( "testPcbRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -133,13 +131,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testPcbRawOptionalDisabledArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbRawOptionalDisabledArray )
 	{
-		astTestBegin( "testPcbRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -177,13 +174,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testPcbRawOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbRawOptionalEnabled )
 	{
-		astTestBegin( "testPcbRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -221,13 +217,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testPcbRawOptionalEnabledArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbRawOptionalEnabledArray )
 	{
-		astTestBegin( "testPcbRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -265,15 +260,14 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	template< typename T >
-	void testPcbHelper( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbHelper )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testPcbHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -303,17 +297,16 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	template< typename T >
-	void testPcbHelperArray( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPcbHelperArray )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "testPcbHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testPcbHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -343,32 +336,12 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
-	}
-
-	template< typename T >
-	void testPcb( test::sdw_test::TestCounts & testCounts )
-	{
-		testPcbRaw< T >( testCounts );
-		testPcbRawArray< T >( testCounts );
-		testPcbRawOptionalDisabled< T >( testCounts );
-		testPcbRawOptionalDisabledArray< T >( testCounts );
-		testPcbRawOptionalEnabled< T >( testCounts );
-		testPcbRawOptionalEnabledArray< T >( testCounts );
-		testPcbHelper< T >( testCounts );
-		testPcbHelperArray< T >( testCounts );
 	}
 }
 
 #define testName astTestConcat( TestWriterPcbDeclarations, SDW_TestType )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-	testPcb< sdw::SDW_TestType >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

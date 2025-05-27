@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -35,7 +34,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSampler" + nameBase );
+		astOnStr( "testSampler" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -77,7 +76,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -90,7 +88,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerOptionalDisabled" + nameBase );
+		astOnStr( "testSamplerOptionalDisabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -134,7 +132,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -147,7 +144,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerOptionalEnabled" + nameBase );
+		astOnStr( "testSamplerOptionalEnabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -193,7 +190,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -206,7 +202,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerType" + nameBase );
+		astOnStr( "testSamplerType" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -248,7 +244,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -261,7 +256,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerArray" + nameBase );
+		astOnStr( "testSamplerArray" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -309,7 +304,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -322,7 +316,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerArrayOptionalDisabled" + nameBase );
+		astOnStr( "testSamplerArrayOptionalDisabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -372,7 +366,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -385,7 +378,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerArrayOptionalEnabled" + nameBase );
+		astOnStr( "testSamplerArrayOptionalEnabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -437,7 +430,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -450,7 +442,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astTestBegin( "testSamplerArrayType" + nameBase );
+		astOnStr( "testSamplerArrayType" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -498,7 +490,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< bool ComparisonT >
@@ -514,14 +505,14 @@ namespace
 		testSamplerArrayOptionalEnabled< ComparisonT >( testCounts );
 		testSamplerArrayType< ComparisonT >( testCounts );
 	}
+
+	TEST( SDW_TestSuiteName, testSamplerDeclarations )
+	{
+		sdwTestBegin( "testSamplerDeclarations" )
+		testSamplerComp< false >( testCounts );
+		testSamplerComp< true >( testCounts );
+		sdwTestEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterSamplerDeclarations )
-{
-	sdwTestSuiteBegin();
-	testSamplerComp< false >( testCounts );
-	testSamplerComp< true >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterSamplerDeclarations )

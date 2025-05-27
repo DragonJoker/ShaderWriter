@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -6,7 +5,7 @@ namespace
 	template< typename T >
 	void testLocale( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -226,52 +225,51 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
+	}
+
+	TEST( SDW_TestSuiteName, testLocaleDeclarations )
+	{
+		sdwTestBegin( "testLocaleDeclarations" )
+		testLocale< sdw::Boolean >( testCounts );
+		testLocale< sdw::Int >( testCounts );
+		testLocale< sdw::UInt >( testCounts );
+		testLocale< sdw::Float >( testCounts );
+		testLocale< sdw::Double >( testCounts );
+		testLocale< sdw::Vec2 >( testCounts );
+		testLocale< sdw::Vec3 >( testCounts );
+		testLocale< sdw::Vec4 >( testCounts );
+		testLocale< sdw::DVec2 >( testCounts );
+		testLocale< sdw::DVec3 >( testCounts );
+		testLocale< sdw::DVec4 >( testCounts );
+		testLocale< sdw::BVec2 >( testCounts );
+		testLocale< sdw::BVec3 >( testCounts );
+		testLocale< sdw::BVec4 >( testCounts );
+		testLocale< sdw::IVec2 >( testCounts );
+		testLocale< sdw::IVec3 >( testCounts );
+		testLocale< sdw::IVec4 >( testCounts );
+		testLocale< sdw::UVec2 >( testCounts );
+		testLocale< sdw::UVec3 >( testCounts );
+		testLocale< sdw::UVec4 >( testCounts );
+		testLocale< sdw::Mat2 >( testCounts );
+		testLocale< sdw::Mat2x3 >( testCounts );
+		testLocale< sdw::Mat2x4 >( testCounts );
+		testLocale< sdw::Mat3 >( testCounts );
+		testLocale< sdw::Mat3x2 >( testCounts );
+		testLocale< sdw::Mat3x4 >( testCounts );
+		testLocale< sdw::Mat4 >( testCounts );
+		testLocale< sdw::Mat4x2 >( testCounts );
+		testLocale< sdw::Mat4x3 >( testCounts );
+		testLocale< sdw::DMat2 >( testCounts );
+		testLocale< sdw::DMat2x3 >( testCounts );
+		testLocale< sdw::DMat2x4 >( testCounts );
+		testLocale< sdw::DMat3 >( testCounts );
+		testLocale< sdw::DMat3x2 >( testCounts );
+		testLocale< sdw::DMat3x4 >( testCounts );
+		testLocale< sdw::DMat4 >( testCounts );
+		testLocale< sdw::DMat4x2 >( testCounts );
+		testLocale< sdw::DMat4x3 >( testCounts );
+		sdwTestEnd()
 	}
 }
 
 sdwTestSuiteMain( TestWriterLocaleDeclarations )
-{
-	sdwTestSuiteBegin();
-	testLocale< sdw::Boolean >( testCounts );
-	testLocale< sdw::Int >( testCounts );
-	testLocale< sdw::UInt >( testCounts );
-	testLocale< sdw::Float >( testCounts );
-	testLocale< sdw::Double >( testCounts );
-	testLocale< sdw::Vec2 >( testCounts );
-	testLocale< sdw::Vec3 >( testCounts );
-	testLocale< sdw::Vec4 >( testCounts );
-	testLocale< sdw::DVec2 >( testCounts );
-	testLocale< sdw::DVec3 >( testCounts );
-	testLocale< sdw::DVec4 >( testCounts );
-	testLocale< sdw::BVec2 >( testCounts );
-	testLocale< sdw::BVec3 >( testCounts );
-	testLocale< sdw::BVec4 >( testCounts );
-	testLocale< sdw::IVec2 >( testCounts );
-	testLocale< sdw::IVec3 >( testCounts );
-	testLocale< sdw::IVec4 >( testCounts );
-	testLocale< sdw::UVec2 >( testCounts );
-	testLocale< sdw::UVec3 >( testCounts );
-	testLocale< sdw::UVec4 >( testCounts );
-	testLocale< sdw::Mat2 >( testCounts );
-	testLocale< sdw::Mat2x3 >( testCounts );
-	testLocale< sdw::Mat2x4 >( testCounts );
-	testLocale< sdw::Mat3 >( testCounts );
-	testLocale< sdw::Mat3x2 >( testCounts );
-	testLocale< sdw::Mat3x4 >( testCounts );
-	testLocale< sdw::Mat4 >( testCounts );
-	testLocale< sdw::Mat4x2 >( testCounts );
-	testLocale< sdw::Mat4x3 >( testCounts );
-	testLocale< sdw::DMat2 >( testCounts );
-	testLocale< sdw::DMat2x3 >( testCounts );
-	testLocale< sdw::DMat2x4 >( testCounts );
-	testLocale< sdw::DMat3 >( testCounts );
-	testLocale< sdw::DMat3x2 >( testCounts );
-	testLocale< sdw::DMat3x4 >( testCounts );
-	testLocale< sdw::DMat4 >( testCounts );
-	testLocale< sdw::DMat4x2 >( testCounts );
-	testLocale< sdw::DMat4x3 >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterLocaleDeclarations )

@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #define SDW_PreferredMeshShadingExtension SDW_MeshShadingNV
@@ -66,9 +65,9 @@ namespace
 		using PosCol = PosColT< sdw::var::Flag::eNone >;
 	}
 
-	void basicPipeline( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, basicPipeline )
 	{
-		astTestBegin( "basicPipeline" );
+		sdwTestBegin( "basicPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
 		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
@@ -99,12 +98,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void geometryPipeline( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, geometryPipeline )
 	{
-		astTestBegin( "geometryPipeline" );
+		sdwTestBegin( "geometryPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
 		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
@@ -150,7 +149,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
 	namespace tess
@@ -217,9 +216,9 @@ namespace
 		};
 	}
 
-	void tessellationPipeline( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, tessellationPipeline )
 	{
-		astTestBegin( "tessellationPipeline" );
+		sdwTestBegin( "tessellationPipeline" );
 		static uint32_t constexpr maxPoints = 3u;
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
@@ -441,7 +440,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
 	namespace raytrace
@@ -506,9 +505,9 @@ namespace
 		};
 	}
 
-	void rayTracePipeline( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, rayTracePipeline )
 	{
-		astTestBegin( "rayTracePipeline" );
+		sdwTestBegin( "rayTracePipeline" );
 		sdw::RayTraceWriter writer{ &testCounts.allocator };
 
 		auto topLevelAS = writer.declAccelerationStructure( "topLevelAS", 0u, 0u );
@@ -601,7 +600,7 @@ namespace
 
 		test::writeProgram( writer
 			, testCounts, RayTraceCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
 	namespace mesh
@@ -694,9 +693,9 @@ namespace
 		};
 	}
 
-	void taskMeshPipelineEXT( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, taskMeshPipelineEXT )
 	{
-		astTestBegin( "taskMeshPipelineEXT" );
+		sdwTestBegin( "taskMeshPipelineEXT" );
 		sdw::ModernGraphicsWriterEXT writer{ &testCounts.allocator };
 
 		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
@@ -800,12 +799,12 @@ namespace
 			, testCounts, MeshEXTCompilers );
 		test::validateProgram( writer
 			, testCounts, MeshEXTCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void taskMeshPipelineNV( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, taskMeshPipelineNV )
 	{
-		astTestBegin( "taskMeshPipelineNV" );
+		sdwTestBegin( "taskMeshPipelineNV" );
 		sdw::ModernGraphicsWriterNV writer{ &testCounts.allocator };
 
 		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
@@ -909,12 +908,12 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void taskMeshPipeline( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, taskMeshPipeline )
 	{
-		astTestBegin( "taskMeshPipeline" );
+		sdwTestBegin( "taskMeshPipeline" );
 		sdw::ModernGraphicsWriter writer{ &testCounts.allocator };
 
 		auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
@@ -1018,21 +1017,8 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterProgram )
-{
-	sdwTestSuiteBegin();
-	basicPipeline( testCounts );
-	geometryPipeline( testCounts );
-	tessellationPipeline( testCounts );
-	rayTracePipeline( testCounts );
-	taskMeshPipelineEXT( testCounts );
-	taskMeshPipelineNV( testCounts );
-	taskMeshPipeline( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterProgram )

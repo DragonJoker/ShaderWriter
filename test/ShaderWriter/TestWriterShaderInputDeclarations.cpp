@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -11,7 +10,7 @@ namespace
 	template< typename T >
 	void testShaderInput( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -108,35 +107,34 @@ namespace
 			DummyMain( value );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
+	}
+
+	TEST( SDW_TestSuiteName, testShaderInputDeclarations )
+	{
+		sdwTestBegin( "testShaderInputDeclarations" )
+		testShaderInput< sdw::Int >( testCounts );
+		testShaderInput< sdw::UInt >( testCounts );
+		testShaderInput< sdw::Float >( testCounts );
+		testShaderInput< sdw::Vec2 >( testCounts );
+		testShaderInput< sdw::Vec3 >( testCounts );
+		testShaderInput< sdw::Vec4 >( testCounts );
+		testShaderInput< sdw::IVec2 >( testCounts );
+		testShaderInput< sdw::IVec3 >( testCounts );
+		testShaderInput< sdw::IVec4 >( testCounts );
+		testShaderInput< sdw::UVec2 >( testCounts );
+		testShaderInput< sdw::UVec3 >( testCounts );
+		testShaderInput< sdw::UVec4 >( testCounts );
+		testShaderInput< sdw::Mat2 >( testCounts );
+		testShaderInput< sdw::Mat2x3 >( testCounts );
+		testShaderInput< sdw::Mat2x4 >( testCounts );
+		testShaderInput< sdw::Mat3 >( testCounts );
+		testShaderInput< sdw::Mat3x2 >( testCounts );
+		testShaderInput< sdw::Mat3x4 >( testCounts );
+		testShaderInput< sdw::Mat4 >( testCounts );
+		testShaderInput< sdw::Mat4x2 >( testCounts );
+		testShaderInput< sdw::Mat4x3 >( testCounts );
+		sdwTestEnd()
 	}
 }
 
 sdwTestSuiteMain( TestWriterShaderInputDeclarations )
-{
-	sdwTestSuiteBegin();
-	testShaderInput< sdw::Int >( testCounts );
-	testShaderInput< sdw::UInt >( testCounts );
-	testShaderInput< sdw::Float >( testCounts );
-	testShaderInput< sdw::Vec2 >( testCounts );
-	testShaderInput< sdw::Vec3 >( testCounts );
-	testShaderInput< sdw::Vec4 >( testCounts );
-	testShaderInput< sdw::IVec2 >( testCounts );
-	testShaderInput< sdw::IVec3 >( testCounts );
-	testShaderInput< sdw::IVec4 >( testCounts );
-	testShaderInput< sdw::UVec2 >( testCounts );
-	testShaderInput< sdw::UVec3 >( testCounts );
-	testShaderInput< sdw::UVec4 >( testCounts );
-	testShaderInput< sdw::Mat2 >( testCounts );
-	testShaderInput< sdw::Mat2x3 >( testCounts );
-	testShaderInput< sdw::Mat2x4 >( testCounts );
-	testShaderInput< sdw::Mat3 >( testCounts );
-	testShaderInput< sdw::Mat3x2 >( testCounts );
-	testShaderInput< sdw::Mat3x4 >( testCounts );
-	testShaderInput< sdw::Mat4 >( testCounts );
-	testShaderInput< sdw::Mat4x2 >( testCounts );
-	testShaderInput< sdw::Mat4x3 >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterShaderInputDeclarations )
