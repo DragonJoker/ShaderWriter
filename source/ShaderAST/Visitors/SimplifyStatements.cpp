@@ -1865,7 +1865,7 @@ namespace ast
 				// do each vector op
 				for ( unsigned int c = 0; c < numCols; ++c )
 				{
-					std::vector<unsigned int> indexes;
+					std::vector< unsigned int > indexes;
 					indexes.push_back( c );
 					auto lhsVec = lhsMat
 						? m_exprCache.makeArrayAccess( vecType, doSubmit( lhs ), m_exprCache.makeLiteral( m_typesCache, c ) )
@@ -1979,7 +1979,7 @@ namespace ast
 				if ( composite != expr::CompositeType::eScalar )
 				{
 					return m_exprCache.makeCompositeConstruct( composite
-						, scalarType
+						, vecType->getKind()
 						, std::move( args ) );
 				}
 
