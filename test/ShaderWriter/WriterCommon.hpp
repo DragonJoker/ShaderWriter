@@ -55,7 +55,7 @@ namespace test
 		struct TestCounts
 			: test::TestCounts
 		{
-			SDWTest_API TestCounts( test::TestSuite & suite );
+			SDWTest_API TestCounts();
 			SDWTest_API ~TestCounts()noexcept override = default;
 
 			bool isSpirVInitialised( uint32_t infoIndex )const;
@@ -82,13 +82,12 @@ namespace test
 			void doCleanup()override;
 		};
 
-		struct TestSuite
-			: test::TestSuite
+		class TestSuite
+			: public ::testing::Environment
 		{
-			using TestCountsType = test::sdw_test::TestCounts;
-
-			SDWTest_API TestSuite( std::string name );
-			SDWTest_API ~TestSuite();
+		public:
+			SDWTest_API void SetUp() override;
+			SDWTest_API void TearDown() override;
 		};
 	}
 
@@ -1224,17 +1223,20 @@ namespace test
 		, sdw_test::TestCounts & testCounts );
 }
 
+#define sdwTestBegin( name )\
+	test::sdw_test::TestCounts testCounts;\
+	testCounts.initialise( name );
+
+#define sdwTestEnd()\
+	testCounts.cleanup();
+
 #define sdwTestSuiteMain( testName )\
-	static test::TestResults astNameConcat( launch, testName )( test::sdw_test::TestSuite & suite, test::sdw_test::TestCounts & testCounts )
-
-#define sdwTestSuiteBegin()\
-	astTestSuiteBeginEx( testCounts )
-
-#define sdwTestSuiteLaunch( name )\
-	astTestSuiteLaunchEx( name, test::sdw_test::TestSuite )
-
-#define sdwTestSuiteEnd()\
-	astTestSuiteEnd()
+	int main( int argc, char ** argv )\
+	{\
+		testing::InitGoogleTest(&argc, argv);\
+		testing::AddGlobalTestEnvironment( new test::sdw_test::TestSuite );\
+		return RUN_ALL_TESTS();\
+	}
 
 #pragma GCC diagnostic pop
 #pragma clang diagnostic pop

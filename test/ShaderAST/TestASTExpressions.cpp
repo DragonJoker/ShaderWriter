@@ -162,7 +162,7 @@ namespace checks
 
 	static void checkExprDependant( test::TestCounts & testCounts
 		, expr::Expr const & expr
-		, std::string const & function
+		, char const * const function
 		, int line )
 	{
 		auto & exprCache = expr.getExprCache();
@@ -800,7 +800,7 @@ namespace checks
 		astSubCheckThrow( function, line, -( *expr ) )
 	}
 
-	static void testExprAdd( test::TestCounts & testCounts )
+	TEST( Expressions, ExprAdd )
 	{
 		astTestBegin( "testExprAdd" );
 		{
@@ -888,7 +888,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprAddAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprAddAssign )
 	{
 		astTestBegin( "testExprAddAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -937,7 +937,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprAggrInit( test::TestCounts & testCounts )
+	TEST( Expressions, ExprAggrInit )
 	{
 		astTestBegin( "testExprAggrInit" );
 		{
@@ -1103,7 +1103,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprAlias( test::TestCounts & testCounts )
+	TEST( Expressions, ExprAlias )
 	{
 		astTestBegin( "testExprAlias" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1144,7 +1144,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprAndAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprAndAssign )
 	{
 		astTestBegin( "testExprAndAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1192,7 +1192,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprArrayAccess( test::TestCounts & testCounts )
+	TEST( Expressions, ExprArrayAccess )
 	{
 		astTestBegin( "testExprArrayAccess" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1278,7 +1278,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprAssign )
 	{
 		astTestBegin( "testExprAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1326,7 +1326,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprBitAnd( test::TestCounts & testCounts )
+	TEST( Expressions, ExprBitAnd )
 	{
 		astTestBegin( "testExprBitAnd" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1380,7 +1380,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprBitNot( test::TestCounts & testCounts )
+	TEST( Expressions, ExprBitNot )
 	{
 		astTestBegin( "testExprBitNot" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1421,7 +1421,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprBitOr( test::TestCounts & testCounts )
+	TEST( Expressions, ExprBitOr )
 	{
 		astTestBegin( "testExprBitOr" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1475,7 +1475,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprBitXor( test::TestCounts & testCounts )
+	TEST( Expressions, ExprBitXor )
 	{
 		astTestBegin( "testExprBitXor" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1529,7 +1529,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprCast( test::TestCounts & testCounts )
+	TEST( Expressions, ExprCast )
 	{
 		astTestBegin( "testExprCast" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1622,7 +1622,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprCombinedImageAccessCall( test::TestCounts & testCounts )
+	TEST( Expressions, ExprCombinedImageAccessCall )
 	{
 		astTestBegin( "testExprCombinedImageAccessCall" );
 		for ( uint32_t intr = 0u; intr < uint32_t( expr::CombinedImageAccess::eCount ); ++intr )
@@ -1661,7 +1661,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprComma( test::TestCounts & testCounts )
+	TEST( Expressions, ExprComma )
 	{
 		astTestBegin( "testExprComma" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1749,7 +1749,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprCompositeConstruct( test::TestCounts & testCounts )
+	TEST( Expressions, ExprCompositeConstruct )
 	{
 		astTestBegin( "testExprCompositeConstruct" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -1968,7 +1968,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprCopy( test::TestCounts & testCounts )
+	TEST( Expressions, ExprCopy )
 	{
 		astTestBegin( "testExprCopy" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2008,7 +2008,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprDivide( test::TestCounts & testCounts )
+	TEST( Expressions, ExprDivide )
 	{
 		astTestBegin( "testExprDivide" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2062,7 +2062,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprDivideAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprDivideAssign )
 	{
 		astTestBegin( "testExprDivideAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2110,7 +2110,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprEqual( test::TestCounts & testCounts )
+	TEST( Expressions, ExprEqual )
 	{
 		astTestBegin( "testExprEqual" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2164,7 +2164,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprFnCall( test::TestCounts & testCounts )
+	TEST( Expressions, ExprFnCall )
 	{
 		astTestBegin( "testExprFnCall" );
 		{
@@ -2267,7 +2267,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprMemberFnCall( test::TestCounts & testCounts )
+	TEST( Expressions, ExprMemberFnCall )
 	{
 		astTestBegin( "testExprMemberFnCall" );
 		{
@@ -2364,7 +2364,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprGreater( test::TestCounts & testCounts )
+	TEST( Expressions, ExprGreater )
 	{
 		astTestBegin( "testExprGreater" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2418,7 +2418,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprGreaterEqual( test::TestCounts & testCounts )
+	TEST( Expressions, ExprGreaterEqual )
 	{
 		astTestBegin( "testExprGreaterEqual" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2472,7 +2472,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprIdentifier( test::TestCounts & testCounts )
+	TEST( Expressions, ExprIdentifier )
 	{
 		astTestBegin( "testExprIdentifier" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2531,7 +2531,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprInit( test::TestCounts & testCounts )
+	TEST( Expressions, ExprInit )
 	{
 		astTestBegin( "testExprInit" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2594,7 +2594,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprIntrinsicCall( test::TestCounts & testCounts )
+	TEST( Expressions, ExprIntrinsicCall )
 	{
 		astTestBegin( "testExprIntrinsicCall" );
 		for ( uint32_t intr = 0u; intr < uint32_t( expr::Intrinsic::eCount ); ++intr )
@@ -2628,7 +2628,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLess( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLess )
 	{
 		astTestBegin( "testExprLess" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2682,7 +2682,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLessEqual( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLessEqual )
 	{
 		astTestBegin( "testExprLessEqual" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2736,7 +2736,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLiteral( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLiteral )
 	{
 		astTestBegin( "testExprLiteral" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2888,7 +2888,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLogAnd( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLogAnd )
 	{
 		astTestBegin( "testExprLogAnd" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2940,7 +2940,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLogNot( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLogNot )
 	{
 		astTestBegin( "testExprLogNot" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -2993,7 +2993,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLogOr( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLogOr )
 	{
 		astTestBegin( "testExprLogOr" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3045,7 +3045,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLShift( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLShift )
 	{
 		astTestBegin( "testExprLShift" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3099,7 +3099,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprLShiftAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprLShiftAssign )
 	{
 		astTestBegin( "testExprLShiftAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3147,7 +3147,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprMbrSelect( test::TestCounts & testCounts )
+	TEST( Expressions, ExprMbrSelect )
 	{
 		astTestBegin( "testExprMbrSelect" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3202,7 +3202,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprMinus( test::TestCounts & testCounts )
+	TEST( Expressions, ExprMinus )
 	{
 		astTestBegin( "testExprMinus" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3256,7 +3256,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprMinusAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprMinusAssign )
 	{
 		astTestBegin( "testExprMinusAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3304,7 +3304,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprModulo( test::TestCounts & testCounts )
+	TEST( Expressions, ExprModulo )
 	{
 		astTestBegin( "testExprModulo" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3358,7 +3358,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprModuloAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprModuloAssign )
 	{
 		astTestBegin( "testExprModuloAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3406,7 +3406,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprNotEqual( test::TestCounts & testCounts )
+	TEST( Expressions, ExprNotEqual )
 	{
 		astTestBegin( "testExprNotEqual" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3479,7 +3479,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprOrAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprOrAssign )
 	{
 		astTestBegin( "testExprOrAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3527,7 +3527,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprPostDecrement( test::TestCounts & testCounts )
+	TEST( Expressions, ExprPostDecrement )
 	{
 		astTestBegin( "testExprPostDecrement" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3563,7 +3563,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprPostIncrement( test::TestCounts & testCounts )
+	TEST( Expressions, ExprPostIncrement )
 	{
 		astTestBegin( "testExprPostIncrement" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3599,7 +3599,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprPreDecrement( test::TestCounts & testCounts )
+	TEST( Expressions, ExprPreDecrement )
 	{
 		astTestBegin( "testExprPreDecrement" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3635,7 +3635,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprPreIncrement( test::TestCounts & testCounts )
+	TEST( Expressions, ExprPreIncrement )
 	{
 		astTestBegin( "testExprPreIncrement" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3671,7 +3671,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprQuestion( test::TestCounts & testCounts )
+	TEST( Expressions, ExprQuestion )
 	{
 		astTestBegin( "testExprQuestion" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3782,7 +3782,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprRShift( test::TestCounts & testCounts )
+	TEST( Expressions, ExprRShift )
 	{
 		astTestBegin( "testExprRShift" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3836,7 +3836,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprRShiftAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprRShiftAssign )
 	{
 		astTestBegin( "testExprRShiftAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3884,7 +3884,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprStorageImageAccessCall( test::TestCounts & testCounts )
+	TEST( Expressions, ExprStorageImageAccessCall )
 	{
 		astTestBegin( "testExprStorageImageAccessCall" );
 		for ( uint32_t intr = 0u; intr < uint32_t( expr::StorageImageAccess::eCount ); ++intr )
@@ -3919,7 +3919,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprStreamAppend( test::TestCounts & testCounts )
+	TEST( Expressions, ExprStreamAppend )
 	{
 		astTestBegin( "testExprStreamAppend" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3946,7 +3946,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprSwitchCase( test::TestCounts & testCounts )
+	TEST( Expressions, ExprSwitchCase )
 	{
 		astTestBegin( "testExprSwitchCase" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3965,7 +3965,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprSwitchTest( test::TestCounts & testCounts )
+	TEST( Expressions, ExprSwitchTest )
 	{
 		astTestBegin( "testExprSwitchTest" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -3984,7 +3984,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprSwizzle( test::TestCounts & testCounts )
+	TEST( Expressions, ExprSwizzle )
 	{
 		astTestBegin( "testExprSwizzle" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4431,7 +4431,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprTimes( test::TestCounts & testCounts )
+	TEST( Expressions, ExprTimes )
 	{
 		astTestBegin( "testExprTimes" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4485,7 +4485,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprTimesAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprTimesAssign )
 	{
 		astTestBegin( "testExprTimesAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4533,7 +4533,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprUnaryMinus( test::TestCounts & testCounts )
+	TEST( Expressions, ExprUnaryMinus )
 	{
 		astTestBegin( "testExprUnaryMinus" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4580,7 +4580,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprUnaryPlus( test::TestCounts & testCounts )
+	TEST( Expressions, ExprUnaryPlus )
 	{
 		astTestBegin( "testExprUnaryPlus" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4626,7 +4626,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testExprXorAssign( test::TestCounts & testCounts )
+	TEST( Expressions, ExprXorAssign )
 	{
 		astTestBegin( "testExprXorAssign" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4674,7 +4674,7 @@ namespace checks
 		astTestEnd()
 	}
 
-	static void testBarriers( test::TestCounts & testCounts )
+	TEST( Expressions, Barriers )
 	{
 		astTestBegin( "testBarriers" );
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
@@ -4706,81 +4706,3 @@ namespace checks
 		astTestEnd()
 	}
 }
-
-astTestSuiteMain( TestASTExpressions )
-{
-	astTestSuiteBegin()
-	testCounts << "sizeof( bool ) = " << sizeof( bool ) << test::endl;
-	testCounts << "sizeof( signed char ) = " << sizeof( signed char ) << test::endl;
-	testCounts << "sizeof( signed short ) = " << sizeof( signed short ) << test::endl;
-	testCounts << "sizeof( signed int ) = " << sizeof( signed int ) << test::endl;
-	testCounts << "sizeof( signed long ) = " << sizeof( signed long ) << test::endl;
-	testCounts << "sizeof( signed long long ) = " << sizeof( signed long long ) << test::endl;
-	testCounts << "sizeof( unsigned char ) = " << sizeof( unsigned char ) << test::endl;
-	testCounts << "sizeof( unsigned short ) = " << sizeof( unsigned short ) << test::endl;
-	testCounts << "sizeof( unsigned int ) = " << sizeof( unsigned int ) << test::endl;
-	testCounts << "sizeof( unsigned long ) = " << sizeof( unsigned long ) << test::endl;
-	testCounts << "sizeof( unsigned long long ) = " << sizeof( unsigned long long ) << test::endl;
-	checks::testExprAdd( testCounts );
-	checks::testExprAddAssign( testCounts );
-	checks::testExprAggrInit( testCounts );
-	checks::testExprAlias( testCounts );
-	checks::testExprAndAssign( testCounts );
-	checks::testExprArrayAccess( testCounts );
-	checks::testExprAssign( testCounts );
-	checks::testExprBitAnd( testCounts );
-	checks::testExprBitNot( testCounts );
-	checks::testExprBitOr( testCounts );
-	checks::testExprBitXor( testCounts );
-	checks::testExprCast( testCounts );
-	checks::testExprCombinedImageAccessCall( testCounts );
-	checks::testExprComma( testCounts );
-	checks::testExprCompositeConstruct( testCounts );
-	checks::testExprCopy( testCounts );
-	checks::testExprDivide( testCounts );
-	checks::testExprDivideAssign( testCounts );
-	checks::testExprEqual( testCounts );
-	checks::testExprFnCall( testCounts );
-	checks::testExprMemberFnCall( testCounts );
-	checks::testExprGreater( testCounts );
-	checks::testExprGreaterEqual( testCounts );
-	checks::testExprIdentifier( testCounts );
-	checks::testExprInit( testCounts );
-	checks::testExprIntrinsicCall( testCounts );
-	checks::testExprLess( testCounts );
-	checks::testExprLessEqual( testCounts );
-	checks::testExprLiteral( testCounts );
-	checks::testExprLogAnd( testCounts );
-	checks::testExprLogNot( testCounts );
-	checks::testExprLogOr( testCounts );
-	checks::testExprLShift( testCounts );
-	checks::testExprLShiftAssign( testCounts );
-	checks::testExprMbrSelect( testCounts );
-	checks::testExprMinus( testCounts );
-	checks::testExprMinusAssign( testCounts );
-	checks::testExprModulo( testCounts );
-	checks::testExprModuloAssign( testCounts );
-	checks::testExprNotEqual( testCounts );
-	checks::testExprOrAssign( testCounts );
-	checks::testExprPostDecrement( testCounts );
-	checks::testExprPostIncrement( testCounts );
-	checks::testExprPreDecrement( testCounts );
-	checks::testExprPreIncrement( testCounts );
-	checks::testExprQuestion( testCounts );
-	checks::testExprRShift( testCounts );
-	checks::testExprRShiftAssign( testCounts );
-	checks::testExprStorageImageAccessCall( testCounts );
-	checks::testExprStreamAppend( testCounts );
-	checks::testExprSwitchCase( testCounts );
-	checks::testExprSwitchTest( testCounts );
-	checks::testExprSwizzle( testCounts );
-	checks::testExprTimes( testCounts );
-	checks::testExprTimesAssign( testCounts );
-	checks::testExprUnaryMinus( testCounts );
-	checks::testExprUnaryPlus( testCounts );
-	checks::testExprXorAssign( testCounts );
-	checks::testBarriers( testCounts );
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTExpressions )

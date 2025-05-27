@@ -10,7 +10,7 @@
 
 namespace
 {
-	void testAccelerationStructure( test::TestCounts & testCounts )
+	TEST( OtherTypes, AccelerationStructure )
 	{
 		astTestBegin( "testAccelerationStructure" );
 		ast::type::TypesCache typesCache;
@@ -26,7 +26,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testArray( test::TestCounts & testCounts )
+	TEST( OtherTypes, Array )
 	{
 		astTestBegin( "testArray" );
 		if ( astOn( "Not array" ) )
@@ -78,7 +78,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testCallableData( test::TestCounts & testCounts )
+	TEST( OtherTypes, CallableData )
 	{
 		astTestBegin( "testCallableData" );
 		ast::type::TypesCache typesCache;
@@ -101,7 +101,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testComputeIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, ComputeIO )
 	{
 		astTestBegin( "testComputeIO" );
 		ast::type::TypesCache typesCache;
@@ -120,7 +120,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testFragmentIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, FragmentIO )
 	{
 		astTestBegin( "testFragmentIO" );
 		for ( uint32_t origin = 0u; origin < 2u; ++origin )
@@ -151,7 +151,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testFunction( test::TestCounts & testCounts )
+	TEST( OtherTypes, Function )
 	{
 		astTestBegin( "testFunction" );
 		{
@@ -285,7 +285,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testGeometryIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, GeometryIO )
 	{
 		astTestBegin( "testGeometryIO" );
 		for ( uint32_t layout = 0u; layout <= uint32_t( ast::type::InputLayout::eTriangleStripWithAdjacency ); ++layout )
@@ -339,7 +339,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testHitAttribute( test::TestCounts & testCounts )
+	TEST( OtherTypes, HitAttribute )
 	{
 		astTestBegin( "testHitAttribute" );
 		ast::type::TypesCache typesCache;
@@ -361,7 +361,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testMeshIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, MeshIO )
 	{
 		astTestBegin( "testMeshIO" );
 		{
@@ -472,7 +472,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testPointer( test::TestCounts & testCounts )
+	TEST( OtherTypes, Pointer )
 	{
 		std::set< uint32_t > storages
 		{
@@ -546,7 +546,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testRayPayload( test::TestCounts & testCounts )
+	TEST( OtherTypes, RayPayload )
 	{
 		astTestBegin( "testRayPayload" );
 		ast::type::TypesCache typesCache;
@@ -569,7 +569,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testSampler( test::TestCounts & testCounts )
+	TEST( OtherTypes, Sampler )
 	{
 		astTestBegin( "testSampler" );
 		ast::type::TypesCache typesCache;
@@ -585,7 +585,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testTaskIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, TaskIO )
 	{
 		astTestBegin( "testTaskIO" );
 		{
@@ -639,7 +639,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testTessellationControlIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, TessellationControlIO )
 	{
 		astTestBegin( "testTessellationControlIO" );
 		{
@@ -727,7 +727,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testTessellationEvaluationIO( test::TestCounts & testCounts )
+	TEST( OtherTypes, TessellationEvaluationIO )
 	{
 		astTestBegin( "testTessellationEvaluationIO" );
 		for ( uint32_t domain = 0u; domain <= uint32_t( ast::type::PatchDomain::eQuads ); ++domain )
@@ -776,26 +776,3 @@ namespace
 		astTestEnd()
 	}
 }
-
-astTestSuiteMain( TestASTOtherTypes )
-{
-	astTestSuiteBegin()
-	testAccelerationStructure( testCounts );
-	testArray( testCounts );
-	testCallableData( testCounts );
-	testComputeIO( testCounts );
-	testFragmentIO( testCounts );
-	testFunction( testCounts );
-	testGeometryIO( testCounts );
-	testHitAttribute( testCounts );
-	testMeshIO( testCounts );
-	testPointer( testCounts );
-	testRayPayload( testCounts );
-	testSampler( testCounts );
-	testTaskIO( testCounts );
-	testTessellationControlIO( testCounts );
-	testTessellationEvaluationIO( testCounts );
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTOtherTypes )

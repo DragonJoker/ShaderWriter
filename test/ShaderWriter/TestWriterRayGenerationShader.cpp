@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -6,9 +5,9 @@
 
 namespace
 {
-	void noPayload( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, noPayload )
 	{
-		astTestBegin( "noPayload" );
+		sdwTestBegin( "noPayload" );
 		using namespace sdw;
 		{
 			sdw::RayGenerationWriter writer{ &testCounts.allocator };
@@ -24,12 +23,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void simple( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, simple )
 	{
-		astTestBegin( "simple" );
+		sdwTestBegin( "simple" );
 		using namespace sdw;
 		{
 			sdw::RayGenerationWriter writer{ &testCounts.allocator };
@@ -76,18 +75,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterRayGenerationShader )
-{
-	sdwTestSuiteBegin();
-
-	noPayload( testCounts );
-	simple( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterRayGenerationShader )

@@ -66,7 +66,7 @@ def printHeader( outs, match ):
 	outs.write( '\n' )
 	outs.write( '\tstatic void checkExprDependant( test::TestCounts & testCounts\n' )
 	outs.write( '\t\t, expr::' + enumName + 'Call const & expr\n' )
-	outs.write( '\t\t, std::string const & function\n' )
+	outs.write( '\t\t, char const * const function\n' )
 	outs.write( '\t\t, int line )\n' )
 	outs.write( '\t{\n' )
 	outs.write( '\t\tauto & exprCache = expr.getExprCache();\n' )
@@ -121,6 +121,108 @@ def printHeader( outs, match ):
 	outs.write( '\t\t\t}\n' )
 	outs.write( '\t\t}\n' )
 	outs.write( '\t}\n' )
+	outs.write( '\tstruct BarrierParam\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\ttype::Scope executionScope;\n' )
+	outs.write( '\t\ttype::Scope memoryScope;\n' )
+	outs.write( '\t\ttype::MemorySemantics semantics;\n' )
+	outs.write( '\t};\n' )
+	outs.write( '\tusing Barrier = testing::TestWithParam< BarrierParam >;\n' )
+	outs.write( '\n' )
+	outs.write( '\tstd::string getName( type::Scope p )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\tswitch ( p )\n' )
+	outs.write( '\t\t{\n' )
+	outs.write( '\t\tcase ast::type::Scope::eCrossDevice:\n' )
+	outs.write( '\t\t\treturn "CrossDevice";\n' )
+	outs.write( '\t\tcase ast::type::Scope::eDevice:\n' )
+	outs.write( '\t\t\treturn "Device";\n' )
+	outs.write( '\t\tcase ast::type::Scope::eWorkgroup:\n' )
+	outs.write( '\t\t\treturn "Workgroup";\n' )
+	outs.write( '\t\tcase ast::type::Scope::eSubgroup:\n' )
+	outs.write( '\t\t\treturn "Subgroup";\n' )
+	outs.write( '\t\tcase ast::type::Scope::eInvocation:\n' )
+	outs.write( '\t\t\treturn "Invocation";\n' )
+	outs.write( '\t\tcase ast::type::Scope::eQueueFamily:\n' )
+	outs.write( '\t\t\treturn "QueueFamily";\n' )
+	outs.write( '\t\tcase ast::type::Scope::eShaderCall:\n' )
+	outs.write( '\t\t\treturn "ShaderCall";\n' )
+	outs.write( '\t\tdefault:\n' )
+	outs.write( '\t\t\treturn "Undefined";\n' )
+	outs.write( '\t	}\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
+	outs.write( '\tstd::string getName( type::MemorySemantics p )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\tstd::string result{ "None" };\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eAcquire ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_Acquire";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eRelease ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_Release";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eAcquireRelease ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_AcquireRelease";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eSequentiallyConsistent ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_SequentiallyConsistent";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eUniformMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_UniformMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eSubgroupMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_SubgroupMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eWorkgroupMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_WorkgroupMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eCrossWorkgroupMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_CrossWorkgroupMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eAtomicCounterMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_AtomicCounterMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eImageMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_ImageMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eOutputMemory ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_OutputMemory";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eMakeAvailable ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_MakeAvailable";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eMakeVisible ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_MakeVisible";\n' )
+	outs.write( '\t\tif ( ( p & type::MemorySemanticsMask::eVolatile ) != type::MemorySemanticsMask::eNone )\n' )
+	outs.write( '\t\t\tresult += "_Volatile";\n' )
+	outs.write( '\t	return result;\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
+	outs.write( '\tstd::string getBarrierParamName( BarrierParam p )\n' )
+	outs.write( '\t{\n' )
+	outs.write( '\t\treturn getName( p.executionScope )\n' )
+	outs.write( '\t\t\t+ getName( p.memoryScope )\n' )
+	outs.write( '\t\t\t+ getName( p.semantics );\n' )
+	outs.write( '\t}\n' )
+	outs.write( '\n' )
+	outs.write( '\tstd::vector< BarrierParam > const barrierParams{ []()\n' )
+	outs.write( '\t\t{\n' )
+	outs.write( '\t\t\tstatic const std::array< type::MemorySemanticsMask, 15 > semanticMasks\n' )
+	outs.write( '\t\t\t{\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eNone,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eAcquire,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eRelease,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eAcquireRelease,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eSequentiallyConsistent,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eUniformMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eSubgroupMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eWorkgroupMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eCrossWorkgroupMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eAtomicCounterMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eImageMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eOutputMemory,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eMakeAvailable,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eMakeVisible,\n' )
+	outs.write( '\t\t\t\ttype::MemorySemanticsMask::eVolatile,\n' )
+	outs.write( '\t\t\t};\n' )
+	outs.write( '\t\t\tstd::vector< BarrierParam > result;\n' )
+	outs.write( '\t\t\tfor ( uint32_t s = 0; s < uint32_t( type::Scope::eShaderCall ); ++s )\n' )
+	outs.write( '\t\t\t{\n' )
+	outs.write( '\t\t\t\tfor ( auto mask : semanticMasks )\n' )
+	outs.write( '\t\t\t\t{\n' )
+	outs.write( '\t\t\t\t\tresult.push_back( { type::Scope( s ), type::Scope( s ), type::MemorySemantics{ mask } } );\n' )
+	outs.write( '\t\t\t\t}\n' )
+	outs.write( '\t\t\t}\n' )
+	outs.write( '\t\t\treturn result;\n' )
+	outs.write( '\t\t}() };\n' )
 
 	return enumName
 
@@ -214,32 +316,6 @@ def computeParams( params, tabs ):
 				paramType = resParam[index]
 				index += 1
 				paramName = discardArray( resParam[index] )
-				if isArray( resParam[index] ):
-					index += 2
-					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
-				else:
-					index += 2
-					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
-	return result
-
-def computeTexParams( params, tabs, lastType ):
-	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( params )
-	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
-		resParam = intrParam.split( resParams.group( 1 ) )
-		index = 1
-		while len( resParam ) > index + 2:
-			if resParam[index] == "ASTCppParam":
-				index += 4
-			else:
-				index += 1
-				paramType = resParam[index]
-				index += 1
-				paramName = discardArray( resParam[index] )
-				if len( resParam ) <= index + 2:
-					paramType = lastType
 				if isArray( resParam[index] ):
 					index += 2
 					result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
@@ -434,41 +510,6 @@ def computeLiteralParams( params, tabs ):
 						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
 	return result
 
-def computeTexLiteralParams( params, tabs, lastType ):
-	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
-	resParams = intrParams.match( params )
-	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
-		resParam = intrParam.split( resParams.group( 1 ) )
-		index = 1
-		while len( resParam ) > index + 2:
-			if resParam[index] == "ASTCppParam":
-				index += 4
-			else:
-				index += 1
-				paramType = resParam[index]
-				index += 1
-				paramName = discardArray( resParam[index] )
-				if len( resParam ) <= index + 2:
-					paramType = lastType
-				if isLiteral( paramType ):
-					paramInit = computeLiteralValue( paramType )
-					if isArray( resParam[index] ):
-						index += 2
-						result += tabs + "auto " + paramName + " = exprCache.makeAggrInit( typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), makeList( " + paramInit + ", " + paramInit + ", " + paramInit + ", " + paramInit + " ) );\n"
-					else:
-						index += 2
-						result += tabs + "auto " + paramName + " = " + paramInit + ";\n"
-				else:
-					if isArray( resParam[index] ):
-						index += 2
-						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getArray( " + computeGetTypeCall( paramType ) + ", 4u ), \"" + paramName + "\" ) );\n"
-					else:
-						index += 2
-						result += tabs + "auto " + paramName + " = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), " + computeGetTypeCall( paramType ) + ", \"" + paramName + "\" ) );\n"
-	return result
-
 def computeArgs( args ):
 	result = ""
 	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
@@ -483,183 +524,20 @@ def computeArgs( args ):
 			index += 3
 	return result
 
-def getPostfix( functionGroup ):
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
-	resName6 = intrName6.match( functionGroup )
-	resName5 = intrName5.match( functionGroup )
-	resName4 = intrName4.match( functionGroup )
-	resName3 = intrName3.match( functionGroup )
-	resName2 = intrName2.match( functionGroup )
-	resName1 = intrName1.match( functionGroup )
-	result = ""
-	if resName6:
-		result += resName6.group( 3 )
-	elif resName5:
-		result += resName5.group( 3 )
-	elif resName4:
-		result += resName4.group( 3 )
-	elif resName3:
-		result += resName3.group( 3 )
-	elif resName2:
-		result += resName2.group( 3 )
-	elif resName1:
-		result += resName1.group( 3 )
-	return result
-
-def getDepthType( name ):
-	result = re.sub( "Shadow", "", name )
-	return "Shadow" if result != name else ""
-
-def getImageSampledTypePostfix( postfix ):
-	sampled = postfix[len( postfix ) - 1]
-	result = ""
-	if sampled == "I" or sampled == "U":
-		result = sampled
-	return result
-
-def printTextureFunction( outs, enumName, imgSplInputs, imgSplMoves, match ):
-	returnGroup = match.group( 1 )
+def printFunction( outs, enumName, match ):
 	functionGroup = match.group( 2 )
 	paramsGroup = match.group( 3 )
-	postfix = getPostfix( functionGroup )
-	sampled = getImageSampledTypePostfix( postfix )
-	depth = getDepthType( postfix )
-	retType = returnGroup
 	intrinsicName = computeIntrinsicName( functionGroup )
-	formats = list()
-	if sampled == 'I':
-		if intrinsicName.find( "Atomic" ) != -1:
-			formats.append( ( 'R32', 'type::Kind::eInt32' ) )
-		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
-			formats.append( ( 'Rgba32', retType ) )
-			formats.append( ( 'Rgba16', retType ) )
-			formats.append( ( 'Rgba8', retType ) )
-			formats.append( ( 'Rg32', retType ) )
-			formats.append( ( 'Rg16', retType ) )
-			formats.append( ( 'Rg8', retType ) )
-			formats.append( ( 'R32', retType ) )
-			formats.append( ( 'R16', retType ) )
-			formats.append( ( 'R8', retType ) )
-		else:
-			formats.append( ( 'Rgba32', 'type::Kind::eVec4I32' ) )
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4I32' ) )
-			formats.append( ( 'Rgba8', 'type::Kind::eVec4I32' ) )
-			formats.append( ( 'Rg32', 'type::Kind::eVec2I32' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2I32' ) )
-			formats.append( ( 'Rg8', 'type::Kind::eVec2I32' ) )
-			formats.append( ( 'R32', 'type::Kind::eInt32' ) )
-			formats.append( ( 'R16', 'type::Kind::eInt32' ) )
-			formats.append( ( 'R8', 'type::Kind::eInt32' ) )
-	elif sampled == 'U':
-		if intrinsicName.find( "Atomic" ) != -1:
-			formats.append( ( 'R32', 'type::Kind::eUInt' ) )
-		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
-			formats.append( ( 'Rgba32', retType ) )
-			formats.append( ( 'Rgba16', retType ) )
-			formats.append( ( 'Rgba8', retType ) )
-			formats.append( ( 'Rg32', retType ) )
-			formats.append( ( 'Rg16', retType ) )
-			formats.append( ( 'Rg8', retType ) )
-			formats.append( ( 'R32', retType ) )
-			formats.append( ( 'R16', retType ) )
-			formats.append( ( 'R8', retType ) )
-		else:
-			formats.append( ( 'Rgba32', 'type::Kind::eVec4U32' ) )
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4U32' ) )
-			formats.append( ( 'Rgba8', 'type::Kind::eVec4U32' ) )
-			formats.append( ( 'Rg32', 'type::Kind::eVec2U32' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2U32' ) )
-			formats.append( ( 'Rg8', 'type::Kind::eVec2U32' ) )
-			formats.append( ( 'R32', 'type::Kind::eUInt32' ) )
-			formats.append( ( 'R16', 'type::Kind::eUInt32' ) )
-			formats.append( ( 'R8', 'type::Kind::eUInt32' ) )
-	else:
-		if intrinsicName.find( "Atomic" ) != -1:
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4H' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2H' ) )
-			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
-		elif depth == "Shadow":
-			if intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
-				formats.append( ( 'R32', retType ) )
-				formats.append( ( 'R16', retType ) )
-			else:
-				formats.append( ( 'R32', 'type::Kind::eFloat' ) )
-				formats.append( ( 'R16', 'type::Kind::eFloat' ) )
-		elif intrinsicName.find( "Size" ) != -1 or intrinsicName.find( "Samples" ) != -1 or intrinsicName.find( "Query" ) != -1 or intrinsicName.find( "Gather" ) != -1:
-			formats.append( ( 'Rgba32', retType ) )
-			formats.append( ( 'Rgba16', retType ) )
-			formats.append( ( 'Rg32', retType ) )
-			formats.append( ( 'Rg16', retType ) )
-			formats.append( ( 'R32', retType ) )
-			formats.append( ( 'R16', retType ) )
-		elif enumName == "StorageImageAccess":
-			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4H' ) )
-			formats.append( ( 'Rg32', 'type::Kind::eVec2F' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2H' ) )
-			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
-			formats.append( ( 'R16', 'type::Kind::eHalf' ) )
-		else:
-			formats.append( ( 'Rgba32', 'type::Kind::eVec4F' ) )
-			formats.append( ( 'Rgba16', 'type::Kind::eVec4F' ) )
-			formats.append( ( 'Rg32', 'type::Kind::eVec2F' ) )
-			formats.append( ( 'Rg16', 'type::Kind::eVec2F' ) )
-			formats.append( ( 'R32', 'type::Kind::eFloat' ) )
-			formats.append( ( 'R16', 'type::Kind::eFloat' ) )
-	result = ""
-	for fmt, ret in formats:
-		outs.write( "\n\tstatic void test" + intrinsicName + fmt + "(test::TestCounts & testCounts )\n" )
+	if intrinsicName.find( "Barrier" ) == -1:
+		outs.write( "\n\tTEST( Intrinsic, " + intrinsicName + " )\n" )
 		outs.write( "\t{\n" )
-		outs.write( "\t\tastTestBegin( \"test" + intrinsicName + fmt + "\" );\n" )
-		outs.write( "\t\texpr::ExprCache exprCache{ *testCounts.allocatorBlock };\n" )
-		outs.write( "\t\ttype::TypesCache typesCache;\n" )
-		outs.write( '\t\tif ( astWhen( "Using identifier parameters" ) )\n' )
-		outs.write( "\t\t{\n" )
-		outs.write( imgSplInputs )
-		if intrinsicName.find( "Store" ) != -1:
-			outs.write( computeTexParams( paramsGroup, "\t\t\t", ret ) )
-		elif intrinsicName.find( "Atomic" ) != -1:
-			outs.write( computeTexParams( paramsGroup, "\t\t\t", ret ) )
-		else:
-			outs.write( computeParams( paramsGroup, "\t\t\t" ) )
-		outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + fmt + "( exprCache\n" )
-		outs.write( "\t\t\t\t, typesCache" )
-		outs.write( imgSplMoves )
-		outs.write( computeArgs( paramsGroup ) + " );\n" )
-		outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + fmt + "\", __LINE__ );\n" )
-		outs.write( "\t\t}\n" )
-		outs.write( '\t\tif ( astWhen( "Using literal parameters" ) )\n' )
-		outs.write( "\t\t{\n" )
-		outs.write( imgSplInputs )
-		if intrinsicName.find( "Store" ) != -1:
-			outs.write( computeTexLiteralParams( paramsGroup, "\t\t\t", ret ) )
-		elif intrinsicName.find( "Atomic" ) != -1:
-			outs.write( computeTexLiteralParams( paramsGroup, "\t\t\t", ret ) )
-		else:
-			outs.write( computeLiteralParams( paramsGroup, "\t\t\t" ) )
-		outs.write( "\t\t\tauto result = expr::make" + computeEnum( enumName, functionGroup ).replace( enumName + "::e", "" ) + fmt + "( exprCache\n" )
-		outs.write( "\t\t\t\t, typesCache" )
-		outs.write( imgSplMoves )
-		outs.write( computeArgs( paramsGroup ) + " );\n" )
-		outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + fmt + "\", __LINE__ );\n" )
-		outs.write( "\t\t}\n" )
-		outs.write( "\t\tastTestEnd()\n" )
-		outs.write( "\t}" )
-		result += "\n\tchecks::test" + intrinsicName + fmt + "( testCounts );"
-	return result
-
-def printIntrinsic( outs, enumName, match ):
-	returnGroup = match.group( 1 )
-	functionGroup = match.group( 2 )
-	paramsGroup = match.group( 3 )
-	intrinsicName = computeIntrinsicName( functionGroup )
-	outs.write( "\n\tstatic void test" + intrinsicName + "(test::TestCounts & testCounts )\n" )
-	outs.write( "\t{\n" )
+	else:
+		outs.write( "\n\tTEST_P( Barrier, " + intrinsicName + " )\n" )
+		outs.write( "\t{\n" )
+		outs.write( "\t\tauto memoryScope = GetParam().memoryScope;\n" )
+		outs.write( "\t\tauto semantics = GetParam().semantics;\n" )
+		if intrinsicName.find( "Memory" ) == -1:
+			outs.write( "\t\tauto executionScope = GetParam().executionScope;\n" )
 	outs.write( "\t\tastTestBegin( \"test" + intrinsicName + "\" );\n" )
 	outs.write( "\t\texpr::ExprCache exprCache{ *testCounts.allocatorBlock };\n" )
 	outs.write( "\t\ttype::TypesCache typesCache;\n" )
@@ -680,38 +558,17 @@ def printIntrinsic( outs, enumName, match ):
 	outs.write( "\t\t\tcheckExprDependant( testCounts, *result, \"test" + intrinsicName + "\", __LINE__ );\n" )
 	outs.write( "\t\t}\n" )
 	outs.write( "\t\tastTestEnd()\n" )
-	outs.write( "\t}" )
-	return "\n\tchecks::test" + intrinsicName + "( testCounts );"
+	outs.write( "\t}\n" )
+	if intrinsicName.find( "Barrier" ) != -1:
+		outs.write( "\tINSTANTIATE_TEST_SUITE_P( " + intrinsicName + ", Barrier\n" )
+		outs.write( "\t	, testing::ValuesIn( barrierParams )\n" )
+		outs.write( "\t	, astTestNameP( BarrierParam, getBarrierParamName ) );\n" )
 
-def printFunction( outs, enumName, match ):
-	functionGroup = match.group( 2 )
-	intrinsicName = computeIntrinsicName( functionGroup )
-	test = ""
-	if intrinsicName.find( "Barrier" ) == -1:
-		if enumName == "CombinedImageAccess":
-			imgSplInputs = '\t\t\texpr::ExprPtr texture = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getCombinedImage( type::ImageConfiguration{} ), "texture" ) );\n'
-			test = printTextureFunction( outs, enumName, imgSplInputs, "\n\t\t\t\t, std::move( texture )", match )
-		elif enumName == "StorageImageAccess":
-			imgSplInputs = '\t\t\texpr::ExprPtr image = exprCache.makeIdentifier( typesCache, var::makeVariable( testCounts.getNextVarId(), typesCache.getImage( type::ImageConfiguration{} ), "image" ) );\n'
-			test = printTextureFunction( outs, enumName, imgSplInputs, "\n\t\t\t\t, std::move( image )", match )
-		else:
-			test = printIntrinsic( outs, enumName, match )
-	return test
-
-def printFooter( outFile, outs, testsList ):
+def printFooter( outFile, outs ):
 	testsName = os.path.basename(outFile)
 	testsName = testsName.replace( ".cpp", "" )
 
-	outs.write( "\n}" )
-	outs.write( "\n" )
-	outs.write( "\nastTestSuiteMain( " + testsName + " )" )
-	outs.write( "\n{" )
-	outs.write( "\n\tastTestSuiteBegin()" )
-	outs.write( testsList )
-	outs.write( "\n\tastTestSuiteEnd()" )
-	outs.write( "\n}" )
-	outs.write( "\n" )
-	outs.write( "\nastTestSuiteLaunch( " + testsName + " )" )
+	outs.write( "}" )
 	outs.write( "\n" )
 
 def main( argv ):
@@ -732,7 +589,6 @@ def main( argv ):
 	intrEnd = re.compile("^ASTIntrEnd$")
 	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
 	enumName = ""
-	testsList = ""
 	with open( inEnumFile, "r" ) as ins:
 		with open( outFile, "w", newline='\r\n' ) as outs:
 			array = []
@@ -744,9 +600,9 @@ def main( argv ):
 				if resultDecl:
 					enumName = printHeader( outs, resultDecl )
 				elif resultValue:
-					testsList += printFunction( outs, enumName, resultValue )
+					printFunction( outs, enumName, resultValue )
 				elif resultEnd:
-					printFooter( outFile, outs, testsList )
+					printFooter( outFile, outs )
 				else:
 					outs.write( line )
 

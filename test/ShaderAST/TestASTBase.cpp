@@ -5,6 +5,8 @@
 #include <ShaderAST/ShaderBuilder.hpp>
 #include <ShaderAST/Visitors/DebugDisplayStatements.hpp>
 
+#include <gtest/gtest.h>
+
 #include <set>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -69,7 +71,7 @@ namespace
 		}
 	}
 
-	void testMemorySemantics( test::TestCounts & testCounts )
+	TEST( Base, MemorySemantics )
 	{
 		astTestBegin( "testMemorySemantics" );
 		{
@@ -114,7 +116,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testShaderStages( test::TestCounts & testCounts )
+	TEST( Base, ShaderStages )
 	{
 		astTestBegin( "testShaderStages" );
 
@@ -226,7 +228,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testEntryPoints( test::TestCounts & testCounts )
+	TEST( Base, EntryPoints )
 	{
 		astTestBegin( "testEntryPoints" );
 
@@ -277,7 +279,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBuiltins( test::TestCounts & testCounts )
+	TEST( Base, Builtins )
 	{
 		astTestBegin( "testBuiltins" );
 
@@ -580,7 +582,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testAllocator( test::TestCounts & testCounts )
+	TEST( Base, Allocator )
 	{
 		astTestBegin( "testAllocator" );
 		if ( astOn( "Allocation block move" ) )
@@ -920,7 +922,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testBoInfo( test::TestCounts & testCounts )
+	TEST( Base, BoInfo )
 	{
 		astTestBegin( "testBoInfo" );
 		if ( astOn( "Base construction" ) )
@@ -953,7 +955,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testAccStructInfo( test::TestCounts & testCounts )
+	TEST( Base, AccStructInfo )
 	{
 		astTestBegin( "testAccStructInfo" );
 		if ( astOn( "Base construction" ) )
@@ -978,7 +980,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testShader( test::TestCounts & testCounts )
+	TEST( Base, Shader )
 	{
 		astTestBegin( "testShader" );
 		if ( astOn( "Move constructor" ) )
@@ -1158,7 +1160,7 @@ namespace
 		astTestEnd()
 	}
 
-	void testShaderBuilder( test::TestCounts & testCounts )
+	TEST( Base, ShaderBuilder )
 	{
 		astTestBegin( "testShaderBuilder" );
 		if ( astOn( "Base" ) )
@@ -1728,20 +1730,3 @@ namespace
 		astTestEnd()
 	}
 }
-
-astTestSuiteMain( TestASTBase )
-{
-	astTestSuiteBegin()
-	testMemorySemantics( testCounts );
-	testShaderStages( testCounts );
-	testEntryPoints( testCounts );
-	testBuiltins( testCounts );
-	testAllocator( testCounts );
-	testBoInfo( testCounts );
-	testAccStructInfo( testCounts );
-	testShader( testCounts );
-	testShaderBuilder( testCounts );
-	astTestSuiteEnd()
-}
-
-astTestSuiteLaunch( TestASTBase )

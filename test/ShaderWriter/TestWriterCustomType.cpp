@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #include <ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp>
@@ -102,6 +101,22 @@ namespace
 		Normals,
 		Both,
 	};
+	std::string getFlagsName( Flags f )
+	{
+		switch ( f )
+		{
+		case Flags::None:
+			return "None";
+		case Flags::Positions:
+			return "Positions";
+		case Flags::Normals:
+			return "Normals";
+		case Flags::Both:
+			return "Both";
+		default:
+			return "Undefined";
+		}
+	}
 
 	struct Parameterized
 		: public sdw::StructInstance
@@ -170,9 +185,9 @@ namespace
 
 namespace
 {
-	void singleLightUbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, singleLightUbo )
 	{
-		astTestBegin( "singleLightUbo" );
+		sdwTestBegin( "singleLightUbo" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -207,12 +222,12 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 		
-	void lightArrayUbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, lightArrayUbo )
 	{
-		astTestBegin( "lightArrayUbo" );
+		sdwTestBegin( "lightArrayUbo" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -231,12 +246,12 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void singleLightSsbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, singleLightSsbo )
 	{
-		astTestBegin( "singleLightSsbo" );
+		sdwTestBegin( "singleLightSsbo" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -271,12 +286,12 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void lightArraySsbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, lightArraySsbo )
 	{
-		astTestBegin( "lightArraySsbo" );
+		sdwTestBegin( "lightArraySsbo" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -295,12 +310,12 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void arraySsboLight( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, arraySsboLight )
 	{
-		astTestBegin( "arraySsboLight" );
+		sdwTestBegin( "arraySsboLight" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -315,14 +330,14 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void singleLight2Ubo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, singleLight2Ubo )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "singleLight2Ubo" );
+		sdwTestBegin( "singleLight2Ubo" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -357,16 +372,16 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 		
-	void light2ArrayUbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, light2ArrayUbo )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "light2ArrayUbo" );
+		sdwTestBegin( "light2ArrayUbo" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -385,16 +400,16 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	void singleLight2Ssbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, singleLight2Ssbo )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "singleLight2Ssbo" );
+		sdwTestBegin( "singleLight2Ssbo" );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -429,16 +444,16 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	void light2ArraySsbo( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, light2ArraySsbo )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "light2ArraySsbo" );
+		sdwTestBegin( "light2ArraySsbo" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -457,16 +472,16 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	void arraySsboLight2( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, arraySsboLight2 )
 	{
 #if SDW_EnableStructHelper
 
-		astTestBegin( "arraySsboLight2" );
+		sdwTestBegin( "arraySsboLight2" );
 		using namespace sdw;
 
 		sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -481,15 +496,20 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 
 #endif
 	}
 
-	void singleParamUbo( test::sdw_test::TestCounts & testCounts
-		, Flags flags )
+	struct FlagsParam
+		: public testing::TestWithParam< Flags >
 	{
-		astTestBegin( "singleParamUbo" + std::to_string( uint32_t( flags ) ) );
+	};
+
+	TEST_P( FlagsParam, singleParamUbo )
+	{
+		auto flags = GetParam();
+		sdwTestBegin( "singleParamUbo" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -525,13 +545,13 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 		
-	void paramArrayUbo( test::sdw_test::TestCounts & testCounts
-		, Flags flags )
+	TEST_P( FlagsParam, paramArrayUbo )
 	{
-		astTestBegin( "paramArrayUbo" + std::to_string( uint32_t( flags ) ) );
+		auto flags = GetParam();
+		sdwTestBegin( "paramArrayUbo" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -549,13 +569,13 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void singleParamSsbo( test::sdw_test::TestCounts & testCounts
-		, Flags flags )
+	TEST_P( FlagsParam, singleParamSsbo )
 	{
-		astTestBegin( "singleParamSsbo" + std::to_string( uint32_t( flags ) ) );
+		auto flags = GetParam();
+		sdwTestBegin( "singleParamSsbo" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 		sdw::ShaderArray shaders;
 		{
@@ -592,13 +612,17 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
+	INSTANTIATE_TEST_SUITE_P( singleParamSsbo
+		, FlagsParam
+		, testing::Values( Flags::Positions, Flags::Normals, Flags::Both )
+		, astTestNameP( Flags, getFlagsName ) );
 
-	void paramArraySsbo( test::sdw_test::TestCounts & testCounts
-		, Flags flags )
+	TEST_P( FlagsParam, paramArraySsbo )
 	{
-		astTestBegin( "paramArraySsbo" + std::to_string( uint32_t( flags ) ) );
+		auto flags = GetParam();
+		sdwTestBegin( "paramArraySsbo" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -616,13 +640,17 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
+	INSTANTIATE_TEST_SUITE_P( paramArraySsbo
+		, FlagsParam
+		, testing::Values( Flags::Positions, Flags::Normals, Flags::Both )
+		, astTestNameP( Flags, getFlagsName ) );
 
-	void arraySsboParam( test::sdw_test::TestCounts & testCounts
-		, Flags flags )
+	TEST_P( FlagsParam, arraySsboParam )
 	{
-		astTestBegin( "arraySsboParam" + std::to_string( uint32_t( flags ) ) );
+		auto flags = GetParam();
+		sdwTestBegin( "arraySsboParam" + std::to_string( uint32_t( flags ) ) );
 		using namespace sdw;
 
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -642,43 +670,12 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
+	INSTANTIATE_TEST_SUITE_P( arraySsboParam
+		, FlagsParam
+		, testing::Values( Flags::Positions, Flags::Normals, Flags::Both )
+		, astTestNameP( Flags, getFlagsName ) );
 }
 
 sdwTestSuiteMain( TestWriterCustomType )
-{
-	sdwTestSuiteBegin();
-	singleLightUbo( testCounts );
-	lightArrayUbo( testCounts );
-	singleLightSsbo( testCounts );
-	lightArraySsbo( testCounts );
-	arraySsboLight( testCounts );
-
-	singleLight2Ubo( testCounts );
-	light2ArrayUbo( testCounts );
-	singleLight2Ssbo( testCounts );
-	light2ArraySsbo( testCounts );
-	arraySsboLight2( testCounts );
-
-	singleParamUbo( testCounts, Flags::Positions );
-	paramArrayUbo( testCounts, Flags::Positions );
-	singleParamSsbo( testCounts, Flags::Positions );
-	paramArraySsbo( testCounts, Flags::Positions );
-	arraySsboParam( testCounts, Flags::Positions );
-
-	singleParamUbo( testCounts, Flags::Normals );
-	paramArrayUbo( testCounts, Flags::Normals );
-	singleParamSsbo( testCounts, Flags::Normals );
-	paramArraySsbo( testCounts, Flags::Normals );
-	arraySsboParam( testCounts, Flags::Normals );
-
-	singleParamUbo( testCounts, Flags::Both );
-	paramArrayUbo( testCounts, Flags::Both );
-	singleParamSsbo( testCounts, Flags::Both );
-	paramArraySsbo( testCounts, Flags::Both );
-	arraySsboParam( testCounts, Flags::Both );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterCustomType )

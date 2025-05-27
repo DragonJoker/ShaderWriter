@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -324,9 +323,9 @@ namespace
 		sdw::Vec3 wpB111;
 	};
 
-	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, noSpecificIO )
 	{
-		astTestBegin( "noSpecificIO" );
+		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -356,12 +355,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInputOnly )
 	{
-		astTestBegin( "specificMemberInputOnly" );
+		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -385,12 +384,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInputOnly )
 	{
-		astTestBegin( "specificGlobalInputOnly" );
+		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -415,12 +414,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInputOnly )
 	{
-		astTestBegin( "specificMixedInputOnly" );
+		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -446,12 +445,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberOutputOnly )
 	{
-		astTestBegin( "specificMemberOutputOnly" );
+		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -475,12 +474,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalOutputOnly )
 	{
-		astTestBegin( "specificGlobalOutputOnly" );
+		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -505,12 +504,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedOutputOnly )
 	{
-		astTestBegin( "specificMixedOutputOnly" );
+		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -536,12 +535,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInAndOut )
 	{
-		astTestBegin( "specificMemberInAndOut" );
+		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -566,12 +565,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInAndOut )
 	{
-		astTestBegin( "specificGlobalInAndOut" );
+		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -599,12 +598,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInAndOut )
 	{
-		astTestBegin( "specificMixedInAndOut" );
+		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -635,12 +634,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void noSpecificIOPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, noSpecificIOPatch )
 	{
-		astTestBegin( "noSpecificIOPatch" );
+		sdwTestBegin( "noSpecificIOPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -667,12 +666,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInputOnlyPatch )
 	{
-		astTestBegin( "specificMemberInputOnlyPatch" );
+		sdwTestBegin( "specificMemberInputOnlyPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -699,12 +698,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInputOnlyPatch )
 	{
-		astTestBegin( "specificGlobalInputOnlyPatch" );
+		sdwTestBegin( "specificGlobalInputOnlyPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -732,12 +731,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInputOnlyPatch )
 	{
-		astTestBegin( "specificMixedInputOnlyPatch" );
+		sdwTestBegin( "specificMixedInputOnlyPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -766,12 +765,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberOutputOnlyPatch )
 	{
-		astTestBegin( "specificMemberOutputOnlyPatch" );
+		sdwTestBegin( "specificMemberOutputOnlyPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -798,12 +797,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalOutputOnlyPatch )
 	{
-		astTestBegin( "specificGlobalOutputOnlyPatch" );
+		sdwTestBegin( "specificGlobalOutputOnlyPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -831,12 +830,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedOutputOnlyPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedOutputOnlyPatch )
 	{
-		astTestBegin( "specificMixedOutputOnlyPatch" );
+		sdwTestBegin( "specificMixedOutputOnlyPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -865,12 +864,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInAndOutPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInAndOutPatch )
 	{
-		astTestBegin( "specificMemberInAndOutPatch" );
+		sdwTestBegin( "specificMemberInAndOutPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -898,12 +897,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInAndOutPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInAndOutPatch )
 	{
-		astTestBegin( "specificGlobalInAndOutPatch" );
+		sdwTestBegin( "specificGlobalInAndOutPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -934,12 +933,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInAndOutPatch( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInAndOutPatch )
 	{
-		astTestBegin( "specificMixedInAndOutPatch" );
+		sdwTestBegin( "specificMixedInAndOutPatch" );
 		using namespace sdw;
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
@@ -973,12 +972,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void tessellationEvaluation( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, tessellationEvaluation )
 	{
-		astTestBegin( "tessellationEvaluation" );
+		sdwTestBegin( "tessellationEvaluation" );
 		using namespace sdw;
 		{
 			static uint32_t constexpr maxPoints = 3u;
@@ -1104,39 +1103,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterTessellationEvaluationShader )
-{
-	sdwTestSuiteBegin();
-
-	noSpecificIO( testCounts );
-	specificMemberInputOnly( testCounts );
-	specificGlobalInputOnly( testCounts );
-	specificMixedInputOnly( testCounts );
-	specificMemberOutputOnly( testCounts );
-	specificGlobalOutputOnly( testCounts );
-	specificMixedOutputOnly( testCounts );
-	specificMemberInAndOut( testCounts );
-	specificGlobalInAndOut( testCounts );
-	specificMixedInAndOut( testCounts );
-
-	noSpecificIOPatch( testCounts );
-	specificMemberInputOnlyPatch( testCounts );
-	specificGlobalInputOnlyPatch( testCounts );
-	specificMixedInputOnlyPatch( testCounts );
-	specificMemberOutputOnlyPatch( testCounts );
-	specificGlobalOutputOnlyPatch( testCounts );
-	specificMixedOutputOnlyPatch( testCounts );
-	specificMemberInAndOutPatch( testCounts );
-	specificGlobalInAndOutPatch( testCounts );
-	specificMixedInAndOutPatch( testCounts );
-
-	tessellationEvaluation( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterTessellationEvaluationShader )

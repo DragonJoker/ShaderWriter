@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma warning( disable:5245 )
@@ -30,7 +29,7 @@ namespace
 	void testDegreesT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testDegrees" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -52,22 +51,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testDegrees( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testDegrees )
 	{
+		sdwTestBegin( "testDegrees" );
 		testDegreesT< sdw::Float >( "1F", testCounts );
 		testDegreesT< sdw::Vec2 >( "2F", testCounts );
 		testDegreesT< sdw::Vec3 >( "3F", testCounts );
 		testDegreesT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testRadiansT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testRadians" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -89,22 +89,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testRadians( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testRadians )
 	{
+		sdwTestBegin( "testRadians" );
 		testRadiansT< sdw::Float >( "1F", testCounts );
 		testRadiansT< sdw::Vec2 >( "2F", testCounts );
 		testRadiansT< sdw::Vec3 >( "3F", testCounts );
 		testRadiansT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testCoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testCosh" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -126,22 +127,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testCosh( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testCosh )
 	{
+		sdwTestBegin( "testCosh" );
 		testCoshT< sdw::Float >( "1F", testCounts );
 		testCoshT< sdw::Vec2 >( "2F", testCounts );
 		testCoshT< sdw::Vec3 >( "3F", testCounts );
 		testCoshT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSinhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSinh" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -163,22 +165,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testSinh( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSinh )
 	{
+		sdwTestBegin( "testSinh" );
 		testSinhT< sdw::Float >( "1F", testCounts );
 		testSinhT< sdw::Vec2 >( "2F", testCounts );
 		testSinhT< sdw::Vec3 >( "3F", testCounts );
 		testSinhT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testTanhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testTanh" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -200,22 +203,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testTanh( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testTanh )
 	{
+		sdwTestBegin( "testTanh" );
 		testTanhT< sdw::Float >( "1F", testCounts );
 		testTanhT< sdw::Vec2 >( "2F", testCounts );
 		testTanhT< sdw::Vec3 >( "3F", testCounts );
 		testTanhT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testCosT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testCos" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -237,22 +241,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testCos( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testCos )
 	{
+		sdwTestBegin( "testCos" );
 		testCosT< sdw::Float >( "1F", testCounts );
 		testCosT< sdw::Vec2 >( "2F", testCounts );
 		testCosT< sdw::Vec3 >( "3F", testCounts );
 		testCosT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSin" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -274,22 +279,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testSin( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSin )
 	{
+		sdwTestBegin( "testSin" );
 		testSinT< sdw::Float >( "1F", testCounts );
 		testSinT< sdw::Vec2 >( "2F", testCounts );
 		testSinT< sdw::Vec3 >( "3F", testCounts );
 		testSinT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testTanT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testTan" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -311,22 +317,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testTan( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testTan )
 	{
+		sdwTestBegin( "testTan" );
 		testTanT< sdw::Float >( "1F", testCounts );
 		testTanT< sdw::Vec2 >( "2F", testCounts );
 		testTanT< sdw::Vec3 >( "3F", testCounts );
 		testTanT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testACosT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testACos" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -348,22 +355,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testACos( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testACos )
 	{
+		sdwTestBegin( "testACos" );
 		testACosT< sdw::Float >( "1F", testCounts );
 		testACosT< sdw::Vec2 >( "2F", testCounts );
 		testACosT< sdw::Vec3 >( "3F", testCounts );
 		testACosT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testASinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testASin" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -385,22 +393,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testASin( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testASin )
 	{
+		sdwTestBegin( "testASin" );
 		testASinT< sdw::Float >( "1F", testCounts );
 		testASinT< sdw::Vec2 >( "2F", testCounts );
 		testASinT< sdw::Vec3 >( "3F", testCounts );
 		testASinT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testATanT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testATan" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -422,22 +431,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testATan( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testATan )
 	{
+		sdwTestBegin( "testATan" );
 		testATanT< sdw::Float >( "1F", testCounts );
 		testATanT< sdw::Vec2 >( "2F", testCounts );
 		testATanT< sdw::Vec3 >( "3F", testCounts );
 		testATanT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testATan2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testATan2" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -461,22 +471,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testATan2( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testATan2 )
 	{
+		sdwTestBegin( "testATan2" );
 		testATan2T< sdw::Float >( "1F", testCounts );
 		testATan2T< sdw::Vec2 >( "2F", testCounts );
 		testATan2T< sdw::Vec3 >( "3F", testCounts );
 		testATan2T< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testACoshT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testACosh" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -498,22 +509,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testACosh( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testACosh )
 	{
+		sdwTestBegin( "testACosh" );
 		testACoshT< sdw::Float >( "1F", testCounts );
 		testACoshT< sdw::Vec2 >( "2F", testCounts );
 		testACoshT< sdw::Vec3 >( "3F", testCounts );
 		testACoshT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testASinhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testASinh" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -535,22 +547,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testASinh( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testASinh )
 	{
+		sdwTestBegin( "testASinh" );
 		testASinhT< sdw::Float >( "1F", testCounts );
 		testASinhT< sdw::Vec2 >( "2F", testCounts );
 		testASinhT< sdw::Vec3 >( "3F", testCounts );
 		testASinhT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testATanhT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testATanh" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -572,22 +585,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testATanh( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testATanh )
 	{
+		sdwTestBegin( "testATanh" );
 		testATanhT< sdw::Float >( "1F", testCounts );
 		testATanhT< sdw::Vec2 >( "2F", testCounts );
 		testATanhT< sdw::Vec3 >( "3F", testCounts );
 		testATanhT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testPowT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testPow" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -611,22 +625,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testPow( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testPow )
 	{
+		sdwTestBegin( "testPow" );
 		testPowT< sdw::Float >( "1F", testCounts );
 		testPowT< sdw::Vec2 >( "2F", testCounts );
 		testPowT< sdw::Vec3 >( "3F", testCounts );
 		testPowT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testExpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testExp" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -648,22 +663,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testExp( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testExp )
 	{
+		sdwTestBegin( "testExp" );
 		testExpT< sdw::Float >( "1F", testCounts );
 		testExpT< sdw::Vec2 >( "2F", testCounts );
 		testExpT< sdw::Vec3 >( "3F", testCounts );
 		testExpT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testLogT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testLog" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -685,22 +701,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testLog( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testLog )
 	{
+		sdwTestBegin( "testLog" );
 		testLogT< sdw::Float >( "1F", testCounts );
 		testLogT< sdw::Vec2 >( "2F", testCounts );
 		testLogT< sdw::Vec3 >( "3F", testCounts );
 		testLogT< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testExp2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testExp2_" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -722,22 +739,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testExp2( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testExp2 )
 	{
+		sdwTestBegin( "testExp2" );
 		testExp2T< sdw::Float >( "1F", testCounts );
 		testExp2T< sdw::Vec2 >( "2F", testCounts );
 		testExp2T< sdw::Vec3 >( "3F", testCounts );
 		testExp2T< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testLog2T( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testLog2_" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -759,22 +777,23 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testLog2( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testLog2 )
 	{
+		sdwTestBegin( "testLog2" );
 		testLog2T< sdw::Float >( "1F", testCounts );
 		testLog2T< sdw::Vec2 >( "2F", testCounts );
 		testLog2T< sdw::Vec3 >( "3F", testCounts );
 		testLog2T< sdw::Vec4 >( "4F", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSqrtT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSqrt" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -796,11 +815,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testSqrt( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSqrt )
 	{
+		sdwTestBegin( "testSqrt" );
 		testSqrtT< sdw::Float >( "1F", testCounts );
 		testSqrtT< sdw::Vec2 >( "2F", testCounts );
 		testSqrtT< sdw::Vec3 >( "3F", testCounts );
@@ -809,13 +828,14 @@ namespace
 		testSqrtT< sdw::DVec2 >( "2D", testCounts );
 		testSqrtT< sdw::DVec3 >( "3D", testCounts );
 		testSqrtT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testInverseSqrtT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testInverseSqrt" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -835,11 +855,11 @@ namespace
 				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
-		astTestEnd();
 	}
 
-	void testInverseSqrt( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testInverseSqrt )
 	{
+		sdwTestBegin( "testInverseSqrt" );
 		testInverseSqrtT< sdw::Float >( "1F", testCounts );
 		testInverseSqrtT< sdw::Vec2 >( "2F", testCounts );
 		testInverseSqrtT< sdw::Vec3 >( "3F", testCounts );
@@ -848,13 +868,14 @@ namespace
 		testInverseSqrtT< sdw::DVec2 >( "2D", testCounts );
 		testInverseSqrtT< sdw::DVec3 >( "3D", testCounts );
 		testInverseSqrtT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testAbsT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testAbs" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -876,11 +897,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testAbs( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testAbs )
 	{
+		sdwTestBegin( "testAbs" );
 		testAbsT< sdw::Float >( "1F", testCounts );
 		testAbsT< sdw::Vec2 >( "2F", testCounts );
 		testAbsT< sdw::Vec3 >( "3F", testCounts );
@@ -893,13 +914,14 @@ namespace
 		testAbsT< sdw::IVec2 >( "2I", testCounts );
 		testAbsT< sdw::IVec3 >( "3I", testCounts );
 		testAbsT< sdw::IVec4 >( "4I", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSignT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSign" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -921,11 +943,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testSign( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSign )
 	{
+		sdwTestBegin( "testSign" );
 		testSignT< sdw::Float >( "1F", testCounts );
 		testSignT< sdw::Vec2 >( "2F", testCounts );
 		testSignT< sdw::Vec3 >( "3F", testCounts );
@@ -938,13 +960,14 @@ namespace
 		testSignT< sdw::IVec2 >( "2I", testCounts );
 		testSignT< sdw::IVec3 >( "3I", testCounts );
 		testSignT< sdw::IVec4 >( "4I", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testFloorT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testFloor" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -966,11 +989,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testFloor( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testFloor )
 	{
+		sdwTestBegin( "testFloor" );
 		testFloorT< sdw::Float >( "1F", testCounts );
 		testFloorT< sdw::Vec2 >( "2F", testCounts );
 		testFloorT< sdw::Vec3 >( "3F", testCounts );
@@ -979,13 +1002,14 @@ namespace
 		testFloorT< sdw::DVec2 >( "2D", testCounts );
 		testFloorT< sdw::DVec3 >( "3D", testCounts );
 		testFloorT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testTruncT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testTrunc" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1007,11 +1031,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testTrunc( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testTrunc )
 	{
+		sdwTestBegin( "testTrunc" );
 		testTruncT< sdw::Float >( "1F", testCounts );
 		testTruncT< sdw::Vec2 >( "2F", testCounts );
 		testTruncT< sdw::Vec3 >( "3F", testCounts );
@@ -1020,13 +1044,14 @@ namespace
 		testTruncT< sdw::DVec2 >( "2D", testCounts );
 		testTruncT< sdw::DVec3 >( "3D", testCounts );
 		testTruncT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testRoundT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testRound" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1048,11 +1073,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testRound( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testRound )
 	{
+		sdwTestBegin( "testRound" );
 		testRoundT< sdw::Float >( "1F", testCounts );
 		testRoundT< sdw::Vec2 >( "2F", testCounts );
 		testRoundT< sdw::Vec3 >( "3F", testCounts );
@@ -1061,13 +1086,14 @@ namespace
 		testRoundT< sdw::DVec2 >( "2D", testCounts );
 		testRoundT< sdw::DVec3 >( "3D", testCounts );
 		testRoundT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testRoundEvenT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testRoundEven" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1089,11 +1115,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testRoundEven( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testRoundEven )
 	{
+		sdwTestBegin( "testRoundEven" );
 		testRoundEvenT< sdw::Float >( "1F", testCounts );
 		testRoundEvenT< sdw::Vec2 >( "2F", testCounts );
 		testRoundEvenT< sdw::Vec3 >( "3F", testCounts );
@@ -1102,13 +1128,14 @@ namespace
 		testRoundEvenT< sdw::DVec2 >( "2D", testCounts );
 		testRoundEvenT< sdw::DVec3 >( "3D", testCounts );
 		testRoundEvenT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testCeilT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testCeil" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1130,11 +1157,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testCeil( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testCeil )
 	{
+		sdwTestBegin( "testCeil" );
 		testCeilT< sdw::Float >( "1F", testCounts );
 		testCeilT< sdw::Vec2 >( "2F", testCounts );
 		testCeilT< sdw::Vec3 >( "3F", testCounts );
@@ -1143,13 +1170,14 @@ namespace
 		testCeilT< sdw::DVec2 >( "2D", testCounts );
 		testCeilT< sdw::DVec3 >( "3D", testCounts );
 		testCeilT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testFractT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testFract" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1171,11 +1199,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testFract( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testFract )
 	{
+		sdwTestBegin( "testFract" );
 		testFractT< sdw::Float >( "1F", testCounts );
 		testFractT< sdw::Vec2 >( "2F", testCounts );
 		testFractT< sdw::Vec3 >( "3F", testCounts );
@@ -1184,13 +1212,14 @@ namespace
 		testFractT< sdw::DVec2 >( "2D", testCounts );
 		testFractT< sdw::DVec3 >( "3D", testCounts );
 		testFractT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testModT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testMod" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1214,11 +1243,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testMod( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testMod )
 	{
+		sdwTestBegin( "testMod" );
 		testModT< sdw::Float >( "1F", testCounts );
 		testModT< sdw::Vec2 >( "2F", testCounts );
 		testModT< sdw::Vec3 >( "3F", testCounts );
@@ -1227,13 +1256,14 @@ namespace
 		testModT< sdw::DVec2 >( "2D", testCounts );
 		testModT< sdw::DVec3 >( "3D", testCounts );
 		testModT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testMinT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testMin" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1257,11 +1287,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testMin( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testMin )
 	{
+		sdwTestBegin( "testMin" );
 		testMinT< sdw::Float >( "1F", testCounts );
 		testMinT< sdw::Vec2 >( "2F", testCounts );
 		testMinT< sdw::Vec3 >( "3F", testCounts );
@@ -1278,13 +1308,14 @@ namespace
 		testMinT< sdw::UVec2 >( "2U", testCounts );
 		testMinT< sdw::UVec3 >( "3U", testCounts );
 		testMinT< sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testMaxT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testMax" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1308,11 +1339,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testMax( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testMax )
 	{
+		sdwTestBegin( "testMax" );
 		testMaxT< sdw::Float >( "1F", testCounts );
 		testMaxT< sdw::Vec2 >( "2F", testCounts );
 		testMaxT< sdw::Vec3 >( "3F", testCounts );
@@ -1329,13 +1360,14 @@ namespace
 		testMaxT< sdw::UVec2 >( "2U", testCounts );
 		testMaxT< sdw::UVec3 >( "3U", testCounts );
 		testMaxT< sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testClampT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testClamp" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1361,11 +1393,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testClamp( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testClamp )
 	{
+		sdwTestBegin( "testClamp" );
 		testClampT< sdw::Float >( "1F", testCounts );
 		testClampT< sdw::Vec2 >( "2F", testCounts );
 		testClampT< sdw::Vec3 >( "3F", testCounts );
@@ -1374,13 +1406,14 @@ namespace
 		testClampT< sdw::DVec2 >( "2D", testCounts );
 		testClampT< sdw::DVec3 >( "3D", testCounts );
 		testClampT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testMixT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testMix" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1406,11 +1439,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testMix( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testMix )
 	{
+		sdwTestBegin( "testMix" );
 		testMixT< sdw::Float >( "1F", testCounts );
 		testMixT< sdw::Vec2 >( "2F", testCounts );
 		testMixT< sdw::Vec3 >( "3F", testCounts );
@@ -1419,13 +1452,14 @@ namespace
 		testMixT< sdw::DVec2 >( "2D", testCounts );
 		testMixT< sdw::DVec3 >( "3D", testCounts );
 		testMixT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testStepT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testStep" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1449,11 +1483,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testStep( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testStep )
 	{
+		sdwTestBegin( "testStep" );
 		testStepT< sdw::Float >( "1F", testCounts );
 		testStepT< sdw::Vec2 >( "2F", testCounts );
 		testStepT< sdw::Vec3 >( "3F", testCounts );
@@ -1462,13 +1496,14 @@ namespace
 		testStepT< sdw::DVec2 >( "2D", testCounts );
 		testStepT< sdw::DVec3 >( "3D", testCounts );
 		testStepT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testSmoothStepT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSmoothStep" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1494,11 +1529,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testSmoothStep( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSmoothStep )
 	{
+		sdwTestBegin( "testSmoothStep" );
 		testSmoothStepT< sdw::Float >( "1F", testCounts );
 		testSmoothStepT< sdw::Vec2 >( "2F", testCounts );
 		testSmoothStepT< sdw::Vec3 >( "3F", testCounts );
@@ -1507,6 +1542,7 @@ namespace
 		testSmoothStepT< sdw::DVec2 >( "2D", testCounts );
 		testSmoothStepT< sdw::DVec3 >( "3D", testCounts );
 		testSmoothStepT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1514,7 +1550,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testIsnan" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1552,11 +1588,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testIsnan( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testIsnan )
 	{
+		sdwTestBegin( "testIsnan" );
 		testIsnanT< sdw::Float, sdw::UInt >( "1F", testCounts );
 		testIsnanT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testIsnanT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
@@ -1565,6 +1601,7 @@ namespace
 		testIsnanT< sdw::DVec2, sdw::UVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testIsnanT< sdw::DVec3, sdw::UVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testIsnanT< sdw::DVec4, sdw::UVec4 >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1572,7 +1609,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testIsinf" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1610,11 +1647,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testIsinf( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testIsinf )
 	{
+		sdwTestBegin( "testIsinf" );
 		testIsinfT< sdw::Float, sdw::UInt >( "1F", testCounts );
 		testIsinfT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testIsinfT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
@@ -1623,13 +1660,14 @@ namespace
 		testIsinfT< sdw::DVec2, sdw::UVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testIsinfT< sdw::DVec3, sdw::UVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testIsinfT< sdw::DVec4, sdw::UVec4 >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testFmaT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testFma" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1655,11 +1693,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testFma( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testFma )
 	{
+		sdwTestBegin( "testFma" );
 		testFmaT< sdw::Float >( "1F", testCounts );
 		testFmaT< sdw::Vec2 >( "2F", testCounts );
 		testFmaT< sdw::Vec3 >( "3F", testCounts );
@@ -1668,13 +1706,14 @@ namespace
 		testFmaT< sdw::DVec2 >( "2D", testCounts );
 		testFmaT< sdw::DVec3 >( "3D", testCounts );
 		testFmaT< sdw::DVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testFrexpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testFrexp" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1686,8 +1725,7 @@ namespace
 				{
 					auto v = writer.declLocale< ValueT >( "v"
 						, test::getDefault< ValueT >( writer ) );
-					auto w = writer.declLocale< ValueU >( "w"
-						, test::getDefault< ValueU >( writer, 2 ) );
+					auto w = writer.declLocale< ValueU >( "w" );
 					auto result = writer.declLocale( "result"
 						, frexp( v, w ) );
 					ssbo[0].a() = result;
@@ -1698,11 +1736,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testFrexp( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testFrexp )
 	{
+		sdwTestBegin( "testFrexp" );
 		testFrexpT< sdw::Float, sdw::Int >( "1F", testCounts );
 		testFrexpT< sdw::Vec2, sdw::IVec2 >( "2F", testCounts );
 		testFrexpT< sdw::Vec3, sdw::IVec3 >( "3F", testCounts );
@@ -1711,13 +1749,14 @@ namespace
 		testFrexpT< sdw::DVec2, sdw::IVec2 >( "2D", testCounts );
 		testFrexpT< sdw::DVec3, sdw::IVec3 >( "3D", testCounts );
 		testFrexpT< sdw::DVec4, sdw::IVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testLdexpT( std::string name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testLdexp" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1741,11 +1780,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testLdexp( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testLdexp )
 	{
+		sdwTestBegin( "testLdexp" );
 		testLdexpT< sdw::Float, sdw::Int >( "1F", testCounts );
 		testLdexpT< sdw::Vec2, sdw::IVec2 >( "2F", testCounts );
 		testLdexpT< sdw::Vec3, sdw::IVec3 >( "3F", testCounts );
@@ -1754,6 +1793,7 @@ namespace
 		testLdexpT< sdw::DVec2, sdw::IVec2 >( "2D", testCounts );
 		testLdexpT< sdw::DVec3, sdw::IVec3 >( "3D", testCounts );
 		testLdexpT< sdw::DVec4, sdw::IVec4 >( "4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1761,7 +1801,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testLength" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1783,11 +1823,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testLength( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testLength )
 	{
+		sdwTestBegin( "testLength" );
 		testLengthT< sdw::Float, sdw::Float >( "1F", testCounts );
 		testLengthT< sdw::Vec2, sdw::Float >( "2F", testCounts );
 		testLengthT< sdw::Vec3, sdw::Float >( "3F", testCounts );
@@ -1796,6 +1836,7 @@ namespace
 		testLengthT< sdw::DVec2, sdw::Double >( "2D", testCounts, Compilers_NoHLSL );
 		testLengthT< sdw::DVec3, sdw::Double >( "3D", testCounts, Compilers_NoHLSL );
 		testLengthT< sdw::DVec4, sdw::Double >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1803,7 +1844,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testDistance" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1827,11 +1868,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testDistance( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testDistance )
 	{
+		sdwTestBegin( "testDistance" );
 		testDistanceT< sdw::Float, sdw::Float >( "1F", testCounts );
 		testDistanceT< sdw::Vec2, sdw::Float >( "2F", testCounts );
 		testDistanceT< sdw::Vec3, sdw::Float >( "3F", testCounts );
@@ -1840,6 +1881,7 @@ namespace
 		testDistanceT< sdw::DVec2, sdw::Double >( "2D", testCounts, Compilers_NoHLSL );
 		testDistanceT< sdw::DVec3, sdw::Double >( "3D", testCounts, Compilers_NoHLSL );
 		testDistanceT< sdw::DVec4, sdw::Double >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1847,7 +1889,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testDot" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1871,17 +1913,18 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testDot( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testDot )
 	{
+		sdwTestBegin( "testDot" );
 		testDotT< sdw::Vec2, sdw::Float >( "2F", testCounts );
 		testDotT< sdw::Vec3, sdw::Float >( "3F", testCounts );
 		testDotT< sdw::Vec4, sdw::Float >( "4F", testCounts );
 		testDotT< sdw::DVec2, sdw::Double >( "2D", testCounts, Compilers_NoHLSL );
 		testDotT< sdw::DVec3, sdw::Double >( "3D", testCounts, Compilers_NoHLSL );
 		testDotT< sdw::DVec4, sdw::Double >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
@@ -1889,7 +1932,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testCross" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1913,13 +1956,14 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testCross( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testCross )
 	{
+		sdwTestBegin( "testCross" );
 		testCrossT< sdw::Vec3 >( "3F", testCounts );
 		testCrossT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
@@ -1927,7 +1971,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testNormalize" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1949,11 +1993,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testNormalize( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testNormalize )
 	{
+		sdwTestBegin( "testNormalize" );
 		testNormalizeT< sdw::Float >( "1F", testCounts );
 		testNormalizeT< sdw::Vec2 >( "2F", testCounts );
 		testNormalizeT< sdw::Vec3 >( "3F", testCounts );
@@ -1962,6 +2006,7 @@ namespace
 		testNormalizeT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testNormalizeT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testNormalizeT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
@@ -1969,7 +2014,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testFaceForward" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -1995,11 +2040,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testFaceForward( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testFaceForward )
 	{
+		sdwTestBegin( "testFaceForward" );
 		testFaceForwardT< sdw::Float >( "1F", testCounts );
 		testFaceForwardT< sdw::Vec2 >( "2F", testCounts );
 		testFaceForwardT< sdw::Vec3 >( "3F", testCounts );
@@ -2008,6 +2053,7 @@ namespace
 		testFaceForwardT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testFaceForwardT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testFaceForwardT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
@@ -2015,7 +2061,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testReflect" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2039,11 +2085,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testReflect( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testReflect )
 	{
+		sdwTestBegin( "testReflect" );
 		testReflectT< sdw::Float >( "1F", testCounts );
 		testReflectT< sdw::Vec2 >( "2F", testCounts );
 		testReflectT< sdw::Vec3 >( "3F", testCounts );
@@ -2052,6 +2098,7 @@ namespace
 		testReflectT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testReflectT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testReflectT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
@@ -2059,7 +2106,7 @@ namespace
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testRefract" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2085,11 +2132,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testRefract( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testRefract )
 	{
+		sdwTestBegin( "testRefract" );
 		testRefractT< sdw::Float >( "1F", testCounts );
 		testRefractT< sdw::Vec2 >( "2F", testCounts );
 		testRefractT< sdw::Vec3 >( "3F", testCounts );
@@ -2098,13 +2145,14 @@ namespace
 		testRefractT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testRefractT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testRefractT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testMatrixCompMultT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testMatrixCompMult" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2128,11 +2176,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testMatrixCompMult( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testMatrixCompMult )
 	{
+		sdwTestBegin( "testMatrixCompMult" );
 		testMatrixCompMultT< sdw::Mat2x2 >( "2x2F", testCounts );
 		testMatrixCompMultT< sdw::Mat2x3 >( "2x3F", testCounts );
 		testMatrixCompMultT< sdw::Mat2x4 >( "2x4F", testCounts );
@@ -2151,13 +2199,14 @@ namespace
 		testMatrixCompMultT< sdw::DMat4x2 >( "4x2D", testCounts );
 		testMatrixCompMultT< sdw::DMat4x3 >( "4x3D", testCounts );
 		testMatrixCompMultT< sdw::DMat4x4 >( "4x4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename LhsT, typename RhsT, typename MatT >
 	void testOuterProductT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testOuterProduct" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2181,11 +2230,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testOuterProduct( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testOuterProduct )
 	{
+		sdwTestBegin( "testOuterProduct" );
 		testOuterProductT< sdw::Vec2, sdw::Vec2, sdw::Mat2x2 >( "2x2F", testCounts );
 		testOuterProductT< sdw::Vec2, sdw::Vec3, sdw::Mat3x2 >( "2x3F", testCounts );
 		testOuterProductT< sdw::Vec2, sdw::Vec4, sdw::Mat4x2 >( "2x4F", testCounts );
@@ -2204,18 +2253,19 @@ namespace
 		testOuterProductT< sdw::DVec4, sdw::DVec2, sdw::DMat2x4 >( "4x2D", testCounts );
 		testOuterProductT< sdw::DVec4, sdw::DVec3, sdw::DMat3x4 >( "4x3D", testCounts );
 		testOuterProductT< sdw::DVec4, sdw::DVec4, sdw::DMat4x4 >( "4x4D", testCounts );
+		sdwTestEnd();
 	}
 
-	template< typename ValueT >
+	template< typename ValueT, typename ValueU >
 	void testTransposeT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testTranspose" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto ssbo = writer.declArrayStorageBuffer< ValuesT< ValueT > >( "ssbo", 0u, 0u );
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT< ValueU > >( "ssbo", 0u, 0u );
 
 			writer.implementMainT< VoidT >( 16u
 				, [&]( ComputeIn in )
@@ -2232,42 +2282,43 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testTranspose( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testTranspose )
 	{
-		testTransposeT< sdw::Mat2x2 >( "2x2F", testCounts );
-		testTransposeT< sdw::Mat2x3 >( "2x3F", testCounts );
-		testTransposeT< sdw::Mat2x4 >( "2x4F", testCounts );
-		testTransposeT< sdw::Mat3x2 >( "3x2F", testCounts );
-		testTransposeT< sdw::Mat3x3 >( "3x3F", testCounts );
-		testTransposeT< sdw::Mat3x4 >( "3x4F", testCounts );
-		testTransposeT< sdw::Mat4x2 >( "4x2F", testCounts );
-		testTransposeT< sdw::Mat4x3 >( "4x3F", testCounts );
-		testTransposeT< sdw::Mat4x4 >( "4x4F", testCounts );
-		testTransposeT< sdw::DMat2x2 >( "2x2D", testCounts );
-		testTransposeT< sdw::DMat2x3 >( "2x3D", testCounts );
-		testTransposeT< sdw::DMat2x4 >( "2x4D", testCounts );
-		testTransposeT< sdw::DMat3x2 >( "3x2D", testCounts );
-		testTransposeT< sdw::DMat3x3 >( "3x3D", testCounts );
-		testTransposeT< sdw::DMat3x4 >( "3x4D", testCounts );
-		testTransposeT< sdw::DMat4x2 >( "4x2D", testCounts );
-		testTransposeT< sdw::DMat4x3 >( "4x3D", testCounts );
-		testTransposeT< sdw::DMat4x4 >( "4x4D", testCounts );
+		sdwTestBegin( "testTranspose" );
+		testTransposeT< sdw::Mat2x2, sdw::Mat2x2 >( "2x2F", testCounts );
+		testTransposeT< sdw::Mat2x3, sdw::Mat3x2 >( "2x3F", testCounts );
+		testTransposeT< sdw::Mat2x4, sdw::Mat4x2 >( "2x4F", testCounts );
+		testTransposeT< sdw::Mat3x2, sdw::Mat2x3 >( "3x2F", testCounts );
+		testTransposeT< sdw::Mat3x3, sdw::Mat3x3 >( "3x3F", testCounts );
+		testTransposeT< sdw::Mat3x4, sdw::Mat4x3 >( "3x4F", testCounts );
+		testTransposeT< sdw::Mat4x2, sdw::Mat2x4 >( "4x2F", testCounts );
+		testTransposeT< sdw::Mat4x3, sdw::Mat3x4 >( "4x3F", testCounts );
+		testTransposeT< sdw::Mat4x4, sdw::Mat4x4 >( "4x4F", testCounts );
+		testTransposeT< sdw::DMat2x2, sdw::DMat2x2 >( "2x2D", testCounts );
+		testTransposeT< sdw::DMat2x3, sdw::DMat3x2 >( "2x3D", testCounts );
+		testTransposeT< sdw::DMat2x4, sdw::DMat4x2 >( "2x4D", testCounts );
+		testTransposeT< sdw::DMat3x2, sdw::DMat2x3 >( "3x2D", testCounts );
+		testTransposeT< sdw::DMat3x3, sdw::DMat3x3 >( "3x3D", testCounts );
+		testTransposeT< sdw::DMat3x4, sdw::DMat4x3 >( "3x4D", testCounts );
+		testTransposeT< sdw::DMat4x2, sdw::DMat2x4 >( "4x2D", testCounts );
+		testTransposeT< sdw::DMat4x3, sdw::DMat3x4 >( "4x3D", testCounts );
+		testTransposeT< sdw::DMat4x4, sdw::DMat4x4 >( "4x4D", testCounts );
+		sdwTestEnd();
 	}
 
-	template< typename ValueT >
+	template< typename ValueT, typename ValueU >
 	void testDeterminantT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts
 		, test::Compilers const & compilers = CurrentCompilers )
 	{
-		astTestBegin( "testDeterminant" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto ssbo = writer.declArrayStorageBuffer< ValuesT< ValueT > >( "ssbo", 0u, 0u );
+			auto ssbo = writer.declArrayStorageBuffer< ValuesT< ValueU > >( "ssbo", 0u, 0u );
 
 			writer.implementMainT< VoidT >( 16u
 				, [&]( ComputeIn in )
@@ -2284,24 +2335,25 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testDeterminant( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testDeterminant )
 	{
-		testDeterminantT< sdw::Mat2x2 >( "2x2F", testCounts );
-		testDeterminantT< sdw::Mat3x3 >( "3x3F", testCounts );
-		testDeterminantT< sdw::Mat4x4 >( "4x4F", testCounts );
-		testDeterminantT< sdw::DMat2x2 >( "2x2D", testCounts, Compilers_NoHLSL );
-		testDeterminantT< sdw::DMat3x3 >( "3x3D", testCounts, Compilers_NoHLSL );
-		testDeterminantT< sdw::DMat4x4 >( "4x4D", testCounts, Compilers_NoHLSL );
+		sdwTestBegin( "testDeterminant" );
+		testDeterminantT< sdw::Mat2x2, sdw::Float >( "2x2F", testCounts );
+		testDeterminantT< sdw::Mat3x3, sdw::Float >( "3x3F", testCounts );
+		testDeterminantT< sdw::Mat4x4, sdw::Float >( "4x4F", testCounts );
+		testDeterminantT< sdw::DMat2x2, sdw::Double >( "2x2D", testCounts, Compilers_NoHLSL );
+		testDeterminantT< sdw::DMat3x3, sdw::Double >( "3x3D", testCounts, Compilers_NoHLSL );
+		testDeterminantT< sdw::DMat4x4, sdw::Double >( "4x4D", testCounts, Compilers_NoHLSL );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testInverseT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testInverse" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2323,24 +2375,25 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testInverse( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testInverse )
 	{
+		sdwTestBegin( "testInverse" );
 		testInverseT< sdw::Mat2x2 >( "2x2F", testCounts );
 		testInverseT< sdw::Mat3x3 >( "3x3F", testCounts );
 		testInverseT< sdw::Mat4x4 >( "4x4F", testCounts );
 		testInverseT< sdw::DMat2x2 >( "2x2D", testCounts );
 		testInverseT< sdw::DMat3x3 >( "3x3D", testCounts );
 		testInverseT< sdw::DMat4x4 >( "4x4D", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testLessThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testLessThan" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2376,11 +2429,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testLessThan( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testLessThan )
 	{
+		sdwTestBegin( "testLessThan" );
 		testLessThanT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testLessThanT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
 		testLessThanT< sdw::Vec4, sdw::UVec4 >( "4F", testCounts );
@@ -2393,13 +2446,14 @@ namespace
 		testLessThanT< sdw::UVec2, sdw::UVec2 >( "2U", testCounts );
 		testLessThanT< sdw::UVec3, sdw::UVec3 >( "3U", testCounts );
 		testLessThanT< sdw::UVec4, sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testLessThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testLessThanEqual" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2435,11 +2489,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testLessThanEqual( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testLessThanEqual )
 	{
+		sdwTestBegin( "testLessThanEqual" );
 		testLessThanEqualT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testLessThanEqualT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
 		testLessThanEqualT< sdw::Vec4, sdw::UVec4 >( "4F", testCounts );
@@ -2452,13 +2506,14 @@ namespace
 		testLessThanEqualT< sdw::UVec2, sdw::UVec2 >( "2U", testCounts );
 		testLessThanEqualT< sdw::UVec3, sdw::UVec3 >( "3U", testCounts );
 		testLessThanEqualT< sdw::UVec4, sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testGreaterThanT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testGreaterThan" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2494,11 +2549,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testGreaterThan( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testGreaterThan )
 	{
+		sdwTestBegin( "testGreaterThan" );
 		testGreaterThanT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testGreaterThanT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
 		testGreaterThanT< sdw::Vec4, sdw::UVec4 >( "4F", testCounts );
@@ -2511,13 +2566,14 @@ namespace
 		testGreaterThanT< sdw::UVec2, sdw::UVec2 >( "2U", testCounts );
 		testGreaterThanT< sdw::UVec3, sdw::UVec3 >( "3U", testCounts );
 		testGreaterThanT< sdw::UVec4, sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testGreaterThanEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testGreaterThanEqual" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2553,11 +2609,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testGreaterThanEqual( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testGreaterThanEqual )
 	{
+		sdwTestBegin( "testGreaterThanEqual" );
 		testGreaterThanEqualT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testGreaterThanEqualT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
 		testGreaterThanEqualT< sdw::Vec4, sdw::UVec4 >( "4F", testCounts );
@@ -2570,13 +2626,14 @@ namespace
 		testGreaterThanEqualT< sdw::UVec2, sdw::UVec2 >( "2U", testCounts );
 		testGreaterThanEqualT< sdw::UVec3, sdw::UVec3 >( "3U", testCounts );
 		testGreaterThanEqualT< sdw::UVec4, sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testEqual" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2612,11 +2669,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testEqual( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testEqual )
 	{
+		sdwTestBegin( "testEqual" );
 		testEqualT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testEqualT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
 		testEqualT< sdw::Vec4, sdw::UVec4 >( "4F", testCounts );
@@ -2629,13 +2686,14 @@ namespace
 		testEqualT< sdw::UVec2, sdw::UVec2 >( "2U", testCounts );
 		testEqualT< sdw::UVec3, sdw::UVec3 >( "3U", testCounts );
 		testEqualT< sdw::UVec4, sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testNotEqualT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testNotEqual" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2671,11 +2729,11 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testNotEqual( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testNotEqual )
 	{
+		sdwTestBegin( "testNotEqual" );
 		testNotEqualT< sdw::Vec2, sdw::UVec2 >( "2F", testCounts );
 		testNotEqualT< sdw::Vec3, sdw::UVec3 >( "3F", testCounts );
 		testNotEqualT< sdw::Vec4, sdw::UVec4 >( "4F", testCounts );
@@ -2688,13 +2746,14 @@ namespace
 		testNotEqualT< sdw::UVec2, sdw::UVec2 >( "2U", testCounts );
 		testNotEqualT< sdw::UVec3, sdw::UVec3 >( "3U", testCounts );
 		testNotEqualT< sdw::UVec4, sdw::UVec4 >( "4U", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testAllT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testAll" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2716,21 +2775,22 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testAll( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testAll )
 	{
+		sdwTestBegin( "testAll" );
 		testAllT< sdw::BVec2 >( "2", testCounts );
 		testAllT< sdw::BVec3 >( "3", testCounts );
 		testAllT< sdw::BVec4 >( "4", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT >
 	void testAnyT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testAny" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2752,21 +2812,22 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testAny( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testAny )
 	{
+		sdwTestBegin( "testAny" );
 		testAnyT< sdw::BVec2 >( "2", testCounts );
 		testAnyT< sdw::BVec3 >( "3", testCounts );
 		testAnyT< sdw::BVec4 >( "4", testCounts );
+		sdwTestEnd();
 	}
 
 	template< typename ValueT, typename ValueU >
 	void testNotT( std::string const & name
 		, test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testNot" + name );
+		astOnStr( name );
 		using namespace sdw;
 		ShaderArray shaders;
 		{
@@ -2800,70 +2861,16 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		astTestEnd();
 	}
 
-	void testNot( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testNot )
 	{
+		sdwTestBegin( "testNot" );
 		testNotT< sdw::BVec2, sdw::UVec2 >( "2", testCounts );
 		testNotT< sdw::BVec3, sdw::UVec3 >( "3", testCounts );
 		testNotT< sdw::BVec4, sdw::UVec4 >( "4", testCounts );
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterConstantIntrinsics )
-{
-	sdwTestSuiteBegin();
-	testDegrees( testCounts );
-	testRadians( testCounts );
-	testCos( testCounts );
-	testSin( testCounts );
-	testTan( testCounts );
-	testCosh( testCounts );
-	testSinh( testCounts );
-	testTanh( testCounts );
-	testACos( testCounts );
-	testASin( testCounts );
-	testATan( testCounts );
-	testATan2( testCounts );
-	testACosh( testCounts );
-	testASinh( testCounts );
-	testATanh( testCounts );
-	testPow( testCounts );
-	testExp( testCounts );
-	testLog( testCounts );
-	testExp2( testCounts );
-	testLog2( testCounts );
-	testSqrt( testCounts );
-	testInverseSqrt( testCounts );
-	testAbs( testCounts );
-	testSign( testCounts );
-	testFloor( testCounts );
-	testTrunc( testCounts );
-	testRound( testCounts );
-	testRoundEven( testCounts );
-	testCeil( testCounts );
-	testFract( testCounts );
-	testMod( testCounts );
-	testMin( testCounts );
-	testMax( testCounts );
-	testClamp( testCounts );
-	testMix( testCounts );
-	testStep( testCounts );
-	testSmoothStep( testCounts );
-	testFma( testCounts );
-	testIsnan( testCounts );
-	testIsinf( testCounts );
-	testLessThan( testCounts );
-	testLessThanEqual( testCounts );
-	testGreaterThan( testCounts );
-	testGreaterThanEqual( testCounts );
-	testEqual( testCounts );
-	testNotEqual( testCounts );
-	testAll( testCounts );
-	testAny( testCounts );
-	testNot( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterConstantIntrinsics )

@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma warning( disable:5245 )
@@ -234,9 +233,9 @@ namespace
 		sdw::Array< sdw::Vec4 > offset;
 	};
 
-	void noSpecificIO( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, noSpecificIO )
 	{
-		astTestBegin( "noSpecificIO" );
+		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -255,12 +254,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInputOnly )
 	{
-		astTestBegin( "specificMemberInputOnly" );
+		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -274,12 +273,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInputOnly )
 	{
-		astTestBegin( "specificGlobalInputOnly" );
+		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -294,12 +293,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInputOnly )
 	{
-		astTestBegin( "specificMixedInputOnly" );
+		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -314,12 +313,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberOutputOnly )
 	{
-		astTestBegin( "specificMemberOutputOnly" );
+		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -334,12 +333,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalOutputOnly )
 	{
-		astTestBegin( "specificGlobalOutputOnly" );
+		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -355,12 +354,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedOutputOnly( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedOutputOnly )
 	{
-		astTestBegin( "specificMixedOutputOnly" );
+		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -377,12 +376,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMemberInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMemberInAndOut )
 	{
-		astTestBegin( "specificMemberInAndOut" );
+		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -397,12 +396,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificGlobalInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificGlobalInAndOut )
 	{
-		astTestBegin( "specificGlobalInAndOut" );
+		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -419,12 +418,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void specificMixedInAndOut( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, specificMixedInAndOut )
 	{
-		astTestBegin( "specificMixedInAndOut" );
+		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
@@ -442,12 +441,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void vertex( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, vertex )
 	{
-		astTestBegin( "vertex" );
+		sdwTestBegin( "vertex" );
 		using namespace sdw;
 		sdw::VertexWriter writer{ &testCounts.allocator };
 
@@ -461,7 +460,7 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
 	namespace posOff
@@ -528,9 +527,9 @@ namespace
 		using OutputPosition = PositionT< sdw::var::Flag::eShaderOutput >;
 	}
 
-	void constVectorShuffle( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, constVectorShuffle )
 	{
-		astTestBegin( "constVectorShuffle" );
+		sdwTestBegin( "constVectorShuffle" );
 		using namespace sdw;
 		{
 			using namespace sdw;
@@ -549,12 +548,12 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void smaaEdgeDetectionVS( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, smaaEdgeDetectionVS )
 	{
-		astTestBegin( "smaaEdgeDetectionVS" );
+		sdwTestBegin( "smaaEdgeDetectionVS" );
 		using namespace sdw;
 		using namespace posOff;
 		{
@@ -598,27 +597,8 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterVertexShader )
-{
-	sdwTestSuiteBegin();
-	noSpecificIO( testCounts );
-	specificMemberInputOnly( testCounts );
-	specificGlobalInputOnly( testCounts );
-	specificMixedInputOnly( testCounts );
-	specificMemberOutputOnly( testCounts );
-	specificGlobalOutputOnly( testCounts );
-	specificMixedOutputOnly( testCounts );
-	specificMemberInAndOut( testCounts );
-	specificGlobalInAndOut( testCounts );
-	specificMixedInAndOut( testCounts );
-	constVectorShuffle( testCounts );
-	vertex( testCounts );
-	smaaEdgeDetectionVS( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterVertexShader )

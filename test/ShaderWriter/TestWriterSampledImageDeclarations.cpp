@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -99,7 +98,7 @@ namespace
 		, bool MsT >
 	void testSampledBase( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledBase" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledBase" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -134,16 +133,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		void testSampledBaseArray( test::sdw_test::TestCounts & testCounts )
+	void testSampledBaseArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledBaseArray" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledBaseArray" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -178,16 +176,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		void testSampledOptDisabled( test::sdw_test::TestCounts & testCounts )
+	void testSampledOptDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledOptDisabled" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledOptDisabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -218,16 +215,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		void testSampledArrayOptDisabled( test::sdw_test::TestCounts & testCounts )
+	void testSampledArrayOptDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledArrayOptDisabled" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledArrayOptDisabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -258,16 +254,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		void testSampledOptEnabled( test::sdw_test::TestCounts & testCounts )
+	void testSampledOptEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledOptEnabled" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledOptEnabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -304,16 +299,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-		void testSampledArrayOptEnabled( test::sdw_test::TestCounts & testCounts )
+	void testSampledArrayOptEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledArrayOptEnabled" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledArrayOptEnabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -350,7 +344,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -359,7 +352,7 @@ namespace
 		, bool MsT >
 	void testSampledType( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledType" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledType" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -394,7 +387,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -403,7 +395,7 @@ namespace
 		, bool MsT >
 	void testSampledTypeArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSampledTypeArray" + getImageFormatName( FormatT ) );
+		astOnStr( "testSampledTypeArray" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -438,7 +430,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -457,58 +448,52 @@ namespace
 		testSampledTypeArray< FormatT, DimT, ArrayedT, MsT >( testCounts );
 	}
 
-	template< ast::type::ImageFormat FormatT >
-	void testSampledFormat( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, testSampledFormat )
 	{
-		if constexpr ( isFloatFormat( FormatT ) )
+		sdwTestBegin( "testSampledFormat" )
+		if constexpr ( isFloatFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
 		{
-			testSampled< FormatT, Img1DBase >( testCounts );
-			testSampled< FormatT, Img2DBase >( testCounts );
-			testSampled< FormatT, Img3DBase >( testCounts );
-			testSampled< FormatT, ImgCubeBase >( testCounts );
-			testSampled< FormatT, ImgBufferBase >( testCounts );
-			testSampled< FormatT, Img1DArrayBase >( testCounts );
-			testSampled< FormatT, Img2DArrayBase >( testCounts );
-			testSampled< FormatT, ImgCubeArrayBase >( testCounts );
-			testSampled< FormatT, Img2DMSBase >( testCounts );
-			testSampled< FormatT, Img2DMSArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase >( testCounts );
 		}
-		else if constexpr ( isSIntFormat( FormatT ) )
+		else if constexpr ( isSIntFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
 		{
-			testSampled< FormatT, Img1DBase >( testCounts );
-			testSampled< FormatT, Img2DBase >( testCounts );
-			testSampled< FormatT, Img3DBase >( testCounts );
-			testSampled< FormatT, ImgCubeBase >( testCounts );
-			testSampled< FormatT, ImgBufferBase >( testCounts );
-			testSampled< FormatT, Img1DArrayBase >( testCounts );
-			testSampled< FormatT, Img2DArrayBase >( testCounts );
-			testSampled< FormatT, ImgCubeArrayBase >( testCounts );
-			testSampled< FormatT, Img2DMSBase >( testCounts );
-			testSampled< FormatT, Img2DMSArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase >( testCounts );
 		}
-		else if constexpr ( isUIntFormat( FormatT ) )
+		else if constexpr ( isUIntFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
 		{
-			testSampled< FormatT, Img1DBase >( testCounts );
-			testSampled< FormatT, Img2DBase >( testCounts );
-			testSampled< FormatT, Img3DBase >( testCounts );
-			testSampled< FormatT, ImgCubeBase >( testCounts );
-			testSampled< FormatT, ImgBufferBase >( testCounts );
-			testSampled< FormatT, Img1DArrayBase >( testCounts );
-			testSampled< FormatT, Img2DArrayBase >( testCounts );
-			testSampled< FormatT, ImgCubeArrayBase >( testCounts );
-			testSampled< FormatT, Img2DMSBase >( testCounts );
-			testSampled< FormatT, Img2DMSArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase >( testCounts );
+			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase >( testCounts );
 		}
+		sdwTestEnd()
 	}
 }
 
 #define testName astTestConcat( TestWriterSampledImageDeclarations, SDW_TestImageFormat )
 
 sdwTestSuiteMain( testName )
-{
-	sdwTestSuiteBegin();
-	testSampledFormat< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( testName )

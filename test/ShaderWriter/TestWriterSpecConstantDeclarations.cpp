@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -6,7 +5,7 @@ namespace
 	template< typename T >
 	void testSpecConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testSpecConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testSpecConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -69,19 +68,18 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
+	}
+
+	TEST( SDW_TestSuiteName, testSpecConstantDeclarations )
+	{
+		sdwTestBegin( "testSpecConstantDeclarations" )
+		testSpecConstant< bool >( testCounts );
+		testSpecConstant< int32_t >( testCounts );
+		testSpecConstant< uint32_t >( testCounts );
+		testSpecConstant< float >( testCounts );
+		testSpecConstant< double >( testCounts );
+		sdwTestEnd()
 	}
 }
 
 sdwTestSuiteMain( TestWriterSpecConstantDeclarations )
-{
-	sdwTestSuiteBegin();
-	testSpecConstant< bool >( testCounts );
-	testSpecConstant< int32_t >( testCounts );
-	testSpecConstant< uint32_t >( testCounts );
-	testSpecConstant< float >( testCounts );
-	testSpecConstant< double >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterSpecConstantDeclarations )

@@ -7,6 +7,8 @@
 #include <ShaderAST/Type/ImageConfiguration.hpp>
 #include <ShaderAST/Type/TypeArray.hpp>
 
+#include <gtest/gtest.h>
+
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 4068 )
@@ -21,6 +23,50 @@
 #include <fstream>
 #include <sstream>
 #pragma warning( pop )
+
+#if defined( _WIN32 ) && !defined( TestCommon_STATIC )
+#	if defined( TestCommon_EXPORTS )
+#		define ASTTest_API __declspec( dllexport )
+#	else
+#		define ASTTest_API __declspec( dllimport )
+#	endif
+#else
+#	define ASTTest_API
+#endif
+
+#define astTestStringify( x )\
+	#x
+
+#define testConcatStr2( x, y )\
+	astTestStringify( x ) astTestStringify( y )
+
+#define astTestConcatStr3( x, y, z )\
+	testConcatStr2( x, y ) astTestStringify( z )
+
+#define astTestConcatStr4( x, y, z, w )\
+	astTestConcatStr3( x, y, z ) astTestStringify( w )
+
+#if defined( _MSC_VER )
+#	define astTestEval( V ) V
+
+#	define astTestConcat2( lhs, rhs )\
+	astTestEval( lhs ) ## astTestEval( rhs )
+
+#	define astTestConcat3( lhs, mid, rhs )\
+	astTestConcat2( lhs, mid ) ## astTestEval( rhs )
+
+#	define astTestConcat( lhs, rhs )\
+	astTestConcat3( lhs, _, rhs )
+#else
+#	define astTestConcat2( lhs, rhs )\
+	lhs ## rhs
+
+#	define astTestConcat( lhs, rhs )\
+	lhs ## _ ## rhs
+#endif
+
+#define astNameConcat_( X, Y ) X ## Y
+#define astNameConcat( X, Y ) astNameConcat_( X, Y )
 
 template< typename ValueT >
 inline std::string toString( ValueT const & v )
@@ -527,10 +573,10 @@ inline std::string toString( ast::stmt::Kind const & v )
 
 namespace test
 {
-	void printCDBConsole( std::string const & toLog
+	ASTTest_API void printCDBConsole( std::string const & toLog
 		, bool newLine );
-	uint32_t getCoreCount();
-	std::string getExecutableDirectory();
+	ASTTest_API uint32_t getCoreCount();
+	ASTTest_API std::string getExecutableDirectory();
 
 	struct TestCounts;
 	struct TestSuite;
@@ -574,85 +620,31 @@ namespace test
 		int32_t m_line;
 	};
 
-	struct TestStringStreams
-	{
-		TestStringStreams( std::string & sout );
-
-		std::stringstream cout;
-		std::unique_ptr< std::streambuf > tcout;
-	};
-
-	struct TestResults
-	{
-		uint32_t totalCount{ 0u };
-		uint32_t errorCount{ 0u };
-	};
-
-	struct TestBlock
-	{
-		TestBlock( TestCounts & testCounts
-			, std::string text
-			, bool indent );
-		~TestBlock()noexcept;
-
-		TestCounts & testCounts;
-		std::string text;
-		bool indent;
-	};
-
-	using TestBlockPtr = std::unique_ptr< TestBlock >;
-
 	struct TestCounts
 	{
 		friend struct TestBlock;
 
-		TestCounts( TestSuite & suite );
-		virtual ~TestCounts()noexcept;
+		ASTTest_API TestCounts();
+		ASTTest_API virtual ~TestCounts()noexcept;
 
-		void initialise();
-		TestResults cleanup();
-		void printBlock( std::string const & text );
-
-		uint32_t getTotalCount()
+		void initialise( std::string const & name )
 		{
-			return result.totalCount;
+			testName = name;
+			doInitialise();
 		}
 
-		void incTest();
-		void incErr();
-		void reportFailure( char const * const error
-			, char const * const function
-			, int line );
-		void reportFailure( char const * const error
-			, char const * const callerFunction
-			, int callerLine
-			, char const * const calleeFunction
-			, int calleeLine );
+		void cleanup()
+		{
+			doCleanup();
+			testName.clear();
+		}
 
-		std::string testName;
-		uint32_t curTestErrors{ 0u };
-		std::string sout;
-		TestStringStreams streams;
+		ASTTest_API void printBlock( std::string const & text );
+
+		std::string testName{};
 		uint32_t nextVarId{};
 		ast::ShaderAllocator allocator;
 		ast::ShaderAllocatorBlockPtr allocatorBlock;
-
-		void incIndent()
-		{
-			indent += 2;
-		}
-
-		void decIndent()
-		{
-			if ( indent >= 2 )
-			{
-				indent -= 2;
-			}
-			else
-			{
-				indent = 0;
-			}
-		}
 
 		uint32_t getNextVarId()
 		{
@@ -660,524 +652,226 @@ namespace test
 			return nextVarId;
 		}
 
-		TestBlockPtr on( std::string const & text )
+	private:
+		virtual void doInitialise()
 		{
-			return doPushBlock( "On " + text, true );
 		}
 
-		TestBlockPtr when( std::string const & text )
+		virtual void doCleanup()
 		{
-			return doPushBlock( "When " + text, true );
-		}
-
-		TestBlockPtr andWhen( std::string const & text )
-		{
-			return doPushBlock( "And " + text, false );
-		}
-
-		void appendToNextError( std::string const & text )
-		{
-			m_nextErrors += text + "\n";
-		}
-
-		void flushErrors()
-		{
-			m_nextErrors.clear();
 		}
 
 	private:
-		virtual void doInitialise(){}
-		virtual void doCleanup(){}
-		TestBlockPtr doPushBlock( std::string const & text, bool indent );
-		void doPopBlock( TestBlock * block );
-
-		void print( std::string const & text )
-		{
-			std::stringstream stream{ text };
-			std::string sep;
-
-			for ( std::string line; std::getline( stream, line ); )
-			{
-				if ( line.empty() )
-				{
-					streams.cout << std::endl;
-					newLine = true;
-				}
-				else
-				{
-					if ( newLine )
-					{
-						streams.cout << getIndent();
-					}
-
-					streams.cout << sep << line;
-					newLine = false;
-				}
-
-				sep = "\n" + getIndent();
-			}
-		}
-
-		std::string getIndent()const
-		{
-			return std::string( size_t( indent ), ' ' );
-		}
-
-	private:
-		template< typename T >
-		friend TestCounts & operator<<( TestCounts & counts, T const & rhs );
-
-		uint32_t indent{};
-		bool newLine{ true };
-		TestSuite & suite;
-		TestResults result{};
 		std::atomic_bool m_initialised{ false };
 		std::atomic_bool m_cleaned{ true };
-		std::vector< TestBlock * > m_blocks;
-		std::string m_nextErrors;
+
+		template< typename T >
+		friend TestCounts & operator<<( TestCounts & counts, T const & rhs )
+		{
+			return counts;
+		}
 	};
 
-	static std::string_view endl{ "\n" };
-
-	template< typename T >
-	TestCounts & operator<<( TestCounts & counts, T const & rhs )
+	inline bool astTrace( const char * file, int line
+		, const char * message )
 	{
-		std::stringstream stream;
-		stream.imbue( std::locale{ "C" } );
-		stream << rhs;
-		counts.print( stream.str() );
-		return counts;
+		::testing::ScopedTrace trace{ file, line, message };
+		return true;
 	}
-
-	using TestCountsPtr = std::unique_ptr< TestCounts >;
-
-	struct TestSuite
-	{
-		using TestCountsType = test::TestCounts;
-		using TestSuiteLaunch = TestResults( * )( test::TestSuite &, test::TestCounts & );
-
-		TestSuite( std::string name );
-		~TestSuite()noexcept;
-
-		void registerTests( std::string name
-			, TestSuiteLaunch launch
-			, TestCountsPtr testCounts );
-		int run();
-
-		template< typename TestSuiteT >
-		void registerTests( std::string name
-			, TestSuiteLaunch launch )
-		{
-			return registerTests( std::move( name )
-				, std::move( launch )
-				, std::make_unique< typename TestSuiteT::TestCountsType >( *this ) );
-		}
-
-		template< typename TestSuiteT
-			, typename TestCountsT >
-		void registerTests( std::string name
-			, TestResults( *launch )( TestSuiteT &, TestCountsT & ) )
-		{
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wcast-function-type"
-			return registerTests( std::move( name )
-				, reinterpret_cast< TestSuiteLaunch >( launch )
-				, std::make_unique< typename TestSuiteT::TestCountsType >( *this ) );
-#pragma GCC diagnostic pop
-		}
-
-		std::atomic_uint32_t totalCount{ 0u };
-		std::atomic_uint32_t errorCount{ 0u };
-		std::atomic_uint32_t totalMemory{ 0u };
-
-	private:
-		struct TestSuiteRun
-		{
-			TestSuiteRun( TestSuiteLaunch plaunch
-				, std::string pname
-				, TestCountsPtr ptestCount )
-				: launch{ std::move( plaunch ) }
-				, name{ std::move( pname ) }
-				, testCount{ std::move( ptestCount ) }
-			{
-			}
-
-			TestSuiteLaunch launch;
-			std::string name;
-			TestCountsPtr testCount;
-		};
-		using TestSuiteRunPtr = std::unique_ptr< TestSuiteRun >;
-
-		std::string suiteName;
-		std::vector< TestSuiteRunPtr > tests;
-		std::unique_ptr< std::streambuf > tcout;
-	};
-
-	void beginTest( TestCounts & testCounts
-		, std::string name );
-	void endTest( TestCounts & testCounts );
-	void reportFailure( std::string_view error
-		, std::string_view function
-		, int line
-		, TestCounts & testCounts );
-	void reportFailure( std::string_view error
-		, std::string_view callerFunction
-		, int callerLine
-		, std::string_view calleeFunction
-		, int calleeLine
-		, TestCounts & testCounts );
-
-#	define astTestSuiteMain( testName )\
-	static test::TestResults launch##testName( test::TestSuite & suite, test::TestCounts & testCounts )
-
-#if defined( _MSC_VER )
-#	define astTestEval( V ) V
-
-#	define astTestConcat2( lhs, rhs )\
-	astTestEval( lhs ) ## astTestEval( rhs )
-
-#	define astTestConcat3( lhs, mid, rhs )\
-	astTestConcat2( lhs, mid ) ## astTestEval( rhs )
-
-#	define astTestConcat( lhs, rhs )\
-	astTestConcat3( lhs, _, rhs )
-#else
-#	define astTestConcat2( lhs, rhs )\
-	lhs ## rhs
-
-#	define astTestConcat( lhs, rhs )\
-	lhs ## _ ## rhs
-#endif
-
-#if defined( SDW_COMPILE_TESTS )
-#	define astTestSuiteLaunchEx( testName, suiteType )\
-	int main( int argv, char ** argc )\
-	{\
-		suiteType suite{ #testName };\
-		suite.registerTests< suiteType >( #testName, astTestConcat2( launch, testName ) );\
-		return suite.run();\
-	}
-#else
-#	define astTestSuiteLaunchEx( testName, suiteType )
-#endif
-
-#define astTestSuiteLaunch( name )\
-	astTestSuiteLaunchEx( name, test::TestSuite )
-
-#define astTestStringify( x )\
-	#x
-
-#define testConcatStr2( x, y )\
-	astTestStringify( x ) astTestStringify( y )
-
-#define astTestConcatStr3( x, y, z )\
-	testConcatStr2( x, y ) astTestStringify( z )
-
-#define astTestConcatStr4( x, y, z, w )\
-	astTestConcatStr3( x, y, z ) astTestStringify( w )
-
-#define astTestSuiteBeginEx( testCounts )\
-	testCounts.initialise();\
-	try\
-	{\
-
-#define astTestSuiteEnd()\
-	}\
-	catch ( ast::Exception & exc )\
-	{\
-		test::reportFailure( std::string{ "Test failed, Unhandled exception: " } + exc.what(), __FUNCTION__, __LINE__, testCounts );\
-	}\
-	catch ( ... )\
-	{\
-		test::reportFailure( "Test failed, Unhandled exception: Unknown", __FUNCTION__, __LINE__, testCounts );\
-	}\
-	return testCounts.cleanup();
-
-#define astTestSuiteBegin()\
-	astTestSuiteBeginEx( testCounts )
+}
 
 #define astTestBegin( name )\
-	test::beginTest( testCounts, name );\
-	try\
-	{\
-		auto testName = testCounts.testName
+	test::TestCounts testCounts;\
+	testCounts.initialise( name );
 
 #define astTestEnd()\
-	}\
-	catch ( ast::Exception & exc )\
-	{\
-		test::reportFailure( std::string{ "Test failed, Unhandled exception: " } + exc.what(), __FUNCTION__, __LINE__, testCounts );\
-	}\
-	catch ( ... )\
-	{\
-		test::reportFailure( "Test failed, Unhandled exception: Unknown", __FUNCTION__, __LINE__, testCounts );\
-	}\
-	test::endTest( testCounts );
+	testCounts.cleanup();
 
-#define astNameConcat_( X, Y ) X ## Y
-#define astNameConcat( X, Y ) astNameConcat_( X, Y )
+#define astCheck( x )\
+	EXPECT_TRUE( x );
 
-#define astOn( text )\
-	auto astNameConcat( onBlock, __LINE__ ) = ( testCounts ).on( text )
+#define astCheckEqual( lhs, rhs )\
+	EXPECT_EQ( lhs, rhs );
 
-#define astWhen( text )\
-	auto astNameConcat( whenBlock, __LINE__ ) = ( testCounts ).when( text )
+#define astCheckNotEqual( lhs, rhs )\
+	EXPECT_NE( lhs, rhs );
 
-#define astAnd( text )\
-	auto astNameConcat( andBlock, __LINE__ ) = ( testCounts ).andWhen( text )
+#define astCheckThrowEx( x, excType )\
+	EXPECT_THROW( x, excType );
 
-#define astSuccess()\
-	testCounts.flushErrors();\
-	testCounts.incTest()
-
-#define astFailure( x )\
-	astSuccess();\
-	test::reportFailure( x " failed.", __FUNCTION__, __LINE__, testCounts )\
-
-#define astFailText( x )\
-	astSuccess();\
-	test::reportFailure( x, __FUNCTION__, __LINE__, testCounts )\
+#define astCheckNoThrowEx( x, excType )\
+	EXPECT_NO_THROW( x );
 
 #define astRequire( x )\
 	try\
 	{\
-		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			throw test::Exception{ testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__ };\
+			throw test::Exception{ "\n    Value: " + toString( x ), __FUNCTION__, __LINE__ };\
 		}\
-		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
+		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed." } + exc.what() ).c_str() );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( "Unknown unhandled exception." );\
 	}
 
 #define astBeginRequire( x )\
 	try\
 	{\
-		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
 			throw test::Exception{ testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__ };\
 		}
 
 #define astEndRequire\
-		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
+		GTEST_FATAL_FAILURE_( exc.what() );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( "Unknown unhandled exception.", __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( "Unknown unhandled exception." );\
 	}
-
-#define astCheck( x )\
-	try\
-	{\
-		testCounts.incTest();\
-		if ( !( x ) )\
-		{\
-			test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
-		}\
-		testCounts.flushErrors();\
-	}\
-	catch ( ... )\
-	{\
-		test::reportFailure( testConcatStr2( x, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
-	}
-
-#define astCheckEqual( x, y )\
-	try\
-	{\
-		testCounts.incTest();\
-		if ( !( ( x ) == ( y ) ) )\
-		{\
-			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
-		}\
-		testCounts.flushErrors();\
-	}\
-	catch ( test::Exception & exc )\
-	{\
-		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
-	}\
-	catch ( ... )\
-	{\
-		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
-	}
-
-#define astCheckNotEqual( x, y )\
-	try\
-	{\
-		testCounts.incTest();\
-		if ( ( x ) == ( y ) )\
-		{\
-			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
-		}\
-		testCounts.flushErrors();\
-	}\
-	catch ( test::Exception & exc )\
-	{\
-		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), exc.getFunction(), exc.getLine(), testCounts );\
-	}\
-	catch ( ... )\
-	{\
-		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed: Unhandled exception." ), __FUNCTION__, __LINE__, testCounts );\
-	}
-
-#define astCheckThrowEx( x, excType )\
-	try\
-	{\
-		testCounts.incTest();\
-		( x );\
-		test::reportFailure( testConcatStr2( x, " failed, expected exception not thrown." ), __FUNCTION__, __LINE__, testCounts );\
-	}\
-	catch ( excType & )\
-	{\
-		testCounts.flushErrors();\
-	}\
-	catch ( ... )\
-	{\
-		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
-	}
-
-#define astCheckThrow( x )\
-	astCheckThrowEx( x, ast::Exception )
-
-#define astCheckNoThrowEx( x, excType )\
-	try\
-	{\
-		testCounts.incTest();\
-		( x );\
-		testCounts.flushErrors();\
-	}\
-	catch ( excType & exc )\
-	{\
-		test::reportFailure( exc.what(), __FUNCTION__, __LINE__, testCounts );\
-		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
-	}\
-	catch ( ... )\
-	{\
-		test::reportFailure( testConcatStr2( x, " failed." ), __FUNCTION__, __LINE__, testCounts );\
-	}
-
-#define astCheckNoThrow( x )\
-	astCheckNoThrowEx( x, ast::Exception )
 
 #define astSubRequire( f, l, x )\
 	try\
 	{\
-		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			throw test::Exception{ "\n    Value: " + toString( x ), __FUNCTION__, __LINE__ };\
+			throw test::Exception{ #x" failed.", __FUNCTION__, __LINE__ };\
 		}\
-		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed:" ) + exc.getText(), f, l, exc.getFunction(), exc.getLine(), testCounts );\
+		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed." } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( #x" failed." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
 
 #define astSubCheck( f, l, x )\
 	try\
 	{\
-		testCounts.incTest();\
 		if ( !( x ) )\
 		{\
-			test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+			GTEST_FATAL_FAILURE_( #x" failed: " );\
+			GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 		}\
-		testCounts.flushErrors();\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
 
 #define astSubCheckEqual( f, l, x, y )\
 	try\
 	{\
-		testCounts.incTest();\
 		if ( !( ( x ) == ( y ) ) )\
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
 		}\
-		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed:" ) + exc.getText(), f, l, exc.getFunction(), exc.getLine(), testCounts );\
+		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " == ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
 
 #define astSubCheckNotEqual( f, l, x, y )\
 	try\
 	{\
-		testCounts.incTest();\
 		if ( ( x ) == ( y ) )\
 		{\
 			throw test::Exception{ "\n    LHS: " + toString( x ) + "\n    RHS: " + toString( y ), __FUNCTION__, __LINE__ };\
 		}\
-		testCounts.flushErrors();\
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed:" ) + exc.getText(), f, l, exc.getFunction(), exc.getLine(), testCounts );\
+		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( astTestConcatStr4( x, " != ", y, " failed: Unhandled exception." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
 
 #define astSubCheckThrowEx( f, l, x, excType )\
 	try\
 	{\
-		testCounts.incTest();\
 		( x );\
-		test::reportFailure( testConcatStr2( x, " failed, expected exception not thrown." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( #x" failed: Expected exception not thrown." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}\
 	catch ( excType & )\
 	{\
-		testCounts.flushErrors();\
+		SUCCEED();\
 	}\
 	catch ( ... )\
 	{\
-		testCounts << testCounts.testName << " Failure: Unexpected exception type." << test::endl;\
+		GTEST_FATAL_FAILURE_( #x" failed: Unexpected exception type." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
-
-#define astSubCheckThrow( f, l, x )\
-	astSubCheckThrowEx( f, l, x, ast::Exception )
 
 #define astSubCheckNoThrowEx( f, l, x, excType )\
 	try\
 	{\
-		testCounts.incTest();\
 		( x );\
-		testCounts.flushErrors();\
 	}\
 	catch ( excType & exc )\
 	{\
-		test::reportFailure( exc.what(), f, l, __FUNCTION__, __LINE__, testCounts );\
-		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}\
 	catch ( ... )\
 	{\
-		test::reportFailure( testConcatStr2( x, " failed." ), f, l, __FUNCTION__, __LINE__, testCounts );\
+		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
-}
+
+#define astOn( x )\
+	test::astTrace( __FILE__, __LINE__, "On "#x )
+
+#define astWhen( x )\
+	test::astTrace( __FILE__, __LINE__, "When "#x )
+
+#define astAnd( x )\
+	test::astTrace( __FILE__, __LINE__, "And "#x )
+
+#define astOnStr( x )\
+	test::astTrace( __FILE__, __LINE__, ( std::string{ "On " } + ( x ) ).c_str() )
+
+#define astWhenStr( x )\
+	test::astTrace( __FILE__, __LINE__, ( std::string{ "When " } + ( x ) ).c_str() )
+
+#define astAndStr( x )\
+	test::astTrace( __FILE__, __LINE__, ( std::string{ "And " } + ( x ) ).c_str() )
+
+#define astTestNameP( p, f ) \
+	[]( testing::TestParamInfo< p > const & info ){ return f( info.param ); }
+
+#define astCheckThrow( x )\
+	astCheckThrowEx( x, ast::Exception );
+
+#define astCheckNoThrow( x )\
+	astCheckNoThrowEx( x, ast::Exception )
+
+#define astSubCheckThrow( f, l, x )\
+	astSubCheckThrowEx( f, l, x, ast::Exception )
 
 #define astSubCheckNoThrow( f, l, x )\
 	astSubCheckNoThrowEx( f, l, x, ast::Exception )

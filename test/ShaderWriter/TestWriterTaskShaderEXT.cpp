@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
@@ -445,9 +444,9 @@ namespace
 	};
 	using MyVertexOut = MyVertexOutT< sdw::var::Flag::eNone >;
 
-	void basicX( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, basicX )
 	{
-		astTestBegin( "basicX" );
+		sdwTestBegin( "basicX" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -465,12 +464,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void cullMeshlet( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, cullMeshlet )
 	{
-		astTestBegin( "cullMeshlet" );
+		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -614,12 +613,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupBasicXDispatchFromPayload( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupBasicXDispatchFromPayload )
 	{
-		astTestBegin( "subgroupBasicXDispatchFromPayload" );
+		sdwTestBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -637,12 +636,12 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void subgroupBasicXDispatchFromWriter( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, subgroupBasicXDispatchFromWriter )
 	{
-		astTestBegin( "subgroupBasicXDispatchFromWriter" );
+		sdwTestBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;
 		{
 			sdw::TaskWriterEXT writer{ &testCounts.allocator };
@@ -660,20 +659,8 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterTaskShaderEXT )
-{
-	sdwTestSuiteBegin();
-
-	basicX( testCounts );
-	cullMeshlet( testCounts );
-	subgroupBasicXDispatchFromPayload( testCounts );
-	subgroupBasicXDispatchFromWriter( testCounts );
-
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterTaskShaderEXT )

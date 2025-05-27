@@ -1,11 +1,10 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
 {
-	void singlePostIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, singlePostIncrement )
 	{
-		astTestBegin( "singlePostIncrement" );
+		sdwTestBegin( "singlePostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -19,12 +18,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void singlePreIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, singlePreIncrement )
 	{
-		astTestBegin( "singlePreIncrement" );
+		sdwTestBegin( "singlePreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -38,12 +37,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void assignPostIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, assignPostIncrement )
 	{
-		astTestBegin( "assignPostIncrement" );
+		sdwTestBegin( "assignPostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -56,12 +55,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void assignPreIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, assignPreIncrement )
 	{
-		astTestBegin( "assignPreIncrement" );
+		sdwTestBegin( "assignPreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -74,12 +73,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void condPostIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, condPostIncrement )
 	{
-		astTestBegin( "condPostIncrement" );
+		sdwTestBegin( "condPostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -96,12 +95,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void condPreIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, condPreIncrement )
 	{
-		astTestBegin( "condPreIncrement" );
+		sdwTestBegin( "condPreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -118,12 +117,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void loopPostIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, loopPostIncrement )
 	{
-		astTestBegin( "loopPostIncrement" );
+		sdwTestBegin( "loopPostIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -151,12 +150,12 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 
-	void loopPreIncrement( test::sdw_test::TestCounts & testCounts )
+	TEST( SDW_TestSuiteName, loopPreIncrement )
 	{
-		astTestBegin( "loopPreIncrement" );
+		sdwTestBegin( "loopPreIncrement" );
 		using namespace sdw;
 
 		sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -178,22 +177,8 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		astTestEnd();
+		sdwTestEnd();
 	}
 }
 
 sdwTestSuiteMain( TestWriterIncrement )
-{
-	sdwTestSuiteBegin();
-	singlePostIncrement( testCounts );
-	singlePreIncrement( testCounts );
-	assignPostIncrement( testCounts );
-	assignPreIncrement( testCounts );
-	condPostIncrement( testCounts );
-	condPreIncrement( testCounts );
-	loopPostIncrement( testCounts );
-	loopPreIncrement( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterIncrement )

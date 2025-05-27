@@ -1,4 +1,3 @@
-#include "Common.hpp"
 #include "WriterCommon.hpp"
 
 namespace
@@ -10,7 +9,7 @@ namespace
 	template< typename T >
 	void testShaderOutputBase( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -27,13 +26,12 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -50,13 +48,12 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -72,13 +69,12 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputArrayOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -94,13 +90,12 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -118,13 +113,12 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderOutputArrayOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -142,13 +136,12 @@ namespace
 			DummyMainV;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderBlendOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -167,13 +160,12 @@ namespace
 			DummyMainF;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
 	void testShaderStreamOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		astTestBegin( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOnStr( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -192,7 +184,6 @@ namespace
 			DummyMainG;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		astTestEnd();
 	}
 
 	template< typename T >
@@ -207,33 +198,33 @@ namespace
 		testShaderBlendOutput< T >( testCounts );
 		testShaderStreamOutput< T >( testCounts );
 	}
+
+	TEST( SDW_TestSuiteName, testShaderOutputDeclarations )
+	{
+		sdwTestBegin( "testShaderOutputDeclarations" );
+		testShaderOutput< sdw::Int >( testCounts );
+		testShaderOutput< sdw::UInt >( testCounts );
+		testShaderOutput< sdw::Float >( testCounts );
+		testShaderOutput< sdw::Vec2 >( testCounts );
+		testShaderOutput< sdw::Vec3 >( testCounts );
+		testShaderOutput< sdw::Vec4 >( testCounts );
+		testShaderOutput< sdw::IVec2 >( testCounts );
+		testShaderOutput< sdw::IVec3 >( testCounts );
+		testShaderOutput< sdw::IVec4 >( testCounts );
+		testShaderOutput< sdw::UVec2 >( testCounts );
+		testShaderOutput< sdw::UVec3 >( testCounts );
+		testShaderOutput< sdw::UVec4 >( testCounts );
+		testShaderOutput< sdw::Mat2 >( testCounts );
+		testShaderOutput< sdw::Mat2x3 >( testCounts );
+		testShaderOutput< sdw::Mat2x4 >( testCounts );
+		testShaderOutput< sdw::Mat3 >( testCounts );
+		testShaderOutput< sdw::Mat3x2 >( testCounts );
+		testShaderOutput< sdw::Mat3x4 >( testCounts );
+		testShaderOutput< sdw::Mat4 >( testCounts );
+		testShaderOutput< sdw::Mat4x2 >( testCounts );
+		testShaderOutput< sdw::Mat4x3 >( testCounts );
+		sdwTestEnd();
+	}
 }
 
 sdwTestSuiteMain( TestWriterShaderOutputDeclarations )
-{
-	sdwTestSuiteBegin();
-	testShaderOutput< sdw::Int >( testCounts );
-	testShaderOutput< sdw::UInt >( testCounts );
-	testShaderOutput< sdw::Float >( testCounts );
-	testShaderOutput< sdw::Vec2 >( testCounts );
-	testShaderOutput< sdw::Vec3 >( testCounts );
-	testShaderOutput< sdw::Vec4 >( testCounts );
-	testShaderOutput< sdw::IVec2 >( testCounts );
-	testShaderOutput< sdw::IVec3 >( testCounts );
-	testShaderOutput< sdw::IVec4 >( testCounts );
-	testShaderOutput< sdw::UVec2 >( testCounts );
-	testShaderOutput< sdw::UVec3 >( testCounts );
-	testShaderOutput< sdw::UVec4 >( testCounts );
-	testShaderOutput< sdw::Mat2 >( testCounts );
-	testShaderOutput< sdw::Mat2x3 >( testCounts );
-	testShaderOutput< sdw::Mat2x4 >( testCounts );
-	testShaderOutput< sdw::Mat3 >( testCounts );
-	testShaderOutput< sdw::Mat3x2 >( testCounts );
-	testShaderOutput< sdw::Mat3x4 >( testCounts );
-	testShaderOutput< sdw::Mat4 >( testCounts );
-	testShaderOutput< sdw::Mat4x2 >( testCounts );
-	testShaderOutput< sdw::Mat4x3 >( testCounts );
-	sdwTestSuiteEnd();
-}
-
-sdwTestSuiteLaunch( TestWriterShaderOutputDeclarations )
