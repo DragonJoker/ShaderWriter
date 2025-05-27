@@ -124,6 +124,10 @@ namespace ast::vk
 #if VK_EXT_shader_object
 		case VK_ERROR_INCOMPATIBLE_SHADER_BINARY_EXT: stream << "The provided binary shader code is not compatible with this device"; break;
 #endif
+#if VK_KHR_pipeline_binary
+		case VK_PIPELINE_BINARY_MISSING_KHR: stream << "The application attempted to create a pipeline binary by querying an internal cache, but the internal cache entry did not exist"; break;
+		case VK_ERROR_NOT_ENOUGH_SPACE_KHR: stream << "The application did not provide enough space to return all the required data"; break;
+#endif
 		case VK_RESULT_MAX_ENUM: stream << "vk_result_max_enum"; break;
 		}
 
