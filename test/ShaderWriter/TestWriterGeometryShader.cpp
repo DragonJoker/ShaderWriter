@@ -329,4 +329,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterGeometryShader )
+sdwTestSuiteMain()

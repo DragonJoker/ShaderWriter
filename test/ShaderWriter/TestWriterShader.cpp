@@ -1610,4 +1610,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterShader )
+sdwTestSuiteMain()

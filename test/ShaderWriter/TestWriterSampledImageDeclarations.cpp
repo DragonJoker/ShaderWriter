@@ -494,6 +494,4 @@ namespace
 	}
 }
 
-#define testName astTestConcat( TestWriterSampledImageDeclarations, SDW_TestImageFormat )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

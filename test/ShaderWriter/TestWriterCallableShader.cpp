@@ -155,4 +155,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterCallableShader )
+sdwTestSuiteMain()

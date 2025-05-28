@@ -2488,7 +2488,8 @@ namespace
 	*	Main test function
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
+	template< ast::type::ImageFormat FormatT
+		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTextureT( test::sdw_test::TestCounts & testCounts )
 	{
 		TesterT< FormatT, Img1DBase, false >::test( testCounts );
@@ -2551,6 +2552,4 @@ namespace
 
 #endif
 
-#define testName astTestConcat( TestWriterCombinedImageAccesses, SDW_TestImageFormat )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

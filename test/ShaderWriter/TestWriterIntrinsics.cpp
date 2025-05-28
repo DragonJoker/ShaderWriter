@@ -5766,4 +5766,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterIntrinsics )
+sdwTestSuiteMain()

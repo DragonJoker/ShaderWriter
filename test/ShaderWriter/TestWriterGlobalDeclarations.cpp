@@ -269,4 +269,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterGlobalDeclarations )
+sdwTestSuiteMain()

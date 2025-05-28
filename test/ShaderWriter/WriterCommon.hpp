@@ -1234,7 +1234,7 @@ namespace test
 #define sdwTestEnd()\
 	testCounts.cleanup();
 
-#define sdwTestSuiteMain( testName )\
+#define sdwTestSuiteMain()\
 	int main( int argc, char ** argv )\
 	{\
 		testing::InitGoogleTest(&argc, argv);\

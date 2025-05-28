@@ -515,4 +515,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterSamplerDeclarations )
+sdwTestSuiteMain()

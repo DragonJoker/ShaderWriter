@@ -2111,29 +2111,30 @@ namespace
 	*	Main test function
 	*/
 	/**@{*/
-	template< template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
+	template< ast::type::ImageFormat FormatT
+		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase, false >::test( testCounts );
-		TesterT< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase, false >::test( testCounts );
+		TesterT< FormatT, Img1DBase, false >::test( testCounts );
+		TesterT< FormatT, Img2DBase, false >::test( testCounts );
+		TesterT< FormatT, Img3DBase, false >::test( testCounts );
+		TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
+		TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
+		TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
+		TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
+		TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
 
-		if constexpr ( isFloatFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
+		if constexpr ( isFloatFormat( FormatT ) )
 		{
-			if constexpr ( ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32f
-				|| ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR16f )
+			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
+				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase, true >::test( testCounts );
-				TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase, true >::test( testCounts );
-				TesterT< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase, true >::test( testCounts );
-				TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase, true >::test( testCounts );
-				TesterT< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase, true >::test( testCounts );
-				TesterT< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase, true >::test( testCounts );
+				TesterT< FormatT, Img1DBase, true >::test( testCounts );
+				TesterT< FormatT, Img2DBase, true >::test( testCounts );
+				TesterT< FormatT, ImgCubeBase, true >::test( testCounts );
+				TesterT< FormatT, Img1DArrayBase, true >::test( testCounts );
+				TesterT< FormatT, Img2DArrayBase, true >::test( testCounts );
+				TesterT< FormatT, ImgCubeArrayBase, true >::test( testCounts );
 			}
 		}
 	}
@@ -2141,26 +2142,26 @@ namespace
 	TEST( SDW_TestSuiteName, testsSampledImageAccesses )
 	{
 		sdwTestBegin( "testsSampledImageAccesses" )
-		testsTexture< SampledImageTester >( testCounts );
-		testsTexture< SampledImageBiasTester >( testCounts );
-		testsTexture< SampledImageProjTester >( testCounts );
-		testsTexture< SampledImageProjBiasTester >( testCounts );
-		testsTexture< SampledImageLodTester >( testCounts );
-		testsTexture< SampledImageConstOffsetTester >( testCounts );
-		testsTexture< SampledImageConstOffsetBiasTester >( testCounts );
-		testsTexture< SampledImageProjConstOffsetTester >( testCounts );
-		testsTexture< SampledImageProjConstOffsetBiasTester >( testCounts );
-		testsTexture< SampledImageLodConstOffsetTester >( testCounts );
-		testsTexture< SampledImageProjLodTester >( testCounts );
-		testsTexture< SampledImageProjLodConstOffsetTester >( testCounts );
-		testsTexture< SampledImageGradTester >( testCounts );
-		testsTexture< SampledImageGradConstOffsetTester >( testCounts );
-		testsTexture< SampledImageProjGradTester >( testCounts );
-		testsTexture< SampledImageProjGradConstOffsetTester >( testCounts );
-		testsTexture< SampledImageGatherTester >( testCounts );
-		testsTexture< SampledImageGatherConstOffsetTester >( testCounts );
-		testsTexture< SampledImageGatherOffsetTester >( testCounts );
-		testsTexture< SampledImageGatherOffsetsTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageBiasTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjBiasTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageLodTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageConstOffsetBiasTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjConstOffsetBiasTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageLodConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjLodTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjLodConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGradTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGradConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjGradTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjGradConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherConstOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherOffsetTester >( testCounts );
+		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherOffsetsTester >( testCounts );
 		sdwTestEnd()
 	}
 	/**@}*/
@@ -2169,6 +2170,4 @@ namespace
 
 #endif
 
-#define testName astTestConcat( TestWriterSampledImageAccesses, SDW_TestImageFormat )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

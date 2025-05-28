@@ -834,22 +834,24 @@ namespace
 		}
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
+	template< ast::type::ImageFormat FormatT
+		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImage( test::sdw_test::TestCounts & testCounts )
 	{
-		testsImageFormats< ast::type::AccessKind::eRead, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eRead, FormatT, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eWrite, FormatT, TesterT >( testCounts );
+		testsImageFormats< ast::type::AccessKind::eReadWrite, FormatT, TesterT >( testCounts );
 	}
 
-	template< template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
+	template< ast::type::ImageFormat FormatT
+		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
 	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
 	{
-		if constexpr ( ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32f
-			|| ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32i
-			|| ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32u )
+		if constexpr ( FormatT == ast::type::ImageFormat::eR32f
+			|| FormatT == ast::type::ImageFormat::eR32i
+			|| FormatT == ast::type::ImageFormat::eR32u )
 		{
-			testsImageFormats< ast::type::AccessKind::eReadWrite, ast::type::ImageFormat::SDW_TestImageFormat, TesterT >( testCounts );
+			testsImageFormats< ast::type::AccessKind::eReadWrite, FormatT, TesterT >( testCounts );
 		}
 	}
 
@@ -857,18 +859,18 @@ namespace
 	TEST( SDW_TestSuiteName, testsImageAccesses )
 	{
 		sdwTestBegin( "testsImageAccesses" )
-		testsImage< ImageSizeTester >( testCounts );
-		testsImage< ImageSamplesTester >( testCounts );
-		testsImage< ImageLoadTester >( testCounts );
-		testsImage< ImageStoreTester >( testCounts );
-		testsImageAtomic< ImageAtomicAddTester >( testCounts );
-		testsImageAtomic< ImageAtomicMinTester >( testCounts );
-		testsImageAtomic< ImageAtomicMaxTester >( testCounts );
-		testsImageAtomic< ImageAtomicAndTester >( testCounts );
-		testsImageAtomic< ImageAtomicOrTester >( testCounts );
-		testsImageAtomic< ImageAtomicXorTester >( testCounts );
-		testsImageAtomic< ImageAtomicExchangeTester >( testCounts );
-		testsImageAtomic< ImageAtomicCompSwapTester >( testCounts );
+		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSizeTester >( testCounts );
+		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSamplesTester >( testCounts );
+		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageLoadTester >( testCounts );
+		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageStoreTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAddTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMinTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMaxTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAndTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicOrTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicXorTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicExchangeTester >( testCounts );
+		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicCompSwapTester >( testCounts );
 		sdwTestEnd()
 	}
 #endif
@@ -876,6 +878,4 @@ namespace
 
 #endif
 
-#define testName astTestConcat( TestWriterStorageImageAccesses, SDW_TestImageFormat )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

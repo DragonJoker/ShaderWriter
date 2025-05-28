@@ -1021,4 +1021,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterProgram )
+sdwTestSuiteMain()

@@ -909,4 +909,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterRayClosestHitShader )
+sdwTestSuiteMain()

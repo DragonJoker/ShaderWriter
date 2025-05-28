@@ -181,4 +181,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterIncrement )
+sdwTestSuiteMain()

@@ -11,66 +11,6 @@ namespace
 {
 	using namespace ast;
 
-	std::string getName( EntryPoint entryPoint )
-	{
-		std::string result{ "Unknown" };
-
-		switch ( entryPoint )
-		{
-		case EntryPoint::eNone:
-			result = std::string{};
-			break;
-		case EntryPoint::eVertex:
-			result = "Vert";
-			break;
-		case EntryPoint::eTessellationControl:
-			result = "Tesc";
-			break;
-		case EntryPoint::eTessellationEvaluation:
-			result = "Tese";
-			break;
-		case EntryPoint::eGeometry:
-			result = "Geom";
-			break;
-		case EntryPoint::eMeshNV:
-		case EntryPoint::eMesh:
-			result = "Mesh";
-			break;
-		case EntryPoint::eTaskNV:
-		case EntryPoint::eTask:
-			result = "Task";
-			break;
-		case EntryPoint::eFragment:
-			result = "Frag";
-			break;
-		case EntryPoint::eRayGeneration:
-			result = "Rgen";
-			break;
-		case EntryPoint::eRayAnyHit:
-			result = "Rany";
-			break;
-		case EntryPoint::eRayClosestHit:
-			result = "Rcls";
-			break;
-		case EntryPoint::eRayMiss:
-			result = "Rmis";
-			break;
-		case EntryPoint::eRayIntersection:
-			result = "Rint";
-			break;
-		case EntryPoint::eCallable:
-			result = "Call";
-			break;
-		case EntryPoint::eCompute:
-			result = "Comp";
-			break;
-		default:
-			AST_Failure( "Unsupported EntryPoint" );
-		}
-
-		return result;
-	}
-
 	std::string getName( ast::EntryPoint entryPoint
 		, var::Flag flag )
 	{

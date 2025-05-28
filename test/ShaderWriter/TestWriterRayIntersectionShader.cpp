@@ -231,4 +231,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterRayIntersectionShader )
+sdwTestSuiteMain()

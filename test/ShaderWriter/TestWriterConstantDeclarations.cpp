@@ -164,4 +164,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterConstantDeclarations )
+sdwTestSuiteMain()

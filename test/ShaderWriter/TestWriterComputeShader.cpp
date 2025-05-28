@@ -529,4 +529,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterComputeShader )
+sdwTestSuiteMain()

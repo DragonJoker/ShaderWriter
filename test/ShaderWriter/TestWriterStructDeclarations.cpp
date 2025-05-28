@@ -84,6 +84,4 @@ namespace
 	}
 }
 
-#define testName astTestConcat( TestWriterStructDeclarations, SDW_TestType )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

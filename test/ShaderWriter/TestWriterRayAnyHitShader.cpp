@@ -322,4 +322,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterAnyHitShader )
+sdwTestSuiteMain()

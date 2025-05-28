@@ -123,7 +123,7 @@ namespace checks
 	};
 	using Barrier = testing::TestWithParam< BarrierParam >;
 
-	std::string getName( type::Scope p )
+	static std::string getName( type::Scope p )
 	{
 		switch ( p )
 		{
@@ -146,7 +146,7 @@ namespace checks
 		}
 	}
 
-	std::string getName( type::MemorySemantics p )
+	static std::string getName( type::MemorySemantics p )
 	{
 		std::string result{ "None" };
 		if ( ( p & type::MemorySemanticsMask::eAcquire ) != type::MemorySemanticsMask::eNone )
@@ -180,14 +180,14 @@ namespace checks
 		return result;
 	}
 
-	std::string getBarrierParamName( BarrierParam p )
+	static std::string getBarrierParamName( BarrierParam p )
 	{
 		return getName( p.executionScope )
 			+ getName( p.memoryScope )
 			+ getName( p.semantics );
 	}
 
-	std::vector< BarrierParam > const barrierParams{ []()
+	static std::vector< BarrierParam > const barrierParams{ []()
 		{
 			static const std::array< type::MemorySemanticsMask, 15 > semanticMasks
 			{
@@ -217,6 +217,7 @@ namespace checks
 			}
 			return result;
 		}() };
+
 	// Angle and Trigonometry Functions
 
 	TEST( Intrinsic, Degrees1 )

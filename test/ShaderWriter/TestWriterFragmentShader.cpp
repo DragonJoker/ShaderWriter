@@ -868,4 +868,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterFragmentShader )
+sdwTestSuiteMain()
