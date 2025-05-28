@@ -272,4 +272,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterLocaleDeclarations )
+sdwTestSuiteMain()

@@ -601,4 +601,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterVertexShader )
+sdwTestSuiteMain()

@@ -1238,4 +1238,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterTessellationControlShader )
+sdwTestSuiteMain()

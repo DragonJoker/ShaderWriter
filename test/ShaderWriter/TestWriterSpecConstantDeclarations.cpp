@@ -82,4 +82,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterSpecConstantDeclarations )
+sdwTestSuiteMain()

@@ -227,4 +227,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterShaderOutputDeclarations )
+sdwTestSuiteMain()

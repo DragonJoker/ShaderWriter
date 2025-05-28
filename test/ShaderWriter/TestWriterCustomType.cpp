@@ -678,4 +678,4 @@ namespace
 		, astTestNameP( Flags, getFlagsName ) );
 }
 
-sdwTestSuiteMain( TestWriterCustomType )
+sdwTestSuiteMain()

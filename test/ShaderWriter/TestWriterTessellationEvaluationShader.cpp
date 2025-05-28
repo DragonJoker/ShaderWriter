@@ -1107,4 +1107,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterTessellationEvaluationShader )
+sdwTestSuiteMain()

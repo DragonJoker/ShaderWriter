@@ -2873,4 +2873,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterConstantIntrinsics )
+sdwTestSuiteMain()

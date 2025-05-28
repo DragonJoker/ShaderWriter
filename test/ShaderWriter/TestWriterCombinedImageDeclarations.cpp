@@ -341,63 +341,67 @@ namespace
 		}
 	}
 
+	template< ast::type::ImageFormat FormatT >
+	void testTextureFormatT( test::sdw_test::TestCounts & testCounts )
+	{
+		if constexpr ( isFloatFormat( FormatT ) )
+		{
+			testTexture< FormatT, Img1DBase, false >( testCounts );
+			testTexture< FormatT, Img2DBase, false >( testCounts );
+			testTexture< FormatT, Img3DBase, false >( testCounts );
+			testTexture< FormatT, ImgCubeBase, false >( testCounts );
+			testTexture< FormatT, ImgBufferBase, false >( testCounts );
+			testTexture< FormatT, Img1DArrayBase, false >( testCounts );
+			testTexture< FormatT, Img2DArrayBase, false >( testCounts );
+			testTexture< FormatT, ImgCubeArrayBase, false >( testCounts );
+			testTexture< FormatT, Img2DMSBase, false >( testCounts );
+			testTexture< FormatT, Img2DMSArrayBase, false >( testCounts );
+
+			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
+				|| FormatT == ast::type::ImageFormat::eR16f )
+			{
+				testTexture< FormatT, Img1DBase, true >( testCounts );
+				testTexture< FormatT, Img2DBase, true >( testCounts );
+				testTexture< FormatT, ImgCubeBase, true >( testCounts );
+				testTexture< FormatT, Img1DArrayBase, true >( testCounts );
+				testTexture< FormatT, Img2DArrayBase, true >( testCounts );
+				testTexture< FormatT, ImgCubeArrayBase, true >( testCounts );
+			}
+		}
+		else if constexpr ( isSIntFormat( FormatT ) )
+		{
+			testTexture< FormatT, Img1DBase, false >( testCounts );
+			testTexture< FormatT, Img2DBase, false >( testCounts );
+			testTexture< FormatT, Img3DBase, false >( testCounts );
+			testTexture< FormatT, ImgCubeBase, false >( testCounts );
+			testTexture< FormatT, ImgBufferBase, false >( testCounts );
+			testTexture< FormatT, Img1DArrayBase, false >( testCounts );
+			testTexture< FormatT, Img2DArrayBase, false >( testCounts );
+			testTexture< FormatT, ImgCubeArrayBase, false >( testCounts );
+			testTexture< FormatT, Img2DMSBase, false >( testCounts );
+			testTexture< FormatT, Img2DMSArrayBase, false >( testCounts );
+		}
+		else if constexpr ( isUIntFormat( FormatT ) )
+		{
+			testTexture< FormatT, Img1DBase, false >( testCounts );
+			testTexture< FormatT, Img2DBase, false >( testCounts );
+			testTexture< FormatT, Img3DBase, false >( testCounts );
+			testTexture< FormatT, ImgCubeBase, false >( testCounts );
+			testTexture< FormatT, ImgBufferBase, false >( testCounts );
+			testTexture< FormatT, Img1DArrayBase, false >( testCounts );
+			testTexture< FormatT, Img2DArrayBase, false >( testCounts );
+			testTexture< FormatT, ImgCubeArrayBase, false >( testCounts );
+			testTexture< FormatT, Img2DMSBase, false >( testCounts );
+			testTexture< FormatT, Img2DMSArrayBase, false >( testCounts );
+		}
+	}
+
 	TEST( SDW_TestSuiteName, testTextureFormat )
 	{
 		sdwTestBegin( "testTexture" + getImageFormatName( ast::type::ImageFormat::SDW_TestImageFormat ) );
-		if constexpr ( isFloatFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
-		{
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase, false >( testCounts );
-
-			if constexpr ( ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR32f
-				|| ast::type::ImageFormat::SDW_TestImageFormat == ast::type::ImageFormat::eR16f )
-			{
-				testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase, true >( testCounts );
-				testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase, true >( testCounts );
-				testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase, true >( testCounts );
-				testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase, true >( testCounts );
-				testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase, true >( testCounts );
-				testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase, true >( testCounts );
-			}
-		}
-		else if constexpr ( isSIntFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
-		{
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase, false >( testCounts );
-		}
-		else if constexpr ( isUIntFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
-		{
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase, false >( testCounts );
-			testTexture< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase, false >( testCounts );
-		}
+		testTextureFormatT< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
 		sdwTestEnd();
 	}
 }
 
-#define testName astTestConcat( TestWriterCombinedImageDeclarations, SDW_TestImageFormat )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

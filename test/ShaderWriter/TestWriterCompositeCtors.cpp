@@ -1186,4 +1186,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterCompositeCtors )
+sdwTestSuiteMain()

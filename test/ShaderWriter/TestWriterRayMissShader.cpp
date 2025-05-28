@@ -60,4 +60,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterRayMissShader )
+sdwTestSuiteMain()

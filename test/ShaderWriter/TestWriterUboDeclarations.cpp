@@ -652,6 +652,4 @@ namespace
 	}
 }
 
-#define testName astTestConcat( TestWriterUboDeclarations, SDW_TestType )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

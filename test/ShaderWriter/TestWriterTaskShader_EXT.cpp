@@ -689,4 +689,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterTaskShaderEXT )
+sdwTestSuiteMain()

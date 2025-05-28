@@ -915,4 +915,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterOperations )
+sdwTestSuiteMain()

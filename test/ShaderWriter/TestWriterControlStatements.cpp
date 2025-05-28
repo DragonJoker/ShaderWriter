@@ -914,4 +914,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterControlStatements )
+sdwTestSuiteMain()

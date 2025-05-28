@@ -1760,4 +1760,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterMeshShaderEXT )
+sdwTestSuiteMain()

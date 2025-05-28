@@ -342,6 +342,4 @@ namespace
 	}
 }
 
-#define testName astTestConcat( TestWriterPcbDeclarations, SDW_TestType )
-
-sdwTestSuiteMain( testName )
+sdwTestSuiteMain()

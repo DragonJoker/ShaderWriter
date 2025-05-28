@@ -1984,4 +1984,4 @@ namespace
 	}
 }
 
-sdwTestSuiteMain( TestWriterFunction )
+sdwTestSuiteMain()
