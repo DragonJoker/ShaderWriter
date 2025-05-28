@@ -15,61 +15,6 @@
 namespace
 {
 	using namespace ast;
-	using ::toString;
-
-	std::string toString( EntryPoint v )
-	{
-		return getName( v );
-	}
-
-	std::string toString( ShaderStage v )
-	{
-		switch ( v )
-		{
-		case ShaderStage::eVertex:
-			return "Vertex";
-		case ShaderStage::eTessellationControl:
-			return "TessellationControl";
-		case ShaderStage::eTessellationEvaluation:
-			return "TessellationEvaluation";
-		case ShaderStage::eGeometry:
-			return "Geometry";
-		case ShaderStage::eFragment:
-			return "Fragment";
-		case ShaderStage::eCompute:
-			return "Compute";
-		case ShaderStage::eTaskNV:
-			return "TaskNV";
-		case ShaderStage::eMeshNV:
-			return "MeshNV";
-		case ShaderStage::eTask:
-			return "Task";
-		case ShaderStage::eMesh:
-			return "Mesh";
-		case ShaderStage::eRayGeneration:
-			return "RayGeneration";
-		case ShaderStage::eRayAnyHit:
-			return "RayAnyHit";
-		case ShaderStage::eRayClosestHit:
-			return "RayClosestHit";
-		case ShaderStage::eRayMiss:
-			return "RayMiss";
-		case ShaderStage::eRayIntersection:
-			return "RayIntersection";
-		case ShaderStage::eCallable:
-			return "Callable";
-		case ShaderStage::eTraditionalGraphics:
-			return "TraditionalGraphics";
-		case ShaderStage::eModernGraphicsNV:
-			return "ModernGraphicsNV";
-		case ShaderStage::eModernGraphicsEXT:
-			return "ModernGraphicsEXT";
-		case ShaderStage::eRayTrace:
-			return "RayTrace";
-		default:
-			return "Undefined";
-		}
-	}
 
 	TEST( Base, MemorySemantics )
 	{

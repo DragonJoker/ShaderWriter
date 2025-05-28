@@ -189,6 +189,12 @@ namespace test
 
 	void TestCounts::printBlock( std::string const & text )
 	{
+		GTEST_MESSAGE_( ( "\n" + text ).c_str(), ::testing::TestPartResult::kSuccess );
+	}
+
+	void TestCounts::printError( std::string const & text )
+	{
+		GTEST_MESSAGE_( ( "\n" + text ).c_str(), ::testing::TestPartResult::kNonFatalFailure );
 	}
 
 	//*********************************************************************************************

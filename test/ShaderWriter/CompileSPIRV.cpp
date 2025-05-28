@@ -907,7 +907,7 @@ namespace test
 		}
 		catch ( std::exception & exc )
 		{
-			testCounts << exc.what() << endl;
+			testCounts.printBlock( exc.what() );
 		}
 
 		return result;
@@ -1114,7 +1114,7 @@ namespace test
 						, context.allocator );
 				}
 
-				GTEST_FATAL_FAILURE_( "VkRenderPass creation." );
+				testCounts.printError( "VkRenderPass creation." );
 				renderPass = nullptr;
 			}
 
@@ -1150,7 +1150,7 @@ namespace test
 						, builder.getAllocator() );
 				}
 
-				GTEST_FATAL_FAILURE_( "Pipeline creation" );
+				testCounts.printError( "Pipeline creation" );
 				pipeline = nullptr;
 			}
 
@@ -1273,7 +1273,7 @@ namespace test
 
 				if ( errors.find( "failed to compile internal representation" ) == std::string::npos )
 				{
-					GTEST_FATAL_FAILURE_( "VkPipeline creation" );
+					testCounts.printError( "VkPipeline creation" );
 				}
 
 				pipeline = nullptr;
@@ -1307,7 +1307,7 @@ namespace test
 	{
 		if ( program.getStageCount() == 0u )
 		{
-			GTEST_FATAL_FAILURE_( "No shader stage" );
+			testCounts.printError( "No shader stage" );
 			return false;
 		}
 
@@ -1318,7 +1318,7 @@ namespace test
 
 		if ( modules.empty() )
 		{
-			GTEST_FATAL_FAILURE_( "No shader module" );
+			testCounts.printError( "No shader module" );
 			return false;
 		}
 
@@ -1330,7 +1330,7 @@ namespace test
 
 		if ( !pipelineLayout )
 		{
-			GTEST_FATAL_FAILURE_( "VkPipelineLayout creation" );
+			testCounts.printError( "VkPipelineLayout creation" );
 		}
 		else
 		{
@@ -1341,7 +1341,7 @@ namespace test
 			{
 				if ( program.getStageFlags() != ast::vk::makeFlag( ast::ShaderStage::eCompute ) )
 				{
-					GTEST_FATAL_FAILURE_( "Not enough shader stages" );
+					testCounts.printError( "Not enough shader stages" );
 				}
 				else
 				{
