@@ -640,6 +640,7 @@ namespace test
 		}
 
 		ASTTest_API void printBlock( std::string const & text );
+		ASTTest_API void printError( std::string const & text );
 
 		std::string testName{};
 		uint32_t nextVarId{};
@@ -862,7 +863,7 @@ namespace test
 	test::astTrace( __FILE__, __LINE__, ( std::string{ "And " } + ( x ) ).c_str() )
 
 #define astTestNameP( p, f ) \
-	[]( testing::TestParamInfo< p > const & info ){ return f( info.param ); }
+	[]( testing::TestParamInfo< p > const & i ){ return f( i.param ); }
 
 #define astCheckThrow( x )\
 	astCheckThrowEx( x, ast::Exception );

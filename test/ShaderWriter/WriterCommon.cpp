@@ -514,13 +514,12 @@ namespace test
 			return stream;
 		}
 
-		TestCounts & operator<<( TestCounts & counts, ast::vk::ProgramPipeline const & rhs )
+		std::string toString( ast::vk::ProgramPipeline const & rhs )
 		{
 			std::stringstream stream;
 			stream.imbue( std::locale{ "C" } );
 			stream << rhs;
-			counts << stream.str();
-			return counts;
+			return stream.str();
 		}
 #endif
 
@@ -575,7 +574,7 @@ namespace test
 		{
 			if ( force )
 			{
-				testCounts << printShader( name, shader, lines );
+				testCounts.printBlock( printShader( name, shader, lines ) );
 			}
 		}
 
@@ -591,7 +590,7 @@ namespace test
 			std::string errors;
 			auto result = test::compileSpirV( shader, spirv, errors, testCounts, infoIndex );
 			if ( !errors.empty() && checkRef )
-				GTEST_NONFATAL_FAILURE_( ( "\nVkShaderModule creation raised messages, for CompilerSpv output:\n" + errors ).c_str() );
+				testCounts.printError( "VkShaderModule creation raised messages, for CompilerSpv output:\n" + errors );
 
 			if ( !errors.empty() )
 			{
@@ -671,7 +670,7 @@ namespace test
 					std::string errors;
 					test::compileSpirV( shader, glslangSpirv, errors, testCounts, infoIndex );
 					if ( !errors.empty() )
-						GTEST_NONFATAL_FAILURE_( ( "\nVkShaderModule creation raised messages, for glslang output:\n" + errors ).c_str() );
+						testCounts.printError( "VkShaderModule creation raised messages, for glslang output:\n" + errors );
 				}
 				catch ( std::exception & exc )
 				{
@@ -698,9 +697,9 @@ namespace test
 			valOptions.SetScalarBlockLayout( true );
 			isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions ) && isValidated;
 			if ( !isValidated )
-				GTEST_NONFATAL_FAILURE_( ( "\n" + printShader( "SPIR-V", text, false ) ).c_str() );
+				testCounts.printError( printShader( "SPIR-V", text, false ) );
 			if ( !errors.empty() )
-				GTEST_NONFATAL_FAILURE_( (  "\nSPIR-V validation raised messages:\n" + errors ).c_str() );
+				testCounts.printError(  "SPIR-V validation raised messages:\n" + errors );
 #endif
 
 #if SDW_Test_HasSpirVCross
@@ -804,7 +803,7 @@ namespace test
 						}
 						catch ( std::exception & exc )
 						{
-							GTEST_NONFATAL_FAILURE_( exc.what() );
+							testCounts.printError( exc.what() );
 						}
 					}
 				}
@@ -823,7 +822,7 @@ namespace test
 						}
 						catch ( std::exception & exc )
 						{
-							GTEST_NONFATAL_FAILURE_( exc.what() );
+							testCounts.printError( exc.what() );
 						}
 					}
 				}
@@ -899,7 +898,7 @@ namespace test
 
 					astCheck( isCompiled )
 					if ( !isCompiled )
-						GTEST_NONFATAL_FAILURE_( ( "\n" + printShader( "GLSL", glsl, true ) + errors ).c_str() );
+						testCounts.printError( printShader( "GLSL", glsl, true ) + errors );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{
@@ -977,7 +976,7 @@ namespace test
 						, infoIndex );
 					astCheck( isCompiled )
 					if ( !isCompiled )
-						GTEST_NONFATAL_FAILURE_( ( "\n" + printShader( "HLSL", hlsl, true ) + errors ).c_str() );
+						testCounts.printError( "\n" + printShader( "HLSL", hlsl, true ) + errors );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{
@@ -1151,7 +1150,7 @@ namespace test
 							}
 							catch ( ... )
 							{
-								GTEST_NONFATAL_FAILURE_( ( "\n" + print ).c_str() );
+								testCounts.printError( print );
 								throw;
 							}
 
@@ -1192,15 +1191,14 @@ namespace test
 									&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
 									&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
 								{
-									auto err = "spirv_cross exception:\n" + text + "\n" + print.c_str();
-									GTEST_NONFATAL_FAILURE_( err.c_str() );
+									testCounts.printError( "spirv_cross exception:\n" + text + "\n" + print );
 									throw;
 								}
 							}
 #endif
 							catch ( std::exception & )
 							{
-								GTEST_NONFATAL_FAILURE_( "testWriteSpirV" );
+								testCounts.printError( "testWriteSpirV" );
 								throw;
 							}
 						}
@@ -1404,7 +1402,7 @@ namespace test
 
 						if ( !isValidated || !errors.empty() )
 						{
-							GTEST_NONFATAL_FAILURE_( ( errors + "\n" + stream.str() ).c_str() );
+							testCounts.printError( errors + "\n" + stream.str() );
 
 							for ( auto const & shader : shaders )
 							{
@@ -1426,7 +1424,7 @@ namespace test
 						&& err.find( "failed to compile internal representation" ) == std::string::npos
 						&& err.find( "unexpected compilation failure" ) == std::string::npos )
 					{
-						GTEST_NONFATAL_FAILURE_( ( "Shader validation:\n" + err ).c_str() );
+						testCounts.printError( "Shader validation:\n" + err );
 					}
 				}
 			}
@@ -1453,7 +1451,7 @@ namespace test
 
 					if ( compilers.forceDisplay )
 					{
-						testCounts << program << endl;
+						testCounts.printBlock( toString( program ) );
 					}
 
 					std::string errors;
@@ -1466,7 +1464,7 @@ namespace test
 
 						if ( !isValidated || !errors.empty() )
 						{
-							GTEST_NONFATAL_FAILURE_( errors.c_str() );
+							testCounts.printError( errors );
 							astCheckNoThrow( spirvCrossValidate( shader, entryPoints, testCounts, infoIndex ) );
 						}
 					}
@@ -1478,7 +1476,7 @@ namespace test
 							&& err.find( "failed to compile internal representation" ) == std::string::npos
 							&& err.find( "unexpected compilation failure" ) == std::string::npos )
 					{
-						GTEST_NONFATAL_FAILURE_( ( "Shader validation:\n" + err ).c_str() );
+						testCounts.printError( "Shader validation:\n" + err );
 					}
 				}
 			}

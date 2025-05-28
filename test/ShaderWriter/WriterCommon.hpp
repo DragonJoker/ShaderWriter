@@ -28,7 +28,9 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wsequence-point"
 
-#define ForceDisplayShaders false
+#ifndef ForceDisplayShaders
+#	define ForceDisplayShaders false
+#endif
 
 #define Compilers_None { true, false, false, false, ForceDisplayShaders }
 #define Compilers_GLSL { false, false, false, true, ForceDisplayShaders }
@@ -42,7 +44,9 @@
 #define Compilers_All { true, true, true, true, ForceDisplayShaders }
 #define Compilers_AllButSpv16 { true, true, true, true, ForceDisplayShaders, 0x00010600u }
 
-#define CurrentCompilers Compilers_All
+#ifndef CurrentCompilers
+#	define CurrentCompilers Compilers_All
+#endif
 
 namespace test
 {

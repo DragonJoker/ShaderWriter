@@ -909,7 +909,7 @@ namespace test
 		}
 		catch ( std::exception & exc )
 		{
-			testCounts << exc.what() << endl;
+			testCounts.printBlock( exc.what() );
 		}
 
 		return result;
