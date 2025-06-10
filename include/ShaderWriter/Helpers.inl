@@ -104,6 +104,12 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	expr::ExprPtr makeCondition( ReturnWrapperT< ValueT > const & value )
+	{
+		return makeCondition( ValueT{ value } );
+	}
+
+	template< typename ValueT >
 	ast::type::ImageConfiguration makeConfig()
 	{
 		return details::ConfigMaker< ValueT >::get();

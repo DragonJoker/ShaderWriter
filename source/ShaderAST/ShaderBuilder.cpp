@@ -3,9 +3,12 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/ShaderBuilder.hpp"
 
+#include "ShaderAST/Stmt/StmtDoWhile.hpp"
+#include "ShaderAST/Stmt/StmtFor.hpp"
 #include "ShaderAST/Stmt/StmtIf.hpp"
 #include "ShaderAST/Stmt/StmtSimple.hpp"
 #include "ShaderAST/Stmt/StmtSwitch.hpp"
+#include "ShaderAST/Stmt/StmtWhile.hpp"
 #include "ShaderAST/Visitors/CloneExpr.hpp"
 
 #include <algorithm>
@@ -108,33 +111,50 @@ namespace ast
 		return expr;
 	}
 
-	void ShaderBuilder::beginIf( expr::ExprPtr condition )
+	stmt::ContainerPtr ShaderBuilder::beginFor( expr::ExprPtr init
+		, expr::ExprPtr cond
+		, expr::ExprPtr incr )
+	{
+		return getStmtCache().makeFor( std::move( init )
+			, std::move( cond )
+			, std::move( incr ) );
+	}
+
+	stmt::ContainerPtr ShaderBuilder::beginDoWhile( expr::ExprPtr condition )
+	{
+		return getStmtCache().makeDoWhile( std::move( condition ) );
+	}
+
+	stmt::ContainerPtr ShaderBuilder::beginWhile( expr::ExprPtr condition )
+	{
+		return getStmtCache().makeWhile( std::move( condition ) );
+	}
+
+	stmt::ContainerPtr ShaderBuilder::beginIf( expr::ExprPtr condition )
 	{
 		auto stmt = getStmtCache().makeIf( std::move( condition ) );
 		m_ifStmt.push_back( stmt.get() );
-		pushScope( std::move( stmt ) );
+		return stmt;
 	}
 
-	void ShaderBuilder::beginElseIf( expr::ExprPtr condition )
+	stmt::Container * ShaderBuilder::beginElseIf( expr::ExprPtr condition )
 	{
 		if ( m_ifStmt.empty() )
 		{
 			AST_Exception( "No if statement" );
 		}
 
-		push( m_ifStmt.back()->createElseIf( std::move( condition ) )
-			, ast::var::VariableList{} );
+		return m_ifStmt.back()->createElseIf( std::move( condition ) );
 	}
 
-	void ShaderBuilder::beginElse()
+	stmt::Container * ShaderBuilder::beginElse()
 	{
 		if ( m_ifStmt.empty() )
 		{
 			AST_Exception( "No if statement" );
 		}
 
-		push( m_ifStmt.back()->createElse()
-			, ast::var::VariableList{} );
+		return m_ifStmt.back()->createElse();
 	}
 
 	void ShaderBuilder::endIf()
@@ -147,33 +167,31 @@ namespace ast
 		m_ifStmt.pop_back();
 	}
 
-	void ShaderBuilder::beginSwitch( expr::ExprPtr value )
+	stmt::ContainerPtr ShaderBuilder::beginSwitch( expr::ExprPtr value )
 	{
 		auto stmt = getStmtCache().makeSwitch( getExprCache().makeSwitchTest( std::move( value ) ) );
 		m_switchStmt.push_back( stmt.get() );
-		pushScope( std::move( stmt ) );
+		return stmt;
 	}
 
-	void ShaderBuilder::beginCase( expr::LiteralPtr literal )
+	stmt::Container * ShaderBuilder::beginCase( expr::LiteralPtr literal )
 	{
 		if ( m_switchStmt.empty() )
 		{
 			AST_Exception( "No switch statement" );
 		}
 
-		push( m_switchStmt.back()->createCase( getExprCache().makeSwitchCase( std::move( literal ) ) )
-			, ast::var::VariableList{} );
+		return m_switchStmt.back()->createCase( getExprCache().makeSwitchCase( std::move( literal ) ) );
 	}
 
-	void ShaderBuilder::beginDefault()
+	stmt::Container * ShaderBuilder::beginDefault()
 	{
 		if ( m_switchStmt.empty() )
 		{
 			AST_Exception( "No switch statement" );
 		}
 
-		push( m_switchStmt.back()->createDefault()
-			, ast::var::VariableList{} );
+		return m_switchStmt.back()->createDefault();
 	}
 
 	void ShaderBuilder::endSwitch()
