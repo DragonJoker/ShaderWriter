@@ -524,7 +524,7 @@ namespace
 					{
 						writer.returnStmt( Boolean{ true } );
 					}
-					sdwFI;
+					sdwFI
 
 					// Do a cull test of the bounding sphere against the view frustum planes.
 					auto center = writer.declLocale( "center", vec4( c.boundingSphere.xyz(), 1.0_f ) * world );
@@ -536,7 +536,7 @@ namespace
 						{
 							writer.returnStmt( Boolean{ false } );
 						}
-						sdwFI;
+						sdwFI
 					}
 
 					// Do normal cone culling
@@ -544,7 +544,7 @@ namespace
 					{
 						writer.returnStmt( Boolean{ true } ); // Cone is degenerate - spread is wider than a hemisphere.
 					}
-					sdwFI;
+					sdwFI
 
 					// Unpack the normal cone from its 8-bit uint compression
 					auto normalCone = writer.declLocale( "normalCone", unpackCone( c.normalCone ) );
@@ -562,7 +562,7 @@ namespace
 					{
 						writer.returnStmt( Boolean{ false } );
 					}
-					sdwFI;
+					sdwFI
 
 					// All tests passed - it will merit pixels
 					writer.returnStmt( Boolean{ true } );
@@ -589,7 +589,7 @@ namespace
 							, instance.world
 							, instance.scale, constants.cullViewPosition );
 					}
-					sdwFI;
+					sdwFI
 
 					// Compact visible meshlets into the export payload array
 					sdwIF( writer, visible )
@@ -597,7 +597,7 @@ namespace
 						//auto index = writer.declLocale( "index", WavePrefixCountBits( visible ) );
 						payload.meshletIndices[7_u/*index*/] = dtid;
 					}
-					sdwFI;
+					sdwFI
 
 					// Dispatch the required number of MS threadgroups to render the visible meshlets
 					//auto visibleCount = writer.declLocale( "visibleCount", WaveActiveCountBits( visible ) );

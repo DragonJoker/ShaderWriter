@@ -132,7 +132,7 @@ namespace
 						{
 							m_writer->returnStmt( ( -b - sqrt( discriminant ) ) / ( 2.0_f * a ) );
 						}
-						sdwFI
+						sdwFI;
 					}
 					, sdw::InParam< Sphere >{ *m_writer, "s" }
 					, sdw::InParam< Ray >{ *m_writer, "r" } );
@@ -213,7 +213,7 @@ namespace
 						aabb.maximum = sphere.center + vec3( sphere.radius );
 						tHit = ray.hitAabb( aabb );
 					}
-					sdwFI
+					sdwFI;
 
 					// Report hit point
 					sdwIF( writer, tHit > 0.0_f )
@@ -221,7 +221,7 @@ namespace
 						auto attribs = writer.declHitAttribute< sdw::Vec2 >( "attribs" );
 						attribs.reportIntersection( tHit, writer.cast< UInt >( hitKind ) );
 					}
-					sdwFI
+					sdwFI;
 				} );
 			test::writeShader( writer
 				, testCounts
