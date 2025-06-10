@@ -20,9 +20,9 @@ namespace sdw
 			, bool enabled );
 
 		template< ast::type::Kind KindT >
-		ValueT operator[]( IntegerValue< KindT > const & offset )const;
-		ValueT operator[]( int32_t offset )const;
-		ValueT operator[]( uint32_t offset )const;
+		ReturnWrapperT< ValueT > operator[]( IntegerValue< KindT > const & offset )const;
+		ReturnWrapperT< ValueT > operator[]( int32_t offset )const;
+		ReturnWrapperT< ValueT > operator[]( uint32_t offset )const;
 
 		template< typename ... ParamsT >
 		static ast::type::ArrayPtr makeType( ast::type::TypesCache & cache

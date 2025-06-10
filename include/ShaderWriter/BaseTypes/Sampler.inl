@@ -6,21 +6,10 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename T >
-	Sampler & Sampler::operator=( T const & rhs )
+	ReturnWrapperT< Sampler > Sampler::operator=( T const & rhs )
 	{
 		this->updateContainer( rhs );
-		auto & shader = findWriterMandat( *this, rhs );
-
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( shader
-				, sdw::makeSimple( getStmtCache( m_writer )
-					, sdw::makeAssign( getExpr()->getType()
-						, makeExpr( shader, getExpr() )
-						, makeExpr( shader, rhs ) ) ) );
-		}
-
-		return *this;
+		return writeAssignOperator< Sampler >( *this, rhs, sdw::makeAssign );
 	}
 
 	//*************************************************************************
@@ -35,10 +24,10 @@ namespace sdw
 
 	template< bool ComparisonT >
 	template< typename T >
-	SamplerT< ComparisonT > & SamplerT< ComparisonT >::operator=( T const & rhs )
+	ReturnWrapperT< SamplerT< ComparisonT > > SamplerT< ComparisonT >::operator=( T const & rhs )
 	{
-		Sampler::operator=( rhs );
-		return *this;
+		this->updateContainer( rhs );
+		return writeAssignOperator< SamplerT >( *this, rhs, sdw::makeAssign );
 	}
 
 	template< bool ComparisonT >

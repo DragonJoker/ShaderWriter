@@ -65,8 +65,8 @@ namespace sdw
 			, bool enabled
 			, ParamsT && ... params );
 
-		InstanceT operator[]( uint32_t index )const;
-		InstanceT operator[]( UInt32 const & index )const;
+		ReturnWrapperT< InstanceT > operator[]( uint32_t index )const;
+		ReturnWrapperT< InstanceT > operator[]( UInt32 const & index )const;
 
 		bool isEnabled()const
 		{

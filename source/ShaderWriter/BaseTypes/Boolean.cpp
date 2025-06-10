@@ -31,21 +31,20 @@ namespace sdw
 		return makeExpr( findWriterMandat( *this ), *this );
 	}
 
-	Boolean & Boolean::operator=( bool rhs )
+	ReturnWrapperT< Boolean > Boolean::operator=( bool rhs )
 	{
 		ShaderWriter & writer = findWriterMandat( *this, rhs );
-		addStmt( writer
-			, sdw::makeSimple( getStmtCache( m_writer )
-				, sdw::makeAssign( getType()
+		return ReturnWrapperT< Boolean >{ writer
+			, sdw::makeAssign( getType()
 				, makeExpr( writer, *this )
-				, makeExpr( writer, rhs ) ) ) );
-		return *this;
+				, makeExpr( writer, rhs ) )
+			, isEnabled() };
 	}
 
-	Boolean Boolean::operator!()const
+	ReturnWrapperT< Boolean > Boolean::operator!()const
 	{
 		ShaderWriter & writer = findWriterMandat( *this );
-		return Boolean{ writer, sdw::makeLogNot( makeCondition() ), isEnabled() };
+		return ReturnWrapperT< Boolean >{ writer, sdw::makeLogNot( makeCondition() ), isEnabled() };
 	}
 
 	ast::type::TypePtr Boolean::makeType( ast::type::TypesCache & cache )
@@ -55,22 +54,22 @@ namespace sdw
 
 	//*************************************************************************
 
-	Boolean operator==( Boolean const & lhs, Boolean const & rhs )
+	ReturnWrapperT< Boolean > operator==( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeEqual );
 	}
 
-	Boolean operator!=( Boolean const & lhs, Boolean const & rhs )
+	ReturnWrapperT< Boolean > operator!=( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeNEqual );
 	}
 
-	Boolean operator||( Boolean const & lhs, Boolean const & rhs )
+	ReturnWrapperT< Boolean > operator||( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogOr );
 	}
 
-	Boolean operator&&( Boolean const & lhs, Boolean const & rhs )
+	ReturnWrapperT< Boolean > operator&&( Boolean const & lhs, Boolean const & rhs )
 	{
 		return writeComparator< Boolean >( lhs, rhs, sdw::makeLogAnd );
 	}

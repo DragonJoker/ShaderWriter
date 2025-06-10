@@ -24,30 +24,30 @@ namespace sdw
 			, bool enabled );
 
 		template< typename RhsT >
-		Mat2x2T< ValueT > & operator=( RhsT const & rhs );
+		ReturnWrapperT< Mat2x2T< ValueT > > operator=( RhsT const & rhs );
 		template< typename IndexT >
-		Vec2T< ValueT > operator[]( IndexT const & rhs )const;
-		Vec2T< ValueT > operator[]( int32_t offset )const;
-		Vec2T< ValueT > operator[]( uint32_t offset )const;
-		Mat2x2T< ValueT > & operator+=( Mat2x2T< ValueT > const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator[]( IndexT const & rhs )const;
+		ReturnWrapperT< Vec2T< ValueT > > operator[]( int32_t offset )const;
+		ReturnWrapperT< Vec2T< ValueT > > operator[]( uint32_t offset )const;
+		ReturnWrapperT< Mat2x2T< ValueT > > operator+=( Mat2x2T< ValueT > const & rhs );
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 	template< typename ValueT >
-	Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
 		, Mat2x2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< ValueT > operator*( Mat2x2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator*( Mat2x2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Mat2x2T< ValueT > operator*( Mat2x2T< ValueT > const & lhs
+	ReturnWrapperT< Mat2x2T< ValueT > > operator*( Mat2x2T< ValueT > const & lhs
 		, Mat2x2T< ValueT > const & rhs );
 
 	template< typename ValueT >
-	Mat2x2T< ValueT > operator*( ValueT const & lhs
+	ReturnWrapperT< Mat2x2T< ValueT > > operator*( ValueT const & lhs
 		, Mat2x2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Mat2x2T< ValueT > operator*( Mat2x2T< ValueT > const & lhs
+	ReturnWrapperT< Mat2x2T< ValueT > > operator*( Mat2x2T< ValueT > const & lhs
 		, ValueT const & rhs );
 }
 

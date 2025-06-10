@@ -125,9 +125,6 @@ namespace sdw
 		SDW_API CombinedImage( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-
-		template< typename T >
-		CombinedImage & operator=( T const & rhs );
 	};
 
 	namespace combinedSmplImg
@@ -146,9 +143,6 @@ namespace sdw
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs );
 		};
 	}
 
@@ -173,7 +167,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		CombinedImageT & operator=( T const & rhs );
+		ReturnWrapperT< CombinedImageT > operator=( T const & rhs );
 
 		static ast::type::ImageConfiguration makeConfig();
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );

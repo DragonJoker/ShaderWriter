@@ -5,10 +5,10 @@ See LICENSE file in root folder
 #define ___SDW_Swizzle_H___
 
 #define Writer_Swizzle( Input, Output, Name )\
-	Output Name()const\
+	ReturnWrapperT< Output > Name()const\
 	{\
 		auto & shader = sdw::findWriterMandat( *this );\
-		return Output{ shader\
+		return ReturnWrapperT< Output >{ shader\
 			, sdw::makeSwizzle( makeExpr( shader, this->getExpr() )\
 				, sdw::expr::SwizzleKind{ sdw::expr::SwizzleKind::e##Name } )\
 			, this->isEnabled() };\

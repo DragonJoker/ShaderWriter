@@ -188,16 +188,16 @@ namespace sdw
 		, Value const & variable );
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
-	void writeAssignOperator( LhsT const & lhs
+	inline ReturnWrapperT< ReturnT > writeAssignOperator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
 
 	template< typename ReturnT, typename OperandT, typename CreatorT >
-	inline ReturnT writeUnOperator( OperandT const & operand
+	inline ReturnWrapperT< ReturnT > writeUnOperator( OperandT const & operand
 		, CreatorT creator );
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
-	inline ReturnT writeBinOperator( LhsT const & lhs
+	inline ReturnWrapperT< ReturnT > writeBinOperator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
 }

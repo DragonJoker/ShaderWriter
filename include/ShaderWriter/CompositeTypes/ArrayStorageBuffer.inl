@@ -212,9 +212,9 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArrayStorageBufferT< InstanceT >::operator[]( uint32_t index )const
+	ReturnWrapperT< InstanceT > ArrayStorageBufferT< InstanceT >::operator[]( uint32_t index )const
 	{
-		return InstanceT{ m_writer
+		return ReturnWrapperT< InstanceT >{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
 				, sdw::makeMbrSelect( sdw::makeIdent( getExprCache( m_writer ), getTypesCache( m_writer ), m_ssboVar )
 					, 0u
@@ -224,9 +224,9 @@ namespace sdw
 	}
 
 	template< typename InstanceT >
-	InstanceT ArrayStorageBufferT< InstanceT >::operator[]( UInt32 const & index )const
+	ReturnWrapperT< InstanceT > ArrayStorageBufferT< InstanceT >::operator[]( UInt32 const & index )const
 	{
-		return InstanceT{ m_writer
+		return ReturnWrapperT< InstanceT >{ m_writer
 			, sdw::makeArrayAccess( getNonArrayType( m_dataVar->getType() )
 				, sdw::makeMbrSelect( sdw::makeIdent( getExprCache( m_writer ), getTypesCache( m_writer ), m_ssboVar )
 					, 0u

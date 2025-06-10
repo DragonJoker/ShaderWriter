@@ -52,7 +52,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled = true );
 
-		CallableDataBaseT & operator=( ValueT const & rhs );
+		ReturnWrapperT< CallableDataBaseT > operator=( ValueT const & rhs );
 
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache

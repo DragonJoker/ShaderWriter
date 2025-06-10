@@ -24,11 +24,11 @@ namespace sdw
 			, bool enabled );
 
 		template< typename RhsT >
-		Mat3x2T< ValueT > & operator=( RhsT const & rhs );
+		ReturnWrapperT< Mat3x2T< ValueT > > operator=( RhsT const & rhs );
 		template< typename IndexT >
-		Vec2T< ValueT > operator[]( IndexT const & rhs )const;
-		Vec2T< ValueT > operator[]( int32_t offset )const;
-		Vec2T< ValueT > operator[]( uint32_t offset )const;
+		ReturnWrapperT< Vec2T< ValueT > > operator[]( IndexT const & rhs )const;
+		ReturnWrapperT< Vec2T< ValueT > > operator[]( int32_t offset )const;
+		ReturnWrapperT< Vec2T< ValueT > > operator[]( uint32_t offset )const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};

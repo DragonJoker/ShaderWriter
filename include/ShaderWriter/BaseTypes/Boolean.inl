@@ -6,7 +6,7 @@ namespace sdw
 	//*************************************************************************
 
 	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
-	inline RetT writeComparator( LhsT const & lhs
+	inline ReturnWrapperT< RetT > writeComparator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
@@ -23,7 +23,7 @@ namespace sdw
 			rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 		}
 
-		return RetT{ writer
+		return ReturnWrapperT< RetT >{ writer
 			, creator( std::move( lhsExpr ), std::move( rhsExpr ) )
 			, areOptionalEnabled( lhs, rhs ) };
 	}

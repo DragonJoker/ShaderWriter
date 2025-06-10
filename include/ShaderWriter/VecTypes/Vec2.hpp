@@ -24,20 +24,20 @@ namespace sdw
 			, bool enabled );
 
 		template< typename IndexT >
-		ValueT operator[]( IndexT const & rhs )const;
-		ValueT operator[]( int32_t offset )const;
-		ValueT operator[]( uint32_t offset )const;
+		ReturnWrapperT< ValueT > operator[]( IndexT const & rhs )const;
+		ReturnWrapperT< ValueT > operator[]( int32_t offset )const;
+		ReturnWrapperT< ValueT > operator[]( uint32_t offset )const;
 
-		Vec2T< ValueT > & operator+=( Vec2T< ValueT > const & rhs );
-		Vec2T< ValueT > & operator-=( Vec2T< ValueT > const & rhs );
-		Vec2T< ValueT > & operator*=( Vec2T< ValueT > const & rhs );
-		Vec2T< ValueT > & operator/=( Vec2T< ValueT > const & rhs );
-		Vec2T< ValueT > & operator+=( ValueT const & rhs );
-		Vec2T< ValueT > & operator-=( ValueT const & rhs );
-		Vec2T< ValueT > & operator*=( ValueT const & rhs );
-		Vec2T< ValueT > & operator/=( ValueT const & rhs );
-		Vec2T< ValueT > operator-()const;
-		Vec2T< ValueT > operator+()const;
+		ReturnWrapperT< Vec2T< ValueT > > operator+=( Vec2T< ValueT > const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator-=( Vec2T< ValueT > const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator*=( Vec2T< ValueT > const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator/=( Vec2T< ValueT > const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator+=( ValueT const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator-=( ValueT const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator*=( ValueT const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator/=( ValueT const & rhs );
+		ReturnWrapperT< Vec2T< ValueT > > operator-()const;
+		ReturnWrapperT< Vec2T< ValueT > > operator+()const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 
@@ -62,78 +62,78 @@ namespace sdw
 	};
 
 	template< typename ValueT >
-	Vec2T< Boolean > operator==( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator==( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator!=( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator!=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator<( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator<( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator<=( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator<=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator>( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator>( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator>=( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator>=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 
 	template< typename ValueT >
-	Vec2T< Boolean > operator==( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator==( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator!=( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator!=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator<( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator<( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator<=( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator<=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator>( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator>( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT >
-	Vec2T< Boolean > operator>=( Vec2T< ValueT > const & lhs
-		, Vec2T< ValueT > const & rhs );
-
-	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
-	inline Vec2T< ValueT > operator+( LhsT const & lhs
-		, Vec2T< ValueT > const & rhs );
-	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
-		, RhsT const & rhs );
-	template< typename ValueT >
-	inline Vec2T< ValueT > operator+( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< Boolean > > operator>=( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 
 	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
-	inline Vec2T< ValueT > operator-( LhsT const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator+( LhsT const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator+( Vec2T< ValueT > const & lhs
 		, RhsT const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator-( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator+( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 
 	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
-	inline Vec2T< ValueT > operator*( LhsT const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator-( LhsT const & lhs
 		, Vec2T< ValueT > const & rhs );
 	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
-	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator-( Vec2T< ValueT > const & lhs
 		, RhsT const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator*( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator-( Vec2T< ValueT > const & lhs
+		, Vec2T< ValueT > const & rhs );
+
+	template< typename ValueT, VecCompatibleT< ValueT > LhsT >
+	ReturnWrapperT< Vec2T< ValueT > > operator*( LhsT const & lhs
+		, Vec2T< ValueT > const & rhs );
+	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
+	ReturnWrapperT< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
+		, RhsT const & rhs );
+	template< typename ValueT >
+	ReturnWrapperT< Vec2T< ValueT > > operator*( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 
 	template< typename ValueT, VecCompatibleT< ValueT > RhsT >
-	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator/( Vec2T< ValueT > const & lhs
 		, RhsT const & rhs );
 	template< typename ValueT >
-	inline Vec2T< ValueT > operator/( Vec2T< ValueT > const & lhs
+	ReturnWrapperT< Vec2T< ValueT > > operator/( Vec2T< ValueT > const & lhs
 		, Vec2T< ValueT > const & rhs );
 }
 

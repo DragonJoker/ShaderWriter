@@ -23,92 +23,92 @@ namespace sdw
 		explicit IntegerValue( CppTypeT< IntegerValue > rhs );
 
 		template< IntegerT RhsT >
-		IntegerValue & operator=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator=( RhsT const & rhs );
 		expr::ExprPtr makeCondition()const;
 		ReturnWrapperT< IntegerValue > operator++();
 		ReturnWrapperT< IntegerValue > operator++( int );
 		ReturnWrapperT< IntegerValue > operator--();
 		ReturnWrapperT< IntegerValue > operator--( int );
 		template< IntegerT RhsT >
-		IntegerValue & operator+=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator+=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator-=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator-=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator*=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator*=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator/=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator/=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator%=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator%=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator<<=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator<<=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator>>=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator>>=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator&=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator&=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator|=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator|=( RhsT const & rhs );
 		template< IntegerT RhsT >
-		IntegerValue & operator^=( RhsT const & rhs );
-		IntegerValue operator-()const;
-		IntegerValue operator+()const;
+		ReturnWrapperT< IntegerValue > operator^=( RhsT const & rhs );
+		ReturnWrapperT< IntegerValue > operator-()const;
+		ReturnWrapperT< IntegerValue > operator+()const;
 
-		Vec2T< IntegerValue > xx()const;
-		Vec3T< IntegerValue > xxx()const;
-		Vec4T< IntegerValue > xxxx()const;
+		ReturnWrapperT< Vec2T< IntegerValue > > xx()const;
+		ReturnWrapperT< Vec3T< IntegerValue > > xxx()const;
+		ReturnWrapperT< Vec4T< IntegerValue > > xxxx()const;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator~( IntegerValue< KindT > const & value );
+	ReturnWrapperT< IntegerValue< KindT > > operator~( IntegerValue< KindT > const & value );
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator+( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator-( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator*( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator/( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator%( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator<<( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator>>( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator&( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator|( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator^( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator==( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator==( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator!=( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator!=( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator<( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator<( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator<=( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator<=( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator>( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator>( LhsT const & lhs
 		, RhsT const & rhs );
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator>=( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator>=( LhsT const & lhs
 		, RhsT const & rhs );
 }
 

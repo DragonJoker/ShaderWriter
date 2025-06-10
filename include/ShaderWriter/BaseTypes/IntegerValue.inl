@@ -27,10 +27,10 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAssign );
-		return *this;
+		this->updateContainer( rhs );
+		return writeAssignOperator< IntegerValue >( *this, rhs, sdw::makeAssign );
 	}
 
 	template< ast::type::Kind KindT >
@@ -44,115 +44,105 @@ namespace sdw
 	template< ast::type::Kind KindT >
 	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator++()
 	{
-		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePreInc );
+		return writeUnOperator< IntegerValue< KindT > >( *this, sdw::makePreInc );
 	}
 
 	template< ast::type::Kind KindT >
 	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator++( int )
 	{
-		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePostInc );
+		return writeUnOperator< IntegerValue< KindT > >( *this, sdw::makePostInc );
 	}
 
 	template< ast::type::Kind KindT >
 	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator--()
 	{
-		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePreDec );
+		return writeUnOperator< IntegerValue< KindT > >( *this, sdw::makePreDec );
 	}
 
 	template< ast::type::Kind KindT >
 	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator--( int )
 	{
-		return writeUnOperator< ReturnWrapperT< IntegerValue< KindT > > >( *this, sdw::makePostDec );
+		return writeUnOperator< IntegerValue< KindT > >( *this, sdw::makePostDec );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator+=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator+=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAddAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAddAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator-=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator-=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeMinusAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeMinusAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator*=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator*=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeTimesAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeTimesAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator/=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator/=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeDivideAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeDivideAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator%=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator%=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeModuloAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeModuloAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator<<=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator<<=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeLShiftAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeLShiftAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator>>=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator>>=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeRShiftAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeRShiftAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator&=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator&=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAndAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeAndAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator|=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator|=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeOrAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeOrAssign );
 	}
 
 	template< ast::type::Kind KindT >
 	template< IntegerT RhsT >
-	IntegerValue< KindT > & IntegerValue< KindT >::operator^=( RhsT const & rhs )
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator^=( RhsT const & rhs )
 	{
-		writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeXorAssign );
-		return *this;
+		return writeAssignOperator< IntegerValue< KindT > >( *this, rhs, sdw::makeXorAssign );
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > IntegerValue< KindT >::operator-()const
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator-()const
 	{
 		return writeUnOperator< IntegerValue< KindT > >( *this, sdw::makeUnMinus );
 	}
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > IntegerValue< KindT >::operator+()const
+	ReturnWrapperT< IntegerValue< KindT > > IntegerValue< KindT >::operator+()const
 	{
 		return writeUnOperator< IntegerValue< KindT > >( *this, sdw::makeUnPlus );
 	}
@@ -164,25 +154,25 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
-	Vec2T< IntegerValue< KindT > > IntegerValue< KindT >::xx()const
+	ReturnWrapperT< Vec2T< IntegerValue< KindT > > > IntegerValue< KindT >::xx()const
 	{
-		return Vec2T< IntegerValue< KindT > >{ *getWriter()
+		return ReturnWrapperT< Vec2T< IntegerValue< KindT > > >{ *getWriter()
 			, sdw::makeExpr( *this )
 			, isEnabled() };
 	}
 
 	template< ast::type::Kind KindT >
-	Vec3T< IntegerValue< KindT > > IntegerValue< KindT >::xxx()const
+	ReturnWrapperT< Vec3T< IntegerValue< KindT > > > IntegerValue< KindT >::xxx()const
 	{
-		return Vec3T< IntegerValue< KindT > >{ *getWriter()
+		return ReturnWrapperT< Vec3T< IntegerValue< KindT > > >{ *getWriter()
 			, sdw::makeExpr( *this )
 			, isEnabled() };
 	}
 
 	template< ast::type::Kind KindT >
-	Vec4T< IntegerValue< KindT > > IntegerValue< KindT >::xxxx()const
+	ReturnWrapperT< Vec4T< IntegerValue< KindT > > > IntegerValue< KindT >::xxxx()const
 	{
-		return Vec4T< IntegerValue< KindT > >{ *getWriter()
+		return ReturnWrapperT< Vec4T< IntegerValue< KindT > > >{ *getWriter()
 			, sdw::makeExpr( *this )
 			, isEnabled() };
 	}
@@ -190,21 +180,21 @@ namespace sdw
 	//*************************************************************************
 
 	template< ast::type::Kind KindT >
-	IntegerValue< KindT > operator~( IntegerValue< KindT > const & expr )
+	ReturnWrapperT< IntegerValue< KindT > > operator~( IntegerValue< KindT > const & expr )
 	{
 		return writeUnOperator< IntegerValue< KindT > >( expr, sdw::makeBitNot );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator+( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator+( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
-		return writeBinOperator< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > >( lhs, rhs, sdw::makeAdd );
+		return writeBinOperator< ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > >( lhs, rhs, sdw::makeAdd );
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator-( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator-( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -212,7 +202,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator*( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator*( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -220,7 +210,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator/( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator/( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -228,7 +218,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator%( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator%( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -236,7 +226,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator<<( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator<<( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -244,7 +234,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator>>( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator>>( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -252,7 +242,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator&( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator&( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -260,7 +250,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator|( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator|( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -268,7 +258,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	IntegerValue< typeEnumV< OperandTypeT< LhsT > > > operator^( LhsT const & lhs
+	ReturnWrapperT< IntegerValue< typeEnumV< OperandTypeT< LhsT > > > > operator^( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -276,7 +266,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator==( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator==( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -284,7 +274,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator!=( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator!=( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -292,7 +282,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator<( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator<( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -300,7 +290,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator<=( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator<=( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -308,7 +298,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator>( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator>( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );
@@ -316,7 +306,7 @@ namespace sdw
 	}
 
 	template< IntegerT LhsT, IntegerT RhsT >
-	Boolean operator>=( LhsT const & lhs
+	ReturnWrapperT< Boolean > operator>=( LhsT const & lhs
 		, RhsT const & rhs )
 	{
 		static_assert( typeEnumV< LhsT > == typeEnumV< RhsT > );

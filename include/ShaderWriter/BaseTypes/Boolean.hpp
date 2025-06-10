@@ -20,24 +20,24 @@ namespace sdw
 		SDW_API explicit Boolean( bool value );
 		SDW_API explicit Boolean( Value rhs );
 
-		SDW_API Boolean & operator=( bool rhs );
-		SDW_API Boolean operator!()const;
+		SDW_API ReturnWrapperT< Boolean > operator=( bool rhs );
+		SDW_API ReturnWrapperT< Boolean > operator!()const;
 		SDW_API expr::ExprPtr makeCondition()const;
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
 
-	SDW_API Boolean operator==( Boolean const & lhs
+	SDW_API ReturnWrapperT< Boolean > operator==( Boolean const & lhs
 		, Boolean const & rhs );
-	SDW_API Boolean operator!=( Boolean const & lhs
+	SDW_API ReturnWrapperT< Boolean > operator!=( Boolean const & lhs
 		, Boolean const & rhs );
-	SDW_API Boolean operator||( Boolean const & lhs
+	SDW_API ReturnWrapperT< Boolean > operator||( Boolean const & lhs
 		, Boolean const & rhs );
-	SDW_API Boolean operator&&( Boolean const & lhs
+	SDW_API ReturnWrapperT< Boolean > operator&&( Boolean const & lhs
 		, Boolean const & rhs );
 
 	template< typename RetT, typename LhsT, typename RhsT, typename CreatorT >
-	inline RetT writeComparator( LhsT const & lhs
+	inline ReturnWrapperT< RetT > writeComparator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator );
 }

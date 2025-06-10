@@ -17,10 +17,10 @@ namespace sdw
 
 	template< typename ValueT >
 	template< ast::type::Kind KindT >
-	ValueT Array< ValueT >::operator[]( IntegerValue< KindT > const & offset )const
+	ReturnWrapperT< ValueT > Array< ValueT >::operator[]( IntegerValue< KindT > const & offset )const
 	{
 		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
-		return ValueT{ writer
+		return ReturnWrapperT< ValueT >{ writer
 			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
 				, sdw::makeExpr( writer, *this )
 				, sdw::makeExpr( writer, offset ) )
@@ -28,10 +28,10 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ValueT Array< ValueT >::operator[]( int32_t offset )const
+	ReturnWrapperT< ValueT > Array< ValueT >::operator[]( int32_t offset )const
 	{
 		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
-		return ValueT{ writer
+		return ReturnWrapperT< ValueT >{ writer
 			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
 				, sdw::makeExpr( writer, *this )
 				, sdw::makeExpr( writer, offset ) )
@@ -39,10 +39,10 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ValueT Array< ValueT >::operator[]( uint32_t offset )const
+	ReturnWrapperT< ValueT > Array< ValueT >::operator[]( uint32_t offset )const
 	{
 		ShaderWriter & writer = sdw::findWriterMandat( *this, offset );
-		return ValueT{ writer
+		return ReturnWrapperT< ValueT >{ writer
 			, sdw::makeArrayAccess( ast::type::getNonArrayType( this->getType() )
 				, sdw::makeExpr( writer, *this )
 				, sdw::makeExpr( writer, offset ) )

@@ -1524,13 +1524,6 @@ namespace sdw
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -1560,13 +1553,6 @@ namespace sdw
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -1595,13 +1581,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -1633,13 +1612,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -1687,13 +1659,6 @@ namespace sdw
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -1725,13 +1690,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -1772,13 +1730,6 @@ namespace sdw
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -1807,13 +1758,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -1845,13 +1789,6 @@ namespace sdw
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -1881,13 +1818,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -1920,13 +1850,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -1961,13 +1884,6 @@ namespace sdw
 				, bool enabled )
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -2009,34 +1925,9 @@ namespace sdw
 				: StorageImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs )
-			{
-				StorageImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*****************************************************************************************
-	}
-
-	template< typename T >
-	StorageImage & StorageImage::operator=( T const & rhs )
-	{
-		this->updateContainer( rhs );
-		auto & shader = findWriterMandat( *this, rhs );
-
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( shader
-				, sdw::makeSimple( getStmtCache( shader )
-					, sdw::makeAssign( getExpr()->getType()
-						, makeExpr( shader, getExpr() )
-						, makeExpr( shader, rhs ) ) ) );
-		}
-
-		return *this;
 	}
 
 	//*****************************************************************************************
@@ -2059,10 +1950,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT >
 	template< typename T >
-	StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > & StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
+	ReturnWrapperT< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
 	{
-		storageImg::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( rhs );
-		return *this;
+		this->updateContainer( rhs );
+		return writeAssignOperator< StorageImageT >( *this, rhs, sdw::makeAssign );
 	}
 
 	template< type::ImageFormat FormatT

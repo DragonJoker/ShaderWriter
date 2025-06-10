@@ -59,7 +59,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled = true );
 
-		RayPayloadBaseT & operator=( ValueT const & rhs );
+		ReturnWrapperT< RayPayloadBaseT > operator=( ValueT const & rhs );
 
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache
