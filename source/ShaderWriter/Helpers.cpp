@@ -76,6 +76,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
+#include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/ShaderBuilder.hpp>
 
@@ -1201,5 +1202,13 @@ namespace sdw
 		, std::string_view name )
 	{
 		return writer.getBuilder().getMemberVariable( outer, name );
+	}
+
+	var::VariablePtr findIdentVar( ShaderWriter const & writer
+		, Value const & value )
+	{
+		auto ident = ast::findIdentifier( *value.getExpr() );
+		AST_Assert( ident != nullptr );
+		return ident ? ident->getVariable() : nullptr;
 	}
 }

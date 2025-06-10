@@ -189,7 +189,7 @@ namespace sdw
 		, expr::ExprPtr incr
 		, std::function< void() > const & function )
 	{
-		m_builder->pushScope( getStmtCache().makeFor( makeExpr( *this, *init )
+		m_builder->pushScope( m_builder->beginFor( makeExpr( *this, *init )
 			, makeExpr( *this, *cond )
 			, makeExpr( *this, *incr ) ) );
 		function();
@@ -227,7 +227,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::ifStmt( expr::ExprPtr condition
 		, std::function< void() > const & function )
 	{
-		m_builder->beginIf( std::move( condition ) );
+		m_builder->pushScope( m_builder->beginIf( std::move( condition ) ) );
 		function();
 		m_builder->popScope();
 		return *this;
@@ -242,7 +242,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::elseIfStmt( expr::ExprPtr condition
 		, std::function< void() > const & function )
 	{
-		m_builder->beginElseIf( std::move( condition ) );
+		m_builder->push( m_builder->beginElseIf( std::move( condition ) ), ast::var::VariableList{} );
 		function();
 		m_builder->pop();
 		return *this;
@@ -256,7 +256,7 @@ namespace sdw
 
 	ShaderWriter & ShaderWriter::elseStmt( std::function< void() > const & function )
 	{
-		m_builder->beginElse();
+		m_builder->push( m_builder->beginElse(), ast::var::VariableList{} );
 		function();
 		m_builder->pop();
 		return *this;
@@ -270,7 +270,7 @@ namespace sdw
 	ShaderWriter & ShaderWriter::switchStmt( expr::ExprPtr value
 		, std::function< void() > const & function )
 	{
-		m_builder->beginSwitch( std::move( value ) );
+		m_builder->pushScope( m_builder->beginSwitch( std::move( value ) ) );
 		function();
 		m_builder->popScope();
 		return *this;
@@ -284,14 +284,14 @@ namespace sdw
 	void ShaderWriter::caseStmt( expr::LiteralPtr literal
 		, std::function< void() > const & function )
 	{
-		m_builder->beginCase( std::move( literal ) );
+		m_builder->push( m_builder->beginCase( std::move( literal ) ), ast::var::VariableList{} );
 		function();
 		m_builder->pop();
 	}
 
 	void ShaderWriter::defaultStmt( std::function< void() > const & function )
 	{
-		m_builder->beginDefault();
+		m_builder->push( m_builder->beginDefault(), ast::var::VariableList{} );
 		function();
 		m_builder->pop();
 	}

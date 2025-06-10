@@ -428,6 +428,9 @@ namespace sdw
 		addStmt( writer, stmt::StmtPtr{ reinterpret_cast< stmt::Stmt * >( stmt.release() ) } );
 #pragma warning( pop )
 	}
+
+	SDW_API var::VariablePtr findIdentVar( ShaderWriter const & writer
+		, Value const & value );
 }
 
 #include "Helpers.inl"

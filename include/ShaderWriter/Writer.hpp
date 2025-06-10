@@ -206,6 +206,12 @@ namespace sdw
 		ExprType ternary( Boolean condition
 			, ExprType left
 			, ReturnWrapperT< ExprType > right );
+		template< typename InitT, typename CondT, typename IncrT >
+		void forStmt( InitT & loopVar
+			, InitT const & init
+			, CondT const & condition
+			, IncrT const & increment
+			, std::function< void() > const & function );
 		SDW_API void forStmt( expr::ExprPtr init
 			, expr::ExprPtr condition
 			, expr::ExprPtr increment
@@ -1100,16 +1106,8 @@ namespace sdw
 #define sdwFOR( Writer, Type, Name, Init, Cond, Incr )\
 	if ( auto writerScope = makeScope( Writer ) )\
 	{\
-		auto ctrlVar##Name = ( Writer ).registerLoopVar( #Name, Type::makeType( ( Writer ).getTypesCache() ) );\
-		Type Name{ Writer, sdw::makeExpr( Writer, ctrlVar##Name ), true };\
-		( Writer ).saveNextExpr();\
-		Type incr##Name{ Writer, ( Writer ).loadExpr( Type{ Incr } ), true };\
-		Name.updateExpr( sdw::makeExpr( ( Writer ), ctrlVar##Name ) );\
-		sdw::Boolean cond##Name{ ( Writer ), sdw::makeCondition( Cond ), true };\
-		( Writer ).forStmt( sdw::makeInit( ctrlVar##Name\
-			, sdw::makeExpr( Writer, Init ) )\
-			, sdw::makeExpr( Writer, cond##Name )\
-			, sdw::makeExpr( Writer, incr##Name )\
+		Type Name{ Writer, sdw::makeExpr( Writer, ( Writer ).registerLoopVar( #Name, Type::makeType( ( Writer ).getTypesCache() ) ) ), true };\
+		( Writer ).forStmt( Name, Init, Cond, Incr\
 			, [&]()noexcept
 
 #define sdwROF\
@@ -1155,13 +1153,13 @@ namespace sdw
 				, [&]()noexcept
 
 #define sdwESAC\
- )
+ );
 
 #define sdwDEFAULT\
 			writerScope->defaultStmt( [&]()noexcept
 
 #define sdwTLUAFED\
- )
+ );
 
 #define sdwHCTIWS\
  ).endSwitch();\

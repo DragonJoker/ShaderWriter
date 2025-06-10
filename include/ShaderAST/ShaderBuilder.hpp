@@ -32,13 +32,18 @@ namespace ast
 		*	Control statements.
 		*/
 		/**@{*/
-		SDAST_API void beginIf( expr::ExprPtr condition );
-		SDAST_API void beginElseIf( expr::ExprPtr condition );
-		SDAST_API void beginElse();
+		SDAST_API stmt::ContainerPtr beginFor( expr::ExprPtr init
+			, expr::ExprPtr cond
+			, expr::ExprPtr incr );
+		SDAST_API stmt::ContainerPtr beginDoWhile( expr::ExprPtr condition );
+		SDAST_API stmt::ContainerPtr beginWhile( expr::ExprPtr condition );
+		SDAST_API stmt::ContainerPtr beginIf( expr::ExprPtr condition );
+		SDAST_API stmt::Container * beginElseIf( expr::ExprPtr condition );
+		SDAST_API stmt::Container * beginElse();
 		SDAST_API void endIf();
-		SDAST_API void beginSwitch( expr::ExprPtr value );
-		SDAST_API void beginCase( expr::LiteralPtr literal );
-		SDAST_API void beginDefault();
+		SDAST_API stmt::ContainerPtr beginSwitch( expr::ExprPtr value );
+		SDAST_API stmt::Container * beginCase( expr::LiteralPtr literal );
+		SDAST_API stmt::Container * beginDefault();
 		SDAST_API void endSwitch();
 		/**@}*/
 		/**

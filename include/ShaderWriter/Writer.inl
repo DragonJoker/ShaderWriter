@@ -271,6 +271,24 @@ namespace sdw
 				, makeExpr( *this, std::move( right ) ) )
 			, areOptionalEnabled( condition, left, right ) };
 	}
+
+	template< typename InitT, typename CondT, typename IncrT >
+	void ShaderWriter::forStmt( InitT & loopVar
+		, InitT const & init
+		, CondT const & condition
+		, IncrT const & increment
+		, std::function< void() > const & function )
+	{
+		saveNextExpr();
+		auto initExpr = sdw::makeInit( sdw::findIdentVar( *this, loopVar )
+			, sdw::makeExpr( *this, init ) );
+		auto condExpr = sdw::makeCondition( condition );
+		auto incrExpr = loadExpr( InitT{ increment } );
+		forStmt( std::move( initExpr )
+			, std::move( condExpr )
+			, std::move( incrExpr )
+			, function );
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Constant declaration
