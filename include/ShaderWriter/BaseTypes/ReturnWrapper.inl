@@ -42,6 +42,39 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( ReturnWrapperT< ValueT > const & rhs )
+	{
+		auto & writer = *this->getWriter();
+		return ReturnWrapperT< ValueT >{ writer
+			, sdw::makeAssign( this->getType()
+				, makeExpr( writer, *this )
+				, makeExpr( writer, rhs ) )
+			, areOptionalEnabled( *this, rhs ) };
+	}
+
+	template< typename ValueT >
+	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( ReturnWrapperT< ValueT > && rhs )
+	{
+		auto & writer = *this->getWriter();
+		return ReturnWrapperT< ValueT >{ writer
+			, sdw::makeAssign( this->getType()
+				, makeExpr( writer, *this )
+				, makeExpr( writer, rhs ) )
+			, areOptionalEnabled( *this, rhs ) };
+	}
+
+	template< typename ValueT >
+	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( ValueT const & rhs )
+	{
+		auto & writer = *this->getWriter();
+		return ReturnWrapperT< ValueT >{ writer
+			, sdw::makeAssign( this->getType()
+				, makeExpr( writer, *this )
+				, makeExpr( writer, rhs ) )
+			, areOptionalEnabled( *this, rhs ) };
+	}
+
+	template< typename ValueT >
 	type::TypePtr ReturnWrapperT< ValueT >::getType()const
 	{
 		if ( this->m_expr )
@@ -55,7 +88,8 @@ namespace sdw
 	template< typename ValueT >
 	expr::Expr const * ReturnWrapperT< ValueT >::getExpr()const
 	{
-		m_remnExpr = std::move( release() );
+		if ( !m_remnExpr )
+			m_remnExpr = std::move( release() );
 		return m_remnExpr.get();
 	}
 

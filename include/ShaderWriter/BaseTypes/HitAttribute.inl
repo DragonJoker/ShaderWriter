@@ -40,6 +40,13 @@ namespace sdw
 	}
 
 	template< typename ValueT >
+	ReturnWrapperT< HitAttributeT< ValueT > > HitAttributeT< ValueT >::operator=( ValueT const & rhs )
+	{
+		this->updateContainer( rhs );
+		return writeAssignOperator< HitAttributeT >( *this, rhs, sdw::makeAssign );
+	}
+
+	template< typename ValueT >
 	template< typename ... ParamsT >
 	ast::type::TypePtr HitAttributeT< ValueT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )

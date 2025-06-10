@@ -2717,13 +2717,6 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -2790,13 +2783,6 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -2845,13 +2831,6 @@ namespace sdw
 				, bool enabled )
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -2908,13 +2887,6 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -2952,13 +2924,6 @@ namespace sdw
 				, bool enabled )
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -3020,13 +2985,6 @@ namespace sdw
 				, bool enabled )
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -3095,13 +3053,6 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -3144,13 +3095,6 @@ namespace sdw
 				, bool enabled )
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
-			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
 			}
 		};
 
@@ -3201,13 +3145,6 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -3244,13 +3181,6 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
@@ -3278,34 +3208,9 @@ namespace sdw
 				: CombinedImage{ writer, std::move( expr ), enabled }
 			{
 			}
-
-			template< typename T >
-			CombinedImageFuncsT & operator=( T const & rhs )
-			{
-				CombinedImage::operator=( rhs );
-				return *this;
-			}
 		};
 
 		//*************************************************************************
-	}
-
-	template< typename T >
-	CombinedImage & CombinedImage::operator=( T const & rhs )
-	{
-		this->updateContainer( rhs );
-		auto & shader = findWriterMandat( *this, rhs );
-
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( shader
-				, sdw::makeSimple( getStmtCache( shader )
-					, sdw::makeAssign( getExpr()->getType()
-						, makeExpr( shader, getExpr() )
-						, makeExpr( shader, rhs ) ) ) );
-		}
-
-		return *this;
 	}
 
 	//*************************************************************************
@@ -3328,10 +3233,10 @@ namespace sdw
 		, bool MsT
 		, bool DepthT >
 	template< typename T >
-	CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > & CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >::operator=( T const & rhs )
+	ReturnWrapperT< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >::operator=( T const & rhs )
 	{
-		combinedSmplImg::CombinedImageFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >::operator=( rhs );
-		return *this;
+		this->updateContainer( rhs );
+		return writeAssignOperator< CombinedImageT >( *this, rhs, sdw::makeAssign );
 	}
 
 	template< ast::type::ImageFormat FormatT

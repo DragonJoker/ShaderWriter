@@ -18,7 +18,7 @@ namespace
 		a -= b;
 		a *= b;
 		a /= b;
-		auto ignore = a == b;
+		sdw::Boolean ignore = a == b;
 		ignore = a != b;
 		ignore = a <= b;
 		ignore = a >= b;

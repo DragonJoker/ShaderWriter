@@ -28,9 +28,6 @@ namespace sdw
 		SDW_API StorageImage( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-
-		template< typename T >
-		StorageImage & operator=( T const & rhs );
 	};
 
 	namespace storageImg
@@ -49,9 +46,6 @@ namespace sdw
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
 				, bool enabled );
-
-			template< typename T >
-			StorageImageFuncsT & operator=( T const & rhs );
 		};
 	}
 
@@ -76,7 +70,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		StorageImageT & operator=( T const & rhs );
+		ReturnWrapperT< StorageImageT > operator=( T const & rhs );
 
 		static ast::type::ImageConfiguration makeConfig();
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );

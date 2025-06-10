@@ -7,26 +7,6 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	template< typename T >
-	SampledImage & SampledImage::operator=( T const & rhs )
-	{
-		this->updateContainer( rhs );
-		auto & shader = findWriterMandat( *this, rhs );
-
-		if ( areOptionalEnabled( *this, rhs ) )
-		{
-			addStmt( shader
-				, sdw::makeSimple( getStmtCache( shader )
-					, sdw::makeAssign( getExpr()->getType()
-						, makeExpr( shader, getExpr() )
-						, makeExpr( shader, rhs ) ) ) );
-		}
-
-		return *this;
-	}
-
-	//*************************************************************************
-
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
@@ -43,10 +23,10 @@ namespace sdw
 		, bool ArrayedT
 		, bool MsT >
 	template< typename T >
-	SampledImageT< FormatT, DimT, ArrayedT, MsT > & SampledImageT< FormatT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
+	ReturnWrapperT< SampledImageT< FormatT, DimT, ArrayedT, MsT > > SampledImageT< FormatT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
 	{
-		SampledImage::operator=( rhs );
-		return *this;
+		this->updateContainer( rhs );
+		return writeAssignOperator< SampledImageT >( *this, rhs, sdw::makeAssign );
 	}
 
 	template< ast::type::ImageFormat FormatT
@@ -66,6 +46,4 @@ namespace sdw
 	{
 		return cache.getSampledImage( makeConfig() );
 	}
-
-	//*************************************************************************
 }

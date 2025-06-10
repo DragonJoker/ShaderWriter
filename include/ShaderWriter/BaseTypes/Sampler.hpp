@@ -18,7 +18,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		Sampler & operator=( T const & rhs );
+		ReturnWrapperT< Sampler > operator=( T const & rhs );
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache
 			, bool isComparison = false );
@@ -37,7 +37,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		SamplerT & operator=( T const & rhs );
+		ReturnWrapperT< SamplerT > operator=( T const & rhs );
 
 		static bool makeConfig();
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );

@@ -55,7 +55,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled = true );
 
-		HitAttributeT & operator=( ValueT const & rhs );
+		ReturnWrapperT< HitAttributeT > operator=( ValueT const & rhs );
 
 		template< typename ... ParamsT >
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache

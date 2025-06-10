@@ -15,8 +15,6 @@ namespace sdw
 	{
 	private:
 		ReturnWrapperT( ReturnWrapperT const & rhs ) = delete;
-		ReturnWrapperT & operator=( ReturnWrapperT const & rhs ) = delete;
-		ReturnWrapperT & operator=( ReturnWrapperT && rhs )noexcept = delete;
 
 	public:
 		ReturnWrapperT( ShaderWriter & writer
@@ -25,6 +23,9 @@ namespace sdw
 		explicit ReturnWrapperT( ValueT const & rhs );
 		ReturnWrapperT( ReturnWrapperT && rhs )noexcept;
 		~ReturnWrapperT()noexcept override;
+		ReturnWrapperT< ValueT > operator=( ReturnWrapperT const & rhs );
+		ReturnWrapperT< ValueT > operator=( ReturnWrapperT && rhs );
+		ReturnWrapperT< ValueT > operator=( ValueT const & rhs );
 
 		type::TypePtr getType()const override;
 		expr::Expr const * getExpr()const override;

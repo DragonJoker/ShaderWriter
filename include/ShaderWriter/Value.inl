@@ -358,52 +358,49 @@ namespace sdw
 	//***********************************************************************************************
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
-	void writeAssignOperator( LhsT const & lhs
+	ReturnWrapperT< ReturnT > writeAssignOperator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
-		if ( areOptionalEnabled( lhs, rhs ) )
+		auto & writer = findWriterMandat( lhs, rhs );
+		ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, isOptionalEnabled( lhs ) );
+		ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, isOptionalEnabled( rhs ) );
+		ast::type::TypePtr lhsType = lhsExpr->getType();
+		ast::type::TypePtr rhsType = rhsExpr->getType();
+
+		if constexpr ( !std::is_same_v< CppTypeT< LhsT >, CppTypeT< RhsT > > )
 		{
-			ShaderWriter & writer = findWriterMandat( lhs, rhs );
-			ast::expr::ExprPtr lhsExpr = sdw::makeExpr( writer, lhs, true );
-			ast::expr::ExprPtr rhsExpr = sdw::makeExpr( writer, rhs, true );
-			ast::type::TypePtr lhsType = lhsExpr->getType();
-			ast::type::TypePtr rhsType = rhsExpr->getType();
-
-			if constexpr ( !std::is_same_v< CppTypeT< LhsT >, CppTypeT< RhsT > > )
+			if ( rhsType->getNonMemberType() != lhsType->getNonMemberType() )
 			{
-				if ( rhsType->getNonMemberType() != lhsType->getNonMemberType() )
-				{
-					rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
-				}
+				rhsExpr = sdw::makeCast( lhsType, std::move( rhsExpr ) );
 			}
-
-			addStmt( writer
-				, sdw::makeSimple( getStmtCache( writer )
-					, creator( ReturnT::makeType( getTypesCache( writer ) )
-						, std::move( lhsExpr )
-						, std::move( rhsExpr ) ) ) );
 		}
+
+		return ReturnWrapperT< ReturnT >{ writer
+			, creator( lhsType
+				, std::move( lhsExpr )
+				, std::move( rhsExpr ) )
+			, areOptionalEnabled( lhs, rhs ) };
 	}
 
 	template< typename ReturnT, typename OperandT, typename CreatorT >
-	inline ReturnT writeUnOperator( OperandT const & operand
+	inline ReturnWrapperT< ReturnT > writeUnOperator( OperandT const & operand
 		, CreatorT creator )
 	{
 		auto & writer = findWriterMandat( operand );
-		return ReturnT{ writer
+		return  ReturnWrapperT< ReturnT >{ writer
 			, creator( makeExpr( writer, operand ) )
 			, operand.isEnabled() };
 	}
 
 	template< typename ReturnT, typename LhsT, typename RhsT, typename CreatorT >
-	inline ReturnT writeBinOperator( LhsT const & lhs
+	inline ReturnWrapperT< ReturnT > writeBinOperator( LhsT const & lhs
 		, RhsT const & rhs
 		, CreatorT creator )
 	{
 		auto & writer = findWriterMandat( lhs, rhs );
-		return ReturnT{ writer
-			, creator( ReturnT::makeType( findTypesCache( lhs, rhs ) )
+		return ReturnWrapperT< ReturnT >{ writer
+			, creator( ReturnT::makeType( getTypesCache( writer ) )
 				, makeExpr( writer, lhs )
 				, makeExpr( writer, rhs ) )
 			, areOptionalEnabled( lhs, rhs ) };

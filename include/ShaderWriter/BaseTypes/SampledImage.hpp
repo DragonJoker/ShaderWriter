@@ -16,9 +16,6 @@ namespace sdw
 		SDW_API SampledImage( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
-
-		template< typename T >
-		SampledImage & operator=( T const & rhs );
 	};
 
 	template< ast::type::ImageFormat FormatT
@@ -40,7 +37,7 @@ namespace sdw
 			, bool enabled );
 
 		template< typename T >
-		SampledImageT & operator=( T const & rhs );
+		ReturnWrapperT< SampledImageT > operator=( T const & rhs );
 
 		static ast::type::ImageConfiguration makeConfig();
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
