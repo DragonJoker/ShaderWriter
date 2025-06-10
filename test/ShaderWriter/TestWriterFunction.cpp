@@ -1214,7 +1214,7 @@ namespace
 				{
 					m.b[i] *= p;
 				}
-				sdwROF;
+				sdwROF
 				writer.returnStmt( m.a * p );
 			}
 			, InSt{ writer, "m" }
@@ -1329,7 +1329,7 @@ namespace
 				{
 					str.b[i] *= pos;
 				}
-				sdwROF;
+				sdwROF
 				writer.returnStmt( str.a * pos );
 			}
 			, InSt{ writer, "str" }
@@ -1618,7 +1618,7 @@ namespace
 				{
 					test -= end;
 				}
-				sdwELIHW;
+				sdwELIHW
 
 				writer.returnStmt( test );
 			}
@@ -1663,7 +1663,7 @@ namespace
 				{
 					ptest = foo01( pst.a.x(), pend );
 				}
-				sdwELIHW;
+				sdwELIHW
 
 				writer.returnStmt( pst.a.x() );
 			}
@@ -1698,7 +1698,7 @@ namespace
 				{
 					writer.returnStmt( srgb );
 				}
-				sdwFI;
+				sdwFI
 
 				writer.returnStmt( pow( srgb, vec3( gamma ) ) );
 			}
@@ -1758,7 +1758,7 @@ namespace
 				{
 					writer.returnStmt( p.z() );
 				}
-				sdwFI;
+				sdwFI
 			}
 			, InVec4{ writer, "p" } );
 
@@ -1799,7 +1799,7 @@ namespace
 					e = normalize( coord.xy() );
 					coord.w() = dot( e, vec2( 0.5_f, 0.5_f ) );
 				}
-				sdwELIHW;
+				sdwELIHW
 
 				writer.returnStmt( coord.zw() );
 			}
@@ -1841,7 +1841,7 @@ namespace
 				{
 					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
 				}
-				sdwFI;
+				sdwFI
 
 				writer.returnStmt( result );
 			}
@@ -1878,7 +1878,7 @@ namespace
 						{
 							writer.returnStmt( srgb );
 						}
-						sdwFI;
+						sdwFI
 
 						writer.returnStmt( pow( srgb, vec3( gamma ) ) );
 					}

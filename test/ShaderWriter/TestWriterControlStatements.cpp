@@ -18,7 +18,7 @@ namespace
 				{
 					auto i = writer.declLocale< sdw::Int >( "i" );
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -40,7 +40,7 @@ namespace
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -63,7 +63,7 @@ namespace
 				{
 					auto j = writer.declLocale< sdw::Int >( "j" );
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -90,7 +90,7 @@ namespace
 				{
 					auto k = writer.declLocale< sdw::Int >( "k" );
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -117,7 +117,7 @@ namespace
 					}
 					sdwESAC;
 				}
-				sdwHCTIWS;
+				sdwHCTIWS
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -134,7 +134,7 @@ namespace
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
-				sdwROF;
+				sdwROF
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -151,7 +151,7 @@ namespace
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
-				sdwROF;
+				sdwROF
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -168,7 +168,7 @@ namespace
 				{
 					auto i = writer.declLocale( "i", ctrlVar );
 				}
-				sdwROF;
+				sdwROF
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -186,7 +186,7 @@ namespace
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					sdwROF;
+					sdwROF
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -204,7 +204,7 @@ namespace
 					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
 					{
 					}
-					sdwROF;
+					sdwROF
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -223,27 +223,27 @@ namespace
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					sdwROF;
+					sdwROF
 					sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ++ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					sdwROF;
+					sdwROF
 					sdwFOR( writer, sdw::Int, ctrlVar, 0_i, ctrlVar < 20_i, ctrlVar++ )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					sdwROF;
+					sdwROF
 					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, --ctrlVar )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					sdwROF;
+					sdwROF
 					sdwFOR( writer, sdw::Int, ctrlVar, 20_i, ctrlVar > 0_i, ctrlVar-- )
 					{
 						auto i = writer.declLocale( "i", ctrlVar );
 					}
-					sdwROF;
+					sdwROF
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -262,7 +262,7 @@ namespace
 				{
 					ctrlVar = ctrlVar - 1_i;
 				}
-				sdwELIHW;
+				sdwELIHW
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -280,7 +280,7 @@ namespace
 				{
 					ctrlVar = ctrlVar - 1_i;
 				}
-				sdwELIHWOD;
+				sdwELIHWOD
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -301,9 +301,9 @@ namespace
 					{
 						auto i = writer.declLocale< sdw::Int >( "i" );
 					}
-					sdwFI;
+					sdwFI
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -328,7 +328,7 @@ namespace
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
-					sdwFI;
+					sdwFI
 				}
 				sdwELSE
 				{
@@ -341,9 +341,9 @@ namespace
 					{
 						auto j = writer.declLocale< sdw::Int >( "k" );
 					}
-					sdwFI;
+					sdwFI
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -370,7 +370,7 @@ namespace
 					{
 						auto j = writer.declLocale< sdw::Int >( "j" );
 					}
-					sdwFI;
+					sdwFI
 				}
 				sdwELSEIF( ctrlVar2 != 0_i )
 				{
@@ -384,9 +384,9 @@ namespace
 					{
 						auto l = writer.declLocale< sdw::Int >( "l" );
 					}
-					sdwFI;
+					sdwFI
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -417,7 +417,7 @@ namespace
 					{
 						auto k = writer.declLocale< sdw::Int >( "k" );
 					}
-					sdwFI;
+					sdwFI
 				}
 				sdwELSEIF( ctrlVar2 != 0_i )
 				{
@@ -435,7 +435,7 @@ namespace
 					{
 						auto n = writer.declLocale< sdw::Int >( "n" );
 					}
-					sdwFI;
+					sdwFI
 				}
 				sdwELSE
 				{
@@ -453,9 +453,9 @@ namespace
 					{
 						auto q = writer.declLocale< sdw::Int >( "q" );
 					}
-					sdwFI;
+					sdwFI
 				}
-				sdwFI;
+				sdwFI
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -474,9 +474,9 @@ namespace
 					{
 						auto i = writer.declLocale( "i", ctrlVar2 );
 					}
-					sdwROF;
+					sdwROF
 				}
-				sdwROF;
+				sdwROF
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -497,10 +497,10 @@ namespace
 					{
 						ctrlVar2 = ctrlVar2 - 1_i;
 					}
-					sdwELIHW;
+					sdwELIHW
 					ctrlVar1 = ctrlVar1 - 1_i;
 				}
-				sdwELIHW;
+				sdwELIHW
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -521,10 +521,10 @@ namespace
 					{
 						ctrlVar2 = ctrlVar2 - 1_i;
 					}
-					sdwELIHWOD;
+					sdwELIHWOD
 					ctrlVar1 = ctrlVar1 - 1_i;
 				}
-				sdwELIHWOD;
+				sdwELIHWOD
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
@@ -564,7 +564,7 @@ namespace
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					sdwFI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -592,7 +592,7 @@ namespace
 					{
 						auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 					}
-					sdwFI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -625,7 +625,7 @@ namespace
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					sdwFI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -658,7 +658,7 @@ namespace
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					sdwFI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -691,7 +691,7 @@ namespace
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					sdwFI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -724,7 +724,7 @@ namespace
 					{
 						auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 					}
-					sdwFI;
+					sdwFI
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -762,7 +762,7 @@ namespace
 						}
 						sdwTLUAFED;
 					}
-					sdwHCTIWS;
+					sdwHCTIWS
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -800,7 +800,7 @@ namespace
 						}
 						sdwTLUAFED;
 					}
-					sdwHCTIWS;
+					sdwHCTIWS
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
@@ -838,7 +838,7 @@ namespace
 						}
 						sdwTLUAFED;
 					}
-					sdwHCTIWS;
+					sdwHCTIWS
 				} );
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );

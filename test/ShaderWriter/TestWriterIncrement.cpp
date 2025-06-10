@@ -166,7 +166,7 @@ namespace
 				{
 					auto j = writer.declLocale( "j", i );
 				}
-				sdwROF;
+				sdwROF
 				astCheckEqual( writer.getBuilder().getContainer()->size(), 1u );
 				astBeginRequire( writer.getBuilder().getContainer()->back()->getKind() == stmt::Kind::eCompound );
 					astCheckEqual( static_cast< stmt::Container const & >( *writer.getBuilder().getContainer()->back() ).size(), 1u );

@@ -394,13 +394,13 @@ namespace
 					{
 						value0 = ssbo[1].a() * ssbo[1].b();
 					}
-					sdwFI;
+					sdwFI
 
 					sdwIF( writer, in.localInvocationIndex == 0_u )
 					{
 						ssbo[2].a() = value0 + value1;
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer
@@ -504,7 +504,7 @@ namespace
 					{
 						result.t() = max( 0.0_f, 1.0_f );
 					}
-					sdwFI;
+					sdwFI
 
 					writer.returnStmt( result );
 				}
@@ -867,7 +867,7 @@ namespace
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer
@@ -907,7 +907,7 @@ namespace
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer
@@ -945,7 +945,7 @@ namespace
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer
@@ -983,7 +983,7 @@ namespace
 					{
 						ssbo[1].e() = uvec4( 0u );
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer
@@ -1042,7 +1042,7 @@ namespace
 					{
 						ssbo[0].e() = uvec4( 1u );
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer
@@ -1150,7 +1150,7 @@ namespace
 									, normalize( values[i] + ssbo[0].b().xyz() ) );
 								result.xyz() += value;
 							}
-							sdwROF;
+							sdwROF
 
 							// final radiance is average of all the cones radiances
 							ssbo[0].a() = result;
@@ -1165,14 +1165,14 @@ namespace
 							, normalize( values[i] + ssbo[0].b().xyz() ) );
 						result.xyz() += value;
 					}
-					sdwROF;
+					sdwROF
 
 					sdwIF( writer, in.localInvocationIndex == 0_u )
 					{
 						// final radiance is average of all the cones radiances
 						ssbo[0].a() = result;
 					}
-					sdwFI;
+					sdwFI
 				} );
 
 			test::writeShader( writer

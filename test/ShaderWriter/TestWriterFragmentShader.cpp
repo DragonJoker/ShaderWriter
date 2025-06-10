@@ -601,9 +601,9 @@ namespace
 						irradiance += c3d_mapEnvironment.sample( sampleVec ).rgb() * cos( theta ) * sin( theta );
 						nrSamples = nrSamples + 1;
 					}
-					sdwROF;
+					sdwROF
 				}
-				sdwROF;
+				sdwROF
 
 				irradiance = irradiance * 3.1415927410125732421875_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
 				out.colour = vec4( irradiance, 1.0_f );
@@ -714,13 +714,13 @@ namespace
 				{
 					color = sqrt( color2 ) * scale;
 				}
-				sdwFI;
+				sdwFI
 
 				sdwFOR( writer, Int, i, 0_i, i < 4_i, ++i )
 				{
 					color *= multiplier;
 				}
-				sdwROF;
+				sdwROF
 			} );
 
 		test::writeShader( writer
@@ -743,7 +743,7 @@ namespace
 				{
 					writer.terminate();
 				}
-				sdwFI;
+				sdwFI
 
 				out.colour = vec4( in.position, 1.0_f );
 			} );
@@ -767,7 +767,7 @@ namespace
 				{
 					writer.demote();
 				}
-				sdwFI;
+				sdwFI
 
 				out.colour = vec4( in.position, 1.0_f );
 			} );

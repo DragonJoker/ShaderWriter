@@ -1593,9 +1593,9 @@ namespace
 							irradiance += c3d_mapEnvironment.lod( sampleVec, 0.0_f ).rgb() * cos( theta ) * sin( theta );
 							nrSamples = nrSamples + 1;
 						}
-						sdwROF;
+						sdwROF
 					}
-					sdwROF;
+					sdwROF
 
 					irradiance = irradiance * 3.141592_f *( 1.0_f / writer.cast< Float >( nrSamples ) );
 					outColour = vec4( irradiance, 1.0_f );
