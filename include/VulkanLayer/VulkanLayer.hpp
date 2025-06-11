@@ -22,6 +22,7 @@ See LICENSE file in root folder
 
 namespace ast::vk
 {
+	using ShaderPtrs = std::vector< ast::Shader const * >;
 	/**
 	*\brief
 	*	Fixed size std::vector wrapper.
@@ -198,6 +199,8 @@ namespace ast::vk
 	using ShaderModuleMap = std::map< VkSpecializationInfoOpt, VkShaderModuleArray, CompareSpecInfoOpt >;
 
 	bool checkError( VkResult result );
+	ShaderPtrs convert( ast::ShaderArray const & shaders );
+	ShaderPtrs convert( ast::ShaderPtrArray const & shaders );
 }
 
 #endif

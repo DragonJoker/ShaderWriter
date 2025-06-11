@@ -20,6 +20,8 @@ namespace ast::vk
 	{
 	public:
 		ProgramPipeline( uint32_t spvVersion
+			, ShaderPtrs const & shaders );
+		ProgramPipeline( uint32_t spvVersion
 			, ShaderPtrArray const & shaders );
 		ProgramPipeline( uint32_t spvVersion
 			, ShaderArray const & shaders );
@@ -222,6 +224,11 @@ namespace ast::vk
 		bool checkTessellationState( VkPipelineTessellationStateCreateInfo const & state )const;
 		bool checkVertexInputState( VkPipelineVertexInputStateCreateInfo const & state )const;
 		bool checkSpecializationInfos( std::vector< VkSpecializationInfoOpt > const & infos )const;
+
+		Shader const & getShader( Shader const * shader )const
+		{
+			return *shader;
+		}
 
 		Shader const & getShader( Shader const & shader )const
 		{

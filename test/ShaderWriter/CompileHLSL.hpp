@@ -2,6 +2,10 @@
 
 #include "WriterCommon.hpp"
 
+#if SDW_HasCompilerHlsl
+#	include <CompilerHlsl/compileHlsl.hpp>
+#endif
+
 namespace test
 {
 	bool retrieveIsHLSLInitialised( sdw_test::TestCounts const & testCounts

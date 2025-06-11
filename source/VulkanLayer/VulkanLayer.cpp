@@ -3,6 +3,8 @@ See LICENSE file in root folder
 */
 #include "VulkanLayer/VulkanLayer.hpp"
 
+#include <ShaderAST/Shader.hpp>
+
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 5262 )
@@ -133,5 +135,25 @@ namespace ast::vk
 
 		std::cerr << stream.str() << std::endl;
 		return false;
+	}
+
+	ShaderPtrs convert( ast::ShaderArray const & shaders )
+	{
+		ShaderPtrs result;
+
+		for ( auto & shader : shaders )
+			result.emplace_back( &shader );
+
+		return result;
+	}
+
+	ShaderPtrs convert( ast::ShaderPtrArray const & shaders )
+	{
+		ShaderPtrs result;
+
+		for ( auto & shader : shaders )
+			result.emplace_back( shader.get() );
+
+		return result;
 	}
 }

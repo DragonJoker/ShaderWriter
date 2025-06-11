@@ -59,13 +59,6 @@ namespace test
 		}
 	}
 
-	uint32_t getCoreCount()
-	{
-		SYSTEM_INFO sysinfo = { 0 };
-		::GetSystemInfo( &sysinfo );
-		return uint32_t( sysinfo.dwNumberOfProcessors );
-	}
-
 	std::string getExecutableDirectory()
 	{
 		std::string result;
@@ -88,21 +81,6 @@ namespace test
 	void printCDBConsole( std::string const &
 		, bool )
 	{
-	}
-
-	uint32_t getCoreCount()
-	{
-		char res[128];
-		FILE * fp = popen( "/bin/cat /proc/cpuinfo | grep -c '^processor'", "r" );
-		auto read = fread( res, 1, sizeof( res ) - 1, fp );
-
-		if ( !read )
-		{
-			AST_Assert( false );
-		}
-
-		pclose( fp );
-		return uint32_t( res[0] );
 	}
 
 	std::string getExecutableDirectory()
@@ -131,33 +109,6 @@ namespace test
 	void printCDBConsole( std::string const &
 		, bool )
 	{
-	}
-
-	uint32_t getCoreCount()
-	{
-		int mib[4];
-		int numCPU;
-		size_t len = sizeof( numCPU );
-
-		/* set the mib for hw.ncpu */
-		mib[0] = CTL_HW;
-		mib[1] = HW_AVAILCPU;
-
-		/* get the number of CPUs from the system */
-		sysctl( mib, 2, &numCPU, &len, nullptr, 0 );
-
-		if ( numCPU < 1 )
-		{
-			mib[1] = HW_NCPU;
-			sysctl( mib, 2, &numCPU, &len, nullptr, 0 );
-
-			if ( numCPU < 1 )
-			{
-				numCPU = 1;
-			}
-		}
-
-		return uint32_t( numCPU );
 	}
 
 	std::string getExecutableDirectory()

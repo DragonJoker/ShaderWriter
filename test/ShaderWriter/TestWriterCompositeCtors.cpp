@@ -1114,33 +1114,49 @@ namespace
 		using namespace sdw;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
+			if ( auto timerBlock = testCounts.beginTimer( "Writing" ) )
+			{
+				auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
 
-			auto ssbo = writer.declArrayStorageBuffer< ValuesT >( "ssbo", 0u, 0u );
+				writer.implementMainT< VoidT >( 32u
+					, [&]( ComputeIn in )
+					{
+							auto values = writer.declConstantArray( "values"
+								, std::vector< sdw::Vec3 >{ vec3( 0.57735_f, 0.57735, 0.57735 )
+								, vec3( 0.57735_f, -0.57735, -0.57735 )
+								, vec3( -0.57735_f, 0.57735, -0.57735 )
+								, vec3( -0.57735_f, -0.57735, 0.57735 )
+								, vec3( -0.903007_f, -0.182696, -0.388844 )
+								, vec3( -0.903007_f, 0.182696, 0.388844 )
+								, vec3( 0.903007_f, -0.182696, 0.388844 )
+								, vec3( 0.903007_f, 0.182696, -0.388844 )
+								, vec3( -0.388844_f, -0.903007, -0.182696 )
+								, vec3( 0.388844_f, -0.903007, 0.182696 )
+								, vec3( 0.388844_f, 0.903007, -0.182696 )
+								, vec3( -0.388844_f, 0.903007, 0.182696 )
+								, vec3( -0.182696_f, -0.388844, -0.903007 )
+								, vec3( 0.182696_f, 0.388844, -0.903007 )
+								, vec3( -0.182696_f, 0.388844, 0.903007 )
+								, vec3( 0.182696_f, -0.388844, 0.903007 ) } );
 
-			writer.implementMainT< VoidT >( 32u
-				, [&]( ComputeIn in )
-				{
-					auto values = writer.declConstantArray( "values"
-						, std::vector< sdw::Vec3 >{ vec3( 0.57735_f, 0.57735, 0.57735 )
-						, vec3( 0.57735_f, -0.57735, -0.57735 )
-						, vec3( -0.57735_f, 0.57735, -0.57735 )
-						, vec3( -0.57735_f, -0.57735, 0.57735 )
-						, vec3( -0.903007_f, -0.182696, -0.388844 )
-						, vec3( -0.903007_f, 0.182696, 0.388844 )
-						, vec3( 0.903007_f, -0.182696, 0.388844 )
-						, vec3( 0.903007_f, 0.182696, -0.388844 )
-						, vec3( -0.388844_f, -0.903007, -0.182696 )
-						, vec3( 0.388844_f, -0.903007, 0.182696 )
-						, vec3( 0.388844_f, 0.903007, -0.182696 )
-						, vec3( -0.388844_f, 0.903007, 0.182696 )
-						, vec3( -0.182696_f, -0.388844, -0.903007 )
-						, vec3( 0.182696_f, 0.388844, -0.903007 )
-						, vec3( -0.182696_f, 0.388844, 0.903007 )
-						, vec3( 0.182696_f, -0.388844, 0.903007 ) } );
+							auto test = writer.implementFunction< sdw::Vec4 >( "test"
+								, [&]()
+								{
+											auto result = writer.declLocale( "result"
+												, vec4( 0.0_f ) );
 
-					auto test = writer.implementFunction< sdw::Vec4 >( "test"
-						, [&]()
-						{
+											sdwFOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
+											{
+												auto value = writer.declLocale( "value"
+													, normalize( values[i] + ssbo[0].b().xyz() ) );
+												result.xyz() += value;
+											}
+											sdwROF
+
+											// final radiance is average of all the cones radiances
+												ssbo[0].a() = result;
+								} );
+
 							auto result = writer.declLocale( "result"
 								, vec4( 0.0_f ) );
 
@@ -1152,29 +1168,14 @@ namespace
 							}
 							sdwROF
 
-							// final radiance is average of all the cones radiances
-							ssbo[0].a() = result;
-						} );
-
-					auto result = writer.declLocale( "result"
-						, vec4( 0.0_f ) );
-
-					sdwFOR( writer, sdw::UInt, i, 0_u, i < ssbo[0].e().x(), ++i )
-					{
-						auto value = writer.declLocale( "value"
-							, normalize( values[i] + ssbo[0].b().xyz() ) );
-						result.xyz() += value;
-					}
-					sdwROF
-
-					sdwIF( writer, in.localInvocationIndex == 0_u )
-					{
-						// final radiance is average of all the cones radiances
-						ssbo[0].a() = result;
-					}
-					sdwFI
-				} );
-
+								sdwIF( writer, in.localInvocationIndex == 0_u )
+							{
+								// final radiance is average of all the cones radiances
+								ssbo[0].a() = result;
+							}
+							sdwFI
+					} );
+			}
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
