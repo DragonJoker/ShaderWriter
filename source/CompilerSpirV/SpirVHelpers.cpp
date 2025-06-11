@@ -3651,72 +3651,72 @@ namespace spirv
 		}
 	}
 
-	spv::StorageClass getStorageClass( uint32_t version
+	ast::type::Storage getStorageClass( uint32_t version
 		, ast::var::VariablePtr var
-		, spv::StorageClass fallback )
+		, ast::type::Storage fallback )
 	{
 		var = getOutermost( var );
-		spv::StorageClass result = fallback;
+		ast::type::Storage result = fallback;
 
 		if ( var->isHitAttribute() )
 		{
-			result = spv::StorageClassHitAttributeKHR;
+			result = ast::type::Storage::eHitAttribute;
 		}
 		else if ( var->isIncomingCallableData() )
 		{
-			result = spv::StorageClassIncomingCallableDataKHR;
+			result = ast::type::Storage::eIncomingCallableData;
 		}
 		else if ( var->isCallableData() )
 		{
-			result = spv::StorageClassCallableDataKHR;
+			result = ast::type::Storage::eCallableData;
 		}
 		else if ( var->isIncomingRayPayload() )
 		{
-			result = spv::StorageClassIncomingRayPayloadKHR;
+			result = ast::type::Storage::eIncomingRayPayload;
 		}
 		else if ( var->isRayPayload() )
 		{
-			result = spv::StorageClassRayPayloadKHR;
+			result = ast::type::Storage::eRayPayload;
 		}
 		else if ( var->isPerTask() )
 		{
-			result = spv::StorageClassTaskPayloadWorkgroupEXT;
+			result = ast::type::Storage::eTaskPayloadWorkgroup;
 		}
 		else if ( var->isStorageBuffer() )
 		{
 			if ( version > v1_3 )
 			{
-				result = spv::StorageClassStorageBuffer;
+				result = ast::type::Storage::eStorageBuffer;
 			}
 			else if ( var->isConstant() )
 			{
-				result = spv::StorageClassUniformConstant;
+				result = ast::type::Storage::eUniformConstant;
 			}
 			else
 			{
-				result = spv::StorageClassUniform;
+				result = ast::type::Storage::eUniform;
 			}
 		}
 		else if ( var->isUniform() )
 		{
 			if ( var->isConstant() )
 			{
-				result = spv::StorageClassUniformConstant;
+				result = ast::type::Storage::eUniformConstant;
 			}
 			else
 			{
-				result = spv::StorageClassUniform;
+				result = ast::type::Storage::eUniform;
 			}
 		}
 		else if ( var->isBuiltin() )
 		{
 			if ( var->isShaderInput() )
 			{
-				result = spv::StorageClassInput;
+				result = ast::type::Storage::eInput;
 			}
 			else if ( var->isShaderOutput() )
 			{
-				result = spv::StorageClassOutput;
+				result = ast::type::Storage::eOutput;
 			}
 			else
 			{
@@ -3726,35 +3726,44 @@ namespace spirv
 		else if ( var->isShaderInput()
 			|| var->isPatchInput() )
 		{
-			result = spv::StorageClassInput;
+			result = ast::type::Storage::eInput;
 		}
 		else if ( var->isShaderOutput()
 			|| var->isPatchOutput() )
 		{
-			result = spv::StorageClassOutput;
+			result = ast::type::Storage::eOutput;
 		}
 		else if ( var->isShaderConstant() )
 		{
-			result = spv::StorageClassInput;
+			result = ast::type::Storage::eInput;
 		}
 		else if ( var->isSpecialisationConstant() )
 		{
-			result = spv::StorageClassInput;
+			result = ast::type::Storage::eInput;
 		}
 		else if ( var->isPushConstant() )
 		{
-			result = spv::StorageClassPushConstant;
+			result = ast::type::Storage::ePushConstant;
 		}
 		else if ( var->isStatic() )
 		{
-			result = spv::StorageClassPrivate;
+			result = ast::type::Storage::ePrivate;
 		}
 		else if ( var->isShared() )
 		{
-			result = spv::StorageClassWorkgroup;
+			result = ast::type::Storage::eWorkgroup;
 		}
 
 		return result;
+	}
+
+	ast::type::Storage getStorageClass( ast::type::TypePtr type
+		, ast::type::Storage fallback )
+	{
+		if ( type->getKind() == ast::type::Kind::ePointer )
+			return static_cast< ast::type::Pointer const & >( *type ).getStorage();
+
+		return fallback;
 	}
 
 	//*************************************************************************

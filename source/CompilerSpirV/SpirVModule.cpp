@@ -295,9 +295,10 @@ namespace spirv
 	}
 
 	TypeId Module::registerType( ast::type::TypePtr type
+		, ast::type::Storage storage
 		, glsl::Statement const * debugStatement )
 	{
-		return m_types.registerType( std::move( type ), debugStatement );
+		return m_types.registerType( std::move( type ), storage, debugStatement );
 	}
 
 	TypeId Module::registerImageType( ast::type::ImagePtr image
@@ -307,7 +308,7 @@ namespace spirv
 	}
 
 	TypeId Module::registerPointerType( TypeId type
-		, spv::StorageClass storage
+		, ast::type::Storage storage
 		, bool isForward )
 	{
 		return m_types.registerPointerType( std::move( type ), storage, isForward );
@@ -382,12 +383,12 @@ namespace spirv
 	DebugId Module::getVariablePointer( Block & block
 		, DebugId varId
 		, std::string name
-		, spv::StorageClass storage
+		, ast::type::Storage storage
 		, Block & currentBlock
 		, glsl::Statement const * statement
 		, glsl::RangeInfo const & columns )
 	{
-		if ( varId.isPointer() && convert( varId.getStorage() ) != storage )
+		if ( varId.isPointer() && varId.getStorage() != storage )
 		{
 			varId = loadVariable( varId, currentBlock, statement, columns );
 			name = "SDW_Swap_" + name;
@@ -396,7 +397,7 @@ namespace spirv
 		if ( !varId.isPointer() )
 		{
 			DebugId id{ getNextId()
-				, getTypesCache().getPointerType( varId->type, convert( storage ) ) };
+				, getTypesCache().getPointerType( varId->type, storage ) };
 			doAddDebug( name, id );
 			ast::Map< std::string, VariableInfo >::iterator it;
 			doAddVariable( block, name, id, it, DebugId{} );
@@ -409,7 +410,7 @@ namespace spirv
 
 	DebugId Module::getVariablePointer( Block & block
 		, std::string const & name
-		, spv::StorageClass storage
+		, ast::type::Storage storage
 		, Block & currentBlock
 		, glsl::Statement const * statement
 		, glsl::RangeInfo const & columns )
@@ -538,12 +539,12 @@ namespace spirv
 		, bool isOutput
 		, ast::type::TypePtr type )
 	{
-		auto typeId = m_types.registerType( type, nullptr );
+		auto typeId = m_types.registerType( type, getStorageClass( type ), nullptr );
 		auto it = m_currentScopeVariables->find( name );
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = m_types.registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, getStorageClass( type ), nullptr );
 
 			if ( m_currentFunction )
 			{
@@ -570,7 +571,7 @@ namespace spirv
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = m_types.registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, getStorageClass( type ), nullptr );
 
 			if ( m_currentFunction )
 			{
@@ -592,7 +593,7 @@ namespace spirv
 	VariableInfo Module::registerVariable( Block & block
 		, std::string const & name
 		, ast::Builtin builtin
-		, spv::StorageClass storage
+		, ast::type::Storage storage
 		, bool isAlias
 		, bool isParam
 		, bool isOutParam
@@ -602,9 +603,8 @@ namespace spirv
 		, glsl::Statement const * debugStatement )
 	{
 		auto & container = m_currentScopeVariables;
-		auto typeStorage = convert( storage );
 
-		if ( typeStorage == ast::type::Storage::ePhysicalStorageBuffer )
+		if ( storage == ast::type::Storage::ePhysicalStorageBuffer )
 		{
 			container = &m_registeredVariables;
 		}
@@ -615,7 +615,7 @@ namespace spirv
 		{
 			ast::type::TypePtr varType;
 
-			if ( typeStorage == ast::type::Storage::eFunction )
+			if ( storage == ast::type::Storage::eFunction )
 			{
 				if ( auto structType = getStructType( type ) )
 				{
@@ -626,24 +626,24 @@ namespace spirv
 
 					if ( getArraySize( structType->back().type ) == ast::type::UnknownArraySize )
 					{
-						auto typeId = m_types.registerType( type, debugStatement );
+						auto typeId = m_types.registerType( type, ast::type::Storage::ePhysicalStorageBuffer, debugStatement );
 						decorate( typeId, spv::DecorationBlock );
 						varType = getTypesCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
-						varType = getTypesCache().getPointerType( varType, typeStorage );
-						typeStorage = ast::type::Storage::ePhysicalStorageBuffer;
+						varType = getTypesCache().getPointerType( varType, storage );
+						storage = ast::type::Storage::ePhysicalStorageBuffer;
 					}
 				}
 			}
 
 			if ( !varType )
 			{
-				varType = getTypesCache().getPointerType( type, convert( storage ) );
+				varType = getTypesCache().getPointerType( type, storage );
 			}
 
 			DebugId id{ getNextId(), varType };
 			id.debug = ValueId{ m_nonSemanticDebug.getNextId(), id->type };
 
-			if ( typeStorage == ast::type::Storage::ePhysicalStorageBuffer )
+			if ( storage == ast::type::Storage::ePhysicalStorageBuffer )
 			{
 				decorate( id, spv::DecorationAliasedPointer );
 			}
@@ -659,7 +659,7 @@ namespace spirv
 			sourceInfo = it->second;
 
 			if ( m_version >= v1_4
-				&& storage != spv::StorageClassFunction )
+				&& storage != ast::type::Storage::eFunction )
 			{
 				m_entryPointIO.insert( id.id );
 			}
@@ -671,21 +671,22 @@ namespace spirv
 			if ( ( it->second.isParam && !isParam && ( !isPointerParam( type, isOutParam ) ) )
 				|| ( it->second.isAlias && !isAlias ) )
 			{
+				auto & pointerType = static_cast< ast::type::Pointer const & >( *it->second->id.type );
 				DebugId id{ getNextId()
 					, getTypesCache().getPointerType( ( it->second.id.isPointer()
-							? static_cast< ast::type::Pointer const & >( *it->second->id.type ).getPointerType()
+							? pointerType.getPointerType()
 							: it->second->id.type )
-						, convert( storage ) ) };
+						, storage ) };
 				id.debug = ValueId{ m_nonSemanticDebug.getNextId(), id->type };
 				it->second.isAlias = false;
 				it->second.isParam = false;
 				it->second.isOutParam = false;
 				doAddDebug( "ptr_" + name, id );
 				doAddVariable( block, name, id, it, DebugId{}, debugStatement );
-				m_nonSemanticDebug.declarePointerParam( m_currentFunction->promotedParams.instructions, "ptr_" + name, type, id, initialiser, debugStatement );
+				m_nonSemanticDebug.declarePointerParam( m_currentFunction->promotedParams.instructions, "ptr_" + name, type, pointerType.getStorage(), id, initialiser, debugStatement );
 
 				if ( m_version >= v1_4
-					&& storage != spv::StorageClassFunction )
+					&& storage != ast::type::Storage::eFunction )
 				{
 					m_entryPointIO.insert( id.id );
 				}
@@ -712,7 +713,7 @@ namespace spirv
 		{
 			DebugId id{ getNextId() };
 			it = m_currentScopeVariables->emplace( name, id ).first;
-			auto rawTypeId = m_types.registerType( type, nullptr );
+			auto rawTypeId = m_types.registerType( type, ast::type::Storage::eMax, nullptr );
 			IdList operands{ allocator };
 			m_debugNames.registerName( id, name );
 
@@ -795,7 +796,7 @@ namespace spirv
 
 	ValueId Module::registerParameter( ast::type::TypePtr type )
 	{
-		m_types.registerType( type, nullptr );
+		m_types.registerType( type, getStorageClass( type ), nullptr );
 		return ValueId{ getNextId() };
 	}
 
@@ -1120,13 +1121,13 @@ namespace spirv
 		{
 			auto type = param->getType();
 			auto kind = type->getKind();
-			funcTypes.push_back( m_types.registerType( type, nullptr ) );
+			funcTypes.push_back( m_types.registerType( type, ast::type::Storage::eFunction, nullptr ) );
 
 			if ( isPointerParam( *param ) )
 			{
 				auto storage = ( isOpaqueType( kind )
-					? spv::StorageClassUniformConstant
-					: spv::StorageClassFunction );
+					? ast::type::Storage::eUniformConstant
+					: ast::type::Storage::eFunction );
 				funcTypes.back() = m_types.registerPointerType( funcTypes.back(), storage );
 			}
 
@@ -1302,11 +1303,13 @@ namespace spirv
 
 	void Module::declareDebugAccessChain( InstructionList & instructions
 		, ast::expr::Expr const & expr
+		, ast::type::Storage storage
 		, glsl::Statement const * debugStatement
 		, DebugId & resultId )
 	{
 		m_nonSemanticDebug.declareAccessChain( instructions
 			, expr
+			, storage
 			, debugStatement
 			, resultId );
 	}
@@ -1531,16 +1534,15 @@ namespace spirv
 		AST_Assert( varId.isPointer() );
 		auto type = varId->type;
 		auto rawType = static_cast< ast::type::Pointer const & >( *type ).getPointerType();
-		auto rawTypeId = m_types.registerType( rawType, debugStatement );
 		auto typeStorage = varId.getStorage();
+		auto rawTypeId = m_types.registerType( rawType, typeStorage, debugStatement );
 
 		if ( typeStorage == ast::type::Storage::ePushConstant )
 		{
 			decorate( rawTypeId, spv::DecorationBlock );
 		}
 
-		auto varTypeId = m_types.registerPointerType( rawTypeId
-			, convert( typeStorage ) );
+		auto varTypeId = m_types.registerPointerType( rawTypeId, typeStorage );
 
 		if ( varId.getStorage() == ast::type::Storage::eFunction
 			&& m_currentFunction )
@@ -1572,7 +1574,7 @@ namespace spirv
 		}
 
 		m_registeredVariablesTypes.try_emplace( varId, rawTypeId );
-		auto debugVarDesc = m_nonSemanticDebug.declareVariable( block.instructions, name, type, varId, initialiser, debugStatement );
+		auto debugVarDesc = m_nonSemanticDebug.declareVariable( block.instructions, name, type, typeStorage, varId, initialiser, debugStatement );
 		block.declaredVariables.emplace_back( debugVarDesc );
 	}
 

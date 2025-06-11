@@ -38,15 +38,17 @@ namespace spirv
 			, InstructionList & constantsTypes );
 
 		TypeId registerType( ast::type::TypePtr type
+			, ast::type::Storage storage
 			, glsl::Statement const * debugStatement );
 		TypeId registerType( ast::type::TypePtr type
+			, ast::type::Storage storage
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
 		TypeId registerPointerType( TypeId type
-			, spv::StorageClass storage
+			, ast::type::Storage storage
 			, bool isForward = false );
 		TypeId registerFunctionType( TypeIdList const & funcTypes );
 		DebugId mergeSamplerImage( DebugId const & image
@@ -70,31 +72,35 @@ namespace spirv
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterTypeRec( ast::type::TypePtr type
+			, ast::type::Storage storage
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, uint32_t arrayStride
 			, glsl::Statement const * debugStatement );
-		TypeId & doRegisterBaseType( spv::Id id
-			, ast::type::TypePtr type );
-		TypeId & doRegisterBaseType( spv::Id id
+		TypeId & doRegisterTypeId( spv::Id id
+			, ast::type::TypePtr type
+			, ast::type::Storage storage );
+		TypeId & doRegisterBaseTypeId( spv::Id id
 			, ast::type::Kind kind );
+		void doRegisterTypeId( spv::Id id
+			, ast::type::ImagePtr type
+			, ast::type::Trinary isComparison );
 		TypeId doRegisterBaseType( ast::type::Kind kind
 			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::StructPtr type
+		TypeId doRegisterStructType( ast::type::StructPtr type
+			, ast::type::Storage storage
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
-		TypeId doRegisterBaseType( ast::type::SamplerPtr type );
-		TypeId doRegisterBaseType( ast::type::CombinedImagePtr type );
-		void doRegisterBaseType( spv::Id id
-			, ast::type::ImagePtr type
+		TypeId doRegisterSamplerType( ast::type::SamplerPtr type );
+		TypeId doRegisterCombinedImageType( ast::type::CombinedImagePtr type );
+		TypeId doRegisterImageType( ast::type::ImagePtr type
 			, ast::type::Trinary isComparison );
-		TypeId doRegisterBaseType( ast::type::ImagePtr type
-			, ast::type::Trinary isComparison );
-		TypeId doRegisterBaseType( ast::type::ImagePtr type );
-		TypeId doRegisterBaseType( ast::type::SampledImagePtr type );
-		TypeId doRegisterBaseType( ast::type::AccelerationStructurePtr type );
+		TypeId doRegisterImageType( ast::type::ImagePtr type );
+		TypeId doRegisterSampledImageType( ast::type::SampledImagePtr type );
+		TypeId doRegisterAccelerationStructureType( ast::type::AccelerationStructurePtr type );
 		TypeId doRegisterBaseType( ast::type::TypePtr type
+			, ast::type::Storage storage
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );

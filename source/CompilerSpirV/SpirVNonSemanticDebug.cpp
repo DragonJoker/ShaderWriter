@@ -277,6 +277,7 @@ namespace spirv::debug
 	DebugId NonSemanticDebug::declareVariable( InstructionList & instructions
 		, std::string const & name
 		, ast::type::TypePtr type
+		, ast::type::Storage storage
 		, DebugId variableId
 		, DebugId initialiserId
 		, glsl::Statement const * debugStatement
@@ -288,7 +289,7 @@ namespace spirv::debug
 		}
 
 		auto nameId = m_module.registerString( name );
-		auto typeId = m_module.registerType( type, debugStatement );
+		auto typeId = m_module.registerType( type, storage, debugStatement );
 		auto lineId = m_module.registerLiteral( debugStatement->source.lines.start );
 		auto columnId = m_module.registerLiteral( debugStatement->source.columns.start );
 		auto flagsId = m_module.registerLiteral( 0u );
@@ -320,6 +321,7 @@ namespace spirv::debug
 	DebugId NonSemanticDebug::declarePointerParam( InstructionList & instructions
 		, std::string const & name
 		, ast::type::TypePtr type
+		, ast::type::Storage storage
 		, DebugId variableId
 		, DebugId initialiser
 		, glsl::Statement const * debugStatement )
@@ -335,6 +337,7 @@ namespace spirv::debug
 			return declareVariable( instructions
 				, name
 				, std::move( type )
+				, storage
 				, std::move( variableId )
 				, std::move( initialiser )
 				, m_currentFunctionFirstLineStatement );
@@ -345,6 +348,7 @@ namespace spirv::debug
 
 	DebugId NonSemanticDebug::declareAccessChain( InstructionList & instructions
 		, ast::expr::Expr const & expr
+		, ast::type::Storage storage
 		, glsl::Statement const * debugStatement
 		, DebugId & resultId )
 	{
@@ -357,6 +361,7 @@ namespace spirv::debug
 		return declareVariable( instructions
 			, glsl::getExprName( *m_config, expr )
 			, expr.getType()
+			, storage
 			, resultId
 			, DebugId{}
 			, debugStatement
@@ -403,7 +408,7 @@ namespace spirv::debug
 		for ( auto & param : params )
 		{
 			auto paramNameId = m_module.registerString( param->getName() );
-			auto paramTypeId = m_module.registerType( param->getType(), scopeBeginDebugStatement );
+			auto paramTypeId = m_module.registerType( param->getType(), ast::type::Storage::eFunction, scopeBeginDebugStatement );
 			auto paramColumnId = m_module.registerLiteral( 0u );
 			auto paramFlagsId = m_module.registerLiteral( 0u );
 			result.emplace_back( *itParam );

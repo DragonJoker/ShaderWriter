@@ -85,12 +85,13 @@ namespace spirv
 		{
 			if ( res )
 			{
-				auto type = static_cast< ast::type::Pointer const & >( *variableId->type ).getPointerType();
+				auto pointerType = &static_cast< ast::type::Pointer const & >( *variableId->type );
+				auto type = pointerType->getPointerType();
 				nonSemanticDebug.makeLineExtension( instructions, debugStatement, columns );
 
 				if ( !hasRuntimeArray( type ) )
 				{
-					auto typeId = types.registerType( type, nullptr );
+					auto typeId = types.registerType( type, pointerType->getStorage(), nullptr );
 					DebugId resultId{ shaderModule.getIntermediateResult(), typeId->type };
 
 					if ( variableId.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
@@ -200,23 +201,22 @@ namespace spirv
 
 		if ( it == accessChains.end() )
 		{
-			spv::StorageClass storageClass{};
+			ast::type::Storage storage{};
 
 			if ( accessChain.front().isPointer() )
 			{
-				storageClass = convert( accessChain.front().getStorage() );
+				storage = accessChain.front().getStorage();
 			}
 			else
 			{
 				auto var = ast::findIdentifier( expr )->getVariable();
-				storageClass = getStorageClass( shaderModule.getVersion(), var );
+				storage = getStorageClass( shaderModule.getVersion(), var );
 			}
 
 			// Register the type pointed to.
-			auto rawTypeId = shaderModule.registerType( expr.getType(), nullptr );
+			auto rawTypeId = shaderModule.registerType( expr.getType(), storage, nullptr );
 			// Register the pointer to the type.
-			auto pointerTypeId = shaderModule.registerPointerType( rawTypeId
-				, storageClass );
+			auto pointerTypeId = shaderModule.registerPointerType( rawTypeId, storage );
 			// Reserve the ID for the result.
 			DebugId resultId{ shaderModule.getIntermediateResult(), pointerTypeId->type };
 			// Write access chain => resultId = pointerTypeId( outer.members + index ).
@@ -224,6 +224,7 @@ namespace spirv
 			it = std::next( accessChains.begin(), ptrdiff_t( accessChains.size() - 1u ) );
 			shaderModule.declareDebugAccessChain( instructions
 				, expr
+				, storage
 				, debugStatement
 				, resultId );
 		}
