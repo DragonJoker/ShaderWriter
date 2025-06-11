@@ -534,9 +534,11 @@ namespace spirv
 		, DebugId const & varId
 		, ModuleConfig const & config
 		, Module & shaderModule );
-	spv::StorageClass getStorageClass( uint32_t version
+	ast::type::Storage getStorageClass( uint32_t version
 		, ast::var::VariablePtr var
-		, spv::StorageClass fallback = spv::StorageClassFunction );
+		, ast::type::Storage fallback = ast::type::Storage::eFunction );
+	ast::type::Storage getStorageClass( ast::type::TypePtr type
+		, ast::type::Storage fallback = ast::type::Storage::eFunction );
 }
 
 #endif

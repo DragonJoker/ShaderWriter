@@ -90,11 +90,12 @@ namespace spirv
 			, bool writeHeader );
 
 		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
+			, ast::type::Storage storage
 			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
 		SDWSPIRV_API TypeId registerPointerType( TypeId type
-			, spv::StorageClass storage
+			, ast::type::Storage storage
 			, bool isForward = false );
 		SDWSPIRV_API DebugId mergeSamplerImage( DebugId const & image
 			, DebugId const & sampler
@@ -118,7 +119,7 @@ namespace spirv
 		SDWSPIRV_API VariableInfo registerVariable( Block & block
 			, std::string const & name
 			, ast::Builtin builtin
-			, spv::StorageClass storage
+			, ast::type::Storage storage
 			, bool isAlias
 			, bool isParam
 			, bool isOutParam
@@ -166,13 +167,13 @@ namespace spirv
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
 			, DebugId varId
 			, std::string name
-			, spv::StorageClass storage
+			, ast::type::Storage storage
 			, Block & currentBlock
 			, glsl::Statement const * statement
 			, glsl::RangeInfo const & columns );
 		SDWSPIRV_API DebugId getVariablePointer( Block & block
 			, std::string const & name
-			, spv::StorageClass storage
+			, ast::type::Storage storage
 			, Block & currentBlock
 			, glsl::Statement const * statement
 			, glsl::RangeInfo const & columns );
@@ -224,6 +225,7 @@ namespace spirv
 		SDWSPIRV_API ast::type::TypesCache & getTypesCache()const noexcept;
 		SDWSPIRV_API void declareDebugAccessChain( InstructionList & instructions
 			, ast::expr::Expr const & expr
+			, ast::type::Storage storage
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
 		SDWSPIRV_API ast::type::TypePtr getType( DebugId const & typeId )const;

@@ -423,7 +423,7 @@ namespace spirv
 					AST_Assert( !m_parentId || m_parentKind == ast::expr::Kind::eArrayAccess );
 					m_result = m_module.getVariablePointer( m_currentBlock
 						, var->getName()
-						, spv::StorageClassFunction
+						, ast::type::Storage::eFunction
 						, m_currentBlock
 						, m_currentDebugStatement
 						, glsl::getColumnData( m_currentDebugStatement, *expr ) );
@@ -652,7 +652,7 @@ namespace spirv
 		, Block & currentBlock
 		, glsl::Statement const * debugStatement )
 	{
-		auto typeId = shaderModule.registerType( expr.getType(), nullptr );
+		auto typeId = shaderModule.registerType( expr.getType(), ast::type::Storage::eMax, nullptr );
 		auto outerId = shaderModule.loadVariable( generateModuleExpr( exprCache, *expr.getOuterExpr()
 				, config
 				, context

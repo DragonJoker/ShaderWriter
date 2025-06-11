@@ -79,6 +79,7 @@ namespace spirv::debug
 		DebugId declareVariable( InstructionList & instructions
 			, std::string const & name
 			, ast::type::TypePtr type
+			, ast::type::Storage storage
 			, DebugId variableId
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement
@@ -86,11 +87,13 @@ namespace spirv::debug
 		DebugId declarePointerParam( InstructionList & instructions
 			, std::string const & name
 			, ast::type::TypePtr type
+			, ast::type::Storage storage
 			, DebugId variableId
 			, DebugId initialiser
 			, glsl::Statement const * debugStatement );
 		DebugId declareAccessChain( InstructionList & instructions
 			, ast::expr::Expr const & expr
+			, ast::type::Storage storage
 			, glsl::Statement const * debugStatement
 			, DebugId & resultId );
 		ast::Vector< DebugId > declareFunction( Function & function
