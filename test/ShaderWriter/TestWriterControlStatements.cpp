@@ -855,12 +855,12 @@ namespace
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto i = writer.declSharedVariable< sdw::UInt >( "i" );
+			auto i = writer.declSharedVariable< sdw::UInt >( "i", 32u );
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
 					if (auto scope = makeScope( writer ) )
 					{
-						i = in.globalInvocationID.x();
+						i[in.localInvocationIndex] = in.globalInvocationID.x();
 					}
 				} );
 			test::writeShader( writer
@@ -878,30 +878,31 @@ namespace
 		sdw::ShaderArray shaders;
 		{
 			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto i = writer.declSharedVariable< sdw::UInt >( "i" );
-			auto j = writer.declSharedVariable< sdw::UInt >( "j" );
-			auto k = writer.declSharedVariable< sdw::UInt >( "k" );
-			auto l = writer.declSharedVariable< sdw::UInt >( "l" );
+			auto i = writer.declSharedVariable< sdw::UInt >( "i", 32u );
+			auto j = writer.declSharedVariable< sdw::UInt >( "j", 32u );
+			auto k = writer.declSharedVariable< sdw::UInt >( "k", 32u );
+			auto l = writer.declSharedVariable< sdw::UInt >( "l", 32u );
 			writer.implementMain( 32u, [&]( sdw::ComputeIn in )
 				{
+					auto index = in.localInvocationIndex;
 					if (auto scope1 = makeScope( writer ) )
 					{
-						l = in.localInvocationIndex;
+						l[index] = in.localInvocationIndex;
 						if ( auto scope2 = makeScope( writer ) )
 						{
-							k = in.globalInvocationID.z();
+							k[index] = in.globalInvocationID.z();
 							if ( auto scope3 = makeScope( writer ) )
 							{
-								j = in.globalInvocationID.y();
+								j[index] = in.globalInvocationID.y();
 								if ( auto scope4 = makeScope( writer ) )
 								{
-									i = in.globalInvocationID.x();
+									i[index] = in.globalInvocationID.x();
 								}
-								j += in.globalInvocationID.y();
+								j[index] += in.globalInvocationID.y();
 							}
-							k += in.globalInvocationID.z();
+							k[index] += in.globalInvocationID.z();
 						}
-						l += in.localInvocationIndex;
+						l[index] += in.localInvocationIndex;
 					}
 				} );
 			test::writeShader( writer

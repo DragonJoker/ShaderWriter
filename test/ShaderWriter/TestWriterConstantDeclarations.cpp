@@ -116,7 +116,6 @@ namespace
 			arrayMain( writer, value, 4u );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
 	}
 
 	TEST( SDW_TestSuiteName, testConstant )

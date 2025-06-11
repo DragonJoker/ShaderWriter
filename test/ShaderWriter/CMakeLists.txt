@@ -11,19 +11,29 @@ find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVR
 find_package( Threads REQUIRED )
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${TEST_COMMON_HEADER_FILES}
-	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
-	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonDebug.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonSpirV.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonGlsl.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonHlsl.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonVulkanLayer.hpp
 )
 set( TEST_WRITER_COMMON_SOURCE_FILES
 	${TEST_COMMON_SOURCE_FILES}
-	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileHLSL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileGLSL.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/CompileSPIRV.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonDebug.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonGlsl.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonHlsl.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonSpirV.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonVulkanLayer.cpp
 )
 add_library( TestWriterCommon
 	SHARED
@@ -275,6 +285,7 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 		${ADDITIONAL_DEFINITIONS}
 		SDW_COMPILE_TESTS
 		SDW_TestSuiteName=${SHORT_TEST_NAME}
+		SDW_TestSuiteNameString="${SHORT_TEST_NAME}"
 	)
 	target_add_compilation_flags( ${REAL_TEST_NAME} )
 	if ( "${NAME_SUFFIX}" STREQUAL "" )

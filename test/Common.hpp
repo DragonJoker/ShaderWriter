@@ -575,7 +575,6 @@ namespace test
 {
 	ASTTest_API void printCDBConsole( std::string const & toLog
 		, bool newLine );
-	ASTTest_API uint32_t getCoreCount();
 	ASTTest_API std::string getExecutableDirectory();
 
 	struct TestCounts;
@@ -674,7 +673,7 @@ namespace test
 	};
 
 	inline bool astTrace( const char * file, int line
-		, const char * message )
+		, std::string_view message )
 	{
 		::testing::ScopedTrace trace{ file, line, message };
 		return true;
@@ -845,13 +844,13 @@ namespace test
 	}
 
 #define astOn( x )\
-	test::astTrace( __FILE__, __LINE__, "On "#x )
+	test::astTrace( __FILE__, __LINE__, "On " + std::string{ x } )
 
 #define astWhen( x )\
-	test::astTrace( __FILE__, __LINE__, "When "#x )
+	test::astTrace( __FILE__, __LINE__, "When " + std::string{ x } )
 
 #define astAnd( x )\
-	test::astTrace( __FILE__, __LINE__, "And "#x )
+	test::astTrace( __FILE__, __LINE__, "And " + std::string{ x } )
 
 #define astOnStr( x )\
 	test::astTrace( __FILE__, __LINE__, ( std::string{ "On " } + ( x ) ).c_str() )

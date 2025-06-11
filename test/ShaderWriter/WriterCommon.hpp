@@ -55,12 +55,37 @@ namespace test
 		struct GLSLContext;
 		struct HLSLContext;
 		struct SPIRVContext;
+		struct TestCounts;
+
+		using Clock = std::chrono::steady_clock;
+		using TimePoint = Clock::time_point;
+		using Duration = std::chrono::milliseconds;
+
+		struct TimerBlock
+		{
+			operator bool()const
+			{
+				return true;
+			}
+
+			SDWTest_API TimerBlock( std::string_view name
+				, TestCounts & testCounts );
+			SDWTest_API ~TimerBlock()noexcept;
+
+		private:
+			std::string m_name;
+			TestCounts & m_testCounts;
+			TimePoint m_start{ Clock::now() };
+		};
 
 		struct TestCounts
 			: test::TestCounts
 		{
 			SDWTest_API TestCounts();
 			SDWTest_API ~TestCounts()noexcept override = default;
+
+			SDWTest_API TimerBlock beginTimer( std::string_view name );
+			void printTime( std::string const & text );
 
 			bool isSpirVInitialised( uint32_t infoIndex )const;
 			bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;
@@ -84,14 +109,25 @@ namespace test
 		private:
 			void doInitialise()override;
 			void doCleanup()override;
+
+			friend struct TimerBlock;
+			void doEndTimer( std::string const & name, TimePoint startTime )noexcept;
+
+		private:
+			TimePoint m_start;
+			std::map< std::string, Duration > m_durations;
 		};
 
 		class TestSuite
 			: public ::testing::Environment
 		{
 		public:
+			SDWTest_API TestSuite( std::string name );
 			SDWTest_API void SetUp() override;
 			SDWTest_API void TearDown() override;
+
+		private:
+			std::unique_ptr< std::streambuf > tcout;
 		};
 	}
 
@@ -1182,6 +1218,17 @@ namespace test
 		uint32_t ignoredSpv{};
 	};
 
+	std::string printVkVersion( uint32_t vkVersion );
+	std::string printEntryPoint( ast::EntryPointConfig const & entryPoint );
+	void displayShader( std::string_view name
+		, std::string const & shader
+		, test::TestCounts & testCounts
+		, bool force
+		, bool lines );
+	std::string printShader( std::string_view name
+		, std::string const & shader
+		, bool lines );
+
 	SDWTest_API void writeShader( ast::Shader const & shader
 		, ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts
@@ -1229,17 +1276,22 @@ namespace test
 
 #define sdwTestBegin( name )\
 	test::sdw_test::TestCounts testCounts;\
-	testCounts.initialise( name );
+	testCounts.initialise( name );\
+	{
 
 #define sdwTestEnd()\
+	}\
 	testCounts.cleanup();
 
 #define sdwTestSuiteMain()\
 	int main( int argc, char ** argv )\
 	{\
 		testing::InitGoogleTest(&argc, argv);\
-		testing::AddGlobalTestEnvironment( new test::sdw_test::TestSuite );\
-		return RUN_ALL_TESTS();\
+		auto suite = std::make_unique< test::sdw_test::TestSuite >( SDW_TestSuiteNameString );\
+		testing::AddGlobalTestEnvironment( suite.get() );\
+		auto result = RUN_ALL_TESTS();\
+		suite.reset();\
+		return result;\
 	}
 
 #pragma GCC diagnostic pop
