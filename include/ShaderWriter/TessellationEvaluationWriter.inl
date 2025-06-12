@@ -50,7 +50,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TessEvalListInT{ writer
 		, makeExpr( writer
-			, getBuilder( writer ).registerName( "tesseListIn"
+			, getBuilder( writer ).registerName( "sdwTesseListIn"
 				, ast::type::makeTessellationEvaluationInputType( makeType( getTypesCache( writer )
 						, std::forward< ParamsT >( params )... )
 					, domain
@@ -93,7 +93,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TessPatchInT{ writer
 			, makeExpr( writer
-				, getBuilder( writer ).registerName( "tessePatch"
+				, getBuilder( writer ).registerName( "sdwTessePatch"
 					, ast::type::makeTessellationInputPatchType( makeType( getTypesCache( writer )
 							, std::forward< ParamsT >( params )... )
 						, DomainT
@@ -144,7 +144,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TessEvalDataOutT{ writer
 			, makeExpr( writer
-				, getBuilder( writer ).registerName( "tesseOut"
+				, getBuilder( writer ).registerName( "sdwTesseOut"
 					, makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 					, FlagT ) ) }
 	{

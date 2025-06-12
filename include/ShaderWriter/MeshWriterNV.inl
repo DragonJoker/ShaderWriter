@@ -109,7 +109,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: MeshNVPrimitiveListOutT{ writer
 			, makeExpr( writer
-				, getBuilder( writer ).registerName( "meshPrimitiveOut"
+				, getBuilder( writer ).registerName( "sdwMeshPrimitiveOut"
 					, ast::type::makeMeshPrimitiveOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, TopologyT
 						, maxPrimitives )

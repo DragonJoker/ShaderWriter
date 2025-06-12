@@ -48,7 +48,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TessControlListInT{ writer
 			, makeExpr( writer
-				, getBuilder( writer ).registerName( "tesscIn"
+				, getBuilder( writer ).registerName( "sdwTesscIn"
 					, ast::type::makeTessellationControlInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ), MaxPointsT )
 					, FlagT ) ) }
 	{
@@ -87,7 +87,7 @@ namespace sdw
 		, ParamsT && ... params )
 		: TessControlListOutT{ writer
 			, makeExpr( writer
-				, getBuilder( writer ).registerName( "tesscOut"
+				, getBuilder( writer ).registerName( "sdwTesscOut"
 					, ast::type::makeTessellationControlOutputType( makeType( getTypesCache( writer )
 							, std::forward< ParamsT >( params )... )
 						, DomainT
