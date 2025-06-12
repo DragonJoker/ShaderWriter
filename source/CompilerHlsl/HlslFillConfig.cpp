@@ -158,7 +158,7 @@ namespace hlsl
 				}
 				else if ( !expr->isPerTaskNV()
 					&& !expr->isPerTask()
-					&& ( expr->isShaderInput() || expr->isShaderOutput() ) )
+					&& ( expr->isInput() || expr->isOutput() ) )
 				{
 					if ( auto ident = ast::findIdentifier( *expr );
 						ident && ( ident->getVariable()->isPerTaskNV() || ident->getVariable()->isPerTask() ) )
@@ -169,7 +169,7 @@ namespace hlsl
 					auto type = expr->getOuterType();
 					auto mbr = type->getMember( expr->getMemberIndex() );
 
-					if ( expr->isShaderInput() )
+					if ( expr->isInput() )
 					{
 						m_adaptationData.addPendingMbrInput( *expr->getOuterExpr()
 							, expr->getMemberIndex()
@@ -474,13 +474,13 @@ namespace hlsl
 
 				auto var = stmt->getVariable();
 
-				if ( var->isShaderInput() )
+				if ( var->isInput() )
 				{
 					m_adaptationData.addInputVar( var
 						, stmt->getLocation() );
 				}
 
-				if ( var->isShaderOutput() )
+				if ( var->isOutput() )
 				{
 					m_adaptationData.addOutputVar( var
 						, stmt->getLocation() );
@@ -506,7 +506,7 @@ namespace hlsl
 						? m_shader.getGlobalVariable( name )
 						: m_shader.registerBuiltin( member.builtin, member.type, 0u ) );
 
-					if ( structType->isShaderOutput() )
+					if ( structType->isOutput() )
 					{
 						m_adaptationData.addPendingOutput( var, index );
 					}

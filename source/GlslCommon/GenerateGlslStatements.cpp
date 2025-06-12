@@ -466,7 +466,7 @@ namespace glsl
 				std::string result;
 
 				if ( var.isFlat()
-					&& ( shaderStage != ast::ShaderStage::eFragment || !var.isShaderOutput() ) )
+					&& ( shaderStage != ast::ShaderStage::eFragment || !var.isOutput() ) )
 				{
 					result = "flat";
 				}
@@ -507,10 +507,8 @@ namespace glsl
 				{
 					result = "constant_id";
 				}
-				else if ( var.isShaderInput()
-					|| var.isShaderOutput()
-					|| var.isPatchOutput()
-					|| var.isPatchInput() )
+				else if ( var.isInput()
+					|| var.isOutput() )
 				{
 					result = "location";
 				}
@@ -559,14 +557,12 @@ namespace glsl
 					result = "inout";
 				}
 				else if ( var.isInputParam()
-					|| var.isShaderInput()
-					|| var.isPatchInput() )
+					|| var.isInput() )
 				{
 					result = "in";
 				}
 				else if ( var.isOutputParam()
-					|| var.isShaderOutput()
-					|| var.isPatchOutput() )
+					|| var.isOutput() )
 				{
 					result = "out";
 				}
@@ -2627,7 +2623,7 @@ namespace glsl
 						&& !hasFlag( structType.getFlag(), ast::var::Flag::ePatchInput ) )
 					{
 						text += "layout( location=" + writeValue( mbr.location ) + " ) ";
-						text += ( structType.isShaderInput()
+						text += ( structType.isInput()
 							? std::string{ "in" }
 						: std::string{ "out" } ) + " ";
 					}

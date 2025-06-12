@@ -867,7 +867,7 @@ namespace spirv
 		, ast::var::FlagHolder const & pflags
 		, ast::stmt::Container * cont )
 	{
-		if ( !pflags.isShaderInput() && !pflags.isShaderOutput() )
+		if ( !pflags.isInput() && !pflags.isOutput() )
 		{
 			return nullptr;
 		}
@@ -938,7 +938,7 @@ namespace spirv
 		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
-		if ( !pflags.isShaderInput() && !pflags.isShaderOutput() )
+		if ( !pflags.isInput() && !pflags.isOutput() )
 		{
 			return nullptr;
 		}
@@ -1655,13 +1655,13 @@ namespace spirv
 					{
 						auto structType = getStructType( type );
 
-						if ( structType->isShaderInput() )
+						if ( structType->isInput() )
 						{
 							registerInput( param
 								, static_cast< ast::type::IOStruct const & >( *structType )
 								, arraySize );
 						}
-						else if ( structType->isShaderOutput() )
+						else if ( structType->isOutput() )
 						{
 							registerOutput( param
 								, static_cast< ast::type::IOStruct const & >( *structType )
@@ -1698,7 +1698,7 @@ namespace spirv
 		, ExprAdapter & adapter
 		, ast::stmt::Container * cont )
 	{
-		if ( flags.isShaderInput() )
+		if ( flags.isInput() )
 		{
 			return processPendingMbrInput( exprCache
 				, outer
@@ -1732,7 +1732,7 @@ namespace spirv
 		, ast::var::VariablePtr var
 		, ast::stmt::Container * cont )
 	{
-		if ( var->isShaderInput() )
+		if ( var->isInput() )
 		{
 			return processPendingInput( exprCache
 				, var
@@ -1760,7 +1760,7 @@ namespace spirv
 		, uint32_t location
 		, uint32_t arraySize )
 	{
-		if ( flags.isShaderOutput() )
+		if ( flags.isOutput() )
 		{
 			addPendingMbrOutput( outer
 				, mbrIndex
@@ -1812,7 +1812,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, ast::type::NotArray );
@@ -1827,7 +1827,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, ast::type::NotArray );
@@ -1842,7 +1842,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, getArraySize( geomType.getLayout() ) );
@@ -1857,7 +1857,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, ast::type::NotArray );
@@ -1993,7 +1993,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getInputVertices() );
@@ -2008,7 +2008,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getOutputVertices() );
@@ -2028,7 +2028,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, tessType.getInputVertices() );
@@ -2048,7 +2048,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, meshType.getMaxVertices() );
@@ -2068,7 +2068,7 @@ namespace spirv
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var
 				, static_cast< ast::type::IOStruct const & >( structType )
 				, meshType.getMaxPrimitives() );
@@ -3714,11 +3714,11 @@ namespace spirv
 		}
 		else if ( var->isBuiltin() )
 		{
-			if ( var->isShaderInput() )
+			if ( var->isInput() )
 			{
 				result = ast::type::Storage::eInput;
 			}
-			else if ( var->isShaderOutput() )
+			else if ( var->isOutput() )
 			{
 				result = ast::type::Storage::eOutput;
 			}
@@ -3727,13 +3727,11 @@ namespace spirv
 				AST_Failure( "Unsupported built-in variable storage." );
 			}
 		}
-		else if ( var->isShaderInput()
-			|| var->isPatchInput() )
+		else if ( var->isInput() )
 		{
 			result = ast::type::Storage::eInput;
 		}
-		else if ( var->isShaderOutput()
-			|| var->isPatchOutput() )
+		else if ( var->isOutput() )
 		{
 			result = ast::type::Storage::eOutput;
 		}

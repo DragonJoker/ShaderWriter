@@ -1473,14 +1473,14 @@ namespace glsl
 							{
 								auto structType = getStructType( type );
 
-								if ( structType->isShaderInput() )
+								if ( structType->isInput() )
 								{
 									doProcessInput( param
 										, std::static_pointer_cast< ast::type::IOStruct >( structType )
 										, arraySize
 										, isEntryPoint );
 								}
-								else if ( structType->isShaderOutput() )
+								else if ( structType->isOutput() )
 								{
 									doProcessOutput( param
 										, std::static_pointer_cast< ast::type::IOStruct >( structType )
@@ -1748,7 +1748,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderInput() );
+					AST_Assert( structType->isInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::NotArray
@@ -1769,7 +1769,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderOutput() );
+					AST_Assert( structType->isOutput() );
 					doProcessOutput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::NotArray
@@ -1790,7 +1790,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderInput() );
+					AST_Assert( structType->isInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, getArraySize( geomType.getLayout() )
@@ -1897,7 +1897,7 @@ namespace glsl
 						, structType->getMemoryLayout()
 						, structType->getName() + "Builtins"
 						, getEntryPointType( m_adaptationData.stage )
-						, ast::var::Flag::eShaderOutput );
+						, ast::var::Flag::ePatchOutput );
 					auto othersVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Others" }
 						, ast::type::makeTessellationOutputPatchType( outStructType
 							, patchType.getLocation() )
@@ -1969,7 +1969,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderInput() );
+					AST_Assert( structType->isInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, 32u
@@ -1986,7 +1986,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderOutput() );
+					AST_Assert( structType->isOutput() );
 					doProcessOutput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, arraySize
@@ -2010,7 +2010,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderInput() );
+					AST_Assert( structType->isInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, 32u
@@ -2069,7 +2069,7 @@ namespace glsl
 					isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderInput() );
+					AST_Assert( structType->isInput() );
 					doProcessInput( var
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::NotArray
@@ -2332,7 +2332,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderOutput() );
+					AST_Assert( structType->isOutput() );
 					doProcessOutput( m_meshVtxVar
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::UnknownArraySize
@@ -2344,7 +2344,7 @@ namespace glsl
 				if ( isStructType( type ) )
 				{
 					auto structType = getStructType( type );
-					AST_Assert( structType->isShaderOutput() );
+					AST_Assert( structType->isOutput() );
 					doProcessOutput( m_meshPrimVar
 						, std::static_pointer_cast< ast::type::IOStruct >( structType )
 						, ast::type::UnknownArraySize

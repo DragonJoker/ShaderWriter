@@ -196,11 +196,6 @@ namespace ast::var
 			return hasFlag( Flag::ePatchOutput );
 		}
 
-		bool isPatch()const
-		{
-			return isPatchInput() || isPatchOutput();
-		}
-
 		bool isCentroid()const
 		{
 			return hasFlag( Flag::eCentroid );
@@ -289,6 +284,21 @@ namespace ast::var
 		bool isShared()const
 		{
 			return hasFlag( Flag::eShared );
+		}
+
+		bool isPatch()const
+		{
+			return isPatchInput() || isPatchOutput();
+		}
+
+		bool isInput()const
+		{
+			return isShaderInput() || isPatchInput();
+		}
+
+		bool isOutput()const
+		{
+			return isShaderOutput() || isPatchOutput();
 		}
 
 	private:
