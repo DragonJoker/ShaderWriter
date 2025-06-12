@@ -3443,7 +3443,8 @@ namespace glsl
 
 			void visitPreprocExtension( ast::stmt::PreprocExtension const * preproc )override
 			{
-				doAddStatement( "#extension " + preproc->getName() + ": " + helpers::getStatusName( preproc->getStatus() ), ExprsColumns{}, StatementType::eScopeLine, *preproc );
+				if ( preproc->getName() != KHR_vulkan_glsl.name )
+					doAddStatement( "#extension " + preproc->getName() + ": " + helpers::getStatusName( preproc->getStatus() ), ExprsColumns{}, StatementType::eScopeLine, *preproc );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
