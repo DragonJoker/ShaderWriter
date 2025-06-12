@@ -888,6 +888,11 @@ namespace spirv
 		}
 	}
 
+	bool hasNameBeforeOperands( Instruction const & instruction )
+	{
+		return instruction.op.getOpData().opCode == spv::OpEntryPoint;
+	}
+
 	//*************************************************************************
 
 	Instruction::Instruction( NamesCache & nameCache
@@ -918,6 +923,10 @@ namespace spirv
 				+ ( bool( packedName ) ? packedName.value().size() : 0u )
 				+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
 		assertType( *this, config );
+		if ( op.getOpData().opCode != spv::OpEntryPoint && returnTypeId != std::nullopt && ( *returnTypeId ) == 0 )
+			AST_Failure( "returnTypeId is O" );
+		if ( op.getOpData().opCode != spv::OpMemberName && resultId != std::nullopt && ( *resultId ) == 0 )
+			AST_Failure( "resultId is O" );
 	}
 
 	Instruction::Instruction( NamesCache & nameCache
@@ -1107,7 +1116,8 @@ namespace spirv
 			pushValue( instruction.resultId.value() );
 		}
 
-		if ( instruction.packedName )
+		if ( instruction.packedName
+			&& hasNameBeforeOperands( instruction ) )
 		{
 			for ( auto & c : instruction.packedName.value() )
 			{
@@ -1120,6 +1130,15 @@ namespace spirv
 			for ( auto & operand : instruction.operands )
 			{
 				pushValue( operand );
+			}
+		}
+
+		if ( instruction.packedName
+			&& !hasNameBeforeOperands( instruction ) )
+		{
+			for ( auto & c : instruction.packedName.value() )
+			{
+				pushValue( c );
 			}
 		}
 
