@@ -187,14 +187,6 @@ namespace spirv
 			result = ast::type::hashCombine( result, isComparison );
 			return result;
 		}
-
-		static bool storageNeedsExplicitLayout( ast::type::Storage storage )
-		{
-			return storage == ast::type::Storage::eUniform
-				|| storage == ast::type::Storage::eStorageBuffer
-				|| storage == ast::type::Storage::ePushConstant
-				|| storage == ast::type::Storage::ePhysicalStorageBuffer;
-		}
 	}
 
 	//*************************************************************************
@@ -215,15 +207,22 @@ namespace spirv
 		, m_registeredPointerTypes{ m_allocator }
 		, m_registeredForwardPointerTypes{ m_allocator }
 		, m_registeredFunctionTypes{ m_allocator }
+		, m_registeredStructTypeDecls{ m_allocator }
 	{
 	}
 
+	void ModuleTypes::registerStructTypeDebugDecl( ast::type::StructPtr type
+		, glsl::Statement const * debugStatement )
+	{
+		m_registeredStructTypeDecls.emplace( type, debugStatement );
+	}
+
 	TypeId ModuleTypes::registerType( ast::type::TypePtr type
-		, ast::type::Storage storage
+		, bool needsExplicitLayout
 		, glsl::Statement const * debugStatement )
 	{
 		auto result = doRegisterTypeRec( type
-			, storage
+			, needsExplicitLayout
 			, ast::type::NotMember
 			, TypeId{}
 			, 0u
@@ -232,13 +231,13 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::registerType( ast::type::TypePtr type
-		, ast::type::Storage storage
+		, bool needsExplicitLayout
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
 	{
 		auto result = doRegisterTypeRec( type
-			, storage
+			, needsExplicitLayout
 			, mbrIndex
 			, parentId
 			, 0u
@@ -333,7 +332,7 @@ namespace spirv
 		if ( res )
 		{
 			auto typeId = registerType( getTypesCache().getCombinedImage( imgType.getConfig(), splType.isComparison() )
-				, image->getStorage()
+				, false
 				, nullptr );
 			it->second = DebugId{ m_module.getNextId(), typeId->type };
 			currentBlock.instructions.push_back( makeInstruction< SampledImageInstruction >( m_module.getNameCache()
@@ -549,7 +548,7 @@ namespace spirv
 		case spv::OpTypeSampler:
 			{
 				auto type = m_typesCache->getSampler();
-				doRegisterTypeId( *instruction.resultId, type, ast::type::Storage::eMax );
+				doRegisterTypeId( *instruction.resultId, type, false );
 			}
 			break;
 		case spv::OpTypeSampledImage:
@@ -568,7 +567,7 @@ namespace spirv
 
 				auto image = std::static_pointer_cast< ast::type::Image >( iit->second->type );
 				auto type = m_typesCache->getCombinedImage( image->getConfig() );
-				doRegisterTypeId( *instruction.resultId, type, ast::type::Storage::eMax );
+				doRegisterTypeId( *instruction.resultId, type, false );
 			}
 			break;
 		case spv::OpTypeArray:
@@ -587,7 +586,7 @@ namespace spirv
 
 				auto count = instruction.operands[1];
 				auto type = m_typesCache->getArray( cit->second->type, count );
-				doRegisterTypeId( *instruction.resultId, type, ast::type::Storage::eMax );
+				doRegisterTypeId( *instruction.resultId, type, false );
 			}
 			break;
 		case spv::OpTypeRuntimeArray:
@@ -605,7 +604,7 @@ namespace spirv
 				}
 
 				auto type = m_typesCache->getArray( cit->second->type );
-				doRegisterTypeId( *instruction.resultId, type, ast::type::Storage::eMax );
+				doRegisterTypeId( *instruction.resultId, type, false );
 			}
 			break;
 		case spv::OpTypePointer:
@@ -662,7 +661,7 @@ namespace spirv
 					}
 				}
 
-				doRegisterTypeId( structId, type, ast::type::Storage::eMax );
+				doRegisterTypeId( structId, type, false );
 			}
 			break;
 		case spv::OpTypeFunction:
@@ -722,7 +721,7 @@ namespace spirv
 				}
 
 				auto type = m_typesCache->getFunction( returnType, std::move( params ) );
-				auto resultId = doRegisterTypeId( funcId, type, ast::type::Storage::eFunction );
+				auto resultId = doRegisterTypeId( funcId, type, false );
 				m_registeredFunctionTypes.try_emplace( std::move( types ), resultId );
 			}
 			break;
@@ -743,7 +742,7 @@ namespace spirv
 			it == m_registeredTypes.end() )
 		{
 			result = doRegisterBaseType( unqualifiedType
-				, ast::type::Storage::eMax
+				, false
 				, mbrIndex
 				, parentId
 				, debugStatement );
@@ -757,7 +756,7 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::doRegisterTypeRec( ast::type::TypePtr type
-		, ast::type::Storage storage
+		, bool needsExplicitLayout
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, uint32_t arrayStride
@@ -767,10 +766,9 @@ namespace spirv
 
 		if ( type->getRawKind() == ast::type::Kind::eArray )
 		{
-			bool needsExplicitLayout = modtyp::storageNeedsExplicitLayout( storage );
 			auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
 			auto elementTypeId = doRegisterTypeRec( arrayedType
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -819,14 +817,13 @@ namespace spirv
 		}
 		else if ( type->getRawKind() == ast::type::Kind::eStruct )
 		{
-			bool needsExplicitLayout = modtyp::storageNeedsExplicitLayout( storage );
 			auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
 
 			if ( auto it = m_registeredTypes.find( modtyp::myHash( unqualifiedType, needsExplicitLayout ) );
 				it == m_registeredTypes.end() )
 			{
 				result = doRegisterBaseType( unqualifiedType
-					, storage
+					, needsExplicitLayout
 					, mbrIndex
 					, parentId
 					, debugStatement );
@@ -840,7 +837,7 @@ namespace spirv
 		{
 			auto & pointerType = static_cast< ast::type::Pointer const & >( *type );
 			auto rawTypeId = doRegisterTypeRec( pointerType.getPointerType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -853,7 +850,7 @@ namespace spirv
 		{
 			auto & payloadType = static_cast< ast::type::RayPayload const & >( *type );
 			result = doRegisterTypeRec( payloadType.getDataType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -863,7 +860,7 @@ namespace spirv
 		{
 			auto & callableType = static_cast< ast::type::CallableData const & >( *type );
 			result = doRegisterTypeRec( callableType.getDataType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -873,7 +870,7 @@ namespace spirv
 		{
 			auto & callableType = static_cast< ast::type::HitAttribute const & >( *type );
 			result = doRegisterTypeRec( callableType.getDataType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -883,7 +880,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -894,7 +891,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -905,7 +902,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TessellationInputPatch const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -915,7 +912,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -925,7 +922,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TessellationControlOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -940,7 +937,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -950,7 +947,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TessellationEvaluationInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -960,7 +957,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::MeshVertexOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -970,7 +967,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::MeshPrimitiveOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -980,7 +977,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TaskPayloadNV const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -990,7 +987,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TaskPayload const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1000,7 +997,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadInNV const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1010,7 +1007,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1020,7 +1017,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1039,18 +1036,17 @@ namespace spirv
 
 	TypeId & ModuleTypes::doRegisterTypeId( spv::Id id
 		, ast::type::TypePtr type
-		, ast::type::Storage storage )
+		, bool needsExplicitLayout )
 	{
 		TypeId result{ 0u, type };
 		result.id.id = id;
-		bool needsExplicitLayout = modtyp::storageNeedsExplicitLayout( storage );
 		return m_registeredTypes.try_emplace( modtyp::myHash( type, needsExplicitLayout ), result ).first->second;
 	}
 
 	TypeId & ModuleTypes::doRegisterBaseTypeId( spv::Id id
 		, ast::type::Kind kind )
 	{
-		return doRegisterTypeId( id, m_typesCache->getBasicType( kind ), ast::type::Storage::eMax );
+		return doRegisterTypeId( id, m_typesCache->getBasicType( kind ), false );
 	}
 
 	void ModuleTypes::doRegisterTypeId( spv::Id id
@@ -1082,7 +1078,7 @@ namespace spirv
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
 		{
-			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), ast::type::Storage::eMax, debugStatement );
+			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), false, debugStatement );
 			auto componentCount = getComponentCount( kind );
 
 			if ( isMatrixType( kind ) )
@@ -1115,7 +1111,7 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterSamplerType( ast::type::SamplerPtr type )
 	{
-		auto & resultId = doRegisterTypeId( m_module.getNextId(), type, ast::type::Storage::eMax );
+		auto & resultId = doRegisterTypeId( m_module.getNextId(), type, false );
 		m_declarations.push_back( makeInstruction< SamplerTypeInstruction >( m_module.getNameCache()
 			, resultId.id ) );
 		m_nonSemanticDebug.registerSamplerType( std::move( type ), resultId );
@@ -1124,7 +1120,7 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterCombinedImageType( ast::type::CombinedImagePtr type )
 	{
-		auto & resultId = doRegisterTypeId( m_module.getNextId(), type, ast::type::Storage::eMax );
+		auto & resultId = doRegisterTypeId( m_module.getNextId(), type, false );
 		auto imgTypeId = doRegisterImageType( type->getImageType()
 			, type->isComparison() ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
 		m_declarations.push_back( makeInstruction< TextureTypeInstruction >( m_module.getNameCache()
@@ -1142,7 +1138,7 @@ namespace spirv
 		if ( res )
 		{
 			// The Sampled Type.
-			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), ast::type::Storage::eMax, nullptr );
+			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), false, nullptr );
 			// The Image Type.
 			it->second = TypeId{ m_module.getNextId(), type };
 			m_declarations.push_back( makeImageTypeInstruction( m_module.getNameCache()
@@ -1180,21 +1176,27 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::doRegisterStructType( ast::type::StructPtr type
-		, ast::type::Storage storage
+		, bool needsExplicitLayout
 		, uint32_t
 		, TypeId const &
 		, glsl::Statement const * debugStatement )
 	{
+		if ( !debugStatement )
+		{
+			auto it = m_registeredStructTypeDecls.find( type );
+			if ( it != m_registeredStructTypeDecls.end() )
+				debugStatement = it->second;
+		}
+
 		TypeId result{ 0u, type };
 		result.id.id = m_module.getNextId();
 		TypeIdList subTypes{ m_allocator };
 		ValueIdList debugSubTypes{ m_allocator };
-		bool needsExplicitLayout = modtyp::storageNeedsExplicitLayout( storage );
 
 		for ( auto & member : *type )
 		{
 			auto subTypeId = doRegisterTypeRec( member.type
-				, storage
+				, needsExplicitLayout
 				, member.type->getIndex()
 				, result
 				, member.arrayStride
@@ -1282,7 +1284,7 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::TypePtr type
-		, ast::type::Storage storage
+		, bool needsExplicitLayout
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
@@ -1319,7 +1321,7 @@ namespace spirv
 			|| kind == ast::type::Kind::eRayDesc )
 		{
 			result = doRegisterStructType( std::static_pointer_cast< ast::type::Struct >( type )
-				, storage
+				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, debugStatement );

@@ -91,7 +91,7 @@ namespace spirv
 
 				if ( !hasRuntimeArray( type ) )
 				{
-					auto typeId = types.registerType( type, pointerType->getStorage(), nullptr );
+					auto typeId = types.registerType( type, isExplicitLayoutNeeded( pointerType->getStorage() ), nullptr );
 					DebugId resultId{ shaderModule.getIntermediateResult(), typeId->type };
 
 					if ( variableId.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
@@ -214,7 +214,7 @@ namespace spirv
 			}
 
 			// Register the type pointed to.
-			auto rawTypeId = shaderModule.registerType( expr.getType(), storage, nullptr );
+			auto rawTypeId = shaderModule.registerType( expr.getType(), isExplicitLayoutNeeded( storage ), nullptr );
 			// Register the pointer to the type.
 			auto pointerTypeId = shaderModule.registerPointerType( rawTypeId, storage );
 			// Reserve the ID for the result.
