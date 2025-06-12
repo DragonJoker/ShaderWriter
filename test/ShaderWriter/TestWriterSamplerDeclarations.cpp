@@ -508,7 +508,7 @@ namespace
 
 	TEST_F( SDWTest, testSamplerDeclarations )
 	{
-		sdwTestBegin( "testSamplerDeclarations" )
+		sdwTestBegin( "testSamplerDeclarations" );
 		testSamplerComp< false >( testCounts );
 		testSamplerComp< true >( testCounts );
 		sdwTestEnd();

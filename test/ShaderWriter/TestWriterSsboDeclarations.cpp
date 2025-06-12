@@ -11,6 +11,7 @@ namespace
 	{
 		sdwTestBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
@@ -51,6 +52,7 @@ namespace
 			}
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
@@ -97,6 +99,7 @@ namespace
 	{
 		sdwTestBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
@@ -137,6 +140,7 @@ namespace
 			}
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
@@ -183,6 +187,7 @@ namespace
 	{
 		sdwTestBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
@@ -205,24 +210,11 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			// HLSL has no support for runtime arrays in buffers
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
@@ -245,22 +237,8 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			// HLSL has no support for runtime arrays in buffers
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		sdwTestEnd();
 	}
@@ -271,6 +249,7 @@ namespace
 
 		sdwTestBegin( "testSsboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", 1u, 1u };
@@ -305,6 +284,7 @@ namespace
 			}
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldT< T, "member" > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
@@ -349,6 +329,7 @@ namespace
 
 		sdwTestBegin( "testSsboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", 1u, 1u };
@@ -383,6 +364,7 @@ namespace
 			}
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", 4u > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
@@ -427,6 +409,7 @@ namespace
 
 		sdwTestBegin( "testSsboHelperArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
+			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", 1u, 1u };
@@ -443,24 +426,11 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			// HLSL has no support for runtime arrays in buffers
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		{
+			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			sdw::StorageBufferHelperStd430T< sdw::StructFieldArrayT< T, "member", ast::type::UnknownArraySize > > bo{ writer, "SSBO", { .binding = 1u, .set = 1u } };
@@ -477,22 +447,8 @@ namespace
 				{
 					retrieved[0] = test::getDefault< T >( writer );
 				} );
-
-			if constexpr ( std::is_same_v< T, sdw::UInt16 >
-				|| std::is_same_v< T, sdw::U16Vec2 >
-				|| std::is_same_v< T, sdw::U16Vec3 >
-				|| std::is_same_v< T, sdw::U16Vec4 >
-				|| std::is_same_v< T, sdw::Int16 >
-				|| std::is_same_v< T, sdw::I16Vec2 >
-				|| std::is_same_v< T, sdw::I16Vec3 >
-				|| std::is_same_v< T, sdw::I16Vec4 > )
-			{
-				test::writeShader( writer, testCounts, Compilers_NoHLSL );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			// HLSL has no support for runtime arrays in buffers
+			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
 		sdwTestEnd();
 

@@ -1964,7 +1964,7 @@ namespace
 
 	TEST_F( SDWTest, testParams )
 	{
-		sdwTestBegin( "testParams" )
+		sdwTestBegin( "testParams" );
 		testParamsT< sdw::Int >( testCounts );
 		//testParamsT< sdw::UInt >( testCounts );
 		//testParamsT< sdw::Float >( testCounts );

@@ -4,15 +4,16 @@
 
 namespace
 {
+	using T = sdw::SDW_TestType;
+
 #define DummyMain( value ) writer.implementEntryPoint( [&]( sdw::FragmentIn in, sdw::FragmentOut out )\
 		{\
 			auto v = writer.declLocale( "v", value );\
 		} )
 
-	template< typename T >
-	void testShaderInput( test::sdw_test::TestCounts & testCounts )
+	TEST_F( SDWTest, testShaderInput )
 	{
-		astOn( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -29,6 +30,12 @@ namespace
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testShaderInputArray )
+	{
+		sdwTestBegin( "testShaderInputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -45,6 +52,12 @@ namespace
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testShaderInputOptionalDisabled )
+	{
+		sdwTestBegin( "testShaderInputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -60,6 +73,12 @@ namespace
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testShaderInputArrayOptionalDisabled )
+	{
+		sdwTestBegin( "testShaderInputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -75,6 +94,12 @@ namespace
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testShaderInputOptionalEnabled )
+	{
+		sdwTestBegin( "testShaderInputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -92,6 +117,12 @@ namespace
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testShaderInputArrayOptionalEnabled )
+	{
+		sdwTestBegin( "testShaderInputArrayOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -109,33 +140,7 @@ namespace
 			DummyMain( value );
 			test::writeProgram( writer, testCounts, CurrentCompilers );
 		}
-	}
-
-	TEST_F( SDWTest, testShaderInputDeclarations )
-	{
-		sdwTestBegin( "testShaderInputDeclarations" )
-		testShaderInput< sdw::Int >( testCounts );
-		testShaderInput< sdw::UInt >( testCounts );
-		testShaderInput< sdw::Float >( testCounts );
-		testShaderInput< sdw::Vec2 >( testCounts );
-		testShaderInput< sdw::Vec3 >( testCounts );
-		testShaderInput< sdw::Vec4 >( testCounts );
-		testShaderInput< sdw::IVec2 >( testCounts );
-		testShaderInput< sdw::IVec3 >( testCounts );
-		testShaderInput< sdw::IVec4 >( testCounts );
-		testShaderInput< sdw::UVec2 >( testCounts );
-		testShaderInput< sdw::UVec3 >( testCounts );
-		testShaderInput< sdw::UVec4 >( testCounts );
-		testShaderInput< sdw::Mat2 >( testCounts );
-		testShaderInput< sdw::Mat2x3 >( testCounts );
-		testShaderInput< sdw::Mat2x4 >( testCounts );
-		testShaderInput< sdw::Mat3 >( testCounts );
-		testShaderInput< sdw::Mat3x2 >( testCounts );
-		testShaderInput< sdw::Mat3x4 >( testCounts );
-		testShaderInput< sdw::Mat4 >( testCounts );
-		testShaderInput< sdw::Mat4x2 >( testCounts );
-		testShaderInput< sdw::Mat4x3 >( testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

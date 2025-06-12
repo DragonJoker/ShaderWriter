@@ -2471,7 +2471,7 @@ namespace
 
 	TEST_F( SDWTest, testsTextures )
 	{
-		sdwTestBegin( "testsTextures" )
+		sdwTestBegin( "testsTextures" );
 		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureSizeTester >( testCounts );
 		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureQueryLodTester >( testCounts );
 		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureQueryLevelsTester >( testCounts );

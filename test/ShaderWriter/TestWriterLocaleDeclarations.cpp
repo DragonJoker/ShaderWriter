@@ -229,7 +229,7 @@ namespace
 
 	TEST_F( SDWTest, testLocaleDeclarations )
 	{
-		sdwTestBegin( "testLocaleDeclarations" )
+		sdwTestBegin( "testLocaleDeclarations" );
 		testLocale< sdw::Boolean >( testCounts );
 		testLocale< sdw::Int >( testCounts );
 		testLocale< sdw::UInt >( testCounts );

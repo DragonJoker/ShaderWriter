@@ -331,7 +331,7 @@ namespace
 
 	TEST_F( SDWTest, testImageFormat )
 	{
-		sdwTestBegin( "testImageFormat" )
+		sdwTestBegin( "testImageFormat" );
 		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eRead >( testCounts );
 		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eWrite >( testCounts );
 		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eReadWrite >( testCounts );

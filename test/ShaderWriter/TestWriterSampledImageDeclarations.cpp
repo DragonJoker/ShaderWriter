@@ -450,7 +450,7 @@ namespace
 
 	TEST_F( SDWTest, testSampledFormat )
 	{
-		sdwTestBegin( "testSampledFormat" )
+		sdwTestBegin( "testSampledFormat" );
 		if constexpr ( isFloatFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
 		{
 			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
