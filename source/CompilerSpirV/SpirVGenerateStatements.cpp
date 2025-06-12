@@ -552,16 +552,16 @@ namespace spirv
 			}
 
 			TypeId registerType( ast::type::TypePtr type
-				, ast::type::Storage storage
+				, bool needsExplicitLayout
 				, glsl::Statement const * debugStatement )
 			{
-				return m_module.registerType( type, storage, debugStatement );
+				return m_module.registerType( type, needsExplicitLayout, debugStatement );
 			}
 
 			TypeId registerType( ast::type::TypePtr type
 				, glsl::Statement const * debugStatement )
 			{
-				return registerType( type, getStorageClass( type ), debugStatement );
+				return registerType( type, isExplicitLayoutNeeded( getStorageClass( type ) ), debugStatement );
 			}
 
 			TypeId registerImageType( ast::type::CombinedImagePtr textureType )
@@ -683,7 +683,9 @@ namespace spirv
 				TraceFunc;
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( *expr->getOperand() ), *expr->getOperand() );
-				auto typeId = registerType( expr->getType(), getStorageClass( expr->getType(), operandId.getStorage() ), nullptr );
+				auto typeId = registerType( expr->getType()
+					, isExplicitLayoutNeeded( getStorageClass( expr->getType(), operandId.getStorage() ) )
+					, nullptr );
 				m_result = getIntermediateResult( typeId->type );
 
 				if ( expr->isSpecialisationConstant() )
@@ -712,7 +714,9 @@ namespace spirv
 				m_allLiterals = false;
 				auto lhsId = loadVariable( doSubmit( *expr->getLHS() ), *expr->getLHS() );
 				auto rhsId = loadVariable( doSubmit( *expr->getRHS() ), *expr->getRHS() );
-				auto typeId = registerType( expr->getType(), getStorageClass( expr->getType(), lhsId.getStorage() ), nullptr );
+				auto typeId = registerType( expr->getType()
+					, isExplicitLayoutNeeded( getStorageClass( expr->getType(), lhsId.getStorage() ) )
+					, nullptr );
 				m_result = getIntermediateResult( typeId->type );
 
 				if ( expr->isSpecialisationConstant() )
@@ -1257,7 +1261,7 @@ namespace spirv
 				ast::type::Storage storageClass{ expr->hasIdentifier()
 					? getStorageClass( getVersion(), expr->getIdentifier().getVariable() )
 					: getStorageClass( expr->getType() ) };
-				registerType( expr->getType(), storageClass, nullptr );
+				registerType( expr->getType(), isExplicitLayoutNeeded( storageClass ), nullptr );
 				bool allLiterals = true;
 				auto init = loadVariable( doSubmit( *expr->getInitialiser(), allLiterals ), *expr->getInitialiser() );
 				bool hasFuncInit = helpers::HasFnCall::submit( *expr );
@@ -1952,7 +1956,7 @@ namespace spirv
 					}
 				}
 
-				return registerType( m_unsignedExtendedTypes[count], ast::type::Storage::eFunction, nullptr );
+				return registerType( m_unsignedExtendedTypes[count], false, nullptr );
 			}
 
 			TypeId getSignedExtendedResultTypeId( uint32_t count )
@@ -1979,7 +1983,7 @@ namespace spirv
 					}
 				}
 
-				return registerType( m_signedExtendedTypes[count], ast::type::Storage::eFunction, nullptr );
+				return registerType( m_signedExtendedTypes[count], false, nullptr );
 			}
 
 			DebugId getVariablePointer( ast::expr::Expr const & expr )
@@ -2732,7 +2736,7 @@ namespace spirv
 				consumeDebugStatement( glsl::StatementType::eFunctionScopeBegin );
 				m_currentBlock = m_result.newBlock();
 
-				auto retType = m_result.registerType( type->getReturnType(), ast::type::Storage::eFunction, declStmt );
+				auto retType = m_result.registerType( type->getReturnType(), false, declStmt );
 				m_function = m_result.beginFunction( stmt->getName()
 					, retType
 					, ast::var::VariableList{ type->begin(), type->end() }
@@ -2749,9 +2753,8 @@ namespace spirv
 					if ( !requiresPtrVar
 						&& itFunction != m_actions.end() )
 					{
-						auto itVar = itFunction->second.find( param->getEntityName() );
-
-						if ( itVar != itFunction->second.end() )
+						if ( auto itVar = itFunction->second.find( param->getEntityName() );
+							itVar != itFunction->second.end() )
 						{
 							requiresPtrVar = itVar->second.sets > 0
 								|| itVar->second.usesThroughMember > 0;
@@ -2919,7 +2922,7 @@ namespace spirv
 			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
 			{
 				TraceFunc;
-				m_result.registerType( stmt->getType(), ast::type::Storage::eStorageBuffer, getCurrentDebugStatement() );
+				m_result.registerType( stmt->getType(), true, getCurrentDebugStatement() );
 				consumeDebugStatement( glsl::StatementType::eVariableDecl );
 			}
 
@@ -3188,6 +3191,8 @@ namespace spirv
 				if ( !stmt->getType()->isShaderInput()
 					&& !stmt->getType()->isShaderOutput() )
 				{
+					auto declStatement = getCurrentDebugStatement();
+
 					if ( isDebugEnabled() )
 					{
 						consumeDebugStatement( glsl::StatementType::eStructureDecl );
@@ -3202,6 +3207,8 @@ namespace spirv
 					}
 
 					// The structure will be registered in the module when used.
+					// We must still store the debug statement, in order to have debug type registered properly.
+					m_result.registerStructTypeDebugDecl( structType, declStatement );
 				}
 			}
 

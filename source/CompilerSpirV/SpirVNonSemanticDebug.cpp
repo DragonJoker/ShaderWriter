@@ -4,6 +4,7 @@ See LICENSE file in root folder
 #include "CompilerSpirV/SpirVNonSemanticDebug.hpp"
 
 #include "CompilerSpirV/SpirVDebugHelpers.hpp"
+#include "CompilerSpirV/SpirVHelpers.hpp"
 #include "CompilerSpirV/SpirVModule.hpp"
 #include "CompilerSpirV/SpirVModuleTypes.hpp"
 
@@ -289,7 +290,7 @@ namespace spirv::debug
 		}
 
 		auto nameId = m_module.registerString( name );
-		auto typeId = m_module.registerType( type, storage, debugStatement );
+		auto typeId = m_module.registerType( type, isExplicitLayoutNeeded( storage ), debugStatement );
 		auto lineId = m_module.registerLiteral( debugStatement->source.lines.start );
 		auto columnId = m_module.registerLiteral( debugStatement->source.columns.start );
 		auto flagsId = m_module.registerLiteral( 0u );
@@ -408,7 +409,7 @@ namespace spirv::debug
 		for ( auto & param : params )
 		{
 			auto paramNameId = m_module.registerString( param->getName() );
-			auto paramTypeId = m_module.registerType( param->getType(), ast::type::Storage::eFunction, scopeBeginDebugStatement );
+			auto paramTypeId = m_module.registerType( param->getType(), false, scopeBeginDebugStatement );
 			auto paramColumnId = m_module.registerLiteral( 0u );
 			auto paramFlagsId = m_module.registerLiteral( 0u );
 			result.emplace_back( *itParam );

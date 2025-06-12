@@ -3757,6 +3757,16 @@ namespace spirv
 		return result;
 	}
 
+	ast::type::Storage getStorageClass( uint32_t version
+		, ast::expr::Expr const & expr
+		, ast::type::Storage fallback )
+	{
+		auto ident = ast::findIdentifier( expr );
+		return ident
+			? getStorageClass( version, ident->getVariable(), fallback )
+			: fallback;
+	}
+
 	ast::type::Storage getStorageClass( ast::type::TypePtr type
 		, ast::type::Storage fallback )
 	{
@@ -3764,6 +3774,21 @@ namespace spirv
 			return static_cast< ast::type::Pointer const & >( *type ).getStorage();
 
 		return fallback;
+	}
+
+	bool isExplicitLayoutNeeded( uint32_t version
+		, ast::expr::Expr const & expr )
+	{
+		auto ident = ast::findIdentifier( expr );
+		return ident && isExplicitLayoutNeeded( getStorageClass( version , ident->getVariable() ) );
+	}
+
+	bool isExplicitLayoutNeeded( ast::type::Storage storage )
+	{
+		return storage == ast::type::Storage::eUniform
+			|| storage == ast::type::Storage::eStorageBuffer
+			|| storage == ast::type::Storage::ePushConstant
+			|| storage == ast::type::Storage::ePhysicalStorageBuffer;
 	}
 
 	//*************************************************************************

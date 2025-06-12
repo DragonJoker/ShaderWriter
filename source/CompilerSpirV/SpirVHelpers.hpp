@@ -213,6 +213,11 @@ namespace spirv
 			return inputs.getVars();
 		}
 
+		uint32_t getSpirVVersion()const noexcept
+		{
+			return spirvConfig.specVersion;
+		}
+
 		void addInput( ast::var::VariablePtr var )
 		{
 			inputs.add( var );
@@ -537,8 +542,14 @@ namespace spirv
 	ast::type::Storage getStorageClass( uint32_t version
 		, ast::var::VariablePtr var
 		, ast::type::Storage fallback = ast::type::Storage::eFunction );
+	ast::type::Storage getStorageClass( uint32_t version
+		, ast::expr::Expr const & expr
+		, ast::type::Storage fallback = ast::type::Storage::eFunction );
 	ast::type::Storage getStorageClass( ast::type::TypePtr type
 		, ast::type::Storage fallback = ast::type::Storage::eFunction );
+	bool isExplicitLayoutNeeded( uint32_t version
+		, ast::expr::Expr const & expr );
+	bool isExplicitLayoutNeeded( ast::type::Storage storage );
 }
 
 #endif

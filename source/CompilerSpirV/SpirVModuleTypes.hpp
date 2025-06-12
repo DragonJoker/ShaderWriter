@@ -37,11 +37,14 @@ namespace spirv
 			, ast::type::TypesCache * typesCache
 			, InstructionList & constantsTypes );
 
+		void registerStructTypeDebugDecl( ast::type::StructPtr type
+			, glsl::Statement const * debugStatement );
+
 		TypeId registerType( ast::type::TypePtr type
-			, ast::type::Storage storage
+			, bool needsExplicitLayout
 			, glsl::Statement const * debugStatement );
 		TypeId registerType( ast::type::TypePtr type
-			, ast::type::Storage storage
+			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
@@ -72,14 +75,14 @@ namespace spirv
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterTypeRec( ast::type::TypePtr type
-			, ast::type::Storage storage
+			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, uint32_t arrayStride
 			, glsl::Statement const * debugStatement );
 		TypeId & doRegisterTypeId( spv::Id id
 			, ast::type::TypePtr type
-			, ast::type::Storage storage );
+			, bool needsExplicitLayout );
 		TypeId & doRegisterBaseTypeId( spv::Id id
 			, ast::type::Kind kind );
 		void doRegisterTypeId( spv::Id id
@@ -88,7 +91,7 @@ namespace spirv
 		TypeId doRegisterBaseType( ast::type::Kind kind
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterStructType( ast::type::StructPtr type
-			, ast::type::Storage storage
+			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
@@ -100,7 +103,7 @@ namespace spirv
 		TypeId doRegisterSampledImageType( ast::type::SampledImagePtr type );
 		TypeId doRegisterAccelerationStructureType( ast::type::AccelerationStructurePtr type );
 		TypeId doRegisterBaseType( ast::type::TypePtr type
-			, ast::type::Storage storage
+			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
@@ -121,6 +124,7 @@ namespace spirv
 		ast::Map< uint64_t, TypeId > m_registeredPointerTypes;
 		ast::Map< uint64_t, TypeId > m_registeredForwardPointerTypes;
 		ast::UnorderedMap< TypeIdList, TypeId, TypeIdListHasher > m_registeredFunctionTypes;
+		ast::Map< ast::type::StructPtr, glsl::Statement const * > m_registeredStructTypeDecls;
 	};
 }
 
