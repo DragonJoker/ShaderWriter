@@ -529,7 +529,7 @@ namespace ast
 		, std::string name
 		, type::TypePtr type )
 	{
-		auto flags = outer->isUniform()
+		auto flags = ( outer->isUniform() || outer->isStorageBuffer() )
 			? var::Flag::eUniform
 			: var::Flag( 0u );
 		return registerMember( std::move( outer )
