@@ -8,6 +8,7 @@ See LICENSE file in root folder
 #include "SpirVCombinedImageAccessNames.hpp"
 #include "SpirVMakeAccessChain.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
 #include <ShaderAST/Expr/MakeIntrinsic.hpp>
 #include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtSimple.hpp>
@@ -24,6 +25,24 @@ namespace spirv
 		{
 			auto mbr = expr.getOuterType()->getMember( expr.getMemberIndex() );
 			return mbr.builtin;
+		}
+
+		static bool isMemoryLayoutDependent( ast::type::TypePtr type )
+		{
+			return getStructType( type )
+				|| isArrayType( type )
+				|| isMatrixType( type );
+		}
+
+		static ast::var::VariablePtr makeFunctionAlias( AdaptationData & adaptationData
+			, ast::type::TypePtr type )
+		{
+			TraceFunc;
+			auto result = ast::var::makeVariable( adaptationData.config.nextVarId
+				, type
+				, "functmp_" + std::to_string( adaptationData.config.aliasId ) );
+			++adaptationData.config.aliasId;
+			return result;
 		}
 	}
 
@@ -70,12 +89,159 @@ namespace spirv
 		return submit( m_exprCache, m_typesCache, expr, m_container, m_ioDeclarations, m_adaptationData );
 	}
 
+	void ExprAdapter::visitAliasExpr( ast::expr::Alias const * expr )
+	{
+		if ( isExplicitLayoutNeeded( m_adaptationData.config.getSpirVVersion(), *expr->getAliasedExpr() )
+			&& adapt::isMemoryLayoutDependent( expr->getType() ) )
+		{
+			auto ident = &expr->getIdentifier();
+			auto type = expr->getType();
+
+			if ( m_adaptationData.config.getSpirVVersion() >= v1_4 )
+			{
+				m_result = m_exprCache.makeAlias( expr->getType()
+					, m_exprCache.makeIdentifier( *ident )
+					, m_exprCache.makeCast( expr->getType(), ast::ExprCloner::submit( m_exprCache, expr->getAliasedExpr() ) ) );
+			}
+			else
+			{
+				ast::expr::ExprList inits;
+
+				if ( auto structType = getStructType( expr->getType() ) )
+				{
+					for ( uint32_t index = 0u; index < structType->size(); ++index )
+					{
+						inits.emplace_back( m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, expr->getAliasedExpr() )
+							, index, 0 ) );
+					}
+				}
+				else if ( isArrayType( expr->getType() ) )
+				{
+					if ( auto arrayType = &static_cast< ast::type::Array const & >( *expr->getType() );
+						arrayType->getArraySize() == ast::type::UnknownArraySize )
+					{
+						ast::Logger::logError( "Unsupported dynamic array conversion" );
+						ExprCloner::visitAliasExpr( expr );
+					}
+					else
+					{
+						auto elementType = arrayType->getType();
+						for ( uint32_t index = 0u; index < arrayType->getArraySize(); ++index )
+						{
+							inits.emplace_back( m_exprCache.makeArrayAccess( elementType
+								, ast::ExprCloner::submit( m_exprCache, expr->getAliasedExpr() )
+								, m_exprCache.makeLiteral( m_typesCache, index ) ) );
+						}
+					}
+				}
+				else if ( isMatrixType( expr->getType() ) )
+				{
+					auto columnCount = getComponentCount( expr->getType() );
+					auto componentType = m_typesCache.getBasicType( getComponentType( expr->getType() ) );
+					for ( uint32_t index = 0u; index < columnCount; ++index )
+					{
+						inits.emplace_back( m_exprCache.makeArrayAccess( componentType
+							, ast::ExprCloner::submit( m_exprCache, expr->getAliasedExpr() )
+							, m_exprCache.makeLiteral( m_typesCache, index ) ) );
+					}
+				}
+				else
+				{
+					ast::Logger::logError( "Unsupported memory layout dependent type" );
+					AST_Failure( "Unsupported memory layout dependent type" );
+					ExprCloner::visitAliasExpr( expr );
+				}
+
+				if ( !inits.empty() )
+				{
+					m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
+						, m_exprCache.makeAggrInit( expr->getType(), std::move( inits ) ) );
+				}
+			}
+		}
+		else
+		{
+			ExprCloner::visitAliasExpr( expr );
+		}
+	}
+
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign const * expr )
 	{
 		TraceFunc;
+		auto lhs = expr->getLHS();
+		auto rhs = expr->getRHS();
+		auto type = expr->getType();
 
-		if ( auto lhs = expr->getLHS();
-			lhs->getKind() == ast::expr::Kind::eMbrSelect )
+		if ( adapt::isMemoryLayoutDependent( type )
+			&& isExplicitLayoutNeeded( m_adaptationData.config.getSpirVVersion(), *lhs )
+				!= isExplicitLayoutNeeded( m_adaptationData.config.getSpirVVersion(), *rhs ) )
+		{
+			auto & stmtCache = m_container->getStmtCache();
+
+			if ( auto structType = getStructType( type ) )
+			{
+				for ( uint32_t index = 0u; index < structType->size() - 1u; ++index )
+				{
+					auto mbr = structType->getMember( index );
+					m_container->addStmt( stmtCache.makeSimple( m_exprCache.makeAssign( mbr.type
+						, m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, lhs ), index, 0 )
+						, m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, rhs ), index, 0 ) ) ) );
+				}
+
+				auto index = uint32_t( structType->size() - 1u );
+				auto mbr = structType->getMember( index );
+				m_result = m_exprCache.makeAssign( mbr.type
+					, m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, lhs ), index, 0 )
+					, m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, rhs ), index, 0 ) );
+			}
+			else if ( isArrayType( type ) )
+			{
+				if ( auto arrayType = &static_cast< ast::type::Array const & >( *type );
+					arrayType->getArraySize() == ast::type::UnknownArraySize )
+				{
+					ast::Logger::logError( "Unsupported dynamic array conversion" );
+					ExprCloner::visitAssignExpr( expr );
+				}
+				else
+				{
+					auto elementType = arrayType->getType();
+					for ( uint32_t index = 0u; index < arrayType->getArraySize() - 1u; ++index )
+					{
+						m_container->addStmt( stmtCache.makeSimple( m_exprCache.makeAssign( elementType
+							, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) )
+							, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) );
+					}
+
+					m_result = m_exprCache.makeAssign( elementType
+						, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) )
+						, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) ) );
+				}
+			}
+			else if ( isMatrixType( type ) )
+			{
+				auto columnCount = getComponentCount( type );
+				auto componentType = m_typesCache.getBasicType( getComponentType( type ) );
+				for ( uint32_t index = 0u; index < columnCount - 1u; ++index )
+				{
+					m_container->addStmt( stmtCache.makeSimple( m_exprCache.makeAssign( componentType
+						, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) )
+						, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) );
+				}
+
+				m_result = m_exprCache.makeAssign( componentType
+					, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) )
+					, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) ) );
+			}
+			else
+			{
+				ast::Logger::logError( "Unsupported memory layout dependent type" );
+				AST_Failure( "Unsupported memory layout dependent type" );
+				ExprCloner::visitAssignExpr( expr );
+			}
+		}
+
+		if ( !m_result
+			&& lhs->getKind() == ast::expr::Kind::eMbrSelect )
 		{
 			auto & mbrSelect = static_cast< ast::expr::MbrSelect const & >( *lhs );
 
@@ -128,7 +294,7 @@ namespace spirv
 							, std::move( baseIndex ) );
 						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
-							, doSubmit( expr->getRHS() ) );
+							, doSubmit( rhs ) );
 					}
 					else
 					{
@@ -137,7 +303,7 @@ namespace spirv
 							, ExprCloner::submit( m_exprCache, *baseIndex ) );
 						m_result = m_exprCache.makeAssign( mbr.type
 							, std::move( m_result )
-							, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
+							, m_exprCache.makeSwizzle( doSubmit( rhs )
 								, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e0 } ) );
 
 						if ( componentCount >= 2u )
@@ -150,7 +316,7 @@ namespace spirv
 									, m_exprCache.makeLiteral( m_typesCache, 1u ) ) );
 							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
-								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
+								, m_exprCache.makeSwizzle( doSubmit( rhs )
 									, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e1 } ) );
 						}
 
@@ -164,7 +330,7 @@ namespace spirv
 									, m_exprCache.makeLiteral( m_typesCache, 2u ) ) );
 							m_result = m_exprCache.makeAssign( mbr.type
 								, std::move( m_result )
-								, m_exprCache.makeSwizzle( doSubmit( expr->getRHS() )
+								, m_exprCache.makeSwizzle( doSubmit( rhs )
 									, ast::expr::SwizzleKind{ ast::expr::SwizzleKind::e2 } ) );
 						}
 					}

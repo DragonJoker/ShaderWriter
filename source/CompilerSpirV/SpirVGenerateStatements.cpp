@@ -198,7 +198,7 @@ namespace spirv
 				return name;
 			}
 
-			static spv::Op getCastOp( ast::type::Kind src, ast::type::Kind dst )
+			static spv::Op getCastOp( uint32_t spirVVersion, ast::type::Kind src, ast::type::Kind dst )
 			{
 				spv::Op result = spv::OpNop;
 
@@ -312,6 +312,11 @@ namespace spirv
 					{
 						AST_Failure( "Unsupported cast expression" );
 					}
+				}
+				else if ( spirVVersion >= v1_4
+					&& ( isArrayType( dst ) || isStructType( dst ) ) )
+				{
+					result = spv::OpCopyLogical;
 				}
 				else
 				{
@@ -750,7 +755,7 @@ namespace spirv
 				m_allLiterals = false;
 				auto operandId = loadVariable( doSubmit( *expr->getOperand() ), *expr->getOperand() );
 				auto dstTypeId = registerType( expr->getType(), nullptr );
-				auto op = helpers::getCastOp( expr->getOperand()->getType()->getKind()
+				auto op = helpers::getCastOp( m_moduleConfig.getSpirVVersion(), expr->getOperand()->getType()->getKind()
 					, expr->getType()->getKind() );
 
 				if ( op == spv::OpNop )

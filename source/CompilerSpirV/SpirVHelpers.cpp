@@ -3501,6 +3501,10 @@ namespace spirv
 			return makeInstruction< UnInstructionT< spv::OpConvertUToAccelerationStructureKHR > >( nameCache, returnTypeId, resultId, operandId );
 		case spv::OpConvertUToPtr:
 			return makeInstruction< UnInstructionT< spv::OpConvertUToPtr > >( nameCache, returnTypeId, resultId, operandId );
+		case spv::OpCopyObject:
+			return makeInstruction< UnInstructionT< spv::OpCopyObject > >( nameCache, returnTypeId, resultId, operandId );
+		case spv::OpCopyLogical:
+			return makeInstruction< UnInstructionT< spv::OpCopyLogical > >( nameCache, returnTypeId, resultId, operandId );
 		default:
 			AST_Failure( "Unexpected cast Op" );
 		}
