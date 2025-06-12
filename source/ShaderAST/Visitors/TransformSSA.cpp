@@ -45,6 +45,7 @@ namespace ast
 			{
 				return expr.getKind() == expr::Kind::eIdentifier
 					&& ( static_cast< expr::Identifier const & >( expr ).getVariable()->isUniform()
+						|| static_cast< expr::Identifier const & >( expr ).getVariable()->isStorageBuffer()
 						|| static_cast< expr::Identifier const & >( expr ).getVariable()->isShaderInput()
 						|| static_cast< expr::Identifier const & >( expr ).getVariable()->isShaderOutput() );
 			}
