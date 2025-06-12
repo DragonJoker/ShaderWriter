@@ -564,6 +564,7 @@ namespace spirv
 	using LabelInstruction = InstructionT< spv::OpLabel, false, true, 0u, false, false >;
 	using FunctionInstruction = InstructionT< spv::OpFunction, true, true, 2u, false, false >;
 	using CopyObjectInstruction = InstructionT< spv::OpCopyObject, true, true, 1u, false, false >;
+	using CopyLogicalInstruction = InstructionT< spv::OpCopyLogical, true, true, 1u, false, false >;
 	using GroupNonUniformElectInstruction = InstructionT< spv::OpGroupNonUniformElect, true, true, 1u, false, false >;
 	using GroupNonUniformAllInstruction = InstructionT< spv::OpGroupNonUniformAll, true, true, 2u, false, false >;
 	using GroupNonUniformAnyInstruction = InstructionT< spv::OpGroupNonUniformAny, true, true, 2u, false, false >;
