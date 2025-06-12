@@ -52,7 +52,7 @@ namespace
 		sdw::Float outIntensity;
 	};
 
-	TEST( SDW_TestSuiteName, lightInf )
+	TEST_F( SDWTest, lightInf )
 	{
 		sdwTestBegin( "lightInf" );
 		using namespace sdw;
@@ -84,7 +84,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, lightPoint )
+	TEST_F( SDWTest, lightPoint )
 	{
 		sdwTestBegin( "lightPoint" );
 		using namespace sdw;
@@ -117,7 +117,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, lightSpot )
+	TEST_F( SDWTest, lightSpot )
 	{
 		sdwTestBegin( "lightSpot" );
 		using namespace sdw;

@@ -12,7 +12,7 @@ namespace
 	template< typename T >
 	void testShaderInput( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderInput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -111,7 +111,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testShaderInputDeclarations )
+	TEST_F( SDWTest, testShaderInputDeclarations )
 	{
 		sdwTestBegin( "testShaderInputDeclarations" )
 		testShaderInput< sdw::Int >( testCounts );

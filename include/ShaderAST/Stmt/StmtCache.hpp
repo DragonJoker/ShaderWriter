@@ -20,7 +20,7 @@ namespace ast::stmt
 	{
 	public:
 		SDAST_API explicit StmtCache( ShaderAllocatorBlock & allocator );
-		SDAST_API ~StmtCache() = default;
+		SDAST_API ~StmtCache();
 
 		SDAST_API PreprocExtensionPtr makePreprocExtension( std::string name, PreprocExtension::ExtStatus status );
 		SDAST_API PreprocVersionPtr makePreprocVersion( std::string name );
@@ -82,13 +82,14 @@ namespace ast::stmt
 		template< typename StmtT, typename ... ParamsT >
 		std::unique_ptr< StmtT, DeleteStmt > makeStmt( ParamsT && ... params )
 		{
-			auto mem = m_allocator.allocate( sizeof( StmtT ) );
+			auto mem = m_allocator->allocate( sizeof( StmtT ) );
+			++m_allocatedStmts;
 			return std::unique_ptr< StmtT, DeleteStmt >{ new ( mem )StmtT{ *this, std::forward< ParamsT >( params )... } };
 		}
 
 		ShaderAllocatorBlock & getAllocator()const
 		{
-			return m_allocator;
+			return *m_allocator;
 		}
 
 	private:
@@ -97,7 +98,8 @@ namespace ast::stmt
 		void freeStmt( Stmt * stmt )noexcept;
 
 	private:
-		ShaderAllocatorBlock & m_allocator;
+		ShaderAllocatorBlock * m_allocator;
+		int64_t m_allocatedStmts{};
 	};
 }
 

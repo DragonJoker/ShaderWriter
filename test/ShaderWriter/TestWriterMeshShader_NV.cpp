@@ -828,7 +828,7 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-	TEST( SDW_TestSuiteName, pointX )
+	TEST_F( SDWTest, pointX )
 	{
 		sdwTestBegin( "pointX" );
 		using namespace sdw;
@@ -851,7 +851,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, point )
+	TEST_F( SDWTest, point )
 	{
 		sdwTestBegin( "point" );
 		using namespace sdw;
@@ -875,7 +875,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, lineX )
+	TEST_F( SDWTest, lineX )
 	{
 		sdwTestBegin( "lineX" );
 		using namespace sdw;
@@ -898,7 +898,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, line )
+	TEST_F( SDWTest, line )
 	{
 		sdwTestBegin( "line" );
 		using namespace sdw;
@@ -922,7 +922,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, triangleX )
+	TEST_F( SDWTest, triangleX )
 	{
 		sdwTestBegin( "triangleX" );
 		using namespace sdw;
@@ -946,7 +946,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, triangle )
+	TEST_F( SDWTest, triangle )
 	{
 		sdwTestBegin( "triangle" );
 		using namespace sdw;
@@ -970,7 +970,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, oneTriangle )
+	TEST_F( SDWTest, oneTriangle )
 	{
 		sdwTestBegin( "oneTriangle" );
 		using namespace sdw;
@@ -1011,7 +1011,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, taskPayload )
+	TEST_F( SDWTest, taskPayload )
 	{
 		sdwTestBegin( "taskPayload" );
 		using namespace sdw;
@@ -1038,7 +1038,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, renderMeshlet )
+	TEST_F( SDWTest, renderMeshlet )
 	{
 		sdwTestBegin( "renderMeshlet" );
 		using namespace sdw;
@@ -1154,7 +1154,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, meshletInstancing )
+	TEST_F( SDWTest, meshletInstancing )
 	{
 		sdwTestBegin( "meshletInstancing" );
 		using namespace sdw;
@@ -1315,7 +1315,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, checkConstantsLayout )
+	TEST_F( SDWTest, checkConstantsLayout )
 	{
 		sdwTestBegin( "checkConstantsLayout" );
 		using namespace sdw;
@@ -1346,7 +1346,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, cullMeshlet )
+	TEST_F( SDWTest, cullMeshlet )
 	{
 		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
@@ -1488,7 +1488,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, writePackedPrimitiveIndices )
+	TEST_F( SDWTest, writePackedPrimitiveIndices )
 	{
 		sdwTestBegin( "writePackedPrimitiveIndices" );
 		using namespace sdw;
@@ -1621,7 +1621,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupPointX )
+	TEST_F( SDWTest, subgroupPointX )
 	{
 		sdwTestBegin( "subgroupPointX" );
 		using namespace sdw;
@@ -1644,7 +1644,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupPoint )
+	TEST_F( SDWTest, subgroupPoint )
 	{
 		sdwTestBegin( "subgroupPoint" );
 		using namespace sdw;
@@ -1668,7 +1668,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupLineX )
+	TEST_F( SDWTest, subgroupLineX )
 	{
 		sdwTestBegin( "subgroupLineX" );
 		using namespace sdw;
@@ -1691,7 +1691,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupLine )
+	TEST_F( SDWTest, subgroupLine )
 	{
 		sdwTestBegin( "subgroupLine" );
 		using namespace sdw;
@@ -1715,7 +1715,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupTriangleX )
+	TEST_F( SDWTest, subgroupTriangleX )
 	{
 		sdwTestBegin( "subgroupTriangleX" );
 		using namespace sdw;
@@ -1739,7 +1739,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupTriangle )
+	TEST_F( SDWTest, subgroupTriangle )
 	{
 		sdwTestBegin( "subgroupTriangle" );
 		using namespace sdw;

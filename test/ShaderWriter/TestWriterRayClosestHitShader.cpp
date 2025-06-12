@@ -404,7 +404,7 @@ namespace
 		sdw::Float outIntensity;
 	};
 
-	TEST( SDW_TestSuiteName, simple )
+	TEST_F( SDWTest, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;
@@ -453,7 +453,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, vecTimesMtx )
+	TEST_F( SDWTest, vecTimesMtx )
 	{
 		sdwTestBegin( "vecTimesMtx" );
 		using namespace sdw;
@@ -502,7 +502,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, nonUniform )
+	TEST_F( SDWTest, nonUniform )
 	{
 		sdwTestBegin( "nonUniform" );
 		using namespace sdw;
@@ -538,7 +538,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, wavefrontLighting )
+	TEST_F( SDWTest, wavefrontLighting )
 	{
 		sdwTestBegin( "wavefrontLighting" );
 		using namespace sdw;
@@ -671,7 +671,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, basicExecCallable )
+	TEST_F( SDWTest, basicExecCallable )
 	{
 		sdwTestBegin( "basicExecCallable" );
 		using namespace sdw;
@@ -787,7 +787,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, execCallable )
+	TEST_F( SDWTest, execCallable )
 	{
 		sdwTestBegin( "execCallable" );
 		using namespace sdw;

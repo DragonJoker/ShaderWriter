@@ -464,12 +464,12 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testBool )
+	TEST_F( SDWTest, testBool )
 	{
 		sdw::expr::Expr const * expr{};
 		sdwTestBegin( "testBool" );
 		{
-			astOnStr( "testBool" );
+			astOn( "testBool" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -507,7 +507,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testBoolOptEnabled" );
+			astOn( "testBoolOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -545,7 +545,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testBoolOptDisabled" );
+			astOn( "testBoolOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -568,7 +568,7 @@ namespace
 	void testFloatT( test::sdw_test::TestCounts & testCounts )
 	{
 		{
-			astOnStr( "testFloat" );
+			astOn( "testFloat" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -606,7 +606,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testFloatOptEnabled" );
+			astOn( "testFloatOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -642,7 +642,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testFloatOptDisabled" );
+			astOn( "testFloatOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -679,7 +679,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testFloat )
+	TEST_F( SDWTest, testFloat )
 	{
 		sdwTestBegin( "testFloat" )
 		testFloatT< sdw::Float >( testCounts );
@@ -691,7 +691,7 @@ namespace
 	void testIntT( test::sdw_test::TestCounts & testCounts )
 	{
 		{
-			astOnStr( "testInt" );
+			astOn( "testInt" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -731,7 +731,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testIntOptEnabled" );
+			astOn( "testIntOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -767,7 +767,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testIntOptDisabled" );
+			astOn( "testIntOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -804,7 +804,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testInt )
+	TEST_F( SDWTest, testInt )
 	{
 		sdwTestBegin( "testInt" )
 		testIntT< sdw::Int >( testCounts );
@@ -817,7 +817,7 @@ namespace
 	{
 		using VecType = VecT< ComponentT >;
 		{
-			astOnStr( "testVec" );
+			astOn( "testVec" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -835,7 +835,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testVecOptEnabled" );
+			astOn( "testVecOptEnabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -852,7 +852,7 @@ namespace
 				, testCounts, CurrentCompilers );
 		}
 		{
-			astOnStr( "testVecOptDisabled" );
+			astOn( "testVecOptDisabled" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
@@ -870,7 +870,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testVec )
+	TEST_F( SDWTest, testVec )
 	{
 		sdwTestBegin( "testVec" )
 		testVecT< sdw::Vec2T, sdw::Half >( testCounts );
@@ -890,7 +890,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST( SDW_TestSuiteName, boolCast )
+	TEST_F( SDWTest, boolCast )
 	{
 		sdwTestBegin( "boolCast" );
 		using namespace sdw;

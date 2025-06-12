@@ -396,7 +396,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testTextureFormat )
+	TEST_F( SDWTest, testTextureFormat )
 	{
 		sdwTestBegin( "testTexture" + getImageFormatName( ast::type::ImageFormat::SDW_TestImageFormat ) );
 		testTextureFormatT< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );

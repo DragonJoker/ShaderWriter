@@ -17,6 +17,7 @@ set( TEST_WRITER_COMMON_HEADER_FILES
 	${CMAKE_CURRENT_SOURCE_DIR}/GlslToSpv.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommon.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonDebug.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonHelpers.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonSpirV.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonGlsl.hpp
 	${CMAKE_CURRENT_SOURCE_DIR}/WriterCommonHlsl.hpp

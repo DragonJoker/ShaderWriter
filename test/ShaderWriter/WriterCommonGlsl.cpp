@@ -8,23 +8,24 @@ namespace test::sdw_test
 	namespace glsl_test
 	{
 		static std::string generateGlsl( ::ast::Shader const & shader
-			, ::ast::EntryPointConfig const & entryPoint
+			, ::ast::PreprocessResult & preprocessResult
+			, ::ast::ShaderStage stage
 			, ::ast::SpecialisationInfo const & specialisation
 			, glsl::GlslConfig config
 			, TestCounts & testCounts )
 		{
 			auto timerBlock = testCounts.beginTimer( "generateGlsl" );
-			auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
-			return glsl::compileGlsl( *testCounts.allocatorBlock
+			return glsl::compilePreprocessedGlsl( *testCounts.allocatorBlock
 				, shader
-				, statements.get()
-				, entryPoint.stage
+				, preprocessResult
+				, stage
 				, specialisation
 				, config );
 		}
 
 		static void testWriteOnIndex( ::ast::Shader const & shader
-			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::ast::PreprocessResult & preprocessResult
+			, ::ast::ShaderStage stage
 			, ::ast::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts
@@ -34,64 +35,60 @@ namespace test::sdw_test
 
 			auto validate = [&]()
 				{
-					for ( auto & entryPoint : entryPoints )
+					std::string errors;
+					auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
+
+					if ( isRayTraceStage( stage )
+						|| stage == ast::ShaderStage::eMesh
+						|| stage == ast::ShaderStage::eTask )
 					{
-						astOn( printEntryPoint( entryPoint ) );
-						std::string errors;
-						auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
+						config.vulkanGlsl = true;
+					}
 
-						if ( isRayTraceStage( entryPoint.stage )
-							|| entryPoint.stage == ast::ShaderStage::eMesh
-							|| entryPoint.stage == ast::ShaderStage::eTask )
-						{
-							config.vulkanGlsl = true;
-						}
+					std::string glsl;
 
-						std::string glsl;
+					try
+					{
+						glsl = generateGlsl( shader, preprocessResult, stage, specialisation, config, testCounts );
+					}
+					catch ( std::exception & exc )
+					{
+						testCounts.printBlock( exc.what() );
+						return;
+					}
 
+					bool isCompiled{ false };
+
+					if ( isRayTraceStage( stage )
+						|| stage == ast::ShaderStage::eMesh
+						|| stage == ast::ShaderStage::eTask
+						|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
+					{
 						try
 						{
-							glsl = generateGlsl( shader, entryPoint, specialisation, config, testCounts );
+							compileGlslToSpv( stage, glsl, 150 );
+							isCompiled = true;
 						}
 						catch ( std::exception & exc )
 						{
-							testCounts.printBlock( exc.what() );
-							return;
+							errors += exc.what();
 						}
+					}
+					else
+					{
+						isCompiled = compileGlsl( glsl
+							, stage
+							, errors
+							, testCounts );
+					}
 
-						bool isCompiled{ false };
+					astCheck( isCompiled )
+						if ( !isCompiled )
+							testCounts.printError( printShader( "GLSL", glsl, true ) + errors );
 
-						if ( isRayTraceStage( entryPoint.stage )
-							|| entryPoint.stage == ast::ShaderStage::eMesh
-							|| entryPoint.stage == ast::ShaderStage::eTask
-							|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
-						{
-							try
-							{
-								compileGlslToSpv( entryPoint.stage, glsl, 150 );
-								isCompiled = true;
-							}
-							catch ( std::exception & exc )
-							{
-								errors += exc.what();
-							}
-						}
-						else
-						{
-							isCompiled = compileGlsl( glsl
-								, entryPoint.stage
-								, errors
-								, testCounts );
-						}
-
-						astCheck( isCompiled )
-							if ( !isCompiled )
-								testCounts.printError( printShader( "GLSL", glsl, true ) + errors );
-
-						if ( isCompiled && compilers.forceDisplay )
-						{
-							testCounts.printBlock( printShader( "GLSL", glsl, true ) );
-						}
+					if ( isCompiled && compilers.forceDisplay )
+					{
+						testCounts.printBlock( printShader( "GLSL", glsl, true ) );
 					}
 				};
 			astOn( "GLSL version " + std::to_string( testCounts.getGlslVersion( infoIndex ) ) );
@@ -102,7 +99,8 @@ namespace test::sdw_test
 	}
 
 	void testWriteGlsl( ::ast::Shader const & shader
-		, ::ast::EntryPointConfigArray const & entryPoints
+		, ::ast::PreprocessResult & preprocessResult
+		, ::ast::ShaderStage stage
 		, ::ast::SpecialisationInfo const & specialisation
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
@@ -113,7 +111,8 @@ namespace test::sdw_test
 			for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 			{
 				glsl_test::testWriteOnIndex( shader
-					, entryPoints
+					, preprocessResult
+					, stage
 					, specialisation
 					, compilers
 					, testCounts

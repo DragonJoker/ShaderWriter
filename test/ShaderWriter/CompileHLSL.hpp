@@ -13,8 +13,8 @@ namespace test
 	uint32_t retrieveHLSLVersion( sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex );
 	uint32_t retrieveHLSLInfosSize( sdw_test::TestCounts const & testCounts );
-	bool createHLSLContext( sdw_test::TestCounts & testCounts );
-	void destroyHLSLContext( sdw_test::TestCounts & testCounts );
+	bool createHLSLContext();
+	void destroyHLSLContext();
 	bool compileHlsl( std::string_view shader
 		, ast::ShaderStage type
 		, std::string & errors

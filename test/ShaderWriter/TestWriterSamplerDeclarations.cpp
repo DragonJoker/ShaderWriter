@@ -34,7 +34,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSampler" + nameBase );
+		astOn( "testSampler" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -88,7 +88,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerOptionalDisabled" + nameBase );
+		astOn( "testSamplerOptionalDisabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -144,7 +144,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerOptionalEnabled" + nameBase );
+		astOn( "testSamplerOptionalEnabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -202,7 +202,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerType" + nameBase );
+		astOn( "testSamplerType" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -256,7 +256,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerArray" + nameBase );
+		astOn( "testSamplerArray" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -316,7 +316,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerArrayOptionalDisabled" + nameBase );
+		astOn( "testSamplerArrayOptionalDisabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -378,7 +378,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerArrayOptionalEnabled" + nameBase );
+		astOn( "testSamplerArrayOptionalEnabled" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -442,7 +442,7 @@ namespace
 			nameBase = "Comp";
 		}
 
-		astOnStr( "testSamplerArrayType" + nameBase );
+		astOn( "testSamplerArrayType" + nameBase );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -506,7 +506,7 @@ namespace
 		testSamplerArrayType< ComparisonT >( testCounts );
 	}
 
-	TEST( SDW_TestSuiteName, testSamplerDeclarations )
+	TEST_F( SDWTest, testSamplerDeclarations )
 	{
 		sdwTestBegin( "testSamplerDeclarations" )
 		testSamplerComp< false >( testCounts );

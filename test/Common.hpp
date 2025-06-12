@@ -65,8 +65,8 @@
 	lhs ## _ ## rhs
 #endif
 
-#define astNameConcat_( X, Y ) X ## Y
 #define astNameConcat( X, Y ) astNameConcat_( X, Y )
+#define astNameConcat_( X, Y ) X ## Y
 
 template< typename ValueT >
 inline std::string toString( ValueT const & v )
@@ -619,9 +619,29 @@ namespace test
 		int32_t m_line;
 	};
 
+	struct TestTrace
+	{
+		ASTTest_API TestTrace( TestCounts & testCounts, std::string_view file, int line, std::string_view message );
+		ASTTest_API ~TestTrace();
+
+		operator bool()const
+		{
+			return true;
+		}
+
+		std::string file;
+		int line;
+		std::string message;
+
+	private:
+		TestCounts & m_testCounts;
+		testing::ScopedTrace m_trace;
+	};
+
 	struct TestCounts
 	{
 		friend struct TestBlock;
+		friend struct TestTrace;
 
 		ASTTest_API TestCounts();
 		ASTTest_API virtual ~TestCounts()noexcept;
@@ -638,8 +658,8 @@ namespace test
 			testName.clear();
 		}
 
-		ASTTest_API void printBlock( std::string const & text );
-		ASTTest_API void printError( std::string const & text );
+		ASTTest_API virtual void printBlock( std::string const & text );
+		ASTTest_API virtual void printError( std::string const & text );
 
 		std::string testName{};
 		uint32_t nextVarId{};
@@ -661,9 +681,20 @@ namespace test
 		{
 		}
 
-	private:
+		void doPushTrace( TestTrace const * trace )
+		{
+			m_traces.push_back( trace );
+		}
+
+		void doPopTrace()
+		{
+			m_traces.pop_back();
+		}
+
+	protected:
 		std::atomic_bool m_initialised{ false };
 		std::atomic_bool m_cleaned{ true };
+		std::vector< TestTrace const * > m_traces;
 
 		template< typename T >
 		friend TestCounts & operator<<( TestCounts & counts, T const & rhs )
@@ -671,13 +702,6 @@ namespace test
 			return counts;
 		}
 	};
-
-	inline bool astTrace( const char * file, int line
-		, std::string_view message )
-	{
-		::testing::ScopedTrace trace{ file, line, message };
-		return true;
-	}
 }
 
 #define astTestBegin( name )\
@@ -843,23 +867,17 @@ namespace test
 		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
 	}
 
-#define astOn( x )\
-	test::astTrace( __FILE__, __LINE__, "On " + std::string{ x } )
+#define astTrace( message )\
+	const ::test::TestTrace astNameConcat( trace, __LINE__ ){ testCounts, __FILE__, __LINE__, ( message ) }
 
-#define astWhen( x )\
-	test::astTrace( __FILE__, __LINE__, "When " + std::string{ x } )
+#define astOn( message )\
+	astTrace( std::string{ "On " } + ( message ) )
 
-#define astAnd( x )\
-	test::astTrace( __FILE__, __LINE__, "And " + std::string{ x } )
+#define astWhen( message )\
+	astTrace( std::string{ "When " } + ( message ) )
 
-#define astOnStr( x )\
-	test::astTrace( __FILE__, __LINE__, ( std::string{ "On " } + ( x ) ).c_str() )
-
-#define astWhenStr( x )\
-	test::astTrace( __FILE__, __LINE__, ( std::string{ "When " } + ( x ) ).c_str() )
-
-#define astAndStr( x )\
-	test::astTrace( __FILE__, __LINE__, ( std::string{ "And " } + ( x ) ).c_str() )
+#define astAnd( message )\
+	astTrace( std::string{ "And " } + ( message ) )
 
 #define astTestNameP( p, f ) \
 	[]( testing::TestParamInfo< p > const & i ){ return f( i.param ); }

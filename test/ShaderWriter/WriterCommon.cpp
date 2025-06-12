@@ -10,8 +10,11 @@
 #include "WriterCommonSpirV.hpp"
 #include "WriterCommonVulkanLayer.hpp"
 
+#include <ShaderAST/Visitors/PreprocessShader.hpp>
+
 #pragma warning( disable: 5262 )
 #include <iomanip>
+#include <format>
 
 namespace test
 {
@@ -194,8 +197,8 @@ namespace test
 	{
 		//*****************************************************************************************
 
-		TestSuite::TestSuite( std::string name )
-			: tcout{ std::make_unique< test::LogStreambuf< test::StreamLogStreambufTraits > >( name, std::cout ) }
+		TestSuite::TestSuite( std::string const & name )
+			: tcout{ std::make_unique< test::LogStreambuf< test::StreamLogStreambufTraits > >( "TestWriter" + name, std::cout ) }
 		{
 		}
 
@@ -226,18 +229,35 @@ namespace test
 		//*****************************************************************************************
 
 		TestCounts::TestCounts()
+			: m_glsl{ SDWTest::glsl }
+			, m_hlsl{ SDWTest::hlsl }
+			, m_spirv{ SDWTest::spirv }
 		{
 		}
 
 		TimerBlock TestCounts::beginTimer( std::string_view name )
 		{
-			m_durations.emplace( std::string{ name }, Duration{} );
+			m_durations.try_emplace( std::string{ name }, Duration{}, uint32_t{} );
 			return TimerBlock{ name, *this };
 		}
 
 		void TestCounts::printTime( std::string const & text )
 		{
 			std::cout << text << std::endl;
+		}
+
+		void TestCounts::printBlock( std::string const & text )
+		{
+			std::cout << text << std::endl;
+			test::TestCounts::printBlock( text );
+		}
+
+		void TestCounts::printError( std::string const & text )
+		{
+			for ( auto & trace : m_traces )
+				std::cout << trace->file << ":" << trace->line << " - " << trace->message << std::endl;
+			std::cout << text << std::endl;
+			test::TestCounts::printError( text );
 		}
 
 		bool TestCounts::isSpirVInitialised( uint32_t infoIndex )const
@@ -298,37 +318,40 @@ namespace test
 		void TestCounts::doInitialise()
 		{
 			m_start = Clock::now();
+		}
 
-			if ( auto timer = beginTimer( "contextsLifetime" ) )
-			{
-				createGLSLContext( *this );
-				createHLSLContext( *this );
-				createSPIRVContext( *this );
-			}
+		float getMs( Duration const & duration )
+		{
+			return float( duration.count() ) / 1000.0f;
 		}
 
 		void TestCounts::doCleanup()
 		{
-			if ( auto timer = beginTimer( "contextsLifetime" ) )
-			{
-				destroySPIRVContext( *this );
-				destroyHLSLContext( *this );
-				destroyGLSLContext( *this );
-			}
-
+#if SDWTest_DisplayTimes
 			auto endTime = Clock::now();
+			size_t maxNameSize{};
+			for ( auto & [name, _] : m_durations )
+				maxNameSize = std::max( name.size(), maxNameSize );
 			Duration counted{};
 			std::stringstream stream;
 			stream << testName << "\n";
-			for ( auto & [name, duration] : m_durations )
+			stream << std::format( "  {:>{}} {:>10} {:>10} {:>17}\n"
+				, "name", maxNameSize, "total ms", "instances", "ms per instance" );
+
+			for ( auto & [name, durationCount] : m_durations )
 			{
-				stream << "  " << name << ": " << duration.count() << " ms\n";
-				counted += duration;
+				stream << std::format( "  {:>{}} {:>10.2f} {:>10} {:>17.2f}\n"
+					, name, maxNameSize
+					, getMs( durationCount.first ), durationCount.second
+					, getMs( durationCount.first / durationCount.second )  );
+				counted += durationCount.first;
 			}
 
 			Duration total = std::chrono::duration_cast< Duration >( endTime - m_start );
-			stream << "  remnants: " << ( total - counted ).count() << " ms";
+			stream << std::format( "  total: {:>.2f} ms, remnants: {:>.2f} ms\n"
+				, getMs( total ), getMs( total - counted ) );
 			printTime( stream.str() );
+#endif
 		}
 
 		void TestCounts::doEndTimer( std::string const & name, TimePoint startTime )noexcept
@@ -337,7 +360,8 @@ namespace test
 			if ( auto it = m_durations.find( name );
 				it != m_durations.end() )
 			{
-				it->second += std::chrono::duration_cast< Duration >( endTime - startTime );
+				it->second.first += std::chrono::duration_cast< Duration >( endTime - startTime );
+				++it->second.second;
 			}
 		}
 
@@ -404,16 +428,32 @@ namespace test
 		}
 	}
 
+	static ast::PreprocessResult preprocessShader( ::ast::ShaderAllocatorBlock & allocator
+		, ::ast::Shader const & shader
+		, ::ast::EntryPointConfig const & entryPoint
+		, sdw_test::TestCounts & testCounts )
+	{
+		auto timerBlock = testCounts.beginTimer( "preprocessShader" );
+		auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
+		return ::ast::preprocessShader( allocator, shader, *statements );
+	}
+
 	void writeShader( ::ast::Shader const & shader
 		, ::ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts
 		, Compilers const & compilers )
 	{
+		auto allocatorBlock = testCounts.allocator.getBlock();
 		auto specialisation = getSpecialisationInfo( shader );
-		testWriteDebug( shader, entryPoints, compilers, testCounts );
-		testWriteSpirV( shader, entryPoints, specialisation, compilers, testCounts );
-		testWriteGlsl( shader, entryPoints, specialisation, compilers, testCounts );
-		testWriteHlsl( shader, entryPoints, specialisation, compilers, testCounts );
+		for ( auto & entryPoint : entryPoints )
+		{
+			astOn( printEntryPoint( entryPoint ) );
+			auto preprocessedResult = preprocessShader( *allocatorBlock, shader, entryPoint, testCounts );
+			testWriteDebug( shader, preprocessedResult, entryPoint.stage, specialisation, compilers, testCounts );
+			testWriteSpirV( shader, preprocessedResult, entryPoint.stage, specialisation, compilers, testCounts );
+			testWriteGlsl( shader, preprocessedResult, entryPoint.stage, specialisation, compilers, testCounts );
+			testWriteHlsl( shader, preprocessedResult, entryPoint.stage, specialisation, compilers, testCounts );
+		}
 	}
 
 	void writeShader( ::ast::Shader const & shader
@@ -551,4 +591,42 @@ namespace test
 			, testCounts
 			, compilers );
 	}
+
+	int testsMain( int argc, char ** argv, std::string_view testSuiteName )
+	{
+		testing::InitGoogleTest( &argc, argv );
+		auto suite = new test::sdw_test::TestSuite{ std::string{ testSuiteName } };
+		testing::AddGlobalTestEnvironment( suite );
+		return RUN_ALL_TESTS();
+	}
 }
+
+//*************************************************************************************************
+
+std::shared_ptr< test::sdw_test::GLSLContext > SDWTest::glsl;
+std::shared_ptr< test::sdw_test::HLSLContext > SDWTest::hlsl;
+std::shared_ptr< test::sdw_test::SPIRVContext > SDWTest::spirv;
+
+void SDWTest::SetUpTestSuite()
+{
+	test::createGLSLContext();
+	test::createHLSLContext();
+	test::createSPIRVContext();
+}
+
+void SDWTest::TearDownTestSuite()
+{
+	test::destroySPIRVContext();
+	test::destroyHLSLContext();
+	test::destroyGLSLContext();
+}
+
+void SDWTest::SetUp()
+{
+}
+
+void SDWTest::TearDown()
+{
+}
+
+//*************************************************************************************************

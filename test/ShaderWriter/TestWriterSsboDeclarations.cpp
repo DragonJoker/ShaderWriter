@@ -7,7 +7,7 @@ namespace
 {
 	using T = sdw::SDW_TestType;
 
-	TEST( SDW_TestSuiteName, testSsboRaw )
+	TEST_F( SDWTest, testSsboRaw )
 	{
 		sdwTestBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -93,7 +93,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testSsboRawArray )
+	TEST_F( SDWTest, testSsboRawArray )
 	{
 		sdwTestBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -179,7 +179,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testSsboRawArrayRuntime )
+	TEST_F( SDWTest, testSsboRawArrayRuntime )
 	{
 		sdwTestBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -265,7 +265,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testSsboHelper )
+	TEST_F( SDWTest, testSsboHelper )
 	{
 #if SDW_EnableStructHelper
 
@@ -343,7 +343,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, testSsboHelperArray )
+	TEST_F( SDWTest, testSsboHelperArray )
 	{
 #if SDW_EnableStructHelper
 
@@ -421,7 +421,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, testSsboHelperArrayRuntime )
+	TEST_F( SDWTest, testSsboHelperArrayRuntime )
 	{
 #if SDW_EnableStructHelper
 

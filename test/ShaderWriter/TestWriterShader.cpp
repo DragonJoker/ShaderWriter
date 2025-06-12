@@ -282,7 +282,7 @@ namespace
 		auto colour()const { return this->template getMember< "colour" >(); }
 	};
 
-	TEST( SDW_TestSuiteName, vtx_frag )
+	TEST_F( SDWTest, vtx_frag )
 	{
 		sdwTestBegin( "vtx_frag" );
 		using namespace sdw;
@@ -328,7 +328,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, charles )
+	TEST_F( SDWTest, charles )
 	{
 		sdwTestBegin( "charles" );
 		using namespace sdw;
@@ -390,7 +390,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, charles_approx )
+	TEST_F( SDWTest, charles_approx )
 	{
 		sdwTestBegin( "charles_approx" );
 		using namespace sdw;
@@ -451,7 +451,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, charles_latest )
+	TEST_F( SDWTest, charles_latest )
 	{
 		sdwTestBegin( "charles_latest" );
 		using namespace sdw;
@@ -512,7 +512,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, drawID )
+	TEST_F( SDWTest, drawID )
 	{
 		sdwTestBegin( "drawID" );
 		using namespace sdw;
@@ -545,7 +545,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, charles_drawID )
+	TEST_F( SDWTest, charles_drawID )
 	{
 		sdwTestBegin( "charles_drawID" );
 		using namespace sdw;
@@ -616,7 +616,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, arthapzMin )
+	TEST_F( SDWTest, arthapzMin )
 	{
 		sdwTestBegin( "arthapzMin" );
 		sdw::ShaderArray shaders;
@@ -690,7 +690,9 @@ namespace
 		return result;
 	}
 
-	struct ArthapzParam : public testing::TestWithParam< ArthapzParams >
+	struct ArthapzParam
+		: public SDWTest
+		, public ::testing::WithParamInterface< ArthapzParams >
 	{
 	};
 
@@ -826,7 +828,7 @@ namespace
 		, testing::Values( ff, ft, tf, tt )
 		, astTestNameP( ArthapzParams, getArthapzParamsName ) );
 
-	TEST( SDW_TestSuiteName, clipDistance )
+	TEST_F( SDWTest, clipDistance )
 	{
 		sdwTestBegin( "clipDistance" );
 		using namespace sdw;
@@ -885,7 +887,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, basicPipeline )
+	TEST_F( SDWTest, basicPipeline )
 	{
 		sdwTestBegin( "basicPipeline" );
 		using namespace sdw;
@@ -927,7 +929,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, geometryPipeline )
+	TEST_F( SDWTest, geometryPipeline )
 	{
 		sdwTestBegin( "geometryPipeline" );
 		using namespace sdw;
@@ -1002,7 +1004,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, voxelPipeline )
+	TEST_F( SDWTest, voxelPipeline )
 	{
 		sdwTestBegin( "voxelPipeline" );
 		using namespace sdw;
@@ -1207,7 +1209,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, tessellationPipeline )
+	TEST_F( SDWTest, tessellationPipeline )
 	{
 		sdwTestBegin( "tessellationPipeline" );
 		using namespace sdw;
@@ -1462,7 +1464,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, arraySsboTextureLookup )
+	TEST_F( SDWTest, arraySsboTextureLookup )
 	{
 		sdwTestBegin( "arraySsboTextureLookup" );
 		using namespace sdw;
@@ -1489,7 +1491,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, pcbHelper )
+	TEST_F( SDWTest, pcbHelper )
 	{
 		sdwTestBegin( "pcbHelper" );
 		using namespace sdw;
@@ -1522,7 +1524,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, radianceComputer )
+	TEST_F( SDWTest, radianceComputer )
 	{
 		sdwTestBegin( "radianceComputer" );
 		std::vector< std::unique_ptr< ast::Shader > > shaders;

@@ -129,6 +129,25 @@ namespace test
 
 #endif
 
+	//*********************************************************************************************
+
+	TestTrace::TestTrace( TestCounts & testCounts, std::string_view file, int line, std::string_view message )
+		: file{ file }
+		, line{ line }
+		, message{ message }
+		, m_testCounts{ testCounts }
+		, m_trace{ file.data(), line, message }
+	{
+		m_testCounts.doPushTrace( this );
+	}
+
+	TestTrace::~TestTrace()
+	{
+		m_testCounts.doPopTrace();
+	}
+
+	//*********************************************************************************************
+
 	TestCounts::TestCounts()
 		: allocatorBlock{ allocator.getBlock() }
 	{

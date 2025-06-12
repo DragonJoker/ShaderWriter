@@ -329,7 +329,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testImageFormat )
+	TEST_F( SDWTest, testImageFormat )
 	{
 		sdwTestBegin( "testImageFormat" )
 		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eRead >( testCounts );

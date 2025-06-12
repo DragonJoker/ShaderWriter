@@ -65,7 +65,7 @@ namespace
 		using PosCol = PosColT< sdw::var::Flag::eNone >;
 	}
 
-	TEST( SDW_TestSuiteName, basicPipeline )
+	TEST_F( SDWTest, basicPipeline )
 	{
 		sdwTestBegin( "basicPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
@@ -101,7 +101,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, geometryPipeline )
+	TEST_F( SDWTest, geometryPipeline )
 	{
 		sdwTestBegin( "geometryPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
@@ -216,7 +216,7 @@ namespace
 		};
 	}
 
-	TEST( SDW_TestSuiteName, tessellationPipeline )
+	TEST_F( SDWTest, tessellationPipeline )
 	{
 		sdwTestBegin( "tessellationPipeline" );
 		static uint32_t constexpr maxPoints = 3u;
@@ -505,7 +505,7 @@ namespace
 		};
 	}
 
-	TEST( SDW_TestSuiteName, rayTracePipeline )
+	TEST_F( SDWTest, rayTracePipeline )
 	{
 		sdwTestBegin( "rayTracePipeline" );
 		sdw::RayTraceWriter writer{ &testCounts.allocator };
@@ -693,7 +693,7 @@ namespace
 		};
 	}
 
-	TEST( SDW_TestSuiteName, taskMeshPipelineEXT )
+	TEST_F( SDWTest, taskMeshPipelineEXT )
 	{
 		sdwTestBegin( "taskMeshPipelineEXT" );
 		sdw::ModernGraphicsWriterEXT writer{ &testCounts.allocator };
@@ -802,7 +802,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, taskMeshPipelineNV )
+	TEST_F( SDWTest, taskMeshPipelineNV )
 	{
 		sdwTestBegin( "taskMeshPipelineNV" );
 		sdw::ModernGraphicsWriterNV writer{ &testCounts.allocator };
@@ -911,7 +911,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, taskMeshPipeline )
+	TEST_F( SDWTest, taskMeshPipeline )
 	{
 		sdwTestBegin( "taskMeshPipeline" );
 		sdw::ModernGraphicsWriter writer{ &testCounts.allocator };

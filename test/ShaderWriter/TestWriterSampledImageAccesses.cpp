@@ -62,7 +62,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSample" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -99,7 +99,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -163,7 +163,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -204,7 +204,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -265,7 +265,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProj" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -303,7 +303,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -363,7 +363,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -402,7 +402,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -467,7 +467,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -507,7 +507,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleLodShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -571,7 +571,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -613,7 +613,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -677,7 +677,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -718,7 +718,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -781,7 +781,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -821,7 +821,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -883,7 +883,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -924,7 +924,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -989,7 +989,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1031,7 +1031,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleLodShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1093,7 +1093,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1132,7 +1132,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjShadowLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1194,7 +1194,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1235,7 +1235,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjShadowLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1302,7 +1302,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1344,7 +1344,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1410,7 +1410,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1455,7 +1455,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1519,7 +1519,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1560,7 +1560,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1624,7 +1624,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1667,7 +1667,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleProjShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1731,7 +1731,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGather" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1772,7 +1772,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1832,7 +1832,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1873,7 +1873,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1927,7 +1927,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -1970,7 +1970,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherShadowOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2033,7 +2033,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2076,7 +2076,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testSampleGatherShadowOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -2139,7 +2139,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testsSampledImageAccesses )
+	TEST_F( SDWTest, testsSampledImageAccesses )
 	{
 		sdwTestBegin( "testsSampledImageAccesses" )
 		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageTester >( testCounts );

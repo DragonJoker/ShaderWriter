@@ -323,7 +323,7 @@ namespace
 		sdw::Vec3 wpB111;
 	};
 
-	TEST( SDW_TestSuiteName, noSpecificIO )
+	TEST_F( SDWTest, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -358,7 +358,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInputOnly )
+	TEST_F( SDWTest, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -387,7 +387,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInputOnly )
+	TEST_F( SDWTest, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
@@ -417,7 +417,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInputOnly )
+	TEST_F( SDWTest, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -448,7 +448,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberOutputOnly )
+	TEST_F( SDWTest, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -477,7 +477,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalOutputOnly )
+	TEST_F( SDWTest, specificGlobalOutputOnly )
 	{
 		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
@@ -507,7 +507,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedOutputOnly )
+	TEST_F( SDWTest, specificMixedOutputOnly )
 	{
 		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
@@ -538,7 +538,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInAndOut )
+	TEST_F( SDWTest, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -568,7 +568,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInAndOut )
+	TEST_F( SDWTest, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -601,7 +601,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInAndOut )
+	TEST_F( SDWTest, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
@@ -637,7 +637,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, noSpecificIOPatch )
+	TEST_F( SDWTest, noSpecificIOPatch )
 	{
 		sdwTestBegin( "noSpecificIOPatch" );
 		using namespace sdw;
@@ -669,7 +669,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInputOnlyPatch )
+	TEST_F( SDWTest, specificMemberInputOnlyPatch )
 	{
 		sdwTestBegin( "specificMemberInputOnlyPatch" );
 		using namespace sdw;
@@ -701,7 +701,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInputOnlyPatch )
+	TEST_F( SDWTest, specificGlobalInputOnlyPatch )
 	{
 		sdwTestBegin( "specificGlobalInputOnlyPatch" );
 		using namespace sdw;
@@ -734,7 +734,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInputOnlyPatch )
+	TEST_F( SDWTest, specificMixedInputOnlyPatch )
 	{
 		sdwTestBegin( "specificMixedInputOnlyPatch" );
 		using namespace sdw;
@@ -768,7 +768,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberOutputOnlyPatch )
+	TEST_F( SDWTest, specificMemberOutputOnlyPatch )
 	{
 		sdwTestBegin( "specificMemberOutputOnlyPatch" );
 		using namespace sdw;
@@ -800,7 +800,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalOutputOnlyPatch )
+	TEST_F( SDWTest, specificGlobalOutputOnlyPatch )
 	{
 		sdwTestBegin( "specificGlobalOutputOnlyPatch" );
 		using namespace sdw;
@@ -833,7 +833,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedOutputOnlyPatch )
+	TEST_F( SDWTest, specificMixedOutputOnlyPatch )
 	{
 		sdwTestBegin( "specificMixedOutputOnlyPatch" );
 		using namespace sdw;
@@ -867,7 +867,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInAndOutPatch )
+	TEST_F( SDWTest, specificMemberInAndOutPatch )
 	{
 		sdwTestBegin( "specificMemberInAndOutPatch" );
 		using namespace sdw;
@@ -900,7 +900,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInAndOutPatch )
+	TEST_F( SDWTest, specificGlobalInAndOutPatch )
 	{
 		sdwTestBegin( "specificGlobalInAndOutPatch" );
 		using namespace sdw;
@@ -936,7 +936,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInAndOutPatch )
+	TEST_F( SDWTest, specificMixedInAndOutPatch )
 	{
 		sdwTestBegin( "specificMixedInAndOutPatch" );
 		using namespace sdw;
@@ -975,7 +975,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, tessellationEvaluation )
+	TEST_F( SDWTest, tessellationEvaluation )
 	{
 		sdwTestBegin( "tessellationEvaluation" );
 		using namespace sdw;

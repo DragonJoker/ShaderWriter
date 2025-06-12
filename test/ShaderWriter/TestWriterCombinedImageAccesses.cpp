@@ -2469,7 +2469,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testsTextures )
+	TEST_F( SDWTest, testsTextures )
 	{
 		sdwTestBegin( "testsTextures" )
 		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureSizeTester >( testCounts );

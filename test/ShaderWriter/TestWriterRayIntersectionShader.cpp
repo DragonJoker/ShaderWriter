@@ -175,7 +175,7 @@ namespace
 			, sdw::InParam< Ray > > m_hitAabb;
 	};
 
-	TEST( SDW_TestSuiteName, simple )
+	TEST_F( SDWTest, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;

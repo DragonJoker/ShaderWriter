@@ -41,7 +41,7 @@ namespace
 	template< typename T >
 	void testConstantT( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -118,7 +118,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testConstant )
+	TEST_F( SDWTest, testConstant )
 	{
 		sdwTestBegin( "testConstant" );
 		testConstantT< sdw::Boolean >( testCounts );

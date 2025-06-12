@@ -145,6 +145,11 @@ namespace spirv
 	};
 	using ModulePtr = std::unique_ptr< Module, ModuleDeleter >;
 	
+	SDWSPIRV_API ModulePtr compilePreprocessedSpirV( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
+		, ast::PreprocessResult & preprocessResult
+		, ast::ShaderStage stage
+		, SpirVConfig & config );
 	SDWSPIRV_API ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
 		, ast::stmt::Container const * statements

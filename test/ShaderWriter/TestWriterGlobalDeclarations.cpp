@@ -5,7 +5,7 @@ namespace
 	template< typename T >
 	void testGlobal( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testGlobal" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testGlobal" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer;
 			auto & builder = writer.getBuilder();
@@ -224,7 +224,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testGlobalDeclarations )
+	TEST_F( SDWTest, testGlobalDeclarations )
 	{
 		sdwTestBegin( "testGlobalDeclarations" )
 		testGlobal< sdw::Boolean >( testCounts );

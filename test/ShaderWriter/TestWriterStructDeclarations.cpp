@@ -7,7 +7,7 @@ namespace
 
 	using T = sdw::SDW_TestType;
 
-	TEST( SDW_TestSuiteName, testStruct )
+	TEST_F( SDWTest, testStruct )
 	{
 		sdwTestBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
