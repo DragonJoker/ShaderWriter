@@ -58,21 +58,21 @@ namespace test::sdw_test
 				result = spv::ExecutionModelTaskNV;
 				break;
 			case ast::ShaderStage::eTask:
-#if SPV_VERSION >= 0x10600
+#	if SPV_VERSION >= 0x10600
 				result = spv::ExecutionModelTaskEXT;
-#else
+#	else
 				result = spv::ExecutionModelTaskNV;
-#endif
+#	endif
 				break;
 			case ast::ShaderStage::eMeshNV:
 				result = spv::ExecutionModelMax;
 				break;
 			case ast::ShaderStage::eMesh:
-#if SPV_VERSION >= 0x10600
+#	if SPV_VERSION >= 0x10600
 				result = spv::ExecutionModelMeshEXT;
-#else
+#	else
 				result = spv::ExecutionModelMax;
-#endif
+#	endif
 				break;
 			case ast::ShaderStage::eCompute:
 				result = spv::ExecutionModelGLCompute;
@@ -97,9 +97,9 @@ namespace test::sdw_test
 				break;
 			default:
 				AST_Failure( "Unsupported shader stage flag" );
-#if !SDAST_ExceptAssert
+#	if !SDAST_ExceptAssert
 				result = spv::ExecutionModelMax;
-#endif
+#	endif
 				break;
 			}
 
@@ -173,9 +173,37 @@ namespace test::sdw_test
 
 			return result;
 		}
+
+		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
+			, ast::ShaderStage stage
+			, test::TestCounts & testCounts
+			, Compilers const & compilers
+			, spirv::SpirVExtensionSet const & requiredExtensions )
+		{
+			std::string result;
+
+			if ( compilers.hlsl
+				&& !isRayTraceStage( stage )
+				&& !isMeshStage( stage )
+				&& requiredExtensions.contains( spirv::KHR_terminate_invocation )
+				&& requiredExtensions.contains( spirv::EXT_demote_to_helper_invocation ) )
+			{
+				auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
+
+				if ( spv_test::setEntryPoint( stage, *compiler ) != spv::ExecutionModelMax )
+				{
+					spv_test::setupHlslOptions( *compiler );
+					spv_test::setupOptions( stage, false, *compiler );
+					result = spv_test::compileSpirV( "HLSL", *compiler, testCounts );
+				}
+			}
+
+			return result;
+		}
+
 #endif
 
-		static bool validateSpirV( ::ast::Shader const & shader
+		static bool validateGeneratedSpirV( ::ast::Shader const & shader
 			, ::ast::stmt::Container * statements
 			, ::ast::ShaderStage stage
 			, std::vector< uint32_t > spirv
@@ -229,7 +257,7 @@ namespace test::sdw_test
 
 						fclose( fileIn );
 						std::string dump;
-						validateSpirV( shader, statements, stage, spirv, testCounts, infoIndex, false, dump );
+						validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, infoIndex, false, dump );
 					}
 				}
 			}
@@ -237,25 +265,15 @@ namespace test::sdw_test
 			return result;
 		}
 
-		static std::string validateSpirV( ::ast::Shader const & shader
+		static void generateRefSpirV( ::ast::Shader const & shader
 			, ::ast::stmt::Container * statements
 			, ::ast::ShaderStage stage
-			, std::vector< uint32_t > const & spirv
-			, std::string const & text
 			, ::ast::SpecialisationInfo const & specialisation
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
-			, Compilers const & compilers
-			, spirv::SpirVExtensionSet const &requiredExtensions )
+			, std::string & errors )
 		{
-			std::string errors;
-			auto isValidated = validateSpirV( shader, statements, stage, spirv, testCounts, infoIndex, true, errors );
-			astCheck( isValidated )
-
-#if SDW_HasCompilerGlsl
-
-			if ( !isValidated
-				&& !isRayTraceStage( stage ) )
+			if ( !isRayTraceStage( stage ) )
 			{
 				try
 				{
@@ -291,9 +309,13 @@ namespace test::sdw_test
 					throw;
 				}
 			}
+		}
 
-#endif
-
+		static bool toolsValidateSpirV( std::vector< uint32_t > const & spirv
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex
+			, std::string & errors )
+		{
 #if SDW_Test_HasSpirVTools
 			std::string spvToolsErrors;
 			auto consumer = [&spvToolsErrors]( [[maybe_unused]] spv_message_level_t level
@@ -308,43 +330,63 @@ namespace test::sdw_test
 			tools.SetMessageConsumer( consumer );
 			spvtools::ValidatorOptions valOptions;
 			valOptions.SetScalarBlockLayout( true );
-			isValidated = tools.Validate( spirv.data(), spirv.size(), valOptions ) && isValidated;
+			auto result = tools.Validate( spirv.data(), spirv.size(), valOptions );
 			if ( !spvToolsErrors.empty() )
 				errors += "SPIR-V validation raised messages:\n" + spvToolsErrors;
+			return result;
+#else
+			return true;
 #endif
+		}
+
+		static bool validateSpirV( ::ast::Shader const & shader
+			, ::ast::stmt::Container * statements
+			, ::ast::ShaderStage stage
+			, std::vector< uint32_t > const & spirv
+			, std::string const & text
+			, ::ast::SpecialisationInfo const & specialisation
+			, sdw_test::TestCounts & testCounts
+			, uint32_t infoIndex
+			, Compilers const & compilers
+			, spirv::SpirVExtensionSet const &requiredExtensions
+			, std::string & errors )
+		{
+			std::string validateErrors;
+			auto isValidated = validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, infoIndex, true, validateErrors );
+			astCheck( isValidated )
+
+#if SDW_HasCompilerGlsl
+
+			if ( !isValidated )
+			{
+				errors += validateErrors;
+				generateRefSpirV( shader, statements, stage, specialisation, testCounts, infoIndex, errors );
+			}
+
+#endif
+
+			isValidated = toolsValidateSpirV( spirv, testCounts, infoIndex, errors ) && isValidated;
 
 #if SDW_Test_HasSpirVCross
 
 			if ( compilers.glsl
 				&& requiredExtensions.contains( spirv::KHR_terminate_invocation ) )
 			{
-				if ( auto crossGlsl = validateSpirVToGlsl( spirv, stage, testCounts
-						, ( requiredExtensions.contains( spirv::KHR_terminate_invocation )
-							|| requiredExtensions.contains( spirv::EXT_demote_to_helper_invocation )
-							|| requiredExtensions.contains( spirv::KHR_shader_subgroup )
-							|| requiredExtensions.contains( spirv::EXT_shader_atomic_float_add )
-							|| requiredExtensions.contains( spirv::EXT_mesh_shader ) ) );
-						!crossGlsl.empty() )
+				if ( auto crossGlsl = validateSpirVToGlsl( spirv, stage, testCounts, true );
+					!crossGlsl.empty() )
 				{
 					errors += printShader( "SPIRV-Cross GLSL", crossGlsl, true );
 				}
 			}
 
-			if ( compilers.hlsl
-				&& !isRayTraceStage( stage )
-				&& !isMeshStage( stage )
-				&& requiredExtensions.contains( spirv::KHR_terminate_invocation )
-				&& requiredExtensions.contains( spirv::EXT_demote_to_helper_invocation ) )
+			if ( auto crossHlsl = validateSpirVToHlsl( spirv, stage, testCounts, compilers, requiredExtensions );
+				!crossHlsl.empty() )
 			{
-				if ( auto crossHlsl = validateSpirVToHlsl( spirv, stage, testCounts );
-					!crossHlsl.empty() )
-				{
-					errors += printShader( "SPIRV-Cross HLSL", crossHlsl, true );
-				}
+				errors += printShader( "SPIRV-Cross HLSL", crossHlsl, true );
 			}
 
 #endif
-			return errors;
+			return isValidated;
 		}
 
 		static spirv::ModulePtr generateModule( ::ast::Shader const & shader
@@ -404,158 +446,165 @@ namespace test::sdw_test
 				&& !testCounts.isSpvIgnored( infoIndex, compilers.ignoredSpv ) )
 			{
 				auto validate = [&]( bool availableExtensions )
-				{
-					try
 					{
-						auto allocator = testCounts.allocator.getBlock();
-						spirv::SpirVExtensionSet extensions;
-						spirv::SpirVConfig config{};
-						config.specVersion = testCounts.getSpirVVersion( infoIndex );
-						config.debugLevel = debugLevel;
-
-						if ( availableExtensions )
-						{
-							if ( config.specVersion >= spirv::v1_6 )
-							{
-								extensions.emplace( spirv::EXT_mesh_shader );
-							}
-
-							if ( config.specVersion >= spirv::v1_5 )
-							{
-								extensions.emplace( spirv::KHR_terminate_invocation );
-								extensions.emplace( spirv::EXT_shader_atomic_float_add );
-							}
-
-							if ( config.specVersion >= spirv::v1_4 )
-							{
-								extensions.emplace( spirv::EXT_demote_to_helper_invocation );
-								extensions.emplace( spirv::KHR_ray_tracing );
-							}
-
-							if ( config.specVersion >= spirv::v1_3 )
-							{
-								extensions.emplace( spirv::NV_mesh_shader );
-								extensions.emplace( spirv::EXT_descriptor_indexing );
-								extensions.emplace( spirv::EXT_physical_storage_buffer );
-								extensions.emplace( spirv::KHR_shader_subgroup );
-								extensions.emplace( spirv::EXT_fragment_shader_interlock );
-							}
-
-							if ( config.specVersion >= spirv::v1_2 )
-							{
-								extensions.emplace( spirv::KHR_8bit_storage );
-							}
-
-							if ( config.specVersion >= spirv::v1_1 )
-							{
-								extensions.emplace( spirv::KHR_16bit_storage );
-								extensions.emplace( spirv::KHR_shader_ballot );
-								extensions.emplace( spirv::KHR_shader_draw_parameters );
-							}
-
-							if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
-							{
-								extensions.emplace( spirv::KHR_non_semantic_info );
-							}
-
-							config.availableExtensions = &extensions;
-						}
-
-						auto shaderModule = generateModule( shader, preprocessResult, stage, config, testCounts );
-						auto textSpirv = generateTextSpirV( *shaderModule, testCounts );
-
-						if ( textSpirv.empty() )
-						{
-							testCounts.printBlock( "Empty shader" );
-							return;
-						}
-
-						std::vector< uint32_t > spirv;
-						auto print = printShader( "SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) )
-								+ " - Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
-								+ " - Debug " + getDebugLevelName( debugLevel )
-							, textSpirv, false );
+						bool error{};
 						try
 						{
-							spirv = generateBinarySpirV( *shaderModule, testCounts );
-							SUCCEED();
-						}
-						catch ( ... )
-						{
-							testCounts.printError( print );
-							throw;
-						}
+							auto allocator = testCounts.allocator.getBlock();
+							spirv::SpirVExtensionSet extensions;
+							spirv::SpirVConfig config{};
+							config.specVersion = testCounts.getSpirVVersion( infoIndex );
+							config.debugLevel = debugLevel;
 
-						try
-						{
-							auto errors = validateSpirV( shader
-								, preprocessResult.statements.get()
-								, stage
-								, spirv
-								, textSpirv
-								, specialisation
-								, testCounts
-								, infoIndex
-								, compilers
-								, config.requiredExtensions );
-
-							if ( !errors.empty() )
+							if ( availableExtensions )
 							{
-								throw std::runtime_error{ errors };
+								if ( config.specVersion >= spirv::v1_6 )
+								{
+									extensions.emplace( spirv::EXT_mesh_shader );
+								}
+
+								if ( config.specVersion >= spirv::v1_5 )
+								{
+									extensions.emplace( spirv::KHR_terminate_invocation );
+									extensions.emplace( spirv::EXT_shader_atomic_float_add );
+								}
+
+								if ( config.specVersion >= spirv::v1_4 )
+								{
+									extensions.emplace( spirv::EXT_demote_to_helper_invocation );
+									extensions.emplace( spirv::KHR_ray_tracing );
+								}
+
+								if ( config.specVersion >= spirv::v1_3 )
+								{
+									extensions.emplace( spirv::NV_mesh_shader );
+									extensions.emplace( spirv::EXT_descriptor_indexing );
+									extensions.emplace( spirv::EXT_physical_storage_buffer );
+									extensions.emplace( spirv::KHR_shader_subgroup );
+									extensions.emplace( spirv::EXT_fragment_shader_interlock );
+								}
+
+								if ( config.specVersion >= spirv::v1_2 )
+								{
+									extensions.emplace( spirv::KHR_8bit_storage );
+								}
+
+								if ( config.specVersion >= spirv::v1_1 )
+								{
+									extensions.emplace( spirv::KHR_16bit_storage );
+									extensions.emplace( spirv::KHR_shader_ballot );
+									extensions.emplace( spirv::KHR_shader_draw_parameters );
+								}
+
+								if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
+								{
+									extensions.emplace( spirv::KHR_non_semantic_info );
+								}
+
+								config.availableExtensions = &extensions;
 							}
 
-							SUCCEED();
-						}
+							auto shaderModule = generateModule( shader, preprocessResult, stage, config, testCounts );
+							auto textSpirv = generateTextSpirV( *shaderModule, testCounts );
+
+							if ( textSpirv.empty() )
+							{
+								error = true;
+								throw std::runtime_error{ "Empty shader" };
+							}
+
+							std::vector< uint32_t > spirv;
+							auto print = printShader( "SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) )
+									+ " - Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
+									+ " - Debug " + getDebugLevelName( debugLevel )
+								, textSpirv, false );
+							try
+							{
+								spirv = generateBinarySpirV( *shaderModule, testCounts );
+								SUCCEED();
+							}
+							catch ( ... )
+							{
+								testCounts.printError( print );
+								throw;
+							}
+
+							try
+							{
+								if ( std::string errors;
+									!validateSpirV( shader
+										, preprocessResult.statements.get()
+										, stage
+										, spirv
+										, textSpirv
+										, specialisation
+										, testCounts
+										, infoIndex
+										, compilers
+										, config.requiredExtensions
+										, errors ) )
+								{
+									error = true;
+									throw std::runtime_error{ errors };
+								}
+
+								SUCCEED();
+							}
 #if SDW_Test_HasSpirVCross
-						catch ( spirv_cross::CompilerError & exc )
-						{
-							std::string text = exc.what();
+							catch ( spirv_cross::CompilerError & exc )
+							{
+								std::string text = exc.what();
 
-							if ( text.find( "not supported in HLSL" ) == std::string::npos
-								&& text.find( "not supported on HLSL" ) == std::string::npos
-								&& text.find( "exist in HLSL" ) == std::string::npos
-								&& text.find( "Unsupported builtin in HLSL" ) == std::string::npos
-								&& text.find( "Unsupported execution model" ) == std::string::npos
-								&& text.find( "No function currently in scope" ) == std::string::npos
-								&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
-								&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos
-								&& text.find( "Cannot resolve expression type" ) == std::string::npos
-								&& text.find( "Wave ops requires SM 6.0 or higher" ) == std::string::npos
-								&& text.find( "Cannot trivially implement InverseBallot in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitCount in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitCount Inclusive Scan in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitCount Exclusive Scan in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotFindLSB in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
-								&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
+								if ( text.find( "not supported in HLSL" ) == std::string::npos
+									&& text.find( "not supported on HLSL" ) == std::string::npos
+									&& text.find( "exist in HLSL" ) == std::string::npos
+									&& text.find( "Unsupported builtin in HLSL" ) == std::string::npos
+									&& text.find( "Unsupported execution model" ) == std::string::npos
+									&& text.find( "No function currently in scope" ) == std::string::npos
+									&& text.find( "Cannot subdivide a scalar value!" ) == std::string::npos
+									&& text.find( "NumWorkgroups builtin is used" ) == std::string::npos
+									&& text.find( "Cannot resolve expression type" ) == std::string::npos
+									&& text.find( "Wave ops requires SM 6.0 or higher" ) == std::string::npos
+									&& text.find( "Cannot trivially implement InverseBallot in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitCount in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitCount Inclusive Scan in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitCount Exclusive Scan in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotFindLSB in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotFindMSB in HLSL" ) == std::string::npos
+									&& text.find( "Cannot trivially implement BallotBitExtract in HLSL" ) == std::string::npos )
+								{
+									if ( availableExtensions )
+										testCounts.printBlock( print );
+									error = true;
+									throw std::runtime_error{ "spirv_cross exception:\n" + text };
+								}
+							}
+#endif
+							catch ( std::exception & )
 							{
 								if ( availableExtensions )
 									testCounts.printBlock( print );
-								throw std::runtime_error{ "spirv_cross exception:\n" + text };
+								throw;
 							}
-						}
-#endif
-						catch ( std::exception & )
-						{
-							if ( availableExtensions )
-								testCounts.printBlock( print );
-							throw;
-						}
 
-						if ( compilers.forceDisplay && availableExtensions )
-							testCounts.printBlock( print );
-					}
-					catch ( std::exception & exc )
-					{
-						testCounts.printError( exc.what() );
-					}
-					catch ( ... )
-					{
-						testCounts.printError( "Unknown exception" );
-					}
-				};
+							if ( compilers.forceDisplay && availableExtensions )
+								testCounts.printBlock( print );
+						}
+						catch ( std::exception & exc )
+						{
+							if ( error )
+								testCounts.printError( exc.what() );
+							else
+								testCounts.printBlock( exc.what() );
+						}
+						catch ( ... )
+						{
+							testCounts.printError( "Unknown exception" );
+						}
+					};
 				astOn( "Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
-					+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) );
+					+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) )
+					+ " - Debug " + getDebugLevelName( debugLevel ) );
 				astCheckNoThrow( validate( false ) )
 				astCheckNoThrow( validate( true ) )
 			}
@@ -586,23 +635,6 @@ namespace test::sdw_test
 		{
 			spv_test::setupOptions( stage, vulkanSemantics, *compiler );
 			result = spv_test::compileSpirV( "GLSL", *compiler, testCounts );
-		}
-
-		return result;
-	}
-
-	std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
-		, ast::ShaderStage stage
-		, test::TestCounts & testCounts )
-	{
-		auto compiler = std::make_unique< spirv_cross::CompilerHLSL >( spirv );
-		std::string result;
-
-		if ( spv_test::setEntryPoint( stage, *compiler ) != spv::ExecutionModelMax )
-		{
-			spv_test::setupHlslOptions( *compiler );
-			spv_test::setupOptions( stage, false, *compiler );
-			result = spv_test::compileSpirV( "HLSL", *compiler, testCounts );
 		}
 
 		return result;

@@ -8,9 +8,6 @@ namespace test::sdw_test
 		, ast::ShaderStage stage
 		, test::TestCounts & testCounts
 		, bool vulkanSemantics );
-	std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
-		, ast::ShaderStage stage
-		, test::TestCounts & testCounts );
 	std::string printSpvVersion( uint32_t spvVersion );
 
 	void testWriteSpirV( ::ast::Shader const & shader
