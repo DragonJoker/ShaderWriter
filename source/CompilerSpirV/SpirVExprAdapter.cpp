@@ -381,7 +381,7 @@ namespace spirv
 		TraceFunc;
 
 		if ( auto var = expr->getVariable();
-			var->isShaderOutput() && var->isBuiltin() )
+			var->isPatchOutput() && var->isBuiltin() )
 		{
 			auto & typesCache = var->getType()->getTypesCache();
 
@@ -501,7 +501,7 @@ namespace spirv
 
 			if ( arraySize != ast::type::NotArray
 				&& arraySize != getArraySize( expr->getType() )
-				&& expr->isShaderOutput()
+				&& expr->isOutput()
 				&& ( !expr->isBuiltin()
 					|| isPerVertex( adapt::getBuiltin( *expr ), m_adaptationData.config.stage ) ) )
 			{

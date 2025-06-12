@@ -653,8 +653,7 @@ namespace hlsl
 		{
 			result = "constant_id";
 		}
-		else if ( var.isShaderInput()
-			|| var.isShaderOutput() )
+		else if ( var.isInput() || var.isOutput() )
 		{
 			result = "location";
 		}
@@ -681,13 +680,11 @@ namespace hlsl
 		{
 			result = "groupshared ";
 		}
-		else if ( var.isInputParam()
-			|| var.isShaderInput() )
+		else if ( var.isInputParam() || var.isInput() )
 		{
 			result = "in ";
 		}
-		else if ( var.isOutputParam()
-			|| var.isShaderOutput() )
+		else if ( var.isOutputParam() || var.isOutput() )
 		{
 			result = "out ";
 		}
@@ -1767,7 +1764,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
 	{
-		if ( !flags.isShaderInput() && !flags.isShaderOutput() )
+		if ( !flags.isInput() && !flags.isOutput() )
 		{
 			return nullptr;
 		}
@@ -2233,7 +2230,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
 	{
-		if ( flags.isShaderInput() )
+		if ( flags.isInput() )
 		{
 			return processPendingMbrInput( outer
 				, mbrIndex
@@ -2241,7 +2238,7 @@ namespace hlsl
 				, adapter );
 		}
 
-		if ( flags.isShaderOutput() )
+		if ( flags.isOutput() )
 		{
 			return processPendingMbrOutput( outer
 				, mbrIndex
@@ -2261,12 +2258,12 @@ namespace hlsl
 				, it->second );
 		}
 
-		if ( var->isShaderInput() )
+		if ( var->isInput() )
 		{
 			return processPendingInput( var );
 		}
 
-		if ( var->isShaderOutput() )
+		if ( var->isOutput() )
 		{
 			return processPendingOutput( var );
 		}
@@ -2279,7 +2276,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
 	{
-		if ( flags.isShaderOutput() )
+		if ( flags.isOutput() )
 		{
 			addPendingMbrOutput( outer
 				, mbrIndex
@@ -2673,11 +2670,11 @@ namespace hlsl
 					{
 						auto structType = getStructType( type );
 
-						if ( structType->isShaderInput() )
+						if ( structType->isInput() )
 						{
 							registerInput( param, static_cast< ast::type::IOStruct const & >( *structType ) );
 						}
-						else if ( structType->isShaderOutput() )
+						else if ( structType->isOutput() )
 						{
 							registerOutput( param, static_cast< ast::type::IOStruct const & >( *structType ) );
 						}
@@ -2798,7 +2795,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, ExprAdapter & adapter )
 	{
-		if ( flags.isShaderInput() )
+		if ( flags.isInput() )
 		{
 			return processPendingMbrInput( outer
 				, mbrIndex
@@ -2806,7 +2803,7 @@ namespace hlsl
 				, adapter );
 		}
 
-		if ( flags.isShaderOutput() )
+		if ( flags.isOutput() )
 		{
 			return processPendingMbrOutput( outer
 				, mbrIndex
@@ -2831,12 +2828,12 @@ namespace hlsl
 				, it->second );
 		}
 
-		if ( var->isShaderInput() )
+		if ( var->isInput() )
 		{
 			return processPendingInput( var );
 		}
 
-		if ( var->isShaderOutput() )
+		if ( var->isOutput() )
 		{
 			return processPendingOutput( var );
 		}
@@ -2849,7 +2846,7 @@ namespace hlsl
 		, ast::var::FlagHolder const & flags
 		, uint32_t location )
 	{
-		if ( flags.isShaderOutput() )
+		if ( flags.isOutput() )
 		{
 			addPendingMbrOutput( outer
 				, mbrIndex
@@ -3144,7 +3141,7 @@ namespace hlsl
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3165,7 +3162,7 @@ namespace hlsl
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3186,7 +3183,7 @@ namespace hlsl
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3205,7 +3202,7 @@ namespace hlsl
 			isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3263,7 +3260,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3287,7 +3284,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3308,7 +3305,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3335,7 +3332,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3357,7 +3354,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderOutput() );
+			AST_Assert( structType.isOutput() );
 			registerOutput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3378,7 +3375,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 
@@ -3401,7 +3398,7 @@ namespace hlsl
 		if ( isStructType( type ) )
 		{
 			auto const & structType = *getStructType( type );
-			AST_Assert( structType.isShaderInput() );
+			AST_Assert( structType.isInput() );
 			registerInput( var, static_cast< ast::type::IOStruct const & >( structType ) );
 		}
 

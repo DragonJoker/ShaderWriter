@@ -262,7 +262,7 @@ namespace hlsl
 				std::string result;
 				bool isInput = true;
 
-				if ( structType.isShaderOutput() )
+				if ( structType.isOutput() )
 				{
 					isInput = false;
 
@@ -335,9 +335,8 @@ namespace hlsl
 				, std::string const & indent
 				, ast::type::Struct const & structType )
 			{
-				if ( structType.isShaderInput()
-					|| ( structType.isShaderOutput() && !structType.isPerTaskNV() && !structType.isPerTask() )
-					|| structType.isPatchInput() )
+				if ( structType.isInput()
+					|| ( structType.isOutput() && !structType.isPerTaskNV() && !structType.isPerTask() ) )
 				{
 					return writeIOMembers( stage
 						, indent

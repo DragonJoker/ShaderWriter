@@ -22,12 +22,12 @@ namespace sdw
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchOutput;
 		}
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchInput;
 		}
 
 		auto mbrIndex = m_type->findMember( name );
@@ -51,7 +51,8 @@ namespace sdw
 		{
 			auto & builder = getBuilder();
 
-			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
+			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput )
+				|| checkFlag( mbrFlags, ast::var::Flag::ePatchInput ) )
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
@@ -62,7 +63,8 @@ namespace sdw
 						, member.type );
 				}
 			}
-			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput ) )
+			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput )
+				|| checkFlag( mbrFlags, ast::var::Flag::ePatchOutput ) )
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
@@ -100,12 +102,12 @@ namespace sdw
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchOutput;
 		}
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchInput;
 		}
 
 		auto mbrIndex = m_type->findMember( name );
@@ -128,7 +130,8 @@ namespace sdw
 		{
 			auto & builder = getBuilder();
 
-			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput ) )
+			if ( checkFlag( mbrFlags, ast::var::Flag::eShaderInput )
+				|| checkFlag( mbrFlags, ast::var::Flag::ePatchInput ) )
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
@@ -139,7 +142,8 @@ namespace sdw
 						, member.type );
 				}
 			}
-			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput ) )
+			else if ( checkFlag( mbrFlags, ast::var::Flag::eShaderOutput )
+				|| checkFlag( mbrFlags, ast::var::Flag::ePatchOutput ) )
 			{
 				if ( member.builtin == ast::Builtin::eNone )
 				{
@@ -181,12 +185,12 @@ namespace sdw
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchOutput;
 		}
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchInput;
 		}
 
 		auto member = m_type->getMember( builtin );
@@ -207,12 +211,12 @@ namespace sdw
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchOutput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderOutput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchOutput;
 		}
 
 		if ( checkFlag( m_type->getFlag(), ast::var::Flag::ePatchInput ) )
 		{
-			mbrFlags = mbrFlags | ast::var::Flag::eShaderInput;
+			mbrFlags = mbrFlags | ast::var::Flag::ePatchInput;
 		}
 
 		auto member = m_type->getMember( builtin );

@@ -804,13 +804,13 @@ namespace spirv
 
 				if ( !var->isShaderConstant() )
 				{
-					if ( var->isShaderInput() )
+					if ( var->isInput() )
 					{
 						m_result.addPendingInput( var
 							, stmt->getLocation() );
 					}
 
-					if ( var->isShaderOutput() )
+					if ( var->isOutput() )
 					{
 						m_result.addPendingOutput( var
 							, stmt->getLocation() );
@@ -952,12 +952,12 @@ namespace spirv
 				doTraverseType( stmt->getVariable()->getType() );
 				auto var = stmt->getVariable();
 
-				if ( var->isShaderInput() )
+				if ( var->isInput() )
 				{
 					m_result.addInput( var );
 				}
 
-				if ( var->isShaderOutput() )
+				if ( var->isOutput() )
 				{
 					m_result.addOutput( var );
 				}

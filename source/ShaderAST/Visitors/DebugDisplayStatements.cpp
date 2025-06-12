@@ -1677,8 +1677,8 @@ namespace ast::debug
 			{
 				text += "Push, Location=";
 			}
-			else if ( stmt->getVariable()->isShaderInput()
-				|| stmt->getVariable()->isShaderOutput() )
+			else if ( stmt->getVariable()->isInput()
+				|| stmt->getVariable()->isOutput() )
 			{
 				text += "Location=";
 			}

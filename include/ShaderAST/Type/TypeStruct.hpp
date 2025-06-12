@@ -188,6 +188,16 @@ namespace ast::type
 			return hasFlag( getFlag(), var::Flag::ePatchOutput );
 		}
 
+		bool isInput()const
+		{
+			return isShaderInput() || isPatchInput();
+		}
+
+		bool isOutput()const
+		{
+			return isShaderOutput() || isPatchOutput();
+		}
+
 		bool isPerTaskNV()const
 		{
 			return hasFlag( getFlag(), var::Flag::ePerTaskNV );
