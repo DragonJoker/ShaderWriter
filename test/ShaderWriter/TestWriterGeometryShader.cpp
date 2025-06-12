@@ -55,7 +55,7 @@ namespace
 	};
 	using InputPosition = PositionT< sdw::var::Flag::eShaderInput >;
 
-	TEST( SDW_TestSuiteName, noSpecificIO )
+	TEST_F( SDWTest, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -84,7 +84,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInputOnly )
+	TEST_F( SDWTest, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -115,7 +115,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInputOnly )
+	TEST_F( SDWTest, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalOnly" );
 		using namespace sdw;
@@ -147,7 +147,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInputOnly )
+	TEST_F( SDWTest, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -179,7 +179,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberOutputOnly )
+	TEST_F( SDWTest, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -215,7 +215,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInAndOut )
+	TEST_F( SDWTest, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -252,7 +252,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInAndOut )
+	TEST_F( SDWTest, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -290,7 +290,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInAndOut )
+	TEST_F( SDWTest, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;

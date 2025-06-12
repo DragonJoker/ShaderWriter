@@ -27,6 +27,10 @@
 #include <sstream>
 #include <iterator>
 
+#if defined( _WIN32 )
+#	include <Windows.h>
+#endif
+
 #endif
 
 namespace test
@@ -117,6 +121,7 @@ namespace test
 			std::vector< VkDebugUtilsMessengerEXT > debugReportCallbacks{};
 
 			bool compiling{};
+			bool canCompile{ true };
 			std::vector< std::string > errors{};
 		};
 
@@ -710,46 +715,38 @@ namespace test
 			return res == VK_SUCCESS;
 		}
 
-		std::ostream & operator<<( std::ostream & stream
-			, std::vector< uint32_t > const & spirv )
-		{
-			for ( auto i = 0u; i < spirv.size(); i += 8 )
-			{
-				for ( auto j = i; j < spirv.size() && j < i + 8; ++j )
-				{
-					stream << std::hex << std::setfill( '0' ) << std::setw( 8 ) << spirv[j] << " ";
-				}
-
-				stream << "\n";
-			}
-
-			return stream;
-		}
-
 		bool createShaderModule( Info & info
 			, std::vector< uint32_t > const & spirv )
 		{
-			auto createInfo = ast::vk::makeVkStruct< VkShaderModuleCreateInfo >();
-			createInfo.pCode = spirv.data();
-			createInfo.codeSize = size_t( uint64_t( spirv.size() ) * sizeof( uint32_t ) );
-			VkShaderModule shaderModule;
-			bool result = false;
-
-			try
+#	if defined( WIN32 )
+			__try
 			{
-				result = vkCreateShaderModule( info.device, &createInfo, nullptr, &shaderModule ) == VK_SUCCESS;
+#	endif
+				bool result = true;
 
-				if ( result && shaderModule != nullptr )
+				if ( info.canCompile )
 				{
-					vkDestroyShaderModule( info.device, shaderModule, nullptr );
-				}
-			}
-			catch ( ... )
-			{
-				result = false;
-			}
+					auto createInfo = ast::vk::makeVkStruct< VkShaderModuleCreateInfo >();
+					createInfo.pCode = spirv.data();
+					createInfo.codeSize = size_t( uint64_t( spirv.size() ) * sizeof( uint32_t ) );
+					VkShaderModule shaderModule;
+					result = vkCreateShaderModule( info.device, &createInfo, nullptr, &shaderModule ) == VK_SUCCESS;
 
-			return result;
+					if ( result && shaderModule != nullptr )
+					{
+						vkDestroyShaderModule( info.device, shaderModule, nullptr );
+					}
+				}
+
+				return result;
+#	if defined( WIN32 )
+			}
+			__except ( GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION )
+			{
+				info.canCompile = false;
+				return false;
+			}
+#	endif
 		}
 	}
 
@@ -766,8 +763,16 @@ namespace test
 		public:
 			SPIRVContext()noexcept
 			{
+#ifdef SDW_AllSpirVVersions
 				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+#else
+				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_6 };
+#endif
+#ifdef SDW_AllVulkanVersions
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
+#else
+				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_3 };
+#endif
 
 				uint32_t maxApiVersion{};
 				vkEnumerateInstanceVersion( &maxApiVersion );
@@ -826,9 +831,9 @@ namespace test
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
 #if SDW_Test_Coverage
-		return testCounts.spirv->infos.back().get();
+		return testCounts.spirv().infos.back().get();
 #else
-		return testCounts.spirv->infos[infoIndex].get();
+		return testCounts.spirv().infos[infoIndex].get();
 #endif
 	}
 
@@ -866,7 +871,7 @@ namespace test
 #if SDW_Test_Coverage
 		return 1u;
 #else
-		return uint32_t( testCounts.spirv->infos.size() );
+		return uint32_t( testCounts.spirv().infos.size() );
 #endif
 	}
 
@@ -896,26 +901,26 @@ namespace test
 		}
 	}
 
-	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
+	bool createSPIRVContext()
 	{
 		bool result = false;
 
 		try
 		{
-			testCounts.spirv = std::make_shared< sdw_test::SPIRVContext >();
+			SDWTest::spirv = std::make_shared< sdw_test::SPIRVContext >();
 			result = true;
 		}
 		catch ( std::exception & exc )
 		{
-			testCounts.printBlock( exc.what() );
+			std::cout << exc.what() << std::endl;
 		}
 
 		return result;
 	}
 
-	void destroySPIRVContext( sdw_test::TestCounts & testCounts )
+	void destroySPIRVContext()
 	{
-		testCounts.spirv.reset();
+		SDWTest::spirv.reset();
 	}
 
 	template< typename FuncT >
@@ -926,7 +931,7 @@ namespace test
 	{
 		auto & info = *retrieveInfo( testCounts, infoIndex );
 		info.compiling = true;
-		bool result = func();
+		auto result = func();
 		info.compiling = false;
 
 		if ( !info.errors.empty() )
@@ -972,16 +977,6 @@ namespace test
 				auto info = retrieveInfo( testCounts, infoIndex );
 				return createShaderModule( *info, spirv );
 			} );
-
-		if ( !result )
-		{
-			std::stringstream stream;
-			stream.imbue( std::locale{ "C" } );
-			stream << "SPIR-V size: " << spirv.size() << "\n"
-				<< "SPIR-V:\n"
-				<< spirv << std::endl;
-			errors += stream.str();
-		}
 
 		return result;
 	}
@@ -1502,12 +1497,12 @@ namespace test
 #endif
 	}
 
-	bool createSPIRVContext( sdw_test::TestCounts & testCounts )
+	bool createSPIRVContext()
 	{
 		return true;
 	}
 
-	void destroySPIRVContext( sdw_test::TestCounts & testCounts )
+	void destroySPIRVContext()
 	{
 	}
 

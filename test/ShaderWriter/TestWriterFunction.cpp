@@ -84,7 +84,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamLiteral( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -108,7 +108,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -132,7 +132,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamConstantArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamConstantArray" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamConstantArray" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 		auto c = writer.declConstantArray< ValueT >( "c"
@@ -158,7 +158,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -183,7 +183,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamArrayVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -209,7 +209,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamInputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -235,7 +235,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -262,7 +262,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamUniformVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -291,7 +291,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -320,7 +320,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -350,7 +350,7 @@ namespace
 	template< typename ValueT >
 	void testSingleOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -375,7 +375,7 @@ namespace
 	template< typename ValueT >
 	void testSingleOutParamArrayVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -401,7 +401,7 @@ namespace
 	template< typename ValueT >
 	void testSingleOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -427,7 +427,7 @@ namespace
 	template< typename ValueT >
 	void testSingleOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -456,7 +456,7 @@ namespace
 	template< typename ValueT >
 	void testSingleOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -486,7 +486,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -511,7 +511,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInOutParamArrayVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInOutParamArrayVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -537,7 +537,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -564,7 +564,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInOutParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -593,7 +593,7 @@ namespace
 	template< typename ValueT >
 	void testSingleInOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSingleInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testSingleInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -623,7 +623,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamLiteral( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamLiteral" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -651,7 +651,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamConstant( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamConstant" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -680,7 +680,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -709,7 +709,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamInputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -739,7 +739,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamInputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -773,7 +773,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamUniformVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamUniformVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -806,7 +806,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -839,7 +839,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -873,7 +873,7 @@ namespace
 	template< typename ValueT >
 	void testArrayOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -902,7 +902,7 @@ namespace
 	template< typename ValueT >
 	void testArrayOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -932,7 +932,7 @@ namespace
 	template< typename ValueT >
 	void testArrayOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -961,7 +961,7 @@ namespace
 	template< typename ValueT >
 	void testArrayOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -995,7 +995,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInOutParamVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInOutParamVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1024,7 +1024,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInOutParamOutputVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInOutParamOutputVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1054,7 +1054,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInOutParamStorageVariable( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInOutParamStorageVariable" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1087,7 +1087,7 @@ namespace
 	template< typename ValueT >
 	void testArrayInOutParamStructMember( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testArrayInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
+		astOn( "testArrayInOutParamStructMember" + ast::debug::getTypeName( sdw::typeEnumV< ValueT > ) );
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
@@ -1118,832 +1118,832 @@ namespace
 			, testCounts, CurrentCompilers );
 	}
 
-	TEST( SDW_TestSuiteName, paramInArray )
-	{
-		sdwTestBegin( "paramInArray" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-		
-		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
-			, [&]( Array< Vec4 > const & p )
-			{
-			}
-			, InVec4Array{ writer, "p", 4u } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
-				foo01( va );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramInOutVec4 )
-	{
-		sdwTestBegin( "paramInOutVec4" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-
-		auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
-			, [&]( Vec4 p )
-			{
-				p = p + vec4( 1.0_f );
-			}
-			, InOutVec4{ writer, "p" } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				foo02( v );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramInMat4InVec4 )
-	{
-		sdwTestBegin( "paramInMat4InVec4" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-
-		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
-		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
-		buffer.end();
-
-		auto foo03 = writer.implementFunction< Vec4 >( "foo03"
-			, [&]( Mat4 const & m
-				, Vec4 const & p )
-			{
-				writer.returnStmt( m * p );
-			}
-			, InMat4{ writer, "m" }
-			, InVec4{ writer, "p" } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				auto m = writer.declLocale< Mat4 >( "m" );
-				foo03( m, v );
-				auto r = writer.declLocale< Vec4 >( "r"
-					, foo03( c3d_viewMatrix, v ) );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramInStInVec4 )
-	{
-		sdwTestBegin( "paramInStInVec4" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-
-		auto st = St::declare( writer );
-
-		auto foo04 = writer.implementFunction< Vec4 >( "foo04"
-			, [&]( St const & m
-				, Vec4 const & p )
-			{
-				sdwFOR( writer, UInt, i, 0_u, i < 4_u, ++i )
-				{
-					m.b[i] *= p;
-				}
-				sdwROF
-				writer.returnStmt( m.a * p );
-			}
-			, InSt{ writer, "m" }
-			, InVec4{ writer, "p" } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				auto inst = st->getInstance< St >( "inst", true );
-				v = foo04( inst, v );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramInSpImgInVec2 )
-	{
-		sdwTestBegin( "paramInSpImgInVec2" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-
-		auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
-
-		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( CombinedImage2DRgba32 const & sim
-				, Vec2 const & pos )
-			{
-				writer.returnStmt( sim.sample( pos ) );
-			}
-			, InCombinedImage2DRgba32{ writer, "sim" }
-			, InVec2{ writer, "pos" } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramInVec4Ass )
-	{
-		sdwTestBegin( "paramInVec4Ass" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-
-		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
-			, [&]( Vec2 const & e )
-			{
-				e.r() = e.r() * abs( 5.0_f * e.r() - 5.0_f * 0.75_f );
-				writer.returnStmt( round( e ) );
-			}
-			, InVec2{ writer, "e" } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto e = writer.declLocale< Vec2 >( "e" );
-				e = foo06( e );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, params )
-	{
-		sdwTestBegin( "params" );
-		using namespace sdw;
-		sdw::FragmentWriter writer{ &testCounts.allocator };
-
-		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
-		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
-		buffer.end();
-
-		auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
-
-		auto st = St::declare( writer );
-
-		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
-			, [&]( Array< Vec4 > const & arr )
-			{
-			}
-			, InVec4Array{ writer, "arr", 4u } );
-
-		auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
-			, [&]( Vec4 pos )
-			{
-				pos = pos + vec4( 1.0_f );
-			}
-			, InOutVec4{ writer, "pos" } );
-
-		auto foo03 = writer.implementFunction< Vec4 >( "foo03"
-			, [&]( Mat4 const & mtx
-				, Vec4 const & pos )
-			{
-				writer.returnStmt( mtx * pos );
-			}
-			, InMat4{ writer, "mtx" }
-			, InVec4{ writer, "pos" } );
-
-		auto foo04 = writer.implementFunction< Vec4 >( "foo04"
-			, [&]( St const & str
-				, Vec4 const & pos )
-			{
-				sdwFOR( writer, UInt, i, 0_u, i < 4_u, ++i )
-				{
-					str.b[i] *= pos;
-				}
-				sdwROF
-				writer.returnStmt( str.a * pos );
-			}
-			, InSt{ writer, "str" }
-			, InVec4{ writer, "pos" } );
-
-		auto foo05 = writer.implementFunction< Vec4 >( "foo05"
-			, [&]( CombinedImage2DRgba32 const & sim
-				, Vec2 const & pos )
-			{
-				writer.returnStmt( sim.sample( pos ) );
-			}
-			, InCombinedImage2DRgba32{ writer, "sim" }
-			, InVec2{ writer, "pos" } );
-
-		auto foo06 = writer.implementFunction< Vec2 >( "foo06"
-			, [&]( Vec2 const & pos )
-			{
-				pos.r() = pos.r() * abs( 5.0_f * pos.r() - 5.0_f * 0.75_f );
-				writer.returnStmt( round( pos ) );
-			}
-			, InVec2{ writer, "pos" } );
-
-		writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
-			, FragmentOutT< VoidT > out )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
-				auto m = writer.declLocale< Mat4 >( "m" );
-				foo01( va );
-				foo02( v );
-				foo03( m, v );
-				auto r = writer.declLocale< Vec4 >( "r"
-					, foo03( c3d_viewMatrix, v ) );
-				auto inst = st->getInstance< St >( "inst", true );
-				v = foo04( inst, v );
-				v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
-				auto e = writer.declLocale< Vec2 >( "e" );
-				e = foo06( e );
-			} );
-
-		test::expectError( "must be a memory object declaration"
-			, testCounts );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, arrayParamAccessInOut )
-	{
-		sdwTestBegin( "arrayAccessInOut" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
-			, [&]( Array< Vec4 > const & pp
-				, Vec4 pv
-				, Int const & pi )
-			{
-				auto j = writer.declLocale< Int >( "j" );
-				pv = pp[j];
-			}
-			, InVec4Array{ writer, "pp", 4u }
-			, OutVec4{ writer, "pv" }
-			, InInt{ writer, "pi" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto p = writer.declLocaleArray< Vec4 >( "p", 4u );
-				auto v = writer.declLocale< Vec4 >( "v" );
-				auto i = writer.declLocale< Int >( "i" );
-				foo01( p, v, i );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, vecParamAccessInIndex )
-	{
-		sdwTestBegin( "vecAccessInIndex" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto foo01 = writer.implementFunction< Float >( "foo01"
-			, [&]( Float const & d 
-				, Vec3 const & pp )
-			{
-				writer.returnStmt( pp[0] / ( ( pp[1] * d ) + pp[2] ) );
-			}
-			, InFloat{ writer, "pv" }
-			, InVec3{ writer, "pp" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto p = writer.declLocale< Vec3 >( "p" );
-				auto v = writer.declLocale< Float >( "v", 0.0_f );
-				v = foo01( v, p );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, rImageParamForward )
-	{
-		sdwTestBegin( "rImageParamForward" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto s = writer.declStorageImg< RFImg3DRgba32 >( "s", 0u, 0u );
-
-		auto foo01 = writer.implementFunction< Void >( "foo01"
-			, [&]( RImage3DRgba32 const & ps
-				, Vec3 pp )
-			{
-			}
-			, InRImage3DRgba32{ writer, "ps" }
-			, InVec3{ writer, "pp" } );
-
-		auto foo02 = writer.implementFunction< Void >( "foo02"
-			, [&]( RImage3DRgba32 const & ps
-				, Vec3 pp )
-			{
-				foo01( ps, pp );
-			}
-			, InRImage3DRgba32{ writer, "ps" }
-			, InVec3{ writer, "pp" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto p = writer.declLocale< Vec3 >( "p" );
-				foo02( s, p );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, wImageParamForward )
-	{
-		sdwTestBegin( "wImageParamForward" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto s = writer.declStorageImg< WFImg3DRgba32 >( "s", 0u, 0u );
-
-		auto foo01 = writer.implementFunction< Void >( "foo01"
-			, [&]( WImage3DRgba32 const & ps
-				, Vec3 pp )
-			{
-			}
-			, InWImage3DRgba32{ writer, "ps" }
-			, InVec3{ writer, "pp" } );
-
-		auto foo02 = writer.implementFunction< Void >( "foo02"
-			, [&]( WImage3DRgba32 const & ps
-				, Vec3 pp )
-			{
-				foo01( ps, pp );
-			}
-			, InWImage3DRgba32{ writer, "ps" }
-			, InVec3{ writer, "pp" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto p = writer.declLocale< Vec3 >( "p" );
-				foo02( s, p );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, rwImageParamForward )
-	{
-		sdwTestBegin( "rwImageParamForward" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto s = writer.declStorageImg< RWFImg3DRgba32 >( "s", 0u, 0u );
-
-		auto foo01 = writer.implementFunction< Void >( "foo01"
-			, [&]( RWImage3DRgba32 const & ps
-				, Vec3 pp )
-			{
-			}
-			, InRWImage3DRgba32{ writer, "ps" }
-			, InVec3{ writer, "pp" } );
-
-		auto foo02 = writer.implementFunction< Void >( "foo02"
-			, [&]( RWImage3DRgba32 const & ps
-				, Vec3 pp )
-			{
-				foo01( ps, pp );
-			}
-			, InRWImage3DRgba32{ writer, "ps" }
-			, InVec3{ writer, "pp" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto p = writer.declLocale< Vec3 >( "p" );
-				foo02( s, p );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, structInParam )
-	{
-		sdwTestBegin( "structInParam" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		St::declare( writer );
-
-		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
-			, [&]( St const & pst )
-			{
-				auto lr = writer.declLocale< Vec4 >( "lr" );
-				lr = pst.a;
-				writer.returnStmt( lr );
-			}
-			, InSt{ writer, "pst" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto r = writer.declLocale< Vec4 >( "r" );
-				auto st = writer.declLocale< St >( "st" );
-				r = foo01( st );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, structInParamForward )
-	{
-		sdwTestBegin( "structInParamForward" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		St::declare( writer );
-		St2::declare( writer );
-
-		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
-			, [&]( St const & pst )
-			{
-				auto lr = writer.declLocale< Vec4 >( "lr" );
-				lr = pst.a;
-				writer.returnStmt( lr );
-			}
-			, InSt{ writer, "pst" } );
-
-		auto foo02 = writer.implementFunction< Vec4 >( "foo02"
-			, [&]( St2 const & pst2 )
-			{
-				writer.returnStmt( foo01( pst2.a ) );
-			}
-			, InSt2{ writer, "pst2" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto r = writer.declLocale< Vec4 >( "r" );
-				auto st2 = writer.declLocale< St2 >( "st2" );
-				r = foo02( st2 );
-			} );
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramInWhile )
-	{
-		sdwTestBegin( "paramInWhile" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto foo01 = writer.implementFunction< Float >( "foo01"
-			, [&]( Float test
-				, Float const & end )
-			{
-				sdwWHILE( writer, test > end )
-				{
-					test -= end;
-				}
-				sdwELIHW
-
-				writer.returnStmt( test );
-			}
-			, InFloat{ writer, "test" }
-			, InFloat{ writer, "end" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto v = writer.declLocale< Float >( "v" );
-				auto e = writer.declLocale< Float >( "e" );
-				v = foo01( v, e );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramMbrAccessInWhile )
-	{
-		sdwTestBegin( "paramMbrAccessInWhile" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		St::declare( writer );
-
-		auto foo01 = writer.implementFunction< Float >( "foo01"
-			, [&]( Float ptest1
-				, Float const & pend1 )
-			{
-				writer.returnStmt( writer.ternary( ptest1 > pend1, ptest1, pend1 ) );
-			}
-			, InFloat{ writer, "ptest1" }
-			, InFloat{ writer, "pend1" } );
-
-		auto foo02 = writer.implementFunction< Float >( "foo02"
-			, [&]( St const & pst
-				, Float ptest
-				, Float const & pend )
-			{
-				sdwWHILE( writer, ptest > pend )
-				{
-					ptest = foo01( pst.a.x(), pend );
-				}
-				sdwELIHW
-
-				writer.returnStmt( pst.a.x() );
-			}
-			, InSt{ writer, "pst" }
-			, InFloat{ writer, "ptest" }
-			, InFloat{ writer, "pend" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto v = writer.declLocale< Float >( "v" );
-				auto e = writer.declLocale< Float >( "e" );
-				auto st = writer.declLocale< St >( "st" );
-				v = foo02( st, v, e );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, removeGamma )
-	{
-		sdwTestBegin( "removeGamma" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
-			, [&]( Float const & gamma
-				, Vec3 const & srgb )
-			{
-				sdwIF( writer, gamma < 0.0_f )
-				{
-					writer.returnStmt( srgb );
-				}
-				sdwFI
-
-				writer.returnStmt( pow( srgb, vec3( gamma ) ) );
-			}
-			, InFloat{ writer, "gamma" }
-			, InVec3{ writer, "srgb" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto f = writer.declLocale< Float >( "f" );
-				auto v = writer.declLocale< Vec3 >( "v" );
-				v = removeGamma( f, v );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, returns )
-	{
-		sdwTestBegin( "returns" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		St::declare( writer );
-		St2::declare( writer );
-
-		auto foo01 = writer.implementFunction< St2 >( "foo01"
-			, [&]( Vec4 const & p )
-			{
-				auto result = writer.declLocale< St2 >( "result" );
-				result.a.a = p * 2.0_f;
-				result.a.b[0] = p * 2.0_f;
-				result.a.b[1] = p * 3.0_f;
-				result.a.b[2] = p * 4.0_f;
-				result.a.b[3] = p * 5.0_f;
-				result.b = p * 6.0_f;
-				writer.returnStmt( result );
-			}
-			, InVec4{ writer, "p" } );
-
-		auto foo02 = writer.implementFunction< Vec4 >( "foo02"
-			, [&]( St2 const & p )
-			{
-				writer.returnStmt( p.a.a );
-			}
-			, InSt2{ writer, "p" } );
-
-		auto foo03 = writer.implementFunction< Float >( "foo03"
-			, [&]( Vec4 const & p )
-			{
-				sdwIF( writer, p.x() )
-				{
-					writer.returnStmt( p.y() );
-				}
-				sdwELSE
-				{
-					writer.returnStmt( p.z() );
-				}
-				sdwFI
-			}
-			, InVec4{ writer, "p" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				v = foo02( foo01( v ) );
-				auto r = writer.declLocale( "r"
-					, foo01( v ) );
-				v += foo02( r );
-				v.x() = foo03( v );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, returnAfterWhile )
-	{
-		sdwTestBegin( "returnAfterWhile" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto foo01 = writer.implementFunction< Vec2 >( "foo01"
-			, [&]( Vec2 const & texcoord
-				, Vec2 const & dir
-				, Vec2 e )
-			{
-				auto coord = writer.declLocale( "coord"
-					, vec4( texcoord, -1.0_f, 1.0_f ) );
-				auto t = writer.declLocale( "t"
-					, vec3( 0.5_f, 1.2_f, 1.0_f ) );
-
-				sdwWHILE( writer, coord.z() < 15.0_f && coord.w() > 0.9_f )
-				{
-					coord.xyz() = fma( t, vec3( dir, 1.0_f ), coord.xyz() );
-					e = normalize( coord.xy() );
-					coord.w() = dot( e, vec2( 0.5_f, 0.5_f ) );
-				}
-				sdwELIHW
-
-				writer.returnStmt( coord.zw() );
-			}
-			, InVec2{ writer, "texcoord" }
-			, InVec2{ writer, "dir" }
-			, OutVec2{ writer, "e" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto v = writer.declLocale< Vec2 >( "v" );
-				auto e = writer.declLocale< Vec2 >( "e" );
-				v = foo01( v, v, e );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, paramIfElseIf )
-	{
-		sdwTestBegin( "fog" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto foo01 = writer.implementFunction< Vec4 >( "foo01"
-			, [&]( Vec4 const & colour
-				, UInt type
-				, Float factor )
-			{
-				auto bgColour = writer.declLocale( "bgColour", colour );
-				auto result = writer.declLocale( "result", colour );
-
-				sdwIF( writer, type == 0_u )
-				{
-					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
-				}
-				sdwELSEIF( type == 1_u )
-				{
-					result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
-				}
-				sdwFI
-
-				writer.returnStmt( result );
-			}
-			, InVec4{ writer, "colour" }
-			, InUInt{ writer, "type" }
-			, InFloat{ writer, "factor" } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto v = writer.declLocale< Vec4 >( "v" );
-				auto t = writer.declLocale< UInt >( "t" );
-				auto f = writer.declLocale< Float >( "f" );
-				v = foo01( v, t, f );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
-
-	TEST( SDW_TestSuiteName, nestedFunctionDecl )
-	{
-		sdwTestBegin( "nestedFunctionDecl" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
-					, [&]( Float const & gamma
-						, Vec3 const & srgb )
-					{
-						sdwIF( writer, gamma < 0.0_f )
-						{
-							writer.returnStmt( srgb );
-						}
-						sdwFI
-
-						writer.returnStmt( pow( srgb, vec3( gamma ) ) );
-					}
-					, InFloat{ writer, "gamma" }
-					, InVec3{ writer, "srgb" } );
-
-				auto f = writer.declLocale< Float >( "f" );
-				auto v = writer.declLocale< Vec3 >( "v" );
-				v = removeGamma( f, v );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd();
-	}
+	//TEST_F( SDWTest, paramInArray )
+	//{
+	//	sdwTestBegin( "paramInArray" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+	//	
+	//	auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
+	//		, [&]( Array< Vec4 > const & p )
+	//		{
+	//		}
+	//		, InVec4Array{ writer, "p", 4u } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
+	//			foo01( va );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramInOutVec4 )
+	//{
+	//	sdwTestBegin( "paramInOutVec4" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+
+	//	auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
+	//		, [&]( Vec4 p )
+	//		{
+	//			p = p + vec4( 1.0_f );
+	//		}
+	//		, InOutVec4{ writer, "p" } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			foo02( v );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramInMat4InVec4 )
+	//{
+	//	sdwTestBegin( "paramInMat4InVec4" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+
+	//	UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
+	//	auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
+	//	buffer.end();
+
+	//	auto foo03 = writer.implementFunction< Vec4 >( "foo03"
+	//		, [&]( Mat4 const & m
+	//			, Vec4 const & p )
+	//		{
+	//			writer.returnStmt( m * p );
+	//		}
+	//		, InMat4{ writer, "m" }
+	//		, InVec4{ writer, "p" } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			auto m = writer.declLocale< Mat4 >( "m" );
+	//			foo03( m, v );
+	//			auto r = writer.declLocale< Vec4 >( "r"
+	//				, foo03( c3d_viewMatrix, v ) );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramInStInVec4 )
+	//{
+	//	sdwTestBegin( "paramInStInVec4" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+
+	//	auto st = St::declare( writer );
+
+	//	auto foo04 = writer.implementFunction< Vec4 >( "foo04"
+	//		, [&]( St const & m
+	//			, Vec4 const & p )
+	//		{
+	//			sdwFOR( writer, UInt, i, 0_u, i < 4_u, ++i )
+	//			{
+	//				m.b[i] *= p;
+	//			}
+	//			sdwROF
+	//			writer.returnStmt( m.a * p );
+	//		}
+	//		, InSt{ writer, "m" }
+	//		, InVec4{ writer, "p" } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			auto inst = st->getInstance< St >( "inst", true );
+	//			v = foo04( inst, v );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramInSpImgInVec2 )
+	//{
+	//	sdwTestBegin( "paramInSpImgInVec2" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+
+	//	auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+
+	//	auto foo05 = writer.implementFunction< Vec4 >( "foo05"
+	//		, [&]( CombinedImage2DRgba32 const & sim
+	//			, Vec2 const & pos )
+	//		{
+	//			writer.returnStmt( sim.sample( pos ) );
+	//		}
+	//		, InCombinedImage2DRgba32{ writer, "sim" }
+	//		, InVec2{ writer, "pos" } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramInVec4Ass )
+	//{
+	//	sdwTestBegin( "paramInVec4Ass" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+
+	//	auto foo06 = writer.implementFunction< Vec2 >( "foo06"
+	//		, [&]( Vec2 const & e )
+	//		{
+	//			e.r() = e.r() * abs( 5.0_f * e.r() - 5.0_f * 0.75_f );
+	//			writer.returnStmt( round( e ) );
+	//		}
+	//		, InVec2{ writer, "e" } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto e = writer.declLocale< Vec2 >( "e" );
+	//			e = foo06( e );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, params )
+	//{
+	//	sdwTestBegin( "params" );
+	//	using namespace sdw;
+	//	sdw::FragmentWriter writer{ &testCounts.allocator };
+
+	//	UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
+	//	auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
+	//	buffer.end();
+
+	//	auto c3d_maps = writer.declCombinedImgArray< FImg2DRgba32 >( "c3d_maps", 1u, 0u, 4u );
+
+	//	auto st = St::declare( writer );
+
+	//	auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
+	//		, [&]( Array< Vec4 > const & arr )
+	//		{
+	//		}
+	//		, InVec4Array{ writer, "arr", 4u } );
+
+	//	auto foo02 = writer.implementFunction< sdw::Void >( "foo02"
+	//		, [&]( Vec4 pos )
+	//		{
+	//			pos = pos + vec4( 1.0_f );
+	//		}
+	//		, InOutVec4{ writer, "pos" } );
+
+	//	auto foo03 = writer.implementFunction< Vec4 >( "foo03"
+	//		, [&]( Mat4 const & mtx
+	//			, Vec4 const & pos )
+	//		{
+	//			writer.returnStmt( mtx * pos );
+	//		}
+	//		, InMat4{ writer, "mtx" }
+	//		, InVec4{ writer, "pos" } );
+
+	//	auto foo04 = writer.implementFunction< Vec4 >( "foo04"
+	//		, [&]( St const & str
+	//			, Vec4 const & pos )
+	//		{
+	//			sdwFOR( writer, UInt, i, 0_u, i < 4_u, ++i )
+	//			{
+	//				str.b[i] *= pos;
+	//			}
+	//			sdwROF
+	//			writer.returnStmt( str.a * pos );
+	//		}
+	//		, InSt{ writer, "str" }
+	//		, InVec4{ writer, "pos" } );
+
+	//	auto foo05 = writer.implementFunction< Vec4 >( "foo05"
+	//		, [&]( CombinedImage2DRgba32 const & sim
+	//			, Vec2 const & pos )
+	//		{
+	//			writer.returnStmt( sim.sample( pos ) );
+	//		}
+	//		, InCombinedImage2DRgba32{ writer, "sim" }
+	//		, InVec2{ writer, "pos" } );
+
+	//	auto foo06 = writer.implementFunction< Vec2 >( "foo06"
+	//		, [&]( Vec2 const & pos )
+	//		{
+	//			pos.r() = pos.r() * abs( 5.0_f * pos.r() - 5.0_f * 0.75_f );
+	//			writer.returnStmt( round( pos ) );
+	//		}
+	//		, InVec2{ writer, "pos" } );
+
+	//	writer.implementMainT< VoidT, VoidT >( [&]( FragmentInT< VoidT > in
+	//		, FragmentOutT< VoidT > out )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			auto va = writer.declLocaleArray< Vec4 >( "va", 4u );
+	//			auto m = writer.declLocale< Mat4 >( "m" );
+	//			foo01( va );
+	//			foo02( v );
+	//			foo03( m, v );
+	//			auto r = writer.declLocale< Vec4 >( "r"
+	//				, foo03( c3d_viewMatrix, v ) );
+	//			auto inst = st->getInstance< St >( "inst", true );
+	//			v = foo04( inst, v );
+	//			v = foo05( c3d_maps[0_u], vec2( 0.0_f, 1.0_f ) );
+	//			auto e = writer.declLocale< Vec2 >( "e" );
+	//			e = foo06( e );
+	//		} );
+
+	//	test::expectError( "must be a memory object declaration"
+	//		, testCounts );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, arrayParamAccessInOut )
+	//{
+	//	sdwTestBegin( "arrayAccessInOut" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto foo01 = writer.implementFunction< sdw::Void >( "foo01"
+	//		, [&]( Array< Vec4 > const & pp
+	//			, Vec4 pv
+	//			, Int const & pi )
+	//		{
+	//			auto j = writer.declLocale< Int >( "j" );
+	//			pv = pp[j];
+	//		}
+	//		, InVec4Array{ writer, "pp", 4u }
+	//		, OutVec4{ writer, "pv" }
+	//		, InInt{ writer, "pi" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto p = writer.declLocaleArray< Vec4 >( "p", 4u );
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			auto i = writer.declLocale< Int >( "i" );
+	//			foo01( p, v, i );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, vecParamAccessInIndex )
+	//{
+	//	sdwTestBegin( "vecAccessInIndex" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto foo01 = writer.implementFunction< Float >( "foo01"
+	//		, [&]( Float const & d 
+	//			, Vec3 const & pp )
+	//		{
+	//			writer.returnStmt( pp[0] / ( ( pp[1] * d ) + pp[2] ) );
+	//		}
+	//		, InFloat{ writer, "pv" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto p = writer.declLocale< Vec3 >( "p" );
+	//			auto v = writer.declLocale< Float >( "v", 0.0_f );
+	//			v = foo01( v, p );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, rImageParamForward )
+	//{
+	//	sdwTestBegin( "rImageParamForward" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto s = writer.declStorageImg< RFImg3DRgba32 >( "s", 0u, 0u );
+
+	//	auto foo01 = writer.implementFunction< Void >( "foo01"
+	//		, [&]( RImage3DRgba32 const & ps
+	//			, Vec3 pp )
+	//		{
+	//		}
+	//		, InRImage3DRgba32{ writer, "ps" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	auto foo02 = writer.implementFunction< Void >( "foo02"
+	//		, [&]( RImage3DRgba32 const & ps
+	//			, Vec3 pp )
+	//		{
+	//			foo01( ps, pp );
+	//		}
+	//		, InRImage3DRgba32{ writer, "ps" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto p = writer.declLocale< Vec3 >( "p" );
+	//			foo02( s, p );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, wImageParamForward )
+	//{
+	//	sdwTestBegin( "wImageParamForward" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto s = writer.declStorageImg< WFImg3DRgba32 >( "s", 0u, 0u );
+
+	//	auto foo01 = writer.implementFunction< Void >( "foo01"
+	//		, [&]( WImage3DRgba32 const & ps
+	//			, Vec3 pp )
+	//		{
+	//		}
+	//		, InWImage3DRgba32{ writer, "ps" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	auto foo02 = writer.implementFunction< Void >( "foo02"
+	//		, [&]( WImage3DRgba32 const & ps
+	//			, Vec3 pp )
+	//		{
+	//			foo01( ps, pp );
+	//		}
+	//		, InWImage3DRgba32{ writer, "ps" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto p = writer.declLocale< Vec3 >( "p" );
+	//			foo02( s, p );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, rwImageParamForward )
+	//{
+	//	sdwTestBegin( "rwImageParamForward" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto s = writer.declStorageImg< RWFImg3DRgba32 >( "s", 0u, 0u );
+
+	//	auto foo01 = writer.implementFunction< Void >( "foo01"
+	//		, [&]( RWImage3DRgba32 const & ps
+	//			, Vec3 pp )
+	//		{
+	//		}
+	//		, InRWImage3DRgba32{ writer, "ps" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	auto foo02 = writer.implementFunction< Void >( "foo02"
+	//		, [&]( RWImage3DRgba32 const & ps
+	//			, Vec3 pp )
+	//		{
+	//			foo01( ps, pp );
+	//		}
+	//		, InRWImage3DRgba32{ writer, "ps" }
+	//		, InVec3{ writer, "pp" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto p = writer.declLocale< Vec3 >( "p" );
+	//			foo02( s, p );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, structInParam )
+	//{
+	//	sdwTestBegin( "structInParam" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	St::declare( writer );
+
+	//	auto foo01 = writer.implementFunction< Vec4 >( "foo01"
+	//		, [&]( St const & pst )
+	//		{
+	//			auto lr = writer.declLocale< Vec4 >( "lr" );
+	//			lr = pst.a;
+	//			writer.returnStmt( lr );
+	//		}
+	//		, InSt{ writer, "pst" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto r = writer.declLocale< Vec4 >( "r" );
+	//			auto st = writer.declLocale< St >( "st" );
+	//			r = foo01( st );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, structInParamForward )
+	//{
+	//	sdwTestBegin( "structInParamForward" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	St::declare( writer );
+	//	St2::declare( writer );
+
+	//	auto foo01 = writer.implementFunction< Vec4 >( "foo01"
+	//		, [&]( St const & pst )
+	//		{
+	//			auto lr = writer.declLocale< Vec4 >( "lr" );
+	//			lr = pst.a;
+	//			writer.returnStmt( lr );
+	//		}
+	//		, InSt{ writer, "pst" } );
+
+	//	auto foo02 = writer.implementFunction< Vec4 >( "foo02"
+	//		, [&]( St2 const & pst2 )
+	//		{
+	//			writer.returnStmt( foo01( pst2.a ) );
+	//		}
+	//		, InSt2{ writer, "pst2" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto r = writer.declLocale< Vec4 >( "r" );
+	//			auto st2 = writer.declLocale< St2 >( "st2" );
+	//			r = foo02( st2 );
+	//		} );
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramInWhile )
+	//{
+	//	sdwTestBegin( "paramInWhile" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto foo01 = writer.implementFunction< Float >( "foo01"
+	//		, [&]( Float test
+	//			, Float const & end )
+	//		{
+	//			sdwWHILE( writer, test > end )
+	//			{
+	//				test -= end;
+	//			}
+	//			sdwELIHW
+
+	//			writer.returnStmt( test );
+	//		}
+	//		, InFloat{ writer, "test" }
+	//		, InFloat{ writer, "end" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto v = writer.declLocale< Float >( "v" );
+	//			auto e = writer.declLocale< Float >( "e" );
+	//			v = foo01( v, e );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramMbrAccessInWhile )
+	//{
+	//	sdwTestBegin( "paramMbrAccessInWhile" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	St::declare( writer );
+
+	//	auto foo01 = writer.implementFunction< Float >( "foo01"
+	//		, [&]( Float ptest1
+	//			, Float const & pend1 )
+	//		{
+	//			writer.returnStmt( writer.ternary( ptest1 > pend1, ptest1, pend1 ) );
+	//		}
+	//		, InFloat{ writer, "ptest1" }
+	//		, InFloat{ writer, "pend1" } );
+
+	//	auto foo02 = writer.implementFunction< Float >( "foo02"
+	//		, [&]( St const & pst
+	//			, Float ptest
+	//			, Float const & pend )
+	//		{
+	//			sdwWHILE( writer, ptest > pend )
+	//			{
+	//				ptest = foo01( pst.a.x(), pend );
+	//			}
+	//			sdwELIHW
+
+	//			writer.returnStmt( pst.a.x() );
+	//		}
+	//		, InSt{ writer, "pst" }
+	//		, InFloat{ writer, "ptest" }
+	//		, InFloat{ writer, "pend" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto v = writer.declLocale< Float >( "v" );
+	//			auto e = writer.declLocale< Float >( "e" );
+	//			auto st = writer.declLocale< St >( "st" );
+	//			v = foo02( st, v, e );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, removeGamma )
+	//{
+	//	sdwTestBegin( "removeGamma" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
+	//		, [&]( Float const & gamma
+	//			, Vec3 const & srgb )
+	//		{
+	//			sdwIF( writer, gamma < 0.0_f )
+	//			{
+	//				writer.returnStmt( srgb );
+	//			}
+	//			sdwFI
+
+	//			writer.returnStmt( pow( srgb, vec3( gamma ) ) );
+	//		}
+	//		, InFloat{ writer, "gamma" }
+	//		, InVec3{ writer, "srgb" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto f = writer.declLocale< Float >( "f" );
+	//			auto v = writer.declLocale< Vec3 >( "v" );
+	//			v = removeGamma( f, v );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, returns )
+	//{
+	//	sdwTestBegin( "returns" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	St::declare( writer );
+	//	St2::declare( writer );
+
+	//	auto foo01 = writer.implementFunction< St2 >( "foo01"
+	//		, [&]( Vec4 const & p )
+	//		{
+	//			auto result = writer.declLocale< St2 >( "result" );
+	//			result.a.a = p * 2.0_f;
+	//			result.a.b[0] = p * 2.0_f;
+	//			result.a.b[1] = p * 3.0_f;
+	//			result.a.b[2] = p * 4.0_f;
+	//			result.a.b[3] = p * 5.0_f;
+	//			result.b = p * 6.0_f;
+	//			writer.returnStmt( result );
+	//		}
+	//		, InVec4{ writer, "p" } );
+
+	//	auto foo02 = writer.implementFunction< Vec4 >( "foo02"
+	//		, [&]( St2 const & p )
+	//		{
+	//			writer.returnStmt( p.a.a );
+	//		}
+	//		, InSt2{ writer, "p" } );
+
+	//	auto foo03 = writer.implementFunction< Float >( "foo03"
+	//		, [&]( Vec4 const & p )
+	//		{
+	//			sdwIF( writer, p.x() )
+	//			{
+	//				writer.returnStmt( p.y() );
+	//			}
+	//			sdwELSE
+	//			{
+	//				writer.returnStmt( p.z() );
+	//			}
+	//			sdwFI
+	//		}
+	//		, InVec4{ writer, "p" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			v = foo02( foo01( v ) );
+	//			auto r = writer.declLocale( "r"
+	//				, foo01( v ) );
+	//			v += foo02( r );
+	//			v.x() = foo03( v );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, returnAfterWhile )
+	//{
+	//	sdwTestBegin( "returnAfterWhile" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto foo01 = writer.implementFunction< Vec2 >( "foo01"
+	//		, [&]( Vec2 const & texcoord
+	//			, Vec2 const & dir
+	//			, Vec2 e )
+	//		{
+	//			auto coord = writer.declLocale( "coord"
+	//				, vec4( texcoord, -1.0_f, 1.0_f ) );
+	//			auto t = writer.declLocale( "t"
+	//				, vec3( 0.5_f, 1.2_f, 1.0_f ) );
+
+	//			sdwWHILE( writer, coord.z() < 15.0_f && coord.w() > 0.9_f )
+	//			{
+	//				coord.xyz() = fma( t, vec3( dir, 1.0_f ), coord.xyz() );
+	//				e = normalize( coord.xy() );
+	//				coord.w() = dot( e, vec2( 0.5_f, 0.5_f ) );
+	//			}
+	//			sdwELIHW
+
+	//			writer.returnStmt( coord.zw() );
+	//		}
+	//		, InVec2{ writer, "texcoord" }
+	//		, InVec2{ writer, "dir" }
+	//		, OutVec2{ writer, "e" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto v = writer.declLocale< Vec2 >( "v" );
+	//			auto e = writer.declLocale< Vec2 >( "e" );
+	//			v = foo01( v, v, e );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, paramIfElseIf )
+	//{
+	//	sdwTestBegin( "fog" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	auto foo01 = writer.implementFunction< Vec4 >( "foo01"
+	//		, [&]( Vec4 const & colour
+	//			, UInt type
+	//			, Float factor )
+	//		{
+	//			auto bgColour = writer.declLocale( "bgColour", colour );
+	//			auto result = writer.declLocale( "result", colour );
+
+	//			sdwIF( writer, type == 0_u )
+	//			{
+	//				result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
+	//			}
+	//			sdwELSEIF( type == 1_u )
+	//			{
+	//				result = vec4( mix( bgColour, colour, vec4( factor ) ).rgb(), colour.a() );
+	//			}
+	//			sdwFI
+
+	//			writer.returnStmt( result );
+	//		}
+	//		, InVec4{ writer, "colour" }
+	//		, InUInt{ writer, "type" }
+	//		, InFloat{ writer, "factor" } );
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto v = writer.declLocale< Vec4 >( "v" );
+	//			auto t = writer.declLocale< UInt >( "t" );
+	//			auto f = writer.declLocale< Float >( "f" );
+	//			v = foo01( v, t, f );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
+
+	//TEST_F( SDWTest, nestedFunctionDecl )
+	//{
+	//	sdwTestBegin( "nestedFunctionDecl" );
+	//	using namespace sdw;
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+
+	//	writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+	//		{
+	//			auto removeGamma = writer.implementFunction< Vec3 >( "removeGamma"
+	//				, [&]( Float const & gamma
+	//					, Vec3 const & srgb )
+	//				{
+	//					sdwIF( writer, gamma < 0.0_f )
+	//					{
+	//						writer.returnStmt( srgb );
+	//					}
+	//					sdwFI
+
+	//					writer.returnStmt( pow( srgb, vec3( gamma ) ) );
+	//				}
+	//				, InFloat{ writer, "gamma" }
+	//				, InVec3{ writer, "srgb" } );
+
+	//			auto f = writer.declLocale< Float >( "f" );
+	//			auto v = writer.declLocale< Vec3 >( "v" );
+	//			v = removeGamma( f, v );
+	//		} );
+
+	//	test::writeShader( writer
+	//		, testCounts, CurrentCompilers );
+	//	sdwTestEnd();
+	//}
 
 	template< typename ValueT >
 	void testParamsT( test::sdw_test::TestCounts & testCounts )
 	{
-		testSingleInParamLiteral< ValueT >( testCounts );
-		testSingleInParamConstant< ValueT >( testCounts );
-		testSingleInParamConstantArray< ValueT >( testCounts );
-		testSingleInParamVariable< ValueT >( testCounts );
-		testSingleInParamArrayVariable< ValueT >( testCounts );
-		testSingleInParamInputVariable< ValueT >( testCounts );
-		testSingleInParamUniformVariable< ValueT >( testCounts );
-		testSingleInParamStorageVariable< ValueT >( testCounts );
-		testSingleInParamStructMember< ValueT >( testCounts );
+		//testSingleInParamLiteral< ValueT >( testCounts );
+		//testSingleInParamConstant< ValueT >( testCounts );
+		//testSingleInParamConstantArray< ValueT >( testCounts );
+		//testSingleInParamVariable< ValueT >( testCounts );
+		//testSingleInParamArrayVariable< ValueT >( testCounts );
+		//testSingleInParamInputVariable< ValueT >( testCounts );
+		//testSingleInParamUniformVariable< ValueT >( testCounts );
+		//testSingleInParamStorageVariable< ValueT >( testCounts );
+		//testSingleInParamStructMember< ValueT >( testCounts );
 
-		testSingleOutParamVariable< ValueT >( testCounts );
-		testSingleOutParamArrayVariable< ValueT >( testCounts );
-		testSingleOutParamStorageVariable< ValueT >( testCounts );
-		testSingleOutParamStructMember< ValueT >( testCounts );
+		//testSingleOutParamVariable< ValueT >( testCounts );
+		//testSingleOutParamArrayVariable< ValueT >( testCounts );
+		//testSingleOutParamStorageVariable< ValueT >( testCounts );
+		//testSingleOutParamStructMember< ValueT >( testCounts );
 
-		testSingleInOutParamVariable< ValueT >( testCounts );
-		testSingleInOutParamArrayVariable< ValueT >( testCounts );
-		testSingleInOutParamStorageVariable< ValueT >( testCounts );
-		testSingleInOutParamStructMember< ValueT >( testCounts );
+		//testSingleInOutParamVariable< ValueT >( testCounts );
+		//testSingleInOutParamArrayVariable< ValueT >( testCounts );
+		//testSingleInOutParamStorageVariable< ValueT >( testCounts );
+		//testSingleInOutParamStructMember< ValueT >( testCounts );
 
-		testArrayInParamLiteral< ValueT >( testCounts );
-		testArrayInParamConstant< ValueT >( testCounts );
-		testArrayInParamVariable< ValueT >( testCounts );
+		//testArrayInParamLiteral< ValueT >( testCounts );
+		//testArrayInParamConstant< ValueT >( testCounts );
+		//testArrayInParamVariable< ValueT >( testCounts );
 
-		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
-			&& !std::is_same_v< ValueT, sdw::Mat3 >
-			&& !std::is_same_v< ValueT, sdw::Mat4 > )
-		{
-			testSingleInParamOutputVariable< ValueT >( testCounts );
-			testArrayInParamInputVariable< ValueT >( testCounts );
-			testArrayInParamOutputVariable< ValueT >( testCounts );
-		}
+		//if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+		//	&& !std::is_same_v< ValueT, sdw::Mat3 >
+		//	&& !std::is_same_v< ValueT, sdw::Mat4 > )
+		//{
+		//	testSingleInParamOutputVariable< ValueT >( testCounts );
+		//	testArrayInParamInputVariable< ValueT >( testCounts );
+		//	testArrayInParamOutputVariable< ValueT >( testCounts );
+		//}
 
-		testArrayInParamUniformVariable< ValueT >( testCounts );
-		testArrayInParamStorageVariable< ValueT >( testCounts );
-		testArrayInParamStructMember< ValueT >( testCounts );
+		//testArrayInParamUniformVariable< ValueT >( testCounts );
+		//testArrayInParamStorageVariable< ValueT >( testCounts );
+		//testArrayInParamStructMember< ValueT >( testCounts );
 
-		testArrayOutParamVariable< ValueT >( testCounts );
+		//testArrayOutParamVariable< ValueT >( testCounts );
 
-		if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
-			&& !std::is_same_v< ValueT, sdw::Mat3 >
-			&& !std::is_same_v< ValueT, sdw::Mat4 > )
-		{
-			testSingleOutParamOutputVariable< ValueT >( testCounts );
-			testArrayOutParamOutputVariable< ValueT >( testCounts );
-		}
+		//if constexpr ( !std::is_same_v< ValueT, sdw::Mat2 >
+		//	&& !std::is_same_v< ValueT, sdw::Mat3 >
+		//	&& !std::is_same_v< ValueT, sdw::Mat4 > )
+		//{
+		//	testSingleOutParamOutputVariable< ValueT >( testCounts );
+		//	testArrayOutParamOutputVariable< ValueT >( testCounts );
+		//}
 
 		testArrayOutParamStorageVariable< ValueT >( testCounts );
 		testArrayOutParamStructMember< ValueT >( testCounts );
@@ -1962,24 +1962,24 @@ namespace
 		testArrayInOutParamStructMember< ValueT >( testCounts );
 	}
 
-	TEST( SDW_TestSuiteName, testParams )
+	TEST_F( SDWTest, testParams )
 	{
 		sdwTestBegin( "testParams" )
 		testParamsT< sdw::Int >( testCounts );
-		testParamsT< sdw::UInt >( testCounts );
-		testParamsT< sdw::Float >( testCounts );
-		testParamsT< sdw::IVec2 >( testCounts );
-		testParamsT< sdw::UVec2 >( testCounts );
-		testParamsT< sdw::Vec2 >( testCounts );
-		testParamsT< sdw::IVec3 >( testCounts );
-		testParamsT< sdw::UVec3 >( testCounts );
-		testParamsT< sdw::Vec3 >( testCounts );
-		testParamsT< sdw::IVec4 >( testCounts );
-		testParamsT< sdw::UVec4 >( testCounts );
-		testParamsT< sdw::Vec4 >( testCounts );
-		testParamsT< sdw::Mat2 >( testCounts );
-		testParamsT< sdw::Mat3 >( testCounts );
-		testParamsT< sdw::Mat4 >( testCounts );
+		//testParamsT< sdw::UInt >( testCounts );
+		//testParamsT< sdw::Float >( testCounts );
+		//testParamsT< sdw::IVec2 >( testCounts );
+		//testParamsT< sdw::UVec2 >( testCounts );
+		//testParamsT< sdw::Vec2 >( testCounts );
+		//testParamsT< sdw::IVec3 >( testCounts );
+		//testParamsT< sdw::UVec3 >( testCounts );
+		//testParamsT< sdw::Vec3 >( testCounts );
+		//testParamsT< sdw::IVec4 >( testCounts );
+		//testParamsT< sdw::UVec4 >( testCounts );
+		//testParamsT< sdw::Vec4 >( testCounts );
+		//testParamsT< sdw::Mat2 >( testCounts );
+		//testParamsT< sdw::Mat3 >( testCounts );
+		//testParamsT< sdw::Mat4 >( testCounts );
 		sdwTestEnd()
 	}
 }

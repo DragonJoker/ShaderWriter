@@ -5,7 +5,8 @@
 namespace test::sdw_test
 {
 	void testWriteHlsl( ::ast::Shader const & shader
-		, ::ast::EntryPointConfigArray const & entryPoints
+		, ::ast::PreprocessResult & preprocessResult
+		, ::ast::ShaderStage stage
 		, ::ast::SpecialisationInfo const & specialisation
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts );

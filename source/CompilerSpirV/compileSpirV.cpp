@@ -13,10 +13,9 @@ See LICENSE file in root folder
 #include <GlslCommon/GlslFillConfig.hpp>
 
 #include <ShaderAST/Shader.hpp>
-#include <ShaderAST/Visitors/ResolveConstants.hpp>
+#include <ShaderAST/Visitors/PreprocessShader.hpp>
 #include <ShaderAST/Visitors/SelectEntryPoint.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
-#include <ShaderAST/Visitors/TransformSSA.hpp>
 
 #include <algorithm>
 #include <iostream>
@@ -28,48 +27,31 @@ namespace spirv
 		delete shaderModule;
 	}
 
-	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
+	ModulePtr compilePreprocessedSpirV( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
-		, ast::stmt::Container const * stmt
+		, ast::PreprocessResult & preprocessResult
 		, ast::ShaderStage stage
 		, SpirVConfig & spirvConfig )
 	{
-		ast::SSAData ssaData;
 		auto & typesCache = shader.getTypesCache();
-		ssaData.nextVarId = shader.getVarId();
-		ast::stmt::StmtCache compileStmtCache{ allocator };
-		ast::expr::ExprCache compileExprCache{ allocator };
-		auto statements = ast::transformSSA( compileStmtCache
-			, compileExprCache
-			, typesCache
-			, *stmt
-			, ssaData
-			, true );
-		statements = ast::simplify( compileStmtCache
-			, compileExprCache
-			, typesCache
-			, *statements );
-		statements = ast::resolveConstants( compileStmtCache
-			, compileExprCache
-			, *statements );
 		ModuleConfig moduleConfig{ &allocator
 			, spirvConfig
 			, typesCache
 			, stage
-			, ssaData.nextVarId
-			, ssaData.aliasId };
-		spirv::fillConfig( *statements
+			, preprocessResult.ssaData.nextVarId
+			, preprocessResult.ssaData.aliasId };
+		spirv::fillConfig( *preprocessResult.statements
 			, moduleConfig );
 		spirv::PreprocContext context;
 		AdaptationData adaptationData{ &allocator, context, std::move( moduleConfig ) };
-		statements = spirv::adaptStatements( compileStmtCache
-			, compileExprCache
+		auto statements = spirv::adaptStatements( *preprocessResult.stmtCache
+			, *preprocessResult.exprCache
 			, typesCache
-			, *statements
+			, *preprocessResult.statements
 			, adaptationData );
 		// Simplify again, since adaptation can introduce complexity
-		statements = ast::simplify( compileStmtCache
-			, compileExprCache
+		statements = ast::simplify( *preprocessResult.stmtCache
+			, *preprocessResult.exprCache
 			, typesCache
 			, *statements );
 		auto actions = listActions( *statements );
@@ -110,7 +92,7 @@ namespace spirv
 			debug = glsl::generateGlslStatements( stmtConfig, intrinsicsConfig, *statements, true );
 		}
 
-		return generateModule( compileExprCache
+		return generateModule( *preprocessResult.exprCache
 			, typesCache
 			, *statements
 			, stage
@@ -120,6 +102,16 @@ namespace spirv
 			, stmtConfig
 			, std::move( actions )
 			, std::move( debug ) );
+	}
+
+	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
+		, ast::stmt::Container const * stmt
+		, ast::ShaderStage stage
+		, SpirVConfig & spirvConfig )
+	{
+		auto preprocessResult = ast::preprocessShader( allocator, shader, *stmt );
+		return compilePreprocessedSpirV( allocator, shader, preprocessResult, stage, spirvConfig );
 	}
 
 	ModulePtr compileSpirV( ast::ShaderAllocatorBlock & allocator

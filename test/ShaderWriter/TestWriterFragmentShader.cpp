@@ -224,7 +224,7 @@ namespace
 		sdw::Vec4 colour;
 	};
 
-	TEST( SDW_TestSuiteName, noSpecificIO )
+	TEST_F( SDWTest, noSpecificIO )
 	{
 		sdwTestBegin( "noSpecificIO" );
 		using namespace sdw;
@@ -255,7 +255,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, noSpecificIOT )
+	TEST_F( SDWTest, noSpecificIOT )
 	{
 		sdwTestBegin( "noSpecificIOT" );
 		using namespace sdw;
@@ -286,7 +286,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInputOnly )
+	TEST_F( SDWTest, specificMemberInputOnly )
 	{
 		sdwTestBegin( "specificMemberInputOnly" );
 		using namespace sdw;
@@ -306,7 +306,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInputOnly )
+	TEST_F( SDWTest, specificGlobalInputOnly )
 	{
 		sdwTestBegin( "specificGlobalInputOnly" );
 		using namespace sdw;
@@ -327,7 +327,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInputOnly )
+	TEST_F( SDWTest, specificMixedInputOnly )
 	{
 		sdwTestBegin( "specificMixedInputOnly" );
 		using namespace sdw;
@@ -348,7 +348,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberOutputOnly )
+	TEST_F( SDWTest, specificMemberOutputOnly )
 	{
 		sdwTestBegin( "specificMemberOutputOnly" );
 		using namespace sdw;
@@ -368,7 +368,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalOutputOnly )
+	TEST_F( SDWTest, specificGlobalOutputOnly )
 	{
 		sdwTestBegin( "specificGlobalOutputOnly" );
 		using namespace sdw;
@@ -389,7 +389,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedOutputOnly )
+	TEST_F( SDWTest, specificMixedOutputOnly )
 	{
 		sdwTestBegin( "specificMixedOutputOnly" );
 		using namespace sdw;
@@ -411,7 +411,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMemberInAndOut )
+	TEST_F( SDWTest, specificMemberInAndOut )
 	{
 		sdwTestBegin( "specificMemberInAndOut" );
 		using namespace sdw;
@@ -431,7 +431,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificGlobalInAndOut )
+	TEST_F( SDWTest, specificGlobalInAndOut )
 	{
 		sdwTestBegin( "specificGlobalInAndOut" );
 		using namespace sdw;
@@ -453,7 +453,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, specificMixedInAndOut )
+	TEST_F( SDWTest, specificMixedInAndOut )
 	{
 		sdwTestBegin( "specificMixedInAndOut" );
 		using namespace sdw;
@@ -476,7 +476,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, fragment )
+	TEST_F( SDWTest, fragment )
 	{
 		sdwTestBegin( "fragment" );
 		using namespace sdw;
@@ -556,7 +556,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, radianceComputer )
+	TEST_F( SDWTest, radianceComputer )
 	{
 		sdwTestBegin( "radianceComputer" );
 		using namespace sdw;
@@ -613,7 +613,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, textureOffset )
+	TEST_F( SDWTest, textureOffset )
 	{
 		auto name = "textureOffset";
 		sdwTestBegin( name );
@@ -638,7 +638,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, skybox )
+	TEST_F( SDWTest, skybox )
 	{
 		sdwTestBegin( "skybox" );
 		using namespace sdw;
@@ -675,7 +675,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, reference )
+	TEST_F( SDWTest, reference )
 	{
 		sdwTestBegin( "reference" );
 		using namespace sdw;
@@ -728,7 +728,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, terminate )
+	TEST_F( SDWTest, terminate )
 	{
 		sdwTestBegin( "terminate" );
 		using namespace sdw;
@@ -752,7 +752,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, demote )
+	TEST_F( SDWTest, demote )
 	{
 		sdwTestBegin( "demote" );
 		using namespace sdw;
@@ -776,7 +776,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, pixelInterlockOrdered )
+	TEST_F( SDWTest, pixelInterlockOrdered )
 	{
 		sdwTestBegin( "pixelInterlockOrdered" );
 		using namespace sdw;
@@ -798,7 +798,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, pixelInterlockUnordered )
+	TEST_F( SDWTest, pixelInterlockUnordered )
 	{
 		sdwTestBegin( "pixelInterlockUnordered" );
 		using namespace sdw;
@@ -821,7 +821,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, sampleInterlockOrdered )
+	TEST_F( SDWTest, sampleInterlockOrdered )
 	{
 		sdwTestBegin( "sampleInterlockOrdered" );
 		using namespace sdw;
@@ -844,7 +844,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, sampleInterlockUnordered )
+	TEST_F( SDWTest, sampleInterlockUnordered )
 	{
 		sdwTestBegin( "sampleInterlockUnordered" );
 		using namespace sdw;

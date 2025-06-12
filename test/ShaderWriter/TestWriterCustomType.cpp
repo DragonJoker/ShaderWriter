@@ -185,7 +185,7 @@ namespace
 
 namespace
 {
-	TEST( SDW_TestSuiteName, singleLightUbo )
+	TEST_F( SDWTest, singleLightUbo )
 	{
 		sdwTestBegin( "singleLightUbo" );
 		using namespace sdw;
@@ -225,7 +225,7 @@ namespace
 		sdwTestEnd();
 	}
 		
-	TEST( SDW_TestSuiteName, lightArrayUbo )
+	TEST_F( SDWTest, lightArrayUbo )
 	{
 		sdwTestBegin( "lightArrayUbo" );
 		using namespace sdw;
@@ -249,7 +249,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, singleLightSsbo )
+	TEST_F( SDWTest, singleLightSsbo )
 	{
 		sdwTestBegin( "singleLightSsbo" );
 		using namespace sdw;
@@ -289,7 +289,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, lightArraySsbo )
+	TEST_F( SDWTest, lightArraySsbo )
 	{
 		sdwTestBegin( "lightArraySsbo" );
 		using namespace sdw;
@@ -313,7 +313,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, arraySsboLight )
+	TEST_F( SDWTest, arraySsboLight )
 	{
 		sdwTestBegin( "arraySsboLight" );
 		using namespace sdw;
@@ -333,7 +333,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, singleLight2Ubo )
+	TEST_F( SDWTest, singleLight2Ubo )
 	{
 #if SDW_EnableStructHelper
 
@@ -377,7 +377,7 @@ namespace
 #endif
 	}
 		
-	TEST( SDW_TestSuiteName, light2ArrayUbo )
+	TEST_F( SDWTest, light2ArrayUbo )
 	{
 #if SDW_EnableStructHelper
 
@@ -405,7 +405,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, singleLight2Ssbo )
+	TEST_F( SDWTest, singleLight2Ssbo )
 	{
 #if SDW_EnableStructHelper
 
@@ -449,7 +449,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, light2ArraySsbo )
+	TEST_F( SDWTest, light2ArraySsbo )
 	{
 #if SDW_EnableStructHelper
 
@@ -477,7 +477,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, arraySsboLight2 )
+	TEST_F( SDWTest, arraySsboLight2 )
 	{
 #if SDW_EnableStructHelper
 
@@ -501,8 +501,9 @@ namespace
 #endif
 	}
 
-	struct FlagsParam
-		: public testing::TestWithParam< Flags >
+	class FlagsParam
+		: public SDWTest
+		, public ::testing::WithParamInterface< Flags >
 	{
 	};
 

@@ -6,7 +6,7 @@
 
 namespace
 {
-	TEST( SDW_TestSuiteName, testIf )
+	TEST_F( SDWTest, testIf )
 	{
 		sdwTestBegin( "testIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -25,7 +25,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testIfElse )
+	TEST_F( SDWTest, testIfElse )
 	{
 		sdwTestBegin( "testIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -47,7 +47,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testIfElseIf )
+	TEST_F( SDWTest, testIfElseIf )
 	{
 		sdwTestBegin( "testIfElseIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -70,7 +70,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testIfElseIfElse )
+	TEST_F( SDWTest, testIfElseIfElse )
 	{
 		sdwTestBegin( "testIfElseIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -97,7 +97,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testSwitch )
+	TEST_F( SDWTest, testSwitch )
 	{
 		sdwTestBegin( "testSwitch" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -124,7 +124,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testForPlusEqual )
+	TEST_F( SDWTest, testForPlusEqual )
 	{
 		sdwTestBegin( "testForPlusEqual" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -141,7 +141,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testForPreInc )
+	TEST_F( SDWTest, testForPreInc )
 	{
 		sdwTestBegin( "testForPreInc" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -158,7 +158,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testForPostInc )
+	TEST_F( SDWTest, testForPostInc )
 	{
 		sdwTestBegin( "testForPostInc" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -175,7 +175,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testForPreDec )
+	TEST_F( SDWTest, testForPreDec )
 	{
 		sdwTestBegin( "testForPreDec" );
 		{
@@ -194,7 +194,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testForPostDec )
+	TEST_F( SDWTest, testForPostDec )
 	{
 		sdwTestBegin( "testForPostDec" );
 		{
@@ -212,7 +212,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testForSuccessive )
+	TEST_F( SDWTest, testForSuccessive )
 	{
 		sdwTestBegin( "testForSuccessive" );
 		{
@@ -251,7 +251,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testWhile )
+	TEST_F( SDWTest, testWhile )
 	{
 		sdwTestBegin( "testWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -269,7 +269,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testDoWhile )
+	TEST_F( SDWTest, testDoWhile )
 	{
 		sdwTestBegin( "testDoWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -287,7 +287,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedIf )
+	TEST_F( SDWTest, testNestedIf )
 	{
 		sdwTestBegin( "testNestedIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -310,7 +310,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedIfElse )
+	TEST_F( SDWTest, testNestedIfElse )
 	{
 		sdwTestBegin( "testNestedIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -350,7 +350,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedIfElseIf )
+	TEST_F( SDWTest, testNestedIfElseIf )
 	{
 		sdwTestBegin( "testNestedIfElseIf" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -393,7 +393,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedIfElseIfElse )
+	TEST_F( SDWTest, testNestedIfElseIfElse )
 	{
 		sdwTestBegin( "testNestedIfElseIfElse" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -462,7 +462,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedFor )
+	TEST_F( SDWTest, testNestedFor )
 	{
 		sdwTestBegin( "testNestedFor" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -483,7 +483,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedWhile )
+	TEST_F( SDWTest, testNestedWhile )
 	{
 		sdwTestBegin( "testNestedWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -507,7 +507,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedDoWhile )
+	TEST_F( SDWTest, testNestedDoWhile )
 	{
 		sdwTestBegin( "testNestedDoWhile" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -531,7 +531,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testTernary )
+	TEST_F( SDWTest, testTernary )
 	{
 		sdwTestBegin( "testTernary" );
 		sdw::VertexWriter writer{ &testCounts.allocator };
@@ -547,7 +547,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstIfElseTrue )
+	TEST_F( SDWTest, testConstIfElseTrue )
 	{
 		sdwTestBegin( "testConstIfElseTrue" );
 		sdw::ShaderArray shaders;
@@ -575,7 +575,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstIfElseFalse )
+	TEST_F( SDWTest, testConstIfElseFalse )
 	{
 		sdwTestBegin( "testConstIfElseFalse" );
 		sdw::ShaderArray shaders;
@@ -603,7 +603,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstIfElseIfTrueTrue )
+	TEST_F( SDWTest, testConstIfElseIfTrueTrue )
 	{
 		sdwTestBegin( "testConstIfElseIfTrueTrue" );
 		sdw::ShaderArray shaders;
@@ -636,7 +636,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstIfElseIfTrueFalse )
+	TEST_F( SDWTest, testConstIfElseIfTrueFalse )
 	{
 		sdwTestBegin( "testConstIfElseIfTrueFalse" );
 		sdw::ShaderArray shaders;
@@ -669,7 +669,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstIfElseIfFalseTrue )
+	TEST_F( SDWTest, testConstIfElseIfFalseTrue )
 	{
 		sdwTestBegin( "testConstIfElseIfFalseTrue" );
 		sdw::ShaderArray shaders;
@@ -702,7 +702,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstIfElseIfFalseFalse )
+	TEST_F( SDWTest, testConstIfElseIfFalseFalse )
 	{
 		sdwTestBegin( "testConstIfElseIfFalseFalse" );
 		sdw::ShaderArray shaders;
@@ -735,7 +735,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstSwitch0 )
+	TEST_F( SDWTest, testConstSwitch0 )
 	{
 		sdwTestBegin( "testConstSwitch0" );
 		sdw::ShaderArray shaders;
@@ -773,7 +773,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstSwitch1 )
+	TEST_F( SDWTest, testConstSwitch1 )
 	{
 		sdwTestBegin( "testConstSwitch1" );
 		sdw::ShaderArray shaders;
@@ -811,7 +811,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testConstSwitchDefault )
+	TEST_F( SDWTest, testConstSwitchDefault )
 	{
 		sdwTestBegin( "testConstSwitchDefault" );
 		sdw::ShaderArray shaders;
@@ -849,7 +849,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testAnonymousScope )
+	TEST_F( SDWTest, testAnonymousScope )
 	{
 		sdwTestBegin( "testAnonymousScope" );
 		sdw::ShaderArray shaders;
@@ -872,7 +872,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testNestedAnonymousScopes )
+	TEST_F( SDWTest, testNestedAnonymousScopes )
 	{
 		sdwTestBegin( "testNestedAnonymousScopes" );
 		sdw::ShaderArray shaders;

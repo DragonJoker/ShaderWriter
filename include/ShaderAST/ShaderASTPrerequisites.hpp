@@ -686,6 +686,8 @@ namespace ast
 	class Shader;
 	class ShaderBuilder;
 
+	struct PreprocessResult;
+
 	using ShaderPtr = std::unique_ptr< Shader >;
 	using ShaderArray = std::vector< Shader >;
 	using ShaderPtrArray = std::vector< ShaderPtr >;

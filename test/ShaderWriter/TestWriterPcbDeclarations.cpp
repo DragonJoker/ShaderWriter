@@ -9,7 +9,7 @@ namespace
 
 	using T = sdw::SDW_TestType;
 
-	TEST( SDW_TestSuiteName, testPcbRaw )
+	TEST_F( SDWTest, testPcbRaw )
 	{
 		sdwTestBegin( "testPcbRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -50,7 +50,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testPcbRawArray )
+	TEST_F( SDWTest, testPcbRawArray )
 	{
 		sdwTestBegin( "testPcbRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -91,7 +91,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testPcbRawOptionalDisabled )
+	TEST_F( SDWTest, testPcbRawOptionalDisabled )
 	{
 		sdwTestBegin( "testPcbRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -134,7 +134,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testPcbRawOptionalDisabledArray )
+	TEST_F( SDWTest, testPcbRawOptionalDisabledArray )
 	{
 		sdwTestBegin( "testPcbRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -177,7 +177,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testPcbRawOptionalEnabled )
+	TEST_F( SDWTest, testPcbRawOptionalEnabled )
 	{
 		sdwTestBegin( "testPcbRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -220,7 +220,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testPcbRawOptionalEnabledArray )
+	TEST_F( SDWTest, testPcbRawOptionalEnabledArray )
 	{
 		sdwTestBegin( "testPcbRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -263,7 +263,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testPcbHelper )
+	TEST_F( SDWTest, testPcbHelper )
 	{
 #if SDW_EnableStructHelper
 
@@ -302,7 +302,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, testPcbHelperArray )
+	TEST_F( SDWTest, testPcbHelperArray )
 	{
 #if SDW_EnableStructHelper
 

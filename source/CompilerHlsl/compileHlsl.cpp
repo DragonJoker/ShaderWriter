@@ -7,11 +7,10 @@ See LICENSE file in root folder
 #include "HlslGenerateStatements.hpp"
 #include "HlslAdaptStatements.hpp"
 
-#include <ShaderAST/Visitors/ResolveConstants.hpp>
+#include <ShaderAST/Visitors/PreprocessShader.hpp>
 #include <ShaderAST/Visitors/SelectEntryPoint.hpp>
 #include <ShaderAST/Visitors/SimplifyStatements.hpp>
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
-#include <ShaderAST/Visitors/TransformSSA.hpp>
 
 #include <algorithm>
 
@@ -108,6 +107,47 @@ namespace hlsl
 		}
 	}
 
+	std::string compilePreprocessedHlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
+		, ast::PreprocessResult & preprocessResult
+		, ast::ShaderStage stage
+		, ast::SpecialisationInfo const & specialisation
+		, HlslConfig const & writerConfig )
+	{
+		auto & typesCache = shader.getTypesCache();
+		auto config = writerConfig;
+		config.shaderStage = stage;
+		HlslShader hlslShader{ shader, stage };
+		AdaptationData adaptationData{ *preprocessResult.exprCache
+			, hlslShader };
+		adaptationData.aliasId = preprocessResult.ssaData.aliasId;
+		adaptationData.nextVarId = preprocessResult.ssaData.nextVarId;
+		auto intrinsicsConfig = hlsl::fillConfig( hlslShader
+			, adaptationData
+			, *preprocessResult.statements );
+		checkConfig( config, intrinsicsConfig );
+
+		auto statements = hlsl::adaptStatements( *preprocessResult.stmtCache
+			, *preprocessResult.exprCache
+			, hlslShader
+			, *preprocessResult.statements
+			, intrinsicsConfig
+			, config
+			, adaptationData );
+		// Simplify again, since adaptation can introduce complexity
+		statements = ast::simplify( *preprocessResult.stmtCache
+			, *preprocessResult.exprCache
+			, typesCache
+			, *statements );
+		statements = ast::specialiseStatements( *preprocessResult.stmtCache
+			, *preprocessResult.exprCache
+			, typesCache
+			, *statements
+			, specialisation );
+		std::map< ast::var::VariablePtr, ast::expr::Expr const * > aliases;
+		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, *statements );
+	}
+
 	std::string compileHlsl( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
 		, ast::stmt::Container const * stmt
@@ -115,55 +155,8 @@ namespace hlsl
 		, ast::SpecialisationInfo const & specialisation
 		, HlslConfig const & writerConfig )
 	{
-		ast::SSAData ssaData;
-		ssaData.nextVarId = shader.getVarId();
-		auto & typesCache = shader.getTypesCache();
-		auto config = writerConfig;
-		config.shaderStage = stage;
-		ast::stmt::StmtCache compileStmtCache{ allocator };
-		ast::expr::ExprCache compileExprCache{ allocator };
-		auto statements = ast::transformSSA( compileStmtCache
-			, compileExprCache
-			, typesCache
-			, *stmt
-			, ssaData
-			, false );
-		statements = ast::simplify( compileStmtCache
-			, compileExprCache
-			, typesCache
-			, *statements );
-		statements = ast::resolveConstants( compileStmtCache
-			, compileExprCache
-			, *statements );
-		HlslShader hlslShader{ shader, stage };
-		AdaptationData adaptationData{ compileExprCache
-			, hlslShader };
-		adaptationData.aliasId = ssaData.aliasId;
-		adaptationData.nextVarId = ssaData.nextVarId;
-		auto intrinsicsConfig = hlsl::fillConfig( hlslShader
-			, adaptationData
-			, *statements );
-		checkConfig( config, intrinsicsConfig );
-
-		statements = hlsl::adaptStatements( compileStmtCache
-			, compileExprCache
-			, hlslShader
-			, *statements
-			, intrinsicsConfig
-			, config
-			, adaptationData );
-		// Simplify again, since adaptation can introduce complexity
-		statements = ast::simplify( compileStmtCache
-			, compileExprCache
-			, typesCache
-			, *statements );
-		statements = ast::specialiseStatements( compileStmtCache
-			, compileExprCache
-			, typesCache
-			, *statements
-			, specialisation );
-		std::map< ast::var::VariablePtr, ast::expr::Expr const * > aliases;
-		return hlsl::generateStatements( config, adaptationData.getRoutines(), aliases, *statements );
+		auto preprocessResult = ast::preprocessShader( allocator, shader, *stmt );
+		return compilePreprocessedHlsl( allocator, shader, preprocessResult, stage, specialisation, writerConfig );
 	}
 
 	std::string compileHlsl( ast::ShaderAllocatorBlock & allocator

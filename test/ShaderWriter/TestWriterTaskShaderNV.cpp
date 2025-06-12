@@ -444,7 +444,7 @@ namespace
 	};
 	using MyVertexOut = MyVertexOutT< sdw::var::Flag::eNone >;
 
-	TEST( SDW_TestSuiteName, basicX )
+	TEST_F( SDWTest, basicX )
 	{
 		sdwTestBegin( "basicX" );
 		using namespace sdw;
@@ -465,7 +465,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, cullMeshlet )
+	TEST_F( SDWTest, cullMeshlet )
 	{
 		sdwTestBegin( "cullMeshlet" );
 		using namespace sdw;
@@ -610,7 +610,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupBasicXDispatchFromPayload )
+	TEST_F( SDWTest, subgroupBasicXDispatchFromPayload )
 	{
 		sdwTestBegin( "subgroupBasicXDispatchFromPayload" );
 		using namespace sdw;
@@ -631,7 +631,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupBasicXDispatchFromWriter )
+	TEST_F( SDWTest, subgroupBasicXDispatchFromWriter )
 	{
 		sdwTestBegin( "subgroupBasicXDispatchFromWriter" );
 		using namespace sdw;

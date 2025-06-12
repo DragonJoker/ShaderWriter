@@ -22,7 +22,7 @@ namespace
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
 			auto name = "testImageSize" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-			astOnStr( name );
+			astOn( name );
 			using namespace sdw;
 			{
 				sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -64,7 +64,7 @@ namespace
 			if constexpr ( MsT )
 			{
 				auto name = "testImageSamples" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -109,7 +109,7 @@ namespace
 			if constexpr ( sdw::isReadableV< AccessT > )
 			{
 				auto name = "testImageLoad" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -164,7 +164,7 @@ namespace
 			if constexpr ( sdw::isWritableV< AccessT > )
 			{
 				auto name = "testImageStore" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -221,7 +221,7 @@ namespace
 					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAdd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -295,7 +295,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMin" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -368,7 +368,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMax" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -441,7 +441,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAnd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -514,7 +514,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicOr" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -587,7 +587,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicXor" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -661,7 +661,7 @@ namespace
 					|| isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicExchange" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -735,7 +735,7 @@ namespace
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicCompSwap" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-				astOnStr( name );
+				astOn( name );
 				using namespace sdw;
 				{
 					sdw::ComputeWriter writer{ &testCounts.allocator };
@@ -856,7 +856,7 @@ namespace
 	}
 
 #if !defined( __APPLE__ )
-	TEST( SDW_TestSuiteName, testsImageAccesses )
+	TEST_F( SDWTest, testsImageAccesses )
 	{
 		sdwTestBegin( "testsImageAccesses" )
 		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSizeTester >( testCounts );

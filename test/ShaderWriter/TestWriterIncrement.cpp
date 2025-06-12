@@ -2,7 +2,7 @@
 
 namespace
 {
-	TEST( SDW_TestSuiteName, singlePostIncrement )
+	TEST_F( SDWTest, singlePostIncrement )
 	{
 		sdwTestBegin( "singlePostIncrement" );
 		using namespace sdw;
@@ -21,7 +21,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, singlePreIncrement )
+	TEST_F( SDWTest, singlePreIncrement )
 	{
 		sdwTestBegin( "singlePreIncrement" );
 		using namespace sdw;
@@ -40,7 +40,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, assignPostIncrement )
+	TEST_F( SDWTest, assignPostIncrement )
 	{
 		sdwTestBegin( "assignPostIncrement" );
 		using namespace sdw;
@@ -58,7 +58,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, assignPreIncrement )
+	TEST_F( SDWTest, assignPreIncrement )
 	{
 		sdwTestBegin( "assignPreIncrement" );
 		using namespace sdw;
@@ -76,7 +76,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, condPostIncrement )
+	TEST_F( SDWTest, condPostIncrement )
 	{
 		sdwTestBegin( "condPostIncrement" );
 		using namespace sdw;
@@ -98,7 +98,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, condPreIncrement )
+	TEST_F( SDWTest, condPreIncrement )
 	{
 		sdwTestBegin( "condPreIncrement" );
 		using namespace sdw;
@@ -120,7 +120,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, loopPostIncrement )
+	TEST_F( SDWTest, loopPostIncrement )
 	{
 		sdwTestBegin( "loopPostIncrement" );
 		using namespace sdw;
@@ -153,7 +153,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, loopPreIncrement )
+	TEST_F( SDWTest, loopPreIncrement )
 	{
 		sdwTestBegin( "loopPreIncrement" );
 		using namespace sdw;

@@ -5,7 +5,7 @@ namespace
 	template< typename T >
 	void testLocale( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -227,7 +227,7 @@ namespace
 		}
 	}
 
-	TEST( SDW_TestSuiteName, testLocaleDeclarations )
+	TEST_F( SDWTest, testLocaleDeclarations )
 	{
 		sdwTestBegin( "testLocaleDeclarations" )
 		testLocale< sdw::Boolean >( testCounts );

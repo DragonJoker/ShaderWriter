@@ -68,8 +68,14 @@ namespace ast::stmt
 	//*********************************************************************************************
 
 	StmtCache::StmtCache( ShaderAllocatorBlock & allocator )
-		: m_allocator{ allocator }
+		: m_allocator{ &allocator }
 	{
+	}
+
+	StmtCache::~StmtCache()
+	{
+		AST_Assert( m_allocatedStmts == 0 );
+		m_allocator = nullptr;
 	}
 
 	PreprocExtensionPtr StmtCache::makePreprocExtension( std::string name
@@ -489,7 +495,10 @@ namespace ast::stmt
 
 	void StmtCache::freeStmt( Stmt * stmt )noexcept
 	{
+		AST_Assert( m_allocatedStmts > 0 );
+		--m_allocatedStmts;
 		stmt->~Stmt();
-		m_allocator.deallocate( stmt, stmt->getSize() );
+		AST_Assert( m_allocator != nullptr );
+		m_allocator->deallocate( stmt, stmt->getSize() );
 	}
 }

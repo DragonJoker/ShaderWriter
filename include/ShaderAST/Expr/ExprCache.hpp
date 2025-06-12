@@ -22,7 +22,7 @@ namespace ast::expr
 	{
 	public:
 		SDAST_API explicit ExprCache( ShaderAllocatorBlock & allocator );
-		SDAST_API ~ExprCache() = default;
+		SDAST_API ~ExprCache();
 
 		SDAST_API AddPtr makeAdd( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );
 		SDAST_API AddAssignPtr makeAddAssign( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );
@@ -151,13 +151,14 @@ namespace ast::expr
 			, typename ... ParamsT >
 		std::unique_ptr< ExprT, DeleteExpr > makeExpr( ParamsT && ... params )
 		{
-			auto mem = m_allocator.allocate( sizeof( ExprT ) );
+			++m_allocatedExprs;
+			auto mem = m_allocator->allocate( sizeof( ExprT ) );
 			return std::unique_ptr< ExprT, DeleteExpr >{ new ( mem )ExprT{ *this, std::forward< ParamsT >( params )... } };
 		}
 
 		ShaderAllocatorBlock & getAllocator()const
 		{
-			return m_allocator;
+			return *m_allocator;
 		}
 
 	private:
@@ -166,7 +167,8 @@ namespace ast::expr
 		void freeExpr( Expr * expr )noexcept;
 
 	private:
-		ShaderAllocatorBlock & m_allocator;
+		ShaderAllocatorBlock * m_allocator;
+		int64_t m_allocatedExprs{};
 	};
 }
 

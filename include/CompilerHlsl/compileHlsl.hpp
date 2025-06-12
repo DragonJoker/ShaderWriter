@@ -46,6 +46,12 @@ namespace hlsl
 		bool flipVertY{ false };
 	};
 
+	SDWHLSL_API std::string compilePreprocessedHlsl( ast::ShaderAllocatorBlock & allocator
+		, ast::Shader const & shader
+		, ast::PreprocessResult & preprocessResult
+		, ast::ShaderStage stage
+		, ast::SpecialisationInfo const & specialisation
+		, HlslConfig const & writerConfig );
 	SDWHLSL_API std::string compileHlsl( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
 		, ast::stmt::Container const * statements

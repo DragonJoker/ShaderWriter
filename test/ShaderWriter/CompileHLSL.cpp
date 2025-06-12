@@ -276,9 +276,9 @@ namespace test
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
 #if SDW_Test_Coverage
-		return testCounts.hlsl->getShaderModels().back();
+		return testCounts.hlsl().getShaderModels().back();
 #else
-		return testCounts.hlsl->getShaderModels()[infoIndex];
+		return testCounts.hlsl().getShaderModels()[infoIndex];
 #endif
 	}
 
@@ -287,30 +287,30 @@ namespace test
 #if SDW_Test_Coverage
 		return 1u;
 #else
-		return uint32_t( testCounts.hlsl->getShaderModels().size() );
+		return uint32_t( testCounts.hlsl().getShaderModels().size() );
 #endif
 	}
 
-	bool createHLSLContext( sdw_test::TestCounts & testCounts )
+	bool createHLSLContext()
 	{
 		bool result = false;
 
 		try
 		{
-			testCounts.hlsl = std::make_shared< sdw_test::HLSLContext >();
+			SDWTest::hlsl = std::make_shared< sdw_test::HLSLContext >();
 			result = true;
 		}
 		catch ( std::exception & exc )
 		{
-			testCounts.printBlock( exc.what() );
+			std::cout << exc.what() << std::endl;
 		}
 
 		return result;
 	}
 
-	void destroyHLSLContext( sdw_test::TestCounts & testCounts )
+	void destroyHLSLContext()
 	{
-		testCounts.hlsl.reset();
+		SDWTest::hlsl.reset();
 	}
 
 	bool compileHlsl( std::string_view shader
@@ -319,7 +319,7 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
 	{
-		auto shaderModel = testCounts.hlsl->getShaderModels()[infoIndex];
+		auto shaderModel = testCounts.hlsl().getShaderModels()[infoIndex];
 
 		if ( isRayTraceStage( type )
 			|| isMeshStage( type )
@@ -373,12 +373,12 @@ namespace test
 #endif
 	}
 
-	bool createHLSLContext( sdw_test::TestCounts & testCounts )
+	bool createHLSLContext()
 	{
 		return true;
 	}
 
-	void destroyHLSLContext( sdw_test::TestCounts & testCounts )
+	void destroyHLSLContext()
 	{
 	}
 

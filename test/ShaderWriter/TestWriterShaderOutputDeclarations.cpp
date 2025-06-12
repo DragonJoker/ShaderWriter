@@ -9,7 +9,7 @@ namespace
 	template< typename T >
 	void testShaderOutputBase( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -31,7 +31,7 @@ namespace
 	template< typename T >
 	void testShaderOutputArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -53,7 +53,7 @@ namespace
 	template< typename T >
 	void testShaderOutputOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -74,7 +74,7 @@ namespace
 	template< typename T >
 	void testShaderOutputArrayOptionalDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -95,7 +95,7 @@ namespace
 	template< typename T >
 	void testShaderOutputOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -118,7 +118,7 @@ namespace
 	template< typename T >
 	void testShaderOutputArrayOptionalEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -141,7 +141,7 @@ namespace
 	template< typename T >
 	void testShaderBlendOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -165,7 +165,7 @@ namespace
 	template< typename T >
 	void testShaderStreamOutput( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		astOn( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -199,7 +199,7 @@ namespace
 		testShaderStreamOutput< T >( testCounts );
 	}
 
-	TEST( SDW_TestSuiteName, testShaderOutputDeclarations )
+	TEST_F( SDWTest, testShaderOutputDeclarations )
 	{
 		sdwTestBegin( "testShaderOutputDeclarations" );
 		testShaderOutput< sdw::Int >( testCounts );

@@ -9,7 +9,7 @@ namespace
 
 	using T = sdw::SDW_TestType;
 
-	TEST( SDW_TestSuiteName, testStructuredSsbo )
+	TEST_F( SDWTest, testStructuredSsbo )
 	{
 		sdwTestBegin( "testStructuredSsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -151,7 +151,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TEST( SDW_TestSuiteName, testArraySsbo )
+	TEST_F( SDWTest, testArraySsbo )
 	{
 		sdwTestBegin( "testArraySsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{

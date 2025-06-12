@@ -43,7 +43,7 @@ namespace
 		using sdw::StructInstance::getMemberArray;
 	};
 
-	TEST( SDW_TestSuiteName, emptyMain )
+	TEST_F( SDWTest, emptyMain )
 	{
 		sdwTestBegin( "emptyMain" );
 		using namespace sdw;
@@ -60,7 +60,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, builtins )
+	TEST_F( SDWTest, builtins )
 	{
 		sdwTestBegin( "builtins" );
 		using namespace sdw;
@@ -83,7 +83,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, readWorkGroupSize )
+	TEST_F( SDWTest, readWorkGroupSize )
 	{
 		sdwTestBegin( "readWorkGroupSize" );
 		using namespace sdw;
@@ -102,7 +102,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, compute )
+	TEST_F( SDWTest, compute )
 	{
 		sdwTestBegin( "compute" );
 		using namespace sdw;
@@ -131,7 +131,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, swizzles )
+	TEST_F( SDWTest, swizzles )
 	{
 		sdwTestBegin( "swizzles" );
 		using namespace sdw;
@@ -181,7 +181,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, conversions )
+	TEST_F( SDWTest, conversions )
 	{
 		sdwTestBegin( "conversions" );
 		using namespace sdw;
@@ -206,7 +206,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, simpleStore )
+	TEST_F( SDWTest, simpleStore )
 	{
 		sdwTestBegin( "simpleStore" );
 		using namespace sdw;
@@ -233,7 +233,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, voxelToTexture )
+	TEST_F( SDWTest, voxelToTexture )
 	{
 		sdwTestBegin( "voxelToTexture" );
 		using namespace sdw;
@@ -336,7 +336,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, imageArray )
+	TEST_F( SDWTest, imageArray )
 	{
 		sdwTestBegin( "imageArray" );
 		using namespace sdw;
@@ -364,7 +364,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, accessChainAlias )
+	TEST_F( SDWTest, accessChainAlias )
 	{
 		sdwTestBegin( "accessChainAlias" );
 		using namespace sdw;
@@ -391,7 +391,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, duplicateLoadTest )
+	TEST_F( SDWTest, duplicateLoadTest )
 	{
 		sdwTestBegin( "duplicateLoadTest" );
 		using namespace sdw;
@@ -425,7 +425,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupEmptyMain )
+	TEST_F( SDWTest, subgroupEmptyMain )
 	{
 		sdwTestBegin( "subgroupEmptyMain" );
 		using namespace sdw;
@@ -442,7 +442,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupBuiltins )
+	TEST_F( SDWTest, subgroupBuiltins )
 	{
 		sdwTestBegin( "subgroupBuiltins" );
 		using namespace sdw;
@@ -473,7 +473,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupCompute )
+	TEST_F( SDWTest, subgroupCompute )
 	{
 		sdwTestBegin( "subgroupCompute" );
 		using namespace sdw;
@@ -501,7 +501,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, subgroupSimpleStore )
+	TEST_F( SDWTest, subgroupSimpleStore )
 	{
 		sdwTestBegin( "subgroupSimpleStore" );
 		using namespace sdw;

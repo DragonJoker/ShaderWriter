@@ -101,7 +101,7 @@ namespace
 		}
 	};
 
-	TEST( SDW_TestSuiteName, noFlatteningExpected )
+	TEST_F( SDWTest, noFlatteningExpected )
 	{
 		sdwTestBegin( "noFlatteningExpected" );
 		using namespace sdw;
@@ -130,7 +130,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, flattenLiterals )
+	TEST_F( SDWTest, flattenLiterals )
 	{
 		sdwTestBegin( "flattenLiterals" );
 		using namespace sdw;
@@ -169,7 +169,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, flattenVariables )
+	TEST_F( SDWTest, flattenVariables )
 	{
 		sdwTestBegin( "flattenVariables" );
 		using namespace sdw;
@@ -208,7 +208,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, constIndexConstArray )
+	TEST_F( SDWTest, constIndexConstArray )
 	{
 		sdwTestBegin( "constIndexConstArray" );
 		using namespace sdw;
@@ -237,7 +237,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, nonConstIndexConstArray )
+	TEST_F( SDWTest, nonConstIndexConstArray )
 	{
 		sdwTestBegin( "nonConstIndexConstArray" );
 		using namespace sdw;
@@ -265,7 +265,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, swizzleConstCompositeCtor )
+	TEST_F( SDWTest, swizzleConstCompositeCtor )
 	{
 		sdwTestBegin( "swizzleConstCompositeCtor" );
 		using namespace sdw;
@@ -297,7 +297,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, constCompositeCtorFuncParam )
+	TEST_F( SDWTest, constCompositeCtorFuncParam )
 	{
 		sdwTestBegin( "constCompositeCtorFuncParam" );
 		using namespace sdw;
@@ -341,7 +341,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, constCompositeCtorVariable )
+	TEST_F( SDWTest, constCompositeCtorVariable )
 	{
 		sdwTestBegin( "constCompositeCtorVariable" );
 		using namespace sdw;
@@ -370,7 +370,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, compositeCtorIfElse )
+	TEST_F( SDWTest, compositeCtorIfElse )
 	{
 		sdwTestBegin( "compositeCtorIfElse" );
 		using namespace sdw;
@@ -412,7 +412,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, compositeCtorVec2FromInt )
+	TEST_F( SDWTest, compositeCtorVec2FromInt )
 	{
 		sdwTestBegin( "compositeCtorVec2FromInt" );
 		using namespace sdw;
@@ -431,7 +431,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, outputParam )
+	TEST_F( SDWTest, outputParam )
 	{
 		sdwTestBegin( "outputParam" );
 		using namespace sdw;
@@ -484,7 +484,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, aggrInitMbrSelectLHS )
+	TEST_F( SDWTest, aggrInitMbrSelectLHS )
 	{
 		sdwTestBegin( "aggrInitMbrSelectLHS" );
 		using namespace sdw;
@@ -526,7 +526,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, ternarySingleComponent )
+	TEST_F( SDWTest, ternarySingleComponent )
 	{
 		sdwTestBegin( "ternarySingleComponent" );
 		using namespace sdw;
@@ -558,7 +558,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, ternaryMultipleComponent )
+	TEST_F( SDWTest, ternaryMultipleComponent )
 	{
 		sdwTestBegin( "ternaryMultipleComponent" );
 		using namespace sdw;
@@ -591,7 +591,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, less )
+	TEST_F( SDWTest, less )
 	{
 		sdwTestBegin( "less" );
 		using namespace sdw;
@@ -622,7 +622,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, lessEqual )
+	TEST_F( SDWTest, lessEqual )
 	{
 		sdwTestBegin( "lessEqual" );
 		using namespace sdw;
@@ -653,7 +653,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, greater )
+	TEST_F( SDWTest, greater )
 	{
 		sdwTestBegin( "greater" );
 		using namespace sdw;
@@ -684,7 +684,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, greaterEqual )
+	TEST_F( SDWTest, greaterEqual )
 	{
 		sdwTestBegin( "greaterEqual" );
 		using namespace sdw;
@@ -715,7 +715,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, equal )
+	TEST_F( SDWTest, equal )
 	{
 		sdwTestBegin( "equal" );
 		using namespace sdw;
@@ -746,7 +746,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, notEqual )
+	TEST_F( SDWTest, notEqual )
 	{
 		sdwTestBegin( "notEqual" );
 		using namespace sdw;
@@ -777,7 +777,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, all )
+	TEST_F( SDWTest, all )
 	{
 		sdwTestBegin( "all" );
 		using namespace sdw;
@@ -808,7 +808,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, any )
+	TEST_F( SDWTest, any )
 	{
 		sdwTestBegin( "any" );
 		using namespace sdw;
@@ -839,7 +839,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, allVarCtrlExpr )
+	TEST_F( SDWTest, allVarCtrlExpr )
 	{
 		sdwTestBegin( "allVarCtrlExpr" );
 		using namespace sdw;
@@ -879,7 +879,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, anyVarCtrlExpr )
+	TEST_F( SDWTest, anyVarCtrlExpr )
 	{
 		sdwTestBegin( "anyCtrlExpr" );
 		using namespace sdw;
@@ -919,7 +919,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, allCtrlExpr )
+	TEST_F( SDWTest, allCtrlExpr )
 	{
 		sdwTestBegin( "allCtrlExpr" );
 		using namespace sdw;
@@ -957,7 +957,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, anyCtrlExpr )
+	TEST_F( SDWTest, anyCtrlExpr )
 	{
 		sdwTestBegin( "anyCtrlExpr" );
 		using namespace sdw;
@@ -995,7 +995,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, notAllCtrlExpr )
+	TEST_F( SDWTest, notAllCtrlExpr )
 	{
 		sdwTestBegin( "notAllCtrlExpr" );
 		using namespace sdw;
@@ -1054,7 +1054,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, encodeColour )
+	TEST_F( SDWTest, encodeColour )
 	{
 		sdwTestBegin( "encodeColour" );
 		std::vector< std::unique_ptr< ast::Shader > > shaders;
@@ -1107,7 +1107,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, globalConstantArray )
+	TEST_F( SDWTest, globalConstantArray )
 	{
 		sdwTestBegin( "globalConstantArray" );
 		std::vector< std::unique_ptr< ast::Shader > > shaders;

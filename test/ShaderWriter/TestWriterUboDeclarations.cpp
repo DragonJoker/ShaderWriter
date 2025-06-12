@@ -11,7 +11,7 @@ namespace
 
 	using T = sdw::SDW_TestType;
 
-	TEST( SDW_TestSuiteName, testUboRaw )
+	TEST_F( SDWTest, testUboRaw )
 	{
 		sdwTestBegin( "testUboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -91,7 +91,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testUboRawArray )
+	TEST_F( SDWTest, testUboRawArray )
 	{
 		sdwTestBegin( "testUboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -171,7 +171,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testUboRawOptionalDisabled )
+	TEST_F( SDWTest, testUboRawOptionalDisabled )
 	{
 		sdwTestBegin( "testUboRawOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -255,7 +255,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testUboRawOptionalDisabledArray )
+	TEST_F( SDWTest, testUboRawOptionalDisabledArray )
 	{
 		sdwTestBegin( "testUboRawOptionalDisabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -339,7 +339,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testUboRawOptionalEnabled )
+	TEST_F( SDWTest, testUboRawOptionalEnabled )
 	{
 		sdwTestBegin( "testUboRawOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -423,7 +423,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testUboRawOptionalEnabledArray )
+	TEST_F( SDWTest, testUboRawOptionalEnabledArray )
 	{
 		sdwTestBegin( "testUboRawOptionalEnabledArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
 		{
@@ -507,7 +507,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, testUboHelper )
+	TEST_F( SDWTest, testUboHelper )
 	{
 #if SDW_EnableStructHelper
 
@@ -579,7 +579,7 @@ namespace
 #endif
 	}
 
-	TEST( SDW_TestSuiteName, testUboHelperArray )
+	TEST_F( SDWTest, testUboHelperArray )
 	{
 #if SDW_EnableStructHelper
 

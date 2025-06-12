@@ -439,6 +439,7 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Visitors/DebugDisplayStatements.hpp
 	${INCLUDE_DIR}/Visitors/GetExprName.hpp
 	${INCLUDE_DIR}/Visitors/GetOutermostExpr.hpp
+	${INCLUDE_DIR}/Visitors/PreprocessShader.hpp
 	${INCLUDE_DIR}/Visitors/ResolveConstants.hpp
 	${INCLUDE_DIR}/Visitors/SelectEntryPoint.hpp
 	${INCLUDE_DIR}/Visitors/SimplifyStatements.hpp
@@ -451,6 +452,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Visitors/DebugDisplayStatements.cpp
 	${SOURCE_DIR}/Visitors/GetExprName.cpp
 	${SOURCE_DIR}/Visitors/GetOutermostExpr.cpp
+	${SOURCE_DIR}/Visitors/PreprocessShader.cpp
 	${SOURCE_DIR}/Visitors/ResolveConstants.cpp
 	${SOURCE_DIR}/Visitors/SelectEntryPoint.cpp
 	${SOURCE_DIR}/Visitors/SimplifyStatements.cpp

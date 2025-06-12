@@ -14,7 +14,8 @@ namespace test::sdw_test
 	std::string printSpvVersion( uint32_t spvVersion );
 
 	void testWriteSpirV( ::ast::Shader const & shader
-		, ::ast::EntryPointConfigArray const & entryPoints
+		, ::ast::PreprocessResult & preprocessResult
+		, ::ast::ShaderStage stage
 		, ::ast::SpecialisationInfo const & specialisation
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts );

@@ -247,7 +247,7 @@ namespace
 		sdw::Int textureId;
 	};
 
-	TEST( SDW_TestSuiteName, simple )
+	TEST_F( SDWTest, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;

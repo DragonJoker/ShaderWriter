@@ -5,7 +5,7 @@
 
 namespace
 {
-	TEST( SDW_TestSuiteName, noPayload )
+	TEST_F( SDWTest, noPayload )
 	{
 		sdwTestBegin( "noPayload" );
 		using namespace sdw;
@@ -26,7 +26,7 @@ namespace
 		sdwTestEnd();
 	}
 
-	TEST( SDW_TestSuiteName, simple )
+	TEST_F( SDWTest, simple )
 	{
 		sdwTestBegin( "simple" );
 		using namespace sdw;

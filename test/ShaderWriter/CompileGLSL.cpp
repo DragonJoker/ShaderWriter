@@ -372,7 +372,7 @@ namespace test
 			wglMakeCurrent( nullptr, nullptr );
 		}
 
-		std::vector< uint32_t > getGLSLVersions()
+		std::vector< uint32_t > const & getGLSLVersions()const
 		{
 			return m_glslVersions;
 		}
@@ -883,9 +883,9 @@ namespace test
 		, [[maybe_unused]] uint32_t infoIndex )
 	{
 #if SDW_Test_Coverage
-		return testCounts.glsl->window.getGLSLVersions().back();
+		return testCounts.glsl().window.getGLSLVersions().back();
 #else
-		return testCounts.glsl->window.getGLSLVersions()[infoIndex];
+		return testCounts.glsl().window.getGLSLVersions()[infoIndex];
 #endif
 	}
 
@@ -894,30 +894,30 @@ namespace test
 #if SDW_Test_Coverage
 		return 1u;
 #else
-		return uint32_t( testCounts.glsl->window.getGLSLVersions().size() );
+		return uint32_t( testCounts.glsl().window.getGLSLVersions().size() );
 #endif
 	}
 
-	bool createGLSLContext( sdw_test::TestCounts & testCounts )
+	bool createGLSLContext()
 	{
 		bool result = false;
 
 		try
 		{
-			testCounts.glsl = std::make_shared< sdw_test::GLSLContext >();
+			SDWTest::glsl = std::make_shared< sdw_test::GLSLContext >();
 			result = true;
 		}
 		catch ( std::exception & exc )
 		{
-			testCounts.printBlock( exc.what() );
+			std::cout << exc.what() << std::endl;
 		}
 
 		return result;
 	}
 
-	void destroyGLSLContext( sdw_test::TestCounts & testCounts )
+	void destroyGLSLContext()
 	{
-		testCounts.glsl.reset();
+		SDWTest::glsl.reset();
 	}
 
 	bool compileGlsl( std::string_view source
@@ -931,7 +931,7 @@ namespace test
 		}
 
 		bool result = false;
-		auto & window = testCounts.glsl->window;
+		auto const & window = testCounts.glsl().window;
 
 		window.setCurrent();
 		auto length = int( source.size() );
@@ -1000,12 +1000,12 @@ namespace test
 #endif
 	}
 
-	bool createGLSLContext( sdw_test::TestCounts & testCounts )
+	bool createGLSLContext()
 	{
 		return true;
 	}
 
-	void destroyGLSLContext( sdw_test::TestCounts & testCounts )
+	void destroyGLSLContext()
 	{
 	}
 

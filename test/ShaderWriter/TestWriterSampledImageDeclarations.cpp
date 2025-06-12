@@ -98,7 +98,7 @@ namespace
 		, bool MsT >
 	void testSampledBase( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledBase" + getImageFormatName( FormatT ) );
+		astOn( "testSampledBase" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -141,7 +141,7 @@ namespace
 		, bool MsT >
 	void testSampledBaseArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledBaseArray" + getImageFormatName( FormatT ) );
+		astOn( "testSampledBaseArray" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -184,7 +184,7 @@ namespace
 		, bool MsT >
 	void testSampledOptDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledOptDisabled" + getImageFormatName( FormatT ) );
+		astOn( "testSampledOptDisabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -223,7 +223,7 @@ namespace
 		, bool MsT >
 	void testSampledArrayOptDisabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledArrayOptDisabled" + getImageFormatName( FormatT ) );
+		astOn( "testSampledArrayOptDisabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -262,7 +262,7 @@ namespace
 		, bool MsT >
 	void testSampledOptEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledOptEnabled" + getImageFormatName( FormatT ) );
+		astOn( "testSampledOptEnabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -307,7 +307,7 @@ namespace
 		, bool MsT >
 	void testSampledArrayOptEnabled( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledArrayOptEnabled" + getImageFormatName( FormatT ) );
+		astOn( "testSampledArrayOptEnabled" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -352,7 +352,7 @@ namespace
 		, bool MsT >
 	void testSampledType( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledType" + getImageFormatName( FormatT ) );
+		astOn( "testSampledType" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -395,7 +395,7 @@ namespace
 		, bool MsT >
 	void testSampledTypeArray( test::sdw_test::TestCounts & testCounts )
 	{
-		astOnStr( "testSampledTypeArray" + getImageFormatName( FormatT ) );
+		astOn( "testSampledTypeArray" + getImageFormatName( FormatT ) );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
@@ -448,7 +448,7 @@ namespace
 		testSampledTypeArray< FormatT, DimT, ArrayedT, MsT >( testCounts );
 	}
 
-	TEST( SDW_TestSuiteName, testSampledFormat )
+	TEST_F( SDWTest, testSampledFormat )
 	{
 		sdwTestBegin( "testSampledFormat" )
 		if constexpr ( isFloatFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )

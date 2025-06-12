@@ -76,8 +76,14 @@ namespace ast::expr
 	//*********************************************************************************************
 
 	ExprCache::ExprCache( ShaderAllocatorBlock & allocator )
-		: m_allocator{ allocator }
+		: m_allocator{ &allocator }
 	{
+	}
+
+	ExprCache::~ExprCache()
+	{
+		AST_Assert( m_allocatedExprs == 0 );
+		m_allocator = nullptr;
 	}
 
 	AddPtr ExprCache::makeAdd( type::TypePtr type
@@ -726,8 +732,11 @@ namespace ast::expr
 
 	void ExprCache::freeExpr( Expr * expr )noexcept
 	{
+		AST_Assert( m_allocatedExprs > 0 );
+		--m_allocatedExprs;
 		expr->~Expr();
-		m_allocator.deallocate( expr, expr->getSize() );
+		AST_Assert( m_allocator != nullptr );
+		m_allocator->deallocate( expr, expr->getSize() );
 	}
 
 	//*********************************************************************************************

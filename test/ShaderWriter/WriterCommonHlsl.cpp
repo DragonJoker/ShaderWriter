@@ -7,25 +7,24 @@ namespace test::sdw_test
 	namespace hlsl_test
 	{
 		static std::string generateHlsl( ::ast::Shader const & shader
-			, ::ast::EntryPointConfig const & entryPoint
+			, ::ast::PreprocessResult & preprocessResult
+			, ::ast::ShaderStage stage
 			, ::ast::SpecialisationInfo const & specialisation
 			, uint32_t infoIndex
 			, TestCounts & testCounts )
 		{
 			auto timerBlock = testCounts.beginTimer( "generateHlsl" );
-			auto statements = ::ast::selectEntryPoint( shader.getStmtCache(), shader.getExprCache(), entryPoint, *shader.getStatements() );
-			return hlsl::compileHlsl( *testCounts.allocatorBlock
+			return hlsl::compilePreprocessedHlsl( *testCounts.allocatorBlock
 				, shader
-				, statements.get()
-				, entryPoint.stage
+				, preprocessResult
+				, stage
 				, specialisation
-				, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex )
-					, entryPoint.stage
-					, false } );
+				, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex ), stage, false } );
 		}
 
 		void testWriteOnIndex( ::ast::Shader const & shader
-			, ::ast::EntryPointConfigArray const & entryPoints
+			, ::ast::PreprocessResult & preprocessResult
+			, ::ast::ShaderStage stage
 			, ::ast::SpecialisationInfo const & specialisation
 			, Compilers const & compilers
 			, sdw_test::TestCounts & testCounts
@@ -35,36 +34,32 @@ namespace test::sdw_test
 
 			auto validate = [&]()
 				{
-					for ( auto & entryPoint : entryPoints )
+					std::string errors;
+					std::string hlsl;
+
+					try
 					{
-						astOn( printEntryPoint( entryPoint ) );
-						std::string errors;
-						std::string hlsl;
+						hlsl = generateHlsl( shader, preprocessResult, stage, specialisation, infoIndex, testCounts );
+					}
+					catch ( std::exception & exc )
+					{
+						testCounts.printBlock( exc.what() );
+						return;
+					}
 
-						try
-						{
-							hlsl = generateHlsl( shader, entryPoint, specialisation, infoIndex, testCounts );
-						}
-						catch ( std::exception & exc )
-						{
-							testCounts.printBlock( exc.what() );
-							return;
-						}
+					displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
+					bool isCompiled = compileHlsl( hlsl
+						, stage
+						, errors
+						, testCounts
+						, infoIndex );
+					astCheck( isCompiled )
+					if ( !isCompiled )
+						testCounts.printError( "\n" + printShader( "HLSL", hlsl, true ) + errors );
 
-						displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
-						bool isCompiled = compileHlsl( hlsl
-							, entryPoint.stage
-							, errors
-							, testCounts
-							, infoIndex );
-						astCheck( isCompiled )
-							if ( !isCompiled )
-								testCounts.printError( "\n" + printShader( "HLSL", hlsl, true ) + errors );
-
-						if ( isCompiled && compilers.forceDisplay )
-						{
-							testCounts.printBlock( printShader( "HLSL", hlsl, true ) );
-						}
+					if ( isCompiled && compilers.forceDisplay )
+					{
+						testCounts.printBlock( printShader( "HLSL", hlsl, true ) );
 					}
 				};
 			auto shaderModel = testCounts.getHlslVersion( infoIndex );
@@ -78,7 +73,8 @@ namespace test::sdw_test
 	}
 
 	void testWriteHlsl( ::ast::Shader const & shader
-		, ::ast::EntryPointConfigArray const & entryPoints
+		, ::ast::PreprocessResult & preprocessResult
+		, ::ast::ShaderStage stage
 		, ::ast::SpecialisationInfo const & specialisation
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
@@ -89,7 +85,8 @@ namespace test::sdw_test
 			for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
 			{
 				hlsl_test::testWriteOnIndex( shader
-					, entryPoints
+					, preprocessResult
+					, stage
 					, specialisation
 					, compilers
 					, testCounts
