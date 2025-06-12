@@ -227,7 +227,8 @@ public:
 #define sdwTestBegin( name )\
 	test::sdw_test::TestCounts testCounts;\
 	testCounts.initialise( name );\
-	{
+	{\
+		astOn( name )
 
 #define sdwTestEnd()\
 	}\

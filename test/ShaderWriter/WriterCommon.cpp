@@ -150,7 +150,6 @@ namespace test
 			{
 				printCDBConsole( text, true );
 				stream << text << std::endl;
-				printf( "%s\n", text.c_str() );
 			}
 
 			static void logNoNL( std::ostream & stream
@@ -158,7 +157,6 @@ namespace test
 			{
 				printCDBConsole( text, false );
 				stream << text;
-				printf( "%s", text.c_str() );
 			}
 		};
 
@@ -254,8 +252,11 @@ namespace test
 
 		void TestCounts::printError( std::string const & text )
 		{
-			for ( auto & trace : m_traces )
+			for ( auto rit = m_traces.rbegin(); rit != m_traces.rend(); ++rit )
+			{
+				auto trace = *rit;
 				std::cout << trace->file << ":" << trace->line << " - " << trace->message << std::endl;
+			}
 			std::cout << text << std::endl;
 			test::TestCounts::printError( text );
 		}
