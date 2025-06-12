@@ -35,7 +35,7 @@ namespace sdw
 	RayIntersectionIn::RayIntersectionIn( ShaderWriter & writer )
 		: RayIntersectionIn{ writer
 			, makeExpr( writer
-				, sdw::getBuilder( writer ).registerName( "rayIntersectIn"
+				, sdw::getBuilder( writer ).registerName( "sdwRayIntersectIn"
 					, makeType( getTypesCache( writer ) )
 					, ast::var::Flag::eShaderInput ) )
 			, true }
