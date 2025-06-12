@@ -1118,6 +1118,18 @@ namespace glsl
 					if ( outer->getKind() == ast::expr::Kind::eIdentifier
 						&& io.isMainVar( static_cast< ast::expr::Identifier const & >( *outer ).getVariable() ) )
 					{
+						if ( !indexExpr
+							&& outer->getType()->getKind() == ast::type::Kind::eTessellationControlOutput )
+						{
+							indexExpr = helpers::registerPerVertexBuiltin( m_exprCache
+								, m_typesCache
+								, ast::Builtin::eInvocationID
+								, m_typesCache.getUInt32()
+								, uint64_t( ast::var::Flag::eShaderInput )
+								, m_adaptationData.nextVarId
+								, io );
+						}
+
 						if ( indexExpr )
 						{
 							auto type = getNonArrayType( io.perVertex->getType() );
