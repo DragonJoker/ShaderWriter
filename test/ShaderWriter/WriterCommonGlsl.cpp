@@ -11,7 +11,7 @@ namespace test::sdw_test
 			, ::ast::PreprocessResult & preprocessResult
 			, ::ast::ShaderStage stage
 			, ::ast::SpecialisationInfo const & specialisation
-			, glsl::GlslConfig config
+			, glsl::GlslConfig & config
 			, TestCounts & testCounts )
 		{
 			auto timerBlock = testCounts.beginTimer( "generateGlsl" );
@@ -59,10 +59,7 @@ namespace test::sdw_test
 
 					bool isCompiled{ false };
 
-					if ( isRayTraceStage( stage )
-						|| stage == ast::ShaderStage::eMesh
-						|| stage == ast::ShaderStage::eTask
-						|| config.requiredExtensions.end() != config.requiredExtensions.find( glsl::EXT_separate_samplers ) )
+					if ( config.vulkanGlsl )
 					{
 						try
 						{
