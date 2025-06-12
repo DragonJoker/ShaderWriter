@@ -7,6 +7,8 @@
 
 namespace
 {
+	ast::type::ImageFormat FormatT = SDW_TestImageFormat;
+
 #pragma region Helpers
 	/**
 	*name
@@ -30,8 +32,7 @@ namespace
 	*	texture
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -43,12 +44,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -86,12 +86,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< isShadowV< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
@@ -131,8 +130,7 @@ namespace
 	*	textureBias
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -144,12 +142,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -188,12 +185,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
@@ -237,8 +233,7 @@ namespace
 	*	textureProj
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -250,12 +245,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -289,12 +283,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -335,8 +328,7 @@ namespace
 	*	textureProjBias
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -348,12 +340,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -388,12 +379,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -435,8 +425,7 @@ namespace
 	*	textureLod
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -448,12 +437,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -492,12 +480,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
@@ -540,8 +527,7 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -553,12 +539,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -596,12 +581,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
@@ -646,8 +630,7 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -659,12 +642,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -703,12 +685,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -752,8 +733,7 @@ namespace
 	*	textureProjOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -765,12 +745,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -806,12 +785,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -854,8 +832,7 @@ namespace
 	*	textureProjOffsetBias
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -867,12 +844,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -909,12 +885,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -958,8 +933,7 @@ namespace
 	*	textureLodOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -971,12 +945,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageLodConstOffsetTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1015,12 +988,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageLodConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
@@ -1065,8 +1037,7 @@ namespace
 	*	textureProjLod
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1078,12 +1049,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1118,12 +1088,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1165,8 +1134,7 @@ namespace
 	*	textureProjLodOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1178,12 +1146,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjLodConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1220,12 +1187,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjLodConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1269,8 +1235,7 @@ namespace
 	*	textureGrad
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1282,12 +1247,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGradTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1328,12 +1292,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGradTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
@@ -1378,8 +1341,7 @@ namespace
 	*	textureGradOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1391,12 +1353,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGradConstOffsetTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1437,12 +1398,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGradConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
@@ -1490,8 +1450,7 @@ namespace
 	*	textureProjGrad
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1503,12 +1462,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjGradTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1545,12 +1503,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjGradTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1594,8 +1551,7 @@ namespace
 	*	textureProjGradOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1607,12 +1563,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjGradConstOffsetTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1651,12 +1606,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageProjGradConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1702,8 +1656,7 @@ namespace
 	*	textureGather
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1715,12 +1668,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
@@ -1756,12 +1708,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
@@ -1804,8 +1755,7 @@ namespace
 	*	textureGatherOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1817,12 +1767,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1858,12 +1807,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1899,8 +1847,7 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1912,12 +1859,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1955,12 +1901,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2005,8 +1950,7 @@ namespace
 	*	textureGatherOffsets
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -2018,12 +1962,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherOffsetsTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2061,12 +2004,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct SampledImageGatherOffsetsTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct SampledImageGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2111,8 +2053,7 @@ namespace
 	*	Main test function
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
+	template< template< ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
 		TesterT< FormatT, Img1DBase, false >::test( testCounts );
@@ -2141,27 +2082,27 @@ namespace
 
 	TEST_F( SDWTest, testsSampledImageAccesses )
 	{
-		sdwTestBegin( "testsSampledImageAccesses" )
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageBiasTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjBiasTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageLodTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageConstOffsetBiasTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjConstOffsetBiasTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageLodConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjLodTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjLodConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGradTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGradConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjGradTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageProjGradConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherConstOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherOffsetTester >( testCounts );
-		testsTexture< ast::type::ImageFormat::SDW_TestImageFormat, SampledImageGatherOffsetsTester >( testCounts );
+		sdwTestBegin( "testsSampledImageAccesses" );
+		testsTexture< SampledImageTester >( testCounts );
+		testsTexture< SampledImageBiasTester >( testCounts );
+		testsTexture< SampledImageProjTester >( testCounts );
+		testsTexture< SampledImageProjBiasTester >( testCounts );
+		testsTexture< SampledImageLodTester >( testCounts );
+		testsTexture< SampledImageConstOffsetTester >( testCounts );
+		testsTexture< SampledImageConstOffsetBiasTester >( testCounts );
+		testsTexture< SampledImageProjConstOffsetTester >( testCounts );
+		testsTexture< SampledImageProjConstOffsetBiasTester >( testCounts );
+		testsTexture< SampledImageLodConstOffsetTester >( testCounts );
+		testsTexture< SampledImageProjLodTester >( testCounts );
+		testsTexture< SampledImageProjLodConstOffsetTester >( testCounts );
+		testsTexture< SampledImageGradTester >( testCounts );
+		testsTexture< SampledImageGradConstOffsetTester >( testCounts );
+		testsTexture< SampledImageProjGradTester >( testCounts );
+		testsTexture< SampledImageProjGradConstOffsetTester >( testCounts );
+		testsTexture< SampledImageGatherTester >( testCounts );
+		testsTexture< SampledImageGatherConstOffsetTester >( testCounts );
+		testsTexture< SampledImageGatherOffsetTester >( testCounts );
+		testsTexture< SampledImageGatherOffsetsTester >( testCounts );
 		sdwTestEnd()
 	}
 	/**@}*/

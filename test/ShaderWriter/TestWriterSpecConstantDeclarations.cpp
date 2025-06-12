@@ -72,7 +72,7 @@ namespace
 
 	TEST_F( SDWTest, testSpecConstantDeclarations )
 	{
-		sdwTestBegin( "testSpecConstantDeclarations" )
+		sdwTestBegin( "testSpecConstantDeclarations" );
 		testSpecConstant< bool >( testCounts );
 		testSpecConstant< int32_t >( testCounts );
 		testSpecConstant< uint32_t >( testCounts );

@@ -226,7 +226,7 @@ namespace
 
 	TEST_F( SDWTest, testGlobalDeclarations )
 	{
-		sdwTestBegin( "testGlobalDeclarations" )
+		sdwTestBegin( "testGlobalDeclarations" );
 		testGlobal< sdw::Boolean >( testCounts );
 		testGlobal< sdw::Int >( testCounts );
 		testGlobal< sdw::UInt >( testCounts );

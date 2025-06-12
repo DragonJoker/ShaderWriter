@@ -681,7 +681,7 @@ namespace
 
 	TEST_F( SDWTest, testFloat )
 	{
-		sdwTestBegin( "testFloat" )
+		sdwTestBegin( "testFloat" );
 		testFloatT< sdw::Float >( testCounts );
 		testFloatT< sdw::Double >( testCounts );
 		sdwTestEnd()
@@ -806,7 +806,7 @@ namespace
 
 	TEST_F( SDWTest, testInt )
 	{
-		sdwTestBegin( "testInt" )
+		sdwTestBegin( "testInt" );
 		testIntT< sdw::Int >( testCounts );
 		testIntT< sdw::UInt >( testCounts );
 		sdwTestEnd()
@@ -872,7 +872,7 @@ namespace
 
 	TEST_F( SDWTest, testVec )
 	{
-		sdwTestBegin( "testVec" )
+		sdwTestBegin( "testVec" );
 		testVecT< sdw::Vec2T, sdw::Half >( testCounts );
 		testVecT< sdw::Vec2T, sdw::Float >( testCounts );
 		testVecT< sdw::Vec2T, sdw::Double >( testCounts );

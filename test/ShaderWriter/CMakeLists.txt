@@ -233,11 +233,45 @@ if ( SDW_ALL_TESTS )
 		DMat4x3
 		DMat4x4
 	)
+	set( IO_TYPES
+		Int32
+		Int64
+		UInt32
+		UInt64
+		Float
+		Vec2
+		Vec3
+		Vec4
+		I32Vec2
+		I32Vec3
+		I32Vec4
+		I64Vec2
+		I64Vec3
+		I64Vec4
+		U32Vec2
+		U32Vec3
+		U32Vec4
+		U64Vec2
+		U64Vec3
+		U64Vec4
+		Mat2x2
+		Mat2x3
+		Mat2x4
+		Mat3x2
+		Mat3x3
+		Mat3x4
+		Mat4x2
+		Mat4x3
+		Mat4x4
+	)
 elseif ( PROJECTS_COVERAGE )
 	set( IMAGE_FORMATS
 		eR32f
 	)
 	set( BO_TYPES
+		Vec4
+	)
+	set( IO_TYPES
 		Vec4
 	)
 else ()
@@ -266,6 +300,17 @@ else ()
 		Mat4x4
 		DMat3x2
 		DMat3x3
+	)
+	set( IO_TYPES
+		Float
+		Vec4
+		Vec3
+		I32Vec4
+		U64Vec2
+		Mat2x3
+		Mat4x4
+		Mat3x2
+		Mat3x3
 	)
 endif ()
 
@@ -334,6 +379,8 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	string( FIND ${TEST_FILE} "Ubo" IS_UBO )
 	string( FIND ${TEST_FILE} "Struct" IS_STRUCT )
 	string( FIND ${TEST_FILE} "Pcb" IS_PCB )
+	string( FIND ${TEST_FILE} "Output" IS_OUT )
+	string( FIND ${TEST_FILE} "Input" IS_IN )
 
 	if ( IS_IMAGE GREATER -1 )
 		foreach( FORMAT ${IMAGE_FORMATS} )
@@ -354,6 +401,14 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	elseif ( IS_PCB GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
 			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+		endforeach ()
+	elseif ( IS_OUT GREATER -1 )
+		foreach( IO_TYPE ${IO_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${IO_TYPE} "SDW_TestType=${IO_TYPE}" )
+		endforeach ()
+	elseif ( IS_IN GREATER -1 )
+		foreach( IO_TYPE ${IO_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${IO_TYPE} "SDW_TestType=${IO_TYPE}" )
 		endforeach ()
 	else ()
 		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} "" "" )

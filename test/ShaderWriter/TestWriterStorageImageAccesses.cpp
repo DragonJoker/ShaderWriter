@@ -858,7 +858,7 @@ namespace
 #if !defined( __APPLE__ )
 	TEST_F( SDWTest, testsImageAccesses )
 	{
-		sdwTestBegin( "testsImageAccesses" )
+		sdwTestBegin( "testsImageAccesses" );
 		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSizeTester >( testCounts );
 		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSamplesTester >( testCounts );
 		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageLoadTester >( testCounts );
