@@ -33,7 +33,34 @@ namespace sdw
 			ast::expr::ExprPtr expr = release();
 
 			if ( expr->getKind() != ast::expr::Kind::eIdentifier
-				&& expr->getKind() != ast::expr::Kind::eLiteral )
+				&& expr->getKind() != ast::expr::Kind::eLiteral
+				&& expr->getKind() != ast::expr::Kind::eAdd
+				&& expr->getKind() != ast::expr::Kind::eMinus
+				&& expr->getKind() != ast::expr::Kind::eTimes
+				&& expr->getKind() != ast::expr::Kind::eDivide
+				&& expr->getKind() != ast::expr::Kind::eModulo
+				&& expr->getKind() != ast::expr::Kind::eLShift
+				&& expr->getKind() != ast::expr::Kind::eRShift
+				&& expr->getKind() != ast::expr::Kind::eBitAnd
+				&& expr->getKind() != ast::expr::Kind::eBitNot
+				&& expr->getKind() != ast::expr::Kind::eBitOr
+				&& expr->getKind() != ast::expr::Kind::eBitXor
+				&& expr->getKind() != ast::expr::Kind::eLogAnd
+				&& expr->getKind() != ast::expr::Kind::eLogNot
+				&& expr->getKind() != ast::expr::Kind::eLogOr
+				&& expr->getKind() != ast::expr::Kind::eCast
+				&& expr->getKind() != ast::expr::Kind::eCompositeConstruct
+				&& expr->getKind() != ast::expr::Kind::eEqual
+				&& expr->getKind() != ast::expr::Kind::eGreater
+				&& expr->getKind() != ast::expr::Kind::eGreaterEqual
+				&& expr->getKind() != ast::expr::Kind::eLess
+				&& expr->getKind() != ast::expr::Kind::eLessEqual
+				&& expr->getKind() != ast::expr::Kind::eNotEqual
+				&& expr->getKind() != ast::expr::Kind::eMbrSelect
+				&& expr->getKind() != ast::expr::Kind::eSwizzle
+				&& expr->getKind() != ast::expr::Kind::eUnaryMinus
+				&& expr->getKind() != ast::expr::Kind::eUnaryPlus
+				&& expr->getKind() != ast::expr::Kind::eArrayAccess )
 			{
 				addStmt( *this->getWriter()
 					, sdw::makeSimple( getStmtCache( *this->getWriter() ), std::move( expr ) ) );
