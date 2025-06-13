@@ -2392,6 +2392,30 @@ namespace ast
 				return processed;
 			}
 
+			bool doProcessArrayAccessCompositeCtor( expr::ArrayAccess const & expr )
+			{
+				bool processed = false;
+				auto & compositeCtor = static_cast< expr::CompositeConstruct const & >( *expr.getLHS() );
+
+				if ( expr.getRHS()->getKind() == expr::Kind::eLiteral )
+				{
+					auto & lit = static_cast< expr::Literal const & >( *expr.getRHS() );
+					auto index = helpers::getLiteralIndex( lit );
+
+					if ( index < compositeCtor.getArgList().size() )
+					{
+						processed = true;
+						m_result = doSubmit( *compositeCtor.getArgList()[index] );
+					}
+					else
+					{
+						AST_Exception( "Out of bounds array access to constant aggr init." );
+					}
+				}
+
+				return processed;
+			}
+
 			using ast::ExprCloner::doSubmit;
 
 			expr::ExprPtr doSubmit( expr::Expr const & expr )override
@@ -2678,6 +2702,13 @@ namespace ast
 					&& expr->getLHS()->getKind() == expr::Kind::eAggrInit )
 				{
 					processed = doProcessArrayAccessConstAggrInit( *expr );
+				}
+
+				if ( !processed
+					&& expr->getLHS()->isConstant()
+					&& expr->getLHS()->getKind() == expr::Kind::eCompositeConstruct )
+				{
+					processed = doProcessArrayAccessCompositeCtor( *expr );
 				}
 
 				if ( !processed )
