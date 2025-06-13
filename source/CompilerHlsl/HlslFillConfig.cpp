@@ -429,7 +429,7 @@ namespace hlsl
 
 			void visitBufferReferenceDeclStmt( ast::stmt::BufferReferenceDecl const * stmt )override
 			{
-				throw ast::Exception{ "ast::stmt::BufferReferenceDecl are not supported in HLSL" };
+				throw UnsupportedExtensionException{ "ast::stmt::BufferReferenceDecl are not supported in HLSL" };
 			}
 
 			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override

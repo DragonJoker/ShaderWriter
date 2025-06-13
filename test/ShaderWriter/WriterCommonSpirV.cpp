@@ -590,6 +590,10 @@ namespace test::sdw_test
 							if ( compilers.forceDisplay && availableExtensions )
 								testCounts.printBlock( print );
 						}
+						catch ( spirv::UnsupportedExtensionException & )
+						{
+							return;
+						}
 						catch ( std::exception & exc )
 						{
 							if ( error )

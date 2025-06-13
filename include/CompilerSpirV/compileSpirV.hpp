@@ -38,6 +38,12 @@ namespace spirv
 	static uint32_t constexpr v1_5 = makeVersion( 1u, 5u );
 	static uint32_t constexpr v1_6 = makeVersion( 1u, 6u );
 
+	class UnsupportedExtensionException
+		: public ast::Exception
+	{
+		using ast::Exception::Exception;
+	};
+
 	struct SpirVExtension
 	{
 		uint32_t reqVersion{ vUnk };

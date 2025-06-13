@@ -46,6 +46,12 @@ namespace hlsl
 		bool flipVertY{ false };
 	};
 
+	class UnsupportedExtensionException
+		: public ast::Exception
+	{
+		using ast::Exception::Exception;
+	};
+
 	SDWHLSL_API std::string compilePreprocessedHlsl( ast::ShaderAllocatorBlock & allocator
 		, ast::Shader const & shader
 		, ast::PreprocessResult & preprocessResult

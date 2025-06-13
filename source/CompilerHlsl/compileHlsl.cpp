@@ -23,86 +23,86 @@ namespace hlsl
 		{
 			if ( isRayTraceStage( writerConfig.shaderStage ) && writerConfig.shaderModel < hlsl::v6_3 )
 			{
-				throw ast::Exception{ "Unsupported Ray Tracing stage for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Ray Tracing stage for this shader model" };
 			}
 
 			if ( isMeshStage( writerConfig.shaderStage ) && writerConfig.shaderModel < hlsl::v6_5 )
 			{
-				throw ast::Exception{ "Unsupported Mesh/Amplification stage for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Mesh/Amplification stage for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresWaveOps && writerConfig.shaderModel < hlsl::v6_0 )
 			{
-				throw ast::Exception{ "Unsupported Wave ops for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Wave ops for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresControlBarrier
 				&& writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 				&& writerConfig.shaderModel < hlsl::v6_0 )
 			{
-				throw ast::Exception{ "Unsupported control barrier for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported control barrier for this shader model" };
 			}
 
 			if ( writerConfig.shaderModel < hlsl::v5_0
 				&& ( writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 					|| writerConfig.shaderStage == ast::ShaderStage::eTessellationEvaluation ) )
 			{
-				throw ast::Exception{ "Unsupported Tessellation stage for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported Tessellation stage for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresDouble && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
-				throw ast::Exception{ "Unsupported double type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported double type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresInt8 )
 			{
-				throw ast::Exception{ "Unsupported byte type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported byte type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresAtomicAddFloat )
 			{
-				throw ast::Exception{ "Unsupported atomic add with floating point" };
+				throw UnsupportedExtensionException{ "Unsupported atomic add with floating point" };
 			}
 
 			if ( intrinsicsConfig.requiresInt16 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw ast::Exception{ "Unsupported short type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported short type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresSInt64 )
 			{
-				throw ast::Exception{ "Unsupported int64_t type" };
+				throw UnsupportedExtensionException{ "Unsupported int64_t type" };
 			}
 
 			if ( intrinsicsConfig.requiresUInt64 && writerConfig.shaderModel <= hlsl::v6_0 )
 			{
-				throw ast::Exception{ "Unsupported uint64_t type for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported uint64_t type for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresUAV && writerConfig.shaderModel <= hlsl::v4_1 )
 			{
-				throw ast::Exception{ "Unsupported UAV for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported UAV for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresInterpolate && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw ast::Exception{ "Unsupported interpolate for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported interpolate for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresShadowOnTiled && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw ast::Exception{ "Unsupported sample shadow for tiled resource, for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported sample shadow for tiled resource, for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresGather && writerConfig.shaderModel < hlsl::v5_0 )
 			{
-				throw ast::Exception{ "Unsupported gather, for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported gather, for this shader model" };
 			}
 
 			if ( intrinsicsConfig.requiresSampledIndex && writerConfig.shaderModel < hlsl::v4_1 )
 			{
-				throw ast::Exception{ "Unsupported SV_SampleIndex for this shader model" };
+				throw UnsupportedExtensionException{ "Unsupported SV_SampleIndex for this shader model" };
 			}
 		}
 	}

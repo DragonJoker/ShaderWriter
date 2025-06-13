@@ -1894,7 +1894,7 @@ namespace glsl
 		case ast::expr::Intrinsic::eReadFirstInvocation2D:
 		case ast::expr::Intrinsic::eReadFirstInvocation3D:
 		case ast::expr::Intrinsic::eReadFirstInvocation4D:
-			throw ast::Exception{ "Unsupported Intrinsic type." };
+			throw UnsupportedExtensionException{ "Unsupported Intrinsic type." };
 		}
 
 		return result;
