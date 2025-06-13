@@ -57,7 +57,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, builtins )
@@ -80,7 +80,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, readWorkGroupSize )
@@ -99,7 +99,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, compute )
@@ -128,7 +128,7 @@ namespace
 			, testCounts, CurrentCompilers );
 #endif
 
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, swizzles )
@@ -178,7 +178,7 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, conversions )
@@ -203,7 +203,7 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, simpleStore )
@@ -230,7 +230,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, voxelToTexture )
@@ -333,7 +333,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, imageArray )
@@ -361,7 +361,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, accessChainAlias )
@@ -388,7 +388,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, duplicateLoadTest )
@@ -422,7 +422,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupEmptyMain )
@@ -439,7 +439,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupBuiltins )
@@ -470,7 +470,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateShader( writer.getShader()
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupCompute )
@@ -498,7 +498,7 @@ namespace
 			, testCounts, CurrentCompilers );
 #endif
 
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupSimpleStore )
