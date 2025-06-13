@@ -1539,7 +1539,7 @@ namespace spirv
 			return false;
 		}
 
-		if ( spirvConfig.specVersion < extension.specVersion )
+		if ( spirvConfig.specVersion < extension.reqVersion )
 		{
 			if ( extension.isMarker )
 			{
