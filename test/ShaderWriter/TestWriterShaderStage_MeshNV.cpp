@@ -811,7 +811,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, point )
@@ -833,7 +833,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, lineX )
@@ -854,7 +854,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, line )
@@ -876,7 +876,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, triangleX )
@@ -898,7 +898,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, triangle )
@@ -920,7 +920,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, oneTriangle )
@@ -959,7 +959,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, taskPayload )
@@ -984,7 +984,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, renderMeshlet )
@@ -1107,7 +1107,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, meshletInstancing )
@@ -1275,7 +1275,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, checkConstantsLayout )
@@ -1304,7 +1304,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, cullMeshlet )
@@ -1453,7 +1453,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, writePackedPrimitiveIndices )
@@ -1583,7 +1583,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupPointX )
@@ -1604,7 +1604,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupPoint )
@@ -1626,7 +1626,7 @@ namespace
 				, testCounts
 				, Compilers_NoHLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupLineX )
@@ -1647,7 +1647,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupLine )
@@ -1669,7 +1669,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupTriangleX )
@@ -1691,7 +1691,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, subgroupTriangle )
@@ -1713,7 +1713,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

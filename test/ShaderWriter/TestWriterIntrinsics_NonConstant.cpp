@@ -31,7 +31,7 @@ namespace
 		testDegreesT< sdw::Vec2 >( "2F", testCounts );
 		testDegreesT< sdw::Vec3 >( "3F", testCounts );
 		testDegreesT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -59,7 +59,7 @@ namespace
 		testRadiansT< sdw::Vec2 >( "2F", testCounts );
 		testRadiansT< sdw::Vec3 >( "3F", testCounts );
 		testRadiansT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -87,7 +87,7 @@ namespace
 		testCoshT< sdw::Vec2 >( "2F", testCounts );
 		testCoshT< sdw::Vec3 >( "3F", testCounts );
 		testCoshT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -115,7 +115,7 @@ namespace
 		testSinhT< sdw::Vec2 >( "2F", testCounts );
 		testSinhT< sdw::Vec3 >( "3F", testCounts );
 		testSinhT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -143,7 +143,7 @@ namespace
 		testTanhT< sdw::Vec2 >( "2F", testCounts );
 		testTanhT< sdw::Vec3 >( "3F", testCounts );
 		testTanhT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -171,7 +171,7 @@ namespace
 		testCosT< sdw::Vec2 >( "2F", testCounts );
 		testCosT< sdw::Vec3 >( "3F", testCounts );
 		testCosT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -199,7 +199,7 @@ namespace
 		testSinT< sdw::Vec2 >( "2F", testCounts );
 		testSinT< sdw::Vec3 >( "3F", testCounts );
 		testSinT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -227,7 +227,7 @@ namespace
 		testTanT< sdw::Vec2 >( "2F", testCounts );
 		testTanT< sdw::Vec3 >( "3F", testCounts );
 		testTanT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -255,7 +255,7 @@ namespace
 		testACosT< sdw::Vec2 >( "2F", testCounts );
 		testACosT< sdw::Vec3 >( "3F", testCounts );
 		testACosT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -283,7 +283,7 @@ namespace
 		testASinT< sdw::Vec2 >( "2F", testCounts );
 		testASinT< sdw::Vec3 >( "3F", testCounts );
 		testASinT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -311,7 +311,7 @@ namespace
 		testATanT< sdw::Vec2 >( "2F", testCounts );
 		testATanT< sdw::Vec3 >( "3F", testCounts );
 		testATanT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -340,7 +340,7 @@ namespace
 		testATan2T< sdw::Vec2 >( "2F", testCounts );
 		testATan2T< sdw::Vec3 >( "3F", testCounts );
 		testATan2T< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -368,7 +368,7 @@ namespace
 		testACoshT< sdw::Vec2 >( "2F", testCounts );
 		testACoshT< sdw::Vec3 >( "3F", testCounts );
 		testACoshT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -396,7 +396,7 @@ namespace
 		testASinhT< sdw::Vec2 >( "2F", testCounts );
 		testASinhT< sdw::Vec3 >( "3F", testCounts );
 		testASinhT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -424,7 +424,7 @@ namespace
 		testATanhT< sdw::Vec2 >( "2F", testCounts );
 		testATanhT< sdw::Vec3 >( "3F", testCounts );
 		testATanhT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -453,7 +453,7 @@ namespace
 		testPowT< sdw::Vec2 >( "2F", testCounts );
 		testPowT< sdw::Vec3 >( "3F", testCounts );
 		testPowT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -481,7 +481,7 @@ namespace
 		testExpT< sdw::Vec2 >( "2F", testCounts );
 		testExpT< sdw::Vec3 >( "3F", testCounts );
 		testExpT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -509,7 +509,7 @@ namespace
 		testLogT< sdw::Vec2 >( "2F", testCounts );
 		testLogT< sdw::Vec3 >( "3F", testCounts );
 		testLogT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -537,7 +537,7 @@ namespace
 		testExp2T< sdw::Vec2 >( "2F", testCounts );
 		testExp2T< sdw::Vec3 >( "3F", testCounts );
 		testExp2T< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -565,7 +565,7 @@ namespace
 		testLog2T< sdw::Vec2 >( "2F", testCounts );
 		testLog2T< sdw::Vec3 >( "3F", testCounts );
 		testLog2T< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -597,7 +597,7 @@ namespace
 		testSqrtT< sdw::DVec2 >( "2D", testCounts );
 		testSqrtT< sdw::DVec3 >( "3D", testCounts );
 		testSqrtT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -629,7 +629,7 @@ namespace
 		testInverseSqrtT< sdw::DVec2 >( "2D", testCounts );
 		testInverseSqrtT< sdw::DVec3 >( "3D", testCounts );
 		testInverseSqrtT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -665,7 +665,7 @@ namespace
 		testAbsT< sdw::IVec2 >( "2I", testCounts );
 		testAbsT< sdw::IVec3 >( "3I", testCounts );
 		testAbsT< sdw::IVec4 >( "4I", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -701,7 +701,7 @@ namespace
 		testSignT< sdw::IVec2 >( "2I", testCounts );
 		testSignT< sdw::IVec3 >( "3I", testCounts );
 		testSignT< sdw::IVec4 >( "4I", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -733,7 +733,7 @@ namespace
 		testFloorT< sdw::DVec2 >( "2D", testCounts );
 		testFloorT< sdw::DVec3 >( "3D", testCounts );
 		testFloorT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -765,7 +765,7 @@ namespace
 		testTruncT< sdw::DVec2 >( "2D", testCounts );
 		testTruncT< sdw::DVec3 >( "3D", testCounts );
 		testTruncT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -797,7 +797,7 @@ namespace
 		testRoundT< sdw::DVec2 >( "2D", testCounts );
 		testRoundT< sdw::DVec3 >( "3D", testCounts );
 		testRoundT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -829,7 +829,7 @@ namespace
 		testRoundEvenT< sdw::DVec2 >( "2D", testCounts );
 		testRoundEvenT< sdw::DVec3 >( "3D", testCounts );
 		testRoundEvenT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -861,7 +861,7 @@ namespace
 		testCeilT< sdw::DVec2 >( "2D", testCounts );
 		testCeilT< sdw::DVec3 >( "3D", testCounts );
 		testCeilT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -893,7 +893,7 @@ namespace
 		testFractT< sdw::DVec2 >( "2D", testCounts );
 		testFractT< sdw::DVec3 >( "3D", testCounts );
 		testFractT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -926,7 +926,7 @@ namespace
 		testModT< sdw::DVec2 >( "2D", testCounts );
 		testModT< sdw::DVec3 >( "3D", testCounts );
 		testModT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -959,7 +959,7 @@ namespace
 		testModfT< sdw::DVec2 >( "2D", testCounts );
 		testModfT< sdw::DVec3 >( "3D", testCounts );
 		testModfT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1000,7 +1000,7 @@ namespace
 		testMinT< sdw::UVec2 >( "2U", testCounts );
 		testMinT< sdw::UVec3 >( "3U", testCounts );
 		testMinT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1041,7 +1041,7 @@ namespace
 		testMaxT< sdw::UVec2 >( "2U", testCounts );
 		testMaxT< sdw::UVec3 >( "3U", testCounts );
 		testMaxT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1083,7 +1083,7 @@ namespace
 		testClampT< sdw::U32Vec2 >( "2U", testCounts );
 		testClampT< sdw::U32Vec3 >( "3U", testCounts );
 		testClampT< sdw::U32Vec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1117,7 +1117,7 @@ namespace
 		testMixT< sdw::DVec2 >( "2D", testCounts );
 		testMixT< sdw::DVec3 >( "3D", testCounts );
 		testMixT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1150,7 +1150,7 @@ namespace
 		testStepT< sdw::DVec2 >( "2D", testCounts );
 		testStepT< sdw::DVec3 >( "3D", testCounts );
 		testStepT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1184,7 +1184,7 @@ namespace
 		testSmoothStepT< sdw::DVec2 >( "2D", testCounts );
 		testSmoothStepT< sdw::DVec3 >( "3D", testCounts );
 		testSmoothStepT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1217,7 +1217,7 @@ namespace
 		testIsnanT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testIsnanT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testIsnanT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1250,7 +1250,7 @@ namespace
 		testIsinfT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testIsinfT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testIsinfT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1279,7 +1279,7 @@ namespace
 		testFloatBitsToIntT< sdw::Vec2 >( "2F", testCounts );
 		testFloatBitsToIntT< sdw::Vec3 >( "3F", testCounts );
 		testFloatBitsToIntT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1308,7 +1308,7 @@ namespace
 		testFloatBitsToUIntT< sdw::Vec2 >( "2F", testCounts );
 		testFloatBitsToUIntT< sdw::Vec3 >( "3F", testCounts );
 		testFloatBitsToUIntT< sdw::Vec4 >( "4F", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1337,7 +1337,7 @@ namespace
 		testIntBitsToFloatT< sdw::IVec2 >( "2I", testCounts );
 		testIntBitsToFloatT< sdw::IVec3 >( "3I", testCounts );
 		testIntBitsToFloatT< sdw::IVec4 >( "4I", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1366,7 +1366,7 @@ namespace
 		testUIntBitsToFloatT< sdw::UVec2 >( "2U", testCounts );
 		testUIntBitsToFloatT< sdw::UVec3 >( "3U", testCounts );
 		testUIntBitsToFloatT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1400,7 +1400,7 @@ namespace
 		testFmaT< sdw::DVec2 >( "2D", testCounts );
 		testFmaT< sdw::DVec3 >( "3D", testCounts );
 		testFmaT< sdw::DVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1433,7 +1433,7 @@ namespace
 		testFrexpT< sdw::DVec2, sdw::IVec2 >( "2D", testCounts );
 		testFrexpT< sdw::DVec3, sdw::IVec3 >( "3D", testCounts );
 		testFrexpT< sdw::DVec4, sdw::IVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT, typename ValueU >
@@ -1466,7 +1466,7 @@ namespace
 		testLdexpT< sdw::DVec2, sdw::IVec2 >( "2D", testCounts );
 		testLdexpT< sdw::DVec3, sdw::IVec3 >( "3D", testCounts );
 		testLdexpT< sdw::DVec4, sdw::IVec4 >( "4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPackDouble2x32 )
@@ -1484,7 +1484,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPackHalf2x16 )
@@ -1502,7 +1502,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPackSnorm2x16 )
@@ -1520,7 +1520,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPackUnorm2x16 )
@@ -1538,7 +1538,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPackSnorm4x8 )
@@ -1556,7 +1556,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPackUnorm4x8 )
@@ -1574,7 +1574,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUnpackDouble2x32 )
@@ -1592,7 +1592,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUnpackHalf2x16 )
@@ -1610,7 +1610,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUnpackSnorm2x16 )
@@ -1628,7 +1628,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUnpackUnorm2x16 )
@@ -1646,7 +1646,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUnpackSnorm4x8 )
@@ -1664,7 +1664,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUnpackUnorm4x8 )
@@ -1682,7 +1682,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1715,7 +1715,7 @@ namespace
 		testLengthT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testLengthT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testLengthT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1749,7 +1749,7 @@ namespace
 		testDistanceT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testDistanceT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testDistanceT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1781,7 +1781,7 @@ namespace
 		testDotT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testDotT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testDotT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1809,7 +1809,7 @@ namespace
 		sdwTestBegin( "testCross" );
 		testCrossT< sdw::Vec3 >( "3F", testCounts );
 		testCrossT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1842,7 +1842,7 @@ namespace
 		testNormalizeT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testNormalizeT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testNormalizeT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1877,7 +1877,7 @@ namespace
 		testFaceForwardT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testFaceForwardT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testFaceForwardT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1911,7 +1911,7 @@ namespace
 		testReflectT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testReflectT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testReflectT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1946,7 +1946,7 @@ namespace
 		testRefractT< sdw::DVec2 >( "2D", testCounts, Compilers_NoHLSL );
 		testRefractT< sdw::DVec3 >( "3D", testCounts, Compilers_NoHLSL );
 		testRefractT< sdw::DVec4 >( "4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -1990,7 +1990,7 @@ namespace
 		testMatrixCompMultT< sdw::DMat4x2 >( "4x2D", testCounts );
 		testMatrixCompMultT< sdw::DMat4x3 >( "4x3D", testCounts );
 		testMatrixCompMultT< sdw::DMat4x4 >( "4x4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2022,7 +2022,7 @@ namespace
 		testMatrixMultT< sdw::DMat2x2 >( "2x2D", testCounts );
 		testMatrixMultT< sdw::DMat3x3 >( "3x3D", testCounts );
 		testMatrixMultT< sdw::DMat4x4 >( "4x4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename LhsT, typename RhsT >
@@ -2066,7 +2066,7 @@ namespace
 		testOuterProductT< sdw::DVec4, sdw::DVec2 >( "4x2D", testCounts );
 		testOuterProductT< sdw::DVec4, sdw::DVec3 >( "4x3D", testCounts );
 		testOuterProductT< sdw::DVec4, sdw::DVec4 >( "4x4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2109,7 +2109,7 @@ namespace
 		testTransposeT< sdw::DMat4x2 >( "4x2D", testCounts );
 		testTransposeT< sdw::DMat4x3 >( "4x3D", testCounts );
 		testTransposeT< sdw::DMat4x4 >( "4x4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2140,7 +2140,7 @@ namespace
 		testDeterminantT< sdw::DMat2x2 >( "2x2D", testCounts, Compilers_NoHLSL );
 		testDeterminantT< sdw::DMat3x3 >( "3x3D", testCounts, Compilers_NoHLSL );
 		testDeterminantT< sdw::DMat4x4 >( "4x4D", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2170,7 +2170,7 @@ namespace
 		testInverseT< sdw::DMat2x2 >( "2x2D", testCounts );
 		testInverseT< sdw::DMat3x3 >( "3x3D", testCounts );
 		testInverseT< sdw::DMat4x4 >( "4x4D", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2208,7 +2208,7 @@ namespace
 		testLessThanT< sdw::UVec2 >( "2U", testCounts );
 		testLessThanT< sdw::UVec3 >( "3U", testCounts );
 		testLessThanT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2246,7 +2246,7 @@ namespace
 		testLessThanEqualT< sdw::UVec2 >( "2U", testCounts );
 		testLessThanEqualT< sdw::UVec3 >( "3U", testCounts );
 		testLessThanEqualT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2284,7 +2284,7 @@ namespace
 		testGreaterThanT< sdw::UVec2 >( "2U", testCounts );
 		testGreaterThanT< sdw::UVec3 >( "3U", testCounts );
 		testGreaterThanT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2322,7 +2322,7 @@ namespace
 		testGreaterThanEqualT< sdw::UVec2 >( "2U", testCounts );
 		testGreaterThanEqualT< sdw::UVec3 >( "3U", testCounts );
 		testGreaterThanEqualT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2360,7 +2360,7 @@ namespace
 		testEqualT< sdw::UVec2 >( "2U", testCounts );
 		testEqualT< sdw::UVec3 >( "3U", testCounts );
 		testEqualT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2398,7 +2398,7 @@ namespace
 		testNotEqualT< sdw::UVec2 >( "2U", testCounts );
 		testNotEqualT< sdw::UVec3 >( "3U", testCounts );
 		testNotEqualT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2426,7 +2426,7 @@ namespace
 		testAllT< sdw::BVec2 >( "2", testCounts );
 		testAllT< sdw::BVec3 >( "3", testCounts );
 		testAllT< sdw::BVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2454,7 +2454,7 @@ namespace
 		testAnyT< sdw::BVec2 >( "2", testCounts );
 		testAnyT< sdw::BVec3 >( "3", testCounts );
 		testAnyT< sdw::BVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2482,7 +2482,7 @@ namespace
 		testNotT< sdw::BVec2 >( "2", testCounts );
 		testNotT< sdw::BVec3 >( "3", testCounts );
 		testNotT< sdw::BVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2514,7 +2514,7 @@ namespace
 		testUaddCarryT< sdw::UVec2 >( "2", testCounts );
 		testUaddCarryT< sdw::UVec3 >( "3", testCounts );
 		testUaddCarryT< sdw::UVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2546,7 +2546,7 @@ namespace
 		testUsubBorrowT< sdw::UVec2 >( "2", testCounts );
 		testUsubBorrowT< sdw::UVec3 >( "3", testCounts );
 		testUsubBorrowT< sdw::UVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2578,7 +2578,7 @@ namespace
 		testUmulExtendedT< sdw::UVec2 >( "2", testCounts );
 		testUmulExtendedT< sdw::UVec3 >( "3", testCounts );
 		testUmulExtendedT< sdw::UVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2610,7 +2610,7 @@ namespace
 		testImulExtendedT< sdw::IVec2 >( "2", testCounts );
 		testImulExtendedT< sdw::IVec3 >( "3", testCounts );
 		testImulExtendedT< sdw::IVec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2645,7 +2645,7 @@ namespace
 		testBitfieldExtractT< sdw::UVec2 >( "2U", testCounts );
 		testBitfieldExtractT< sdw::UVec3 >( "3U", testCounts );
 		testBitfieldExtractT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2681,7 +2681,7 @@ namespace
 		testBitfieldInsertT< sdw::UVec2 >( "2U", testCounts );
 		testBitfieldInsertT< sdw::UVec3 >( "3U", testCounts );
 		testBitfieldInsertT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2714,7 +2714,7 @@ namespace
 		testBitfieldReverseT< sdw::UVec2 >( "2U", testCounts );
 		testBitfieldReverseT< sdw::UVec3 >( "3U", testCounts );
 		testBitfieldReverseT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2747,7 +2747,7 @@ namespace
 		testBitCountT< sdw::UVec2 >( "2U", testCounts );
 		testBitCountT< sdw::UVec3 >( "3U", testCounts );
 		testBitCountT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2780,7 +2780,7 @@ namespace
 		testFindLSBT< sdw::UVec2 >( "2U", testCounts );
 		testFindLSBT< sdw::UVec3 >( "3U", testCounts );
 		testFindLSBT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2813,7 +2813,7 @@ namespace
 		testFindMSBT< sdw::UVec2 >( "2U", testCounts );
 		testFindMSBT< sdw::UVec3 >( "3U", testCounts );
 		testFindMSBT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2851,7 +2851,7 @@ namespace
 		testAtomicAddT< sdw::Float >( "F", testCounts );
 		//testAtomicAddT< sdw::HVec2 >( "2H", testCounts, Compilers_NoHLSL );
 		//testAtomicAddT< sdw::HVec4 >( "4H", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2885,7 +2885,7 @@ namespace
 		sdwTestBegin( "testAtomicMin" );
 		testAtomicMinT< sdw::Int >( "I", testCounts );
 		testAtomicMinT< sdw::UInt >( "U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2919,7 +2919,7 @@ namespace
 		sdwTestBegin( "testAtomicMax" );
 		testAtomicMaxT< sdw::Int >( "I", testCounts );
 		testAtomicMaxT< sdw::UInt >( "U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2953,7 +2953,7 @@ namespace
 		sdwTestBegin( "testAtomicAnd" );
 		testAtomicAndT< sdw::Int >( "I", testCounts );
 		testAtomicAndT< sdw::UInt >( "U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -2987,7 +2987,7 @@ namespace
 		sdwTestBegin( "testAtomicOr" );
 		testAtomicOrT< sdw::Int >( "I", testCounts );
 		testAtomicOrT< sdw::UInt >( "U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3021,7 +3021,7 @@ namespace
 		sdwTestBegin( "testAtomicXor" );
 		testAtomicXorT< sdw::Int >( "I", testCounts );
 		testAtomicXorT< sdw::UInt >( "U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3059,7 +3059,7 @@ namespace
 		testAtomicExchangeT< sdw::Float >( "F", testCounts, Compilers_NoHLSL );
 		//testAtomicExchangeT< sdw::HVec2 >( "2H", testCounts, Compilers_NoHLSL );
 		//testAtomicExchangeT< sdw::HVec4 >( "4H", testCounts, Compilers_NoHLSL );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3094,7 +3094,7 @@ namespace
 		sdwTestBegin( "testAtomicCompSwap" );
 		testAtomicCompSwapT< sdw::Int >( "I", testCounts );
 		testAtomicCompSwapT< sdw::UInt >( "U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3122,7 +3122,7 @@ namespace
 		testDFdxT< sdw::Vec2 >( "2", testCounts );
 		testDFdxT< sdw::Vec3 >( "3", testCounts );
 		testDFdxT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3150,7 +3150,7 @@ namespace
 		testDFdxCoarseT< sdw::Vec2 >( "2", testCounts );
 		testDFdxCoarseT< sdw::Vec3 >( "3", testCounts );
 		testDFdxCoarseT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3178,7 +3178,7 @@ namespace
 		testDFdxFineT< sdw::Vec2 >( "2", testCounts );
 		testDFdxFineT< sdw::Vec3 >( "3", testCounts );
 		testDFdxFineT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3206,7 +3206,7 @@ namespace
 		testDFdyT< sdw::Vec2 >( "2", testCounts );
 		testDFdyT< sdw::Vec3 >( "3", testCounts );
 		testDFdyT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3234,7 +3234,7 @@ namespace
 		testDFdyCoarseT< sdw::Vec2 >( "2", testCounts );
 		testDFdyCoarseT< sdw::Vec3 >( "3", testCounts );
 		testDFdyCoarseT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3262,7 +3262,7 @@ namespace
 		testDFdyFineT< sdw::Vec2 >( "2", testCounts );
 		testDFdyFineT< sdw::Vec3 >( "3", testCounts );
 		testDFdyFineT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3290,7 +3290,7 @@ namespace
 		testFwidthT< sdw::Vec2 >( "2", testCounts );
 		testFwidthT< sdw::Vec3 >( "3", testCounts );
 		testFwidthT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3318,7 +3318,7 @@ namespace
 		testInterpolateAtCentroidT< sdw::Vec2 >( "2", testCounts );
 		testInterpolateAtCentroidT< sdw::Vec3 >( "3", testCounts );
 		testInterpolateAtCentroidT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3346,7 +3346,7 @@ namespace
 		testInterpolateAtSampleT< sdw::Vec2 >( "2", testCounts );
 		testInterpolateAtSampleT< sdw::Vec3 >( "3", testCounts );
 		testInterpolateAtSampleT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3374,7 +3374,7 @@ namespace
 		testInterpolateAtOffsetT< sdw::Vec2 >( "2", testCounts );
 		testInterpolateAtOffsetT< sdw::Vec3 >( "3", testCounts );
 		testInterpolateAtOffsetT< sdw::Vec4 >( "4", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testBarrier )
@@ -3424,7 +3424,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testMemoryBarrier )
@@ -3443,7 +3443,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testMemoryBarrierBuffer )
@@ -3462,7 +3462,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testMemoryBarrierShared )
@@ -3481,7 +3481,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testMemoryBarrierImage )
@@ -3500,7 +3500,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testGroupMemoryBarrier )
@@ -3519,7 +3519,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< sdw::var::Flag FlagT >
@@ -3593,7 +3593,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSetMeshOutputCounts )
@@ -3619,7 +3619,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoGLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testDispatchMeshNV )
@@ -3639,7 +3639,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testDispatchMesh )
@@ -3661,7 +3661,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_NoGLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testHelperInvocation )
@@ -3680,7 +3680,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, Compilers_SPIRV );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBarrier )
@@ -3699,7 +3699,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupMemoryBarrier )
@@ -3718,7 +3718,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupMemoryBarrierBuffer )
@@ -3737,7 +3737,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupMemoryBarrierShared )
@@ -3756,7 +3756,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupMemoryBarrierImage )
@@ -3775,7 +3775,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupElect )
@@ -3794,7 +3794,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupAll )
@@ -3815,7 +3815,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupAny )
@@ -3836,7 +3836,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3882,7 +3882,7 @@ namespace
 		testSubgroupAllEqualT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupAllEqualT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupAllEqualT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3929,7 +3929,7 @@ namespace
 		testSubgroupBroadcastT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupBroadcastT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupBroadcastT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -3976,7 +3976,7 @@ namespace
 		testSubgroupBroadcastFirstT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupBroadcastFirstT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupBroadcastFirstT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallot )
@@ -3997,7 +3997,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupInverseBallot )
@@ -4018,7 +4018,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallotBitExtract )
@@ -4039,7 +4039,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallotBitCount )
@@ -4060,7 +4060,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallotInclusiveBitCount )
@@ -4081,7 +4081,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallotExclusiveBitCount )
@@ -4102,7 +4102,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallotFindLSB )
@@ -4123,7 +4123,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSubgroupBallotFindMSB )
@@ -4144,7 +4144,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4191,7 +4191,7 @@ namespace
 		testSubgroupShuffleT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupShuffleT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupShuffleT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4238,7 +4238,7 @@ namespace
 		testSubgroupShuffleXorT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupShuffleXorT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupShuffleXorT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4285,7 +4285,7 @@ namespace
 		testSubgroupShuffleUpT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupShuffleUpT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupShuffleUpT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4332,7 +4332,7 @@ namespace
 		testSubgroupShuffleDownT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupShuffleDownT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupShuffleDownT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4375,7 +4375,7 @@ namespace
 		testSubgroupAddT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupAddT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupAddT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4418,7 +4418,7 @@ namespace
 		testSubgroupInclusiveAddT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupInclusiveAddT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupInclusiveAddT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4461,7 +4461,7 @@ namespace
 		testSubgroupExclusiveAddT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupExclusiveAddT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupExclusiveAddT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4504,7 +4504,7 @@ namespace
 		testSubgroupClusterAddT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupClusterAddT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupClusterAddT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4547,7 +4547,7 @@ namespace
 		testSubgroupMulT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupMulT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupMulT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4590,7 +4590,7 @@ namespace
 		testSubgroupInclusiveMulT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupInclusiveMulT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupInclusiveMulT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4633,7 +4633,7 @@ namespace
 		testSubgroupExclusiveMulT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupExclusiveMulT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupExclusiveMulT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4676,7 +4676,7 @@ namespace
 		testSubgroupClusterMulT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupClusterMulT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupClusterMulT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4719,7 +4719,7 @@ namespace
 		testSubgroupMinT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupMinT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupMinT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4762,7 +4762,7 @@ namespace
 		testSubgroupInclusiveMinT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupInclusiveMinT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupInclusiveMinT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4805,7 +4805,7 @@ namespace
 		testSubgroupExclusiveMinT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupExclusiveMinT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupExclusiveMinT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4848,7 +4848,7 @@ namespace
 		testSubgroupClusterMinT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupClusterMinT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupClusterMinT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4891,7 +4891,7 @@ namespace
 		testSubgroupMaxT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupMaxT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupMaxT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4934,7 +4934,7 @@ namespace
 		testSubgroupInclusiveMaxT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupInclusiveMaxT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupInclusiveMaxT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -4977,7 +4977,7 @@ namespace
 		testSubgroupExclusiveMaxT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupExclusiveMaxT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupExclusiveMaxT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5020,7 +5020,7 @@ namespace
 		testSubgroupClusterMaxT< sdw::UVec2 >( "2U", testCounts );
 		testSubgroupClusterMaxT< sdw::UVec3 >( "3U", testCounts );
 		testSubgroupClusterMaxT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5059,7 +5059,7 @@ namespace
 		testSubgroupAndT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupAndT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupAndT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5098,7 +5098,7 @@ namespace
 		testSubgroupInclusiveAndT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupInclusiveAndT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupInclusiveAndT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5137,7 +5137,7 @@ namespace
 		testSubgroupExclusiveAndT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupExclusiveAndT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupExclusiveAndT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5176,7 +5176,7 @@ namespace
 		testSubgroupClusterAndT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupClusterAndT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupClusterAndT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5215,7 +5215,7 @@ namespace
 		testSubgroupOrT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupOrT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupOrT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5254,7 +5254,7 @@ namespace
 		testSubgroupInclusiveOrT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupInclusiveOrT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupInclusiveOrT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5293,7 +5293,7 @@ namespace
 		testSubgroupExclusiveOrT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupExclusiveOrT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupExclusiveOrT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5332,7 +5332,7 @@ namespace
 		testSubgroupClusterOrT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupClusterOrT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupClusterOrT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5371,7 +5371,7 @@ namespace
 		testSubgroupXorT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupXorT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupXorT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5410,7 +5410,7 @@ namespace
 		testSubgroupInclusiveXorT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupInclusiveXorT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupInclusiveXorT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5449,7 +5449,7 @@ namespace
 		testSubgroupExclusiveXorT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupExclusiveXorT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupExclusiveXorT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5488,7 +5488,7 @@ namespace
 		testSubgroupClusterXorT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupClusterXorT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupClusterXorT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5535,7 +5535,7 @@ namespace
 		testSubgroupQuadBroadcastT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupQuadBroadcastT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupQuadBroadcastT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5582,7 +5582,7 @@ namespace
 		testSubgroupQuadSwapHorizontalT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupQuadSwapHorizontalT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupQuadSwapHorizontalT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5629,7 +5629,7 @@ namespace
 		testSubgroupQuadSwapVerticalT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupQuadSwapVerticalT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupQuadSwapVerticalT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5676,7 +5676,7 @@ namespace
 		testSubgroupQuadSwapDiagonalT< sdw::BVec2 >( "2B", testCounts );
 		testSubgroupQuadSwapDiagonalT< sdw::BVec3 >( "3B", testCounts );
 		testSubgroupQuadSwapDiagonalT< sdw::BVec4 >( "4B", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5719,7 +5719,7 @@ namespace
 		testReadInvocationT< sdw::UVec2 >( "2U", testCounts );
 		testReadInvocationT< sdw::UVec3 >( "3U", testCounts );
 		testReadInvocationT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	template< typename ValueT >
@@ -5762,7 +5762,7 @@ namespace
 		testReadFirstInvocationT< sdw::UVec2 >( "2U", testCounts );
 		testReadFirstInvocationT< sdw::UVec3 >( "3U", testCounts );
 		testReadFirstInvocationT< sdw::UVec4 >( "4U", testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

@@ -450,7 +450,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, vecTimesMtx )
@@ -499,7 +499,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, nonUniform )
@@ -535,7 +535,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, wavefrontLighting )
@@ -668,7 +668,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, basicExecCallable )
@@ -784,7 +784,7 @@ namespace
 				, testCounts
 				, Compilers_All );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, execCallable )
@@ -905,7 +905,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

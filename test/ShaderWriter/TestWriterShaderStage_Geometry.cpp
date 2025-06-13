@@ -81,7 +81,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMemberInputOnly )
@@ -112,7 +112,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificGlobalInputOnly )
@@ -144,7 +144,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMixedInputOnly )
@@ -176,7 +176,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMemberOutputOnly )
@@ -212,7 +212,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMemberInAndOut )
@@ -249,7 +249,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificGlobalInAndOut )
@@ -287,7 +287,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMixedInAndOut )
@@ -325,7 +325,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

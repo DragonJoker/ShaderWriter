@@ -98,7 +98,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, geometryPipeline )
@@ -149,7 +149,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	namespace tess
@@ -440,7 +440,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	namespace raytrace
@@ -600,7 +600,7 @@ namespace
 
 		test::writeProgram( writer
 			, testCounts, RayTraceCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	namespace mesh
@@ -799,7 +799,7 @@ namespace
 			, testCounts, MeshEXTCompilers );
 		test::validateProgram( writer
 			, testCounts, MeshEXTCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, taskMeshPipelineNV )
@@ -908,7 +908,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, taskMeshPipeline )
@@ -1017,7 +1017,7 @@ namespace
 			, testCounts, CurrentCompilers );
 		test::validateProgram( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

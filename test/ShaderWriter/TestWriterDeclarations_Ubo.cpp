@@ -88,7 +88,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUboRawArray )
@@ -168,7 +168,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUboRawOptionalDisabled )
@@ -252,7 +252,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUboRawOptionalDisabledArray )
@@ -336,7 +336,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUboRawOptionalEnabled )
@@ -420,7 +420,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUboRawOptionalEnabledArray )
@@ -504,7 +504,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testUboHelper )
@@ -574,7 +574,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -646,7 +646,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}

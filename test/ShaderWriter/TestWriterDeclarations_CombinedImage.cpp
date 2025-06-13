@@ -400,7 +400,7 @@ namespace
 	{
 		sdwTestBegin( "testTexture" + getImageFormatName( ast::type::ImageFormat::SDW_TestImageFormat ) );
 		testTextureFormatT< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

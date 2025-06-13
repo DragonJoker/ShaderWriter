@@ -22,7 +22,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testIfElse )
@@ -44,7 +44,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testIfElseIf )
@@ -67,7 +67,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testIfElseIfElse )
@@ -94,34 +94,50 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSwitch )
 	{
 		sdwTestBegin( "testSwitch" );
-		sdw::VertexWriter writer{ &testCounts.allocator };
-		writer.implementMain( [&]( sdw::VertexIn in, sdw::VertexOut out )
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+
+		sdw::UniformBuffer ubo{ writer, "MyUbo", 0u, 0u };
+		auto t = ubo.declMember< sdw::Int >( "t" );
+		auto u = ubo.declMember< sdw::Int >( "u" );
+		auto v = ubo.declMember< sdw::Int >( "v" );
+		auto w = ubo.declMember< sdw::Int >( "w" );
+		ubo.end();
+
+		sdw::StorageBuffer ssbo{ writer, "MySsbo", 4u, 0u };
+		auto x = ssbo.declMember< sdw::Int >( "x" );
+		ssbo.end();
+
+		writer.implementMain( 32, [&]( sdw::ComputeIn in )
 			{
-				auto ctrl = writer.declLocale< sdw::Int >( "ctrl" );
-				sdwSWITCH( writer, ctrl )
+				sdwSWITCH( writer, t )
 				{
 					sdwCASE( 0 )
 					{
-						auto i = writer.declLocale< sdw::Int >( "i" );
+						x = u;
 					}
 					sdwESAC;
 					sdwCASE( 1 )
 					{
-						auto j = writer.declLocale< sdw::Int >( "j" );
+						x = v;
 					}
 					sdwESAC;
+					sdwDEFAULT
+					{
+						x = w;
+					}
+					sdwTLUAFED;
 				}
 				sdwHCTIWS
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testForPlusEqual )
@@ -138,7 +154,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testForPreInc )
@@ -155,7 +171,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testForPostInc )
@@ -172,7 +188,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testForPreDec )
@@ -191,7 +207,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testForPostDec )
@@ -209,7 +225,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testForSuccessive )
@@ -248,7 +264,7 @@ namespace
 			test::writeShader( writer
 				, testCounts, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testWhile )
@@ -266,7 +282,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testDoWhile )
@@ -284,7 +300,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedIf )
@@ -307,7 +323,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedIfElse )
@@ -347,7 +363,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedIfElseIf )
@@ -390,7 +406,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedIfElseIfElse )
@@ -459,7 +475,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedFor )
@@ -480,7 +496,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedWhile )
@@ -504,7 +520,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedDoWhile )
@@ -528,7 +544,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testTernary )
@@ -544,7 +560,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstIfElseTrue )
@@ -572,7 +588,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstIfElseFalse )
@@ -600,7 +616,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstIfElseIfTrueTrue )
@@ -633,7 +649,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstIfElseIfTrueFalse )
@@ -666,7 +682,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstIfElseIfFalseTrue )
@@ -699,7 +715,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstIfElseIfFalseFalse )
@@ -732,7 +748,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstSwitch0 )
@@ -770,7 +786,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstSwitch1 )
@@ -808,7 +824,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testConstSwitchDefault )
@@ -846,7 +862,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testAnonymousScope )
@@ -869,7 +885,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testNestedAnonymousScopes )
@@ -911,7 +927,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

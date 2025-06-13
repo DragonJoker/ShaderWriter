@@ -252,7 +252,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, noSpecificIOT )
@@ -283,7 +283,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMemberInputOnly )
@@ -303,7 +303,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificGlobalInputOnly )
@@ -324,7 +324,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMixedInputOnly )
@@ -345,7 +345,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMemberOutputOnly )
@@ -365,7 +365,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificGlobalOutputOnly )
@@ -386,7 +386,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMixedOutputOnly )
@@ -408,7 +408,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMemberInAndOut )
@@ -428,7 +428,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificGlobalInAndOut )
@@ -450,7 +450,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, specificMixedInAndOut )
@@ -473,7 +473,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, fragment )
@@ -553,7 +553,7 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, radianceComputer )
@@ -610,7 +610,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, textureOffset )
@@ -635,7 +635,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, skybox )
@@ -672,7 +672,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, reference )
@@ -725,7 +725,7 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, terminate )
@@ -749,7 +749,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, demote )
@@ -773,7 +773,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, pixelInterlockOrdered )
@@ -795,7 +795,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, pixelInterlockUnordered )
@@ -818,7 +818,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, sampleInterlockOrdered )
@@ -841,7 +841,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, sampleInterlockUnordered )
@@ -864,7 +864,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

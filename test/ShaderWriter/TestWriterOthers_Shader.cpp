@@ -325,7 +325,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, charles )
@@ -387,7 +387,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, charles_approx )
@@ -448,7 +448,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, charles_latest )
@@ -509,7 +509,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, drawID )
@@ -542,7 +542,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, charles_drawID )
@@ -613,7 +613,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, arthapzMin )
@@ -657,7 +657,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	struct ArthapzParams
@@ -821,7 +821,7 @@ namespace
 
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 	INSTANTIATE_TEST_SUITE_P( arthapz
 		, ArthapzParam
@@ -884,7 +884,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, basicPipeline )
@@ -926,7 +926,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, geometryPipeline )
@@ -1001,7 +1001,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, voxelPipeline )
@@ -1206,7 +1206,7 @@ namespace
 				, CurrentCompilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, tessellationPipeline )
@@ -1461,7 +1461,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, arraySsboTextureLookup )
@@ -1488,7 +1488,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, pcbHelper )
@@ -1521,7 +1521,7 @@ namespace
 				, testCounts
 				, CurrentCompilers );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, radianceComputer )
@@ -1608,7 +1608,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

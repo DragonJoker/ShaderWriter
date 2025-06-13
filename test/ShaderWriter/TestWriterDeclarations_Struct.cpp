@@ -80,7 +80,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 
