@@ -465,7 +465,7 @@ namespace glsl
 					[[fallthrough]];
 				case ast::expr::Intrinsic::eAtomicAddF:
 				case ast::expr::Intrinsic::eAtomicExchangeF:
-					m_config.requiredExtensions.insert( NV_shader_atomic_float );
+					m_config.requiredExtensions.insert( EXT_shader_atomic_float );
 					break;
 				case ast::expr::Intrinsic::eTraceRay:
 					m_config.requiresRayDescDecl = true;
@@ -502,7 +502,7 @@ namespace glsl
 					|| ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageAtomicExchange1DF
 						&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageAtomicExchange2DMSArrayF ) )
 				{
-					m_config.requiredExtensions.insert( NV_shader_atomic_float );
+					m_config.requiredExtensions.insert( EXT_shader_atomic_float );
 
 					for ( auto & arg : expr->getArgList() )
 					{
