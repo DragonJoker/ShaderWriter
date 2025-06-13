@@ -10,16 +10,15 @@ namespace
 
 	TEST_F( SDWTest, testShaderOutputBase )
 	{
-		sdwTestBegin( "testShaderOutputBase" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderOutputBase" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_0";
-			auto value = writer.declOutput< T >( name, 0u );
+			auto value = writer.declOutput< T >( "value", 0u );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
@@ -32,16 +31,15 @@ namespace
 
 	TEST_F( SDWTest, testShaderOutputArray )
 	{
-		sdwTestBegin( "testShaderOutputArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderOutputArray" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_1";
-			auto value = writer.declOutputArray< T >( name, 1u, 6u );
+			auto value = writer.declOutputArray< T >( "value", 1u, 6u );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == 6u );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
@@ -54,7 +52,7 @@ namespace
 
 	TEST_F( SDWTest, testShaderOutputOptionalDisabled )
 	{
-		sdwTestBegin( "testShaderOutputOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderOutputOptionalDisabled" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -75,7 +73,7 @@ namespace
 
 	TEST_F( SDWTest, testShaderOutputArrayOptionalDisabled )
 	{
-		sdwTestBegin( "testShaderOutputArrayOptionalDisabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderOutputArrayOptionalDisabled" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -96,17 +94,16 @@ namespace
 
 	TEST_F( SDWTest, testShaderOutputOptionalEnabled )
 	{
-		sdwTestBegin( "testShaderOutputOptionalEnabled" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderOutputOptionalEnabled" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_0_opt";
-			auto value = writer.declOutput< T >( name, 0u, true );
+			auto value = writer.declOutput< T >( "value", 0u, true );
 			astCheck( value.isEnabled() );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
@@ -119,17 +116,16 @@ namespace
 
 	TEST_F( SDWTest, testShaderOutputArrayOptionalEnabled )
 	{
-		sdwTestBegin( "testShaderOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderOutput" );
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "OutputValue_1_opt";
-			auto value = writer.declOutputArray< T >( name, 1u, 6u, true );
+			auto value = writer.declOutputArray< T >( "value", 1u, 6u, true );
 			astCheck( value.isEnabled() );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == 6u );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eInOutVariableDecl );
@@ -142,16 +138,15 @@ namespace
 
 	TEST_F( SDWTest, testShaderBlendOutput )
 	{
-		sdwTestBegin( "testShaderBlendOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderBlendOutput" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "BlendOutputValue_0";
-			auto value = writer.declBlendOutput< T >( name, 0u, 1u );
+			auto value = writer.declBlendOutput< T >( "value", 0u, 1u );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isBlendIndex() );
 			auto & stmt = *shader.getStatements()->back();
@@ -166,16 +161,15 @@ namespace
 
 	TEST_F( SDWTest, testShaderStreamOutput )
 	{
-		sdwTestBegin( "testShaderStreamOutput" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testShaderStreamOutput" );
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "StreamOutputValue_0";
-			auto value = writer.declStreamOutput< T >( name, 0u, 1u );
+			auto value = writer.declStreamOutput< T >( "value", 0u, 1u );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isShaderOutput() );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isGeometryStream() );
 			auto & stmt = *shader.getStatements()->back();

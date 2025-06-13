@@ -264,6 +264,53 @@ if ( SDW_ALL_TESTS )
 		Mat4x3
 		Mat4x4
 	)
+	set( DECL_TYPES
+		Boolean
+		Int
+		UInt
+		Float
+		Double
+		Vec2
+		Vec3
+		Vec4
+		DVec2
+		DVec3
+		DVec4
+		BVec2
+		BVec3
+		BVec4
+		IVec2
+		IVec3
+		IVec4
+		UVec2
+		UVec3
+		UVec4
+		Mat2
+		Mat2x3
+		Mat2x4
+		Mat3
+		Mat3x2
+		Mat3x4
+		Mat4
+		Mat4x2
+		Mat4x3
+		DMat2
+		DMat2x3
+		DMat2x4
+		DMat3
+		DMat3x2
+		DMat3x4
+		DMat4
+		DMat4x2
+		DMat4x3
+	)
+	set( CPP_TYPES
+		bool
+		int32_t
+		uint32_t
+		float
+		double
+	)
 elseif ( PROJECTS_COVERAGE )
 	set( IMAGE_FORMATS
 		eR32f
@@ -273,6 +320,16 @@ elseif ( PROJECTS_COVERAGE )
 	)
 	set( IO_TYPES
 		Vec4
+	)
+	set( DECL_TYPES
+		Float
+	)
+	set( CPP_TYPES
+		bool
+		int32_t
+		uint32_t
+		float
+		double
 	)
 else ()
 	set( IMAGE_FORMATS
@@ -312,9 +369,27 @@ else ()
 		Mat3x2
 		Mat3x3
 	)
+	set( DECL_TYPES
+		Float
+		Vec4
+		Vec3
+		I32Vec4
+		U64Vec2
+		Mat2x3
+		Mat4x4
+		Mat3x2
+		Mat3x3
+	)
+	set( CPP_TYPES
+		bool
+		int32_t
+		uint32_t
+		float
+		double
+	)
 endif ()
 
-function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
+function( SDW_AddTest TEST_FILE TEST_NAME TEST_CATEGORY NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	set( REAL_TEST_NAME ${TEST_NAME}${NAME_SUFFIX} )
 	string( REPLACE "TestWriter" "" SHORT_TEST_NAME ${REAL_TEST_NAME} )
 	add_executable( ${REAL_TEST_NAME}
@@ -337,12 +412,12 @@ function( SDW_AddTest TEST_FILE TEST_NAME NAME_SUFFIX ADDITIONAL_DEFINITIONS )
 	if ( "${NAME_SUFFIX}" STREQUAL "" )
 		set_target_properties( ${REAL_TEST_NAME} PROPERTIES
 			CXX_STANDARD 20
-			FOLDER "Tests/ShaderWriter"
+			FOLDER "Tests/ShaderWriter/${TEST_CATEGORY}"
 		)
 	else ()
 		set_target_properties( ${REAL_TEST_NAME} PROPERTIES
 			CXX_STANDARD 20
-			FOLDER "Tests/ShaderWriter/${TEST_NAME}"
+			FOLDER "Tests/ShaderWriter/${TEST_CATEGORY}/${TEST_NAME}"
 		)
 	endif ()
 
@@ -374,43 +449,65 @@ endfunction( SDW_AddTest )
 
 foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
+	string( REGEX MATCH "[^_]*" TEST_CATEGORY ${TEST_NAME} )
+	string( REPLACE "TestWriter" "" TEST_CATEGORY ${TEST_CATEGORY} )
 	string( FIND ${TEST_FILE} "Image" IS_IMAGE )
 	string( FIND ${TEST_FILE} "Ssbo" IS_SSBO )
 	string( FIND ${TEST_FILE} "Ubo" IS_UBO )
 	string( FIND ${TEST_FILE} "Struct" IS_STRUCT )
-	string( FIND ${TEST_FILE} "Pcb" IS_PCB )
+	string( FIND ${TEST_FILE} "PushConstantsBuffer" IS_PCB )
 	string( FIND ${TEST_FILE} "Output" IS_OUT )
 	string( FIND ${TEST_FILE} "Input" IS_IN )
+	string( FIND ${TEST_FILE} "Declarations_Constant" IS_CONST )
+	string( FIND ${TEST_FILE} "Declarations_Global" IS_GLOB )
+	string( FIND ${TEST_FILE} "Declarations_Locale" IS_LOC )
+	string( FIND ${TEST_FILE} "SpecConstant" IS_SPC )
 
 	if ( IS_IMAGE GREATER -1 )
 		foreach( FORMAT ${IMAGE_FORMATS} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
 		endforeach ()
 	elseif ( IS_SSBO GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_UBO GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_STRUCT GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_PCB GREATER -1 )
 		foreach( BO_TYPE ${BO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${BO_TYPE} "SDW_TestType=${BO_TYPE}" )
 		endforeach ()
 	elseif ( IS_OUT GREATER -1 )
 		foreach( IO_TYPE ${IO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${IO_TYPE} "SDW_TestType=${IO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${IO_TYPE} "SDW_TestType=${IO_TYPE}" )
 		endforeach ()
 	elseif ( IS_IN GREATER -1 )
 		foreach( IO_TYPE ${IO_TYPES} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} _${IO_TYPE} "SDW_TestType=${IO_TYPE}" )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${IO_TYPE} "SDW_TestType=${IO_TYPE}" )
+		endforeach ()
+	elseif ( IS_CONST GREATER -1 )
+		foreach( DECL_TYPE ${DECL_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${DECL_TYPE} "SDW_TestType=${DECL_TYPE}" )
+		endforeach ()
+	elseif ( IS_GLOB GREATER -1 )
+		foreach( DECL_TYPE ${DECL_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${DECL_TYPE} "SDW_TestType=${DECL_TYPE}" )
+		endforeach ()
+	elseif ( IS_LOC GREATER -1 )
+		foreach( DECL_TYPE ${DECL_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${DECL_TYPE} "SDW_TestType=${DECL_TYPE}" )
+		endforeach ()
+	elseif ( IS_SPC GREATER -1 )
+		foreach( CPP_TYPE ${CPP_TYPES} )
+			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${CPP_TYPE} "SDW_TestType=${CPP_TYPE}" )
 		endforeach ()
 	else ()
-		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} "" "" )
+		SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} "" "" )
 	endif ()
 endforeach ()

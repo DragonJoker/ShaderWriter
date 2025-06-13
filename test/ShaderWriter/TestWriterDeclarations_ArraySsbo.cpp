@@ -11,11 +11,11 @@ namespace
 
 	TEST_F( SDWTest, testStructuredSsbo )
 	{
-		sdwTestBegin( "testStructuredSsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testStructuredSsbo" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "m_member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
@@ -49,7 +49,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberArray";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name, 4u );
 			type.end();
@@ -83,7 +83,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "m_member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name );
 			type.end();
@@ -117,7 +117,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "m_memberArray";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
 			type.declMember< T >( name, 4u );
 			type.end();
@@ -153,11 +153,11 @@ namespace
 
 	TEST_F( SDWTest, testArraySsbo )
 	{
-		sdwTestBegin( "testArraySsbo" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testArraySsbo" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "m_member";
 			sdw::ArrayStorageBufferT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, 1u, 1u, true };
 			auto value = bo[0];
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
@@ -188,7 +188,7 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "m_member";
 			sdw::ArrayStorageBufferT< T > bo{ writer, "Datas", T::makeType( shader.getTypesCache() ), ast::type::MemoryLayout::eStd140, { .binding = 1u, .set = 1u }, true };
 			auto value = bo[0];
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
