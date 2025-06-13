@@ -14,6 +14,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Stmt/StmtSimple.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
+#include <ShaderAST/Visitors/ResolveConstants.hpp>
 
 #include <stdexcept>
 
@@ -128,9 +129,9 @@ namespace spirv
 						auto elementType = arrayType->getType();
 						for ( uint32_t index = 0u; index < arrayType->getArraySize(); ++index )
 						{
-							inits.emplace_back( m_exprCache.makeArrayAccess( elementType
+							inits.emplace_back( ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType
 								, ast::ExprCloner::submit( m_exprCache, expr->getAliasedExpr() )
-								, m_exprCache.makeLiteral( m_typesCache, index ) ) );
+								, m_exprCache.makeLiteral( m_typesCache, index ) ) ) );
 						}
 					}
 				}
@@ -140,9 +141,9 @@ namespace spirv
 					auto componentType = m_typesCache.getBasicType( getComponentType( expr->getType() ) );
 					for ( uint32_t index = 0u; index < columnCount; ++index )
 					{
-						inits.emplace_back( m_exprCache.makeArrayAccess( componentType
+						inits.emplace_back( ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType
 							, ast::ExprCloner::submit( m_exprCache, expr->getAliasedExpr() )
-							, m_exprCache.makeLiteral( m_typesCache, index ) ) );
+							, m_exprCache.makeLiteral( m_typesCache, index ) ) ) );
 					}
 				}
 				else
@@ -208,13 +209,13 @@ namespace spirv
 					for ( uint32_t index = 0u; index < arrayType->getArraySize() - 1u; ++index )
 					{
 						m_container->addStmt( stmtCache.makeSimple( m_exprCache.makeAssign( elementType
-							, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) )
-							, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) );
+							, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) )
+							, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) ) );
 					}
 
 					m_result = m_exprCache.makeAssign( elementType
-						, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) )
-						, m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) ) );
+						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) ) )
+						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) ) ) );
 				}
 			}
 			else if ( isMatrixType( type ) )
@@ -224,13 +225,13 @@ namespace spirv
 				for ( uint32_t index = 0u; index < columnCount - 1u; ++index )
 				{
 					m_container->addStmt( stmtCache.makeSimple( m_exprCache.makeAssign( componentType
-						, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) )
-						, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) );
+						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) )
+						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) ) );
 				}
 
 				m_result = m_exprCache.makeAssign( componentType
-					, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) )
-					, m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) ) );
+					, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) ) )
+					, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) ) ) );
 			}
 			else
 			{
