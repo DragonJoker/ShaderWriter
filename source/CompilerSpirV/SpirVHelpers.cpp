@@ -3793,5 +3793,12 @@ namespace spirv
 			|| storage == ast::type::Storage::ePhysicalStorageBuffer;
 	}
 
+	bool isMemoryLayoutDependent( ast::type::TypePtr type )
+	{
+		return getStructType( type )
+			|| isArrayType( type )
+			|| isMatrixType( type );
+	}
+
 	//*************************************************************************
 }

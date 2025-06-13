@@ -1263,10 +1263,22 @@ namespace spirv
 			{
 				TraceFunc;
 				m_allLiterals = false;
-				ast::type::Storage storageClass{ expr->hasIdentifier()
-					? getStorageClass( getVersion(), expr->getIdentifier().getVariable() )
-					: getStorageClass( expr->getType() ) };
-				registerType( expr->getType(), isExplicitLayoutNeeded( storageClass ), nullptr );
+				auto exprType = expr->getType();
+				ast::type::Storage storageClass;
+
+				if ( expr->getInitialiser()->getKind() == ast::expr::Kind::eIdentifier )
+				{
+					exprType = expr->getInitialiser()->getType();
+					storageClass = getStorageClass( exprType );
+				}
+				else
+				{
+					storageClass = { expr->hasIdentifier()
+						? getStorageClass( getVersion(), expr->getIdentifier().getVariable() )
+						: getStorageClass( exprType ) };
+				}
+
+				registerType( exprType, isExplicitLayoutNeeded( storageClass ), nullptr );
 				bool allLiterals = true;
 				auto init = loadVariable( doSubmit( *expr->getInitialiser(), allLiterals ), *expr->getInitialiser() );
 				bool hasFuncInit = helpers::HasFnCall::submit( *expr );
@@ -1277,7 +1289,7 @@ namespace spirv
 						, allLiterals
 						, hasFuncInit
 						, expr->getIdentifier().getVariable()
-						, expr->getType()
+						, exprType
 						, *expr );
 				}
 				else
@@ -2067,12 +2079,12 @@ namespace spirv
 				, bool allLiterals
 				, bool isFuncInit
 				, ast::var::VariablePtr var
+				, ast::type::Storage storageClass
 				, ast::type::TypePtr type
 				, ast::expr::Expr const & expr )
 			{
 				TraceFunc;
 				bool result{};
-				ast::type::Storage storageClass{ getStorageClass( getVersion(), var ) };
 
 				if ( allLiterals
 					&& !var->isLoopVar()
@@ -2128,6 +2140,23 @@ namespace spirv
 				}
 
 				return result;
+			}
+
+			bool initialiseVariable( DebugId const & init
+				, bool allLiterals
+				, bool isFuncInit
+				, ast::var::VariablePtr var
+				, ast::type::TypePtr type
+				, ast::expr::Expr const & expr )
+			{
+				ast::type::Storage storageClass{ getStorageClass( getVersion(), var ) };
+				return initialiseVariable( init
+					, allLiterals
+					, isFuncInit
+					, std::move( var )
+					, storageClass
+					, std::move( type )
+					, expr );
 			}
 
 			DebugId visitInitialisers( ast::expr::ExprList const & inits

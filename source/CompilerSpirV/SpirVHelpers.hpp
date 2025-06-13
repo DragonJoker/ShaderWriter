@@ -550,6 +550,7 @@ namespace spirv
 	bool isExplicitLayoutNeeded( uint32_t version
 		, ast::expr::Expr const & expr );
 	bool isExplicitLayoutNeeded( ast::type::Storage storage );
+	bool isMemoryLayoutDependent( ast::type::TypePtr type );
 }
 
 #endif

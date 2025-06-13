@@ -299,6 +299,7 @@ namespace spirv
 			, DebugId const & id );
 		void doAddVariable( Block & block
 			, std::string const & name
+			, ast::type::Storage typeStorage
 			, DebugId const & varId
 			, ast::Map< std::string, VariableInfo >::iterator & it
 			, DebugId const & initialiser

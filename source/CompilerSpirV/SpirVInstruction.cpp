@@ -637,6 +637,8 @@ namespace spirv
 				return GroupNonUniformQuadBroadcastInstruction::Config;
 			case spv::OpGroupNonUniformQuadSwap:
 				return GroupNonUniformQuadSwapInstruction::Config;
+			case spv::OpTypeForwardPointer:
+				return ForwardPointerTypeInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 #if !SDAST_ExceptAssert
