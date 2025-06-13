@@ -84,7 +84,17 @@ namespace ast::stmt
 		{
 			auto mem = m_allocator->allocate( sizeof( StmtT ) );
 			++m_allocatedStmts;
-			return std::unique_ptr< StmtT, DeleteStmt >{ new ( mem )StmtT{ *this, std::forward< ParamsT >( params )... } };
+
+			try
+			{
+				return std::unique_ptr< StmtT, DeleteStmt >{ new ( mem )StmtT{ *this, std::forward< ParamsT >( params )... } };
+			}
+			catch ( ast::Exception & )
+			{
+				--m_allocatedStmts;
+				m_allocator->deallocate( mem, sizeof( StmtT ) );
+				throw;
+			}
 		}
 
 		ShaderAllocatorBlock & getAllocator()const
