@@ -44,11 +44,11 @@ if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	)
 	set( GENERATED_DIR ${SDW_BINARY_DIR}/generated/${_FOLDER_NAME} )
 	set( INCLUDE_DIR ${SDW_SOURCE_DIR}/include/ShaderAST )
-	add_custom_command( OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/TestASTIntrinsics.cpp
+	add_custom_command( OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/TestASTBase_Intrinsics.cpp
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${GENERATED_DIR}
-		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genTestASTIntrinsicsFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/TestASTIntrinsics.cpp
-		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TestASTIntrinsics.cpp ${CMAKE_CURRENT_SOURCE_DIR}/TestASTIntrinsics.cpp
-		COMMENT "Generating TestASTIntrinsics.cpp"
+		COMMAND ${Python_EXECUTABLE} ${SCRIPT_DIR}/genTestASTIntrinsicsFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum ${GENERATED_DIR}/TestASTBase_Intrinsics.cpp
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${GENERATED_DIR}/TestASTBase_Intrinsics.cpp ${CMAKE_CURRENT_SOURCE_DIR}/TestASTBase_Intrinsics.cpp
+		COMMENT "Generating TestASTBase_Intrinsics.cpp"
 		DEPENDS ${SCRIPT_DIR}/genTestASTIntrinsicsFromEnum.py ${INCLUDE_DIR}/Expr/Intrinsic.enum
 	)
 endif ()
@@ -56,6 +56,8 @@ endif ()
 macro( create_test TEST_FILE )
 	get_filename_component( TARGET_NAME ${TEST_FILE} NAME_WE )
 	string( REPLACE "TestAST" "" TEST_NAME ${TARGET_NAME} )
+	string( REGEX MATCH "[^_]*" TEST_CATEGORY ${TARGET_NAME} )
+	string( REPLACE "TestAST" "" TEST_CATEGORY ${TEST_CATEGORY} )
 	add_executable( ${TARGET_NAME}
 		${TEST_FILE}
 	)
@@ -81,7 +83,7 @@ macro( create_test TEST_FILE )
 		PROPERTIES
 			CXX_STANDARD 20
 			CXX_EXTENSIONS OFF
-			FOLDER "Tests/ShaderAST"
+			FOLDER "Tests/ShaderAST/${TEST_CATEGORY}"
 			DEBUG_POSTFIX "d"
 	)
 	if ( PROJECTS_COVERAGE )
