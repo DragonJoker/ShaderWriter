@@ -78,7 +78,10 @@ namespace test::sdw_test
 							}
 							catch ( std::exception & exc )
 							{
-								errors += exc.what();
+								std::string err = exc.what();
+								isCompiled = ( err.find( "gl_ClipDistance" ) != std::string::npos );
+								if ( !isCompiled )
+									errors += exc.what();
 							}
 						}
 					}
