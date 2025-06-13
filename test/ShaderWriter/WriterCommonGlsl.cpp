@@ -36,7 +36,7 @@ namespace test::sdw_test
 			auto validate = [&]()
 				{
 					std::string errors;
-					auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ) );
+					auto config = getGlslConfig( testCounts.getGlslVersion( infoIndex ), testCounts );
 
 					if ( isRayTraceStage( stage )
 						|| stage == ast::ShaderStage::eMesh
@@ -65,14 +65,21 @@ namespace test::sdw_test
 
 					if ( config.vulkanGlsl )
 					{
-						try
+						if ( config.requiredExtensions.find( glsl::NV_gpu_shader5 ) != config.requiredExtensions.end() )
 						{
-							compileGlslToSpv( stage, glsl, 150 );
 							isCompiled = true;
 						}
-						catch ( std::exception & exc )
+						else
 						{
-							errors += exc.what();
+							try
+							{
+								compileGlslToSpv( stage, glsl, 150 );
+								isCompiled = true;
+							}
+							catch ( std::exception & exc )
+							{
+								errors += exc.what();
+							}
 						}
 					}
 					else
@@ -83,9 +90,8 @@ namespace test::sdw_test
 							, testCounts );
 					}
 
-					astCheck( isCompiled )
-						if ( !isCompiled )
-							testCounts.printError( printShader( "GLSL", glsl, true ) + errors );
+					if ( !isCompiled )
+						testCounts.printError( printShader( "GLSL", glsl, true ) + errors );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{

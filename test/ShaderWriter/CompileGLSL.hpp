@@ -20,7 +20,9 @@ namespace test
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts );
 #if SDW_HasCompilerGlsl
-	glsl::GlslExtensionSet getExtensions( uint32_t glslVersion );
-	glsl::GlslConfig getGlslConfig( uint32_t glslVersion );
+	glsl::GlslExtensionSet getExtensions( uint32_t glslVersion
+		, sdw_test::TestCounts & testCounts );
+	glsl::GlslConfig getGlslConfig( uint32_t glslVersion
+		, sdw_test::TestCounts & testCounts );
 #endif
 }

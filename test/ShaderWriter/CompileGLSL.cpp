@@ -24,6 +24,7 @@
 namespace test
 {
 	using GLSLVersions = std::array< uint32_t, 8u >;
+	using GLExtensions = std::set< std::string >;
 
 #if _WIN32 || __APPLE__
 
@@ -88,6 +89,11 @@ namespace test
 		GL_DEBUG_CATEGORY_OTHER_AMD = 0x9150,
 	};
 
+	enum GlGet
+	{
+		GL_GET_NUM_EXTENSIONS = 0x821D,
+	};
+
 #if _WIN32
 #	define GLAPIENTRY __stdcall
 
@@ -129,6 +135,7 @@ namespace test
 	using PFN_glGetShaderInfoLog = void ( GLAPIENTRY * )( GLuint shader, GLsizei bufSize, GLsizei* length, char * infoLog );
 	using PFN_glGetShaderiv = void ( GLAPIENTRY * )( GLuint shader, GLenum pname, GLint * param );
 	using PFN_glShaderSource = void ( GLAPIENTRY * )( GLuint shader, GLsizei count, const char * const * string, const GLint * length );
+	using PFN_glGetStringi = const GLubyte * ( GLAPIENTRY * )( GLenum name, GLuint index );
 
 	using PFNGLDEBUGPROC = void ( GLAPIENTRY * )( uint32_t source, uint32_t type, uint32_t id, uint32_t severity, int length, const char * message, void * userParam );
 	using PFNGLDEBUGAMDPROC = void ( GLAPIENTRY * )( uint32_t id, uint32_t category, uint32_t severity, int length, const char* message, void* userParam );
@@ -248,6 +255,84 @@ namespace test
 #endif
 	}
 
+	template< typename FuncT >
+	void getFunction( char const * const name, FuncT & function );
+
+	class RenderWindowBase
+	{
+	public:
+		std::vector< uint32_t > const & getGLSLVersions()const
+		{
+			return m_glslVersions;
+		}
+
+		bool hasExtension( std::string_view name )const
+		{
+			return m_glExtensions.find( std::string{ name } ) != m_glExtensions.end();
+		}
+
+		PFN_glCompileShader glCompileShader;
+		PFN_glCreateShader glCreateShader;
+		PFN_glDeleteShader glDeleteShader;
+		PFN_glGetShaderInfoLog glGetShaderInfoLog;
+		PFN_glGetShaderiv glGetShaderiv;
+		PFN_glShaderSource glShaderSource;
+		PFN_glGetStringi glGetStringi;
+
+	protected:
+		void loadBaseFunctions()
+		{
+			getFunction( "glCompileShader", glCompileShader );
+			getFunction( "glCreateShader", glCreateShader );
+			getFunction( "glDeleteShader", glDeleteShader );
+			getFunction( "glGetShaderInfoLog", glGetShaderInfoLog );
+			getFunction( "glGetShaderiv", glGetShaderiv );
+			getFunction( "glShaderSource", glShaderSource );
+			getFunction( "glGetStringi", glGetStringi );
+		}
+
+		void initialiseGLSLVersions( Version const & glVersion
+			, GLSLVersions const & glslVersions )
+		{
+			auto v = glVersion.major * 100u + glVersion.minor * 10u;
+
+			for ( auto & glslV : glslVersions )
+			{
+				if ( glslV <= v )
+				{
+					m_glslVersions.push_back( glslV );
+				}
+			}
+		}
+
+		void initialiseGLExtensions()
+		{
+			GLint count{};
+			glGetIntegerv( GL_GET_NUM_EXTENSIONS, &count );
+
+			for ( GLuint i = 0; i < GLuint( count ); i++ )
+			{
+				const char * extension = ( const char * )glGetStringi( GL_EXTENSIONS, i );
+				m_glExtensions.emplace( extension );
+			}
+		}
+
+		void initialiseDebugFunctions()
+		{
+#if !defined( NDEBUG )
+			if ( glDebugMessageCallback )
+			{
+				glDebugMessageCallback( PFNGLDEBUGPROC( &callbackDebugLog ), nullptr );
+				glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
+			}
+#endif
+		}
+
+	private:
+		std::vector< uint32_t > m_glslVersions;
+		GLExtensions m_glExtensions;
+	};
+
 #if defined( _WIN32 )
 
 #pragma warning( push )
@@ -273,6 +358,7 @@ namespace test
 	};
 
 	class RenderWindow
+		: public RenderWindowBase
 	{
 	public:
 		RenderWindow( GLSLVersions const & versions )
@@ -326,15 +412,13 @@ namespace test
 				setCurrent();
 				auto version = checkGLVersion();
 				initialiseDebugFunctions();
-				getFunction( "glCompileShader", glCompileShader );
-				getFunction( "glCreateShader", glCreateShader );
-				getFunction( "glDeleteShader", glDeleteShader );
-				getFunction( "glGetShaderInfoLog", glGetShaderInfoLog );
-				getFunction( "glGetShaderiv", glGetShaderiv );
-				getFunction( "glShaderSource", glShaderSource );
+				loadBaseFunctions();
 				endCurrent();
 				doCreateModernContext( version );
 				initialiseGLSLVersions( version, versions );
+				setCurrent();
+				initialiseGLExtensions();
+				endCurrent();
 			}
 			catch ( std::exception & )
 			{
@@ -372,51 +456,7 @@ namespace test
 			wglMakeCurrent( nullptr, nullptr );
 		}
 
-		std::vector< uint32_t > const & getGLSLVersions()const
-		{
-			return m_glslVersions;
-		}
-
-		PFN_glCompileShader glCompileShader;
-		PFN_glCreateShader glCreateShader;
-		PFN_glDeleteShader glDeleteShader;
-		PFN_glGetShaderInfoLog glGetShaderInfoLog;
-		PFN_glGetShaderiv glGetShaderiv;
-		PFN_glShaderSource glShaderSource;
-
 	private:
-		void loadDebugFunctions()
-		{
-			auto ext = ( char const * )glGetString( GL_EXTENSIONS );
-			std::string extensions = ext ? ext : "";
-			getFunction( "glDebugMessageCallback", glDebugMessageCallback );
-		}
-
-		void initialiseGLSLVersions( Version const & glVersion
-			, GLSLVersions const & glslVersions )
-		{
-			auto v = glVersion.major * 100u + glVersion.minor * 10u;
-
-			for ( auto & glslV : glslVersions )
-			{
-				if ( glslV <= v )
-				{
-					m_glslVersions.push_back( glslV );
-				}
-			}
-		}
-
-		void initialiseDebugFunctions()
-		{
-#if !defined( NDEBUG )
-			if ( glDebugMessageCallback )
-			{
-				glDebugMessageCallback( PFNGLDEBUGPROC( &callbackDebugLog ), nullptr );
-				glEnable( GL_DEBUG_OUTPUT_SYNCHRONOUS );
-			}
-#endif
-		}
-
 		bool doSelectFormat()
 		{
 			bool result = false;
@@ -494,7 +534,6 @@ namespace test
 		HDC m_hDC{ nullptr };
 		HGLRC m_hContext{ nullptr };
 		WNDCLASSA m_wc{};
-		std::vector< uint32_t > m_glslVersions;
 	};
 
 #elif defined( __linux__ )
@@ -511,6 +550,7 @@ namespace test
 	}
 
 	class RenderWindow
+		: public RenderWindowBase
 	{
 	public:
 		RenderWindow( GLSLVersions const & versions ) try
@@ -624,12 +664,8 @@ namespace test
 			initialiseGLSLVersions( version, versions );
 
 			setCurrent();
-			getFunction( "glCompileShader", glCompileShader );
-			getFunction( "glCreateShader", glCreateShader );
-			getFunction( "glDeleteShader", glDeleteShader );
-			getFunction( "glGetShaderInfoLog", glGetShaderInfoLog );
-			getFunction( "glGetShaderiv", glGetShaderiv );
-			getFunction( "glShaderSource", glShaderSource );
+			loadBaseFunctions();
+			initialiseGLExtensions();
 			endCurrent();
 		}
 		catch ( std::exception & p_exc )
@@ -690,18 +726,6 @@ namespace test
 			glXMakeCurrent( m_display, 0, nullptr );
 		}
 
-		std::vector< uint32_t > getGLSLVersions()
-		{
-			return m_glslVersions;
-		}
-
-		PFN_glCompileShader glCompileShader;
-		PFN_glCreateShader glCreateShader;
-		PFN_glDeleteShader glDeleteShader;
-		PFN_glGetShaderInfoLog glGetShaderInfoLog;
-		PFN_glGetShaderiv glGetShaderiv;
-		PFN_glShaderSource glShaderSource;
-
 	private:
 		void doCreateModernContext( Version const & version )
 		{
@@ -740,20 +764,6 @@ namespace test
 			m_glslVersion = version.major * 100u + version.minor * 10u;
 		}
 
-		void initialiseGLSLVersions( Version const & glVersion
-			, GLSLVersions const & glslVersions )
-		{
-			auto v = glVersion.major * 100u + glVersion.minor * 10u;
-
-			for ( auto & glslV : glslVersions )
-			{
-				if ( glslV <= v )
-				{
-					m_glslVersions.push_back( glslV );
-				}
-			}
-		}
-
 	private:
 		Colormap m_map{ 0 };
 		Display * m_display{ nullptr };
@@ -761,7 +771,6 @@ namespace test
 		GLXWindow m_glxWindow{ 0 };
 		GLXFBConfig m_fbConfig{ nullptr };
 		GLXContext m_glxContext;
-		std::vector< uint32_t > m_glslVersions;
 	};
 
 #else
@@ -814,7 +823,7 @@ namespace test
 			}
 			else if ( !compiled )
 			{
-				errors = "GLSL Shader compilation failed - Unknown reason";
+				errors = "GLSL Shader by API compilation failed - Unknown reason";
 			}
 
 			return compiled;
@@ -956,6 +965,122 @@ namespace test
 		window.endCurrent();
 		return result;
 	}
+
+#if SDW_HasCompilerGlsl
+
+	glsl::GlslExtensionSet getExtensions( uint32_t glslVersion
+		, sdw_test::TestCounts & testCounts )
+	{
+		glsl::GlslExtensionSet result;
+		auto const & window = testCounts.glsl().window;
+
+		auto insertExt = [&]( glsl::GlslExtension const & ext )
+			{
+				if ( window.hasExtension( ext.name ) )
+					result.insert( ext );
+			};
+
+		if ( glslVersion >= glsl::v4_6 )
+		{
+			insertExt( glsl::EXT_shader_atomic_float );
+			insertExt( glsl::EXT_ray_tracing );
+			insertExt( glsl::EXT_ray_query );
+			insertExt( glsl::EXT_scalar_block_layout );
+		}
+
+		if ( glslVersion >= glsl::v4_5 )
+		{
+			insertExt( glsl::ARB_shader_ballot );
+			insertExt( glsl::ARB_shader_viewport_layer_array );
+			insertExt( glsl::NV_stereo_view_rendering );
+			insertExt( glsl::NVX_multiview_per_view_attributes );
+			insertExt( glsl::EXT_nonuniform_qualifier );
+			insertExt( glsl::NV_mesh_shader );
+			insertExt( glsl::EXT_mesh_shader );
+			insertExt( glsl::EXT_buffer_reference2 );
+		}
+
+		if ( glslVersion >= glsl::v4_3 )
+		{
+			insertExt( glsl::NV_viewport_array2 );
+			insertExt( glsl::NV_shader_atomic_fp16_vector );
+		}
+
+		if ( glslVersion >= glsl::v4_2 )
+		{
+			insertExt( glsl::ARB_compute_shader );
+			insertExt( glsl::ARB_explicit_uniform_location );
+			insertExt( glsl::ARB_shading_language_420pack );
+			insertExt( glsl::NV_shader_atomic_float );
+		}
+
+		if ( glslVersion >= glsl::v4_1 )
+		{
+			insertExt( glsl::ARB_shading_language_packing );
+		}
+
+		if ( glslVersion >= glsl::v4_0 )
+		{
+			insertExt( glsl::ARB_separate_shader_objects );
+			insertExt( glsl::ARB_texture_cube_map_array );
+			insertExt( glsl::ARB_texture_gather );
+			insertExt( glsl::ARB_gpu_shader_int64 );
+		}
+
+		if ( glslVersion >= glsl::v3_3 )
+		{
+			insertExt( glsl::ARB_shader_stencil_export );
+			insertExt( glsl::KHR_vulkan_glsl );
+			insertExt( glsl::EXT_multiview );
+			insertExt( glsl::ARB_explicit_attrib_location );
+			insertExt( glsl::ARB_shader_image_load_store );
+			insertExt( glsl::EXT_gpu_shader4 );
+			insertExt( glsl::ARB_gpu_shader5 );
+			insertExt( glsl::EXT_gpu_shader4_1 );
+			insertExt( glsl::ARB_texture_query_lod );
+			insertExt( glsl::ARB_texture_query_levels );
+			insertExt( glsl::ARB_shader_draw_parameters );
+			insertExt( glsl::ARB_fragment_layer_viewport );
+			insertExt( glsl::ARB_tessellation_shader );
+			insertExt( glsl::EXT_texture_shadow_lod );
+		}
+
+		if ( glslVersion >= glsl::v1_5 )
+		{
+			insertExt( glsl::NV_gpu_shader5 );
+		}
+
+		if ( glslVersion >= glsl::v1_4 )
+		{
+			insertExt( glsl::EXT_shader_explicit_arithmetic_types_int8 );
+			insertExt( glsl::EXT_shader_explicit_arithmetic_types_int16 );
+			insertExt( glsl::EXT_shader_explicit_arithmetic_types_int64 );
+			insertExt( glsl::EXT_demote_to_helper_invocation );
+		}
+
+		return result;
+	}
+
+	glsl::GlslConfig getGlslConfig( uint32_t glslVersion
+		, sdw_test::TestCounts & testCounts )
+	{
+		glsl::GlslConfig const result
+		{
+			ast::ShaderStage::eCompute, // shaderStage;
+			glslVersion, // shaderLanguageVersion;
+			getExtensions( glslVersion, testCounts ), // availableExtensions;
+			( glslVersion >= glsl::v4_6 ), // vulkanGlsl;
+			false, // flipVertY;
+			false, // fixupClipDepth;
+			true, // hasStd430Layout;
+			true, // hasShaderStorageBuffers;
+			true, // hasDescriptorSets;
+			true, // hasBaseInstance;
+		};
+		return result;
+	}
+
+#endif
 }
 
 #else
@@ -1016,15 +1141,11 @@ namespace test
 	{
 		return true;
 	}
-}
 
-#endif
-
-namespace test
-{
 #if SDW_HasCompilerGlsl
 
-	glsl::GlslExtensionSet getExtensions( uint32_t glslVersion )
+	glsl::GlslExtensionSet getExtensions( uint32_t glslVersion
+		, sdw_test::TestCounts & testCounts )
 	{
 		glsl::GlslExtensionSet result;
 
@@ -1109,13 +1230,14 @@ namespace test
 		return result;
 	}
 
-	glsl::GlslConfig getGlslConfig( uint32_t glslVersion )
+	glsl::GlslConfig getGlslConfig( uint32_t glslVersion
+		, sdw_test::TestCounts & testCounts )
 	{
 		glsl::GlslConfig const result
 		{
 			ast::ShaderStage::eCompute, // shaderStage;
 			glslVersion, // shaderLanguageVersion;
-			getExtensions( glslVersion ), // availableExtensions;
+			getExtensions( glslVersion, testCounts ), // availableExtensions;
 			( glslVersion >= glsl::v4_6 ), // vulkanGlsl;
 			false, // flipVertY;
 			false, // fixupClipDepth;
@@ -1129,3 +1251,5 @@ namespace test
 
 #endif
 }
+
+#endif

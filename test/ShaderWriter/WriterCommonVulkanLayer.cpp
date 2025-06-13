@@ -256,7 +256,7 @@ namespace test::sdw_test
 				, testCounts
 				, true
 				, true );
-			auto cfg = getGlslConfig( glsl::v4_6 );
+			auto cfg = getGlslConfig( glsl::v4_6, testCounts );
 			auto glslangSpirv = compileGlslToSpv( entryPoint.stage
 				, glsl::compileGlsl( *testCounts.allocatorBlock
 					, shader
