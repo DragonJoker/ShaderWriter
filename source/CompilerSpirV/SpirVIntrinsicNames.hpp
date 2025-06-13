@@ -1929,7 +1929,7 @@ namespace spirv
 			break;
 
 		default:
-			throw ast::Exception{ "Unsupported Intrinsic type." };
+			throw UnsupportedExtensionException{ "Unsupported Intrinsic type." };
 		}
 
 		return result;

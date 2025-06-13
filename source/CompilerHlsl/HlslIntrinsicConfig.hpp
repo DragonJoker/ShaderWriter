@@ -1370,7 +1370,7 @@ namespace hlsl
 		case ast::expr::Intrinsic::eSubgroupClusterXor2B:
 		case ast::expr::Intrinsic::eSubgroupClusterXor3B:
 		case ast::expr::Intrinsic::eSubgroupClusterXor4B:
-			throw ast::Exception{ "Unsupported Intrinsic type in HLSL." };
+			throw UnsupportedExtensionException{ "Unsupported Intrinsic type in HLSL." };
 
 		default:
 			break;

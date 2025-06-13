@@ -95,7 +95,7 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjGrad2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DShadowF:
 		case ast::expr::CombinedImageAccess::eTextureGradOffset2DArrayShadowF:
-			throw ast::Exception{ "Unsupported grad shadow" };
+			throw UnsupportedExtensionException{ "Unsupported grad shadow" };
 
 		case ast::expr::CombinedImageAccess::eTexture1DI:
 		case ast::expr::CombinedImageAccess::eTexture1DIBias:
@@ -273,7 +273,7 @@ namespace hlsl
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU3:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset2DU4:
 		case ast::expr::CombinedImageAccess::eTextureProjGradOffset3DU:
-			throw ast::Exception{ "Unsupported non-float texture sampling" };
+			throw UnsupportedExtensionException{ "Unsupported non-float texture sampling" };
 		default:
 			break;
 		}

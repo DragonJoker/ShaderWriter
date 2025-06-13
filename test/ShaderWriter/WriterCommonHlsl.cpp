@@ -41,9 +41,13 @@ namespace test::sdw_test
 					{
 						hlsl = generateHlsl( shader, preprocessResult, stage, specialisation, infoIndex, testCounts );
 					}
+					catch ( hlsl::UnsupportedExtensionException & )
+					{
+						return;
+					}
 					catch ( std::exception & exc )
 					{
-						testCounts.printBlock( exc.what() );
+						testCounts.printError( exc.what() );
 						return;
 					}
 

@@ -55,6 +55,12 @@ namespace glsl
 	static uint32_t constexpr v4_5 = makeVersion( 4u, 5u );
 	static uint32_t constexpr v4_6 = makeVersion( 4u, 6u );
 
+	class UnsupportedExtensionException
+		: public ast::Exception
+	{
+		using ast::Exception::Exception;
+	};
+
 	struct GlslExtension
 	{
 		uint32_t reqVersion{ vUnk };

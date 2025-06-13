@@ -861,7 +861,7 @@ namespace hlsl
 			result = "triangleadj";
 			break;
 		default:
-			throw ast::Exception{ "Unsupported input layout." };
+			throw UnsupportedExtensionException{ "Unsupported input layout." };
 		}
 
 		return result;
@@ -883,7 +883,7 @@ namespace hlsl
 			result = "TriangleStream";
 			break;
 		default:
-			throw ast::Exception{ "Unsupported output layout." };
+			throw UnsupportedExtensionException{ "Unsupported output layout." };
 		}
 
 		return result;
@@ -905,7 +905,7 @@ namespace hlsl
 			result = "triangle";
 			break;
 		default:
-			throw ast::Exception{ "Unsupported output topology." };
+			throw UnsupportedExtensionException{ "Unsupported output topology." };
 		}
 
 		return result;
@@ -1313,7 +1313,7 @@ namespace hlsl
 			}
 			break;
 		default:
-			throw ast::Exception{ "Unsupported composite type." };
+			throw UnsupportedExtensionException{ "Unsupported composite type." };
 		}
 
 		return result;

@@ -935,7 +935,7 @@ namespace glsl
 			if ( ( !writerConfig.vulkanGlsl )
 				|| !writerConfig.availableExtensions.contains( KHR_vulkan_glsl ) )
 			{
-				throw ast::Exception{ "Separate Samplers are only supported with extension [" + KHR_vulkan_glsl.name + "] which is not available" };
+				throw UnsupportedExtensionException{ "Separate Samplers are only supported with extension [" + KHR_vulkan_glsl.name + "] which is not available" };
 			}
 
 			writerConfig.requiredExtensions.insert( EXT_separate_samplers );
@@ -971,7 +971,7 @@ namespace glsl
 				|| ( !writerConfig.availableExtensions.contains( ARB_explicit_attrib_location )
 					&& !writerConfig.availableExtensions.contains( ARB_separate_shader_objects ) ) ) )
 		{
-			throw ast::Exception{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
+			throw UnsupportedExtensionException{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
 				+ ") doesn't support blend index attributes (required version: " + writeValue( v4_3 ) +
 				+" or extension [" + ARB_explicit_attrib_location.name + "])" };
 		}
@@ -1000,7 +1000,7 @@ namespace glsl
 			}
 			else
 			{
-				throw ast::Exception{ "int8_t and uint8_t need either of [" + EXT_shader_explicit_arithmetic_types_int8.name
+				throw UnsupportedExtensionException{ "int8_t and uint8_t need either of [" + EXT_shader_explicit_arithmetic_types_int8.name
 					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
 		}
@@ -1017,7 +1017,7 @@ namespace glsl
 			}
 			else
 			{
-				throw ast::Exception{ "int16_t and uint16_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
+				throw UnsupportedExtensionException{ "int16_t and uint16_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
 					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
 		}
@@ -1038,7 +1038,7 @@ namespace glsl
 			}
 			else
 			{
-				throw ast::Exception{ "int64_t and uint64_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
+				throw UnsupportedExtensionException{ "int64_t and uint64_t need either of [" + EXT_shader_explicit_arithmetic_types_int16.name
 					+ "] or [" + ARB_gpu_shader_int64.name + "]"
 					+ "] or [" + NV_gpu_shader5.name + "]" };
 			}
@@ -1048,7 +1048,7 @@ namespace glsl
 		{
 			if ( extension.reqVersion > writerConfig.wantedVersion )
 			{
-				throw ast::Exception{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
+				throw UnsupportedExtensionException{ "GLSL specification version (" + writeValue( writerConfig.wantedVersion )
 					+ ") doesn't support extension [" + extension.name
 					+ "] (required version: " + writeValue( extension.reqVersion ) + ")" };
 			}

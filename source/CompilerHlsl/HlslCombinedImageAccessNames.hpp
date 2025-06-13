@@ -548,7 +548,7 @@ namespace hlsl
 			break;
 
 		default:
-			throw ast::Exception{ "Unsupported CombinedImageAccess type." };
+			throw UnsupportedExtensionException{ "Unsupported CombinedImageAccess type." };
 		}
 
 		return result;

@@ -1543,12 +1543,12 @@ namespace spirv
 		{
 			if ( extension.isMarker )
 			{
-				throw ast::Exception{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
+				throw UnsupportedExtensionException{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
 					+ ") doesn't support [" + extension.name
 					+ "] (required version: " + hlp::printSpvVersion( extension.specVersion ) + ")" };
 			}
 
-			throw ast::Exception{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
+			throw UnsupportedExtensionException{ "SPIR-V specification version (" + hlp::printSpvVersion( spirvConfig.specVersion )
 				+ ") doesn't support extension [" + extension.name
 				+ "] (required version: " + hlp::printSpvVersion( extension.specVersion ) + ")" };
 		}

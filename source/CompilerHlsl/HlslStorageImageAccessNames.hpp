@@ -334,7 +334,7 @@ namespace hlsl
 			break;
 
 		default:
-			throw ast::Exception{ "Unsupported StorageImageAccess type." };
+			throw UnsupportedExtensionException{ "Unsupported StorageImageAccess type." };
 		}
 
 		return result;
