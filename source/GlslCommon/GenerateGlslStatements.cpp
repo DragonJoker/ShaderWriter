@@ -1540,10 +1540,7 @@ namespace glsl
 				, uint32_t shaderVersion
 				, uint32_t & line )
 			{
-				if ( extension.coreVersion > shaderVersion )
-				{
-					doAddStatement( "#extension " + extension.name + ": enable", result, line );
-				}
+				doAddStatement( "#extension " + extension.name + ": enable", result, line );
 			}
 		}
 
