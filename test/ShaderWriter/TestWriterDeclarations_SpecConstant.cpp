@@ -2,19 +2,19 @@
 
 namespace
 {
-	template< typename T >
-	void testSpecConstant( test::sdw_test::TestCounts & testCounts )
+	using T = SDW_TestType;
+
+	TEST_F( SDWTest, testSpecConstant )
 	{
-		astOn( "testSpecConstant" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSpecConstant" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "SpecConstantValue_0";
-			auto value = writer.declSpecConstant( name, 0u, T{} );
+			auto value = writer.declSpecConstant( "value", 0u, T{} );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSpecialisationConstant() );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eSpecialisationConstantDecl );
@@ -28,6 +28,12 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testSpecConstantOptionalDisabled )
+	{
+		sdwTestBegin( "testSpecConstantOptionalDisabled" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
@@ -45,16 +51,21 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testSpecConstantOptionalEnabled )
+	{
+		sdwTestBegin( "testSpecConstantOptionalEnabled" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "SpecConstantValue_2_opt";
-			auto value = writer.declSpecConstant( name, 2u, T{}, true );
+			auto value = writer.declSpecConstant( "value", 2u, T{}, true );
 			astCheck( value.isEnabled() );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isSpecialisationConstant() );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eSpecialisationConstantDecl );
@@ -68,16 +79,6 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-	}
-
-	TEST_F( SDWTest, testSpecConstantDeclarations )
-	{
-		sdwTestBegin( "testSpecConstantDeclarations" );
-		testSpecConstant< bool >( testCounts );
-		testSpecConstant< int32_t >( testCounts );
-		testSpecConstant< uint32_t >( testCounts );
-		testSpecConstant< float >( testCounts );
-		testSpecConstant< double >( testCounts );
 		sdwTestEnd()
 	}
 }

@@ -9,12 +9,12 @@ namespace
 
 	TEST_F( SDWTest, testSsboRaw )
 	{
-		sdwTestBegin( "testSsboRaw" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboRaw" );
 		{
 			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "member";
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
@@ -55,7 +55,7 @@ namespace
 			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "member";
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name );
 			bo.end();
@@ -97,12 +97,12 @@ namespace
 
 	TEST_F( SDWTest, testSsboRawArray )
 	{
-		sdwTestBegin( "testSsboRawArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboRawArray" );
 		{
 			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "member";
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
@@ -143,7 +143,7 @@ namespace
 			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "member";
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMember< T >( name, 4u );
 			bo.end();
@@ -185,12 +185,12 @@ namespace
 
 	TEST_F( SDWTest, testSsboRawArrayRuntime )
 	{
-		sdwTestBegin( "testSsboRawArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboRawArrayRuntime" );
 		{
 			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "member";
 			sdw::StorageBuffer bo{ writer, "Datas", 1u, 1u, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
@@ -217,7 +217,7 @@ namespace
 			astOn( "Joined Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
+			std::string const name = "member";
 			sdw::StorageBuffer bo{ writer, "Datas", { .binding = 1u, .set = 1u }, ast::type::MemoryLayout::eStd140 };
 			auto value = bo.template declMemberArray< T >( name );
 			bo.end();
@@ -247,7 +247,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		sdwTestBegin( "testSsboHelper" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboHelper" );
 		{
 			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -327,7 +327,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		sdwTestBegin( "testSsboHelperArray" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboHelperArray" );
 		{
 			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
@@ -407,7 +407,7 @@ namespace
 	{
 #if SDW_EnableStructHelper
 
-		sdwTestBegin( "testSsboHelperArrayRuntime" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testSsboHelperArrayRuntime" );
 		{
 			astOn( "Split Binding and Set parameters" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };

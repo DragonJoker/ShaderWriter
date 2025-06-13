@@ -9,19 +9,19 @@ namespace
 
 	TEST_F( SDWTest, testStruct )
 	{
-		sdwTestBegin( "testStruct" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testStruct" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
-			sdw::Struct st{ writer, "ST" + sdw::debug::getTypeName( sdw::typeEnumV< T > ) };
+			std::string const name = "m_member";
+			sdw::Struct st{ writer, "ST" };
 			st.template declMember< T >( name );
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
 			astCheck( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			BeginMain
 			{
-				auto instance = st.getInstance( "st" + sdw::debug::getTypeName( sdw::typeEnumV< T > ), true );
+				auto instance = st.getInstance( "st", true );
 				auto retrieved = instance.template getMember< T >( name );
 				astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 				astCheck( getArraySize( retrieved.getType() ) == sdw::type::NotArray );
@@ -48,15 +48,15 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray" + sdw::debug::getTypeName( sdw::typeEnumV< T > );
-			sdw::Struct st{ writer, "ST" + sdw::debug::getTypeName( sdw::typeEnumV< T > ) };
+			std::string const name = "m_memberArray";
+			sdw::Struct st{ writer, "ST" };
 			st.template declMember< T >( name, 4u );
 			st.end();
 			auto & stmt = *shader.getStatements()->back();
 			astCheck( stmt.getKind() == sdw::stmt::Kind::eStructureDecl );
 			BeginMain
 			{
-				auto instance = st.getInstance( "stArray4" + sdw::debug::getTypeName( sdw::typeEnumV< T > ), true );
+				auto instance = st.getInstance( "stArray4", true );
 				auto retrieved = instance.template getMemberArray< T >( name );
 				astCheck( getNonArrayKind( retrieved.getType() ) == sdw::typeEnumV< T > );
 				astCheck( getArraySize( retrieved.getType() ) == 4u );

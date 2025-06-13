@@ -2,82 +2,103 @@
 
 namespace
 {
-	template< typename T >
-	void testLocale( test::sdw_test::TestCounts & testCounts )
+	using T = sdw::SDW_TestType;
+
+	TEST_F( SDWTest, testLocaleUnassigned )
 	{
-		astOn( "testLocale" + ast::debug::getTypeName( sdw::typeEnumV< T > ) );
+		sdwTestBegin( "testLocaleUnassigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValue";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocale< T >( name );
+					auto value = writer.declLocale< T >( "value" );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleAssigned )
+	{
+		sdwTestBegin( "testLocaleAssigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValueAssigned";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocale< T >( name, test::getDefault< T >( writer ) );
+					auto value = writer.declLocale< T >( "value", test::getDefault< T >( writer ) );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleArrayUnassigned )
+	{
+		sdwTestBegin( "testLocaleArrayUnassigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValueArray12";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocaleArray< T >( name, 6u );
+					auto value = writer.declLocaleArray< T >( "value", 6u );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == 6u );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleArrayAssigned )
+	{
+		sdwTestBegin( "testLocaleArrayAssigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValueArray3";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ) );
+					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ) );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == 3u );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleOptionalDisabledUnassigned )
+	{
+		sdwTestBegin( "testLocaleOptionalDisabledUnassigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -96,6 +117,12 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleAssignedOptionalDisabled )
+	{
+		sdwTestBegin( "testLocaleAssignedOptionalDisabled" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -114,6 +141,12 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleOptionalDisabledAssigned )
+	{
+		sdwTestBegin( "testLocaleOptionalDisabledAssigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -132,6 +165,12 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleArrayOptionalDisabledUnassigned )
+	{
+		sdwTestBegin( "testLocaleArrayOptionalDisabledUnassigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -150,6 +189,12 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleArrayOptionalDisabledAssigned )
+	{
+		sdwTestBegin( "testShaderInputArray" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
@@ -168,106 +213,78 @@ namespace
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleOptionalEnabledUnassigned )
+	{
+		sdwTestBegin( "testLocaleOptionalEnabledUnassigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValue_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocale< T >( name, true );
+					auto value = writer.declLocale< T >( "value", true );
 					astCheck( value.isEnabled() );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleArrayOptionalEnabledUnassigned )
+	{
+		sdwTestBegin( "testLocaleArrayOptionalEnabledUnassigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValueArray12_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocaleArray< T >( name, 6u, true );
+					auto value = writer.declLocaleArray< T >( "value", 6u, true );
 					astCheck( value.isEnabled() );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == 6u );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eVariableDecl );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testLocaleArrayOptionalEnabledAssigned )
+	{
+		sdwTestBegin( "testLocaleArrayOptionalEnabledAssigned" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & builder = writer.getBuilder();
-			auto name = sdw::debug::getTypeName( sdw::typeEnumV< T > ) + "LocaleValueArray3_opt";
 			writer.implementMainT< sdw::VoidT, sdw::VoidT >( [&]( sdw::FragmentInT< sdw::VoidT >
 				, sdw::FragmentOutT< sdw::VoidT > )
 				{
-					auto value = writer.declLocaleArray< T >( name, 3u, test::getDefaultVector< T >( writer, 3u ), true );
+					auto value = writer.declLocaleArray< T >( "value", 3u, test::getDefaultVector< T >( writer, 3u ), true );
 					astCheck( value.isEnabled() );
 					astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
 					astCheck( getArraySize( value.getType() ) == 3u );
 					astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 					astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->isLocale() );
 					auto & stmt = *builder.getContainer()->back();
 					astCheck( stmt.getKind() == sdw::stmt::Kind::eSimple );
 				} );
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-	}
-
-	TEST_F( SDWTest, testLocaleDeclarations )
-	{
-		sdwTestBegin( "testLocaleDeclarations" );
-		testLocale< sdw::Boolean >( testCounts );
-		testLocale< sdw::Int >( testCounts );
-		testLocale< sdw::UInt >( testCounts );
-		testLocale< sdw::Float >( testCounts );
-		testLocale< sdw::Double >( testCounts );
-		testLocale< sdw::Vec2 >( testCounts );
-		testLocale< sdw::Vec3 >( testCounts );
-		testLocale< sdw::Vec4 >( testCounts );
-		testLocale< sdw::DVec2 >( testCounts );
-		testLocale< sdw::DVec3 >( testCounts );
-		testLocale< sdw::DVec4 >( testCounts );
-		testLocale< sdw::BVec2 >( testCounts );
-		testLocale< sdw::BVec3 >( testCounts );
-		testLocale< sdw::BVec4 >( testCounts );
-		testLocale< sdw::IVec2 >( testCounts );
-		testLocale< sdw::IVec3 >( testCounts );
-		testLocale< sdw::IVec4 >( testCounts );
-		testLocale< sdw::UVec2 >( testCounts );
-		testLocale< sdw::UVec3 >( testCounts );
-		testLocale< sdw::UVec4 >( testCounts );
-		testLocale< sdw::Mat2 >( testCounts );
-		testLocale< sdw::Mat2x3 >( testCounts );
-		testLocale< sdw::Mat2x4 >( testCounts );
-		testLocale< sdw::Mat3 >( testCounts );
-		testLocale< sdw::Mat3x2 >( testCounts );
-		testLocale< sdw::Mat3x4 >( testCounts );
-		testLocale< sdw::Mat4 >( testCounts );
-		testLocale< sdw::Mat4x2 >( testCounts );
-		testLocale< sdw::Mat4x3 >( testCounts );
-		testLocale< sdw::DMat2 >( testCounts );
-		testLocale< sdw::DMat2x3 >( testCounts );
-		testLocale< sdw::DMat2x4 >( testCounts );
-		testLocale< sdw::DMat3 >( testCounts );
-		testLocale< sdw::DMat3x2 >( testCounts );
-		testLocale< sdw::DMat3x4 >( testCounts );
-		testLocale< sdw::DMat4 >( testCounts );
-		testLocale< sdw::DMat4x2 >( testCounts );
-		testLocale< sdw::DMat4x3 >( testCounts );
 		sdwTestEnd()
 	}
 }
