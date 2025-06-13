@@ -542,6 +542,7 @@ namespace test
 					auto atomicFloatFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderAtomicFloatFeaturesEXT >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
+					bool hasVulkan1_2 = false;
 					bool hasFloatControls = false;
 					bool hasSpirv1_4 = false;
 
@@ -549,6 +550,7 @@ namespace test
 					{
 						hasFeatures2 = true;
 						hasVulkan1_1 = true;
+						hasVulkan1_2 = true;
 						hasFloatControls = true;
 						hasSpirv1_4 = true;
 						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &features12 ) );
@@ -575,6 +577,12 @@ namespace test
 					{
 						hasFeatures2 = true;
 						info.deviceExtensionNames.push_back( "VK_KHR_get_physical_device_properties2" );
+					}
+
+					if ( isExtensionSupported( "VK_EXT_shader_subgroup_ballot"
+						, device_extensions ) )
+					{
+						info.deviceExtensionNames.push_back( "VK_EXT_shader_subgroup_ballot" );
 					}
 
 					if ( hasFeatures2 )
