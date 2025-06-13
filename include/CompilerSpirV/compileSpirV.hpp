@@ -115,6 +115,7 @@ namespace spirv
 	makeSpirVExtension( v1_0, v1_5, vUnk, KHR_ray_query );
 	// Enable this extension to be able to use buffer references.
 	makeSpirVExtension( v1_3, v1_3, v1_5, EXT_physical_storage_buffer );
+	makeSpirVExtension( v1_3, v1_3, v1_5, KHR_physical_storage_buffer );
 	// Used for debug info
 	makeSpirVExtension( v1_0, v1_0, v1_3, KHR_non_semantic_info );
 	// Enable this extension to be able to use any ray tracing shader stage.

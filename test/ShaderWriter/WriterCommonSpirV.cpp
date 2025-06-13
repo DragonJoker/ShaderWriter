@@ -208,10 +208,11 @@ namespace test::sdw_test
 			, ::ast::ShaderStage stage
 			, std::vector< uint32_t > spirv
 			, sdw_test::TestCounts & testCounts
+			, ::ast::SpecialisationInfo const & specialisation
 			, uint32_t infoIndex
+			, bool availableExtensions
 			, std::string & errors )
 		{
-			//auto parsedShader = spirv::parseSpirv( stage, spirv );
 			std::string compileErrors;
 			auto result = test::compileSpirV( shader, spirv, compileErrors, testCounts, infoIndex );
 			if ( !compileErrors.empty() )
@@ -229,6 +230,33 @@ namespace test::sdw_test
 						, spirv.size()
 						, fileOut );
 					fclose( fileOut );
+				}
+
+				if ( availableExtensions && !isRayTraceStage( stage ) )
+				{
+					try
+					{
+						auto cfg = getGlslConfig( glsl::v4_6, testCounts );
+						auto glslangSpirv = compileGlslToSpv( stage
+							, glsl::compileGlsl( *testCounts.allocatorBlock
+								, shader
+								, statements
+								, stage
+								, specialisation
+								, cfg )
+							, retrieveSPIRVVersion( testCounts, infoIndex ) );
+						std::string glslangCompileErrors;
+						if ( test::compileSpirV( shader, glslangSpirv, glslangCompileErrors, testCounts, infoIndex ) )
+						{
+							auto parsedShader = spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv );
+							errors += "glslang generated SPIR-V:\n"
+								+ parsedShader;
+						}
+					}
+					catch ( std::exception & )
+					{
+						// Optional step, do nothing on error.
+					}
 				}
 			}
 
@@ -272,11 +300,12 @@ namespace test::sdw_test
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
 			, Compilers const & compilers
-			, spirv::SpirVExtensionSet const &requiredExtensions
+			, bool availableExtensions
+			, spirv::SpirVExtensionSet const & requiredExtensions
 			, std::string & errors )
 		{
 			std::string validateErrors;
-			auto isValidated = validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, infoIndex, validateErrors );
+			auto isValidated = validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, specialisation, infoIndex, availableExtensions, validateErrors );
 			if ( !isValidated )
 				errors += validateErrors;
 
@@ -369,57 +398,15 @@ namespace test::sdw_test
 						try
 						{
 							auto allocator = testCounts.allocator.getBlock();
-							spirv::SpirVExtensionSet extensions;
-							spirv::SpirVConfig config{};
+							spirv::SpirVConfig config;
 							config.specVersion = testCounts.getSpirVVersion( infoIndex );
 							config.debugLevel = debugLevel;
+							spirv::SpirVExtensionSet extension;
 
 							if ( availableExtensions )
 							{
-								if ( config.specVersion >= spirv::v1_6 )
-								{
-									extensions.emplace( spirv::EXT_mesh_shader );
-								}
-
-								if ( config.specVersion >= spirv::v1_5 )
-								{
-									extensions.emplace( spirv::KHR_terminate_invocation );
-									extensions.emplace( spirv::EXT_shader_atomic_float_add );
-								}
-
-								if ( config.specVersion >= spirv::v1_4 )
-								{
-									extensions.emplace( spirv::EXT_demote_to_helper_invocation );
-									extensions.emplace( spirv::KHR_ray_tracing );
-								}
-
-								if ( config.specVersion >= spirv::v1_3 )
-								{
-									extensions.emplace( spirv::NV_mesh_shader );
-									extensions.emplace( spirv::EXT_descriptor_indexing );
-									extensions.emplace( spirv::EXT_physical_storage_buffer );
-									extensions.emplace( spirv::KHR_shader_subgroup );
-									extensions.emplace( spirv::EXT_fragment_shader_interlock );
-								}
-
-								if ( config.specVersion >= spirv::v1_2 )
-								{
-									extensions.emplace( spirv::KHR_8bit_storage );
-								}
-
-								if ( config.specVersion >= spirv::v1_1 )
-								{
-									extensions.emplace( spirv::KHR_16bit_storage );
-									extensions.emplace( spirv::KHR_shader_ballot );
-									extensions.emplace( spirv::KHR_shader_draw_parameters );
-								}
-
-								if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
-								{
-									extensions.emplace( spirv::KHR_non_semantic_info );
-								}
-
-								config.availableExtensions = &extensions;
+								extension = getSpirVExtensions( config, testCounts, infoIndex );
+								config.availableExtensions = &extension;
 							}
 
 							auto shaderModule = generateModule( shader, preprocessResult, stage, config, testCounts );
@@ -459,6 +446,7 @@ namespace test::sdw_test
 										, testCounts
 										, infoIndex
 										, compilers
+										, availableExtensions
 										, config.requiredExtensions
 										, errors ) )
 								{
@@ -527,7 +515,6 @@ namespace test::sdw_test
 				astOn( "Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 					+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) )
 					+ " - Debug " + getDebugLevelName( debugLevel ) );
-				astCheckNoThrow( validate( false ) )
 				astCheckNoThrow( validate( true ) )
 			}
 

@@ -2,6 +2,10 @@
 
 #include "WriterCommon.hpp"
 
+#if SDW_HasCompilerSpirV
+#	include <CompilerSpirV/compileSpirV.hpp>
+#endif
+
 #if SDW_Test_HasVulkan && SDW_HasVulkanLayer
 #	pragma GCC diagnostic push
 #	pragma GCC diagnostic ignored "-Wold-style-cast"
@@ -39,6 +43,11 @@ namespace test
 	bool validateProgram( ast::vk::ProgramPipeline const & program
 		, std::string & errors
 		, sdw_test::TestCounts & testCounts
+		, uint32_t infoIndex );
+#endif
+#if SDW_HasCompilerSpirV
+	spirv::SpirVExtensionSet getSpirVExtensions( spirv::SpirVConfig const & config
+		, sdw_test::TestCounts const & testCounts
 		, uint32_t infoIndex );
 #endif
 }

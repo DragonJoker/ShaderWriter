@@ -654,7 +654,30 @@ namespace test
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &demoteFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_EXT_buffer_device_address"
+						if ( isExtensionSupported( "VK_EXT_fragment_shader_interlock"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_EXT_fragment_shader_interlock" );
+						}
+
+						if ( isExtensionSupported( "VK_KHR_8bit_storage"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_KHR_8bit_storage" );
+						}
+
+						if ( isExtensionSupported( "VK_KHR_16bit_storage"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_KHR_16bit_storage" );
+						}
+
+						if ( isExtensionSupported( "VK_KHR_buffer_device_address"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_KHR_buffer_device_address" );
+						}
+						else if ( isExtensionSupported( "VK_EXT_buffer_device_address"
 							, device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_buffer_device_address" );
@@ -668,8 +691,6 @@ namespace test
 							if ( isExtensionSupported( "VK_KHR_buffer_device_address"
 								, device_extensions ) )
 							{
-								info.deviceExtensionNames.push_back( "VK_KHR_buffer_device_address" );
-
 								if ( isExtensionSupported( "VK_KHR_acceleration_structure"
 									, device_extensions ) )
 								{
@@ -1421,6 +1442,87 @@ namespace test
 	}
 
 #endif
+#if SDW_HasCompilerSpirV
+
+	spirv::SpirVExtensionSet getSpirVExtensions( spirv::SpirVConfig const & config
+		, sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		spirv::SpirVExtensionSet result;
+		auto info = retrieveInfo( testCounts, infoIndex );
+		auto find = [&info]( std::string_view name )
+			{
+				auto it = std::find_if( info->deviceExtensionNames.begin(), info->deviceExtensionNames.end()
+					, [&name]( const char * lookup )
+					{
+						return name == std::string_view{ lookup };
+					} );
+				return it != info->deviceExtensionNames.end();
+			};
+
+		if ( config.specVersion >= spirv::v1_6 )
+		{
+			if ( find( "VK_EXT_mesh_shader" ) )
+				result.emplace( spirv::EXT_mesh_shader );
+		}
+
+		if ( config.specVersion >= spirv::v1_5 )
+		{
+			if ( find( "VK_KHR_shader_terminate_invocation" ) )
+				result.emplace( spirv::KHR_terminate_invocation );
+			if ( find( "VK_EXT_shader_atomic_float" ) )
+				result.emplace( spirv::EXT_shader_atomic_float_add );
+		}
+
+		if ( config.specVersion >= spirv::v1_4 )
+		{
+			if ( find( "VK_EXT_shader_demote_to_helper_invocation" ) )
+				result.emplace( spirv::EXT_demote_to_helper_invocation );
+			if ( find( "VK_KHR_ray_tracing_pipeline" ) )
+				result.emplace( spirv::KHR_ray_tracing );
+		}
+
+		if ( config.specVersion >= spirv::v1_3 )
+		{
+			if ( find( "VK_NV_mesh_shader" ) )
+				result.emplace( spirv::NV_mesh_shader );
+			if ( find( "VK_EXT_descriptor_indexing" ) )
+				result.emplace( spirv::EXT_descriptor_indexing );
+			if ( find( "VK_KHR_buffer_device_address" ) )
+				result.emplace( spirv::KHR_physical_storage_buffer );
+			else if ( find( "VK_EXT_buffer_device_address" ) )
+				result.emplace( spirv::EXT_physical_storage_buffer );
+			if ( find( "VK_EXT_shader_subgroup_ballot" ) )
+				result.emplace( spirv::KHR_shader_subgroup );
+			if ( find( "VK_EXT_fragment_shader_interlock" ) )
+				result.emplace( spirv::EXT_fragment_shader_interlock );
+		}
+
+		if ( config.specVersion >= spirv::v1_2 )
+		{
+			if ( find( "VK_KHR_8bit_storage" ) )
+				result.emplace( spirv::KHR_8bit_storage );
+		}
+
+		if ( config.specVersion >= spirv::v1_1 )
+		{
+			if ( find( "VK_KHR_16bit_storage" ) )
+				result.emplace( spirv::KHR_16bit_storage );
+			if ( find( "VK_EXT_shader_subgroup_ballot" ) )
+				result.emplace( spirv::KHR_shader_ballot );
+			if ( find( "VK_KHR_shader_draw_parameters" ) )
+				result.emplace( spirv::KHR_shader_draw_parameters );
+		}
+
+		if ( config.debugLevel == spirv::DebugLevel::eDebugInfo )
+		{
+			result.emplace( spirv::KHR_non_semantic_info );
+		}
+
+		return result;
+	}
+
+#endif
 
 #else
 
@@ -1548,6 +1650,61 @@ namespace test
 		, uint32_t infoIndex )
 	{
 	}
+#endif
+#if SDW_HasCompilerSpirV
+
+	spirv::SpirVExtensionSet getSpirVExtensions( spirv::SpirVConfig const & config
+		, sdw_test::TestCounts const & testCounts
+		, uint32_t infoIndex )
+	{
+		spirv::SpirVExtensionSet result;
+
+		if ( config.specVersion >= spirv::v1_6 )
+		{
+			result.emplace( spirv::EXT_mesh_shader );
+		}
+
+		if ( config.specVersion >= spirv::v1_5 )
+		{
+			result.emplace( spirv::KHR_terminate_invocation );
+			result.emplace( spirv::EXT_shader_atomic_float_add );
+		}
+
+		if ( config.specVersion >= spirv::v1_4 )
+		{
+			result.emplace( spirv::EXT_demote_to_helper_invocation );
+			result.emplace( spirv::KHR_ray_tracing );
+		}
+
+		if ( config.specVersion >= spirv::v1_3 )
+		{
+			result.emplace( spirv::NV_mesh_shader );
+			result.emplace( spirv::EXT_descriptor_indexing );
+			result.emplace( spirv::EXT_physical_storage_buffer );
+			result.emplace( spirv::KHR_shader_subgroup );
+			result.emplace( spirv::EXT_fragment_shader_interlock );
+		}
+
+		if ( config.specVersion >= spirv::v1_2 )
+		{
+			result.emplace( spirv::KHR_8bit_storage );
+		}
+
+		if ( config.specVersion >= spirv::v1_1 )
+		{
+			result.emplace( spirv::KHR_16bit_storage );
+			result.emplace( spirv::KHR_shader_ballot );
+			result.emplace( spirv::KHR_shader_draw_parameters );
+		}
+
+		if ( config.debugLevel == spirv::DebugLevel::eDebugInfo && config.specVersion >= spirv::v1_0 )
+		{
+			result.emplace( spirv::KHR_non_semantic_info );
+		}
+
+		return result;
+	}
+
 #endif
 
 #endif
