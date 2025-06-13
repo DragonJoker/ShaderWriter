@@ -924,6 +924,9 @@ namespace glsl
 	void checkConfig( StmtConfig & writerConfig
 		, IntrinsicsConfig & intrinsicsConfig )
 	{
+		for ( auto & extension : intrinsicsConfig.requiredExtensions )
+			writerConfig.requiredExtensions.insert( extension );
+
 		if ( writerConfig.wantedVersion >= KHR_vulkan_glsl.specVersion
 			&& writerConfig.vulkanGlsl )
 		{
