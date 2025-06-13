@@ -155,8 +155,8 @@ namespace spirv
 
 				if ( !inits.empty() )
 				{
-					m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
-						, m_exprCache.makeAggrInit( expr->getType(), std::move( inits ) ) );
+					m_result = m_exprCache.makeAggrInit( m_exprCache.makeIdentifier( *ident )
+						, std::move( inits ) );
 				}
 			}
 		}
