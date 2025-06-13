@@ -7,7 +7,7 @@
 
 namespace
 {
-	ast::type::ImageFormat FormatT = SDW_TestImageFormat;
+	static ast::type::ImageFormat constexpr FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
 
 #pragma region Helpers
 	/**
@@ -2056,26 +2056,26 @@ namespace
 	template< template< ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
 	void testsTexture( test::sdw_test::TestCounts & testCounts )
 	{
-		TesterT< FormatT, Img1DBase, false >::test( testCounts );
-		TesterT< FormatT, Img2DBase, false >::test( testCounts );
-		TesterT< FormatT, Img3DBase, false >::test( testCounts );
-		TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
-		TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
-		TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
-		TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
-		TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
+		TesterT< Img1DBase, false >::test( testCounts );
+		TesterT< Img2DBase, false >::test( testCounts );
+		TesterT< Img3DBase, false >::test( testCounts );
+		TesterT< ImgCubeBase, false >::test( testCounts );
+		TesterT< ImgBufferBase, false >::test( testCounts );
+		TesterT< Img1DArrayBase, false >::test( testCounts );
+		TesterT< Img2DArrayBase, false >::test( testCounts );
+		TesterT< ImgCubeArrayBase, false >::test( testCounts );
 
 		if constexpr ( isFloatFormat( FormatT ) )
 		{
 			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
 				|| FormatT == ast::type::ImageFormat::eR16f )
 			{
-				TesterT< FormatT, Img1DBase, true >::test( testCounts );
-				TesterT< FormatT, Img2DBase, true >::test( testCounts );
-				TesterT< FormatT, ImgCubeBase, true >::test( testCounts );
-				TesterT< FormatT, Img1DArrayBase, true >::test( testCounts );
-				TesterT< FormatT, Img2DArrayBase, true >::test( testCounts );
-				TesterT< FormatT, ImgCubeArrayBase, true >::test( testCounts );
+				TesterT< Img1DBase, true >::test( testCounts );
+				TesterT< Img2DBase, true >::test( testCounts );
+				TesterT< ImgCubeBase, true >::test( testCounts );
+				TesterT< Img1DArrayBase, true >::test( testCounts );
+				TesterT< Img2DArrayBase, true >::test( testCounts );
+				TesterT< ImgCubeArrayBase, true >::test( testCounts );
 			}
 		}
 	}

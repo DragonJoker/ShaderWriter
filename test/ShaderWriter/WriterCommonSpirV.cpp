@@ -209,106 +209,30 @@ namespace test::sdw_test
 			, std::vector< uint32_t > spirv
 			, sdw_test::TestCounts & testCounts
 			, uint32_t infoIndex
-			, bool checkRef
 			, std::string & errors )
 		{
 			//auto parsedShader = spirv::parseSpirv( stage, spirv );
 			std::string compileErrors;
 			auto result = test::compileSpirV( shader, spirv, compileErrors, testCounts, infoIndex );
-			if ( !compileErrors.empty() && checkRef )
+			if ( !compileErrors.empty() )
 				errors += "VkShaderModule creation raised messages, for CompilerSpv output:\n" + compileErrors;
 
 			if ( !compileErrors.empty() )
 			{
 				result = false;
+				auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( uintptr_t( statements ) ) + ".spv";
 
-				if ( checkRef )
+				if ( FILE * fileOut = fopen( fileName.c_str(), "wb" ) )
 				{
-					auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( uintptr_t( statements ) ) + ".spv";
-
-					if ( FILE * fileOut = fopen( fileName.c_str(), "wb" ) )
-					{
-						fwrite( spirv.data()
-							, sizeof( uint32_t )
-							, spirv.size()
-							, fileOut );
-						fclose( fileOut );
-					}
-
-					fileName = getExecutableDirectory() + testCounts.testName + std::to_string( uintptr_t( statements ) ) + ".ref.spv";
-
-					if ( FILE * fileIn = fopen( fileName.c_str(), "rb" ) )
-					{
-						fseek( fileIn, 0, SEEK_END );
-						auto size = ftell( fileIn );
-						fseek( fileIn, 0, SEEK_SET );
-
-						if ( size > 0 && ( size % sizeof( uint32_t ) ) == 0 )
-						{
-							spirv.resize( size / sizeof( uint32_t ) );
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-result"
-							(void)fread( spirv.data()
-								, sizeof( uint32_t )
-								, spirv.size()
-								, fileIn );
-#pragma GCC diagnostic pop
-						}
-
-						fclose( fileIn );
-						std::string dump;
-						validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, infoIndex, false, dump );
-					}
+					fwrite( spirv.data()
+						, sizeof( uint32_t )
+						, spirv.size()
+						, fileOut );
+					fclose( fileOut );
 				}
 			}
 
 			return result;
-		}
-
-		static void generateRefSpirV( ::ast::Shader const & shader
-			, ::ast::stmt::Container * statements
-			, ::ast::ShaderStage stage
-			, ::ast::SpecialisationInfo const & specialisation
-			, sdw_test::TestCounts & testCounts
-			, uint32_t infoIndex
-			, std::string & errors )
-		{
-			if ( !isRayTraceStage( stage ) )
-			{
-				try
-				{
-					auto cfg = getGlslConfig( glsl::v4_6 );
-					auto glslangSpirv = compileGlslToSpv( stage
-						, glsl::compileGlsl( *testCounts.allocatorBlock
-							, shader
-							, statements
-							, stage
-							, specialisation
-							, cfg ) );
-					std::string compileErrors;
-					test::compileSpirV( shader, glslangSpirv, compileErrors, testCounts, infoIndex );
-					if ( !compileErrors.empty() )
-						errors += "VkShaderModule creation raised messages, for glslang output:\n" + compileErrors;
-					else
-					{
-						auto fileName = getExecutableDirectory() + testCounts.testName + std::to_string( uintptr_t( statements ) ) + ".ref.spv";
-
-						if ( FILE * fileOut = fopen( fileName.c_str(), "wb" ) )
-						{
-							fwrite( glslangSpirv.data()
-								, sizeof( uint32_t )
-								, glslangSpirv.size()
-								, fileOut );
-							fclose( fileOut );
-						}
-					}
-				}
-				catch ( std::exception & exc )
-				{
-					testCounts.printBlock( exc.what() );
-					throw;
-				}
-			}
 		}
 
 		static bool toolsValidateSpirV( std::vector< uint32_t > const & spirv
@@ -352,20 +276,14 @@ namespace test::sdw_test
 			, std::string & errors )
 		{
 			std::string validateErrors;
-			auto isValidated = validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, infoIndex, true, validateErrors );
-			astCheck( isValidated )
-
-#if SDW_HasCompilerGlsl
-
+			auto isValidated = validateGeneratedSpirV( shader, statements, stage, spirv, testCounts, infoIndex, validateErrors );
 			if ( !isValidated )
-			{
 				errors += validateErrors;
-				generateRefSpirV( shader, statements, stage, specialisation, testCounts, infoIndex, errors );
-			}
 
-#endif
-
-			isValidated = toolsValidateSpirV( spirv, testCounts, infoIndex, errors ) && isValidated;
+			std::string toolsErrors;
+			auto isToolsValidated = toolsValidateSpirV( spirv, testCounts, infoIndex, toolsErrors );
+			if ( !isToolsValidated )
+				errors += toolsErrors;
 
 #if SDW_Test_HasSpirVCross
 
@@ -386,7 +304,7 @@ namespace test::sdw_test
 			}
 
 #endif
-			return isValidated;
+			return isValidated && isToolsValidated;
 		}
 
 		static spirv::ModulePtr generateModule( ::ast::Shader const & shader
