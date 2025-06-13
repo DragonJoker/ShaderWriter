@@ -2401,15 +2401,30 @@ namespace ast
 				{
 					auto & lit = static_cast< expr::Literal const & >( *expr.getRHS() );
 					auto index = helpers::getLiteralIndex( lit );
+					uint32_t dstComponentCount = getComponentCount( expr.getType() );
+					uint32_t srcComponentCount{};
+					expr::ExprList args;
 
-					if ( index < compositeCtor.getArgList().size() )
+					while ( index < compositeCtor.getArgList().size()
+						&& srcComponentCount < dstComponentCount )
 					{
-						processed = true;
-						m_result = doSubmit( *compositeCtor.getArgList()[index] );
+						args.emplace_back( doSubmit( *compositeCtor.getArgList()[index] ) );
+						srcComponentCount += getComponentCount( args.back()->getType() );
+						++index;
 					}
-					else
+
+					if ( args.size() == 1u )
 					{
-						AST_Exception( "Out of bounds array access to constant aggr init." );
+						m_result = std::move( args.front() );
+						processed = true;
+					}
+					else if ( srcComponentCount  == dstComponentCount )
+					{
+						auto compositeType = getCompositeType( dstComponentCount );
+						m_result = m_exprCache.makeCompositeConstruct( compositeType
+							, compositeCtor.getComponent()
+							, std::move( args ) );
+						processed = true;
 					}
 				}
 
