@@ -28,13 +28,6 @@ namespace spirv
 			return mbr.builtin;
 		}
 
-		static bool isMemoryLayoutDependent( ast::type::TypePtr type )
-		{
-			return getStructType( type )
-				|| isArrayType( type )
-				|| isMatrixType( type );
-		}
-
 		static ast::var::VariablePtr makeFunctionAlias( AdaptationData & adaptationData
 			, ast::type::TypePtr type )
 		{
@@ -93,7 +86,7 @@ namespace spirv
 	void ExprAdapter::visitAliasExpr( ast::expr::Alias const * expr )
 	{
 		if ( isExplicitLayoutNeeded( m_adaptationData.config.getSpirVVersion(), *expr->getAliasedExpr() )
-			&& adapt::isMemoryLayoutDependent( expr->getType() ) )
+			&& isMemoryLayoutDependent( expr->getType() ) )
 		{
 			auto ident = &expr->getIdentifier();
 			auto type = expr->getType();
@@ -173,7 +166,7 @@ namespace spirv
 		auto rhs = expr->getRHS();
 		auto type = expr->getType();
 
-		if ( adapt::isMemoryLayoutDependent( type )
+		if ( isMemoryLayoutDependent( type )
 			&& isExplicitLayoutNeeded( m_adaptationData.config.getSpirVVersion(), *lhs )
 				!= isExplicitLayoutNeeded( m_adaptationData.config.getSpirVVersion(), *rhs ) )
 		{
