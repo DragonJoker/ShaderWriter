@@ -151,9 +151,19 @@ namespace ast::expr
 			, typename ... ParamsT >
 		std::unique_ptr< ExprT, DeleteExpr > makeExpr( ParamsT && ... params )
 		{
-			++m_allocatedExprs;
 			auto mem = m_allocator->allocate( sizeof( ExprT ) );
-			return std::unique_ptr< ExprT, DeleteExpr >{ new ( mem )ExprT{ *this, std::forward< ParamsT >( params )... } };
+			++m_allocatedExprs;
+
+			try
+			{
+				return std::unique_ptr< ExprT, DeleteExpr >{ new ( mem )ExprT{ *this, std::forward< ParamsT >( params )... } };
+			}
+			catch ( ast::Exception & )
+			{
+				--m_allocatedExprs;
+				m_allocator->deallocate( mem, sizeof( ExprT ) );
+				throw;
+			}
 		}
 
 		ShaderAllocatorBlock & getAllocator()const
