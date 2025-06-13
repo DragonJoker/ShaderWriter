@@ -152,11 +152,8 @@ namespace glsl
 				, GlslExtension const & extension
 				, uint32_t shaderVersion )
 			{
-				if ( extension.coreVersion > shaderVersion )
-				{
-					cont.addStmt( stmtCache.makePreprocExtension( extension.name
-						, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-				}
+				cont.addStmt( stmtCache.makePreprocExtension( extension.name
+					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 			}
 
 			static ast::stmt::PerVertexDecl::Source getPerVertexSource( ast::ShaderStage stage
