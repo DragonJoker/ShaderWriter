@@ -561,6 +561,12 @@ namespace test
 						hasFeatures2 = true;
 						hasVulkan1_1 = true;
 						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &drawParamsFeatures ) );
+
+						if ( isExtensionSupported( "VK_AMD_gpu_shader_half_float"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_AMD_gpu_shader_half_float" );
+						}
 					}
 					else
 					{
@@ -568,6 +574,12 @@ namespace test
 							, device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_KHR_shader_draw_parameters" );
+						}
+
+						if ( isExtensionSupported( "VK_AMD_gpu_shader_half_float"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_AMD_gpu_shader_half_float" );
 						}
 					}
 
@@ -640,6 +652,12 @@ namespace test
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_shader_demote_to_helper_invocation" );
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &demoteFeature ) );
+						}
+
+						if ( isExtensionSupported( "VK_EXT_buffer_device_address"
+							, device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_EXT_buffer_device_address" );
 						}
 
 						if ( isExtensionSupported( "VK_EXT_descriptor_indexing"

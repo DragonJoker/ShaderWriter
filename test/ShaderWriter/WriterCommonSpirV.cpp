@@ -462,7 +462,7 @@ namespace test::sdw_test
 										, config.requiredExtensions
 										, errors ) )
 								{
-									error = true;
+									error = ( errors.find( "VK_AMD_gpu_shader_half_float" ) == std::string::npos );
 									throw std::runtime_error{ errors };
 								}
 
@@ -498,10 +498,10 @@ namespace test::sdw_test
 								}
 							}
 #endif
-							catch ( std::exception & )
+							catch ( std::exception & exc )
 							{
 								if ( availableExtensions )
-									testCounts.printBlock( print );
+									throw std::runtime_error{ print + exc.what() };
 								throw;
 							}
 
