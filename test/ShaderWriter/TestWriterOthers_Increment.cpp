@@ -18,7 +18,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, singlePreIncrement )
@@ -37,7 +37,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, assignPostIncrement )
@@ -55,7 +55,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, assignPreIncrement )
@@ -73,7 +73,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, condPostIncrement )
@@ -95,7 +95,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, condPreIncrement )
@@ -117,7 +117,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, loopPostIncrement )
@@ -150,7 +150,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, loopPreIncrement )
@@ -177,7 +177,7 @@ namespace
 			} );
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

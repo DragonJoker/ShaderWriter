@@ -47,7 +47,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPcbRawArray )
@@ -88,7 +88,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPcbRawOptionalDisabled )
@@ -131,7 +131,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPcbRawOptionalDisabledArray )
@@ -174,7 +174,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPcbRawOptionalEnabled )
@@ -217,7 +217,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPcbRawOptionalEnabledArray )
@@ -260,7 +260,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testPcbHelper )
@@ -297,7 +297,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -336,7 +336,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}

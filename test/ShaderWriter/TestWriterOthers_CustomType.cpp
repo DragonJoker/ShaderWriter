@@ -222,7 +222,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 		
 	TEST_F( SDWTest, lightArrayUbo )
@@ -246,7 +246,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, singleLightSsbo )
@@ -286,7 +286,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, lightArraySsbo )
@@ -310,7 +310,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, arraySsboLight )
@@ -330,7 +330,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, singleLight2Ubo )
@@ -372,7 +372,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -400,7 +400,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -444,7 +444,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -472,7 +472,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -496,7 +496,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -546,7 +546,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 		
 	TEST_P( FlagsParam, paramArrayUbo )
@@ -570,7 +570,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_P( FlagsParam, singleParamSsbo )
@@ -613,7 +613,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 	INSTANTIATE_TEST_SUITE_P( singleParamSsbo
 		, FlagsParam
@@ -641,7 +641,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 	INSTANTIATE_TEST_SUITE_P( paramArraySsbo
 		, FlagsParam
@@ -671,7 +671,7 @@ namespace
 		test::writeShader( writer
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 	INSTANTIATE_TEST_SUITE_P( arraySsboParam
 		, FlagsParam

@@ -92,7 +92,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSsboRawArray )
@@ -180,7 +180,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSsboRawArrayRuntime )
@@ -240,7 +240,7 @@ namespace
 			// HLSL has no support for runtime arrays in buffers
 			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, testSsboHelper )
@@ -318,7 +318,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -398,7 +398,7 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}
@@ -450,7 +450,7 @@ namespace
 			// HLSL has no support for runtime arrays in buffers
 			test::writeShader( writer, testCounts, Compilers_NoHLSL );
 		}
-		sdwTestEnd();
+		sdwTestEnd()
 
 #endif
 	}

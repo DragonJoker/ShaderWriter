@@ -127,7 +127,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, flattenLiterals )
@@ -166,7 +166,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, flattenVariables )
@@ -205,7 +205,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, constIndexConstArray )
@@ -234,7 +234,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, nonConstIndexConstArray )
@@ -262,7 +262,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, swizzleConstCompositeCtor )
@@ -294,7 +294,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, constCompositeCtorFuncParam )
@@ -338,7 +338,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, constCompositeCtorVariable )
@@ -367,7 +367,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, compositeCtorIfElse )
@@ -409,7 +409,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, compositeCtorVec2FromInt )
@@ -428,7 +428,7 @@ namespace
 
 		test::writeShader( writer
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, outputParam )
@@ -481,7 +481,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, aggrInitMbrSelectLHS )
@@ -523,7 +523,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, ternarySingleComponent )
@@ -555,7 +555,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, ternaryMultipleComponent )
@@ -588,7 +588,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, less )
@@ -619,7 +619,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, lessEqual )
@@ -650,7 +650,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, greater )
@@ -681,7 +681,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, greaterEqual )
@@ -712,7 +712,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, equal )
@@ -743,7 +743,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, notEqual )
@@ -774,7 +774,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, all )
@@ -805,7 +805,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, any )
@@ -836,7 +836,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, allVarCtrlExpr )
@@ -876,7 +876,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, anyVarCtrlExpr )
@@ -916,7 +916,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, allCtrlExpr )
@@ -954,7 +954,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, anyCtrlExpr )
@@ -992,7 +992,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, notAllCtrlExpr )
@@ -1051,7 +1051,7 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, encodeColour )
@@ -1104,7 +1104,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 
 	TEST_F( SDWTest, globalConstantArray )
@@ -1183,7 +1183,7 @@ namespace
 		test::validateShaders( shaders
 			, testCounts
 			, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 

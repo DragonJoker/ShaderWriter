@@ -511,7 +511,7 @@ namespace
 		sdwTestBegin( "testSamplerDeclarations" );
 		testSamplerComp< false >( testCounts );
 		testSamplerComp< true >( testCounts );
-		sdwTestEnd();
+		sdwTestEnd()
 	}
 }
 
