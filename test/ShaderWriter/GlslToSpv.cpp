@@ -274,7 +274,7 @@ namespace test
 
 		if ( !glshader.parse( &resources, 100, false, messages ) )
 		{
-			throw std::runtime_error{ std::string{ "Shader compilation failed.\n" } + glshader.getInfoLog() };
+			throw std::runtime_error{ std::string{ "Shader compilation to SPIR-V failed.\n" } + glshader.getInfoLog() };
 		}
 
 		glslang::TProgram glprogram;

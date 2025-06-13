@@ -924,7 +924,8 @@ namespace glsl
 	void checkConfig( StmtConfig & writerConfig
 		, IntrinsicsConfig & intrinsicsConfig )
 	{
-		if ( writerConfig.wantedVersion >= v4_6 )
+		if ( writerConfig.wantedVersion >= KHR_vulkan_glsl.specVersion
+			&& writerConfig.vulkanGlsl )
 		{
 			writerConfig.availableExtensions.insert( KHR_vulkan_glsl );
 			intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
@@ -945,6 +946,7 @@ namespace glsl
 		if ( writerConfig.shaderStage == ast::ShaderStage::eTessellationControl
 			|| writerConfig.shaderStage == ast::ShaderStage::eTessellationEvaluation )
 		{
+			writerConfig.requiredExtensions.insert( ARB_tessellation_shader );
 			intrinsicsConfig.requiredExtensions.insert( ARB_tessellation_shader );
 		}
 
@@ -981,21 +983,16 @@ namespace glsl
 			writerConfig.availableExtensions.insert( ARB_shading_language_420pack );
 		}
 
-		if ( writerConfig.wantedVersion >= KHR_vulkan_glsl.specVersion
-			&& writerConfig.vulkanGlsl )
-		{
-			writerConfig.availableExtensions.insert( KHR_vulkan_glsl );
-			intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
-		}
-
 		if ( intrinsicsConfig.requiresInt8 )
 		{
 			if ( writerConfig.availableExtensions.contains( NV_gpu_shader5 ) )
 			{
+				writerConfig.requiredExtensions.insert( NV_gpu_shader5 );
 				intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
 			}
 			else if ( writerConfig.availableExtensions.contains( EXT_shader_explicit_arithmetic_types_int8 ) )
 			{
+				writerConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int8 );
 				intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int8 );
 			}
 			else
@@ -1009,10 +1006,12 @@ namespace glsl
 		{
 			if ( writerConfig.availableExtensions.contains( NV_gpu_shader5 ) )
 			{
+				writerConfig.requiredExtensions.insert( NV_gpu_shader5 );
 				intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
 			}
 			else if ( writerConfig.availableExtensions.contains( EXT_shader_explicit_arithmetic_types_int16 ) )
 			{
+				writerConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int16 );
 				intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int16 );
 			}
 			else
@@ -1026,14 +1025,17 @@ namespace glsl
 		{
 			if ( writerConfig.availableExtensions.contains( ARB_gpu_shader_int64 ) )
 			{
+				writerConfig.requiredExtensions.insert( ARB_gpu_shader_int64 );
 				intrinsicsConfig.requiredExtensions.insert( ARB_gpu_shader_int64 );
 			}
 			else if ( writerConfig.availableExtensions.contains( NV_gpu_shader5 ) )
 			{
+				writerConfig.requiredExtensions.insert( NV_gpu_shader5 );
 				intrinsicsConfig.requiredExtensions.insert( NV_gpu_shader5 );
 			}
 			else if ( writerConfig.availableExtensions.contains( EXT_shader_explicit_arithmetic_types_int64 ) )
 			{
+				writerConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
 				intrinsicsConfig.requiredExtensions.insert( EXT_shader_explicit_arithmetic_types_int64 );
 			}
 			else
