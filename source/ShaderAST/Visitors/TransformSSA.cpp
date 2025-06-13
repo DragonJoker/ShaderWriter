@@ -779,8 +779,9 @@ namespace ast
 				, bool force = false )
 			{
 				TraceFunc;
-				if ( expr->getKind() == ast::expr::Kind::eIdentifier
-					&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isAlias() )
+				if ( expr->getKind() == ast::expr::Kind::eLiteral
+					|| ( expr->getKind() == ast::expr::Kind::eIdentifier
+						&& static_cast< ast::expr::Identifier const & >( *expr ).getVariable()->isAlias() ) )
 				{
 					aliasExpr = std::move( expr );
 					return false;
@@ -859,9 +860,16 @@ namespace ast
 			void doProcessBinExprT( expr::Binary const & expr )
 			{
 				TraceFunc;
+				expr::ExprPtr aliasExpr{};
+				var::VariablePtr alias;
+				doMakeAlias( doSubmit( *expr.getRHS() )
+					, false
+					, aliasExpr
+					, alias
+					, true );
 				m_result = m_exprCache.makeExpr< ExprT >( expr.getType()
 					, doSubmit( *expr.getLHS() )
-					, doSubmit( *expr.getRHS() ) );
+					, std::move( aliasExpr ) );
 			}
 
 			template< typename ExprT >
