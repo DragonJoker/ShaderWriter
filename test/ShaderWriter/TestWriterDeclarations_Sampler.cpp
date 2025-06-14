@@ -5,6 +5,32 @@
 
 namespace
 {
+	template< bool ComparisonT >
+	struct SamplerTypeT
+	{
+		static bool constexpr Comparison = ComparisonT;
+	};
+
+	using ParamTypes = testing::Types< SamplerTypeT< false >, SamplerTypeT< true > >;
+
+	class ParamTypeNames
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
+		{
+			if constexpr ( TypeParam::Comparison ) return "Comp";
+			else return "NonComp";
+		}
+	};
+
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
+
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
 	uint32_t constexpr binding{ 4u };
@@ -24,18 +50,12 @@ namespace
 		astCheck( sampler.isComparison() == ComparisonT );
 	}
 
-	template< bool ComparisonT >
-	void testSampler( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampler )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSampler" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSampler" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -57,6 +77,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -76,20 +97,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerOptionalDisabled )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerOptionalDisabled" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerOptionalDisabled" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -112,6 +128,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -132,20 +149,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerOptionalEnabled )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerOptionalEnabled" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerOptionalEnabled" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
@@ -169,6 +181,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
@@ -190,20 +203,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerType( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerType )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerType" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerType" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -225,6 +233,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -244,20 +253,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerArray( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerArray )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerArray" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerArray" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -282,6 +286,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -304,20 +309,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerArrayOptionalDisabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerArrayOptionalDisabled )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerArrayOptionalDisabled" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerArrayOptionalDisabled" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -343,6 +343,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -366,20 +367,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerArrayOptionalEnabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerArrayOptionalEnabled )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerArrayOptionalEnabled" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerArrayOptionalEnabled" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
@@ -406,6 +402,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value_en";
@@ -430,20 +427,15 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< bool ComparisonT >
-	void testSamplerArrayType( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSamplerArrayType )
 	{
-		std::string nameBase;
-
-		if ( ComparisonT )
+		static bool constexpr ComparisonT = TypeParam::Comparison;
+		sdwTestBegin( "testSamplerArrayType" );
 		{
-			nameBase = "Comp";
-		}
-
-		astOn( "testSamplerArrayType" + nameBase );
-		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -468,6 +460,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = "Value";
@@ -490,27 +483,6 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
-	}
-
-	template< bool ComparisonT >
-	void testSamplerComp( test::sdw_test::TestCounts & testCounts )
-	{
-		testSampler< ComparisonT >( testCounts );
-		testSamplerOptionalDisabled< ComparisonT >( testCounts );
-		testSamplerOptionalEnabled< ComparisonT >( testCounts );
-		testSamplerType< ComparisonT >( testCounts );
-
-		testSamplerArray< ComparisonT >( testCounts );
-		testSamplerArrayOptionalDisabled< ComparisonT >( testCounts );
-		testSamplerArrayOptionalEnabled< ComparisonT >( testCounts );
-		testSamplerArrayType< ComparisonT >( testCounts );
-	}
-
-	TEST_F( SDWTest, testSamplerDeclarations )
-	{
-		sdwTestBegin( "testSamplerDeclarations" );
-		testSamplerComp< false >( testCounts );
-		testSamplerComp< true >( testCounts );
 		sdwTestEnd()
 	}
 }

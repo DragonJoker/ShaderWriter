@@ -7,6 +7,8 @@
 
 namespace
 {
+	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
+
 #pragma region Helpers
 	/**
 	*name
@@ -17,6 +19,8 @@ namespace
 		, bool ArrayedT
 		, bool DepthT >
 	static constexpr bool hasLodV = !sdw::isBufferV< DimT, ArrayedT, DepthT >;
+	static constexpr bool isShadowFormatV = FormatT == ast::type::ImageFormat::eR32f
+		|| FormatT == ast::type::ImageFormat::eR16f;
 
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
@@ -35,8 +39,7 @@ namespace
 	*	textureSize
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -48,69 +51,73 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureSizeTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureSizeTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< hasLodV< DimT, ArrayedT, DepthT > > >
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSizeLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto j = writer.declLocale( "j"
-							, s.getSize( 0_i ) );
-					} );
+				auto name = "testTextureSizeLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto j = writer.declLocale( "j"
+									, s.getSize( 0_i ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureSizeTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureSizeTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< !hasLodV< DimT, ArrayedT, DepthT > > >
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureSize" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto j = writer.declLocale( "j"
-							, s.getSize() );
-					} );
+				auto name = "testTextureSize" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto j = writer.declLocale( "j"
+									, s.getSize() );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -123,8 +130,7 @@ namespace
 	*	textureQueryLod
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -136,32 +142,34 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureQueryLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureQueryLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< hasLodV< DimT, ArrayedT, DepthT > > >
 	{
 		using QueryLodT = typename sdw::CombinedImageQueryLodT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto j = writer.declLocale( "j"
-							, s.getLod( test::getDefault< QueryLodT >( writer ) ) );
-					} );
-				test::writeShader( writer
-					, testCounts
-					, { true, true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
+				auto name = "testTextureQueryLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto j = writer.declLocale( "j"
+									, s.getLod( test::getDefault< QueryLodT >( writer ) ) );
+						} );
+					test::writeShader( writer
+						, testCounts
+						, { true, true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
+				}
 			}
 		}
 	};
@@ -173,8 +181,7 @@ namespace
 	*	textureQueryLevels
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -186,12 +193,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureQueryLevelsTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureQueryLevelsTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -208,25 +214,28 @@ namespace
 	{
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureQueryLevels" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto j = writer.declLocale( "j"
-							, s.getLevels() );
-					} );
+				auto name = "testTextureQueryLevels" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto j = writer.declLocale( "j"
+									, s.getLevels() );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -239,8 +248,7 @@ namespace
 	*	texture
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -252,12 +260,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -270,62 +277,67 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexture" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer ) ) );
-					} );
+				auto name = "testTexture" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< isShadowV< DimT, ArrayedT, DepthT > > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, 0.5_f ) );
-					} );
+				auto name = "testTextureShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, 0.5_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -338,8 +350,7 @@ namespace
 	*	textureBias
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -351,12 +362,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -369,37 +379,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
@@ -409,27 +421,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -442,8 +457,7 @@ namespace
 	*	textureProj
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -455,12 +469,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -469,36 +482,38 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProj" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer ) ) );
-					} );
+				auto name = "testTextureProj" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -506,26 +521,29 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, 0.5_f ) );
-					} );
+				auto name = "testTextureProjShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, 0.5_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -538,8 +556,7 @@ namespace
 	*	textureProjBias
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -551,12 +568,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -565,37 +581,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureProjBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -603,27 +621,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureProjShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -636,8 +657,7 @@ namespace
 	*	textureLod
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -649,12 +669,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -667,37 +686,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.lod( test::getDefault< SampleT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
@@ -709,27 +730,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureLodShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.lod( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -742,8 +766,7 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -755,12 +778,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -772,37 +794,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, test::getDefault < OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, test::getDefault < OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
@@ -813,27 +837,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault < OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, test::getDefault < OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -846,8 +873,7 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -859,12 +885,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -876,38 +901,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, test::getDefault< OffsetT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -916,28 +943,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.sample( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.sample( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, test::getDefault< OffsetT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -950,8 +980,7 @@ namespace
 	*	texelFetch
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -963,12 +992,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TexelFetchTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TexelFetchTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -979,62 +1007,67 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.fetch( test::getDefault< FetchT >( writer )
-								, 1_i ) );
-					} );
+				auto name = "testTexelFetchLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.fetch( test::getDefault< FetchT >( writer )
+										, 1_i ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TexelFetchTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TexelFetchTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::isBufferV< DimT, ArrayedT, DepthT > > >
 	{
 		using FetchT = typename sdw::CombinedImageFetchT< DimT, ArrayedT >;
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetch" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.fetch( test::getDefault< FetchT >( writer ) ) );
-					} );
+				auto name = "testTexelFetch" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.fetch( test::getDefault< FetchT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1047,8 +1080,7 @@ namespace
 	*	texelFetchOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1060,12 +1092,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TexelFetchConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TexelFetchConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1077,27 +1108,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTexelFetchConstOffsetLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.fetch( test::getDefault< FetchT >( writer )
-								, 1_i
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTexelFetchConstOffsetLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.fetch( test::getDefault< FetchT >( writer )
+										, 1_i
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1110,8 +1144,7 @@ namespace
 	*	textureProjOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1123,12 +1156,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1138,37 +1170,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureProjConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1177,27 +1211,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureProjConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1210,8 +1247,7 @@ namespace
 	*	textureProjOffsetBias
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1223,12 +1259,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1238,38 +1273,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureProjConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, test::getDefault< OffsetT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjConstOffsetBiasTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1278,28 +1315,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.proj( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureProjConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.proj( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, test::getDefault< OffsetT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1312,8 +1352,7 @@ namespace
 	*	textureLodOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1325,12 +1364,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureLodConstOffsetTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1342,38 +1380,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer )
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.lod( test::getDefault< SampleT >( writer )
+										, 1.0_f
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureLodConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
@@ -1383,28 +1423,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureLodShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.lod( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureLodShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.lod( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, 1.0_f
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1417,8 +1460,7 @@ namespace
 	*	textureProjLod
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1430,12 +1472,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1444,37 +1485,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer )
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureProjLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projLod( test::getDefault< SampleProjT >( writer )
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjLodTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjLodTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1482,27 +1525,30 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, 1.0_f ) );
-					} );
+				auto name = "testTextureProjShadowLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projLod( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, 1.0_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1515,8 +1561,7 @@ namespace
 	*	textureProjLodOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1528,12 +1573,11 @@ namespace
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjLodConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1543,38 +1587,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer )
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureProjLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projLod( test::getDefault< SampleProjT >( writer )
+										, 1.0_f
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjLodConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1583,28 +1629,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projLod( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, 1.0_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureProjShadowLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projLod( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, 1.0_f
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1617,8 +1666,7 @@ namespace
 	*	textureGrad
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1630,12 +1678,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGradTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1649,38 +1696,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
-					} );
+				auto name = "testTextureGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.grad( test::getDefault< SampleT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGradTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
@@ -1690,28 +1739,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
-					} );
+				auto name = "testTextureShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.grad( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1724,8 +1776,7 @@ namespace
 	*	textureGradOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1737,12 +1788,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGradConstOffsetTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT >
@@ -1755,39 +1805,41 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.grad( test::getDefault< SampleT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGradConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
@@ -1799,29 +1851,32 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.grad( test::getDefault< SampleT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.grad( test::getDefault< SampleT >( writer )
+										, 0.5_f
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1834,8 +1889,7 @@ namespace
 	*	textureProjGrad
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1847,12 +1901,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjGradTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1862,38 +1915,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
-					} );
+				auto name = "testTextureProjGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projGrad( test::getDefault< SampleProjT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjGradTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjGradTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -1902,28 +1957,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer ) ) );
-					} );
+				auto name = "testTextureProjShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projGrad( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -1936,8 +1994,7 @@ namespace
 	*	textureProjGradOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -1949,12 +2006,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjGradConstOffsetTester < FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
@@ -1965,39 +2021,41 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureProjGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projGrad( test::getDefault< SampleProjT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureProjGradConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2007,29 +2065,32 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureProjShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.projGrad( test::getDefault< SampleProjT >( writer )
-								, 0.5_f
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< DerivativeT >( writer )
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureProjShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.projGrad( test::getDefault< SampleProjT >( writer )
+										, 0.5_f
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< DerivativeT >( writer )
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -2042,8 +2103,7 @@ namespace
 	*	textureGather
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -2055,12 +2115,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
@@ -2070,37 +2129,39 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGather" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 1_i ) );
-					} );
+				auto name = "testTextureGather" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 1_i ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
@@ -2110,26 +2171,29 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 0.5_f ) );
-					} );
+				auto name = "testTextureGatherShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 0.5_f ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -2142,8 +2206,7 @@ namespace
 	*	textureGatherOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -2155,12 +2218,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2169,38 +2231,40 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 1_i
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureGatherConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 1_i
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherConstOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2209,34 +2273,36 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
+				auto name = "testTextureGatherShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 0.5_f
+										, test::getDefault< OffsetT >( writer ) ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -2248,12 +2314,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2262,39 +2327,41 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto o = writer.declLocale< OffsetT >( "o" );
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 1_i
-								, o ) );
-					} );
+				auto name = "testTextureGatherOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto o = writer.declLocale< OffsetT >( "o" );
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 1_i
+										, o ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherOffsetTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2303,28 +2370,31 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto o = writer.declLocale< OffsetT >( "o" );
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, o ) );
-					} );
+				auto name = "testTextureGatherShadowOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto o = writer.declLocale< OffsetT >( "o" );
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 0.5_f
+										, o ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -2337,8 +2407,7 @@ namespace
 	*	textureGatherOffsets
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT
@@ -2350,12 +2419,11 @@ namespace
 		}
 	};
 	
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherOffsetsTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2364,40 +2432,42 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
-					, test::getDefaultVector< OffsetT >( writer, 4u ) );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 1_i
-								, offsets ) );
-					} );
+				auto name = "testTextureGatherOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					auto offsets = writer.declConstantArray< OffsetT >( "offsets"
+						, test::getDefaultVector< OffsetT >( writer, 4u ) );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 1_i
+										, offsets ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
 	};
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	struct TextureGatherOffsetsTester< FormatT, DimT, ArrayedT, MsT, DepthT
+	struct TextureGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
 		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
 	{
@@ -2406,29 +2476,32 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			auto name = "testTextureGatherShadowOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name.c_str() );
-			using namespace sdw;
+			if constexpr ( !DepthT || isShadowFormatV )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
-				auto offsets = writer.declConstantArray< OffsetT >( "offsets"
-					, test::getDefaultVector< OffsetT >( writer, 4u ) );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto d = writer.declLocale( "d"
-							, s.gather( test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, offsets ) );
-					} );
+				auto name = "testTextureGatherShadowOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+				astOn( name.c_str() );
+				using namespace sdw;
+				{
+					sdw::FragmentWriter writer{ &testCounts.allocator };
+					sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > s = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "s", 0u, 0u );
+					auto offsets = writer.declConstantArray< OffsetT >( "offsets"
+						, test::getDefaultVector< OffsetT >( writer, 4u ) );
+					writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+						{
+								auto d = writer.declLocale( "d"
+									, s.gather( test::getDefault< GatherT >( writer )
+										, 0.5_f
+										, offsets ) );
+						} );
 
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
+					if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+					{
+						test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+					}
+					else
+					{
+						test::writeShader( writer, testCounts, CurrentCompilers );
+					}
 				}
 			}
 		}
@@ -2436,67 +2509,64 @@ namespace
 	/**@}*/
 #pragma endregion
 #pragma region Main test function
+
+#define WriteTesterTypes( TesterName )\
+		TesterName< Img1DBase, false >\
+		, TesterName< Img2DBase, false >\
+		, TesterName< Img3DBase, false >\
+		, TesterName< ImgCubeBase, false >\
+		, TesterName< ImgBufferBase, false >\
+		, TesterName< Img1DArrayBase, false >\
+		, TesterName< Img2DArrayBase, false >\
+		, TesterName< ImgCubeArrayBase, false >\
+		, TesterName< Img1DBase, true >\
+		, TesterName< Img2DBase, true >\
+		, TesterName< ImgCubeBase, true >\
+		, TesterName< Img1DArrayBase, true >\
+		, TesterName< Img2DArrayBase, true >\
+		, TesterName< ImgCubeArrayBase, true >
+
+	using ParamTypes = testing::Types< WriteTesterTypes( TextureSizeTester )
+		, WriteTesterTypes( TextureQueryLodTester )
+		, WriteTesterTypes( TextureQueryLevelsTester )
+		, WriteTesterTypes( TextureTester )
+		, WriteTesterTypes( TextureBiasTester )
+		, WriteTesterTypes( TextureProjTester )
+		, WriteTesterTypes( TextureProjBiasTester )
+		, WriteTesterTypes( TextureLodTester )
+		, WriteTesterTypes( TextureConstOffsetTester )
+		, WriteTesterTypes( TextureConstOffsetBiasTester )
+		, WriteTesterTypes( TexelFetchTester )
+		, WriteTesterTypes( TexelFetchConstOffsetTester )
+		, WriteTesterTypes( TextureProjConstOffsetTester )
+		, WriteTesterTypes( TextureProjConstOffsetBiasTester )
+		, WriteTesterTypes( TextureLodConstOffsetTester )
+		, WriteTesterTypes( TextureProjLodTester )
+		, WriteTesterTypes( TextureProjLodConstOffsetTester )
+		, WriteTesterTypes( TextureGradConstOffsetTester )
+		, WriteTesterTypes( TextureProjGradTester )
+		, WriteTesterTypes( TextureProjGradConstOffsetTester )
+		, WriteTesterTypes( TextureGatherTester )
+		, WriteTesterTypes( TextureGatherConstOffsetTester )
+		, WriteTesterTypes( TextureGatherOffsetTester )
+		, WriteTesterTypes( TextureGatherOffsetsTester ) >;
+
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes );
+
 	/**
 	*name
 	*	Main test function
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
-	void testsTextureT( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testsTexture )
 	{
-		TesterT< FormatT, Img1DBase, false >::test( testCounts );
-		TesterT< FormatT, Img2DBase, false >::test( testCounts );
-		TesterT< FormatT, Img3DBase, false >::test( testCounts );
-		TesterT< FormatT, ImgCubeBase, false >::test( testCounts );
-		TesterT< FormatT, ImgBufferBase, false >::test( testCounts );
-		TesterT< FormatT, Img1DArrayBase, false >::test( testCounts );
-		TesterT< FormatT, Img2DArrayBase, false >::test( testCounts );
-		TesterT< FormatT, ImgCubeArrayBase, false >::test( testCounts );
-
-		if constexpr ( isFloatFormat( FormatT ) )
-		{
-			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
-				|| FormatT == ast::type::ImageFormat::eR16f )
-			{
-				TesterT< FormatT, Img1DBase, true >::test( testCounts );
-				TesterT< FormatT, Img2DBase, true >::test( testCounts );
-				TesterT< FormatT, ImgCubeBase, true >::test( testCounts );
-				TesterT< FormatT, Img1DArrayBase, true >::test( testCounts );
-				TesterT< FormatT, Img2DArrayBase, true >::test( testCounts );
-				TesterT< FormatT, ImgCubeArrayBase, true >::test( testCounts );
-			}
-		}
-	}
-
-	TEST_F( SDWTest, testsTextures )
-	{
-		sdwTestBegin( "testsTextures" );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureSizeTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureQueryLodTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureQueryLevelsTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureBiasTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjBiasTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureLodTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureConstOffsetBiasTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TexelFetchTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TexelFetchConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjConstOffsetBiasTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureLodConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjLodTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjLodConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureGradTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureGradConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjGradTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureProjGradConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureGatherTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureGatherConstOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureGatherOffsetTester >( testCounts );
-		testsTextureT< ast::type::ImageFormat::SDW_TestImageFormat, TextureGatherOffsetsTester >( testCounts );
+		sdwTestBegin( "testsTexture" );
+		TypeParam::test( testCounts );
 		sdwTestEnd()
 	}
 	/**@}*/

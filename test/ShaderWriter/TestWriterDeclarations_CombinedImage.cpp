@@ -2,106 +2,74 @@
 
 namespace
 {
-	std::string getImageFormatName( ast::type::ImageFormat value )
-	{
-		std::string result{ "Undefined" };
+	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
 
-		switch ( value )
-		{
-		case ast::type::ImageFormat::eUnknown:
-			result = "Unknown";
-			break;
-		case ast::type::ImageFormat::eRgba32f:
-			result = "RGBA32f";
-			break;
-		case ast::type::ImageFormat::eRgba16f:
-			result = "RGBA16f";
-			break;
-		case ast::type::ImageFormat::eRg32f:
-			result = "RG32f";
-			break;
-		case ast::type::ImageFormat::eRg16f:
-			result = "RG16f";
-			break;
-		case ast::type::ImageFormat::eR32f:
-			result = "R32f";
-			break;
-		case ast::type::ImageFormat::eR16f:
-			result = "R16f";
-			break;
-		case ast::type::ImageFormat::eRgba32i:
-			result = "RGBA32i";
-			break;
-		case ast::type::ImageFormat::eRgba16i:
-			result = "RGBA16i";
-			break;
-		case ast::type::ImageFormat::eRgba8i:
-			result = "RGBA8i";
-			break;
-		case ast::type::ImageFormat::eRg32i:
-			result = "RG32i";
-			break;
-		case ast::type::ImageFormat::eRg16i:
-			result = "RG16i";
-			break;
-		case ast::type::ImageFormat::eRg8i:
-			result = "RG8i";
-			break;
-		case ast::type::ImageFormat::eR32i:
-			result = "R32i";
-			break;
-		case ast::type::ImageFormat::eR16i:
-			result = "R16i";
-			break;
-		case ast::type::ImageFormat::eR8i:
-			result = "R8i";
-			break;
-		case ast::type::ImageFormat::eRgba32u:
-			result = "RGBA32u";
-			break;
-		case ast::type::ImageFormat::eRgba16u:
-			result = "RGBA16u";
-			break;
-		case ast::type::ImageFormat::eRgba8u:
-			result = "RGBA8u";
-			break;
-		case ast::type::ImageFormat::eRg32u:
-			result = "RG32u";
-			break;
-		case ast::type::ImageFormat::eRg16u:
-			result = "RG16u";
-			break;
-		case ast::type::ImageFormat::eRg8u:
-			result = "RG8u";
-			break;
-		case ast::type::ImageFormat::eR32u:
-			result = "R32u";
-			break;
-		case ast::type::ImageFormat::eR16u:
-			result = "R16u";
-			break;
-		case ast::type::ImageFormat::eR8u:
-			result = "R8u";
-			break;
-		default:
-			break;
-		}
+	static bool constexpr isShadowFormat = ( FormatT == ast::type::ImageFormat::eR32f )
+		|| ( FormatT == ast::type::ImageFormat::eR16f );
 
-		return result;
-	}
-
-#define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
+	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
 		, bool DepthT >
-	void testTexture( test::sdw_test::TestCounts & testCounts )
+	struct CombinedImageTypeT
 	{
+		static ast::type::ImageDim constexpr Dim = DimT;
+		static bool constexpr Arrayed = ArrayedT;
+		static bool constexpr Ms = MsT;
+		static bool constexpr Depth = DepthT;
+	};
+
+	using ParamTypes = testing::Types< CombinedImageTypeT< Img1DBase, false >
+		, CombinedImageTypeT< Img2DBase, false >
+		, CombinedImageTypeT< Img3DBase, false >
+		, CombinedImageTypeT< ImgCubeBase, false >
+		, CombinedImageTypeT< ImgBufferBase, false >
+		, CombinedImageTypeT< Img1DArrayBase, false >
+		, CombinedImageTypeT< Img2DArrayBase, false >
+		, CombinedImageTypeT< ImgCubeArrayBase, false >
+		, CombinedImageTypeT< Img1DBase, true >
+		, CombinedImageTypeT< Img2DBase, true >
+		, CombinedImageTypeT< ImgCubeBase, true >
+		, CombinedImageTypeT< Img1DArrayBase, true >
+		, CombinedImageTypeT< Img2DArrayBase, true >
+		, CombinedImageTypeT< ImgCubeArrayBase, true > >;
+
+	class ParamTypeNames
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
+		{
+			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+			static bool constexpr ArrayedT = TypeParam::Arrayed;
+			static bool constexpr MsT = TypeParam::Ms;
+			static bool constexpr DepthT = TypeParam::Depth;
+			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+				+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		}
+	};
+
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
+
+#define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
+
+	TYPED_TEST( TestParamsT, testCombinedImageBase )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
 			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -125,31 +93,9 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		if constexpr ( !DepthT || isShadowFormat )
 		{
-			sdw::FragmentWriter writer{ &testCounts.allocator };
-			auto & shader = writer.getShader();
-			auto name = nameBase + "Value_2_2";
-			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
-			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
-			astCheck( getArraySize( value.getType() ) == 6u );
-			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
-			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
-			auto & stmt = *shader.getStatements()->back();
-			astRequire( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
-			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
-			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
-			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
-		}
-		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -173,7 +119,47 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageArray )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "SplitParams" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2";
+			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, 2u, 2u, 6u );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+			{
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
+		}
+		if constexpr ( !DepthT || isShadowFormat )
+		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -197,7 +183,21 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageOptionalDisabled )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -219,11 +219,49 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
-			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 1u, 1u, 6u, false );
+			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", { .binding = 1u, .set = 1u }, false );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			astCheck( shader.getStatements()->size() == count );
+			DummyMain;
+
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+			{
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
+		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageArrayOptionalDisabled )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
+		{
+			astOn( "SplitParams" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
+			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", 2u, 2u, 6u, false );
 			astCheck( !value.isEnabled() );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
 			astCheck( getArraySize( value.getType() ) == 6u );
@@ -241,7 +279,45 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "BindingHelper" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto count = shader.getStatements()->size();
+			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( "value", { .binding = 2u, .set = 2u }, 6u, false );
+			astCheck( !value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
+			astCheck( shader.getStatements()->size() == count );
+			DummyMain;
+
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+			{
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
+		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageOptionalEnabled )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
+		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
@@ -266,7 +342,48 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "BindingHelper" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1_opt";
+			auto value = writer.declCombinedImg< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 1u, .set = 1u }, true );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+			{
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
+		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageArrayOptionalEnabled )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
+		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
@@ -291,7 +408,48 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "BindingHelper" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2_opt";
+			auto value = writer.declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, DepthT >( name, { .binding = 2u, .set = 2u }, 6u, true );
+			astCheck( value.isEnabled() );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
+
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+			{
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
+		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageType )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
+		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_T";
@@ -315,7 +473,47 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		if constexpr ( !DepthT || isShadowFormat )
 		{
+			astOn( "BindingHelper" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_1_1_T";
+			auto value = writer.declCombinedImg< sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > >( name, { .binding = 1u, .set = 1u } );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
+			DummyMain;
+
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
+			{
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
+			}
+		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testCombinedImageTypeArray )
+	{
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		static bool constexpr DepthT = TypeParam::Depth;
+		sdwTestBegin( "testTextureBase" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+			+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		if constexpr ( !DepthT || isShadowFormat )
+		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_T";
@@ -339,67 +537,32 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-	}
-
-	template< ast::type::ImageFormat FormatT >
-	void testTextureFormatT( test::sdw_test::TestCounts & testCounts )
-	{
-		if constexpr ( isFloatFormat( FormatT ) )
+		if constexpr ( !DepthT || isShadowFormat )
 		{
-			testTexture< FormatT, Img1DBase, false >( testCounts );
-			testTexture< FormatT, Img2DBase, false >( testCounts );
-			testTexture< FormatT, Img3DBase, false >( testCounts );
-			testTexture< FormatT, ImgCubeBase, false >( testCounts );
-			testTexture< FormatT, ImgBufferBase, false >( testCounts );
-			testTexture< FormatT, Img1DArrayBase, false >( testCounts );
-			testTexture< FormatT, Img2DArrayBase, false >( testCounts );
-			testTexture< FormatT, ImgCubeArrayBase, false >( testCounts );
-			testTexture< FormatT, Img2DMSBase, false >( testCounts );
-			testTexture< FormatT, Img2DMSArrayBase, false >( testCounts );
+			astOn( "BindingHelper" );
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto & shader = writer.getShader();
+			auto name = nameBase + "Value_2_2_T";
+			auto value = writer.declCombinedImgArray< sdw::CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > >( name, { .binding = 2u, .set = 2u }, 6u );
+			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< sdw::CombinedImage > );
+			astCheck( getArraySize( value.getType() ) == 6u );
+			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eIdentifier );
+			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == name );
+			auto & stmt = *shader.getStatements()->back();
+			astRequire( stmt.getKind() == sdw::stmt::Kind::eCombinedImageDecl );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
+			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
+			DummyMain;
 
-			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
-				|| FormatT == ast::type::ImageFormat::eR16f )
+			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
 			{
-				testTexture< FormatT, Img1DBase, true >( testCounts );
-				testTexture< FormatT, Img2DBase, true >( testCounts );
-				testTexture< FormatT, ImgCubeBase, true >( testCounts );
-				testTexture< FormatT, Img1DArrayBase, true >( testCounts );
-				testTexture< FormatT, Img2DArrayBase, true >( testCounts );
-				testTexture< FormatT, ImgCubeArrayBase, true >( testCounts );
+				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
+			}
+			else
+			{
+				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
-		else if constexpr ( isSIntFormat( FormatT ) )
-		{
-			testTexture< FormatT, Img1DBase, false >( testCounts );
-			testTexture< FormatT, Img2DBase, false >( testCounts );
-			testTexture< FormatT, Img3DBase, false >( testCounts );
-			testTexture< FormatT, ImgCubeBase, false >( testCounts );
-			testTexture< FormatT, ImgBufferBase, false >( testCounts );
-			testTexture< FormatT, Img1DArrayBase, false >( testCounts );
-			testTexture< FormatT, Img2DArrayBase, false >( testCounts );
-			testTexture< FormatT, ImgCubeArrayBase, false >( testCounts );
-			testTexture< FormatT, Img2DMSBase, false >( testCounts );
-			testTexture< FormatT, Img2DMSArrayBase, false >( testCounts );
-		}
-		else if constexpr ( isUIntFormat( FormatT ) )
-		{
-			testTexture< FormatT, Img1DBase, false >( testCounts );
-			testTexture< FormatT, Img2DBase, false >( testCounts );
-			testTexture< FormatT, Img3DBase, false >( testCounts );
-			testTexture< FormatT, ImgCubeBase, false >( testCounts );
-			testTexture< FormatT, ImgBufferBase, false >( testCounts );
-			testTexture< FormatT, Img1DArrayBase, false >( testCounts );
-			testTexture< FormatT, Img2DArrayBase, false >( testCounts );
-			testTexture< FormatT, ImgCubeArrayBase, false >( testCounts );
-			testTexture< FormatT, Img2DMSBase, false >( testCounts );
-			testTexture< FormatT, Img2DMSArrayBase, false >( testCounts );
-		}
-	}
-
-	TEST_F( SDWTest, testTextureFormat )
-	{
-		sdwTestBegin( "testTexture" + getImageFormatName( ast::type::ImageFormat::SDW_TestImageFormat ) );
-		testTextureFormatT< ast::type::ImageFormat::SDW_TestImageFormat >( testCounts );
 		sdwTestEnd()
 	}
 }

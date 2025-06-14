@@ -15,6 +15,9 @@ namespace
 	*	Helpers
 	*/
 	/**@{*/
+	static constexpr bool isShadowFormatV = FormatT == ast::type::ImageFormat::eR32f
+		|| FormatT == ast::type::ImageFormat::eR16f;
+
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool DepthT >
@@ -49,13 +52,14 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
@@ -91,7 +95,8 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< isShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( isShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
@@ -147,13 +152,14 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
@@ -190,10 +196,11 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
@@ -250,9 +257,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
@@ -288,8 +296,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
@@ -345,9 +354,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
@@ -384,8 +394,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
@@ -442,13 +453,14 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
@@ -485,9 +497,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 
@@ -544,11 +557,12 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -586,10 +600,11 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -647,11 +662,12 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -690,8 +706,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -750,9 +767,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -790,8 +808,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -849,9 +868,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -890,8 +910,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -950,11 +971,12 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -993,9 +1015,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1054,9 +1077,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
@@ -1093,8 +1117,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 
@@ -1151,9 +1176,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1192,8 +1218,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1252,13 +1279,14 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1297,9 +1325,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1358,11 +1387,12 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1403,10 +1433,11 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1467,9 +1498,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1508,8 +1540,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1568,9 +1601,10 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is3dV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1611,8 +1645,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
@@ -1673,10 +1708,11 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 
@@ -1713,10 +1749,11 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 
@@ -1772,8 +1809,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1812,8 +1850,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1864,8 +1903,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1906,8 +1946,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -1967,8 +2008,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -2009,8 +2051,9 @@ namespace
 		, bool MsT
 		, bool DepthT >
 	struct SampledImageGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-			|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > > >
+		, std::enable_if_t< ( !DepthT || isShadowFormatV )
+			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
 	{
 		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
@@ -2048,61 +2091,59 @@ namespace
 	/**@}*/
 #pragma endregion
 #pragma region Main test function
+
+#define WriteTesterTypes( TesterName )\
+		TesterName< Img1DBase, false >\
+		, TesterName< Img2DBase, false >\
+		, TesterName< Img3DBase, false >\
+		, TesterName< ImgCubeBase, false >\
+		, TesterName< ImgBufferBase, false >\
+		, TesterName< Img1DArrayBase, false >\
+		, TesterName< Img2DArrayBase, false >\
+		, TesterName< ImgCubeArrayBase, false >\
+		, TesterName< Img1DBase, true >\
+		, TesterName< Img2DBase, true >\
+		, TesterName< ImgCubeBase, true >\
+		, TesterName< Img1DArrayBase, true >\
+		, TesterName< Img2DArrayBase, true >\
+		, TesterName< ImgCubeArrayBase, true >
+
+	using ParamTypes = testing::Types< WriteTesterTypes( SampledImageTester )
+		, WriteTesterTypes( SampledImageBiasTester )
+		, WriteTesterTypes( SampledImageProjTester )
+		, WriteTesterTypes( SampledImageProjBiasTester )
+		, WriteTesterTypes( SampledImageLodTester )
+		, WriteTesterTypes( SampledImageConstOffsetTester )
+		, WriteTesterTypes( SampledImageConstOffsetBiasTester )
+		, WriteTesterTypes( SampledImageProjConstOffsetTester )
+		, WriteTesterTypes( SampledImageProjConstOffsetBiasTester )
+		, WriteTesterTypes( SampledImageLodConstOffsetTester )
+		, WriteTesterTypes( SampledImageProjLodTester )
+		, WriteTesterTypes( SampledImageProjLodConstOffsetTester )
+		, WriteTesterTypes( SampledImageGradTester )
+		, WriteTesterTypes( SampledImageGradConstOffsetTester )
+		, WriteTesterTypes( SampledImageProjGradTester )
+		, WriteTesterTypes( SampledImageProjGradConstOffsetTester )
+		, WriteTesterTypes( SampledImageGatherTester )
+		, WriteTesterTypes( SampledImageGatherConstOffsetTester )
+		, WriteTesterTypes( SampledImageGatherOffsetTester )
+		, WriteTesterTypes( SampledImageGatherOffsetsTester ) >;
+
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes );
 	/**
 	*name
 	*	Main test function
 	*/
 	/**@{*/
-	template< template< ast::type::ImageDim, bool, bool, bool, typename Enable = void > typename TesterT >
-	void testsTexture( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testsTexture )
 	{
-		TesterT< Img1DBase, false >::test( testCounts );
-		TesterT< Img2DBase, false >::test( testCounts );
-		TesterT< Img3DBase, false >::test( testCounts );
-		TesterT< ImgCubeBase, false >::test( testCounts );
-		TesterT< ImgBufferBase, false >::test( testCounts );
-		TesterT< Img1DArrayBase, false >::test( testCounts );
-		TesterT< Img2DArrayBase, false >::test( testCounts );
-		TesterT< ImgCubeArrayBase, false >::test( testCounts );
-
-		if constexpr ( isFloatFormat( FormatT ) )
-		{
-			if constexpr ( FormatT == ast::type::ImageFormat::eR32f
-				|| FormatT == ast::type::ImageFormat::eR16f )
-			{
-				TesterT< Img1DBase, true >::test( testCounts );
-				TesterT< Img2DBase, true >::test( testCounts );
-				TesterT< ImgCubeBase, true >::test( testCounts );
-				TesterT< Img1DArrayBase, true >::test( testCounts );
-				TesterT< Img2DArrayBase, true >::test( testCounts );
-				TesterT< ImgCubeArrayBase, true >::test( testCounts );
-			}
-		}
-	}
-
-	TEST_F( SDWTest, testsSampledImageAccesses )
-	{
-		sdwTestBegin( "testsSampledImageAccesses" );
-		testsTexture< SampledImageTester >( testCounts );
-		testsTexture< SampledImageBiasTester >( testCounts );
-		testsTexture< SampledImageProjTester >( testCounts );
-		testsTexture< SampledImageProjBiasTester >( testCounts );
-		testsTexture< SampledImageLodTester >( testCounts );
-		testsTexture< SampledImageConstOffsetTester >( testCounts );
-		testsTexture< SampledImageConstOffsetBiasTester >( testCounts );
-		testsTexture< SampledImageProjConstOffsetTester >( testCounts );
-		testsTexture< SampledImageProjConstOffsetBiasTester >( testCounts );
-		testsTexture< SampledImageLodConstOffsetTester >( testCounts );
-		testsTexture< SampledImageProjLodTester >( testCounts );
-		testsTexture< SampledImageProjLodConstOffsetTester >( testCounts );
-		testsTexture< SampledImageGradTester >( testCounts );
-		testsTexture< SampledImageGradConstOffsetTester >( testCounts );
-		testsTexture< SampledImageProjGradTester >( testCounts );
-		testsTexture< SampledImageProjGradConstOffsetTester >( testCounts );
-		testsTexture< SampledImageGatherTester >( testCounts );
-		testsTexture< SampledImageGatherConstOffsetTester >( testCounts );
-		testsTexture< SampledImageGatherOffsetTester >( testCounts );
-		testsTexture< SampledImageGatherOffsetsTester >( testCounts );
+		sdwTestBegin( "testsTexture" );
+		TypeParam::test( testCounts );
 		sdwTestEnd()
 	}
 	/**@}*/

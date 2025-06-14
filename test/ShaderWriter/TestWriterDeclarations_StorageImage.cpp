@@ -2,19 +2,70 @@
 
 namespace
 {
-#define DummyMain \
-	writer.implementMainT< sdw::VoidT >( 16u, []( sdw::ComputeIn ){} )
+	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
-	void testImage( test::sdw_test::TestCounts & testCounts )
+	struct StorageImageTypeT
 	{
+		static ast::type::AccessKind constexpr Access = AccessT;
+		static ast::type::ImageDim constexpr Dim = DimT;
+		static bool constexpr Arrayed = ArrayedT;
+		static bool constexpr Ms = MsT;
+	};
+
+#define WriteTypes( Access )\
+		StorageImageTypeT< ast::type::AccessKind::Access, Img1DBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img2DBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img3DBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, ImgCubeBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, ImgBufferBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img1DArrayBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img2DArrayBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, ImgCubeArrayBase >
+
+	using ParamTypes = testing::Types< WriteTypes( eRead )
+		, WriteTypes( eWrite )
+		, WriteTypes( eReadWrite ) >;
+
+	class ParamTypeNames
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
+		{
+			static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+			static bool constexpr ArrayedT = TypeParam::Arrayed;
+			static bool constexpr MsT = TypeParam::Ms;
+			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+				+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
+		}
+	};
+
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
+
+#define DummyMain \
+	writer.implementMainT< sdw::VoidT >( 16u, []( sdw::ComputeIn ){} )
+
+	TYPED_TEST( TestParamsT, testImage )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageBase" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
 			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -32,6 +83,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -48,7 +100,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageArray )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageArray" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -66,6 +131,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -82,7 +148,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageOptionalDisabled )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageOptionalDisabled" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -98,6 +177,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -112,7 +192,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageArrayOptionalDisabled )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageArrayOptionalDisabled" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -128,6 +221,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -142,7 +236,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageOptionalEnabled )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageOptionalEnabled" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
@@ -161,6 +268,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
@@ -178,7 +286,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageArrayOptionalEnabled )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageArrayOptionalEnabled" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
@@ -197,6 +318,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
@@ -214,7 +336,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageType )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageType" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_T";
@@ -232,6 +367,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_T";
@@ -248,7 +384,20 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
+	}
+
+	TYPED_TEST( TestParamsT, testImageTypeArray )
+	{
+		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testImageTypeArray" );
+		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+			+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_T";
@@ -266,6 +415,7 @@ namespace
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::ComputeWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_T";
@@ -282,59 +432,6 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 			test::validateShader( writer.getShader(), testCounts, CurrentCompilers );
 		}
-	}
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT >
-	void testImageAccessFormat( test::sdw_test::TestCounts & testCounts )
-	{
-		if constexpr ( isFloatFormat( FormatT ) )
-		{
-			testImage< FormatT, AccessT, Img1DBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DBase >( testCounts );
-			testImage< FormatT, AccessT, Img3DBase >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeBase >( testCounts );
-			testImage< FormatT, AccessT, ImgBufferBase >( testCounts );
-			testImage< FormatT, AccessT, Img1DArrayBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DArrayBase >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeArrayBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSArrayBase >( testCounts );
-		}
-		else if constexpr ( isSIntFormat( FormatT ) )
-		{
-			testImage< FormatT, AccessT, Img1DBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DBase >( testCounts );
-			testImage< FormatT, AccessT, Img3DBase >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeBase >( testCounts );
-			testImage< FormatT, AccessT, ImgBufferBase >( testCounts );
-			testImage< FormatT, AccessT, Img1DArrayBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DArrayBase >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeArrayBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSArrayBase >( testCounts );
-		}
-		else if constexpr ( isUIntFormat( FormatT ) )
-		{
-			testImage< FormatT, AccessT, Img1DBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DBase >( testCounts );
-			testImage< FormatT, AccessT, Img3DBase >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeBase >( testCounts );
-			testImage< FormatT, AccessT, ImgBufferBase >( testCounts );
-			testImage< FormatT, AccessT, Img1DArrayBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DArrayBase >( testCounts );
-			testImage< FormatT, AccessT, ImgCubeArrayBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSBase >( testCounts );
-			testImage< FormatT, AccessT, Img2DMSArrayBase >( testCounts );
-		}
-	}
-
-	TEST_F( SDWTest, testImageFormat )
-	{
-		sdwTestBegin( "testImageFormat" );
-		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eRead >( testCounts );
-		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eWrite >( testCounts );
-		testImageAccessFormat< ast::type::ImageFormat::SDW_TestImageFormat, ast::type::AccessKind::eReadWrite >( testCounts );
 		sdwTestEnd()
 	}
 }
