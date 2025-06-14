@@ -3392,16 +3392,29 @@ namespace spirv
 			writeWord( word, stream );
 			count( instruction, word );
 
-			if ( auto opCode = spv::Op( instruction.op.getOpData().opCode );
-				opCode == spv::OpExecutionMode )
+			if ( auto opCode = spv::Op( instruction.op.getOpData().opCode ) )
 			{
-				stream << "        " + spirv::getOperatorName( opCode );
-				stream << " %" + std::to_string( instruction.operands[0] );
-				stream << " " + getName( spv::ExecutionMode( instruction.operands[1] ) );
-
-				for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+				if ( opCode == spv::OpExecutionMode )
 				{
-					stream << " " + std::to_string( instruction.operands[i] );
+					stream << "        " + spirv::getOperatorName( opCode );
+					stream << " %" + std::to_string( instruction.operands[0] );
+					stream << " " + getName( spv::ExecutionMode( instruction.operands[1] ) );
+
+					for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+					{
+						stream << " " + std::to_string( instruction.operands[i] );
+					}
+				}
+				else if ( opCode == spv::OpExecutionModeId )
+				{
+					stream << "        " + spirv::getOperatorName( opCode );
+					stream << " %" + std::to_string( instruction.operands[0] );
+					stream << " " + getName( spv::ExecutionMode( instruction.operands[1] ) );
+
+					for ( size_t i = 2u; i < instruction.operands.size(); ++i )
+					{
+						stream << " " + writeId( instruction.operands[i] );
+					}
 				}
 			}
 
