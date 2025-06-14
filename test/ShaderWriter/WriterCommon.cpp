@@ -149,6 +149,7 @@ namespace test
 				, std::string const & text )
 			{
 				printCDBConsole( text, true );
+				fprintf( stdout, "%s\n", text.c_str() );
 				stream << text << std::endl;
 			}
 
@@ -156,6 +157,7 @@ namespace test
 				, std::string const & text )
 			{
 				printCDBConsole( text, false );
+				fprintf( stdout, "%s", text.c_str() );
 				stream << text;
 			}
 		};
