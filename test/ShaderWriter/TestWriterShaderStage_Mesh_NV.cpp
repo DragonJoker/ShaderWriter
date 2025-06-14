@@ -3,12 +3,22 @@
 #define SDW_PreferredMeshShadingExtension SDW_MeshShadingNV
 #include <ShaderWriter/MeshWriter.hpp>
 #include <ShaderWriter/TaskWriter.hpp>
+#include <ShaderWriter/ModernGraphicsWriter.hpp>
+#include <ShaderWriter/CompositeTypes/IOStructHelper.hpp>
+#include <ShaderWriter/CompositeTypes/IOStructInstanceHelper.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
 namespace
 {
+	template< sdw::var::Flag FlagT >
+	using PosColStructT = sdw::MixedStructInstanceHelperT< FlagT
+		, "PosCol"
+		, sdw::type::MemoryLayout::eStd430
+		, sdw::IOVec4Field< "position", 0u >
+		, sdw::IOVec4Field< "colour", 1u > >;
+
 	struct Meshlet
 		: public sdw::StructInstance
 	{
@@ -98,7 +108,7 @@ namespace
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: sdw::StructInstance{ writer, std::move( expr ), enabled }
-			, index{ getMember< sdw::U8Vec3 >( "index" ) }
+			, index{ getMember< sdw::U32Vec3 >( "index" ) }
 		{
 		}
 
@@ -112,14 +122,14 @@ namespace
 			if ( result->empty() )
 			{
 				result->declMember( "index"
-					, sdw::type::Kind::eVec3U8
+					, sdw::type::Kind::eVec3U32
 					, sdw::type::NotArray );
 			}
 
 			return result;
 		}
 
-		sdw::U8Vec3 index;
+		sdw::U32Vec3 index;
 	};
 
 	struct VtxIndex
@@ -152,6 +162,25 @@ namespace
 
 		sdw::UInt index;
 	};
+
+	template< sdw::var::Flag FlagT >
+	struct PosColT
+		: public PosColStructT< FlagT >
+	{
+		PosColT( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
+			, position{ this->getMember< "position" >() }
+			, colour{ this->getMember < "colour" >() }
+		{
+		}
+
+		sdw::Vec4 position;
+		sdw::Vec4 colour;
+	};
+
+	using PosCol = PosColT< sdw::var::Flag::eNone >;
 
 	template< sdw::var::Flag FlagT >
 	struct MyVertexOutT
@@ -1059,16 +1088,6 @@ namespace
 			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
 			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 
-			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
-				, [&]( Meshlet m
-					, UInt index )
-				{
-					auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + index].index );
-					writer.returnStmt( uvec3( primIndices ) );
-				}
-				, InParam< Meshlet >{ writer, "m" }
-				, InUInt{ writer, "index" } );
-
 			auto getVertexIndex = writer.implementFunction< UInt >( "getVertexIndex"
 				, [&]( Meshlet m
 					, UInt localIndex )
@@ -1130,7 +1149,7 @@ namespace
 
 					sdwIF( writer, gtid < m.primCount )
 					{
-						primOut[gtid].primitiveIndex = getPrimitive( m, gtid );
+						primOut[gtid].primitiveIndex = primitiveIndices[m.primOffset + gtid].index;
 					}
 					sdwFI;
 
@@ -1179,16 +1198,6 @@ namespace
 			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
 			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 			auto instances = writer.declArrayStorageBuffer< Instance >( "bufferInstances", 4u, 1u );
-
-			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
-				, [&]( Meshlet m
-					, UInt index )
-				{
-					auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + index].index );
-					writer.returnStmt( uvec3( primIndices ) );
-				}
-				, InParam< Meshlet >{ writer, "m" }
-				, InUInt{ writer, "index" } );
 
 			auto getVertexIndex = writer.implementFunction< UInt >( "getVertexIndex"
 				, [&]( Meshlet m
@@ -1302,7 +1311,7 @@ namespace
 						auto instanceId = writer.declLocale( "instanceId", gtid / m.primCount ); // Instance index within this threadgroup (only non-zero in last meshlet threadgroups.)
 
 						// Must offset the vertex indices to this thread's instanced verts
-						primOut[gtid].primitiveIndex = getPrimitive( m, readIndex ) + ( m.vertCount * instanceId );
+						primOut[gtid].primitiveIndex = primitiveIndices[m.primOffset + readIndex].index + ( m.vertCount * instanceId );
 					}
 					sdwFI;
 				} );
@@ -1371,16 +1380,6 @@ namespace
 			auto uniqueVertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferUniqueVertexIndices", 2u, 1u );
 			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 			auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
-
-			auto getPrimitive = writer.implementFunction< UVec3 >( "getPrimitive"
-				, [&]( Meshlet m
-					, UInt index )
-				{
-					auto primIndices = writer.declLocale( "primIndices", primitiveIndices[m.primOffset + index].index );
-					writer.returnStmt( uvec3( primIndices ) );
-				}
-				, InParam< Meshlet >{ writer, "m" }
-				, InUInt{ writer, "index" } );
 
 			auto getVertexIndex = writer.implementFunction< UInt >( "getVertexIndex"
 				, [&]( Meshlet m
@@ -1475,7 +1474,7 @@ namespace
 
 					sdwIF( writer, gtid < m.primCount )
 					{
-						primOut[gtid].primitiveIndex = getPrimitive( m, gtid );
+						primOut[gtid].primitiveIndex = primitiveIndices[m.primOffset + gtid].index;
 					}
 					sdwFI;
 				} );
@@ -1754,6 +1753,64 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
+			test::writeShader( writer
+				, testCounts
+				, Compilers_NoGLSL );
+		}
+		sdwTestEnd()
+	}
+	
+	TEST_F( SDWTest, taskMeshPipelineMeshOnly )
+	{
+		sdwTestBegin( "taskMeshPipelineMeshOnly" );
+		{
+			sdw::MeshWriter writer{ &testCounts.allocator };
+
+			auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
+			auto mvp = ModelUbo.declMember< sdw::Mat4 >( "mvp" );
+			auto world = ModelUbo.declMember< sdw::Mat4 >( "world" );
+			auto scale = ModelUbo.declMember< sdw::Float >( "scale" );
+			auto cullPlanes = ModelUbo.declMember< sdw::Vec4 >( "cullPlanes", 6u );
+			ModelUbo.end();
+
+			auto vertices = writer.declArrayStorageBuffer< PosCol >( "bufferVertices", 0u, 1u );
+			auto meshlets = writer.declArrayStorageBuffer< Meshlet >( "bufferMeshlets", 1u, 1u );
+			auto vertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferVertexIndices", 2u, 1u );
+			auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
+
+			writer.implementMainT< payload::PayloadT, PerVertexColourT, sdw::VoidT >( SDW_MeshLocalSize( cull::ThreadsPerWave, 1u, 1u )
+				, sdw::TaskPayloadInT< payload::PayloadT >{ writer }
+				, sdw::MeshVertexListOutT< PerVertexColourT >{ writer, 252u }
+				, sdw::TrianglesMeshPrimitiveListOut{ writer, 84u }
+				, [&]( sdw::MeshSubgroupIn in
+					, sdw::TaskPayloadInT< payload::PayloadT > payload
+					, sdw::MeshVertexListOutT< PerVertexColourT > vtxOut
+					, sdw::TrianglesMeshPrimitiveListOut primOut )
+				{
+					auto laneId = writer.declLocale( "laneId", in.localInvocationID );
+					auto meshletId = writer.declLocale( "meshletId", payload.meshletIndices[laneId] );
+					auto meshlet = writer.declLocale( "meshlet", meshlets[meshletId] );
+
+					primOut.setMeshOutputCounts( meshlet.vertCount, meshlet.primCount );
+
+					sdwIF( writer, laneId < meshlet.primCount )
+					{
+						primOut[laneId].primitiveIndex = primitiveIndices[meshlet.primOffset + laneId].index;
+					}
+					sdwFI;
+
+					sdwIF( writer, laneId < meshlet.vertCount )
+					{
+						auto vertexIndex = writer.declLocale( "vertexIndex", vertexIndices[meshlet.vertOffset + laneId].index );
+						auto vertex = writer.declLocale( "vertex", vertices[vertexIndex] );
+
+						vtxOut[laneId].position = mvp * vertex.position;
+						vtxOut[laneId].colour = vertex.colour;
+					}
+					sdwFI;
+				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
 			test::writeShader( writer
