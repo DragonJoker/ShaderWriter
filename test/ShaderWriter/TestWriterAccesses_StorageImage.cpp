@@ -6,14 +6,18 @@
 
 namespace
 {
+	static ast::type::ImageFormat constexpr FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
+	static constexpr bool isAtomicFormatV = FormatT == ast::type::ImageFormat::eR32f
+		|| FormatT == ast::type::ImageFormat::eR32i
+		|| FormatT == ast::type::ImageFormat::eR32u;
+
 #pragma region imageSize
 	/**
 	*name
 	*	imageSize
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -52,8 +56,7 @@ namespace
 	*	imageSamples
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -95,8 +98,7 @@ namespace
 	*	imageLoad
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -149,8 +151,7 @@ namespace
 	*	imageStore
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -204,8 +205,7 @@ namespace
 	*	imageAtomicAdd
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -216,7 +216,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
@@ -279,8 +280,7 @@ namespace
 	*	imageAtomicMin
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -291,7 +291,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMin" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
@@ -352,8 +353,7 @@ namespace
 	*	imageAtomicMax
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -364,7 +364,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicMax" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
@@ -425,8 +426,7 @@ namespace
 	*	imageAtomicAnd
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -437,7 +437,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicAnd" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
@@ -498,8 +499,7 @@ namespace
 	*	imageAtomicOr
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -510,7 +510,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicOr" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
@@ -571,8 +572,7 @@ namespace
 	*	imageAtomicXor
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -583,7 +583,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicXor" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
@@ -644,8 +645,7 @@ namespace
 	*	imageAtomicExchange
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -656,7 +656,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isAtomicFloatFormat( FormatT )
 					|| isSingleInt32Format( FormatT ) ) )
 			{
@@ -719,8 +720,7 @@ namespace
 	*	imageAtomicCompSwap
 	*/
 	/**@{*/
-	template< ast::type::ImageFormat FormatT
-		, ast::type::AccessKind AccessT
+	template< ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT >
@@ -731,7 +731,8 @@ namespace
 
 		static void test( test::sdw_test::TestCounts & testCounts )
 		{
-			if constexpr ( sdw::isReadWriteV< AccessT >
+			if constexpr ( isAtomicFormatV
+				&& sdw::isReadWriteV< AccessT >
 				&& ( isSingleInt32Format( FormatT ) ) )
 			{
 				auto name = "testImageAtomicCompSwap" + sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
@@ -794,85 +795,50 @@ namespace
 	/**@}*/
 #pragma endregion
 
-	template< ast::type::AccessKind AccessT
-		, ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
-	void testsImageFormats( test::sdw_test::TestCounts & testCounts )
-	{
-		if constexpr ( isFloatFormat( FormatT ) )
-		{
-			TesterT< FormatT, AccessT, Img1DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img3DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgBufferBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img1DArrayBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DArrayBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeArrayBase >::test( testCounts );
-		}
-		else if constexpr ( isSIntFormat( FormatT ) )
-		{
-			TesterT< FormatT, AccessT, Img1DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img3DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgBufferBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img1DArrayBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DArrayBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeArrayBase >::test( testCounts );
-		}
-		else if constexpr ( isUIntFormat( FormatT ) )
-		{
-			TesterT< FormatT, AccessT, Img1DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img3DBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgBufferBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img1DArrayBase >::test( testCounts );
-			TesterT< FormatT, AccessT, Img2DArrayBase >::test( testCounts );
-			TesterT< FormatT, AccessT, ImgCubeArrayBase >::test( testCounts );
-		}
-	}
-
-	template< ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
-	void testsImage( test::sdw_test::TestCounts & testCounts )
-	{
-		testsImageFormats< ast::type::AccessKind::eRead, FormatT, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eWrite, FormatT, TesterT >( testCounts );
-		testsImageFormats< ast::type::AccessKind::eReadWrite, FormatT, TesterT >( testCounts );
-	}
-
-	template< ast::type::ImageFormat FormatT
-		, template< ast::type::ImageFormat, ast::type::AccessKind, ast::type::ImageDim, bool, bool > typename TesterT >
-	void testsImageAtomic( test::sdw_test::TestCounts & testCounts )
-	{
-		if constexpr ( FormatT == ast::type::ImageFormat::eR32f
-			|| FormatT == ast::type::ImageFormat::eR32i
-			|| FormatT == ast::type::ImageFormat::eR32u )
-		{
-			testsImageFormats< ast::type::AccessKind::eReadWrite, FormatT, TesterT >( testCounts );
-		}
-	}
-
 #if !defined( __APPLE__ )
-	TEST_F( SDWTest, testsImageAccesses )
+
+#define WriteTesterTypesAccess( TesterName, Access )\
+		TesterName< ast::type::AccessKind::Access, Img1DBase >\
+		, TesterName< ast::type::AccessKind::Access, Img2DBase >\
+		, TesterName< ast::type::AccessKind::Access, Img3DBase >\
+		, TesterName< ast::type::AccessKind::Access, ImgCubeBase >\
+		, TesterName< ast::type::AccessKind::Access, ImgBufferBase >\
+		, TesterName< ast::type::AccessKind::Access, Img1DArrayBase >\
+		, TesterName< ast::type::AccessKind::Access, Img2DArrayBase >\
+		, TesterName< ast::type::AccessKind::Access, ImgCubeArrayBase >
+
+#define WriteTesterTypess( TesterName )\
+		WriteTesterTypesAccess( TesterName, eRead )\
+		, WriteTesterTypesAccess( TesterName, eWrite )\
+		, WriteTesterTypesAccess( TesterName, eReadWrite )
+
+	using ParamTypes = testing::Types< WriteTesterTypess( ImageSizeTester )
+		, WriteTesterTypess( ImageSamplesTester )
+		, WriteTesterTypess( ImageLoadTester )
+		, WriteTesterTypess( ImageStoreTester )
+		, WriteTesterTypess( ImageAtomicAddTester )
+		, WriteTesterTypess( ImageAtomicMinTester )
+		, WriteTesterTypess( ImageAtomicMaxTester )
+		, WriteTesterTypess( ImageAtomicAndTester )
+		, WriteTesterTypess( ImageAtomicOrTester )
+		, WriteTesterTypess( ImageAtomicXorTester )
+		, WriteTesterTypess( ImageAtomicExchangeTester )
+		, WriteTesterTypess( ImageAtomicCompSwapTester ) >;
+
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
 	{
-		sdwTestBegin( "testsImageAccesses" );
-		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSizeTester >( testCounts );
-		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageSamplesTester >( testCounts );
-		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageLoadTester >( testCounts );
-		testsImage< ast::type::ImageFormat::SDW_TestImageFormat, ImageStoreTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAddTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMinTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicMaxTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicAndTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicOrTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicXorTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicExchangeTester >( testCounts );
-		testsImageAtomic< ast::type::ImageFormat::SDW_TestImageFormat, ImageAtomicCompSwapTester >( testCounts );
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes );
+
+	TYPED_TEST( TestParamsT, testsTexture )
+	{
+		sdwTestBegin( "testsTexture" );
+		TypeParam::test( testCounts );
 		sdwTestEnd()
 	}
+
 #endif
 }
 

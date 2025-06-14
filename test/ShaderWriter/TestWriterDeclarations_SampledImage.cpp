@@ -2,106 +2,60 @@
 
 namespace
 {
-	std::string getImageFormatName( ast::type::ImageFormat value )
+	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+	struct SampledImageTypeT
 	{
-		std::string result{ "Undefined" };
+		static ast::type::ImageDim constexpr Dim = DimT;
+		static bool constexpr Arrayed = ArrayedT;
+		static bool constexpr Ms = MsT;
+	};
 
-		switch ( value )
+	using ParamTypes = testing::Types< SampledImageTypeT< Img1DBase >
+		, SampledImageTypeT< Img2DBase >
+		, SampledImageTypeT< Img3DBase >
+		, SampledImageTypeT< ImgCubeBase >
+		, SampledImageTypeT< ImgBufferBase >
+		, SampledImageTypeT< Img1DArrayBase >
+		, SampledImageTypeT< Img2DArrayBase >
+		, SampledImageTypeT< ImgCubeArrayBase > >;
+
+	class ParamTypeNames
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
 		{
-		case ast::type::ImageFormat::eUnknown:
-			result = "Unknown";
-			break;
-		case ast::type::ImageFormat::eRgba32f:
-			result = "RGBA32f";
-			break;
-		case ast::type::ImageFormat::eRgba16f:
-			result = "RGBA16f";
-			break;
-		case ast::type::ImageFormat::eRg32f:
-			result = "RG32f";
-			break;
-		case ast::type::ImageFormat::eRg16f:
-			result = "RG16f";
-			break;
-		case ast::type::ImageFormat::eR32f:
-			result = "R32f";
-			break;
-		case ast::type::ImageFormat::eR16f:
-			result = "R16f";
-			break;
-		case ast::type::ImageFormat::eRgba32i:
-			result = "RGBA32i";
-			break;
-		case ast::type::ImageFormat::eRgba16i:
-			result = "RGBA16i";
-			break;
-		case ast::type::ImageFormat::eRgba8i:
-			result = "RGBA8i";
-			break;
-		case ast::type::ImageFormat::eRg32i:
-			result = "RG32i";
-			break;
-		case ast::type::ImageFormat::eRg16i:
-			result = "RG16i";
-			break;
-		case ast::type::ImageFormat::eRg8i:
-			result = "RG8i";
-			break;
-		case ast::type::ImageFormat::eR32i:
-			result = "R32i";
-			break;
-		case ast::type::ImageFormat::eR16i:
-			result = "R16i";
-			break;
-		case ast::type::ImageFormat::eR8i:
-			result = "R8i";
-			break;
-		case ast::type::ImageFormat::eRgba32u:
-			result = "RGBA32u";
-			break;
-		case ast::type::ImageFormat::eRgba16u:
-			result = "RGBA16u";
-			break;
-		case ast::type::ImageFormat::eRgba8u:
-			result = "RGBA8u";
-			break;
-		case ast::type::ImageFormat::eRg32u:
-			result = "RG32u";
-			break;
-		case ast::type::ImageFormat::eRg16u:
-			result = "RG16u";
-			break;
-		case ast::type::ImageFormat::eRg8u:
-			result = "RG8u";
-			break;
-		case ast::type::ImageFormat::eR32u:
-			result = "R32u";
-			break;
-		case ast::type::ImageFormat::eR16u:
-			result = "R16u";
-			break;
-		case ast::type::ImageFormat::eR8u:
-			result = "R8u";
-			break;
-		default:
-			break;
+			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+			static bool constexpr ArrayedT = TypeParam::Arrayed;
+			static bool constexpr MsT = TypeParam::Ms;
+			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+				+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		}
+	};
 
-		return result;
-	}
+	template< typename ParamT >
+	struct TestParamsT : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
 
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledBase( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledBase )
 	{
-		astOn( "testSampledBase" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledBase" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -118,6 +72,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -133,18 +88,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledBaseArray( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledBaseArray )
 	{
-		astOn( "testSampledBaseArray" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledBaseArray" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -161,6 +117,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -176,18 +133,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledOptDisabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledOptDisabled )
 	{
-		astOn( "testSampledOptDisabled" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledOptDisabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -202,6 +160,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -215,18 +174,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledArrayOptDisabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledArrayOptDisabled )
 	{
-		astOn( "testSampledArrayOptDisabled" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledArrayOptDisabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -241,6 +201,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto count = shader.getStatements()->size();
@@ -254,18 +215,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledOptEnabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledOptEnabled )
 	{
-		astOn( "testSampledOptEnabled" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledOptEnabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
@@ -283,6 +245,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1_opt";
@@ -299,18 +262,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledArrayOptEnabled( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledArrayOptEnabled )
 	{
-		astOn( "testSampledArrayOptEnabled" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledArrayOptEnabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
@@ -328,6 +292,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2_opt";
@@ -344,18 +309,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledType( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledType )
 	{
-		astOn( "testSampledType" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledType" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -372,6 +338,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_1_1";
@@ -387,18 +354,19 @@ namespace
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
+		sdwTestEnd()
 	}
 
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampledTypeArray( test::sdw_test::TestCounts & testCounts )
+	TYPED_TEST( TestParamsT, testSampledTypeArray )
 	{
-		astOn( "testSampledTypeArray" + getImageFormatName( FormatT ) );
+		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+		static bool constexpr ArrayedT = TypeParam::Arrayed;
+		static bool constexpr MsT = TypeParam::Ms;
+		sdwTestBegin( "testSampledTypeArray" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
 			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
 		{
+			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -415,6 +383,7 @@ namespace
 			test::writeShader( writer, testCounts, CurrentCompilers );
 		}
 		{
+			astOn( "BindingHelper" );
 			sdw::FragmentWriter writer;
 			auto & shader = writer.getShader();
 			auto name = nameBase + "Value_2_2";
@@ -429,66 +398,6 @@ namespace
 			astCheck( static_cast< sdw::stmt::SampledImageDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
 			test::writeShader( writer, testCounts, CurrentCompilers );
-		}
-	}
-
-	template< ast::type::ImageFormat FormatT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	void testSampled( test::sdw_test::TestCounts & testCounts )
-	{
-		testSampledBase< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledBaseArray< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledOptDisabled< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledArrayOptDisabled< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledOptEnabled< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledArrayOptEnabled< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledType< FormatT, DimT, ArrayedT, MsT >( testCounts );
-		testSampledTypeArray< FormatT, DimT, ArrayedT, MsT >( testCounts );
-	}
-
-	TEST_F( SDWTest, testSampledFormat )
-	{
-		sdwTestBegin( "testSampledFormat" );
-		if constexpr ( isFloatFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
-		{
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase >( testCounts );
-		}
-		else if constexpr ( isSIntFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
-		{
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase >( testCounts );
-		}
-		else if constexpr ( isUIntFormat( ast::type::ImageFormat::SDW_TestImageFormat ) )
-		{
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img3DBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgBufferBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img1DArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, ImgCubeArrayBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSBase >( testCounts );
-			testSampled< ast::type::ImageFormat::SDW_TestImageFormat, Img2DMSArrayBase >( testCounts );
 		}
 		sdwTestEnd()
 	}
