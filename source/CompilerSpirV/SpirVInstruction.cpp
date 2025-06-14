@@ -639,6 +639,10 @@ namespace spirv
 				return GroupNonUniformQuadSwapInstruction::Config;
 			case spv::OpTypeForwardPointer:
 				return ForwardPointerTypeInstruction::Config;
+			case spv::OpCopyLogical:
+				return CopyLogicalInstruction::Config;
+			case spv::OpExecutionModeId:
+				return ExecutionModeIdInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 #if !SDAST_ExceptAssert

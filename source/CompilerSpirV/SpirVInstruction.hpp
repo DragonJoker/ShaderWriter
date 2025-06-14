@@ -511,6 +511,7 @@ namespace spirv
 	using MemoryModelInstruction = InstructionT< spv::OpMemoryModel, false, false, 2u, false, false >;
 	using EntryPointInstruction = InstructionT< spv::OpEntryPoint, true, true, dynamicOperandCount, true, false >;
 	using ExecutionModeInstruction = VariadicInstructionT< spv::OpExecutionMode, false, false >;
+	using ExecutionModeIdInstruction = VariadicInstructionT< spv::OpExecutionModeId, false, false >;
 	using CapabilityInstruction = InstructionT< spv::OpCapability, false, false, 1u, false, false >;
 	using DecorateInstruction = VariadicInstructionT< spv::OpDecorate, false, false >;
 	using MemberDecorateInstruction = VariadicInstructionT< spv::OpMemberDecorate, false, false >;
