@@ -225,17 +225,17 @@ namespace test
 		{
 			switch ( spvVersion )
 			{
-			case 110u:
+			case 0x00010100u:
 				return glslang::EShTargetSpv_1_1;
-			case 120u:
+			case 0x00010200u:
 				return glslang::EShTargetSpv_1_2;
-			case 130u:
+			case 0x00010300u:
 				return glslang::EShTargetSpv_1_3;
-			case 140u:
+			case 0x00010400u:
 				return glslang::EShTargetSpv_1_4;
-			case 150u:
+			case 0x00010500u:
 				return glslang::EShTargetSpv_1_5;
-			case 160u:
+			case 0x00010600u:
 				return glslang::EShTargetSpv_1_6;
 			default:
 				return glslang::EShTargetSpv_1_0;

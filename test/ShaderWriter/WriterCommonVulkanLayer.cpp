@@ -263,7 +263,8 @@ namespace test::sdw_test
 					, statements.get()
 					, entryPoint.stage
 					, ast::SpecialisationInfo{}
-			, cfg ) );
+					, cfg )
+				, config.specVersion );
 			displayShader( "glslang SPIR-V"
 				, spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv )
 				, testCounts
@@ -321,11 +322,11 @@ namespace test::sdw_test
 				{
 					astCheck( isValidated && errors.empty() )
 
-						if ( !isValidated || !errors.empty() )
-						{
-							testCounts.printError( errors );
-							astCheckNoThrow( spirvCrossValidate( shader, entryPoints, testCounts, infoIndex ) );
-						}
+					if ( !isValidated || !errors.empty() )
+					{
+						testCounts.printError( errors );
+						astCheckNoThrow( spirvCrossValidate( shader, entryPoints, testCounts, infoIndex ) );
+					}
 				}
 			}
 			catch ( std::exception & exc )

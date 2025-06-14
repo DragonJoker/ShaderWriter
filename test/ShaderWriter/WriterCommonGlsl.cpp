@@ -73,7 +73,7 @@ namespace test::sdw_test
 						{
 							try
 							{
-								compileGlslToSpv( stage, glsl, 150 );
+								compileGlslToSpv( stage, glsl, 0x00010500u );
 								isCompiled = true;
 							}
 							catch ( std::exception & exc )

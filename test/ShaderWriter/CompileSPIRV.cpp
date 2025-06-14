@@ -1016,14 +1016,22 @@ namespace test
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
 	{
-		auto result = wrapCall( errors
-			, testCounts
-			, infoIndex
-			, [&]()
-			{
-				auto info = retrieveInfo( testCounts, infoIndex );
-				return createShaderModule( *info, spirv );
-			} );
+		bool result{};
+		try
+		{
+			result = wrapCall( errors
+				, testCounts
+				, infoIndex
+				, [&]()
+				{
+					auto info = retrieveInfo( testCounts, infoIndex );
+					return createShaderModule( *info, spirv );
+				} );
+		}
+		catch ( std::exception & exc )
+		{
+			errors += exc.what();
+		}
 
 		return result;
 	}
@@ -1356,7 +1364,14 @@ namespace test
 		auto context = createBuilderContext( testCounts, infoIndex );
 		ast::vk::PipelineBuilder builder{ context, program };
 		ast::vk::VkShaderModuleArray modules;
-		astCheckNoThrow( modules = builder.createShaderModules() )
+		try
+		{
+			modules = builder.createShaderModules();
+		}
+		catch ( std::exception & exc )
+		{
+			testCounts.printError( exc.what() );
+		}
 
 		if ( modules.empty() )
 		{

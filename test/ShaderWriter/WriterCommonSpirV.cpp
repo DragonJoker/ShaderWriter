@@ -201,6 +201,23 @@ namespace test::sdw_test
 			return result;
 		}
 
+		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
+			, ast::ShaderStage stage
+			, test::TestCounts & testCounts
+			, Compilers const & compilers
+			, spirv::SpirVExtensionSet const & requiredExtensions )
+		{
+			std::string result;
+
+			if ( compilers.glsl
+				&& requiredExtensions.contains( spirv::KHR_terminate_invocation ) )
+			{
+				result = sdw_test::validateSpirVToGlsl( spirv, stage, testCounts, true );
+			}
+
+			return result;
+		}
+
 #endif
 
 		static bool validateGeneratedSpirV( ::ast::Shader const & shader
@@ -216,7 +233,7 @@ namespace test::sdw_test
 			std::string compileErrors;
 			auto result = test::compileSpirV( shader, spirv, compileErrors, testCounts, infoIndex );
 			if ( !compileErrors.empty() )
-				errors += "VkShaderModule creation raised messages, for CompilerSpv output:\n" + compileErrors;
+				errors += "VkShaderModule creation raised messages, for CompilerSpv output:\n" + compileErrors + "\n";
 
 			if ( !compileErrors.empty() )
 			{
@@ -316,14 +333,10 @@ namespace test::sdw_test
 
 #if SDW_Test_HasSpirVCross
 
-			if ( compilers.glsl
-				&& requiredExtensions.contains( spirv::KHR_terminate_invocation ) )
+			if ( auto crossGlsl = validateSpirVToGlsl( spirv, stage, testCounts, compilers, requiredExtensions );
+				!crossGlsl.empty() )
 			{
-				if ( auto crossGlsl = validateSpirVToGlsl( spirv, stage, testCounts, true );
-					!crossGlsl.empty() )
-				{
-					errors += printShader( "SPIRV-Cross GLSL", crossGlsl, true );
-				}
+				errors += printShader( "SPIRV-Cross GLSL", crossGlsl, true );
 			}
 
 			if ( auto crossHlsl = validateSpirVToHlsl( spirv, stage, testCounts, compilers, requiredExtensions );
