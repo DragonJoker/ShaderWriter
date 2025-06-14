@@ -616,14 +616,14 @@ namespace
 		using namespace sdw;
 		{
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
-			writer.implementMainT< PayloadT >( 32u
+			writer.implementMainT< PayloadT >( ThreadsPerWave
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-			, [&]( TaskSubgroupInNV in
-				, TaskPayloadOutNVT< PayloadT > payload )
-			{
-				payload.meshletIndices[0_u] = 1_u;
-				payload.dispatchMesh( 1_u );
-			} );
+				, [&]( TaskSubgroupInNV in
+					, TaskPayloadOutNVT< PayloadT > payload )
+				{
+					payload.meshletIndices[0_u] = 1_u;
+					payload.dispatchMesh( 1_u );
+				} );
 			test::writeShader( writer
 				, testCounts
 				, CurrentCompilers );
@@ -637,14 +637,79 @@ namespace
 		using namespace sdw;
 		{
 			sdw::TaskWriterNV writer{ &testCounts.allocator };
-			writer.implementMainT< PayloadT >( 32u
+			writer.implementMainT< PayloadT >( ThreadsPerWave
 				, TaskPayloadOutNVT< PayloadT >{ writer }
-			, [&]( TaskSubgroupInNV in
-				, TaskPayloadOutNVT< PayloadT > payload )
-			{
-				payload.meshletIndices[0_u] = 1_u;
-				writer.dispatchMesh( 1_u, payload );
-			} );
+				, [&]( TaskSubgroupInNV in
+					, TaskPayloadOutNVT< PayloadT > payload )
+				{
+					payload.meshletIndices[0_u] = 1_u;
+					writer.dispatchMesh( 1_u, payload );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, taskMeshPipelineTaskOnly )
+	{
+		sdwTestBegin( "taskMeshPipelineTaskOnly" );
+		{
+			sdw::TaskWriterNV writer{ &testCounts.allocator };
+
+			auto ModelUbo = writer.declUniformBuffer( "ModelUbo", 1u, 0u );
+			auto mvp = ModelUbo.declMember< sdw::Mat4 >( "mvp" );
+			auto world = ModelUbo.declMember< sdw::Mat4 >( "world" );
+			auto scale = ModelUbo.declMember< sdw::Float >( "scale" );
+			auto cullPlanes = ModelUbo.declMember< sdw::Vec4 >( "cullPlanes", 6u );
+			ModelUbo.end();
+
+			auto meshletCullData = writer.declArrayStorageBuffer< CullData >( "bufferMeshletCullData", 4u, 1u );
+
+			auto isVisible = writer.implementFunction< sdw::Boolean >( "isVisible"
+				, [&]( CullData cullData )
+				{
+					auto center = writer.declLocale( "center", vec4( cullData.boundingSphere.xyz(), 1.0_f ) * world );
+					auto radius = writer.declLocale( "radius", cullData.boundingSphere.w() * scale );
+
+					for ( int i = 0; i < 6; ++i )
+					{
+						sdwIF( writer, dot( center, cullPlanes[i] ) < -radius )
+						{
+							writer.returnStmt( sdw::Boolean{ false } );
+						}
+						sdwFI;
+					}
+
+					writer.returnStmt( sdw::Boolean{ true } );
+				}
+				, sdw::InParam< CullData >{ writer, "cullData" } );
+
+			// Task Shader
+			writer.implementMainT< PayloadT >( ThreadsPerWave
+				, sdw::TaskPayloadOutNVT< PayloadT >{ writer }
+				, [&]( sdw::TaskSubgroupInNV in
+					, sdw::TaskPayloadOutNVT< PayloadT > payload )
+				{
+					auto laneId = writer.declLocale( "laneId", in.localInvocationID );
+					auto baseId = writer.declLocale( "baseId", in.workGroupID );
+					auto meshletId = writer.declLocale( "meshletId", ( baseId * 32u + laneId ) );
+					auto visible = writer.declLocale( "visible"
+						, isVisible( meshletCullData[meshletId] ) );
+					auto vote = writer.declLocale( "vote", subgroupBallot( visible ) );
+					auto tasks = writer.declLocale( "tasks", subgroupBallotBitCount( vote ) );
+					auto idxOffset = writer.declLocale( "idxOffset", subgroupBallotExclusiveBitCount( vote ) );
+
+					// Compact visible meshlets into the export payload array
+					sdwIF( writer, visible )
+					{
+						payload.meshletIndices[idxOffset] = meshletId;
+					}
+					sdwFI;
+
+					payload.dispatchMesh( tasks );
+				} );
 			test::writeShader( writer
 				, testCounts
 				, CurrentCompilers );
