@@ -200,6 +200,7 @@ namespace spirv
 				++it;
 				break;
 			case spv::OpExecutionMode:
+			case spv::OpExecutionModeId:
 				executionModes.push_back( std::move( instruction ) );
 				++it;
 				break;
