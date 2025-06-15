@@ -126,6 +126,9 @@ namespace ast
 				case type::Kind::eDouble:
 					result = expr::LiteralType::eDouble;
 					break;
+				case type::Kind::ePointer:
+					result = expr::LiteralType::eUInt64;
+					break;
 				default:
 					break;
 				}
@@ -2524,7 +2527,8 @@ namespace ast
 				TraceFunc;
 				auto op = doSubmit( expr->getOperand() );
 
-				if ( op->getKind() == expr::Kind::eLiteral )
+				if ( op->getKind() == expr::Kind::eLiteral
+					&& !isPointerType( expr->getType() ) )
 				{
 					auto & literal = static_cast< expr::Literal const & >( *op );
 
