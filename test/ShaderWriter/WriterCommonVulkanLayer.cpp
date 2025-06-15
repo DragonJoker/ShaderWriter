@@ -402,24 +402,4 @@ namespace test::sdw_test
 	}
 }
 
-#else
-
-namespace test::sdw_test
-{
-	void validateShaderOnIndex( ::ast::Shader const & shader
-		, ast::EntryPointConfigArray const & entryPoints
-		, sdw_test::TestCounts & testCounts
-		, uint32_t infoIndex
-		, Compilers const & compilers )
-	{
-	}
-
-	void validateShaderOnIndex( ast::vk::ShaderSpan shaders
-		, sdw_test::TestCounts & testCounts
-		, uint32_t infoIndex
-		, Compilers const & compilers )
-	{
-	}
-}
-
 #endif
