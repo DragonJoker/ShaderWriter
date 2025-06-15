@@ -525,7 +525,64 @@ namespace
 		}
 		test::validateShaders( shaders
 			, testCounts, CurrentCompilers );
-		sdwTestEnd();
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, bufferReferenceBase )
+	{
+		sdwTestBegin( "bufferReferenceBase" );
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+		{
+			auto InIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "InIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					auto indices = InIndices( "indices", writer.cast< sdw::UInt64 >( 0_u ) );
+					auto matIdx = writer.declLocale( "matIdx", indices[in.localInvocationIndex] );
+				} );
+		}
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
+
+	struct ObjDesc
+		: sdw::StructInstanceHelperT< "ObjDesc"
+			, sdw::type::MemoryLayout::eScalar
+			, sdw::UInt64Field< "indexAddress" > >
+	{
+		ObjDesc( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: StructInstanceHelperT{ writer, std::move( expr ), enabled }
+			, indexAddress{ getMember< "indexAddress" >() }
+		{
+		}
+
+		sdw::UInt64 indexAddress;
+	};
+
+	TEST_F( SDWTest, bufferReference )
+	{
+		sdwTestBegin( "bufferReference" );
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+		{
+			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+			auto InIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "InIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< sdw::UInt >( in.localInvocationIndex )] );
+					auto indices = InIndices( "indices", objResource.indexAddress );
+				} );
+		}
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
 	}
 }
 

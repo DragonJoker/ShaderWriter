@@ -8,6 +8,8 @@
 
 namespace
 {
+	static uint32_t const ThreadsPerWave = 32u;
+
 	template< sdw::var::Flag FlagT >
 	using ColourTStructT = sdw::IOStructInstanceHelperT< FlagT
 		, "Colour"
@@ -324,13 +326,13 @@ namespace
 			{
 				auto result = cache.getIOStruct( "Payload"
 					, entryPoint
-					, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
+					, ast::var::Flag( FlagT | ast::var::Flag::ePerTaskNV ) );
 
 				if ( result->empty() )
 				{
 					result->declMember( "meshletIndices"
 						, sdw::type::Kind::eUInt
-						, 32u
+						, ThreadsPerWave
 						, ast::type::Struct::InvalidLocation );
 				}
 
@@ -346,7 +348,7 @@ namespace
 				{
 					result->declMember( "meshletIndices"
 						, sdw::type::Kind::eUInt
-						, 32u );
+						, ThreadsPerWave );
 				}
 
 				return result;
@@ -600,8 +602,6 @@ namespace
 
 	namespace cull
 	{
-		static uint32_t const ThreadsPerWave = 32u;
-
 		struct Constants
 			: public sdw::StructInstance
 		{
@@ -799,56 +799,6 @@ namespace
 			sdw::UInt meshletCount;
 			sdw::UInt lastMeshletVertCount;
 			sdw::UInt lastMeshletPrimCount;
-		};
-
-		template< sdw::var::Flag FlagT >
-		struct PayloadT
-			: public sdw::StructInstance
-		{
-			PayloadT( sdw::ShaderWriter & writer
-				, sdw::expr::ExprPtr expr
-				, bool enabled = true )
-				: sdw::StructInstance{ writer, std::move( expr ), enabled }
-				, meshletIndices{ getMemberArray< sdw::UInt >( "meshletIndices" ) }
-			{
-			}
-
-			SDW_DeclStructInstance( , PayloadT );
-
-			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
-				, ast::EntryPoint entryPoint )
-			{
-				auto result = cache.getIOStruct( "Payload"
-					, entryPoint
-					, ast::var::Flag( FlagT | ast::var::Flag::ePerTask ) );
-
-				if ( result->empty() )
-				{
-					result->declMember( "meshletIndices"
-						, sdw::type::Kind::eUInt
-						, ThreadsPerWave
-						, ast::type::Struct::InvalidLocation );
-				}
-
-				return result;
-			}
-
-			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
-			{
-				auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
-					, "Payload" );
-
-				if ( result->empty() )
-				{
-					result->declMember( "meshletIndices"
-						, sdw::type::Kind::eUInt
-						, ThreadsPerWave );
-				}
-
-				return result;
-			}
-
-			sdw::Array< sdw::UInt > meshletIndices;
 		};
 	}
 
@@ -1511,12 +1461,12 @@ namespace
 			static uint32_t constexpr MaxVerts = 252u;
 			static uint32_t constexpr MaxPrims = 84u;
 
-			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u
-				, TaskPayloadInNVT< PayloadT >{ writer }
+			writer.implementMainT< payload::PayloadT, MyVertexOutT, VoidT >( 32u
+				, TaskPayloadInNVT< payload::PayloadT >{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshNVPrimitiveListOut{ writer, MaxPrims }
 				, [&]( MeshInNV in
-					, TaskPayloadInNVT< PayloadT > payload
+					, TaskPayloadInNVT< payload::PayloadT > payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshNVPrimitiveListOut primOut )
 				{
@@ -1641,12 +1591,12 @@ namespace
 			static uint32_t constexpr MaxVerts = 252u;
 			static uint32_t constexpr MaxPrims = 84u;
 
-			writer.implementMainT< PayloadT, MyVertexOutT, VoidT >( 32u
-				, TaskPayloadInNVT< PayloadT >{ writer }
+			writer.implementMainT< payload::PayloadT, MyVertexOutT, VoidT >( 32u
+				, TaskPayloadInNVT< payload::PayloadT >{ writer }
 				, MeshVertexListOutT< MyVertexOutT >{ writer, MaxVerts }
 				, TrianglesMeshNVPrimitiveListOut{ writer, MaxPrims }
 				, [&]( MeshInNV in
-					, TaskPayloadInNVT< PayloadT > payload
+					, TaskPayloadInNVT< payload::PayloadT > payload
 					, MeshVertexListOutT< MyVertexOutT > vtxOut
 					, TrianglesMeshNVPrimitiveListOut primOut )
 				{
@@ -1843,12 +1793,12 @@ namespace
 		auto vertexIndices = writer.declArrayStorageBuffer< VtxIndex >( "bufferVertexIndices", 2u, 1u );
 		auto primitiveIndices = writer.declArrayStorageBuffer< TriIndex >( "bufferPrimitiveIndices", 3u, 1u );
 
-		writer.implementMainT< cull::PayloadT, ColourT, sdw::VoidT >( 32
-			, sdw::TaskPayloadInNVT< cull::PayloadT >{ writer }
+		writer.implementMainT< payload::PayloadT, ColourT, sdw::VoidT >( 32
+			, sdw::TaskPayloadInNVT< payload::PayloadT >{ writer }
 			, sdw::MeshVertexListOutT< ColourT >{ writer, 252u }
 			, sdw::TrianglesMeshNVPrimitiveListOut{ writer, 84u }
 			, [&]( sdw::MeshSubgroupInNV in
-				, sdw::TaskPayloadInNVT< cull::PayloadT > payload
+				, sdw::TaskPayloadInNVT< payload::PayloadT > payload
 				, sdw::MeshVertexListOutT< ColourT > vtxOut
 				, sdw::TrianglesMeshNVPrimitiveListOut primOut )
 			{
@@ -1875,10 +1825,9 @@ namespace
 				sdwFI;
 			} );
 
-		test::writeProgram( writer
-			, testCounts, CurrentCompilers );
-		test::validateProgram( writer
-			, testCounts, CurrentCompilers );
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
 		sdwTestEnd()
 	}
 }

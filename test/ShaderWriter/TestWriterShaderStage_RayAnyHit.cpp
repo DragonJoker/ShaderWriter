@@ -247,6 +247,30 @@ namespace
 		sdw::Int textureId;
 	};
 
+	TEST_F( SDWTest, basic )
+	{
+		sdwTestBegin( "bufferReference" );
+		sdw::RayAnyHitWriter writer{ &testCounts.allocator };
+		{
+			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+			auto MatIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+
+			writer.implementMainT< sdw::Void, sdw::Void >( sdw::RayPayloadInT< sdw::Void >{ writer, 0u }
+			, sdw::HitAttributeT< sdw::Void >{ writer }
+			, [&]( sdw::RayAnyHitIn in
+				, sdw::RayPayloadInT< sdw::Void > prd
+				, sdw::HitAttributeT< sdw::Void > attribs )
+				{
+					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< sdw::UInt >( in.instanceCustomIndex )] );
+					auto matIndices = MatIndices( "matIndices", objResource.materialIndexAddress );
+				} );
+		}
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
+
 	TEST_F( SDWTest, simple )
 	{
 		sdwTestBegin( "simple" );
