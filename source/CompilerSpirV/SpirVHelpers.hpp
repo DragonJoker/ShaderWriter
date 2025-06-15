@@ -547,6 +547,8 @@ namespace spirv
 		, ast::type::Storage fallback = ast::type::Storage::eFunction );
 	ast::type::Storage getStorageClass( ast::type::TypePtr type
 		, ast::type::Storage fallback = ast::type::Storage::eFunction );
+	ast::type::Storage getStorageClass( ast::type::Type const & type
+		, ast::type::Storage fallback = ast::type::Storage::eFunction );
 	bool isExplicitLayoutNeeded( uint32_t version
 		, ast::expr::Expr const & expr );
 	bool isExplicitLayoutNeeded( ast::type::Storage storage );

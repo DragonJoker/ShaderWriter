@@ -91,7 +91,9 @@ namespace spirv
 
 				if ( !hasRuntimeArray( type ) )
 				{
-					auto typeId = types.registerType( type, isExplicitLayoutNeeded( pointerType->getStorage() ), nullptr );
+					auto typeId = types.registerType( type
+						, isExplicitLayoutNeeded( getStorageClass( type, pointerType->getStorage() ) )
+						, nullptr );
 					DebugId resultId{ shaderModule.getIntermediateResult(), typeId->type };
 
 					if ( variableId.getStorage() == ast::type::Storage::ePhysicalStorageBuffer )
