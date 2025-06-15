@@ -49,14 +49,14 @@ namespace
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_memberArray";
+			std::string const name = "m_member";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< T >( name, 4u );
+			type.declMember< T >( name );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
-			auto value = bo[0].getMemberArray< T >( name );
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), { .binding = 1u, .set = 1u }, true };
+			auto value = bo[0].getMember< T >( name );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( value.getType() ) == 4u );
+			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
@@ -80,17 +80,23 @@ namespace
 				test::writeShader( writer, testCounts, CurrentCompilers );
 			}
 		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, testStructuredSsboArray )
+	{
+		sdwTestBegin( "testStructuredSsboArray" );
 		{
 			sdw::FragmentWriter writer{ &testCounts.allocator };
 			auto & shader = writer.getShader();
-			std::string const name = "m_member";
+			std::string const name = "m_memberArray";
 			sdw::Struct type{ writer, "Type", ast::type::MemoryLayout::eStd140 };
-			type.declMember< T >( name );
+			type.declMember< T >( name, 4u );
 			type.end();
-			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), { .binding = 1u, .set = 1u }, true };
-			auto value = bo[0].getMember< T >( name );
+			sdw::ArrayStorageBufferT< sdw::StructInstance > bo{ writer, "Datas", type.getType(), 1u, 1u, true };
+			auto value = bo[0].getMemberArray< T >( name );
 			astCheck( getNonArrayKind( value.getType() ) == sdw::typeEnumV< T > );
-			astCheck( getArraySize( value.getType() ) == sdw::type::NotArray );
+			astCheck( getArraySize( value.getType() ) == 4u );
 			astRequire( value.getExpr()->getKind() == sdw::expr::Kind::eMbrSelect );
 			auto & stmt = *shader.getStatements()->back();
 			astRequire( stmt.getKind() == sdw::stmt::Kind::eShaderStructBufferDecl );
