@@ -3772,8 +3772,14 @@ namespace spirv
 	ast::type::Storage getStorageClass( ast::type::TypePtr type
 		, ast::type::Storage fallback )
 	{
-		if ( type->getKind() == ast::type::Kind::ePointer )
-			return static_cast< ast::type::Pointer const & >( *type ).getStorage();
+		return getStorageClass( *type, fallback );
+	}
+
+	ast::type::Storage getStorageClass( ast::type::Type const & type
+		, ast::type::Storage fallback )
+	{
+		if ( type.getKind() == ast::type::Kind::ePointer )
+			return static_cast< ast::type::Pointer const & >( type ).getStorage();
 
 		return fallback;
 	}
