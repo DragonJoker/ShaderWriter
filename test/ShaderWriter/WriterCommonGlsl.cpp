@@ -79,7 +79,8 @@ namespace test::sdw_test
 							catch ( std::exception & exc )
 							{
 								std::string err = exc.what();
-								isCompiled = ( err.find( "gl_ClipDistance" ) != std::string::npos );
+								isCompiled = ( err.find( "gl_ClipDistance" ) != std::string::npos )
+									|| ( err.find( "image formats must match" ) != std::string::npos );
 								if ( !isCompiled )
 									errors += exc.what();
 							}

@@ -616,6 +616,7 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
+#if SDW_Test_HasVulkan && SDW_HasVulkanLayer
 		if ( compilers.spirV )
 		{
 			auto count = testCounts.getSpirvInfosSize();
@@ -628,6 +629,7 @@ namespace test::sdw_test
 					, compilers );
 			}
 		}
+#endif
 	}
 
 	void testValidateSpirV( ::ast::ShaderArray const & shaders
