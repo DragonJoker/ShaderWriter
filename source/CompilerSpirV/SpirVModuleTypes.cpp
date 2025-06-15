@@ -977,7 +977,7 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TaskPayloadNV const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
+				, true
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -997,7 +997,7 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadInNV const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, needsExplicitLayout
+				, true
 				, mbrIndex
 				, parentId
 				, arrayStride
