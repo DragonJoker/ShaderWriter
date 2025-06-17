@@ -280,7 +280,8 @@ namespace ast::type
 
 	public:
 		SDAST_API Type( TypesCache & typesCache
-			, Kind kind );
+			, Kind kind
+			, bool explicitLayout );
 		SDAST_API Type( TypesCache & typesCache
 			, Struct * parent
 			, uint32_t index
@@ -289,37 +290,41 @@ namespace ast::type
 			, Struct & parent
 			, uint32_t index
 			, Type const & nonMbr );
-		SDAST_API virtual TypePtr getMemberType( Struct & parent, uint32_t index )const;
 		SDAST_API Type const * getNonMemberType()const;
 
 		SDAST_API virtual ~Type()noexcept = default;
 
-		Kind getRawKind()const
+		Kind getRawKind()const noexcept
 		{
 			return m_kind;
 		}
 
-		virtual Kind getKind()const
+		virtual Kind getKind()const noexcept
 		{
 			return m_kind;
 		}
 
-		bool isMember()const
+		bool hasExplicitLayout()const noexcept
+		{
+			return m_explicitLayout;
+		}
+
+		bool isMember()const noexcept
 		{
 			return m_index != NotMember;
 		}
 
-		uint32_t getIndex()const
+		uint32_t getIndex()const noexcept
 		{
 			return m_index;
 		}
 
-		Struct * getParent()const
+		Struct * getParent()const noexcept
 		{
 			return m_parent;
 		}
 
-		TypesCache & getTypesCache()const
+		TypesCache & getTypesCache()const noexcept
 		{
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wnull-dereference"
@@ -331,6 +336,7 @@ namespace ast::type
 	private:
 		TypesCache * m_typesCache;
 		Kind m_kind;
+		bool m_explicitLayout;
 		Struct * m_parent;
 		uint32_t m_index;
 		Type const * m_nonMbr;
@@ -431,6 +437,13 @@ namespace ast::type
 
 		hash = std::size_t( b * kMul );
 		return hash;
+	}
+
+	inline size_t getHash( ast::type::Kind kind, bool explicitLayout )noexcept
+	{
+		size_t result = std::hash< uint32_t >{}( uint32_t( kind ) );
+		result = hashCombine( result, explicitLayout );
+		return result;
 	}
 }
 

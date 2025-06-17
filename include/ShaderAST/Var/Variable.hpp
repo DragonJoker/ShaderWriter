@@ -117,7 +117,7 @@ namespace ast::var
 	private:
 		EntityName m_nameId;
 		VariablePtr m_outer;
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		Builtin m_builtin;
 	};
 

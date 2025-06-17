@@ -1317,7 +1317,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessImageSize( ast::expr::StorageImageAccessCall const & expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::Image * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageSize", config );
 		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
@@ -1435,7 +1435,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessImageLoad( ast::expr::StorageImageAccessCall const & expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::Image * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto callRetType = m_typesCache.getSampledType( config.format );
 		ast::expr::ExprList argList;
@@ -1466,7 +1466,7 @@ namespace hlsl
 	void ExprAdapter::doProcessImageStore( ast::expr::StorageImageAccessCall const & expr
 		, std::map< std::string, FuncNames::Function, std::less<> > & imageStoreFuncs )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::Image * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageStore", config );
 		auto it = imageStoreFuncs.find( funcName );
@@ -1532,7 +1532,7 @@ namespace hlsl
 		, std::string const & name
 		, std::map< std::string, FuncNames::Function, std::less<> > & imageAtomicFuncs )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::Image * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageAtomic" + name, config );
 		auto it = imageAtomicFuncs.find( funcName );
@@ -1645,7 +1645,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessImageAtomicCompSwap( ast::expr::StorageImageAccessCall const & expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::Image * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_imageAtomicCompSwap", config );
 		auto it = m_adaptationData.funcs.imageAtomicCompSwapFuncs.find( funcName );
@@ -1730,7 +1730,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessTextureSize( ast::expr::CombinedImageAccessCall const & expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::CombinedImage * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_textureSize", config );
 		auto it = m_adaptationData.funcs.imageSizeFuncs.find( funcName );
@@ -1892,7 +1892,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessTextureQueryLod( ast::expr::CombinedImageAccessCall const & expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::CombinedImage * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_textureQueryLod", config );
 		auto it = m_adaptationData.funcs.imageLodFuncs.find( funcName );
@@ -1968,7 +1968,7 @@ namespace hlsl
 
 	void ExprAdapter::doProcessTextureQueryLevels( ast::expr::CombinedImageAccessCall const & expr )
 	{
-		auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr.getArgList()[0]->getType() );
+		auto imgArgType = static_cast< ast::type::CombinedImage * >( expr.getArgList()[0]->getType() );
 		auto config = imgArgType->getConfig();
 		auto funcName = HlslExprAdapterInternal::getName( "SDW_textureQueryLevels", config );
 		auto it = m_adaptationData.funcs.imageLevelsFuncs.find( funcName );
@@ -2283,7 +2283,7 @@ namespace hlsl
 		// Next parameter contains the 4 offsets.
 		auto const & offset = *expr.getArgList()[index];
 		AST_Assert( getArraySize( offset.getType() ) == 4u );
-		auto arrayType = std::static_pointer_cast< ast::type::Array >( offset.getType() );
+		auto arrayType = static_cast< ast::type::Array * >( offset.getType() );
 		args.emplace_back( ast::resolveConstants( m_exprCache
 			, *m_exprCache.makeArrayAccess( m_typesCache.getBasicType( arrayType->getType()->getKind() )
 				, ast::ExprCloner::submit( m_exprCache, &offset )

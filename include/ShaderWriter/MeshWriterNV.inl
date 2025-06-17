@@ -23,7 +23,7 @@ namespace sdw
 	ast::type::IOStructPtr TopologyNVOutT< DataT, TopologyT >::makeType( ast::type::TypesCache & cache
 		, ParamsT && ... params )
 	{
-		ast::type::IOStructPtr result;
+		ast::type::IOStructPtr result{};
 
 		if constexpr ( std::is_same_v< DataT< FlagT >, VoidT< FlagT > > )
 		{
@@ -110,7 +110,7 @@ namespace sdw
 		: MeshNVPrimitiveListOutT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "sdwMeshPrimitiveOut"
-					, ast::type::makeMeshPrimitiveOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+					, sdw::makeMeshPrimitiveOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, TopologyT
 						, maxPrimitives )
 					, FlagT | ast::var::Flag::ePerPrimitive ) ) }

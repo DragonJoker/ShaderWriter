@@ -443,7 +443,7 @@ namespace spirv
 	{
 		uint32_t scopeId;
 		std::string name;
-		ast::type::TypePtr type;
+		ast::type::TypePtr type{};
 	};
 
 	struct ConstExprIdentifierHasher

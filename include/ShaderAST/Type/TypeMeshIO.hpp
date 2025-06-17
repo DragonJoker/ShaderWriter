@@ -21,14 +21,9 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 	};
-	using TaskPayloadInNVPtr = std::shared_ptr< TaskPayloadInNV >;
-
-	inline TaskPayloadInNVPtr makeTaskPayloadInNVType( TypePtr type )
-	{
-		return std::make_shared< TaskPayloadInNV >( type );
-	}
+	using TaskPayloadInNVPtr = TaskPayloadInNV *;
 
 	class TaskPayloadIn
 		: public Type
@@ -42,14 +37,9 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 	};
-	using TaskPayloadInPtr = std::shared_ptr< TaskPayloadIn >;
-
-	inline TaskPayloadInPtr makeTaskPayloadInType( TypePtr type )
-	{
-		return std::make_shared< TaskPayloadIn >( type );
-	}
+	using TaskPayloadInPtr = TaskPayloadIn *;
 
 	class MeshVertexOutput
 		: public Type
@@ -69,17 +59,10 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		uint32_t m_maxVertices;
 	};
-	using MeshVertexOutputPtr = std::shared_ptr< MeshVertexOutput >;
-
-	inline MeshVertexOutputPtr makeMeshVertexOutputType( TypePtr type
-		, uint32_t maxVertices )
-	{
-		return std::make_shared< MeshVertexOutput >( type
-			, maxVertices );
-	}
+	using MeshVertexOutputPtr = MeshVertexOutput *;
 
 	class MeshPrimitiveOutput
 		: public Type
@@ -105,24 +88,15 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		OutputTopology m_topology;
 		uint32_t m_maxPrimitives;
 	};
-	using MeshPrimitiveOutputPtr = std::shared_ptr< MeshPrimitiveOutput >;
+	using MeshPrimitiveOutputPtr = MeshPrimitiveOutput *;
 
 	SDAST_API size_t getHash( TypePtr type
 		, OutputTopology topology
 		, uint32_t maxPrimitives );
-
-	inline MeshPrimitiveOutputPtr makeMeshPrimitiveOutputType( TypePtr type
-		, OutputTopology topology
-		, uint32_t maxPrimitives )
-	{
-		return std::make_shared< MeshPrimitiveOutput >( type
-			, topology
-			, maxPrimitives );
-	}
 }
 
 #endif

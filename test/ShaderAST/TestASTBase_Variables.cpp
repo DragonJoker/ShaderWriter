@@ -34,7 +34,7 @@ namespace
 		, uint32_t arraySize )
 	{
 		type::TypesCache cache;
-		type::TypePtr type;
+		type::TypePtr type{};
 
 		switch ( kind )
 		{

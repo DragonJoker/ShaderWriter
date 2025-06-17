@@ -442,7 +442,7 @@ namespace glsl
 
 				if ( type->getKind() == ast::type::Kind::eArray )
 				{
-					result = getTypeArraySize( std::static_pointer_cast< ast::type::Array >( type ) );
+					result = getTypeArraySize( static_cast< ast::type::Array * >( type ) );
 				}
 
 				return result;
@@ -2986,11 +2986,11 @@ namespace glsl
 
 				if ( type->getKind() == ast::type::Kind::eArray )
 				{
-					type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+					type = static_cast< ast::type::Array * >( type )->getType();
 				}
 
 				AST_Assert( type->getKind() == ast::type::Kind::eImage );
-				auto image = std::static_pointer_cast< ast::type::Image >( type );
+				auto image = static_cast< ast::type::Image * >( type );
 				std::string text = "layout(";
 				text += helpers::getFormatName( image->getConfig().format );
 
@@ -3230,11 +3230,11 @@ namespace glsl
 
 				if ( type->getKind() == ast::type::Kind::eArray )
 				{
-					type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+					type = static_cast< ast::type::Array * >( type )->getType();
 				}
 
 				AST_Assert( type->getKind() == ast::type::Kind::eSampledImage );
-				auto sampledImage = std::static_pointer_cast< ast::type::SampledImage >( type );
+				auto sampledImage = static_cast< ast::type::SampledImage * >( type );
 				std::string text;
 
 				if ( helpers::hasExtension( m_config, ARB_shading_language_420pack ) )
@@ -3255,11 +3255,11 @@ namespace glsl
 
 				if ( type->getKind() == ast::type::Kind::eArray )
 				{
-					type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+					type = static_cast< ast::type::Array * >( type )->getType();
 				}
 
 				AST_Assert( type->getKind() == ast::type::Kind::eCombinedImage );
-				auto sampledImage = std::static_pointer_cast< ast::type::CombinedImage >( type );
+				auto sampledImage = static_cast< ast::type::CombinedImage * >( type );
 				std::string text;
 
 				if ( helpers::hasExtension( m_config, ARB_shading_language_420pack ) )
@@ -3314,7 +3314,7 @@ namespace glsl
 				doAddBlockVariableDeclStatement( std::move( text ), *stmt );
 				doBeginScope( *stmt, StatementType::eStructureScopeBegin, StatementType::eStructureMemberDecl );
 				auto data = stmt->getData();
-				auto arrayType = std::static_pointer_cast< ast::type::Array >( data->getType() );
+				auto arrayType = static_cast< ast::type::Array * >( data->getType() );
 				text = getTypeName( arrayType->getType() ) + " " + data->getName();
 				text += helpers::getTypeArraySize( arrayType );
 				doAddSimpleStatement( text, ExprsColumns{}, *stmt );

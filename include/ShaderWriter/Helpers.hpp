@@ -431,6 +431,47 @@ namespace sdw
 
 	SDW_API var::VariablePtr findIdentVar( ShaderWriter const & writer
 		, Value const & value );
+
+	SDW_API type::TypePtr makeComputeInputType( type::TypePtr type
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ );
+	SDW_API type::FragmentInputPtr makeFragmentInputType( type::TypePtr type
+		, FragmentOrigin origin
+		, FragmentCenter center
+		, InvocationOrdering ordering );
+	SDW_API type::GeometryInputPtr makeGeometryInputType( type::TypePtr type
+		, type::InputLayout layout );
+	SDW_API type::GeometryOutputPtr makeGeometryOutputType( type::TypePtr type
+		, type::OutputLayout layout
+		, uint32_t count );
+	SDW_API type::TessellationOutputPatchPtr makeTessellationOutputPatchType( type::TypePtr type
+		, uint32_t location );
+	SDW_API type::TessellationControlInputPtr makeTessellationControlInputType( type::TypePtr type
+		, uint32_t inputVertices );
+	SDW_API type::TessellationControlOutputPtr makeTessellationControlOutputType( type::TypePtr type
+		, type::PatchDomain domain
+		, type::Partitioning partitioning
+		, type::OutputTopology topology
+		, type::PrimitiveOrdering order
+		, uint32_t outputVertices );
+	SDW_API type::TessellationInputPatchPtr makeTessellationInputPatchType( type::TypePtr type
+		, type::PatchDomain domain
+		, uint32_t location );
+	SDW_API type::TessellationEvaluationInputPtr makeTessellationEvaluationInputType( type::TypePtr type
+		, type::PatchDomain domain
+		, type::Partitioning partitioning
+		, type::PrimitiveOrdering order
+		, uint32_t inputVertices );
+	SDW_API type::MeshPrimitiveOutputPtr makeMeshPrimitiveOutputType( type::TypePtr type
+		, type::OutputTopology topology
+		, uint32_t maxPrimitives );
+	SDW_API type::MeshVertexOutputPtr makeMeshVertexOutputType( type::TypePtr type
+		, uint32_t maxVertices );
+	SDW_API type::TaskPayloadInPtr makeTaskPayloadInType( type::TypePtr type );
+	SDW_API type::TaskPayloadInNVPtr makeTaskPayloadInNVType( type::TypePtr type );
+	SDW_API type::TaskPayloadPtr makeTaskPayloadType( type::TypePtr type );
+	SDW_API type::TaskPayloadNVPtr makeTaskPayloadNVType( type::TypePtr type );
 }
 
 #include "Helpers.inl"

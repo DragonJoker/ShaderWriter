@@ -56,7 +56,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		type::PatchDomain m_domain;
 		type::Partitioning m_partitioning;
 		type::OutputTopology m_topology;

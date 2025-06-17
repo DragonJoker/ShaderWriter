@@ -53,7 +53,7 @@ namespace ast::type
 		ImagePtr m_imageType;
 		Trinary m_depth;
 	};
-	using SampledImagePtr = std::shared_ptr< SampledImage >;
+	using SampledImagePtr = SampledImage *;
 }
 
 #endif

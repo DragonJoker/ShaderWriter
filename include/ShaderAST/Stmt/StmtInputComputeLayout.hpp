@@ -20,7 +20,7 @@ namespace ast::stmt
 		SDAST_API InputComputeLayout( StmtCache & stmtCache
 			, type::TypePtr type
 			, uint32_t workGroupsX
-			, uint32_t workGroupsY 
+			, uint32_t workGroupsY
 			, uint32_t workGroupsZ );
 
 		SDAST_API void accept( VisitorPtr vis )const override;
@@ -46,7 +46,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		uint32_t m_workGroupsX{ Uninit };
 		uint32_t m_workGroupsY{ Uninit };
 		uint32_t m_workGroupsZ{ Uninit };

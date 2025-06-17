@@ -177,7 +177,7 @@ namespace ast::expr
 	{
 		AST_Assert( composite != CompositeType::eCombine
 			&& ( isScalarType( component ) || isVectorType( component ) ) );
-		type::TypePtr result;
+		type::TypePtr result{};
 
 		switch ( composite )
 		{

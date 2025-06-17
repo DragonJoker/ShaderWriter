@@ -44,7 +44,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		type::OutputTopology m_topology;
 		uint32_t m_maxVertices;
 		uint32_t m_maxPrimitives;

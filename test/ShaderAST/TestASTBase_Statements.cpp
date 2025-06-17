@@ -1097,8 +1097,8 @@ namespace
 		expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 		type::TypesCache typesCache;
 		{
-			auto inType = type::makeGeometryInputType( typesCache.getVoid(), type::InputLayout::eTriangleList );
-			auto outType = type::makeGeometryOutputType( typesCache.getVoid(), type::OutputLayout::eTriangleStrip, 3u );
+			auto inType = typesCache.getGeometryInput( typesCache.getVoid(), type::InputLayout::eTriangleList );
+			auto outType = typesCache.getGeometryOutput( typesCache.getVoid(), type::OutputLayout::eTriangleStrip, 3u );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 					, { var::makeVariable( testCounts.getNextVarId(), inType, "in" )
 						, var::makeVariable( testCounts.getNextVarId(), outType, "out" ) } )
@@ -1112,8 +1112,8 @@ namespace
 			astCheck( !stmt->isPatchRoutine() )
 		}
 		{
-			auto inType = type::makeTessellationControlInputType( typesCache.getVoid(), 3u );
-			auto outType = type::makeTessellationControlOutputType( typesCache.getVoid(), type::PatchDomain::eTriangles, type::Partitioning::eEqual, type::OutputTopology::eTriangle, type::PrimitiveOrdering::eCCW, 3u );
+			auto inType = typesCache.getTessellationControlInput( typesCache.getVoid(), 3u );
+			auto outType = typesCache.getTessellationControlOutput( typesCache.getVoid(), type::PatchDomain::eTriangles, type::Partitioning::eEqual, type::OutputTopology::eTriangle, type::PrimitiveOrdering::eCCW, 3u );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" )
 					, var::makeVariable( testCounts.getNextVarId(), outType, "out" ) } )
@@ -1127,7 +1127,7 @@ namespace
 			astCheck( !stmt->isPatchRoutine() )
 		}
 		{
-			auto inType = type::makeTessellationEvaluationInputType( typesCache.getVoid(), type::PatchDomain::eTriangles, type::Partitioning::eEqual, type::PrimitiveOrdering::eCCW, 3u );
+			auto inType = typesCache.getTessellationEvaluationInput( typesCache.getVoid(), type::PatchDomain::eTriangles, type::Partitioning::eEqual, type::PrimitiveOrdering::eCCW, 3u );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainTese" ) );
@@ -1140,7 +1140,7 @@ namespace
 			astCheck( !stmt->isPatchRoutine() )
 		}
 		{
-			auto inType = type::makeFragmentInputType( typesCache.getVoid(), FragmentOrigin::eLowerLeft, FragmentCenter::eHalfPixel, InvocationOrdering::ePixelInterlockOrdered );
+			auto inType = typesCache.getFragmentInput( typesCache.getVoid(), FragmentOrigin::eLowerLeft, FragmentCenter::eHalfPixel, InvocationOrdering::ePixelInterlockOrdered );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainFrag" ) );
@@ -1153,7 +1153,7 @@ namespace
 			astCheck( !stmt->isPatchRoutine() )
 		}
 		{
-			auto inType = type::makeComputeInputType( typesCache.getVoid(), 4u, 8u, 16u );
+			auto inType = typesCache.getComputeInput( typesCache.getVoid(), 4u, 8u, 16u );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), inType, "in" ) } )
 				, "mainComp" ) );
@@ -1166,8 +1166,8 @@ namespace
 			astCheck( !stmt->isPatchRoutine() )
 		}
 		{
-			auto outVertType = type::makeMeshVertexOutputType( typesCache.getVoid(), 4u );
-			auto outPrimType = type::makeMeshPrimitiveOutputType( typesCache.getVoid(), type::OutputTopology::eTriangle, 2u );
+			auto outVertType = typesCache.getMeshVertexOutput( typesCache.getVoid(), 4u );
+			auto outPrimType = typesCache.getMeshPrimitiveOutput( typesCache.getVoid(), type::OutputTopology::eTriangle, 2u );
 			auto stmt = stmtCache.makeFunctionDecl( var::makeFunction( testCounts.getNextVarId(), typesCache.getFunction( typesCache.getInt32()
 				, { var::makeVariable( testCounts.getNextVarId(), outVertType, "vert" )
 					, var::makeVariable( testCounts.getNextVarId(), outPrimType, "prim" ) } )

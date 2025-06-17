@@ -28,6 +28,8 @@ namespace ast::type
 	class Struct
 		: public Type
 	{
+		friend class TypesCache;
+
 	public:
 		static constexpr uint32_t NotFound = ~0u;
 		static constexpr uint32_t InvalidLocation = ~0u;
@@ -100,7 +102,8 @@ namespace ast::type
 			, std::string name
 			, var::Flag flag
 			, Kind kind = Kind::eStruct
-			, EntryPoint entryPoint = EntryPoint::eNone );
+			, EntryPoint entryPoint = EntryPoint::eNone
+			, bool explicitLayout = false );
 
 	public:
 		SDAST_API Member getMember( uint32_t index )const;
@@ -110,7 +113,6 @@ namespace ast::type
 			, uint32_t index = UndefinedIndex )const;
 		SDAST_API uint32_t findMember( Builtin builtin
 			, uint32_t index = UndefinedIndex )const;
-		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		bool hasMember( std::string_view name )const
 		{
@@ -237,12 +239,14 @@ namespace ast::type
 		SDAST_API BaseStruct( TypesCache & typesCache
 			, MemoryLayout layout
 			, std::string name
-			, Kind kind );
+			, Kind kind
+			, bool explicitLayout );
 
 	public:
 		SDAST_API BaseStruct( TypesCache & typesCache
 			, MemoryLayout layout
-			, std::string name );
+			, std::string name
+			, bool explicitLayout );
 
 		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
 			, TypePtr type
@@ -371,17 +375,21 @@ namespace ast::type
 		SDAST_API explicit RayDesc( TypesCache & typesCache );
 	};
 
-	using RayDescPtr = std::shared_ptr< RayDesc >;
+	using RayDescPtr = RayDesc *;
 
 	SDAST_API type::Struct const * getStructType( type::Type const & type );
 	SDAST_API type::StructPtr getStructType( type::TypePtr type );
 
 	SDAST_API size_t getHash( MemoryLayout layout
-		, std::string const & name );
+		, std::string const & name
+		, bool explicitLayout );
 	SDAST_API size_t getHash( MemoryLayout layout
 		, std::string const & name
 		, EntryPoint entryPoint
 		, var::Flag flag );
+	SDAST_API size_t getHash( TypePtr type
+		, StructPtr parent
+		, uint32_t mbrIndex );
 
 	SDAST_API bool operator==( Struct const & lhs, Struct const & rhs );
 

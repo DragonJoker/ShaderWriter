@@ -33,20 +33,11 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		PatchDomain m_domain;
 		uint32_t m_location;
 	};
-	using TessellationInputPatchPtr = std::shared_ptr< TessellationInputPatch >;
-
-	inline TessellationInputPatchPtr makeTessellationInputPatchType( TypePtr type
-		, PatchDomain domain
-		, uint32_t location )
-	{
-		return std::make_shared< TessellationInputPatch >( type
-			, domain
-			, location );
-	}
+	using TessellationInputPatchPtr = TessellationInputPatch *;
 
 	class TessellationEvaluationInput
 		: public Type
@@ -84,26 +75,22 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		PatchDomain m_domain;
 		Partitioning m_partitioning;
 		PrimitiveOrdering m_order;
 		uint32_t m_inputVertices;
 	};
-	using TessellationEvaluationInputPtr = std::shared_ptr< TessellationEvaluationInput >;
+	using TessellationEvaluationInputPtr = TessellationEvaluationInput *;
 
-	inline TessellationEvaluationInputPtr makeTessellationEvaluationInputType( TypePtr type
+	SDAST_API size_t getHash( TypePtr type
+		, PatchDomain domain
+		, uint32_t location );
+	SDAST_API size_t getHash( TypePtr type
 		, PatchDomain domain
 		, Partitioning partitioning
 		, PrimitiveOrdering order
-		, uint32_t inputVertices )
-	{
-		return std::make_shared< TessellationEvaluationInput >( type
-			, domain
-			, partitioning
-			, order
-			, inputVertices );
-	}
+		, uint32_t inputVertices );
 }
 
 #endif

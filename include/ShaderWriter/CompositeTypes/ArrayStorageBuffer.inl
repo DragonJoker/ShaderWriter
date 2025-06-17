@@ -142,7 +142,7 @@ namespace sdw
 		, m_builder{ sdw::getBuilder( m_writer ) }
 		, m_name{ std::move( instanceName ) }
 		, m_redeclare{ hasVariable( m_builder, m_name, false ) }
-		, m_interface{ std::static_pointer_cast< ast::type::BaseStruct >( static_cast< ast::type::Pointer const & >( *addressExpr->getType() ).getPointerType() ) }
+		, m_interface{ static_cast< ast::type::BaseStruct * >( static_cast< ast::type::Pointer const & >( *addressExpr->getType() ).getPointerType() ) }
 		, m_info{ m_interface.getType(), ~0u, ~0u }
 		, m_ssboType{ m_interface.getType() }
 		, m_dataVar{ ( m_redeclare

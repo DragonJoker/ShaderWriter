@@ -138,7 +138,7 @@ namespace ast
 
 	void Shader::setAccelerationStruct( type::TypePtr type, uint32_t binding, uint32_t set )
 	{
-		m_data.accelerationStruct = AccStructInfo{ std::static_pointer_cast< type::AccelerationStructure >( type )
+		m_data.accelerationStruct = AccStructInfo{ static_cast< type::AccelerationStructure * >( type )
 			, binding
 			, set };
 	}

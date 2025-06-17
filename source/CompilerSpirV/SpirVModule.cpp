@@ -622,7 +622,7 @@ namespace spirv
 
 		if ( it == container->end() )
 		{
-			ast::type::TypePtr varType;
+			ast::type::TypePtr varType{};
 			auto originalStorage = storage;
 
 			if ( storage == ast::type::Storage::eFunction )
@@ -1513,13 +1513,13 @@ namespace spirv
 
 		if ( ( type->getKind() != ast::type::Kind::eStruct
 				&& type->getKind() != ast::type::Kind::eRayDesc )
-			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() != name )
+			|| static_cast< ast::type::Struct * >( type )->getName() != name )
 		{
 			m_debugNames.registerName( id, name );
 		}
 		else if ( type->getKind() == ast::type::Kind::eStruct
 			|| type->getKind() == ast::type::Kind::eRayDesc
-			|| std::static_pointer_cast< ast::type::Struct >( type )->getName() == name )
+			|| static_cast< ast::type::Struct * >( type )->getName() == name )
 		{
 			m_debugNames.registerName( id, name + "Inst" );
 		}

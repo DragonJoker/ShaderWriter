@@ -26,7 +26,7 @@ namespace ast::type
 	private:
 		bool m_comparison;
 	};
-	using SamplerPtr = std::shared_ptr< Sampler >;
+	using SamplerPtr = Sampler *;
 }
 
 #endif

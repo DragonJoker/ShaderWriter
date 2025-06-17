@@ -44,7 +44,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		FragmentOrigin m_origin{ FragmentOrigin::eUpperLeft };
 		FragmentCenter m_center{ FragmentCenter::eHalfPixel };
 		InvocationOrdering m_ordering{ InvocationOrdering::eNone };

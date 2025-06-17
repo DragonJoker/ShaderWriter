@@ -89,7 +89,6 @@ namespace spirv
 			&& isMemoryLayoutDependent( expr->getType() ) )
 		{
 			auto ident = &expr->getIdentifier();
-			auto type = expr->getType();
 
 			if ( m_adaptationData.config.getSpirVVersion() >= v1_4 )
 			{

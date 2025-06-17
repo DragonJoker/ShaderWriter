@@ -35,7 +35,7 @@ namespace ast::stmt
 
 	type::StructPtr ShaderBufferDecl::getType()const
 	{
-		return std::static_pointer_cast< type::Struct >( m_variable->getType() );
+		return static_cast< type::Struct * >( m_variable->getType() );
 	}
 
 	void ShaderBufferDecl::accept( VisitorPtr vis )const

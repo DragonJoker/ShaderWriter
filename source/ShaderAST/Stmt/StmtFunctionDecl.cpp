@@ -24,7 +24,7 @@ namespace ast::stmt
 
 	type::FunctionPtr FunctionDecl::getType()const
 	{
-		return std::static_pointer_cast< type::Function >( m_funcVar->getType() );
+		return static_cast< type::Function * >( m_funcVar->getType() );
 	}
 
 	std::string const & FunctionDecl::getName()const

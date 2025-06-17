@@ -18,7 +18,7 @@ namespace ast::type
 		SDAST_API RayPayload( TypePtr dataType
 			, uint32_t location );
 
-		Kind getKind()const override
+		Kind getKind()const noexcept override
 		{
 			return m_dataType->getKind();
 		}
@@ -34,10 +34,10 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_dataType;
+		TypePtr m_dataType{};
 		uint32_t m_location;
 	};
-	using RayPayloadPtr = std::shared_ptr< RayPayload >;
+	using RayPayloadPtr = RayPayload *;
 }
 
 #endif

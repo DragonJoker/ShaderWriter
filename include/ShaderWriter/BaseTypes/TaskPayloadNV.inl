@@ -25,7 +25,7 @@ namespace sdw
 		: TaskPayloadOutNVT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "payloadOut"
-					, ast::type::makeTaskPayloadNVType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ) )
+					, sdw::makeTaskPayloadNVType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ) )
 					, FlagT | ast::var::Flag::ePerTaskNV ) ) }
 	{
 	}
@@ -61,7 +61,7 @@ namespace sdw
 		: TaskPayloadInNVT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "payloadIn"
-					, ast::type::makeTaskPayloadInNVType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ) )
+					, sdw::makeTaskPayloadInNVType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... ) )
 					, FlagT | ast::var::Flag::ePerTaskNV ) ) }
 	{
 	}

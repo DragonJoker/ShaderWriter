@@ -25,7 +25,7 @@ namespace sdw
 		: TaskInNV{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "taskIn"
-					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
+					, sdw::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, taskCount
 						, 1u
 						, 1u ) ) )
@@ -87,7 +87,7 @@ namespace sdw
 		: TaskSubgroupInNV{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "taskSubgroupIn"
-					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
+					, sdw::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, taskCount
 						, 1u
 						, 1u ) ) )
@@ -97,7 +97,7 @@ namespace sdw
 
 	ast::type::StructPtr TaskSubgroupInNV::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = std::static_pointer_cast< ast::type::IOStruct >( TaskInNV::makeType( cache ) );
+		auto result = static_cast< ast::type::IOStruct * >( TaskInNV::makeType( cache ) );
 
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{

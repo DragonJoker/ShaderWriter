@@ -31,8 +31,8 @@ namespace sdw
 
 	private:
 		ShaderWriter & m_writer;
-		ast::type::TypePtr m_type;
-		ast::type::TypePtr m_pointer;
+		ast::type::TypePtr m_type{};
+		ast::type::TypePtr m_pointer{};
 		bool m_enabled;
 	};
 }

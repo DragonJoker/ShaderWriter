@@ -1231,7 +1231,7 @@ namespace
 			builder.pushScope( builder.getStmtCache().makeContainer() );
 			builder.registerName( name, typesCache.getUInt32() );
 			builder.registerName( name, typesCache.getUInt32(), var::Flag::eLocale );
-			builder.registerName( "loc2", type::makeTessellationControlInputType( typesCache.getVoid(), 3u ), var::Flag::eLocale );
+			builder.registerName( "loc2", typesCache.getTessellationControlInput( typesCache.getVoid(), 3u ), var::Flag::eLocale );
 			builder.registerBlockVariable( "loc3", typesCache.getUInt32() );
 			builder.registerLocale( "loc4", typesCache.getUInt32() );
 			builder.registerLoopVar( "loc5", typesCache.getUInt32() );
@@ -1255,7 +1255,7 @@ namespace
 			astCheckThrow( builder.getVariable( name, false ) )
 			builder.registerName( name, typesCache.getUInt32() );
 			builder.registerName( name, typesCache.getUInt32(), var::Flag::eLocale );
-			builder.registerName( "loc2", type::makeTessellationControlInputType( typesCache.getVoid(), 3u ), var::Flag::eLocale );
+			builder.registerName( "loc2", typesCache.getTessellationControlInput( typesCache.getVoid(), 3u ), var::Flag::eLocale );
 			builder.registerBlockVariable( "loc3", typesCache.getUInt32() );
 			builder.registerLocale( "loc4", typesCache.getUInt32() );
 			builder.registerLoopVar( "loc5", typesCache.getUInt32() );

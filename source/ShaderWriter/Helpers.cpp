@@ -889,7 +889,7 @@ namespace sdw
 		, stmt::PerVertexDecl::Source source
 		, type::TypePtr type )
 	{
-		return stmtCache.makePerVertexDecl( source, std::static_pointer_cast< type::Struct >( type ) );
+		return stmtCache.makePerVertexDecl( source, static_cast< type::Struct *>( type ) );
 	}
 
 	stmt::StmtPtr makeStructureDecl( stmt::StmtCache & stmtCache
@@ -1210,5 +1210,105 @@ namespace sdw
 		auto ident = ast::findIdentifier( *value.getExpr() );
 		AST_Assert( ident != nullptr );
 		return ident ? ident->getVariable() : nullptr;
+	}
+
+	type::TypePtr makeComputeInputType( type::TypePtr type
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
+	{
+		return type->getTypesCache().getComputeInput( type, localSizeX, localSizeY, localSizeZ );
+	}
+
+	type::FragmentInputPtr makeFragmentInputType( type::TypePtr type
+		, FragmentOrigin origin
+		, FragmentCenter center
+		, InvocationOrdering ordering )
+	{
+		return type->getTypesCache().getFragmentInput( type, origin, center, ordering );
+	}
+
+	type::GeometryInputPtr makeGeometryInputType( type::TypePtr type
+		, type::InputLayout layout )
+	{
+		return type->getTypesCache().getGeometryInput( type, layout );
+	}
+
+	type::GeometryOutputPtr makeGeometryOutputType( type::TypePtr type
+		, type::OutputLayout layout
+		, uint32_t count )
+	{
+		return type->getTypesCache().getGeometryOutput( type, layout, count );
+	}
+
+	type::MeshPrimitiveOutputPtr makeMeshPrimitiveOutputType( type::TypePtr type
+		, type::OutputTopology topology
+		, uint32_t maxPrimitives )
+	{
+		return type->getTypesCache().getMeshPrimitiveOutput( type, topology, maxPrimitives );
+	}
+
+	type::MeshVertexOutputPtr makeMeshVertexOutputType( type::TypePtr type
+		, uint32_t maxVertices )
+	{
+		return type->getTypesCache().getMeshVertexOutput( type, maxVertices );
+	}
+
+	type::TaskPayloadInPtr makeTaskPayloadInType( type::TypePtr type )
+	{
+		return type->getTypesCache().getTaskPayloadIn( type );
+	}
+
+	type::TaskPayloadInNVPtr makeTaskPayloadInNVType( type::TypePtr type )
+	{
+		return type->getTypesCache().getTaskPayloadInNV( type );
+	}
+
+	type::TaskPayloadPtr makeTaskPayloadType( type::TypePtr type )
+	{
+		return type->getTypesCache().getTaskPayload( type );
+	}
+
+	type::TaskPayloadNVPtr makeTaskPayloadNVType( type::TypePtr type )
+	{
+		return type->getTypesCache().getTaskPayloadNV( type );
+	}
+
+	type::TessellationOutputPatchPtr makeTessellationOutputPatchType( type::TypePtr type
+		, uint32_t location )
+	{
+		return type->getTypesCache().getTessellationOutputPatch( type, location );
+	}
+
+	type::TessellationControlInputPtr makeTessellationControlInputType( type::TypePtr type
+		, uint32_t inputVertices )
+	{
+		return type->getTypesCache().getTessellationControlInput( type, inputVertices );
+	}
+
+	type::TessellationControlOutputPtr makeTessellationControlOutputType( type::TypePtr type
+		, type::PatchDomain domain
+		, type::Partitioning partitioning
+		, type::OutputTopology topology
+		, type::PrimitiveOrdering order
+		, uint32_t outputVertices )
+	{
+		return type->getTypesCache().getTessellationControlOutput( type, domain, partitioning, topology, order, outputVertices );
+	}
+
+	type::TessellationInputPatchPtr makeTessellationInputPatchType( type::TypePtr type
+		, type::PatchDomain domain
+		, uint32_t location )
+	{
+		return type->getTypesCache().getTessellationInputPatch( type, domain, location );
+	}
+
+	type::TessellationEvaluationInputPtr makeTessellationEvaluationInputType( type::TypePtr type
+		, type::PatchDomain domain
+		, type::Partitioning partitioning
+		, type::PrimitiveOrdering order
+		, uint32_t inputVertices )
+	{
+		return type->getTypesCache().getTessellationEvaluationInput( type, domain, partitioning, order, inputVertices );
 	}
 }

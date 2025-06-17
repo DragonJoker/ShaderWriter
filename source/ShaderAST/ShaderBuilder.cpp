@@ -604,7 +604,7 @@ namespace ast
 
 			auto splType = getNonArrayType( type );
 			AST_Assert( splType->getKind() == type::Kind::eSampler );
-			m_shader->registerSampler( std::move( name ), std::move( type ), binding, set );
+			m_shader->registerSampler( std::move( name ), splType, binding, set );
 		}
 		else
 		{

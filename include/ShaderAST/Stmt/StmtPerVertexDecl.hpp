@@ -45,7 +45,7 @@ namespace ast::stmt
 
 	private:
 		Source m_source;
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 	};
 }
 

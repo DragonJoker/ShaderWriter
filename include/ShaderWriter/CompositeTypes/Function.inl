@@ -371,7 +371,7 @@ namespace sdw
 		: m_writer{ &writer }
 		, m_builder{ &getBuilder( *m_writer ) }
 		, m_funcVar{ std::move( funcVar ) }
-		, m_type{ std::static_pointer_cast< ast::type::Function >( m_funcVar->getType() ) }
+		, m_type{ static_cast< ast::type::Function * >( m_funcVar->getType() ) }
 	{
 	}
 

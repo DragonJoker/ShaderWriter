@@ -186,7 +186,7 @@ namespace ast::expr
 		type::TypesCache * m_typesCache;
 		size_t m_size;
 		Kind m_kind;
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		uint32_t m_flags;
 	};
 

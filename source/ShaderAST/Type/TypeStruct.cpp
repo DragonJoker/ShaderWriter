@@ -179,11 +179,11 @@ namespace ast::type
 				minimumAlignment = 16;
 			}
 
-			auto const * tmp = type.getType().get();
+			auto const * tmp = type.getType();
 
 			while ( getArraySize( *tmp ) != NotArray )
 			{
-				tmp = static_cast< Array const & >( *tmp ).getType().get();
+				tmp = static_cast< Array const & >( *tmp ).getType();
 			}
 
 			// Get the alignment of the base type, then maybe round up.
@@ -447,7 +447,7 @@ namespace ast::type
 
 			if ( arrayType->getKind() == Kind::eStruct || arrayType->getKind() == Kind::eRayDesc )
 			{
-				auto structType = std::static_pointer_cast< Struct >( arrayType );
+				auto structType = static_cast< Struct * >( arrayType );
 
 				if ( structType->getFlag() != 0 )
 				{
@@ -459,7 +459,7 @@ namespace ast::type
 
 			if ( arrayType->getKind() == Kind::eArray )
 			{
-				arrayType = convertToBaseStruct( std::static_pointer_cast< Array >( arrayType ), layout );
+				arrayType = convertToBaseStruct( static_cast< Array * >( arrayType ), layout );
 			}
 
 			return ( ( arraySize == NotArray )
@@ -477,7 +477,7 @@ namespace ast::type
 
 			if ( arrayType->getKind() == Kind::eStruct || arrayType->getKind() == Kind::eRayDesc )
 			{
-				auto structType = std::static_pointer_cast< Struct >( arrayType );
+				auto structType = static_cast< Struct * >( arrayType );
 
 				if ( structType->getFlag() == 0 )
 				{
@@ -489,7 +489,7 @@ namespace ast::type
 
 			if ( arrayType->getKind() == Kind::eArray )
 			{
-				arrayType = convertToIOStruct( std::static_pointer_cast< Array >( arrayType ), entryPoint, flag, baseLocation );
+				arrayType = convertToIOStruct( static_cast< Array * >( arrayType ), entryPoint, flag, baseLocation );
 			}
 
 			return ( ( arraySize == NotArray )
@@ -566,8 +566,9 @@ namespace ast::type
 		, std::string name
 		, var::Flag flag
 		, Kind kind
-		, EntryPoint entryPoint )
-		: Type{ typesCache, kind }
+		, EntryPoint entryPoint
+		, bool explicitLayout )
+		: Type{ typesCache, kind, explicitLayout }
 		, m_name{ std::move( name ) }
 		, m_layout{ layout }
 		, m_flag{ flag }
@@ -644,14 +645,6 @@ namespace ast::type
 			: uint32_t( std::distance( m_members.begin(), it ) );
 	}
 
-	TypePtr Struct::getMemberType( Struct & parent, uint32_t index )const
-	{
-		return std::shared_ptr< Struct >( new Struct{ getTypesCache()
-			, parent
-			, index
-			, *this } );
-	}
-
 	std::tuple< uint32_t, uint32_t, bool > Struct::doLookupMember( std::string_view name
 		, TypePtr type )
 	{
@@ -724,15 +717,17 @@ namespace ast::type
 	BaseStruct::BaseStruct( TypesCache & typesCache
 		, MemoryLayout layout
 		, std::string name
-		, Kind kind )
-		: Struct{ typesCache, layout, std::move( name ), {}, kind }
+		, Kind kind
+		, bool explicitLayout )
+		: Struct{ typesCache, layout, std::move( name ), {}, kind, EntryPoint::eNone, explicitLayout }
 	{
 	}
 
 	BaseStruct::BaseStruct( TypesCache & typesCache
 		, MemoryLayout layout
-		, std::string name )
-		: BaseStruct{ typesCache, layout, std::move( name ), Kind::eStruct }
+		, std::string name
+		, bool explicitLayout )
+		: BaseStruct{ typesCache, layout, std::move( name ), Kind::eStruct, explicitLayout }
 	{
 	}
 
@@ -1010,7 +1005,7 @@ namespace ast::type
 	//*************************************************************************
 
 	RayDesc::RayDesc( TypesCache & typesCache )
-		: BaseStruct{ typesCache, MemoryLayout::eC, "RayDesc", Kind::eRayDesc }
+		: BaseStruct{ typesCache, MemoryLayout::eC, "RayDesc", Kind::eRayDesc, false }
 	{
 		declMember( "Origin", Kind::eVec3F );
 		declMember( "TMin", Kind::eFloat );
@@ -1021,10 +1016,12 @@ namespace ast::type
 	//*************************************************************************
 
 	size_t getHash( MemoryLayout layout
-		, std::string const & name )
+		, std::string const & name
+		, bool explicitLayout )
 	{
 		size_t result = std::hash< std::string >{}( name );
 		result = hashCombine( result, layout );
+		result = hashCombine( result, explicitLayout );
 		return result;
 	}
 
@@ -1037,6 +1034,16 @@ namespace ast::type
 		result = hashCombine( result, layout );
 		result = hashCombine( result, entryPoint );
 		result = hashCombine( result, flag );
+		return result;
+	}
+
+	size_t getHash( TypePtr type
+		, StructPtr parent
+		, uint32_t mbrIndex )
+	{
+		size_t result = std::hash< TypePtr >{}( type );
+		result = hashCombine( result, &parent );
+		result = hashCombine( result, mbrIndex );
 		return result;
 	}
 
@@ -1084,89 +1091,89 @@ namespace ast::type
 		{
 			if ( type->getRawKind() == type::Kind::ePointer )
 			{
-				type = static_cast< type::Pointer const & >( *type ).getPointerType().get();
+				type = static_cast< type::Pointer const & >( *type ).getPointerType();
 			}
 			else if ( type->getRawKind() == type::Kind::eRayPayload )
 			{
-				type = static_cast< type::RayPayload const & >( *type ).getDataType().get();
+				type = static_cast< type::RayPayload const & >( *type ).getDataType();
 			}
 			else if ( type->getRawKind() == type::Kind::eCallableData )
 			{
-				type = static_cast< type::CallableData const & >( *type ).getDataType().get();
+				type = static_cast< type::CallableData const & >( *type ).getDataType();
 			}
 			else if ( type->getRawKind() == type::Kind::eHitAttribute )
 			{
-				type = static_cast< type::HitAttribute const & >( *type ).getDataType().get();
+				type = static_cast< type::HitAttribute const & >( *type ).getDataType();
 			}
 			else if ( type->getRawKind() == type::Kind::eFragmentInput )
 			{
-				type = static_cast< type::FragmentInput const & >( *type ).getType().get();
+				type = static_cast< type::FragmentInput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eGeometryInput )
 			{
-				type = static_cast< type::GeometryInput const & >( *type ).getType().get();
+				type = static_cast< type::GeometryInput const & >( *type ).getType();
 
 				if ( type->getRawKind() == type::Kind::eArray )
 				{
-					return getStructType( *static_cast< type::Array const & >( *type ).getType().get() );
+					return getStructType( *static_cast< type::Array const & >( *type ).getType() );
 				}
 			}
 			else if ( type->getRawKind() == type::Kind::eGeometryOutput )
 			{
-				type = static_cast< type::GeometryOutput const & >( *type ).getType().get();
+				type = static_cast< type::GeometryOutput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eComputeInput )
 			{
-				type = static_cast< type::ComputeInput const & >( *type ).getType().get();
+				type = static_cast< type::ComputeInput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTessellationInputPatch )
 			{
-				type = static_cast< type::TessellationInputPatch const & >( *type ).getType().get();
+				type = static_cast< type::TessellationInputPatch const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTessellationOutputPatch )
 			{
-				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType().get();
+				type = static_cast< type::TessellationOutputPatch const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTessellationControlInput )
 			{
-				type = static_cast< type::TessellationControlInput const & >( *type ).getType().get();
+				type = static_cast< type::TessellationControlInput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTessellationControlOutput )
 			{
-				type = static_cast< type::TessellationControlOutput const & >( *type ).getType().get();
+				type = static_cast< type::TessellationControlOutput const & >( *type ).getType();
 
 				if ( type->getRawKind() == type::Kind::eArray )
 				{
-					return getStructType( *static_cast< type::Array const & >( *type ).getType().get() );
+					return getStructType( *static_cast< type::Array const & >( *type ).getType() );
 				}
 			}
 			else if ( type->getRawKind() == type::Kind::eTessellationEvaluationInput )
 			{
-				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType().get();
+				type = static_cast< type::TessellationEvaluationInput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eMeshVertexOutput )
 			{
-				type = static_cast< type::MeshVertexOutput const & >( *type ).getType().get();
+				type = static_cast< type::MeshVertexOutput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eMeshPrimitiveOutput )
 			{
-				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType().get();
+				type = static_cast< type::MeshPrimitiveOutput const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayloadNV )
 			{
-				type = static_cast< type::TaskPayloadNV const & >( *type ).getType().get();
+				type = static_cast< type::TaskPayloadNV const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayload )
 			{
-				type = static_cast< type::TaskPayload const & >( *type ).getType().get();
+				type = static_cast< type::TaskPayload const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayloadInNV )
 			{
-				type = static_cast< type::TaskPayloadInNV const & >( *type ).getType().get();
+				type = static_cast< type::TaskPayloadInNV const & >( *type ).getType();
 			}
 			else if ( type->getRawKind() == type::Kind::eTaskPayloadIn )
 			{
-				type = static_cast< type::TaskPayloadIn const & >( *type ).getType().get();
+				type = static_cast< type::TaskPayloadIn const & >( *type ).getType();
 			}
 			else
 			{
@@ -1283,7 +1290,7 @@ namespace ast::type
 		if ( type->getRawKind() == type::Kind::eStruct
 			|| type->getRawKind() == type::Kind::eRayDesc )
 		{
-			return std::static_pointer_cast< type::Struct >( type );
+			return static_cast< type::Struct * >( type );
 		}
 
 		return nullptr;

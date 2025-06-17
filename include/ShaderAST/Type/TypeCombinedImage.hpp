@@ -44,7 +44,7 @@ namespace ast::type
 		ImagePtr m_imageType;
 		SamplerPtr m_samplerType;
 	};
-	using CombinedImagePtr = std::shared_ptr< CombinedImage >;
+	using CombinedImagePtr = CombinedImage *;
 }
 
 #endif

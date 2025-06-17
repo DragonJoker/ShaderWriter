@@ -38,23 +38,17 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		uint32_t m_localSizeX;
 		uint32_t m_localSizeY;
 		uint32_t m_localSizeZ;
 	};
-	using ComputeInputPtr = std::shared_ptr< ComputeInput >;
+	using ComputeInputPtr = ComputeInput *;
 
-	inline ComputeInputPtr makeComputeInputType( TypePtr type
+	SDAST_API size_t getHash( TypePtr type
 		, uint32_t localSizeX
 		, uint32_t localSizeY
-		, uint32_t localSizeZ )
-	{
-		return std::make_shared< ComputeInput >( type
-			, localSizeX
-			, localSizeY
-			, localSizeZ );
-	}
+		, uint32_t localSizeZ );
 }
 
 #endif

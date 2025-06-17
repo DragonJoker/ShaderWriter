@@ -54,7 +54,7 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_returnType;
+		TypePtr m_returnType{};
 		var::VariableList m_parameters;
 	};
 

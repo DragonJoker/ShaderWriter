@@ -294,7 +294,7 @@ namespace spirv
 				}
 
 				auto kind = expr->getImageAccess();
-				auto & config = std::static_pointer_cast< ast::type::Image >( expr->getArgList()[0]->getType() )->getConfig();
+				auto & config = static_cast< ast::type::Image * >( expr->getArgList()[0]->getType() )->getConfig();
 
 				if ( config.dimension == ast::type::ImageDim::e1D )
 				{
@@ -744,7 +744,7 @@ namespace spirv
 			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
 				m_result.addStorage( stmt->getVariable() );
-				auto imgType = std::static_pointer_cast< ast::type::Image >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
+				auto imgType = static_cast< ast::type::Image * >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
 
 				if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
 				{

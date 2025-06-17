@@ -10,7 +10,7 @@ namespace ast::type
 	//*************************************************************************
 
 	TaskPayloadInNV::TaskPayloadInNV( TypePtr type )
-		: Type{ type->getTypesCache(), Kind::eTaskPayloadInNV }
+		: Type{ type->getTypesCache(), Kind::eTaskPayloadInNV, false }
 		, m_type{ type }
 	{
 	}
@@ -18,7 +18,7 @@ namespace ast::type
 	//*************************************************************************
 
 	TaskPayloadIn::TaskPayloadIn( TypePtr type )
-		: Type{ type->getTypesCache(), Kind::eTaskPayloadIn }
+		: Type{ type->getTypesCache(), Kind::eTaskPayloadIn, false }
 		, m_type{ type }
 	{
 	}
@@ -27,7 +27,7 @@ namespace ast::type
 
 	MeshVertexOutput::MeshVertexOutput( TypePtr type
 		, uint32_t maxVertices )
-		: Type{ type->getTypesCache(), Kind::eMeshVertexOutput }
+		: Type{ type->getTypesCache(), Kind::eMeshVertexOutput, false }
 		, m_type{ type }
 		, m_maxVertices{ maxVertices }
 	{
@@ -38,7 +38,7 @@ namespace ast::type
 	MeshPrimitiveOutput::MeshPrimitiveOutput( TypePtr type
 		, OutputTopology topology
 		, uint32_t maxPrimitives )
-		: Type{ type->getTypesCache(), Kind::eMeshPrimitiveOutput }
+		: Type{ type->getTypesCache(), Kind::eMeshPrimitiveOutput, false }
 		, m_type{ std::move( type ) }
 		, m_topology{ topology }
 		, m_maxPrimitives{ maxPrimitives }

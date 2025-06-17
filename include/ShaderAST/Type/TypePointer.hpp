@@ -35,11 +35,11 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_pointerType;
+		TypePtr m_pointerType{};
 		Storage m_storage;
 		bool m_isForward;
 	};
-	using PointerPtr = std::shared_ptr< Pointer >;
+	using PointerPtr = Pointer *;
 
 	SDAST_API uint32_t getPointerLevel( TypePtr pointerType );
 	SDAST_API size_t getHash( TypePtr pointerType

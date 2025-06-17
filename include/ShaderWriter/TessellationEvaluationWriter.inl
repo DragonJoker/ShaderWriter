@@ -51,7 +51,7 @@ namespace sdw
 		: TessEvalListInT{ writer
 		, makeExpr( writer
 			, getBuilder( writer ).registerName( "sdwTesseListIn"
-				, ast::type::makeTessellationEvaluationInputType( makeType( getTypesCache( writer )
+				, sdw::makeTessellationEvaluationInputType( makeType( getTypesCache( writer )
 						, std::forward< ParamsT >( params )... )
 					, domain
 					, partitioning
@@ -94,7 +94,7 @@ namespace sdw
 		: TessPatchInT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "sdwTessePatch"
-					, ast::type::makeTessellationInputPatchType( makeType( getTypesCache( writer )
+					, sdw::makeTessellationInputPatchType( makeType( getTypesCache( writer )
 							, std::forward< ParamsT >( params )... )
 						, DomainT
 						, patchLocation )

@@ -396,9 +396,9 @@ namespace
 				}
 			}
 			{
-				auto mbrType = typesCache.getBasicType( mbrKind )->getMemberType( *type, 0u );
+				auto mbrType = typesCache.getMemberType( typesCache.getBasicType( mbrKind ), *type, 0u );
 				astCheck( mbrType != typesCache.getBasicType( mbrKind ) )
-				astCheck( mbrType->getNonMemberType() == typesCache.getBasicType( mbrKind ).get() )
+				astCheck( mbrType->getNonMemberType() == typesCache.getBasicType( mbrKind ) )
 			}
 			{
 				auto type2 = typesCache.getStruct( layout, "test" );

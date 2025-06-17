@@ -15,7 +15,7 @@ namespace ast::type
 	public:
 		SDAST_API explicit AccelerationStructure( TypesCache & typesCache );
 	};
-	using AccelerationStructurePtr = std::shared_ptr< AccelerationStructure >;
+	using AccelerationStructurePtr = AccelerationStructure *;
 }
 
 #endif

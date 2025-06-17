@@ -41,7 +41,7 @@ namespace sdw
 		, Struct const & type )
 	{
 		m_type->declMember( std::move( name )
-			, std::static_pointer_cast< type::Struct >( type.getType() ) );
+			, static_cast< type::Struct * >( type.getType() ) );
 	}
 
 	//************************************************************************************************
