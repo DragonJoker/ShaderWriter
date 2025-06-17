@@ -43,7 +43,7 @@ namespace
 		type::TypesCache typesCache;
 		InterfaceBlock block{ typesCache, layout, "test" };
 		uint32_t count{};
-		std::string name{};
+		std::string name{ "mbr0" };
 		if constexpr ( MbrKindT != type::Kind::eBoolean
 			&& MbrKindT != type::Kind::eVec2B
 			&& MbrKindT != type::Kind::eVec3B
