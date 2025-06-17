@@ -10,7 +10,7 @@ namespace ast::type
 	SampledImage::SampledImage( TypesCache & typesCache
 		, ImageConfiguration config
 		, Trinary comparison )
-		: Type{ typesCache, Kind::eSampledImage }
+		: Type{ typesCache, Kind::eSampledImage, false }
 		, m_imageType{ typesCache.getImage( std::move( config ) ) }
 		, m_depth{ comparison }
 	{

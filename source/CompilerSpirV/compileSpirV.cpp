@@ -308,7 +308,7 @@ namespace spirv
 			uint32_t id;
 
 		private:
-			ast::type::TypePtr type;
+			ast::type::TypePtr type{};
 			ast::var::VariablePtr var;
 		};
 

@@ -64,16 +64,13 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		InputLayout m_layout;
 	};
-	using GeometryInputPtr = std::shared_ptr< GeometryInput >;
+	using GeometryInputPtr = GeometryInput *;
 
-	inline GeometryInputPtr makeGeometryInputType( TypePtr type
-		, InputLayout layout )
-	{
-		return std::make_shared< GeometryInput >( type, layout );
-	}
+	SDAST_API size_t getHash( TypePtr type
+		, InputLayout layout );
 
 	enum class OutputLayout
 	{
@@ -105,19 +102,15 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		OutputLayout m_layout;
 		uint32_t m_count;
 	};
-	using GeometryOutputPtr = std::shared_ptr< GeometryOutput >;
+	using GeometryOutputPtr = GeometryOutput *;
 
-	inline GeometryOutputPtr makeGeometryOutputType( TypePtr type
+	SDAST_API size_t getHash( TypePtr type
 		, OutputLayout layout
-		, uint32_t count )
-	{
-		return std::make_shared< GeometryOutput >( type, layout, count );
-	}
-
+		, uint32_t count );
 }
 
 #endif

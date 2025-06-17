@@ -12,8 +12,9 @@ namespace ast::type
 	//*************************************************************************
 
 	Array::Array( TypePtr type
-		, uint32_t arraySize )
-		: Type{ type->getTypesCache(), Kind::eArray }
+		, uint32_t arraySize
+		, bool needsExplicitLayout )
+		: Type{ type->getTypesCache(), Kind::eArray, needsExplicitLayout }
 		, m_type{ std::move( type ) }
 		, m_arraySize{ arraySize }
 	{
@@ -41,21 +42,15 @@ namespace ast::type
 	{
 	}
 
-	TypePtr Array::getMemberType( Struct & parent, uint32_t index )const
-	{
-		return std::make_shared< Array >( parent
-			, index
-			, getType()
-			, *this );
-	}
-
 	//*************************************************************************
 
 	size_t getHash( TypePtr type
-		, uint32_t arraySize )noexcept
+		, uint32_t arraySize
+		, bool needsExplicitLayout )noexcept
 	{
 		size_t result = std::hash< TypePtr >{}( type );
 		result = hashCombine( result, arraySize );
+		result = hashCombine( result, needsExplicitLayout );
 		return result;
 	}
 

@@ -66,7 +66,7 @@ namespace sdw
 		: MeshVertexListOutT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "sdwMeshVertexOut"
-					, ast::type::makeMeshVertexOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+					, sdw::makeMeshVertexOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, maxVertices )
 					, FlagT ) ) }
 	{
@@ -190,7 +190,7 @@ namespace sdw
 		: MeshEXTPrimitiveListOutT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "sdwMeshPrimitiveOut"
-					, ast::type::makeMeshPrimitiveOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+					, sdw::makeMeshPrimitiveOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, TopologyT
 						, maxPrimitives )
 					, FlagT | ast::var::Flag::ePerPrimitive ) ) }

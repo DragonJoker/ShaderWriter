@@ -55,17 +55,10 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		uint32_t m_location;
 	};
-	using TessellationOutputPatchPtr = std::shared_ptr< TessellationOutputPatch >;
-
-	inline TessellationOutputPatchPtr makeTessellationOutputPatchType( TypePtr type
-		, uint32_t location )
-	{
-		return std::make_shared< TessellationOutputPatch >( type
-			, location );
-	}
+	using TessellationOutputPatchPtr = TessellationOutputPatch *;
 
 	class TessellationControlInput
 		: public Type
@@ -85,17 +78,10 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		uint32_t m_inputVertices;
 	};
-	using TessellationControlInputPtr = std::shared_ptr< TessellationControlInput >;
-
-	inline TessellationControlInputPtr makeTessellationControlInputType( TypePtr type
-		, uint32_t inputVertices )
-	{
-		return std::make_shared< TessellationControlInput >( type
-			, inputVertices );
-	}
+	using TessellationControlInputPtr = TessellationControlInput *;
 
 	class TessellationControlOutput
 		: public Type
@@ -139,29 +125,21 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		PatchDomain m_domain;
 		Partitioning m_partitioning;
 		OutputTopology m_topology;
 		PrimitiveOrdering m_order;
 		uint32_t m_outputVertices;
 	};
-	using TessellationControlOutputPtr = std::shared_ptr< TessellationControlOutput >;
+	using TessellationControlOutputPtr = TessellationControlOutput *;
 
-	inline TessellationControlOutputPtr makeTessellationControlOutputType( TypePtr type
+	SDAST_API size_t getHash( TypePtr type
 		, PatchDomain domain
 		, Partitioning partitioning
 		, OutputTopology topology
 		, PrimitiveOrdering order
-		, uint32_t outputVertices )
-	{
-		return std::make_shared< TessellationControlOutput >( type
-			, domain
-			, partitioning
-			, topology
-			, order
-			, outputVertices );
-	}
+		, uint32_t outputVertices );
 }
 
 #endif

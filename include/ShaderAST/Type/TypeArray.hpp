@@ -17,7 +17,8 @@ namespace ast::type
 	{
 	public:
 		SDAST_API explicit Array( TypePtr type
-			, uint32_t arraySize = UnknownArraySize );
+			, uint32_t arraySize
+			, bool explicitLayout );
 		SDAST_API Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
@@ -26,7 +27,6 @@ namespace ast::type
 			, uint32_t index
 			, TypePtr type
 			, Array const & nonMbr );
-		SDAST_API TypePtr getMemberType( Struct & parent, uint32_t index )const override;
 
 		inline TypePtr getType()const
 		{
@@ -39,13 +39,14 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		uint32_t m_arraySize;
 	};
-	using ArrayPtr = std::shared_ptr< Array >;
+	using ArrayPtr = Array *;
 
 	SDAST_API size_t getHash( TypePtr type
-		, uint32_t arraySize )noexcept;
+		, uint32_t arraySize
+		, bool needsExplicitLayout )noexcept;
 
 	SDAST_API bool operator==( Array const & lhs, Array const & rhs )noexcept;
 }

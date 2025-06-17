@@ -940,7 +940,7 @@ namespace hlsl
 
 		if ( type->getKind() == ast::type::Kind::eArray )
 		{
-			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+			type = static_cast< ast::type::Array * >( type )->getType();
 		}
 
 		switch ( type->getRawKind() )
@@ -950,13 +950,13 @@ namespace hlsl
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
 		case ast::type::Kind::eImage:
-			result = HlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
+			result = HlslHelpersInternal::getTypeName( static_cast< ast::type::Image * >( type ) );
 			break;
 		case ast::type::Kind::eSampler:
-			result = HlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::Sampler >( type ) );
+			result = HlslHelpersInternal::getTypeName( static_cast< ast::type::Sampler * >( type ) );
 			break;
 		case ast::type::Kind::eSampledImage:
-			result = HlslHelpersInternal::getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
+			result = HlslHelpersInternal::getTypeName( static_cast< ast::type::SampledImage * >( type ) );
 			break;
 		case ast::type::Kind::eGeometryInput:
 			result = getLayoutName( static_cast< ast::type::GeometryInput const & >( *type ).getLayout() )
@@ -1473,7 +1473,7 @@ namespace hlsl
 		if ( auto type = getNonArrayType( var->getType() );
 			isTextureType( type->getKind() ) && it == linkedVars.end() )
 		{
-			auto sampledType = std::static_pointer_cast< ast::type::CombinedImage >( type );
+			auto sampledType = static_cast< ast::type::CombinedImage * >( type );
 
 			if ( sampledType->getConfig().dimension != ast::type::ImageDim::eBuffer )
 			{
@@ -1931,7 +1931,7 @@ namespace hlsl
 				|| nonArray->getKind() == ast::type::Kind::eRayDesc )
 			{
 				structType.declMember( name
-					, std::static_pointer_cast< ast::type::Struct >( nonArray )
+					, static_cast< ast::type::Struct * >( nonArray )
 					, arraySize );
 			}
 			else
@@ -2132,7 +2132,7 @@ namespace hlsl
 		, ast::type::GeometryOutput const & geomType )
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
-			, ast::type::makeGeometryOutputType( m_highFreqOutputs.paramStruct
+			, geomType.getTypesCache().getGeometryOutput( m_highFreqOutputs.paramStruct
 				, geomType.getLayout()
 				, geomType.getCount() )
 			, paramToEntryPoint );
@@ -2142,7 +2142,7 @@ namespace hlsl
 		, ast::type::TessellationControlOutput const & tessType )
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
-			, ast::type::makeTessellationControlOutputType( m_highFreqOutputs.paramStruct
+			, tessType.getTypesCache().getTessellationControlOutput( m_highFreqOutputs.paramStruct
 				, tessType.getDomain()
 				, tessType.getPartitioning()
 				, tessType.getTopology()
@@ -2155,7 +2155,7 @@ namespace hlsl
 		, ast::type::MeshVertexOutput const & meshType )
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
-			, ast::type::makeMeshVertexOutputType( m_highFreqOutputs.paramStruct
+			, meshType.getTypesCache().getMeshVertexOutput( m_highFreqOutputs.paramStruct
 				, meshType.getMaxVertices() )
 			, paramToEntryPoint );
 	}
@@ -2164,16 +2164,16 @@ namespace hlsl
 		, ast::type::TessellationOutputPatch const & patchType )
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
-			, ast::type::makeTessellationOutputPatchType( m_highFreqOutputs.paramStruct
+			, patchType.getTypesCache().getTessellationOutputPatch( m_highFreqOutputs.paramStruct
 				, patchType.getLocation() )
 			, paramToEntryPoint );
 	}
 
 	void Routine::initialiseHFOutput( ast::var::VariablePtr srcVar
-		, ast::type::TaskPayload const & )
+		, ast::type::TaskPayload const & payloadType )
 	{
 		m_highFreqOutputs.initialiseMainVar( srcVar
-			, ast::type::makeTaskPayloadType( m_highFreqOutputs.paramStruct )
+			, payloadType.getTypesCache().getTaskPayload( m_highFreqOutputs.paramStruct )
 			, paramToEntryPoint );
 	}
 
@@ -2181,7 +2181,7 @@ namespace hlsl
 		, ast::type::MeshPrimitiveOutput const & meshType )
 	{
 		m_lowFreqOutputs.initialiseMainVar( srcVar
-			, ast::type::makeMeshPrimitiveOutputType( m_lowFreqOutputs.paramStruct
+			, meshType.getTypesCache().getMeshPrimitiveOutput( m_lowFreqOutputs.paramStruct
 				, meshType.getTopology()
 				, meshType.getMaxPrimitives() )
 			, paramToEntryPoint );
@@ -3146,7 +3146,7 @@ namespace hlsl
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
-			, ast::type::makeFragmentInputType( m_highFreqInputs.paramStruct
+			, fragType.getTypesCache().getFragmentInput( m_highFreqInputs.paramStruct
 				, fragType.getOrigin()
 				, fragType.getCenter()
 				, fragType.getOrdering() )
@@ -3167,7 +3167,7 @@ namespace hlsl
 		}
 
 		m_currentRoutine->m_lowFreqInputs.initialiseMainVar( var
-			, ast::type::makeComputeInputType( m_currentRoutine->m_lowFreqInputs.paramStruct
+			, compType.getTypesCache().getComputeInput( m_currentRoutine->m_lowFreqInputs.paramStruct
 				, compType.getLocalSizeX()
 				, compType.getLocalSizeY()
 				, compType.getLocalSizeZ() )
@@ -3188,7 +3188,7 @@ namespace hlsl
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
-			, ast::type::makeGeometryInputType( m_highFreqInputs.paramStruct
+			, geomType.getTypesCache().getGeometryInput( m_highFreqInputs.paramStruct
 				, geomType.getLayout() )
 			, m_currentRoutine->paramToEntryPoint );
 	}
@@ -3224,7 +3224,7 @@ namespace hlsl
 		}
 
 		m_patchInputs->initialisePatchVar( var
-			, ast::type::makeTessellationInputPatchType( m_patchInputs->paramStruct
+			, patchType.getTypesCache().getTessellationInputPatch( m_patchInputs->paramStruct
 				, patchType.getDomain()
 				, patchType.getLocation() )
 			, uint64_t( ast::var::Flag::eShaderInput )
@@ -3265,7 +3265,7 @@ namespace hlsl
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
-			, ast::type::makeTessellationControlInputType( m_highFreqInputs.paramStruct
+			, tessType.getTypesCache().getTessellationControlInput( m_highFreqInputs.paramStruct
 				, tessType.getInputVertices() )
 			, m_currentRoutine->paramToEntryPoint );
 	}
@@ -3310,7 +3310,7 @@ namespace hlsl
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
-			, ast::type::makeTessellationEvaluationInputType( m_highFreqInputs.paramStruct
+			, tessType.getTypesCache().getTessellationEvaluationInput( m_highFreqInputs.paramStruct
 				, tessType.getDomain()
 				, tessType.getPartitioning()
 				, tessType.getPrimitiveOrdering()
@@ -3380,7 +3380,7 @@ namespace hlsl
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
-			, ast::type::makeTaskPayloadInNVType( m_highFreqInputs.paramStruct )
+			, taskType.getTypesCache().getTaskPayloadInNV( m_highFreqInputs.paramStruct )
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
@@ -3403,7 +3403,7 @@ namespace hlsl
 		}
 
 		m_highFreqInputs.initialiseMainVar( var
-			, ast::type::makeTaskPayloadInType( m_highFreqInputs.paramStruct )
+			, taskType.getTypesCache().getTaskPayloadIn( m_highFreqInputs.paramStruct )
 			, m_currentRoutine->paramToEntryPoint );
 	}
 

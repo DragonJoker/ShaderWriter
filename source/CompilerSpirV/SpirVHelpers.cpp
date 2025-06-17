@@ -901,7 +901,7 @@ namespace spirv
 
 		if ( !mbr.io.result.var )
 		{
-			ast::type::StructPtr structType;
+			ast::type::StructPtr structType{};
 			mbrIndex = mbr.index;
 
 			if ( mbr.io.flags & uint64_t( ast::var::Flag::eBuiltin ) )
@@ -1871,18 +1871,16 @@ namespace spirv
 		{
 			auto const & structType = *getStructType( patchType.getType() );
 			uint32_t indexBuiltins = 0u;
-			auto inStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-				, structType.getMemoryLayout()
-				, structType.getName() + "Repl"
+			auto inStructType = patchType.getTypesCache().getIOStruct( structType.getName() + "Repl"
 				, getEntryPointType( stage )
+				, structType.getMemoryLayout()
 				, ast::var::Flag::ePatchInput );
-			auto inBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-				, structType.getMemoryLayout()
-				, structType.getName() + "Builtins"
+			auto inBuiltinsType = patchType.getTypesCache().getIOStruct( structType.getName() + "Builtins"
 				, getEntryPointType( stage )
+				, structType.getMemoryLayout()
 				, ast::var::Flag::eShaderInput );
 			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
-				, ast::type::makeTessellationInputPatchType( inStructType
+				, patchType.getTypesCache().getTessellationInputPatch( inStructType
 					, patchType.getDomain()
 					, patchType.getLocation() )
 				, var->getFlags() );
@@ -1930,18 +1928,16 @@ namespace spirv
 			auto const & structType = *getStructType( patchType.getType() );
 			uint32_t indexBuiltins = 0u;
 			auto flags = structType.getFlag();
-			auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-				, structType.getMemoryLayout()
-				, structType.getName() + "Repl"
+			auto outStructType = patchType.getTypesCache().getIOStruct( structType.getName() + "Repl"
 				, getEntryPointType( stage )
+				, structType.getMemoryLayout()
 				, ast::var::Flag( flags ) );
-			auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-				, structType.getMemoryLayout()
-				, structType.getName() + "Builtins"
+			auto outBuiltinsType = patchType.getTypesCache().getIOStruct( structType.getName() + "Builtins"
 				, getEntryPointType( stage )
+				, structType.getMemoryLayout()
 				, ast::var::Flag::eShaderOutput );
 			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
-				, ast::type::makeTessellationOutputPatchType( outStructType
+				, patchType.getTypesCache().getTessellationOutputPatch( outStructType
 					, patchType.getLocation() )
 				, var->getFlags() );
 			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }

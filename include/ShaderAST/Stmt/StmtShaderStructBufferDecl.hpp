@@ -42,7 +42,7 @@ namespace ast::stmt
 
 		inline type::MemoryLayout getMemoryLayout()const
 		{
-			return std::static_pointer_cast< type::Struct >( m_ssboInstance->getType() )->getMemoryLayout();
+			return static_cast< type::Struct * >( m_ssboInstance->getType() )->getMemoryLayout();
 		}
 
 		inline uint32_t getBindingPoint()const
@@ -56,11 +56,11 @@ namespace ast::stmt
 		}
 
 	private:
-		std::string m_ssboName;
-		var::VariablePtr m_ssboInstance;
-		var::VariablePtr m_data;
-		uint32_t m_bindingPoint;
-		uint32_t m_bindingSet;
+		std::string m_ssboName{};
+		var::VariablePtr m_ssboInstance{};
+		var::VariablePtr m_data{};
+		uint32_t m_bindingPoint{};
+		uint32_t m_bindingSet{};
 	};
 }
 

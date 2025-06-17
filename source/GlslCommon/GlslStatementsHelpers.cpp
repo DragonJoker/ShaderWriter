@@ -356,55 +356,55 @@ namespace glsl
 			result = static_cast< ast::type::Struct const & >( *type ).getName();
 			break;
 		case ast::type::Kind::eImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::Image >( type ) );
+			result = getTypeName( static_cast< ast::type::Image * >( type ) );
 			break;
 		case ast::type::Kind::eCombinedImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::CombinedImage >( type ) );
+			result = getTypeName( static_cast< ast::type::CombinedImage * >( type ) );
 			break;
 		case ast::type::Kind::eSampledImage:
-			result = getTypeName( std::static_pointer_cast< ast::type::SampledImage >( type ) );
+			result = getTypeName( static_cast< ast::type::SampledImage * >( type ) );
 			break;
 		case ast::type::Kind::eArray:
-			result = getTypeName( std::static_pointer_cast< ast::type::Array >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::Array * >( type )->getType() );
 			break;
 		case ast::type::Kind::eRayPayload:
-			result = getTypeName( std::static_pointer_cast< ast::type::RayPayload >( type )->getDataType() );
+			result = getTypeName( static_cast< ast::type::RayPayload * >( type )->getDataType() );
 			break;
 		case ast::type::Kind::eHitAttribute:
-			result = getTypeName( std::static_pointer_cast< ast::type::HitAttribute >( type )->getDataType() );
+			result = getTypeName( static_cast< ast::type::HitAttribute * >( type )->getDataType() );
 			break;
 		case ast::type::Kind::eCallableData:
-			result = getTypeName( std::static_pointer_cast< ast::type::CallableData >( type )->getDataType() );
+			result = getTypeName( static_cast< ast::type::CallableData * >( type )->getDataType() );
 			break;
 		case ast::type::Kind::eTessellationInputPatch:
-			result = getTypeName( std::static_pointer_cast< ast::type::TessellationInputPatch >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TessellationInputPatch * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTessellationOutputPatch:
-			result = getTypeName( std::static_pointer_cast< ast::type::TessellationOutputPatch >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TessellationOutputPatch * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTessellationControlInput:
-			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlInput >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TessellationControlInput * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTessellationControlOutput:
-			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TessellationControlOutput * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTessellationEvaluationInput:
-			result = getTypeName( std::static_pointer_cast< ast::type::TessellationControlOutput >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TessellationControlOutput * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTaskPayloadNV:
-			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadNV >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TaskPayloadNV * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTaskPayload:
-			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayload >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TaskPayload * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTaskPayloadInNV:
-			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadInNV >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TaskPayloadInNV * >( type )->getType() );
 			break;
 		case ast::type::Kind::eTaskPayloadIn:
-			result = getTypeName( std::static_pointer_cast< ast::type::TaskPayloadIn >( type )->getType() );
+			result = getTypeName( static_cast< ast::type::TaskPayloadIn * >( type )->getType() );
 			break;
 		case ast::type::Kind::ePointer:
-			result = getTypeName( std::static_pointer_cast< ast::type::Pointer >( type )->getPointerType() );
+			result = getTypeName( static_cast< ast::type::Pointer * >( type )->getPointerType() );
 			break;
 		default:
 			result = getTypeName( type->getKind() );

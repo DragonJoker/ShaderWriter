@@ -10,7 +10,7 @@ namespace ast::type
 	CombinedImage::CombinedImage( TypesCache & typesCache
 		, ImageConfiguration config
 		, bool isComparison )
-		: Type{ typesCache, Kind::eCombinedImage }
+		: Type{ typesCache, Kind::eCombinedImage, false }
 		, m_imageType{ typesCache.getImage( std::move( config ) ) }
 		, m_samplerType{ typesCache.getSampler( isComparison ) }
 	{

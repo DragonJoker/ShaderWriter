@@ -8,7 +8,7 @@ namespace ast::type
 	//*************************************************************************
 
 	TaskPayloadNV::TaskPayloadNV( TypePtr type )
-		: Type{ type->getTypesCache(), Kind::eTaskPayloadNV }
+		: Type{ type->getTypesCache(), Kind::eTaskPayloadNV, false }
 		, m_type{ type }
 	{
 	}
@@ -16,7 +16,7 @@ namespace ast::type
 	//*************************************************************************
 
 	TaskPayload::TaskPayload( TypePtr type )
-		: Type{ type->getTypesCache(), Kind::eTaskPayload }
+		: Type{ type->getTypesCache(), Kind::eTaskPayload, false }
 		, m_type{ type }
 	{
 	}

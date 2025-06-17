@@ -48,7 +48,7 @@ namespace sdw
 		: GeometryListT{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "sdwGeomIn"
-					, ast::type::makeGeometryInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+					, sdw::makeGeometryInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, LayoutT )
 					, FlagT ) ) }
 	{
@@ -87,7 +87,7 @@ namespace sdw
 		: GeometryOutT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "sdwGeomOut"
-					, ast::type::makeGeometryOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+					, sdw::makeGeometryOutputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, LayoutT
 						, count )
 					, FlagT ) ) }

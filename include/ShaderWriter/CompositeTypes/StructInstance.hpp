@@ -168,7 +168,7 @@ namespace sdw
 		ast::expr::ExprPtr doGetMember( uint32_t mbrIndex )const;
 
 	private:
-		type::StructPtr m_type;
+		type::StructPtr m_type{};
 	};
 }
 

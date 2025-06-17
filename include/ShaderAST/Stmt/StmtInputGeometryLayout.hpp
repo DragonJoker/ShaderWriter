@@ -32,7 +32,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		type::InputLayout m_layout;
 	};
 }

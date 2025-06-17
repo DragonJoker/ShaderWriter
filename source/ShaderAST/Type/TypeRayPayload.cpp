@@ -7,7 +7,7 @@ namespace ast::type
 {
 	RayPayload::RayPayload( TypePtr dataType
 		, uint32_t location )
-		: Type{ dataType->getTypesCache(), Kind::eRayPayload }
+		: Type{ dataType->getTypesCache(), Kind::eRayPayload, false }
 		, m_dataType{ dataType }
 		, m_location{ location }
 	{

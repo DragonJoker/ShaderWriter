@@ -27,7 +27,7 @@ namespace ast::type
 	private:
 		ImageConfiguration m_config;
 	};
-	using ImagePtr = std::shared_ptr< Image >;
+	using ImagePtr = Image *;
 }
 
 #endif

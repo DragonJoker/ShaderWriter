@@ -17,7 +17,7 @@ namespace sdw
 		: FragmentInT{ writer
 			, makeExpr( writer
 				, getBuilder( writer ).registerName( "sdwFragIn"
-					, makeFragmentInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
+					, sdw::makeFragmentInputType( makeType( getTypesCache( writer ), std::forward< ParamsT >( params )... )
 						, origin
 						, center
 						, ordering )

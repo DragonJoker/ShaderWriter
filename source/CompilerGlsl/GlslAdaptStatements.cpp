@@ -876,7 +876,7 @@ namespace glsl
 		private:
 			void doProcessImageStore( ast::expr::StorageImageAccessCall const & expr )
 			{
-				auto imgArgType = std::static_pointer_cast< ast::type::Image >( expr.getArgList()[0]->getType() );
+				auto imgArgType = static_cast< ast::type::Image * >( expr.getArgList()[0]->getType() );
 				auto config = imgArgType->getConfig();
 				auto sampledType = m_typesCache.getSampledType( config.format );
 				auto glslType = m_typesCache.getVec4Type( getScalarType( sampledType->getKind() ) );
@@ -1030,7 +1030,7 @@ namespace glsl
 
 			void doProcessTextureSample( ast::expr::CombinedImageAccessCall const & expr )
 			{
-				auto imgArgType = std::static_pointer_cast< ast::type::CombinedImage >( expr.getArgList()[0]->getType() );
+				auto imgArgType = static_cast< ast::type::CombinedImage * >( expr.getArgList()[0]->getType() );
 				auto config = imgArgType->getConfig();
 				auto callRetType = m_typesCache.getSampledType( config.format );
 				ast::expr::ExprList args;
@@ -1485,14 +1485,14 @@ namespace glsl
 								if ( structType->isInput() )
 								{
 									doProcessInput( param
-										, std::static_pointer_cast< ast::type::IOStruct >( structType )
+										, static_cast< ast::type::IOStruct * >( structType )
 										, arraySize
 										, isEntryPoint );
 								}
 								else if ( structType->isOutput() )
 								{
 									doProcessOutput( param
-										, std::static_pointer_cast< ast::type::IOStruct >( structType )
+										, static_cast< ast::type::IOStruct * >( structType )
 										, arraySize
 										, isEntryPoint );
 								}
@@ -1759,7 +1759,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isInput() );
 					doProcessInput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, ast::type::NotArray
 						, true );
 				}
@@ -1780,7 +1780,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isOutput() );
 					doProcessOutput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, ast::type::NotArray
 						, true );
 				}
@@ -1801,7 +1801,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isInput() );
 					doProcessInput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, getArraySize( geomType.getLayout() )
 						, true );
 				}
@@ -1817,18 +1817,16 @@ namespace glsl
 				{
 					auto structType = getStructType( patchType.getType() );
 					auto flags = structType->getFlag();
-					auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-						, structType->getMemoryLayout()
-						, structType->getName() + "Repl"
+					auto outStructType = patchType.getTypesCache().getIOStruct( structType->getName() + "Repl"
 						, getEntryPointType( m_adaptationData.stage )
+						, structType->getMemoryLayout()
 						, ast::var::Flag( flags ) );
-					auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-						, structType->getMemoryLayout()
-						, structType->getName() + "Builtins"
+					auto outBuiltinsType = patchType.getTypesCache().getIOStruct( structType->getName() + "Builtins"
 						, getEntryPointType( m_adaptationData.stage )
+						, structType->getMemoryLayout()
 						, ast::var::Flag::eShaderInput );
 					auto othersVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Others" }
-						, ast::type::makeTessellationInputPatchType( outStructType
+						, patchType.getTypesCache().getTessellationInputPatch( outStructType
 							, patchType.getDomain()
 							, patchType.getLocation() )
 						, var->getFlags() );
@@ -1897,18 +1895,16 @@ namespace glsl
 				{
 					auto structType = getStructType( patchType.getType() );
 					auto flags = structType->getFlag();
-					auto outStructType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-						, structType->getMemoryLayout()
-						, structType->getName() + "Repl"
+					auto outStructType = patchType.getTypesCache().getIOStruct( structType->getName() + "Repl"
 						, getEntryPointType( m_adaptationData.stage )
+						, structType->getMemoryLayout()
 						, ast::var::Flag( flags ) );
-					auto outBuiltinsType = std::make_shared< ast::type::IOStruct >( patchType.getTypesCache()
-						, structType->getMemoryLayout()
-						, structType->getName() + "Builtins"
+					auto outBuiltinsType = patchType.getTypesCache().getIOStruct( structType->getName() + "Builtins"
 						, getEntryPointType( m_adaptationData.stage )
+						, structType->getMemoryLayout()
 						, ast::var::Flag::ePatchOutput );
 					auto othersVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Others" }
-						, ast::type::makeTessellationOutputPatchType( outStructType
+						, m_typesCache.getTessellationOutputPatch( outStructType
 							, patchType.getLocation() )
 						, var->getFlags() );
 					auto builtinsVar = ast::var::makeVariable( { ++m_adaptationData.nextVarId, var->getName() + "Builtins" }
@@ -1980,7 +1976,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isInput() );
 					doProcessInput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, 32u
 						, true );
 				}
@@ -1997,7 +1993,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isOutput() );
 					doProcessOutput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, arraySize
 						, true );
 				}
@@ -2021,7 +2017,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isInput() );
 					doProcessInput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, 32u
 						, true );
 				}
@@ -2080,7 +2076,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isInput() );
 					doProcessInput( var
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, ast::type::NotArray
 						, true );
 				}
@@ -2343,7 +2339,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isOutput() );
 					doProcessOutput( m_meshVtxVar
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, ast::type::UnknownArraySize
 						, true );
 				}
@@ -2355,7 +2351,7 @@ namespace glsl
 					auto structType = getStructType( type );
 					AST_Assert( structType->isOutput() );
 					doProcessOutput( m_meshPrimVar
-						, std::static_pointer_cast< ast::type::IOStruct >( structType )
+						, static_cast< ast::type::IOStruct * >( structType )
 						, ast::type::UnknownArraySize
 						, true );
 				}

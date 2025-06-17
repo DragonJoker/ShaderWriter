@@ -40,9 +40,9 @@ namespace sdw
 			, Struct const & type );
 
 	private:
-		ShaderWriter * m_writer;
-		ShaderBuilder * m_builder;
-		type::BaseStructPtr m_type;
+		ShaderWriter * m_writer{};
+		ShaderBuilder * m_builder{};
+		type::BaseStructPtr m_type{};
 	};
 
 	template< var::Flag FlagT >
@@ -72,9 +72,9 @@ namespace sdw
 			, ParamsT && ... params );
 
 	private:
-		ShaderWriter * m_writer;
-		ShaderBuilder * m_builder;
-		type::IOStructPtr m_type;
+		ShaderWriter * m_writer{};
+		ShaderBuilder * m_builder{};
+		type::IOStructPtr m_type{};
 	};
 
 	using InputStruct = IOStructT< var::Flag::eShaderInput >;

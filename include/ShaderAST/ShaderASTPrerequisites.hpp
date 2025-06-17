@@ -562,35 +562,36 @@ namespace ast
 	{
 		class TypesCache;
 		class Type;
-		using TypePtr = std::shared_ptr< Type >;
+		using TypeUPtr = std::unique_ptr< Type >;
+		using TypePtr = Type *;
 
 		template< typename TypeT
 			, typename CreatorT
 			, typename HasherT >
 		class TypeCache;
 		class Function;
-		using FunctionPtr = std::shared_ptr< Function >;
+		using FunctionPtr = Function *;
 		class Struct;
-		using StructPtr = std::shared_ptr< Struct >;
+		using StructPtr = Struct *;
 		class BaseStruct;
-		using BaseStructPtr = std::shared_ptr< BaseStruct >;
+		using BaseStructPtr = BaseStruct *;
 		class IOStruct;
-		using IOStructPtr = std::shared_ptr< IOStruct >;
+		using IOStructPtr = IOStruct *;
 		class Array;
-		using ArrayPtr = std::shared_ptr< Array >;
+		using ArrayPtr = Array *;
 		struct ImageConfiguration;
 		class Sampler;
-		using SamplerPtr = std::shared_ptr< Sampler >;
+		using SamplerPtr = Sampler *;
 		class Image;
-		using ImagePtr = std::shared_ptr< Image >;
+		using ImagePtr = Image *;
 		class CombinedImage;
-		using CombinedImagePtr = std::shared_ptr< CombinedImage >;
+		using CombinedImagePtr = CombinedImage *;
 	}
 
 	struct AttributeInfo
 	{
-		type::TypePtr type;
-		uint32_t location;
+		type::TypePtr type{};
+		uint32_t location{};
 
 		SDAST_API bool operator==( AttributeInfo const & rhs )const = default;
 	};
@@ -618,7 +619,7 @@ namespace ast
 
 	struct InOutInfo
 	{
-		type::TypePtr type;
+		type::TypePtr type{};
 
 		SDAST_API bool operator==( InOutInfo const & rhs )const = default;
 	};
@@ -662,7 +663,7 @@ namespace ast
 	template< typename TypeT = ast::type::Type >
 	struct DescriptorInfoT
 	{
-		std::shared_ptr< TypeT > type;
+		TypeT * type;
 		DescriptorBinding binding;
 	};
 

@@ -75,7 +75,7 @@ namespace
 			astCheck( getComponentType( type->getKind() ) == type->getKind() )
 			astCheck( getComponentType( type ) == type->getKind() )
 			astCheck( unwrapType( type ) == type )
-			astCheck( &unwrapType( *type ) == type.get() )
+			astCheck( &unwrapType( *type ) == type )
 		}
 		{
 			auto type = typesCache.getVoid();
@@ -3228,60 +3228,6 @@ namespace
 			astCheck( type->getKind() == typesCache.getVec4Kind( type::Kind::eFloat ) )
 		}
 		{
-			auto type = typesCache.getMat2Type( type::Kind::eVec2F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat2Kind( type::Kind::eVec2F ) )
-		}
-		{
-			auto type = typesCache.getMat2Type( type::Kind::eVec3F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat2Kind( type::Kind::eVec3F ) )
-		}
-		{
-			auto type = typesCache.getMat2Type( type::Kind::eVec4F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat2Kind( type::Kind::eVec4F ) )
-		}
-		{
-			auto type = typesCache.getMat3Type( type::Kind::eVec2F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat3Kind( type::Kind::eVec2F ) )
-		}
-		{
-			auto type = typesCache.getMat3Type( type::Kind::eVec3F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat3Kind( type::Kind::eVec3F ) )
-		}
-		{
-			auto type = typesCache.getMat3Type( type::Kind::eVec4F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat3Kind( type::Kind::eVec4F ) )
-		}
-		{
-			auto type = typesCache.getMat4Type( type::Kind::eVec2F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat4Kind( type::Kind::eVec2F ) )
-		}
-		{
-			auto type = typesCache.getMat4Type( type::Kind::eVec3F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat4Kind( type::Kind::eVec3F ) )
-		}
-		{
-			auto type = typesCache.getMat4Type( type::Kind::eVec4F );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat4Kind( type::Kind::eVec4F ) )
-		}
-		{
 			auto type = typesCache.getBasicType( type::Kind::eDouble );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
@@ -3304,60 +3250,6 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == typesCache.getVec4Kind( type::Kind::eDouble ) )
-		}
-		{
-			auto type = typesCache.getMat2Type( type::Kind::eVec2D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat2Kind( type::Kind::eVec2D ) )
-		}
-		{
-			auto type = typesCache.getMat2Type( type::Kind::eVec3D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat2Kind( type::Kind::eVec3D ) )
-		}
-		{
-			auto type = typesCache.getMat2Type( type::Kind::eVec4D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat2Kind( type::Kind::eVec4D ) )
-		}
-		{
-			auto type = typesCache.getMat3Type( type::Kind::eVec2D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat3Kind( type::Kind::eVec2D ) )
-		}
-		{
-			auto type = typesCache.getMat3Type( type::Kind::eVec3D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat3Kind( type::Kind::eVec3D ) )
-		}
-		{
-			auto type = typesCache.getMat3Type( type::Kind::eVec4D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat3Kind( type::Kind::eVec4D ) )
-		}
-		{
-			auto type = typesCache.getMat4Type( type::Kind::eVec2D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat4Kind( type::Kind::eVec2D ) )
-		}
-		{
-			auto type = typesCache.getMat4Type( type::Kind::eVec3D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat4Kind( type::Kind::eVec3D ) )
-		}
-		{
-			auto type = typesCache.getMat4Type( type::Kind::eVec4D );
-			astCheckNoThrow( debug::getTypeName( type ) )
-			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == typesCache.getMat4Kind( type::Kind::eVec4D ) )
 		}
 		{
 			auto type = typesCache.getVector( type::Kind::eDouble, 1u );

@@ -1028,7 +1028,7 @@ namespace spirv
 				bool allLiterals = true;
 				auto type = expr->getFn()->getType();
 				AST_Assert( type->getKind() == ast::type::Kind::eFunction );
-				auto fnType = std::static_pointer_cast< ast::type::Function >( type );
+				auto fnType = static_cast< ast::type::Function * >( type );
 				AST_Assert( expr->getArgList().size() == fnType->size() );
 				auto it = fnType->begin();
 
@@ -1045,7 +1045,7 @@ namespace spirv
 
 					DebugId src;
 					DebugId dst;
-					ast::type::TypePtr type;
+					ast::type::TypePtr type{};
 				};
 				ast::Vector< OutputParam > outputParams{ m_allocator };
 
@@ -1145,7 +1145,7 @@ namespace spirv
 				auto paramType = expr->getArgList()[0]->getType();
 				AST_Assert( paramType->getKind() == ast::type::Kind::eImage );
 				auto imageVarId = doSubmit( *expr->getArgList()[0].get() );
-				auto imageType = std::static_pointer_cast< ast::type::Image >( paramType );
+				auto imageType = static_cast< ast::type::Image * >( paramType );
 				auto intermediateId = loadVariable( imageVarId, *expr->getArgList()[0].get() );
 				DebugIdList params{ m_allocator };
 				params.push_back( intermediateId );
@@ -1212,7 +1212,7 @@ namespace spirv
 					AST_Assert( expr->getArgList()[0]->getKind() == ast::expr::Kind::eIdentifier );
 					auto imgParam = static_cast< ast::expr::Identifier const & >( *expr->getArgList()[0] ).getType();
 					AST_Assert( imgParam->getKind() == ast::type::Kind::eImage );
-					auto image = std::static_pointer_cast< ast::type::Image >( imgParam );
+					auto image = static_cast< ast::type::Image * >( imgParam );
 					auto sampledType = m_typesCache.getBasicType( image->getConfig().sampledType );
 					auto sampledId = registerType( sampledType, nullptr );
 					auto pointerTypeId = registerPointerType( sampledId
@@ -1487,7 +1487,7 @@ namespace spirv
 				if ( config.needsImage )
 				{
 					// We need to extract the image from the sampled image, to give it to the final instruction.
-					auto textureType = std::static_pointer_cast< ast::type::CombinedImage >( sampledImageType );
+					auto textureType = static_cast< ast::type::CombinedImage * >( sampledImageType );
 					auto imageTypeId = registerImageType( textureType );
 					auto imageId = getIntermediateResult( imageTypeId->type );
 					m_currentBlock.instructions.emplace_back( makeInstruction< ImageInstruction >( getNameCache()
@@ -2055,7 +2055,7 @@ namespace spirv
 				TraceFunc;
 				VariableInfo info;
 				info.rvalue = true;
-				auto result = registerVariable( "functmp_" + std::to_string( uintptr_t( type.get() ) ) + std::to_string( m_aliasId )
+				auto result = registerVariable( "functmp_" + std::to_string( uintptr_t( type ) ) + std::to_string( m_aliasId )
 					, ast::Builtin::eNone
 					, ast::type::Storage::eFunction
 					, false
@@ -2205,8 +2205,8 @@ namespace spirv
 			ast::ShaderAllocatorBlock * m_allocator;
 			DebugId m_initialiser;
 			bool m_hasFuncInit{ false };
-			std::array< ast::type::BaseStructPtr, 4u > m_unsignedExtendedTypes;
-			std::array< ast::type::BaseStructPtr, 4u > m_signedExtendedTypes;
+			std::array< ast::type::BaseStructPtr, 4u > m_unsignedExtendedTypes{};
+			std::array< ast::type::BaseStructPtr, 4u > m_signedExtendedTypes{};
 			uint32_t m_aliasId{ 1u };
 		};
 

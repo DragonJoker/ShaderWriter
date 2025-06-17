@@ -27,7 +27,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::StructPtr m_type;
+		type::StructPtr m_type{};
 	};
 }
 

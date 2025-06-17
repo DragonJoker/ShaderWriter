@@ -50,7 +50,7 @@ namespace
 			astCheck( isArrayType( type->getKind() ) )
 			astCheck( getNonArrayKindRec( type ) == ast::type::Kind::eInt32 )
 			astCheck( getNonArrayTypeRec( type ) == typesCache.getInt32() )
-			astCheck( &getNonArrayTypeRec( *type ) == typesCache.getInt32().get() )
+			astCheck( &getNonArrayTypeRec( *type ) == typesCache.getInt32() )
 
 			auto type2 = typesCache.getArray( typesCache.getInt32(), ast::type::UnknownArraySize );
 			astCheck( type2 == type )
@@ -94,7 +94,7 @@ namespace
 		astCheck( !getStructType( *type ) )
 		astCheck( isWrapperType( type ) )
 		astCheck( unwrapType( type ) == typesCache.getInt32() )
-		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
+		astCheck( &unwrapType( *type ) == typesCache.getInt32() )
 
 		auto type2 = typesCache.getCallableData( typesCache.getInt32(), 17u );
 		astCheck( type2 == type )
@@ -105,7 +105,7 @@ namespace
 	{
 		astTestBegin( "testComputeIO" );
 		ast::type::TypesCache typesCache;
-		auto type = ast::type::makeComputeInputType( typesCache.getInt32(), 17u, 18u, 19u );
+		auto type = typesCache.getComputeInput( typesCache.getInt32(), 17u, 18u, 19u );
 		astCheckNoThrow( ast::debug::getTypeName( type ) )
 		astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
 		astCheck( type->getRawKind() == ast::type::Kind::eComputeInput )
@@ -130,7 +130,7 @@ namespace
 				for ( uint32_t ordering = 0u; ordering < 7u; ++ordering )
 				{
 					ast::type::TypesCache typesCache;
-					auto type = ast::type::makeFragmentInputType( typesCache.getInt32()
+					auto type = typesCache.getFragmentInput( typesCache.getInt32()
 						, ast::FragmentOrigin( origin )
 						, ast::FragmentCenter( center )
 						, ast::InvocationOrdering( ordering ) );
@@ -292,7 +292,7 @@ namespace
 		{
 			{
 				ast::type::TypesCache typesCache;
-				auto type = ast::type::makeGeometryInputType( typesCache.getInt32()
+				auto type = typesCache.getGeometryInput( typesCache.getInt32()
 					, ast::type::InputLayout( layout ) );
 				astCheckNoThrow( ast::debug::getTypeName( type ) )
 				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
@@ -306,7 +306,7 @@ namespace
 			}
 			{
 				ast::type::TypesCache typesCache;
-				auto type = ast::type::makeGeometryInputType( typesCache.getArray( typesCache.getInt32(), 4u )
+				auto type = typesCache.getGeometryInput( typesCache.getArray( typesCache.getInt32(), 4u )
 					, ast::type::InputLayout( layout ) );
 				astCheckNoThrow( ast::debug::getTypeName( type ) )
 				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
@@ -322,7 +322,7 @@ namespace
 		for ( uint32_t layout = 0u; layout <= uint32_t( ast::type::OutputLayout::eTriangleStrip ); ++layout )
 		{
 			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeGeometryOutputType( typesCache.getInt32()
+			auto type = typesCache.getGeometryOutput( typesCache.getInt32()
 				, ast::type::OutputLayout( layout )
 				, 15u );
 			astCheckNoThrow( ast::debug::getTypeName( type ) )
@@ -354,7 +354,7 @@ namespace
 		astCheck( !getStructType( *type ) )
 		astCheck( isWrapperType( type ) )
 		astCheck( unwrapType( type ) == typesCache.getInt32() )
-		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
+		astCheck( &unwrapType( *type ) == typesCache.getInt32() )
 
 		auto type2 = typesCache.getHitAttribute( typesCache.getInt32() );
 		astCheck( type2 == type )
@@ -366,18 +366,6 @@ namespace
 		astTestBegin( "testMeshIO" );
 		{
 			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeTaskPayloadInNVType( typesCache.getInt32() );
-			astCheckNoThrow( ast::debug::getTypeName( type ) )
-			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
-			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
-			astCheck( type->getType() == typesCache.getInt32() )
-			astCheck( !isStructType( type ) )
-			astCheck( !getStructType( type ) )
-			astCheck( !getStructType( *type ) )
-		}
-		{
-			ast::type::TypesCache typesCache;
 			auto type = typesCache.getTaskPayloadInNV( typesCache.getInt32() );
 			astCheckNoThrow( ast::debug::getTypeName( type ) )
 			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
@@ -385,20 +373,8 @@ namespace
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadInNV )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
-			astCheck( !getStructType( *type ) )
 			astCheck( !getStructType( type ) )
-		}
-		{
-			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeTaskPayloadInType( typesCache.getInt32() );
-			astCheckNoThrow( ast::debug::getTypeName( type ) )
-			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
-			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadIn )
-			astCheck( type->getType() == typesCache.getInt32() )
-			astCheck( !isStructType( type ) )
 			astCheck( !getStructType( *type ) )
-			astCheck( !getStructType( type ) )
 		}
 		{
 			ast::type::TypesCache typesCache;
@@ -408,19 +384,6 @@ namespace
 			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadIn )
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadIn )
 			astCheck( type->getType() == typesCache.getInt32() )
-			astCheck( !isStructType( type ) )
-			astCheck( !getStructType( *type ) )
-			astCheck( !getStructType( type ) )
-		}
-		{
-			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeMeshVertexOutputType( typesCache.getInt32(), 17u );
-			astCheckNoThrow( ast::debug::getTypeName( type ) )
-			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-			astCheck( type->getRawKind() == ast::type::Kind::eMeshVertexOutput )
-			astCheck( type->getKind() == ast::type::Kind::eMeshVertexOutput )
-			astCheck( type->getType() == typesCache.getInt32() )
-			astCheck( type->getMaxVertices() == 17u )
 			astCheck( !isStructType( type ) )
 			astCheck( !getStructType( *type ) )
 			astCheck( !getStructType( type ) )
@@ -440,20 +403,6 @@ namespace
 		}
 		for ( uint32_t topology = 0u; topology <= uint32_t( ast::type::OutputTopology::eQuad ); ++topology )
 		{
-			{
-				ast::type::TypesCache typesCache;
-				auto type = ast::type::makeMeshPrimitiveOutputType( typesCache.getInt32(), ast::type::OutputTopology( topology ), 17u );
-				astCheckNoThrow( ast::debug::getTypeName( type ) )
-				astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-				astCheck( type->getRawKind() == ast::type::Kind::eMeshPrimitiveOutput )
-				astCheck( type->getKind() == ast::type::Kind::eMeshPrimitiveOutput )
-				astCheck( type->getType() == typesCache.getInt32() )
-				astCheck( type->getTopology() == ast::type::OutputTopology( topology ) )
-				astCheck( type->getMaxPrimitives() == 17u )
-				astCheck( !isStructType( type ) )
-				astCheck( !getStructType( *type ) )
-				astCheck( !getStructType( type ) )
-			}
 			{
 				ast::type::TypesCache typesCache;
 				auto type = typesCache.getMeshPrimitiveOutput( typesCache.getInt32(), ast::type::OutputTopology( topology ), 17u );
@@ -562,7 +511,7 @@ namespace
 		astCheck( !getStructType( type ) )
 		astCheck( isWrapperType( type ) )
 		astCheck( unwrapType( type ) == typesCache.getInt32() )
-		astCheck( &unwrapType( *type ) == typesCache.getInt32().get() )
+		astCheck( &unwrapType( *type ) == typesCache.getInt32() )
 
 		auto type2 = typesCache.getRayPayload( typesCache.getInt32(), 17u );
 		astCheck( type2 == type )
@@ -590,35 +539,11 @@ namespace
 		astTestBegin( "testTaskIO" );
 		{
 			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeTaskPayloadNVType( typesCache.getInt32() );
-			astCheckNoThrow( ast::debug::getTypeName( type ) )
-			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
-			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadNV )
-			astCheck( type->getType() == typesCache.getInt32() )
-			astCheck( !isStructType( type ) )
-			astCheck( !getStructType( *type ) )
-			astCheck( !getStructType( type ) )
-		}
-		{
-			ast::type::TypesCache typesCache;
 			auto type = typesCache.getTaskPayloadNV( typesCache.getInt32() );
 			astCheckNoThrow( ast::debug::getTypeName( type ) )
 			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
 			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
 			astCheck( type->getKind() == ast::type::Kind::eTaskPayloadNV )
-			astCheck( type->getType() == typesCache.getInt32() )
-			astCheck( !isStructType( type ) )
-			astCheck( !getStructType( *type ) )
-			astCheck( !getStructType( type ) )
-		}
-		{
-			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeTaskPayloadType( typesCache.getInt32() );
-			astCheckNoThrow( ast::debug::getTypeName( type ) )
-			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
-			astCheck( type->getRawKind() == ast::type::Kind::eTaskPayload )
-			astCheck( type->getKind() == ast::type::Kind::eTaskPayload )
 			astCheck( type->getType() == typesCache.getInt32() )
 			astCheck( !isStructType( type ) )
 			astCheck( !getStructType( *type ) )
@@ -644,7 +569,7 @@ namespace
 		astTestBegin( "testTessellationControlIO" );
 		{
 			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeTessellationOutputPatchType( typesCache.getInt32(), 17u );
+			auto type = typesCache.getTessellationOutputPatch( typesCache.getInt32(), 17u );
 			astCheckNoThrow( ast::debug::getTypeName( type ) )
 			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
 			astCheck( type->getRawKind() == ast::type::Kind::eTessellationOutputPatch )
@@ -657,7 +582,7 @@ namespace
 		}
 		{
 			ast::type::TypesCache typesCache;
-			auto type = ast::type::makeTessellationControlInputType( typesCache.getInt32(), 17u );
+			auto type = typesCache.getTessellationControlInput( typesCache.getInt32(), 17u );
 			astCheckNoThrow( ast::debug::getTypeName( type ) )
 			astCheckNoThrow( ast::debug::getTypeName( type->getKind() ) )
 			astCheck( type->getRawKind() == ast::type::Kind::eTessellationControlInput )
@@ -678,7 +603,7 @@ namespace
 					{
 						{
 							ast::type::TypesCache typesCache;
-							auto type = ast::type::makeTessellationControlOutputType( typesCache.getInt32()
+							auto type = typesCache.getTessellationControlOutput( typesCache.getInt32()
 								, ast::type::PatchDomain( domain )
 								, ast::type::Partitioning( partitioning )
 								, ast::type::OutputTopology( topology )
@@ -700,7 +625,7 @@ namespace
 						}
 						{
 							ast::type::TypesCache typesCache;
-							auto type = ast::type::makeTessellationControlOutputType( typesCache.getArray( typesCache.getInt32(), 4u )
+							auto type = typesCache.getTessellationControlOutput( typesCache.getArray( typesCache.getInt32(), 4u )
 								, ast::type::PatchDomain( domain )
 								, ast::type::Partitioning( partitioning )
 								, ast::type::OutputTopology( topology )
@@ -734,7 +659,7 @@ namespace
 		{
 			{
 				ast::type::TypesCache typesCache;
-				auto type = ast::type::makeTessellationInputPatchType( typesCache.getInt32()
+				auto type = typesCache.getTessellationInputPatch( typesCache.getInt32()
 					, ast::type::PatchDomain( domain )
 					, 17u );
 				astCheckNoThrow( ast::debug::getTypeName( type ) )
@@ -753,7 +678,7 @@ namespace
 				for ( uint32_t ordering = 0u; ordering <= uint32_t( ast::type::PrimitiveOrdering::eCCW ); ++ordering )
 				{
 					ast::type::TypesCache typesCache;
-					auto type = ast::type::makeTessellationEvaluationInputType( typesCache.getInt32()
+					auto type = typesCache.getTessellationEvaluationInput( typesCache.getInt32()
 						, ast::type::PatchDomain( domain )
 						, ast::type::Partitioning( partitioning )
 						, ast::type::PrimitiveOrdering( ordering )

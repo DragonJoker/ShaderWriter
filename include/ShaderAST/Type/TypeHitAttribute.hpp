@@ -17,7 +17,7 @@ namespace ast::type
 	public:
 		SDAST_API explicit HitAttribute( TypePtr dataType );
 
-		Kind getKind()const override
+		Kind getKind()const noexcept override
 		{
 			return m_dataType->getKind();
 		}
@@ -28,9 +28,9 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_dataType;
+		TypePtr m_dataType{};
 	};
-	using HitAttributePtr = std::shared_ptr< HitAttribute >;
+	using HitAttributePtr = HitAttribute *;
 }
 
 #endif

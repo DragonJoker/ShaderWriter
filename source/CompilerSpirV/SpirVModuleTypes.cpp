@@ -34,13 +34,13 @@ namespace spirv
 					if ( type->getKind() == ast::type::Kind::eArray )
 					{
 						result->declMember( member.name
-							, std::static_pointer_cast< ast::type::Array >( type ) );
+							, static_cast< ast::type::Array * >( type ) );
 					}
 					else if ( type->getKind() == ast::type::Kind::eStruct
 						|| type->getKind() == ast::type::Kind::eRayDesc )
 					{
 						result->declMember( member.name
-							, std::static_pointer_cast< ast::type::Struct >( type ) );
+							, static_cast< ast::type::Struct * >( type ) );
 					}
 					else
 					{
@@ -98,7 +98,7 @@ namespace spirv
 		static ast::type::TypePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Type const & qualified )
 		{
-			ast::type::TypePtr result;
+			ast::type::TypePtr result{};
 
 			if ( qualified.getRawKind() == ast::type::Kind::eArray )
 			{
@@ -565,7 +565,7 @@ namespace spirv
 					return;
 				}
 
-				auto image = std::static_pointer_cast< ast::type::Image >( iit->second->type );
+				auto image = static_cast< ast::type::Image * >( iit->second->type );
 				auto type = m_typesCache->getCombinedImage( image->getConfig() );
 				doRegisterTypeId( *instruction.resultId, type, false );
 			}
@@ -653,7 +653,7 @@ namespace spirv
 					if ( cit->second->type->getKind() == ast::type::Kind::eArray )
 					{
 						type->declMember( names.getMember( structId, i )
-							, std::static_pointer_cast< ast::type::Array >( cit->second->type ) );
+							, static_cast< ast::type::Array * >( cit->second->type ) );
 					}
 					else
 					{
@@ -693,7 +693,7 @@ namespace spirv
 						{
 							return lookup.second.id.id == paramTypeId;
 						} );
-					ast::type::TypePtr paramType;
+					ast::type::TypePtr paramType{};
 
 					if ( cit == m_registeredTypes.end() )
 					{
@@ -1293,34 +1293,34 @@ namespace spirv
 
 		if ( type->getRawKind() == ast::type::Kind::eArray )
 		{
-			type = std::static_pointer_cast< ast::type::Array >( type )->getType();
+			type = static_cast< ast::type::Array * >( type )->getType();
 		}
 
 		if ( auto kind = type->getRawKind();
 			kind == ast::type::Kind::eSampler )
 		{
-			result = doRegisterSamplerType( std::static_pointer_cast< ast::type::Sampler >( type ) );
+			result = doRegisterSamplerType( static_cast< ast::type::Sampler * >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eCombinedImage )
 		{
-			result = doRegisterCombinedImageType( std::static_pointer_cast< ast::type::CombinedImage >( type ) );
+			result = doRegisterCombinedImageType( static_cast< ast::type::CombinedImage * >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eImage )
 		{
-			result = doRegisterImageType( std::static_pointer_cast< ast::type::Image >( type ) );
+			result = doRegisterImageType( static_cast< ast::type::Image * >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eSampledImage )
 		{
-			result = doRegisterSampledImageType( std::static_pointer_cast< ast::type::SampledImage >( type ) );
+			result = doRegisterSampledImageType( static_cast< ast::type::SampledImage * >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eAccelerationStructure )
 		{
-			result = doRegisterAccelerationStructureType( std::static_pointer_cast< ast::type::AccelerationStructure >( type ) );
+			result = doRegisterAccelerationStructureType( static_cast< ast::type::AccelerationStructure * >( type ) );
 		}
 		else if ( kind == ast::type::Kind::eStruct
 			|| kind == ast::type::Kind::eRayDesc )
 		{
-			result = doRegisterStructType( std::static_pointer_cast< ast::type::Struct >( type )
+			result = doRegisterStructType( static_cast< ast::type::Struct * >( type )
 				, needsExplicitLayout
 				, mbrIndex
 				, parentId

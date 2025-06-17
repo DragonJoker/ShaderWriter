@@ -7,7 +7,7 @@ namespace ast::type
 {
 	CallableData::CallableData( TypePtr dataType
 		, uint32_t location )
-		: Type{ dataType->getTypesCache(), Kind::eCallableData }
+		: Type{ dataType->getTypesCache(), Kind::eCallableData, false }
 		, m_dataType{ dataType }
 		, m_location{ location }
 	{

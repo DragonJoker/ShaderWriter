@@ -38,23 +38,17 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 		FragmentOrigin m_origin;
 		FragmentCenter m_center;
 		InvocationOrdering m_ordering;
 	};
-	using FragmentInputPtr = std::shared_ptr< FragmentInput >;
+	using FragmentInputPtr = FragmentInput *;
 
-	inline FragmentInputPtr makeFragmentInputType( TypePtr type
+	SDAST_API size_t getHash( TypePtr type
 		, FragmentOrigin origin
 		, FragmentCenter center
-		, InvocationOrdering ordering )
-	{
-		return std::make_shared< FragmentInput >( type
-			, origin
-			, center
-			, ordering );
-	}
+		, InvocationOrdering ordering );
 }
 
 #endif

@@ -21,14 +21,9 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 	};
-	using TaskPayloadNVPtr = std::shared_ptr< TaskPayloadNV >;
-
-	inline TaskPayloadNVPtr makeTaskPayloadNVType( TypePtr type )
-	{
-		return std::make_shared< TaskPayloadNV >( type );
-	}
+	using TaskPayloadNVPtr = TaskPayloadNV *;
 
 	class TaskPayload
 		: public Type
@@ -42,14 +37,9 @@ namespace ast::type
 		}
 
 	private:
-		TypePtr m_type;
+		TypePtr m_type{};
 	};
-	using TaskPayloadPtr = std::shared_ptr< TaskPayload >;
-
-	inline TaskPayloadPtr makeTaskPayloadType( TypePtr type )
-	{
-		return std::make_shared< TaskPayload >( type );
-	}
+	using TaskPayloadPtr = TaskPayload *;
 }
 
 #endif

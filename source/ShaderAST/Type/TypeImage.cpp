@@ -7,7 +7,7 @@ namespace ast::type
 {
 	Image::Image( TypesCache & typesCache
 		, ImageConfiguration config )
-		: Type{ typesCache, Kind::eImage }
+		: Type{ typesCache, Kind::eImage, false }
 		, m_config{ std::move( config ) }
 	{
 	}

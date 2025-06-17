@@ -464,7 +464,6 @@ namespace ast
 					&& !isScalarType( expr->getArgList().front()->getType()->getKind() ) )
 				{
 					auto const & arg = *expr->getArgList().front();
-					auto argType = arg.getType();
 					ast::var::VariablePtr alias;
 					ast::expr::ExprPtr argAlias{};
 					ast::expr::ExprList args;
@@ -510,7 +509,7 @@ namespace ast
 					funcVar = varIt->second;
 				}
 
-				auto fnType = std::static_pointer_cast< ast::type::Function >( funcVar->getType() );
+				auto fnType = static_cast< ast::type::Function * >( funcVar->getType() );
 				visitType( fnType->getReturnType() );
 				auto it = fnType->begin();
 
@@ -1339,9 +1338,9 @@ namespace ast
 					{
 						auto funcVar = stmt->getFuncVar();
 						auto funcType = stmt->getType();
-						auto inType = type::makeGeometryInputType( m_inputGeometryLayoutStmt->getType()
+						auto inType = m_typesCache.getGeometryInput( m_inputGeometryLayoutStmt->getType()
 							, m_inputGeometryLayoutStmt->getLayout() );
-						auto outType = type::makeGeometryOutputType( m_outputGeometryLayoutStmt->getType()
+						auto outType = m_typesCache.getGeometryOutput( m_outputGeometryLayoutStmt->getType()
 							, m_outputGeometryLayoutStmt->getLayout()
 							, m_outputGeometryLayoutStmt->getPrimCount() );
 						var::VariableList parameters;

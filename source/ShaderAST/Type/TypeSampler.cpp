@@ -7,7 +7,7 @@ namespace ast::type
 {
 	Sampler::Sampler( TypesCache & typesCache
 		, bool comparison )
-		: Type{ typesCache, Kind::eSampler }
+		: Type{ typesCache, Kind::eSampler, false }
 		, m_comparison{ comparison }
 	{
 	}

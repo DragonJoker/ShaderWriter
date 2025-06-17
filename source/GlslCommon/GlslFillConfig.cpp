@@ -721,7 +721,7 @@ namespace glsl
 			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
 				m_result.requiredExtensions.insert( ARB_shader_image_load_store );
-				auto image = std::static_pointer_cast< ast::type::Image >( stmt->getVariable()->getType() );
+				auto image = static_cast< ast::type::Image * >( stmt->getVariable()->getType() );
 				doParseImageConfig( image->getConfig() );
 			}
 
@@ -740,7 +740,7 @@ namespace glsl
 
 			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
-				auto image = std::static_pointer_cast< ast::type::CombinedImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+				auto image = static_cast< ast::type::CombinedImage * >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 				doParseImageConfig( image->getConfig() );
 			}
 
@@ -748,7 +748,7 @@ namespace glsl
 			{
 				m_result.requiredExtensions.insert( KHR_vulkan_glsl );
 				m_result.requiresSeparateSamplers = true;
-				auto image = std::static_pointer_cast< ast::type::SampledImage >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
+				auto image = static_cast< ast::type::SampledImage * >( ast::type::getNonArrayTypeRec( stmt->getVariable()->getType() ) );
 				doParseImageConfig( image->getConfig() );
 			}
 

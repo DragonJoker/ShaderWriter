@@ -374,15 +374,14 @@ namespace hlsl
 			void visitCombinedImageDeclStmt( ast::stmt::CombinedImageDecl const * stmt )override
 			{
 				auto originalVar = stmt->getVariable();
-				ast::type::TypePtr sampledType;
-				ast::type::TypePtr samplerType;
-				ast::type::TypePtr imageType;
+				ast::type::TypePtr samplerType{};
+				ast::type::TypePtr imageType{};
 				ast::type::ImageConfiguration config;
 
 				if ( originalVar->getType()->getKind() == ast::type::Kind::eArray )
 				{
-					auto arrayType = std::static_pointer_cast< ast::type::Array >( originalVar->getType() );
-					auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( arrayType->getType() );
+					auto arrayType = static_cast< ast::type::Array * >( originalVar->getType() );
+					auto realSampledType = static_cast< ast::type::CombinedImage * >( arrayType->getType() );
 					imageType = m_typesCache.getArray( realSampledType->getImageType(), arrayType->getArraySize() );
 					config = realSampledType->getConfig();
 
@@ -397,7 +396,7 @@ namespace hlsl
 				}
 				else
 				{
-					auto realSampledType = std::static_pointer_cast< ast::type::CombinedImage >( originalVar->getType() );
+					auto realSampledType = static_cast< ast::type::CombinedImage * >( originalVar->getType() );
 					imageType = realSampledType->getImageType();
 					config = realSampledType->getConfig();
 

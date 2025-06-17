@@ -38,7 +38,7 @@ namespace ast::stmt
 		}
 
 	private:
-		type::TypePtr m_type;
+		type::TypePtr m_type{};
 		type::OutputLayout m_layout;
 		uint32_t m_primCount;
 	};

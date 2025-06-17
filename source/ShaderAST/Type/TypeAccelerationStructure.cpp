@@ -6,7 +6,7 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	AccelerationStructure::AccelerationStructure( TypesCache & typesCache )
-		: Type{ typesCache, Kind::eAccelerationStructure }
+		: Type{ typesCache, Kind::eAccelerationStructure, false }
 	{
 	}
 }

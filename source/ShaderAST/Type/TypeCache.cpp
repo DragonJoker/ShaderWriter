@@ -14,10 +14,26 @@ namespace ast::type
 	//*************************************************************************
 
 	TypesCache::TypesCache()
-		: m_accelerationStructure{ std::make_shared< AccelerationStructure >( *this ) }
+		: m_accelerationStructure{ std::make_unique< AccelerationStructure >( *this ) }
+		, m_basic{ [this]( ast::type::Kind kind, bool explicitLayout )
+			{
+				return std::make_unique< Type >( *this, kind, explicitLayout );
+			}
+			, []( ast::type::Kind kind, bool explicitLayout )noexcept
+			{
+				return ast::type::getHash( kind, explicitLayout );
+			} }
+		, m_member{ [this]( TypePtr type, StructPtr parent, uint32_t mbrIndex )
+			{
+				return std::make_unique< Type >( *this, parent, mbrIndex, *type );
+			}
+			, []( TypePtr type, StructPtr parent, uint32_t mbrIndex )noexcept
+			{
+				return ast::type::getHash( type, parent, mbrIndex );
+			} }
 		, m_image{ [this]( ImageConfiguration config )
 			{
-				return std::make_shared< Image >( *this, std::move( config ) );
+				return std::make_unique< Image >( *this, std::move( config ) );
 			}
 			, []( ImageConfiguration const & config )noexcept
 			{
@@ -25,7 +41,7 @@ namespace ast::type
 			} }
 		, m_texture{ [this]( ImageConfiguration config, bool isComparison )
 			{
-				return std::make_shared< CombinedImage >( *this, std::move( config ), isComparison );
+				return std::make_unique< CombinedImage >( *this, std::move( config ), isComparison );
 			}
 			, []( ImageConfiguration const & config, bool isComparison )noexcept
 			{
@@ -33,7 +49,7 @@ namespace ast::type
 			} }
 		, m_sampledImage{ [this]( ImageConfiguration config, Trinary comparison )
 			{
-				return std::make_shared< SampledImage >( *this, std::move( config ), comparison );
+				return std::make_unique< SampledImage >( *this, std::move( config ), comparison );
 			}
 			, []( ImageConfiguration const & config, Trinary )noexcept
 			{
@@ -41,7 +57,7 @@ namespace ast::type
 			} }
 		, m_sampler{ [this]( bool comparison )
 			{
-				return std::make_shared< Sampler >( *this, comparison );
+				return std::make_unique< Sampler >( *this, comparison );
 			}
 			, []( bool comparison )noexcept
 			{
@@ -50,7 +66,7 @@ namespace ast::type
 		, m_function{ []( TypePtr returnType
 				, var::VariableList parameters )
 			{
-				return std::make_shared< Function >( returnType
+				return std::make_unique< Function >( returnType
 					, std::move( parameters ) );
 			}
 			, []( TypePtr returnType
@@ -59,23 +75,26 @@ namespace ast::type
 				return ast::type::getHash( returnType, parameters );
 			} }
 		, m_struct{ [this]( MemoryLayout layout
-				, std::string name )
+				, std::string name
+				, bool explicitLayout )
 			{
-				return std::make_shared< BaseStruct >( *this
+				return std::make_unique< BaseStruct >( *this
 					, layout
-					, std::move( name ) );
+					, std::move( name )
+					, explicitLayout );
 			}
 			, []( MemoryLayout layout
-				, std::string const & name )noexcept
+				, std::string const & name
+				, bool explicitLayout )noexcept
 			{
-				return ast::type::getHash( layout, name );
+				return ast::type::getHash( layout, name, explicitLayout );
 			} }
 		, m_inputStruct{ [this]( MemoryLayout layout
 				, std::string name
 				, EntryPoint entryPoint
 				, var::Flag flag )
 			{
-				return std::make_shared< IOStruct >( *this
+				return std::make_unique< IOStruct >( *this
 					, layout
 					, std::move( name )
 					, entryPoint
@@ -93,7 +112,7 @@ namespace ast::type
 				, EntryPoint entryPoint
 				, var::Flag flag )
 			{
-				return std::make_shared< IOStruct >( *this
+				return std::make_unique< IOStruct >( *this
 					, layout
 					, std::move( name )
 					, entryPoint
@@ -107,21 +126,24 @@ namespace ast::type
 				return ast::type::getHash( layout, name, entryPoint, flag );
 			} }
 		, m_array{ []( TypePtr type
-				, uint32_t arraySize )
+				, uint32_t arraySize
+				, bool explicitLayout )
 			{
-				return std::make_shared< Array >( std::move( type )
-					, arraySize );
+				return std::make_unique< Array >( std::move( type )
+					, arraySize
+					, explicitLayout );
 			}
 			, []( TypePtr type
-				, uint32_t arraySize )noexcept
+				, uint32_t arraySize
+				, bool explicitLayout )noexcept
 			{
-				return ast::type::getHash( type, arraySize );
+				return ast::type::getHash( type, arraySize, explicitLayout );
 			} }
 		, m_pointer{ []( TypePtr pointerType
 				, Storage storage
 				, bool isForward )
 			{
-				return std::make_shared< Pointer >( std::move( pointerType )
+				return std::make_unique< Pointer >( std::move( pointerType )
 					, storage
 					, isForward );
 			}
@@ -134,28 +156,28 @@ namespace ast::type
 		, m_rayPayload{ []( TypePtr type
 				, uint32_t location )
 			{
-				return std::make_shared< RayPayload >( std::move( type )
+				return std::make_unique< RayPayload >( std::move( type )
 					, location );
 			}
 			, []( TypePtr type
 				, uint32_t location )noexcept
 			{
-				return ast::type::getHash( type, location );
+				return ast::type::getHash( type, location, false );
 			} }
 		, m_callableData{ []( TypePtr type
 				, uint32_t location )
 			{
-				return std::make_shared< CallableData >( std::move( type )
+				return std::make_unique< CallableData >( std::move( type )
 					, location );
 			}
 			, []( TypePtr type
 				, uint32_t location )noexcept
 			{
-				return ast::type::getHash( type, location );
+				return ast::type::getHash( type, location, false );
 			} }
 		, m_hitAttribute{ []( TypePtr type )
 			{
-				return std::make_shared< HitAttribute >( type );
+				return std::make_unique< HitAttribute >( type );
 			}
 			, []( TypePtr type )noexcept
 			{
@@ -164,18 +186,18 @@ namespace ast::type
 		, m_meshVertexOutput{ []( TypePtr type
 			, uint32_t maxVertices )
 			{
-				return std::make_shared< MeshVertexOutput >( type, maxVertices );
+				return std::make_unique< MeshVertexOutput >( type, maxVertices );
 			}
 			, []( TypePtr type
 				, uint32_t maxVertices )noexcept
 			{
-				return getHash( type, maxVertices );
+				return getHash( type, maxVertices, false );
 			} }
 		, m_meshPrimitiveOutput{ []( TypePtr type
 			, OutputTopology topology
 			, uint32_t maxPrimitives )
 			{
-				return std::make_shared< MeshPrimitiveOutput >( type, topology, maxPrimitives );
+				return std::make_unique< MeshPrimitiveOutput >( type, topology, maxPrimitives );
 			}
 			, []( TypePtr type
 				, OutputTopology topology
@@ -185,7 +207,7 @@ namespace ast::type
 			} }
 		, m_taskPayloadNV{ []( TypePtr type )
 			{
-				return std::make_shared< TaskPayloadNV >( type );
+				return std::make_unique< TaskPayloadNV >( type );
 			}
 			, []( TypePtr type )noexcept
 			{
@@ -193,7 +215,7 @@ namespace ast::type
 			} }
 		, m_taskPayloadInNV{ []( TypePtr type )
 			{
-				return std::make_shared< TaskPayloadInNV >( type );
+				return std::make_unique< TaskPayloadInNV >( type );
 			}
 			, []( TypePtr type )noexcept
 			{
@@ -201,7 +223,7 @@ namespace ast::type
 			} }
 		, m_taskPayload{ []( TypePtr type )
 			{
-				return std::make_shared< TaskPayload >( type );
+				return std::make_unique< TaskPayload >( type );
 			}
 			, []( TypePtr type )noexcept
 			{
@@ -209,19 +231,86 @@ namespace ast::type
 			} }
 		, m_taskPayloadIn{ []( TypePtr type )
 			{
-				return std::make_shared< TaskPayloadIn >( type );
+				return std::make_unique< TaskPayloadIn >( type );
 			}
 			, []( TypePtr type )noexcept
 			{
 				return std::hash< TypePtr >{}( type );
 			} }
+		, m_compute{ []( TypePtr type, uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ )
+			{
+				return std::make_unique< ComputeInput >( type, localSizeX, localSizeY, localSizeZ );
+			}
+			, []( TypePtr type, uint32_t localSizeX, uint32_t localSizeY, uint32_t localSizeZ )noexcept
+			{
+				return getHash( type, localSizeX, localSizeY, localSizeZ );
+			} }
+		, m_fragment{ []( TypePtr type, FragmentOrigin origin, FragmentCenter center, InvocationOrdering ordering )
+			{
+				return std::make_unique< FragmentInput >( type, origin, center, ordering );
+			}
+			, []( TypePtr type, FragmentOrigin origin, FragmentCenter center, InvocationOrdering ordering )noexcept
+			{
+				return getHash( type, origin, center, ordering );
+			} }
+		, m_geometryInput{ []( TypePtr type, InputLayout layout )
+			{
+				return std::make_unique< GeometryInput >( type, layout );
+			}
+			, []( TypePtr type, InputLayout layout )noexcept
+			{
+				return getHash( type, layout );
+			} }
+		, m_geometryOutput{ []( TypePtr type, OutputLayout layout, uint32_t count )
+			{
+				return std::make_unique< GeometryOutput >( type, layout, count );
+			}
+			, []( TypePtr type, OutputLayout layout, uint32_t count )noexcept
+			{
+				return getHash( type, layout, count );
+			} }
+		, m_tessellationOutputPatch{ []( TypePtr type, uint32_t location )
+			{
+				return std::make_unique< TessellationOutputPatch >( type, location );
+			}
+			, []( TypePtr type, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, location, false );
+			} }
+		, m_tessellationControlInput{ []( TypePtr type, uint32_t inputVertices )
+			{
+				return std::make_unique< TessellationControlInput >( type, inputVertices );
+			}
+			, []( TypePtr type, uint32_t inputVertices )noexcept
+			{
+				return ast::type::getHash( type, inputVertices, false );
+			} }
+		, m_tessellationControlOutput{ []( TypePtr type, PatchDomain domain, Partitioning partitioning, OutputTopology topology, PrimitiveOrdering order, uint32_t outputVertices )
+			{
+				return std::make_unique< TessellationControlOutput >( type, domain, partitioning, topology, order, outputVertices );
+			}
+			, []( TypePtr type, PatchDomain domain, Partitioning partitioning, OutputTopology topology, PrimitiveOrdering order, uint32_t outputVertices )noexcept
+			{
+				return getHash( type, domain, partitioning, topology, order, outputVertices );
+			} }
+		, m_tessellationInputPatch{ []( TypePtr type, PatchDomain domain, uint32_t location )
+			{
+				return std::make_unique< TessellationInputPatch >( type, domain, location );
+			}
+			, []( TypePtr type, PatchDomain domain, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, domain, location );
+			} }
+		, m_tessellationEvaluationInput{ []( TypePtr type, PatchDomain domain, Partitioning partitioning, PrimitiveOrdering order, uint32_t outputVertices )
+			{
+				return std::make_unique< TessellationEvaluationInput >( type, domain, partitioning, order, outputVertices );
+			}
+			, []( TypePtr type, PatchDomain domain, Partitioning partitioning, PrimitiveOrdering order, uint32_t outputVertices )noexcept
+			{
+				return getHash( type, domain, partitioning, order, outputVertices );
+			} }
 	{
-		for ( auto i = uint32_t( Kind::eUndefined ); i <= uint32_t( Kind::eBasicTypesMax ); ++i )
-		{
-			m_basicTypes[i] = std::make_shared< Type >( *this, Kind( i ) );
-		}
-
-		m_rayDesc = std::make_shared< RayDesc >( *this );
+		m_rayDesc = std::make_unique< RayDesc >( *this );
 	}
 
 	TypePtr TypesCache::getUndefined()
@@ -474,94 +563,94 @@ namespace ast::type
 		return getBasicType( Kind::eVec4D );
 	}
 
-	TypePtr TypesCache::getMat2x2F()
+	TypePtr TypesCache::getMat2x2F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat2x2F );
+		return m_basic.getType( Kind::eMat2x2F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat2x3F()
+	TypePtr TypesCache::getMat2x3F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat2x3F );
+		return m_basic.getType( Kind::eMat2x3F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat2x4F()
+	TypePtr TypesCache::getMat2x4F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat2x4F );
+		return m_basic.getType( Kind::eMat2x4F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat3x2F()
+	TypePtr TypesCache::getMat3x2F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat3x2F );
+		return m_basic.getType( Kind::eMat3x2F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat3x3F()
+	TypePtr TypesCache::getMat3x3F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat3x3F );
+		return m_basic.getType( Kind::eMat3x3F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat3x4F()
+	TypePtr TypesCache::getMat3x4F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat3x4F );
+		return m_basic.getType( Kind::eMat3x4F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat4x2F()
+	TypePtr TypesCache::getMat4x2F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat4x2F );
+		return m_basic.getType( Kind::eMat4x2F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat4x3F()
+	TypePtr TypesCache::getMat4x3F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat4x3F );
+		return m_basic.getType( Kind::eMat4x3F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat4x4F()
+	TypePtr TypesCache::getMat4x4F( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat4x4F );
+		return m_basic.getType( Kind::eMat4x4F, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat2x2D()
+	TypePtr TypesCache::getMat2x2D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat2x2D );
+		return m_basic.getType( Kind::eMat2x2D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat2x3D()
+	TypePtr TypesCache::getMat2x3D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat2x3D );
+		return m_basic.getType( Kind::eMat2x3D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat2x4D()
+	TypePtr TypesCache::getMat2x4D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat2x4D );
+		return m_basic.getType( Kind::eMat2x4D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat3x2D()
+	TypePtr TypesCache::getMat3x2D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat3x2D );
+		return m_basic.getType( Kind::eMat3x2D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat3x3D()
+	TypePtr TypesCache::getMat3x3D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat3x3D );
+		return m_basic.getType( Kind::eMat3x3D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat3x4D()
+	TypePtr TypesCache::getMat3x4D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat3x4D );
+		return m_basic.getType( Kind::eMat3x4D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat4x2D()
+	TypePtr TypesCache::getMat4x2D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat4x2D );
+		return m_basic.getType( Kind::eMat4x2D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat4x3D()
+	TypePtr TypesCache::getMat4x3D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat4x3D );
+		return m_basic.getType( Kind::eMat4x3D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getMat4x4D()
+	TypePtr TypesCache::getMat4x4D( bool explicitLayout )
 	{
-		return getBasicType( Kind::eMat4x4D );
+		return m_basic.getType( Kind::eMat4x4D, explicitLayout );
 	}
 
 	TypePtr TypesCache::getBasicType( Kind kind )
@@ -570,211 +659,10 @@ namespace ast::type
 			&& kind <= Kind::eBasicTypesMax );
 		TypePtr result{};
 
-		switch ( kind )
+		if ( kind >= Kind::eUndefined
+			&& kind <= Kind::eBasicTypesMax )
 		{
-		case Kind::eUndefined:
-			result = m_basicTypes[size_t( Kind::eUndefined )];
-			break;
-		case Kind::eVoid:
-			result = m_basicTypes[size_t( Kind::eVoid )];
-			break;
-		case Kind::eBoolean:
-			result = m_basicTypes[size_t( Kind::eBoolean )];
-			break;
-		case Kind::eInt8:
-			result = m_basicTypes[size_t( Kind::eInt8 )];
-			break;
-		case Kind::eInt16:
-			result = m_basicTypes[size_t( Kind::eInt16 )];
-			break;
-		case Kind::eInt32:
-			result = m_basicTypes[size_t( Kind::eInt32 )];
-			break;
-		case Kind::eInt64:
-			result = m_basicTypes[size_t( Kind::eInt64 )];
-			break;
-		case Kind::eUInt8:
-			result = m_basicTypes[size_t( Kind::eUInt8 )];
-			break;
-		case Kind::eUInt16:
-			result = m_basicTypes[size_t( Kind::eUInt16 )];
-			break;
-		case Kind::eUInt32:
-			result = m_basicTypes[size_t( Kind::eUInt32 )];
-			break;
-		case Kind::eUInt64:
-			result = m_basicTypes[size_t( Kind::eUInt64 )];
-			break;
-		case Kind::eHalf:
-			result = m_basicTypes[size_t( Kind::eHalf )];
-			break;
-		case Kind::eFloat:
-			result = m_basicTypes[size_t( Kind::eFloat )];
-			break;
-		case Kind::eDouble:
-			result = m_basicTypes[size_t( Kind::eDouble )];
-			break;
-		case Kind::eVec2B:
-			result = m_basicTypes[size_t( Kind::eVec2B )];
-			break;
-		case Kind::eVec3B:
-			result = m_basicTypes[size_t( Kind::eVec3B )];
-			break;
-		case Kind::eVec4B:
-			result = m_basicTypes[size_t( Kind::eVec4B )];
-			break;
-		case Kind::eVec2I8:
-			result = m_basicTypes[size_t( Kind::eVec2I8 )];
-			break;
-		case Kind::eVec3I8:
-			result = m_basicTypes[size_t( Kind::eVec3I8 )];
-			break;
-		case Kind::eVec4I8:
-			result = m_basicTypes[size_t( Kind::eVec4I8 )];
-			break;
-		case Kind::eVec2I16:
-			result = m_basicTypes[size_t( Kind::eVec2I16 )];
-			break;
-		case Kind::eVec3I16:
-			result = m_basicTypes[size_t( Kind::eVec3I16 )];
-			break;
-		case Kind::eVec4I16:
-			result = m_basicTypes[size_t( Kind::eVec4I16 )];
-			break;
-		case Kind::eVec2I32:
-			result = m_basicTypes[size_t( Kind::eVec2I32 )];
-			break;
-		case Kind::eVec3I32:
-			result = m_basicTypes[size_t( Kind::eVec3I32 )];
-			break;
-		case Kind::eVec4I32:
-			result = m_basicTypes[size_t( Kind::eVec4I32 )];
-			break;
-		case Kind::eVec2I64:
-			result = m_basicTypes[size_t( Kind::eVec2I64 )];
-			break;
-		case Kind::eVec3I64:
-			result = m_basicTypes[size_t( Kind::eVec3I64 )];
-			break;
-		case Kind::eVec4I64:
-			result = m_basicTypes[size_t( Kind::eVec4I64 )];
-			break;
-		case Kind::eVec2U8:
-			result = m_basicTypes[size_t( Kind::eVec2U8 )];
-			break;
-		case Kind::eVec3U8:
-			result = m_basicTypes[size_t( Kind::eVec3U8 )];
-			break;
-		case Kind::eVec4U8:
-			result = m_basicTypes[size_t( Kind::eVec4U8 )];
-			break;
-		case Kind::eVec2U16:
-			result = m_basicTypes[size_t( Kind::eVec2U16 )];
-			break;
-		case Kind::eVec3U16:
-			result = m_basicTypes[size_t( Kind::eVec3U16 )];
-			break;
-		case Kind::eVec4U16:
-			result = m_basicTypes[size_t( Kind::eVec4U16 )];
-			break;
-		case Kind::eVec2U32:
-			result = m_basicTypes[size_t( Kind::eVec2U32 )];
-			break;
-		case Kind::eVec3U32:
-			result = m_basicTypes[size_t( Kind::eVec3U32 )];
-			break;
-		case Kind::eVec4U32:
-			result = m_basicTypes[size_t( Kind::eVec4U32 )];
-			break;
-		case Kind::eVec2U64:
-			result = m_basicTypes[size_t( Kind::eVec2U64 )];
-			break;
-		case Kind::eVec3U64:
-			result = m_basicTypes[size_t( Kind::eVec3U64 )];
-			break;
-		case Kind::eVec4U64:
-			result = m_basicTypes[size_t( Kind::eVec4U64 )];
-			break;
-		case Kind::eVec2H:
-			result = m_basicTypes[size_t( Kind::eVec2H )];
-			break;
-		case Kind::eVec4H:
-			result = m_basicTypes[size_t( Kind::eVec4H )];
-			break;
-		case Kind::eVec2F:
-			result = m_basicTypes[size_t( Kind::eVec2F )];
-			break;
-		case Kind::eVec3F:
-			result = m_basicTypes[size_t( Kind::eVec3F )];
-			break;
-		case Kind::eVec4F:
-			result = m_basicTypes[size_t( Kind::eVec4F )];
-			break;
-		case Kind::eVec2D:
-			result = m_basicTypes[size_t( Kind::eVec2D )];
-			break;
-		case Kind::eVec3D:
-			result = m_basicTypes[size_t( Kind::eVec3D )];
-			break;
-		case Kind::eVec4D:
-			result = m_basicTypes[size_t( Kind::eVec4D )];
-			break;
-		case Kind::eMat2x2F:
-			result = m_basicTypes[size_t( Kind::eMat2x2F )];
-			break;
-		case Kind::eMat2x3F:
-			result = m_basicTypes[size_t( Kind::eMat2x3F )];
-			break;
-		case Kind::eMat2x4F:
-			result = m_basicTypes[size_t( Kind::eMat2x4F )];
-			break;
-		case Kind::eMat3x2F:
-			result = m_basicTypes[size_t( Kind::eMat3x2F )];
-			break;
-		case Kind::eMat3x3F:
-			result = m_basicTypes[size_t( Kind::eMat3x3F )];
-			break;
-		case Kind::eMat3x4F:
-			result = m_basicTypes[size_t( Kind::eMat3x4F )];
-			break;
-		case Kind::eMat4x2F:
-			result = m_basicTypes[size_t( Kind::eMat4x2F )];
-			break;
-		case Kind::eMat4x3F:
-			result = m_basicTypes[size_t( Kind::eMat4x3F )];
-			break;
-		case Kind::eMat4x4F:
-			result = m_basicTypes[size_t( Kind::eMat4x4F )];
-			break;
-		case Kind::eMat2x2D:
-			result = m_basicTypes[size_t( Kind::eMat2x2D )];
-			break;
-		case Kind::eMat2x3D:
-			result = m_basicTypes[size_t( Kind::eMat2x3D )];
-			break;
-		case Kind::eMat2x4D:
-			result = m_basicTypes[size_t( Kind::eMat2x4D )];
-			break;
-		case Kind::eMat3x2D:
-			result = m_basicTypes[size_t( Kind::eMat3x2D )];
-			break;
-		case Kind::eMat3x3D:
-			result = m_basicTypes[size_t( Kind::eMat3x3D )];
-			break;
-		case Kind::eMat3x4D:
-			result = m_basicTypes[size_t( Kind::eMat3x4D )];
-			break;
-		case Kind::eMat4x2D:
-			result = m_basicTypes[size_t( Kind::eMat4x2D )];
-			break;
-		case Kind::eMat4x3D:
-			result = m_basicTypes[size_t( Kind::eMat4x3D )];
-			break;
-		case Kind::eMat4x4D:
-			result = m_basicTypes[size_t( Kind::eMat4x4D )];
-			break;
-		default:
-			break;
+			result = m_basic.getType( kind, false );
 		}
 
 		AST_Assert( result && "Unsupported Kind" );
@@ -800,30 +688,6 @@ namespace ast::type
 	TypePtr TypesCache::getVec4Type( Kind kind )
 	{
 		kind = getVec4Kind( kind );
-		return kind == Kind::eUndefined
-			? nullptr
-			: getBasicType( kind );
-	}
-
-	TypePtr TypesCache::getMat2Type( Kind kind )
-	{
-		kind = getMat2Kind( kind );
-		return kind == Kind::eUndefined
-			? nullptr
-			: getBasicType( kind );
-	}
-
-	TypePtr TypesCache::getMat3Type( Kind kind )
-	{
-		kind = getMat3Kind( kind );
-		return kind == Kind::eUndefined
-			? nullptr
-			: getBasicType( kind );
-	}
-
-	TypePtr TypesCache::getMat4Type( Kind kind )
-	{
-		kind = getMat4Kind( kind );
 		return kind == Kind::eUndefined
 			? nullptr
 			: getBasicType( kind );
@@ -1099,9 +963,105 @@ namespace ast::type
 		return result;
 	}
 
+	ComputeInputPtr TypesCache::getComputeInput( TypePtr type
+		, uint32_t localSizeX
+		, uint32_t localSizeY
+		, uint32_t localSizeZ )
+	{
+		return m_compute.getType( type, localSizeX, localSizeY, localSizeZ );
+	}
+
+	FragmentInputPtr TypesCache::getFragmentInput( TypePtr type
+		, FragmentOrigin origin
+		, FragmentCenter center
+		, InvocationOrdering ordering )
+	{
+		return m_fragment.getType( type, origin, center, ordering );
+	}
+
+	GeometryInputPtr TypesCache::getGeometryInput( TypePtr type
+		, InputLayout layout )
+	{
+		return m_geometryInput.getType( type, layout );
+	}
+
+	GeometryOutputPtr TypesCache::getGeometryOutput( TypePtr type
+		, OutputLayout layout
+		, uint32_t count )
+	{
+		return m_geometryOutput.getType( type, layout, count );
+	}
+
+	TessellationOutputPatchPtr TypesCache::getTessellationOutputPatch( TypePtr type, uint32_t location )
+	{
+		return m_tessellationOutputPatch.getType( type, location );
+	}
+
+	TessellationControlInputPtr TypesCache::getTessellationControlInput( TypePtr type, uint32_t inputVertices )
+	{
+		return m_tessellationControlInput.getType( type, inputVertices );
+	}
+
+	TessellationControlOutputPtr TypesCache::getTessellationControlOutput( TypePtr type
+		, PatchDomain domain
+		, Partitioning partitioning
+		, OutputTopology topology
+		, PrimitiveOrdering order
+		, uint32_t outputVertices )
+	{
+		return m_tessellationControlOutput.getType( type, domain, partitioning, topology, order, outputVertices );
+	}
+
+	TessellationInputPatchPtr TypesCache::getTessellationInputPatch( TypePtr type, PatchDomain domain, uint32_t location )
+	{
+		return m_tessellationInputPatch.getType( type, domain, location );
+	}
+
+	TessellationEvaluationInputPtr TypesCache::getTessellationEvaluationInput( TypePtr type
+		, PatchDomain domain
+		, Partitioning partitioning
+		, PrimitiveOrdering order
+		, uint32_t inputVertices )
+	{
+		return m_tessellationEvaluationInput.getType( type, domain, partitioning, order, inputVertices );
+	}
+
+	MeshPrimitiveOutputPtr TypesCache::getMeshPrimitiveOutput( TypePtr type
+		, OutputTopology topology
+		, uint32_t maxPrimitives )
+	{
+		return m_meshPrimitiveOutput.getType( type, topology, maxPrimitives );
+	}
+
+	MeshVertexOutputPtr TypesCache::getMeshVertexOutput( TypePtr type
+		, uint32_t maxVertices )
+	{
+		return m_meshVertexOutput.getType( type, maxVertices );
+	}
+
+	TaskPayloadInPtr TypesCache::getTaskPayloadIn( TypePtr type )
+	{
+		return m_taskPayloadIn.getType( type );
+	}
+
+	TaskPayloadInNVPtr TypesCache::getTaskPayloadInNV( TypePtr type )
+	{
+		return m_taskPayloadInNV.getType( type );
+	}
+
+	TaskPayloadPtr TypesCache::getTaskPayload( TypePtr type )
+	{
+		return m_taskPayload.getType( type );
+	}
+
+	TaskPayloadNVPtr TypesCache::getTaskPayloadNV( TypePtr type )
+	{
+		return m_taskPayloadNV.getType( type );
+	}
+
 	AccelerationStructurePtr TypesCache::getAccelerationStructure()
 	{
-		return m_accelerationStructure;
+		return m_accelerationStructure.get();
 	}
 
 	HitAttributePtr TypesCache::getHitAttribute( TypePtr dataType )
@@ -1121,40 +1081,7 @@ namespace ast::type
 
 	RayDescPtr TypesCache::getRayDesc()
 	{
-		return m_rayDesc;
-	}
-
-	MeshVertexOutputPtr TypesCache::getMeshVertexOutput( TypePtr type
-		, uint32_t maxVertices )
-	{
-		return m_meshVertexOutput.getType( type, maxVertices );
-	}
-
-	MeshPrimitiveOutputPtr TypesCache::getMeshPrimitiveOutput( TypePtr type
-		, OutputTopology topology
-		, uint32_t maxPrimitives )
-	{
-		return m_meshPrimitiveOutput.getType( type, topology, maxPrimitives );
-	}
-
-	TaskPayloadNVPtr TypesCache::getTaskPayloadNV( TypePtr type )
-	{
-		return m_taskPayloadNV.getType( type );
-	}
-
-	TaskPayloadInNVPtr TypesCache::getTaskPayloadInNV( TypePtr type )
-	{
-		return m_taskPayloadInNV.getType( type );
-	}
-
-	TaskPayloadPtr TypesCache::getTaskPayload( TypePtr type )
-	{
-		return m_taskPayload.getType( type );
-	}
-
-	TaskPayloadInPtr TypesCache::getTaskPayloadIn( TypePtr type )
-	{
-		return m_taskPayloadIn.getType( type );
+		return m_rayDesc.get();
 	}
 
 	ImagePtr TypesCache::getImage( ImageConfiguration config )
@@ -1364,14 +1291,20 @@ namespace ast::type
 	}
 
 	BaseStructPtr TypesCache::getStruct( MemoryLayout layout
-		, std::string const & name )
+		, std::string const & name
+		, bool explicitLayout )
 	{
-		return m_struct.getType( layout, name );
+		return m_struct.getType( layout, name, explicitLayout );
 	}
 
 	IOStructPtr TypesCache::getIOStruct( std::string const & name
 		, ast::EntryPoint entryPoint
 		, var::Flag flag )
+	{
+		return getIOStruct( name, entryPoint, MemoryLayout::eC, flag );
+	}
+
+	IOStructPtr TypesCache::getIOStruct( std::string const & name, ast::EntryPoint entryPoint, ast::type::MemoryLayout layout, var::Flag flag )
 	{
 		if ( !hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
 			&& !hasFlag( uint64_t( flag ), var::Flag::eShaderOutput )
@@ -1383,26 +1316,42 @@ namespace ast::type
 		}
 
 		return ( hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
-			? m_inputStruct.getType( MemoryLayout::eC, name, entryPoint, flag )
-			: m_outputStruct.getType( MemoryLayout::eC, name, entryPoint, flag ) );
+			? m_inputStruct.getType( layout, name, entryPoint, flag )
+			: m_outputStruct.getType( layout, name, entryPoint, flag ) );
 	}
 
 	ArrayPtr TypesCache::getArray( TypePtr type
-		, uint32_t arraySize )
+		, uint32_t arraySize
+		, bool explicitLayout )
 	{
-		return m_array.getType( type, arraySize );
-	}
-
-	TypePtr TypesCache::getMemberType( TypePtr type
-		, Struct & parent
-		, uint32_t memberIndex )const
-	{
-		return type->getMemberType( parent, memberIndex );
+		return m_array.getType( type, arraySize, explicitLayout );
 	}
 
 	Type const * TypesCache::getNonMemberType( TypePtr type )const
 	{
 		return type->getNonMemberType();
+	}
+
+	TypePtr TypesCache::getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex )
+	{
+		if ( type->getKind() == Kind::eArray )
+			return getMemberType( static_cast< Array * >( type ), parent, memberIndex );
+		if ( type->getKind() == Kind::eStruct )
+			return getMemberType( static_cast< Struct * >( type ), parent, memberIndex );
+		return m_member.registerType( std::make_unique< Type >( *this, parent, memberIndex, *type )
+			, type, &parent, memberIndex );
+	}
+
+	ArrayPtr TypesCache::getMemberType( ArrayPtr type, Struct & parent, uint32_t memberIndex )
+	{
+		return static_cast< ArrayPtr >( m_member.registerType( std::make_unique< Array >( &parent, memberIndex, type->getType(), *type )
+			, type, &parent, memberIndex ) );
+	}
+
+	StructPtr TypesCache::getMemberType( StructPtr type, Struct & parent, uint32_t memberIndex )
+	{
+		return static_cast< StructPtr >( m_member.registerType( std::unique_ptr< Struct >{ new Struct{ *this, parent, memberIndex, *type } }
+			, type, &parent, memberIndex ) );
 	}
 
 	TypePtr TypesCache::getPointerType( TypePtr pointerType, Storage storage )

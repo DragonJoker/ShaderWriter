@@ -78,7 +78,7 @@ namespace ast
 		}
 
 	private:
-		type::BaseStructPtr m_type;
+		type::BaseStructPtr m_type{};
 	};
 
 	struct BoInfo

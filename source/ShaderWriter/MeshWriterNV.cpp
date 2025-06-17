@@ -29,7 +29,7 @@ namespace sdw
 		: MeshInNV{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "meshIn"
-					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
+					, sdw::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY
 						, localSizeZ )
@@ -100,7 +100,7 @@ namespace sdw
 		: MeshSubgroupInNV{ writer
 			, makeExpr( writer
 				, sdw::getBuilder( writer ).registerName( "meshSubgroupIn"
-					, ast::type::makeComputeInputType( makeType( getTypesCache( writer ) )
+					, sdw::makeComputeInputType( makeType( getTypesCache( writer ) )
 						, localSizeX
 						, localSizeY
 						, localSizeZ ) ) )
@@ -110,7 +110,7 @@ namespace sdw
 
 	ast::type::StructPtr MeshSubgroupInNV::makeType( ast::type::TypesCache & cache )
 	{
-		auto result = std::static_pointer_cast< ast::type::IOStruct >( MeshInNV::makeType( cache ) );
+		auto result = static_cast< ast::type::IOStruct * >( MeshInNV::makeType( cache ) );
 
 		if ( !result->hasMember( ast::Builtin::eNumSubgroups ) )
 		{
