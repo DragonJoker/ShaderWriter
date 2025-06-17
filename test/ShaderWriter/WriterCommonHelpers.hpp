@@ -17,6 +17,95 @@
 
 namespace test
 {
+	using FloatTypes = testing::Types< sdw::Float, sdw::Vec2, sdw::Vec3, sdw::Vec4 >;
+	using DoubleTypes = testing::Types< sdw::Double, sdw::DVec2, sdw::DVec3, sdw::DVec4 >;
+	using UIntTypes = testing::Types< sdw::UInt, sdw::UVec2, sdw::UVec3, sdw::UVec4 >;
+	using IntTypes = testing::Types< sdw::Int, sdw::IVec2, sdw::IVec3, sdw::IVec4 >;
+
+	using FloatDoubleTypes = testing::Types< sdw::Float, sdw::Vec2, sdw::Vec3, sdw::Vec4
+		, sdw::Double, sdw::DVec2, sdw::DVec3, sdw::DVec4 >;
+	using IntUIntTypes = testing::Types< sdw::Int, sdw::IVec2, sdw::IVec3, sdw::IVec4
+		, sdw::UInt, sdw::UVec2, sdw::UVec3, sdw::UVec4 >;
+	using IntUIntBoolTypes = testing::Types< sdw::Int, sdw::IVec2, sdw::IVec3, sdw::IVec4
+		, sdw::UInt, sdw::UVec2, sdw::UVec3, sdw::UVec4
+		, sdw::Boolean, sdw::BVec2, sdw::BVec3, sdw::BVec4 >;
+	using FloatDoubleIntTypes = testing::Types< sdw::Float, sdw::Vec2, sdw::Vec3, sdw::Vec4
+		, sdw::Double, sdw::DVec2, sdw::DVec3, sdw::DVec4
+		, sdw::Int, sdw::IVec2, sdw::IVec3, sdw::IVec4 >;
+	using FloatDoubleIntUIntTypes = testing::Types< sdw::Float, sdw::Vec2, sdw::Vec3, sdw::Vec4
+		, sdw::Double, sdw::DVec2, sdw::DVec3, sdw::DVec4
+		, sdw::Int, sdw::IVec2, sdw::IVec3, sdw::IVec4
+		, sdw::UInt, sdw::UVec2, sdw::UVec3, sdw::UVec4 >;
+	using FloatDoubleIntUIntBoolTypes = testing::Types< sdw::Float, sdw::Vec2, sdw::Vec3, sdw::Vec4
+		, sdw::Double, sdw::DVec2, sdw::DVec3, sdw::DVec4
+		, sdw::Int, sdw::IVec2, sdw::IVec3, sdw::IVec4
+		, sdw::UInt, sdw::UVec2, sdw::UVec3, sdw::UVec4
+		, sdw::Boolean, sdw::BVec2, sdw::BVec3, sdw::BVec4 >;
+
+	using VecBoolTypes = testing::Types< sdw::BVec2, sdw::BVec3, sdw::BVec4 >;
+	using VecFloatDoubleTypes = testing::Types< sdw::Vec2, sdw::Vec3, sdw::Vec4
+		, sdw::DVec2, sdw::DVec3, sdw::DVec4 >;
+	using VecFloatDoubleIntUIntTypes = testing::Types< sdw::Vec2, sdw::Vec3, sdw::Vec4
+		, sdw::DVec2, sdw::DVec3, sdw::DVec4
+		, sdw::IVec2, sdw::IVec3, sdw::IVec4
+		, sdw::UVec2, sdw::UVec3, sdw::UVec4 >;
+	using MatFloatDoubleTypes = testing::Types< sdw::Mat2x2, sdw::Mat2x3, sdw::Mat2x4
+		, sdw::Mat3x2, sdw::Mat3x3, sdw::Mat3x4
+		, sdw::Mat4x2, sdw::Mat4x3, sdw::Mat4x4
+		, sdw::DMat2x2, sdw::DMat2x3, sdw::DMat2x4
+		, sdw::DMat3x2, sdw::DMat3x3, sdw::DMat3x4
+		, sdw::DMat4x2, sdw::DMat4x3, sdw::DMat4x4 >;
+	using SqMatFloatDoubleTypes = testing::Types< sdw::Mat2x2, sdw::Mat3x3, sdw::Mat4x4
+		, sdw::DMat2x2, sdw::DMat3x3, sdw::DMat4x4 >;
+	using Vec3FloatDoubleTypes = testing::Types< sdw::Vec3, sdw::DVec3 >;
+
+	class TypesNames
+	{
+	public:
+		template< typename T >
+		static std::string GetName( int )
+		{
+			if constexpr ( std::is_same_v < T, sdw::Boolean > ) return "Bool";
+			else if constexpr ( std::is_same_v < T, sdw::BVec2 > ) return "BVec2";
+			else if constexpr ( std::is_same_v < T, sdw::BVec3 > ) return "BVec3";
+			else if constexpr ( std::is_same_v < T, sdw::BVec4 > ) return "BVec4";
+			else if constexpr ( std::is_same_v < T, sdw::Float > ) return "Float";
+			else if constexpr ( std::is_same_v < T, sdw::Vec2 > ) return "Vec2";
+			else if constexpr ( std::is_same_v < T, sdw::Vec3 > ) return "Vec3";
+			else if constexpr ( std::is_same_v < T, sdw::Vec4 > ) return "Vec4";
+			else if constexpr ( std::is_same_v < T, sdw::Double > ) return "Double";
+			else if constexpr ( std::is_same_v < T, sdw::DVec2 > ) return "DVec2";
+			else if constexpr ( std::is_same_v < T, sdw::DVec3 > ) return "DVec3";
+			else if constexpr ( std::is_same_v < T, sdw::DVec4 > ) return "DVec4";
+			else if constexpr ( std::is_same_v < T, sdw::UInt > ) return "UInt";
+			else if constexpr ( std::is_same_v < T, sdw::UVec2 > ) return "UVec2";
+			else if constexpr ( std::is_same_v < T, sdw::UVec3 > ) return "UVec3";
+			else if constexpr ( std::is_same_v < T, sdw::UVec4 > ) return "UVec4";
+			else if constexpr ( std::is_same_v < T, sdw::Int > ) return "Int";
+			else if constexpr ( std::is_same_v < T, sdw::IVec2 > ) return "IVec2";
+			else if constexpr ( std::is_same_v < T, sdw::IVec3 > ) return "IVec3";
+			else if constexpr ( std::is_same_v < T, sdw::IVec4 > ) return "IVec4";
+			else if constexpr ( std::is_same_v < T, sdw::Mat2x2 > ) return "Mat2x2";
+			else if constexpr ( std::is_same_v < T, sdw::Mat2x3 > ) return "Mat2x3";
+			else if constexpr ( std::is_same_v < T, sdw::Mat2x4 > ) return "Mat2x4";
+			else if constexpr ( std::is_same_v < T, sdw::Mat3x2 > ) return "Mat3x2";
+			else if constexpr ( std::is_same_v < T, sdw::Mat3x3 > ) return "Mat3x3";
+			else if constexpr ( std::is_same_v < T, sdw::Mat3x4 > ) return "Mat3x4";
+			else if constexpr ( std::is_same_v < T, sdw::Mat4x2 > ) return "Mat4x2";
+			else if constexpr ( std::is_same_v < T, sdw::Mat4x3 > ) return "Mat4x3";
+			else if constexpr ( std::is_same_v < T, sdw::Mat4x4 > ) return "Mat4x4";
+			else if constexpr ( std::is_same_v < T, sdw::DMat2x2 > ) return "DMat2x2";
+			else if constexpr ( std::is_same_v < T, sdw::DMat2x3 > ) return "DMat2x3";
+			else if constexpr ( std::is_same_v < T, sdw::DMat2x4 > ) return "DMat2x4";
+			else if constexpr ( std::is_same_v < T, sdw::DMat3x2 > ) return "DMat3x2";
+			else if constexpr ( std::is_same_v < T, sdw::DMat3x3 > ) return "DMat3x3";
+			else if constexpr ( std::is_same_v < T, sdw::DMat3x4 > ) return "DMat3x4";
+			else if constexpr ( std::is_same_v < T, sdw::DMat4x2 > ) return "DMat4x2";
+			else if constexpr ( std::is_same_v < T, sdw::DMat4x3 > ) return "DMat4x3";
+			else if constexpr ( std::is_same_v < T, sdw::DMat4x4 > ) return "DMat4x4";
+		}
+	};
+
 	template< typename T >
 	T getZero( sdw::ShaderWriter & writer );
 
