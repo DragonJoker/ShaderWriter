@@ -21,6 +21,7 @@ namespace sdw
 		explicit ArithmeticValue( Value value );
 		explicit ArithmeticValue( CppTypeT< ArithmeticValue > rhs );
 
+		ReturnWrapperT< ArithmeticValue > operator=( CppTypeT< ArithmeticValue > rhs );
 		template< ArithmeticT RhsT >
 		ReturnWrapperT< ArithmeticValue > operator=( RhsT const & rhs );
 		expr::ExprPtr makeCondition()const;

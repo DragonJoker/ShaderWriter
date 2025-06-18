@@ -91,7 +91,8 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( ValueT const & rhs )
+	template< typename T >
+	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( T const & rhs )
 	{
 		auto & writer = *this->getWriter();
 		return ReturnWrapperT< ValueT >{ writer

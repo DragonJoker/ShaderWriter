@@ -205,6 +205,12 @@ namespace sdw
 #define SDW_DeclValue( expdecl, name )\
 	expdecl name( name && rhs )noexcept = default;\
 	expdecl name( name const & rhs ) = default;\
+	expdecl name( sdw::ReturnWrapperT< name > const & rhs )\
+		: name{ findWriterMandat( rhs )\
+			, makeExpr( findWriterMandat( rhs ), rhs )\
+			, rhs.isEnabled() }\
+	{\
+	}\
 	expdecl name & operator=( name && rhs )noexcept\
 	{\
 		sdw::Value::doMove( std::move( rhs ) );\

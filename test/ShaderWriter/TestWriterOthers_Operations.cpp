@@ -58,34 +58,6 @@ namespace
 	template< typename LHS, typename RHS >
 	using ValueTypeT = typename ValueTypeGetter< LHS, RHS >::Type;
 
-	class ParamTypeNames
-	{
-	public:
-		template< typename T >
-		static std::string GetName( int )
-		{
-			if constexpr ( std::is_same_v< T, sdw::Half > ) return "sdw::Half";
-			if constexpr ( std::is_same_v< T, sdw::Float > ) return "sdw::Float";
-			if constexpr ( std::is_same_v< T, sdw::Double > ) return "sdw::Double";
-			if constexpr ( std::is_same_v< T, sdw::Int > ) return "sdw::Int";
-			if constexpr ( std::is_same_v< T, sdw::UInt > ) return "sdw::UInt";
-			if constexpr ( std::is_same_v< T, sdw::HVec2 > ) return "sdw::HVec2";
-			if constexpr ( std::is_same_v< T, sdw::IVec2 > ) return "sdw::IVec2";
-			if constexpr ( std::is_same_v< T, sdw::UVec2 > ) return "sdw::UVec2";
-			if constexpr ( std::is_same_v< T, sdw::DVec2 > ) return "sdw::DVec2";
-			if constexpr ( std::is_same_v< T, sdw::Vec2 > ) return "sdw::Vec2";
-			if constexpr ( std::is_same_v< T, sdw::IVec3 > ) return "sdw::IVec3";
-			if constexpr ( std::is_same_v< T, sdw::UVec3 > ) return "sdw::UVec3";
-			if constexpr ( std::is_same_v< T, sdw::DVec3 > ) return "sdw::DVec3";
-			if constexpr ( std::is_same_v< T, sdw::Vec3 > ) return "sdw::Vec3";
-			if constexpr ( std::is_same_v< T, sdw::HVec4 > ) return "sdw::HVec4";
-			if constexpr ( std::is_same_v< T, sdw::IVec4 > ) return "sdw::IVec4";
-			if constexpr ( std::is_same_v< T, sdw::UVec4 > ) return "sdw::UVec4";
-			if constexpr ( std::is_same_v< T, sdw::DVec4 > ) return "sdw::DVec4";
-			if constexpr ( std::is_same_v< T, sdw::Vec4 > ) return "sdw::Vec4";
-		}
-	};
-
 	template< typename RET, typename RHS >
 	void testBaseAssignOperators( sdw::ShaderWriter & writer
 		, test::sdw_test::TestCounts & testCounts
@@ -599,7 +571,7 @@ namespace
 
 	using FloatParamTypes = testing::Types< sdw::Float, sdw::Double >;
 
-	TYPED_TEST_SUITE( TestFloatOperationsT, FloatParamTypes, ParamTypeNames );
+	TYPED_TEST_SUITE( TestFloatOperationsT, FloatParamTypes, test::TypesNames );
 
 	TYPED_TEST( TestFloatOperationsT, testFloat )
 	{
@@ -733,7 +705,7 @@ namespace
 
 	using IntParamTypes = testing::Types< sdw::Int, sdw::UInt >;
 
-	TYPED_TEST_SUITE( TestIntOperationsT, IntParamTypes, ParamTypeNames );
+	TYPED_TEST_SUITE( TestIntOperationsT, IntParamTypes, test::TypesNames );
 
 	TYPED_TEST( TestIntOperationsT, testInt )
 	{
@@ -872,7 +844,7 @@ namespace
 		, sdw::Vec3, sdw::DVec3, sdw::IVec3, sdw::UVec3
 		, sdw::HVec4, sdw::Vec4, sdw::DVec4, sdw::IVec4, sdw::UVec4 >;
 
-	TYPED_TEST_SUITE( TestVecOperationsT, VecParamTypes, ParamTypeNames );
+	TYPED_TEST_SUITE( TestVecOperationsT, VecParamTypes, test::TypesNames );
 
 	TYPED_TEST( TestVecOperationsT, testVecT )
 	{

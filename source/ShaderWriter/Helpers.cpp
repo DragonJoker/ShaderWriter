@@ -189,6 +189,18 @@ namespace sdw
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, int8_t value )
+	{
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, int16_t value )
+	{
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int32_t value )
 	{
 		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
@@ -197,7 +209,19 @@ namespace sdw
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int64_t value )
 	{
-		return writer.getExprCache().makeLiteral( writer.getTypesCache(), int32_t( value ) );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, uint8_t value )
+	{
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
+	}
+
+	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, uint16_t value )
+	{
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
@@ -209,7 +233,7 @@ namespace sdw
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint64_t value )
 	{
-		return writer.getExprCache().makeLiteral( writer.getTypesCache(), uint32_t( value ) );
+		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
 	}
 
 	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
@@ -245,6 +269,20 @@ namespace sdw
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, int8_t value
+		, [[maybe_unused]] bool force )
+	{
+		return makeLiteral( writer, value );
+	}
+
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, int16_t value
+		, [[maybe_unused]] bool force )
+	{
+		return makeLiteral( writer, value );
+	}
+
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int32_t value
 		, [[maybe_unused]] bool force )
 	{
@@ -255,7 +293,21 @@ namespace sdw
 		, int64_t value
 		, [[maybe_unused]] bool force )
 	{
-		return makeLiteral( writer, int32_t( value ) );
+		return makeLiteral( writer, value );
+	}
+
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, uint8_t value
+		, [[maybe_unused]] bool force )
+	{
+		return makeLiteral( writer, value );
+	}
+
+	expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, uint16_t value
+		, [[maybe_unused]] bool force )
+	{
+		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
@@ -269,7 +321,7 @@ namespace sdw
 		, uint64_t value
 		, [[maybe_unused]] bool force )
 	{
-		return makeLiteral( writer, uint32_t( value ) );
+		return makeLiteral( writer, value );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
@@ -330,6 +382,22 @@ namespace sdw
 	}
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer
+		, int8_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( writer, value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( ShaderWriter const & writer
+		, int16_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( writer, value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int32_t value )
 	{
 		expr::ExprList result;
@@ -339,6 +407,22 @@ namespace sdw
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int64_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( writer, value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( ShaderWriter const & writer
+		, uint8_t value )
+	{
+		expr::ExprList result;
+		result.emplace_back( makeExpr( writer, value ) );
+		return result;
+	}
+
+	expr::ExprList makeFnArg( ShaderWriter const & writer
+		, uint16_t value )
 	{
 		expr::ExprList result;
 		result.emplace_back( makeExpr( writer, value ) );

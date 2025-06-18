@@ -361,13 +361,13 @@ namespace sdw
 			, enabled };
 	}
 
-	template< ast::type::Kind KindT >
-	inline IntegerValue< KindT > ShaderWriter::declConstant( std::string name
-		, ReturnWrapperT< IntegerValue< KindT > > rhs
+	template< typename T >
+	T ShaderWriter::declConstant( std::string name
+		, ReturnWrapperT< T > const & rhs
 		, bool enabled )
 	{
-		enabled = enabled && isOptionalEnabled( rhs );
-		return declConstant( std::move( name ), IntegerValue< KindT >{ std::move( rhs ) }, enabled );
+		enabled = enabled && areOptionalEnabled( rhs );
+		return declConstant( std::move( name ), T{ rhs }, enabled );
 	}
 	/**@}*/
 #pragma endregion
@@ -1867,11 +1867,11 @@ namespace sdw
 
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string name
-		, ReturnWrapperT< T > rhs
+		, ReturnWrapperT< T > const & rhs
 		, bool enabled )
 	{
 		enabled = enabled && areOptionalEnabled( rhs );
-		return declLocale( std::move( name ), T{ std::move( rhs ) }, enabled );
+		return declLocale( std::move( name ), T{ rhs }, enabled );
 	}
 
 	template< typename T >
@@ -1886,9 +1886,9 @@ namespace sdw
 	template< typename T >
 	inline T ShaderWriter::declLocale( std::string name
 		, bool enabled
-		, ReturnWrapperT< T > defaultValue )
+		, ReturnWrapperT< T > const & defaultValue )
 	{
-		return declLocale( std::move( name ), enabled, T{ std::move( defaultValue ) } );
+		return declLocale( std::move( name ), enabled, T{ defaultValue } );
 	}
 
 	template< typename BaseT, typename DerivedT >

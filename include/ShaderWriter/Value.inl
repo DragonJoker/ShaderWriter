@@ -138,13 +138,33 @@ namespace sdw
 		{
 			return &getCurrentWriter();
 		}
-		
+
+		inline ShaderWriter * getWriter( int8_t const & )
+		{
+			return &getCurrentWriter();
+		}
+
+		inline ShaderWriter * getWriter( int16_t const & )
+		{
+			return &getCurrentWriter();
+		}
+
 		inline ShaderWriter * getWriter( int32_t const & )
 		{
 			return &getCurrentWriter();
 		}
 
 		inline ShaderWriter * getWriter( int64_t const & )
+		{
+			return &getCurrentWriter();
+		}
+
+		inline ShaderWriter * getWriter( uint8_t const & )
+		{
+			return &getCurrentWriter();
+		}
+
+		inline ShaderWriter * getWriter( uint16_t const & )
 		{
 			return &getCurrentWriter();
 		}

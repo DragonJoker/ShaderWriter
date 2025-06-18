@@ -285,9 +285,9 @@ namespace sdw
 		Array< T > declConstantArray( std::string name
 			, std::vector< T > const & rhs
 			, bool enabled = true );
-		template< ast::type::Kind KindT >
-		IntegerValue< KindT > declConstant( std::string name
-			, ReturnWrapperT< IntegerValue< KindT > > rhs
+		template< typename T >
+		T declConstant( std::string name
+			, ReturnWrapperT< T > const & rhs
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -864,7 +864,7 @@ namespace sdw
 			, std::vector< T > const & defaultValue );
 		template< typename T >
 		T declLocale( std::string name
-			, ReturnWrapperT< T > rhs
+			, ReturnWrapperT< T > const & rhs
 			, bool enabled = true );
 		template< typename T >
 		T declLocale( std::string name
@@ -873,7 +873,7 @@ namespace sdw
 		template< typename T >
 		T declLocale( std::string name
 			, bool enabled
-			, ReturnWrapperT< T > defaultValue );
+			, ReturnWrapperT< T > const & defaultValue );
 		template< typename BaseT, typename DerivedT >
 		std::unique_ptr< BaseT > declDerivedLocale( std::string name
 			, bool enabled = true );
@@ -1107,7 +1107,7 @@ namespace sdw
 	if ( auto writerScope = makeScope( Writer ) )\
 	{\
 		Type Name{ Writer, sdw::makeExpr( Writer, ( Writer ).registerLoopVar( #Name, Type::makeType( ( Writer ).getTypesCache() ) ) ), true };\
-		( Writer ).forStmt( Name, Init, Cond, Incr\
+		( Writer ).forStmt( Name, Type{ Init }, Cond, Incr\
 			, [&]()noexcept
 
 #define sdwROF\
