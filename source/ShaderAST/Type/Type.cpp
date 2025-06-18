@@ -46,6 +46,10 @@ namespace ast::type
 	{
 	}
 
+	Type::~Type()noexcept
+	{
+	}
+
 	Type const * Type::getNonMemberType()const
 	{
 		if ( isMember() )
@@ -310,9 +314,14 @@ namespace ast::type
 		}
 	}
 
+	bool isScalarType( Type const & type )
+	{
+		return isScalarType( type.getKind() );
+	}
+
 	bool isScalarType( TypePtr type )
 	{
-		return isScalarType( type->getKind() );
+		return isScalarType( *type );
 	}
 
 	bool isVectorType( Kind kind )
@@ -361,9 +370,14 @@ namespace ast::type
 		}
 	}
 
+	bool isVectorType( Type const & type )
+	{
+		return isVectorType( type.getKind() );
+	}
+
 	bool isVectorType( TypePtr type )
 	{
-		return isVectorType( type->getKind() );
+		return isVectorType( *type );
 	}
 
 	bool isMatrixType( Kind kind )
@@ -395,9 +409,30 @@ namespace ast::type
 		}
 	}
 
+	bool isMatrixType( Type const & type )
+	{
+		return isMatrixType( type.getKind() );
+	}
+
 	bool isMatrixType( TypePtr type )
 	{
-		return isMatrixType( type->getKind() );
+		return isMatrixType( *type );
+	}
+
+	bool isBasicType( Kind kind )
+	{
+		return kind > Kind::eUndefined
+			&& kind <= Kind::eBasicTypesMax;
+	}
+
+	bool isBasicType( Type const & type )
+	{
+		return isBasicType( type.getKind() );
+	}
+
+	bool isBasicType( TypePtr type )
+	{
+		return isBasicType( *type );
 	}
 
 	bool isArrayType( Kind kind )
@@ -405,9 +440,14 @@ namespace ast::type
 		return kind == Kind::eArray;
 	}
 
+	bool isArrayType( Type const & type )
+	{
+		return isArrayType( type.getKind() );
+	}
+
 	bool isArrayType( TypePtr type )
 	{
-		return isArrayType( type->getKind() );
+		return isArrayType( *type );
 	}
 
 	bool isPointerType( Kind kind )
@@ -415,9 +455,14 @@ namespace ast::type
 		return kind == Kind::ePointer;
 	}
 
+	bool isPointerType( Type const & type )
+	{
+		return isPointerType( type.getKind() );
+	}
+
 	bool isPointerType( TypePtr type )
 	{
-		return isPointerType( type->getKind() );
+		return isPointerType( *type );
 	}
 
 	bool isStructType( Kind kind )
@@ -543,9 +588,14 @@ namespace ast::type
 		return kind == Kind::eSampler;
 	}
 
+	bool isSamplerType( Type const & type )
+	{
+		return isSamplerType( type.getKind() );
+	}
+
 	bool isSamplerType( TypePtr type )
 	{
-		return isSamplerType( type->getKind() );
+		return isSamplerType( *type );
 	}
 
 	bool isSampledImageType( Kind kind )
@@ -553,9 +603,14 @@ namespace ast::type
 		return kind == Kind::eSampledImage;
 	}
 
+	bool isSampledImageType( Type const & type )
+	{
+		return isSampledImageType( type.getKind() );
+	}
+
 	bool isSampledImageType( TypePtr type )
 	{
-		return isSampledImageType( type->getKind() );
+		return isSampledImageType( *type );
 	}
 
 	bool isImageType( Kind kind )
@@ -563,9 +618,14 @@ namespace ast::type
 		return kind == Kind::eImage;
 	}
 
+	bool isImageType( Type const & type )
+	{
+		return isImageType( type.getKind() );
+	}
+
 	bool isImageType( TypePtr type )
 	{
-		return isImageType( type->getKind() );
+		return isImageType( *type );
 	}
 
 	bool isTextureType( Kind kind )
@@ -573,9 +633,14 @@ namespace ast::type
 		return kind == Kind::eCombinedImage;
 	}
 
+	bool isTextureType( Type const & type )
+	{
+		return isTextureType( type.getKind() );
+	}
+
 	bool isTextureType( TypePtr type )
 	{
-		return isTextureType( type->getKind() );
+		return isTextureType( *type );
 	}
 
 	bool isAccelerationStructureType( Kind kind )
@@ -583,9 +648,14 @@ namespace ast::type
 		return kind == Kind::eAccelerationStructure;
 	}
 
+	bool isAccelerationStructureType( Type const & type )
+	{
+		return isAccelerationStructureType( type.getKind() );
+	}
+
 	bool isAccelerationStructureType( TypePtr type )
 	{
-		return isAccelerationStructureType( type->getKind() );
+		return isAccelerationStructureType( *type );
 	}
 
 	bool isHitAttributeType( Kind kind )
@@ -593,9 +663,14 @@ namespace ast::type
 		return kind == Kind::eRayPayload;
 	}
 
+	bool isHitAttributeType( Type const & type )
+	{
+		return isHitAttributeType( type.getKind() );
+	}
+
 	bool isHitAttributeType( TypePtr type )
 	{
-		return isHitAttributeType( type->getKind() );
+		return isHitAttributeType( *type );
 	}
 
 	bool isRayPayloadType( Kind kind )
@@ -605,7 +680,12 @@ namespace ast::type
 
 	bool isRayPayloadType( TypePtr type )
 	{
-		return isRayPayloadType( type->getKind() );
+		return isRayPayloadType( *type );
+	}
+
+	bool isRayPayloadType( Type const & type )
+	{
+		return isRayPayloadType( type.getKind() );
 	}
 
 	bool isCallableDataType( Kind kind )
@@ -615,22 +695,32 @@ namespace ast::type
 
 	bool isCallableDataType( TypePtr type )
 	{
-		return isCallableDataType( type->getKind() );
+		return isCallableDataType( *type );
+	}
+
+	bool isCallableDataType( Type const & type )
+	{
+		return isCallableDataType( type.getKind() );
+	}
+
+	bool isOpaqueType( Type const & type )
+	{
+		if ( isArrayType( type ) )
+		{
+			return isOpaqueType( static_cast< Array const & >( type ).getType() );
+		}
+
+		if ( isPointerType( type ) )
+		{
+			return isOpaqueType( static_cast< Pointer const & >( type ).getPointerType() );
+		}
+
+		return isOpaqueType( type.getKind() );
 	}
 
 	bool isOpaqueType( TypePtr type )
 	{
-		if ( isArrayType( type->getKind() ) )
-		{
-			return isOpaqueType( static_cast< Array const & >( *type ).getType() );
-		}
-
-		if ( isPointerType( type->getKind() ) )
-		{
-			return isOpaqueType( static_cast< Pointer const & >( *type ).getPointerType() );
-		}
-
-		return isOpaqueType( type->getKind() );
+		return isOpaqueType( *type );
 	}
 
 	bool isOpaqueType( Kind kind )

@@ -58,6 +58,7 @@ target_link_libraries( TestWriterCommon
 		GTest::gtest
 		sdw::ShaderAST
 		sdw::ShaderWriter
+		sdw::test::ASTCommon
 		${BinLibraries}
 		glslang::OSDependent
 		glslang::glslang
@@ -74,12 +75,16 @@ if ( PROJECTS_COVERAGE )
 	target_compile_definitions( TestWriterCommon
 		PRIVATE
 			SDW_Test_SpirVAllDebugLevels=0
+			SDW_AllSpirVVersions=1
+			SDW_AllVulkanVersions=1
 			SDW_Test_Coverage=1
 		)
 else ()
 	target_compile_definitions( TestWriterCommon
 		PRIVATE
 			SDW_Test_SpirVAllDebugLevels=1
+			SDW_AllSpirVVersions=0
+			SDW_AllVulkanVersions=0
 			SDW_Test_Coverage=0
 		)
 	if ( SDW_TESTS_ENABLE_VALIDATION )
@@ -120,10 +125,6 @@ else ()
 		endif ()
 	endif ()
 endif ()
-target_compile_definitions( TestWriterCommon
-	PUBLIC
-		TestCommon_EXPORTS=1
-)
 set_target_properties( TestWriterCommon
 	PROPERTIES
 		CXX_STANDARD 20
@@ -404,7 +405,6 @@ function( SDW_AddTest TEST_FILE TEST_NAME TEST_CATEGORY NAME_SUFFIX ADDITIONAL_D
 	)
 	target_compile_definitions( ${REAL_TEST_NAME} PRIVATE
 		${ADDITIONAL_DEFINITIONS}
-		SDW_COMPILE_TESTS
 		SDW_TestSuiteName=${SHORT_TEST_NAME}
 		SDW_TestSuiteNameString="${SHORT_TEST_NAME}"
 	)

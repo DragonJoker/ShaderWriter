@@ -472,6 +472,10 @@ namespace sdw
 	SDW_API type::TaskPayloadInNVPtr makeTaskPayloadInNVType( type::TypePtr type );
 	SDW_API type::TaskPayloadPtr makeTaskPayloadType( type::TypePtr type );
 	SDW_API type::TaskPayloadNVPtr makeTaskPayloadNVType( type::TypePtr type );
+	SDW_API type::TypePtr makeExplicitLayoutType( type::TypePtr type );
+	SDW_API type::ArrayPtr makeExplicitLayoutType( type::ArrayPtr type );
+	SDW_API type::BaseStructPtr makeExplicitLayoutType( type::BaseStructPtr type );
+	SDW_API type::IOStructPtr makeExplicitLayoutType( type::IOStructPtr type );
 }
 
 #include "Helpers.inl"

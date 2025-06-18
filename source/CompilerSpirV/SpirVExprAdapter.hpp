@@ -43,6 +43,10 @@ namespace spirv
 		void visitStreamAppendExpr( ast::expr::StreamAppend const * expr )override;
 		void visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )override;
 
+		ast::expr::ExprPtr doProcessAssignExplicitToNonExplicit( ast::type::TypePtr type
+			, ast::expr::Expr const & lhs
+			, ast::expr::Expr const & rhs );
+
 	private:
 		ast::type::TypesCache & m_typesCache;
 		ast::stmt::Container * m_container;

@@ -92,7 +92,6 @@ namespace spirv
 				if ( !hasRuntimeArray( type ) )
 				{
 					auto typeId = types.registerType( type
-						, isExplicitLayoutNeeded( getStorageClass( type, pointerType->getStorage() ) )
 						, nullptr );
 					DebugId resultId{ shaderModule.getIntermediateResult(), typeId->type };
 
@@ -216,7 +215,7 @@ namespace spirv
 			}
 
 			// Register the type pointed to.
-			auto rawTypeId = shaderModule.registerType( expr.getType(), isExplicitLayoutNeeded( storage ), nullptr );
+			auto rawTypeId = shaderModule.registerType( expr.getType(), nullptr );
 			// Register the pointer to the type.
 			auto pointerTypeId = shaderModule.registerPointerType( rawTypeId, storage );
 			// Reserve the ID for the result.

@@ -39,14 +39,18 @@ namespace ast
 			static_assert( Kind != type::Kind::eVec2B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec3B, "Can't put a boolean type inside an interface block" );
 			static_assert( Kind != type::Kind::eVec4B, "Can't put a boolean type inside an interface block" );
-			return registerMember( std::move( name ), m_type->getTypesCache().getBasicType( Kind ), arraySize );
+			return registerMember( std::move( name )
+				, m_type->getTypesCache().getBasicType( Kind, true )
+				, arraySize );
 		}
 
 		std::pair< type::TypePtr, bool > registerMember( std::string name
 			, type::TypePtr type
 			, uint32_t arraySize = ast::type::NotArray )
 		{
-			auto [mbr, added] = m_type->declMember( std::move( name ), type, arraySize );
+			auto [mbr, added] = m_type->declMember( std::move( name )
+				, m_type->getTypesCache().getExplicitLayoutType( type )
+				, arraySize );
 			return { mbr.type, added };
 		}
 
@@ -74,7 +78,7 @@ namespace ast
 			, type::MemoryLayout layout
 			, std::string const & name )
 		{
-			return typesCache.getStruct( layout, name );
+			return typesCache.getStruct( layout, name, true );
 		}
 
 	private:

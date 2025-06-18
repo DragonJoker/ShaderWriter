@@ -20,13 +20,17 @@ target_include_directories( ${PROJECT_NAME}
 )
 target_compile_definitions( ${PROJECT_NAME}
 	PUBLIC
-		TestCommon_STATIC
+		TestASTCommon_STATIC
 )
 target_link_libraries( ${PROJECT_NAME}
 	PUBLIC
 		sdw::ShaderAST
 	PRIVATE
 		GTest::gtest
+)
+add_library( sdw::test::ASTCommon
+	ALIAS
+	${PROJECT_NAME}
 )
 target_add_compilation_flags( ${PROJECT_NAME} )
 set_target_properties( ${PROJECT_NAME}

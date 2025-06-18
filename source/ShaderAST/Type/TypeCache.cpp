@@ -92,38 +92,44 @@ namespace ast::type
 		, m_inputStruct{ [this]( MemoryLayout layout
 				, std::string name
 				, EntryPoint entryPoint
-				, var::Flag flag )
+				, var::Flag flag
+				, bool explicitLayout )
 			{
 				return std::make_unique< IOStruct >( *this
 					, layout
 					, std::move( name )
 					, entryPoint
-					, flag );
+					, flag
+					, explicitLayout );
 			}
 			, []( MemoryLayout layout
 				, std::string const & name
 				, EntryPoint entryPoint
-				, var::Flag flag )noexcept
+				, var::Flag flag
+				, bool explicitLayout )noexcept
 			{
-				return ast::type::getHash( layout, name, entryPoint, flag );
+				return ast::type::getHash( layout, name, entryPoint, flag, explicitLayout );
 			} }
 		, m_outputStruct{ [this]( MemoryLayout layout
 				, std::string name
 				, EntryPoint entryPoint
-				, var::Flag flag )
+				, var::Flag flag
+				, bool explicitLayout )
 			{
 				return std::make_unique< IOStruct >( *this
 					, layout
 					, std::move( name )
 					, entryPoint
-					, flag );
+					, flag
+					, explicitLayout );
 			}
 			, []( MemoryLayout layout
 				, std::string const & name
 				, EntryPoint entryPoint
-				, var::Flag flag )noexcept
+				, var::Flag flag
+				, bool explicitLayout )noexcept
 			{
-				return ast::type::getHash( layout, name, entryPoint, flag );
+				return ast::type::getHash( layout, name, entryPoint, flag, explicitLayout );
 			} }
 		, m_array{ []( TypePtr type
 				, uint32_t arraySize
@@ -653,16 +659,14 @@ namespace ast::type
 		return m_basic.getType( Kind::eMat4x4D, explicitLayout );
 	}
 
-	TypePtr TypesCache::getBasicType( Kind kind )
+	TypePtr TypesCache::getBasicType( Kind kind, bool explicitLayout )
 	{
-		AST_Assert( kind >= Kind::eUndefined
-			&& kind <= Kind::eBasicTypesMax );
 		TypePtr result{};
 
-		if ( kind >= Kind::eUndefined
-			&& kind <= Kind::eBasicTypesMax )
+		if ( kind == Kind::eUndefined
+			|| isBasicType( kind ) )
 		{
-			result = m_basic.getType( kind, false );
+			result = m_basic.getType( kind, explicitLayout );
 		}
 
 		AST_Assert( result && "Unsupported Kind" );
@@ -1304,20 +1308,25 @@ namespace ast::type
 		return getIOStruct( name, entryPoint, MemoryLayout::eC, flag );
 	}
 
-	IOStructPtr TypesCache::getIOStruct( std::string const & name, ast::EntryPoint entryPoint, ast::type::MemoryLayout layout, var::Flag flag )
+	IOStructPtr TypesCache::getIOStruct( std::string const & name
+		, ast::EntryPoint entryPoint
+		, ast::type::MemoryLayout layout
+		, var::Flag flag
+		, bool explicitLayout )
 	{
 		if ( !hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
 			&& !hasFlag( uint64_t( flag ), var::Flag::eShaderOutput )
 			&& !hasFlag( uint64_t( flag ), var::Flag::ePatchOutput )
 			&& !hasFlag( uint64_t( flag ), var::Flag::ePatchInput )
-			&& !hasFlag( uint64_t( flag ), var::Flag::ePerTask ) )
+			&& !hasFlag( uint64_t( flag ), var::Flag::ePerTask )
+			&& !hasFlag( uint64_t( flag ), var::Flag::ePerTaskNV ) )
 		{
 			throw Exception{ "Non I/O structure." };
 		}
 
-		return ( hasFlag( uint64_t( flag ), var::Flag::eShaderInput )
-			? m_inputStruct.getType( layout, name, entryPoint, flag )
-			: m_outputStruct.getType( layout, name, entryPoint, flag ) );
+		return ( ( hasFlag( uint64_t( flag ), var::Flag::eShaderInput ) || hasFlag( uint64_t( flag ), var::Flag::ePatchInput ) )
+			? m_inputStruct.getType( layout, name, entryPoint, flag, explicitLayout )
+			: m_outputStruct.getType( layout, name, entryPoint, flag, explicitLayout ) );
 	}
 
 	ArrayPtr TypesCache::getArray( TypePtr type
@@ -1338,20 +1347,136 @@ namespace ast::type
 			return getMemberType( static_cast< Array * >( type ), parent, memberIndex );
 		if ( type->getKind() == Kind::eStruct )
 			return getMemberType( static_cast< Struct * >( type ), parent, memberIndex );
-		return m_member.registerType( std::make_unique< Type >( *this, parent, memberIndex, *type )
-			, type, &parent, memberIndex );
+		return m_member.registerType( type, &parent, memberIndex
+			, *this, parent, memberIndex, *type );
 	}
 
 	ArrayPtr TypesCache::getMemberType( ArrayPtr type, Struct & parent, uint32_t memberIndex )
 	{
-		return static_cast< ArrayPtr >( m_member.registerType( std::make_unique< Array >( &parent, memberIndex, type->getType(), *type )
-			, type, &parent, memberIndex ) );
+		return static_cast< ArrayPtr >( m_member.registerTypeT< Array >( type, &parent, memberIndex
+			, &parent, memberIndex, type->getType(), *type ) );
 	}
 
 	StructPtr TypesCache::getMemberType( StructPtr type, Struct & parent, uint32_t memberIndex )
 	{
-		return static_cast< StructPtr >( m_member.registerType( std::unique_ptr< Struct >{ new Struct{ *this, parent, memberIndex, *type } }
-			, type, &parent, memberIndex ) );
+		return static_cast< StructPtr >( m_member.tryAddType( type, &parent, memberIndex
+			, std::unique_ptr< Struct >{ new Struct{ *this, parent, memberIndex, *type } } ) );
+	}
+
+	TypePtr TypesCache::getExplicitLayoutType( TypePtr type )
+	{
+		if ( type->getKind() == Kind::eArray )
+			return getExplicitLayoutType( static_cast< Array * >( type ) );
+		if ( type->getKind() == Kind::eStruct )
+		{
+			auto structType = static_cast< Struct * >( type );
+			return structType->isIOStruct()
+				? static_cast< TypePtr >( getExplicitLayoutType( static_cast< IOStructPtr >( type ) ) )
+				: static_cast< TypePtr >( getExplicitLayoutType( static_cast< BaseStructPtr >( type ) ) );
+		}
+		if ( isBasicType( type ) )
+			return getBasicType( type->getKind(), true );
+		return type;
+	}
+
+	ArrayPtr TypesCache::getExplicitLayoutType( ArrayPtr type )
+	{
+		auto elementType = getExplicitLayoutType( type->getType() );
+		return getArray( elementType, type->getArraySize(), true );
+	}
+
+	BaseStructPtr TypesCache::getExplicitLayoutType( BaseStructPtr type )
+	{
+		auto result = getStruct( type->getMemoryLayout(), type->getName(), true );
+
+		if ( result->empty() )
+		{
+			for ( auto mbr : *type )
+			{
+				if ( mbr.builtin != Builtin::eNone )
+					result->declMember( mbr.builtin, getNonArrayKind( mbr.type ), getArraySize( mbr.type ) );
+				else
+					result->declMember( mbr.name, getExplicitLayoutType( getNonArrayType( mbr.type ) ), getArraySize( mbr.type ) );
+			}
+		}
+
+		return result;
+	}
+
+	IOStructPtr TypesCache::getExplicitLayoutType( IOStructPtr type )
+	{
+		auto result = getIOStruct( type->getName(), type->getEntryPoint(), type->getMemoryLayout(), var::Flag( type->getFlag() ), true );
+
+		if ( result->empty() )
+		{
+			for ( auto mbr : *type )
+			{
+				if ( mbr.builtin != Builtin::eNone )
+					result->declMember( mbr.builtin, getNonArrayKind( mbr.type ), getArraySize( mbr.type ) );
+				else
+					result->declMember( mbr.name, getExplicitLayoutType( getNonArrayType( mbr.type ) ), getArraySize( mbr.type ), mbr.location );
+			}
+		}
+
+		return result;
+	}
+
+	TypePtr TypesCache::getNonExplicitLayoutType( TypePtr type )
+	{
+		if ( type->getKind() == Kind::eArray )
+			return getNonExplicitLayoutType( static_cast< Array * >( type ) );
+		if ( type->getKind() == Kind::eStruct )
+		{
+			auto structType = static_cast< Struct * >( type );
+			return structType->isIOStruct()
+				? static_cast< TypePtr >( getNonExplicitLayoutType( static_cast< IOStructPtr >( type ) ) )
+				: static_cast< TypePtr >( getNonExplicitLayoutType( static_cast< BaseStructPtr >( type ) ) );
+		}
+		if (isBasicType( type ))
+			return getBasicType( type->getKind(), false );
+		return type;
+	}
+
+	ArrayPtr TypesCache::getNonExplicitLayoutType( ArrayPtr type )
+	{
+		auto elementType = getExplicitLayoutType( type->getType() );
+		return getArray( elementType, type->getArraySize(), false );
+	}
+
+	BaseStructPtr TypesCache::getNonExplicitLayoutType( BaseStructPtr type )
+	{
+		auto result = getStruct( type->getMemoryLayout(), type->getName(), false );
+
+		if ( result->empty() )
+		{
+			for ( auto mbr : *type )
+			{
+				if ( mbr.builtin != Builtin::eNone )
+					result->declMember( mbr.builtin, mbr.type->getKind(), getArraySize( mbr.type ) );
+				else
+					result->declMember( mbr.name, getExplicitLayoutType( mbr.type ), getArraySize( mbr.type ) );
+			}
+		}
+
+		return result;
+	}
+
+	IOStructPtr TypesCache::getNonExplicitLayoutType( IOStructPtr type )
+	{
+		auto result = getIOStruct( type->getName(), type->getEntryPoint(), type->getMemoryLayout(), var::Flag( type->getFlag() ) );
+
+		if ( result->empty() )
+		{
+			for ( auto mbr : *type )
+			{
+				if ( mbr.builtin != Builtin::eNone )
+					result->declMember( mbr.builtin, mbr.type->getKind(), getArraySize( mbr.type ) );
+				else
+					result->declMember( mbr.name, getExplicitLayoutType( mbr.type ), getArraySize( mbr.type ) );
+			}
+		}
+
+		return result;
 	}
 
 	TypePtr TypesCache::getPointerType( TypePtr pointerType, Storage storage )

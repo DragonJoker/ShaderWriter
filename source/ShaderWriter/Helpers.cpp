@@ -1311,4 +1311,24 @@ namespace sdw
 	{
 		return type->getTypesCache().getTessellationEvaluationInput( type, domain, partitioning, order, inputVertices );
 	}
+
+	type::TypePtr makeExplicitLayoutType( type::TypePtr type )
+	{
+		return type->getTypesCache().getExplicitLayoutType( type );
+	}
+
+	type::ArrayPtr makeExplicitLayoutType( type::ArrayPtr type )
+	{
+		return type->getTypesCache().getExplicitLayoutType( type );
+	}
+
+	type::BaseStructPtr makeExplicitLayoutType( type::BaseStructPtr type )
+	{
+		return type->getTypesCache().getExplicitLayoutType( type );
+	}
+
+	type::IOStructPtr makeExplicitLayoutType( type::IOStructPtr type )
+	{
+		return type->getTypesCache().getExplicitLayoutType( type );
+	}
 }

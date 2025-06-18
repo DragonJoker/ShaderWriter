@@ -547,7 +547,8 @@ namespace ast
 
 				for ( auto & var : outputParams )
 				{
-					doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( var.alias->getType()
+					auto dstType = var.param->getType();
+					doAddStmt( m_stmtCache.makeSimple( m_exprCache.makeAssign( dstType
 						, std::move( var.param )
 						, m_exprCache.makeIdentifier( m_typesCache, var.alias ) ) ) );
 				}
@@ -766,7 +767,7 @@ namespace ast
 				, expr::ExprPtr aliasedExpr )
 			{
 				TraceFunc;
-				return doCreateVar( type
+				return doCreateVar( m_typesCache.getNonExplicitLayoutType( type )
 					, std::move( aliasedExpr )
 					, ( var::Flag::eTemp | var::Flag::eAlias ) );
 			}

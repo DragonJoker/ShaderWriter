@@ -22,7 +22,7 @@ namespace spirv
 		static ast::type::StructPtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Struct const & qualified )
 		{
-			auto result = typesCache.getStruct( qualified.getMemoryLayout(), qualified.getName() );
+			auto result = typesCache.getStruct( qualified.getMemoryLayout(), qualified.getName(), qualified.hasExplicitLayout() );
 			AST_Assert( result->empty() || ( result->size() == qualified.size() ) );
 
 			if ( result->empty() && !qualified.empty() )
@@ -56,7 +56,7 @@ namespace spirv
 		static ast::type::ArrayPtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::Array const & qualified )
 		{
-			return typesCache.getArray( getUnqualifiedType( typesCache, qualified.getType() ), qualified.getArraySize() );
+			return typesCache.getArray( getUnqualifiedType( typesCache, qualified.getType() ), qualified.getArraySize(), qualified.hasExplicitLayout() );
 		}
 
 		static ast::type::SamplerPtr getUnqualifiedType( ast::type::TypesCache & typesCache
@@ -129,6 +129,10 @@ namespace spirv
 			{
 				result = typesCache.getBasicType( qualified.getKind() );
 			}
+			else if ( qualified.hasExplicitLayout() )
+			{
+				result = typesCache.getBasicType( qualified.getKind() );
+			}
 
 			return result;
 		}
@@ -167,11 +171,9 @@ namespace spirv
 		}
 
 		static size_t myHash( ast::type::TypePtr type
-			, bool explicitLayout
 			, ast::type::Trinary isComparison = ast::type::Trinary::eDontCare )noexcept
 		{
 			size_t result = std::hash< ast::type::TypePtr >{}( type );
-			result = ast::type::hashCombine( result, explicitLayout );
 			result = ast::type::hashCombine( result, isComparison );
 			return result;
 		}
@@ -218,11 +220,9 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::registerType( ast::type::TypePtr type
-		, bool needsExplicitLayout
 		, glsl::Statement const * debugStatement )
 	{
 		auto result = doRegisterTypeRec( type
-			, needsExplicitLayout
 			, ast::type::NotMember
 			, TypeId{}
 			, 0u
@@ -231,13 +231,11 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::registerType( ast::type::TypePtr type
-		, bool needsExplicitLayout
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
 	{
 		auto result = doRegisterTypeRec( type
-			, needsExplicitLayout
 			, mbrIndex
 			, parentId
 			, 0u
@@ -332,7 +330,6 @@ namespace spirv
 		if ( res )
 		{
 			auto typeId = registerType( getTypesCache().getCombinedImage( imgType.getConfig(), splType.isComparison() )
-				, false
 				, nullptr );
 			it->second = DebugId{ m_module.getNextId(), typeId->type };
 			currentBlock.instructions.push_back( makeInstruction< SampledImageInstruction >( m_module.getNameCache()
@@ -548,7 +545,7 @@ namespace spirv
 		case spv::OpTypeSampler:
 			{
 				auto type = m_typesCache->getSampler();
-				doRegisterTypeId( *instruction.resultId, type, false );
+				doRegisterTypeId( *instruction.resultId, type );
 			}
 			break;
 		case spv::OpTypeSampledImage:
@@ -567,7 +564,7 @@ namespace spirv
 
 				auto image = static_cast< ast::type::Image * >( iit->second->type );
 				auto type = m_typesCache->getCombinedImage( image->getConfig() );
-				doRegisterTypeId( *instruction.resultId, type, false );
+				doRegisterTypeId( *instruction.resultId, type );
 			}
 			break;
 		case spv::OpTypeArray:
@@ -586,7 +583,7 @@ namespace spirv
 
 				auto count = instruction.operands[1];
 				auto type = m_typesCache->getArray( cit->second->type, count );
-				doRegisterTypeId( *instruction.resultId, type, false );
+				doRegisterTypeId( *instruction.resultId, type );
 			}
 			break;
 		case spv::OpTypeRuntimeArray:
@@ -604,7 +601,7 @@ namespace spirv
 				}
 
 				auto type = m_typesCache->getArray( cit->second->type );
-				doRegisterTypeId( *instruction.resultId, type, false );
+				doRegisterTypeId( *instruction.resultId, type );
 			}
 			break;
 		case spv::OpTypePointer:
@@ -661,7 +658,7 @@ namespace spirv
 					}
 				}
 
-				doRegisterTypeId( structId, type, false );
+				doRegisterTypeId( structId, type );
 			}
 			break;
 		case spv::OpTypeFunction:
@@ -721,7 +718,7 @@ namespace spirv
 				}
 
 				auto type = m_typesCache->getFunction( returnType, std::move( params ) );
-				auto resultId = doRegisterTypeId( funcId, type, false );
+				auto resultId = doRegisterTypeId( funcId, type );
 				m_registeredFunctionTypes.try_emplace( std::move( types ), resultId );
 			}
 			break;
@@ -738,11 +735,10 @@ namespace spirv
 		TypeId result;
 		auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
 
-		if ( auto it = m_registeredTypes.find( modtyp::myHash( unqualifiedType, false ) );
+		if ( auto it = m_registeredTypes.find( modtyp::myHash( unqualifiedType ) );
 			it == m_registeredTypes.end() )
 		{
 			result = doRegisterBaseType( unqualifiedType
-				, false
 				, mbrIndex
 				, parentId
 				, debugStatement );
@@ -756,7 +752,6 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::doRegisterTypeRec( ast::type::TypePtr type
-		, bool needsExplicitLayout
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, uint32_t arrayStride
@@ -766,19 +761,18 @@ namespace spirv
 
 		if ( type->getRawKind() == ast::type::Kind::eArray )
 		{
-			auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
-			auto elementTypeId = doRegisterTypeRec( arrayedType
-				, needsExplicitLayout
-				, mbrIndex
-				, parentId
-				, arrayStride
-				, debugStatement );
 			auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
-			auto hash = modtyp::myHash( unqualifiedType, needsExplicitLayout );
+			auto hash = modtyp::myHash( unqualifiedType );
 
 			if ( auto it = m_registeredTypes.find( hash );
 				it == m_registeredTypes.end() )
 			{
+				auto arrayedType = static_cast< ast::type::Array const & >( *type ).getType();
+				auto elementTypeId = doRegisterTypeRec( arrayedType
+					, mbrIndex
+					, parentId
+					, arrayStride
+					, debugStatement );
 				result.id.id = m_module.getNextId();
 				auto & resultId = m_registeredTypes.try_emplace( hash, result ).first->second;
 				
@@ -800,7 +794,7 @@ namespace spirv
 					m_nonSemanticDebug.registerRuntimeArrayType( elementTypeId, resultId );
 				}
 
-				if ( needsExplicitLayout )
+				if ( type->hasExplicitLayout() )
 				{
 					modtyp::writeArrayStride( m_module
 						, arrayedType
@@ -819,11 +813,10 @@ namespace spirv
 		{
 			auto unqualifiedType = modtyp::getUnqualifiedType( *m_typesCache, type );
 
-			if ( auto it = m_registeredTypes.find( modtyp::myHash( unqualifiedType, needsExplicitLayout ) );
+			if ( auto it = m_registeredTypes.find( modtyp::myHash( unqualifiedType ) );
 				it == m_registeredTypes.end() )
 			{
 				result = doRegisterBaseType( unqualifiedType
-					, needsExplicitLayout
 					, mbrIndex
 					, parentId
 					, debugStatement );
@@ -837,7 +830,6 @@ namespace spirv
 		{
 			auto & pointerType = static_cast< ast::type::Pointer const & >( *type );
 			auto rawTypeId = doRegisterTypeRec( pointerType.getPointerType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -850,7 +842,6 @@ namespace spirv
 		{
 			auto & payloadType = static_cast< ast::type::RayPayload const & >( *type );
 			result = doRegisterTypeRec( payloadType.getDataType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -860,7 +851,6 @@ namespace spirv
 		{
 			auto & callableType = static_cast< ast::type::CallableData const & >( *type );
 			result = doRegisterTypeRec( callableType.getDataType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -870,7 +860,6 @@ namespace spirv
 		{
 			auto & callableType = static_cast< ast::type::HitAttribute const & >( *type );
 			result = doRegisterTypeRec( callableType.getDataType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -880,7 +869,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::GeometryOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -891,7 +879,6 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::GeometryInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -902,7 +889,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TessellationInputPatch const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -912,7 +898,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TessellationOutputPatch const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -922,7 +907,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TessellationControlOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -937,7 +921,6 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TessellationControlInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -947,7 +930,6 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TessellationEvaluationInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -957,7 +939,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::MeshVertexOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -967,7 +948,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::MeshPrimitiveOutput const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -976,8 +956,7 @@ namespace spirv
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadNV )
 		{
 			auto & outputType = static_cast< ast::type::TaskPayloadNV const & >( *type );
-			result = doRegisterTypeRec( outputType.getType()
-				, true
+			result = doRegisterTypeRec( outputType.getTypesCache().getExplicitLayoutType( outputType.getType() )
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -987,7 +966,6 @@ namespace spirv
 		{
 			auto & outputType = static_cast< ast::type::TaskPayload const & >( *type );
 			result = doRegisterTypeRec( outputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -996,8 +974,7 @@ namespace spirv
 		else if ( type->getRawKind() == ast::type::Kind::eTaskPayloadInNV )
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadInNV const & >( *type );
-			result = doRegisterTypeRec( inputType.getType()
-				, true
+			result = doRegisterTypeRec( inputType.getTypesCache().getExplicitLayoutType( inputType.getType() )
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1007,7 +984,6 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::TaskPayloadIn const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1017,7 +993,6 @@ namespace spirv
 		{
 			auto & inputType = static_cast< ast::type::ComputeInput const & >( *type );
 			result = doRegisterTypeRec( inputType.getType()
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, arrayStride
@@ -1035,18 +1010,17 @@ namespace spirv
 	}
 
 	TypeId & ModuleTypes::doRegisterTypeId( spv::Id id
-		, ast::type::TypePtr type
-		, bool needsExplicitLayout )
+		, ast::type::TypePtr type )
 	{
 		TypeId result{ 0u, type };
 		result.id.id = id;
-		return m_registeredTypes.try_emplace( modtyp::myHash( type, needsExplicitLayout ), result ).first->second;
+		return m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
 	}
 
 	TypeId & ModuleTypes::doRegisterBaseTypeId( spv::Id id
 		, ast::type::Kind kind )
 	{
-		return doRegisterTypeId( id, m_typesCache->getBasicType( kind ), false );
+		return doRegisterTypeId( id, m_typesCache->getBasicType( kind ) );
 	}
 
 	void ModuleTypes::doRegisterTypeId( spv::Id id
@@ -1058,7 +1032,7 @@ namespace spirv
 		if ( res )
 		{
 			it->second = TypeId{ id, type };
-			auto const & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, false, isComparison ), it->second ).first->second;
+			auto const & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, isComparison ), it->second ).first->second;
 			it->second = resultId;
 		}
 	}
@@ -1078,7 +1052,7 @@ namespace spirv
 		if ( isVectorType( kind )
 			|| isMatrixType( kind ) )
 		{
-			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), false, debugStatement );
+			auto componentType = registerType( m_typesCache->getBasicType( getComponentType( kind ) ), debugStatement );
 			auto componentCount = getComponentCount( kind );
 
 			if ( isMatrixType( kind ) )
@@ -1111,7 +1085,7 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterSamplerType( ast::type::SamplerPtr type )
 	{
-		auto & resultId = doRegisterTypeId( m_module.getNextId(), type, false );
+		auto & resultId = doRegisterTypeId( m_module.getNextId(), type );
 		m_declarations.push_back( makeInstruction< SamplerTypeInstruction >( m_module.getNameCache()
 			, resultId.id ) );
 		m_nonSemanticDebug.registerSamplerType( std::move( type ), resultId );
@@ -1120,7 +1094,7 @@ namespace spirv
 
 	TypeId ModuleTypes::doRegisterCombinedImageType( ast::type::CombinedImagePtr type )
 	{
-		auto & resultId = doRegisterTypeId( m_module.getNextId(), type, false );
+		auto & resultId = doRegisterTypeId( m_module.getNextId(), type );
 		auto imgTypeId = doRegisterImageType( type->getImageType()
 			, type->isComparison() ? ast::type::Trinary::eTrue : ast::type::Trinary::eFalse );
 		m_declarations.push_back( makeInstruction< TextureTypeInstruction >( m_module.getNameCache()
@@ -1138,7 +1112,7 @@ namespace spirv
 		if ( res )
 		{
 			// The Sampled Type.
-			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), false, nullptr );
+			auto sampledTypeId = registerType( m_typesCache->getBasicType( type->getConfig().sampledType ), nullptr );
 			// The Image Type.
 			it->second = TypeId{ m_module.getNextId(), type };
 			m_declarations.push_back( makeImageTypeInstruction( m_module.getNameCache()
@@ -1146,7 +1120,7 @@ namespace spirv
 				, isComparison
 				, it->second.id
 				, sampledTypeId.id ) );
-			auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, false, isComparison ), it->second ).first->second;
+			auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, isComparison ), it->second ).first->second;
 			m_nonSemanticDebug.registerImageType( std::move( type ), resultId );
 			it->second = resultId;
 		}
@@ -1170,13 +1144,12 @@ namespace spirv
 		result.id.id = m_module.getNextId();
 		m_declarations.push_back( makeAccelerationStructureTypeInstruction( m_module.getNameCache()
 			, result.id ) );
-		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, false ), result ).first->second;
+		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
 		m_nonSemanticDebug.registerAccelerationStructureType( resultId );
 		return resultId;
 	}
 
 	TypeId ModuleTypes::doRegisterStructType( ast::type::StructPtr type
-		, bool needsExplicitLayout
 		, uint32_t
 		, TypeId const &
 		, glsl::Statement const * debugStatement )
@@ -1184,6 +1157,13 @@ namespace spirv
 		if ( !debugStatement )
 		{
 			auto it = m_registeredStructTypeDecls.find( type );
+			if ( it == m_registeredStructTypeDecls.end() )
+			{
+				if ( type->hasExplicitLayout() )
+					it = m_registeredStructTypeDecls.find( static_cast< ast::type::StructPtr >( m_typesCache->getNonExplicitLayoutType( type ) ) );
+				else
+					it = m_registeredStructTypeDecls.find( static_cast< ast::type::StructPtr >( m_typesCache->getExplicitLayoutType( type ) ) );
+			}
 			if ( it != m_registeredStructTypeDecls.end() )
 				debugStatement = it->second;
 		}
@@ -1196,7 +1176,6 @@ namespace spirv
 		for ( auto & member : *type )
 		{
 			auto subTypeId = doRegisterTypeRec( member.type
-				, needsExplicitLayout
 				, member.type->getIndex()
 				, result
 				, member.arrayStride
@@ -1222,7 +1201,7 @@ namespace spirv
 
 			if ( member.builtin == ast::Builtin::eNone )
 			{
-				if ( needsExplicitLayout )
+				if ( type->hasExplicitLayout() )
 				{
 					m_module.decorateMember( result
 						, index
@@ -1261,7 +1240,7 @@ namespace spirv
 					, index
 					, spv::DecorationColMajor );
 
-				if ( needsExplicitLayout )
+				if ( type->hasExplicitLayout() )
 				{
 					m_module.decorateMember( result
 						, index
@@ -1275,7 +1254,7 @@ namespace spirv
 			m_module.decorate( result, spv::DecorationBlock );
 		}
 
-		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type, needsExplicitLayout ), result ).first->second;
+		auto & resultId = m_registeredTypes.try_emplace( modtyp::myHash( type ), result ).first->second;
 		m_nonSemanticDebug.registerStructType( std::move( type )
 			, debugSubTypes
 			, debugStatement
@@ -1284,7 +1263,6 @@ namespace spirv
 	}
 
 	TypeId ModuleTypes::doRegisterBaseType( ast::type::TypePtr type
-		, bool needsExplicitLayout
 		, uint32_t mbrIndex
 		, TypeId const & parentId
 		, glsl::Statement const * debugStatement )
@@ -1321,7 +1299,6 @@ namespace spirv
 			|| kind == ast::type::Kind::eRayDesc )
 		{
 			result = doRegisterStructType( static_cast< ast::type::Struct * >( type )
-				, needsExplicitLayout
 				, mbrIndex
 				, parentId
 				, debugStatement );

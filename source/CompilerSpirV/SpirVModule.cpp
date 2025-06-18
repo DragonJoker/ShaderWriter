@@ -302,10 +302,9 @@ namespace spirv
 	}
 
 	TypeId Module::registerType( ast::type::TypePtr type
-		, bool needsExplicitLayout
 		, glsl::Statement const * debugStatement )
 	{
-		return m_types.registerType( std::move( type ), needsExplicitLayout, debugStatement );
+		return m_types.registerType( std::move( type ), debugStatement );
 	}
 
 	TypeId Module::registerImageType( ast::type::ImagePtr image
@@ -548,12 +547,12 @@ namespace spirv
 		, bool isOutput
 		, ast::type::TypePtr type )
 	{
-		auto typeId = m_types.registerType( type, false, nullptr );
+		auto typeId = m_types.registerType( type, nullptr );
 		auto it = m_currentScopeVariables->find( name );
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = m_types.registerType( type, false, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr );
 
 			if ( m_currentFunction )
 			{
@@ -580,7 +579,7 @@ namespace spirv
 
 		if ( it == m_currentScopeVariables->end() )
 		{
-			auto rawTypeId = m_types.registerType( type, isExplicitLayoutNeeded( getStorageClass( type ) ), nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr );
 
 			if ( m_currentFunction )
 			{
@@ -642,7 +641,7 @@ namespace spirv
 						}
 						else
 						{
-							auto typeId = m_types.registerType( type, true, debugStatement );
+							auto typeId = m_types.registerType( type, debugStatement );
 							decorate( typeId, spv::DecorationBlock );
 							varType = getTypesCache().getPointerType( type, ast::type::Storage::ePhysicalStorageBuffer );
 						}
@@ -731,7 +730,7 @@ namespace spirv
 		{
 			DebugId id{ getNextId() };
 			it = m_currentScopeVariables->emplace( name, id ).first;
-			auto rawTypeId = m_types.registerType( type, false, nullptr );
+			auto rawTypeId = m_types.registerType( type, nullptr );
 			IdList operands{ allocator };
 			m_debugNames.registerName( id, name );
 
@@ -814,7 +813,7 @@ namespace spirv
 
 	ValueId Module::registerParameter( ast::type::TypePtr type )
 	{
-		m_types.registerType( type, false, nullptr );
+		m_types.registerType( type, nullptr );
 		return ValueId{ getNextId() };
 	}
 
@@ -1139,7 +1138,7 @@ namespace spirv
 		{
 			auto type = param->getType();
 			auto kind = type->getKind();
-			funcTypes.push_back( m_types.registerType( type, false, nullptr ) );
+			funcTypes.push_back( m_types.registerType( type, nullptr ) );
 
 			if ( isPointerParam( *param ) )
 			{
@@ -1554,7 +1553,7 @@ namespace spirv
 		auto type = varId->type;
 		auto rawType = static_cast< ast::type::Pointer const & >( *type ).getPointerType();
 		auto varStorage = varId.getStorage();
-		auto rawTypeId = m_types.registerType( rawType, isExplicitLayoutNeeded( typeStorage ), debugStatement );
+		auto rawTypeId = m_types.registerType( rawType, debugStatement );
 
 		if ( typeStorage == ast::type::Storage::ePushConstant )
 		{

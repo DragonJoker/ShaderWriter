@@ -810,12 +810,12 @@ namespace test
 		public:
 			SPIRVContext()noexcept
 			{
-#ifdef SDW_AllSpirVVersions
+#if SDW_AllSpirVVersions
 				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
 #else
 				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_6 };
 #endif
-#ifdef SDW_AllVulkanVersions
+#if SDW_AllVulkanVersions
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
 #else
 				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_3 };
@@ -1547,8 +1547,16 @@ namespace test
 		{
 			static std::vector< std::pair< uint32_t, uint32_t > > shaderModels = []()
 			{
-				static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
-				static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
+#if SDW_AllSpirVVersions
+					static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_1, spv1_2, spv1_3, spv1_4, spv1_5, spv1_6 };
+#else
+					static const std::vector< uint32_t > spvVersions{ spv1_0, spv1_6 };
+#endif
+#if SDW_AllVulkanVersions
+					static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_1, vk1_2, vk1_3 };
+#else
+					static const std::vector< uint32_t > vkVersions{ vk1_0, vk1_3 };
+#endif
 
 				uint32_t maxApiVersion{ vk1_3 };
 				std::vector< std::pair< uint32_t, uint32_t > > result;
