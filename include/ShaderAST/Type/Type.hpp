@@ -270,8 +270,7 @@ namespace ast::type
 	{
 	private:
 		template< typename TypeT
-			, typename CreatorT
-			, typename HasherT >
+			, typename ... BaseParamsT >
 		friend class TypeCache;
 		friend class Struct;
 
@@ -292,7 +291,7 @@ namespace ast::type
 			, Type const & nonMbr );
 		SDAST_API Type const * getNonMemberType()const;
 
-		SDAST_API virtual ~Type()noexcept = default;
+		SDAST_API virtual ~Type()noexcept;
 
 		Kind getRawKind()const noexcept
 		{
@@ -359,36 +358,53 @@ namespace ast::type
 	SDAST_API bool isFloatType( Kind kind );
 	SDAST_API bool isDoubleType( Kind kind );
 	SDAST_API bool isScalarType( Kind kind );
-	SDAST_API bool isScalarType( TypePtr type );
 	SDAST_API bool isVectorType( Kind kind );
-	SDAST_API bool isVectorType( TypePtr type );
 	SDAST_API bool isMatrixType( Kind kind );
-	SDAST_API bool isMatrixType( TypePtr type );
+	SDAST_API bool isBasicType( Kind kind );
 	SDAST_API bool isArrayType( Kind kind );
-	SDAST_API bool isArrayType( TypePtr type );
 	SDAST_API bool isStructType( Kind kind );
-	SDAST_API bool isStructType( Type const & type );
-	SDAST_API bool isStructType( TypePtr type );
 	SDAST_API bool isPointerType( Kind kind );
-	SDAST_API bool isPointerType( TypePtr type );
 	SDAST_API bool isSamplerType( Kind kind );
-	SDAST_API bool isSamplerType( TypePtr type );
 	SDAST_API bool isSampledImageType( Kind kind );
-	SDAST_API bool isSampledImageType( TypePtr type );
 	SDAST_API bool isImageType( Kind kind );
-	SDAST_API bool isImageType( TypePtr type );
 	SDAST_API bool isTextureType( Kind kind );
-	SDAST_API bool isTextureType( TypePtr type );
 	SDAST_API bool isAccelerationStructureType( Kind kind );
-	SDAST_API bool isAccelerationStructureType( TypePtr type );
 	SDAST_API bool isHitAttributeType( Kind kind );
-	SDAST_API bool isHitAttributeType( TypePtr type );
 	SDAST_API bool isRayPayloadType( Kind kind );
-	SDAST_API bool isRayPayloadType( TypePtr type );
 	SDAST_API bool isCallableDataType( Kind kind );
-	SDAST_API bool isCallableDataType( TypePtr type );
 	SDAST_API bool isOpaqueType( Kind kind );
+	SDAST_API bool isScalarType( TypePtr type );
+	SDAST_API bool isVectorType( TypePtr type );
+	SDAST_API bool isMatrixType( TypePtr type );
+	SDAST_API bool isBasicType( TypePtr type );
+	SDAST_API bool isArrayType( TypePtr type );
+	SDAST_API bool isStructType( TypePtr type );
+	SDAST_API bool isPointerType( TypePtr type );
+	SDAST_API bool isSamplerType( TypePtr type );
+	SDAST_API bool isSampledImageType( TypePtr type );
+	SDAST_API bool isTextureType( TypePtr type );
+	SDAST_API bool isImageType( TypePtr type );
+	SDAST_API bool isAccelerationStructureType( TypePtr type );
+	SDAST_API bool isHitAttributeType( TypePtr type );
+	SDAST_API bool isRayPayloadType( TypePtr type );
+	SDAST_API bool isCallableDataType( TypePtr type );
 	SDAST_API bool isOpaqueType( TypePtr type );
+	SDAST_API bool isScalarType( Type const & type );
+	SDAST_API bool isVectorType( Type const & type );
+	SDAST_API bool isMatrixType( Type const & type );
+	SDAST_API bool isBasicType( Type const & type );
+	SDAST_API bool isArrayType( Type const & type );
+	SDAST_API bool isStructType( Type const & type );
+	SDAST_API bool isPointerType( Type const & type );
+	SDAST_API bool isSamplerType( Type const & type );
+	SDAST_API bool isSampledImageType( Type const & type );
+	SDAST_API bool isTextureType( Type const & type );
+	SDAST_API bool isImageType( Type const & type );
+	SDAST_API bool isAccelerationStructureType( Type const & type );
+	SDAST_API bool isHitAttributeType( Type const & type );
+	SDAST_API bool isRayPayloadType( Type const & type );
+	SDAST_API bool isCallableDataType( Type const & type );
+	SDAST_API bool isOpaqueType( Type const & type );
 	/**
 	*\remarks
 	*	Returns count * arraySize in case of arrays.

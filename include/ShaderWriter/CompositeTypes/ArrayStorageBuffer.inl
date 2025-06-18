@@ -10,8 +10,8 @@ namespace sdw
 			, ast::type::TypePtr dataType
 			, ast::type::MemoryLayout layout )
 		{
-			ast::type::ArrayPtr arrayType = cache.getArray( dataType, type::UnknownArraySize );
-			auto result = cache.getStruct( layout, name );
+			ast::type::ArrayPtr arrayType = cache.getArray( sdw::makeExplicitLayoutType( dataType ), type::UnknownArraySize, true );
+			auto result = cache.getStruct( layout, name, true );
 			result->declMember( name + "Data", arrayType );
 			return result;
 		}
@@ -20,8 +20,8 @@ namespace sdw
 			, std::string const & name
 			, ast::type::BaseStructPtr dataType )
 		{
-			auto result = cache.getStruct( dataType->getMemoryLayout(), name );
-			result->declMember( name + "Data", dataType, type::UnknownArraySize );
+			auto result = cache.getStruct( dataType->getMemoryLayout(), name, true );
+			result->declMember( name + "Data", sdw::makeExplicitLayoutType( dataType ), type::UnknownArraySize );
 			return result;
 		}
 
@@ -31,8 +31,8 @@ namespace sdw
 			, ParamsT && ... params )
 		{
 			auto & cache = getTypesCache( writer );
-			ast::type::BaseStructPtr result = InstanceT::makeType( cache
-				, std::forward< ParamsT >( params )... );
+			ast::type::BaseStructPtr result = sdw::makeExplicitLayoutType( InstanceT::makeType( cache
+				, std::forward< ParamsT >( params )... ) );
 
 			if ( enabled )
 			{

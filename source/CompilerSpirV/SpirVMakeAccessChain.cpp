@@ -652,7 +652,7 @@ namespace spirv
 		, Block & currentBlock
 		, glsl::Statement const * debugStatement )
 	{
-		auto typeId = shaderModule.registerType( expr.getType(), false, nullptr );
+		auto typeId = shaderModule.registerType( expr.getType(), nullptr );
 		auto outerId = shaderModule.loadVariable( generateModuleExpr( exprCache, *expr.getOuterExpr()
 				, config
 				, context

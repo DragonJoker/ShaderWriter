@@ -24,7 +24,7 @@ namespace spirv
 
 			if ( it == registeredLitConstants.end() )
 			{
-				auto type = shaderModule.getTypes().registerType( valueType, false, nullptr );
+				auto type = shaderModule.getTypes().registerType( valueType, nullptr );
 				DebugId result{ shaderModule.getNextId(), type->type };
 				result.debug = result.id;
 				shaderModule.constantsTypes.push_back( makeInstruction< ConstantInstruction >( shaderModule.getNameCache()
@@ -69,7 +69,7 @@ namespace spirv
 
 		if ( it == m_registeredBoolConstants.end() )
 		{
-			auto type = m_module.registerType( m_module.getTypesCache().getBool(), false, nullptr );
+			auto type = m_module.registerType( m_module.getTypesCache().getBool(), nullptr );
 			DebugId result{ m_module.getNextId(), type->type };
 			result.debug = result.id;
 
@@ -135,7 +135,7 @@ namespace spirv
 
 		if ( it == m_registeredInt64Constants.end() )
 		{
-			auto type = m_module.registerType( m_module.getTypesCache().getInt64(), false, nullptr );
+			auto type = m_module.registerType( m_module.getTypesCache().getInt64(), nullptr );
 			DebugId result{ m_module.getNextId(), type->type };
 			result.debug = result.id;
 			m_declarations.push_back( makeInstruction< ConstantInstruction >( m_module.getNameCache()
@@ -193,7 +193,7 @@ namespace spirv
 
 		if ( it == m_registeredUInt64Constants.end() )
 		{
-			auto type = m_module.registerType( m_module.getTypesCache().getUInt64(), false, nullptr );
+			auto type = m_module.registerType( m_module.getTypesCache().getUInt64(), nullptr );
 			DebugId result{ m_module.getNextId(), type->type };
 			result.debug = result.id;
 			m_declarations.push_back( makeInstruction< ConstantInstruction >( m_module.getNameCache()
@@ -215,7 +215,7 @@ namespace spirv
 
 		if ( it == m_registeredFloatConstants.end() )
 		{
-			auto type = m_module.registerType( m_module.getTypesCache().getFloat(), false, nullptr );
+			auto type = m_module.registerType( m_module.getTypesCache().getFloat(), nullptr );
 			DebugId result{ m_module.getNextId(), type->type };
 			result.debug = result.id;
 			IdList list{ m_allocator };
@@ -239,7 +239,7 @@ namespace spirv
 
 		if ( it == m_registeredDoubleConstants.end() )
 		{
-			auto type = m_module.registerType( m_module.getTypesCache().getDouble(), false, nullptr );
+			auto type = m_module.registerType( m_module.getTypesCache().getDouble(), nullptr );
 			DebugId result{ m_module.getNextId(), type->type };
 			result.debug = result.id;
 			IdList list{ m_allocator };
@@ -260,7 +260,7 @@ namespace spirv
 	DebugId ModuleLiterals::registerLiteral( DebugIdList const & initialisers
 		, ast::type::TypePtr type )
 	{
-		auto typeId = m_module.registerType( type, false, nullptr );
+		auto typeId = m_module.registerType( type, nullptr );
 		auto it = std::find_if( m_registeredCompositeConstants.begin()
 			, m_registeredCompositeConstants.end()
 			, [&initialisers, &typeId]( std::pair< DebugIdList, DebugId > const & lookup )

@@ -855,8 +855,9 @@ namespace ast::type
 		, MemoryLayout layout
 		, std::string name
 		, EntryPoint entryPoint
-		, var::Flag flag )
-		: Struct{ typesCache, layout, name + getNameSuffix( entryPoint, flag ), flag, type::Kind::eStruct, entryPoint }
+		, var::Flag flag
+		, bool explicitLayout )
+		: Struct{ typesCache, layout, name + getNameSuffix( entryPoint, flag ), flag, type::Kind::eStruct, entryPoint, explicitLayout }
 		, m_baseName{ std::move( name ) }
 	{
 	}
@@ -1028,12 +1029,14 @@ namespace ast::type
 	size_t getHash( MemoryLayout layout
 		, std::string const & name
 		, EntryPoint entryPoint
-		, var::Flag flag )
+		, var::Flag flag
+		, bool explicitLayout )
 	{
 		size_t result = std::hash< std::string >{}( name );
 		result = hashCombine( result, layout );
 		result = hashCombine( result, entryPoint );
 		result = hashCombine( result, flag );
+		result = hashCombine( result, explicitLayout );
 		return result;
 	}
 

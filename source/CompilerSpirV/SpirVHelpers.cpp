@@ -3780,22 +3780,12 @@ namespace spirv
 		return fallback;
 	}
 
-	bool isExplicitLayoutNeeded( uint32_t version
-		, ast::expr::Expr const & expr )
-	{
-		auto ident = ast::findIdentifier( expr );
-		return ident && isExplicitLayoutNeeded( getStorageClass( version , ident->getVariable() ) );
-	}
-
-	bool isExplicitLayoutNeeded( ast::type::Storage storage )
-	{
-		return storage == ast::type::Storage::eUniform
-			|| storage == ast::type::Storage::eStorageBuffer
-			|| storage == ast::type::Storage::ePushConstant
-			|| storage == ast::type::Storage::ePhysicalStorageBuffer;
-	}
-
 	bool isMemoryLayoutDependent( ast::type::TypePtr type )
+	{
+		return isMemoryLayoutDependent( *type );
+	}
+
+	bool isMemoryLayoutDependent( ast::type::Type const & type )
 	{
 		return getStructType( type )
 			|| isArrayType( type )

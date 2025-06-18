@@ -215,6 +215,11 @@ namespace ast::type
 			return m_entryPoint;
 		}
 
+		virtual bool isIOStruct()const
+		{
+			return false;
+		}
+
 	protected:
 		std::tuple< uint32_t, uint32_t, bool > doLookupMember( std::string_view name
 			, TypePtr type );
@@ -305,7 +310,8 @@ namespace ast::type
 			, MemoryLayout layout
 			, std::string name
 			, EntryPoint entryPoint
-			, var::Flag flag );
+			, var::Flag flag
+			, bool explicitLayout = false );
 
 		SDAST_API std::pair< Member, bool > declMember( Builtin builtin
 			, TypePtr type
@@ -357,6 +363,11 @@ namespace ast::type
 				, enabled );
 		}
 
+		bool isIOStruct()const override
+		{
+			return true;
+		}
+
 	private:
 		std::pair< Member, bool > doCreateMember( TypePtr type
 			, std::string name
@@ -386,7 +397,8 @@ namespace ast::type
 	SDAST_API size_t getHash( MemoryLayout layout
 		, std::string const & name
 		, EntryPoint entryPoint
-		, var::Flag flag );
+		, var::Flag flag
+		, bool explicitLayout );
 	SDAST_API size_t getHash( TypePtr type
 		, StructPtr parent
 		, uint32_t mbrIndex );

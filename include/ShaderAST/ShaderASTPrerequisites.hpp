@@ -566,8 +566,7 @@ namespace ast
 		using TypePtr = Type *;
 
 		template< typename TypeT
-			, typename CreatorT
-			, typename HasherT >
+			, typename ... ParamsT >
 		class TypeCache;
 		class Function;
 		using FunctionPtr = Function *;

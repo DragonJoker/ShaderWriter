@@ -120,7 +120,7 @@ namespace hlsl
 							{
 								auto & hitAttrType = static_cast< ast::type::HitAttribute const & >( *type );
 								// HLSL HitAttribute must be a structure
-								auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
+								auto structType = m_typesCache.getStruct( ast::type::MemoryLayout::eC
 									, std::string{ "SDW_HLSL_InHitAttribute" } );
 
 								if ( !structType->hasMember( "d" ) )
@@ -129,7 +129,7 @@ namespace hlsl
 									m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 								}
 
-								auto newType = m_rtCache.getHitAttribute( structType );
+								auto newType = m_typesCache.getHitAttribute( structType );
 								m_adaptationData.setHlslType( type, newType );
 								auto var = ast::var::makeVariable( m_adaptationData.getNextVarId()
 									, newType
@@ -226,7 +226,7 @@ namespace hlsl
 				{
 					auto & hitAttrType = static_cast< ast::type::HitAttribute const & >( *type );
 					// HLSL HitAttribute must be a structure
-					auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
+					auto structType = m_typesCache.getStruct( ast::type::MemoryLayout::eC
 						, std::string{ "SDW_HLSL_HitAttribute" } );
 
 					if ( !structType->hasMember( "d" ) )
@@ -235,7 +235,7 @@ namespace hlsl
 						m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 					}
 
-					auto newType = m_rtCache.getHitAttribute( structType );
+					auto newType = m_typesCache.getHitAttribute( structType );
 					m_adaptationData.setHlslType( type, newType );
 					auto replVar = ast::var::makeVariable( m_adaptationData.getNextVarId()
 						, newType
@@ -265,7 +265,7 @@ namespace hlsl
 				{
 					auto & callDataType = static_cast< ast::type::CallableData const & >( *type );
 					// HLSL CallableData must be a structure
-					auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
+					auto structType = m_typesCache.getStruct( ast::type::MemoryLayout::eC
 						, var->isCallableData() ? std::string{ "SDW_HLSL_CallableData" } : std::string{ "SDW_HLSL_CallableDataIn" } );
 
 					if ( !structType->hasMember( "d" ) )
@@ -274,7 +274,7 @@ namespace hlsl
 						m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 					}
 
-					auto newType = m_rtCache.getCallableData( structType
+					auto newType = m_typesCache.getCallableData( structType
 						, callDataType.getLocation() );
 					m_adaptationData.setHlslType( type, newType );
 					auto replVar = ast::var::makeVariable( m_adaptationData.getNextVarId()
@@ -306,7 +306,7 @@ namespace hlsl
 				{
 					auto & rayPayloadType = static_cast< ast::type::RayPayload const & >( *type );
 					// HLSL RayPayload must be a structure
-					auto structType = m_rtCache.getStruct( ast::type::MemoryLayout::eC
+					auto structType = m_typesCache.getStruct( ast::type::MemoryLayout::eC
 						, var->isRayPayload() ? std::string{ "SDW_HLSL_RayPayload" } : std::string{ "SDW_HLSL_RayPayloadIn" } );
 
 					if ( !structType->hasMember( "d" ) )
@@ -315,7 +315,7 @@ namespace hlsl
 						m_inOutDeclarations->addStmt( m_stmtCache.makeStructureDecl( structType ) );
 					}
 
-					auto newType = m_rtCache.getRayPayload( structType
+					auto newType = m_typesCache.getRayPayload( structType
 						, rayPayloadType.getLocation() );
 					m_adaptationData.setHlslType( type, newType );
 					auto replVar = ast::var::makeVariable( m_adaptationData.getNextVarId()
@@ -568,7 +568,6 @@ namespace hlsl
 			AdaptationData & m_adaptationData;
 			HlslShader & m_shader;
 			ast::type::TypesCache & m_typesCache;
-			ast::type::TypesCache m_rtCache;
 			ast::stmt::Container * m_intrinsics;
 			ast::stmt::Container * m_inOutDeclarations;
 			ast::UnorderedStringSet m_declaredStructs;

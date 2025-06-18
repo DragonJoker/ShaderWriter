@@ -24,8 +24,8 @@
 #include <sstream>
 #pragma warning( pop )
 
-#if defined( _WIN32 ) && !defined( TestCommon_STATIC )
-#	if defined( TestCommon_EXPORTS )
+#if defined( _WIN32 ) && !defined( TestASTCommon_STATIC )
+#	if defined( TestASTCommon_EXPORTS )
 #		define ASTTest_API __declspec( dllexport )
 #	else
 #		define ASTTest_API __declspec( dllimport )

@@ -41,10 +41,8 @@ namespace spirv
 			, glsl::Statement const * debugStatement );
 
 		TypeId registerType( ast::type::TypePtr type
-			, bool needsExplicitLayout
 			, glsl::Statement const * debugStatement );
 		TypeId registerType( ast::type::TypePtr type
-			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
@@ -75,14 +73,12 @@ namespace spirv
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterTypeRec( ast::type::TypePtr type
-			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, uint32_t arrayStride
 			, glsl::Statement const * debugStatement );
 		TypeId & doRegisterTypeId( spv::Id id
-			, ast::type::TypePtr type
-			, bool needsExplicitLayout );
+			, ast::type::TypePtr type );
 		TypeId & doRegisterBaseTypeId( spv::Id id
 			, ast::type::Kind kind );
 		void doRegisterTypeId( spv::Id id
@@ -91,7 +87,6 @@ namespace spirv
 		TypeId doRegisterBaseType( ast::type::Kind kind
 			, glsl::Statement const * debugStatement );
 		TypeId doRegisterStructType( ast::type::StructPtr type
-			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );
@@ -103,7 +98,6 @@ namespace spirv
 		TypeId doRegisterSampledImageType( ast::type::SampledImagePtr type );
 		TypeId doRegisterAccelerationStructureType( ast::type::AccelerationStructurePtr type );
 		TypeId doRegisterBaseType( ast::type::TypePtr type
-			, bool needsExplicitLayout
 			, uint32_t mbrIndex
 			, TypeId const & parentId
 			, glsl::Statement const * debugStatement );

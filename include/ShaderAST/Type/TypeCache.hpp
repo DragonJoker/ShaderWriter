@@ -33,13 +33,14 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	template< typename TypeT
-		, typename CreatorT
-		, typename HasherT >
+		, typename ... BaseParamsT >
 	class TypeCache
 	{
 	private:
 		using TypeTPtr = std::unique_ptr< TypeT >;
 		using TypeRPtr = TypeT *;
+		using CreatorT = std::function< TypeTPtr( BaseParamsT ... ) >;
+		using HasherT = std::function< size_t( BaseParamsT ... ) >;
 
 	public:
 		inline TypeCache( CreatorT creator
@@ -49,25 +50,45 @@ namespace ast::type
 		{
 		}
 
-		template< typename ... ParamsT >
-		inline TypeRPtr getType( ParamsT && ... params )
+		inline TypeRPtr getType( BaseParamsT ... params )
 		{
 			auto key = m_hasher( params... );
-			auto it = m_cache.find( key );
-
-			if ( it == m_cache.end() )
-			{
-				it = m_cache.emplace( key, m_creator( std::forward< ParamsT >( params )... ) ).first;
-			}
-
+			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
+			if ( inserted )
+				it->second = m_creator( std::forward< BaseParamsT >( params )... );
 			return it->second.get();
 		}
 
 		template< typename ... ParamsT >
-		inline TypeRPtr registerType( TypeTPtr type, ParamsT && ... params )
+		inline TypeRPtr registerType( BaseParamsT ... params
+			, ParamsT && ... ctorParams )
 		{
 			auto key = m_hasher( params... );
-			auto it = m_cache.try_emplace( key, std::move( type ) ).first;
+			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
+			if ( inserted )
+				it->second = std::make_unique< TypeT >( std::forward< ParamsT >( ctorParams )... );
+			return it->second.get();
+		}
+
+		template< typename TypeU, typename ... ParamsT >
+		inline TypeRPtr registerTypeT( BaseParamsT ... params
+			, ParamsT && ... ctorParams )
+		{
+			auto key = m_hasher( params... );
+			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
+			if ( inserted )
+				it->second = std::make_unique< TypeU >( std::forward< ParamsT >( ctorParams )... );
+			return it->second.get();
+		}
+
+		template< typename ... ParamsT >
+		inline TypeRPtr tryAddType( BaseParamsT ... params
+			, TypeTPtr && type )
+		{
+			auto key = m_hasher( params... );
+			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
+			if ( inserted )
+				it->second = std::move( type );
 			return it->second.get();
 		}
 
@@ -149,7 +170,7 @@ namespace ast::type
 		SDAST_API TypePtr getMat4x2D( bool explicitLayout = false );
 		SDAST_API TypePtr getMat4x3D( bool explicitLayout = false );
 		SDAST_API TypePtr getMat4x4D( bool explicitLayout = false );
-		SDAST_API TypePtr getBasicType( Kind kind );
+		SDAST_API TypePtr getBasicType( Kind kind, bool explicitLayout = false );
 		SDAST_API TypePtr getVec2Type( Kind kind );
 		SDAST_API TypePtr getVec3Type( Kind kind );
 		SDAST_API TypePtr getVec4Type( Kind kind );
@@ -191,7 +212,7 @@ namespace ast::type
 		SDAST_API FunctionPtr getFunction( TypePtr returnType, var::VariableList parameters );
 		SDAST_API BaseStructPtr getStruct( MemoryLayout layout, std::string const & name, bool explicitLayout = false );
 		SDAST_API IOStructPtr getIOStruct( std::string const & name, ast::EntryPoint entryPoint, var::Flag flag );
-		SDAST_API IOStructPtr getIOStruct( std::string const & name, ast::EntryPoint entryPoint, ast::type::MemoryLayout layout, var::Flag flag );
+		SDAST_API IOStructPtr getIOStruct( std::string const & name, ast::EntryPoint entryPoint, ast::type::MemoryLayout layout, var::Flag flag, bool explicitLayout = false );
 		SDAST_API ArrayPtr getArray( TypePtr type, uint32_t arraySize = UnknownArraySize, bool explicitLayout = false );
 
 		SDAST_API TypePtr getMemberType( TypePtr type, Struct & parent, uint32_t memberIndex );
@@ -199,101 +220,52 @@ namespace ast::type
 		SDAST_API StructPtr getMemberType( StructPtr type, Struct & parent, uint32_t memberIndex );
 		SDAST_API Type const * getNonMemberType( TypePtr type )const;
 
+		SDAST_API TypePtr getExplicitLayoutType( TypePtr type );
+		SDAST_API ArrayPtr getExplicitLayoutType( ArrayPtr type );
+		SDAST_API BaseStructPtr getExplicitLayoutType( BaseStructPtr type );
+		SDAST_API IOStructPtr getExplicitLayoutType( IOStructPtr type );
+
+		SDAST_API TypePtr getNonExplicitLayoutType( TypePtr type );
+		SDAST_API ArrayPtr getNonExplicitLayoutType( ArrayPtr type );
+		SDAST_API BaseStructPtr getNonExplicitLayoutType( BaseStructPtr type );
+		SDAST_API IOStructPtr getNonExplicitLayoutType( IOStructPtr type );
+
 		SDAST_API TypePtr getPointerType( TypePtr pointerType, Storage storage );
 		SDAST_API TypePtr getForwardPointerType( TypePtr pointerType, Storage storage );
 
 	private:
 		std::unique_ptr< AccelerationStructure > m_accelerationStructure;
 		std::unique_ptr< RayDesc > m_rayDesc;
-		TypeCache< Type
-			, std::function< std::unique_ptr< Type >( ast::type::Kind, bool ) >
-			, std::function< size_t( ast::type::Kind, bool ) > > m_basic;
-		TypeCache< Type
-			, std::function< std::unique_ptr< Type >( TypePtr, StructPtr, uint32_t ) >
-			, std::function< size_t( TypePtr, StructPtr, uint32_t ) > > m_member;
-		TypeCache< Image
-			, std::function< std::unique_ptr< Image >( ImageConfiguration ) >
-			, std::function< size_t( ImageConfiguration const & ) > > m_image;
-		TypeCache< CombinedImage
-			, std::function< std::unique_ptr< CombinedImage >( ImageConfiguration, bool ) >
-			, std::function< size_t( ImageConfiguration const &, bool ) > > m_texture;
-		TypeCache< SampledImage
-			, std::function< std::unique_ptr< SampledImage >( ImageConfiguration, Trinary ) >
-			, std::function< size_t( ImageConfiguration const &, Trinary ) > > m_sampledImage;
-		TypeCache< Sampler
-			, std::function< std::unique_ptr< Sampler >( bool ) >, std::function< size_t( bool ) > > m_sampler;
-		TypeCache< Function
-			, std::function< std::unique_ptr< Function >( TypePtr, var::VariableList ) >
-			, std::function< size_t( TypePtr, var::VariableList ) > > m_function;
-		TypeCache< BaseStruct
-			, std::function< std::unique_ptr< BaseStruct >( MemoryLayout, std::string, bool ) >
-			, std::function< size_t( MemoryLayout, std::string const &, bool ) > > m_struct;
-		TypeCache< IOStruct
-			, std::function< std::unique_ptr< IOStruct >( MemoryLayout, std::string, EntryPoint, var::Flag ) >
-			, std::function< size_t( MemoryLayout, std::string const &, EntryPoint, var::Flag ) > > m_inputStruct;
-		TypeCache< IOStruct
-			, std::function< std::unique_ptr< IOStruct >( MemoryLayout, std::string, EntryPoint, var::Flag ) >
-			, std::function< size_t( MemoryLayout, std::string const &, EntryPoint, var::Flag ) > > m_outputStruct;
-		TypeCache< Array
-			, std::function< std::unique_ptr< Array >( TypePtr, uint32_t, bool ) >
-			, std::function< size_t( TypePtr, uint32_t, bool ) > > m_array;
-		TypeCache< Pointer
-			, std::function< std::unique_ptr< Pointer >( TypePtr, Storage, bool ) >
-			, std::function< size_t( TypePtr, Storage, bool ) > > m_pointer;
-		TypeCache< RayPayload
-			, std::function< std::unique_ptr< RayPayload >( TypePtr, uint32_t ) >
-			, std::function< size_t( TypePtr, uint32_t ) > > m_rayPayload;
-		TypeCache< CallableData
-			, std::function< std::unique_ptr< CallableData >( TypePtr, uint32_t ) >
-			, std::function< size_t( TypePtr, uint32_t ) > > m_callableData;
-		TypeCache< HitAttribute
-			, std::function< std::unique_ptr< HitAttribute >( TypePtr ) >
-			, std::function< size_t( TypePtr ) > > m_hitAttribute;
-		TypeCache< MeshVertexOutput
-			, std::function< std::unique_ptr< MeshVertexOutput >( TypePtr, uint32_t ) >
-			, std::function< size_t( TypePtr, uint32_t ) > > m_meshVertexOutput;
-		TypeCache< MeshPrimitiveOutput
-			, std::function< std::unique_ptr< MeshPrimitiveOutput >( TypePtr, OutputTopology, uint32_t ) >
-			, std::function< size_t( TypePtr, OutputTopology, uint32_t ) > > m_meshPrimitiveOutput;
-		TypeCache< TaskPayloadNV
-			, std::function< std::unique_ptr< TaskPayloadNV >( TypePtr ) >
-			, std::function< size_t( TypePtr ) > > m_taskPayloadNV;
-		TypeCache< TaskPayloadInNV
-			, std::function< std::unique_ptr< TaskPayloadInNV >( TypePtr ) >
-			, std::function< size_t( TypePtr ) > > m_taskPayloadInNV;
-		TypeCache< TaskPayload
-			, std::function< std::unique_ptr< TaskPayload >( TypePtr ) >
-			, std::function< size_t( TypePtr ) > > m_taskPayload;
-		TypeCache< TaskPayloadIn
-			, std::function< std::unique_ptr< TaskPayloadIn >( TypePtr ) >
-			, std::function< size_t( TypePtr ) > > m_taskPayloadIn;
-		TypeCache< ComputeInput
-			, std::function< std::unique_ptr< ComputeInput >( TypePtr, uint32_t, uint32_t, uint32_t ) >
-			, std::function< size_t( TypePtr, uint32_t, uint32_t, uint32_t ) > > m_compute;
-		TypeCache< FragmentInput
-			, std::function< std::unique_ptr< FragmentInput >( TypePtr, FragmentOrigin, FragmentCenter, InvocationOrdering ) >
-			, std::function< size_t( TypePtr, FragmentOrigin, FragmentCenter, InvocationOrdering ) > > m_fragment;
-		TypeCache< GeometryInput
-			, std::function< std::unique_ptr< GeometryInput >( TypePtr, InputLayout ) >
-			, std::function< size_t( TypePtr, InputLayout ) > > m_geometryInput;
-		TypeCache< GeometryOutput
-			, std::function< std::unique_ptr< GeometryOutput >( TypePtr, OutputLayout, uint32_t ) >
-			, std::function< size_t( TypePtr, OutputLayout, uint32_t ) > > m_geometryOutput;
-		TypeCache< TessellationOutputPatch
-			, std::function< std::unique_ptr< TessellationOutputPatch >( TypePtr, uint32_t ) >
-			, std::function< size_t( TypePtr, uint32_t ) > > m_tessellationOutputPatch;
-		TypeCache< TessellationControlInput
-			, std::function< std::unique_ptr< TessellationControlInput >( TypePtr, uint32_t ) >
-			, std::function< size_t( TypePtr, uint32_t ) > > m_tessellationControlInput;
-		TypeCache< TessellationControlOutput
-			, std::function< std::unique_ptr< TessellationControlOutput >( TypePtr, PatchDomain, Partitioning, OutputTopology, PrimitiveOrdering, uint32_t ) >
-			, std::function< size_t( TypePtr, PatchDomain, Partitioning, OutputTopology, PrimitiveOrdering, uint32_t ) > > m_tessellationControlOutput;
-		TypeCache< TessellationInputPatch
-			, std::function< std::unique_ptr< TessellationInputPatch >( TypePtr, PatchDomain, uint32_t ) >
-			, std::function< size_t( TypePtr, PatchDomain, uint32_t ) > > m_tessellationInputPatch;
-		TypeCache< TessellationEvaluationInput
-			, std::function< std::unique_ptr< TessellationEvaluationInput >( TypePtr, PatchDomain, Partitioning, PrimitiveOrdering, uint32_t ) >
-			, std::function< size_t( TypePtr, PatchDomain, Partitioning, PrimitiveOrdering, uint32_t ) > > m_tessellationEvaluationInput;
+		TypeCache< Type, ast::type::Kind, bool > m_basic;
+		TypeCache< Type, TypePtr, StructPtr, uint32_t > m_member;
+		TypeCache< Image, ImageConfiguration const & > m_image;
+		TypeCache< CombinedImage, ImageConfiguration const &, bool > m_texture;
+		TypeCache< SampledImage, ImageConfiguration const &, Trinary > m_sampledImage;
+		TypeCache< Sampler, bool > m_sampler;
+		TypeCache< Function, TypePtr, var::VariableList > m_function;
+		TypeCache< BaseStruct, MemoryLayout, std::string const &, bool > m_struct;
+		TypeCache< IOStruct, MemoryLayout, std::string const &, EntryPoint, var::Flag, bool > m_inputStruct;
+		TypeCache< IOStruct, MemoryLayout, std::string const &, EntryPoint, var::Flag, bool > m_outputStruct;
+		TypeCache< Array, TypePtr, uint32_t, bool > m_array;
+		TypeCache< Pointer, TypePtr, Storage, bool > m_pointer;
+		TypeCache< RayPayload, TypePtr, uint32_t > m_rayPayload;
+		TypeCache< CallableData, TypePtr, uint32_t > m_callableData;
+		TypeCache< HitAttribute, TypePtr > m_hitAttribute;
+		TypeCache< MeshVertexOutput, TypePtr, uint32_t > m_meshVertexOutput;
+		TypeCache< MeshPrimitiveOutput, TypePtr, OutputTopology, uint32_t > m_meshPrimitiveOutput;
+		TypeCache< TaskPayloadNV, TypePtr > m_taskPayloadNV;
+		TypeCache< TaskPayloadInNV, TypePtr > m_taskPayloadInNV;
+		TypeCache< TaskPayload, TypePtr > m_taskPayload;
+		TypeCache< TaskPayloadIn, TypePtr > m_taskPayloadIn;
+		TypeCache< ComputeInput, TypePtr, uint32_t, uint32_t, uint32_t > m_compute;
+		TypeCache< FragmentInput, TypePtr, FragmentOrigin, FragmentCenter, InvocationOrdering > m_fragment;
+		TypeCache< GeometryInput, TypePtr, InputLayout > m_geometryInput;
+		TypeCache< GeometryOutput, TypePtr, OutputLayout, uint32_t > m_geometryOutput;
+		TypeCache< TessellationOutputPatch, TypePtr, uint32_t > m_tessellationOutputPatch;
+		TypeCache< TessellationControlInput, TypePtr, uint32_t > m_tessellationControlInput;
+		TypeCache< TessellationControlOutput, TypePtr, PatchDomain, Partitioning, OutputTopology, PrimitiveOrdering, uint32_t > m_tessellationControlOutput;
+		TypeCache< TessellationInputPatch, TypePtr, PatchDomain, uint32_t > m_tessellationInputPatch;
+		TypeCache< TessellationEvaluationInput, TypePtr, PatchDomain, Partitioning, PrimitiveOrdering, uint32_t > m_tessellationEvaluationInput;
 	};
 
 	template< typename Func >

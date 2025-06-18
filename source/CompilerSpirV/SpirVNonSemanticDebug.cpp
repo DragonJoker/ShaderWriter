@@ -290,7 +290,7 @@ namespace spirv::debug
 		}
 
 		auto nameId = m_module.registerString( name );
-		auto typeId = m_module.registerType( type, isExplicitLayoutNeeded( storage ), debugStatement );
+		auto typeId = m_module.registerType( type, debugStatement );
 		auto lineId = m_module.registerLiteral( debugStatement->source.lines.start );
 		auto columnId = m_module.registerLiteral( debugStatement->source.columns.start );
 		auto flagsId = m_module.registerLiteral( 0u );
@@ -409,7 +409,7 @@ namespace spirv::debug
 		for ( auto & param : params )
 		{
 			auto paramNameId = m_module.registerString( param->getName() );
-			auto paramTypeId = m_module.registerType( param->getType(), false, scopeBeginDebugStatement );
+			auto paramTypeId = m_module.registerType( param->getType(), scopeBeginDebugStatement );
 			auto paramColumnId = m_module.registerLiteral( 0u );
 			auto paramFlagsId = m_module.registerLiteral( 0u );
 			result.emplace_back( *itParam );

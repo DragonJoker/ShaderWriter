@@ -92,7 +92,6 @@ namespace spirv
 		SDWSPIRV_API void registerStructTypeDebugDecl( ast::type::StructPtr type
 			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API TypeId registerType( ast::type::TypePtr type
-			, bool needsExplicitLayout
 			, glsl::Statement const * debugStatement );
 		SDWSPIRV_API TypeId registerImageType( ast::type::ImagePtr image
 			, bool isComparison );
