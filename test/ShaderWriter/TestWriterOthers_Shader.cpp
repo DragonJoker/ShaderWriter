@@ -550,7 +550,7 @@ namespace
 		sdwTestBegin( "charles_drawID" );
 		using namespace sdw;
 
-	ShaderArray shaders;
+		ShaderArray shaders;
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 

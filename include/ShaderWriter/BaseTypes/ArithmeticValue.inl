@@ -29,6 +29,12 @@ namespace sdw
 	}
 
 	template< ast::type::Kind KindT >
+	ReturnWrapperT< ArithmeticValue< KindT > > ArithmeticValue< KindT >::operator=( CppTypeT< ArithmeticValue< KindT > > rhs )
+	{
+		return writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
+	}
+
+	template< ast::type::Kind KindT >
 	template< ArithmeticT RhsT >
 	ReturnWrapperT< ArithmeticValue< KindT > > ArithmeticValue< KindT >::operator=( RhsT const & rhs )
 	{

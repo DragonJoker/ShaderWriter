@@ -77,9 +77,17 @@ namespace sdw
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, bool value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, int8_t value );
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, int16_t value );
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int32_t value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, int64_t value );
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, uint8_t value );
+	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
+		, uint16_t value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, uint32_t value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
@@ -97,10 +105,22 @@ namespace sdw
 		, bool value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, int8_t value
+		, bool force = true );
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, int16_t value
+		, bool force = true );
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int32_t value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, int64_t value
+		, bool force = true );
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, uint8_t value
+		, bool force = true );
+	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
+		, uint16_t value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, uint32_t value
@@ -138,9 +158,17 @@ namespace sdw
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, bool value );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
+		, int8_t value );
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
+		, int16_t value );
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int32_t value );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, int64_t value );
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
+		, uint8_t value );
+	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
+		, uint16_t value );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, uint32_t value );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer

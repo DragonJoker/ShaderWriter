@@ -25,7 +25,8 @@ namespace sdw
 		~ReturnWrapperT()noexcept override;
 		ReturnWrapperT< ValueT > operator=( ReturnWrapperT const & rhs );
 		ReturnWrapperT< ValueT > operator=( ReturnWrapperT && rhs );
-		ReturnWrapperT< ValueT > operator=( ValueT const & rhs );
+		template< typename T >
+		ReturnWrapperT< ValueT > operator=( T const & rhs );
 
 		type::TypePtr getType()const override;
 		expr::Expr const * getExpr()const override;
@@ -58,6 +59,102 @@ namespace sdw
 
 	template< typename ValueT >
 	static bool constexpr isReturnWrapperV = IsReturnWrapperT< ValueT >::value;
+
+	template< typename LhsT, typename RhsT >
+	auto operator+( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } + RhsT{ rhs };
+	}
+
+	template< typename LhsT, typename RhsT >
+	auto operator-( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } - RhsT{ rhs };
+	}
+
+	template< typename LhsT, typename RhsT >
+	auto operator*( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } *RhsT{ rhs };
+	}
+
+	template< typename LhsT, typename RhsT >
+	auto operator/( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } / RhsT{ rhs };
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	auto operator%( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } % RhsT{ rhs };
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	auto operator<<( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } << RhsT{ rhs };
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	auto operator>>( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } >> RhsT{ rhs };
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	auto operator&( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } & RhsT{ rhs };
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	auto operator|( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } | RhsT{ rhs };
+	}
+
+	template< IntegerT LhsT, IntegerT RhsT >
+	auto operator^( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } ^ RhsT{ rhs };
+	}
+
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	auto operator==( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } == RhsT{ rhs };
+	}
+
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	auto operator!=( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } != RhsT{ rhs };
+	}
+
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	auto operator<( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } < RhsT{ rhs };
+	}
+
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	auto operator<=( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } <= RhsT{ rhs };
+	}
+
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	auto operator>( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } > RhsT{ rhs };
+	}
+
+	template< ArithmeticT LhsT, ArithmeticT RhsT >
+	auto operator>=( ReturnWrapperT< LhsT > const & lhs, ReturnWrapperT< RhsT > const & rhs )
+	{
+		return LhsT{ lhs } >= RhsT{ rhs };
+	}
 }
 
 #include "ReturnWrapper.inl"

@@ -22,6 +22,7 @@ namespace sdw
 		explicit IntegerValue( Value value );
 		explicit IntegerValue( CppTypeT< IntegerValue > rhs );
 
+		ReturnWrapperT< IntegerValue > operator=( CppTypeT< IntegerValue > rhs );
 		template< IntegerT RhsT >
 		ReturnWrapperT< IntegerValue > operator=( RhsT const & rhs );
 		expr::ExprPtr makeCondition()const;
