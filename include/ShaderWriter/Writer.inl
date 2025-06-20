@@ -1567,6 +1567,23 @@ namespace sdw
 	}
 
 	template< typename T, typename ... ParamsT >
+	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer( std::string name
+		, uint32_t binding
+		, uint32_t set
+		, ast::type::MemoryLayout layout
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		return ArrayStorageBufferT< T >{ *this
+			, std::move( name )
+			, T::makeType( getTypesCache(), std::forward< ParamsT >( params )... )
+			, layout
+			, binding
+			, set
+			, enabled };
+	}
+
+	template< typename T, typename ... ParamsT >
 	inline T ShaderWriter::declStorageBuffer(std::string name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
