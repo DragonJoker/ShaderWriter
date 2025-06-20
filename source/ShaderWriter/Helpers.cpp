@@ -1415,4 +1415,24 @@ namespace sdw
 	{
 		return type->getTypesCache().getExplicitLayoutType( type );
 	}
+
+	type::TypePtr makeNonExplicitLayoutType( type::TypePtr type )
+	{
+		return type->getTypesCache().getNonExplicitLayoutType( type );
+	}
+
+	type::ArrayPtr makeNonExplicitLayoutType( type::ArrayPtr type )
+	{
+		return type->getTypesCache().getNonExplicitLayoutType( type );
+	}
+
+	type::BaseStructPtr makeNonExplicitLayoutType( type::BaseStructPtr type )
+	{
+		return type->getTypesCache().getNonExplicitLayoutType( type );
+	}
+
+	type::IOStructPtr makeNonExplicitLayoutType( type::IOStructPtr type )
+	{
+		return type->getTypesCache().getNonExplicitLayoutType( type );
+	}
 }

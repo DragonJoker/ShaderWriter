@@ -73,6 +73,9 @@ namespace test
 			else if constexpr ( std::is_same_v < T, sdw::Vec2 > ) return "Vec2";
 			else if constexpr ( std::is_same_v < T, sdw::Vec3 > ) return "Vec3";
 			else if constexpr ( std::is_same_v < T, sdw::Vec4 > ) return "Vec4";
+			else if constexpr ( std::is_same_v < T, sdw::Half > ) return "Half";
+			else if constexpr ( std::is_same_v < T, sdw::HVec2 > ) return "HVec2";
+			else if constexpr ( std::is_same_v < T, sdw::HVec4 > ) return "HVec4";
 			else if constexpr ( std::is_same_v < T, sdw::Double > ) return "Double";
 			else if constexpr ( std::is_same_v < T, sdw::DVec2 > ) return "DVec2";
 			else if constexpr ( std::is_same_v < T, sdw::DVec3 > ) return "DVec3";

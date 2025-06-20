@@ -504,6 +504,10 @@ namespace sdw
 	SDW_API type::ArrayPtr makeExplicitLayoutType( type::ArrayPtr type );
 	SDW_API type::BaseStructPtr makeExplicitLayoutType( type::BaseStructPtr type );
 	SDW_API type::IOStructPtr makeExplicitLayoutType( type::IOStructPtr type );
+	SDW_API type::TypePtr makeNonExplicitLayoutType( type::TypePtr type );
+	SDW_API type::ArrayPtr makeNonExplicitLayoutType( type::ArrayPtr type );
+	SDW_API type::BaseStructPtr makeNonExplicitLayoutType( type::BaseStructPtr type );
+	SDW_API type::IOStructPtr makeNonExplicitLayoutType( type::IOStructPtr type );
 }
 
 #include "Helpers.inl"
