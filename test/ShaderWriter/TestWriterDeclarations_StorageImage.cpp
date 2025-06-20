@@ -1,61 +1,22 @@
 #include "WriterCommon.hpp"
 
-namespace
+namespace test
 {
 	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
 
-	template< ast::type::AccessKind AccessT
-		, ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	struct StorageImageTypeT
-	{
-		static ast::type::AccessKind constexpr Access = AccessT;
-		static ast::type::ImageDim constexpr Dim = DimT;
-		static bool constexpr Arrayed = ArrayedT;
-		static bool constexpr Ms = MsT;
-	};
-
-#define WriteTypes( Access )\
-		StorageImageTypeT< ast::type::AccessKind::Access, Img1DBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, Img2DBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, Img3DBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, ImgCubeBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, ImgBufferBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, Img1DArrayBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, Img2DArrayBase >\
-		, StorageImageTypeT< ast::type::AccessKind::Access, ImgCubeArrayBase >
-
-	using ParamTypes = testing::Types< WriteTypes( eRead )
-		, WriteTypes( eWrite )
-		, WriteTypes( eReadWrite ) >;
-
-	class ParamTypeNames
-	{
-	public:
-		template< typename TypeParam >
-		static std::string GetName( int )
-		{
-			static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
-			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-			static bool constexpr ArrayedT = TypeParam::Arrayed;
-			static bool constexpr MsT = TypeParam::Ms;
-			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
-				+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
-		}
-	};
+	using StorageImageTypesNames = StorageImageTypesNamesT< FormatT >;
 
 	template< typename ParamT >
-	struct TestParamsT : public SDWTest
+	struct StorageImageDeclaration : public SDWTest
 	{
 	};
 
-	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
+	TYPED_TEST_SUITE( StorageImageDeclaration, StorageImageTypes, StorageImageTypesNames );
 
 #define DummyMain \
 	writer.implementMainT< sdw::VoidT >( 16u, []( sdw::ComputeIn ){} )
 
-	TYPED_TEST( TestParamsT, testImage )
+	TYPED_TEST( StorageImageDeclaration, testImage )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -103,7 +64,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageArray )
+	TYPED_TEST( StorageImageDeclaration, testImageArray )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -151,7 +112,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageOptionalDisabled )
+	TYPED_TEST( StorageImageDeclaration, testImageOptionalDisabled )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -195,7 +156,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageArrayOptionalDisabled )
+	TYPED_TEST( StorageImageDeclaration, testImageArrayOptionalDisabled )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -239,7 +200,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageOptionalEnabled )
+	TYPED_TEST( StorageImageDeclaration, testImageOptionalEnabled )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -289,7 +250,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageArrayOptionalEnabled )
+	TYPED_TEST( StorageImageDeclaration, testImageArrayOptionalEnabled )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -339,7 +300,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageType )
+	TYPED_TEST( StorageImageDeclaration, testImageType )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
@@ -387,7 +348,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testImageTypeArray )
+	TYPED_TEST( StorageImageDeclaration, testImageTypeArray )
 	{
 		static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;

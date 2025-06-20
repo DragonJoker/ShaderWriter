@@ -767,6 +767,7 @@ namespace spirv
 				case ast::type::ImageFormat::eRg16f:
 				case ast::type::ImageFormat::eR32f:
 				case ast::type::ImageFormat::eR16f:
+				case ast::type::ImageFormat::eR11fG11fB10f:
 				case ast::type::ImageFormat::eRg32i:
 				case ast::type::ImageFormat::eRg16i:
 				case ast::type::ImageFormat::eRg8i:
@@ -779,6 +780,18 @@ namespace spirv
 				case ast::type::ImageFormat::eR32u:
 				case ast::type::ImageFormat::eR16u:
 				case ast::type::ImageFormat::eR8u:
+				case ast::type::ImageFormat::eRgb10A2u:
+				case ast::type::ImageFormat::eRgba16Snorm:
+				case ast::type::ImageFormat::eRg16Snorm:
+				case ast::type::ImageFormat::eRg8Snorm:
+				case ast::type::ImageFormat::eR16Snorm:
+				case ast::type::ImageFormat::eR8Snorm:
+				case ast::type::ImageFormat::eRgba16Unorm:
+				case ast::type::ImageFormat::eRg16Unorm:
+				case ast::type::ImageFormat::eRg8Unorm:
+				case ast::type::ImageFormat::eR16Unorm:
+				case ast::type::ImageFormat::eR8Unorm:
+				case ast::type::ImageFormat::eRgb10A2Unorm:
 					m_result.registerCapability( spv::CapabilityStorageImageExtendedFormats );
 					break;
 				default:

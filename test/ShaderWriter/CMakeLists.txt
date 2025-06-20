@@ -155,6 +155,7 @@ if ( SDW_ALL_TESTS )
 		eRg16f
 		eR32f
 		eR16f
+		eR11fG11fB10f
 		eRgba32i
 		eRgba16i
 		eRgba8i
@@ -173,6 +174,20 @@ if ( SDW_ALL_TESTS )
 		eR32u
 		eR16u
 		eR8u
+		eRgb10A2u
+		eRgba16Snorm
+		eRgba8Snorm
+		eRg16Snorm
+		eRg8Snorm
+		eR16Snorm
+		eR8Snorm
+		eRgba16Unorm
+		eRgba8Unorm
+		eRg16Unorm
+		eRg8Unorm
+		eR16Unorm
+		eR8Unorm
+		eRgb10A2Unorm
 	)
 	set( BO_TYPES
 		Int8
@@ -337,12 +352,19 @@ else ()
 		eRgba32f
 		eRg16f
 		eR32f
+		eR11fG11fB10f
 		eRgba16i
 		eRg8i
 		eR32i
 		eRgba8u
 		eRg32u
 		eR16u
+		eRgb10A2u
+		eRgba16Snorm
+		eRgba8Unorm
+		eRg8Snorm
+		eR16Unorm
+		eRgb10A2Unorm
 	)
 	set( BO_TYPES
 		Int8

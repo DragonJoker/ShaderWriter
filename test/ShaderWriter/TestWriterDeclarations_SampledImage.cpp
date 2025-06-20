@@ -1,59 +1,29 @@
 #include "WriterCommon.hpp"
 
-namespace
+namespace test
 {
 	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
 
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT >
-	struct SampledImageTypeT
-	{
-		static ast::type::ImageDim constexpr Dim = DimT;
-		static bool constexpr Arrayed = ArrayedT;
-		static bool constexpr Ms = MsT;
-	};
-
-	using ParamTypes = testing::Types< SampledImageTypeT< Img1DBase >
-		, SampledImageTypeT< Img2DBase >
-		, SampledImageTypeT< Img3DBase >
-		, SampledImageTypeT< ImgCubeBase >
-		, SampledImageTypeT< ImgBufferBase >
-		, SampledImageTypeT< Img1DArrayBase >
-		, SampledImageTypeT< Img2DArrayBase >
-		, SampledImageTypeT< ImgCubeArrayBase > >;
-
-	class ParamTypeNames
-	{
-	public:
-		template< typename TypeParam >
-		static std::string GetName( int )
-		{
-			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-			static bool constexpr ArrayedT = TypeParam::Arrayed;
-			static bool constexpr MsT = TypeParam::Ms;
-			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-				+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
-		}
-	};
+	using SampledImageTypesNames = SampledImageTypesNamesT< FormatT >;
 
 	template< typename ParamT >
-	struct TestParamsT : public SDWTest
+	struct SampledImageDeclaration : public SDWTest
 	{
 	};
 
-	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
+	TYPED_TEST_SUITE( SampledImageDeclaration, SampledImageTypes, SampledImageTypesNames );
 
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
-	TYPED_TEST( TestParamsT, testSampledBase )
+	TYPED_TEST( SampledImageDeclaration, testSampledBase )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledBase" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -91,14 +61,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledBaseArray )
+	TYPED_TEST( SampledImageDeclaration, testSampledBaseArray )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledBaseArray" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -136,14 +107,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledOptDisabled )
+	TYPED_TEST( SampledImageDeclaration, testSampledOptDisabled )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledOptDisabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -177,14 +149,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledArrayOptDisabled )
+	TYPED_TEST( SampledImageDeclaration, testSampledArrayOptDisabled )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledArrayOptDisabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -218,14 +191,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledOptEnabled )
+	TYPED_TEST( SampledImageDeclaration, testSampledOptEnabled )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledOptEnabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -265,14 +239,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledArrayOptEnabled )
+	TYPED_TEST( SampledImageDeclaration, testSampledArrayOptEnabled )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledArrayOptEnabled" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -312,14 +287,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledType )
+	TYPED_TEST( SampledImageDeclaration, testSampledType )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledType" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;
@@ -357,14 +333,15 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testSampledTypeArray )
+	TYPED_TEST( SampledImageDeclaration, testSampledTypeArray )
 	{
-		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-		static bool constexpr ArrayedT = TypeParam::Arrayed;
-		static bool constexpr MsT = TypeParam::Ms;
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
 		sdwTestBegin( "testSampledTypeArray" );
 		auto nameBase = sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
-			+ sdw::debug::getImageTypeName( FormatT, DimT, ArrayedT, MsT );
+			+ sdw::debug::getImageTypeName( FormatT, sdw::type::AccessKind::eRead, DimT, sdw::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
 		{
 			astOn( "SplitParams" );
 			sdw::FragmentWriter writer;

@@ -59,6 +59,88 @@ namespace test
 		, sdw::DMat2x2, sdw::DMat3x3, sdw::DMat4x4 >;
 	using Vec3FloatDoubleTypes = testing::Types< sdw::Vec3, sdw::DVec3 >;
 
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+	struct CombinedImageTypeT
+	{
+		static ast::type::ImageDim constexpr Dim = DimT;
+		static bool constexpr Arrayed = ArrayedT;
+		static bool constexpr Ms = MsT;
+		static bool constexpr Depth = DepthT;
+	};
+
+	using CombinedImageTypes = testing::Types< CombinedImageTypeT< Img1DBase, false >
+		, CombinedImageTypeT< Img2DBase, false >
+		, CombinedImageTypeT< Img3DBase, false >
+		, CombinedImageTypeT< ImgCubeBase, false >
+		, CombinedImageTypeT< ImgBufferBase, false >
+		, CombinedImageTypeT< Img1DArrayBase, false >
+		, CombinedImageTypeT< Img2DArrayBase, false >
+		, CombinedImageTypeT< ImgCubeArrayBase, false >
+		, CombinedImageTypeT< Img1DBase, true >
+		, CombinedImageTypeT< Img2DBase, true >
+		, CombinedImageTypeT< ImgCubeBase, true >
+		, CombinedImageTypeT< Img1DArrayBase, true >
+		, CombinedImageTypeT< Img2DArrayBase, true >
+		, CombinedImageTypeT< ImgCubeArrayBase, true > >;
+
+	template< ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT >
+	struct SampledImageTypeT
+	{
+		static ast::type::ImageDim constexpr Dim = DimT;
+		static bool constexpr Arrayed = ArrayedT;
+		static bool constexpr Ms = MsT;
+		static bool constexpr Depth = DepthT;
+	};
+
+	using SampledImageTypes = testing::Types< SampledImageTypeT< Img1DBase, false >
+		, SampledImageTypeT< Img2DBase, false >
+		, SampledImageTypeT< Img3DBase, false >
+		, SampledImageTypeT< ImgCubeBase, false >
+		, SampledImageTypeT< ImgBufferBase, false >
+		, SampledImageTypeT< Img1DArrayBase, false >
+		, SampledImageTypeT< Img2DArrayBase, false >
+		, SampledImageTypeT< ImgCubeArrayBase, false >
+		, SampledImageTypeT< Img1DBase, true >
+		, SampledImageTypeT< Img2DBase, true >
+		, SampledImageTypeT< ImgCubeBase, true >
+		, SampledImageTypeT< Img1DArrayBase, true >
+		, SampledImageTypeT< Img2DArrayBase, true >
+		, SampledImageTypeT< ImgCubeArrayBase, true > >;
+
+	template< ast::type::AccessKind AccessT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT >
+	struct StorageImageTypeT
+	{
+		static ast::type::AccessKind constexpr Access = AccessT;
+		static ast::type::ImageDim constexpr Dim = DimT;
+		static bool constexpr Arrayed = ArrayedT;
+		static bool constexpr Ms = MsT;
+	};
+
+#define WriteTypes( Access )\
+		StorageImageTypeT< ast::type::AccessKind::Access, Img1DBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img2DBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img3DBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, ImgCubeBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, ImgBufferBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img1DArrayBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, Img2DArrayBase >\
+		, StorageImageTypeT< ast::type::AccessKind::Access, ImgCubeArrayBase >
+
+	using StorageImageTypes = testing::Types< WriteTypes( eRead )
+		, WriteTypes( eWrite )
+		, WriteTypes( eReadWrite ) >;
+
+#undef WriteTypes
+
 	class TypesNames
 	{
 	public:
@@ -130,6 +212,54 @@ namespace test
 			else if constexpr ( std::is_same_v < T, sdw::DMat4x2 > ) return "DMat4x2";
 			else if constexpr ( std::is_same_v < T, sdw::DMat4x3 > ) return "DMat4x3";
 			else if constexpr ( std::is_same_v < T, sdw::DMat4x4 > ) return "DMat4x4";
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT >
+	class CombinedImageTypesNamesT
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
+		{
+			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+			static bool constexpr ArrayedT = TypeParam::Arrayed;
+			static bool constexpr MsT = TypeParam::Ms;
+			static bool constexpr DepthT = TypeParam::Depth;
+			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
+				+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT >
+	class SampledImageTypesNamesT
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
+		{
+			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+			static bool constexpr ArrayedT = TypeParam::Arrayed;
+			static bool constexpr MsT = TypeParam::Ms;
+			static bool constexpr DepthT = TypeParam::Depth;
+			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::SampledImage > )
+				+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
+		}
+	};
+
+	template< ast::type::ImageFormat FormatT >
+	class StorageImageTypesNamesT
+	{
+	public:
+		template< typename TypeParam >
+		static std::string GetName( int )
+		{
+			static ast::type::AccessKind constexpr AccessT = TypeParam::Access;
+			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
+			static bool constexpr ArrayedT = TypeParam::Arrayed;
+			static bool constexpr MsT = TypeParam::Ms;
+			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::StorageImage > )
+				+ sdw::debug::getImageTypeName( FormatT, AccessT, DimT, ArrayedT, MsT );
 		}
 	};
 

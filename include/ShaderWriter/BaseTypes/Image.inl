@@ -87,6 +87,19 @@ namespace sdw
 	};
 
 	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eR11fG11fB10f >
+	{
+		using SampleType = Vec3;
+		using FetchType = Vec3;
+		using GatherType = Vec3;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
+	};
+
+	template<>
 	struct ImageFormatTraitsT< type::ImageFormat::eR16f >
 	{
 		using SampleType = Float;
@@ -331,5 +344,187 @@ namespace sdw
 		static constexpr bool isUInt = true;
 		static constexpr bool isSingle = true;
 		static constexpr size_t size = 8u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgb10A2u >
+	{
+		using SampleType = U32Vec4;
+		using FetchType = U32Vec4;
+		using GatherType = U32Vec4;
+		static constexpr bool isFloat = false;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = true;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba16Snorm >
+	{
+		using SampleType = Vec4;
+		using FetchType = Vec4;
+		using GatherType = Vec4;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 64u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba8Snorm >
+	{
+		using SampleType = Vec4;
+		using FetchType = Vec4;
+		using GatherType = Vec4;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRg16Snorm >
+	{
+		using SampleType = Vec2;
+		using FetchType = Vec2;
+		using GatherType = Vec2;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRg8Snorm >
+	{
+		using SampleType = Vec2;
+		using FetchType = Vec2;
+		using GatherType = Vec2;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 16u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eR16Snorm >
+	{
+		using SampleType = Float;
+		using FetchType = Float;
+		using GatherType = Float;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 16u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eR8Snorm >
+	{
+		using SampleType = Float;
+		using FetchType = Float;
+		using GatherType = Float;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 8u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba16Unorm >
+	{
+		using SampleType = Vec4;
+		using FetchType = Vec4;
+		using GatherType = Vec4;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 64u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgba8Unorm >
+	{
+		using SampleType = Vec4;
+		using FetchType = Vec4;
+		using GatherType = Vec4;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRg16Unorm >
+	{
+		using SampleType = Vec2;
+		using FetchType = Vec2;
+		using GatherType = Vec2;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRg8Unorm >
+	{
+		using SampleType = Vec2;
+		using FetchType = Vec2;
+		using GatherType = Vec2;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 16u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eR16Unorm >
+	{
+		using SampleType = Float;
+		using FetchType = Float;
+		using GatherType = Float;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 16u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eR8Unorm >
+	{
+		using SampleType = Float;
+		using FetchType = Float;
+		using GatherType = Float;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 8u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgb10A2Unorm >
+	{
+		using SampleType = Vec4;
+		using FetchType = Vec4;
+		using GatherType = Vec4;
+		static constexpr bool isFloat = true;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 32u;
 	};
 }

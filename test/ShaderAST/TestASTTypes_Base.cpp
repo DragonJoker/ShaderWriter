@@ -2659,6 +2659,12 @@ namespace
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eR11fG11fB10f );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec3F )
+		}
+		{
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
@@ -2765,6 +2771,90 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgb10A2u );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4U32 )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgba8Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRg16Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRg8Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eR16Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eR8Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgba8Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRg16Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRg8Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eR16Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eR8Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgb10A2Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		astTestEnd()
 	}
