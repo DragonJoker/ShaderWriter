@@ -934,7 +934,8 @@ namespace glsl
 			intrinsicsConfig.requiredExtensions.insert( KHR_vulkan_glsl );
 		}
 
-		if ( intrinsicsConfig.requiresSeparateSamplers )
+		if ( intrinsicsConfig.requiresSeparateSamplers
+			|| intrinsicsConfig.requiredExtensions.contains( KHR_vulkan_glsl ) )
 		{
 			if ( ( !writerConfig.vulkanGlsl )
 				|| !writerConfig.availableExtensions.contains( KHR_vulkan_glsl ) )

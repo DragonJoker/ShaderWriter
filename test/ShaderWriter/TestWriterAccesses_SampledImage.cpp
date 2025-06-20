@@ -5,9 +5,26 @@
 #pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma warning( disable:5245 )
 
-namespace
+namespace test
 {
 	static ast::type::ImageFormat constexpr FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
+
+	using SampledImageTypesNames = SampledImageTypesNamesT< FormatT >;
+
+	template< ast::type::ImageDim DimT >
+	struct CompilerHolderT
+	{
+		static constexpr test::Compilers value = CurrentCompilers;
+	};
+
+	template<>
+	struct CompilerHolderT< ast::type::ImageDim::eBuffer >
+	{
+		static constexpr test::Compilers value = Compilers_AllButSpv16;
+	};
+
+	template< ast::type::ImageDim DimT >
+	inline constexpr test::Compilers CompilersT = CompilerHolderT< DimT >::value;
 
 #pragma region Helpers
 	/**
@@ -27,6 +44,13 @@ namespace
 		|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
 		|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
 		|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > );
+
+	template< typename ParamT >
+	struct SampledImageAccess : public SDWTest
+	{
+	};
+
+	TYPED_TEST_SUITE( SampledImageAccess, SampledImageTypes, SampledImageTypesNames );
 	/**@}*/
 #pragma endregion
 #pragma region texture
@@ -35,40 +59,24 @@ namespace
 	*	texture
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageTester
+	TYPED_TEST( SampledImageAccess, texture )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "texture" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSample" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -77,35 +85,11 @@ namespace
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( isShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( isShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -115,18 +99,11 @@ namespace
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 0.5_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureBias
@@ -135,40 +112,24 @@ namespace
 	*	textureBias
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageBiasTester
+	TYPED_TEST( SampledImageAccess, textureBias )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureBias" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -178,38 +139,14 @@ namespace
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -220,18 +157,11 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProj
@@ -240,36 +170,20 @@ namespace
 	*	textureProj
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjTester
+	TYPED_TEST( SampledImageAccess, textureProj )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProj" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProj" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -278,36 +192,12 @@ namespace
 						auto e = writer.declLocale( "e"
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -317,18 +207,11 @@ namespace
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 0.5_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProjBias
@@ -337,36 +220,20 @@ namespace
 	*	textureProjBias
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjBiasTester
+	TYPED_TEST( SampledImageAccess, textureProjBias )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjBias" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -376,36 +243,12 @@ namespace
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -416,18 +259,11 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureLod
@@ -436,40 +272,24 @@ namespace
 	*	textureLod
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageLodTester
+	TYPED_TEST( SampledImageAccess, textureLod )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureLod" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -479,37 +299,13 @@ namespace
 							, combine( i, s ).lod( test::getDefault< SampleT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleLodShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -520,18 +316,11 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureOffset
@@ -540,39 +329,23 @@ namespace
 	*	textureOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureOffset" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -582,39 +355,15 @@ namespace
 							, combine( i, s ).sample( test::getDefault< SampleT >( writer )
 								, test::getDefault < OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -625,59 +374,36 @@ namespace
 								, 0.5_f
 								, test::getDefault < OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureOffsetBias
 	/**
 	*name
-	*	textureOffset
+	*	textureOffsetBias
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageConstOffsetBiasTester
+	TYPED_TEST( SampledImageAccess, textureOffsetBias )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureOffsetBias" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -688,37 +414,13 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -730,16 +432,9 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
 	};
 	/**@}*/
@@ -750,37 +445,21 @@ namespace
 	*	textureProjOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureProjOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjOffset" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -790,37 +469,13 @@ namespace
 							, combine( i, s ).proj( test::getDefault< SampleProjT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjConstOffsetShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -831,18 +486,11 @@ namespace
 								, 0.5_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProjOffsetBias
@@ -851,37 +499,21 @@ namespace
 	*	textureProjOffsetBias
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjConstOffsetBiasTester
+	TYPED_TEST( SampledImageAccess, textureProjOffsetBias )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjOffsetBias" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjConstOffsetBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -892,37 +524,13 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjConstOffsetBiasTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjConstOffsetShadowBias" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -934,18 +542,11 @@ namespace
 								, test::getDefault< OffsetT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureLodOffset
@@ -954,39 +555,23 @@ namespace
 	*	textureLodOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageLodConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureLodOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureLodOffset" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -997,38 +582,14 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleLodShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1040,16 +601,9 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
 	};
 	/**@}*/
@@ -1060,36 +614,20 @@ namespace
 	*	textureProjLod
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjLodTester
+	TYPED_TEST( SampledImageAccess, textureProjLod )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjLod" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1099,36 +637,12 @@ namespace
 							, combine( i, s ).projLod( test::getDefault< SampleProjT >( writer )
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjLodTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjShadowLod" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1139,18 +653,11 @@ namespace
 								, 0.5_f
 								, 1.0_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProjLodOffset
@@ -1159,37 +666,21 @@ namespace
 	*	textureProjLodOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjLodConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureProjLodOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjLodOffset" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1200,37 +691,13 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjLodConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjShadowLodConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1242,18 +709,11 @@ namespace
 								, 1.0_f
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureGrad
@@ -1262,41 +722,25 @@ namespace
 	*	textureGrad
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageGradTester
+	TYPED_TEST( SampledImageAccess, textureGrad )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureGrad" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1307,38 +751,14 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1350,18 +770,11 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureGradOffset
@@ -1370,40 +783,24 @@ namespace
 	*	textureGradOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageGradConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureGradOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureGradOffset" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::is3dV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1415,40 +812,16 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is1dArrayShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleT = typename sdw::CombinedImageSampleT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1461,18 +834,11 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProjGrad
@@ -1481,37 +847,21 @@ namespace
 	*	textureProjGrad
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjGradTester
+	TYPED_TEST( SampledImageAccess, textureProjGrad )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjGrad" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1522,37 +872,13 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjGradTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjShadowGrad" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1564,18 +890,11 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< DerivativeT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureProjGradOffset
@@ -1584,38 +903,22 @@ namespace
 	*	textureProjGradOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageProjGradConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureProjGradOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureProjGradOffset" );
+			if constexpr ( sdw::is1dV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::is3dV< DimT, ArrayedT, DepthT > ) 
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1627,38 +930,14 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageProjGradConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
-		using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleProjShadowGradConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is1dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using SampleProjT = typename sdw::CombinedImageSampleProjT< DimT, ArrayedT >;
+				using DerivativeT = typename sdw::CombinedImageDerivativeT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1671,16 +950,9 @@ namespace
 								, test::getDefault< DerivativeT >( writer )
 								, test::getDefault< OffsetT >( writer ) ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
 	};
 	/**@}*/
@@ -1691,37 +963,21 @@ namespace
 	*	textureGather
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageGatherTester
+	TYPED_TEST( SampledImageAccess, textureGather )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
+			sdwTestBegin( "textureGather" );
+			if constexpr ( sdw::is2dV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT >
-				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGather" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::isCubeArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1731,38 +987,14 @@ namespace
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 1_i ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+			else if constexpr ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::isCubeShadowV< DimT, ArrayedT, DepthT >
 				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherShadow" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+				|| sdw::isCubeArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1772,18 +1004,65 @@ namespace
 							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
 								, 0.5_f ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
+	/**@}*/
+#pragma endregion
+#pragma region textureGatherConstOffset
+	/**
+	*name
+	*	textureGatherConstOffset
+	*/
+	/**@{*/
+	TYPED_TEST( SampledImageAccess, textureGatherConstOffset )
+	{
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
+		{
+			sdwTestBegin( "textureGatherConstOffset" );
+			if constexpr ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
+			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
+				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
+				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
+				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+					{
+						auto e = writer.declLocale( "e"
+							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
+								, 1_i
+								, test::getDefault< OffsetT >( writer ) ) );
+					} );
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
+			}
+			else if constexpr ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > )
+			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
+				sdw::FragmentWriter writer{ &testCounts.allocator };
+				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
+				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
+				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
+					{
+						auto e = writer.declLocale( "e"
+							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
+								, 0.5_f
+								, test::getDefault< OffsetT >( writer ) ) );
+					} );
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
+			}
+			sdwTestEnd()
+		}
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureGatherOffset
@@ -1792,130 +1071,20 @@ namespace
 	*	textureGatherOffset
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageGatherConstOffsetTester
+	TYPED_TEST( SampledImageAccess, textureGatherOffset )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			sdwTestBegin( "textureGatherOffset" );
+			if constexpr ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
 			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
-				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto e = writer.declLocale( "e"
-							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
-								, 1_i
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
-			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherConstOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherShadowConstOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
-			{
-				sdw::FragmentWriter writer{ &testCounts.allocator };
-				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
-				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
-				writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out )
-					{
-						auto e = writer.declLocale( "e"
-							, combine( i, s ).gather( test::getDefault< GatherT >( writer )
-								, 0.5_f
-								, test::getDefault< OffsetT >( writer ) ) );
-					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
-			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageGatherOffsetTester
-	{
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
-			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1928,37 +1097,13 @@ namespace
 								, 1_i
 								, p ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherOffsetTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherShadowOffset" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -1971,18 +1116,11 @@ namespace
 								, 0.5_f
 								, p ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
+	}
 	/**@}*/
 #pragma endregion
 #pragma region textureGatherOffsets
@@ -1991,36 +1129,20 @@ namespace
 	*	textureGatherOffsets
 	*/
 	/**@{*/
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT
-		, typename Enable = void >
-	struct SampledImageGatherOffsetsTester
+	TYPED_TEST( SampledImageAccess, textureGatherOffsets )
 	{
-		static void test( test::sdw_test::TestCounts & testCounts )
+		static constexpr auto DimT = TypeParam::Dim;
+		static constexpr auto ArrayedT = TypeParam::Arrayed;
+		static constexpr auto DepthT = TypeParam::Depth;
+		static constexpr auto MsT = TypeParam::Ms;
+		if constexpr ( !DepthT || isShadowFormatV )
 		{
-		}
-	};
-	
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			sdwTestBegin( "textureGatherOffsets" );
+			if constexpr ( sdw::is2dV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayV< DimT, ArrayedT, DepthT > )
 			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -2033,37 +1155,13 @@ namespace
 								, 1_i
 								, offsets ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
-		}
-	};
-
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct SampledImageGatherOffsetsTester< DimT, ArrayedT, MsT, DepthT
-		, std::enable_if_t< ( !DepthT || isShadowFormatV )
-			&& ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
-				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > ) > >
-	{
-		using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
-		using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
-
-		static void test( test::sdw_test::TestCounts & testCounts )
-		{
-			auto name = "testSampleGatherShadowOffsets" + sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-			astOn( name );
-			using namespace sdw;
+			else if constexpr ( sdw::is2dShadowV< DimT, ArrayedT, DepthT >
+				|| sdw::is2dArrayShadowV< DimT, ArrayedT, DepthT > )
 			{
+				using GatherT = typename sdw::CombinedImageGatherT< DimT, ArrayedT >;
+				using OffsetT = typename sdw::CombinedImageOffsetT< DimT, ArrayedT >;
 				sdw::FragmentWriter writer{ &testCounts.allocator };
 				auto i = writer.declSampledImg< FormatT, DimT, ArrayedT, MsT >( "i", 0u, 0u );
 				auto s = writer.declSampler< DepthT >( "s", 1u, 0u );
@@ -2076,75 +1174,10 @@ namespace
 								, 0.5_f
 								, offsets ) );
 					} );
-
-				if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-				{
-					test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-				}
-				else
-				{
-					test::writeShader( writer, testCounts, CurrentCompilers );
-				}
+				test::writeShader( writer, testCounts, CompilersT< DimT > );
 			}
+			sdwTestEnd()
 		}
-	};
-	/**@}*/
-#pragma endregion
-#pragma region Main test function
-
-#define WriteTesterTypes( TesterName )\
-		TesterName< Img1DBase, false >\
-		, TesterName< Img2DBase, false >\
-		, TesterName< Img3DBase, false >\
-		, TesterName< ImgCubeBase, false >\
-		, TesterName< ImgBufferBase, false >\
-		, TesterName< Img1DArrayBase, false >\
-		, TesterName< Img2DArrayBase, false >\
-		, TesterName< ImgCubeArrayBase, false >\
-		, TesterName< Img1DBase, true >\
-		, TesterName< Img2DBase, true >\
-		, TesterName< ImgCubeBase, true >\
-		, TesterName< Img1DArrayBase, true >\
-		, TesterName< Img2DArrayBase, true >\
-		, TesterName< ImgCubeArrayBase, true >
-
-	using ParamTypes = testing::Types< WriteTesterTypes( SampledImageTester )
-		, WriteTesterTypes( SampledImageBiasTester )
-		, WriteTesterTypes( SampledImageProjTester )
-		, WriteTesterTypes( SampledImageProjBiasTester )
-		, WriteTesterTypes( SampledImageLodTester )
-		, WriteTesterTypes( SampledImageConstOffsetTester )
-		, WriteTesterTypes( SampledImageConstOffsetBiasTester )
-		, WriteTesterTypes( SampledImageProjConstOffsetTester )
-		, WriteTesterTypes( SampledImageProjConstOffsetBiasTester )
-		, WriteTesterTypes( SampledImageLodConstOffsetTester )
-		, WriteTesterTypes( SampledImageProjLodTester )
-		, WriteTesterTypes( SampledImageProjLodConstOffsetTester )
-		, WriteTesterTypes( SampledImageGradTester )
-		, WriteTesterTypes( SampledImageGradConstOffsetTester )
-		, WriteTesterTypes( SampledImageProjGradTester )
-		, WriteTesterTypes( SampledImageProjGradConstOffsetTester )
-		, WriteTesterTypes( SampledImageGatherTester )
-		, WriteTesterTypes( SampledImageGatherConstOffsetTester )
-		, WriteTesterTypes( SampledImageGatherOffsetTester )
-		, WriteTesterTypes( SampledImageGatherOffsetsTester ) >;
-
-	template< typename ParamT >
-	struct TestParamsT : public SDWTest
-	{
-	};
-
-	TYPED_TEST_SUITE( TestParamsT, ParamTypes );
-	/**
-	*name
-	*	Main test function
-	*/
-	/**@{*/
-	TYPED_TEST( TestParamsT, testsTexture )
-	{
-		sdwTestBegin( "testsTexture" );
-		TypeParam::test( testCounts );
-		sdwTestEnd()
 	}
 	/**@}*/
 #pragma endregion

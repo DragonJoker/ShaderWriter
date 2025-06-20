@@ -75,6 +75,8 @@ namespace spirv
 				return spv::ImageFormatR32f;
 			case ast::type::ImageFormat::eR16f:
 				return spv::ImageFormatR16f;
+			case ast::type::ImageFormat::eR11fG11fB10f:
+				return spv::ImageFormatR11fG11fB10f;
 			case ast::type::ImageFormat::eRgba32i:
 				return spv::ImageFormatRgba32i;
 			case ast::type::ImageFormat::eRgba16i:
@@ -111,6 +113,34 @@ namespace spirv
 				return spv::ImageFormatR16ui;
 			case ast::type::ImageFormat::eR8u:
 				return spv::ImageFormatR8ui;
+			case ast::type::ImageFormat::eRgb10A2u:
+				return spv::ImageFormatRgb10a2ui;
+			case ast::type::ImageFormat::eRgba16Snorm:
+				return spv::ImageFormatRgba16Snorm;
+			case ast::type::ImageFormat::eRgba8Snorm:
+				return spv::ImageFormatRgba8Snorm;
+			case ast::type::ImageFormat::eRg16Snorm:
+				return spv::ImageFormatRg16Snorm;
+			case ast::type::ImageFormat::eRg8Snorm:
+				return spv::ImageFormatRg8Snorm;
+			case ast::type::ImageFormat::eR16Snorm:
+				return spv::ImageFormatR16Snorm;
+			case ast::type::ImageFormat::eR8Snorm:
+				return spv::ImageFormatR8Snorm;
+			case ast::type::ImageFormat::eRgba16Unorm:
+				return spv::ImageFormatRgba16;
+			case ast::type::ImageFormat::eRgba8Unorm:
+				return spv::ImageFormatRgba8;
+			case ast::type::ImageFormat::eRg16Unorm:
+				return spv::ImageFormatRg16;
+			case ast::type::ImageFormat::eRg8Unorm:
+				return spv::ImageFormatRg8;
+			case ast::type::ImageFormat::eR16Unorm:
+				return spv::ImageFormatR16;
+			case ast::type::ImageFormat::eR8Unorm:
+				return spv::ImageFormatR8;
+			case ast::type::ImageFormat::eRgb10A2Unorm:
+				return spv::ImageFormatRgb10A2;
 			default:
 				AST_Failure( "Unsupported ast::type::ImageFormat" );
 #if !SDAST_ExceptAssert
@@ -451,6 +481,7 @@ namespace spirv
 			case ast::type::ImageFormat::eRg16f:
 			case ast::type::ImageFormat::eR32f:
 			case ast::type::ImageFormat::eR16f:
+			case ast::type::ImageFormat::eR11fG11fB10f:
 			case ast::type::ImageFormat::eRg32i:
 			case ast::type::ImageFormat::eRg16i:
 			case ast::type::ImageFormat::eRg8i:
@@ -463,6 +494,18 @@ namespace spirv
 			case ast::type::ImageFormat::eR32u:
 			case ast::type::ImageFormat::eR16u:
 			case ast::type::ImageFormat::eR8u:
+			case ast::type::ImageFormat::eRgb10A2u:
+			case ast::type::ImageFormat::eRgba16Snorm:
+			case ast::type::ImageFormat::eRg16Snorm:
+			case ast::type::ImageFormat::eRg8Snorm:
+			case ast::type::ImageFormat::eR16Snorm:
+			case ast::type::ImageFormat::eR8Snorm:
+			case ast::type::ImageFormat::eRgba16Unorm:
+			case ast::type::ImageFormat::eRg16Unorm:
+			case ast::type::ImageFormat::eRg8Unorm:
+			case ast::type::ImageFormat::eR16Unorm:
+			case ast::type::ImageFormat::eR8Unorm:
+			case ast::type::ImageFormat::eRgb10A2Unorm:
 				config.registerCapability( spv::CapabilityStorageImageExtendedFormats );
 				break;
 			default:
@@ -2957,6 +3000,8 @@ namespace spirv
 			return ast::type::ImageFormat::eR32f;
 		case spv::ImageFormatR16f:
 			return ast::type::ImageFormat::eR16f;
+		case spv::ImageFormatR11fG11fB10f:
+			return ast::type::ImageFormat::eR11fG11fB10f;
 		case spv::ImageFormatRgba32i:
 			return ast::type::ImageFormat::eRgba32i;
 		case spv::ImageFormatRgba16i:
@@ -2993,6 +3038,34 @@ namespace spirv
 			return ast::type::ImageFormat::eR16u;
 		case spv::ImageFormatR8ui:
 			return ast::type::ImageFormat::eR8u;
+		case spv::ImageFormatRgb10a2ui:
+			return ast::type::ImageFormat::eRgb10A2u;
+		case spv::ImageFormatRgba16Snorm:
+			return ast::type::ImageFormat::eRgba16Snorm;
+		case spv::ImageFormatRgba8Snorm:
+			return ast::type::ImageFormat::eRgba8Snorm;
+		case spv::ImageFormatRg16Snorm:
+			return ast::type::ImageFormat::eRg16Snorm;
+		case spv::ImageFormatRg8Snorm:
+			return ast::type::ImageFormat::eRg8Snorm;
+		case spv::ImageFormatR16Snorm:
+			return ast::type::ImageFormat::eR16Snorm;
+		case spv::ImageFormatR8Snorm:
+			return ast::type::ImageFormat::eR8Snorm;
+		case spv::ImageFormatRgba16:
+			return ast::type::ImageFormat::eRgba16Unorm;
+		case spv::ImageFormatRgba8:
+			return ast::type::ImageFormat::eRgba8Unorm;
+		case spv::ImageFormatRg16:
+			return ast::type::ImageFormat::eRg16Unorm;
+		case spv::ImageFormatRg8:
+			return ast::type::ImageFormat::eRg8Unorm;
+		case spv::ImageFormatR16:
+			return ast::type::ImageFormat::eR16Unorm;
+		case spv::ImageFormatR8:
+			return ast::type::ImageFormat::eR8Unorm;
+		case spv::ImageFormatRgb10A2:
+			return ast::type::ImageFormat::eRgb10A2Unorm;
 		default:
 			AST_Failure( "Unsupported spv::ImageFormat" );
 #if !SDAST_ExceptAssert

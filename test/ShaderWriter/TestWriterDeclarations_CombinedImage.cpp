@@ -1,64 +1,24 @@
 #include "WriterCommon.hpp"
 
-namespace
+namespace test
 {
 	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
+
+	using CombinedImageTypesNames = CombinedImageTypesNamesT< FormatT >;
 
 	static bool constexpr isShadowFormat = ( FormatT == ast::type::ImageFormat::eR32f )
 		|| ( FormatT == ast::type::ImageFormat::eR16f );
 
-	template< ast::type::ImageDim DimT
-		, bool ArrayedT
-		, bool MsT
-		, bool DepthT >
-	struct CombinedImageTypeT
-	{
-		static ast::type::ImageDim constexpr Dim = DimT;
-		static bool constexpr Arrayed = ArrayedT;
-		static bool constexpr Ms = MsT;
-		static bool constexpr Depth = DepthT;
-	};
-
-	using ParamTypes = testing::Types< CombinedImageTypeT< Img1DBase, false >
-		, CombinedImageTypeT< Img2DBase, false >
-		, CombinedImageTypeT< Img3DBase, false >
-		, CombinedImageTypeT< ImgCubeBase, false >
-		, CombinedImageTypeT< ImgBufferBase, false >
-		, CombinedImageTypeT< Img1DArrayBase, false >
-		, CombinedImageTypeT< Img2DArrayBase, false >
-		, CombinedImageTypeT< ImgCubeArrayBase, false >
-		, CombinedImageTypeT< Img1DBase, true >
-		, CombinedImageTypeT< Img2DBase, true >
-		, CombinedImageTypeT< ImgCubeBase, true >
-		, CombinedImageTypeT< Img1DArrayBase, true >
-		, CombinedImageTypeT< Img2DArrayBase, true >
-		, CombinedImageTypeT< ImgCubeArrayBase, true > >;
-
-	class ParamTypeNames
-	{
-	public:
-		template< typename TypeParam >
-		static std::string GetName( int )
-		{
-			static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
-			static bool constexpr ArrayedT = TypeParam::Arrayed;
-			static bool constexpr MsT = TypeParam::Ms;
-			static bool constexpr DepthT = TypeParam::Depth;
-			return sdw::debug::getTypeName( sdw::typeEnumV< sdw::CombinedImage > )
-				+ sdw::debug::getImageTypeName( FormatT, ast::type::AccessKind::eRead, DimT, ast::type::Trinary::eDontCare, ArrayedT, MsT, DepthT );
-		}
-	};
-
 	template< typename ParamT >
-	struct TestParamsT : public SDWTest
+	struct CombinedImageDeclaration : public SDWTest
 	{
 	};
 
-	TYPED_TEST_SUITE( TestParamsT, ParamTypes, ParamTypeNames );
+	TYPED_TEST_SUITE( CombinedImageDeclaration, CombinedImageTypes, CombinedImageTypesNames );
 
 #define DummyMain writer.implementMain( [&]( sdw::FragmentIn in, sdw::FragmentOut out ){} )
 
-	TYPED_TEST( TestParamsT, testCombinedImageBase )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageBase )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -122,7 +82,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageArray )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageArray )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -186,7 +146,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageOptionalDisabled )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageOptionalDisabled )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -246,7 +206,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageArrayOptionalDisabled )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageArrayOptionalDisabled )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -306,7 +266,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageOptionalEnabled )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageOptionalEnabled )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -372,7 +332,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageArrayOptionalEnabled )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageArrayOptionalEnabled )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -438,7 +398,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageType )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageType )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;
@@ -502,7 +462,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( TestParamsT, testCombinedImageTypeArray )
+	TYPED_TEST( CombinedImageDeclaration, testCombinedImageTypeArray )
 	{
 		static ast::type::ImageDim constexpr DimT = TypeParam::Dim;
 		static bool constexpr ArrayedT = TypeParam::Arrayed;

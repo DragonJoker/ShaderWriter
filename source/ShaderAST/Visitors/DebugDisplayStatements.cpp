@@ -51,6 +51,9 @@ namespace ast::debug
 			case ast::type::ImageFormat::eR16f:
 				result = "R16f";
 				break;
+			case ast::type::ImageFormat::eR11fG11fB10f:
+				result = "R11fG11fB10f";
+				break;
 			case ast::type::ImageFormat::eRgba32i:
 				result = "RGBA32i";
 				break;
@@ -104,6 +107,48 @@ namespace ast::debug
 				break;
 			case ast::type::ImageFormat::eR8u:
 				result = "R8u";
+				break;
+			case ast::type::ImageFormat::eRgb10A2u:
+				result = "RGB10A2u";
+				break;
+			case ast::type::ImageFormat::eRgba16Snorm:
+				result = "RGBA16Snorm";
+				break;
+			case ast::type::ImageFormat::eRgba8Snorm:
+				result = "RGBA8Snorm";
+				break;
+			case ast::type::ImageFormat::eRg16Snorm:
+				result = "RG16Snorm";
+				break;
+			case ast::type::ImageFormat::eRg8Snorm:
+				result = "RG8Snorm";
+				break;
+			case ast::type::ImageFormat::eR16Snorm:
+				result = "R16Snorm";
+				break;
+			case ast::type::ImageFormat::eR8Snorm:
+				result = "R8Snorm";
+				break;
+			case ast::type::ImageFormat::eRgba16Unorm:
+				result = "RGBA16Unorm";
+				break;
+			case ast::type::ImageFormat::eRgba8Unorm:
+				result = "RGBA8Unorm";
+				break;
+			case ast::type::ImageFormat::eRg16Unorm:
+				result = "RG16Unorm";
+				break;
+			case ast::type::ImageFormat::eRg8Unorm:
+				result = "RG8Unorm";
+				break;
+			case ast::type::ImageFormat::eR16Unorm:
+				result = "R16Unorm";
+				break;
+			case ast::type::ImageFormat::eR8Unorm:
+				result = "R8Unorm";
+				break;
+			case ast::type::ImageFormat::eRgb10A2Unorm:
+				result = "RGB10A2Unorm";
 				break;
 			default:
 				break;

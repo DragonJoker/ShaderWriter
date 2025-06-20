@@ -583,6 +583,16 @@ namespace sdw
 	};
 
 	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eR11fG11fB10f >
+		: public ImageFormatTraitsT< type::ImageFormat::eR11fG11fB10f >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
 	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba32i >
 		: public ImageFormatTraitsT< type::ImageFormat::eRgba32i >
 	{
@@ -776,6 +786,146 @@ namespace sdw
 		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
 		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
 		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgb10A2u >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgb10A2u >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadU;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreU;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba16Snorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgba16Snorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba8Snorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgba8Snorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRg16Snorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRg16Snorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRg8Snorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRg8Snorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eR16Snorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eR16Snorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eR8Snorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eR8Snorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba16Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgba16Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgba8Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgba8Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRg16Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRg16Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRg8Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRg8Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eR16Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eR16Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eR8Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eR8Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgb10A2Unorm >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgb10A2Unorm >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
 	};
 
 	//*****************************************************************************************

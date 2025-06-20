@@ -601,6 +601,9 @@ namespace glsl
 				case ast::type::ImageFormat::eR16f:
 					result = "r16f";
 					break;
+				case ast::type::ImageFormat::eR11fG11fB10f:
+					result = "rgba16f";
+					break;
 				case ast::type::ImageFormat::eRgba32i:
 					result = "rgba32i";
 					break;
@@ -654,6 +657,48 @@ namespace glsl
 					break;
 				case ast::type::ImageFormat::eR8u:
 					result = "r8ui";
+					break;
+				case ast::type::ImageFormat::eRgb10A2u:
+					result = "rgba16ui";
+					break;
+				case ast::type::ImageFormat::eRgba16Snorm:
+					result = "rgba16f";
+					break;
+				case ast::type::ImageFormat::eRgba8Snorm:
+					result = "rgba16f";
+					break;
+				case ast::type::ImageFormat::eRg16Snorm:
+					result = "rg16f";
+					break;
+				case ast::type::ImageFormat::eRg8Snorm:
+					result = "rg16f";
+					break;
+				case ast::type::ImageFormat::eR16Snorm:
+					result = "r16f";
+					break;
+				case ast::type::ImageFormat::eR8Snorm:
+					result = "r16f";
+					break;
+				case ast::type::ImageFormat::eRgba16Unorm:
+					result = "rgba16f";
+					break;
+				case ast::type::ImageFormat::eRgba8Unorm:
+					result = "rgba16f";
+					break;
+				case ast::type::ImageFormat::eRg16Unorm:
+					result = "rg16f";
+					break;
+				case ast::type::ImageFormat::eRg8Unorm:
+					result = "rg16f";
+					break;
+				case ast::type::ImageFormat::eR16Unorm:
+					result = "r16f";
+					break;
+				case ast::type::ImageFormat::eR8Unorm:
+					result = "r16f";
+					break;
+				case ast::type::ImageFormat::eRgb10A2Unorm:
+					result = "rgba16f";
 					break;
 				default:
 					break;

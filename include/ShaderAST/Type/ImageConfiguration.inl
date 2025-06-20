@@ -60,6 +60,14 @@ namespace ast::type
 	};
 
 	template<>
+	struct ImageFormatTraits< ImageFormat::eR11fG11fB10f >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec3F;
+		static Kind constexpr TexelType = Kind::eVec3F;
+	};
+
+	template<>
 	struct ImageFormatTraits< ImageFormat::eRgba32i >
 	{
 		static Kind constexpr SampledBaseType = Kind::eInt32;
@@ -201,6 +209,118 @@ namespace ast::type
 		static Kind constexpr SampledBaseType = Kind::eUInt32;
 		static Kind constexpr SampledType = Kind::eUInt32;
 		static Kind constexpr TexelType = Kind::eUInt32;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgb10A2u >
+	{
+		static Kind constexpr SampledBaseType = Kind::eUInt32;
+		static Kind constexpr SampledType = Kind::eVec4U32;
+		static Kind constexpr TexelType = Kind::eVec4U32;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgba16Snorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgba8Snorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRg16Snorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRg8Snorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eR16Snorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eFloat;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eR8Snorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eFloat;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgba16Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgba8Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRg16Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRg8Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eR16Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eFloat;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eR8Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eFloat;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgb10A2Unorm >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec4F;
+		static Kind constexpr TexelType = Kind::eVec4F;
 	};
 
 	template< ImageFormat FormatT
