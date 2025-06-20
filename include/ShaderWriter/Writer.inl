@@ -1716,7 +1716,7 @@ namespace sdw
 		, T const & rhs
 		, bool enabled )
 	{
-		auto type = rhs.getType();
+		auto type = sdw::makeNonExplicitLayoutType( rhs.getType() );
 		auto var = registerLocale( std::move( name )
 			, type );
 		enabled = enabled && isOptionalEnabled( rhs );
@@ -1838,7 +1838,7 @@ namespace sdw
 		, Array< T > const & rhs
 		, bool enabled )
 	{
-		auto type = rhs.getType();
+		auto type = sdw::makeNonExplicitLayoutType( rhs.getType() );
 		auto var = registerLocale( std::move( name )
 			, type );
 		enabled = enabled && isOptionalEnabled( rhs );

@@ -584,6 +584,102 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
+
+	struct MorphTargetData
+		: public sdw::StructInstance
+	{
+	public:
+		MorphTargetData( sdw::ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
+			, morphPosition{ this->getMember< sdw::Vec4 >( "morphPosition", true ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , MorphTargetData );
+
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
+				, "C3D_MorphTargetData" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "morphPosition", ast::type::Kind::eVec4F
+					, ast::type::NotArray );
+			}
+
+			return result;
+		}
+
+	public:
+		sdw::Vec4 morphPosition;
+	};
+
+	struct MorphTargetsData
+		: public sdw::StructInstance
+	{
+	public:
+		MorphTargetsData( sdw::ShaderWriter & writer
+			, ast::expr::ExprPtr expr
+			, bool enabled )
+			: StructInstance{ writer, std::move( expr ), enabled }
+			, m_data{ getMemberArray< MorphTargetData >( "targets" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , MorphTargetsData );
+
+		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
+				, "C3D_MorphTargetsData" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "targets"
+					, MorphTargetData::makeType( cache )
+					, 128u );
+			}
+
+			return result;
+		}
+
+		MorphTargetData operator[]( sdw::UInt const & index )const
+		{
+			return m_data[index];
+		}
+
+	private:
+		sdw::Array< MorphTargetData > m_data;
+	};
+
+	TEST_F( SDWTest, morphTargets )
+	{
+		sdwTestBegin( "morphTargets" );
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+		{
+			auto c3d_morphTargets = writer.declArrayStorageBuffer< MorphTargetsData >( "c3d_morphTargets", 0u, 0u );
+			auto c3d_inPosition = writer.declArrayStorageBuffer< sdw::Vec4 >( "c3d_inPosition", 1u, 0u, ast::type::MemoryLayout::eStd430 );
+
+			writer.implementMain( 32u
+				, [&]( sdw::ComputeIn in )
+				{
+					auto index = writer.declLocale( "index"
+						, in.globalInvocationID.x() );
+					auto morphTargets = writer.declLocale( "morphTargets"
+						, c3d_morphTargets[index] );
+					auto morphTarget = writer.declLocale( "morphTarget"
+						, morphTargets[index] );
+					c3d_inPosition[index] += morphTarget.morphPosition;
+				} );
+		}
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain()
