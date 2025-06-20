@@ -761,6 +761,13 @@ namespace sdw
 			, uint32_t set
 			, bool enabled = true
 			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
+		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
+			, uint32_t binding
+			, uint32_t set
+			, ast::type::MemoryLayout layout
+			, bool enabled = true
+			, ParamsT && ... params );
 		template< typename T = StorageBuffer, typename ... ParamsT >
 		T declStorageBuffer( std::string name
 			, LocationHelper location
