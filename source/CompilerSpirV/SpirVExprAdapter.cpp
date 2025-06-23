@@ -343,6 +343,34 @@ namespace spirv
 		}
 	}
 
+	void ExprAdapter::visitInitExpr( ast::expr::Init const * expr )
+	{
+		if ( expr->getInitialiser()->getType()->hasExplicitLayout()
+			&& isMemoryLayoutDependent( expr->getType() ) )
+		{
+			auto ident = &expr->getIdentifier();
+
+			if ( m_adaptationData.config.getSpirVVersion() >= v1_4 )
+			{
+				auto exprNonExplitType = m_typesCache.getNonExplicitLayoutType( expr->getType() );
+				m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
+					, m_exprCache.makeCast( exprNonExplitType, ast::ExprCloner::submit( m_exprCache, expr->getInitialiser() ) ) );
+			}
+			else
+			{
+				// Promote the alias to a proper variable, then assign it.
+				auto aliasVar = ast::var::makeVariable( ++m_adaptationData.config.nextVarId, ident->getType(), ident->getVariable()->getEntityName().name );
+				m_container->addStmt( m_container->getStmtCache().makeVariableDecl( aliasVar ) );
+				auto lhs = m_exprCache.makeIdentifier( m_typesCache, aliasVar );
+				m_result = doProcessAssignExplicitToNonExplicit( expr->getType(), *lhs, *expr->getInitialiser() );
+			}
+		}
+		else
+		{
+			ExprCloner::visitInitExpr( expr );
+		}
+	}
+
 	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )
 	{
 		TraceFunc;
