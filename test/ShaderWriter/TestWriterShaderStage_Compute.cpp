@@ -131,6 +131,35 @@ namespace
 		sdwTestEnd()
 	}
 
+	TEST_F( SDWTest, computeTypeless )
+	{
+		sdwTestBegin( "computeTypeless" );
+		using namespace sdw;
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+		ArrayStorageBufferT< Float > ssbo{ writer, "Datas", Float::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+		auto img = writer.declStorageImg< WImg2DR >( "img", 1u, 0u );
+
+		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+			{
+				ssbo[in.globalInvocationID.x()]
+					= ssbo[in.globalInvocationID.x()]
+					* ssbo[in.globalInvocationID.x()];
+				img.store( ivec2( in.globalInvocationID.xy() )
+					, ssbo[in.globalInvocationID.x()] );
+			} );
+
+		test::writeShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+
+#if !defined( __APPLE__ )
+		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
+		test::validateShader( writer.getShader()
+			, testCounts, CurrentCompilers );
+#endif
+
+		sdwTestEnd()
+	}
+
 	TEST_F( SDWTest, swizzles )
 	{
 		sdwTestBegin( "swizzles" );

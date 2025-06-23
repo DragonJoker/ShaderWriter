@@ -4,6 +4,21 @@ namespace test
 {
 	static constexpr ast::type::ImageFormat FormatT = ast::type::ImageFormat::SDW_TestImageFormat;
 
+	template< ast::type::ImageDim DimT >
+	struct CompilerHolderT
+	{
+		static constexpr test::Compilers value = CurrentCompilers;
+	};
+
+	template<>
+	struct CompilerHolderT< ast::type::ImageDim::eBuffer >
+	{
+		static constexpr test::Compilers value = Compilers_AllButSpv16;
+	};
+
+	template< ast::type::ImageDim DimT >
+	inline constexpr test::Compilers CompilersT = CompilerHolderT< DimT >::value;
+
 	using CombinedImageTypesNames = CombinedImageTypesNamesT< FormatT >;
 
 	static bool constexpr isShadowFormat = ( FormatT == ast::type::ImageFormat::eR32f )
@@ -43,15 +58,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -69,15 +76,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -107,15 +106,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -133,15 +124,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -169,15 +152,7 @@ namespace test
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -193,15 +168,7 @@ namespace test
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -229,15 +196,7 @@ namespace test
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -253,15 +212,7 @@ namespace test
 			astCheck( static_cast< sdw::expr::Identifier const & >( *value.getExpr() ).getVariable()->getName() == "value" );
 			astCheck( shader.getStatements()->size() == count );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -292,15 +243,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -319,15 +262,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -358,15 +293,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -385,15 +312,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -423,15 +342,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -449,15 +360,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 1u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 1u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}
@@ -487,15 +390,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		if constexpr ( !DepthT || isShadowFormat )
 		{
@@ -513,15 +408,7 @@ namespace test
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getBindingPoint() == 2u );
 			astCheck( static_cast< sdw::stmt::SamplerDecl const & >( stmt ).getDescriptorSet() == 2u );
 			DummyMain;
-
-			if constexpr ( DimT == ast::type::ImageDim::eBuffer )
-			{
-				test::writeShader( writer, testCounts, Compilers_AllButSpv16 );
-			}
-			else
-			{
-				test::writeShader( writer, testCounts, CurrentCompilers );
-			}
+			test::writeShader( writer, testCounts, CompilersT< DimT > );
 		}
 		sdwTestEnd()
 	}

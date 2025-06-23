@@ -26,6 +26,9 @@ namespace sdw
 	static constexpr bool isSingleFormatV{ ImageFormatTraitsT< FormatT >::isSingle };
 
 	template< ast::type::ImageFormat FormatT >
+	static constexpr bool isTypelessFormatV{ ImageFormatTraitsT< FormatT >::isTypeless };
+
+	template< ast::type::ImageFormat FormatT >
 	static constexpr bool isFloatFormatV{ ImageFormatTraitsT< FormatT >::isFloat };
 
 	template< ast::type::ImageFormat FormatT >
@@ -45,6 +48,9 @@ namespace sdw
 
 	template< ast::type::ImageFormat FormatT >
 	static constexpr bool isSingleInt32FormatV{ isSingleIntFormatV< FormatT > && ( ImageFormatTraitsT< FormatT >::size == 32u ) };
+
+	template< ast::type::ImageFormat FormatT >
+	static constexpr bool isReadableFormatV{ FormatT != ast::type::ImageFormat::eRgbaTypeless && FormatT != ast::type::ImageFormat::eRgTypeless && FormatT != ast::type::ImageFormat::eRTypeless };
 
 	template< ast::type::AccessKind AccessT >
 	static constexpr bool isReadableV{ AccessT == ast::type::AccessKind::eRead || AccessT == ast::type::AccessKind::eReadWrite };

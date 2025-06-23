@@ -1163,6 +1163,35 @@ namespace sdw
 	//*************************************************************************
 
 	template< type::ImageFormat FormatT >
+	struct CombinedImageFormatTraitsT< FormatT, std::enable_if_t< isTypelessFormatV< FormatT > > >
+	{
+		static constexpr combinedSmplImg::IntrinsicsList const & textureSize = combinedSmplImg::textureSizeF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLod = combinedSmplImg::textureQueryLodF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureQueryLevels = combinedSmplImg::textureQueryLevelsF;
+		static constexpr combinedSmplImg::IntrinsicsList const & texture = combinedSmplImg::textureF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureBias = combinedSmplImg::textureBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffset = combinedSmplImg::textureOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureOffsetBias = combinedSmplImg::textureOffsetBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProj = combinedSmplImg::textureProjF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjBias = combinedSmplImg::textureProjBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffset = combinedSmplImg::textureProjOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjOffsetBias = combinedSmplImg::textureProjOffsetBiasF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLod = combinedSmplImg::textureLodF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureLodOffset = combinedSmplImg::textureLodOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLod = combinedSmplImg::textureProjLodF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjLodOffset = combinedSmplImg::textureProjLodOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetch = combinedSmplImg::texelFetchF;
+		static constexpr combinedSmplImg::IntrinsicsList const & texelFetchOffset = combinedSmplImg::texelFetchOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGrad = combinedSmplImg::textureGradF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGradOffset = combinedSmplImg::textureGradOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGrad = combinedSmplImg::textureProjGradF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureProjGradOffset = combinedSmplImg::textureProjGradOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGather = combinedSmplImg::textureGatherF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffset = combinedSmplImg::textureGatherOffsetF;
+		static constexpr combinedSmplImg::IntrinsicsList const & textureGatherOffsets = combinedSmplImg::textureGatherOffsetsF;
+	};
+
+	template< type::ImageFormat FormatT >
 	struct CombinedImageFormatTraitsT< FormatT, std::enable_if_t< isFloatFormatV< FormatT > > >
 	{
 		static constexpr combinedSmplImg::IntrinsicsList const & textureSize = combinedSmplImg::textureSizeF;

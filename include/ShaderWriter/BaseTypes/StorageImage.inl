@@ -54,6 +54,97 @@ namespace sdw
 			}
 		}
 
+		static constexpr StorateImageAccessIntrList imageSize
+		{
+			expr::StorageImageAccess::eImageSize1DF,
+			expr::StorageImageAccess::eImageSize2DF,
+			expr::StorageImageAccess::eImageSize3DF,
+			expr::StorageImageAccess::eImageSizeCubeF,
+			expr::StorageImageAccess::eImageSizeBufferF,
+
+			expr::StorageImageAccess::eImageSize1DArrayF,
+			expr::StorageImageAccess::eImageSize2DArrayF,
+			expr::StorageImageAccess::eImageSizeCubeArrayF,
+
+			expr::StorageImageAccess::eImageSize2DMSF,
+			expr::StorageImageAccess::eImageSize2DMSArrayF,
+		};
+		static constexpr StorateImageAccessIntrList imageSamples
+		{
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eImageSamples2DMSF,
+			expr::StorageImageAccess::eImageSamples2DMSArrayF,
+		};
+		static constexpr StorateImageAccessIntrList imageLoad
+		{
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+		};
+		static constexpr StorateImageAccessIntrList imageStore
+		{
+			expr::StorageImageAccess::eImageStore1DF,
+			expr::StorageImageAccess::eImageStore2DF,
+			expr::StorageImageAccess::eImageStore3DF,
+			expr::StorageImageAccess::eImageStoreCubeF,
+			expr::StorageImageAccess::eImageStoreBufferF,
+
+			expr::StorageImageAccess::eImageStore1DArrayF,
+			expr::StorageImageAccess::eImageStore2DArrayF,
+			expr::StorageImageAccess::eImageStoreCubeArrayF,
+
+			expr::StorageImageAccess::eImageStore2DMSF,
+			expr::StorageImageAccess::eImageStore2DMSArrayF,
+		};
+		static constexpr StorateImageAccessIntrList imageAtomicAdd
+		{
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+		};
+		static constexpr StorateImageAccessIntrList imageAtomicExchange
+		{
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+
+			expr::StorageImageAccess::eInvalid,
+			expr::StorageImageAccess::eInvalid,
+		};
+
 		static constexpr StorateImageAccessIntrList imageSizeF
 		{
 			expr::StorageImageAccess::eImageSize1DF,
@@ -509,13 +600,30 @@ namespace sdw
 	}
 
 	template<>
-	struct StorageImageFormatTraitsT< type::ImageFormat::eUnknown >
-		: public ImageFormatTraitsT< type::ImageFormat::eUnknown >
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgbaTypeless >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgbaTypeless >
 	{
-		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSizeF;
-		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamplesF;
-		static constexpr storageImg::StorateImageAccessIntrList const & imageLoad = storageImg::imageLoadF;
-		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStoreF;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSize;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamples;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStore;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRgTypeless >
+		: public ImageFormatTraitsT< type::ImageFormat::eRgTypeless >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSize;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamples;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStore;
+	};
+
+	template<>
+	struct StorageImageFormatTraitsT< type::ImageFormat::eRTypeless >
+		: public ImageFormatTraitsT< type::ImageFormat::eRTypeless >
+	{
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSize = storageImg::imageSize;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageSamples = storageImg::imageSamples;
+		static constexpr storageImg::StorateImageAccessIntrList const & imageStore = storageImg::imageStore;
 	};
 
 	template<>

@@ -1115,8 +1115,14 @@ namespace ast::type
 
 		switch ( format )
 		{
-		case ImageFormat::eUnknown:
-			result = getBasicType( sampledType< ImageFormat::eUnknown > );
+		case ImageFormat::eRgbaTypeless:
+			result = getBasicType( sampledType< ImageFormat::eRgbaTypeless > );
+			break;
+		case ImageFormat::eRgTypeless:
+			result = getBasicType( sampledType< ImageFormat::eRgTypeless > );
+			break;
+		case ImageFormat::eRTypeless:
+			result = getBasicType( sampledType< ImageFormat::eRTypeless > );
 			break;
 		case ImageFormat::eRgba32f:
 			result = getBasicType( sampledType< ImageFormat::eRgba32f > );
@@ -1249,8 +1255,14 @@ namespace ast::type
 
 		switch ( format )
 		{
-		case ImageFormat::eUnknown:
-			result = getBasicType( texelType< ImageFormat::eUnknown > );
+		case ImageFormat::eRgbaTypeless:
+			result = getBasicType( texelType< ImageFormat::eRgbaTypeless > );
+			break;
+		case ImageFormat::eRgTypeless:
+			result = getBasicType( texelType< ImageFormat::eRgTypeless > );
+			break;
+		case ImageFormat::eRTypeless:
+			result = getBasicType( texelType< ImageFormat::eRTypeless > );
 			break;
 		case ImageFormat::eRgba32f:
 			result = getBasicType( texelType< ImageFormat::eRgba32f > );

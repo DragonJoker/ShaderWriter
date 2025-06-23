@@ -574,27 +574,34 @@ namespace glsl
 				return result;
 			}
 
+			static bool isUnknownFormat( ast::type::ImageFormat format )
+			{
+				return format == ast::type::ImageFormat::eRgbaTypeless
+					|| format == ast::type::ImageFormat::eRgTypeless
+					|| format == ast::type::ImageFormat::eRTypeless;
+			}
+
 			static std::string getFormatName( ast::type::ImageFormat format )
 			{
 				std::string result{ "rgba32f" };
 
 				switch ( format )
 				{
-				case ast::type::ImageFormat::eUnknown:
-					result = "rgba32f";
-					break;
+				case ast::type::ImageFormat::eRgbaTypeless:
 				case ast::type::ImageFormat::eRgba32f:
 					result = "rgba32f";
 					break;
 				case ast::type::ImageFormat::eRgba16f:
 					result = "rgba16f";
 					break;
+				case ast::type::ImageFormat::eRgTypeless:
 				case ast::type::ImageFormat::eRg32f:
 					result = "rg32f";
 					break;
 				case ast::type::ImageFormat::eRg16f:
 					result = "rg16f";
 					break;
+				case ast::type::ImageFormat::eRTypeless:
 				case ast::type::ImageFormat::eR32f:
 					result = "r32f";
 					break;
@@ -3036,15 +3043,30 @@ namespace glsl
 
 				AST_Assert( type->getKind() == ast::type::Kind::eImage );
 				auto image = static_cast< ast::type::Image * >( type );
-				std::string text = "layout(";
-				text += helpers::getFormatName( image->getConfig().format );
+				std::string text;
+				std::string sep;
+
+				if ( !helpers::isUnknownFormat( image->getConfig().format  )
+					|| image->getConfig().accessKind != ast::type::AccessKind::eWrite )
+				{
+					text += sep + helpers::getFormatName( image->getConfig().format );
+					sep = ", ";
+				}
 
 				if ( helpers::hasExtension( m_config, ARB_shading_language_420pack ) )
 				{
-					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), ", ", text );
+					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), sep, text );
+					sep = ", ";
 				}
 
-				text += ") ";
+				if ( !text.empty() )
+					text = "layout(" + text + ")";
+
+				if ( image->getConfig().accessKind == ast::type::AccessKind::eWrite )
+					text += "writeonly ";
+				else if ( image->getConfig().accessKind == ast::type::AccessKind::eRead )
+					text += "readonly ";
+
 				text += "uniform ";
 				//text += getAccessQualifierName( image->getConfig() ) + " ";
 				text += helpers::getQualifiedName( ast::type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();

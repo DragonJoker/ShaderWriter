@@ -25,7 +25,6 @@ namespace ast::type
 			|| ( this->sampledType == type::Kind::eVec4H && isFloatFormat( format ) )
 			|| ( this->sampledType == type::Kind::eFloat && isFloatFormat( format ) )
 			|| ( this->sampledType == type::Kind::eVec2F && isFloatFormat( format ) )
-			|| ( this->sampledType == type::Kind::eVec3F && format == ImageFormat::eR11fG11fB10f )
 			|| ( this->sampledType == type::Kind::eVec4F && isFloatFormat( format ) )
 			|| ( this->sampledType == type::Kind::eInt && isSIntFormat( format ) )
 			|| ( this->sampledType == type::Kind::eVec2I && isSIntFormat( format ) )
@@ -33,7 +32,10 @@ namespace ast::type
 			|| ( this->sampledType == type::Kind::eUInt && isUIntFormat( format ) )
 			|| ( this->sampledType == type::Kind::eVec2U && isUIntFormat( format ) )
 			|| ( this->sampledType == type::Kind::eVec4U && isUIntFormat( format ) )
-			|| ( format == ImageFormat::eUnknown ) );
+			|| ( this->sampledType == type::Kind::eVec3F && format == ImageFormat::eR11fG11fB10f )
+			|| ( this->sampledType == type::Kind::eVec4F && format == ImageFormat::eRgbaTypeless )
+			|| ( this->sampledType == type::Kind::eVec2F && format == ImageFormat::eRgTypeless )
+			|| ( this->sampledType == type::Kind::eFloat && format == ImageFormat::eRTypeless ) );
 	}
 
 	size_t getHash( type::ImageConfiguration const & config )noexcept

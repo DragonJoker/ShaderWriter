@@ -207,6 +207,7 @@ namespace spirv
 		void addStorage( ast::var::VariablePtr var );
 		void makeWritable( ast::var::VariablePtr var );
 		bool isWritable( ast::var::VariablePtr var )const;
+		ast::var::VariablePtr declareAliasVar( ast::type::TypePtr type );
 
 		ast::var::VariableList const & getInputs()const
 		{
