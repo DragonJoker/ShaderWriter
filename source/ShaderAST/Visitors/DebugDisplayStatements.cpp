@@ -30,8 +30,14 @@ namespace ast::debug
 
 			switch ( value )
 			{
-			case ast::type::ImageFormat::eUnknown:
-				result = "Unknown";
+			case ast::type::ImageFormat::eRgbaTypeless:
+				result = "RGBA";
+				break;
+			case ast::type::ImageFormat::eRgTypeless:
+				result = "RG";
+				break;
+			case ast::type::ImageFormat::eRTypeless:
+				result = "R";
 				break;
 			case ast::type::ImageFormat::eRgba32f:
 				result = "RGBA32f";

@@ -149,6 +149,9 @@ set( TargetLinkLibraries
 
 if ( SDW_ALL_TESTS )
 	set( IMAGE_FORMATS
+		eRgbaTypeless
+		eRgTypeless
+		eRTypeless
 		eRgba32f
 		eRgba16f
 		eRg32f
@@ -329,6 +332,7 @@ if ( SDW_ALL_TESTS )
 	)
 elseif ( PROJECTS_COVERAGE )
 	set( IMAGE_FORMATS
+		eRgTypeless
 		eR32f
 	)
 	set( BO_TYPES
@@ -349,6 +353,8 @@ elseif ( PROJECTS_COVERAGE )
 	)
 else ()
 	set( IMAGE_FORMATS
+		eRgbaTypeless
+		eRTypeless
 		eRgba32f
 		eRg16f
 		eR32f

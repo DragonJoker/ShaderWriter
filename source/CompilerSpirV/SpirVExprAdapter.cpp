@@ -28,17 +28,6 @@ namespace spirv
 			auto mbr = expr.getOuterType()->getMember( expr.getMemberIndex() );
 			return mbr.builtin;
 		}
-
-		static ast::var::VariablePtr makeFunctionAlias( AdaptationData & adaptationData
-			, ast::type::TypePtr type )
-		{
-			TraceFunc;
-			auto result = ast::var::makeVariable( adaptationData.config.nextVarId
-				, type
-				, "functmp_" + std::to_string( adaptationData.config.aliasId ) );
-			++adaptationData.config.aliasId;
-			return result;
-		}
 	}
 
 	ast::expr::ExprPtr ExprAdapter::submit( ast::expr::ExprCache & exprCache
@@ -288,6 +277,69 @@ namespace spirv
 		if ( !m_result )
 		{
 			m_result = ExprCloner::submit( m_exprCache, expr );
+		}
+	}
+
+	void ExprAdapter::visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )
+	{
+		if ( expr->getImageAccess() >= ast::expr::StorageImageAccess::eImageStore1DF
+			&& expr->getImageAccess() <= ast::expr::StorageImageAccess::eImageStore2DMSArrayU )
+		{
+			ast::expr::ExprList args;
+			for ( auto & arg : expr->getArgList() )
+				args.emplace_back( doSubmit( *arg ) );
+
+			auto & img = *args[0];
+			auto & value = *args[2];
+			auto & imgType = static_cast< ast::type::Image const & >( *img.getType() );
+
+			if ( imgType.getConfig().format == ast::type::ImageFormat::eRgTypeless )
+			{
+				auto aliasVar = m_adaptationData.config.declareAliasVar( value.getType() );
+				m_container->addStmt( m_container->getStmtCache().makeSimple( m_exprCache.makeAlias( value.getType()
+					, m_exprCache.makeIdentifier( m_typesCache, aliasVar )
+					, doSubmit( value ) ) ) );
+
+				ast::expr::ExprList init;
+				init.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+				init.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+				args[2] = m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
+					, ast::type::Kind::eFloat
+					, std::move( init ) );
+				m_result = m_exprCache.makeStorageImageAccessCall( expr->getType()
+					, expr->getImageAccess()
+					, std::move( args ) );
+			}
+			else if ( imgType.getConfig().format == ast::type::ImageFormat::eRTypeless )
+			{
+				auto aliasVar = m_adaptationData.config.declareAliasVar( value.getType() );
+				m_container->addStmt( m_container->getStmtCache().makeSimple( m_exprCache.makeAlias( value.getType()
+					, m_exprCache.makeIdentifier( m_typesCache, aliasVar )
+					, doSubmit( value ) ) ) );
+
+				ast::expr::ExprList init;
+				init.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+				init.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+				init.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+				init.emplace_back( m_exprCache.makeIdentifier( m_typesCache, aliasVar ) );
+				args[2] = m_exprCache.makeCompositeConstruct( ast::expr::CompositeType::eVec4
+					, ast::type::Kind::eFloat
+					, std::move( init ) );
+				m_result = m_exprCache.makeStorageImageAccessCall( expr->getType()
+					, expr->getImageAccess()
+					, std::move( args ) );
+			}
+			else
+			{
+				m_result = m_exprCache.makeStorageImageAccessCall( expr->getType()
+					, expr->getImageAccess()
+					, std::move( args ) );
+			}
+		}
+
+		if ( !m_result )
+		{
+			ExprCloner::visitImageAccessCallExpr( expr );
 		}
 	}
 

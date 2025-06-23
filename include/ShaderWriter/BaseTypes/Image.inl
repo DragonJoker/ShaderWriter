@@ -9,16 +9,45 @@ See LICENSE file in root folder
 namespace sdw
 {
 	template<>
-	struct ImageFormatTraitsT< type::ImageFormat::eUnknown >
+	struct ImageFormatTraitsT< type::ImageFormat::eRgbaTypeless >
 	{
 		using SampleType = Vec4;
 		using FetchType = SampleType;
 		using GatherType = Vec4;
-		static constexpr bool isFloat = true;
+		static constexpr bool isTypeless = true;
+		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
 		static constexpr bool isSingle = false;
 		static constexpr size_t size = 32u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRgTypeless >
+	{
+		using SampleType = Vec2;
+		using FetchType = SampleType;
+		using GatherType = Vec2;
+		static constexpr bool isTypeless = true;
+		static constexpr bool isFloat = false;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 16u;
+	};
+
+	template<>
+	struct ImageFormatTraitsT< type::ImageFormat::eRTypeless >
+	{
+		using SampleType = Float;
+		using FetchType = SampleType;
+		using GatherType = Float;
+		static constexpr bool isTypeless = true;
+		static constexpr bool isFloat = false;
+		static constexpr bool isSInt = false;
+		static constexpr bool isUInt = false;
+		static constexpr bool isSingle = false;
+		static constexpr size_t size = 8u;
 	};
 
 	template<>
@@ -27,6 +56,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = SampleType;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -40,6 +70,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = Vec4;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -53,6 +84,7 @@ namespace sdw
 		using SampleType = Vec2;
 		using FetchType = SampleType;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -66,6 +98,7 @@ namespace sdw
 		using SampleType = Vec2;
 		using FetchType = Vec2;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -79,6 +112,7 @@ namespace sdw
 		using SampleType = Float;
 		using FetchType = SampleType;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -92,6 +126,7 @@ namespace sdw
 		using SampleType = Vec3;
 		using FetchType = Vec3;
 		using GatherType = Vec3;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -105,6 +140,7 @@ namespace sdw
 		using SampleType = Float;
 		using FetchType = Float;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -118,6 +154,7 @@ namespace sdw
 		using SampleType = I32Vec4;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -131,6 +168,7 @@ namespace sdw
 		using SampleType = I32Vec4;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -144,6 +182,7 @@ namespace sdw
 		using SampleType = I32Vec4;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -157,6 +196,7 @@ namespace sdw
 		using SampleType = I32Vec2;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -170,6 +210,7 @@ namespace sdw
 		using SampleType = I32Vec2;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -183,6 +224,7 @@ namespace sdw
 		using SampleType = I32Vec2;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -196,6 +238,7 @@ namespace sdw
 		using SampleType = Int32;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -209,6 +252,7 @@ namespace sdw
 		using SampleType = Int32;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -222,6 +266,7 @@ namespace sdw
 		using SampleType = Int32;
 		using FetchType = SampleType;
 		using GatherType = I32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = true;
 		static constexpr bool isUInt = false;
@@ -235,6 +280,7 @@ namespace sdw
 		using SampleType = U32Vec4;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -248,6 +294,7 @@ namespace sdw
 		using SampleType = U32Vec4;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -261,6 +308,7 @@ namespace sdw
 		using SampleType = U32Vec4;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -274,6 +322,7 @@ namespace sdw
 		using SampleType = U32Vec2;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -287,6 +336,7 @@ namespace sdw
 		using SampleType = U32Vec2;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -300,6 +350,7 @@ namespace sdw
 		using SampleType = U32Vec2;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -313,6 +364,7 @@ namespace sdw
 		using SampleType = UInt32;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -326,6 +378,7 @@ namespace sdw
 		using SampleType = UInt32;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -339,6 +392,7 @@ namespace sdw
 		using SampleType = UInt32;
 		using FetchType = SampleType;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -352,6 +406,7 @@ namespace sdw
 		using SampleType = U32Vec4;
 		using FetchType = U32Vec4;
 		using GatherType = U32Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = false;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = true;
@@ -365,6 +420,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = Vec4;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -378,6 +434,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = Vec4;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -391,6 +448,7 @@ namespace sdw
 		using SampleType = Vec2;
 		using FetchType = Vec2;
 		using GatherType = Vec2;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -404,6 +462,7 @@ namespace sdw
 		using SampleType = Vec2;
 		using FetchType = Vec2;
 		using GatherType = Vec2;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -417,6 +476,7 @@ namespace sdw
 		using SampleType = Float;
 		using FetchType = Float;
 		using GatherType = Float;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -430,6 +490,7 @@ namespace sdw
 		using SampleType = Float;
 		using FetchType = Float;
 		using GatherType = Float;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -443,6 +504,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = Vec4;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -456,6 +518,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = Vec4;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -469,6 +532,7 @@ namespace sdw
 		using SampleType = Vec2;
 		using FetchType = Vec2;
 		using GatherType = Vec2;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -482,6 +546,7 @@ namespace sdw
 		using SampleType = Vec2;
 		using FetchType = Vec2;
 		using GatherType = Vec2;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -495,6 +560,7 @@ namespace sdw
 		using SampleType = Float;
 		using FetchType = Float;
 		using GatherType = Float;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -508,6 +574,7 @@ namespace sdw
 		using SampleType = Float;
 		using FetchType = Float;
 		using GatherType = Float;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;
@@ -521,6 +588,7 @@ namespace sdw
 		using SampleType = Vec4;
 		using FetchType = Vec4;
 		using GatherType = Vec4;
+		static constexpr bool isTypeless = false;
 		static constexpr bool isFloat = true;
 		static constexpr bool isSInt = false;
 		static constexpr bool isUInt = false;

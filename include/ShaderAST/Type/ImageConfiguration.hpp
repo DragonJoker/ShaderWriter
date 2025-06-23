@@ -47,7 +47,9 @@ namespace ast::type
 	enum class ImageFormat
 		: uint8_t
 	{
-		eUnknown,
+		eRgbaTypeless,
+		eRgTypeless,
+		eRTypeless,
 		eRgba32f,
 		eRgba16f,
 		eRg32f,
@@ -88,7 +90,7 @@ namespace ast::type
 		eR8Unorm,
 		eRgb10A2Unorm,
 		eCount,
-		eMin = eUnknown,
+		eMin = eRgbaTypeless,
 		eMax = eR8u,
 	};
 
@@ -104,7 +106,9 @@ namespace ast::type
 
 	constexpr bool isFloatFormat( ImageFormat format )noexcept
 	{
-		return format == ImageFormat::eUnknown
+		return format == ImageFormat::eRgbaTypeless
+			|| format == ImageFormat::eRgTypeless
+			|| format == ImageFormat::eRTypeless
 			|| format == ImageFormat::eRgba32f
 			|| format == ImageFormat::eRgba16f
 			|| format == ImageFormat::eRg32f
@@ -129,8 +133,7 @@ namespace ast::type
 
 	constexpr bool isSIntFormat( ImageFormat format )noexcept
 	{
-		return format == ImageFormat::eUnknown
-			|| format == ImageFormat::eRgba32i
+		return format == ImageFormat::eRgba32i
 			|| format == ImageFormat::eRgba16i
 			|| format == ImageFormat::eRgba8i
 			|| format == ImageFormat::eRg32i
@@ -143,8 +146,7 @@ namespace ast::type
 
 	constexpr bool isUIntFormat( ImageFormat format )noexcept
 	{
-		return format == ImageFormat::eUnknown
-			|| format == ImageFormat::eRgba32u
+		return format == ImageFormat::eRgba32u
 			|| format == ImageFormat::eRgba16u
 			|| format == ImageFormat::eRgba8u
 			|| format == ImageFormat::eRg32u
@@ -171,7 +173,7 @@ namespace ast::type
 	{
 		SDAST_API explicit ImageConfiguration( type::Kind sampledType = type::Kind::eFloat
 			, ImageDim dimension = ImageDim::e1D
-			, ImageFormat format = ImageFormat::eUnknown
+			, ImageFormat format = ImageFormat::eRgbaTypeless
 			, Trinary isSampled = Trinary::eFalse
 			, bool isArrayed = false
 			, bool isMS = false
@@ -219,6 +221,17 @@ namespace ast::type
 #define ImgCubeArray ImgCubeArrayBase
 #define Img2DMS Img2DMSBase
 #define Img2DMSArray Img2DMSArrayBase
+
+#define Img1DRgba ast::type::ImageFormat::eRgbaTypeless, Img1D
+#define Img2DRgba ast::type::ImageFormat::eRgbaTypeless, Img2D
+#define Img3DRgba ast::type::ImageFormat::eRgbaTypeless, Img3D
+#define ImgCubeRgba ast::type::ImageFormat::eRgbaTypeless, ImgCube
+#define ImgBufferRgba ast::type::ImageFormat::eRgbaTypeless, ImgBuffer
+#define Img1DArrayRgba ast::type::ImageFormat::eRgbaTypeless, Img1DArray
+#define Img2DArrayRgba ast::type::ImageFormat::eRgbaTypeless, Img2DArray
+#define ImgCubeArrayRgba ast::type::ImageFormat::eRgbaTypeless, ImgCubeArray
+#define Img2DMSRgba ast::type::ImageFormat::eRgbaTypeless, Img2DMS
+#define Img2DMSArrayRgba ast::type::ImageFormat::eRgbaTypeless, Img2DMSArray
 
 #define FImg1DRgba16 ast::type::ImageFormat::eRgba16f, Img1D
 #define FImg2DRgba16 ast::type::ImageFormat::eRgba16f, Img2D
@@ -280,6 +293,26 @@ namespace ast::type
 #define FImgCubeArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, ImgCubeArray
 #define FImg2DMSRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, Img2DMS
 #define FImg2DMSArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, Img2DMSArray
+#define FImg1DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img1D
+#define FImg2DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img2D
+#define FImg3DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img3D
+#define FImgCubeRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, ImgCube
+#define FImgBufferRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, ImgBuffer
+#define FImg1DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img1DArray
+#define FImg2DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img2DArray
+#define FImgCubeArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, ImgCubeArray
+#define FImg2DMSRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img2DMS
+#define FImg2DMSArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, Img2DMSArray
+#define FImg1DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img1D
+#define FImg2DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img2D
+#define FImg3DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img3D
+#define FImgCubeR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, ImgCube
+#define FImgBufferR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, ImgBuffer
+#define FImg1DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img1DArray
+#define FImg2DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img2DArray
+#define FImgCubeArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, ImgCubeArray
+#define FImg2DMSR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img2DMS
+#define FImg2DMSArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, Img2DMSArray
 
 #define IImg1DRgba8 ast::type::ImageFormat::eRgba8i, Img1D
 #define IImg2DRgba8 ast::type::ImageFormat::eRgba8i, Img2D
@@ -342,6 +375,27 @@ namespace ast::type
 #define UImgCubeArrayRgba32 ast::type::ImageFormat::eRgba32u, ImgCubeArray
 #define UImg2DMSRgba32 ast::type::ImageFormat::eRgba32u, Img2DMS
 #define UImg2DMSArrayRgba32 ast::type::ImageFormat::eRgba32u, Img2DMSArray
+#define UImg1DRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img1D
+#define UImg2DRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img2D
+#define UImg3DRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img3D
+#define UImgCubeRgb10A2 ast::type::ImageFormat::eRgb10A2u, ImgCube
+#define UImgBufferRgb10A2 ast::type::ImageFormat::eRgb10A2u, ImgBuffer
+#define UImg1DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img1DArray
+#define UImg2DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img2DArray
+#define UImgCubeArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, ImgCubeArray
+#define UImg2DMSRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img2DMS
+#define UImg2DMSArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, Img2DMSArray
+
+#define Img1DRg ast::type::ImageFormat::eRgTypeless, Img1D
+#define Img2DRg ast::type::ImageFormat::eRgTypeless, Img2D
+#define Img3DRg ast::type::ImageFormat::eRgTypeless, Img3D
+#define ImgCubeRg ast::type::ImageFormat::eRgTypeless, ImgCube
+#define ImgBufferRg ast::type::ImageFormat::eRgTypeless, ImgBuffer
+#define Img1DArrayRg ast::type::ImageFormat::eRgTypeless, Img1DArray
+#define Img2DArrayRg ast::type::ImageFormat::eRgTypeless, Img2DArray
+#define ImgCubeArrayRg ast::type::ImageFormat::eRgTypeless, ImgCubeArray
+#define Img2DMSRg ast::type::ImageFormat::eRgTypeless, Img2DMS
+#define Img2DMSArrayRg ast::type::ImageFormat::eRgTypeless, Img2DMSArray
 
 #define FImg1DRg16 ast::type::ImageFormat::eRg16f, Img1D
 #define FImg2DRg16 ast::type::ImageFormat::eRg16f, Img2D
@@ -465,6 +519,17 @@ namespace ast::type
 #define UImgCubeArrayRg32 ast::type::ImageFormat::eRg32u, ImgCubeArray
 #define UImg2DMSRg32 ast::type::ImageFormat::eRg32u, Img2DMS
 #define UImg2DMSArrayRg32 ast::type::ImageFormat::eRg32u, Img2DMSArray
+
+#define Img1DR ast::type::ImageFormat::eRTypeless, Img1D
+#define Img2DR ast::type::ImageFormat::eRTypeless, Img2D
+#define Img3DR ast::type::ImageFormat::eRTypeless, Img3D
+#define ImgCubeR ast::type::ImageFormat::eRTypeless, ImgCube
+#define ImgBufferR ast::type::ImageFormat::eRTypeless, ImgBuffer
+#define Img1DArrayR ast::type::ImageFormat::eRTypeless, Img1DArray
+#define Img2DArrayR ast::type::ImageFormat::eRTypeless, Img2DArray
+#define ImgCubeArrayR ast::type::ImageFormat::eRTypeless, ImgCubeArray
+#define Img2DMSR ast::type::ImageFormat::eRTypeless, Img2DMS
+#define Img2DMSArrayR ast::type::ImageFormat::eRTypeless, Img2DMSArray
 
 #define FImg1DR16 ast::type::ImageFormat::eR16f, Img1D
 #define FImg2DR16 ast::type::ImageFormat::eR16f, Img2D
@@ -696,6 +761,26 @@ namespace ast::type
 #define RFImgCubeArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, RImgCubeArray
 #define RFImg2DMSRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, RImg2DMS
 #define RFImg2DMSArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, RImg2DMSArray
+#define RFImg1DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg1D
+#define RFImg2DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg2D
+#define RFImg3DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg3D
+#define RFImgCubeR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImgCube
+#define RFImgBufferR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImgBuffer
+#define RFImg1DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg1DArray
+#define RFImg2DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg2DArray
+#define RFImgCubeArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImgCubeArray
+#define RFImg2DMSR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg2DMS
+#define RFImg2DMSArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RImg2DMSArray
+#define RFImg1DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg1D
+#define RFImg2DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg2D
+#define RFImg3DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg3D
+#define RFImgCubeRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImgCube
+#define RFImgBufferRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImgBuffer
+#define RFImg1DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg1DArray
+#define RFImg2DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg2DArray
+#define RFImgCubeArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImgCubeArray
+#define RFImg2DMSRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg2DMS
+#define RFImg2DMSArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RImg2DMSArray
 
 #define RIImg1DRgba8 ast::type::ImageFormat::eRgba8i, RImg1D
 #define RIImg2DRgba8 ast::type::ImageFormat::eRgba8i, RImg2D
@@ -758,6 +843,16 @@ namespace ast::type
 #define RUImgCubeArrayRgba32 ast::type::ImageFormat::eRgba32u, RImgCubeArray
 #define RUImg2DMSRgba32 ast::type::ImageFormat::eRgba32u, RImg2DMS
 #define RUImg2DMSArrayRgba32 ast::type::ImageFormat::eRgba32u, RImg2DMSArray
+#define RUImg1DRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg1D
+#define RUImg2DRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg2D
+#define RUImg3DRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg3D
+#define RUImgCubeRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImgCube
+#define RUImgBufferRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImgBuffer
+#define RUImg1DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg1DArray
+#define RUImg2DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg2DArray
+#define RUImgCubeArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImgCubeArray
+#define RUImg2DMSRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg2DMS
+#define RUImg2DMSArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RImg2DMSArray
 
 #define RFImg1DRg16 ast::type::ImageFormat::eRg16f, RImg1D
 #define RFImg2DRg16 ast::type::ImageFormat::eRg16f, RImg2D
@@ -1016,6 +1111,17 @@ namespace ast::type
 #define WImg2DMS ast::type::AccessKind::eWrite, Img2DMSBase
 #define WImg2DMSArray ast::type::AccessKind::eWrite, Img2DMSArrayBase
 
+#define WImg1DRgba ast::type::ImageFormat::eRgbaTypeless, WImg1D
+#define WImg2DRgba ast::type::ImageFormat::eRgbaTypeless, WImg2D
+#define WImg3DRgba ast::type::ImageFormat::eRgbaTypeless, WImg3D
+#define WImgCubeRgba ast::type::ImageFormat::eRgbaTypeless, WImgCube
+#define WImgBufferRgba ast::type::ImageFormat::eRgbaTypeless, WImgBuffer
+#define WImg1DArrayRgba ast::type::ImageFormat::eRgbaTypeless, WImg1DArray
+#define WImg2DArrayRgba ast::type::ImageFormat::eRgbaTypeless, WImg2DArray
+#define WImgCubeArrayRgba ast::type::ImageFormat::eRgbaTypeless, WImgCubeArray
+#define WImg2DMSRgba ast::type::ImageFormat::eRgbaTypeless, WImg2DMS
+#define WImg2DMSArrayRgba ast::type::ImageFormat::eRgbaTypeless, WImg2DMSArray
+
 #define WFImg1DRgba16 ast::type::ImageFormat::eRgba16f, WImg1D
 #define WFImg2DRgba16 ast::type::ImageFormat::eRgba16f, WImg2D
 #define WFImg3DRgba16 ast::type::ImageFormat::eRgba16f, WImg3D
@@ -1076,6 +1182,26 @@ namespace ast::type
 #define WFImgCubeArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, WImgCubeArray
 #define WFImg2DMSRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, WImg2DMS
 #define WFImg2DMSArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, WImg2DMSArray
+#define WFImg1DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg1D
+#define WFImg2DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg2D
+#define WFImg3DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg3D
+#define WFImgCubeR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImgCube
+#define WFImgBufferR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImgBuffer
+#define WFImg1DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg1DArray
+#define WFImg2DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg2DArray
+#define WFImgCubeArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImgCubeArray
+#define WFImg2DMSR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg2DMS
+#define WFImg2DMSArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, WImg2DMSArray
+#define WFImg1DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg1D
+#define WFImg2DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg2D
+#define WFImg3DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg3D
+#define WFImgCubeRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImgCube
+#define WFImgBufferRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImgBuffer
+#define WFImg1DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg1DArray
+#define WFImg2DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg2DArray
+#define WFImgCubeArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImgCubeArray
+#define WFImg2DMSRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg2DMS
+#define WFImg2DMSArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, WImg2DMSArray
 
 #define WIImg1DRgba8 ast::type::ImageFormat::eRgba8i, WImg1D
 #define WIImg2DRgba8 ast::type::ImageFormat::eRgba8i, WImg2D
@@ -1138,6 +1264,27 @@ namespace ast::type
 #define WUImgCubeArrayRgba32 ast::type::ImageFormat::eRgba32u, WImgCubeArray
 #define WUImg2DMSRgba32 ast::type::ImageFormat::eRgba32u, WImg2DMS
 #define WUImg2DMSArrayRgba32 ast::type::ImageFormat::eRgba32u, WImg2DMSArray
+#define WUImg1DRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg1D
+#define WUImg2DRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg2D
+#define WUImg3DRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg3D
+#define WUImgCubeRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImgCube
+#define WUImgBufferRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImgBuffer
+#define WUImg1DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg1DArray
+#define WUImg2DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg2DArray
+#define WUImgCubeArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImgCubeArray
+#define WUImg2DMSRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg2DMS
+#define WUImg2DMSArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, WImg2DMSArray
+
+#define WImg1DRg ast::type::ImageFormat::eRgTypeless, WImg1D
+#define WImg2DRg ast::type::ImageFormat::eRgTypeless, WImg2D
+#define WImg3DRg ast::type::ImageFormat::eRgTypeless, WImg3D
+#define WImgCubeRg ast::type::ImageFormat::eRgTypeless, WImgCube
+#define WImgBufferRg ast::type::ImageFormat::eRgTypeless, WImgBuffer
+#define WImg1DArrayRg ast::type::ImageFormat::eRgTypeless, WImg1DArray
+#define WImg2DArrayRg ast::type::ImageFormat::eRgTypeless, WImg2DArray
+#define WImgCubeArrayRg ast::type::ImageFormat::eRgTypeless, WImgCubeArray
+#define WImg2DMSRg ast::type::ImageFormat::eRgTypeless, WImg2DMS
+#define WImg2DMSArrayRg ast::type::ImageFormat::eRgTypeless, WImg2DMSArray
 
 #define WFImg1DRg16 ast::type::ImageFormat::eRg16f, WImg1D
 #define WFImg2DRg16 ast::type::ImageFormat::eRg16f, WImg2D
@@ -1261,6 +1408,17 @@ namespace ast::type
 #define WUImgCubeArrayRg32 ast::type::ImageFormat::eRg32u, WImgCubeArray
 #define WUImg2DMSRg32 ast::type::ImageFormat::eRg32u, WImg2DMS
 #define WUImg2DMSArrayRg32 ast::type::ImageFormat::eRg32u, WImg2DMSArray
+
+#define WImg1DR ast::type::ImageFormat::eRTypeless, WImg1D
+#define WImg2DR ast::type::ImageFormat::eRTypeless, WImg2D
+#define WImg3DR ast::type::ImageFormat::eRTypeless, WImg3D
+#define WImgCubeR ast::type::ImageFormat::eRTypeless, WImgCube
+#define WImgBufferR ast::type::ImageFormat::eRTypeless, WImgBuffer
+#define WImg1DArrayR ast::type::ImageFormat::eRTypeless, WImg1DArray
+#define WImg2DArrayR ast::type::ImageFormat::eRTypeless, WImg2DArray
+#define WImgCubeArrayR ast::type::ImageFormat::eRTypeless, WImgCubeArray
+#define WImg2DMSR ast::type::ImageFormat::eRTypeless, WImg2DMS
+#define WImg2DMSArrayR ast::type::ImageFormat::eRTypeless, WImg2DMSArray
 
 #define WFImg1DR16 ast::type::ImageFormat::eR16f, WImg1D
 #define WFImg2DR16 ast::type::ImageFormat::eR16f, WImg2D
@@ -1456,6 +1614,26 @@ namespace ast::type
 #define RWFImgCubeArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, RWimgCubeArray
 #define RWFImg2DMSRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, RWimg2DMS
 #define RWFImg2DMSArrayRgba8Unorm ast::type::ImageFormat::eRgba8Unorm, RWimg2DMSArray
+#define RWFImg1DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg1D
+#define RWFImg2DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg2D
+#define RWFImg3DR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg3D
+#define RWFImgCubeR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimgCube
+#define RWFImgBufferR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimgBuffer
+#define RWFImg1DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg1DArray
+#define RWFImg2DArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg2DArray
+#define RWFImgCubeArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimgCubeArray
+#define RWFImg2DMSR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg2DMS
+#define RWFImg2DMSArrayR11fG11fB10f ast::type::ImageFormat::eR11fG11fB10f, RWimg2DMSArray
+#define RWFImg1DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg1D
+#define RWFImg2DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg2D
+#define RWFImg3DRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg3D
+#define RWFImgCubeRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimgCube
+#define RWFImgBufferRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimgBuffer
+#define RWFImg1DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg1DArray
+#define RWFImg2DArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg2DArray
+#define RWFImgCubeArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimgCubeArray
+#define RWFImg2DMSRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg2DMS
+#define RWFImg2DMSArrayRgb10A2Unorm ast::type::ImageFormat::eRgb10A2Unorm, RWimg2DMSArray
 
 #define RWIImg1DRgba8 ast::type::ImageFormat::eRgba8i, RWimg1D
 #define RWIImg2DRgba8 ast::type::ImageFormat::eRgba8i, RWimg2D
@@ -1518,6 +1696,16 @@ namespace ast::type
 #define RWUImgCubeArrayRgba32 ast::type::ImageFormat::eRgba32u, RWimgCubeArray
 #define RWUImg2DMSRgba32 ast::type::ImageFormat::eRgba32u, RWimg2DMS
 #define RWUImg2DMSArrayRgba32 ast::type::ImageFormat::eRgba32u, RWimg2DMSArray
+#define RWUImg1DRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg1D
+#define RWUImg2DRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg2D
+#define RWUImg3DRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg3D
+#define RWUImgCubeRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimgCube
+#define RWUImgBufferRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimgBuffer
+#define RWUImg1DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg1DArray
+#define RWUImg2DArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg2DArray
+#define RWUImgCubeArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimgCubeArray
+#define RWUImg2DMSRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg2DMS
+#define RWUImg2DMSArrayRgb10A2 ast::type::ImageFormat::eRgb10A2u, RWimg2DMSArray
 
 #define RWFImg1DRg16 ast::type::ImageFormat::eRg16f, RWimg1D
 #define RWFImg2DRg16 ast::type::ImageFormat::eRg16f, RWimg2D

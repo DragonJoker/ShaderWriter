@@ -8,6 +8,9 @@
 #pragma GCC diagnostic ignored "-Wunused-function"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
+#undef ForceDisplayShaders
+#define ForceDisplayShaders true
+
 namespace
 {
 	template< sdw::var::Flag FlagT >

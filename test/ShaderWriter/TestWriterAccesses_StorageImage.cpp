@@ -106,7 +106,7 @@ namespace test
 		static constexpr auto AccessT = TypeParam::Access;
 		static constexpr auto DimT = TypeParam::Dim;
 		static constexpr auto MsT = TypeParam::Ms;
-		if constexpr ( sdw::isReadableV< AccessT > )
+		if constexpr ( sdw::isReadableV< AccessT > && sdw::isReadableFormatV< FormatT > )
 		{
 			using Coords = sdw::StorageImageCoordsT< DimT, ArrayedT >;
 			sdwTestBegin( "imageLoad" );

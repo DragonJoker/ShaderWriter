@@ -2617,244 +2617,298 @@ namespace
 		astTestBegin( "testGetSampledType" );
 		type::TypesCache typesCache;
 		{
-			auto type = typesCache.getSampledType( type::ImageFormat::eUnknown );
+			astOn( "eRgbaTypeless" );
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgbaTypeless );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRgTypeless" );
+			auto type = typesCache.getSampledType( type::ImageFormat::eRgTypeless );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			astOn( "eRTypeless" );
+			auto type = typesCache.getSampledType( type::ImageFormat::eRTypeless );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			astOn( "eRgba32f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba32f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRgba16f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRg32f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg32f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eRg16f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg16f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eR32f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR32f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eR16f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR16f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eR11fG11fB10f" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR11fG11fB10f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec3F )
 		}
 		{
+			astOn( "eRgba32i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
 		}
 		{
+			astOn( "eRgba16i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
 		}
 		{
+			astOn( "eRgba8i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba8i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
 		}
 		{
+			astOn( "eRg32i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
 		}
 		{
+			astOn( "eRg16i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg16i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
 		}
 		{
+			astOn( "eRg8i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg8i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
 		}
 		{
+			astOn( "eR32i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
 		}
 		{
+			astOn( "eR16i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR16i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
 		}
 		{
+			astOn( "eR8i" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR8i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
 		}
 		{
+			astOn( "eRgba32u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba32u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRgba16u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRgba8u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba8u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRg32u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg32u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
 		}
 		{
+			astOn( "eRg16u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg16u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
 		}
 		{
+			astOn( "eRg8u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg8u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
 		}
 		{
+			astOn( "eR32u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR32u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
 		}
 		{
+			astOn( "eR16u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR16u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
 		}
 		{
+			astOn( "eR8u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR8u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
 		}
 		{
+			astOn( "eRgb10A2u" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgb10A2u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRgba16Snorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16Snorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRgba8Snorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba8Snorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRg16Snorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg16Snorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eRg8Snorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg8Snorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eR16Snorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR16Snorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eR8Snorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR8Snorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eRgba16Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba16Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRgba8Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgba8Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRg16Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg16Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eRg8Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRg8Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eR16Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR16Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eR8Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eR8Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eRgb10A2Unorm" );
 			auto type = typesCache.getSampledType( type::ImageFormat::eRgb10A2Unorm );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
-			astCheck( type->getKind() == type::Kind::eFloat )
+			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		astTestEnd()
 	}
@@ -2864,150 +2918,189 @@ namespace
 		astTestBegin( "testGetTexelType" );
 		type::TypesCache typesCache;
 		{
-			auto type = typesCache.getTexelType( type::ImageFormat::eUnknown );
+			astOn( "eRgbaTypeless" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgbaTypeless );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRgTypeless" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgTypeless );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			astOn( "eRTypeless" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRTypeless );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			astOn( "eRgba32f" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba32f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		{
+			astOn( "eRgba16f" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba16f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4H )
 		}
 		{
+			astOn( "eRg32f" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg32f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2F )
 		}
 		{
+			astOn( "eRg16f" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg16f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2H )
 		}
 		{
+			astOn( "eR32f" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR32f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eFloat )
 		}
 		{
+			astOn( "eR16f" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR16f );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eHalf )
 		}
 		{
+			astOn( "eRgba32i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
 		}
 		{
+			astOn( "eRgba16i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba16i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
 		}
 		{
+			astOn( "eRgba8i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba8i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4I32 )
 		}
 		{
+			astOn( "eRg32i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
 		}
 		{
+			astOn( "eRg16i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg16i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
 		}
 		{
+			astOn( "eRg8i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg8i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2I32 )
 		}
 		{
+			astOn( "eR32i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
 		}
 		{
+			astOn( "eR16i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR16i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
 		}
 		{
+			astOn( "eR8i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR8i );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eInt32 )
 		}
 		{
+			astOn( "eRgba32u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba32u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRgba16u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba16u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRgba8u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba8u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec4U32 )
 		}
 		{
+			astOn( "eRg32u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg32u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
 		}
 		{
+			astOn( "eRg16u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg16u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
 		}
 		{
+			astOn( "eRg8u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRg8u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eVec2U32 )
 		}
 		{
+			astOn( "eR32u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR32u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
 		}
 		{
+			astOn( "eR16u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR16u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
 		}
 		{
+			astOn( "eR8u" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eR8u );
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )

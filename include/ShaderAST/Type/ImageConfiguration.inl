@@ -4,11 +4,27 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	template<>
-	struct ImageFormatTraits< ImageFormat::eUnknown >
+	struct ImageFormatTraits< ImageFormat::eRgbaTypeless >
 	{
 		static Kind constexpr SampledBaseType = Kind::eFloat;
 		static Kind constexpr SampledType = Kind::eVec4F;
 		static Kind constexpr TexelType = Kind::eVec4F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRgTypeless >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eVec2F;
+		static Kind constexpr TexelType = Kind::eVec2F;
+	};
+
+	template<>
+	struct ImageFormatTraits< ImageFormat::eRTypeless >
+	{
+		static Kind constexpr SampledBaseType = Kind::eFloat;
+		static Kind constexpr SampledType = Kind::eFloat;
+		static Kind constexpr TexelType = Kind::eFloat;
 	};
 
 	template<>

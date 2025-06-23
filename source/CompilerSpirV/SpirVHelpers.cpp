@@ -61,7 +61,9 @@ namespace spirv
 		{
 			switch ( value )
 			{
-			case ast::type::ImageFormat::eUnknown:
+			case ast::type::ImageFormat::eRgbaTypeless:
+			case ast::type::ImageFormat::eRgTypeless:
+			case ast::type::ImageFormat::eRTypeless:
 				return spv::ImageFormatUnknown;
 			case ast::type::ImageFormat::eRgba32f:
 				return spv::ImageFormatRgba32f;
@@ -475,8 +477,43 @@ namespace spirv
 				config.registerCapability( spv::CapabilityRuntimeDescriptorArray );
 			}
 
+			if ( image.dimension == ast::type::ImageDim::e1D )
+			{
+				config.registerCapability( spv::CapabilitySampled1D );
+			}
+
+			if ( image.dimension == ast::type::ImageDim::eBuffer )
+			{
+				config.registerCapability( spv::CapabilitySampledBuffer );
+			}
+
+			if ( image.isMS && !sampled )
+			{
+				config.registerCapability( spv::CapabilityStorageImageMultisample );
+			}
+
 			switch ( image.format )
 			{
+			case ast::type::ImageFormat::eRgbaTypeless:
+			case ast::type::ImageFormat::eRgTypeless:
+			case ast::type::ImageFormat::eRTypeless:
+				if ( !sampled )
+				{
+					if ( image.accessKind == ast::type::AccessKind::eReadWrite )
+					{
+						config.registerCapability( spv::CapabilityStorageImageWriteWithoutFormat );
+						config.registerCapability( spv::CapabilityStorageImageReadWithoutFormat );
+					}
+					else if ( image.accessKind == ast::type::AccessKind::eRead )
+					{
+						config.registerCapability( spv::CapabilityStorageImageReadWithoutFormat );
+					}
+					else if ( image.accessKind == ast::type::AccessKind::eWrite )
+					{
+						config.registerCapability( spv::CapabilityStorageImageWriteWithoutFormat );
+					}
+				}
+				break;
 			case ast::type::ImageFormat::eRg32f:
 			case ast::type::ImageFormat::eRg16f:
 			case ast::type::ImageFormat::eR32f:
@@ -510,19 +547,6 @@ namespace spirv
 				break;
 			default:
 				break;
-			}
-
-			if ( sampled )
-			{
-				if ( image.dimension == ast::type::ImageDim::e1D )
-				{
-					config.registerCapability( spv::CapabilitySampled1D );
-				}
-
-				if ( image.dimension == ast::type::ImageDim::eBuffer )
-				{
-					config.registerCapability( spv::CapabilitySampledBuffer );
-				}
 			}
 		}
 
@@ -1847,6 +1871,17 @@ namespace spirv
 		return true;
 	}
 
+	ast::var::VariablePtr ModuleConfig::declareAliasVar( ast::type::TypePtr type )
+	{
+		++nextVarId;
+		++aliasId;
+		auto & typesCache = type->getTypesCache();
+		return ast::var::makeVariable( nextVarId
+			, typesCache.getNonExplicitLayoutType( type )
+			, "tmp_" + std::to_string( aliasId )
+			, ast::var::Flag::eAlias );
+	}
+
 	void ModuleConfig::registerParam( ast::var::VariablePtr var
 		, ast::type::ComputeInput const & compType )
 	{
@@ -2987,7 +3022,7 @@ namespace spirv
 		switch ( value )
 		{
 		case spv::ImageFormatUnknown:
-			return ast::type::ImageFormat::eUnknown;
+			return ast::type::ImageFormat::eRgbaTypeless;
 		case spv::ImageFormatRgba32f:
 			return ast::type::ImageFormat::eRgba32f;
 		case spv::ImageFormatRgba16f:

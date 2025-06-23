@@ -744,59 +744,7 @@ namespace spirv
 			void visitImageDeclStmt( ast::stmt::ImageDecl const * stmt )override
 			{
 				m_result.addStorage( stmt->getVariable() );
-				auto imgType = static_cast< ast::type::Image * >( ast::type::getNonArrayType( stmt->getVariable()->getType() ) );
-
-				if ( imgType->getConfig().dimension == ast::type::ImageDim::e1D )
-				{
-					m_result.registerCapability( spv::CapabilitySampled1D );
-				}
-
-				if ( imgType->getConfig().dimension == ast::type::ImageDim::eBuffer )
-				{
-					m_result.registerCapability( spv::CapabilitySampledBuffer );
-				}
-
-				if ( imgType->getConfig().isMS )
-				{
-					m_result.registerCapability( spv::CapabilityStorageImageMultisample );
-				}
-
-				switch ( imgType->getConfig().format )
-				{
-				case ast::type::ImageFormat::eRg32f:
-				case ast::type::ImageFormat::eRg16f:
-				case ast::type::ImageFormat::eR32f:
-				case ast::type::ImageFormat::eR16f:
-				case ast::type::ImageFormat::eR11fG11fB10f:
-				case ast::type::ImageFormat::eRg32i:
-				case ast::type::ImageFormat::eRg16i:
-				case ast::type::ImageFormat::eRg8i:
-				case ast::type::ImageFormat::eR32i:
-				case ast::type::ImageFormat::eR16i:
-				case ast::type::ImageFormat::eR8i:
-				case ast::type::ImageFormat::eRg32u:
-				case ast::type::ImageFormat::eRg16u:
-				case ast::type::ImageFormat::eRg8u:
-				case ast::type::ImageFormat::eR32u:
-				case ast::type::ImageFormat::eR16u:
-				case ast::type::ImageFormat::eR8u:
-				case ast::type::ImageFormat::eRgb10A2u:
-				case ast::type::ImageFormat::eRgba16Snorm:
-				case ast::type::ImageFormat::eRg16Snorm:
-				case ast::type::ImageFormat::eRg8Snorm:
-				case ast::type::ImageFormat::eR16Snorm:
-				case ast::type::ImageFormat::eR8Snorm:
-				case ast::type::ImageFormat::eRgba16Unorm:
-				case ast::type::ImageFormat::eRg16Unorm:
-				case ast::type::ImageFormat::eRg8Unorm:
-				case ast::type::ImageFormat::eR16Unorm:
-				case ast::type::ImageFormat::eR8Unorm:
-				case ast::type::ImageFormat::eRgb10A2Unorm:
-					m_result.registerCapability( spv::CapabilityStorageImageExtendedFormats );
-					break;
-				default:
-					break;
-				}
+				doTraverseType( stmt->getVariable()->getType() );
 			}
 
 			void visitIgnoreIntersectionStmt( ast::stmt::IgnoreIntersection const * stmt )override

@@ -564,9 +564,7 @@ namespace hlsl
 
 		switch ( value )
 		{
-		case ast::type::ImageFormat::eUnknown:
-			result = "float4";
-			break;
+		case ast::type::ImageFormat::eRgbaTypeless:
 		case ast::type::ImageFormat::eRgba32f:
 		case ast::type::ImageFormat::eRgba16f:
 		case ast::type::ImageFormat::eRgba16Snorm:
@@ -579,6 +577,7 @@ namespace hlsl
 		case ast::type::ImageFormat::eR11fG11fB10f:
 			result = "float3";
 			break;
+		case ast::type::ImageFormat::eRgTypeless:
 		case ast::type::ImageFormat::eRg32f:
 		case ast::type::ImageFormat::eRg16f:
 		case ast::type::ImageFormat::eRg16Snorm:
@@ -587,6 +586,7 @@ namespace hlsl
 		case ast::type::ImageFormat::eRg8Unorm:
 			result = "float2";
 			break;
+		case ast::type::ImageFormat::eRTypeless:
 		case ast::type::ImageFormat::eR32f:
 		case ast::type::ImageFormat::eR16f:
 		case ast::type::ImageFormat::eR16Snorm:
