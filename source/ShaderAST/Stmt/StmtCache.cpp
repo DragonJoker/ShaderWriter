@@ -74,7 +74,7 @@ namespace ast::stmt
 
 	StmtCache::~StmtCache()
 	{
-		AST_Assert( m_allocatedStmts == 0 );
+		assert( m_allocatedStmts == 0 );
 		m_allocator = nullptr;
 	}
 
@@ -495,10 +495,10 @@ namespace ast::stmt
 
 	void StmtCache::freeStmt( Stmt * stmt )noexcept
 	{
-		AST_Assert( m_allocatedStmts > 0 );
+		assert( m_allocatedStmts > 0 );
 		--m_allocatedStmts;
 		stmt->~Stmt();
-		AST_Assert( m_allocator != nullptr );
+		assert( m_allocator != nullptr );
 		m_allocator->deallocate( stmt, stmt->getSize() );
 	}
 }

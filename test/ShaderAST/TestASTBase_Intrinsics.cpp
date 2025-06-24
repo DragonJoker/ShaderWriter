@@ -35019,3 +35019,5 @@ namespace checks
 		astTestEnd()
 	}
 }
+
+astTestSuiteMain()

@@ -578,7 +578,7 @@ namespace test
 	ASTTest_API std::string getExecutableDirectory();
 
 	struct TestCounts;
-	struct TestSuite;
+	class TestSuite;
 
 	class Exception
 		: public std::runtime_error
@@ -702,6 +702,18 @@ namespace test
 			return counts;
 		}
 	};
+
+	class TestSuite
+		: public ::testing::Environment
+	{
+	public:
+		ASTTest_API TestSuite( std::string const & name );
+
+	private:
+		std::unique_ptr< std::streambuf > tcout;
+	};
+
+	int testsMain( int argc, char ** argv, std::string_view testSuiteName );
 }
 
 #define astTestBegin( name )\
@@ -893,3 +905,9 @@ namespace test
 
 #define astSubCheckNoThrow( f, l, x )\
 	astSubCheckNoThrowEx( f, l, x, ast::Exception )
+
+#define astTestSuiteMain()\
+	int main( int argc, char ** argv )\
+	{\
+		return test::testsMain( argc, argv, AST_TestSuiteNameString );\
+	}

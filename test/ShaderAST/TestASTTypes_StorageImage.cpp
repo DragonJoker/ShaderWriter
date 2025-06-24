@@ -185,3 +185,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTStorageImageTypes, StorageImageTypes
 	, testing::Range( minStorageImageType, maxStorageImageType )
 	, astTestNameP( StorageImageType, getStorageImageTypeName ) );
+
+astTestSuiteMain()

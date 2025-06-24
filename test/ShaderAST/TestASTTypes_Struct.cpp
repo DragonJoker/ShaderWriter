@@ -472,3 +472,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTStructTypes, StructTypes
 	, testing::Range( minStructType, maxStructType )
 	, astTestNameP( StructType, getStructTypeName ) );
+
+astTestSuiteMain()

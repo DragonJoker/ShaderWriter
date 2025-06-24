@@ -25,7 +25,6 @@ target_compile_definitions( ${PROJECT_NAME}
 target_link_libraries( ${PROJECT_NAME}
 	PUBLIC
 		sdw::ShaderAST
-	PRIVATE
 		GTest::gtest
 )
 add_library( sdw::test::ASTCommon
@@ -71,12 +70,12 @@ macro( create_test TEST_FILE )
 	)
 	target_link_libraries( ${TARGET_NAME}
 		PRIVATE
-			GTest::gtest_main
-			${PROJECT_NAME}
+			sdw::test::ASTCommon
 	)
 	target_compile_definitions( ${TARGET_NAME}
 		PRIVATE
 			AST_TestSuiteName=${TEST_NAME}
+			AST_TestSuiteNameString="${TEST_NAME}"
 	)
 	target_add_compilation_flags( ${TARGET_NAME} )
 	target_compile_options( ${TARGET_NAME}
