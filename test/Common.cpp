@@ -29,6 +29,100 @@ namespace test
 
 	namespace
 	{
+		template< typename LogStreambufTraits >
+		class LogStreambuf
+			: public std::streambuf
+		{
+		public:
+			using string_type = std::string;
+			using ostream_type = std::ostream;
+			using streambuf_type = std::streambuf;
+			using int_type = std::streambuf::int_type;
+			using traits_type = std::streambuf::traits_type;
+
+			LogStreambuf( std::string const & name
+				, std::ostream & stream )
+				: m_stream{ stream }
+				, m_fstream{ getExecutableDirectory() + name + ".log" }
+			{
+				m_old = m_stream.rdbuf( this );
+			}
+
+			~LogStreambuf()noexcept override
+			{
+				try
+				{
+					m_stream.flush();
+					m_stream.rdbuf( m_old );
+				}
+				catch ( ... )
+				{
+				}
+			}
+
+			int_type overflow( int_type c = traits_type::eof() )override
+			{
+				if ( traits_type::eq_int_type( c, traits_type::eof() ) )
+				{
+					do_sync();
+				}
+				else if ( c == '\n' )
+				{
+					do_sync();
+				}
+				else if ( c == '\r' )
+				{
+					m_buffer += '\r';
+					do_sync_no_nl();
+				}
+				else
+				{
+					m_buffer += traits_type::to_char_type( c );
+				}
+
+				return c;
+			}
+
+			int do_sync()
+			{
+				LogStreambufTraits::log( m_fstream, m_buffer );
+				m_buffer.clear();
+				return 0;
+			}
+
+			int do_sync_no_nl()
+			{
+				LogStreambufTraits::logNoNL( m_fstream, m_buffer );
+				m_buffer.clear();
+				return 0;
+			}
+
+		private:
+			string_type m_buffer;
+			ostream_type & m_stream;
+			streambuf_type * m_old;
+			std::ofstream m_fstream;
+		};
+
+		struct StreamLogStreambufTraits
+		{
+			static void log( std::ostream & stream
+				, std::string const & text )
+			{
+				printCDBConsole( text, true );
+				fprintf( stdout, "%s\n", text.c_str() );
+				stream << text << std::endl;
+			}
+
+			static void logNoNL( std::ostream & stream
+				, std::string const & text )
+			{
+				printCDBConsole( text, false );
+				fprintf( stdout, "%s", text.c_str() );
+				stream << text;
+			}
+		};
+
 		std::string getPath( std::string const & path )
 		{
 			return path.substr( 0, path.find_last_of( PathSeparator ) );
@@ -165,6 +259,24 @@ namespace test
 	void TestCounts::printError( std::string const & text )
 	{
 		GTEST_MESSAGE_( ( "\n" + text ).c_str(), ::testing::TestPartResult::kNonFatalFailure );
+	}
+
+	//*********************************************************************************************
+
+	TestSuite::TestSuite( std::string const & name )
+		: tcout{ std::make_unique< test::LogStreambuf< test::StreamLogStreambufTraits > >( "TestWriter" + name, std::cout ) }
+	{
+	}
+
+	//*********************************************************************************************
+
+	int testsMain( int argc, char ** argv, std::string_view testSuiteName )
+	{
+		std::locale::global( std::locale{ "C" } );
+		testing::InitGoogleTest( &argc, argv );
+		auto suite = new test::TestSuite{ std::string{ testSuiteName } };
+		testing::AddGlobalTestEnvironment( suite );
+		return RUN_ALL_TESTS();
 	}
 
 	//*********************************************************************************************

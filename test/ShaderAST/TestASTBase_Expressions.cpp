@@ -4706,3 +4706,5 @@ namespace checks
 		astTestEnd()
 	}
 }
+
+astTestSuiteMain()

@@ -434,3 +434,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTVariables, Variables
 	, testing::Range( minVariable, maxVariable )
 	, astTestNameP( TestVariable, getVariableName ) );
+
+astTestSuiteMain()

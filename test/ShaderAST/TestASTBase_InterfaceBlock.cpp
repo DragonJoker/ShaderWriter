@@ -429,3 +429,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTInterfaceBlocks, InterfaceBlocks
 	, testing::Range( minInterfaceBlock, maxInterfaceBlock )
 	, astTestNameP( TestInterfaceBlock, getInterfaceBlockName ) );
+
+astTestSuiteMain()

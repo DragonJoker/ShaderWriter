@@ -534,3 +534,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTIOStructTypes, IOStructTypes
 	, testing::Range( minIOStructType, maxIOStructType )
 	, astTestNameP( IOStructType, getIOStructTypeName ) );
+
+astTestSuiteMain()

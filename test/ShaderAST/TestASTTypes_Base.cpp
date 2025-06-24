@@ -3461,3 +3461,5 @@ namespace
 		astTestEnd()
 	}
 }
+
+astTestSuiteMain()

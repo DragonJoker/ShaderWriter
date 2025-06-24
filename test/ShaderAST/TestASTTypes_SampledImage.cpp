@@ -216,3 +216,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTSampledImageTypes, SampledImageTypes
 	, testing::Range( minSampledImageType, maxSampledImageType )
 	, astTestNameP( SampledImageType, getSampledImageTypeName ) );
+
+astTestSuiteMain()

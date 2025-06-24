@@ -82,7 +82,7 @@ namespace ast::expr
 
 	ExprCache::~ExprCache()
 	{
-		AST_Assert( m_allocatedExprs == 0 );
+		assert( m_allocatedExprs == 0 );
 		m_allocator = nullptr;
 	}
 
@@ -732,10 +732,10 @@ namespace ast::expr
 
 	void ExprCache::freeExpr( Expr * expr )noexcept
 	{
-		AST_Assert( m_allocatedExprs > 0 );
+		assert( m_allocatedExprs > 0 );
 		--m_allocatedExprs;
 		expr->~Expr();
-		AST_Assert( m_allocator != nullptr );
+		assert( m_allocator != nullptr );
 		m_allocator->deallocate( expr, expr->getSize() );
 	}
 

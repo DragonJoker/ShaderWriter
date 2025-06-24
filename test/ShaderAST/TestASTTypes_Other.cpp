@@ -701,3 +701,5 @@ namespace
 		astTestEnd()
 	}
 }
+
+astTestSuiteMain()

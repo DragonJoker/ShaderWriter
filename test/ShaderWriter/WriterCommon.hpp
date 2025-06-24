@@ -128,18 +128,18 @@ namespace test
 		};
 
 		class TestSuite
-			: public ::testing::Environment
+			: public test::TestSuite
 		{
 		public:
 			SDWTest_API TestSuite( std::string const & name );
-			SDWTest_API static void SetUpTestSuite();
-			SDWTest_API static void TearDownTestSuite();
 			SDWTest_API void SetUp() override;
 			SDWTest_API void TearDown() override;
 
 		private:
 			std::unique_ptr< std::streambuf > tcout;
 		};
+
+		SDWTest_API int testsMain( int argc, char ** argv, std::string_view testSuiteName );
 	}
 
 	struct Compilers
@@ -206,8 +206,6 @@ namespace test
 
 	SDWTest_API void expectError( std::string value
 		, sdw_test::TestCounts & testCounts );
-
-	SDWTest_API int testsMain( int argc, char ** argv, std::string_view testSuiteName );
 }
 
 class SDWTest
@@ -237,7 +235,7 @@ public:
 #define sdwTestSuiteMain()\
 	int main( int argc, char ** argv )\
 	{\
-		return test::testsMain( argc, argv, SDW_TestSuiteNameString );\
+		return test::sdw_test::testsMain( argc, argv, SDW_TestSuiteNameString );\
 	}
 
 #pragma GCC diagnostic pop

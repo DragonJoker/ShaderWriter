@@ -205,3 +205,5 @@ namespace
 INSTANTIATE_TEST_SUITE_P( TestASTImageTypes, CombinedImageTypes
 	, testing::Range( minCombinedImageType, maxCombinedImageType )
 	, astTestNameP( CombinedImageType, getCombinedImageTypeName ) );
+
+astTestSuiteMain()
