@@ -8,22 +8,29 @@ See LICENSE file in root folder
 
 namespace ast::expr
 {
+	namespace helper
+	{
+		static type::TypesCache & getOperandTypesCache( type::TypePtr type
+			, Expr * operand )
+		{
+			if ( !operand )
+				AST_Exception( "Unary expression without operand" );
+			return getExprTypesCache( *operand );
+		}
+	}
+
 	Unary::Unary( ExprCache & exprCache
 		, type::TypePtr type
 		, ExprPtr operand
 		, Kind kind )
 		: Expr{ exprCache
 			, sizeof( Unary )
-			, getExprTypesCache( operand )
-			, std::move( type )
+			, helper::getOperandTypesCache( type, operand.get() )
+			, type
 			, kind
 			, ( isExprConstant( operand ) ? Flag::eConstant : Flag::eNone ) }
 		, m_operand{ std::move( operand ) }
 	{
-		if ( !m_operand )
-		{
-			AST_Exception( "Unary expression without operand" );
-		}
 	}
 
 	Unary::Unary( ExprCache & exprCache
@@ -31,7 +38,7 @@ namespace ast::expr
 		, Kind kind )
 		: Expr{ exprCache
 			, sizeof( Unary )
-			, getExprTypesCache( operand )
+			, helper::getOperandTypesCache( nullptr, operand.get() )
 			, operand->getType()
 			, kind
 			, ( isExprConstant( operand ) ? Flag::eConstant : Flag::eNone ) }
