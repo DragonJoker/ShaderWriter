@@ -1250,6 +1250,11 @@ namespace ast
 						m_result = m_exprCache.makeSwizzle( std::move( m_result )
 							, expr::SwizzleKind{ expr::SwizzleKind::e01 } );
 					}
+					else if ( dstCount == 3u )
+					{
+						m_result = m_exprCache.makeSwizzle( std::move( m_result )
+							, expr::SwizzleKind{ expr::SwizzleKind::e012 } );
+					}
 				}
 			}
 
