@@ -346,6 +346,8 @@ namespace test::sdw_test
 			}
 
 #endif
+			astCheckNoThrow( spirv::parseSpirv( shader.getAllocator(), stage, spirv ) )
+
 			return isValidated && isToolsValidated;
 		}
 

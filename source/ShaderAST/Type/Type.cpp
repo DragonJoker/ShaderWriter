@@ -28,20 +28,20 @@ namespace ast::type
 	Type::Type( TypesCache & typesCache
 		, Struct * parent
 		, uint32_t index
-		, Type const & nonMbr )
+		, TypePtr nonMbr )
 		: m_typesCache{ &typesCache }
-		, m_kind{ nonMbr.getKind() }
+		, m_kind{ nonMbr->getKind() }
 		, m_explicitLayout{ parent ? parent->hasExplicitLayout() : false }
 		, m_parent{ parent }
 		, m_index{ index }
-		, m_nonMbr{ &nonMbr }
+		, m_nonMbr{ nonMbr }
 	{
 	}
 
 	Type::Type( TypesCache & typesCache
 		, Struct & parent
 		, uint32_t index
-		, Type const & nonMbr )
+		, TypePtr nonMbr )
 		: Type{ typesCache, &parent, index, nonMbr }
 	{
 	}
@@ -50,7 +50,7 @@ namespace ast::type
 	{
 	}
 
-	Type const * Type::getNonMemberType()const
+	TypePtr Type::getNonMemberType()const
 	{
 		if ( isMember() )
 		{
@@ -58,7 +58,7 @@ namespace ast::type
 			return m_nonMbr;
 		}
 
-		return this;
+		return const_cast< TypePtr >( this );
 	}
 
 	//*************************************************************************

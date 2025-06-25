@@ -395,6 +395,30 @@ namespace
 					astCheck( type->size() == updateCount( count, name ) )
 				}
 			}
+			if ( astOn( "Explicit memory layout creation" ) )
+			{
+				auto explicitType = typesCache.getExplicitLayoutType( type );
+				astCheck( explicitType->hasExplicitLayout() );
+				astCheck( explicitType->size() == type->size() );
+				if ( explicitType->size() == type->size() )
+				{
+					for ( uint32_t i = 0; i < type->size(); ++i )
+					{
+						astWhen( "i = " + std::to_string( i ) );
+						astCheck( explicitType->getMember( i ).type->hasExplicitLayout() );
+						if ( explicitType->getMember( i ).builtin == ast::Builtin::eNone )
+						{
+							astCheck( explicitType->getMember( i ).name == type->getMember( i ).name );
+						}
+						else
+						{
+							astCheck( explicitType->getMember( i ).builtin == type->getMember( i ).builtin );
+						}
+					}
+				}
+				auto nonExplicitType = typesCache.getNonExplicitLayoutType( explicitType );
+				astCheck( nonExplicitType == type )
+			}
 			{
 				auto mbrType = typesCache.getMemberType( typesCache.getBasicType( mbrKind ), *type, 0u );
 				astCheck( mbrType != typesCache.getBasicType( mbrKind ) )

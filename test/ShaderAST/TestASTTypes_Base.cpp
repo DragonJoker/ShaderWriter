@@ -1746,6 +1746,9 @@ namespace
 			astCheck( !isCallableDataType( type->getKind() ) )
 			astCheck( getComponentCount( type->getKind() ) == 2u )
 			astCheck( getComponentType( type->getKind() ) == type::Kind::eFloat )
+			astCheck( typesCache.getMat2Kind( type->getKind() ) == ast::type::Kind::eMat2x2F )
+			astCheck( typesCache.getMat3Kind( type->getKind() ) == ast::type::Kind::eMat3x2F )
+			astCheck( typesCache.getMat4Kind( type->getKind() ) == ast::type::Kind::eMat4x2F )
 		}
 		{
 			auto type = typesCache.getVec3F();
@@ -1784,6 +1787,9 @@ namespace
 			astCheck( !isCallableDataType( type->getKind() ) )
 			astCheck( getComponentCount( type->getKind() ) == 3u )
 			astCheck( getComponentType( type->getKind() ) == type::Kind::eFloat )
+			astCheck( typesCache.getMat2Kind( type->getKind() ) == ast::type::Kind::eMat2x3F )
+			astCheck( typesCache.getMat3Kind( type->getKind() ) == ast::type::Kind::eMat3x3F )
+			astCheck( typesCache.getMat4Kind( type->getKind() ) == ast::type::Kind::eMat4x3F )
 		}
 		{
 			auto type = typesCache.getVec4F();
@@ -1822,6 +1828,9 @@ namespace
 			astCheck( !isCallableDataType( type->getKind() ) )
 			astCheck( getComponentCount( type->getKind() ) == 4u )
 			astCheck( getComponentType( type->getKind() ) == type::Kind::eFloat )
+			astCheck( typesCache.getMat2Kind( type->getKind() ) == ast::type::Kind::eMat2x4F )
+			astCheck( typesCache.getMat3Kind( type->getKind() ) == ast::type::Kind::eMat3x4F )
+			astCheck( typesCache.getMat4Kind( type->getKind() ) == ast::type::Kind::eMat4x4F )
 		}
 		{
 			auto type = typesCache.getVec2D();
@@ -1860,6 +1869,9 @@ namespace
 			astCheck( !isCallableDataType( type->getKind() ) )
 			astCheck( getComponentCount( type->getKind() ) == 2u )
 			astCheck( getComponentType( type->getKind() ) == type::Kind::eDouble )
+			astCheck( typesCache.getMat2Kind( type->getKind() ) == ast::type::Kind::eMat2x2D )
+			astCheck( typesCache.getMat3Kind( type->getKind() ) == ast::type::Kind::eMat3x2D )
+			astCheck( typesCache.getMat4Kind( type->getKind() ) == ast::type::Kind::eMat4x2D )
 		}
 		{
 			auto type = typesCache.getVec3D();
@@ -1898,6 +1910,9 @@ namespace
 			astCheck( !isCallableDataType( type->getKind() ) )
 			astCheck( getComponentCount( type->getKind() ) == 3u )
 			astCheck( getComponentType( type->getKind() ) == type::Kind::eDouble )
+			astCheck( typesCache.getMat2Kind( type->getKind() ) == ast::type::Kind::eMat2x3D )
+			astCheck( typesCache.getMat3Kind( type->getKind() ) == ast::type::Kind::eMat3x3D )
+			astCheck( typesCache.getMat4Kind( type->getKind() ) == ast::type::Kind::eMat4x3D )
 		}
 		{
 			auto type = typesCache.getVec4D();
@@ -1936,6 +1951,9 @@ namespace
 			astCheck( !isCallableDataType( type->getKind() ) )
 			astCheck( getComponentCount( type->getKind() ) == 4u )
 			astCheck( getComponentType( type->getKind() ) == type::Kind::eDouble )
+			astCheck( typesCache.getMat2Kind( type->getKind() ) == ast::type::Kind::eMat2x4D )
+			astCheck( typesCache.getMat3Kind( type->getKind() ) == ast::type::Kind::eMat3x4D )
+			astCheck( typesCache.getMat4Kind( type->getKind() ) == ast::type::Kind::eMat4x4D )
 		}
 		astTestEnd()
 	}
@@ -2981,6 +2999,13 @@ namespace
 			astCheck( type->getKind() == type::Kind::eHalf )
 		}
 		{
+			astOn( "eR11fG11fB10f" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eR11fG11fB10f );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec3F )
+		}
+		{
 			astOn( "eRgba32i" );
 			auto type = typesCache.getTexelType( type::ImageFormat::eRgba32i );
 			astCheckNoThrow( debug::getTypeName( type ) )
@@ -3105,6 +3130,104 @@ namespace
 			astCheckNoThrow( debug::getTypeName( type ) )
 			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
 			astCheck( type->getKind() == type::Kind::eUInt32 )
+		}
+		{
+			astOn( "eRgb10A2u" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgb10A2u );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4U32 )
+		}
+		{
+			astOn( "eRgba16Snorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgba16Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			astOn( "eRgba8Snorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgba8Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			astOn( "eRg16Snorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRg16Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			astOn( "eRg8Snorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRg8Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			astOn( "eR16Snorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eR16Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			astOn( "eR8Snorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eR8Snorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			astOn( "eRgba16Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgba16Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			astOn( "eRgba8Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgba8Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
+		}
+		{
+			astOn( "eRg16Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRg16Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			astOn( "eRg8Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRg8Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec2F )
+		}
+		{
+			astOn( "eR16Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eR16Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			astOn( "eR8Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eR8Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eFloat )
+		}
+		{
+			astOn( "eRgb10A2Unorm" );
+			auto type = typesCache.getTexelType( type::ImageFormat::eRgb10A2Unorm );
+			astCheckNoThrow( debug::getTypeName( type ) )
+			astCheckNoThrow( debug::getTypeName( type->getKind() ) )
+			astCheck( type->getKind() == type::Kind::eVec4F )
 		}
 		astTestEnd()
 	}

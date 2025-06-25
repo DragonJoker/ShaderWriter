@@ -90,11 +90,11 @@ namespace ast::type
 		SDAST_API Struct( TypesCache & typesCache
 			, Struct * parent
 			, uint32_t index
-			, Struct const & copy );
+			, StructPtr copy );
 		SDAST_API Struct( TypesCache & typesCache
 			, Struct & parent
 			, uint32_t index
-			, Struct const & copy );
+			, StructPtr copy );
 
 	protected:
 		SDAST_API Struct( TypesCache & typesCache

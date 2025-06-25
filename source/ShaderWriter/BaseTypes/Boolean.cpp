@@ -17,7 +17,7 @@ namespace sdw
 	}
 
 	Boolean::Boolean( bool rhs )
-		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ), true }
+		: Value{ *details::getWriter( rhs ), makeExpr( sdw::getCurrentWriter(), rhs ), true }
 	{
 	}
 

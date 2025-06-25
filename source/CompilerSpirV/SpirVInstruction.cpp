@@ -643,6 +643,12 @@ namespace spirv
 				return CopyLogicalInstruction::Config;
 			case spv::OpExecutionModeId:
 				return ExecutionModeIdInstruction::Config;
+			case spv::OpTypeAccelerationStructureKHR:
+				return AccelerationStructureTypeInstruction::Config;
+			case spv::OpCopyObject:
+				return CopyObjectInstruction::Config;
+			case spv::OpSampledImage:
+				return SampledImageInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 #if !SDAST_ExceptAssert
