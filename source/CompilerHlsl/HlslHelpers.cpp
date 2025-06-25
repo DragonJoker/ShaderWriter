@@ -2676,56 +2676,7 @@ namespace hlsl
 				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 				break;
 			default:
-				{
-					if ( type->getKind() == ast::type::Kind::eArray )
-					{
-						auto & arrayType = static_cast< ast::type::Array const & >( *type );
-						type = arrayType.getType();
-					}
-
-					if ( isStructType( type ) )
-					{
-						auto structType = getStructType( type );
-
-						if ( structType->isInput() )
-						{
-							registerInput( param, static_cast< ast::type::IOStruct const & >( *structType ) );
-						}
-						else if ( structType->isOutput() )
-						{
-							registerOutput( param, static_cast< ast::type::IOStruct const & >( *structType ) );
-						}
-						else
-						{
-							uint32_t index = 0u;
-
-							for ( auto & mbr : *structType )
-							{
-								if ( mbr.builtin != ast::Builtin::eNone )
-								{
-									if ( HlslHelpersInternal::isShaderInput( mbr.builtin, shader->getType() ) )
-									{
-										registerInputMbr( param
-											, uint64_t( ast::var::Flag::eShaderInput )
-											, mbr.builtin
-											, index
-											, mbr.location );
-									}
-									else
-									{
-										registerInputMbr( param
-											, uint64_t( ast::var::Flag::eShaderOutput )
-											, mbr.builtin
-											, index
-											, mbr.location );
-									}
-
-									++index;
-								}
-							}
-						}
-					}
-				}
+				registerParam( param, *type );
 				break;
 			}
 		}
@@ -3424,6 +3375,36 @@ namespace hlsl
 			, m_currentRoutine->paramToEntryPoint );
 	}
 
+	void AdaptationData::registerParam( ast::var::VariablePtr var
+		, ast::type::Type const & type )
+	{
+		auto nonArrayType = &type;
+
+		if ( type.getKind() == ast::type::Kind::eArray )
+		{
+			auto & arrayType = static_cast< ast::type::Array const & >( type );
+			nonArrayType = arrayType.getType();
+		}
+
+		if ( isStructType( *nonArrayType ) )
+		{
+			auto structType = getStructType( *nonArrayType );
+
+			if ( structType->isInput() )
+			{
+				registerInput( var, static_cast< ast::type::IOStruct const & >( *structType ) );
+			}
+			else if ( structType->isOutput() )
+			{
+				registerOutput( var, static_cast< ast::type::IOStruct const & >( *structType ) );
+			}
+			else
+			{
+				registerOther( var, *structType );
+			}
+		}
+	}
+
 	void AdaptationData::registerInput( ast::var::VariablePtr var
 		, ast::type::IOStruct const & structType )
 	{
@@ -3453,6 +3434,37 @@ namespace hlsl
 				, mbrIndex
 				, mbr.location );
 			++mbrIndex;
+		}
+	}
+
+	void AdaptationData::registerOther( ast::var::VariablePtr var
+		, ast::type::Struct const & structType )
+	{
+		uint32_t index = 0u;
+
+		for ( auto & mbr : structType )
+		{
+			if ( mbr.builtin != ast::Builtin::eNone )
+			{
+				if ( HlslHelpersInternal::isShaderInput( mbr.builtin, shader->getType() ) )
+				{
+					registerInputMbr( var
+						, uint64_t( ast::var::Flag::eShaderInput )
+						, mbr.builtin
+						, index
+						, mbr.location );
+				}
+				else
+				{
+					registerInputMbr( var
+						, uint64_t( ast::var::Flag::eShaderOutput )
+						, mbr.builtin
+						, index
+						, mbr.location );
+				}
+
+				++index;
+			}
 		}
 	}
 

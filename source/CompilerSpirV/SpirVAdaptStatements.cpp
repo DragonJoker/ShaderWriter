@@ -135,6 +135,24 @@ namespace spirv
 			{
 			}
 
+			void visitSwitchStmt( ast::stmt::Switch const * stmt )override
+			{
+				if ( stmt->getTestExpr()->getType()->getKind() == ast::type::Kind::eInt64 )
+				{
+					m_current->addStmt( m_stmtCache.makeSwitch( m_exprCache.makeSwitchTest( m_exprCache.makeCast( m_typesCache.getInt32()
+						, doSubmit( *stmt->getTestExpr()->getValue() ) ) ) ) );
+				}
+				else if ( stmt->getTestExpr()->getType()->getKind() == ast::type::Kind::eUInt64 )
+				{
+					m_current->addStmt( m_stmtCache.makeSwitch( m_exprCache.makeSwitchTest( m_exprCache.makeCast( m_typesCache.getUInt32()
+						, doSubmit( *stmt->getTestExpr()->getValue() ) ) ) ) );
+				}
+				else
+				{
+					StmtCloner::visitSwitchStmt( stmt );
+				}
+			}
+
 			void doProcess( ast::type::ComputeInput const & compType )
 			{
 				TraceFunc;

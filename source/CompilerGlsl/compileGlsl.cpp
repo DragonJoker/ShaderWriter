@@ -18,8 +18,7 @@ See LICENSE file in root folder
 
 namespace glsl
 {
-	std::string compilePreprocessedGlsl( ast::ShaderAllocatorBlock & allocator
-		, ast::Shader const & shader
+	std::string compilePreprocessedGlsl( ast::Shader const & shader
 		, ast::PreprocessResult & preprocessResult
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
@@ -60,7 +59,7 @@ namespace glsl
 		, GlslConfig & config )
 	{
 		auto preprocessResult = ast::preprocessShader( allocator, shader, *stmt );
-		return compilePreprocessedGlsl( allocator, shader, preprocessResult, stage, specialisation, config );
+		return compilePreprocessedGlsl( shader, preprocessResult, stage, specialisation, config );
 	}
 	
 	std::string compileGlsl( ast::ShaderAllocatorBlock & allocator

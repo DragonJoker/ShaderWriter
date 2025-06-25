@@ -260,7 +260,8 @@ namespace sdw
 
 		if ( enabled )
 		{
-			addStmt( makeInOutVariableDecl( getStmtCache(), var
+			addStmt( makeInOutStreamVariableDecl( getStmtCache()
+				, var
 				, location
 				, streamIndex ) );
 		}

@@ -52,8 +52,7 @@ namespace hlsl
 		using ast::Exception::Exception;
 	};
 
-	SDWHLSL_API std::string compilePreprocessedHlsl( ast::ShaderAllocatorBlock & allocator
-		, ast::Shader const & shader
+	SDWHLSL_API std::string compilePreprocessedHlsl( ast::Shader const & shader
 		, ast::PreprocessResult & preprocessResult
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation

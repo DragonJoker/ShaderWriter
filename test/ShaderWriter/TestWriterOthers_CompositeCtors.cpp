@@ -1185,6 +1185,60 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
+
+	TEST_F( SDWTest, fromCppTypes )
+	{
+		sdwTestBegin( "fromCppTypes" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			writer.implementMainT< VoidT >( 32u
+				, [&]( ComputeIn in )
+				{
+					auto b_2 = writer.declLocale( "b_2", bvec2( false, false ) );
+					auto b_3 = writer.declLocale( "b_3", bvec3( false, false, false ) );
+					auto b_4 = writer.declLocale( "b_4", bvec4( false, false, false, false ) );
+					auto f_2 = writer.declLocale( "f_2", vec2( float( 0 ), float( 1 ) ) );
+					auto f_3 = writer.declLocale( "f_3", vec3( float( 0 ), float( 1 ), float( 2 ) ) );
+					auto f_4 = writer.declLocale( "f_4", vec4( float( 0 ), float( 1 ), float( 2 ), float( 3 ) ) );
+					auto d_2 = writer.declLocale( "d_2", dvec2( double( 0 ), double( 1 ) ) );
+					auto d_3 = writer.declLocale( "d_3", dvec3( double( 0 ), double( 1 ), double( 2 ) ) );
+					auto d_4 = writer.declLocale( "d_4", dvec4( double( 0 ), double( 1 ), double( 2 ), double( 3 ) ) );
+					auto i8_2 = writer.declLocale( "i8_2", i8vec2( int8_t( 0 ), int8_t( 1 ) ) );
+					auto i8_3 = writer.declLocale( "i8_3", i8vec3( int8_t( 0 ), int8_t( 1 ), int8_t( 2 ) ) );
+					auto i8_4 = writer.declLocale( "i8_4", i8vec4( int8_t( 0 ), int8_t( 1 ), int8_t( 2 ), int8_t( 3 ) ) );
+					auto i16_2 = writer.declLocale( "i16_2", i16vec2( int16_t( 0 ), int16_t( 1 ) ) );
+					auto i16_3 = writer.declLocale( "i16_3", i16vec3( int16_t( 0 ), int16_t( 1 ), int16_t( 2 ) ) );
+					auto i16_4 = writer.declLocale( "i16_4", i16vec4( int16_t( 0 ), int16_t( 1 ), int16_t( 2 ), int16_t( 3 ) ) );
+					auto i32_2 = writer.declLocale( "i32_2", i32vec2( int32_t( 0 ), int32_t( 1 ) ) );
+					auto i32_3 = writer.declLocale( "i32_3", i32vec3( int32_t( 0 ), int32_t( 1 ), int32_t( 2 ) ) );
+					auto i32_4 = writer.declLocale( "i32_4", i32vec4( int32_t( 0 ), int32_t( 1 ), int32_t( 2 ), int32_t( 3 ) ) );
+					auto i64_2 = writer.declLocale( "i64_2", i64vec2( int64_t( 0 ), int64_t( 1 ) ) );
+					auto i64_3 = writer.declLocale( "i64_3", i64vec3( int64_t( 0 ), int64_t( 1 ), int64_t( 2 ) ) );
+					auto i64_4 = writer.declLocale( "i64_4", i64vec4( int64_t( 0 ), int64_t( 1 ), int64_t( 2 ), int64_t( 3 ) ) );
+					auto u8_2 = writer.declLocale( "u8_2", i8vec2( uint8_t( 0 ), uint8_t( 1 ) ) );
+					auto u8_3 = writer.declLocale( "u8_3", i8vec3( uint8_t( 0 ), uint8_t( 1 ), uint8_t( 2 ) ) );
+					auto u8_4 = writer.declLocale( "u8_4", i8vec4( uint8_t( 0 ), uint8_t( 1 ), uint8_t( 2 ), uint8_t( 3 ) ) );
+					auto u16_2 = writer.declLocale( "u16_2", i16vec2( uint16_t( 0 ), uint16_t( 1 ) ) );
+					auto u16_3 = writer.declLocale( "u16_3", i16vec3( uint16_t( 0 ), uint16_t( 1 ), uint16_t( 2 ) ) );
+					auto u16_4 = writer.declLocale( "u16_4", i16vec4( uint16_t( 0 ), uint16_t( 1 ), uint16_t( 2 ), uint16_t( 3 ) ) );
+					auto u32_2 = writer.declLocale( "u32_2", u32vec2( uint32_t( 0 ), uint32_t( 1 ) ) );
+					auto u32_3 = writer.declLocale( "u32_3", u32vec3( uint32_t( 0 ), uint32_t( 1 ), uint32_t( 2 ) ) );
+					auto u32_4 = writer.declLocale( "u32_4", u32vec4( uint32_t( 0 ), uint32_t( 1 ), uint32_t( 2 ), uint32_t( 3 ) ) );
+					auto u64_2 = writer.declLocale( "u64_2", u64vec2( uint64_t( 0 ), uint64_t( 1 ) ) );
+					auto u64_3 = writer.declLocale( "u64_3", u64vec3( uint64_t( 0 ), uint64_t( 1 ), uint64_t( 2 ) ) );
+					auto u64_4 = writer.declLocale( "u64_4", u64vec4( uint64_t( 0 ), uint64_t( 1 ), uint64_t( 2 ), uint64_t( 3 ) ) );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain()

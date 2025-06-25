@@ -199,7 +199,7 @@ namespace sdw
 	void ShaderWriter::doWhileStmt( expr::ExprPtr condition
 		, std::function< void() > const & function )
 	{
-		m_builder->pushScope( getStmtCache().makeDoWhile( std::move( condition ) ) );
+		m_builder->pushScope( m_builder->beginDoWhile( std::move( condition ) ) );
 		function();
 		m_builder->popScope();
 	}
@@ -213,7 +213,7 @@ namespace sdw
 	void ShaderWriter::whileStmt( expr::ExprPtr condition
 		, std::function< void() > const & function )
 	{
-		m_builder->pushScope( getStmtCache().makeWhile( std::move( condition ) ) );
+		m_builder->pushScope( m_builder->beginWhile( std::move( condition ) ) );
 		function();
 		m_builder->popScope();
 	}

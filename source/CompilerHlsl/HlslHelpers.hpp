@@ -511,10 +511,14 @@ namespace hlsl
 			, ast::type::TaskPayloadInNV const & taskType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TaskPayloadIn const & taskType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::Type const & type );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType );
 		void registerOutput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType );
+		void registerOther( ast::var::VariablePtr var
+			, ast::type::Struct const & structType );
 		void registerInputMbr( ast::var::VariablePtr var
 			, uint64_t outerFlags
 			, ast::Builtin mbrBuiltin

@@ -55,7 +55,7 @@ namespace ast::type
 			auto key = m_hasher( params... );
 			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
 			if ( inserted )
-				it->second = m_creator( std::forward< BaseParamsT >( params )... );
+				it->second = m_creator( params... );
 			return it->second.get();
 		}
 
@@ -66,7 +66,7 @@ namespace ast::type
 			auto key = m_hasher( params... );
 			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
 			if ( inserted )
-				it->second = std::make_unique< TypeT >( std::forward< ParamsT >( ctorParams )... );
+				it->second = std::make_unique< TypeT >( ctorParams... );
 			return it->second.get();
 		}
 
@@ -77,7 +77,7 @@ namespace ast::type
 			auto key = m_hasher( params... );
 			auto [it, inserted] = m_cache.try_emplace( key, nullptr );
 			if ( inserted )
-				it->second = std::make_unique< TypeU >( std::forward< ParamsT >( ctorParams )... );
+				it->second = std::make_unique< TypeU >( ctorParams... );
 			return it->second.get();
 		}
 
@@ -101,7 +101,6 @@ namespace ast::type
 	class TypesCache final
 	{
 	public:
-		SDAST_API TypesCache();
 		SDAST_API TypePtr getUndefined();
 		SDAST_API TypePtr getVoid();
 		SDAST_API TypePtr getBool();
@@ -203,9 +202,9 @@ namespace ast::type
 		SDAST_API RayPayloadPtr getRayPayload( TypePtr dataType, uint32_t location );
 		SDAST_API CallableDataPtr getCallableData( TypePtr dataType, uint32_t location );
 		SDAST_API RayDescPtr getRayDesc();
-		SDAST_API ImagePtr getImage( ImageConfiguration func );
-		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration func, Trinary comparison = Trinary::eDontCare );
-		SDAST_API CombinedImagePtr getCombinedImage( ImageConfiguration func, bool isComparison = false );
+		SDAST_API ImagePtr getImage( ImageConfiguration const & func );
+		SDAST_API SampledImagePtr getSampledImage( ImageConfiguration const & func, Trinary comparison = Trinary::eDontCare );
+		SDAST_API CombinedImagePtr getCombinedImage( ImageConfiguration const & func, bool isComparison = false );
 		SDAST_API SamplerPtr getSampler( bool comparison = false );
 		SDAST_API TypePtr getSampledType( ImageFormat format );
 		SDAST_API TypePtr getTexelType( ImageFormat format );
@@ -234,38 +233,352 @@ namespace ast::type
 		SDAST_API TypePtr getForwardPointerType( TypePtr pointerType, Storage storage );
 
 	private:
-		std::unique_ptr< AccelerationStructure > m_accelerationStructure;
-		std::unique_ptr< RayDesc > m_rayDesc;
-		TypeCache< Type, ast::type::Kind, bool > m_basic;
-		TypeCache< Type, TypePtr, StructPtr, uint32_t > m_member;
-		TypeCache< Image, ImageConfiguration const & > m_image;
-		TypeCache< CombinedImage, ImageConfiguration const &, bool > m_texture;
-		TypeCache< SampledImage, ImageConfiguration const &, Trinary > m_sampledImage;
-		TypeCache< Sampler, bool > m_sampler;
-		TypeCache< Function, TypePtr, var::VariableList > m_function;
-		TypeCache< BaseStruct, MemoryLayout, std::string const &, bool > m_struct;
-		TypeCache< IOStruct, MemoryLayout, std::string const &, EntryPoint, var::Flag, bool > m_inputStruct;
-		TypeCache< IOStruct, MemoryLayout, std::string const &, EntryPoint, var::Flag, bool > m_outputStruct;
-		TypeCache< Array, TypePtr, uint32_t, bool > m_array;
-		TypeCache< Pointer, TypePtr, Storage, bool > m_pointer;
-		TypeCache< RayPayload, TypePtr, uint32_t > m_rayPayload;
-		TypeCache< CallableData, TypePtr, uint32_t > m_callableData;
-		TypeCache< HitAttribute, TypePtr > m_hitAttribute;
-		TypeCache< MeshVertexOutput, TypePtr, uint32_t > m_meshVertexOutput;
-		TypeCache< MeshPrimitiveOutput, TypePtr, OutputTopology, uint32_t > m_meshPrimitiveOutput;
-		TypeCache< TaskPayloadNV, TypePtr > m_taskPayloadNV;
-		TypeCache< TaskPayloadInNV, TypePtr > m_taskPayloadInNV;
-		TypeCache< TaskPayload, TypePtr > m_taskPayload;
-		TypeCache< TaskPayloadIn, TypePtr > m_taskPayloadIn;
-		TypeCache< ComputeInput, TypePtr, uint32_t, uint32_t, uint32_t > m_compute;
-		TypeCache< FragmentInput, TypePtr, FragmentOrigin, FragmentCenter, InvocationOrdering > m_fragment;
-		TypeCache< GeometryInput, TypePtr, InputLayout > m_geometryInput;
-		TypeCache< GeometryOutput, TypePtr, OutputLayout, uint32_t > m_geometryOutput;
-		TypeCache< TessellationOutputPatch, TypePtr, uint32_t > m_tessellationOutputPatch;
-		TypeCache< TessellationControlInput, TypePtr, uint32_t > m_tessellationControlInput;
-		TypeCache< TessellationControlOutput, TypePtr, PatchDomain, Partitioning, OutputTopology, PrimitiveOrdering, uint32_t > m_tessellationControlOutput;
-		TypeCache< TessellationInputPatch, TypePtr, PatchDomain, uint32_t > m_tessellationInputPatch;
-		TypeCache< TessellationEvaluationInput, TypePtr, PatchDomain, Partitioning, PrimitiveOrdering, uint32_t > m_tessellationEvaluationInput;
+		TypeCache< Type, ast::type::Kind, bool > m_basic{ [this]( ast::type::Kind kind, bool explicitLayout )
+			{
+				return std::make_unique< Type >( *this, kind, explicitLayout );
+			}
+			, []( ast::type::Kind kind, bool explicitLayout )noexcept
+			{
+				return ast::type::getHash( kind, explicitLayout );
+			} };
+		TypeCache< Type, TypePtr, StructPtr, uint32_t > m_member{ [this]( TypePtr type, StructPtr parent, uint32_t mbrIndex )
+			{
+				return std::make_unique< Type >( *this, parent, mbrIndex, type );
+			}
+			, []( TypePtr type, StructPtr parent, uint32_t mbrIndex )noexcept
+			{
+				return ast::type::getHash( type, parent, mbrIndex );
+			} };
+		TypeCache< Image, ImageConfiguration const & > m_image{ [this]( ImageConfiguration const & config )
+			{
+				return std::make_unique< Image >( *this, config );
+			}
+			, []( ImageConfiguration const & config )noexcept
+			{
+				return ast::type::getHash( config );
+			} };
+		TypeCache< CombinedImage, ImageConfiguration const &, bool > m_combinedImage{ [this]( ImageConfiguration const & config, bool isComparison )
+			{
+				return std::make_unique< CombinedImage >( *this, config, isComparison );
+			}
+			, []( ImageConfiguration const & config, bool isComparison )noexcept
+			{
+				return ast::type::getHash( config, isComparison );
+			} };
+		TypeCache< SampledImage, ImageConfiguration const &, Trinary > m_sampledImage{ [this]( ImageConfiguration const & config, Trinary comparison )
+			{
+				return std::make_unique< SampledImage >( *this, config, comparison );
+			}
+			, []( ImageConfiguration const & config, Trinary )noexcept
+			{
+				return ast::type::getHash( config );
+			} };
+		TypeCache< Sampler, bool > m_sampler{ [this]( bool comparison )
+			{
+				return std::make_unique< Sampler >( *this, comparison );
+			}
+			, []( bool comparison )noexcept
+			{
+				return comparison ? 1u : 0u;
+			} };
+		TypeCache< Function, TypePtr, var::VariableList > m_function{ []( TypePtr returnType
+				, var::VariableList parameters )
+			{
+				return std::make_unique< Function >( returnType
+					, std::move( parameters ) );
+			}
+			, []( TypePtr returnType
+				, var::VariableList const & parameters )noexcept
+			{
+				return ast::type::getHash( returnType, parameters );
+			} };
+		TypeCache< BaseStruct, MemoryLayout, std::string const &, bool > m_struct{ [this]( MemoryLayout layout
+				, std::string name
+				, bool explicitLayout )
+			{
+				return std::make_unique< BaseStruct >( *this
+					, layout
+					, std::move( name )
+					, explicitLayout );
+			}
+			, []( MemoryLayout layout
+				, std::string const & name
+				, bool explicitLayout )noexcept
+			{
+				return ast::type::getHash( layout, name, explicitLayout );
+			} };
+		TypeCache< IOStruct, MemoryLayout, std::string const &, EntryPoint, var::Flag, bool > m_inputStruct{ [this]( MemoryLayout layout
+				, std::string name
+				, EntryPoint entryPoint
+				, var::Flag flag
+				, bool explicitLayout )
+			{
+				return std::make_unique< IOStruct >( *this
+					, layout
+					, std::move( name )
+					, entryPoint
+					, flag
+					, explicitLayout );
+			}
+			, []( MemoryLayout layout
+				, std::string const & name
+				, EntryPoint entryPoint
+				, var::Flag flag
+				, bool explicitLayout )noexcept
+			{
+				return ast::type::getHash( layout, name, entryPoint, flag, explicitLayout );
+			} };
+		TypeCache< IOStruct, MemoryLayout, std::string const &, EntryPoint, var::Flag, bool > m_outputStruct{ [this]( MemoryLayout layout
+				, std::string name
+				, EntryPoint entryPoint
+				, var::Flag flag
+				, bool explicitLayout )
+			{
+				return std::make_unique< IOStruct >( *this
+					, layout
+					, std::move( name )
+					, entryPoint
+					, flag
+					, explicitLayout );
+			}
+			, []( MemoryLayout layout
+				, std::string const & name
+				, EntryPoint entryPoint
+				, var::Flag flag
+				, bool explicitLayout )noexcept
+			{
+				return ast::type::getHash( layout, name, entryPoint, flag, explicitLayout );
+			} };
+		TypeCache< Array, TypePtr, uint32_t, bool > m_array{ []( TypePtr type
+				, uint32_t arraySize
+				, bool explicitLayout )
+			{
+				return std::make_unique< Array >( std::move( type )
+					, arraySize
+					, explicitLayout );
+			}
+			, []( TypePtr type
+				, uint32_t arraySize
+				, bool explicitLayout )noexcept
+			{
+				return ast::type::getHash( type, arraySize, explicitLayout );
+			} };
+		TypeCache< Pointer, TypePtr, Storage, bool > m_pointer{ []( TypePtr pointerType
+				, Storage storage
+				, bool isForward )
+			{
+				return std::make_unique< Pointer >( std::move( pointerType )
+					, storage
+					, isForward );
+			}
+			, []( TypePtr pointerType
+				, Storage storage
+				, bool isForward )noexcept
+			{
+				return ast::type::getHash( pointerType, storage, isForward );
+			} };
+		TypeCache< RayPayload, TypePtr, uint32_t > m_rayPayload{ []( TypePtr type
+				, uint32_t location )
+			{
+				return std::make_unique< RayPayload >( std::move( type )
+					, location );
+			}
+			, []( TypePtr type
+				, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, location, false );
+			} };
+		TypeCache< CallableData, TypePtr, uint32_t > m_callableData{ []( TypePtr type
+				, uint32_t location )
+			{
+				return std::make_unique< CallableData >( std::move( type )
+					, location );
+			}
+			, []( TypePtr type
+				, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, location, false );
+			} };
+		TypeCache< HitAttribute, TypePtr > m_hitAttribute{ []( TypePtr type )
+			{
+				return std::make_unique< HitAttribute >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} };
+		TypeCache< MeshVertexOutput, TypePtr, uint32_t > m_meshVertexOutput{ []( TypePtr type
+				, uint32_t maxVertices )
+			{
+				return std::make_unique< MeshVertexOutput >( type, maxVertices );
+			}
+			, []( TypePtr type
+				, uint32_t maxVertices )noexcept
+			{
+				return getHash( type, maxVertices, false );
+			} };
+		TypeCache< MeshPrimitiveOutput, TypePtr, OutputTopology, uint32_t > m_meshPrimitiveOutput{ []( TypePtr type
+				, OutputTopology topology
+				, uint32_t maxPrimitives )
+			{
+				return std::make_unique< MeshPrimitiveOutput >( type, topology, maxPrimitives );
+			}
+			, []( TypePtr type
+				, OutputTopology topology
+				, uint32_t maxPrimitives )noexcept
+			{
+				return getHash( type, topology, maxPrimitives );
+			} };
+		TypeCache< TaskPayloadNV, TypePtr > m_taskPayloadNV{ []( TypePtr type )
+			{
+				return std::make_unique< TaskPayloadNV >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} };
+		TypeCache< TaskPayloadInNV, TypePtr > m_taskPayloadInNV{ []( TypePtr type )
+			{
+				return std::make_unique< TaskPayloadInNV >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} };
+		TypeCache< TaskPayload, TypePtr > m_taskPayload{ []( TypePtr type )
+			{
+				return std::make_unique< TaskPayload >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} };
+		TypeCache< TaskPayloadIn, TypePtr > m_taskPayloadIn{ []( TypePtr type )
+			{
+				return std::make_unique< TaskPayloadIn >( type );
+			}
+			, []( TypePtr type )noexcept
+			{
+				return std::hash< TypePtr >{}( type );
+			} };
+		TypeCache< ComputeInput, TypePtr, uint32_t, uint32_t, uint32_t > m_compute{ []( TypePtr type
+				, uint32_t localSizeX
+				, uint32_t localSizeY
+				, uint32_t localSizeZ )
+			{
+				return std::make_unique< ComputeInput >( type, localSizeX, localSizeY, localSizeZ );
+			}
+			, []( TypePtr type
+				, uint32_t localSizeX
+				, uint32_t localSizeY
+				, uint32_t localSizeZ )noexcept
+			{
+				return getHash( type, localSizeX, localSizeY, localSizeZ );
+			} };
+		TypeCache< FragmentInput, TypePtr, FragmentOrigin, FragmentCenter, InvocationOrdering > m_fragment{ []( TypePtr type
+				, FragmentOrigin origin
+				, FragmentCenter center
+				, InvocationOrdering ordering )
+			{
+				return std::make_unique< FragmentInput >( type, origin, center, ordering );
+			}
+			, []( TypePtr type
+				, FragmentOrigin origin
+				, FragmentCenter center
+				, InvocationOrdering ordering )noexcept
+			{
+				return getHash( type, origin, center, ordering );
+			} };
+		TypeCache< GeometryInput, TypePtr, InputLayout > m_geometryInput{ []( TypePtr type
+				, InputLayout layout )
+			{
+				return std::make_unique< GeometryInput >( type, layout );
+			}
+			, []( TypePtr type
+					, InputLayout layout )noexcept
+			{
+				return getHash( type, layout );
+			} };
+		TypeCache< GeometryOutput, TypePtr, OutputLayout, uint32_t > m_geometryOutput{ []( TypePtr type
+				, OutputLayout layout
+				, uint32_t count )
+			{
+				return std::make_unique< GeometryOutput >( type, layout, count );
+			}
+			, []( TypePtr type
+				, OutputLayout layout
+				, uint32_t count )noexcept
+			{
+				return getHash( type, layout, count );
+			} };
+		TypeCache< TessellationOutputPatch, TypePtr, uint32_t > m_tessellationOutputPatch{ []( TypePtr type
+				, uint32_t location )
+			{
+				return std::make_unique< TessellationOutputPatch >( type, location );
+			}
+			, []( TypePtr type
+				, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, location, false );
+			} };
+		TypeCache< TessellationControlInput, TypePtr, uint32_t > m_tessellationControlInput{ []( TypePtr type
+				, uint32_t inputVertices )
+			{
+				return std::make_unique< TessellationControlInput >( type, inputVertices );
+			}
+			, []( TypePtr type
+				, uint32_t inputVertices )noexcept
+			{
+				return ast::type::getHash( type, inputVertices, false );
+			} };
+		TypeCache< TessellationControlOutput, TypePtr, PatchDomain, Partitioning, OutputTopology, PrimitiveOrdering, uint32_t > m_tessellationControlOutput{ []( TypePtr type
+				, PatchDomain domain
+				, Partitioning partitioning
+				, OutputTopology topology
+				, PrimitiveOrdering order
+				, uint32_t outputVertices )
+			{
+				return std::make_unique< TessellationControlOutput >( type, domain, partitioning, topology, order, outputVertices );
+			}
+			, []( TypePtr type
+				, PatchDomain domain
+				, Partitioning partitioning
+				, OutputTopology topology
+				, PrimitiveOrdering order
+				, uint32_t outputVertices )noexcept
+			{
+				return getHash( type, domain, partitioning, topology, order, outputVertices );
+			} };
+		TypeCache< TessellationInputPatch, TypePtr, PatchDomain, uint32_t > m_tessellationInputPatch{ []( TypePtr type
+				, PatchDomain domain
+				, uint32_t location )
+			{
+				return std::make_unique< TessellationInputPatch >( type, domain, location );
+			}
+			, []( TypePtr type
+				, PatchDomain domain
+				, uint32_t location )noexcept
+			{
+				return ast::type::getHash( type, domain, location );
+			} };
+		TypeCache< TessellationEvaluationInput, TypePtr, PatchDomain, Partitioning, PrimitiveOrdering, uint32_t > m_tessellationEvaluationInput{ []( TypePtr type
+				, PatchDomain domain
+				, Partitioning partitioning
+				, PrimitiveOrdering order
+				, uint32_t outputVertices )
+			{
+				return std::make_unique< TessellationEvaluationInput >( type, domain, partitioning, order, outputVertices );
+			}
+			, []( TypePtr type
+				, PatchDomain domain
+				, Partitioning partitioning
+				, PrimitiveOrdering order
+				, uint32_t outputVertices )noexcept
+			{
+				return getHash( type, domain, partitioning, order, outputVertices );
+			} };
+		std::unique_ptr< AccelerationStructure > m_accelerationStructure{ std::make_unique< AccelerationStructure >( *this ) };
+		std::unique_ptr< RayDesc > m_rayDesc{ std::make_unique< RayDesc >( *this ) };
 	};
 
 	template< typename Func >

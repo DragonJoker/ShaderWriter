@@ -43,539 +43,539 @@ namespace
 		using sdw::StructInstance::getMemberArray;
 	};
 
-	TEST_F( SDWTest, emptyMain )
-	{
-		sdwTestBegin( "emptyMain" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-			{
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, builtins )
-	{
-		sdwTestBegin( "builtins" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-			{
-				writer.declLocale( "globalInvocationID", in.globalInvocationID );
-				writer.declLocale( "localInvocationID", in.localInvocationID );
-				writer.declLocale( "localInvocationIndex", in.localInvocationIndex );
-				writer.declLocale( "numWorkGroups", in.numWorkGroups );
-				writer.declLocale( "workGroupID", in.workGroupID );
-				writer.declLocale( "workGroupSize", in.workGroupSize );
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, readWorkGroupSize )
-	{
-		sdwTestBegin( "readWorkGroupSize" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-			{
-				auto value = writer.declLocale( "value"
-					, in.workGroupSize.x() + in.workGroupSize.y() + in.workGroupSize.z() );
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, compute )
-	{
-		sdwTestBegin( "compute" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
-		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-			{
-				ssbo[in.globalInvocationID.x()]
-					= ssbo[in.globalInvocationID.x()]
-					* ssbo[in.globalInvocationID.x()];
-				img.store( ivec2( in.globalInvocationID.xy() )
-					, ssbo[in.globalInvocationID.x()] );
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-
-#if !defined( __APPLE__ )
-		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-#endif
-
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, computeTypeless )
-	{
-		sdwTestBegin( "computeTypeless" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-		ArrayStorageBufferT< Float > ssbo{ writer, "Datas", Float::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
-		auto img = writer.declStorageImg< WImg2DR >( "img", 1u, 0u );
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-			{
-				ssbo[in.globalInvocationID.x()]
-					= ssbo[in.globalInvocationID.x()]
-					* ssbo[in.globalInvocationID.x()];
-				img.store( ivec2( in.globalInvocationID.xy() )
-					, ssbo[in.globalInvocationID.x()] );
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-
-#if !defined( __APPLE__ )
-		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-#endif
-
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, swizzles )
-	{
-		sdwTestBegin( "swizzles" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		auto c3d_mapDepth = writer.declCombinedImg< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
-
-		auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
-			, [&]( Vec4 const & rtMetrics
-				, Vec2 const & texcoord
-				, Array< Vec4 > offset )
-			{
-				offset[0] = fma( rtMetrics.xyxy(), vec4( -1.0_f, 0.0, 0.0, -1.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
-				offset[1] = fma( rtMetrics.xyxy(), vec4( 1.0_f, 0.0, 0.0, 1.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
-				offset[2] = fma( rtMetrics.xyxy(), vec4( -2.0_f, 0.0, 0.0, -2.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
-			}
-			, InVec4{ writer, "rtMetrics" }
-			, InVec2{ writer, "texcoord" }
-			, OutVec4Array{ writer, "offset", 3u } );
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto csPosition = writer.declLocale< Vec4 >( "csPosition" );
-				csPosition.xyz() /= csPosition.w();
-				csPosition.x() /= fma( csPosition.x(), 0.5_f, 0.5_f );
-				auto csPositions = writer.declLocaleArray< Vec4 >( "csPositions", 4u );
-				csPositions[0].xyz() /= csPositions[1].w();
-				auto ssPosition = writer.declLocale< IVec2 >( "ssPosition" );
-				auto position = writer.declLocale< Vec3 >( "position" );
-				position.z() = c3d_mapDepth.fetch( ssPosition, 0_i ).r();
-				auto lrtMetrics = writer.declLocale< Vec4 >( "lrtMetrics" );
-				auto ltexcoord = writer.declLocale< Vec2 >( "ltexcoord" );
-				auto loffset = writer.declLocaleArray< Vec4 >( "loffset", 3u );
-				SMAAEdgeDetectionVS( lrtMetrics, ltexcoord, loffset );
-				auto L = writer.declLocale< Float >( "L" );
-				auto Lright = writer.declLocale< Float >( "Lright" );
-				auto Lbottom = writer.declLocale< Float >( "Lbottom" );
-				auto delta = writer.declLocale< Vec4 >( "delta" );
-				delta.zw() = abs( L - vec2( Lright, Lbottom ) );
-				auto texcoord = writer.declLocale< Vec2 >( "texcoord" );
-				auto a = writer.declLocale< Vec4 >( "a" );
-				a.wz() = c3d_mapDepth.lod( texcoord, 0.0_f ).xz();
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, conversions )
-	{
-		sdwTestBegin( "conversions" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
-			{
-				auto o = writer.declLocaleArray( "o"
-					, 6u
-					, std::vector< Float >{
-						{
-							-1.0_f, -0.6667_f, -0.3333_f, 0.3333_f, 0.6667_f, 1.0_f
-						} } );
-				auto offset = writer.declLocale( "offset"
-					, sdw::fma( vec2( o[0] )
-						, vec2( 1.0_f )
-						, vec2( 0.0_f ) ) );
-			} );
-
-		test::writeShader( writer
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, simpleStore )
-	{
-		sdwTestBegin( "simpleStore" );
-		using namespace sdw;
-		sdw::ShaderArray shaders;
-		{
-			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto kernelImage =
-				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
-
-			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
-				{
-					IVec2 iuv = writer.declLocale(
-						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
-							writer.cast<Int>( in.globalInvocationID.y() ) ) );
-
-					kernelImage.store( iuv, vec4( 1.0_f ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-			shaders.emplace_back( std::move( writer.getShader() ) );
-		}
-		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, voxelToTexture )
-	{
-		sdwTestBegin( "voxelToTexture" );
-		using namespace sdw;
-		sdw::ShaderArray shaders;
-
-		{
-			enum IDs : uint32_t
-			{
-				eVoxelUbo,
-				eVoxels,
-				eResult,
-			};
-
-			using namespace sdw;
-			sdw::ComputeWriter writer{ &testCounts.allocator };
-
-			// Inputs
-			sdw::UniformBuffer voxelizer{ writer
-				, "VoxelUbo"
-				, eVoxelUbo
-				, 0u };
-			auto c3d_voxelTransform = voxelizer.declMember< sdw::Mat4 >( "c3d_voxelTransform" );
-			auto c3d_voxelCenter = voxelizer.declMember< sdw::Vec4 >( "c3d_voxelCenter" );
-			auto c3d_voxelSize = voxelizer.declMember< sdw::Float >( "c3d_voxelSize" );
-			auto c3d_voxelSizeInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelSizeInverse" );
-			auto c3d_voxelResolution = voxelizer.declMember< sdw::Float >( "c3d_voxelResolution" );
-			auto c3d_voxelResolutionInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelResolutionInverse" );
-			voxelizer.end();
-
-			auto voxels( writer.declArrayStorageBuffer< Voxel >( "voxels"
-				, eVoxels
-				, 0u ) );
-
-			// Outputs
-			auto result( writer.declStorageImg< RWFImg3DRgba32 >( "result"
-				, eResult
-				, 0u ) );
-
-			auto decodeColor = writer.implementFunction< Vec4 >( "decodeColor"
-				, [&]( UInt const & colorMask )
-				{
-					auto hdrRange = writer.declConstant( "hdrRange", 10.0_f );
-
-					auto color = writer.declLocale< Vec4 >( "color" );
-					auto hdr = writer.declLocale( "hdr"
-						, writer.cast< Float >( ( colorMask >> 24u ) & 0x0000007f_u ) );
-					color.r() = writer.cast< Float >( ( colorMask >> 16u ) & 0x000000ff_u );
-					color.g() = writer.cast< Float >( ( colorMask >> 8u ) & 0x000000ff_u );
-					color.b() = writer.cast< Float >( colorMask & 0x000000ff_u );
-
-					hdr /= 127.0f;
-					color.rgb() /= vec3( 255.0_f );
-
-					color.rgb() *= hdr * hdrRange;
-
-					color.a() = writer.cast< Float >( ( colorMask >> 31u ) & 0x00000001_u );
-
-					writer.returnStmt( color );
-				}
-				, InUInt{ writer, "colorMask" } );
-
-			auto unflatten = writer.implementFunction< UVec3 >( "unflatten3D"
-				, [&]( UInt idx
-					, UVec3 const & dim )
-				{
-					auto z = writer.declLocale( "z"
-						, idx / ( dim.x() * dim.y() ) );
-					idx -= ( z * dim.x() * dim.y() );
-					auto y = writer.declLocale( "y"
-						, idx / dim.x() );
-					auto x = writer.declLocale( "x"
-						, idx % dim.x() );
-					writer.returnStmt( uvec3( x, y, z ) );
-				}
-				, InUInt{ writer, "idx" }
-				, InUVec3{ writer, "dim" } );
-
-			writer.implementMainT< VoidT >( 256u, [&]( ComputeIn in )
-				{
-					auto color = writer.declLocale( "color"
-						, decodeColor( voxels[in.globalInvocationID.x()].colorMask ) );
-
-					sdwIF( writer, color.a() > 0.0_f )
-					{
-						auto coord = writer.declLocale( "coord"
-							, ivec3( unflatten( in.globalInvocationID.x()
-								, uvec3( writer.cast< UInt >( c3d_voxelResolution ) ) ) ) );
-						result.store( coord, color );
-					}
-					sdwFI;
-
-					voxels[in.globalInvocationID.x()].colorMask = 0_u;
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-			shaders.emplace_back( std::move( writer.getShader() ) );
-		}
-		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, imageArray )
-	{
-		sdwTestBegin( "imageArray" );
-		using namespace sdw;
-		sdw::ShaderArray shaders;
-		{
-			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto srcImage = writer.declStorageImg<RFImg2DRgba32>( "srcImage", 0, 0 );
-			auto dstImage = writer.declStorageImgArray<RWFImg2DRgba32>( "dstImage", 1, 0, 4u );
-
-			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
-				{
-					IVec2 iuv = writer.declLocale(
-						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
-							writer.cast<Int>( in.globalInvocationID.y() ) ) );
-
-					dstImage[1].store( iuv, srcImage.load( iuv ) );
-				} );
-			test::writeShader( writer
-				, testCounts
-				, CurrentCompilers );
-			shaders.emplace_back( std::move( writer.getShader() ) );
-		}
-		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, accessChainAlias )
-	{
-		sdwTestBegin( "accessChainAlias" );
-		using namespace sdw;
-		ShaderArray shaders;
-		{
-			auto writer = ComputeWriter{};
-
-			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
-			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
-			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
-			ubo.end();
-
-			writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-				{
-					auto tmp = writer.declLocale( "tmp"
-						, normalize( transpose( mat3( mtx ) ) * pos ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-			shaders.emplace_back( std::move( writer.getShader() ) );
-		}
-		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, duplicateLoadTest )
-	{
-		sdwTestBegin( "duplicateLoadTest" );
-		using namespace sdw;
-		ShaderArray shaders;
-		{
-			sdw::ComputeWriter writer{ &testCounts.allocator };
-
-			auto foo = writer.implementFunction< sdw::Vec4 >( "foo"
-				, [&]( Vec3 const & t
-					, Vec2 const & dir )
-				{
-					auto coord = writer.declLocale< Vec4 >( "coord" );
-					coord.xyz() = fma( t, vec3( dir, 1.0_f ), coord.xyz() );
-					writer.returnStmt( coord );
-				}
-				, InVec3{ writer, "t" }
-				, InVec2{ writer, "dir" } );
-
-			writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
-				{
-					auto t = writer.declLocale( "t", vec3( 0.5_f ) );
-					auto dir = writer.declLocale( "dir", vec2( 1.0_f ) );
-					foo( t, dir );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-			shaders.emplace_back( std::move( writer.getShader() ) );
-		}
-		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, subgroupEmptyMain )
-	{
-		sdwTestBegin( "subgroupEmptyMain" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
-			{
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, subgroupBuiltins )
-	{
-		sdwTestBegin( "subgroupBuiltins" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
-			{
-				writer.declLocale( "globalInvocationID", in.globalInvocationID );
-				writer.declLocale( "localInvocationID", in.localInvocationID );
-				writer.declLocale( "localInvocationIndex", in.localInvocationIndex );
-				writer.declLocale( "numWorkGroups", in.numWorkGroups );
-				writer.declLocale( "workGroupID", in.workGroupID );
-				writer.declLocale( "workGroupSize", in.workGroupSize );
-				writer.declLocale( "numSubgroups", in.numSubgroups );
-				writer.declLocale( "subgroupID", in.subgroupID );
-				writer.declLocale( "subgroupSize", in.subgroupSize );
-				writer.declLocale( "subgroupInvocationID", in.subgroupInvocationID );
-				writer.declLocale( "subgroupEqMask", in.subgroupEqMask );
-				writer.declLocale( "subgroupGeMask", in.subgroupGeMask );
-				writer.declLocale( "subgroupLeMask", in.subgroupLeMask );
-				writer.declLocale( "subgroupLtMask", in.subgroupLtMask );
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, subgroupCompute )
-	{
-		sdwTestBegin( "subgroupCompute" );
-		using namespace sdw;
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
-		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
-
-		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
-			{
-				ssbo[in.subgroupInvocationID]
-					= ssbo[in.subgroupInvocationID];
-				img.store( ivec2( in.subgroupInvocationID )
-					, ssbo[in.subgroupInvocationID] );
-			} );
-
-		test::writeShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-
-#if !defined( __APPLE__ )
-		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
-		test::validateShader( writer.getShader()
-			, testCounts, CurrentCompilers );
-#endif
-
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, subgroupSimpleStore )
-	{
-		sdwTestBegin( "subgroupSimpleStore" );
-		using namespace sdw;
-		sdw::ShaderArray shaders;
-		{
-			sdw::ComputeWriter writer{ &testCounts.allocator };
-			auto kernelImage =
-				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
-
-			writer.implementMainT< VoidT >( 32u, [&]( SubgroupIn in )
-				{
-					IVec2 iuv = writer.declLocale(
-						"iuv", ivec2( writer.cast<Int>( in.subgroupInvocationID ),
-							writer.cast<Int>( in.subgroupInvocationID ) ) );
-
-					kernelImage.store( iuv, vec4( 1.0_f ) );
-				} );
-			test::writeShader( writer
-				, testCounts, CurrentCompilers );
-			shaders.emplace_back( std::move( writer.getShader() ) );
-		}
-		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
-		sdwTestEnd()
-	}
-
-	TEST_F( SDWTest, bufferReferenceBase )
-	{
-		sdwTestBegin( "bufferReferenceBase" );
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-		{
-			auto InIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "InIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-
-			writer.implementMain( 32u
-				, [&]( sdw::ComputeIn in )
-				{
-					auto indices = InIndices( "indices", writer.cast< sdw::UInt64 >( 0_u ) );
-					auto matIdx = writer.declLocale( "matIdx", indices[in.localInvocationIndex] );
-				} );
-		}
-		test::writeShader( writer
-			, testCounts
-			, CurrentCompilers );
-		sdwTestEnd()
-	}
+//	TEST_F( SDWTest, emptyMain )
+//	{
+//		sdwTestBegin( "emptyMain" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//			{
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, builtins )
+//	{
+//		sdwTestBegin( "builtins" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//			{
+//				writer.declLocale( "globalInvocationID", in.globalInvocationID );
+//				writer.declLocale( "localInvocationID", in.localInvocationID );
+//				writer.declLocale( "localInvocationIndex", in.localInvocationIndex );
+//				writer.declLocale( "numWorkGroups", in.numWorkGroups );
+//				writer.declLocale( "workGroupID", in.workGroupID );
+//				writer.declLocale( "workGroupSize", in.workGroupSize );
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, readWorkGroupSize )
+//	{
+//		sdwTestBegin( "readWorkGroupSize" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//			{
+//				auto value = writer.declLocale( "value"
+//					, in.workGroupSize.x() + in.workGroupSize.y() + in.workGroupSize.z() );
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, compute )
+//	{
+//		sdwTestBegin( "compute" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+//		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//			{
+//				ssbo[in.globalInvocationID.x()]
+//					= ssbo[in.globalInvocationID.x()]
+//					* ssbo[in.globalInvocationID.x()];
+//				img.store( ivec2( in.globalInvocationID.xy() )
+//					, ssbo[in.globalInvocationID.x()] );
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//
+//#if !defined( __APPLE__ )
+//		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//#endif
+//
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, computeTypeless )
+//	{
+//		sdwTestBegin( "computeTypeless" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//		ArrayStorageBufferT< Float > ssbo{ writer, "Datas", Float::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+//		auto img = writer.declStorageImg< WImg2DR >( "img", 1u, 0u );
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//			{
+//				ssbo[in.globalInvocationID.x()]
+//					= ssbo[in.globalInvocationID.x()]
+//					* ssbo[in.globalInvocationID.x()];
+//				img.store( ivec2( in.globalInvocationID.xy() )
+//					, ssbo[in.globalInvocationID.x()] );
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//
+//#if !defined( __APPLE__ )
+//		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//#endif
+//
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, swizzles )
+//	{
+//		sdwTestBegin( "swizzles" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		auto c3d_mapDepth = writer.declCombinedImg< FImg2DRgba32 >( "c3d_mapDepth", 1u, 0u );
+//
+//		auto SMAAEdgeDetectionVS = writer.implementFunction< sdw::Void >( "SMAAEdgeDetectionVS"
+//			, [&]( Vec4 const & rtMetrics
+//				, Vec2 const & texcoord
+//				, Array< Vec4 > offset )
+//			{
+//				offset[0] = fma( rtMetrics.xyxy(), vec4( -1.0_f, 0.0, 0.0, -1.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
+//				offset[1] = fma( rtMetrics.xyxy(), vec4( 1.0_f, 0.0, 0.0, 1.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
+//				offset[2] = fma( rtMetrics.xyxy(), vec4( -2.0_f, 0.0, 0.0, -2.0 ), vec4( texcoord.xy(), texcoord.xy() ) );
+//			}
+//			, InVec4{ writer, "rtMetrics" }
+//			, InVec2{ writer, "texcoord" }
+//			, OutVec4Array{ writer, "offset", 3u } );
+//
+//		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+//			{
+//				auto csPosition = writer.declLocale< Vec4 >( "csPosition" );
+//				csPosition.xyz() /= csPosition.w();
+//				csPosition.x() /= fma( csPosition.x(), 0.5_f, 0.5_f );
+//				auto csPositions = writer.declLocaleArray< Vec4 >( "csPositions", 4u );
+//				csPositions[0].xyz() /= csPositions[1].w();
+//				auto ssPosition = writer.declLocale< IVec2 >( "ssPosition" );
+//				auto position = writer.declLocale< Vec3 >( "position" );
+//				position.z() = c3d_mapDepth.fetch( ssPosition, 0_i ).r();
+//				auto lrtMetrics = writer.declLocale< Vec4 >( "lrtMetrics" );
+//				auto ltexcoord = writer.declLocale< Vec2 >( "ltexcoord" );
+//				auto loffset = writer.declLocaleArray< Vec4 >( "loffset", 3u );
+//				SMAAEdgeDetectionVS( lrtMetrics, ltexcoord, loffset );
+//				auto L = writer.declLocale< Float >( "L" );
+//				auto Lright = writer.declLocale< Float >( "Lright" );
+//				auto Lbottom = writer.declLocale< Float >( "Lbottom" );
+//				auto delta = writer.declLocale< Vec4 >( "delta" );
+//				delta.zw() = abs( L - vec2( Lright, Lbottom ) );
+//				auto texcoord = writer.declLocale< Vec2 >( "texcoord" );
+//				auto a = writer.declLocale< Vec4 >( "a" );
+//				a.wz() = c3d_mapDepth.lod( texcoord, 0.0_f ).xz();
+//			} );
+//
+//		test::writeShader( writer
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, conversions )
+//	{
+//		sdwTestBegin( "conversions" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		writer.implementMainT< VoidT >( 16u, [&]( ComputeIn in )
+//			{
+//				auto o = writer.declLocaleArray( "o"
+//					, 6u
+//					, std::vector< Float >{
+//						{
+//							-1.0_f, -0.6667_f, -0.3333_f, 0.3333_f, 0.6667_f, 1.0_f
+//						} } );
+//				auto offset = writer.declLocale( "offset"
+//					, sdw::fma( vec2( o[0] )
+//						, vec2( 1.0_f )
+//						, vec2( 0.0_f ) ) );
+//			} );
+//
+//		test::writeShader( writer
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, simpleStore )
+//	{
+//		sdwTestBegin( "simpleStore" );
+//		using namespace sdw;
+//		sdw::ShaderArray shaders;
+//		{
+//			sdw::ComputeWriter writer{ &testCounts.allocator };
+//			auto kernelImage =
+//				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
+//
+//			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
+//				{
+//					IVec2 iuv = writer.declLocale(
+//						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
+//							writer.cast<Int>( in.globalInvocationID.y() ) ) );
+//
+//					kernelImage.store( iuv, vec4( 1.0_f ) );
+//				} );
+//			test::writeShader( writer
+//				, testCounts, CurrentCompilers );
+//			shaders.emplace_back( std::move( writer.getShader() ) );
+//		}
+//		test::validateShaders( shaders
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, voxelToTexture )
+//	{
+//		sdwTestBegin( "voxelToTexture" );
+//		using namespace sdw;
+//		sdw::ShaderArray shaders;
+//
+//		{
+//			enum IDs : uint32_t
+//			{
+//				eVoxelUbo,
+//				eVoxels,
+//				eResult,
+//			};
+//
+//			using namespace sdw;
+//			sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//			// Inputs
+//			sdw::UniformBuffer voxelizer{ writer
+//				, "VoxelUbo"
+//				, eVoxelUbo
+//				, 0u };
+//			auto c3d_voxelTransform = voxelizer.declMember< sdw::Mat4 >( "c3d_voxelTransform" );
+//			auto c3d_voxelCenter = voxelizer.declMember< sdw::Vec4 >( "c3d_voxelCenter" );
+//			auto c3d_voxelSize = voxelizer.declMember< sdw::Float >( "c3d_voxelSize" );
+//			auto c3d_voxelSizeInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelSizeInverse" );
+//			auto c3d_voxelResolution = voxelizer.declMember< sdw::Float >( "c3d_voxelResolution" );
+//			auto c3d_voxelResolutionInverse = voxelizer.declMember< sdw::Float >( "c3d_voxelResolutionInverse" );
+//			voxelizer.end();
+//
+//			auto voxels( writer.declArrayStorageBuffer< Voxel >( "voxels"
+//				, eVoxels
+//				, 0u ) );
+//
+//			// Outputs
+//			auto result( writer.declStorageImg< RWFImg3DRgba32 >( "result"
+//				, eResult
+//				, 0u ) );
+//
+//			auto decodeColor = writer.implementFunction< Vec4 >( "decodeColor"
+//				, [&]( UInt const & colorMask )
+//				{
+//					auto hdrRange = writer.declConstant( "hdrRange", 10.0_f );
+//
+//					auto color = writer.declLocale< Vec4 >( "color" );
+//					auto hdr = writer.declLocale( "hdr"
+//						, writer.cast< Float >( ( colorMask >> 24u ) & 0x0000007f_u ) );
+//					color.r() = writer.cast< Float >( ( colorMask >> 16u ) & 0x000000ff_u );
+//					color.g() = writer.cast< Float >( ( colorMask >> 8u ) & 0x000000ff_u );
+//					color.b() = writer.cast< Float >( colorMask & 0x000000ff_u );
+//
+//					hdr /= 127.0f;
+//					color.rgb() /= vec3( 255.0_f );
+//
+//					color.rgb() *= hdr * hdrRange;
+//
+//					color.a() = writer.cast< Float >( ( colorMask >> 31u ) & 0x00000001_u );
+//
+//					writer.returnStmt( color );
+//				}
+//				, InUInt{ writer, "colorMask" } );
+//
+//			auto unflatten = writer.implementFunction< UVec3 >( "unflatten3D"
+//				, [&]( UInt idx
+//					, UVec3 const & dim )
+//				{
+//					auto z = writer.declLocale( "z"
+//						, idx / ( dim.x() * dim.y() ) );
+//					idx -= ( z * dim.x() * dim.y() );
+//					auto y = writer.declLocale( "y"
+//						, idx / dim.x() );
+//					auto x = writer.declLocale( "x"
+//						, idx % dim.x() );
+//					writer.returnStmt( uvec3( x, y, z ) );
+//				}
+//				, InUInt{ writer, "idx" }
+//				, InUVec3{ writer, "dim" } );
+//
+//			writer.implementMainT< VoidT >( 256u, [&]( ComputeIn in )
+//				{
+//					auto color = writer.declLocale( "color"
+//						, decodeColor( voxels[in.globalInvocationID.x()].colorMask ) );
+//
+//					sdwIF( writer, color.a() > 0.0_f )
+//					{
+//						auto coord = writer.declLocale( "coord"
+//							, ivec3( unflatten( in.globalInvocationID.x()
+//								, uvec3( writer.cast< UInt >( c3d_voxelResolution ) ) ) ) );
+//						result.store( coord, color );
+//					}
+//					sdwFI;
+//
+//					voxels[in.globalInvocationID.x()].colorMask = 0_u;
+//				} );
+//			test::writeShader( writer
+//				, testCounts, CurrentCompilers );
+//			shaders.emplace_back( std::move( writer.getShader() ) );
+//		}
+//		test::validateShaders( shaders
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, imageArray )
+//	{
+//		sdwTestBegin( "imageArray" );
+//		using namespace sdw;
+//		sdw::ShaderArray shaders;
+//		{
+//			sdw::ComputeWriter writer{ &testCounts.allocator };
+//			auto srcImage = writer.declStorageImg<RFImg2DRgba32>( "srcImage", 0, 0 );
+//			auto dstImage = writer.declStorageImgArray<RWFImg2DRgba32>( "dstImage", 1, 0, 4u );
+//
+//			writer.implementMainT< VoidT >( 32u, [&]( ComputeIn in )
+//				{
+//					IVec2 iuv = writer.declLocale(
+//						"iuv", ivec2( writer.cast<Int>( in.globalInvocationID.x() ),
+//							writer.cast<Int>( in.globalInvocationID.y() ) ) );
+//
+//					dstImage[1].store( iuv, srcImage.load( iuv ) );
+//				} );
+//			test::writeShader( writer
+//				, testCounts
+//				, CurrentCompilers );
+//			shaders.emplace_back( std::move( writer.getShader() ) );
+//		}
+//		test::validateShaders( shaders
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, accessChainAlias )
+//	{
+//		sdwTestBegin( "accessChainAlias" );
+//		using namespace sdw;
+//		ShaderArray shaders;
+//		{
+//			auto writer = ComputeWriter{};
+//
+//			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+//			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
+//			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
+//			ubo.end();
+//
+//			writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//				{
+//					auto tmp = writer.declLocale( "tmp"
+//						, normalize( transpose( mat3( mtx ) ) * pos ) );
+//				} );
+//			test::writeShader( writer
+//				, testCounts, CurrentCompilers );
+//			shaders.emplace_back( std::move( writer.getShader() ) );
+//		}
+//		test::validateShaders( shaders
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, duplicateLoadTest )
+//	{
+//		sdwTestBegin( "duplicateLoadTest" );
+//		using namespace sdw;
+//		ShaderArray shaders;
+//		{
+//			sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//			auto foo = writer.implementFunction< sdw::Vec4 >( "foo"
+//				, [&]( Vec3 const & t
+//					, Vec2 const & dir )
+//				{
+//					auto coord = writer.declLocale< Vec4 >( "coord" );
+//					coord.xyz() = fma( t, vec3( dir, 1.0_f ), coord.xyz() );
+//					writer.returnStmt( coord );
+//				}
+//				, InVec3{ writer, "t" }
+//				, InVec2{ writer, "dir" } );
+//
+//			writer.implementMainT< VoidT >( 16u, 16u, [&]( ComputeIn in )
+//				{
+//					auto t = writer.declLocale( "t", vec3( 0.5_f ) );
+//					auto dir = writer.declLocale( "dir", vec2( 1.0_f ) );
+//					foo( t, dir );
+//				} );
+//			test::writeShader( writer
+//				, testCounts, CurrentCompilers );
+//			shaders.emplace_back( std::move( writer.getShader() ) );
+//		}
+//		test::validateShaders( shaders
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, subgroupEmptyMain )
+//	{
+//		sdwTestBegin( "subgroupEmptyMain" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
+//			{
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, subgroupBuiltins )
+//	{
+//		sdwTestBegin( "subgroupBuiltins" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
+//			{
+//				writer.declLocale( "globalInvocationID", in.globalInvocationID );
+//				writer.declLocale( "localInvocationID", in.localInvocationID );
+//				writer.declLocale( "localInvocationIndex", in.localInvocationIndex );
+//				writer.declLocale( "numWorkGroups", in.numWorkGroups );
+//				writer.declLocale( "workGroupID", in.workGroupID );
+//				writer.declLocale( "workGroupSize", in.workGroupSize );
+//				writer.declLocale( "numSubgroups", in.numSubgroups );
+//				writer.declLocale( "subgroupID", in.subgroupID );
+//				writer.declLocale( "subgroupSize", in.subgroupSize );
+//				writer.declLocale( "subgroupInvocationID", in.subgroupInvocationID );
+//				writer.declLocale( "subgroupEqMask", in.subgroupEqMask );
+//				writer.declLocale( "subgroupGeMask", in.subgroupGeMask );
+//				writer.declLocale( "subgroupLeMask", in.subgroupLeMask );
+//				writer.declLocale( "subgroupLtMask", in.subgroupLtMask );
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, subgroupCompute )
+//	{
+//		sdwTestBegin( "subgroupCompute" );
+//		using namespace sdw;
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//		ArrayStorageBufferT< UInt > ssbo{ writer, "Datas", writer.getTypesCache().getUInt32(), ast::type::MemoryLayout::eStd140 , 0u, 0u, true };
+//		auto img = writer.declStorageImg< RWUImg2DR32 >( "img", 1u, 0u );
+//
+//		writer.implementMainT< VoidT >( 16u, 16u, [&]( SubgroupIn in )
+//			{
+//				ssbo[in.subgroupInvocationID]
+//					= ssbo[in.subgroupInvocationID];
+//				img.store( ivec2( in.subgroupInvocationID )
+//					, ssbo[in.subgroupInvocationID] );
+//			} );
+//
+//		test::writeShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//
+//#if !defined( __APPLE__ )
+//		// Disabled on apple since somebody somewhere thinks putting an ivec3 inside an uint3 intrinsic is doable :/.
+//		test::validateShader( writer.getShader()
+//			, testCounts, CurrentCompilers );
+//#endif
+//
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, subgroupSimpleStore )
+//	{
+//		sdwTestBegin( "subgroupSimpleStore" );
+//		using namespace sdw;
+//		sdw::ShaderArray shaders;
+//		{
+//			sdw::ComputeWriter writer{ &testCounts.allocator };
+//			auto kernelImage =
+//				writer.declStorageImg<RWFImg2DRgba32>( "kernelImage", 0, 0 );
+//
+//			writer.implementMainT< VoidT >( 32u, [&]( SubgroupIn in )
+//				{
+//					IVec2 iuv = writer.declLocale(
+//						"iuv", ivec2( writer.cast<Int>( in.subgroupInvocationID ),
+//							writer.cast<Int>( in.subgroupInvocationID ) ) );
+//
+//					kernelImage.store( iuv, vec4( 1.0_f ) );
+//				} );
+//			test::writeShader( writer
+//				, testCounts, CurrentCompilers );
+//			shaders.emplace_back( std::move( writer.getShader() ) );
+//		}
+//		test::validateShaders( shaders
+//			, testCounts, CurrentCompilers );
+//		sdwTestEnd()
+//	}
+//
+//	TEST_F( SDWTest, bufferReferenceBase )
+//	{
+//		sdwTestBegin( "bufferReferenceBase" );
+//		sdw::ComputeWriter writer{ &testCounts.allocator };
+//		{
+//			auto InIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "InIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
+//
+//			writer.implementMain( 32u
+//				, [&]( sdw::ComputeIn in )
+//				{
+//					auto indices = InIndices( "indices", writer.cast< sdw::UInt64 >( 0_u ) );
+//					auto matIdx = writer.declLocale( "matIdx", indices[in.localInvocationIndex] );
+//				} );
+//		}
+//		test::writeShader( writer
+//			, testCounts
+//			, CurrentCompilers );
+//		sdwTestEnd()
+//	}
 
 	struct ObjDesc
 		: sdw::StructInstanceHelperT< "ObjDesc"
@@ -593,12 +593,44 @@ namespace
 		sdw::UInt64 indexAddress;
 	};
 
+	struct Vertex
+		: public sdw::StructInstance
+	{
+		Vertex( sdw::ShaderWriter & writer
+			, sdw::expr::ExprPtr expr
+			, bool enabled = true )
+			: sdw::StructInstance{ writer, std::move( expr ), enabled }
+			, meshletIndex{ getMember< sdw::UInt >( "meshletIndex" ) }
+		{
+		}
+
+		SDW_DeclStructInstance( , Vertex );
+
+		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
+		{
+			auto result = cache.getStruct( sdw::type::MemoryLayout::eStd430
+				, "Vertex" );
+
+			if ( result->empty() )
+			{
+				result->declMember( "meshletIndex"
+					, sdw::type::Kind::eUInt32
+					, sdw::type::NotArray );
+			}
+
+			return result;
+		}
+
+		sdw::UInt meshletIndex;
+	};
+
 	TEST_F( SDWTest, bufferReference )
 	{
 		sdwTestBegin( "bufferReference" );
 		sdw::ComputeWriter writer{ &testCounts.allocator };
 		{
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
+			auto vertices = writer.declArrayStorageBuffer< Vertex >( "bufferVertices", 0u, 1u );
 			auto InIndices = writer.declBufferReference< sdw::ArrayStorageBufferT< sdw::Int > >( "InIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 
 			writer.implementMain( 32u
@@ -606,6 +638,9 @@ namespace
 				{
 					auto objResource = writer.declLocale( "objResource", objDescs[writer.cast< sdw::UInt >( in.localInvocationIndex )] );
 					auto indices = InIndices( "indices", objResource.indexAddress );
+					auto vertexIndex = writer.declLocale( "vertexIndex", in.localInvocationIndex );
+					auto v = writer.declLocale( "v", vertices[vertexIndex] );
+					v.meshletIndex = in.localInvocationIndex;
 				} );
 		}
 		test::writeShader( writer
@@ -614,101 +649,101 @@ namespace
 		sdwTestEnd()
 	}
 
-	struct MorphTargetData
-		: public sdw::StructInstance
-	{
-	public:
-		MorphTargetData( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled )
-			: StructInstance{ writer, std::move( expr ), enabled }
-			, morphPosition{ this->getMember< sdw::Vec4 >( "morphPosition", true ) }
-		{
-		}
+	//struct MorphTargetData
+	//	: public sdw::StructInstance
+	//{
+	//public:
+	//	MorphTargetData( sdw::ShaderWriter & writer
+	//		, ast::expr::ExprPtr expr
+	//		, bool enabled )
+	//		: StructInstance{ writer, std::move( expr ), enabled }
+	//		, morphPosition{ this->getMember< sdw::Vec4 >( "morphPosition", true ) }
+	//	{
+	//	}
 
-		SDW_DeclStructInstance( , MorphTargetData );
+	//	SDW_DeclStructInstance( , MorphTargetData );
 
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
-				, "C3D_MorphTargetData" );
+	//	static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+	//	{
+	//		auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
+	//			, "C3D_MorphTargetData" );
 
-			if ( result->empty() )
-			{
-				result->declMember( "morphPosition", ast::type::Kind::eVec4F
-					, ast::type::NotArray );
-			}
+	//		if ( result->empty() )
+	//		{
+	//			result->declMember( "morphPosition", ast::type::Kind::eVec4F
+	//				, ast::type::NotArray );
+	//		}
 
-			return result;
-		}
+	//		return result;
+	//	}
 
-	public:
-		sdw::Vec4 morphPosition;
-	};
+	//public:
+	//	sdw::Vec4 morphPosition;
+	//};
 
-	struct MorphTargetsData
-		: public sdw::StructInstance
-	{
-	public:
-		MorphTargetsData( sdw::ShaderWriter & writer
-			, ast::expr::ExprPtr expr
-			, bool enabled )
-			: StructInstance{ writer, std::move( expr ), enabled }
-			, m_data{ getMemberArray< MorphTargetData >( "targets" ) }
-		{
-		}
+	//struct MorphTargetsData
+	//	: public sdw::StructInstance
+	//{
+	//public:
+	//	MorphTargetsData( sdw::ShaderWriter & writer
+	//		, ast::expr::ExprPtr expr
+	//		, bool enabled )
+	//		: StructInstance{ writer, std::move( expr ), enabled }
+	//		, m_data{ getMemberArray< MorphTargetData >( "targets" ) }
+	//	{
+	//	}
 
-		SDW_DeclStructInstance( , MorphTargetsData );
+	//	SDW_DeclStructInstance( , MorphTargetsData );
 
-		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
-		{
-			auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
-				, "C3D_MorphTargetsData" );
+	//	static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
+	//	{
+	//		auto result = cache.getStruct( ast::type::MemoryLayout::eStd140
+	//			, "C3D_MorphTargetsData" );
 
-			if ( result->empty() )
-			{
-				result->declMember( "targets"
-					, MorphTargetData::makeType( cache )
-					, 128u );
-			}
+	//		if ( result->empty() )
+	//		{
+	//			result->declMember( "targets"
+	//				, MorphTargetData::makeType( cache )
+	//				, 128u );
+	//		}
 
-			return result;
-		}
+	//		return result;
+	//	}
 
-		MorphTargetData operator[]( sdw::UInt const & index )const
-		{
-			return m_data[index];
-		}
+	//	MorphTargetData operator[]( sdw::UInt const & index )const
+	//	{
+	//		return m_data[index];
+	//	}
 
-	private:
-		sdw::Array< MorphTargetData > m_data;
-	};
+	//private:
+	//	sdw::Array< MorphTargetData > m_data;
+	//};
 
-	TEST_F( SDWTest, morphTargets )
-	{
-		sdwTestBegin( "morphTargets" );
-		sdw::ComputeWriter writer{ &testCounts.allocator };
-		{
-			auto c3d_morphTargets = writer.declArrayStorageBuffer< MorphTargetsData >( "c3d_morphTargets", 0u, 0u );
-			auto c3d_inPosition = writer.declArrayStorageBuffer< sdw::Vec4 >( "c3d_inPosition", 1u, 0u, ast::type::MemoryLayout::eStd430 );
+	//TEST_F( SDWTest, morphTargets )
+	//{
+	//	sdwTestBegin( "morphTargets" );
+	//	sdw::ComputeWriter writer{ &testCounts.allocator };
+	//	{
+	//		auto c3d_morphTargets = writer.declArrayStorageBuffer< MorphTargetsData >( "c3d_morphTargets", 0u, 0u );
+	//		auto c3d_inPosition = writer.declArrayStorageBuffer< sdw::Vec4 >( "c3d_inPosition", 1u, 0u, ast::type::MemoryLayout::eStd430 );
 
-			writer.implementMain( 32u
-				, [&]( sdw::ComputeIn in )
-				{
-					auto index = writer.declLocale( "index"
-						, in.globalInvocationID.x() );
-					auto morphTargets = writer.declLocale( "morphTargets"
-						, c3d_morphTargets[index] );
-					auto morphTarget = writer.declLocale( "morphTarget"
-						, morphTargets[index] );
-					c3d_inPosition[index] += morphTarget.morphPosition;
-				} );
-		}
-		test::writeShader( writer
-			, testCounts
-			, CurrentCompilers );
-		sdwTestEnd()
-	}
+	//		writer.implementMain( 32u
+	//			, [&]( sdw::ComputeIn in )
+	//			{
+	//				auto index = writer.declLocale( "index"
+	//					, in.globalInvocationID.x() );
+	//				auto morphTargets = writer.declLocale( "morphTargets"
+	//					, c3d_morphTargets[index] );
+	//				auto morphTarget = writer.declLocale( "morphTarget"
+	//					, morphTargets[index] );
+	//				c3d_inPosition[index] += morphTarget.morphPosition;
+	//			} );
+	//	}
+	//	test::writeShader( writer
+	//		, testCounts
+	//		, CurrentCompilers );
+	//	sdwTestEnd()
+	//}
 }
 
 sdwTestSuiteMain()

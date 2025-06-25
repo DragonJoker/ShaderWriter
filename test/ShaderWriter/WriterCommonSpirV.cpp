@@ -465,7 +465,8 @@ namespace test::sdw_test
 										, config.requiredExtensions
 										, errors ) )
 								{
-									error = ( errors.find( "VK_AMD_gpu_shader_half_float" ) == std::string::npos );
+									error = ( errors.find( "VK_AMD_gpu_shader_half_float" ) == std::string::npos
+										&& errors.find( "useless application of layout qualifier" ) == std::string::npos );
 									throw std::runtime_error{ errors };
 								}
 

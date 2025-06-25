@@ -109,14 +109,6 @@ namespace sdw
 	ast::var::VariablePtr registerFunction( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string name
-		, ast::stmt::FunctionFlag flag )
-	{
-		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ), flag );
-	}
-
-	ast::var::VariablePtr registerFunction( ShaderWriter & writer
-		, ast::type::FunctionPtr type
-		, std::string name
 		, uint32_t flags )
 	{
 		return writer.getBuilder().registerFunction( std::move( name ), std::move( type ), flags );
@@ -124,12 +116,12 @@ namespace sdw
 
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer )
 	{
-		return writer.getStmtCache();
+		return getStmtCache( writer.getBuilder() );
 	}
 
 	ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer )
 	{
-		return writer->getStmtCache();
+		return getStmtCache( *writer );
 	}
 
 	ast::stmt::StmtCache & getStmtCache( Shader const & shader )
@@ -139,12 +131,12 @@ namespace sdw
 
 	ast::stmt::StmtCache & getStmtCache( ShaderBuilder const & builder )
 	{
-		return builder.getStmtCache();
+		return getStmtCache( builder.getShader() );
 	}
 
 	expr::ExprCache & getExprCache( ShaderWriter const & writer )
 	{
-		return writer.getExprCache();
+		return getExprCache( writer.getBuilder() );
 	}
 
 	expr::ExprCache & getExprCache( Shader const & shader )
@@ -154,12 +146,12 @@ namespace sdw
 
 	expr::ExprCache & getExprCache( ShaderBuilder const & builder )
 	{
-		return builder.getExprCache();
+		return getExprCache( builder.getShader() );
 	}
 
 	type::TypesCache & getTypesCache( ShaderWriter const & writer )
 	{
-		return writer.getTypesCache();
+		return getTypesCache( writer.getBuilder() );
 	}
 
 	type::TypesCache & getTypesCache( Shader const & shader )
@@ -169,7 +161,7 @@ namespace sdw
 
 	type::TypesCache & getTypesCache( ShaderBuilder const & builder )
 	{
-		return builder.getTypesCache();
+		return getTypesCache( builder.getShader() );
 	}
 
 	ShaderBuilder & getBuilder( ShaderWriter & writer )
@@ -246,12 +238,6 @@ namespace sdw
 		, double value )
 	{
 		return writer.getExprCache().makeLiteral( writer.getTypesCache(), value );
-	}
-
-	expr::LiteralPtr makeLiteral( ShaderWriter const & writer
-		, long double value )
-	{
-		return writer.getExprCache().makeLiteral( writer.getTypesCache(), double( value ) );
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
@@ -339,20 +325,6 @@ namespace sdw
 	}
 
 	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, long double value
-		, [[maybe_unused]] bool force )
-	{
-		return makeLiteral( writer, double( value ) );
-	}
-
-	expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, type::Scope value
-		, [[maybe_unused]] bool force )
-	{
-		return makeLiteral( writer, uint32_t( value ) );
-	}
-
-	expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, type::MemorySemantics value
 		, [[maybe_unused]] bool force )
 	{
@@ -371,102 +343,6 @@ namespace sdw
 		, [[maybe_unused]] bool force )
 	{
 		return ExprCloner::submit( writer.getExprCache(), expr );
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, bool value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int8_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int16_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int32_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int64_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint8_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint16_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint32_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint64_t value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, float value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, double value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
-	}
-
-	expr::ExprList makeFnArg( ShaderWriter const & writer
-		, long double value )
-	{
-		expr::ExprList result;
-		result.emplace_back( makeExpr( writer, value ) );
-		return result;
 	}
 
 	expr::ExprList makeFnArg( ShaderWriter const & writer
@@ -969,13 +845,6 @@ namespace sdw
 		return stmtCache.makeSimple( std::move( expr ) );
 	}
 
-	stmt::StmtPtr makePerVertexDecl( stmt::StmtCache & stmtCache
-		, stmt::PerVertexDecl::Source source
-		, type::TypePtr type )
-	{
-		return stmtCache.makePerVertexDecl( source, static_cast< type::Struct *>( type ) );
-	}
-
 	stmt::StmtPtr makeStructureDecl( stmt::StmtCache & stmtCache
 		, type::StructPtr type )
 	{
@@ -1047,18 +916,6 @@ namespace sdw
 	{
 		return stmtCache.makeInOutVariableDecl( std::move( var )
 			, location );
-	}
-
-	stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
-		, var::VariablePtr var
-		, uint32_t location
-		, uint32_t streamIndex
-		, uint32_t blendIndex )
-	{
-		return stmtCache.makeInOutVariableDecl( std::move( var )
-			, location
-			, streamIndex
-			, blendIndex );
 	}
 
 	stmt::StmtPtr makeInOutStreamVariableDecl( stmt::StmtCache & stmtCache
@@ -1141,12 +998,6 @@ namespace sdw
 			, bindingSet );
 	}
 
-	stmt::ContainerPtr makeFunctionDecl( stmt::StmtCache & stmtCache
-		, var::VariablePtr funcVar )
-	{
-		return stmtCache.makeFunctionDecl( std::move( funcVar ) );
-	}
-
 	stmt::StmtPtr makeDispatchMesh( stmt::StmtCache & stmtCache
 		, expr::ExprPtr numGroupsX
 		, expr::ExprPtr numGroupsY
@@ -1183,12 +1034,6 @@ namespace sdw
 		addGlobalStmt( writer.getBuilder(), std::move( stmt ) );
 	}
 
-	void addStmt( stmt::Container & container
-		, stmt::StmtPtr stmt )
-	{
-		container.addStmt( std::move( stmt ) );
-	}
-
 	var::VariablePtr registerName( ShaderBuilder & builder
 		, std::string name
 		, type::TypePtr type )
@@ -1221,7 +1066,8 @@ namespace sdw
 		, std::string name
 		, type::TypePtr type )
 	{
-		return writer.getBuilder().registerName( std::move( name )
+		return registerName( writer.getBuilder()
+			, std::move( name )
 			, type );
 	}
 
@@ -1230,7 +1076,8 @@ namespace sdw
 		, type::TypePtr type
 		, uint64_t flags )
 	{
-		return writer.getBuilder().registerName( std::move( name )
+		return registerName( writer.getBuilder()
+			, std::move( name )
 			, type
 			, flags );
 	}
@@ -1267,20 +1114,6 @@ namespace sdw
 		return builder.getVariable( name, isLocale );
 	}
 
-	bool hasVariable( ShaderWriter const & writer
-		, std::string_view name
-		, bool isLocale )
-	{
-		return writer.getBuilder().hasVariable( name, isLocale );
-	}
-
-	var::VariablePtr getVariable( ShaderWriter const & writer
-		, std::string_view name
-		, bool isLocale )
-	{
-		return writer.getBuilder().getVariable( name, isLocale );
-	}
-
 	var::VariablePtr getMemberVariable( ShaderWriter const & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name )
@@ -1288,8 +1121,7 @@ namespace sdw
 		return writer.getBuilder().getMemberVariable( outer, name );
 	}
 
-	var::VariablePtr findIdentVar( ShaderWriter const & writer
-		, Value const & value )
+	var::VariablePtr findIdentVar( Value const & value )
 	{
 		auto ident = ast::findIdentifier( *value.getExpr() );
 		AST_Assert( ident != nullptr );
@@ -1401,37 +1233,7 @@ namespace sdw
 		return type->getTypesCache().getExplicitLayoutType( type );
 	}
 
-	type::ArrayPtr makeExplicitLayoutType( type::ArrayPtr type )
-	{
-		return type->getTypesCache().getExplicitLayoutType( type );
-	}
-
-	type::BaseStructPtr makeExplicitLayoutType( type::BaseStructPtr type )
-	{
-		return type->getTypesCache().getExplicitLayoutType( type );
-	}
-
-	type::IOStructPtr makeExplicitLayoutType( type::IOStructPtr type )
-	{
-		return type->getTypesCache().getExplicitLayoutType( type );
-	}
-
 	type::TypePtr makeNonExplicitLayoutType( type::TypePtr type )
-	{
-		return type->getTypesCache().getNonExplicitLayoutType( type );
-	}
-
-	type::ArrayPtr makeNonExplicitLayoutType( type::ArrayPtr type )
-	{
-		return type->getTypesCache().getNonExplicitLayoutType( type );
-	}
-
-	type::BaseStructPtr makeNonExplicitLayoutType( type::BaseStructPtr type )
-	{
-		return type->getTypesCache().getNonExplicitLayoutType( type );
-	}
-
-	type::IOStructPtr makeNonExplicitLayoutType( type::IOStructPtr type )
 	{
 		return type->getTypesCache().getNonExplicitLayoutType( type );
 	}

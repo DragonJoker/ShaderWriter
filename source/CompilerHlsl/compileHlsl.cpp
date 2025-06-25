@@ -107,8 +107,7 @@ namespace hlsl
 		}
 	}
 
-	std::string compilePreprocessedHlsl( ast::ShaderAllocatorBlock & allocator
-		, ast::Shader const & shader
+	std::string compilePreprocessedHlsl( ast::Shader const & shader
 		, ast::PreprocessResult & preprocessResult
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation
@@ -156,7 +155,7 @@ namespace hlsl
 		, HlslConfig const & writerConfig )
 	{
 		auto preprocessResult = ast::preprocessShader( allocator, shader, *stmt );
-		return compilePreprocessedHlsl( allocator, shader, preprocessResult, stage, specialisation, writerConfig );
+		return compilePreprocessedHlsl( shader, preprocessResult, stage, specialisation, writerConfig );
 	}
 
 	std::string compileHlsl( ast::ShaderAllocatorBlock & allocator

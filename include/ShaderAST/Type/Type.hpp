@@ -289,7 +289,7 @@ namespace ast::type
 			, Struct & parent
 			, uint32_t index
 			, TypePtr nonMbr );
-		SDAST_API TypePtr getNonMemberType()const;
+		SDAST_API TypePtr getNonMemberType();
 
 		SDAST_API virtual ~Type()noexcept;
 

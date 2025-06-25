@@ -8,10 +8,10 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	SampledImage::SampledImage( TypesCache & typesCache
-		, ImageConfiguration config
+		, ImageConfiguration const & config
 		, Trinary comparison )
 		: Type{ typesCache, Kind::eSampledImage, false }
-		, m_imageType{ typesCache.getImage( std::move( config ) ) }
+		, m_imageType{ typesCache.getImage( config ) }
 		, m_depth{ comparison }
 	{
 	}

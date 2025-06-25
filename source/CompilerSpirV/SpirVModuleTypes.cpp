@@ -60,15 +60,18 @@ namespace spirv
 		}
 
 		static ast::type::SamplerPtr getUnqualifiedType( ast::type::TypesCache & typesCache
-			, ast::type::Sampler const & qualified )
+			, ast::type::Sampler const & )
 		{
-			return typesCache.getSampler( qualified.isComparison() );
+			return typesCache.getSampler();
 		}
 
 		static ast::type::CombinedImagePtr getUnqualifiedType( ast::type::TypesCache & typesCache
 			, ast::type::CombinedImage const & qualified )
 		{
 			auto config = qualified.getConfig();
+			if ( config.format == ast::type::ImageFormat::eRTypeless
+				|| config.format == ast::type::ImageFormat::eRgTypeless )
+				config.format = ast::type::ImageFormat::eRgbaTypeless;
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
@@ -79,6 +82,9 @@ namespace spirv
 			, ast::type::SampledImage const & qualified )
 		{
 			auto config = qualified.getConfig();
+			if ( config.format == ast::type::ImageFormat::eRTypeless
+				|| config.format == ast::type::ImageFormat::eRgTypeless )
+				config.format = ast::type::ImageFormat::eRgbaTypeless;
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
@@ -89,6 +95,9 @@ namespace spirv
 			, ast::type::Image const & qualified )
 		{
 			auto config = qualified.getConfig();
+			if ( config.format == ast::type::ImageFormat::eRTypeless
+				|| config.format == ast::type::ImageFormat::eRgTypeless )
+				config.format = ast::type::ImageFormat::eRgbaTypeless;
 			// Ignore access kind, since it's not handled in non Kernel programs.
 			// Prevents generating duplicate types in SPIRV programs.
 			config.accessKind = ast::type::AccessKind::eReadWrite;
@@ -181,8 +190,12 @@ namespace spirv
 		static size_t myHash( ast::type::ImageConfiguration const & config
 			, ast::type::Trinary isComparison )noexcept
 		{
+			auto format = config.format;
+			if ( format == ast::type::ImageFormat::eRTypeless
+				|| format == ast::type::ImageFormat::eRgTypeless )
+				format = ast::type::ImageFormat::eRgbaTypeless;
 			size_t result = std::hash< ast::type::ImageDim >{}( config.dimension );
-			result = ast::type::hashCombine( result, config.format );
+			result = ast::type::hashCombine( result, format );
 			result = ast::type::hashCombine( result, config.isSampled );
 			result = ast::type::hashCombine( result, config.isArrayed );
 			result = ast::type::hashCombine( result, config.isMS );

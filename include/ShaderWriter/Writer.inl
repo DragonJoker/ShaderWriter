@@ -280,7 +280,7 @@ namespace sdw
 		, std::function< void() > const & function )
 	{
 		saveNextExpr();
-		auto initExpr = sdw::makeInit( sdw::findIdentVar( *this, loopVar )
+		auto initExpr = sdw::makeInit( sdw::findIdentVar( loopVar )
 			, sdw::makeExpr( *this, init ) );
 		auto condExpr = sdw::makeCondition( condition );
 		auto incrExpr = loadExpr( InitT{ increment } );

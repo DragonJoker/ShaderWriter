@@ -90,7 +90,7 @@ namespace spirv
 			else
 			{
 				// Promote the alias to a proper variable, then assign it.
-				auto aliasVar = ast::var::makeVariable( ++m_adaptationData.config.nextVarId, ident->getType(), ident->getVariable()->getEntityName().name );
+				auto aliasVar = ast::var::makeVariable( m_adaptationData.getNextVarId(), ident->getType(), ident->getVariable()->getEntityName().name );
 				m_container->addStmt( m_container->getStmtCache().makeVariableDecl( aliasVar ) );
 				auto lhs = m_exprCache.makeIdentifier( m_typesCache, aliasVar );
 				m_result = doProcessAssignExplicitToNonExplicit( *lhs, *expr->getAliasedExpr() );
@@ -107,10 +107,9 @@ namespace spirv
 		TraceFunc;
 		auto lhs = expr->getLHS();
 		auto rhs = expr->getRHS();
-		auto type = expr->getType();
 
-		if ( isMemoryLayoutDependent( type )
-			&& lhs->getType()->hasExplicitLayout() != rhs->getType()->hasExplicitLayout() )
+		if ( isMemoryLayoutDependent( expr->getType() )
+				&& lhs->getType()->hasExplicitLayout() != rhs->getType()->hasExplicitLayout() )
 		{
 			m_result = doProcessAssignExplicitToNonExplicit( *lhs, *rhs );
 		}
@@ -160,9 +159,8 @@ namespace spirv
 							, std::move( multiplier ) );
 					}
 
-					auto componentCount = getComponentCount( mbr.type );
-
-					if ( componentCount == 1u )
+					if ( auto componentCount = getComponentCount( mbr.type );
+						componentCount == 1u )
 					{
 						m_result = m_exprCache.makeArrayAccess( m_typesCache.getUInt32()
 							, ExprCloner::submit( m_exprCache, *builtinExpr )
@@ -260,11 +258,11 @@ namespace spirv
 		{
 			auto & typesCache = var->getType()->getTypesCache();
 
-			if ( var->getName() == "gl_TessLevelOuter" )
+			if ( var->getBuiltin() == ast::Builtin::eTessLevelOuter )
 			{
 				var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 4u ) );
 			}
-			else if ( var->getName() == "gl_TessLevelInner" )
+			else if ( var->getBuiltin() == ast::Builtin::eTessLevelInner )
 			{
 				var->updateType( typesCache.getArray( getNonArrayType( var->getType() ), 2u ) );
 			}
@@ -289,9 +287,9 @@ namespace spirv
 			for ( auto & arg : expr->getArgList() )
 				args.emplace_back( doSubmit( *arg ) );
 
-			auto & img = *args[0];
-			auto & value = *args[2];
-			auto & imgType = static_cast< ast::type::Image const & >( *img.getType() );
+			auto const & img = *args[0];
+			auto const & value = *args[2];
+			auto const & imgType = static_cast< ast::type::Image const & >( *img.getType() );
 
 			if ( imgType.getConfig().format == ast::type::ImageFormat::eRgTypeless )
 			{
@@ -348,22 +346,24 @@ namespace spirv
 		if ( expr->getInitialiser()->getType()->hasExplicitLayout()
 			&& isMemoryLayoutDependent( expr->getType() ) )
 		{
-			auto ident = &expr->getIdentifier();
-
-			if ( m_adaptationData.config.getSpirVVersion() >= v1_4 )
+			ast::var::VariablePtr identVar{};
+			if ( expr->hasIdentifier() )
+				identVar = expr->getIdentifier().getVariable();
+			else
 			{
-				auto exprNonExplitType = m_typesCache.getNonExplicitLayoutType( expr->getType() );
-				m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( *ident )
+				identVar = ast::var::makeVariable( m_adaptationData.getNextVarId(), m_typesCache.getNonExplicitLayoutType( expr->getType() ), "tmp_" + std::to_string( m_adaptationData.getNextAliasId() ) );
+				m_container->addStmt( m_container->getStmtCache().makeVariableDecl( identVar ) );
+			}
+
+			if ( auto ident = m_exprCache.makeIdentifier( m_typesCache, identVar );
+				m_adaptationData.config.getSpirVVersion() >= v1_4 )
+			{
+				auto exprNonExplitType = ident->getType();
+				m_result = m_exprCache.makeInit( std::move( ident )
 					, m_exprCache.makeCast( exprNonExplitType, ast::ExprCloner::submit( m_exprCache, expr->getInitialiser() ) ) );
 			}
 			else
-			{
-				// Promote the alias to a proper variable, then assign it.
-				auto aliasVar = ast::var::makeVariable( ++m_adaptationData.config.nextVarId, ident->getType(), ident->getVariable()->getEntityName().name );
-				m_container->addStmt( m_container->getStmtCache().makeVariableDecl( aliasVar ) );
-				auto lhs = m_exprCache.makeIdentifier( m_typesCache, aliasVar );
-				m_result = doProcessAssignExplicitToNonExplicit( *lhs, *expr->getInitialiser() );
-			}
+				m_result = doProcessAssignExplicitToNonExplicit( *ident, *expr->getInitialiser() );
 		}
 		else
 		{
@@ -387,8 +387,7 @@ namespace spirv
 			args.pop_back();
 			args.pop_back();
 			auto type = numPrimitives->getType();
-			++m_adaptationData.config.nextVarId;
-			auto var = ast::var::makeBuiltin( m_adaptationData.config.nextVarId
+			auto var = ast::var::makeBuiltin( m_adaptationData.getNextVarId()
 				, ast::Builtin::ePrimitiveCountNV
 				, type
 				, ast::var::Flag::eShaderOutput );
@@ -403,8 +402,7 @@ namespace spirv
 			auto numTasks = std::move( args.back() );
 			args.pop_back();
 			auto type = numTasks->getType();
-			++m_adaptationData.config.nextVarId;
-			auto var = ast::var::makeBuiltin( m_adaptationData.config.nextVarId
+			auto var = ast::var::makeBuiltin( m_adaptationData.getNextVarId()
 				, ast::Builtin::eTaskCountNV
 				, type
 				, ast::var::Flag::eShaderOutput );
@@ -550,20 +548,7 @@ namespace spirv
 		else if ( isArrayType( lhsType ) )
 		{
 			if ( auto lhsArrayType = &static_cast< ast::type::Array const & >( *lhsType );
-				lhsArrayType->getArraySize() == ast::type::UnknownArraySize )
-			{
-				ast::Logger::logError( "Unsupported dynamic array conversion" );
-				auto newLhs = doSubmit( lhs );
-				auto newRhs = doSubmit( rhs );
-
-				if ( newLhs && newRhs )
-				{
-					result = m_exprCache.makeAssign( lhsType
-						, std::move( newLhs )
-						, std::move( newRhs ) );
-				}
-			}
-			else
+				lhsArrayType->getArraySize() != ast::type::UnknownArraySize )
 			{
 				auto rhsType = rhs.getType();
 				auto rhsArrayType = &static_cast< ast::type::Array const & >( *rhsType );
@@ -596,7 +581,8 @@ namespace spirv
 				, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) ) )
 				, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( componentType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, columnCount - 1u ) ) ) ) );
 		}
-		else
+
+		if ( !result )
 		{
 			ast::Logger::logError( "Unsupported memory layout dependent type" );
 			auto newLhs = doSubmit( lhs );

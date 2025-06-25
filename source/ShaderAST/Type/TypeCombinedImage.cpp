@@ -8,10 +8,10 @@ See LICENSE file in root folder
 namespace ast::type
 {
 	CombinedImage::CombinedImage( TypesCache & typesCache
-		, ImageConfiguration config
+		, ImageConfiguration const & config
 		, bool isComparison )
 		: Type{ typesCache, Kind::eCombinedImage, false }
-		, m_imageType{ typesCache.getImage( std::move( config ) ) }
+		, m_imageType{ typesCache.getImage( config ) }
 		, m_samplerType{ typesCache.getSampler( isComparison ) }
 	{
 	}

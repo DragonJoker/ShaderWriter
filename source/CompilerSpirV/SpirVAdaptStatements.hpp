@@ -20,6 +20,16 @@ namespace spirv
 		{
 		}
 
+		uint32_t getNextVarId()
+		{
+			return config.getNextVarId();
+		}
+
+		uint32_t getNextAliasId()
+		{
+			return config.getNextAliasId();
+		}
+
 		PreprocContext & context;
 		ModuleConfig config;
 		ast::Map< uint32_t, ast::var::VariablePtr > funcVarReplacements;

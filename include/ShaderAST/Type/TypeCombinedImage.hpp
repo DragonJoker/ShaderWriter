@@ -17,7 +17,7 @@ namespace ast::type
 	{
 	public:
 		SDAST_API CombinedImage( TypesCache & typesCache
-			, ImageConfiguration config
+			, ImageConfiguration const & config
 			, bool isComparison );
 
 		ImagePtr getImageType()const

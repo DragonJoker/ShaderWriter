@@ -167,8 +167,6 @@ namespace spirv
 			, uint32_t pnextVarId
 			, uint32_t paliasId );
 
-		uint32_t nextVarId;
-		uint32_t aliasId;
 		ast::ShaderStage stage;
 		spv::AddressingModel addressingModel{ spv::AddressingModelLogical };
 		ast::Set< spv::ExecutionMode > executionModes;
@@ -378,6 +376,18 @@ namespace spirv
 			return inputs.getPatch( patchVar );
 		}
 
+		uint32_t getNextVarId()
+		{
+			++nextVarId;
+			return nextVarId;
+		}
+
+		uint32_t getNextAliasId()
+		{
+			++aliasId;
+			return aliasId;
+		}
+
 	private:
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::ComputeInput const & compType );
@@ -409,6 +419,8 @@ namespace spirv
 			, ast::type::TaskPayloadInNV const & taskType );
 		void registerParam( ast::var::VariablePtr var
 			, ast::type::TaskPayloadIn const & taskType );
+		void registerParam( ast::var::VariablePtr var
+			, ast::type::Type const & type );
 		void registerInput( ast::var::VariablePtr var
 			, ast::type::IOStruct const & structType
 			, uint32_t arraySize );
@@ -418,6 +430,8 @@ namespace spirv
 
 	private:
 		SpirVConfig & spirvConfig;
+		uint32_t nextVarId;
+		uint32_t aliasId;
 		IOMapping inputs;
 		IOMapping outputs;
 		ast::Set< spv::Capability > requiredCapabilities;

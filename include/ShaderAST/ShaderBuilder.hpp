@@ -34,16 +34,16 @@ namespace ast
 		/**@{*/
 		SDAST_API stmt::ContainerPtr beginFor( expr::ExprPtr init
 			, expr::ExprPtr cond
-			, expr::ExprPtr incr );
-		SDAST_API stmt::ContainerPtr beginDoWhile( expr::ExprPtr condition );
-		SDAST_API stmt::ContainerPtr beginWhile( expr::ExprPtr condition );
+			, expr::ExprPtr incr )const;
+		SDAST_API stmt::ContainerPtr beginDoWhile( expr::ExprPtr condition )const;
+		SDAST_API stmt::ContainerPtr beginWhile( expr::ExprPtr condition )const;
 		SDAST_API stmt::ContainerPtr beginIf( expr::ExprPtr condition );
-		SDAST_API stmt::Container * beginElseIf( expr::ExprPtr condition );
-		SDAST_API stmt::Container * beginElse();
+		SDAST_API stmt::Container * beginElseIf( expr::ExprPtr condition )const;
+		SDAST_API stmt::Container * beginElse()const;
 		SDAST_API void endIf();
 		SDAST_API stmt::ContainerPtr beginSwitch( expr::ExprPtr value );
-		SDAST_API stmt::Container * beginCase( expr::LiteralPtr literal );
-		SDAST_API stmt::Container * beginDefault();
+		SDAST_API stmt::Container * beginCase( expr::LiteralPtr literal )const;
+		SDAST_API stmt::Container * beginDefault()const;
 		SDAST_API void endSwitch();
 		/**@}*/
 		/**

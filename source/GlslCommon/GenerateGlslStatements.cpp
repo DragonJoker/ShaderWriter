@@ -1586,14 +1586,6 @@ namespace glsl
 				result.source += std::move( text ) + "\n";
 				++line;
 			}
-
-			static void enableExtension( Statements & result
-				, GlslExtension const & extension
-				, uint32_t shaderVersion
-				, uint32_t & line )
-			{
-				doAddStatement( "#extension " + extension.name + ": enable", result, line );
-			}
 		}
 
 		//*****************************************************************************************
@@ -2485,7 +2477,7 @@ namespace glsl
 						{
 							if ( extension.name != KHR_vulkan_glsl.name )
 							{
-								helpers::enableExtension( result, extension, config.wantedVersion, line );
+								helpers::doAddStatement( "#extension " + extension.name + ": enable", result, line );
 							}
 						}
 					}
@@ -3056,7 +3048,6 @@ namespace glsl
 				if ( helpers::hasExtension( m_config, ARB_shading_language_420pack ) )
 				{
 					doWriteBinding( stmt->getBindingPoint(), stmt->getDescriptorSet(), sep, text );
-					sep = ", ";
 				}
 
 				if ( !text.empty() )

@@ -9,8 +9,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	std::string writePreprocessedDebug( Shader const & shader
-		, ast::PreprocessResult & preprocessResult )
+	std::string writePreprocessedDebug( ast::PreprocessResult const & preprocessResult )
 	{
 		return debug::displayStatements( *preprocessResult.statements );
 	}

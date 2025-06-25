@@ -14,8 +14,7 @@ namespace test::sdw_test
 			, TestCounts & testCounts )
 		{
 			auto timerBlock = testCounts.beginTimer( "generateHlsl" );
-			return hlsl::compilePreprocessedHlsl( *testCounts.allocatorBlock
-				, shader
+			return hlsl::compilePreprocessedHlsl( shader
 				, preprocessResult
 				, stage
 				, specialisation

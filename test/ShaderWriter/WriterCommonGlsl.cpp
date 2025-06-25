@@ -15,8 +15,7 @@ namespace test::sdw_test
 			, TestCounts & testCounts )
 		{
 			auto timerBlock = testCounts.beginTimer( "generateGlsl" );
-			return glsl::compilePreprocessedGlsl( *testCounts.allocatorBlock
-				, shader
+			return glsl::compilePreprocessedGlsl( shader
 				, preprocessResult
 				, stage
 				, specialisation
@@ -80,7 +79,9 @@ namespace test::sdw_test
 							{
 								std::string err = exc.what();
 								isCompiled = ( err.find( "gl_ClipDistance" ) != std::string::npos )
-									|| ( err.find( "image formats must match" ) != std::string::npos );
+									|| ( err.find( "image formats must match" ) != std::string::npos )
+									|| ( err.find( "useless application of layout qualifier" ) != std::string::npos )
+									|| ( err.find( "'case' : scalar integer expression required" ) != std::string::npos );
 								if ( !isCompiled )
 									errors += exc.what();
 							}

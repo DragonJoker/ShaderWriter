@@ -57,10 +57,6 @@ namespace sdw
 	SDW_API ast::var::VariablePtr registerFunction( ShaderWriter & writer
 		, ast::type::FunctionPtr type
 		, std::string name
-		, stmt::FunctionFlag flag );
-	SDW_API ast::var::VariablePtr registerFunction( ShaderWriter & writer
-		, ast::type::FunctionPtr type
-		, std::string name
 		, uint32_t flags );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const & writer );
 	SDW_API ast::stmt::StmtCache & getStmtCache( ShaderWriter const * writer );
@@ -96,8 +92,6 @@ namespace sdw
 		, float value );
 	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
 		, double value );
-	SDW_API expr::LiteralPtr makeLiteral( ShaderWriter const & writer
-		, long double value );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, var::VariablePtr const & var
 		, bool force = true );
@@ -135,12 +129,6 @@ namespace sdw
 		, double value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, long double value
-		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
-		, type::Scope value
-		, bool force = true );
-	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
 		, type::MemorySemantics value
 		, bool force = true );
 	SDW_API expr::ExprPtr makeExpr( ShaderWriter const & writer
@@ -155,30 +143,6 @@ namespace sdw
 		, T const & value
 		, bool force = true );
 
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, bool value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int8_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int16_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int32_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, int64_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint8_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint16_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint32_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, uint64_t value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, float value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, double value );
-	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
-		, long double value );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
 		, ast::expr::Expr const * expr );
 	SDW_API expr::ExprList makeFnArg( ShaderWriter const & writer
@@ -313,9 +277,6 @@ namespace sdw
 
 	SDW_API stmt::StmtPtr makeSimple( stmt::StmtCache & stmtCache
 		, expr::ExprPtr expr );
-	SDW_API stmt::StmtPtr makePerVertexDecl( stmt::StmtCache & stmtCache
-		, stmt::PerVertexDecl::Source source
-		, type::TypePtr type );
 	SDW_API stmt::StmtPtr makeStructureDecl( stmt::StmtCache & stmtCache
 		, type::StructPtr type );
 	SDW_API stmt::StmtPtr makeShaderStructBufferDecl( stmt::StmtCache & stmtCache
@@ -342,11 +303,6 @@ namespace sdw
 	SDW_API stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr var
 		, uint32_t location );
-	SDW_API stmt::StmtPtr makeInOutVariableDecl( stmt::StmtCache & stmtCache
-		, var::VariablePtr var
-		, uint32_t location
-		, uint32_t streamIndex
-		, uint32_t blendIndex );
 	SDW_API stmt::StmtPtr makeInOutStreamVariableDecl( stmt::StmtCache & stmtCache
 		, var::VariablePtr var
 		, uint32_t location
@@ -379,8 +335,6 @@ namespace sdw
 		, var::VariablePtr var
 		, uint32_t bindingPoint
 		, uint32_t bindingSet );
-	SDW_API stmt::ContainerPtr makeFunctionDecl( stmt::StmtCache & stmtCache
-		, var::VariablePtr funcVar );
 	SDW_API stmt::StmtPtr makeDispatchMesh( stmt::StmtCache & stmtCache
 		, expr::ExprPtr numGroupsX
 		, expr::ExprPtr numGroupsY
@@ -403,8 +357,6 @@ namespace sdw
 	SDW_API void addGlobalStmt( ShaderBuilder & builder
 		, stmt::StmtPtr stmt );
 	SDW_API void addGlobalStmt( ShaderWriter & writer
-		, stmt::StmtPtr stmt );
-	SDW_API void addStmt( stmt::Container & container
 		, stmt::StmtPtr stmt );
 	SDW_API var::VariablePtr registerName( ShaderBuilder & builder
 		, std::string name
@@ -437,12 +389,6 @@ namespace sdw
 	SDW_API var::VariablePtr getVariable( ShaderBuilder const & builder
 		, std::string_view name
 		, bool isLocale );
-	SDW_API bool hasVariable( ShaderWriter const & writer
-		, std::string_view name
-		, bool isLocale );
-	SDW_API var::VariablePtr getVariable( ShaderWriter const & writer
-		, std::string_view name
-		, bool isLocale );
 	SDW_API var::VariablePtr getMemberVariable( ShaderWriter const & writer
 		, ast::var::VariablePtr outer
 		, std::string_view name );
@@ -457,8 +403,7 @@ namespace sdw
 #pragma warning( pop )
 	}
 
-	SDW_API var::VariablePtr findIdentVar( ShaderWriter const & writer
-		, Value const & value );
+	SDW_API var::VariablePtr findIdentVar( Value const & value );
 
 	SDW_API type::TypePtr makeComputeInputType( type::TypePtr type
 		, uint32_t localSizeX
@@ -501,13 +446,7 @@ namespace sdw
 	SDW_API type::TaskPayloadPtr makeTaskPayloadType( type::TypePtr type );
 	SDW_API type::TaskPayloadNVPtr makeTaskPayloadNVType( type::TypePtr type );
 	SDW_API type::TypePtr makeExplicitLayoutType( type::TypePtr type );
-	SDW_API type::ArrayPtr makeExplicitLayoutType( type::ArrayPtr type );
-	SDW_API type::BaseStructPtr makeExplicitLayoutType( type::BaseStructPtr type );
-	SDW_API type::IOStructPtr makeExplicitLayoutType( type::IOStructPtr type );
 	SDW_API type::TypePtr makeNonExplicitLayoutType( type::TypePtr type );
-	SDW_API type::ArrayPtr makeNonExplicitLayoutType( type::ArrayPtr type );
-	SDW_API type::BaseStructPtr makeNonExplicitLayoutType( type::BaseStructPtr type );
-	SDW_API type::IOStructPtr makeNonExplicitLayoutType( type::IOStructPtr type );
 }
 
 #include "Helpers.inl"

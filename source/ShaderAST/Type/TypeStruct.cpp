@@ -692,9 +692,9 @@ namespace ast::type
 
 		for ( auto & member : m_members )
 		{
-			uint32_t alignment = ( m_layout == MemoryLayout::eScalar
-				? minAlign
-				: ( prvIsStruct ? prvAlignment : getAlignment( member.type, m_layout ) ) );
+			uint32_t mbrAlignment = ( prvIsStruct ? prvAlignment : getAlignment( member.type, m_layout ) );
+			uint32_t alignment = std::max( 1u
+				, ( m_layout == MemoryLayout::eScalar ? minAlign : mbrAlignment ) );
 			member.offset = strct::getAligned( offset, alignment );
 			offset = member.offset + member.size;
 			prvAlignment = alignment;

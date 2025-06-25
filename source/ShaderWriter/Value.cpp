@@ -23,7 +23,7 @@ namespace sdw
 		, bool enabled )
 		: m_expr{ std::move( expr ) }
 		, m_writer{ &writer }
-		, m_container{ m_writer->getBuilder().getContainer() }
+		, m_container{ sdw::getContainer( *m_writer ) }
 		, m_enabled{ enabled }
 	{
 	}

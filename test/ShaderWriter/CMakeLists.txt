@@ -147,50 +147,6 @@ endif ()
 set( TargetLinkLibraries
 )
 
-set( DECL_IMAGE_FORMATS
-	eRgbaTypeless
-	eRgTypeless
-	eRTypeless
-	eRgba32f
-	eRgba16f
-	eRg32f
-	eRg16f
-	eR32f
-	eR16f
-	eR11fG11fB10f
-	eRgba32i
-	eRgba16i
-	eRgba8i
-	eRg32i
-	eRg16i
-	eRg8i
-	eR32i
-	eR16i
-	eR8i
-	eRgba32u
-	eRgba16u
-	eRgba8u
-	eRg32u
-	eRg16u
-	eRg8u
-	eR32u
-	eR16u
-	eR8u
-	eRgb10A2u
-	eRgba16Snorm
-	eRgba8Snorm
-	eRg16Snorm
-	eRg8Snorm
-	eR16Snorm
-	eR8Snorm
-	eRgba16Unorm
-	eRgba8Unorm
-	eRg16Unorm
-	eRg8Unorm
-	eR16Unorm
-	eR8Unorm
-	eRgb10A2Unorm
-)
 if ( SDW_ALL_TESTS )
 	set( IMAGE_FORMATS
 		eRgbaTypeless
@@ -523,7 +479,6 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	get_filename_component( TEST_NAME ${TEST_FILE} NAME_WE )
 	string( REGEX MATCH "[^_]*" TEST_CATEGORY ${TEST_NAME} )
 	string( REPLACE "TestWriter" "" TEST_CATEGORY ${TEST_CATEGORY} )
-	string( FIND ${TEST_FILE} "Declarations_StorageImage" IS_STORAGE_IMAGE_DECL )
 	string( FIND ${TEST_FILE} "Image" IS_IMAGE )
 	string( FIND ${TEST_FILE} "Ssbo" IS_SSBO )
 	string( FIND ${TEST_FILE} "Ubo" IS_UBO )
@@ -536,11 +491,7 @@ foreach ( TEST_FILE ${TEST_FILES} )
 	string( FIND ${TEST_FILE} "Declarations_Locale" IS_LOC )
 	string( FIND ${TEST_FILE} "SpecConstant" IS_SPC )
 
-	if ( IS_STORAGE_IMAGE_DECL GREATER -1 )
-		foreach( FORMAT ${DECL_IMAGE_FORMATS} )
-			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
-		endforeach ()
-	elseif ( IS_IMAGE GREATER -1 )
+	if ( IS_IMAGE GREATER -1 )
 		foreach( FORMAT ${IMAGE_FORMATS} )
 			SDW_AddTest( ${TEST_FILE} ${TEST_NAME} ${TEST_CATEGORY} _${FORMAT} "SDW_TestImageFormat=${FORMAT}" )
 		endforeach ()
