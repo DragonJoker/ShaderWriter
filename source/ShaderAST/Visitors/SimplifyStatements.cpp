@@ -1868,9 +1868,9 @@ namespace ast
 				expr::ExprList args;
 
 				// do each vector op
-				for ( unsigned int c = 0; c < numCols; ++c )
+				for ( uint32_t c = 0; c < numCols; ++c )
 				{
-					std::vector< unsigned int > indexes;
+					std::vector< uint32_t > indexes;
 					indexes.push_back( c );
 					auto lhsVec = lhsMat
 						? m_exprCache.makeArrayAccess( vecType, doSubmit( lhs ), m_exprCache.makeLiteral( m_typesCache, c ) )
@@ -2270,10 +2270,10 @@ namespace ast
 			result = exprCache.makeLiteral( typesCache, int16_t( 1 ) );
 			break;
 		case type::Kind::eInt32:
-			result = exprCache.makeLiteral( typesCache, 1 );
+			result = exprCache.makeLiteral( typesCache, int32_t( 1 ) );
 			break;
 		case type::Kind::eInt64:
-			result = exprCache.makeLiteral( typesCache, 1LL );
+			result = exprCache.makeLiteral( typesCache, int64_t( 1 ) );
 			break;
 		case type::Kind::eUInt8:
 			result = exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
@@ -2282,10 +2282,10 @@ namespace ast
 			result = exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
 			break;
 		case type::Kind::eUInt32:
-			result = exprCache.makeLiteral( typesCache, 1u );
+			result = exprCache.makeLiteral( typesCache, uint32_t( 1u ) );
 			break;
 		case type::Kind::eUInt64:
-			result = exprCache.makeLiteral( typesCache, 1ULL );
+			result = exprCache.makeLiteral( typesCache, uint64_t( 1u ) );
 			break;
 		case type::Kind::eFloat:
 			result = exprCache.makeLiteral( typesCache, 1.0f );
@@ -2531,10 +2531,10 @@ namespace ast
 			result = exprCache.makeLiteral( typesCache, int16_t( 0 ) );
 			break;
 		case type::Kind::eInt32:
-			result = exprCache.makeLiteral( typesCache, 0 );
+			result = exprCache.makeLiteral( typesCache, int32_t( 0 ) );
 			break;
 		case type::Kind::eInt64:
-			result = exprCache.makeLiteral( typesCache, 0LL );
+			result = exprCache.makeLiteral( typesCache, int64_t( 0 ) );
 			break;
 		case type::Kind::eUInt8:
 			result = exprCache.makeLiteral( typesCache, uint8_t( 0u ) );
@@ -2543,10 +2543,10 @@ namespace ast
 			result = exprCache.makeLiteral( typesCache, uint16_t( 0u ) );
 			break;
 		case type::Kind::eUInt32:
-			result = exprCache.makeLiteral( typesCache, 0u );
+			result = exprCache.makeLiteral( typesCache, uint32_t( 0u ) );
 			break;
 		case type::Kind::eUInt64:
-			result = exprCache.makeLiteral( typesCache, 0ULL );
+			result = exprCache.makeLiteral( typesCache, uint64_t( 0u ) );
 			break;
 		case type::Kind::eFloat:
 			result = exprCache.makeLiteral( typesCache, 0.0f );

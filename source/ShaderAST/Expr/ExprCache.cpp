@@ -362,52 +362,42 @@ namespace ast::expr
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, signed char value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, int8_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, signed short value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, int16_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, signed int value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, int32_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, signed long value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, int64_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, signed long long value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, uint8_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, unsigned char value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, uint16_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, unsigned short value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, uint32_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}
 
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, unsigned int value )
-	{
-		return makeExpr< Literal >( typesCache, value );
-	}
-
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, unsigned long value )
-	{
-		return makeExpr< Literal >( typesCache, value );
-	}
-
-	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, unsigned long long value )
+	LiteralPtr ExprCache::makeLiteral( type::TypesCache & typesCache, uint64_t value )
 	{
 		return makeExpr< Literal >( typesCache, value );
 	}

@@ -38,56 +38,56 @@ namespace ast::expr
 	struct LiteralValueTraits< LiteralType::eInt8 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eInt8 };
-		using type = signed char;
+		using type = int8_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt16 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eInt16 };
-		using type = signed short;
+		using type = int16_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt32 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eInt32 };
-		using type = signed int;
+		using type = int32_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eInt64 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eInt64 };
-		using type = signed long long;
+		using type = int64_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt8 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eUInt8 };
-		using type = unsigned char;
+		using type = uint8_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt16 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eUInt16 };
-		using type = unsigned short;
+		using type = uint16_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt32 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eUInt32 };
-		using type = unsigned int;
+		using type = uint32_t;
 	};
 
 	template<>
 	struct LiteralValueTraits< LiteralType::eUInt64 >
 	{
 		static type::Kind constexpr typeKind{ type::Kind::eUInt64 };
-		using type = unsigned long long;
+		using type = uint64_t;
 	};
 
 	template<>
@@ -142,31 +142,27 @@ namespace ast::expr
 
 	private:
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, bool value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed char value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed short value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed int value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed long value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, signed long long value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned char value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned short value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned int value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned long value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, unsigned long long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, int8_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, int16_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, int32_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, int64_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, uint8_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, uint16_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, uint32_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, uint64_t value );
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, float value );
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, type::TypePtr type, double value );
 
 	public:
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, bool value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed char value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed short value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed int value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed long value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, signed long long value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned char value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned short value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned int value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned long value );
-		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, unsigned long long value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, int8_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, int16_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, int32_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, int64_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, uint8_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, uint16_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, uint32_t value );
+		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, uint64_t value );
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, float value );
 		SDAST_API Literal( ExprCache & exprCache, type::TypesCache & typesCache, double value );
 
