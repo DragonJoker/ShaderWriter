@@ -3,7 +3,7 @@
 #if SDW_Test_HasVulkan && SDW_HasVulkanLayer
 
 #	include "CompileGLSL.hpp"
-#	include "CompileSpirV.hpp"
+#	include "CompileSPIRV.hpp"
 #	include "GlslToSpv.hpp"
 #	include "WriterCommonSpirV.hpp"
 

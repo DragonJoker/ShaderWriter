@@ -2,7 +2,7 @@
 
 #include "CompileGLSL.hpp"
 #include "CompileHLSL.hpp"
-#include "CompileSpirV.hpp"
+#include "CompileSPIRV.hpp"
 #include "GlslToSpv.hpp"
 #include "WriterCommonDebug.hpp"
 #include "WriterCommonGlsl.hpp"
