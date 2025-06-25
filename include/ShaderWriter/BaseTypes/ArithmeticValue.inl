@@ -16,7 +16,7 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	ArithmeticValue< KindT >::ArithmeticValue( CppTypeT< ArithmeticValue< KindT > > rhs )
-		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ), true }
+		: Value{ *details::getWriter( rhs ), makeExpr( sdw::getCurrentWriter(), rhs ), true }
 	{
 		assert( this->getType()->getKind() == KindT );
 	}

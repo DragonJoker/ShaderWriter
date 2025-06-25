@@ -284,12 +284,12 @@ namespace ast::type
 		SDAST_API Type( TypesCache & typesCache
 			, Struct * parent
 			, uint32_t index
-			, Type const & nonMbr );
+			, TypePtr nonMbr );
 		SDAST_API Type( TypesCache & typesCache
 			, Struct & parent
 			, uint32_t index
-			, Type const & nonMbr );
-		SDAST_API Type const * getNonMemberType()const;
+			, TypePtr nonMbr );
+		SDAST_API TypePtr getNonMemberType()const;
 
 		SDAST_API virtual ~Type()noexcept;
 
@@ -338,7 +338,7 @@ namespace ast::type
 		bool m_explicitLayout;
 		Struct * m_parent;
 		uint32_t m_index;
-		Type const * m_nonMbr;
+		TypePtr m_nonMbr;
 	};
 
 	SDAST_API bool operator==( Type const & lhs, Type const & rhs );

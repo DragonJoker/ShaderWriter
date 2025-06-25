@@ -25,7 +25,7 @@ namespace ast::type
 			} }
 		, m_member{ [this]( TypePtr type, StructPtr parent, uint32_t mbrIndex )
 			{
-				return std::make_unique< Type >( *this, parent, mbrIndex, *type );
+				return std::make_unique< Type >( *this, parent, mbrIndex, type );
 			}
 			, []( TypePtr type, StructPtr parent, uint32_t mbrIndex )noexcept
 			{
@@ -1449,20 +1449,19 @@ namespace ast::type
 			return getMemberType( static_cast< Array * >( type ), parent, memberIndex );
 		if ( type->getKind() == Kind::eStruct )
 			return getMemberType( static_cast< Struct * >( type ), parent, memberIndex );
-		return m_member.registerType( type, &parent, memberIndex
-			, *this, parent, memberIndex, *type );
+		return m_member.getType( type, &parent, memberIndex );
 	}
 
 	ArrayPtr TypesCache::getMemberType( ArrayPtr type, Struct & parent, uint32_t memberIndex )
 	{
 		return static_cast< ArrayPtr >( m_member.registerTypeT< Array >( type, &parent, memberIndex
-			, &parent, memberIndex, type->getType(), *type ) );
+			, &parent, memberIndex, type->getType(), type ) );
 	}
 
 	StructPtr TypesCache::getMemberType( StructPtr type, Struct & parent, uint32_t memberIndex )
 	{
 		return static_cast< StructPtr >( m_member.tryAddType( type, &parent, memberIndex
-			, std::unique_ptr< Struct >{ new Struct{ *this, parent, memberIndex, *type } } ) );
+			, std::unique_ptr< Struct >{ new Struct{ *this, parent, memberIndex, type } } ) );
 	}
 
 	TypePtr TypesCache::getExplicitLayoutType( TypePtr type )
@@ -1541,7 +1540,7 @@ namespace ast::type
 
 	ArrayPtr TypesCache::getNonExplicitLayoutType( ArrayPtr type )
 	{
-		auto elementType = getExplicitLayoutType( type->getType() );
+		auto elementType = getNonExplicitLayoutType( type->getType() );
 		return getArray( elementType, type->getArraySize(), false );
 	}
 
@@ -1556,7 +1555,7 @@ namespace ast::type
 				if ( mbr.builtin != Builtin::eNone )
 					result->declMember( mbr.builtin, mbr.type->getKind(), getArraySize( mbr.type ) );
 				else
-					result->declMember( mbr.name, getExplicitLayoutType( mbr.type ), getArraySize( mbr.type ) );
+					result->declMember( mbr.name, getNonExplicitLayoutType( mbr.type ), getArraySize( mbr.type ) );
 			}
 		}
 
@@ -1574,7 +1573,7 @@ namespace ast::type
 				if ( mbr.builtin != Builtin::eNone )
 					result->declMember( mbr.builtin, mbr.type->getKind(), getArraySize( mbr.type ) );
 				else
-					result->declMember( mbr.name, getExplicitLayoutType( mbr.type ), getArraySize( mbr.type ) );
+					result->declMember( mbr.name, getNonExplicitLayoutType( mbr.type ), getArraySize( mbr.type ) );
 			}
 		}
 

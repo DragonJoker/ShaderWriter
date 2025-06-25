@@ -542,21 +542,21 @@ namespace ast::type
 	Struct::Struct( TypesCache & typesCache
 		, Struct * parent
 		, uint32_t index
-		, Struct const & copy )
+		, StructPtr copy )
 		: Type{ typesCache, parent, index, copy }
-		, m_name{ copy.getName() }
-		, m_layout{ copy.m_layout }
-		, m_flag{ copy.m_flag }
-		, m_entryPoint{ copy.m_entryPoint }
+		, m_name{ copy->getName() }
+		, m_layout{ copy->m_layout }
+		, m_flag{ copy->m_flag }
+		, m_entryPoint{ copy->m_entryPoint }
 	{
-		doCopyMembers( copy );
+		doCopyMembers( *copy );
 	}
 
 
 	Struct::Struct( TypesCache & typesCache
 		, Struct & parent
 		, uint32_t index
-		, Struct const & copy )
+		, StructPtr copy )
 		: Struct{ typesCache, &parent, index, copy }
 	{
 	}

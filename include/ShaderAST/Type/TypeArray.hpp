@@ -22,11 +22,11 @@ namespace ast::type
 		SDAST_API Array( Struct * parent
 			, uint32_t index
 			, TypePtr type
-			, Array const & nonMbr );
+			, ArrayPtr nonMbr );
 		SDAST_API Array( Struct & parent
 			, uint32_t index
 			, TypePtr type
-			, Array const & nonMbr );
+			, ArrayPtr nonMbr );
 
 		inline TypePtr getType()const
 		{

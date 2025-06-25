@@ -15,7 +15,7 @@ namespace sdw
 
 	template< ast::type::Kind KindT >
 	IntegerValue< KindT >::IntegerValue( CppTypeT< IntegerValue< KindT > > rhs )
-		: Value{ sdw::getCurrentWriter(), makeExpr( sdw::getCurrentWriter(), rhs ), true }
+		: Value{ *details::getWriter( rhs ), makeExpr( sdw::getCurrentWriter(), rhs ), true }
 	{
 	}
 

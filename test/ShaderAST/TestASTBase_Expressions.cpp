@@ -2855,6 +2855,46 @@ namespace checks
 			astCheckThrow( preDec( *expr ) )
 			astCheckThrow( preInc( *expr ) )
 		}
+		if ( astOn( "Initialisation from int8_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, int8_t( 1 ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from uint8_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, uint8_t( 1u ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from int16_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, int16_t( 1 ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from uint16_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, uint16_t( 1u ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from int32_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, int32_t( 1 ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from uint32_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, uint32_t( 1u ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from int32_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, int32_t( 1 ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
+		if ( astOn( "Initialisation from uint32_t" ) )
+		{
+			auto expr = exprCache.makeLiteral( typesCache, uint32_t( 1u ) );
+			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
+		}
 		testExprFloatLiteral< expr::LiteralType::eFloat, expr::LiteralType::eDouble >( testCounts, "testExprLiteral", __LINE__ );
 		testExprFloatLiteral< expr::LiteralType::eDouble, expr::LiteralType::eFloat >( testCounts, "testExprLiteral", __LINE__ );
 		testExprSignedIntegerLiteral< expr::LiteralType::eInt8, expr::LiteralType::eUInt8 >( testCounts, "testExprLiteral", __LINE__ );

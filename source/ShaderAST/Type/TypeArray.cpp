@@ -27,17 +27,17 @@ namespace ast::type
 	Array::Array( Struct * parent
 		, uint32_t index
 		, TypePtr type
-		, Array const & nonMbr )
+		, ArrayPtr nonMbr )
 		: Type{ type->getTypesCache(), parent, index, nonMbr }
 		, m_type{ std::move( type ) }
-		, m_arraySize{ nonMbr.getArraySize() }
+		, m_arraySize{ nonMbr->getArraySize() }
 	{
 	}
 
 	Array::Array( Struct & parent
 		, uint32_t index
 		, TypePtr type
-		, Array const & nonMbr )
+		, ArrayPtr nonMbr )
 		: Array{ &parent, index, type, nonMbr }
 	{
 	}

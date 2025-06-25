@@ -938,6 +938,36 @@ namespace
 			, testCounts, CurrentCompilers );
 		sdwTestEnd()
 	}
+
+	TEST_F( SDWTest, sdwDefinedLiterals )
+	{
+		sdwTestBegin( "sdwDefinedLiterals" );
+		using namespace sdw;
+		sdw::ShaderArray shaders;
+		{
+			ComputeWriter writer;
+			writer.implementMainT< VoidT >( 16u, [&]( ComputeInT< VoidT > in )
+				{
+					auto vb = writer.declLocale( "vb", 1_b );
+					auto vi8 = writer.declLocale( "vi8", 1_i8 );
+					auto vu8 = writer.declLocale( "vu8", 1_u8 );
+					auto vi16 = writer.declLocale( "vi16", 1_i16 );
+					auto vu16 = writer.declLocale( "vu16", 1_u16 );
+					auto vi32 = writer.declLocale( "vi32", 1_i32 );
+					auto vu32 = writer.declLocale( "vu32", 1_u32 );
+					auto vi64 = writer.declLocale( "vi64", 1_i64 );
+					auto vu64 = writer.declLocale( "vu64", 1_u64 );
+					auto vf = writer.declLocale( "vf", 1.0_f );
+					auto vd = writer.declLocale( "vd", 1.0_d );
+				} );
+			test::writeShader( writer
+				, testCounts, CurrentCompilers );
+			shaders.emplace_back( std::move( writer.getShader() ) );
+		}
+		test::validateShaders( shaders
+			, testCounts, CurrentCompilers );
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain()
