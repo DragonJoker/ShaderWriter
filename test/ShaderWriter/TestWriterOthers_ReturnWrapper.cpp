@@ -80,9 +80,9 @@ namespace test
 
 	TYPED_TEST( FloatDoubleIntUIntCppParamsT, testReturnWrapperFromCpp )
 	{
-		using SdwType = TypeParam::LhsType;
-		using BlockType = TypeParam::BlockType;
-		using CppType = TypeParam::RhsType;
+		using SdwType = typename TypeParam::LhsType;
+		using BlockType = typename TypeParam::BlockType;
+		using CppType = typename TypeParam::RhsType;
 		sdwTestBegin( "testReturnWrapperFromCpp" );
 		sdw::ShaderArray shaders;
 		{

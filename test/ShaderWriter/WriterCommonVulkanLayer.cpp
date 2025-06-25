@@ -22,63 +22,63 @@
 
 namespace test::sdw_test
 {
-	std::ostream & operator<<( std::ostream & stream, VkSpecializationMapEntry const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkSpecializationMapEntry const & rhs )
 	{
 		stream << rhs.constantID << ", " << rhs.offset << ", " << rhs.size;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, ast::vk::PipelineShaderStageCreateInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, ast::vk::PipelineShaderStageCreateInfo const & rhs )
 	{
 		stream << rhs->flags << ", " << rhs->stage << ", " << rhs->module << ", " << rhs->pName;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkWriteDescriptorSet const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkWriteDescriptorSet const & rhs )
 	{
 		stream << rhs.dstSet << ", " << rhs.dstBinding << ", " << rhs.dstArrayElement << ", " << rhs.descriptorType;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkDescriptorImageInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkDescriptorImageInfo const & rhs )
 	{
 		stream << rhs.sampler << ", " << rhs.imageView << ", " << rhs.imageLayout;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkDescriptorBufferInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkDescriptorBufferInfo const & rhs )
 	{
 		stream << rhs.buffer << ", " << rhs.offset << ", " << rhs.range;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkSpecializationInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkSpecializationInfo const & rhs )
 	{
 		stream << rhs.dataSize;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkVertexInputAttributeDescription const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkVertexInputAttributeDescription const & rhs )
 	{
 		stream << rhs.location << ", " << rhs.binding << ", " << rhs.format << ", " << rhs.offset;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkAttachmentDescription const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkAttachmentDescription const & rhs )
 	{
 		stream << rhs.flags << ", " << rhs.format << ", " << rhs.samples << ", " << rhs.loadOp << ", " << rhs.storeOp << ", " << rhs.stencilLoadOp << ", " << rhs.stencilStoreOp << ", " << rhs.initialLayout << ", " << rhs.finalLayout;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkShaderModuleCreateInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkShaderModuleCreateInfo const & rhs )
 	{
 		stream << rhs.flags << ", " << rhs.codeSize;
 
@@ -92,21 +92,21 @@ namespace test::sdw_test
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkDescriptorSetLayoutCreateInfo const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkDescriptorSetLayoutCreateInfo const & rhs )
 	{
 		stream << rhs.flags;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkDescriptorPoolSize const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkDescriptorPoolSize const & rhs )
 	{
 		stream << rhs.type << ", " << rhs.descriptorCount;
 
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, VkPushConstantRange const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, VkPushConstantRange const & rhs )
 	{
 		stream << rhs.stageFlags << ", " << rhs.offset << ", " << rhs.size;
 
@@ -114,7 +114,7 @@ namespace test::sdw_test
 	}
 
 	template< typename DataT, typename ValueT, typename CountT, size_t DataOffsetT, size_t CountOffsetT, size_t DivisorT >
-	std::ostream & operator<<( std::ostream & stream, ast::vk::ArrayHolder< DataT, ValueT, CountT, DataOffsetT, CountOffsetT, DivisorT > const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, ast::vk::ArrayHolder< DataT, ValueT, CountT, DataOffsetT, CountOffsetT, DivisorT > const & rhs )
 	{
 		stream << "  Base Values: " << rhs.data;
 
@@ -131,7 +131,7 @@ namespace test::sdw_test
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, ast::vk::WriteDescriptorSet const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, ast::vk::WriteDescriptorSet const & rhs )
 	{
 		std::visit( [&stream]( auto && arg )
 		{
@@ -142,7 +142,7 @@ namespace test::sdw_test
 	}
 
 	template< typename DataT >
-	std::ostream & operator<<( std::ostream & stream, std::optional< DataT > const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, std::optional< DataT > const & rhs )
 	{
 		if ( rhs )
 		{
@@ -153,7 +153,7 @@ namespace test::sdw_test
 	}
 
 	template< typename DataT >
-	std::ostream & operator<<( std::ostream & stream, std::vector< DataT > const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, std::vector< DataT > const & rhs )
 	{
 		if ( !rhs.empty() )
 		{
@@ -169,7 +169,7 @@ namespace test::sdw_test
 	}
 
 	template< typename KeyT, typename DataT >
-	std::ostream & operator<<( std::ostream & stream, std::map< KeyT, DataT > const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, std::map< KeyT, DataT > const & rhs )
 	{
 		if ( !rhs.empty() )
 		{
@@ -184,7 +184,7 @@ namespace test::sdw_test
 		return stream;
 	}
 
-	std::ostream & operator<<( std::ostream & stream, ast::vk::ProgramPipeline const & rhs )
+	static std::ostream & operator<<( std::ostream & stream, ast::vk::ProgramPipeline const & rhs )
 	{
 		stream << "Shader Stages: " << std::endl;
 		stream << rhs.getShaderStages() << std::endl;
@@ -207,7 +207,7 @@ namespace test::sdw_test
 		return stream;
 	}
 
-	std::string toString( ast::vk::ProgramPipeline const & rhs )
+	static std::string toString( ast::vk::ProgramPipeline const & rhs )
 	{
 		std::stringstream stream;
 		stream.imbue( std::locale{ "C" } );
@@ -215,7 +215,7 @@ namespace test::sdw_test
 		return stream.str();
 	}
 
-	auto spirvCrossValidate( ast::Shader const & shader
+	static auto spirvCrossValidate( ast::Shader const & shader
 		, ast::EntryPointConfigArray const & entryPoints
 		, sdw_test::TestCounts & testCounts
 		, uint32_t infoIndex )
@@ -274,7 +274,7 @@ namespace test::sdw_test
 #endif
 	}
 
-	ast::vk::ProgramPipeline generateProgram( ast::Shader const & shader
+	static ast::vk::ProgramPipeline generateProgram( ast::Shader const & shader
 		, ast::EntryPointConfigArray const & entryPoints
 		, uint32_t infoIndex
 		, sdw_test::TestCounts & testCounts )
@@ -284,7 +284,7 @@ namespace test::sdw_test
 			, shader, entryPoints };
 	}
 
-	ast::vk::ProgramPipeline generateProgram( ast::vk::ShaderPtrs const & shaders
+	static ast::vk::ProgramPipeline generateProgram( ast::vk::ShaderPtrs const & shaders
 		, uint32_t infoIndex
 		, sdw_test::TestCounts & testCounts )
 	{

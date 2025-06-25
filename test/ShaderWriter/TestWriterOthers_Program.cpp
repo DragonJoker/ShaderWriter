@@ -414,7 +414,7 @@ namespace
 				auto wPow2 = writer.declLocale( "wPow2"
 					, pow( w, 2.0_f ) );
 
-				auto pos = writer.declLocale( "pos"
+				auto patchPos = writer.declLocale( "pos"
 					, patchIn.wpB300() * wPow3
 						+ patchIn.wpB030() * uPow3
 						+ patchIn.wpB003() * vPow3
@@ -426,7 +426,7 @@ namespace
 						+ patchIn.wpB012() * 3.0f * u * vPow2
 						+ patchIn.wpB111() * 6.0f * w * u * v );
 
-				out.vtx.position = mtx * vec4( pos, 1.0f );
+				out.vtx.position = mtx * vec4( patchPos, 1.0f );
 			} );
 
 		// Fragment Shader

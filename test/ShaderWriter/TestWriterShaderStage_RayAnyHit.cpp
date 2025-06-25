@@ -280,8 +280,6 @@ namespace
 
 			auto objDescs = writer.declArrayStorageBuffer< ObjDesc >( "ObjDescs", 0u, 1u );
 
-			auto Vertices = writer.declBufferReference< ArrayStorageBufferT< Vertex > >( "Vertices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
-			auto Indices = writer.declBufferReference< ArrayStorageBufferT< UInt > >( "Indices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto Materials = writer.declBufferReference< ArrayStorageBufferT< WaveFrontMaterial > >( "Materials", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 			auto MatIndices = writer.declBufferReference< ArrayStorageBufferT< Int > >( "MatIndices", ast::type::MemoryLayout::eScalar, ast::type::Storage::ePhysicalStorageBuffer );
 

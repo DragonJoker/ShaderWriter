@@ -322,9 +322,9 @@ namespace
 						auto kEnergyConservation = writer.declLocale( "kEnergyConservation", ( 2.0_f + kShininess ) / ( 2.0_f * kPi ) );
 						auto V = writer.declLocale( "V", normalize( -viewDir ) );
 						auto R = writer.declLocale( "R", reflect( -lightDir, normal ) );
-						auto specular = writer.declLocale( "specular", kEnergyConservation * pow( max( dot( V, R ), 0.0_f ), kShininess ) );
+						auto result = writer.declLocale( "result", kEnergyConservation * pow( max( dot( V, R ), 0.0_f ), kShininess ) );
 
-						writer.returnStmt( vec3( mat.specular * specular ) );
+						writer.returnStmt( vec3( mat.specular * result ) );
 					}
 					, sdw::InParam< WaveFrontMaterialT< LayoutT > >{ writer, "mat" }
 					, sdw::InVec3{ writer, "viewDir" }

@@ -22,7 +22,7 @@ namespace test::sdw_test
 				, hlsl::HlslConfig{ testCounts.getHlslVersion( infoIndex ), stage, false } );
 		}
 
-		void testWriteOnIndex( ::ast::Shader const & shader
+		static void testWriteOnIndex( ::ast::Shader const & shader
 			, ::ast::PreprocessResult & preprocessResult
 			, ::ast::ShaderStage stage
 			, ::ast::SpecialisationInfo const & specialisation

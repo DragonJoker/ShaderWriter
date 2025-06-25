@@ -1155,35 +1155,43 @@ namespace
 			ShaderBuilder builder{ ShaderStage::eCompute };
 			auto & exprCache = builder.getExprCache();
 			auto & typesCache = builder.getTypesCache();
-
-			astCheckThrow( builder.beginElseIf( exprCache.makeLiteral( typesCache, false ) ) )
-			astCheckThrow( builder.beginElse() )
-			astCheckThrow( builder.endIf() )
-
-			astCheckNoThrow( builder.beginIf( exprCache.makeLiteral( typesCache, false ) ) )
-			astCheckNoThrow( builder.beginElseIf( exprCache.makeLiteral( typesCache, true ) ) )
-			astCheckNoThrow( builder.beginElse() )
-			astCheckNoThrow( builder.endIf() )
-			astCheckThrow( builder.beginElseIf( exprCache.makeLiteral( typesCache, false ) ) )
-			astCheckThrow( builder.beginElse() )
+			{
+				astCheckThrow( builder.beginElseIf( exprCache.makeLiteral( typesCache, false ) ) )
+				astCheckThrow( builder.beginElse() )
+				astCheckThrow( builder.endIf() )
+				auto testIf = [&builder, &exprCache, &typesCache]()
+					{
+						auto ifStmt = builder.beginIf( exprCache.makeLiteral( typesCache, false ) );
+						builder.beginElseIf( exprCache.makeLiteral( typesCache, true ) );
+						builder.beginElse();
+						builder.endIf();
+					};
+				astCheckNoThrow( testIf() );
+				astCheckThrow( builder.beginElseIf( exprCache.makeLiteral( typesCache, false ) ) )
+				astCheckThrow( builder.beginElse() )
+			}
 		}
 		if ( astOn( "Switch statement" ) )
 		{
 			ShaderBuilder builder{ ShaderStage::eCompute };
 			auto & exprCache = builder.getExprCache();
 			auto & typesCache = builder.getTypesCache();
-
-			astCheckThrow( builder.beginCase( exprCache.makeLiteral( typesCache, false ) ) )
-			astCheckThrow( builder.beginDefault() )
-			astCheckThrow( builder.endSwitch() )
-
-			astCheckNoThrow( builder.beginSwitch( exprCache.makeLiteral( typesCache, false ) ) )
-			astCheckNoThrow( builder.beginCase( exprCache.makeLiteral( typesCache, true ) ) )
-			astCheckNoThrow( builder.beginDefault() )
-			astCheckNoThrow( builder.endSwitch() )
-			astCheckThrow( builder.beginCase( exprCache.makeLiteral( typesCache, false ) ) )
-			astCheckThrow( builder.beginDefault() )
-			astCheckThrow( builder.endSwitch() )
+			{
+				astCheckThrow( builder.beginCase( exprCache.makeLiteral( typesCache, false ) ) )
+				astCheckThrow( builder.beginDefault() )
+				astCheckThrow( builder.endSwitch() )
+				auto testSwitch = [&builder, &exprCache, &typesCache]()
+					{
+						auto switchStmt = builder.beginSwitch( exprCache.makeLiteral( typesCache, false ) );
+						builder.beginCase( exprCache.makeLiteral( typesCache, true ) );
+						builder.beginDefault();
+						builder.endSwitch();
+					};
+				astCheckNoThrow( testSwitch() )
+				astCheckThrow( builder.beginCase( exprCache.makeLiteral( typesCache, false ) ) )
+				astCheckThrow( builder.beginDefault() )
+				astCheckThrow( builder.endSwitch() )
+			}
 		}
 		if ( astOn( "Functions handling" ) )
 		{
@@ -1631,18 +1639,20 @@ namespace
 			auto & stmtCache = builder.getStmtCache();
 			auto & exprCache = builder.getExprCache();
 			auto & typesCache = builder.getTypesCache();
-			astCheckNoThrow( builder.addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var", typesCache.getUInt32() ) ) ) ) )
-			astCheckEqual( builder.getContainer()->size(), 1u )
-			astCheckNoThrow( builder.addGlobalStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var2", typesCache.getUInt32() ) ) ) ) )
-			astCheckEqual( builder.getContainer()->size(), 2u )
-			astCheckNoThrow( builder.pushScope( stmtCache.makeContainer() ) )
-				astCheck( builder.getContainer()->empty() )
-				astCheckNoThrow( builder.addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var3", typesCache.getUInt32() ) ) ) ) )
+			{
+				astCheckNoThrow( builder.addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var", typesCache.getUInt32() ) ) ) ) )
 				astCheckEqual( builder.getContainer()->size(), 1u )
-				astCheckNoThrow( builder.addGlobalStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var4", typesCache.getUInt32() ) ) ) ) )
-				astCheckEqual( builder.getContainer()->size(), 1u )
-			astCheckNoThrow( builder.popScope() )
-			astCheckEqual( builder.getContainer()->size(), 4u )
+				astCheckNoThrow( builder.addGlobalStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var2", typesCache.getUInt32() ) ) ) ) )
+				astCheckEqual( builder.getContainer()->size(), 2u )
+				astCheckNoThrow( builder.pushScope( stmtCache.makeContainer() ) )
+					astCheck( builder.getContainer()->empty() )
+					astCheckNoThrow( builder.addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var3", typesCache.getUInt32() ) ) ) ) )
+					astCheckEqual( builder.getContainer()->size(), 1u )
+					astCheckNoThrow( builder.addGlobalStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var4", typesCache.getUInt32() ) ) ) ) )
+					astCheckEqual( builder.getContainer()->size(), 1u )
+				astCheckNoThrow( builder.popScope() )
+				astCheckEqual( builder.getContainer()->size(), 4u )
+			}
 		}
 		if ( astOn( "Ignored statements handling" ) )
 		{
@@ -1650,27 +1660,29 @@ namespace
 			auto & stmtCache = builder.getStmtCache();
 			auto & exprCache = builder.getExprCache();
 			auto & typesCache = builder.getTypesCache();
-			astCheckNoThrow( builder.saveNextExpr() )
-			astCheckNoThrow( builder.addGlobalStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var2", typesCache.getUInt32() ) ) ) ) )
-#if SDAST_ExceptAssert
-			astCheckThrow( builder.saveNextExpr() )
-#endif
-			astCheckEqual( builder.getContainer()->size(), 0u )
-			astCheck( builder.loadExpr( nullptr ) != nullptr )
-			astCheck( builder.loadExpr( nullptr ) == nullptr )
-
-			astCheckNoThrow( builder.pushScope( stmtCache.makeContainer() ) )
-				astCheck( builder.getContainer()->empty() )
+			{
 				astCheckNoThrow( builder.saveNextExpr() )
-				astCheckNoThrow( builder.addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var3", typesCache.getUInt32() ) ) ) ) )
+				astCheckNoThrow( builder.addGlobalStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var2", typesCache.getUInt32() ) ) ) ) )
 #if SDAST_ExceptAssert
 				astCheckThrow( builder.saveNextExpr() )
 #endif
 				astCheckEqual( builder.getContainer()->size(), 0u )
 				astCheck( builder.loadExpr( nullptr ) != nullptr )
 				astCheck( builder.loadExpr( nullptr ) == nullptr )
-			astCheckNoThrow( builder.popScope() )
-			astCheckEqual( builder.getContainer()->size(), 1u )
+
+				astCheckNoThrow( builder.pushScope( stmtCache.makeContainer() ) )
+					astCheck( builder.getContainer()->empty() )
+					astCheckNoThrow( builder.saveNextExpr() )
+					astCheckNoThrow( builder.addStmt( stmtCache.makeSimple( exprCache.makeIdentifier( typesCache, builder.registerName( "var3", typesCache.getUInt32() ) ) ) ) )
+#if SDAST_ExceptAssert
+					astCheckThrow( builder.saveNextExpr() )
+#endif
+					astCheckEqual( builder.getContainer()->size(), 0u )
+					astCheck( builder.loadExpr( nullptr ) != nullptr )
+					astCheck( builder.loadExpr( nullptr ) == nullptr )
+				astCheckNoThrow( builder.popScope() )
+				astCheckEqual( builder.getContainer()->size(), 1u )
+			}
 		}
 		astTestEnd()
 	}

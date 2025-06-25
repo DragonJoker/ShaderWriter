@@ -3,6 +3,8 @@
 #include <ShaderWriter/CompositeTypes/Struct.hpp>
 #include <ShaderWriter/CompositeTypes/ArrayStorageBuffer.hpp>
 
+#pragma clang diagnostic ignored "-Wunused-const-variable"
+
 namespace
 {
 	template< typename T >

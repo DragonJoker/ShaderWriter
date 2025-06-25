@@ -894,7 +894,7 @@ namespace spirv
 		}
 	}
 
-	bool hasNameBeforeOperands( Instruction const & instruction )
+	static bool hasNameBeforeOperands( Instruction const & instruction )
 	{
 		return instruction.op.getOpData().opCode == spv::OpEntryPoint;
 	}

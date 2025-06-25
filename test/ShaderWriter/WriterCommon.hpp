@@ -1,5 +1,10 @@
 #pragma once
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunsequenced"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsequence-point"
+
 #include "Common.hpp"
 #include "WriterCommonHelpers.hpp"
 
@@ -12,11 +17,6 @@
 #else
 #	define SDWTest_API
 #endif
-
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunsequenced"
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsequence-point"
 
 #ifndef ForceDisplayShaders
 #	define ForceDisplayShaders false

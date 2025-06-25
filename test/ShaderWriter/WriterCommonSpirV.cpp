@@ -174,7 +174,7 @@ namespace test::sdw_test
 			return result;
 		}
 
-		std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
+		static std::string validateSpirVToHlsl( std::vector< uint32_t > const & spirv
 			, ast::ShaderStage stage
 			, test::TestCounts & testCounts
 			, Compilers const & compilers
@@ -201,7 +201,7 @@ namespace test::sdw_test
 			return result;
 		}
 
-		std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
+		static std::string validateSpirVToGlsl( std::vector< uint32_t > const & spirv
 			, ast::ShaderStage stage
 			, test::TestCounts & testCounts
 			, Compilers const & compilers

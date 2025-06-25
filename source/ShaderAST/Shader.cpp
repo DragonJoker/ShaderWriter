@@ -186,7 +186,7 @@ namespace ast
 		if ( m_data.inOuts.empty() )
 		{
 			m_data.inOuts.try_emplace( std::move( name )
-				, InOutInfo{ { std::move( type  )} } );
+				, InOutInfo{ std::move( type ) } );
 		}
 	}
 
