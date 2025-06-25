@@ -117,17 +117,17 @@ namespace
 			{
 				sdwSWITCH( writer, t )
 				{
-					sdwCASE( 0 )
+					sdwCASE( writer, 0 )
 					{
 						x = u;
 					}
 					sdwESAC;
-					sdwCASE( 1 )
+					sdwCASE( writer, 1 )
 					{
 						x = v;
 					}
 					sdwESAC;
-					sdwDEFAULT
+					sdwDEFAULT( writer )
 					{
 						x = w;
 					}
@@ -762,17 +762,17 @@ namespace
 					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 0_i );
 					sdwSWITCH( writer, ctrl )
 					{
-						sdwCASE( 0 )
+						sdwCASE( writer, 0 )
 						{
 							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 						}
 						sdwESAC;
-						sdwCASE( 1 )
+						sdwCASE( writer, 1 )
 						{
 							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 						}
 						sdwESAC;
-						sdwDEFAULT
+						sdwDEFAULT( writer )
 						{
 							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 						}
@@ -800,17 +800,17 @@ namespace
 					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 1_i );
 					sdwSWITCH( writer, ctrl )
 					{
-						sdwCASE( 0 )
+						sdwCASE( writer, 0 )
 						{
 							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 						}
 						sdwESAC;
-						sdwCASE( 1 )
+						sdwCASE( writer, 1 )
 						{
 							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 						}
 						sdwESAC;
-						sdwDEFAULT
+						sdwDEFAULT( writer )
 						{
 							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 						}
@@ -838,17 +838,17 @@ namespace
 					auto ctrl = writer.declConstant< sdw::Int >( "ctrl", 2_i );
 					sdwSWITCH( writer, ctrl )
 					{
-						sdwCASE( 0 )
+						sdwCASE( writer, 0 )
 						{
 							auto i = writer.declLocale< sdw::Int >( "i", 24_i );
 						}
 						sdwESAC;
-						sdwCASE( 1 )
+						sdwCASE( writer, 1 )
 						{
 							auto j = writer.declLocale< sdw::Int >( "j", 12_i );
 						}
 						sdwESAC;
-						sdwDEFAULT
+						sdwDEFAULT( writer )
 						{
 							auto k = writer.declLocale< sdw::Int >( "k", 6_i );
 						}
