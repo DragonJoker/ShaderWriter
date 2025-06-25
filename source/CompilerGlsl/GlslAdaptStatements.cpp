@@ -147,15 +147,6 @@ namespace glsl
 				return ast::ExprCloner::submit( exprCache, *it->second );
 			}
 
-			static void enableExtension( ast::stmt::StmtCache & stmtCache
-				, ast::stmt::Container & cont
-				, GlslExtension const & extension
-				, uint32_t shaderVersion )
-			{
-				cont.addStmt( stmtCache.makePreprocExtension( extension.name
-					, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
-			}
-
 			static ast::stmt::PerVertexDecl::Source getPerVertexSource( ast::ShaderStage stage
 				, bool isInput )
 			{
@@ -1344,7 +1335,8 @@ namespace glsl
 
 					for ( auto & extension : adaptationData.intrinsicsConfig.requiredExtensions )
 					{
-						helpers::enableExtension( stmtCache, *result, extension, adaptationData.writerConfig.wantedVersion );
+						result->addStmt( stmtCache.makePreprocExtension( extension.name
+							, ast::stmt::PreprocExtension::ExtStatus::eEnabled ) );
 					}
 				}
 

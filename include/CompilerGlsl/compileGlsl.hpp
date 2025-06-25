@@ -23,8 +23,7 @@ namespace glsl
 {
 	using GlslConfig = StmtConfig;
 
-	SDWGLSL_API std::string compilePreprocessedGlsl( ast::ShaderAllocatorBlock & allocator
-		, ast::Shader const & shader
+	SDWGLSL_API std::string compilePreprocessedGlsl( ast::Shader const & shader
 		, ast::PreprocessResult & preprocessResult
 		, ast::ShaderStage stage
 		, ast::SpecialisationInfo const & specialisation

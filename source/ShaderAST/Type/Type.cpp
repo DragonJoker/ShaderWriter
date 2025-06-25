@@ -13,6 +13,8 @@ namespace ast::type
 {
 	//*************************************************************************
 
+	Type::~Type()noexcept = default;
+
 	Type::Type( TypesCache & typesCache
 		, Kind kind
 		, bool explicitLayout )
@@ -46,11 +48,7 @@ namespace ast::type
 	{
 	}
 
-	Type::~Type()noexcept
-	{
-	}
-
-	TypePtr Type::getNonMemberType()const
+	TypePtr Type::getNonMemberType()
 	{
 		if ( isMember() )
 		{
@@ -58,7 +56,7 @@ namespace ast::type
 			return m_nonMbr;
 		}
 
-		return const_cast< TypePtr >( this );
+		return this;
 	}
 
 	//*************************************************************************

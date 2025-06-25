@@ -1610,6 +1610,329 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
+
+	TEST_F( SDWTest, declareAll2DStorageImages )
+	{
+		sdwTestBegin( "declareAll2DStorageImages" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			uint32_t binding{};
+			uint32_t set{};
+			sdw::ComputeWriter writer{ &testCounts.allocator };
+			auto imgRgba = writer.declStorageImg< WImage2DRgba >( "imgRgba", binding++, set );
+			auto imgRg = writer.declStorageImg< WImage2DRg >( "imgRg", binding++, set );
+			auto imgR = writer.declStorageImg< WImage2DR >( "imgR", binding++, set );
+			++set;
+			binding = {};
+			auto imgRgba32 = writer.declStorageImg< WImage2DRgba32 >( "imgRgba32", binding++, set );
+			auto imgRgba16 = writer.declStorageImg< WImage2DRgba16 >( "imgRgba16", binding++, set );
+			auto imgR11fG11fB10f = writer.declStorageImg< WImage2DR11fG11fB10f >( "imgR11fG11fB10f", binding++, set );
+			auto imgRgba16Snorm = writer.declStorageImg< WImage2DRgba16Snorm >( "imgRgba16Snorm", binding++, set );
+			auto imgRgba16Unorm = writer.declStorageImg< WImage2DRgba16Unorm >( "imgRgba16Unorm", binding++, set );
+			auto imgRgba8Snorm = writer.declStorageImg< WImage2DRgba8Snorm >( "imgRgba8Snorm", binding++, set );
+			auto imgRgba8Unorm = writer.declStorageImg< WImage2DRgba8Unorm >( "imgRgba8Unorm", binding++, set );
+			auto imgRgb10A2 = writer.declStorageImg< WImage2DRgb10A2 >( "imgRgb10A2", binding++, set );
+			auto imgRg32 = writer.declStorageImg< WImage2DRg32 >( "imgRg32", binding++, set );
+			auto imgRg16 = writer.declStorageImg< WImage2DRg16 >( "imgRg16", binding++, set );
+			auto imgRg16Snorm = writer.declStorageImg< WImage2DRg16Snorm >( "imgRg16Snorm", binding++, set );
+			auto imgRg16Unorm = writer.declStorageImg< WImage2DRg16Unorm >( "imgRg16Unorm", binding++, set );
+			auto imgRg8Snorm = writer.declStorageImg< WImage2DRg8Snorm >( "imgRg8Snorm", binding++, set );
+			auto imgRg8Unorm = writer.declStorageImg< WImage2DRg8Unorm >( "imgRg8Unorm", binding++, set );
+			auto imgR32 = writer.declStorageImg< WImage2DR32 >( "imgR32", binding++, set );
+			auto imgR16 = writer.declStorageImg< WImage2DR16 >( "imgR16", binding++, set );
+			auto imgR16Unorm = writer.declStorageImg< WImage2DR16Unorm >( "imgR16Unorm", binding++, set );
+			auto imgR8Snorm = writer.declStorageImg< WImage2DR8Snorm >( "imgR8Snorm", binding++, set );
+			auto imgR8Unorm = writer.declStorageImg< WImage2DR8Unorm >( "imgR8Unorm", binding++, set );
+			++set;
+			binding = {};
+			auto imgIRgba32 = writer.declStorageImg< WIImage2DRgba32 >( "imgIRgba32", binding++, set );
+			auto imgIRgba16 = writer.declStorageImg< WIImage2DRgba16 >( "imgIRgba16", binding++, set );
+			auto imgIRgba8 = writer.declStorageImg< WIImage2DRgba8 >( "imgIRgba8", binding++, set );
+			auto imgIRg32 = writer.declStorageImg< WIImage2DRg32 >( "imgIRg32", binding++, set );
+			auto imgIRg16 = writer.declStorageImg< WIImage2DRg16 >( "imgIRg16", binding++, set );
+			auto imgIRg8 = writer.declStorageImg< WIImage2DRg8 >( "imgIRg8", binding++, set );
+			auto imgIR32 = writer.declStorageImg< WIImage2DR32 >( "imgIR32", binding++, set );
+			auto imgIR16 = writer.declStorageImg< WIImage2DR16 >( "imgIR16", binding++, set );
+			auto imgIR8 = writer.declStorageImg< WIImage2DR8 >( "imgIR8", binding++, set );
+			++set;
+			binding = {};
+			auto imgURgba16 = writer.declStorageImg< WUImage2DRgba16 >( "imgURgba16", binding++, set );
+			auto imgURgba8 = writer.declStorageImg< WUImage2DRgba8 >( "imgURgba8", binding++, set );
+			auto imgURgb10A2 = writer.declStorageImg< WUImage2DRgb10A2 >( "imgURgb10A2", binding++, set );
+			auto imgURg32 = writer.declStorageImg< WUImage2DRg32 >( "imgURg32", binding++, set );
+			auto imgURg16 = writer.declStorageImg< WUImage2DRg16 >( "imgURg16", binding++, set );
+			auto imgURg8 = writer.declStorageImg< WUImage2DRg8 >( "imgURg8", binding++, set );
+			auto imgUR32 = writer.declStorageImg< WUImage2DR32 >( "imgUR32", binding++, set );
+			auto imgUR16 = writer.declStorageImg< WUImage2DR16 >( "imgUR16", binding++, set );
+			auto imgUR8 = writer.declStorageImg< WUImage2DR8 >( "imgUR8", binding++, set );
+			writer.implementMain( 32u, 32u
+				, [&]( sdw::ComputeIn const & in )
+				{
+					imgRgba.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRg.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgR.store( ivec2( in.localInvocationID.xy() ), 0.0_f );
+					imgRgba32.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRgba16.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgR11fG11fB10f.store( ivec2( in.localInvocationID.xy() ), vec3( 0.0_f ) );
+					imgRgba16Snorm.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRgba16Unorm.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRgba8Snorm.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRgba8Unorm.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRgb10A2.store( ivec2( in.localInvocationID.xy() ), vec4( 0.0_f ) );
+					imgRg32.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgRg16.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgRg16Snorm.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgRg16Unorm.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgRg8Snorm.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgRg8Unorm.store( ivec2( in.localInvocationID.xy() ), vec2( 0.0_f ) );
+					imgR32.store( ivec2( in.localInvocationID.xy() ), 0.0_f );
+					imgR16.store( ivec2( in.localInvocationID.xy() ), 0.0_f );
+					imgR16Unorm.store( ivec2( in.localInvocationID.xy() ), 0.0_f );
+					imgR8Snorm.store( ivec2( in.localInvocationID.xy() ), 0.0_f );
+					imgR8Unorm.store( ivec2( in.localInvocationID.xy() ), 0.0_f );
+					imgIRgba32.store( ivec2( in.localInvocationID.xy() ), ivec4( 0_i ) );
+					imgIRgba16.store( ivec2( in.localInvocationID.xy() ), ivec4( 0_i ) );
+					imgIRgba8.store( ivec2( in.localInvocationID.xy() ), ivec4( 0_i ) );
+					imgIRg32.store( ivec2( in.localInvocationID.xy() ), ivec2( 0_i ) );
+					imgIRg16.store( ivec2( in.localInvocationID.xy() ), ivec2( 0_i ) );
+					imgIRg8.store( ivec2( in.localInvocationID.xy() ), ivec2( 0_i ) );
+					imgIR32.store( ivec2( in.localInvocationID.xy() ), 0_i );
+					imgIR16.store( ivec2( in.localInvocationID.xy() ), 0_i );
+					imgIR8.store( ivec2( in.localInvocationID.xy() ), 0_i );
+					imgURgba16.store( ivec2( in.localInvocationID.xy() ), uvec4( 0_u ) );
+					imgURgba8.store( ivec2( in.localInvocationID.xy() ), uvec4( 0_u ) );
+					imgURgb10A2.store( ivec2( in.localInvocationID.xy() ), uvec4( 0_u ) );
+					imgURg32.store( ivec2( in.localInvocationID.xy() ), uvec2( 0_u ) );
+					imgURg16.store( ivec2( in.localInvocationID.xy() ), uvec2( 0_u ) );
+					imgURg8.store( ivec2( in.localInvocationID.xy() ), uvec2( 0_u ) );
+					imgUR32.store( ivec2( in.localInvocationID.xy() ), 0_u );
+					imgUR16.store( ivec2( in.localInvocationID.xy() ), 0_u );
+					imgUR8.store( ivec2( in.localInvocationID.xy() ), 0_u );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+			shaders.emplace_back( std::make_unique< ast::Shader >( std::move( writer.getShader() ) ) );
+		}
+		test::validateShaders( shaders
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, declareAll2DCombinedImages )
+	{
+		sdwTestBegin( "declareAll2DCombinedImages" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			uint32_t binding{};
+			uint32_t set{};
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto imgRgba = writer.declCombinedImg< CombinedImage2DRgba >( "imgRgba", binding++, set );
+			auto imgRg = writer.declCombinedImg< CombinedImage2DRg >( "imgRg", binding++, set );
+			auto imgR = writer.declCombinedImg< CombinedImage2DR >( "imgR", binding++, set );
+			++set;
+			binding = {};
+			auto imgRgba32 = writer.declCombinedImg< CombinedImage2DRgba32 >( "imgRgba32", binding++, set );
+			auto imgRgba16 = writer.declCombinedImg< CombinedImage2DRgba16 >( "imgRgba16", binding++, set );
+			auto imgR11fG11fB10f = writer.declCombinedImg< CombinedImage2DR11fG11fB10f >( "imgR11fG11fB10f", binding++, set );
+			auto imgRgba16Snorm = writer.declCombinedImg< CombinedImage2DRgba16Snorm >( "imgRgba16Snorm", binding++, set );
+			auto imgRgba16Unorm = writer.declCombinedImg< CombinedImage2DRgba16Unorm >( "imgRgba16Unorm", binding++, set );
+			auto imgRgba8Snorm = writer.declCombinedImg< CombinedImage2DRgba8Snorm >( "imgRgba8Snorm", binding++, set );
+			auto imgRgba8Unorm = writer.declCombinedImg< CombinedImage2DRgba8Unorm >( "imgRgba8Unorm", binding++, set );
+			auto imgRgb10A2 = writer.declCombinedImg< CombinedImage2DRgb10A2 >( "imgRgb10A2", binding++, set );
+			auto imgRg32 = writer.declCombinedImg< CombinedImage2DRg32 >( "imgRg32", binding++, set );
+			auto imgRg16 = writer.declCombinedImg< CombinedImage2DRg16 >( "imgRg16", binding++, set );
+			auto imgRg16Snorm = writer.declCombinedImg< CombinedImage2DRg16Snorm >( "imgRg16Snorm", binding++, set );
+			auto imgRg16Unorm = writer.declCombinedImg< CombinedImage2DRg16Unorm >( "imgRg16Unorm", binding++, set );
+			auto imgRg8Snorm = writer.declCombinedImg< CombinedImage2DRg8Snorm >( "imgRg8Snorm", binding++, set );
+			auto imgRg8Unorm = writer.declCombinedImg< CombinedImage2DRg8Unorm >( "imgRg8Unorm", binding++, set );
+			auto imgR32 = writer.declCombinedImg< CombinedImage2DR32 >( "imgR32", binding++, set );
+			auto imgR16 = writer.declCombinedImg< CombinedImage2DR16 >( "imgR16", binding++, set );
+			auto imgR16Unorm = writer.declCombinedImg< CombinedImage2DR16Unorm >( "imgR16Unorm", binding++, set );
+			auto imgR8Snorm = writer.declCombinedImg< CombinedImage2DR8Snorm >( "imgR8Snorm", binding++, set );
+			auto imgR8Unorm = writer.declCombinedImg< CombinedImage2DR8Unorm >( "imgR8Unorm", binding++, set );
+			++set;
+			binding = {};
+			auto imgIRgba32 = writer.declCombinedImg< ICombinedImage2DRgba32 >( "imgIRgba32", binding++, set );
+			auto imgIRgba16 = writer.declCombinedImg< ICombinedImage2DRgba16 >( "imgIRgba16", binding++, set );
+			auto imgIRgba8 = writer.declCombinedImg< ICombinedImage2DRgba8 >( "imgIRgba8", binding++, set );
+			auto imgIRg32 = writer.declCombinedImg< ICombinedImage2DRg32 >( "imgIRg32", binding++, set );
+			auto imgIRg16 = writer.declCombinedImg< ICombinedImage2DRg16 >( "imgIRg16", binding++, set );
+			auto imgIRg8 = writer.declCombinedImg< ICombinedImage2DRg8 >( "imgIRg8", binding++, set );
+			auto imgIR32 = writer.declCombinedImg< ICombinedImage2DR32 >( "imgIR32", binding++, set );
+			auto imgIR16 = writer.declCombinedImg< ICombinedImage2DR16 >( "imgIR16", binding++, set );
+			auto imgIR8 = writer.declCombinedImg< ICombinedImage2DR8 >( "imgIR8", binding++, set );
+			++set;
+			binding = {};
+			auto imgURgba16 = writer.declCombinedImg< UCombinedImage2DRgba16 >( "imgURgba16", binding++, set );
+			auto imgURgba8 = writer.declCombinedImg< UCombinedImage2DRgba8 >( "imgURgba8", binding++, set );
+			auto imgURgb10A2 = writer.declCombinedImg< UCombinedImage2DRgb10A2 >( "imgURgb10A2", binding++, set );
+			auto imgURg32 = writer.declCombinedImg< UCombinedImage2DRg32 >( "imgURg32", binding++, set );
+			auto imgURg16 = writer.declCombinedImg< UCombinedImage2DRg16 >( "imgURg16", binding++, set );
+			auto imgURg8 = writer.declCombinedImg< UCombinedImage2DRg8 >( "imgURg8", binding++, set );
+			auto imgUR32 = writer.declCombinedImg< UCombinedImage2DR32 >( "imgUR32", binding++, set );
+			auto imgUR16 = writer.declCombinedImg< UCombinedImage2DR16 >( "imgUR16", binding++, set );
+			auto imgUR8 = writer.declCombinedImg< UCombinedImage2DR8 >( "imgUR8", binding++, set );
+			writer.implementMain( [&]( sdw::FragmentIn const & in, sdw::FragmentOut const & )
+				{
+					auto vRgba = writer.declLocale( "vRgba", imgRgba.sample( in.fragCoord.xy() ) );
+					auto vRgba32 = writer.declLocale( "vRgba32", imgRgba32.sample( in.fragCoord.xy() ) );
+					auto vRgba16 = writer.declLocale( "vRgba16", imgRgba16.sample( in.fragCoord.xy() ) );
+					auto vR11fG11fB10f = writer.declLocale( "vR11fG11fB10f", imgR11fG11fB10f.sample( in.fragCoord.xy() ) );
+					auto vRgba16Snorm = writer.declLocale( "vRgba16Snorm", imgRgba16Snorm.sample( in.fragCoord.xy() ) );
+					auto vRgba16Unorm = writer.declLocale( "vRgba16Unorm", imgRgba16Unorm.sample( in.fragCoord.xy() ) );
+					auto vRgba8Snorm = writer.declLocale( "vRgba8Snorm", imgRgba8Snorm.sample( in.fragCoord.xy() ) );
+					auto vRgba8Unorm = writer.declLocale( "vRgba8Unorm", imgRgba8Unorm.sample( in.fragCoord.xy() ) );
+					auto vRgb10A2 = writer.declLocale( "vRgb10A2", imgRgb10A2.sample( in.fragCoord.xy() ) );
+					auto vRg32 = writer.declLocale( "vRg32", imgRg32.sample( in.fragCoord.xy() ) );
+					auto vRg16 = writer.declLocale( "vRg16", imgRg16.sample( in.fragCoord.xy() ) );
+					auto vRg16Snorm = writer.declLocale( "vRg16Snorm", imgRg16Snorm.sample( in.fragCoord.xy() ) );
+					auto vRg16Unorm = writer.declLocale( "vRg16Unorm", imgRg16Unorm.sample( in.fragCoord.xy() ) );
+					auto vRg8Snorm = writer.declLocale( "vRg8Snorm", imgRg8Snorm.sample( in.fragCoord.xy() ) );
+					auto vRg8Unorm = writer.declLocale( "vRg8Unorm", imgRg8Unorm.sample( in.fragCoord.xy() ) );
+					auto vR32 = writer.declLocale( "vR32", imgR32.sample( in.fragCoord.xy() ) );
+					auto vR16 = writer.declLocale( "vR16", imgR16.sample( in.fragCoord.xy() ) );
+					auto vR16Unorm = writer.declLocale( "vR16Unorm", imgR16Unorm.sample( in.fragCoord.xy() ) );
+					auto vR8Snorm = writer.declLocale( "vR8Snorm", imgR8Snorm.sample( in.fragCoord.xy() ) );
+					auto vR8Unorm = writer.declLocale( "vR8Unorm", imgR8Unorm.sample( in.fragCoord.xy() ) );
+					auto vIRgba32 = writer.declLocale( "vIRgba32", imgIRgba32.sample( in.fragCoord.xy() ) );
+					auto vIRgba16 = writer.declLocale( "vIRgba16", imgIRgba16.sample( in.fragCoord.xy() ) );
+					auto vIRgba8 = writer.declLocale( "vIRgba8", imgIRgba8.sample( in.fragCoord.xy() ) );
+					auto vIRg32 = writer.declLocale( "vIRg32", imgIRg32.sample( in.fragCoord.xy() ) );
+					auto vIRg16 = writer.declLocale( "vIRg16", imgIRg16.sample( in.fragCoord.xy() ) );
+					auto vIRg8 = writer.declLocale( "vIRg8", imgIRg8.sample( in.fragCoord.xy() ) );
+					auto vIR32 = writer.declLocale( "vIR32", imgIR32.sample( in.fragCoord.xy() ) );
+					auto vIR16 = writer.declLocale( "vIR16", imgIR16.sample( in.fragCoord.xy() ) );
+					auto vIR8 = writer.declLocale( "vIR8", imgIR8.sample( in.fragCoord.xy() ) );
+					auto vURgba16 = writer.declLocale( "vURgba16", imgURgba16.sample( in.fragCoord.xy() ) );
+					auto vURgba8 = writer.declLocale( "vURgba8", imgURgba8.sample( in.fragCoord.xy() ) );
+					auto vURgb10A2 = writer.declLocale( "vURgb10A2", imgURgb10A2.sample( in.fragCoord.xy() ) );
+					auto vURg32 = writer.declLocale( "vURg32", imgURg32.sample( in.fragCoord.xy() ) );
+					auto vURg16 = writer.declLocale( "vURg16", imgURg16.sample( in.fragCoord.xy() ) );
+					auto vURg8 = writer.declLocale( "vURg8", imgURg8.sample( in.fragCoord.xy() ) );
+					auto vUR32 = writer.declLocale( "vUR32", imgUR32.sample( in.fragCoord.xy() ) );
+					auto vUR16 = writer.declLocale( "vUR16", imgUR16.sample( in.fragCoord.xy() ) );
+					auto vUR8 = writer.declLocale( "vUR8", imgUR8.sample( in.fragCoord.xy() ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
+
+	TEST_F( SDWTest, declareAll2DSampledImages )
+	{
+		sdwTestBegin( "declareAll2DSampledImages" );
+		std::vector< std::unique_ptr< ast::Shader > > shaders;
+		using namespace sdw;
+		{
+			uint32_t binding{};
+			uint32_t set{};
+			sdw::FragmentWriter writer{ &testCounts.allocator };
+			auto imgRgba = writer.declSampledImg< SampledImage2DRgba >( "imgRgba", binding++, set );
+			auto imgRg = writer.declSampledImg< SampledImage2DRg >( "imgRg", binding++, set );
+			auto imgR = writer.declSampledImg< SampledImage2DR >( "imgR", binding++, set );
+			++set;
+			binding = {};
+			auto imgRgba32 = writer.declSampledImg< SampledImage2DRgba32 >( "imgRgba32", binding++, set );
+			auto imgRgba16 = writer.declSampledImg< SampledImage2DRgba16 >( "imgRgba16", binding++, set );
+			auto imgR11fG11fB10f = writer.declSampledImg< SampledImage2DR11fG11fB10f >( "imgR11fG11fB10f", binding++, set );
+			auto imgRgba16Snorm = writer.declSampledImg< SampledImage2DRgba16Snorm >( "imgRgba16Snorm", binding++, set );
+			auto imgRgba16Unorm = writer.declSampledImg< SampledImage2DRgba16Unorm >( "imgRgba16Unorm", binding++, set );
+			auto imgRgba8Snorm = writer.declSampledImg< SampledImage2DRgba8Snorm >( "imgRgba8Snorm", binding++, set );
+			auto imgRgba8Unorm = writer.declSampledImg< SampledImage2DRgba8Unorm >( "imgRgba8Unorm", binding++, set );
+			auto imgRgb10A2 = writer.declSampledImg< SampledImage2DRgb10A2 >( "imgRgb10A2", binding++, set );
+			auto imgRg32 = writer.declSampledImg< SampledImage2DRg32 >( "imgRg32", binding++, set );
+			auto imgRg16 = writer.declSampledImg< SampledImage2DRg16 >( "imgRg16", binding++, set );
+			auto imgRg16Snorm = writer.declSampledImg< SampledImage2DRg16Snorm >( "imgRg16Snorm", binding++, set );
+			auto imgRg16Unorm = writer.declSampledImg< SampledImage2DRg16Unorm >( "imgRg16Unorm", binding++, set );
+			auto imgRg8Snorm = writer.declSampledImg< SampledImage2DRg8Snorm >( "imgRg8Snorm", binding++, set );
+			auto imgRg8Unorm = writer.declSampledImg< SampledImage2DRg8Unorm >( "imgRg8Unorm", binding++, set );
+			auto imgR32 = writer.declSampledImg< SampledImage2DR32 >( "imgR32", binding++, set );
+			auto imgR16 = writer.declSampledImg< SampledImage2DR16 >( "imgR16", binding++, set );
+			auto imgR16Unorm = writer.declSampledImg< SampledImage2DR16Unorm >( "imgR16Unorm", binding++, set );
+			auto imgR8Snorm = writer.declSampledImg< SampledImage2DR8Snorm >( "imgR8Snorm", binding++, set );
+			auto imgR8Unorm = writer.declSampledImg< SampledImage2DR8Unorm >( "imgR8Unorm", binding++, set );
+			++set;
+			binding = {};
+			auto imgIRgba32 = writer.declSampledImg< ISampledImage2DRgba32 >( "imgIRgba32", binding++, set );
+			auto imgIRgba16 = writer.declSampledImg< ISampledImage2DRgba16 >( "imgIRgba16", binding++, set );
+			auto imgIRgba8 = writer.declSampledImg< ISampledImage2DRgba8 >( "imgIRgba8", binding++, set );
+			auto imgIRg32 = writer.declSampledImg< ISampledImage2DRg32 >( "imgIRg32", binding++, set );
+			auto imgIRg16 = writer.declSampledImg< ISampledImage2DRg16 >( "imgIRg16", binding++, set );
+			auto imgIRg8 = writer.declSampledImg< ISampledImage2DRg8 >( "imgIRg8", binding++, set );
+			auto imgIR32 = writer.declSampledImg< ISampledImage2DR32 >( "imgIR32", binding++, set );
+			auto imgIR16 = writer.declSampledImg< ISampledImage2DR16 >( "imgIR16", binding++, set );
+			auto imgIR8 = writer.declSampledImg< ISampledImage2DR8 >( "imgIR8", binding++, set );
+			++set;
+			binding = {};
+			auto imgURgba16 = writer.declSampledImg< USampledImage2DRgba16 >( "imgURgba16", binding++, set );
+			auto imgURgba8 = writer.declSampledImg< USampledImage2DRgba8 >( "imgURgba8", binding++, set );
+			auto imgURgb10A2 = writer.declSampledImg< USampledImage2DRgb10A2 >( "imgURgb10A2", binding++, set );
+			auto imgURg32 = writer.declSampledImg< USampledImage2DRg32 >( "imgURg32", binding++, set );
+			auto imgURg16 = writer.declSampledImg< USampledImage2DRg16 >( "imgURg16", binding++, set );
+			auto imgURg8 = writer.declSampledImg< USampledImage2DRg8 >( "imgURg8", binding++, set );
+			auto imgUR32 = writer.declSampledImg< USampledImage2DR32 >( "imgUR32", binding++, set );
+			auto imgUR16 = writer.declSampledImg< USampledImage2DR16 >( "imgUR16", binding++, set );
+			auto imgUR8 = writer.declSampledImg< USampledImage2DR8 >( "imgUR8", binding++, set );
+			auto sampler = writer.declSampler< false >( "sampler", binding++, set );
+			auto samplerShadow = writer.declSampler< true >( "samplerShadow", binding++, set );
+			writer.implementMain( [&]( sdw::FragmentIn const & in, sdw::FragmentOut const & )
+				{
+					auto vRgba = writer.declLocale( "vRgba", combine( imgRgba, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgba32 = writer.declLocale( "vRgba32", combine( imgRgba32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgba16 = writer.declLocale( "vRgba16", combine( imgRgba16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR11fG11fB10f = writer.declLocale( "vR11fG11fB10f", combine( imgR11fG11fB10f, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgba16Snorm = writer.declLocale( "vRgba16Snorm", combine( imgRgba16Snorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgba16Unorm = writer.declLocale( "vRgba16Unorm", combine( imgRgba16Unorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgba8Snorm = writer.declLocale( "vRgba8Snorm", combine( imgRgba8Snorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgba8Unorm = writer.declLocale( "vRgba8Unorm", combine( imgRgba8Unorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRgb10A2 = writer.declLocale( "vRgb10A2", combine( imgRgb10A2, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRg32 = writer.declLocale( "vRg32", combine( imgRg32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRg16 = writer.declLocale( "vRg16", combine( imgRg16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRg16Snorm = writer.declLocale( "vRg16Snorm", combine( imgRg16Snorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRg16Unorm = writer.declLocale( "vRg16Unorm", combine( imgRg16Unorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRg8Snorm = writer.declLocale( "vRg8Snorm", combine( imgRg8Snorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vRg8Unorm = writer.declLocale( "vRg8Unorm", combine( imgRg8Unorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR32 = writer.declLocale( "vR32", combine( imgR32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR16 = writer.declLocale( "vR16", combine( imgR16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR16Unorm = writer.declLocale( "vR16Unorm", combine( imgR16Unorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR8Snorm = writer.declLocale( "vR8Snorm", combine( imgR8Snorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR8Unorm = writer.declLocale( "vR8Unorm", combine( imgR8Unorm, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIRgba32 = writer.declLocale( "vIRgba32", combine( imgIRgba32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIRgba16 = writer.declLocale( "vIRgba16", combine( imgIRgba16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIRgba8 = writer.declLocale( "vIRgba8", combine( imgIRgba8, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIRg32 = writer.declLocale( "vIRg32", combine( imgIRg32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIRg16 = writer.declLocale( "vIRg16", combine( imgIRg16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIRg8 = writer.declLocale( "vIRg8", combine( imgIRg8, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIR32 = writer.declLocale( "vIR32", combine( imgIR32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIR16 = writer.declLocale( "vIR16", combine( imgIR16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vIR8 = writer.declLocale( "vIR8", combine( imgIR8, sampler ).sample( in.fragCoord.xy() ) );
+					auto vURgba16 = writer.declLocale( "vURgba16", combine( imgURgba16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vURgba8 = writer.declLocale( "vURgba8", combine( imgURgba8, sampler ).sample( in.fragCoord.xy() ) );
+					auto vURgb10A2 = writer.declLocale( "vURgb10A2", combine( imgURgb10A2, sampler ).sample( in.fragCoord.xy() ) );
+					auto vURg32 = writer.declLocale( "vURg32", combine( imgURg32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vURg16 = writer.declLocale( "vURg16", combine( imgURg16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vURg8 = writer.declLocale( "vURg8", combine( imgURg8, sampler ).sample( in.fragCoord.xy() ) );
+					auto vUR32 = writer.declLocale( "vUR32", combine( imgUR32, sampler ).sample( in.fragCoord.xy() ) );
+					auto vUR16 = writer.declLocale( "vUR16", combine( imgUR16, sampler ).sample( in.fragCoord.xy() ) );
+					auto vUR8 = writer.declLocale( "vUR8", combine( imgUR8, sampler ).sample( in.fragCoord.xy() ) );
+					auto vR32Shadow = writer.declLocale( "vR32Shadow", combine( imgR32, samplerShadow ).sample( in.fragCoord.xy(), 0.5_f ) );
+					auto vR16Shadow = writer.declLocale( "vR16Shadow", combine( imgR16, samplerShadow ).sample( in.fragCoord.xy(), 0.5_f ) );
+					auto vR16UnormShadow = writer.declLocale( "vR16UnormShadow", combine( imgR16Unorm, samplerShadow ).sample( in.fragCoord.xy(), 0.5_f ) );
+					auto vR8SnormShadow = writer.declLocale( "vR8SnormShadow", combine( imgR8Snorm, samplerShadow ).sample( in.fragCoord.xy(), 0.5_f ) );
+					auto vR8UnormShadow = writer.declLocale( "vR8UnormShadow", combine( imgR8Unorm, samplerShadow ).sample( in.fragCoord.xy(), 0.5_f ) );
+				} );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain()

@@ -649,6 +649,10 @@ namespace spirv
 				return CopyObjectInstruction::Config;
 			case spv::OpSampledImage:
 				return SampledImageInstruction::Config;
+			case spv::OpDemoteToHelperInvocation:
+				return DemoteInstruction::Config;
+			case spv::OpIgnoreIntersectionKHR:
+				return IgnoreIntersectionInstruction::Config;
 			default:
 				AST_Failure( "Unsupported Instruction operator" );
 #if !SDAST_ExceptAssert

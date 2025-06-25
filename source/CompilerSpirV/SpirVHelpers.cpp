@@ -1226,11 +1226,11 @@ namespace spirv
 		, ast::ShaderStage pstage
 		, uint32_t pnextVarId
 		, uint32_t paliasId )
-		: nextVarId{ pnextVarId }
-		, aliasId{ paliasId }
-		, stage{ pstage }
+		: stage{ pstage }
 		, executionModes{ alloc }
 		, spirvConfig{ pspirvConfig }
+		, nextVarId{ pnextVarId }
+		, aliasId{ paliasId }
 		, inputs{ alloc, typesCache, stage, true, nextVarId }
 		, outputs{ alloc, typesCache, stage, false, nextVarId }
 		, requiredCapabilities{ alloc }
@@ -1708,35 +1708,40 @@ namespace spirv
 				registerParam( param, static_cast< ast::type::TaskPayloadIn const & >( *type ) );
 				break;
 			default:
-				{
-					uint32_t arraySize = ast::type::NotArray;
-
-					if ( type->getKind() == ast::type::Kind::eArray )
-					{
-						auto & arrayType = static_cast< ast::type::Array const & >( *type );
-						type = arrayType.getType();
-						arraySize = arrayType.getArraySize();
-					}
-
-					if ( isStructType( type ) )
-					{
-						auto structType = getStructType( type );
-
-						if ( structType->isInput() )
-						{
-							registerInput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize );
-						}
-						else if ( structType->isOutput() )
-						{
-							registerOutput( param
-								, static_cast< ast::type::IOStruct const & >( *structType )
-								, arraySize );
-						}
-					}
-				}
+				registerParam( param, *type );
 				break;
+			}
+		}
+	}
+
+	void ModuleConfig::registerParam( ast::var::VariablePtr var
+		, ast::type::Type const & type )
+	{
+		uint32_t arraySize = ast::type::NotArray;
+		auto nonArrayType = &type;
+
+		if ( nonArrayType->getKind() == ast::type::Kind::eArray )
+		{
+			auto & arrayType = static_cast< ast::type::Array const & >( *nonArrayType );
+			nonArrayType = arrayType.getType();
+			arraySize = arrayType.getArraySize();
+		}
+
+		if ( isStructType( *nonArrayType ) )
+		{
+			auto structType = getStructType( *nonArrayType );
+
+			if ( structType->isInput() )
+			{
+				registerInput( var
+					, static_cast< ast::type::IOStruct const & >( *structType )
+					, arraySize );
+			}
+			else if ( structType->isOutput() )
+			{
+				registerOutput( var
+					, static_cast< ast::type::IOStruct const & >( *structType )
+					, arraySize );
 			}
 		}
 	}
@@ -1873,12 +1878,10 @@ namespace spirv
 
 	ast::var::VariablePtr ModuleConfig::declareAliasVar( ast::type::TypePtr type )
 	{
-		++nextVarId;
-		++aliasId;
 		auto & typesCache = type->getTypesCache();
-		return ast::var::makeVariable( nextVarId
+		return ast::var::makeVariable( getNextVarId()
 			, typesCache.getNonExplicitLayoutType( type )
-			, "tmp_" + std::to_string( aliasId )
+			, "tmp_" + std::to_string( getNextAliasId() )
 			, ast::var::Flag::eAlias );
 	}
 
@@ -1957,12 +1960,12 @@ namespace spirv
 				, getEntryPointType( stage )
 				, structType.getMemoryLayout()
 				, ast::var::Flag::eShaderInput );
-			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
+			auto othersVar = ast::var::makeVariable( { getNextVarId(), var->getName() + "Others" }
 				, patchType.getTypesCache().getTessellationInputPatch( inStructType
 					, patchType.getDomain()
 					, patchType.getLocation() )
 				, var->getFlags() );
-			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
+			auto builtinsVar = ast::var::makeVariable( { getNextVarId(), var->getName() + "Builtins" }
 				, inBuiltinsType );
 			inputs.splitVarsOthers.try_emplace( var, othersVar, 0u );
 			auto it = inputs.splitVarsBuiltins.try_emplace( var, builtinsVar, 0u ).first;
@@ -2014,11 +2017,11 @@ namespace spirv
 				, getEntryPointType( stage )
 				, structType.getMemoryLayout()
 				, ast::var::Flag::eShaderOutput );
-			auto othersVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Others" }
+			auto othersVar = ast::var::makeVariable( { getNextVarId(), var->getName() + "Others" }
 				, patchType.getTypesCache().getTessellationOutputPatch( outStructType
 					, patchType.getLocation() )
 				, var->getFlags() );
-			auto builtinsVar = ast::var::makeVariable( { ++nextVarId, var->getName() + "Builtins" }
+			auto builtinsVar = ast::var::makeVariable( { getNextVarId(), var->getName() + "Builtins" }
 			, outBuiltinsType );
 			outputs.splitVarsOthers.try_emplace( var, othersVar, 0u );
 			auto it = outputs.splitVarsBuiltins.try_emplace( var, builtinsVar, 0u ).first;

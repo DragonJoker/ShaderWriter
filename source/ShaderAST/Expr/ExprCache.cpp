@@ -80,7 +80,7 @@ namespace ast::expr
 	{
 	}
 
-	ExprCache::~ExprCache()
+	ExprCache::~ExprCache()noexcept
 	{
 		assert( m_allocatedExprs == 0 );
 		m_allocator = nullptr;

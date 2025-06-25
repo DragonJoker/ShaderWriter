@@ -8,8 +8,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	SDW_API std::string writePreprocessedDebug( Shader const & shader
-		, ast::PreprocessResult & preprocessResult );
+	SDW_API std::string writePreprocessedDebug( ast::PreprocessResult const & preprocessResult );
 }
 
 #endif

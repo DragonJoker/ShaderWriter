@@ -20,9 +20,15 @@ namespace ast::expr
 {
 	class ExprCache
 	{
+	private:
+		ExprCache( ExprCache const & ) = delete;
+		ExprCache( ExprCache && ) = delete;
+		ExprCache & operator=( ExprCache const & ) = delete;
+		ExprCache & operator=( ExprCache && ) = delete;
+
 	public:
 		SDAST_API explicit ExprCache( ShaderAllocatorBlock & allocator );
-		SDAST_API ~ExprCache();
+		SDAST_API ~ExprCache()noexcept;
 
 		SDAST_API AddPtr makeAdd( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );
 		SDAST_API AddAssignPtr makeAddAssign( type::TypePtr type, ExprPtr lhs, ExprPtr rhs );

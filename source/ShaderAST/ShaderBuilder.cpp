@@ -113,19 +113,19 @@ namespace ast
 
 	stmt::ContainerPtr ShaderBuilder::beginFor( expr::ExprPtr init
 		, expr::ExprPtr cond
-		, expr::ExprPtr incr )
+		, expr::ExprPtr incr )const
 	{
 		return getStmtCache().makeFor( std::move( init )
 			, std::move( cond )
 			, std::move( incr ) );
 	}
 
-	stmt::ContainerPtr ShaderBuilder::beginDoWhile( expr::ExprPtr condition )
+	stmt::ContainerPtr ShaderBuilder::beginDoWhile( expr::ExprPtr condition )const
 	{
 		return getStmtCache().makeDoWhile( std::move( condition ) );
 	}
 
-	stmt::ContainerPtr ShaderBuilder::beginWhile( expr::ExprPtr condition )
+	stmt::ContainerPtr ShaderBuilder::beginWhile( expr::ExprPtr condition )const
 	{
 		return getStmtCache().makeWhile( std::move( condition ) );
 	}
@@ -137,7 +137,7 @@ namespace ast
 		return stmt;
 	}
 
-	stmt::Container * ShaderBuilder::beginElseIf( expr::ExprPtr condition )
+	stmt::Container * ShaderBuilder::beginElseIf( expr::ExprPtr condition )const
 	{
 		if ( m_ifStmt.empty() )
 		{
@@ -147,7 +147,7 @@ namespace ast
 		return m_ifStmt.back()->createElseIf( std::move( condition ) );
 	}
 
-	stmt::Container * ShaderBuilder::beginElse()
+	stmt::Container * ShaderBuilder::beginElse()const
 	{
 		if ( m_ifStmt.empty() )
 		{
@@ -174,7 +174,7 @@ namespace ast
 		return stmt;
 	}
 
-	stmt::Container * ShaderBuilder::beginCase( expr::LiteralPtr literal )
+	stmt::Container * ShaderBuilder::beginCase( expr::LiteralPtr literal )const
 	{
 		if ( m_switchStmt.empty() )
 		{
@@ -184,7 +184,7 @@ namespace ast
 		return m_switchStmt.back()->createCase( getExprCache().makeSwitchCase( std::move( literal ) ) );
 	}
 
-	stmt::Container * ShaderBuilder::beginDefault()
+	stmt::Container * ShaderBuilder::beginDefault()const
 	{
 		if ( m_switchStmt.empty() )
 		{

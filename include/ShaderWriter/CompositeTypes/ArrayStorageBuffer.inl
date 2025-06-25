@@ -31,8 +31,8 @@ namespace sdw
 			, ParamsT && ... params )
 		{
 			auto & cache = getTypesCache( writer );
-			ast::type::BaseStructPtr result = sdw::makeExplicitLayoutType( InstanceT::makeType( cache
-				, std::forward< ParamsT >( params )... ) );
+			ast::type::BaseStructPtr result = static_cast< ast::type::BaseStructPtr >( sdw::makeExplicitLayoutType( InstanceT::makeType( cache
+				, std::forward< ParamsT >( params )... ) ) );
 
 			if ( enabled )
 			{

@@ -198,129 +198,169 @@ namespace spirv
 				return name;
 			}
 
+			static spv::Op getCastOpFromDouble( ast::type::Kind dst )
+			{
+				spv::Op result = spv::OpNop;
+
+				if ( isFloatType( dst ) || isHalfType( dst ) )
+				{
+					result = spv::OpFConvert;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToS;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToU;
+				}
+				else if ( !isDoubleType( dst ) )
+				{
+					AST_Failure( "Unsupported cast expression" );
+				}
+
+				return result;
+			}
+
+			static spv::Op getCastOpFromFloat( ast::type::Kind dst )
+			{
+				spv::Op result = spv::OpNop;
+
+				if ( isDoubleType( dst ) || isHalfType( dst ) )
+				{
+					result = spv::OpFConvert;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToS;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToU;
+				}
+				else if ( !isFloatType( dst ) )
+				{
+					AST_Failure( "Unsupported cast expression" );
+				}
+
+				return result;
+			}
+
+			static spv::Op getCastOpFromHalf( ast::type::Kind dst )
+			{
+				spv::Op result = spv::OpNop;
+
+				if ( isDoubleType( dst ) || isFloatType( dst ) )
+				{
+					result = spv::OpFConvert;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToS;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::OpConvertFToU;
+				}
+				else if ( !isHalfType( dst ) )
+				{
+					AST_Failure( "Unsupported cast expression" );
+				}
+
+				return result;
+			}
+
+			static spv::Op getCastOpFromSignedInt( ast::type::Kind dst )
+			{
+				spv::Op result = spv::OpNop;
+
+				if ( isDoubleType( dst ) || isFloatType( dst ) )
+				{
+					result = spv::OpConvertSToF;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::OpSConvert;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::OpBitcast;
+				}
+				else if ( !isSignedIntType( dst ) )
+				{
+					AST_Failure( "Unsupported cast expression" );
+				}
+
+				return result;
+			}
+
+			static spv::Op getCastOpFromUnsignedInt( ast::type::Kind dst )
+			{
+				spv::Op result = spv::OpNop;
+
+				if ( isDoubleType( dst ) || isFloatType( dst ) )
+				{
+					result = spv::OpConvertUToF;
+				}
+				else if ( isSignedIntType( dst ) )
+				{
+					result = spv::OpBitcast;
+				}
+				else if ( isUnsignedIntType( dst ) )
+				{
+					result = spv::OpUConvert;
+				}
+				else if ( isAccelerationStructureType( dst ) )
+				{
+					result = spv::OpConvertUToAccelerationStructureKHR;
+				}
+				else if ( isPointerType( dst ) )
+				{
+					result = spv::OpConvertUToPtr;
+				}
+				else if ( !isUnsignedIntType( dst ) )
+				{
+					AST_Failure( "Unsupported cast expression" );
+				}
+
+				return result;
+			}
+
 			static spv::Op getCastOp( uint32_t spirVVersion, ast::type::Kind src, ast::type::Kind dst )
 			{
 				spv::Op result = spv::OpNop;
 
-				if ( isDoubleType( src ) )
-				{
-					if ( isFloatType( dst ) || isHalfType( dst ) )
-					{
-						result = spv::OpFConvert;
-					}
-					else if ( isSignedIntType( dst ) )
-					{
-						result = spv::OpConvertFToS;
-					}
-					else if ( isUnsignedIntType( dst ) )
-					{
-						result = spv::OpConvertFToU;
-					}
-					else if ( !isDoubleType( dst ) )
-					{
-						AST_Failure( "Unsupported cast expression" );
-					}
-				}
-				else if ( isFloatType( src ) )
-				{
-					if ( isDoubleType( dst ) || isHalfType( dst ) )
-					{
-						result = spv::OpFConvert;
-					}
-					else if ( isSignedIntType( dst ) )
-					{
-						result = spv::OpConvertFToS;
-					}
-					else if ( isUnsignedIntType( dst ) )
-					{
-						result = spv::OpConvertFToU;
-					}
-					else if ( !isFloatType( dst ) )
-					{
-						AST_Failure( "Unsupported cast expression" );
-					}
-				}
-				else if ( isHalfType( src ) )
-				{
-					if ( isDoubleType( dst ) || isFloatType( dst ) )
-					{
-						result = spv::OpFConvert;
-					}
-					else if ( isSignedIntType( dst ) )
-					{
-						result = spv::OpConvertFToS;
-					}
-					else if ( isUnsignedIntType( dst ) )
-					{
-						result = spv::OpConvertFToU;
-					}
-					else if ( !isHalfType( dst ) )
-					{
-						AST_Failure( "Unsupported cast expression" );
-					}
-				}
-				else if ( isSignedIntType( src ) )
-				{
-					if ( isDoubleType( dst )
-						|| isFloatType( dst ) )
-					{
-						result = spv::OpConvertSToF;
-					}
-					else if ( isSignedIntType( dst ) )
-					{
-						if ( dst != src )
-						{
-							result = spv::OpSConvert;
-						}
-					}
-					else if ( isUnsignedIntType( dst ) )
-					{
-						result = spv::OpBitcast;
-					}
-					else if ( !isSignedIntType( dst ) )
-					{
-						AST_Failure( "Unsupported cast expression" );
-					}
-				}
-				else if ( isUnsignedIntType( src ) )
-				{
-					if ( isDoubleType( dst )
-						|| isFloatType( dst ) )
-					{
-						result = spv::OpConvertUToF;
-					}
-					else if ( isSignedIntType( dst ) )
-					{
-						result = spv::OpBitcast;
-					}
-					else if ( isUnsignedIntType( dst ) )
-					{
-						if ( dst != src )
-						{
-							result = spv::OpUConvert;
-						}
-					}
-					else if ( isAccelerationStructureType( dst ) )
-					{
-						result = spv::OpConvertUToAccelerationStructureKHR;
-					}
-					else if ( isPointerType( dst ) )
-					{
-						result = spv::OpConvertUToPtr;
-					}
-					else if ( !isUnsignedIntType( dst ) )
-					{
-						AST_Failure( "Unsupported cast expression" );
-					}
-				}
-				else if ( spirVVersion >= v1_4
+				if ( spirVVersion >= v1_4
 					&& ( isArrayType( dst ) || isStructType( dst ) ) )
 				{
 					result = spv::OpCopyLogical;
 				}
-				else
+				else if ( src != dst )
 				{
-					AST_Failure( "Unsupported cast expression" );
+					if ( isDoubleType( src ) )
+					{
+						result = getCastOpFromDouble( dst );
+					}
+					else if ( isFloatType( src ) )
+					{
+						result = getCastOpFromFloat( dst );
+					}
+					else if ( isHalfType( src ) )
+					{
+						result = getCastOpFromHalf( dst );
+					}
+					else if ( isSignedIntType( src ) )
+					{
+						result = getCastOpFromSignedInt( dst );
+					}
+					else if ( isUnsignedIntType( src ) )
+					{
+						result = getCastOpFromUnsignedInt( dst );
+					}
+					else
+					{
+						AST_Failure( "Unsupported cast expression" );
+					}
 				}
 
 				return result;
@@ -617,12 +657,6 @@ namespace spirv
 					, getColumnData( expr ) );
 			}
 
-			void decorate( DebugId const & id
-				, spv::Decoration decoration )
-			{
-				m_module.decorate( id, decoration );
-			}
-
 			VariableInfo registerAlias( std::string name
 				, ast::type::TypePtr type
 				, DebugId result )
@@ -659,18 +693,6 @@ namespace spirv
 				TraceFunc;
 				m_module.storeVariable( variableId
 					, valueId
-					, m_currentBlock
-					, m_currentDebugStatement
-					, getColumnData( expr ) );
-			}
-
-			void storePromoted( DebugId const & variableId
-				, VariableInfo const & sourceInfo
-				, ast::expr::Expr const & expr )
-			{
-				TraceFunc;
-				m_module.storePromoted( variableId
-					, sourceInfo
 					, m_currentBlock
 					, m_currentDebugStatement
 					, getColumnData( expr ) );
@@ -1424,7 +1446,7 @@ namespace spirv
 
 				if ( expr->getArgList().front()->isNonUniform() )
 				{
-					decorate( args[0], spv::DecorationNonUniform );
+					m_module.decorate( args[0], spv::DecorationNonUniform );
 				}
 
 				if ( config.needsImage )
@@ -2077,7 +2099,11 @@ namespace spirv
 						}
 						else if ( sourceInfo.needsStoreOnPromote() )
 						{
-							storePromoted( m_result, sourceInfo, expr );
+							m_module.storePromoted( m_result
+								, sourceInfo
+								, m_currentBlock
+								, m_currentDebugStatement
+								, getColumnData( expr ) );
 						}
 					}
 				}

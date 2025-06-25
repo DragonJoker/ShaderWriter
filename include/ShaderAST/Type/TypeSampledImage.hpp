@@ -22,7 +22,7 @@ namespace ast::type
 	{
 	public:
 		SDAST_API SampledImage( TypesCache & typesCache
-			, ImageConfiguration config
+			, ImageConfiguration const & config
 			, Trinary comparison = Trinary::eDontCare );
 
 		ImagePtr getImageType()const

@@ -429,14 +429,16 @@ namespace spirv
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
-		, bool HasResultIdT >
+		, bool HasResultIdT
+		, bool HasLabelsT = false >
 	struct VariadicInstructionT
-		: public InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >
+		: public InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, HasLabelsT >
 	{
 		explicit VariadicInstructionT( NamesCache & nameCache
 			, Optional< ValueId > preturnTypeId
 			, Optional< ValueId > presultId
-			, ValueIdList poperands );
+			, ValueIdList poperands
+			, Optional< ast::Map< int32_t, spv::Id > > plabels = nullopt );
 		explicit VariadicInstructionT( NamesCache & nameCache
 			, Optional< ValueId > preturnTypeId = nullopt
 			, Optional< ValueId > presultId = nullopt );
@@ -545,7 +547,7 @@ namespace spirv
 	using SpecConstantCompositeInstruction = VariadicInstructionT< spv::OpSpecConstantComposite, true, true >;
 	using SpecConstantTrueInstruction = InstructionT< spv::OpSpecConstantTrue, true, true, 0u, false, false >;
 	using SpecConstantFalseInstruction = InstructionT< spv::OpSpecConstantFalse, true, true, 0u, false, false >;
-	using SwitchInstruction = InstructionT< spv::OpSwitch, false, false, 2u, false, true >;
+	using SwitchInstruction = VariadicInstructionT< spv::OpSwitch, false, false, true >;
 	using SelectInstruction = InstructionT< spv::OpSelect, true, true, 3u, false, false >;
 	using LoadInstruction = VariadicInstructionT< spv::OpLoad, true, true >;
 	using StoreInstruction = InstructionT< spv::OpStore, false, false, 2u, false, false >;

@@ -133,6 +133,13 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			astCheck( expr->getKind() == sdw::expr::Kind::eOrAssign );
 		}
+		ret ^= writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			astRequire( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			astCheck( expr->getKind() == sdw::expr::Kind::eXorAssign );
+		}
 		ret &= writer.cast< sdw::RealTypeT< RET > >( rhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -304,6 +311,15 @@ namespace
 			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitAnd );
 			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
+		ret = writer.cast< sdw::RealTypeT< RET > >( lhs ) ^ writer.cast< sdw::RealTypeT< RET > >( rhs );
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			astRequire( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			astRequire( expr->getKind() == sdw::expr::Kind::eAssign );
+			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitXor );
+			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
+		}
 		ret = ~writer.cast< sdw::RealTypeT< RET > >( lhs );
 		if ( sdw::isOptionalEnabled( ret ) )
 		{
@@ -311,6 +327,24 @@ namespace
 			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
 			astRequire( expr->getKind() == sdw::expr::Kind::eAssign );
 			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eBitNot );
+			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
+		}
+		ret = -ret;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			astRequire( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			astRequire( expr->getKind() == sdw::expr::Kind::eAssign );
+			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eUnaryMinus );
+			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
+		}
+		ret = +ret;
+		if ( sdw::isOptionalEnabled( ret ) )
+		{
+			astRequire( statements.back()->getKind() == sdw::stmt::Kind::eSimple );
+			expr = static_cast< sdw::stmt::Simple const & >( *statements.back() ).getExpr();
+			astRequire( expr->getKind() == sdw::expr::Kind::eAssign );
+			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getKind() == sdw::expr::Kind::eUnaryPlus );
 			astCheck( static_cast< sdw::expr::Assign const & >( *expr ).getRHS()->getType()->getKind() == sdw::typeEnumV< RET > );
 		}
 	}

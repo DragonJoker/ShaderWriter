@@ -7,17 +7,16 @@ namespace test::sdw_test
 {
 	namespace debug_test
 	{
-		static std::string generateDebug( ::ast::Shader const & shader
-			, ::ast::PreprocessResult & preprocessResult
+		static std::string generateDebug( ::ast::PreprocessResult const & preprocessResult
 			, TestCounts & testCounts )
 		{
 			auto timerBlock = testCounts.beginTimer( "generateDebug" );
-			return ::sdw::writePreprocessedDebug( shader, preprocessResult );
+			return ::sdw::writePreprocessedDebug( preprocessResult );
 		}
 	}
 
-	void testWriteDebug( ::ast::Shader const & shader
-		, ::ast::PreprocessResult & preprocessResult
+	void testWriteDebug( [[maybe_unused]] ::ast::Shader const & shader
+		, ::ast::PreprocessResult const & preprocessResult
 		, [[maybe_unused]] ::ast::ShaderStage stage
 		, [[maybe_unused]] ::ast::SpecialisationInfo const & specialisation
 		, Compilers const & compilers
@@ -29,7 +28,7 @@ namespace test::sdw_test
 			{
 				try
 				{
-					auto debug = debug_test::generateDebug( shader, preprocessResult, testCounts );
+					auto debug = debug_test::generateDebug( preprocessResult, testCounts );
 					displayShader( "Statements", debug, testCounts, compilers.forceDisplay, false );
 					SUCCEED();
 				}

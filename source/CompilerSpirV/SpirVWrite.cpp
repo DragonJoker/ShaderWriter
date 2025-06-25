@@ -993,6 +993,8 @@ namespace spirv
 				return "WarpIDNV";
 			case spv::BuiltInSMIDNV:
 				return "SMIDNV";
+			case spv::BuiltInPrimitivePointIndicesEXT:
+				return "PrimitivePointIndicesEXT";
 			case spv::BuiltInPrimitiveLineIndicesEXT:
 				return "PrimitiveLineIndicesEXT";
 			case spv::BuiltInPrimitiveTriangleIndicesEXT:
@@ -1840,14 +1842,14 @@ namespace spirv
 
 		static void count( spv::Id const &
 			, size_t & result
-			, size_t & instrCount )
+			, size_t const & )
 		{
 			++result;
 		}
 
 		static void count( spirv::Op const &
 			, size_t & result
-			, size_t & instrCount )
+			, size_t const & )
 		{
 			++result;
 		}

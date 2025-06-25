@@ -10,8 +10,7 @@ namespace ast::expr
 {
 	namespace helper
 	{
-		static type::TypesCache & getOperandTypesCache( type::TypePtr type
-			, Expr * operand )
+		static type::TypesCache & getOperandTypesCache( Expr const * operand )
 		{
 			if ( !operand )
 				AST_Exception( "Unary expression without operand" );
@@ -25,7 +24,7 @@ namespace ast::expr
 		, Kind kind )
 		: Expr{ exprCache
 			, sizeof( Unary )
-			, helper::getOperandTypesCache( type, operand.get() )
+			, helper::getOperandTypesCache( operand.get() )
 			, type
 			, kind
 			, ( isExprConstant( operand ) ? Flag::eConstant : Flag::eNone ) }
@@ -38,7 +37,7 @@ namespace ast::expr
 		, Kind kind )
 		: Expr{ exprCache
 			, sizeof( Unary )
-			, helper::getOperandTypesCache( nullptr, operand.get() )
+			, helper::getOperandTypesCache( operand.get() )
 			, operand->getType()
 			, kind
 			, ( isExprConstant( operand ) ? Flag::eConstant : Flag::eNone ) }

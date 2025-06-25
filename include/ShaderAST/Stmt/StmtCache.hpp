@@ -18,6 +18,12 @@ namespace ast::stmt
 {
 	class StmtCache
 	{
+	private:
+		StmtCache( StmtCache const & ) = delete;
+		StmtCache( StmtCache && ) = delete;
+		StmtCache & operator=( StmtCache const & ) = delete;
+		StmtCache & operator=( StmtCache && ) = delete;
+
 	public:
 		SDAST_API explicit StmtCache( ShaderAllocatorBlock & allocator );
 		SDAST_API ~StmtCache();

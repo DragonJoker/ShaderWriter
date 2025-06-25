@@ -189,19 +189,22 @@ namespace spirv
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
-		, bool HasResultIdT >
-	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( NamesCache & nameCache
+		, bool HasResultIdT
+		, bool HasLabelsT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, HasLabelsT >::VariadicInstructionT( NamesCache & nameCache
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId
-		, ValueIdList poperands )
-		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >{ nameCache, preturnTypeId, presultId, poperands, nullopt, nullopt }
+		, ValueIdList poperands
+		, Optional< ast::Map< int32_t, spv::Id > > plabels )
+		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, HasLabelsT >{ nameCache, preturnTypeId, presultId, poperands, nullopt, plabels }
 	{
 	}
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
-		, bool HasResultIdT >
-	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( NamesCache & nameCache
+		, bool HasResultIdT
+		, bool HasLabelsT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, HasLabelsT >::VariadicInstructionT( NamesCache & nameCache
 		, Optional< ValueId > preturnTypeId
 		, Optional< ValueId > presultId )
 		: VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >{ nameCache, preturnTypeId, presultId, ValueIdList{ nameCache.get_allocator() } }
@@ -210,19 +213,21 @@ namespace spirv
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
-		, bool HasResultIdT >
-	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( ast::ShaderAllocatorBlock * alloc
+		, bool HasResultIdT
+		, bool HasLabelsT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, HasLabelsT >::VariadicInstructionT( ast::ShaderAllocatorBlock * alloc
 		, BufferIt & buffer )
-		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >{ alloc, buffer, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false }
+		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, HasLabelsT >{ alloc, buffer, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, HasLabelsT }
 	{
 	}
 
 	template< spv::Op OperatorT
 		, bool HasReturnTypeIdT
-		, bool HasResultIdT >
-	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT >::VariadicInstructionT( ast::ShaderAllocatorBlock * alloc
+		, bool HasResultIdT
+		, bool HasLabelsT >
+	inline VariadicInstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, HasLabelsT >::VariadicInstructionT( ast::ShaderAllocatorBlock * alloc
 		, BufferCIt & buffer )
-		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false >{ alloc, buffer, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, false }
+		: InstructionT< OperatorT, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, HasLabelsT >{ alloc, buffer, HasReturnTypeIdT, HasResultIdT, dynamicOperandCount, false, HasLabelsT }
 	{
 	}
 
@@ -550,7 +555,7 @@ namespace spirv
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( NamesCache & nameCache
@@ -684,7 +689,7 @@ namespace spirv
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( NamesCache & nameCache
@@ -808,7 +813,7 @@ namespace spirv
 		static bool constexpr HasResultId = true;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( NamesCache & nameCache
@@ -931,7 +936,7 @@ namespace spirv
 		static bool constexpr HasResultId = false;
 		static bool constexpr HasName = false;
 		static bool constexpr HasLabels = false;
-		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId >;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId, HasLabels >;
 		using InstructionTypePtr = std::unique_ptr< InstructionType >;
 
 		static inline InstructionTypePtr make( NamesCache & nameCache
@@ -1046,6 +1051,28 @@ namespace spirv
 				, nullopt
 				, operands
 				, nullopt
+				, labels );
+		}
+	};
+
+	template< spv::Op OperatorT >
+	struct InstructionTMaker< OperatorT, false, false, dynamicOperandCount, false, true >
+	{
+		static bool constexpr HasReturnTypeId = false;
+		static bool constexpr HasResultId = false;
+		static bool constexpr HasName = false;
+		static bool constexpr HasLabels = true;
+		using InstructionType = VariadicInstructionT< OperatorT, HasReturnTypeId, HasResultId, HasLabels >;
+		using InstructionTypePtr = std::unique_ptr< InstructionType >;
+
+		static inline InstructionTypePtr make( NamesCache & nameCache
+			, ValueIdList const & operands
+			, ast::Map< int32_t, spv::Id > labels )
+		{
+			return std::make_unique< InstructionType >( nameCache
+				, nullopt
+				, nullopt
+				, operands
 				, labels );
 		}
 	};
