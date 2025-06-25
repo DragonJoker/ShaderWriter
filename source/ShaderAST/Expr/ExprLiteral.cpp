@@ -20,7 +20,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, signed char value )
+		, int8_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eInt8 }
 	{
@@ -30,7 +30,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, signed short value )
+		, int16_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eInt16 }
 	{
@@ -40,7 +40,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, signed int value )
+		, int32_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eInt32 }
 	{
@@ -50,17 +50,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, signed long value )
-		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
-		, m_valueType{ LiteralType::eInt32 }
-	{
-		m_value.int32v = int32_t( value );
-	}
-
-	Literal::Literal( ExprCache & exprCache
-		, type::TypesCache & typesCache
-		, type::TypePtr type
-		, signed long long value )
+		, int64_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eInt64 }
 	{
@@ -70,7 +60,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, unsigned char value )
+		, uint8_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt8 }
 	{
@@ -80,7 +70,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, unsigned short value )
+		, uint16_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt16 }
 	{
@@ -90,7 +80,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, unsigned int value )
+		, uint32_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt32 }
 	{
@@ -100,17 +90,7 @@ namespace ast::expr
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
 		, type::TypePtr type
-		, unsigned long value )
-		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
-		, m_valueType{ LiteralType::eUInt32 }
-	{
-		m_value.uint32v = uint32_t( value );
-	}
-
-	Literal::Literal( ExprCache & exprCache
-		, type::TypesCache & typesCache
-		, type::TypePtr type
-		, unsigned long long value )
+		, uint64_t value )
 		: Expr{ exprCache, sizeof( Literal ), typesCache, std::move( type ), Kind::eLiteral, Flag::eConstant }
 		, m_valueType{ LiteralType::eUInt64 }
 	{
@@ -146,70 +126,56 @@ namespace ast::expr
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, signed char value )
+		, int8_t value )
 		: Literal{ exprCache, typesCache, typesCache.getInt8(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, signed short value )
+		, int16_t value )
 		: Literal{ exprCache, typesCache, typesCache.getInt16(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, signed int value )
+		, int32_t value )
 		: Literal{ exprCache, typesCache, typesCache.getInt32(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, signed long value )
-		: Literal{ exprCache, typesCache, typesCache.getInt32(), value }
-	{
-	}
-
-	Literal::Literal( ExprCache & exprCache
-		, type::TypesCache & typesCache
-		, signed long long value )
+		, int64_t value )
 		: Literal{ exprCache, typesCache, typesCache.getInt64(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, unsigned char value )
+		, uint8_t value )
 		: Literal{ exprCache, typesCache, typesCache.getUInt8(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, unsigned short value )
+		, uint16_t value )
 		: Literal{ exprCache, typesCache, typesCache.getUInt16(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, unsigned int value )
+		, uint32_t value )
 		: Literal{ exprCache, typesCache, typesCache.getUInt32(), value }
 	{
 	}
 
 	Literal::Literal( ExprCache & exprCache
 		, type::TypesCache & typesCache
-		, unsigned long value )
-		: Literal{ exprCache, typesCache, typesCache.getUInt32(), value }
-	{
-	}
-
-	Literal::Literal( ExprCache & exprCache
-		, type::TypesCache & typesCache
-		, unsigned long long value )
+		, uint64_t value )
 		: Literal{ exprCache, typesCache, typesCache.getUInt64(), value }
 	{
 	}

@@ -679,52 +679,42 @@ namespace ast
 				static constexpr expr::LiteralType literal = expr::LiteralType::eBool;
 				static constexpr type::Kind kind = type::Kind::eBoolean;
 			};
-			template<> struct ValueTraitsT< signed char >
+			template<> struct ValueTraitsT< int8_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt8;
 				static constexpr type::Kind kind = type::Kind::eInt8;
 			};
-			template<> struct ValueTraitsT< signed short >
+			template<> struct ValueTraitsT< int16_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt16;
 				static constexpr type::Kind kind = type::Kind::eInt16;
 			};
-			template<> struct ValueTraitsT< signed int >
+			template<> struct ValueTraitsT< int32_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt32;
 				static constexpr type::Kind kind = type::Kind::eInt32;
 			};
-			template<> struct ValueTraitsT< signed long >
-			{
-				static constexpr expr::LiteralType literal = expr::LiteralType::eInt32;
-				static constexpr type::Kind kind = type::Kind::eInt32;
-			};
-			template<> struct ValueTraitsT< signed long long >
+			template<> struct ValueTraitsT< int64_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eInt64;
 				static constexpr type::Kind kind = type::Kind::eInt64;
 			};
-			template<> struct ValueTraitsT< unsigned char >
+			template<> struct ValueTraitsT< uint8_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt8;
 				static constexpr type::Kind kind = type::Kind::eUInt8;
 			};
-			template<> struct ValueTraitsT< unsigned short >
+			template<> struct ValueTraitsT< uint16_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt16;
 				static constexpr type::Kind kind = type::Kind::eUInt16;
 			};
-			template<> struct ValueTraitsT< unsigned int >
+			template<> struct ValueTraitsT< uint32_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt32;
 				static constexpr type::Kind kind = type::Kind::eUInt32;
 			};
-			template<> struct ValueTraitsT< unsigned long >
-			{
-				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt32;
-				static constexpr type::Kind kind = type::Kind::eUInt32;
-			};
-			template<> struct ValueTraitsT< unsigned long long >
+			template<> struct ValueTraitsT< uint64_t >
 			{
 				static constexpr expr::LiteralType literal = expr::LiteralType::eUInt64;
 				static constexpr type::Kind kind = type::Kind::eUInt64;

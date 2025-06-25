@@ -2855,26 +2855,6 @@ namespace checks
 			astCheckThrow( preDec( *expr ) )
 			astCheckThrow( preInc( *expr ) )
 		}
-		if ( astOn( "Initialisation from signed long" ) )
-		{
-			auto expr = exprCache.makeLiteral( typesCache, 1L );
-			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
-		}
-		if ( astOn( "Initialisation from signed int" ) )
-		{
-			auto expr = exprCache.makeLiteral( typesCache, int( 1 ) );
-			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
-		}
-		if ( astOn( "Initialisation from unsigned long" ) )
-		{
-			auto expr = exprCache.makeLiteral( typesCache, 1UL );
-			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
-		}
-		if ( astOn( "Initialisation from unsigned int" ) )
-		{
-			auto expr = exprCache.makeLiteral( typesCache, unsigned( 1 ) );
-			checkExprDependant( testCounts, *expr, "testExprLiteral", __LINE__ );
-		}
 		testExprFloatLiteral< expr::LiteralType::eFloat, expr::LiteralType::eDouble >( testCounts, "testExprLiteral", __LINE__ );
 		testExprFloatLiteral< expr::LiteralType::eDouble, expr::LiteralType::eFloat >( testCounts, "testExprLiteral", __LINE__ );
 		testExprSignedIntegerLiteral< expr::LiteralType::eInt8, expr::LiteralType::eUInt8 >( testCounts, "testExprLiteral", __LINE__ );

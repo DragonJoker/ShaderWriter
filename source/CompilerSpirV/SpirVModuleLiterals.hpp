@@ -21,16 +21,14 @@ namespace spirv
 			, InstructionList & declarations );
 
 		DebugId registerLiteral( bool value );
-		DebugId registerLiteral( signed char value );
-		DebugId registerLiteral( signed short value );
-		DebugId registerLiteral( signed int value );
-		DebugId registerLiteral( signed long value );
-		DebugId registerLiteral( signed long long value );
-		DebugId registerLiteral( unsigned char value );
-		DebugId registerLiteral( unsigned short value );
-		DebugId registerLiteral( unsigned int value );
-		DebugId registerLiteral( unsigned long value );
-		DebugId registerLiteral( unsigned long long value );
+		DebugId registerLiteral( int8_t value );
+		DebugId registerLiteral( int16_t value );
+		DebugId registerLiteral( int32_t value );
+		DebugId registerLiteral( int64_t value );
+		DebugId registerLiteral( uint8_t value );
+		DebugId registerLiteral( uint16_t value );
+		DebugId registerLiteral( uint32_t value );
+		DebugId registerLiteral( uint64_t value );
 		DebugId registerLiteral( float value );
 		DebugId registerLiteral( double value );
 		DebugId registerLiteral( DebugIdList const & initialisers

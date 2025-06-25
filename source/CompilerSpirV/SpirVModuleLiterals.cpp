@@ -93,7 +93,7 @@ namespace spirv
 		return it->second;
 	}
 
-	DebugId ModuleLiterals::registerLiteral( signed char value )
+	DebugId ModuleLiterals::registerLiteral( int8_t value )
 	{
 		return modlit::registerLiteral( value
 			, m_module.getTypesCache().getInt8()
@@ -102,7 +102,7 @@ namespace spirv
 			, m_registeredConstants );
 	}
 
-	DebugId ModuleLiterals::registerLiteral( signed short value )
+	DebugId ModuleLiterals::registerLiteral( int16_t value )
 	{
 		return modlit::registerLiteral( value
 			, m_module.getTypesCache().getInt16()
@@ -111,7 +111,7 @@ namespace spirv
 			, m_registeredConstants );
 	}
 
-	DebugId ModuleLiterals::registerLiteral( signed int value )
+	DebugId ModuleLiterals::registerLiteral( int32_t value )
 	{
 		return modlit::registerLiteral( ast::expr::LitInt32( value )
 			, m_module.getTypesCache().getInt32()
@@ -120,16 +120,7 @@ namespace spirv
 			, m_registeredConstants );
 	}
 
-	DebugId ModuleLiterals::registerLiteral( signed long value )
-	{
-		return modlit::registerLiteral( ast::expr::LitInt32( value )
-			, m_module.getTypesCache().getInt32()
-			, m_module
-			, m_registeredInt32Constants
-			, m_registeredConstants );
-	}
-
-	DebugId ModuleLiterals::registerLiteral( signed long long value )
+	DebugId ModuleLiterals::registerLiteral( int64_t value )
 	{
 		auto it = m_registeredInt64Constants.find( value );
 
@@ -151,7 +142,7 @@ namespace spirv
 		return it->second;
 	}
 
-	DebugId ModuleLiterals::registerLiteral( unsigned char value )
+	DebugId ModuleLiterals::registerLiteral( uint8_t value )
 	{
 		return modlit::registerLiteral( value
 			, m_module.getTypesCache().getUInt8()
@@ -160,7 +151,7 @@ namespace spirv
 			, m_registeredConstants );
 	}
 
-	DebugId ModuleLiterals::registerLiteral( unsigned short value )
+	DebugId ModuleLiterals::registerLiteral( uint16_t value )
 	{
 		return modlit::registerLiteral( value
 			, m_module.getTypesCache().getUInt16()
@@ -169,7 +160,7 @@ namespace spirv
 			, m_registeredConstants );
 	}
 
-	DebugId ModuleLiterals::registerLiteral( unsigned int value )
+	DebugId ModuleLiterals::registerLiteral( uint32_t value )
 	{
 		return modlit::registerLiteral( ast::expr::LitUInt32( value )
 			, m_module.getTypesCache().getUInt32()
@@ -178,16 +169,7 @@ namespace spirv
 			, m_registeredConstants );
 	}
 
-	DebugId ModuleLiterals::registerLiteral( unsigned long value )
-	{
-		return modlit::registerLiteral( ast::expr::LitUInt32( value )
-			, m_module.getTypesCache().getUInt32()
-			, m_module
-			, m_registeredUInt32Constants
-			, m_registeredConstants );
-	}
-
-	DebugId ModuleLiterals::registerLiteral( unsigned long long value )
+	DebugId ModuleLiterals::registerLiteral( uint64_t value )
 	{
 		auto it = m_registeredUInt64Constants.find( value );
 
