@@ -93,7 +93,7 @@ namespace spirv
 				auto aliasVar = ast::var::makeVariable( ++m_adaptationData.config.nextVarId, ident->getType(), ident->getVariable()->getEntityName().name );
 				m_container->addStmt( m_container->getStmtCache().makeVariableDecl( aliasVar ) );
 				auto lhs = m_exprCache.makeIdentifier( m_typesCache, aliasVar );
-				m_result = doProcessAssignExplicitToNonExplicit( expr->getType(), *lhs, *expr->getAliasedExpr() );
+				m_result = doProcessAssignExplicitToNonExplicit( *lhs, *expr->getAliasedExpr() );
 			}
 		}
 		else
@@ -112,7 +112,7 @@ namespace spirv
 		if ( isMemoryLayoutDependent( type )
 			&& lhs->getType()->hasExplicitLayout() != rhs->getType()->hasExplicitLayout() )
 		{
-			m_result = doProcessAssignExplicitToNonExplicit( type, *lhs, *rhs );
+			m_result = doProcessAssignExplicitToNonExplicit( *lhs, *rhs );
 		}
 
 		if ( !m_result
@@ -362,7 +362,7 @@ namespace spirv
 				auto aliasVar = ast::var::makeVariable( ++m_adaptationData.config.nextVarId, ident->getType(), ident->getVariable()->getEntityName().name );
 				m_container->addStmt( m_container->getStmtCache().makeVariableDecl( aliasVar ) );
 				auto lhs = m_exprCache.makeIdentifier( m_typesCache, aliasVar );
-				m_result = doProcessAssignExplicitToNonExplicit( expr->getType(), *lhs, *expr->getInitialiser() );
+				m_result = doProcessAssignExplicitToNonExplicit( *lhs, *expr->getInitialiser() );
 			}
 		}
 		else
@@ -524,14 +524,14 @@ namespace spirv
 			, std::move( args ) );
 	}
 
-	ast::expr::ExprPtr ExprAdapter::doProcessAssignExplicitToNonExplicit( ast::type::TypePtr type
-		, ast::expr::Expr const & lhs
+	ast::expr::ExprPtr ExprAdapter::doProcessAssignExplicitToNonExplicit( ast::expr::Expr const & lhs
 		, ast::expr::Expr const & rhs )
 	{
 		ast::expr::ExprPtr result;
 		auto & stmtCache = m_container->getStmtCache();
+		auto lhsType = lhs.getType();
 
-		if ( auto structType = getStructType( type ) )
+		if ( auto structType = getStructType( lhsType ) )
 		{
 			for ( uint32_t index = 0u; index < structType->size() - 1u; ++index )
 			{
@@ -547,10 +547,10 @@ namespace spirv
 				, m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, lhs ), index, 0 )
 				, m_exprCache.makeMbrSelect( ast::ExprCloner::submit( m_exprCache, rhs ), index, 0 ) ) );
 		}
-		else if ( isArrayType( type ) )
+		else if ( isArrayType( lhsType ) )
 		{
-			if ( auto arrayType = &static_cast< ast::type::Array const & >( *type );
-				arrayType->getArraySize() == ast::type::UnknownArraySize )
+			if ( auto lhsArrayType = &static_cast< ast::type::Array const & >( *lhsType );
+				lhsArrayType->getArraySize() == ast::type::UnknownArraySize )
 			{
 				ast::Logger::logError( "Unsupported dynamic array conversion" );
 				auto newLhs = doSubmit( lhs );
@@ -558,30 +558,33 @@ namespace spirv
 
 				if ( newLhs && newRhs )
 				{
-					result = m_exprCache.makeAssign( type
+					result = m_exprCache.makeAssign( lhsType
 						, std::move( newLhs )
 						, std::move( newRhs ) );
 				}
 			}
 			else
 			{
-				auto elementType = arrayType->getType();
-				for ( uint32_t index = 0u; index < arrayType->getArraySize() - 1u; ++index )
+				auto rhsType = rhs.getType();
+				auto rhsArrayType = &static_cast< ast::type::Array const & >( *rhsType );
+				auto lhsElementType = lhsArrayType->getType();
+				auto rhsElementType = rhsArrayType->getType();
+				for ( uint32_t index = 0u; index < lhsArrayType->getArraySize() - 1u; ++index )
 				{
-					m_container->addStmt( stmtCache.makeSimple( doSubmit( *m_exprCache.makeAssign( elementType
-						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) )
-						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) ) ) );
+					m_container->addStmt( stmtCache.makeSimple( doSubmit( *m_exprCache.makeAssign( lhsElementType
+						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( lhsElementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) )
+						, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( rhsElementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, index ) ) ) ) ) ) );
 				}
 
-				result = doSubmit( *m_exprCache.makeAssign( elementType
-					, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) ) )
-					, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( elementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, arrayType->getArraySize() - 1u ) ) ) ) );
+				result = doSubmit( *m_exprCache.makeAssign( lhsElementType
+					, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( lhsElementType, ast::ExprCloner::submit( m_exprCache, lhs ), m_exprCache.makeLiteral( m_typesCache, lhsArrayType->getArraySize() - 1u ) ) )
+					, ast::resolveConstants( m_exprCache, *m_exprCache.makeArrayAccess( rhsElementType, ast::ExprCloner::submit( m_exprCache, rhs ), m_exprCache.makeLiteral( m_typesCache, lhsArrayType->getArraySize() - 1u ) ) ) ) );
 			}
 		}
-		else if ( isMatrixType( type ) )
+		else if ( isMatrixType( lhsType ) )
 		{
-			auto columnCount = getComponentCount( type );
-			auto componentType = m_typesCache.getBasicType( getComponentType( type ) );
+			auto columnCount = getComponentCount( lhsType );
+			auto componentType = m_typesCache.getBasicType( getComponentType( lhsType ) );
 			for ( uint32_t index = 0u; index < columnCount - 1u; ++index )
 			{
 				m_container->addStmt( stmtCache.makeSimple( doSubmit( *m_exprCache.makeAssign( componentType
@@ -596,13 +599,12 @@ namespace spirv
 		else
 		{
 			ast::Logger::logError( "Unsupported memory layout dependent type" );
-			AST_Failure( "Unsupported memory layout dependent type" );
 			auto newLhs = doSubmit( lhs );
 			auto newRhs = doSubmit( rhs );
 
 			if ( newLhs && newRhs )
 			{
-				result = m_exprCache.makeAssign( type
+				result = m_exprCache.makeAssign( lhsType
 					, std::move( newLhs )
 					, std::move( newRhs ) );
 			}
