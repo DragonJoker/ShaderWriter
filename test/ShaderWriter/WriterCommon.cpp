@@ -14,7 +14,10 @@
 
 #pragma warning( disable: 5262 )
 #include <iomanip>
-#include <format>
+
+#if SDWTest_DisplayTimes
+#	include <format>
+#endif
 
 namespace test
 {
@@ -97,6 +100,13 @@ namespace test
 
 			return result;
 		}
+
+#if SDWTest_DisplayTimes
+		float getMs( sdw_test::Duration const & duration )
+		{
+			return float( duration.count() ) / 1000.0f;
+		}
+#endif
 	}
 
 	namespace sdw_test
@@ -227,11 +237,6 @@ namespace test
 		void TestCounts::doInitialise()
 		{
 			m_start = Clock::now();
-		}
-
-		float getMs( Duration const & duration )
-		{
-			return float( duration.count() ) / 1000.0f;
 		}
 
 		void TestCounts::doCleanup()

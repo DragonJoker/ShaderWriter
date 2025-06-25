@@ -85,8 +85,8 @@ namespace sdw
 		ast::ShaderBuilder & m_builder;
 		std::string m_name{};
 		bool m_redeclare{};
-		ast::InterfaceBlock m_interface{};
-		ast::SsboInfo m_info{};
+		ast::InterfaceBlock m_interface;
+		ast::SsboInfo m_info;
 		type::BaseStructPtr m_ssboType{};
 		var::VariablePtr m_dataVar{};
 		var::VariablePtr m_ssboVar{};

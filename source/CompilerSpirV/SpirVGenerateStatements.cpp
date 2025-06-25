@@ -2495,7 +2495,7 @@ namespace spirv
 						, glsl::StatementType::eStructureMemberDecl
 						, glsl::StatementType::eStructureScopeEnd
 						, nullptr );
-					auto variableId = m_result.bindBufferVariable( stmt->getName()
+					m_result.bindBufferVariable( stmt->getName()
 						, stmt->getBindingPoint()
 						, stmt->getDescriptorSet()
 						, spv::DecorationBlock );
@@ -2708,7 +2708,6 @@ namespace spirv
 				auto type = stmt->getType();
 				auto declStmt = getCurrentDebugStatement();
 				consumeDebugStatement( glsl::StatementType::eFunctionDecl );
-				auto previousScopeId = m_currentScopeId;
 				auto scopeBeginStmt = getCurrentDebugStatement();
 				consumeDebugStatement( glsl::StatementType::eFunctionScopeBegin );
 				m_currentBlock = m_result.newBlock();
@@ -2817,7 +2816,7 @@ namespace spirv
 			{
 				TraceFunc;
 				auto variable = stmt->getVariable();
-				auto variableId = visitVariable( variable );
+				visitVariable( variable );
 				visitDebugVariableDecl();
 			}
 
@@ -3310,7 +3309,7 @@ namespace spirv
 			{
 				TraceFunc;
 				auto var = stmt->getVariable();
-				auto variableId = visitVariable( var );
+				visitVariable( var );
 
 				if ( isDebugEnabled()
 					&& !stmt->getVariable()->isBuiltin() )

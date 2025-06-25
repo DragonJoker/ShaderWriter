@@ -171,8 +171,8 @@ namespace
 			, sdw::expr::ExprPtr expr
 			, bool enabled = true )
 			: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
-			, position{ this->getMember< "position" >() }
-			, colour{ this->getMember < "colour" >() }
+			, position{ this->template getMember< "position" >() }
+			, colour{ this->template getMember < "colour" >() }
 		{
 		}
 
