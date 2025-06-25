@@ -1110,8 +1110,11 @@ namespace sdw
 
 #if !defined( SDW_DISABLE_CTRL_MACROS )
 
+#define sdwConcat( x, y ) sdwConcatImpl( x, y )
+#define sdwConcatImpl( x, y ) x ## y
+
 #define sdwFOR( Writer, Type, Name, Init, Cond, Incr )\
-	if ( auto writerScope = makeScope( Writer ) )\
+	if ( auto sdwConcat( writerScope, __LINE__ ) = makeScope( Writer ) )\
 	{\
 		Type Name{ Writer, sdw::makeExpr( Writer, ( Writer ).registerLoopVar( #Name, Type::makeType( ( Writer ).getTypesCache() ) ) ), true };\
 		( Writer ).forStmt( Name, Type{ Init }, Cond, Incr\
@@ -1150,20 +1153,20 @@ namespace sdw
  ).endIf();
 
 #define sdwSWITCH( Writer, Value )\
-	if ( auto writerScope = makeScope( Writer ) )\
+	if ( auto sdwConcat( writerScope, __LINE__ ) = makeScope( Writer ) )\
 	{\
-		writerScope->switchStmt( sdw::makeExpr( *writerScope, Value )\
+		( Writer ).switchStmt( sdw::makeExpr( Writer, Value )\
 			, [&]()noexcept
 
-#define sdwCASE( Literal )\
-			writerScope->caseStmt( sdw::makeLiteral( *writerScope, Literal )\
+#define sdwCASE( Writer, Literal )\
+			( Writer ).caseStmt( sdw::makeLiteral( Writer, Literal )\
 				, [&]()noexcept
 
 #define sdwESAC\
  );
 
-#define sdwDEFAULT\
-			writerScope->defaultStmt( [&]()noexcept
+#define sdwDEFAULT( Writer )\
+			( Writer ).defaultStmt( [&]()noexcept
 
 #define sdwTLUAFED\
  );
