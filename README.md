@@ -49,12 +49,7 @@ template< sdw::var::Flag FlagT >
 struct PosColT
 	: public PosColStructT< FlagT >
 {
-	PosColT( sdw::ShaderWriter & writer
-		, sdw::expr::ExprPtr expr
-		, bool enabled = true )
-		: PosColStructT< FlagT >{ writer, std::move( expr ), enabled }
-	{
-	}
+	using PosColStructT< FlagT >::PosColStructT;
 
 	auto position()const { return this->getMember< "position" >(); }
 	auto colour()const { return this->getMember< "colour" >(); }
