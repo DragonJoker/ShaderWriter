@@ -1274,13 +1274,21 @@ namespace ast
 				TraceFunc;
 				auto ifStmt = m_stmtCache.makeIf( doSubmit( stmt->getCtrlExpr() ) );
 				{
-					// Do ... while content
-					auto doWhileContent = m_stmtCache.makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
 					auto save = m_current;
-					m_current = doWhileContent.get();
-					visitContainerStmt( stmt );
+					m_current = ifStmt.get();
+					// Do ... while content
+					{
+						auto doWhileContent = m_stmtCache.makeContainer();
+						m_current = doWhileContent.get();
+						visitContainerStmt( stmt );
+						// Declare the do...while after its content, so that aliases
+						// created from its control expression are declared inside its content.
+						auto doWhile = m_stmtCache.makeDoWhile( doSubmit( stmt->getCtrlExpr() ) );
+						m_current = ifStmt.get();
+						doWhile->addStmt( std::move( doWhileContent ) );
+						ifStmt->addStmt( std::move( doWhile ) );
+					}
 					m_current = save;
-					ifStmt->addStmt( std::move( doWhileContent ) );
 				}
 				m_current->addStmt( std::move( ifStmt ) );
 			}
