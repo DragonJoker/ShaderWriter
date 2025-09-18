@@ -61,7 +61,7 @@ namespace sdw
 		{
 			static_assert( hasFieldByName< FieldNameT >() );
 			using FieldT = decltype( getFieldByName< FieldNameT >() );
-			return FieldT::template get( *this );
+			return FieldT::get( *this );
 		}
 
 		static type::BaseStructPtr makeType( type::TypesCache & cache )
