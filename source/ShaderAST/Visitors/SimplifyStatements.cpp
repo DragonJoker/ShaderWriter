@@ -2174,9 +2174,9 @@ namespace ast
 		case expr::CompositeType::eMat4x3:
 		case expr::CompositeType::eMat4x4:
 			return 4u;
+		default:
+			return 0u;
 		}
-
-		return 0u;
 	}
 
 	expr::CompositeType getCompositeType( uint32_t count )

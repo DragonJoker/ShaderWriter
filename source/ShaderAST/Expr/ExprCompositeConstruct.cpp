@@ -75,8 +75,8 @@ namespace ast::expr
 		, m_composite{ CompositeType::eCombine }
 		, m_component{ type::Kind::eCombinedImage }
 	{
-		auto & imageType = static_cast< ast::type::SampledImage & >( *getNonArrayTypeRec( image->getType() ) );
-		auto & samplerType = static_cast< ast::type::Sampler const & >( *getNonArrayTypeRec( sampler->getType() ) );
+		auto & imageType = static_cast< type::SampledImage & >( *getNonArrayTypeRec( image->getType() ) );
+		auto & samplerType = static_cast< type::Sampler const & >( *getNonArrayTypeRec( sampler->getType() ) );
 		imageType.updateComparison( samplerType.isComparison() );
 
 		m_argList.emplace_back( std::move( image ) );
@@ -96,45 +96,48 @@ namespace ast::expr
 
 		switch ( value )
 		{
-		case ast::expr::CompositeType::eScalar:
-		case ast::expr::CompositeType::eCombine:
+		case expr::CompositeType::eScalar:
+		case expr::CompositeType::eCombine:
 			result = 1u;
 			break;
-		case ast::expr::CompositeType::eVec2:
+		case expr::CompositeType::eVec2:
 			result = 2u;
 			break;
-		case ast::expr::CompositeType::eVec3:
+		case expr::CompositeType::eVec3:
 			result = 3u;
 			break;
-		case ast::expr::CompositeType::eVec4:
+		case expr::CompositeType::eVec4:
 			result = 4u;
 			break;
-		case ast::expr::CompositeType::eMat2x2:
+		case expr::CompositeType::eMat2x2:
 			result = 4u;
 			break;
-		case ast::expr::CompositeType::eMat2x3:
+		case expr::CompositeType::eMat2x3:
 			result = 6u;
 			break;
-		case ast::expr::CompositeType::eMat2x4:
+		case expr::CompositeType::eMat2x4:
 			result = 8u;
 			break;
-		case ast::expr::CompositeType::eMat3x2:
+		case expr::CompositeType::eMat3x2:
 			result = 6u;
 			break;
-		case ast::expr::CompositeType::eMat3x3:
+		case expr::CompositeType::eMat3x3:
 			result = 9u;
 			break;
-		case ast::expr::CompositeType::eMat3x4:
+		case expr::CompositeType::eMat3x4:
 			result = 12u;
 			break;
-		case ast::expr::CompositeType::eMat4x2:
+		case expr::CompositeType::eMat4x2:
 			result = 8u;
 			break;
-		case ast::expr::CompositeType::eMat4x3:
+		case expr::CompositeType::eMat4x3:
 			result = 12u;
 			break;
-		case ast::expr::CompositeType::eMat4x4:
+		case expr::CompositeType::eMat4x4:
 			result = 16u;
+			break;
+		default:
+			AST_Failure( "Unsupported expr::CompositeType" );
 			break;
 		}
 
@@ -164,8 +167,8 @@ namespace ast::expr
 			throw Exception{ "combine(splImage, sampler): Missing sampler 2nd parameter" };
 		}
 
-		auto & imgType = static_cast< ast::type::SampledImage const & >( *image );
-		auto & splType = static_cast< ast::type::Sampler const & >( *sampler );
+		auto & imgType = static_cast< type::SampledImage const & >( *image );
+		auto & splType = static_cast< type::Sampler const & >( *sampler );
 		return getCompositeType( image->getTypesCache()
 			, imgType.getConfig()
 			, splType.isComparison() );

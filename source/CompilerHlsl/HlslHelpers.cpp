@@ -1608,6 +1608,8 @@ namespace hlsl
 				HlslHelpersInternal::declareStruct( stmt, separateStruct, declaredStructs );
 			}
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -1631,6 +1633,8 @@ namespace hlsl
 				stmt.addStmt( stmt.getStmtCache().makeVariableDecl( separateVar ) );
 			}
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -1651,6 +1655,8 @@ namespace hlsl
 			}
 			break;
 		case hlsl::IOMappingMode::eLocalSeparateVar:
+			break;
+		default:
 			break;
 		}
 	}
@@ -1679,6 +1685,8 @@ namespace hlsl
 			parameters.insert( parameters.end()
 				, distinctParams.begin()
 				, distinctParams.end() );
+			break;
+		default:
 			break;
 		}
 

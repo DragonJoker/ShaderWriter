@@ -1174,15 +1174,14 @@ namespace glsl
 				case ast::stmt::PreprocExtension::ExtStatus::eDisabled:
 					result = "disable";
 					break;
-
 				case ast::stmt::PreprocExtension::ExtStatus::eEnabled:
 					result = "enable";
 					break;
-
 				case ast::stmt::PreprocExtension::ExtStatus::eRequired:
 					result = "require";
 					break;
-
+				default:
+					break;
 				}
 
 				return result;
@@ -3075,7 +3074,6 @@ namespace glsl
 					text += "readonly ";
 
 				text += "uniform ";
-				//text += getAccessQualifierName( image->getConfig() ) + " ";
 				text += helpers::getQualifiedName( ast::type::Kind::eImage, image->getConfig() ) + " " + stmt->getVariable()->getName();
 				text += helpers::getTypeArraySize( stmt->getVariable()->getType() );
 				doAddVariableDeclStatement( std::move( text ), *stmt );
@@ -3280,6 +3278,8 @@ namespace glsl
 						break;
 					case ast::stmt::PerVertexDecl::Source::eMeshOutput:
 						doAddVariableDeclStatement( "out " + decl + " gl_MeshVerticesNV[]", *stmt );
+						break;
+					default:
 						break;
 					}
 				}
