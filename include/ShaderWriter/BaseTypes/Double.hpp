@@ -7,7 +7,7 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/BaseTypes/ArithmeticValue.hpp"
 
-inline sdw::Double operator "" _d( long double value )
+inline sdw::Double operator ""_d( long double value )
 {
 	return sdw::Double{ double( value ) };
 }

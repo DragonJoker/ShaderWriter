@@ -206,6 +206,8 @@ namespace ast::expr
 					, op( convert< expr::LiteralType::eBool >( lhs )
 						, convert< expr::LiteralType::eBool >( rhs.getValue< expr::LiteralType::eDouble >() ) ) );
 				break;
+			default:
+				AST_Exception( "Unexpected operand type for binary logical operator" );
 			}
 
 			return result;
@@ -253,7 +255,7 @@ namespace ast::expr
 					, static_cast< LitUInt64 >( op( convert< expr::LiteralType::eUInt64 >( lhs )
 						, rhs.getValue< expr::LiteralType::eUInt64 >() ) ) );
 			default:
-				AST_Exception( "Unexpected operand type for a binary integral arithmetic operator operator" );
+				AST_Exception( "Unexpected operand type for a binary integral arithmetic operator" );
 			}
 		}
 
@@ -354,6 +356,8 @@ namespace ast::expr
 					, op( convert< expr::LiteralType::eDouble >( lhs )
 						, rhs.getValue< expr::LiteralType::eDouble >() ) );
 				break;
+			default:
+				AST_Exception( "Unexpected operand type for binary comparison operator" );
 			}
 
 			return result;
@@ -790,6 +794,8 @@ namespace ast::expr
 					result = exprCache.makeLiteral( typesCache
 						, operand.getValue< expr::LiteralType::eDouble >() == 0.0 );
 					break;
+				default:
+					AST_Exception( "Unexpected operand type for unary not" );
 				}
 
 				return result;
@@ -868,6 +874,8 @@ namespace ast::expr
 						result = castLiteral( exprCache, typesCache
 							, operand.getValue< expr::LiteralType::eDouble >() );
 						break;
+					default:
+						AST_Exception( "Unexpected operand type for cast operator" );
 					}
 
 					return result;
@@ -916,6 +924,8 @@ namespace ast::expr
 				case expr::LiteralType::eDouble:
 					result = CastTo< LitFloat64 >::cast( exprCache, typesCache, operand );
 					break;
+				default:
+					AST_Exception( "Unexpected operand type for cast operator" );
 				}
 
 				return result;
@@ -965,6 +975,8 @@ namespace ast::expr
 			case expr::LiteralType::eDouble:
 				result = FuncT< LitFloat64 >::replace( exprCache, typesCache, lhs.getValue< expr::LiteralType::eDouble >(), rhs );
 				break;
+			default:
+				AST_Exception( "Unexpected operand type for cast operator" );
 			}
 
 			return result;

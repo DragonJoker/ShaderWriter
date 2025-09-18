@@ -1848,6 +1848,8 @@ namespace ast::debug
 			case stmt::PerVertexDecl::Source::eMeshOutput:
 				text += "MeshOut";
 				break;
+			default:
+				break;
 			}
 
 			addStatement( text + "]" + getTypeName( stmt->getType() ) );
@@ -1989,15 +1991,14 @@ namespace ast::debug
 			case stmt::PreprocExtension::ExtStatus::eDisabled:
 				type += ": Disabled";
 				break;
-
 			case stmt::PreprocExtension::ExtStatus::eEnabled:
 				type += ": Enabled";
 				break;
-
 			case stmt::PreprocExtension::ExtStatus::eRequired:
 				type += ": Required";
 				break;
-
+			default:
+				break;
 			}
 
 			addStatement( "ppExtension " + preproc->getName() + type );
