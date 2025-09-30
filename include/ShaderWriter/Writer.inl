@@ -377,10 +377,19 @@ namespace sdw
 	*	Sampler declaration.
 	*/
 	/**@{*/
-	template< bool ComparisonT >
+	template< typename BindingT, typename SetT >
+	inline SamplerT< false > ShaderWriter::declSampler( std::string name
+		, BindingT binding
+		, SetT set
+		, bool enabled )
+	{
+		return declSampler< false >( std::move( name, binding, set, enabled ) );
+	}
+
+	template< bool ComparisonT, typename BindingT, typename SetT >
 	inline SamplerT< ComparisonT > ShaderWriter::declSampler( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		using T = SamplerT< ComparisonT >;
@@ -395,15 +404,15 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerSampler( std::move( name )
 			, type
-			, binding
-			, set );
+			, uint32_t( binding )
+			, uint32_t( set ) );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeSamplerDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return T{ *this
@@ -411,10 +420,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline T ShaderWriter::declSampler( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declSampler< T::Comparison >( std::move( name )
@@ -423,12 +432,25 @@ namespace sdw
 			, enabled );
 	}
 
-	template< bool ComparisonT >
+	template< typename BindingT, typename SetT >
+	inline Array< SamplerT< false > > ShaderWriter::declSamplerArray( std::string name
+		, BindingT binding
+		, SetT set
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declSamplerArray< false >( std::move( name )
+			, binding
+			, set
+			, enabled );
+	}
+
+	template< bool ComparisonT, typename BindingT, typename SetT >
 	inline Array< SamplerT< ComparisonT > > ShaderWriter::declSamplerArray( std::string name
-			, uint32_t binding
-			, uint32_t set
-			, uint32_t dimension
-			, bool enabled )
+		, BindingT binding
+		, SetT set
+		, uint32_t dimension
+		, bool enabled )
 	{
 		using T = SamplerT< ComparisonT >;
 
@@ -443,16 +465,16 @@ namespace sdw
 			, dimension );
 		auto var = registerSampler( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeSamplerDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return Array< T >{ *this
@@ -460,10 +482,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declSamplerArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -474,10 +496,10 @@ namespace sdw
 			, enabled );
 	}
 
-	template< bool ComparisonT >
+	template< bool ComparisonT, typename BindingT, typename SetT >
 	inline Array< SamplerT< ComparisonT > > ShaderWriter::declSamplerArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declSamplerArray< SamplerT< ComparisonT > >( std::move( name )
@@ -487,10 +509,10 @@ namespace sdw
 			, enabled );
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declSamplerArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declSamplerArray< T::Comparison >( std::move( name )
@@ -580,10 +602,11 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool MsT >
+		, bool MsT
+		, typename BindingT, typename SetT >
 	inline SampledImageT< FormatT, DimT, ArrayedT, MsT > ShaderWriter::declSampledImg( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		using T = SampledImageT< FormatT, DimT, ArrayedT, MsT >;
@@ -598,16 +621,16 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerSampledImage( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeSampledImageDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return T{ *this
@@ -615,10 +638,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline T ShaderWriter::declSampledImg( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declSampledImg< T::Format
@@ -633,10 +656,11 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool MsT >
+		, bool MsT
+		, typename BindingT, typename SetT >
 	inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -653,16 +677,16 @@ namespace sdw
 			, dimension );
 		auto var = registerSampledImage( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeSampledImageDecl( getStmtCache()
 				 ,var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return Array< T >{ *this
@@ -670,10 +694,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declSampledImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -690,10 +714,11 @@ namespace sdw
 	template< ast::type::ImageFormat FormatT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool MsT >
+		, bool MsT
+		, typename BindingT, typename SetT >
 	inline Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > ShaderWriter::declSampledImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declSampledImgArray< FormatT
@@ -706,10 +731,10 @@ namespace sdw
 				, enabled );
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declSampledImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declSampledImgArray< T::Format
@@ -812,10 +837,24 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
-		, bool DepthT >
+		, typename BindingT, typename SetT >
+	inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, false > ShaderWriter::declCombinedImg( std::string name
+		, BindingT binding
+		, SetT set
+		, bool enabled )
+	{
+		return declCombinedImg< FormatT, DimT, ArrayedT, MsT, false >( std::move( name ), binding, set, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT
+		, typename BindingT, typename SetT >
 	inline CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > ShaderWriter::declCombinedImg( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		using T = CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >;
@@ -830,16 +869,16 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerTexture( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeCombinedImageDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return T{ *this
@@ -847,10 +886,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline T ShaderWriter::declCombinedImg( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declCombinedImg< T::Format
@@ -867,10 +906,25 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
-		, bool DepthT >
+		, typename BindingT, typename SetT >
+	inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, false > > ShaderWriter::declCombinedImgArray( std::string name
+		, BindingT binding
+		, SetT set
+		, uint32_t dimension
+		, bool enabled )
+	{
+		return declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, false >( std::move( name ), binding, set, dimension, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT
+		, typename BindingT, typename SetT >
 	inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -887,16 +941,16 @@ namespace sdw
 			, dimension );
 		auto var = registerTexture( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeCombinedImageDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return Array< T >{ *this
@@ -904,10 +958,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declCombinedImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -926,10 +980,24 @@ namespace sdw
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT
-		, bool DepthT >
+		, typename BindingT, typename SetT >
+	inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, false > > ShaderWriter::declCombinedImgArray( std::string name
+		, BindingT binding
+		, SetT set
+		, bool enabled )
+	{
+		return declCombinedImgArray< FormatT, DimT, ArrayedT, MsT, false >( std::move( name ), binding, set, enabled );
+	}
+
+	template< ast::type::ImageFormat FormatT
+		, ast::type::ImageDim DimT
+		, bool ArrayedT
+		, bool MsT
+		, bool DepthT
+		, typename BindingT, typename SetT >
 	inline Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > ShaderWriter::declCombinedImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declCombinedImgArray< FormatT
@@ -943,10 +1011,10 @@ namespace sdw
 				, enabled );
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declCombinedImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declCombinedImgArray< T::Format
@@ -1053,10 +1121,11 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool MsT >
+		, bool MsT
+		, typename BindingT, typename SetT >
 	inline StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > ShaderWriter::declStorageImg( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		using T = StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >;
@@ -1071,16 +1140,16 @@ namespace sdw
 		auto type = T::makeType( getTypesCache() );
 		auto var = registerImage( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeImageDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return T{ *this
@@ -1088,10 +1157,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline T ShaderWriter::declStorageImg( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declStorageImg < T::Format
@@ -1108,10 +1177,11 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool MsT >
+		, bool MsT
+		, typename BindingT, typename SetT >
 	inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declStorageImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -1128,16 +1198,16 @@ namespace sdw
 			, dimension );
 		auto var = registerImage( std::move( name )
 			, type
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled );
 
 		if ( enabled )
 		{
 			addGlobalStmt( makeImageDecl( getStmtCache()
 				, var
-				, binding
-				, set ) );
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
 		}
 
 		return Array< T >{ *this
@@ -1145,10 +1215,10 @@ namespace sdw
 			, enabled };
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT >
 	inline Array< T > ShaderWriter::declStorageImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, uint32_t dimension
 		, bool enabled )
 	{
@@ -1167,10 +1237,11 @@ namespace sdw
 		, ast::type::AccessKind AccessT
 		, ast::type::ImageDim DimT
 		, bool ArrayedT
-		, bool MsT >
+		, bool MsT
+		, typename BindingT, typename SetT >
 	inline Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > ShaderWriter::declStorageImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declCombinedImgArray< FormatT
@@ -1184,10 +1255,10 @@ namespace sdw
 				, enabled );
 	}
 
-	template< typename T >
+	template< typename T, typename BindingT, typename SetT  >
 	inline Array< T > ShaderWriter::declStorageImgArray( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled )
 	{
 		return declCombinedImgArray< T::Format
@@ -1487,6 +1558,31 @@ namespace sdw
 			, makeExpr( *this, var )
 			, enabled };
 	}
+
+	template< typename BindingT, typename SetT >
+	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string name
+		, BindingT binding
+		, SetT set
+		, bool enabled )
+	{
+		auto type = AccelerationStructure::makeType( getTypesCache() );
+		auto var = registerAccelerationStructure( std::move( name )
+			, type
+			, uint32_t( binding )
+			, uint32_t( set ) );
+
+		if ( enabled )
+		{
+			addStmt( makeAccelerationStructureDecl( getStmtCache()
+				, var
+				, uint32_t( binding )
+				, uint32_t( set ) ) );
+		}
+
+		return AccelerationStructure{ *this
+			, makeExpr( *this, var )
+			, enabled };
+	}
 	/**@}*/
 #pragma endregion
 #pragma region Uniform buffer declaration
@@ -1495,24 +1591,41 @@ namespace sdw
 	*	Uniform buffer declaration.
 	*/
 	/**@{*/
-	template< typename T, typename ... ParamsT >
+	template< typename BindingT, typename SetT, typename ... ParamsT >
+	inline UniformBuffer ShaderWriter::declUniformBuffer( std::string name
+		, BindingT binding
+		, SetT set
+		, ast::type::MemoryLayout layout
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		return UniformBuffer{ *this
+			, std::move( name )
+			, uint32_t( binding )
+			, uint32_t( set )
+			, layout
+			, enabled
+			, std::forward< ParamsT >( params )... };
+	}
+
+	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline T ShaderWriter::declUniformBuffer( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, ast::type::MemoryLayout layout
 		, bool enabled
 		, ParamsT && ... params )
 	{
 		return T{ *this
 			, std::move( name )
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, layout
 			, enabled
 			, std::forward< ParamsT >( params )... };
 	}
 
-	template< typename T, typename ... ParamsT >
+	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline T ShaderWriter::declUniformBuffer(std::string name
 		, LocationHelper location
 		, ast::type::MemoryLayout layout
@@ -1534,42 +1647,59 @@ namespace sdw
 	*	Shader storage buffer declaration.
 	*/
 	/**@{*/
-	template< typename T, typename ... ParamsT >
+	template< typename BindingT, typename SetT, typename ... ParamsT >
+	inline StorageBuffer ShaderWriter::declStorageBuffer( std::string name
+		, BindingT binding
+		, SetT set
+		, ast::type::MemoryLayout layout
+		, bool enabled
+		, ParamsT && ... params )
+	{
+		return StorageBuffer{ *this
+			, std::move( name )
+			, uint32_t( binding )
+			, uint32_t( set )
+			, layout
+			, enabled
+			, std::forward< ParamsT >( params )... };
+	}
+
+	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline T ShaderWriter::declStorageBuffer( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, ast::type::MemoryLayout layout
 		, bool enabled
 		, ParamsT && ... params )
 	{
 		return T{ *this
 			, std::move( name )
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, layout
 			, enabled
 			, std::forward< ParamsT >( params )... };
 	}
 
-	template< typename T, typename ... ParamsT >
+	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, bool enabled
 		, ParamsT && ... params )
 	{
 		return ArrayStorageBufferT< T >{ *this
 			, std::move( name )
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled
 			, std::forward< ParamsT >( params )... };
 	}
 
-	template< typename T, typename ... ParamsT >
+	template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer( std::string name
-		, uint32_t binding
-		, uint32_t set
+		, BindingT binding
+		, SetT set
 		, ast::type::MemoryLayout layout
 		, bool enabled
 		, ParamsT && ... params )
@@ -1578,8 +1708,8 @@ namespace sdw
 			, std::move( name )
 			, T::makeType( getTypesCache(), std::forward< ParamsT >( params )... )
 			, layout
-			, binding
-			, set
+			, uint32_t( binding )
+			, uint32_t( set )
 			, enabled };
 	}
 

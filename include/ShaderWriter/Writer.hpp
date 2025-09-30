@@ -349,36 +349,52 @@ namespace sdw
 		*	Sampler declaration.
 		*/
 		/**@{*/
-		template< bool ComparisonT = false >
+		template< typename BindingT, typename SetT >
+		SamplerT< false > declSampler( std::string name
+			, BindingT binding
+			, SetT set
+			, bool enabled = true );
+		template< bool ComparisonT, typename BindingT, typename SetT >
 		SamplerT< ComparisonT > declSampler( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		T declSampler( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< bool ComparisonT = false >
-		Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
-				, uint32_t binding
-				, uint32_t set
-				, bool enabled = true );
-		template< typename T >
-		Array< T > declSamplerArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+		template< typename BindingT, typename SetT >
+		Array< SamplerT< false > > declSamplerArray( std::string name
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< bool ComparisonT = false >
+		template< bool ComparisonT, typename BindingT, typename SetT >
 		Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
-				, uint32_t binding
-				, uint32_t set
-				, uint32_t dimension
-				, bool enabled = true );
-		template< typename T >
+			, BindingT binding
+			, SetT set
+			, bool enabled = true );
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declSamplerArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
+			, bool enabled = true );
+		template< typename BindingT, typename SetT >
+		Array< SamplerT< false > > declSamplerArray( std::string name
+			, BindingT binding
+			, SetT set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< bool ComparisonT, typename BindingT, typename SetT >
+		Array< SamplerT< ComparisonT > > declSamplerArray( std::string name
+			, BindingT binding
+			, SetT set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T, typename BindingT, typename SetT >
+		Array< T > declSamplerArray( std::string name
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< bool ComparisonT = false >
@@ -418,42 +434,45 @@ namespace sdw
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
+			, bool MsT
+			, typename BindingT, typename SetT >
 		SampledImageT< FormatT, DimT, ArrayedT, MsT > declSampledImg( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		T declSampledImg( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
+			, bool MsT
+			, typename BindingT, typename SetT >
 		Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declSampledImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
+			, bool MsT
+			, typename BindingT, typename SetT >
 		Array< SampledImageT< FormatT, DimT, ArrayedT, MsT > > declSampledImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declSampledImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
@@ -503,44 +522,75 @@ namespace sdw
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT
-			, bool DepthT = false >
+			, typename BindingT, typename SetT >
+		CombinedImageT< FormatT, DimT, ArrayedT, MsT, false > declCombinedImg( std::string name
+			, BindingT binding
+			, SetT set
+			, bool enabled = true );
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT
+			, bool DepthT
+			, typename BindingT, typename SetT >
 		CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > declCombinedImg( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		T declCombinedImg( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT
-			, bool DepthT = false >
-		Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, typename BindingT, typename SetT >
+		Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, false > > declCombinedImgArray( std::string name
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT
+			, bool DepthT
+			, typename BindingT, typename SetT >
+		Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
+			, BindingT binding
+			, SetT set
+			, bool enabled = true );
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declCombinedImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
 			, bool MsT
-			, bool DepthT = false >
-		Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, typename BindingT, typename SetT >
+		Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, false > > declCombinedImgArray( std::string name
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
-		template< typename T >
+		template< ast::type::ImageFormat FormatT
+			, ast::type::ImageDim DimT
+			, bool ArrayedT
+			, bool MsT
+			, bool DepthT
+			, typename BindingT, typename SetT >
+		Array< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > declCombinedImgArray( std::string name
+			, BindingT binding
+			, SetT set
+			, uint32_t dimension
+			, bool enabled = true );
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declCombinedImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
@@ -593,44 +643,47 @@ namespace sdw
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
+			, bool MsT
+			, typename BindingT, typename SetT >
 		StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > declStorageImg( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		T declStorageImg( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
+			, bool MsT
+			, typename BindingT, typename SetT >
 		Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declStorageImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declStorageImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
 			, ast::type::AccessKind AccessT
 			, ast::type::ImageDim DimT
 			, bool ArrayedT
-			, bool MsT >
+			, bool MsT
+			, typename BindingT, typename SetT >
 		Array< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > declStorageImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
-		template< typename T >
+		template< typename T, typename BindingT, typename SetT >
 		Array< T > declStorageImgArray( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
 			, uint32_t dimension
 			, bool enabled = true );
 		template< ast::type::ImageFormat FormatT
@@ -715,9 +768,10 @@ namespace sdw
 		template< typename T >
 		HitAttributeT< T > declHitAttribute( std::string name
 			, bool enabled = true );
-		SDW_API AccelerationStructure declAccelerationStructure( std::string name
-			, uint32_t binding
-			, uint32_t set
+		template< typename BindingT, typename SetT >
+		AccelerationStructure declAccelerationStructure( std::string name
+			, BindingT binding
+			, SetT set
 			, bool enabled = true );
 		/**@}*/
 #pragma endregion
@@ -727,14 +781,21 @@ namespace sdw
 		*	Uniform buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = UniformBuffer, typename ... ParamsT >
-		T declUniformBuffer( std::string name
-			, uint32_t binding
-			, uint32_t set
+		template< typename BindingT, typename SetT, typename ... ParamsT >
+		UniformBuffer declUniformBuffer( std::string name
+			, BindingT binding
+			, SetT set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true
 			, ParamsT && ... params );
-		template< typename T = UniformBuffer, typename ... ParamsT >
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+		T declUniformBuffer( std::string name
+			, BindingT binding
+			, SetT set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 		T declUniformBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
@@ -748,23 +809,30 @@ namespace sdw
 		*	Shader storage buffer declaration.
 		*/
 		/**@{*/
-		template< typename T = StorageBuffer, typename ... ParamsT >
-		T declStorageBuffer( std::string name
-			, uint32_t binding
-			, uint32_t set
+		template< typename BindingT, typename SetT, typename ... ParamsT >
+		StorageBuffer declStorageBuffer( std::string name
+			, BindingT binding
+			, SetT set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true
 			, ParamsT && ... params );
-		template< typename T, typename ... ParamsT >
-		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
-			, uint32_t binding
-			, uint32_t set
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+		T declStorageBuffer( std::string name
+			, BindingT binding
+			, SetT set
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true
 			, ParamsT && ... params );
-		template< typename T, typename ... ParamsT >
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
-			, uint32_t binding
-			, uint32_t set
+			, BindingT binding
+			, SetT set
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
+		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
+			, BindingT binding
+			, SetT set
 			, ast::type::MemoryLayout layout
 			, bool enabled = true
 			, ParamsT && ... params );
