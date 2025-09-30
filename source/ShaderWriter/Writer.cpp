@@ -631,30 +631,6 @@ namespace sdw
 			, enabled };
 	}
 
-	AccelerationStructure ShaderWriter::declAccelerationStructure( std::string name
-		, uint32_t binding
-		, uint32_t set
-		, bool enabled )
-	{
-		auto type = AccelerationStructure::makeType( getTypesCache() );
-		auto var = registerAccelerationStructure( std::move( name )
-			, type
-			, binding
-			, set );
-
-		if ( enabled )
-		{
-			addStmt( makeAccelerationStructureDecl( getStmtCache()
-				, var
-				, binding
-				, set ) );
-		}
-
-		return AccelerationStructure{ *this
-			, makeExpr( *this, var )
-			, enabled };
-	}
-
 	var::VariablePtr ShaderWriter::registerStaticConstant( std::string name
 		, type::TypePtr type )
 	{
