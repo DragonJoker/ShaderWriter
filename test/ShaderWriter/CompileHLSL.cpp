@@ -186,6 +186,7 @@ namespace test
 			{
 				std::vector< std::string > ignored{ "DXIL.dll not found."
 					, "Resulting DXIL will not be signed for use in release environments."
+					, "error: validator version 1,6 does not support target profile.\n"
 					, "warning:   \r\n\n" };
 				std::string compErrors = ( char * )pErrors->GetBufferPointer();
 

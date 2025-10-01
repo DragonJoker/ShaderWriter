@@ -22,27 +22,11 @@ namespace sdw
 			, "A structure must have at least one field" );
 
 	public:
-		~MixedStructInstanceHelperT()noexcept override = default;
-		MixedStructInstanceHelperT( MixedStructInstanceHelperT const & ) = default;
-		MixedStructInstanceHelperT( MixedStructInstanceHelperT && )noexcept = default;
-
 		MixedStructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true )
 			: StructInstance{ writer, std::move( expr ), enabled }
 		{
-		}
-
-		MixedStructInstanceHelperT & operator=( MixedStructInstanceHelperT const & rhs )
-		{
-			StructInstance::operator=( rhs );
-			return *this;
-		}
-
-		MixedStructInstanceHelperT & operator=( MixedStructInstanceHelperT && rhs )noexcept
-		{
-			StructInstance::operator=( std::move( rhs ) );
-			return *this;
 		}
 
 		template< sdw::StringLiteralT FieldNameT >

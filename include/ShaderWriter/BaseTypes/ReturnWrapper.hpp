@@ -23,10 +23,10 @@ namespace sdw
 		explicit ReturnWrapperT( ValueT const & rhs );
 		ReturnWrapperT( ReturnWrapperT && rhs )noexcept;
 		~ReturnWrapperT()noexcept override;
-		ReturnWrapperT< ValueT > operator=( ReturnWrapperT const & rhs );
-		ReturnWrapperT< ValueT > operator=( ReturnWrapperT && rhs );
+		ReturnWrapperT & operator=( ReturnWrapperT const & rhs );
+		ReturnWrapperT & operator=( ReturnWrapperT && rhs )noexcept;
 		template< typename T >
-		ReturnWrapperT< ValueT > operator=( T const & rhs );
+		ReturnWrapperT & operator=( T const & rhs );
 
 		type::TypePtr getType()const override;
 		expr::Expr const * getExpr()const override;

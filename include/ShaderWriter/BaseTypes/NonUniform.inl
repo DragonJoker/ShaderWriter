@@ -31,12 +31,6 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	NonUniformT< ValueT >::NonUniformT( NonUniformT && rhs )noexcept
-		: ValueT{ std::move( rhs ) }
-	{
-	}
-
-	template< typename ValueT >
 	ast::type::TypePtr NonUniformT< ValueT >::makeType( ast::type::TypesCache & cache )
 	{
 		return ValueT::makeType( cache );

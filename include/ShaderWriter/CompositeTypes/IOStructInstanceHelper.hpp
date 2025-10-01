@@ -26,27 +26,11 @@ namespace sdw
 			, FieldsT... >;
 
 	public:
-		~IOStructInstanceHelperT()noexcept override = default;
-		IOStructInstanceHelperT( IOStructInstanceHelperT const & ) = default;
-		IOStructInstanceHelperT( IOStructInstanceHelperT && )noexcept = default;
-
 		IOStructInstanceHelperT( ShaderWriter & writer
 			, ast::expr::ExprPtr expr
 			, bool enabled = true )
 			: MyHelper{ writer, std::move( expr ), enabled }
 		{
-		}
-
-		IOStructInstanceHelperT & operator=( IOStructInstanceHelperT const & rhs )
-		{
-			MyHelper::operator=( rhs );
-			return *this;
-		}
-
-		IOStructInstanceHelperT & operator=( IOStructInstanceHelperT && rhs )noexcept
-		{
-			MyHelper::operator=( std::move( rhs ) );
-			return *this;
 		}
 
 		using MyHelper::getMember;
