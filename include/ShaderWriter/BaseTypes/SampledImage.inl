@@ -25,7 +25,6 @@ namespace sdw
 	template< typename T >
 	ReturnWrapperT< SampledImageT< FormatT, DimT, ArrayedT, MsT > > SampledImageT< FormatT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< SampledImageT >( *this, rhs, sdw::makeAssign );
 	}
 

@@ -76,8 +76,6 @@ namespace sdw
 		static ast::type::IOStructPtr makeType( ast::type::TypesCache & cache
 			, ParamsT && ... params );
 
-		using ComputeInT< DataT >::updateContainer;
-		using ComputeInT< DataT >::getContainer;
 		using ComputeInT< DataT >::updateExpr;
 		using ComputeInT< DataT >::getType;
 		using ComputeInT< DataT >::getExpr;

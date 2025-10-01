@@ -49,7 +49,6 @@ namespace sdw
 	template< ast::var::Flag FlagT, typename ValueT >
 	ReturnWrapperT< RayPayloadBaseT< FlagT, ValueT > > RayPayloadBaseT< FlagT, ValueT >::operator=( ValueT const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< RayPayloadBaseT >( *this, rhs, sdw::makeAssign );
 	}
 

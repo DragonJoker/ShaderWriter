@@ -3264,7 +3264,6 @@ namespace sdw
 	template< typename T >
 	ReturnWrapperT< CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT > > CombinedImageT< FormatT, DimT, ArrayedT, MsT, DepthT >::operator=( T const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< CombinedImageT >( *this, rhs, sdw::makeAssign );
 	}
 

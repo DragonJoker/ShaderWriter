@@ -45,7 +45,6 @@ namespace sdw
 	template< ast::var::Flag FlagT, typename ValueT >
 	ReturnWrapperT< CallableDataBaseT< FlagT, ValueT > > CallableDataBaseT< FlagT, ValueT >::operator=( ValueT const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< CallableDataBaseT >( *this, rhs, sdw::makeAssign );
 	}
 

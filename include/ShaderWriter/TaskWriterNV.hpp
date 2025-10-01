@@ -57,8 +57,6 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		using TaskInNV::updateContainer;
-		using TaskInNV::getContainer;
 		using TaskInNV::updateExpr;
 		using TaskInNV::getType;
 		using TaskInNV::getExpr;

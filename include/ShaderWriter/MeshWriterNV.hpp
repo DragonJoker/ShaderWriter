@@ -65,8 +65,6 @@ namespace sdw
 
 		SDW_API static ast::type::StructPtr makeType( ast::type::TypesCache & cache );
 
-		using MeshInNV::updateContainer;
-		using MeshInNV::getContainer;
 		using MeshInNV::updateExpr;
 		using MeshInNV::getType;
 		using MeshInNV::getExpr;

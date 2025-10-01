@@ -8,7 +8,6 @@ namespace sdw
 	template< typename T >
 	ReturnWrapperT< Sampler > Sampler::operator=( T const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< Sampler >( *this, rhs, sdw::makeAssign );
 	}
 
@@ -26,7 +25,6 @@ namespace sdw
 	template< typename T >
 	ReturnWrapperT< SamplerT< ComparisonT > > SamplerT< ComparisonT >::operator=( T const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< SamplerT >( *this, rhs, sdw::makeAssign );
 	}
 
