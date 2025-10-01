@@ -20,7 +20,7 @@ namespace sdw
 		SDW_API virtual ~Value() = default;
 		SDW_API Value( Value && rhs )noexcept;
 		SDW_API Value( Value const & rhs );
-		SDW_API Value & operator=( Value && rhs )noexcept = default;
+		SDW_API Value & operator=( Value && rhs )noexcept;
 		SDW_API Value & operator=( Value const & rhs );
 
 		SDW_API void updateExpr( expr::ExprPtr expr );
@@ -71,10 +71,6 @@ namespace sdw
 				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) )
 				, op.isEnabled() };
 		}
-
-	protected:
-		SDW_API void doCopy( Value const & rhs );
-		SDW_API void doMove( Value && rhs )noexcept;
 
 	protected:
 		expr::ExprPtr m_expr;
@@ -202,21 +198,13 @@ namespace sdw
 #define SDW_DeclValue( expdecl, name )\
 	expdecl name( name && rhs )noexcept = default;\
 	expdecl name( name const & rhs ) = default;\
+	expdecl name & operator=( name && rhs )noexcept = default;\
+	expdecl name & operator=( name const & rhs ) = default;\
 	expdecl name( sdw::ReturnWrapperT< name > const & rhs )\
 		: name{ findWriterMandat( rhs )\
 			, makeExpr( findWriterMandat( rhs ), rhs )\
 			, rhs.isEnabled() }\
 	{\
-	}\
-	expdecl name & operator=( name && rhs )noexcept\
-	{\
-		sdw::Value::doMove( std::move( rhs ) );\
-		return *this;\
-	}\
-	expdecl name & operator=( name const & rhs )\
-	{\
-		sdw::Value::doCopy( rhs );\
-		return *this;\
 	}\
 	expdecl name & operator=( sdw::ReturnWrapperT< name > && rhs )\
 	{\

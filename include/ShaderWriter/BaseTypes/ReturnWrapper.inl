@@ -22,6 +22,7 @@ namespace sdw
 	template< typename ValueT >
 	ReturnWrapperT< ValueT >::ReturnWrapperT( ReturnWrapperT && rhs )noexcept
 		: ValueT{ std::move( rhs ) }
+		, m_remnExpr{ std::move( rhs.m_remnExpr ) }
 	{
 	}
 
@@ -69,37 +70,40 @@ namespace sdw
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( ReturnWrapperT< ValueT > const & rhs )
+	ReturnWrapperT< ValueT > & ReturnWrapperT< ValueT >::operator=( ReturnWrapperT< ValueT > const & rhs )
 	{
 		auto & writer = *this->getWriter();
-		return ReturnWrapperT< ValueT >{ writer
-			, sdw::makeAssign( this->getType()
+		this->m_expr = sdw::makeAssign( this->getType()
 				, makeExpr( writer, *this )
-				, makeExpr( writer, rhs ) )
-			, areOptionalEnabled( *this, rhs ) };
+				, makeExpr( writer, rhs ) );
+		this->m_enabled = areOptionalEnabled( *this, rhs );
+		m_remnExpr.reset();
+		return *this;
 	}
 
 	template< typename ValueT >
-	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( ReturnWrapperT< ValueT > && rhs )
+	ReturnWrapperT< ValueT > & ReturnWrapperT< ValueT >::operator=( ReturnWrapperT< ValueT > && rhs )noexcept
 	{
 		auto & writer = *this->getWriter();
-		return ReturnWrapperT< ValueT >{ writer
-			, sdw::makeAssign( this->getType()
+		this->m_expr = sdw::makeAssign( this->getType()
 				, makeExpr( writer, *this )
-				, makeExpr( writer, rhs ) )
-			, areOptionalEnabled( *this, rhs ) };
+				, makeExpr( writer, rhs ) );
+		this->m_enabled = areOptionalEnabled( *this, rhs );
+		m_remnExpr.reset();
+		return *this;
 	}
 
 	template< typename ValueT >
 	template< typename T >
-	ReturnWrapperT< ValueT > ReturnWrapperT< ValueT >::operator=( T const & rhs )
+	ReturnWrapperT< ValueT > & ReturnWrapperT< ValueT >::operator=( T const & rhs )
 	{
 		auto & writer = *this->getWriter();
-		return ReturnWrapperT< ValueT >{ writer
-			, sdw::makeAssign( this->getType()
+		this->m_expr = sdw::makeAssign( this->getType()
 				, makeExpr( writer, *this )
-				, makeExpr( writer, rhs ) )
-			, areOptionalEnabled( *this, rhs ) };
+				, makeExpr( writer, rhs ) );
+		this->m_enabled = areOptionalEnabled( *this, rhs );
+		m_remnExpr.reset();
+		return *this;
 	}
 
 	template< typename ValueT >

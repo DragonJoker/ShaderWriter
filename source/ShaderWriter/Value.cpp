@@ -43,58 +43,11 @@ namespace sdw
 		rhs.m_enabled = {};
 	}
 
-	Value & Value::operator=( Value const & rhs )
+	Value & Value::operator=( Value && rhs )noexcept
 	{
 		assert( getComponentCount( getNonArrayType( getType() ) ) * getArraySize( getType() ) == getComponentCount( getNonArrayType( rhs.getType() ) ) * getArraySize( rhs.getType() )
 			&& getComponentType( getNonArrayType( getType() ) ) == getComponentType( getNonArrayType( rhs.getType() ) )
 			&& "Can't assign variables with non matching types" );
-		return *this;
-	}
-
-	void Value::updateContainer( Value const & value )
-	{
-		if ( !m_container )
-		{
-			m_container = findContainer( value );
-		}
-	}
-
-	stmt::Container * Value::getContainer()const
-	{
-		if ( m_writer )
-		{
-			return m_writer->getBuilder().getContainer();
-		}
-
-		return nullptr;
-	}
-
-	void Value::updateExpr( expr::ExprPtr expr )
-	{
-		m_expr = std::move( expr );
-	}
-
-	ast::ShaderBuilder & Value::getBuilder()const
-	{
-		assert( getWriter() );
-		return getWriter()->getBuilder();
-	}
-
-	void Value::doCopy( Value const & rhs )
-	{
-		if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
-		{
-			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );
-			sdw::addStmt( writer
-				, sdw::makeSimple( getStmtCache( writer )
-					, sdw::makeAssign( getType()
-						, sdw::makeExpr( writer, *this )
-						, sdw::makeExpr( writer, rhs ) ) ) );
-		}
-	}
-
-	void Value::doMove( Value && rhs )noexcept
-	{
 		try
 		{
 			if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
@@ -109,7 +62,38 @@ namespace sdw
 		}
 		catch ( ... )
 		{
+			// Nothing I can do here....
+			assert( false && "Unexpected exception encountered while moving an sdw::Value" );
 		}
+		return *this;
+	}
+
+	Value & Value::operator=( Value const & rhs )
+	{
+		assert( getComponentCount( getNonArrayType( getType() ) ) * getArraySize( getType() ) == getComponentCount( getNonArrayType( rhs.getType() ) ) * getArraySize( rhs.getType() )
+			&& getComponentType( getNonArrayType( getType() ) ) == getComponentType( getNonArrayType( rhs.getType() ) )
+			&& "Can't assign variables with non matching types" );
+		if ( isEnabled() && rhs.isEnabled() && m_expr && !m_expr->isConstant() )
+		{
+			sdw::ShaderWriter & writer = sdw::findWriterMandat( *this, rhs );
+			sdw::addStmt( writer
+				, sdw::makeSimple( getStmtCache( writer )
+					, sdw::makeAssign( getType()
+						, sdw::makeExpr( writer, *this )
+						, sdw::makeExpr( writer, rhs ) ) ) );
+		}
+		return *this;
+	}
+
+	void Value::updateExpr( expr::ExprPtr expr )
+	{
+		m_expr = std::move( expr );
+	}
+
+	ast::ShaderBuilder & Value::getBuilder()const
+	{
+		assert( getWriter() );
+		return getWriter()->getBuilder();
 	}
 
 	//*****************************************************************************************

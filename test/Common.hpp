@@ -784,13 +784,15 @@ namespace test
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed." } + exc.what() ).c_str() );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( ( std::string{ #x" failed." } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}\
 	catch ( ... )\
 	{\
-		GTEST_FATAL_FAILURE_( #x" failed." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( #x" failed." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}
 
 #define astSubCheck( f, l, x )\
@@ -798,14 +800,16 @@ namespace test
 	{\
 		if ( !( x ) )\
 		{\
-			GTEST_FATAL_FAILURE_( #x" failed: " );\
-			GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+			GTEST_NONFATAL_FAILURE_( #x" failed: " );\
+			GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+			GTEST_FATAL_FAILURE_( "Exiting" );\
 		}\
 	}\
 	catch ( ... )\
 	{\
-		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}
 
 #define astSubCheckEqual( f, l, x, y )\
@@ -818,13 +822,15 @@ namespace test
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}\
 	catch ( ... )\
 	{\
-		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}
 
 #define astSubCheckNotEqual( f, l, x, y )\
@@ -837,21 +843,24 @@ namespace test
 	}\
 	catch ( test::Exception & exc )\
 	{\
-		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}\
 	catch ( ... )\
 	{\
-		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_MESSAGE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}
 
 #define astSubCheckThrowEx( f, l, x, excType )\
 	try\
 	{\
 		( x );\
-		GTEST_FATAL_FAILURE_( #x" failed: Expected exception not thrown." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( #x" failed: Expected exception not thrown." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}\
 	catch ( excType & )\
 	{\
@@ -859,8 +868,9 @@ namespace test
 	}\
 	catch ( ... )\
 	{\
-		GTEST_FATAL_FAILURE_( #x" failed: Unexpected exception type." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( #x" failed: Unexpected exception type." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}
 
 #define astSubCheckNoThrowEx( f, l, x, excType )\
@@ -870,13 +880,15 @@ namespace test
 	}\
 	catch ( excType & exc )\
 	{\
-		GTEST_FATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( ( std::string{ #x" failed: " } + exc.what() ).c_str() );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}\
 	catch ( ... )\
 	{\
-		GTEST_FATAL_FAILURE_( #x" failed: Unhandled exception." );\
-		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kFatalFailure );\
+		GTEST_NONFATAL_FAILURE_( #x" failed: Unhandled exception." );\
+		GTEST_MESSAGE_AT_( f, l, "Called From: ", ::testing::TestPartResult::kNonFatalFailure );\
+		GTEST_FATAL_FAILURE_( "Exiting" );\
 	}
 
 #define astTrace( message )\

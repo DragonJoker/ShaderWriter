@@ -16,16 +16,16 @@ namespace sdw
 	private:
 		NonUniformT( NonUniformT const & rhs ) = delete;
 		NonUniformT & operator=( NonUniformT const & rhs ) = delete;
-		NonUniformT & operator=( NonUniformT && rhs ) = delete;
+		NonUniformT & operator=( NonUniformT && rhs )noexcept = delete;
 
 	public:
+		NonUniformT( NonUniformT && rhs )noexcept = default;
 		~NonUniformT()noexcept override = default;
 
 		NonUniformT( ShaderWriter & writer
 			, expr::ExprPtr expr
 			, bool enabled );
 		explicit NonUniformT( ValueT const & rhs );
-		NonUniformT( NonUniformT && rhs )noexcept;
 
 		static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};
