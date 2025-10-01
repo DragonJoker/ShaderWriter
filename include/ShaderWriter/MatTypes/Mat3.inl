@@ -24,7 +24,6 @@ namespace sdw
 	template< typename RhsT >
 	ReturnWrapperT< Mat3x3T< ValueT > > Mat3x3T< ValueT >::operator=( RhsT const & rhs )
 	{
-		updateContainer( rhs );
 		return writeAssignOperator< Mat3x3T< ValueT > >( *this, rhs, sdw::makeAssign );
 	}
 

@@ -23,8 +23,6 @@ namespace sdw
 		SDW_API Value & operator=( Value && rhs )noexcept = default;
 		SDW_API Value & operator=( Value const & rhs );
 
-		SDW_API void updateContainer( Value const & variable );
-		SDW_API stmt::Container * getContainer()const;
 		SDW_API void updateExpr( expr::ExprPtr expr );
 
 		SDW_API ast::ShaderBuilder & getBuilder()const;
@@ -81,7 +79,6 @@ namespace sdw
 	protected:
 		expr::ExprPtr m_expr;
 		ShaderWriter * m_writer{};
-		stmt::Container * m_container{};
 		bool m_enabled;
 	};
 

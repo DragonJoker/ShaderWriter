@@ -38,7 +38,6 @@ namespace sdw
 	template< ArithmeticT RhsT >
 	ReturnWrapperT< ArithmeticValue< KindT > > ArithmeticValue< KindT >::operator=( RhsT const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< ArithmeticValue< KindT > >( *this, rhs, sdw::makeAssign );
 	}
 

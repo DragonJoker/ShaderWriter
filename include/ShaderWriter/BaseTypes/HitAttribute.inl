@@ -42,7 +42,6 @@ namespace sdw
 	template< typename ValueT >
 	ReturnWrapperT< HitAttributeT< ValueT > > HitAttributeT< ValueT >::operator=( ValueT const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< HitAttributeT >( *this, rhs, sdw::makeAssign );
 	}
 

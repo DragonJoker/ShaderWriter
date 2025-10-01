@@ -23,7 +23,6 @@ namespace sdw
 		, bool enabled )
 		: m_expr{ std::move( expr ) }
 		, m_writer{ &writer }
-		, m_container{ sdw::getContainer( *m_writer ) }
 		, m_enabled{ enabled }
 	{
 	}
@@ -42,7 +41,6 @@ namespace sdw
 	{
 		rhs.m_expr = {};
 		rhs.m_enabled = {};
-		rhs.m_container = {};
 	}
 
 	Value & Value::operator=( Value const & rhs )
@@ -50,7 +48,6 @@ namespace sdw
 		assert( getComponentCount( getNonArrayType( getType() ) ) * getArraySize( getType() ) == getComponentCount( getNonArrayType( rhs.getType() ) ) * getArraySize( rhs.getType() )
 			&& getComponentType( getNonArrayType( getType() ) ) == getComponentType( getNonArrayType( rhs.getType() ) )
 			&& "Can't assign variables with non matching types" );
-		updateContainer( rhs );
 		return *this;
 	}
 

@@ -2210,7 +2210,6 @@ namespace sdw
 	template< typename T >
 	ReturnWrapperT< StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT > > StorageImageT< FormatT, AccessT, DimT, ArrayedT, MsT >::operator=( T const & rhs )
 	{
-		this->updateContainer( rhs );
 		return writeAssignOperator< StorageImageT >( *this, rhs, sdw::makeAssign );
 	}
 
