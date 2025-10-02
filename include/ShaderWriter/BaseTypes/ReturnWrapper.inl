@@ -22,7 +22,7 @@ namespace sdw
 	template< typename ValueT >
 	ReturnWrapperT< ValueT >::ReturnWrapperT( ReturnWrapperT && rhs )noexcept
 		: ValueT{ std::move( rhs ) }
-		, m_remnExpr{ std::move( rhs.m_remnExpr ) }
+		, m_remnExpr{ this->m_expr ? nullptr : std::move( rhs.m_remnExpr ) }
 	{
 	}
 

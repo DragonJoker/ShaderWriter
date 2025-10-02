@@ -1724,38 +1724,39 @@ namespace spirv
 			std::string sep;
 			stream << "[";
 
-			if ( value & uint32_t( spv::FunctionControlInlineMask ) )
-			{
-				stream << sep << "Inline";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::FunctionControlDontInlineMask ) )
-			{
-				stream << sep << "DontInline";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::FunctionControlPureMask ) )
-			{
-				stream << sep << "Pure";
-				sep = "|";
-			}
-
-			if ( value & uint32_t( spv::FunctionControlConstMask ) )
-			{
-				stream << sep << "Const";
-				sep = "|";
-			}
-
-			if ( value == uint32_t( spv::FunctionControlOptNoneINTELMask ) )
+			if ( value & uint32_t( spv::FunctionControlOptNoneINTELMask ) )
 			{
 				stream << sep << "OptNoneINTEL";
 			}
-
-			if ( value == uint32_t( spv::FunctionControlMaskNone ) )
+			else if ( value == uint32_t( spv::FunctionControlMaskNone ) )
 			{
 				stream << sep << "None";
+			}
+			else
+			{
+				if ( value & uint32_t( spv::FunctionControlInlineMask ) )
+				{
+					stream << sep << "Inline";
+					sep = "|";
+				}
+
+				if ( value & uint32_t( spv::FunctionControlDontInlineMask ) )
+				{
+					stream << sep << "DontInline";
+					sep = "|";
+				}
+
+				if ( value & uint32_t( spv::FunctionControlPureMask ) )
+				{
+					stream << sep << "Pure";
+					sep = "|";
+				}
+
+				if ( value & uint32_t( spv::FunctionControlConstMask ) )
+				{
+					stream << sep << "Const";
+					sep = "|";
+				}
 			}
 
 			stream << "]";
@@ -1915,7 +1916,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			if ( bool( id ) )
+			if ( id.has_value() )
 			{
 				stream << writeStream( id.value(), names );
 			}
@@ -1968,7 +1969,7 @@ namespace spirv
 			, std::ostream & stream
 			, NameCache const & names )
 		{
-			if ( bool( instruction.resultId ) )
+			if ( instruction.resultId.has_value() )
 			{
 				stream << writeId( instruction.resultId.value() ) << " =";
 			}
@@ -2357,13 +2358,7 @@ namespace spirv
 						stream << " " << bool( instruction.operands[0] );
 						break;
 					case ast::type::Kind::eInt8:
-						names.add( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
-						stream << " " << int32_t( instruction.operands[0] );
-						break;
 					case ast::type::Kind::eInt16:
-						names.add( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
-						stream << " " << int32_t( instruction.operands[0] );
-						break;
 					case ast::type::Kind::eInt32:
 						names.add( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
 						stream << " " << int32_t( instruction.operands[0] );
@@ -2373,13 +2368,7 @@ namespace spirv
 						stream << " " << ( ( int64_t( instruction.operands[0] ) << 32 ) + int64_t( instruction.operands[1] ) );
 						break;
 					case ast::type::Kind::eUInt8:
-						names.add( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
-						stream << " " << instruction.operands[0];
-						break;
 					case ast::type::Kind::eUInt16:
-						names.add( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
-						stream << " " << instruction.operands[0];
-						break;
 					case ast::type::Kind::eUInt32:
 						names.add( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
 						stream << " " << instruction.operands[0];
@@ -2461,13 +2450,7 @@ namespace spirv
 						stream << " " << bool( instruction.operands[0] );
 						break;
 					case ast::type::Kind::eInt8:
-						names.add( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
-						stream << " " << int32_t( instruction.operands[0] );
-						break;
 					case ast::type::Kind::eInt16:
-						names.add( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
-						stream << " " << int32_t( instruction.operands[0] );
-						break;
 					case ast::type::Kind::eInt32:
 						names.add( instruction.resultId.value(), std::to_string( int32_t( instruction.operands[0] ) ) );
 						stream << " " << int32_t( instruction.operands[0] );
@@ -2477,13 +2460,7 @@ namespace spirv
 						stream << " " << ( ( int64_t( instruction.operands[0] ) << 32 ) + int64_t( instruction.operands[1] ) );
 						break;
 					case ast::type::Kind::eUInt8:
-						names.add( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
-						stream << " " << instruction.operands[0];
-						break;
 					case ast::type::Kind::eUInt16:
-						names.add( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
-						stream << " " << instruction.operands[0];
-						break;
 					case ast::type::Kind::eUInt32:
 						names.add( instruction.resultId.value(), std::to_string( instruction.operands[0] ) );
 						stream << " " << instruction.operands[0];
@@ -2545,7 +2522,7 @@ namespace spirv
 
 			if ( shaderModule.isExtGlslStd450( instruction.operands[0] ) )
 			{
-				if ( bool( instruction.resultId ) )
+				if ( instruction.resultId.has_value() )
 				{
 					stream << writeId( instruction.resultId.value() ) << " =";
 				}
@@ -2556,7 +2533,7 @@ namespace spirv
 
 				stream << " ExtInst";
 
-				if ( bool( instruction.returnTypeId ) )
+				if ( instruction.returnTypeId.has_value() )
 				{
 					stream << writeStream( instruction.returnTypeId.value(), names );
 				}
@@ -3134,7 +3111,7 @@ namespace spirv
 			}
 			else
 			{
-				if ( bool( instruction.resultId ) )
+				if ( instruction.resultId.has_value() )
 				{
 					stream << writeId( instruction.resultId.value() ) << " =";
 				}
@@ -3145,7 +3122,7 @@ namespace spirv
 
 				stream << " " << spirv::getOperatorName( opCode );
 
-				if ( bool( instruction.returnTypeId ) )
+				if ( instruction.returnTypeId.has_value() )
 				{
 					stream << writeStream( instruction.returnTypeId.value(), names );
 				}

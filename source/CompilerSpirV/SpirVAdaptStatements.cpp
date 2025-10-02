@@ -66,7 +66,6 @@ namespace spirv
 
 			void visitIfStmt( ast::stmt::If const * stmt )override
 			{
-				TraceFunc;
 				AST_Assert( stmt->getElseIfList().empty() && "ElseIf list is supposed to have been converted." );
 				auto save = m_current;
 				auto cont = m_stmtCache.makeIf( doSubmit( *stmt->getCtrlExpr() ) );
@@ -88,7 +87,6 @@ namespace spirv
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
 			{
-				TraceFunc;
 				if ( stmt->getFlags() )
 				{
 					if ( stmt->isEntryPoint() )
@@ -108,31 +106,29 @@ namespace spirv
 
 			void visitHitAttributeVariableDeclStmt( ast::stmt::HitAttributeVariableDecl const * stmt )override
 			{
-				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeHitAttributeVariableDecl( stmt->getVariable() ) );
 			}
 
 			void visitInOutCallableDataVariableDeclStmt( ast::stmt::InOutCallableDataVariableDecl const * stmt )override
 			{
-				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeInOutCallableDataVariableDecl( stmt->getVariable()
 					, stmt->getLocation() ) );
 			}
 
 			void visitInOutRayPayloadVariableDeclStmt( ast::stmt::InOutRayPayloadVariableDecl const * stmt )override
 			{
-				TraceFunc;
 				m_ioDeclarations->addStmt( m_stmtCache.makeInOutRayPayloadVariableDecl( stmt->getVariable()
 					, stmt->getLocation() ) );
 			}
 
 			void visitInOutVariableDeclStmt( ast::stmt::InOutVariableDecl const * stmt )override
 			{
-				TraceFunc;
+				ast::Logger::logError( "Unexpected InOutVariableDecl statement." );
 			}
 
 			void visitPreprocVersion( ast::stmt::PreprocVersion const * preproc )override
 			{
+				ast::Logger::logError( "Unexpected PreprocVersion statement." );
 			}
 
 			void visitSwitchStmt( ast::stmt::Switch const * stmt )override
@@ -155,7 +151,6 @@ namespace spirv
 
 			void doProcess( ast::type::ComputeInput const & compType )
 			{
-				TraceFunc;
 				auto type = compType.getType();
 				m_current->addStmt( m_stmtCache.makeInputComputeLayout( type
 					, compType.getLocalSizeX()
@@ -165,7 +160,6 @@ namespace spirv
 
 			void doProcess( ast::type::FragmentInput const & fragType )
 			{
-				TraceFunc;
 				auto type = fragType.getType();
 				m_current->addStmt( m_stmtCache.makeFragmentLayout( type
 					, fragType.getOrigin()
@@ -175,7 +169,6 @@ namespace spirv
 
 			void doProcess( ast::type::GeometryOutput const & geomType )
 			{
-				TraceFunc;
 				auto type = geomType.getType();
 				m_current->addStmt( m_stmtCache.makeOutputGeometryLayout( type
 					, geomType.getLayout()
@@ -184,7 +177,6 @@ namespace spirv
 
 			void doProcess( ast::type::GeometryInput const & geomType )
 			{
-				TraceFunc;
 				auto type = geomType.getType();
 				m_current->addStmt( m_stmtCache.makeInputGeometryLayout( type
 					, geomType.getLayout() ) );
@@ -192,7 +184,6 @@ namespace spirv
 
 			void doProcess( ast::type::TessellationControlOutput const & tessType )
 			{
-				TraceFunc;
 				auto type = tessType.getType();
 				m_current->addStmt( m_stmtCache.makeOutputTessellationControlLayout( type
 					, tessType.getDomain()
@@ -204,12 +195,11 @@ namespace spirv
 
 			void doProcess( ast::type::TessellationControlInput const & )const
 			{
-				TraceFunc;
+				ast::Logger::logError( "Unexpected TessellationControlInput statement." );
 			}
 
 			void doProcess( ast::type::TessellationEvaluationInput const & tessType )
 			{
-				TraceFunc;
 				m_current->addStmt( m_stmtCache.makeInputTessellationEvaluationLayout( tessType.getType()
 					, tessType.getDomain()
 					, tessType.getPartitioning()
@@ -218,7 +208,6 @@ namespace spirv
 
 			void doProcess( ast::type::MeshVertexOutput const & meshType )
 			{
-				TraceFunc;
 				m_maxVertices = meshType.getMaxVertices();
 
 				if ( m_maxPrimitives )
@@ -232,7 +221,6 @@ namespace spirv
 
 			void doProcess( ast::type::MeshPrimitiveOutput const & meshType )
 			{
-				TraceFunc;
 				m_maxPrimitives = meshType.getMaxPrimitives();
 				m_topology = meshType.getTopology();
 
@@ -247,28 +235,27 @@ namespace spirv
 
 			void doProcess( ast::type::TaskPayloadNV const & )const
 			{
-				TraceFunc;
+				ast::Logger::logError( "Unexpected TaskPayloadNV statement." );
 			}
 
 			void doProcess( ast::type::TaskPayload const & )const
 			{
-				TraceFunc;
+				ast::Logger::logError( "Unexpected TaskPayload statement." );
 			}
 
 			void doProcess( ast::type::TaskPayloadInNV const & )const
 			{
-				TraceFunc;
+				ast::Logger::logError( "Unexpected TaskPayloadInNV statement." );
 			}
 
 			void doProcess( ast::type::TaskPayloadIn const & )const
 			{
-				TraceFunc;
+				ast::Logger::logError( "Unexpected TaskPayloadIn statement." );
 			}
 
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TessellationInputPatch const & patchType )
 			{
-				TraceFunc;
 				var = m_adaptationData.config.getInputPatch( var );
 
 				if ( !getStructType( var->getType() )->empty() )
@@ -280,7 +267,6 @@ namespace spirv
 			void doProcess( ast::var::VariablePtr var
 				, ast::type::TessellationOutputPatch const & patchType )
 			{
-				TraceFunc;
 				var = m_adaptationData.config.getOutputPatch( var );
 
 				if ( !getStructType( var->getType() )->empty() )
@@ -291,7 +277,6 @@ namespace spirv
 
 			void doProcessEntryPoint( ast::stmt::FunctionDecl const & stmt )
 			{
-				TraceFunc;
 				auto & typesCache = stmt.getType()->getTypesCache();
 				auto funcType = typesCache.getFunction( typesCache.getVoid(), {} );
 				doProcessInOut( stmt.getType() );
@@ -318,7 +303,6 @@ namespace spirv
 
 			void doProcessPatchRoutine( ast::stmt::FunctionDecl const & stmt )
 			{
-				TraceFunc;
 				auto save = m_current;
 				auto cont = m_stmtCache.makeContainer();
 				m_current = cont.get();
@@ -330,7 +314,6 @@ namespace spirv
 
 			void doProcessInOut( ast::type::FunctionPtr funcType )
 			{
-				TraceFunc;
 				for ( auto & param : *funcType )
 				{
 					auto type = param->getType();
@@ -390,7 +373,6 @@ namespace spirv
 
 			void doDeclareStruct( ast::type::StructPtr const & structType )
 			{
-				TraceFunc;
 				if ( m_declaredStructs.emplace( structType ).second )
 				{
 					m_current->addStmt( m_stmtCache.makeStructureDecl( structType ) );

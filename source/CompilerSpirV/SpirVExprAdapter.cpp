@@ -104,7 +104,6 @@ namespace spirv
 
 	void ExprAdapter::visitAssignExpr( ast::expr::Assign const * expr )
 	{
-		TraceFunc;
 		auto lhs = expr->getLHS();
 		auto rhs = expr->getRHS();
 
@@ -251,8 +250,6 @@ namespace spirv
 
 	void ExprAdapter::visitIdentifierExpr( ast::expr::Identifier const * expr )
 	{
-		TraceFunc;
-
 		if ( auto var = expr->getVariable();
 			var->isPatchOutput() && var->isBuiltin() )
 		{
@@ -373,7 +370,6 @@ namespace spirv
 
 	void ExprAdapter::visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )
 	{
-		TraceFunc;
 		ast::expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -445,7 +441,6 @@ namespace spirv
 
 	void ExprAdapter::visitMbrSelectExpr( ast::expr::MbrSelect const * expr )
 	{
-		TraceFunc;
 		m_result = m_adaptationData.config.processPendingMbr( m_exprCache
 			, *expr->getOuterExpr()
 			, expr->getMemberIndex()
@@ -482,13 +477,11 @@ namespace spirv
 
 	void ExprAdapter::visitStreamAppendExpr( ast::expr::StreamAppend const * expr )
 	{
-		TraceFunc;
 		m_result = makeEmitVertex( m_exprCache, m_typesCache );
 	}
 
 	void ExprAdapter::visitCombinedImageAccessCallExpr( ast::expr::CombinedImageAccessCall const * expr )
 	{
-		TraceFunc;
 		auto kind = expr->getCombinedImageAccess();
 		IntrinsicConfig config;
 		getSpirVConfig( kind, config );
@@ -501,7 +494,7 @@ namespace spirv
 			args.emplace_back( doSubmit( *arg ) );
 		}
 
-		if ( getBias( kind ) == spv::ImageOperandsBiasMask
+		if ( ( getBias( kind ) & spv::ImageOperandsBiasMask ) != 0
 			&& args.size() > config.imageOperandsIndex + 1ULL )
 		{
 			// Bias is the last parameter in GLSL, but it has to be the first one after the ImageOperands in SPIR-V.

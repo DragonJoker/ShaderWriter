@@ -101,7 +101,9 @@ namespace spirv
 
 		static Instruction::Configuration const & getConfig( spv::Op opCode )
 		{
+#if !SDAST_ExceptAssert
 			static Instruction::Configuration dummy{};
+#endif
 
 			switch ( opCode )
 			{
@@ -937,11 +939,11 @@ namespace spirv
 
 		op.setOpData( pop
 			, uint16_t( 1u
-				+ ( bool( returnTypeId ) ? 1u : 0u )
-				+ ( bool( resultId ) ? 1u : 0u )
+				+ ( returnTypeId.has_value() ? 1u : 0u )
+				+ ( resultId.has_value() ? 1u : 0u )
 				+ operands.size()
-				+ ( bool( packedName ) ? packedName.value().size() : 0u )
-				+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
+				+ ( packedName.has_value() ? packedName.value().size() : 0u )
+				+ ( labels.has_value() ? labels.value().size() * 2u : 0u ) ) );
 		assertType( *this, config );
 		if ( op.getOpData().opCode != spv::OpEntryPoint && returnTypeId != std::nullopt && ( *returnTypeId ) == 0 )
 			AST_Failure( "returnTypeId is O" );
@@ -1093,11 +1095,11 @@ namespace spirv
 		: Instruction{ alloc, pconfig, insthlp::makeOp( pop ), buffer }
 	{
 		op.setOpDataCount( uint16_t( 1u
-			+ ( bool( returnTypeId ) ? 1u : 0u )
-			+ ( bool( resultId ) ? 1u : 0u )
+			+ ( returnTypeId.has_value() ? 1u : 0u )
+			+ ( resultId.has_value() ? 1u : 0u )
 			+ this->operands.size()
-			+ ( bool( packedName ) ? packedName.value().size() : 0u )
-			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
+			+ ( packedName.has_value() ? packedName.value().size() : 0u )
+			+ ( labels.has_value() ? labels.value().size() * 2u : 0u ) ) );
 	}
 
 	Instruction::Instruction( ast::ShaderAllocatorBlock * alloc
@@ -1107,11 +1109,11 @@ namespace spirv
 		: Instruction{ alloc, pconfig, insthlp::makeOp( pop ), buffer }
 	{
 		op.setOpDataCount( uint16_t( 1u
-			+ ( bool( returnTypeId ) ? 1u : 0u )
-			+ ( bool( resultId ) ? 1u : 0u )
+			+ ( returnTypeId.has_value() ? 1u : 0u )
+			+ ( resultId.has_value() ? 1u : 0u )
 			+ operands.size()
-			+ ( bool( packedName ) ? packedName.value().size() : 0u )
-			+ ( bool( labels ) ? labels.value().size() * 2u : 0u ) ) );
+			+ ( packedName.has_value() ? packedName.value().size() : 0u )
+			+ ( labels.has_value() ? labels.value().size() * 2u : 0u ) ) );
 	}
 
 	void Instruction::serialize( UInt32List & buffer
@@ -1126,17 +1128,17 @@ namespace spirv
 
 		pushValue( instruction.op.getOpValue() );
 
-		if ( instruction.returnTypeId )
+		if ( instruction.returnTypeId.has_value() )
 		{
 			pushValue( instruction.returnTypeId.value() );
 		}
 		
-		if ( instruction.resultId )
+		if ( instruction.resultId.has_value() )
 		{
 			pushValue( instruction.resultId.value() );
 		}
 
-		if ( instruction.packedName
+		if ( instruction.packedName.has_value()
 			&& hasNameBeforeOperands( instruction ) )
 		{
 			for ( auto & c : instruction.packedName.value() )
@@ -1153,7 +1155,7 @@ namespace spirv
 			}
 		}
 
-		if ( instruction.packedName
+		if ( instruction.packedName.has_value()
 			&& !hasNameBeforeOperands( instruction ) )
 		{
 			for ( auto & c : instruction.packedName.value() )
@@ -1162,7 +1164,7 @@ namespace spirv
 			}
 		}
 
-		if ( instruction.labels )
+		if ( instruction.labels.has_value() )
 		{
 			for ( auto & [id, label] : instruction.labels.value() )
 			{

@@ -49,7 +49,7 @@ namespace sdw
 		SDW_DeclValue( , HitAttributeT );
 
 		template< typename ... ParamsT >
-		HitAttributeT( ShaderWriter & writer
+		explicit HitAttributeT( ShaderWriter & writer
 			, ParamsT && ... params );
 		HitAttributeT( ShaderWriter & writer
 			, expr::ExprPtr expr

@@ -12,6 +12,7 @@ See LICENSE file in root folder
 #include <ShaderAST/Type/TypePointer.hpp>
 #include <ShaderAST/Type/TypeStruct.hpp>
 
+#include <bit>
 #include <compare>
 #include <map>
 #include <set>
@@ -82,23 +83,24 @@ namespace spirv
 	{
 		struct OpData
 		{
-			uint16_t opCode;
-			uint16_t opCount;
+			uint32_t opCode : 16;
+			uint32_t opCount : 16;
 		};
+		static_assert( sizeof( OpData ) == sizeof( uint32_t ) );
 
 		void setOpData( spv::Op code, uint16_t count )noexcept
 		{
-			*reinterpret_cast< OpData * >( &value ) = { uint16_t( code ), count };
+			value = std::bit_cast< uint32_t >( OpData{ uint16_t( code ), count } );
 		}
 
 		void setOpDataCount( uint16_t count )noexcept
 		{
-			reinterpret_cast< OpData * >( &value )->opCount = count;
+			setOpData( getOp(), count );
 		}
 
 		void setOp( spv::Op v )noexcept
 		{
-			value = uint32_t( v );
+			setOpData( v, 0 );
 		}
 
 		void setOpValue( uint32_t v )noexcept
@@ -106,19 +108,19 @@ namespace spirv
 			value = v;
 		}
 
-		OpData const & getOpData()const noexcept
+		OpData getOpData()const noexcept
 		{
-			return *reinterpret_cast< OpData const * >( &value );
+			return std::bit_cast< OpData >( value );
 		}
 
-		uint32_t const & getOpValue()const noexcept
+		uint32_t getOpValue()const noexcept
 		{
 			return value;
 		}
 
 		spv::Op getOp()const noexcept
 		{
-			return *reinterpret_cast< spv::Op const * >( &value );
+			return spv::Op( getOpData().opCode );
 		}
 
 	private:
@@ -162,18 +164,18 @@ namespace spirv
 		{
 			return id != 0u;
 		}
+
+		friend bool operator==( ValueId const & lhs, ValueId const & rhs )
+		{
+			return lhs.id == rhs.id;
+		}
+
+		friend std::strong_ordering operator<=>( ValueId const & lhs, ValueId const & rhs )
+		{
+			return lhs.id <=> rhs.id;
+		}
 	};
 #pragma GCC diagnostic pop
-
-	inline bool operator==( ValueId const & lhs, ValueId const & rhs )
-	{
-		return lhs.id == rhs.id;
-	}
-	
-	inline std::strong_ordering operator<=>( ValueId const & lhs, ValueId const & rhs )
-	{
-		return lhs.id <=> rhs.id;
-	}
 
 	using ValueIdList = ast::Vector< ValueId >;
 	using ValueIdSet = ast::Set< ValueId >;
@@ -231,17 +233,17 @@ namespace spirv
 		{
 			return &id;
 		}
+
+		friend bool operator==( DebugId const & lhs, DebugId const & rhs )
+		{
+			return lhs.id == rhs.id;
+		}
+
+		friend std::strong_ordering operator<=>( DebugId const & lhs, DebugId const & rhs )
+		{
+			return lhs.id <=> rhs.id;
+		}
 	};
-
-	inline bool operator==( DebugId const & lhs, DebugId const & rhs )
-	{
-		return lhs.id == rhs.id;
-	}
-
-	inline std::strong_ordering operator<=>( DebugId const & lhs, DebugId const & rhs )
-	{
-		return lhs.id <=> rhs.id;
-	}
 
 	using DebugIdList = ast::Vector< DebugId >;
 
