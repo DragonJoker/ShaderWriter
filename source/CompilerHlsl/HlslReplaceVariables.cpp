@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "HlslReplaceVariables.hpp"
 
+#include <ShaderAST/Expr/ExprCache.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 
 namespace hlsl

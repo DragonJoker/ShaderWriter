@@ -15,6 +15,7 @@ See LICENSE file in root folder
 #include "SpirVCombinedImageAccessNames.hpp"
 
 #include <ShaderAST/ShaderLog.hpp>
+#include <ShaderAST/Expr/ExprCache.hpp>
 #include <ShaderAST/Expr/ExprVisitor.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
 #include <ShaderAST/Type/TypeImage.hpp>
