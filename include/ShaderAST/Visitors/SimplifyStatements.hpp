@@ -5,6 +5,7 @@ See LICENSE file in root folder
 #define ___SDW_SimplifyStatements_H___
 #pragma once
 
+#include "ShaderAST/Expr/SwizzleKind.hpp"
 #include "ShaderAST/Visitors/CloneStmt.hpp"
 
 namespace ast

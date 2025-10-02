@@ -604,7 +604,10 @@ namespace ast
 		type::TypePtr type{};
 
 	private:
-		friend std::strong_ordering operator<=>( InOutInfo const & lhs, InOutInfo const & rhs )noexcept = default;
+		friend bool operator<( InOutInfo const & lhs, InOutInfo const & rhs )noexcept
+		{
+			return lhs.type < rhs.type;
+		}
 	};
 
 	struct SpecConstantData

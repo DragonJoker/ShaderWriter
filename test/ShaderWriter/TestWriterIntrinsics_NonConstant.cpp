@@ -45,43 +45,7 @@ namespace
 	};
 
 	template<>
-	struct CompilerHolderT< sdw::DMat2x3 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DMat2x4 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DMat3x2 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
 	struct CompilerHolderT< sdw::DMat3x3 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DMat3x4 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DMat4x2 >
-	{
-		static constexpr test::Compilers value = Compilers_NoHLSL;
-	};
-
-	template<>
-	struct CompilerHolderT< sdw::DMat4x3 >
 	{
 		static constexpr test::Compilers value = Compilers_NoHLSL;
 	};

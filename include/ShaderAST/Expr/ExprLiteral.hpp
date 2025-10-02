@@ -217,6 +217,18 @@ namespace ast::expr
 	SDAST_API LiteralPtr operator>=( Literal const & lhs, Literal const & rhs );
 	SDAST_API LiteralPtr preInc( Literal const & op );
 	SDAST_API LiteralPtr preDec( Literal const & op );
+
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, bool value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int8_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int16_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int32_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int64_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint8_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint16_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint32_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint64_t value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, float value );
+	SDAST_API LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, double value );
 }
 
 #include "ExprLiteral.inl"

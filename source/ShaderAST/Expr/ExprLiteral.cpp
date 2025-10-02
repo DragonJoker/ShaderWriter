@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Expr/ExprLiteral.hpp"
 
+#include "ShaderAST/Expr/ExprCache.hpp"
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 
 namespace ast::expr
@@ -391,5 +392,60 @@ namespace ast::expr
 		return details::replaceLiteral< details::PreDecrementLiteral >(op.getExprCache()
 			, op.getTypesCache()
 			, op );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, bool value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int8_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int16_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int32_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, int64_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint8_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint16_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint32_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, uint64_t value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, float value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
+	}
+
+	LiteralPtr makeLiteral( ExprCache & exprCache, type::TypesCache & typesCache, double value )
+	{
+		return exprCache.makeLiteral( typesCache, value );
 	}
 }

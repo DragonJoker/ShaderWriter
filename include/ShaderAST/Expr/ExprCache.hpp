@@ -7,9 +7,9 @@ See LICENSE file in root folder
 
 #include "ShaderAST/ShaderAllocator.hpp"
 #include "ShaderAST/Type/TypeCache.hpp"
-#include "ShaderAST/Expr/EnumCombinedImageAccess.hpp"
-#include "ShaderAST/Expr/EnumIntrinsic.hpp"
-#include "ShaderAST/Expr/EnumStorageImageAccess.hpp"
+#include "ShaderAST/Expr/ExprCombinedImageAccessCall.hpp"
+#include "ShaderAST/Expr/ExprStorageImageAccessCall.hpp"
+#include "ShaderAST/Expr/ExprIntrinsicCall.hpp"
 #include "ShaderAST/Expr/IntrinsicCallHelpers.hpp"
 #include "ShaderAST/Expr/SwizzleKind.hpp"
 

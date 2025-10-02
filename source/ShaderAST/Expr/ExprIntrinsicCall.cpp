@@ -3,6 +3,7 @@ See LICENSE file in root folder
 */
 #include "ShaderAST/Expr/ExprIntrinsicCall.hpp"
 
+#include "ShaderAST/Expr/ExprCache.hpp"
 #include "ShaderAST/Expr/ExprVisitor.hpp"
 
 namespace ast::expr
