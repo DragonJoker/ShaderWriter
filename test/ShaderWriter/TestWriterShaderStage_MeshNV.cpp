@@ -902,7 +902,10 @@ namespace
 					, TaskPayloadInNV payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshNVPrimitiveListOut primOut )
-				{} );
+				{
+					primOut.setMeshOutputCounts( 1_u, 1_u );
+					primOut[0].primitiveIndex = 0_u;
+				} );
 			test::writeShader( writer
 				, testCounts
 				, Compilers_NoHLSL );
@@ -925,6 +928,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshNVPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 1_u, 1_u );
 					primOut[0].primitiveIndex = 0_u;
 				} );
 			test::writeShader( writer
@@ -948,6 +952,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshNVPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 2_u, 1_u );
 					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
 				} );
 			test::writeShader( writer
@@ -972,6 +977,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshNVPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 2_u, 1_u );
 					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
 				} );
 			test::writeShader( writer
@@ -995,6 +1001,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshNVPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
 			test::writeShader( writer
@@ -1019,6 +1026,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshNVPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
 			test::writeShader( writer

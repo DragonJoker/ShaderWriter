@@ -1583,11 +1583,11 @@ namespace
 					}
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testIsnan )
@@ -1642,11 +1642,11 @@ namespace
 					}
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testIsinf )
@@ -1818,11 +1818,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testLength )
@@ -1863,11 +1863,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testDistance )
@@ -1908,11 +1908,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testDot )
@@ -1951,11 +1951,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testCross )
@@ -1988,11 +1988,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testNormalize )
@@ -2035,11 +2035,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testFaceForward )
@@ -2080,11 +2080,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testReflect )
@@ -2127,11 +2127,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testRefract )
@@ -2330,11 +2330,11 @@ namespace
 					ssbo[0].a() = result;
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, compilers );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, compilers );
 	}
 
 	TEST_F( SDWTest, testDeterminant )

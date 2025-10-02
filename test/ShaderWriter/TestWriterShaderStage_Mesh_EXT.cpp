@@ -906,7 +906,10 @@ namespace
 					, TaskPayloadIn payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshPrimitiveListOut primOut )
-				{} );
+				{
+					primOut.setMeshOutputCounts( 1_u, 1_u );
+					primOut[0].primitiveIndex = 0_u;
+				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
 			test::writeShader( writer
@@ -930,7 +933,10 @@ namespace
 					, TaskPayloadIn payload
 					, MeshVertexListOut vtxOut
 					, PointsMeshPrimitiveListOut primOut )
-				{} );
+				{
+					primOut.setMeshOutputCounts( 1_u, 1_u );
+					primOut[0].primitiveIndex = 0_u;
+				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
 			test::writeShader( writer
@@ -953,7 +959,10 @@ namespace
 					, TaskPayloadIn payload
 					, MeshVertexListOut vtxOut
 					, LinesMeshPrimitiveListOut primOut )
-				{} );
+				{
+					primOut.setMeshOutputCounts( 2_u, 1_u );
+					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
+				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
 			test::writeShader( writer
@@ -977,7 +986,10 @@ namespace
 					, TaskPayloadIn payload
 					, MeshVertexListOut vtxOut
 					, LinesMeshPrimitiveListOut primOut )
-				{} );
+				{
+					primOut.setMeshOutputCounts( 2_u, 1_u );
+					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
+				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
 			test::writeShader( writer
@@ -1001,6 +1013,8 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
+					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
@@ -1025,7 +1039,10 @@ namespace
 					, TaskPayloadIn payload
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshPrimitiveListOut primOut )
-				{} );
+				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
+					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
+				} );
 			test::expectError( "Invalid capability operand: 5"
 				, testCounts );
 			test::writeShader( writer
@@ -1186,7 +1203,6 @@ namespace
 					sdwIF( writer, gtid < m.primCount )
 					{
 						primOut[gtid].primitiveIndex = primitiveIndices[m.primOffset + gtid].index;
-						primOut[gtid].primitiveID = gtid;
 					}
 					sdwFI;
 
@@ -1644,7 +1660,6 @@ namespace
 					sdwIF( writer, gtid < m.primCount )
 					{
 						primOut[gtid].primitiveIndex = primitiveIndices[m.primOffset + gtid].index;
-						primOut[gtid].primitiveID = gtid;
 					}
 					sdwFI;
 				} );

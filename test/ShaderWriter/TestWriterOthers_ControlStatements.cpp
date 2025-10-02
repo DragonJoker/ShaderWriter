@@ -222,7 +222,7 @@ namespace
 				sdwHCTIWS
 			} );
 		test::writeShader( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoHLSL );
 		sdwTestEnd()
 	}
 
@@ -265,7 +265,7 @@ namespace
 				sdwHCTIWS
 			} );
 		test::writeShader( writer
-			, testCounts, CurrentCompilers );
+			, testCounts, Compilers_NoHLSL );
 		sdwTestEnd()
 	}
 

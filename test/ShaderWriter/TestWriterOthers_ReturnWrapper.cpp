@@ -35,6 +35,27 @@ namespace test
 		, TypesT< sdw::Float, sdw::Float, float >
 		, TypesT< sdw::Double, sdw::Float, double > >;
 
+	template< typename T >
+	struct CompilerHolderT
+	{
+		static constexpr test::Compilers value = CurrentCompilers;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::Int16 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::UInt16 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template< typename T >
+	inline constexpr test::Compilers CompilersT = CompilerHolderT< T >::value;
+
 	class CppTypesNames
 	{
 	public:
@@ -98,11 +119,11 @@ namespace test
 					ssbo[in.localInvocationIndex] = writer.cast< BlockType >( result );
 				} );
 			test::writeShader( writer
-				, testCounts, CurrentCompilers );
+				, testCounts, CompilersT< SdwType > );
 			shaders.emplace_back( std::move( writer.getShader() ) );
 		}
 		test::validateShaders( shaders
-			, testCounts, CurrentCompilers );
+			, testCounts, CompilersT< SdwType > );
 		sdwTestEnd()
 	}
 

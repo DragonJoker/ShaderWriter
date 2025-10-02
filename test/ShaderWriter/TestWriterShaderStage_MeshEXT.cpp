@@ -922,6 +922,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshEXTPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 1_u, 1_u );
 					primOut[0].primitiveIndex = 0_u;
 				} );
 			test::expectError( "Invalid capability operand: 5"
@@ -948,6 +949,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, PointsMeshEXTPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 1_u, 1_u );
 					primOut[0].primitiveIndex = 0_u;
 				} );
 			test::expectError( "Invalid capability operand: 5"
@@ -973,6 +975,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshEXTPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 2_u, 1_u );
 					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
@@ -999,6 +1002,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, LinesMeshEXTPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 2_u, 1_u );
 					primOut[0].primitiveIndex = uvec2( 0_u, 1_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
@@ -1024,6 +1028,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
@@ -1050,6 +1055,7 @@ namespace
 					, MeshVertexListOut vtxOut
 					, TrianglesMeshEXTPrimitiveListOut primOut )
 				{
+					primOut.setMeshOutputCounts( 3_u, 1_u );
 					primOut[0].primitiveIndex = uvec3( 0_u, 1_u, 2_u );
 				} );
 			test::expectError( "Invalid capability operand: 5"
