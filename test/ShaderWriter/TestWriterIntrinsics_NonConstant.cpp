@@ -38,6 +38,60 @@ namespace
 		static constexpr test::Compilers value = Compilers_NoHLSL;
 	};
 
+	template<>
+	struct CompilerHolderT< sdw::DMat2x2 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat2x3 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat2x4 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat3x2 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat3x3 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat3x4 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat4x2 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat4x3 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
+	template<>
+	struct CompilerHolderT< sdw::DMat4x4 >
+	{
+		static constexpr test::Compilers value = Compilers_NoHLSL;
+	};
+
 	template< typename T >
 	inline constexpr test::Compilers CompilersT = CompilerHolderT< T >::value;
 
@@ -2080,7 +2134,7 @@ namespace
 					atomicExchange( bo[0].getMember< TypeParam >( mbrName ), x ) * x;
 				} );
 			test::writeShader( writer
-				, testCounts, CompilersT< TypeParam > );
+				, testCounts, compilers );
 		}
 	}
 

@@ -540,6 +540,9 @@ namespace test
 					auto terminateFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderTerminateInvocationFeaturesKHR >();
 					auto meshNVFeature = ast::vk::makeVkStruct< VkPhysicalDeviceMeshShaderFeaturesNV >();
 					auto atomicFloatFeature = ast::vk::makeVkStruct< VkPhysicalDeviceShaderAtomicFloatFeaturesEXT >();
+					auto float16Int8Feature = ast::vk::makeVkStruct< VkPhysicalDeviceFloat16Int8FeaturesKHR >();
+					auto storage8BitFeature = ast::vk::makeVkStruct< VkPhysicalDevice8BitStorageFeaturesKHR >();
+					auto storage16BitFeature = ast::vk::makeVkStruct< VkPhysicalDevice16BitStorageFeaturesKHR >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
 					bool hasVulkan1_2 = false;
@@ -562,46 +565,38 @@ namespace test
 						hasVulkan1_1 = true;
 						featuresStructs.push_back( reinterpret_cast< VkStructure * >( &drawParamsFeatures ) );
 
-						if ( isExtensionSupported( "VK_AMD_gpu_shader_half_float"
-							, device_extensions ) )
-						{
+						if ( isExtensionSupported( "VK_AMD_gpu_shader_half_float", device_extensions ) )
 							info.deviceExtensionNames.push_back( "VK_AMD_gpu_shader_half_float" );
-						}
 					}
 					else
 					{
-						if ( isExtensionSupported( "VK_KHR_shader_draw_parameters"
-							, device_extensions ) )
-						{
+						if ( isExtensionSupported( "VK_KHR_shader_draw_parameters", device_extensions ) )
 							info.deviceExtensionNames.push_back( "VK_KHR_shader_draw_parameters" );
-						}
-
-						if ( isExtensionSupported( "VK_AMD_gpu_shader_half_float"
-							, device_extensions ) )
-						{
+						if ( isExtensionSupported( "VK_AMD_gpu_shader_half_float", device_extensions ) )
 							info.deviceExtensionNames.push_back( "VK_AMD_gpu_shader_half_float" );
-						}
 					}
 
 					if ( !hasFeatures2
-						&& isExtensionSupported( "VK_KHR_get_physical_device_properties2"
-							, device_extensions ) )
+						&& isExtensionSupported( "VK_KHR_get_physical_device_properties2", device_extensions ) )
 					{
 						hasFeatures2 = true;
 						info.deviceExtensionNames.push_back( "VK_KHR_get_physical_device_properties2" );
 					}
 
-					if ( isExtensionSupported( "VK_EXT_shader_subgroup_ballot"
-						, device_extensions ) )
-					{
+					if ( isExtensionSupported( "VK_EXT_shader_subgroup_ballot", device_extensions ) )
 						info.deviceExtensionNames.push_back( "VK_EXT_shader_subgroup_ballot" );
-					}
 
 					if ( hasFeatures2 )
 					{
+						if ( isExtensionSupported( "VK_KHR_shader_float16_int8", device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_KHR_shader_float16_int8" );
+							if ( !hasVulkan1_2 )
+								featuresStructs.push_back( reinterpret_cast< VkStructure * >( &float16Int8Feature ) );
+						}
+
 						if ( !hasFloatControls
-							&& isExtensionSupported( "VK_KHR_shader_float_controls"
-								, device_extensions ) )
+							&& isExtensionSupported( "VK_KHR_shader_float_controls", device_extensions ) )
 						{
 							hasFloatControls = true;
 							info.deviceExtensionNames.push_back( "VK_KHR_shader_float_controls" );
@@ -611,95 +606,78 @@ namespace test
 							&& hasVulkan1_1
 							&& hasFloatControls )
 						{
-							if ( isExtensionSupported( "VK_KHR_spirv_1_4"
-								, device_extensions ) )
+							if ( isExtensionSupported( "VK_KHR_spirv_1_4", device_extensions ) )
 							{
 								hasSpirv1_4 = true;
 								info.deviceExtensionNames.push_back( "VK_KHR_spirv_1_4" );
 							}
 						}
 
-						if ( isExtensionSupported( "VK_EXT_shader_atomic_float"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_EXT_shader_atomic_float", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_shader_atomic_float" );
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &atomicFloatFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_EXT_mesh_shader"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_EXT_mesh_shader", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_mesh_shader" );
 							//featuresStructs.push_back( reinterpret_cast< VkStructure * >( &meshEXTFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_NV_mesh_shader"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_NV_mesh_shader", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_NV_mesh_shader" );
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &meshNVFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_KHR_shader_terminate_invocation"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_KHR_shader_terminate_invocation", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_KHR_shader_terminate_invocation" );
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &terminateFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_EXT_shader_demote_to_helper_invocation"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_EXT_shader_demote_to_helper_invocation", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_shader_demote_to_helper_invocation" );
 							featuresStructs.push_back( reinterpret_cast< VkStructure * >( &demoteFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_EXT_fragment_shader_interlock"
-							, device_extensions ) )
-						{
+						if ( isExtensionSupported( "VK_EXT_fragment_shader_interlock", device_extensions ) )
 							info.deviceExtensionNames.push_back( "VK_EXT_fragment_shader_interlock" );
-						}
 
-						if ( isExtensionSupported( "VK_KHR_8bit_storage"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_KHR_8bit_storage", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_KHR_8bit_storage" );
+							if ( !hasVulkan1_2 )
+								featuresStructs.push_back( reinterpret_cast< VkStructure * >( &storage8BitFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_KHR_16bit_storage"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_KHR_16bit_storage", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_KHR_16bit_storage" );
+							if ( !hasVulkan1_2 )
+								featuresStructs.push_back( reinterpret_cast< VkStructure * >( &storage16BitFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_KHR_buffer_device_address"
-							, device_extensions ) )
-						{
+						if ( isExtensionSupported( "VK_KHR_buffer_device_address", device_extensions ) )
 							info.deviceExtensionNames.push_back( "VK_KHR_buffer_device_address" );
-						}
-						else if ( isExtensionSupported( "VK_EXT_buffer_device_address"
-							, device_extensions ) )
-						{
+						else if ( isExtensionSupported( "VK_EXT_buffer_device_address", device_extensions ) )
 							info.deviceExtensionNames.push_back( "VK_EXT_buffer_device_address" );
-						}
 
-						if ( isExtensionSupported( "VK_EXT_descriptor_indexing"
-							, device_extensions ) )
+						if ( isExtensionSupported( "VK_EXT_descriptor_indexing", device_extensions ) )
 						{
 							info.deviceExtensionNames.push_back( "VK_EXT_descriptor_indexing" );
 
-							if ( isExtensionSupported( "VK_KHR_buffer_device_address"
-								, device_extensions ) )
+							if ( isExtensionSupported( "VK_KHR_buffer_device_address", device_extensions ) )
 							{
-								if ( isExtensionSupported( "VK_KHR_acceleration_structure"
-									, device_extensions ) )
+								if ( isExtensionSupported( "VK_KHR_acceleration_structure", device_extensions ) )
 								{
 									info.deviceExtensionNames.push_back( "VK_KHR_acceleration_structure" );
 									featuresStructs.push_back( reinterpret_cast< VkStructure * >( &accelFeature ) );
 
 									if ( hasSpirv1_4
-										&& isExtensionSupported( "VK_KHR_ray_tracing_pipeline"
-											, device_extensions ) )
+										&& isExtensionSupported( "VK_KHR_ray_tracing_pipeline", device_extensions ) )
 									{
 										info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
 										featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
@@ -709,11 +687,8 @@ namespace test
 						}
 					}
 
-					if ( isExtensionSupported( "VK_KHR_deferred_host_operations"
-						, device_extensions ) )
-					{
+					if ( isExtensionSupported( "VK_KHR_deferred_host_operations", device_extensions ) )
 						info.deviceExtensionNames.push_back( "VK_KHR_deferred_host_operations" );
-					}
 
 					VkStructure * current = reinterpret_cast< VkStructure * >( &features2 );
 
