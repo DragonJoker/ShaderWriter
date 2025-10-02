@@ -53,7 +53,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 		template< typename ... ParamsT >
-		TaskPayloadOutEXTT( ShaderWriter & writer
+		explicit TaskPayloadOutEXTT( ShaderWriter & writer
 			, ParamsT && ... params );
 
 		void dispatchMesh( UInt32 taskCountX
@@ -82,7 +82,7 @@ namespace sdw
 			, ast::expr::ExprPtr expr
 			, bool enabled = true );
 		template< typename ... ParamsT >
-		TaskPayloadInEXTT( ShaderWriter & writer
+		explicit TaskPayloadInEXTT( ShaderWriter & writer
 			, ParamsT && ... params );
 
 		template< typename ... ParamsT >

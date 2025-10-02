@@ -62,7 +62,6 @@ namespace ast
 
 	void ExprCloner::visitAddExpr( expr::Add const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -76,7 +75,6 @@ namespace ast
 
 	void ExprCloner::visitAddAssignExpr( expr::AddAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -90,7 +88,6 @@ namespace ast
 
 	void ExprCloner::visitAggrInitExpr( expr::AggrInit const * expr )
 	{
-		TraceFunc;
 		expr::ExprList initialisers;
 
 		for ( auto & init : expr->getInitialisers() )
@@ -112,7 +109,6 @@ namespace ast
 
 	void ExprCloner::visitAliasExpr( expr::Alias const * expr )
 	{
-		TraceFunc;
 		m_result = doSubmit( expr->getAliasedExpr() );
 
 		if ( m_result
@@ -126,7 +122,6 @@ namespace ast
 
 	void ExprCloner::visitAndAssignExpr( expr::AndAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -140,7 +135,6 @@ namespace ast
 
 	void ExprCloner::visitArrayAccessExpr( expr::ArrayAccess const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -154,7 +148,6 @@ namespace ast
 
 	void ExprCloner::visitAssignExpr( expr::Assign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -168,7 +161,6 @@ namespace ast
 
 	void ExprCloner::visitBitAndExpr( expr::BitAnd const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -182,7 +174,6 @@ namespace ast
 
 	void ExprCloner::visitBitNotExpr( expr::BitNot const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -193,7 +184,6 @@ namespace ast
 
 	void ExprCloner::visitBitOrExpr( expr::BitOr const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -207,7 +197,6 @@ namespace ast
 
 	void ExprCloner::visitBitXorExpr( expr::BitXor const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -221,7 +210,6 @@ namespace ast
 
 	void ExprCloner::visitCastExpr( expr::Cast const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -233,7 +221,6 @@ namespace ast
 
 	void ExprCloner::visitCommaExpr( expr::Comma const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -254,7 +241,6 @@ namespace ast
 
 	void ExprCloner::visitCompositeConstructExpr( expr::CompositeConstruct const * expr )
 	{
-		TraceFunc;
 		expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -277,7 +263,6 @@ namespace ast
 
 	void ExprCloner::visitCopyExpr( expr::Copy const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -288,7 +273,6 @@ namespace ast
 
 	void ExprCloner::visitDivideExpr( expr::Divide const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -302,7 +286,6 @@ namespace ast
 
 	void ExprCloner::visitDivideAssignExpr( expr::DivideAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -316,7 +299,6 @@ namespace ast
 
 	void ExprCloner::visitEqualExpr( expr::Equal const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -330,7 +312,6 @@ namespace ast
 
 	void ExprCloner::visitFnCallExpr( expr::FnCall const * expr )
 	{
-		TraceFunc;
 		expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -355,7 +336,6 @@ namespace ast
 
 	void ExprCloner::visitGreaterExpr( expr::Greater const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -369,7 +349,6 @@ namespace ast
 
 	void ExprCloner::visitGreaterEqualExpr( expr::GreaterEqual const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -383,13 +362,11 @@ namespace ast
 
 	void ExprCloner::visitIdentifierExpr( expr::Identifier const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeIdentifier( expr->getTypesCache(), expr->getVariable() );
 	}
 
 	void ExprCloner::visitImageAccessCallExpr( expr::StorageImageAccessCall const * expr )
 	{
-		TraceFunc;
 		expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -404,7 +381,6 @@ namespace ast
 
 	void ExprCloner::visitInitExpr( expr::Init const * expr )
 	{
-		TraceFunc;
 		m_result = doSubmit( expr->getInitialiser() );
 
 		if ( m_result
@@ -417,7 +393,6 @@ namespace ast
 
 	void ExprCloner::visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )
 	{
-		TraceFunc;
 		expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -432,7 +407,6 @@ namespace ast
 
 	void ExprCloner::visitLessExpr( expr::Less const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -446,7 +420,6 @@ namespace ast
 
 	void ExprCloner::visitLessEqualExpr( expr::LessEqual const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -460,13 +433,11 @@ namespace ast
 
 	void ExprCloner::visitLiteralExpr( expr::Literal const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeLiteral( *expr );
 	}
 
 	void ExprCloner::visitLogAndExpr( expr::LogAnd const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -480,7 +451,6 @@ namespace ast
 
 	void ExprCloner::visitLogNotExpr( expr::LogNot const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -492,7 +462,6 @@ namespace ast
 
 	void ExprCloner::visitLogOrExpr( expr::LogOr const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -506,7 +475,6 @@ namespace ast
 
 	void ExprCloner::visitLShiftExpr( expr::LShift const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -520,7 +488,6 @@ namespace ast
 
 	void ExprCloner::visitLShiftAssignExpr( expr::LShiftAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -534,7 +501,6 @@ namespace ast
 
 	void ExprCloner::visitMbrSelectExpr( expr::MbrSelect const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeMbrSelect( doSubmit( expr->getOuterExpr() )
 			, expr->getMemberIndex()
 			, expr->getMemberFlags() );
@@ -542,7 +508,6 @@ namespace ast
 
 	void ExprCloner::visitMinusExpr( expr::Minus const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -556,7 +521,6 @@ namespace ast
 
 	void ExprCloner::visitMinusAssignExpr( expr::MinusAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -570,7 +534,6 @@ namespace ast
 
 	void ExprCloner::visitModuloExpr( expr::Modulo const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -584,7 +547,6 @@ namespace ast
 
 	void ExprCloner::visitModuloAssignExpr( expr::ModuloAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -598,7 +560,6 @@ namespace ast
 
 	void ExprCloner::visitNotEqualExpr( expr::NotEqual const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -612,7 +573,6 @@ namespace ast
 
 	void ExprCloner::visitOrAssignExpr( expr::OrAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -626,7 +586,6 @@ namespace ast
 
 	void ExprCloner::visitPostDecrementExpr( expr::PostDecrement const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -637,7 +596,6 @@ namespace ast
 
 	void ExprCloner::visitPostIncrementExpr( expr::PostIncrement const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -648,7 +606,6 @@ namespace ast
 
 	void ExprCloner::visitPreDecrementExpr( expr::PreDecrement const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -659,7 +616,6 @@ namespace ast
 
 	void ExprCloner::visitPreIncrementExpr( expr::PreIncrement const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -670,7 +626,6 @@ namespace ast
 
 	void ExprCloner::visitQuestionExpr( expr::Question const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeQuestion( expr->getType()
 			, doSubmit( expr->getCtrlExpr() )
 			, doSubmit( expr->getTrueExpr() )
@@ -679,7 +634,6 @@ namespace ast
 
 	void ExprCloner::visitRShiftExpr( expr::RShift const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -693,7 +647,6 @@ namespace ast
 
 	void ExprCloner::visitRShiftAssignExpr( expr::RShiftAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -707,7 +660,6 @@ namespace ast
 
 	void ExprCloner::visitStreamAppendExpr( expr::StreamAppend const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -718,26 +670,22 @@ namespace ast
 
 	void ExprCloner::visitSwitchCaseExpr( expr::SwitchCase const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeSwitchCase( m_exprCache.makeLiteral( *expr->getLabel() ) );
 	}
 
 	void ExprCloner::visitSwitchTestExpr( expr::SwitchTest const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeSwitchTest( doSubmit( expr->getValue() ) );
 	}
 
 	void ExprCloner::visitSwizzleExpr( expr::Swizzle const * expr )
 	{
-		TraceFunc;
 		m_result = m_exprCache.makeSwizzle( doSubmit( expr->getOuterExpr() )
 			, expr->getSwizzle() );
 	}
 
 	void ExprCloner::visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall const * expr )
 	{
-		TraceFunc;
 		expr::ExprList args;
 
 		for ( auto & arg : expr->getArgList() )
@@ -752,7 +700,6 @@ namespace ast
 
 	void ExprCloner::visitTimesExpr( expr::Times const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -766,7 +713,6 @@ namespace ast
 
 	void ExprCloner::visitTimesAssignExpr( expr::TimesAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 
@@ -780,7 +726,6 @@ namespace ast
 
 	void ExprCloner::visitUnaryMinusExpr( expr::UnaryMinus const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -791,7 +736,6 @@ namespace ast
 
 	void ExprCloner::visitUnaryPlusExpr( expr::UnaryPlus const * expr )
 	{
-		TraceFunc;
 		auto op = doSubmit( expr->getOperand() );
 
 		if ( op )
@@ -802,7 +746,6 @@ namespace ast
 
 	void ExprCloner::visitXorAssignExpr( expr::XorAssign const * expr )
 	{
-		TraceFunc;
 		auto lhs = doSubmit( expr->getLHS() );
 		auto rhs = doSubmit( expr->getRHS() );
 

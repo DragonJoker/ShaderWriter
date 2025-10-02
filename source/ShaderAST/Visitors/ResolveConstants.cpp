@@ -2184,7 +2184,7 @@ namespace ast
 
 			expr::ExprPtr doComputeBinaryExpr( expr::Binary const & expr
 				, expr::Literal const & lhsLiteral
-				, expr::Literal const & rhsLiteral )
+				, expr::Literal const & rhsLiteral )const
 			{
 				expr::ExprPtr result{};
 
@@ -2514,7 +2514,6 @@ namespace ast
 
 			void visitUnaryExpr( expr::Unary const * expr )
 			{
-				TraceFunc;
 				auto op = doSubmit( expr->getOperand() );
 
 				if ( op->getKind() == expr::Kind::eLiteral
@@ -2599,7 +2598,6 @@ namespace ast
 
 			void visitBinaryExpr( expr::Binary const * expr )
 			{
-				TraceFunc;
 				bool allLiterals = true;
 				auto lhs = doSubmit( *expr->getLHS(), allLiterals );
 				auto rhs = doSubmit( *expr->getRHS(), allLiterals );
@@ -2682,7 +2680,6 @@ namespace ast
 
 			void visitAddExpr( expr::Add const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
@@ -2690,7 +2687,6 @@ namespace ast
 
 			void visitArrayAccessExpr( expr::ArrayAccess const * expr )override
 			{
-				TraceFunc;
 				bool processed = false;
 
 				if ( expr->getLHS()->getKind() == expr::Kind::eIdentifier )
@@ -2729,7 +2725,6 @@ namespace ast
 
 			void visitAssignExpr( ast::expr::Assign const * expr )override
 			{
-				TraceFunc;
 				auto lhs = doSubmit( *expr->getLHS(), m_allLiterals, true );
 				auto rhs = doSubmit( *expr->getRHS() );
 
@@ -2743,32 +2738,26 @@ namespace ast
 
 			void visitBitAndExpr( expr::BitAnd const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitBitNotExpr( expr::BitNot const * expr )override
 			{
-				TraceFunc;
 				visitUnaryExpr( expr );
 			}
 
 			void visitBitOrExpr( expr::BitOr const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitBitXorExpr( expr::BitXor const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitCastExpr( expr::Cast const * expr )override
 			{
-				TraceFunc;
-
 				if ( getComponentType( expr->getType() ) != type::Kind::eHalf )
 				{
 					visitUnaryExpr( expr );
@@ -2781,51 +2770,43 @@ namespace ast
 
 			void visitCombinedImageAccessCallExpr( expr::CombinedImageAccessCall const * expr )override
 			{
-				TraceFunc;
 				m_allLiterals = false;
 				ExprCloner::visitCombinedImageAccessCallExpr( expr );
 			}
 
 			void visitCopyExpr( expr::Copy const * expr )override
 			{
-				TraceFunc;
 				visitUnaryExpr( expr );
 			}
 
 			void visitDivideExpr( expr::Divide const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitEqualExpr( expr::Equal const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitFnCallExpr( expr::FnCall const * expr )override
 			{
-				TraceFunc;
 				m_allLiterals = false;
 				ExprCloner::visitFnCallExpr( expr );
 			}
 
 			void visitGreaterExpr( expr::Greater const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitGreaterEqualExpr( expr::GreaterEqual const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitIdentifierExpr( ast::expr::Identifier const * expr )override
 			{
-				TraceFunc;
 				auto var = expr->getVariable();
 				auto initIt = m_context.constExprs.find( var->getId() );
 				auto aggrIt = m_context.constAggrExprs.find( var->getId() );
@@ -2891,7 +2872,6 @@ namespace ast
 
 			void visitImageAccessCallExpr( expr::StorageImageAccessCall const * expr )override
 			{
-				TraceFunc;
 				m_allLiterals = false;
 				ExprCloner::visitImageAccessCallExpr( expr );
 			}
@@ -2904,8 +2884,6 @@ namespace ast
 
 			void visitIntrinsicCallExpr( expr::IntrinsicCall const * expr )override
 			{
-				TraceFunc;
-
 				if ( helpers::isConstantResolvable( expr->getIntrinsic() ) )
 				{
 					bool allLiterals = true;
@@ -2933,43 +2911,36 @@ namespace ast
 
 			void visitLessExpr( expr::Less const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitLessEqualExpr( expr::LessEqual const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitLogAndExpr( expr::LogAnd const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitLogNotExpr( expr::LogNot const * expr )override
 			{
-				TraceFunc;
 				visitUnaryExpr( expr );
 			}
 
 			void visitLogOrExpr( expr::LogOr const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitLShiftExpr( expr::LShift const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitMbrSelectExpr( expr::MbrSelect const * expr )override
 			{
-				TraceFunc;
 				bool processed = false;
 
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
@@ -3025,19 +2996,16 @@ namespace ast
 
 			void visitMinusExpr( expr::Minus const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitModuloExpr( expr::Modulo const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitNotEqualExpr( expr::NotEqual const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
@@ -3063,13 +3031,11 @@ namespace ast
 
 			void visitRShiftExpr( expr::RShift const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitQuestionExpr( expr::Question const * expr )override
 			{
-				TraceFunc;
 				auto condComponents = getComponentCount( expr->getCtrlExpr()->getType()->getKind() );
 				// Components counts should be identical, after simplification pass.
 				AST_Assert( condComponents == getComponentCount( expr->getTrueExpr()->getType()->getKind() ) );
@@ -3122,7 +3088,6 @@ namespace ast
 
 			void visitSwizzleExpr( expr::Swizzle const * expr )override
 			{
-				TraceFunc;
 				bool processed = false;
 
 				if ( expr->getOuterExpr()->getKind() == expr::Kind::eIdentifier )
@@ -3152,25 +3117,21 @@ namespace ast
 
 			void visitStreamAppendExpr( expr::StreamAppend const * expr )override
 			{
-				TraceFunc;
 				visitUnaryExpr( expr );
 			}
 
 			void visitTimesExpr( expr::Times const * expr )override
 			{
-				TraceFunc;
 				visitBinaryExpr( expr );
 			}
 
 			void visitUnaryMinusExpr( expr::UnaryMinus const * expr )override
 			{
-				TraceFunc;
 				visitUnaryExpr( expr );
 			}
 
 			void visitUnaryPlusExpr( expr::UnaryPlus const * expr )override
 			{
-				TraceFunc;
 				m_result = doSubmit( expr->getOperand() );
 			}
 
@@ -3274,7 +3235,6 @@ namespace ast
 				, bool const & stopped
 				, uint32_t & ifs )
 			{
-				TraceFunc;
 				if ( stopped )
 				{
 					return;
@@ -3313,7 +3273,6 @@ namespace ast
 				, bool & first
 				, bool const & stopped )
 			{
-				TraceFunc;
 				if ( stopped )
 				{
 					return;
@@ -3345,7 +3304,6 @@ namespace ast
 		private:
 			void visitContainerStmt( stmt::Container const * cont )override
 			{
-				TraceFunc;
 				m_containers.push_back( cont );
 
 				for ( auto & stmt : *cont )
@@ -3358,7 +3316,6 @@ namespace ast
 
 			void visitIfStmt( stmt::If const * stmt )override
 			{
-				TraceFunc;
 				auto ctrlExpr = doSubmit( stmt->getCtrlExpr() );
 				bool first = true;
 				bool stopped = false;
@@ -3504,7 +3461,6 @@ namespace ast
 
 			void visitSimpleStmt( ast::stmt::Simple const * stmt )override
 			{
-				TraceFunc;
 				bool processed = false;
 				expr::Expr const * expr{ stmt->getExpr() };
 
@@ -3573,7 +3529,6 @@ namespace ast
 
 			void visitSwitchStmt( ast::stmt::Switch const * stmt )override
 			{
-				TraceFunc;
 				bool processed = false;
 				auto testExpr = doSubmit( stmt->getTestExpr() );
 

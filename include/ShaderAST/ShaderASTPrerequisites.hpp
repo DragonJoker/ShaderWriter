@@ -30,23 +30,6 @@ See LICENSE file in root folder
 #	define SDAST_API
 #endif
 
-#define AST_TraceFunc 0
-
-#if AST_TraceFunc
-#	include <iostream>
-#endif
-
-#if AST_TraceFunc
-#	if !defined( NDEBUG )
-#		define TraceFunc \
-		std::cout << "Function " << __FUNCTION__ << ":" << __LINE__ << std::endl
-#	else
-#		define TraceFunc
-#	endif
-#else
-#	define TraceFunc
-#endif
-
 #define AST_Exception( text )\
 	throw ast::Exception{ text }
 
@@ -592,14 +575,14 @@ namespace ast
 		type::TypePtr type{};
 		uint32_t location{};
 
-		SDAST_API bool operator==( AttributeInfo const & rhs )const = default;
-	};
+	private:
+		friend bool operator==( AttributeInfo const & lhs, AttributeInfo const & rhs )noexcept = default;
 
-	inline std::strong_ordering operator<=>( AttributeInfo const & lhs
-		, AttributeInfo const & rhs )
-	{
-		return lhs.location <=> rhs.location;
-	}
+		friend std::strong_ordering operator<=>( AttributeInfo const & lhs, AttributeInfo const & rhs )noexcept
+		{
+			return lhs.location <=> rhs.location;
+		}
+	};
 
 	struct SpecConstantInfo
 		: AttributeInfo
@@ -620,14 +603,9 @@ namespace ast
 	{
 		type::TypePtr type{};
 
-		SDAST_API bool operator==( InOutInfo const & rhs )const = default;
+	private:
+		friend std::strong_ordering operator<=>( InOutInfo const & lhs, InOutInfo const & rhs )noexcept = default;
 	};
-
-	inline bool operator<( InOutInfo const & lhs
-		, InOutInfo const & rhs )
-	{
-		return lhs.type < rhs.type;
-	}
 
 	struct SpecConstantData
 	{
@@ -645,19 +623,16 @@ namespace ast
 		uint32_t binding;
 		uint32_t set;
 
-		SDAST_API bool operator==( DescriptorBinding const & rhs )const = default;
-	};
+	private:
+		friend bool operator==( DescriptorBinding const & lhs, DescriptorBinding const & rhs )noexcept = default;
 
-	inline std::strong_ordering operator<=>( DescriptorBinding const & lhs
-		, DescriptorBinding const & rhs )
-	{
-		if ( auto c = lhs.set <=> rhs.set; c !=std::strong_ordering::equal )
+		friend std::strong_ordering operator<=>( DescriptorBinding const & lhs, DescriptorBinding const & rhs )noexcept
 		{
-			return c;
+			if ( auto c = lhs.set <=> rhs.set; c != std::strong_ordering::equal )
+				return c;
+			return lhs.binding <=> rhs.binding;
 		}
-
-		return lhs.binding <=> rhs.binding;
-	}
+	};
 
 	template< typename TypeT = ast::type::Type >
 	struct DescriptorInfoT
