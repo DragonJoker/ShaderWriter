@@ -206,9 +206,9 @@ def computeParams( params, sep, allowEmpty ):
 			index += 1
 			if len(typeQualifier) > 0:
 				if isArray( resParam[index] ):
-					result += sep + " Array< " + paramType + " > " + typeQualifier + " " + discardArray( resParam[index] )
+					result += sep + " Array< " + paramType + " > " + typeQualifier + " & " + discardArray( resParam[index] )
 				else:
-					result += sep + " " + paramType + " " + typeQualifier + " " + resParam[index]
+					result += sep + " " + paramType + " " + typeQualifier + " & " + resParam[index]
 			else:
 				if isArray( resParam[index] ):
 					result += sep + " Array< " + paramType + " > " + discardArray( resParam[index] )

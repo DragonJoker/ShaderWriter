@@ -174,16 +174,8 @@ namespace sdw
 
 #define SDW_DeclStructInstance( expdecl, name )\
 	expdecl ~name()noexcept override = default;\
-	expdecl name & operator=( name const & rhs )\
-	{\
-		sdw::StructInstance::operator=( rhs );\
-		return *this;\
-	}\
-	expdecl name & operator=( name && rhs )noexcept\
-	{\
-		sdw::StructInstance::operator=( std::move( rhs ) );\
-		return *this;\
-	}\
+	expdecl name & operator=( name const & rhs ) = default;\
+	expdecl name & operator=( name && rhs )noexcept = default;\
 	template< typename ... ParamsT >\
 	name( sdw::StructInstance const & rhs\
 		, ParamsT && ... params )\
