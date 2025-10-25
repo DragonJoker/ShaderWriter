@@ -88,6 +88,18 @@ namespace sdw
 		}
 	};
 }
+
+#define SDW_DeclStructInstanceHelper( name )\
+	name( sdw::ReturnWrapperT< name > const & rhs )\
+		: StructInstanceHelperT{ rhs }\
+	{\
+	}\
+	name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
+	{\
+		StructInstanceHelperT::operator=( rhs );\
+		return *this;\
+	}
+
 #endif
 
 #endif
