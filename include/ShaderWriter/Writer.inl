@@ -53,17 +53,17 @@ namespace sdw
 		template< typename ParamT, typename ... ParamsT >
 		inline void doUpdateParamsRec( var::VariableList::const_iterator it
 			, ParamT & param
-			, ParamsT & ... params )
+			, ParamsT && ... params )
 		{
 			param.setVar( it );
-			doUpdateParamsRec( it, params... );
+			doUpdateParamsRec( it, std::forward< ParamsT >( params )... );
 		}
 
 		template< typename ... ParamsT >
-		inline void doUpdateParams( ast::type::FunctionPtr type
+		inline void doUpdateParams( ast::type::Function const & type
 			, ParamsT && ... params )
 		{
-			doUpdateParamsRec( type->begin(), params... );
+			doUpdateParamsRec( type.begin(), std::forward< ParamsT >( params )... );
 		}
 	}
 
@@ -114,7 +114,7 @@ namespace sdw
 			stmt::FunctionDeclPtr decl = getFunctionHeader< ReturnT >( *this, args, name, flags, params... );
 			funcVar = decl->getFuncVar();
 			m_builder->push( decl.get(), args );
-			details::doUpdateParams( decl->getType(), params... );
+			details::doUpdateParams( *decl->getType(), params... );
 			function( params... );
 			m_builder->pop();
 			addGlobalStmt( std::move( decl ) );
