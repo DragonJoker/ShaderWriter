@@ -442,6 +442,7 @@ namespace sdw
 		return declSamplerArray< false >( std::move( name )
 			, binding
 			, set
+			, dimension
 			, enabled );
 	}
 
@@ -538,7 +539,7 @@ namespace sdw
 		, LocationHelper location
 		, bool enabled)
 	{
-		return declSampler< T >( std::move(name)
+		return declSampler< T >( std::move( name )
 			, location.binding
 			, location.set
 			, enabled );
@@ -550,7 +551,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled)
 	{
-		return declSamplerArray< ComparisonT >( std::move(name)
+		return declSamplerArray< ComparisonT >( std::move( name )
 			, location.binding
 			, location.set
 			, dimension
@@ -563,7 +564,7 @@ namespace sdw
 		, uint32_t dimension
 		, bool enabled)
 	{
-		return declSamplerArray< T >( std::move(name)
+		return declSamplerArray< T >( std::move( name )
 			, location.binding
 			, location.set
 			, dimension
@@ -575,7 +576,7 @@ namespace sdw
 		, LocationHelper location
 		, bool enabled)
 	{
-		return declSamplerArray< ComparisonT >( std::move(name)
+		return declSamplerArray< ComparisonT >( std::move( name )
 			, location.binding
 			, location.set
 			, enabled );
@@ -586,7 +587,7 @@ namespace sdw
 		, LocationHelper location
 		, bool enabled)
 	{
-		return declSamplerArray< T >( std::move(name)
+		return declSamplerArray< T >( std::move( name )
 			, location.binding
 			, location.set
 			, enabled );
@@ -1632,7 +1633,7 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		return declUniformBuffer< T >( std::move(name)
+		return declUniformBuffer< T >( std::move( name )
 			, location.binding
 			, location.set
 			, layout
@@ -1720,7 +1721,7 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		return declStorageBuffer< T >( std::move(name)
+		return declStorageBuffer< T >( std::move( name )
 			, location.binding
 			, location.set
 			, layout
@@ -1729,12 +1730,12 @@ namespace sdw
 	}
 
 	template< typename T, typename ... ParamsT >
-	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer(std::string name
+	inline ArrayStorageBufferT< T > ShaderWriter::declArrayStorageBuffer( std::string name
 		, LocationHelper location
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		return declArrayStorageBuffer< T >( std::move(name)
+		return declArrayStorageBuffer< T >( std::move( name )
 			, location.binding
 			, location.set
 			, enabled
