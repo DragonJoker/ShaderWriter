@@ -173,9 +173,6 @@ namespace sdw
 }
 
 #define SDW_DeclStructInstance( expdecl, name )\
-	expdecl ~name()noexcept override = default;\
-	expdecl name & operator=( name const & rhs ) = default;\
-	expdecl name & operator=( name && rhs )noexcept = default;\
 	template< typename ... ParamsT >\
 	name( sdw::StructInstance const & rhs\
 		, ParamsT && ... params )\
@@ -184,8 +181,22 @@ namespace sdw
 			, rhs.isEnabled() }\
 	{\
 	}\
+	name( sdw::ReturnWrapperT< name > const & rhs )\
+		: name{ findWriterMandat( rhs )\
+			, makeExpr( findWriterMandat( rhs ), rhs )\
+			, rhs.isEnabled() }\
+	{\
+	}\
+	name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
+	{\
+		sdw::StructInstance::operator=( rhs );\
+		return *this;\
+	}\
+	expdecl name & operator=( name const & rhs ) = default;\
+	expdecl name & operator=( name && rhs )noexcept = default;\
 	expdecl name( name const & rhs ) = default;\
-	expdecl name( name && rhs )noexcept = default
+	expdecl name( name && rhs )noexcept = default;\
+	expdecl ~name()noexcept override = default
 
 #include "StructInstance.inl"
 #include "StructInstanceHelper.hpp"
