@@ -1282,19 +1282,20 @@ namespace hlsl
 			void visitCompoundStmt( ast::stmt::Compound const * stmt )override
 			{
 				doAppendLineEnd();
-				m_result += "\n" + m_indent + "{\n";
+				m_result += "\n";
+				if ( !m_allowSingleLineCompound || stmt->size() > 1u )
+					m_result += m_indent + "{\n";
 				auto save = m_indent;
 				m_indent += "\t";
 				visitContainerStmt( stmt );
 				m_indent = save;
 
-				if ( m_appendSemiColon )
+				if ( !m_allowSingleLineCompound || stmt->size() > 1u )
 				{
-					m_result += m_indent + "};\n";
-				}
-				else
-				{
-					m_result += m_indent + "}\n";
+					if ( m_appendSemiColon )
+						m_result += m_indent + "};\n";
+					else
+						m_result += m_indent + "}\n";
 				}
 			}
 
@@ -1304,7 +1305,10 @@ namespace hlsl
 				doAppendLineEnd();
 				m_result += m_indent + "do";
 				m_appendSemiColon = false;
+				auto save = m_allowSingleLineCompound;
+				m_allowSingleLineCompound = true;
 				visitCompoundStmt( stmt );
+				m_allowSingleLineCompound = save;
 				m_result += m_indent + "while (" + doSubmit( *stmt->getCtrlExpr() ) + ");\n";
 				m_appendLineEnd = true;
 			}
@@ -1314,7 +1318,10 @@ namespace hlsl
 				m_result += m_indent + "else if (" + doSubmit( *stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
 				m_appendLineEnd = false;
+				auto save = m_allowSingleLineCompound;
+				m_allowSingleLineCompound = true;
 				visitCompoundStmt( stmt );
+				m_allowSingleLineCompound = save;
 				m_appendLineEnd = true;
 			}
 
@@ -1323,7 +1330,10 @@ namespace hlsl
 				m_result += m_indent + "else";
 				m_appendSemiColon = false;
 				m_appendLineEnd = false;
+				auto save = m_allowSingleLineCompound;
+				m_allowSingleLineCompound = true;
 				visitCompoundStmt( stmt );
+				m_allowSingleLineCompound = save;
 				m_appendLineEnd = true;
 			}
 
@@ -1334,9 +1344,12 @@ namespace hlsl
 				m_result += m_indent + "for (" + doSubmit( *stmt->getInitExpr() ) + "; ";
 				m_result += doSubmit( *stmt->getCtrlExpr() ) + "; ";
 				m_result += doSubmit( *stmt->getIncrExpr() ) + ")";
+				auto save = m_allowSingleLineCompound;
+				m_allowSingleLineCompound = true;
 				m_appendSemiColon = false;
 				visitCompoundStmt( stmt );
 				m_appendLineEnd = true;
+				m_allowSingleLineCompound = save;
 			}
 
 			void visitFragmentLayoutStmt( ast::stmt::FragmentLayout const * stmt )override
@@ -1626,7 +1639,10 @@ namespace hlsl
 				doAppendLineEnd();
 				m_result += m_indent + "if (" + doSubmit( *stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
+				auto save = m_allowSingleLineCompound;
+				m_allowSingleLineCompound = true;
 				visitCompoundStmt( stmt );
+				m_allowSingleLineCompound = save;
 
 				for ( auto & elseIf : stmt->getElseIfList() )
 				{
@@ -1882,7 +1898,10 @@ namespace hlsl
 				doAppendLineEnd();
 				m_result += m_indent + "while (" + doSubmit( *stmt->getCtrlExpr() ) + ")";
 				m_appendSemiColon = false;
+				auto save = m_allowSingleLineCompound;
+				m_allowSingleLineCompound = true;
 				visitCompoundStmt( stmt );
+				m_allowSingleLineCompound = save;
 				m_appendLineEnd = true;
 			}
 
@@ -1928,6 +1947,7 @@ namespace hlsl
 			std::string & m_result;
 			bool m_appendSemiColon{ false };
 			bool m_appendLineEnd{ false };
+			bool m_allowSingleLineCompound{ false };
 		};
 	}
 
