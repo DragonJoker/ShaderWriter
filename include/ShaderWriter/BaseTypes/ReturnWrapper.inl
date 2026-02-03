@@ -97,6 +97,7 @@ namespace sdw
 	template< typename T >
 	ReturnWrapperT< ValueT > & ReturnWrapperT< ValueT >::operator=( T const & rhs )
 	{
+		static_assert( areCompatible< ValueT, T > );
 		auto & writer = *this->getWriter();
 		this->m_expr = sdw::makeAssign( this->getType()
 				, makeExpr( writer, *this )
