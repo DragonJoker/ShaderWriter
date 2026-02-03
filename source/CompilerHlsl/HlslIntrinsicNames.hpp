@@ -1137,6 +1137,26 @@ namespace hlsl
 		case ast::expr::Intrinsic::eSubgroupBroadcast2D:
 		case ast::expr::Intrinsic::eSubgroupBroadcast3D:
 		case ast::expr::Intrinsic::eSubgroupBroadcast4D:
+		case ast::expr::Intrinsic::eSubgroupShuffle1F:
+		case ast::expr::Intrinsic::eSubgroupShuffle2F:
+		case ast::expr::Intrinsic::eSubgroupShuffle3F:
+		case ast::expr::Intrinsic::eSubgroupShuffle4F:
+		case ast::expr::Intrinsic::eSubgroupShuffle1I:
+		case ast::expr::Intrinsic::eSubgroupShuffle2I:
+		case ast::expr::Intrinsic::eSubgroupShuffle3I:
+		case ast::expr::Intrinsic::eSubgroupShuffle4I:
+		case ast::expr::Intrinsic::eSubgroupShuffle1U:
+		case ast::expr::Intrinsic::eSubgroupShuffle2U:
+		case ast::expr::Intrinsic::eSubgroupShuffle3U:
+		case ast::expr::Intrinsic::eSubgroupShuffle4U:
+		case ast::expr::Intrinsic::eSubgroupShuffle1B:
+		case ast::expr::Intrinsic::eSubgroupShuffle2B:
+		case ast::expr::Intrinsic::eSubgroupShuffle3B:
+		case ast::expr::Intrinsic::eSubgroupShuffle4B:
+		case ast::expr::Intrinsic::eSubgroupShuffle1D:
+		case ast::expr::Intrinsic::eSubgroupShuffle2D:
+		case ast::expr::Intrinsic::eSubgroupShuffle3D:
+		case ast::expr::Intrinsic::eSubgroupShuffle4D:
 		case ast::expr::Intrinsic::eReadInvocation1F:
 		case ast::expr::Intrinsic::eReadInvocation2F:
 		case ast::expr::Intrinsic::eReadInvocation3F:
@@ -1396,6 +1416,74 @@ namespace hlsl
 		case ast::expr::Intrinsic::eSubgroupQuadBroadcast3D:
 		case ast::expr::Intrinsic::eSubgroupQuadBroadcast4D:
 			result = "QuadReadLaneAt";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal2F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal3F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal2I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal3I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal2U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal3U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal2B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal3B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal1D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal2D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal3D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapHorizontal4D:
+			result = "QuadReadAcrossX";
+			break;
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical1F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical2F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical3F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical4F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical1I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical2I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical3I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical4I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical1U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical2U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical3U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical4U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical1B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical2B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical3B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical4B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical1D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical2D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical3D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapVertical4D:
+			result = "QuadReadAcrossY";
+			break;
+
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal2F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal3F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4F:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal2I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal3I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4I:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal2U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal3U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4U:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal2B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal3B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4B:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal1D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal2D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal3D:
+		case ast::expr::Intrinsic::eSubgroupQuadSwapDiagonal4D:
+			result = "QuadReadAcrossDiagonal";
 			break;
 
 		case ast::expr::Intrinsic::eSubgroupQuadAll:
