@@ -780,6 +780,44 @@ namespace
 			, CurrentCompilers );
 		sdwTestEnd()
 	}
+
+	TEST_F( Compute, sharedVecArrayAtomic )
+	{
+		sdwTestBegin( "sharedVecArrayAtomic" );
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+		{
+			auto gs = writer.declSharedVariable< sdw::U32Vec4 >( "gs", 10u );
+
+			writer.implementMain( 1u
+				, [&]( sdw::ComputeIn in )
+				{
+					atomicAdd( gs[0_u].x(), 1_u );
+				} );
+		}
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
+
+	TEST_F( Compute, sharedVecAtomic )
+	{
+		sdwTestBegin( "sharedVecArrayAtomic" );
+		sdw::ComputeWriter writer{ &testCounts.allocator };
+		{
+			auto gs = writer.declSharedVariable< sdw::U32Vec4 >( "gs" );
+
+			writer.implementMain( 1u
+				, [&]( sdw::ComputeIn in )
+				{
+					atomicAdd( gs.x(), 1_u );
+				} );
+		}
+		test::writeShader( writer
+			, testCounts
+			, CurrentCompilers );
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain()
