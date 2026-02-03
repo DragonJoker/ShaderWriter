@@ -472,7 +472,8 @@ namespace hlsl
 							, m_exprCache.makeIdentifier( m_typesCache
 								, ast::var::makeVariable( m_adaptationData.getNextVarId()
 									, m_typesCache.getArray( ssboVar->getType(), 1u )
-									, ssboVar->getName() ) )
+									, ssboVar->getName()
+									, uint64_t( ast::var::Flag::eUniform ) ) )
 							, m_exprCache.makeLiteral( m_typesCache, 0 ) )
 							, mbrIndex
 							, uint64_t( ast::var::Flag::eUniform ) ) );
