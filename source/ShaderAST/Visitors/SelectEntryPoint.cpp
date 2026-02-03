@@ -901,11 +901,9 @@ namespace ast
 
 				void visitVariableDeclStmt( stmt::VariableDecl const * stmt )override
 				{
-					if ( stmt->getVariable()->isLocale() )
-					{
-						StmtCloner::visitVariableDeclStmt( stmt );
-					}
-					else if ( isUsed( stmt->getVariable() ) )
+					if ( stmt->getVariable()->isLocale()
+						|| stmt->getVariable()->isUniform()
+						|| isUsed( stmt->getVariable() ) )
 					{
 						StmtCloner::visitVariableDeclStmt( stmt );
 					}
