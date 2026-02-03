@@ -421,6 +421,7 @@ namespace spirv
 				, glsl::Statement * currentDebugStatement )
 			{
 				bool allLiterals{ false };
+				bool preventLoading{ false };
 				return submit( exprCache
 					, expr
 					, context
@@ -428,6 +429,7 @@ namespace spirv
 					, currentBlock
 					, shaderModule
 					, allLiterals
+					, preventLoading
 					, currentDebugStatement );
 			}
 
@@ -439,6 +441,7 @@ namespace spirv
 				, Module & shaderModule
 				, DebugId initialiser
 				, bool hasFuncInit
+				, bool preventLoading
 				, glsl::Statement * currentDebugStatement )
 			{
 				bool allLiterals{ false };
@@ -451,6 +454,7 @@ namespace spirv
 					, allLiterals
 					, std::move( initialiser )
 					, hasFuncInit
+					, preventLoading
 					, currentDebugStatement );
 			}
 
@@ -461,6 +465,7 @@ namespace spirv
 				, Block & currentBlock
 				, Module & shaderModule
 				, bool & allLiterals
+				, bool preventLoading
 				, glsl::Statement * currentDebugStatement )
 			{
 				DebugId result{ 0u, expr.getType() };
@@ -471,6 +476,7 @@ namespace spirv
 					, currentBlock
 					, shaderModule
 					, allLiterals
+					, preventLoading
 					, currentDebugStatement };
 				expr.accept( &vis );
 
@@ -491,6 +497,7 @@ namespace spirv
 				, bool & allLiterals
 				, DebugId initialiser
 				, bool hasFuncInit
+				, bool preventLoading
 				, glsl::Statement * currentDebugStatement )
 			{
 				DebugId result{ 0u, expr.getType() };
@@ -503,6 +510,7 @@ namespace spirv
 					, allLiterals
 					, std::move( initialiser )
 					, hasFuncInit
+					, preventLoading
 					, currentDebugStatement };
 				expr.accept( &vis );
 				return result;
@@ -516,6 +524,7 @@ namespace spirv
 				, Block & currentBlock
 				, Module & shaderModule
 				, bool & allLiterals
+				, bool preventLoading
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
@@ -528,6 +537,7 @@ namespace spirv
 				, m_allLiterals{ allLiterals }
 				, m_allocator{ shaderModule.allocator }
 				, m_initialiser{ 0u }
+				, m_preventLoading{ preventLoading }
 			{
 			}
 
@@ -540,6 +550,7 @@ namespace spirv
 				, bool & allLiterals
 				, DebugId initialiser
 				, bool hasFuncInit
+				, bool preventLoading
 				, glsl::Statement * currentDebugStatement )
 				: m_exprCache{ exprCache }
 				, m_context{ context }
@@ -553,6 +564,7 @@ namespace spirv
 				, m_allocator{ shaderModule.allocator }
 				, m_initialiser{ std::move( initialiser ) }
 				, m_hasFuncInit{ hasFuncInit }
+				, m_preventLoading{ preventLoading }
 			{
 			}
 
@@ -565,13 +577,13 @@ namespace spirv
 				, DebugId initialiser
 				, bool hasFuncInit )
 			{
-				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, std::move( initialiser ), hasFuncInit, m_currentDebugStatement );
+				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, std::move( initialiser ), hasFuncInit, false, m_currentDebugStatement );
 			}
 
 			DebugId doSubmit( ast::expr::Expr const & expr
 				, bool & allLiterals )
 			{
-				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, allLiterals, m_currentDebugStatement );
+				return submit( m_exprCache, expr, m_context, m_moduleConfig, m_currentBlock, m_module, allLiterals, false, m_currentDebugStatement );
 			}
 
 			glsl::RangeInfo getColumnData( ast::expr::Expr const & expr )const
@@ -680,6 +692,8 @@ namespace spirv
 			DebugId loadVariable( DebugId const & variableId
 				, ast::expr::Expr const & expr )
 			{
+				if ( m_preventLoading )
+					return variableId;
 				return m_module.loadVariable( variableId
 					, m_currentBlock
 					, m_currentDebugStatement
@@ -1368,10 +1382,11 @@ namespace spirv
 			{
 				m_allLiterals = false;
 
-				if ( expr->getSwizzle().isOneComponent()
-					&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier
-					&& !static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->isTempVar()
-					&& static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getBuiltin() != ast::Builtin::eWorkGroupSize )
+				if ( m_preventLoading
+					|| ( expr->getSwizzle().isOneComponent()
+						&& expr->getOuterExpr()->getKind() == ast::expr::Kind::eIdentifier
+						&& !static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->isTempVar()
+						&& static_cast< ast::expr::Identifier const & >( *expr->getOuterExpr() ).getVariable()->getBuiltin() != ast::Builtin::eWorkGroupSize ) )
 				{
 					m_result = loadVariable( makeAccessChain( m_exprCache
 							, *expr
@@ -1673,7 +1688,11 @@ namespace spirv
 			void handleAtomicIntrinsicCallExpr( spv::Op opCode, ast::expr::IntrinsicCall const * expr )
 			{
 				DebugIdList params{ m_allocator };
-				params.push_back( doSubmit( *expr->getArgList()[0].get() ) );
+				{
+					bool allLiterals{ true };
+					params.push_back( submit( m_exprCache, *expr->getArgList()[0]
+						, m_context, m_moduleConfig, m_currentBlock, m_module, allLiterals, true, m_currentDebugStatement ) );
+				}
 
 				auto scopeId = registerLiteral( uint32_t( spv::ScopeDevice ) );
 				auto memorySemanticsId = registerLiteral( uint32_t( spv::MemorySemanticsAcquireReleaseMask ) );
@@ -2140,6 +2159,7 @@ namespace spirv
 			ast::ShaderAllocatorBlock * m_allocator;
 			DebugId m_initialiser;
 			bool m_hasFuncInit{ false };
+			bool m_preventLoading{ false };
 			std::array< ast::type::BaseStructPtr, 4u > m_unsignedExtendedTypes{};
 			std::array< ast::type::BaseStructPtr, 4u > m_signedExtendedTypes{};
 			uint32_t m_aliasId{ 1u };
