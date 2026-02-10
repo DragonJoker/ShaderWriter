@@ -26,7 +26,7 @@ file( GLOB_RECURSE ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 )
 parse_subdir_files( ${SDW_SOURCE_DIR} ${_FOLDER_NAME}/spirv "spirv" )
 
-if ( ${PROJECTS_UNITY_BUILD} )
+if ( ${SDW_UNITY_BUILD} )
 	file( GLOB ${PROJECT_NAME}_FOLDER_SRC_FILES
 		${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/Unity/*.cxx
 	)
@@ -80,7 +80,7 @@ set_target_properties( ${PROJECT_NAME}
 		CXX_STANDARD 20
 		PREFIX ${SDW_LIB_PREFIX}
 		FOLDER "${SDW_BASE_DIR}/Exporters"
-		UNITY_BUILD "${PROJECTS_UNITY_BUILD}"
+		UNITY_BUILD "${SDW_UNITY_BUILD}"
 )
 target_include_directories( ${PROJECT_NAME}
 	PRIVATE
