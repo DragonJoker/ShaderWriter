@@ -559,7 +559,7 @@ if ( SDW_GENERATE_SOURCE AND PYTHON_FOUND )
 	)
 endif ()
 
-if ( ${PROJECTS_UNITY_BUILD} )
+if ( ${SDW_UNITY_BUILD} )
 	file( GLOB ${PROJECT_NAME}_FOLDER_SRC_FILES
 		${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${PROJECT_NAME}.dir/Unity/*.cxx
 	)
@@ -607,7 +607,7 @@ set_target_properties( ${PROJECT_NAME}
 		CXX_STANDARD 20
 		PREFIX ${SDW_LIB_PREFIX}
 		FOLDER "${SDW_BASE_DIR}/Core"
-		UNITY_BUILD "${PROJECTS_UNITY_BUILD}"
+		UNITY_BUILD "${SDW_UNITY_BUILD}"
 )
 target_add_precompiled_header( ${PROJECT_NAME}
 	${SDW_SOURCE_DIR}/include/${_FOLDER_NAME}/ShaderASTPch.hpp

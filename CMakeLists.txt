@@ -58,8 +58,6 @@ include( AStyleUtils )
 include( ExternalDependencies )
 include( Coverage )
 
-set( PROJECTS_UNITY_BUILD ${SDW_UNITY_BUILD} )
-
 set( SDW_EDITORCONFIG_FILE ${CMAKE_CURRENT_SOURCE_DIR}/.editorconfig )
 
 # Organize projects into folders
