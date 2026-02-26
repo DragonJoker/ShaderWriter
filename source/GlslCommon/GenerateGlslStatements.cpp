@@ -1531,18 +1531,14 @@ namespace glsl
 			static bool isScopeBeginStatement( StatementType value )
 			{
 				return value == glsl::StatementType::eNone
-					|| value == glsl::StatementType::eStructureDecl
 					|| value == glsl::StatementType::eStructureMemberDecl
-					|| value == glsl::StatementType::eFunctionDecl
 					|| value == glsl::StatementType::eVariableDecl
-					|| value == glsl::StatementType::eVariableBlockDecl
 					|| value == glsl::StatementType::eBuiltinVariableDecl
 					|| value == glsl::StatementType::eScopeLine
-					|| value == glsl::StatementType::eStructureScopeEnd
-					|| value == glsl::StatementType::eFunctionScopeEnd
-					|| value == glsl::StatementType::eLexicalScopeEnd
-					|| value == glsl::StatementType::eControlBegin
-					|| value == glsl::StatementType::eControlEnd;
+					|| value == glsl::StatementType::eStructureScopeBegin
+					|| value == glsl::StatementType::eFunctionScopeBegin
+					|| value == glsl::StatementType::eLexicalScopeBegin
+					|| value == glsl::StatementType::eControlBegin;
 			}
 
 			static bool isScopeEndStatement( StatementType value )
@@ -1550,15 +1546,14 @@ namespace glsl
 				return value == glsl::StatementType::eNone
 					|| value == glsl::StatementType::eStructureDecl
 					|| value == glsl::StatementType::eStructureMemberDecl
-					|| value == glsl::StatementType::eFunctionDecl
 					|| value == glsl::StatementType::eVariableDecl
 					|| value == glsl::StatementType::eVariableBlockDecl
 					|| value == glsl::StatementType::eBuiltinVariableDecl
 					|| value == glsl::StatementType::eScopeLine
-					|| value == glsl::StatementType::eStructureScopeBegin
-					|| value == glsl::StatementType::eFunctionScopeBegin
-					|| value == glsl::StatementType::eLexicalScopeBegin
-					|| value == glsl::StatementType::eControlBegin;
+					|| value == glsl::StatementType::eStructureScopeEnd
+					|| value == glsl::StatementType::eFunctionScopeEnd
+					|| value == glsl::StatementType::eLexicalScopeEnd
+					|| value == glsl::StatementType::eControlEnd;
 			}
 
 			static bool isScopeDeclStatement( StatementType value )
@@ -1578,12 +1573,19 @@ namespace glsl
 					|| value == glsl::StatementType::eControlEnd;
 			}
 
+			static void addLineEnd( Statements & result
+				, uint32_t & line )
+			{
+				result.source += "\n";
+				++line;
+			}
+
 			static void doAddStatement( std::string text
 				, Statements & result
 				, uint32_t & line )
 			{
-				result.source += std::move( text ) + "\n";
-				++line;
+				result.source += std::move( text );
+				addLineEnd( result, line );
 			}
 		}
 
@@ -2549,19 +2551,23 @@ namespace glsl
 				, ast::stmt::Stmt const * scope = nullptr )
 			{
 				if ( ( helpers::isScopeEndStatement( m_lastStmtType )
-						&& !helpers::isScopeEndStatement( type ) )
-					|| ( helpers::isScopeDeclStatement( type )
-						&& !helpers::isScopeBeginStatement( m_lastStmtType ) ) )
+						&& !helpers::isScopeEndStatement( type )
+						&& text != "else" )
+					|| ( !helpers::isScopeBeginStatement( m_lastStmtType )
+						&& helpers::isScopeBeginStatement( type )
+						&& m_lastStmtType != StatementType::eFunctionDecl
+						&& m_lastStmtType != StatementType::eStructureDecl
+						&& m_lastStmtType != StatementType::eVariableBlockDecl
+						&& text != "else" ) )
 				{
-					++m_currentLine;
-					m_result.source += "\n";
+					helpers::addLineEnd( m_result, m_currentLine );
 				}
 
 				Statement current;
 				current.type = type;
 				current.stmt = &stmt;
 				auto length = uint32_t( text.size() );
-				m_result.source += m_indents.back() + std::move( text ) + "\n";
+				m_result.source += m_indents.back() + std::move( text );
 				current.source.lines.start = m_currentLine;
 				current.source.columns.start = uint32_t( m_indents.back().size() );
 				current.source.columns.end = current.source.columns.start + length;
@@ -2569,7 +2575,7 @@ namespace glsl
 				current.exprs = std::move( exprs );
 				m_result.statements.push_back( std::move( current ) );
 
-				++m_currentLine;
+				helpers::addLineEnd( m_result, m_currentLine );
 				m_lastStmtType = type;
 			}
 
@@ -3254,6 +3260,7 @@ namespace glsl
 					decl += m_indents.back() + "\tfloat gl_ClipDistance[];\n";
 					decl += m_indents.back() + "\tfloat gl_CullDistance[];\n";
 					decl += m_indents.back() + "}";
+					m_currentLine += m_currentLine += 6u;
 
 					switch ( stmt->getSource() )
 					{
