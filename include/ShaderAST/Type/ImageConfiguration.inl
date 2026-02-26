@@ -348,7 +348,7 @@ namespace ast::type
 	{
 		return ImageConfiguration
 		{
-			sampledBaseType< FormatT >,
+			sampledBaseTypeT< FormatT >,
 			DimT,
 			FormatT,
 			sampled ? Trinary::eTrue : Trinary::eFalse,
