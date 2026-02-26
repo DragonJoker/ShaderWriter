@@ -811,130 +811,130 @@ namespace ast::type
 		switch ( format )
 		{
 		case ImageFormat::eRgbaTypeless:
-			result = getBasicType( sampledType< ImageFormat::eRgbaTypeless > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgbaTypeless > );
 			break;
 		case ImageFormat::eRgTypeless:
-			result = getBasicType( sampledType< ImageFormat::eRgTypeless > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgTypeless > );
 			break;
 		case ImageFormat::eRTypeless:
-			result = getBasicType( sampledType< ImageFormat::eRTypeless > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRTypeless > );
 			break;
 		case ImageFormat::eRgba32f:
-			result = getBasicType( sampledType< ImageFormat::eRgba32f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba32f > );
 			break;
 		case ImageFormat::eRgba16f:
-			result = getBasicType( sampledType< ImageFormat::eRgba16f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba16f > );
 			break;
 		case ImageFormat::eRg32f:
-			result = getBasicType( sampledType< ImageFormat::eRg32f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg32f > );
 			break;
 		case ImageFormat::eRg16f:
-			result = getBasicType( sampledType< ImageFormat::eRg16f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg16f > );
 			break;
 		case ImageFormat::eR32f:
-			result = getBasicType( sampledType< ImageFormat::eR32f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR32f > );
 			break;
 		case ImageFormat::eR16f:
-			result = getBasicType( sampledType< ImageFormat::eR16f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR16f > );
 			break;
 		case ImageFormat::eR11fG11fB10f:
-			result = getBasicType( sampledType< ImageFormat::eR11fG11fB10f > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR11fG11fB10f > );
 			break;
 		case ImageFormat::eRgba32i:
-			result = getBasicType( sampledType< ImageFormat::eRgba32i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba32i > );
 			break;
 		case ImageFormat::eRgba16i:
-			result = getBasicType( sampledType< ImageFormat::eRgba16i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba16i > );
 			break;
 		case ImageFormat::eRgba8i:
-			result = getBasicType( sampledType< ImageFormat::eRgba8i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba8i > );
 			break;
 		case ImageFormat::eRg32i:
-			result = getBasicType( sampledType< ImageFormat::eRg32i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg32i > );
 			break;
 		case ImageFormat::eRg16i:
-			result = getBasicType( sampledType< ImageFormat::eRg16i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg16i > );
 			break;
 		case ImageFormat::eRg8i:
-			result = getBasicType( sampledType< ImageFormat::eRg8i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg8i > );
 			break;
 		case ImageFormat::eR32i:
-			result = getBasicType( sampledType< ImageFormat::eR32i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR32i > );
 			break;
 		case ImageFormat::eR16i:
-			result = getBasicType( sampledType< ImageFormat::eR16i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR16i > );
 			break;
 		case ImageFormat::eR8i:
-			result = getBasicType( sampledType< ImageFormat::eR8i > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR8i > );
 			break;
 		case ImageFormat::eRgba32u:
-			result = getBasicType( sampledType< ImageFormat::eRgba32u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba32u > );
 			break;
 		case ImageFormat::eRgba16u:
-			result = getBasicType( sampledType< ImageFormat::eRgba16u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba16u > );
 			break;
 		case ImageFormat::eRgba8u:
-			result = getBasicType( sampledType< ImageFormat::eRgba8u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba8u > );
 			break;
 		case ImageFormat::eRg32u:
-			result = getBasicType( sampledType< ImageFormat::eRg32u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg32u > );
 			break;
 		case ImageFormat::eRg16u:
-			result = getBasicType( sampledType< ImageFormat::eRg16u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg16u > );
 			break;
 		case ImageFormat::eRg8u:
-			result = getBasicType( sampledType< ImageFormat::eRg8u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg8u > );
 			break;
 		case ImageFormat::eR32u:
-			result = getBasicType( sampledType< ImageFormat::eR32u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR32u > );
 			break;
 		case ImageFormat::eR16u:
-			result = getBasicType( sampledType< ImageFormat::eR16u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR16u > );
 			break;
 		case ImageFormat::eR8u:
-			result = getBasicType( sampledType< ImageFormat::eR8u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR8u > );
 			break;
 		case ImageFormat::eRgb10A2u:
-			result = getBasicType( sampledType< ImageFormat::eRgb10A2u > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgb10A2u > );
 			break;
 		case ImageFormat::eRgba16Snorm:
-			result = getBasicType( sampledType< ImageFormat::eRgba16Snorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba16Snorm > );
 			break;
 		case ImageFormat::eRgba8Snorm:
-			result = getBasicType( sampledType< ImageFormat::eRgba8Snorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba8Snorm > );
 			break;
 		case ImageFormat::eRg16Snorm:
-			result = getBasicType( sampledType< ImageFormat::eRg16Snorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg16Snorm > );
 			break;
 		case ImageFormat::eRg8Snorm:
-			result = getBasicType( sampledType< ImageFormat::eRg8Snorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg8Snorm > );
 			break;
 		case ImageFormat::eR16Snorm:
-			result = getBasicType( sampledType< ImageFormat::eR16Snorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR16Snorm > );
 			break;
 		case ImageFormat::eR8Snorm:
-			result = getBasicType( sampledType< ImageFormat::eR8Snorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR8Snorm > );
 			break;
 		case ImageFormat::eRgba16Unorm:
-			result = getBasicType( sampledType< ImageFormat::eRgba16Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba16Unorm > );
 			break;
 		case ImageFormat::eRgba8Unorm:
-			result = getBasicType( sampledType< ImageFormat::eRgba8Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgba8Unorm > );
 			break;
 		case ImageFormat::eRg16Unorm:
-			result = getBasicType( sampledType< ImageFormat::eRg16Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg16Unorm > );
 			break;
 		case ImageFormat::eRg8Unorm:
-			result = getBasicType( sampledType< ImageFormat::eRg8Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRg8Unorm > );
 			break;
 		case ImageFormat::eR16Unorm:
-			result = getBasicType( sampledType< ImageFormat::eR16Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR16Unorm > );
 			break;
 		case ImageFormat::eR8Unorm:
-			result = getBasicType( sampledType< ImageFormat::eR8Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eR8Unorm > );
 			break;
 		case ImageFormat::eRgb10A2Unorm:
-			result = getBasicType( sampledType< ImageFormat::eRgb10A2Unorm > );
+			result = getBasicType( sampledTypeT< ImageFormat::eRgb10A2Unorm > );
 			break;
 		default:
 			break;
@@ -951,130 +951,130 @@ namespace ast::type
 		switch ( format )
 		{
 		case ImageFormat::eRgbaTypeless:
-			result = getBasicType( texelType< ImageFormat::eRgbaTypeless > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgbaTypeless > );
 			break;
 		case ImageFormat::eRgTypeless:
-			result = getBasicType( texelType< ImageFormat::eRgTypeless > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgTypeless > );
 			break;
 		case ImageFormat::eRTypeless:
-			result = getBasicType( texelType< ImageFormat::eRTypeless > );
+			result = getBasicType( texelTypeT< ImageFormat::eRTypeless > );
 			break;
 		case ImageFormat::eRgba32f:
-			result = getBasicType( texelType< ImageFormat::eRgba32f > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba32f > );
 			break;
 		case ImageFormat::eRgba16f:
-			result = getBasicType( texelType< ImageFormat::eRgba16f > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba16f > );
 			break;
 		case ImageFormat::eRg32f:
-			result = getBasicType( texelType< ImageFormat::eRg32f > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg32f > );
 			break;
 		case ImageFormat::eRg16f:
-			result = getBasicType( texelType< ImageFormat::eRg16f > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg16f > );
 			break;
 		case ImageFormat::eR32f:
-			result = getBasicType( texelType< ImageFormat::eR32f > );
+			result = getBasicType( texelTypeT< ImageFormat::eR32f > );
 			break;
 		case ImageFormat::eR16f:
-			result = getBasicType( texelType< ImageFormat::eR16f > );
+			result = getBasicType( texelTypeT< ImageFormat::eR16f > );
 			break;
 		case ImageFormat::eR11fG11fB10f:
-			result = getBasicType( texelType< ImageFormat::eR11fG11fB10f > );
+			result = getBasicType( texelTypeT< ImageFormat::eR11fG11fB10f > );
 			break;
 		case ImageFormat::eRgba32i:
-			result = getBasicType( texelType< ImageFormat::eRgba32i > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba32i > );
 			break;
 		case ImageFormat::eRgba16i:
-			result = getBasicType( texelType< ImageFormat::eRgba16i > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba16i > );
 			break;
 		case ImageFormat::eRgba8i:
-			result = getBasicType( texelType< ImageFormat::eRgba8i > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba8i > );
 			break;
 		case ImageFormat::eRg32i:
-			result = getBasicType( texelType< ImageFormat::eRg32i > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg32i > );
 			break;
 		case ImageFormat::eRg16i:
-			result = getBasicType( texelType< ImageFormat::eRg16i > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg16i > );
 			break;
 		case ImageFormat::eRg8i:
-			result = getBasicType( texelType< ImageFormat::eRg8i > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg8i > );
 			break;
 		case ImageFormat::eR32i:
-			result = getBasicType( texelType< ImageFormat::eR32i > );
+			result = getBasicType( texelTypeT< ImageFormat::eR32i > );
 			break;
 		case ImageFormat::eR16i:
-			result = getBasicType( texelType< ImageFormat::eR16i > );
+			result = getBasicType( texelTypeT< ImageFormat::eR16i > );
 			break;
 		case ImageFormat::eR8i:
-			result = getBasicType( texelType< ImageFormat::eR8i > );
+			result = getBasicType( texelTypeT< ImageFormat::eR8i > );
 			break;
 		case ImageFormat::eRgba32u:
-			result = getBasicType( texelType< ImageFormat::eRgba32u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba32u > );
 			break;
 		case ImageFormat::eRgba16u:
-			result = getBasicType( texelType< ImageFormat::eRgba16u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba16u > );
 			break;
 		case ImageFormat::eRgba8u:
-			result = getBasicType( texelType< ImageFormat::eRgba8u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba8u > );
 			break;
 		case ImageFormat::eRg32u:
-			result = getBasicType( texelType< ImageFormat::eRg32u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg32u > );
 			break;
 		case ImageFormat::eRg16u:
-			result = getBasicType( texelType< ImageFormat::eRg16u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg16u > );
 			break;
 		case ImageFormat::eRg8u:
-			result = getBasicType( texelType< ImageFormat::eRg8u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg8u > );
 			break;
 		case ImageFormat::eR32u:
-			result = getBasicType( texelType< ImageFormat::eR32u > );
+			result = getBasicType( texelTypeT< ImageFormat::eR32u > );
 			break;
 		case ImageFormat::eR16u:
-			result = getBasicType( texelType< ImageFormat::eR16u > );
+			result = getBasicType( texelTypeT< ImageFormat::eR16u > );
 			break;
 		case ImageFormat::eR8u:
-			result = getBasicType( texelType< ImageFormat::eR8u > );
+			result = getBasicType( texelTypeT< ImageFormat::eR8u > );
 			break;
 		case ImageFormat::eRgb10A2u:
-			result = getBasicType( texelType< ImageFormat::eRgb10A2u > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgb10A2u > );
 			break;
 		case ImageFormat::eRgba16Snorm:
-			result = getBasicType( texelType< ImageFormat::eRgba16Snorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba16Snorm > );
 			break;
 		case ImageFormat::eRgba8Snorm:
-			result = getBasicType( texelType< ImageFormat::eRgba8Snorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba8Snorm > );
 			break;
 		case ImageFormat::eRg16Snorm:
-			result = getBasicType( texelType< ImageFormat::eRg16Snorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg16Snorm > );
 			break;
 		case ImageFormat::eRg8Snorm:
-			result = getBasicType( texelType< ImageFormat::eRg8Snorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg8Snorm > );
 			break;
 		case ImageFormat::eR16Snorm:
-			result = getBasicType( texelType< ImageFormat::eR16Snorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eR16Snorm > );
 			break;
 		case ImageFormat::eR8Snorm:
-			result = getBasicType( texelType< ImageFormat::eR8Snorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eR8Snorm > );
 			break;
 		case ImageFormat::eRgba16Unorm:
-			result = getBasicType( texelType< ImageFormat::eRgba16Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba16Unorm > );
 			break;
 		case ImageFormat::eRgba8Unorm:
-			result = getBasicType( texelType< ImageFormat::eRgba8Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgba8Unorm > );
 			break;
 		case ImageFormat::eRg16Unorm:
-			result = getBasicType( texelType< ImageFormat::eRg16Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg16Unorm > );
 			break;
 		case ImageFormat::eRg8Unorm:
-			result = getBasicType( texelType< ImageFormat::eRg8Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRg8Unorm > );
 			break;
 		case ImageFormat::eR16Unorm:
-			result = getBasicType( texelType< ImageFormat::eR16Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eR16Unorm > );
 			break;
 		case ImageFormat::eR8Unorm:
-			result = getBasicType( texelType< ImageFormat::eR8Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eR8Unorm > );
 			break;
 		case ImageFormat::eRgb10A2Unorm:
-			result = getBasicType( texelType< ImageFormat::eRgb10A2Unorm > );
+			result = getBasicType( texelTypeT< ImageFormat::eRgb10A2Unorm > );
 			break;
 		default:
 			break;

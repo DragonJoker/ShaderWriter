@@ -34,8 +34,6 @@ namespace glsl
 
 		namespace helpers
 		{
-			static uint32_t constexpr InvalidIndex = ~0u;
-
 			static bool isContainer( ast::stmt::Stmt const & stmt )
 			{
 				return stmt.getKind() == ast::stmt::Kind::eContainer
@@ -1553,23 +1551,6 @@ namespace glsl
 					|| value == glsl::StatementType::eStructureScopeEnd
 					|| value == glsl::StatementType::eFunctionScopeEnd
 					|| value == glsl::StatementType::eLexicalScopeEnd
-					|| value == glsl::StatementType::eControlEnd;
-			}
-
-			static bool isScopeDeclStatement( StatementType value )
-			{
-				return value == glsl::StatementType::eNone
-					|| value == glsl::StatementType::eScopeLine
-					|| value == glsl::StatementType::eStructureScopeBegin
-					|| value == glsl::StatementType::eStructureScopeEnd
-					|| value == glsl::StatementType::eFunctionScopeBegin
-					|| value == glsl::StatementType::eFunctionScopeEnd
-					|| value == glsl::StatementType::eLexicalScopeBegin
-					|| value == glsl::StatementType::eLexicalScopeEnd
-					|| value == glsl::StatementType::eStructureMemberDecl
-					|| value == glsl::StatementType::eVariableDecl
-					|| value == glsl::StatementType::eVariableBlockDecl
-					|| value == glsl::StatementType::eBuiltinVariableDecl
 					|| value == glsl::StatementType::eControlEnd;
 			}
 
@@ -3535,12 +3516,12 @@ namespace glsl
 				, std::string const & sep
 				, std::string & result )const
 			{
-				if ( binding != helpers::InvalidIndex
+				if ( binding != InvalidIndex
 					&& helpers::hasExtension( m_config, ARB_shading_language_420pack ) )
 				{
 					result += sep + "binding=" + writeValue( binding );
 
-					if ( set != helpers::InvalidIndex
+					if ( set != InvalidIndex
 						&& m_config.wantedVersion >= v4_6 )
 					{
 						result += ", set=" + writeValue( set );

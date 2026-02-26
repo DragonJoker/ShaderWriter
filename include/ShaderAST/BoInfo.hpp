@@ -120,11 +120,10 @@ namespace ast
 		{
 		}
 
-		AccStructInfo( type::AccelerationStructurePtr type
+		AccStructInfo( type::AccelerationStructurePtr ptype
 			, uint32_t bind
 			, uint32_t set )
-			: DescriptorInfoT{ type
-				, { bind, set } }
+			: DescriptorInfoT{ ptype, { bind, set } }
 		{
 		}
 

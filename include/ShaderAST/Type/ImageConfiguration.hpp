@@ -98,11 +98,11 @@ namespace ast::type
 	struct ImageFormatTraits;
 
 	template< ImageFormat FormatT >
-	static Kind constexpr sampledBaseType = ImageFormatTraits< FormatT >::SampledBaseType;
+	static Kind constexpr sampledBaseTypeT = ImageFormatTraits< FormatT >::SampledBaseType;
 	template< ImageFormat FormatT >
-	static Kind constexpr sampledType = ImageFormatTraits< FormatT >::SampledType;
+	static Kind constexpr sampledTypeT = ImageFormatTraits< FormatT >::SampledType;
 	template< ImageFormat FormatT >
-	static Kind constexpr texelType = ImageFormatTraits< FormatT >::TexelType;
+	static Kind constexpr texelTypeT = ImageFormatTraits< FormatT >::TexelType;
 
 	constexpr bool isFloatFormat( ImageFormat format )noexcept
 	{
