@@ -22,7 +22,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , RayLight );
+		SDW_DeclStructInstance( RayLight );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{

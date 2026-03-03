@@ -55,7 +55,7 @@ namespace spirv
 	public:
 		SDWSPIRV_API Block( Block && rhs )noexcept;
 		SDWSPIRV_API Block & operator=( Block && rhs )noexcept;
-		SDWSPIRV_API ~Block()noexcept = default;
+		~Block()noexcept = default;
 
 		SDWSPIRV_API explicit Block( ast::ShaderAllocatorBlock * alloc
 			, spv::Id plabel = {} );

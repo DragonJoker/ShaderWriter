@@ -113,6 +113,8 @@ namespace test
 	{
 		//*****************************************************************************************
 
+		TestSuite::~TestSuite() = default;
+
 		TestSuite::TestSuite( std::string const & name )
 			: test::TestSuite{ name }
 		{
@@ -143,6 +145,8 @@ namespace test
 		}
 
 		//*****************************************************************************************
+
+		TestCounts::~TestCounts()noexcept = default;
 
 		TestCounts::TestCounts()
 			: m_glsl{ SDWTest::glsl }
@@ -533,6 +537,8 @@ namespace test
 std::shared_ptr< test::sdw_test::GLSLContext > SDWTest::glsl;
 std::shared_ptr< test::sdw_test::HLSLContext > SDWTest::hlsl;
 std::shared_ptr< test::sdw_test::SPIRVContext > SDWTest::spirv;
+
+SDWTest::~SDWTest() = default;
 
 void SDWTest::SetUpTestSuite()
 {

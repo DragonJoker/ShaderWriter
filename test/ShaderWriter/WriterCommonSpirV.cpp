@@ -254,7 +254,7 @@ namespace test::sdw_test
 					try
 					{
 						auto cfg = getGlslConfig( glsl::v4_6, testCounts );
-						auto glslangSpirv = compileGlslToSpv( stage
+						if ( auto glslangSpirv = compileGlslToSpv( stage
 							, glsl::compileGlsl( *testCounts.allocatorBlock
 								, shader
 								, statements
@@ -262,12 +262,15 @@ namespace test::sdw_test
 								, specialisation
 								, cfg )
 							, retrieveSPIRVVersion( testCounts, infoIndex ) );
-						std::string glslangCompileErrors;
-						if ( test::compileSpirV( shader, glslangSpirv, glslangCompileErrors, testCounts, infoIndex ) )
+							!glslangSpirv.empty() )
 						{
-							auto parsedShader = spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv );
-							errors += "glslang generated SPIR-V:\n"
-								+ parsedShader;
+							std::string glslangCompileErrors;
+							if ( test::compileSpirV( shader, glslangSpirv, glslangCompileErrors, testCounts, infoIndex ) )
+							{
+								auto parsedShader = spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv );
+								errors += "glslang generated SPIR-V:\n"
+									+ parsedShader;
+							}
 						}
 					}
 					catch ( std::exception & )

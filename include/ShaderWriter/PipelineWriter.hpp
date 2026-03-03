@@ -15,7 +15,7 @@ namespace sdw
 		SDW_API explicit PipelineWriter( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
 		SDW_API explicit PipelineWriter( ShaderBuilder & builder );
-		SDW_API ~PipelineWriter()override = default;
+		SDW_API ~PipelineWriter()noexcept;
 
 	public:
 		void enableMaximalReconvergence( ast::EntryPoint type )noexcept

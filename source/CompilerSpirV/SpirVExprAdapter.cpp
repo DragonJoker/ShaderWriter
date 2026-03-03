@@ -19,6 +19,8 @@ See LICENSE file in root folder
 
 #include <stdexcept>
 
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+
 namespace spirv
 {
 	namespace adapt

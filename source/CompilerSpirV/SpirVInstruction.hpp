@@ -353,7 +353,7 @@ namespace spirv
 			, BufferCIt & buffer );
 		SDWSPIRV_API static InstructionPtr deserialize( ast::ShaderAllocatorBlock * alloc
 			, BufferIt & buffer );
-		SDWSPIRV_API virtual ~Instruction() = default;
+		virtual ~Instruction() = default;
 
 		// Serialisable.
 		Op op;

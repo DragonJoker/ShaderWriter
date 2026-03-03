@@ -20,9 +20,9 @@ namespace sdw
 		// Intently non explicit
 		SDW_API Void( ReturnWrapperT< Void > const & rhs );
 
-		SDW_API ~Void()override = default;
-		SDW_API Void( Void && rhs ) = default;
-		SDW_API Void( Void const & rhs ) = default;
+		~Void()override = default;
+		Void( Void && rhs ) = default;
+		Void( Void const & rhs ) = default;
 
 		SDW_API static ast::type::TypePtr makeType( ast::type::TypesCache & cache );
 	};

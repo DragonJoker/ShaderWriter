@@ -1,6 +1,6 @@
 /.vscode
 /binaries
-/build
+/build*
 /out
 /setup
 /doc/*coverage*

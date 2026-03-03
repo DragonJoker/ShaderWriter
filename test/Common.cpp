@@ -242,12 +242,10 @@ namespace test
 
 	//*********************************************************************************************
 
+	TestCounts::~TestCounts()noexcept = default;
+
 	TestCounts::TestCounts()
 		: allocatorBlock{ allocator.getBlock() }
-	{
-	}
-
-	TestCounts::~TestCounts()noexcept
 	{
 	}
 

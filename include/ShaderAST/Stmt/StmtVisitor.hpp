@@ -60,10 +60,10 @@ namespace ast::stmt
 	class Visitor
 	{
 	protected:
-		SDAST_API Visitor()noexcept = default;
+		Visitor()noexcept = default;
 
 	public:
-		SDAST_API virtual ~Visitor()noexcept = default;
+		virtual ~Visitor()noexcept = default;
 
 		SDAST_API virtual void visitAccelerationStructureDeclStmt( AccelerationStructureDecl const * ) = 0;
 		SDAST_API virtual void visitBreakStmt( Break const * ) = 0;
@@ -120,33 +120,33 @@ namespace ast::stmt
 		: public Visitor
 	{
 	protected:
-		SDAST_API SimpleVisitor()noexcept = default;
+		SimpleVisitor()noexcept = default;
 
 	public:
-		SDAST_API ~SimpleVisitor()noexcept override = default;
+		~SimpleVisitor()noexcept override = default;
 
-		SDAST_API void visitAccelerationStructureDeclStmt( AccelerationStructureDecl const * stmt )override
+		void visitAccelerationStructureDeclStmt( AccelerationStructureDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitBreakStmt( Break const * stmt )override
+		void visitBreakStmt( Break const * stmt )override
 		{
 		}
 
-		SDAST_API void visitBufferReferenceDeclStmt( BufferReferenceDecl const * stmt )override
+		void visitBufferReferenceDeclStmt( BufferReferenceDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitCommentStmt( Comment const * stmt )override
+		void visitCommentStmt( Comment const * stmt )override
 		{
 		}
 
-		SDAST_API void visitCompoundStmt( Compound const * stmt )override
+		void visitCompoundStmt( Compound const * stmt )override
 		{
 			visitContainerStmt( stmt );
 		}
 
-		SDAST_API void visitContainerStmt( Container const * stmt )override
+		void visitContainerStmt( Container const * stmt )override
 		{
 			for ( auto & subStmt : *stmt )
 			{
@@ -154,61 +154,61 @@ namespace ast::stmt
 			}
 		}
 
-		SDAST_API void visitContinueStmt( Continue const * stmt )override
+		void visitContinueStmt( Continue const * stmt )override
 		{
 		}
 
-		SDAST_API void visitConstantBufferDeclStmt( ConstantBufferDecl const * stmt )override
-		{
-			visitCompoundStmt( stmt );
-		}
-
-		SDAST_API void visitDemoteStmt( Demote const * stmt )override
-		{
-		}
-
-		SDAST_API void visitDispatchMeshStmt( DispatchMesh const * stmt )override
-		{
-		}
-
-		SDAST_API void visitTerminateInvocationStmt( TerminateInvocation const * stmt )override
-		{
-		}
-
-		SDAST_API void visitDoWhileStmt( DoWhile const * stmt )override
+		void visitConstantBufferDeclStmt( ConstantBufferDecl const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitElseIfStmt( ElseIf const * stmt )override
+		void visitDemoteStmt( Demote const * stmt )override
+		{
+		}
+
+		void visitDispatchMeshStmt( DispatchMesh const * stmt )override
+		{
+		}
+
+		void visitTerminateInvocationStmt( TerminateInvocation const * stmt )override
+		{
+		}
+
+		void visitDoWhileStmt( DoWhile const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitElseStmt( Else const * stmt )override
+		void visitElseIfStmt( ElseIf const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitForStmt( For const * stmt )override
+		void visitElseStmt( Else const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitFragmentLayoutStmt( FragmentLayout const * stmt )override
-		{
-		}
-
-		SDAST_API void visitFunctionDeclStmt( FunctionDecl const * stmt )override
+		void visitForStmt( For const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitHitAttributeVariableDeclStmt( HitAttributeVariableDecl const * stmt )override
+		void visitFragmentLayoutStmt( FragmentLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitIfStmt( If const * stmt )override
+		void visitFunctionDeclStmt( FunctionDecl const * stmt )override
+		{
+			visitCompoundStmt( stmt );
+		}
+
+		void visitHitAttributeVariableDeclStmt( HitAttributeVariableDecl const * stmt )override
+		{
+		}
+
+		void visitIfStmt( If const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 
@@ -223,128 +223,128 @@ namespace ast::stmt
 			}
 		}
 
-		SDAST_API void visitImageDeclStmt( ImageDecl const * stmt )override
+		void visitImageDeclStmt( ImageDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitIgnoreIntersectionStmt( IgnoreIntersection const * stmt )override
+		void visitIgnoreIntersectionStmt( IgnoreIntersection const * stmt )override
 		{
 		}
 
-		SDAST_API void visitInOutCallableDataVariableDeclStmt( InOutCallableDataVariableDecl const * stmt )override
+		void visitInOutCallableDataVariableDeclStmt( InOutCallableDataVariableDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitInOutRayPayloadVariableDeclStmt( InOutRayPayloadVariableDecl const * stmt )override
+		void visitInOutRayPayloadVariableDeclStmt( InOutRayPayloadVariableDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitInOutVariableDeclStmt( InOutVariableDecl const * stmt )override
+		void visitInOutVariableDeclStmt( InOutVariableDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitInputComputeLayoutStmt( InputComputeLayout const * stmt )override
+		void visitInputComputeLayoutStmt( InputComputeLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitInputGeometryLayoutStmt( InputGeometryLayout const * stmt )override
+		void visitInputGeometryLayoutStmt( InputGeometryLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitInputTessellationEvaluationLayoutStmt( InputTessellationEvaluationLayout const * stmt )override
+		void visitInputTessellationEvaluationLayoutStmt( InputTessellationEvaluationLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitOutputGeometryLayoutStmt( OutputGeometryLayout const * stmt )override
+		void visitOutputGeometryLayoutStmt( OutputGeometryLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitOutputMeshLayoutStmt( OutputMeshLayout const * stmt )override
+		void visitOutputMeshLayoutStmt( OutputMeshLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitOutputTessellationControlLayoutStmt( OutputTessellationControlLayout const * stmt )override
+		void visitOutputTessellationControlLayoutStmt( OutputTessellationControlLayout const * stmt )override
 		{
 		}
 
-		SDAST_API void visitPerPrimitiveDeclStmt( PerPrimitiveDecl const * stmt )override
+		void visitPerPrimitiveDeclStmt( PerPrimitiveDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitPerVertexDeclStmt( PerVertexDecl const * stmt )override
+		void visitPerVertexDeclStmt( PerVertexDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl const * stmt )override
-		{
-			visitCompoundStmt( stmt );
-		}
-
-		SDAST_API void visitReturnStmt( Return const * stmt )override
-		{
-		}
-
-		SDAST_API void visitCombinedImageDeclStmt( CombinedImageDecl const * stmt )override
-		{
-		}
-
-		SDAST_API void visitSampledImageDeclStmt( SampledImageDecl const * stmt )override
-		{
-		}
-
-		SDAST_API void visitSamplerDeclStmt( SamplerDecl const * stmt )override
-		{
-		}
-
-		SDAST_API void visitShaderBufferDeclStmt( ShaderBufferDecl const * stmt )override
+		void visitPushConstantsBufferDeclStmt( PushConstantsBufferDecl const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitShaderStructBufferDeclStmt( ShaderStructBufferDecl const * stmt )override
+		void visitReturnStmt( Return const * stmt )override
 		{
 		}
 
-		SDAST_API void visitSimpleStmt( Simple const * stmt )override
+		void visitCombinedImageDeclStmt( CombinedImageDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitSpecialisationConstantDeclStmt( SpecialisationConstantDecl const * stmt )override
+		void visitSampledImageDeclStmt( SampledImageDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitStructureDeclStmt( StructureDecl const * stmt )override
+		void visitSamplerDeclStmt( SamplerDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitSwitchCaseStmt( SwitchCase const * stmt )override
-		{
-			visitCompoundStmt( stmt );
-		}
-
-		SDAST_API void visitSwitchStmt( Switch const * stmt )override
+		void visitShaderBufferDeclStmt( ShaderBufferDecl const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitTerminateRayStmt( TerminateRay const * stmt )override
+		void visitShaderStructBufferDeclStmt( ShaderStructBufferDecl const * stmt )override
 		{
 		}
 
-		SDAST_API void visitVariableDeclStmt( VariableDecl const * stmt )override
+		void visitSimpleStmt( Simple const * stmt )override
 		{
 		}
 
-		SDAST_API void visitWhileStmt( While const * stmt )override
+		void visitSpecialisationConstantDeclStmt( SpecialisationConstantDecl const * stmt )override
+		{
+		}
+
+		void visitStructureDeclStmt( StructureDecl const * stmt )override
+		{
+		}
+
+		void visitSwitchCaseStmt( SwitchCase const * stmt )override
 		{
 			visitCompoundStmt( stmt );
 		}
 
-		SDAST_API void visitPreprocExtension( PreprocExtension const * stmt )override
+		void visitSwitchStmt( Switch const * stmt )override
+		{
+			visitCompoundStmt( stmt );
+		}
+
+		void visitTerminateRayStmt( TerminateRay const * stmt )override
 		{
 		}
 
-		SDAST_API void visitPreprocVersion( PreprocVersion const * stmt )override
+		void visitVariableDeclStmt( VariableDecl const * stmt )override
+		{
+		}
+
+		void visitWhileStmt( While const * stmt )override
+		{
+			visitCompoundStmt( stmt );
+		}
+
+		void visitPreprocExtension( PreprocExtension const * stmt )override
+		{
+		}
+
+		void visitPreprocVersion( PreprocVersion const * stmt )override
 		{
 		}
 	};

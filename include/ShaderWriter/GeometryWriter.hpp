@@ -147,18 +147,18 @@ namespace sdw
 		SDW_API explicit GeometryWriter( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit GeometryWriter( ShaderAllocator * allocator = nullptr )
+		explicit GeometryWriter( ShaderAllocator * allocator = nullptr )
 			: GeometryWriter{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit GeometryWriter( ast::stmt::FunctionFlag flag
+		explicit GeometryWriter( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: GeometryWriter{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API GeometryWriter( ShaderBuilder & builder
+		GeometryWriter( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: GeometryWriter{ builder, uint32_t( flag ) }
 		{

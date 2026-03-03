@@ -135,7 +135,7 @@ namespace sdw
 		: public Value
 	{
 	public:
-		SDW_DeclValue( SDW_API, StructInstance );
+		SDW_DeclValue( StructInstance );
 
 		SDW_API StructInstance( ShaderWriter & writer
 			, expr::ExprPtr expr
@@ -172,7 +172,7 @@ namespace sdw
 	};
 }
 
-#define SDW_DeclStructInstance( expdecl, name )\
+#define SDW_DeclStructInstance( name )\
 	template< typename ... ParamsT >\
 	name( sdw::StructInstance const & rhs\
 		, ParamsT && ... params )\
@@ -192,11 +192,11 @@ namespace sdw
 		sdw::StructInstance::operator=( rhs );\
 		return *this;\
 	}\
-	expdecl name & operator=( name const & rhs ) = default;\
-	expdecl name & operator=( name && rhs )noexcept = default;\
-	expdecl name( name const & rhs ) = default;\
-	expdecl name( name && rhs )noexcept = default;\
-	expdecl ~name()noexcept override = default
+	name & operator=( name const & rhs ) = default;\
+	name & operator=( name && rhs )noexcept = default;\
+	name( name const & rhs ) = default;\
+	name( name && rhs )noexcept = default;\
+	~name()noexcept override = default
 
 #include "StructInstance.inl"
 #include "StructInstanceHelper.hpp"

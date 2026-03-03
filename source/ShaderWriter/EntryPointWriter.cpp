@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	EntryPointWriter::~EntryPointWriter()noexcept = default;
+
 	EntryPointWriter::EntryPointWriter( ast::ShaderStage type
 		, uint32_t flags
 		, ShaderAllocator * allocator )

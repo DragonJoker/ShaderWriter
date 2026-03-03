@@ -46,7 +46,7 @@ namespace sdw
 	struct HitAttributeT
 		: public ValueT
 	{
-		SDW_DeclValue( , HitAttributeT );
+		SDW_DeclValue( HitAttributeT );
 
 		template< typename ... ParamsT >
 		explicit HitAttributeT( ShaderWriter & writer

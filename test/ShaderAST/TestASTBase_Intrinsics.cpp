@@ -13,6 +13,8 @@ See LICENSE file in root folder
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
+#pragma GCC diagnostic ignored "-Wdisabled-optimization"
+
 namespace checks
 {
 	using namespace ast;
@@ -35069,3 +35071,4 @@ namespace checks
 }
 
 astTestSuiteMain()
+

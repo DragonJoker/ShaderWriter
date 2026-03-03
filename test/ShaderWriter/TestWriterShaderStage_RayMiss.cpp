@@ -16,7 +16,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , HitPayload );
+		SDW_DeclStructInstance( HitPayload );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{

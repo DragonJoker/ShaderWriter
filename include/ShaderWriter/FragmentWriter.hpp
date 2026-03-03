@@ -97,18 +97,18 @@ namespace sdw
 		SDW_API explicit FragmentWriter( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit FragmentWriter( ShaderAllocator * allocator = nullptr )
+		explicit FragmentWriter( ShaderAllocator * allocator = nullptr )
 			: FragmentWriter{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit FragmentWriter( ast::stmt::FunctionFlag flag
+		explicit FragmentWriter( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: FragmentWriter{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API FragmentWriter( ShaderBuilder & builder
+		FragmentWriter( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: FragmentWriter{ builder, uint32_t( flag ) }
 		{

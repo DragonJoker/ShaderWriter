@@ -69,7 +69,7 @@ namespace ast::stmt
 		SDAST_API explicit Stmt( StmtCache & stmtCache
 			, size_t size
 			, Kind kind );
-		SDAST_API virtual ~Stmt()noexcept = default;
+		virtual ~Stmt()noexcept = default;
 
 		SDAST_API virtual void accept( VisitorPtr )const = 0;
 

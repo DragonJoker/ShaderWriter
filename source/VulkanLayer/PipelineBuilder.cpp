@@ -232,7 +232,7 @@ namespace ast::vk
 			return VK_ERROR_VALIDATION_FAILED_EXT;
 		}
 
-#	if defined( WIN32 )
+#	if defined( WIN32 ) && defined( _MSC_VER )
 		__try
 		{
 #	endif
@@ -244,7 +244,7 @@ namespace ast::vk
 				, result );
 			checkError( err );
 			return err;
-#	if defined( WIN32 )
+#	if defined( WIN32 ) && defined( _MSC_VER )
 		}
 		__except ( GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION )
 		{

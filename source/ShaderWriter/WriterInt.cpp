@@ -5,7 +5,7 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	ShaderWriter *& doGetCurrentWriter()
+	ShaderWriter *& doGetCurrentWriter()noexcept
 	{
 		thread_local ShaderWriter * current = nullptr;
 		return current;

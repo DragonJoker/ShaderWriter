@@ -2,6 +2,7 @@
 
 #pragma warning( disable:5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wdisabled-optimization"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
 namespace

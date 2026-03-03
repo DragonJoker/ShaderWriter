@@ -15,10 +15,10 @@ namespace sdw
 		SDW_API EntryPointWriter( ast::ShaderStage type
 			, uint32_t flags
 			, ShaderAllocator * allocator );
-		SDW_API EntryPointWriter( ast::ShaderStage type
+		SDW_API EntryPointWriter( ast::ShaderStage type	
 			, ShaderBuilder & builder
 			, uint32_t flags );
-		SDW_API ~EntryPointWriter()override = default;
+		SDW_API ~EntryPointWriter()noexcept;
 
 	public:
 #pragma region Input declaration

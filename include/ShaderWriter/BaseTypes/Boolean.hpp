@@ -12,7 +12,7 @@ namespace sdw
 	struct Boolean
 		: public Value
 	{
-		SDW_DeclValue( SDW_API, Boolean );
+		SDW_DeclValue( Boolean );
 
 		SDW_API Boolean( ShaderWriter & writer
 			, expr::ExprPtr expr

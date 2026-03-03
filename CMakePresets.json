@@ -27,11 +27,18 @@
 			}
 		},
 		{
-			"name": "user-msvc",
+			"name": "user-msvc2022",
 			"displayName": "ShaderWriter User Visual Studio Config",
-			"description": "Build configuration using Visual Studio, for ShaderWriter users",
+			"description": "Build configuration using Visual Studio 2022, for ShaderWriter users",
 			"inherits": "user-base",
 			"generator": "Visual Studio 17 2022"
+		},
+		{
+			"name": "user-msvc2026",
+			"displayName": "ShaderWriter User Visual Studio Config",
+			"description": "Build configuration using Visual Studio 2026, for ShaderWriter users",
+			"inherits": "user-base",
+			"generator": "Visual Studio 18 2026"
 		},
 		{
 			"name": "user-ninja",
@@ -107,6 +114,32 @@
 				"CMAKE_TOOLCHAIN_FILE": "${sourceDir}/external/vcpkg/scripts/buildsystems/vcpkg.cmake",
 				"CMAKE_BUILD_TYPE": "Release",
 				"VCPKG_MANIFEST_FEATURES": "glsl;hlsl;spirv;tests;vklayer"
+			}
+		},
+		{
+			"name": "dev-mingw-base",
+			"hidden": true,
+			"displayName": "ShaderWriter Developer MinGW Config",
+			"description": "ShaderWriter Developer build configuration using Ninja, on MinGW",
+			"generator": "Ninja",
+			"inherits": "dev-base"
+		},
+		{
+			"name": "dev-mingw-debug",
+			"displayName": "ShaderWriter Developer MinGW Config, Debug",
+			"description": "Build configuration using Ninja, for ShaderWriter developers on MinGW, Debug",
+			"inherits": "dev-mingw-base",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug"
+			}
+		},
+		{
+			"name": "dev-mingw-release",
+			"displayName": "ShaderWriter Developer MinGW Config, Release",
+			"description": "Build configuration using Ninja, for ShaderWriter developers on MinGW, Release",
+			"inherits": "dev-mingw-base",
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release"
 			}
 		},
 		{

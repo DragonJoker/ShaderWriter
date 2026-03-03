@@ -14,7 +14,7 @@ namespace sdw
 	struct Vec2T
 		: public Value
 	{
-		SDW_DeclValue( , Vec2T );
+		SDW_DeclValue( Vec2T );
 
 		using ValueType = ValueT;
 		using Vec2Type = Vec2T< ValueT >;

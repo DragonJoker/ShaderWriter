@@ -5,6 +5,8 @@ See LICENSE file in root folder
 
 namespace sdw
 {
+	PipelineWriter::~PipelineWriter()noexcept = default;
+
 	PipelineWriter::PipelineWriter( ast::ShaderStage type
 		, ShaderAllocator * allocator )
 		: ShaderWriter{ type, allocator }

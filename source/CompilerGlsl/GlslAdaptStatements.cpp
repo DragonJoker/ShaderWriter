@@ -10,6 +10,8 @@ See LICENSE file in root folder
 
 #include <algorithm>
 
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+
 namespace glsl
 {
 	namespace adapt

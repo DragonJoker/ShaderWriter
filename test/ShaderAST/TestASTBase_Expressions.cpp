@@ -16,6 +16,7 @@
 #include <ShaderAST/Visitors/SpecialiseStatements.hpp>
 #include <ShaderAST/Visitors/TransformSSA.hpp>
 
+#pragma GCC diagnostic ignored "-Wdisabled-optimization"
 #pragma warning( disable:4146 )
 #pragma warning( disable:4883 )
 

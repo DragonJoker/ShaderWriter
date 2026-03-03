@@ -2,6 +2,7 @@
 
 #pragma warning( disable:5245 )
 #pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wdisabled-optimization"
 #pragma clang diagnostic ignored "-Wunused-member-function"
 
 namespace
@@ -2475,7 +2476,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , PayloadT );
+		SDW_DeclStructInstance( PayloadT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )

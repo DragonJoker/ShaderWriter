@@ -11,7 +11,7 @@ namespace sdw
 	struct SampledImage
 		: public Value
 	{
-		SDW_DeclValue( SDW_API, SampledImage );
+		SDW_DeclValue( SampledImage );
 
 		SDW_API SampledImage( ShaderWriter & writer
 			, expr::ExprPtr expr
@@ -25,7 +25,7 @@ namespace sdw
 	struct SampledImageT
 		: public SampledImage
 	{
-		SDW_DeclValue( , SampledImageT );
+		SDW_DeclValue( SampledImageT );
 
 		static constexpr ast::type::ImageFormat Format = FormatT;
 		static constexpr ast::type::ImageDim Dim = DimT;

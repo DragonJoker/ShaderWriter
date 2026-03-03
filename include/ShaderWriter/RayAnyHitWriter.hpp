@@ -91,18 +91,18 @@ namespace sdw
 		SDW_API explicit RayAnyHitWriter( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit RayAnyHitWriter( ShaderAllocator * allocator = nullptr )
+		explicit RayAnyHitWriter( ShaderAllocator * allocator = nullptr )
 			: RayAnyHitWriter{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit RayAnyHitWriter( ast::stmt::FunctionFlag flag
+		explicit RayAnyHitWriter( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: RayAnyHitWriter{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API RayAnyHitWriter( ShaderBuilder & builder
+		RayAnyHitWriter( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: RayAnyHitWriter{ builder, uint32_t( flag ) }
 		{

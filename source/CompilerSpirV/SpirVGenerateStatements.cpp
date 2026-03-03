@@ -29,6 +29,8 @@ See LICENSE file in root folder
 #include <sstream>
 #include <stdexcept>
 
+#pragma GCC diagnostic ignored "-Wnull-dereference"
+
 namespace spirv
 {
 	namespace vis

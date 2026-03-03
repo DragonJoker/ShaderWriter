@@ -74,26 +74,26 @@ namespace test
 			: test::TestCounts
 		{
 			SDWTest_API TestCounts();
-			SDWTest_API ~TestCounts()noexcept override = default;
+			SDWTest_API ~TestCounts()noexcept override;
 
 			SDWTest_API TimerBlock beginTimer( std::string_view name );
 			SDWTest_API void printTime( std::string const & text );
-			ASTTest_API void printBlock( std::string const & text )override;
-			ASTTest_API void printError( std::string const & text )override;
+			SDWTest_API void printBlock( std::string const & text )override;
+			SDWTest_API void printError( std::string const & text )override;
 
-			bool isSpirVInitialised( uint32_t infoIndex )const;
-			bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;
-			uint32_t getVulkanVersion( uint32_t infoIndex )const;
-			uint32_t getSpirVVersion( uint32_t infoIndex )const;
-			uint32_t getSpirvInfosSize()const;
+			SDWTest_API bool isSpirVInitialised( uint32_t infoIndex )const;
+			SDWTest_API bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;
+			SDWTest_API uint32_t getVulkanVersion( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getSpirVVersion( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getSpirvInfosSize()const;
 
-			bool isHlslInitialised( uint32_t infoIndex )const;
-			uint32_t getHlslVersion( uint32_t infoIndex )const;
-			uint32_t getHlslInfosSize()const;
+			SDWTest_API bool isHlslInitialised( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getHlslVersion( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getHlslInfosSize()const;
 
-			bool isGlslInitialised( uint32_t infoIndex )const;
-			uint32_t getGlslVersion( uint32_t infoIndex )const;
-			uint32_t getGlslInfosSize()const;
+			SDWTest_API bool isGlslInitialised( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getGlslVersion( uint32_t infoIndex )const;
+			SDWTest_API uint32_t getGlslInfosSize()const;
 
 			GLSLContext const & glsl()const
 			{
@@ -113,8 +113,8 @@ namespace test
 			std::string expectedError;
 
 		private:
-			void doInitialise()override;
-			void doCleanup()override;
+			SDWTest_API void doInitialise()override;
+			SDWTest_API void doCleanup()override;
 
 			friend struct TimerBlock;
 			void doEndTimer( std::string const & name, TimePoint startTime )noexcept;
@@ -132,6 +132,7 @@ namespace test
 		{
 		public:
 			SDWTest_API TestSuite( std::string const & name );
+			SDWTest_API ~TestSuite()override;
 			SDWTest_API void SetUp() override;
 			SDWTest_API void TearDown() override;
 
@@ -217,6 +218,8 @@ class SDWTest
 public:
 	SDWTest_API static void SetUpTestSuite();
 	SDWTest_API static void TearDownTestSuite();
+
+	SDWTest_API ~SDWTest()override;
 	SDWTest_API void SetUp() override;
 	SDWTest_API void TearDown() override;
 

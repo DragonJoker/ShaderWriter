@@ -91,18 +91,18 @@ namespace sdw
 		SDW_API explicit RayClosestHitWriter( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit RayClosestHitWriter( ShaderAllocator * allocator = nullptr )
+		explicit RayClosestHitWriter( ShaderAllocator * allocator = nullptr )
 			: RayClosestHitWriter{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit RayClosestHitWriter( ast::stmt::FunctionFlag flag
+		explicit RayClosestHitWriter( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: RayClosestHitWriter{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API RayClosestHitWriter( ShaderBuilder & builder
+		RayClosestHitWriter( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: RayClosestHitWriter{ builder, uint32_t( flag ) }
 		{

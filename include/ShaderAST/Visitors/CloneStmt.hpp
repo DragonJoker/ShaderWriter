@@ -24,6 +24,7 @@ namespace ast
 		SDAST_API explicit StmtCloner( stmt::StmtCache & stmtCache
 			, expr::ExprCache & exprCache
 			, stmt::ContainerPtr & result );
+		~StmtCloner()noexcept override = default;
 
 	protected:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr const & expr );

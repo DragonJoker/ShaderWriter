@@ -4,6 +4,7 @@
 #include <ShaderAST/Visitors/DebugDisplayStatements.hpp>
 
 #pragma clang diagnostic ignored "-Wunused-member-function"
+#pragma GCC diagnostic ignored "-Wdisabled-optimization"
 #pragma warning( disable:5245 )
 
 namespace

@@ -58,7 +58,7 @@ namespace sdw
 		assert( doGetCurrentWriter() );
 	}
 
-	ShaderWriter::~ShaderWriter()
+	ShaderWriter::~ShaderWriter()noexcept
 	{
 		m_ownBuilder.reset();
 		assert( doGetCurrentWriter() && "Ooops... 0xDDDDDDDD" );
