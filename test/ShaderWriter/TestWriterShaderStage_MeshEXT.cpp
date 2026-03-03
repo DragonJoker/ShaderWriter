@@ -67,7 +67,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , Meshlet );
+		SDW_DeclStructInstance( Meshlet );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -111,7 +111,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , Vertex );
+		SDW_DeclStructInstance( Vertex );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -146,7 +146,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , TriIndex );
+		SDW_DeclStructInstance( TriIndex );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -177,7 +177,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , VtxIndex );
+		SDW_DeclStructInstance( VtxIndex );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -212,7 +212,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , MyVertexOutT );
+		SDW_DeclStructInstance( MyVertexOutT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
@@ -286,7 +286,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , PayloadT );
+			SDW_DeclStructInstance( PayloadT );
 
 			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 				, ast::EntryPoint entryPoint )
@@ -341,7 +341,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , Constants );
+			SDW_DeclStructInstance( Constants );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -385,7 +385,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , MeshInfo );
+			SDW_DeclStructInstance( MeshInfo );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -425,7 +425,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , Constants );
+			SDW_DeclStructInstance( Constants );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -465,7 +465,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , DrawParams );
+			SDW_DeclStructInstance( DrawParams );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -502,7 +502,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , MeshInfo );
+			SDW_DeclStructInstance( MeshInfo );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -542,7 +542,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , Instance );
+			SDW_DeclStructInstance( Instance );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -589,7 +589,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , Constants );
+			SDW_DeclStructInstance( Constants );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -651,7 +651,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , Instance );
+			SDW_DeclStructInstance( Instance );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -696,7 +696,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , CullData );
+			SDW_DeclStructInstance( CullData );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -738,7 +738,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , MeshInfo );
+			SDW_DeclStructInstance( MeshInfo );
 
 			static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 			{
@@ -782,7 +782,7 @@ namespace
 			{
 			}
 
-			SDW_DeclStructInstance( , PayloadT );
+			SDW_DeclStructInstance( PayloadT );
 
 			static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 				, ast::EntryPoint entryPoint )
@@ -833,7 +833,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , PerVertexColourT );
+		SDW_DeclStructInstance( PerVertexColourT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )

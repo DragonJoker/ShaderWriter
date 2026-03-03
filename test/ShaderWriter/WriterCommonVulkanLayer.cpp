@@ -257,7 +257,7 @@ namespace test::sdw_test
 				, true
 				, true );
 			auto cfg = getGlslConfig( glsl::v4_6, testCounts );
-			auto glslangSpirv = compileGlslToSpv( entryPoint.stage
+			if ( auto glslangSpirv = compileGlslToSpv( entryPoint.stage
 				, glsl::compileGlsl( *testCounts.allocatorBlock
 					, shader
 					, statements.get()
@@ -265,11 +265,14 @@ namespace test::sdw_test
 					, ast::SpecialisationInfo{}
 					, cfg )
 				, config.specVersion );
-			displayShader( "glslang SPIR-V"
-				, spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv )
-				, testCounts
-				, true
-				, false );
+				!glslangSpirv.empty() )
+			{
+				displayShader( "glslang SPIR-V"
+					, spirv::displaySpirv( *testCounts.allocatorBlock, glslangSpirv )
+					, testCounts
+					, true
+					, false );
+			}
 		}
 #endif
 	}

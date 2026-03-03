@@ -18,7 +18,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , PositionT );
+		SDW_DeclStructInstance( PositionT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
@@ -69,7 +69,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , PosTexT );
+		SDW_DeclStructInstance( PosTexT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
@@ -128,7 +128,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , PosColT );
+		SDW_DeclStructInstance( PosColT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
@@ -186,7 +186,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( , ColourT );
+		SDW_DeclStructInstance( ColourT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )

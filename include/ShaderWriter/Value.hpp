@@ -17,7 +17,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled );
 
-		SDW_API virtual ~Value() = default;
+		virtual ~Value() = default;
 		SDW_API Value( Value && rhs )noexcept;
 		SDW_API Value( Value const & rhs );
 		SDW_API Value & operator=( Value && rhs )noexcept;
@@ -195,18 +195,18 @@ namespace sdw
 		, CreatorT creator );
 }
 
-#define SDW_DeclValue( expdecl, name )\
-	expdecl name( name && rhs )noexcept = default;\
-	expdecl name( name const & rhs ) = default;\
-	expdecl name & operator=( name && rhs )noexcept = default;\
-	expdecl name & operator=( name const & rhs ) = default;\
-	expdecl name( sdw::ReturnWrapperT< name > const & rhs )\
+#define SDW_DeclValue( name )\
+	name( name && rhs )noexcept = default;\
+	name( name const & rhs ) = default;\
+	name & operator=( name && rhs )noexcept = default;\
+	name & operator=( name const & rhs ) = default;\
+	name( sdw::ReturnWrapperT< name > const & rhs )\
 		: name{ findWriterMandat( rhs )\
 			, makeExpr( findWriterMandat( rhs ), rhs )\
 			, rhs.isEnabled() }\
 	{\
 	}\
-	expdecl name & operator=( sdw::ReturnWrapperT< name > && rhs )\
+	name & operator=( sdw::ReturnWrapperT< name > && rhs )\
 	{\
 		if ( rhs.isEnabled() && this->isEnabled() && this->m_expr && !this->m_expr->isConstant() )\
 		{\
@@ -219,7 +219,7 @@ namespace sdw
 		}\
 		return *this;\
 	}\
-	expdecl name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
+	name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
 	{\
 		if ( rhs.isEnabled() && this->isEnabled() && this->m_expr && !this->m_expr->isConstant() )\
 		{\
@@ -232,7 +232,7 @@ namespace sdw
 		}\
 		return *this;\
 	}\
-	expdecl ~name()override = default
+	~name()override = default
 
 #include "Value.inl"
 

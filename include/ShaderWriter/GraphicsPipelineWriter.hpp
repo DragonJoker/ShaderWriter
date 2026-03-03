@@ -12,10 +12,13 @@ namespace sdw
 	class GraphicsPipelineWriter
 		: public PipelineWriter
 	{
-	public:
+	protected:
 		SDW_API explicit GraphicsPipelineWriter( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
 		SDW_API explicit GraphicsPipelineWriter( ShaderBuilder & builder );
+		SDW_API ~GraphicsPipelineWriter()noexcept;
+
+	public:
 #pragma region Fragment Shader
 		/**
 		*name

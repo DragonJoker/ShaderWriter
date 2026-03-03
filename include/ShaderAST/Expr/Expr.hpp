@@ -91,7 +91,7 @@ namespace ast::expr
 		Expr & operator=( Expr && ) = delete;
 
 	public:
-		SDAST_API virtual ~Expr()noexcept = default;
+		virtual ~Expr()noexcept = default;
 
 		SDAST_API Expr( ExprCache & exprCache
 			, size_t size
@@ -102,7 +102,7 @@ namespace ast::expr
 
 		SDAST_API ExprPtr clone()const;
 
-		SDAST_API virtual void accept( VisitorPtr )const
+		virtual void accept( VisitorPtr )const
 		{
 		}
 

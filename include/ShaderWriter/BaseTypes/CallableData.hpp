@@ -42,7 +42,7 @@ namespace sdw
 	struct CallableDataBaseT
 		: public ValueT
 	{
-		SDW_DeclValue( , CallableDataBaseT );
+		SDW_DeclValue( CallableDataBaseT );
 
 		template< typename ... ParamsT >
 		CallableDataBaseT( ShaderWriter & writer

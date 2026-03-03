@@ -120,9 +120,9 @@ namespace spirv
 		Function & operator=( Function const & rhs ) = delete;
 
 	public:
-		SDWSPIRV_API Function( Function && rhs )noexcept = default;
-		SDWSPIRV_API Function & operator=( Function && rhs )noexcept = default;
-		SDWSPIRV_API ~Function()noexcept = default;
+		Function( Function && rhs )noexcept = default;
+		Function & operator=( Function && rhs )noexcept = default;
+		~Function()noexcept = default;
 
 		SDWSPIRV_API Function( ast::ShaderAllocatorBlock * alloc
 			, DebugId id );

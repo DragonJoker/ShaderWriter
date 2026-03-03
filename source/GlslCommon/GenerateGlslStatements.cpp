@@ -1565,7 +1565,7 @@ namespace glsl
 				, Statements & result
 				, uint32_t & line )
 			{
-				result.source += std::move( text );
+				result.source += text;
 				addLineEnd( result, line );
 			}
 		}

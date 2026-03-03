@@ -19,6 +19,8 @@ def printHeader( outs, match ):
 	outs.write( '#include <ShaderAST/Visitors/SpecialiseStatements.hpp>\n' )
 	outs.write( '#include <ShaderAST/Visitors/TransformSSA.hpp>\n' )
 	outs.write( '\n' )
+	outs.write( '#pragma GCC diagnostic ignored "-Wdisabled-optimization"\n' )
+	outs.write( '\n' )
 	outs.write( 'namespace checks\n' )
 	outs.write( '{\n' )
 	outs.write( '\tusing namespace ast;\n' )
@@ -229,12 +231,12 @@ def printHeader( outs, match ):
 
 def computeIntrinsicName( name ):
 	result = name
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( name )
 	resName5 = intrName5.match( name )
 	resName4 = intrName4.match( name )
@@ -257,12 +259,12 @@ def computeIntrinsicName( name ):
 
 def computeEnum( enumName, name ):
 	result = enumName + "::e"
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( name )
 	resName5 = intrName5.match( name )
 	resName4 = intrName4.match( name )
@@ -284,7 +286,7 @@ def computeEnum( enumName, name ):
 	return result
 	
 def discardArray( name ):
-	result = re.sub( "\[\d*\]", "", name )
+	result = re.sub( "\\[\\d*\\]", "", name )
 	return result
 
 def isArray( name ):
@@ -303,10 +305,10 @@ def computeGetTypeCall( paramType ):
 
 def computeParams( params, tabs ):
 	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrParams = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index + 2:
@@ -480,10 +482,10 @@ def computeLiteralValue( paramType ):
 
 def computeLiteralParams( params, tabs ):
 	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrParams = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index + 2:
@@ -513,10 +515,10 @@ def computeLiteralParams( params, tabs ):
 
 def computeArgs( args ):
 	result = ""
-	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrArgs = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
@@ -569,7 +571,9 @@ def printFooter( outFile, outs ):
 	testsName = os.path.basename(outFile)
 	testsName = testsName.replace( ".cpp", "" )
 
-	outs.write( "}" )
+	outs.write( "}\n" )
+	outs.write( "\n" )
+	outs.write( "astTestSuiteMain()\n" )
 	outs.write( "\n" )
 
 def main( argv ):
@@ -586,9 +590,9 @@ def main( argv ):
 		print(inEnumFile + " is not an existing file.")
 		return
 
-	intrDecl = re.compile("^ASTIntrDecl\( ([^ ]*) \)$")
+	intrDecl = re.compile("^ASTIntrDecl\\( ([^ ]*) \\)$")
 	intrEnd = re.compile("^ASTIntrEnd$")
-	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
+	intrValue = re.compile("^\\s*ASTIntrValue\\( ([^,]*), ASTIntrName\\( ([^)]*) \\)([\\w:, ()\\[\\]]*) \\)$")
 	enumName = ""
 	with open( inEnumFile, "r" ) as ins:
 		with open( outFile, "w", newline='\r\n' ) as outs:

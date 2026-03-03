@@ -17,7 +17,7 @@ namespace sdw
 		: public StructInstance
 	{
 	public:
-		SDW_DeclStructInstance( SDW_API, RayDesc );
+		SDW_DeclStructInstance( RayDesc );
 
 		SDW_API RayDesc( ShaderWriter & writer
 			, expr::ExprPtr expr

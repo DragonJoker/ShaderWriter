@@ -252,18 +252,18 @@ namespace sdw
 		SDW_API explicit MeshWriterNV( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit MeshWriterNV( ShaderAllocator * allocator = nullptr )
+		explicit MeshWriterNV( ShaderAllocator * allocator = nullptr )
 			: MeshWriterNV{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit MeshWriterNV( ast::stmt::FunctionFlag flag
+		explicit MeshWriterNV( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: MeshWriterNV{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API MeshWriterNV( ShaderBuilder & builder
+		MeshWriterNV( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: MeshWriterNV{ builder, uint32_t( flag ) }
 		{

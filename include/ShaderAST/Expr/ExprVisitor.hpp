@@ -68,10 +68,10 @@ namespace ast::expr
 	class Visitor
 	{
 	protected:
-		SDAST_API Visitor()noexcept = default;
+		Visitor()noexcept = default;
 
 	public:
-		SDAST_API virtual ~Visitor()noexcept = default;
+		virtual ~Visitor()noexcept = default;
 
 		SDAST_API virtual void visitAddExpr( Add const * ) = 0;
 		SDAST_API virtual void visitAddAssignExpr( AddAssign const * ) = 0;
@@ -156,10 +156,10 @@ namespace ast::expr
 		: public Visitor
 	{
 	protected:
-		SDAST_API SimpleVisitor()noexcept = default;
+		SimpleVisitor()noexcept = default;
 
 	public:
-		SDAST_API ~SimpleVisitor()noexcept override = default;
+		~SimpleVisitor()noexcept override = default;
 
 		virtual void visitUnaryExpr( Unary const * expr ) = 0;
 		virtual void visitBinaryExpr( Binary const * expr ) = 0;

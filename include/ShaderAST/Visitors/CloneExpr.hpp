@@ -21,6 +21,7 @@ namespace ast
 	protected:
 		SDAST_API explicit ExprCloner( expr::ExprCache & exprCache
 			, expr::ExprPtr & result );
+		~ExprCloner()noexcept override = default;
 
 	protected:
 		SDAST_API virtual expr::ExprPtr doSubmit( expr::Expr const & expr );

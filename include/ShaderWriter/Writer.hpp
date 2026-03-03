@@ -90,7 +90,7 @@ namespace sdw
 		SDW_API explicit ShaderWriter( ast::ShaderStage type
 			, ShaderAllocator * allocator = nullptr );
 		SDW_API explicit ShaderWriter( ShaderBuilder & builder );
-		SDW_API virtual ~ShaderWriter();
+		SDW_API ~ShaderWriter()noexcept;
 
 	public:
 #pragma region Type registration

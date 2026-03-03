@@ -18,8 +18,8 @@ namespace ast
 		PreprocessResult( PreprocessResult const & ) = delete;
 		PreprocessResult & operator=( PreprocessResult const & ) = delete;
 
-		SDAST_API PreprocessResult( PreprocessResult && )noexcept = default;
-		SDAST_API PreprocessResult & operator=( PreprocessResult && )noexcept = default;
+		PreprocessResult( PreprocessResult && )noexcept = default;
+		PreprocessResult & operator=( PreprocessResult && )noexcept = default;
 		SDAST_API PreprocessResult( ShaderAllocatorBlock & allocator
 			, Shader const & shader );
 

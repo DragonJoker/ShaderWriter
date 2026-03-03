@@ -169,18 +169,18 @@ namespace sdw
 		SDW_API explicit TessellationEvaluationWriter( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit TessellationEvaluationWriter( ShaderAllocator * allocator = nullptr )
+		explicit TessellationEvaluationWriter( ShaderAllocator * allocator = nullptr )
 			: TessellationEvaluationWriter{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit TessellationEvaluationWriter( ast::stmt::FunctionFlag flag
+		explicit TessellationEvaluationWriter( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: TessellationEvaluationWriter{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API TessellationEvaluationWriter( ShaderBuilder & builder
+		TessellationEvaluationWriter( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: TessellationEvaluationWriter{ builder, uint32_t( flag ) }
 		{

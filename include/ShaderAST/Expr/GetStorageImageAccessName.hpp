@@ -13,6 +13,9 @@ This file is generated, don't modify it!
 
 #include <string>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdisabled-optimization"
+
 namespace ast::expr
 {
 	inline std::string getName( StorageImageAccess value )
@@ -1151,5 +1154,7 @@ namespace ast::expr
 		return result;
 	}
 }
+
+#pragma GCC diagnostic pop
 
 #endif

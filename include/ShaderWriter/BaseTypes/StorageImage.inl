@@ -1774,7 +1774,7 @@ namespace sdw
 			: public StorageImage
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -1803,7 +1803,7 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -1832,7 +1832,7 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -1863,7 +1863,7 @@ namespace sdw
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -1909,7 +1909,7 @@ namespace sdw
 			, public ImgAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -1941,7 +1941,7 @@ namespace sdw
 			, public ImgLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -1980,7 +1980,7 @@ namespace sdw
 			, public ImgAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2009,7 +2009,7 @@ namespace sdw
 			, public ImgSizeFuncT< FormatT, AccessT, DimT, ArrayedT, MsT >
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2039,7 +2039,7 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2069,7 +2069,7 @@ namespace sdw
 			, public ImgSamplesFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2101,7 +2101,7 @@ namespace sdw
 			, public ImgMsLoadFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgMsStoreFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2135,7 +2135,7 @@ namespace sdw
 			, public ImgMsAtomicAddFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -2175,7 +2175,7 @@ namespace sdw
 			, public ImgMsAtomicExchangeFuncT< FormatT, AccessT, DimT, ArrayedT >
 			, public ImgMsAtomicCompSwapFuncT< FormatT, AccessT, DimT, ArrayedT >
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr

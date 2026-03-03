@@ -26,12 +26,12 @@ def printHeader( outs, match ):
 
 def computeEnumName( name ):
 	result = name
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( name )
 	resName5 = intrName5.match( name )
 	resName4 = intrName4.match( name )
@@ -54,12 +54,12 @@ def computeEnumName( name ):
 
 def computeGlslName( name ):
 	result = name
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( name )
 	resName5 = intrName5.match( name )
 	resName4 = intrName4.match( name )
@@ -121,9 +121,9 @@ def main( argv ):
 		print(inEnumFile + " is not an existing file.")
 		return
 
-	intrDecl = re.compile("^ASTIntrDecl\( ([^ ]*) \)$")
+	intrDecl = re.compile("^ASTIntrDecl\\( ([^ ]*) \\)$")
 	intrEnd = re.compile("^ASTIntrEnd$")
-	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
+	intrValue = re.compile("^\\s*ASTIntrValue\\( ([^,]*), ASTIntrName\\( ([^)]*) \\)([\\w:, ()\\[\\]]*) \\)$")
 	with open(inEnumFile, "r") as ins:
 		with open(outEnumFile, "w", newline='\r\n') as outs:
 			array = []

@@ -7,7 +7,7 @@ endif()
 option( SDW_ALL_TESTS "Builds all tests (relative to data type and image pixel formats)" ON )
 option( SDW_TESTS_ENABLE_VALIDATION "Enables validation through respective API (Vulkan, OpenGL, and Direct3D" OFF )
 
-find_package( glslang CONFIG REQUIRED glslang OGLCompiler OSDependent SPIRV SPVRemapper )
+find_package( glslang CONFIG REQUIRED glslang OSDependent SPIRV )
 find_package( Threads REQUIRED )
 set( TEST_WRITER_COMMON_HEADER_FILES
 	${TEST_COMMON_HEADER_FILES}
@@ -62,9 +62,7 @@ target_link_libraries( TestWriterCommon
 		${BinLibraries}
 		glslang::OSDependent
 		glslang::glslang
-		# glslang::OGLCompiler
 		glslang::SPIRV
-		glslang::SPVRemapper
 		Threads::Threads
 	PRIVATE
 		${SDW_EXPORTERS_LIST}
@@ -136,7 +134,13 @@ endif ()
 
 find_package( SPIRV-Tools CONFIG )
 if ( SPIRV-Tools_FOUND )
-	target_link_libraries( TestWriterCommon PRIVATE SPIRV-Tools-static )
+	if ( TARGET SPIRV-Tools-shared )
+		target_link_libraries( TestWriterCommon PRIVATE SPIRV-Tools-shared )
+	elseif ( TARGET SPIRV-Tools-static )
+		target_link_libraries( TestWriterCommon PRIVATE SPIRV-Tools-static )
+	else ()
+		target_link_libraries( TestWriterCommon PRIVATE ${SPIRV-Tools_LIBRARIES} )
+	endif ()
 	target_compile_definitions( TestWriterCommon PRIVATE SDW_Test_HasSpirVTools=1 )
 endif ()
 

@@ -13,7 +13,7 @@ namespace sdw
 	struct Mat3x4T
 		: public Value
 	{
-		SDW_DeclValue( , Mat3x4T );
+		SDW_DeclValue( Mat3x4T );
 
 		using ValueType = ValueT;
 		using my_vec = Vec4T< ValueT >;

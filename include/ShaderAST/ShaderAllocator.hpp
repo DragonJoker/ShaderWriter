@@ -33,12 +33,12 @@ namespace ast
 		*\param[in]	minBlockSize
 		*	The minimum size for a block.
 		*/
-		BuddyAllocator( uint32_t numLevels
+		SDAST_API BuddyAllocator( uint32_t numLevels
 			, uint32_t minBlockSize );
 		/**
 		*	Reports memory leaks.
 		*/
-		~BuddyAllocator();
+		SDAST_API ~BuddyAllocator();
 		/**
 		*	Allocates memory.
 		*\param[in]	size
@@ -46,21 +46,21 @@ namespace ast
 		*\return
 		*	The memory chunk.
 		*/
-		PointerType allocate( size_t size );
+		SDAST_API PointerType allocate( size_t size );
 		/**
 		*	Deallocates memory.
 		*\param[in]	pointer
 		*	The memory chunk.
 		*/
-		bool deallocate( PointerType pointer );
+		SDAST_API bool deallocate( PointerType pointer );
 		/**
 		*\return
 		*	The pool total size.
 		*/
-		size_t getTotalSize()const;
+		SDAST_API size_t getTotalSize()const;
 
-		PointerType getPointer( uint32_t offset );
-		size_t getOffset( ConstPointerType pointer )const;
+		SDAST_API PointerType getPointer( uint32_t offset );
+		SDAST_API size_t getOffset( ConstPointerType pointer )const;
 
 	private:
 		uint32_t doGetLevel( size_t size )const;
@@ -141,7 +141,7 @@ namespace ast
 
 	public:
 		SDAST_API explicit ShaderAllocator( AllocationMode allocationMode = AllocationMode::eFragmented );
-		SDAST_API ~ShaderAllocator() = default;
+		~ShaderAllocator() = default;
 
 		SDAST_API void * allocate( size_t size, size_t count = 1u );
 		SDAST_API void deallocate( void * mem, size_t size, size_t count = 1u )noexcept;
@@ -150,7 +150,7 @@ namespace ast
 		SDAST_API size_t getMemDiff( MemoryCursor const & cursor )const noexcept;
 		SDAST_API size_t report()const;
 
-		SDAST_API ShaderAllocatorBlockPtr getBlock()
+		ShaderAllocatorBlockPtr getBlock()
 		{
 			return std::make_unique< ShaderAllocatorBlock >( *this );
 		}

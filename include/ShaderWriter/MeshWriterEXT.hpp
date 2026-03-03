@@ -336,18 +336,18 @@ namespace sdw
 		SDW_API explicit MeshWriterEXT( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit MeshWriterEXT( ShaderAllocator * allocator = nullptr )
+		explicit MeshWriterEXT( ShaderAllocator * allocator = nullptr )
 			: MeshWriterEXT{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit MeshWriterEXT( ast::stmt::FunctionFlag flag
+		explicit MeshWriterEXT( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: MeshWriterEXT{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API MeshWriterEXT( ShaderBuilder & builder
+		MeshWriterEXT( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: MeshWriterEXT{ builder, uint32_t( flag ) }
 		{

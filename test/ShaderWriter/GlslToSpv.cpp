@@ -1,5 +1,7 @@
 #include "GlslToSpv.hpp"
 
+#include <ShaderAST/ShaderLog.hpp>
+
 #pragma warning( push )
 #pragma warning( disable: 4365 )
 #pragma warning( disable: 4464 )
@@ -29,7 +31,7 @@
 
 namespace test
 {
-	namespace
+	namespace glspv
 	{
 		struct BlockLocale
 		{
@@ -61,7 +63,25 @@ namespace test
 			std::locale m_prvLoc;
 		};
 
-		void doInitResources( TBuiltInResource & resources )
+		class Exception
+			: public std::exception
+		{
+		public:
+			Exception( std::string msg )
+				: m_msg{ std::move( msg ) }
+			{
+			}
+
+			const char * what()const noexcept override
+			{
+				return m_msg.c_str();
+			}
+
+		private:
+			std::string m_msg;
+		};
+
+		static void initResources( TBuiltInResource & resources )
 		{
 			resources.limits.nonInductiveForLoops = true;
 			resources.limits.whileLoops = true;
@@ -177,7 +197,7 @@ namespace test
 			resources.maxDualSourceDrawBuffersEXT = 4;
 		}
 
-		EShLanguage doGetLanguage( ast::ShaderStage stage )
+		static EShLanguage getLanguage( ast::ShaderStage stage )
 		{
 			switch ( stage )
 			{
@@ -221,7 +241,7 @@ namespace test
 			}
 		}
 
-		glslang::EShTargetLanguageVersion doGetLanguageVersion( uint32_t spvVersion )
+		static glslang::EShTargetLanguageVersion getLanguageVersion( uint32_t spvVersion )
 		{
 			switch ( spvVersion )
 			{
@@ -258,37 +278,50 @@ namespace test
 		, uint32_t spvVersion )
 	{
 		std::vector< uint32_t > spirv;
-		BlockLocale guard;
-		TBuiltInResource resources;
-		doInitResources( resources );
-
-		// Enable SPIR-V and Vulkan rules when parsing GLSL
-		auto messages = EShMessages( EShMsgSpvRules | EShMsgVulkanRules );
-		auto glstage = doGetLanguage( stage );
-		glslang::TShader glshader{ glstage };
-		glshader.setEnvTarget( glslang::EShTargetSpv
-			, doGetLanguageVersion( spvVersion ) );
-
-		char const * const str = shader.data();
-		glshader.setStrings( &str, 1 );
-
-		if ( !glshader.parse( &resources, 100, false, messages ) )
+		try
 		{
-			throw std::runtime_error{ std::string{ "Shader compilation to SPIR-V failed.\n" } + glshader.getInfoLog() };
-		}
+			glspv::BlockLocale guard;
+			TBuiltInResource resources;
+			glspv::initResources( resources );
 
-		glslang::TProgram glprogram;
-		glprogram.addShader( &glshader );
+			// Enable SPIR-V and Vulkan rules when parsing GLSL
+			auto messages = EShMessages( EShMsgSpvRules | EShMsgVulkanRules );
+			auto glstage = glspv::getLanguage( stage );
+			glslang::TShader glshader{ glstage };
+			glshader.setEnvTarget( glslang::EShTargetSpv
+				, glspv::getLanguageVersion( spvVersion ) );
 
-		if ( !glprogram.link( messages ) )
-		{
-			if ( glprogram.getInfoLog() )
+			char const * const str = shader.data();
+			glshader.setStrings( &str, 1 );
+
+			if ( !glshader.parse( &resources, 100, false, messages ) )
 			{
-				throw std::runtime_error{ std::string{ "Program linkage failed.\n" } + glprogram.getInfoLog() };
+				throw glspv::Exception{ std::string{ "Shader compilation to SPIR-V failed.\n" } + glshader.getInfoLog() };
 			}
+
+			glslang::TProgram glprogram;
+			glprogram.addShader( &glshader );
+
+			if ( !glprogram.link( messages ) )
+			{
+				if ( glprogram.getInfoLog() )
+				{
+					throw glspv::Exception{ std::string{ "Program linkage failed.\n" } + glprogram.getInfoLog() };
+				}
+			}
+
+			glslang::GlslangToSpv( *glprogram.getIntermediate( glstage ), spirv );
+		}
+		catch ( std::runtime_error & exc )
+		{
+			// Catch runtime errors thrown internally
+			ast::Logger::logError( exc.what() );
+		}
+		catch ( glspv::Exception & exc )
+		{
+			throw std::runtime_error{ exc.what() };
 		}
 
-		glslang::GlslangToSpv( *glprogram.getIntermediate( glstage ), spirv );
 		return spirv;
 	}
 }

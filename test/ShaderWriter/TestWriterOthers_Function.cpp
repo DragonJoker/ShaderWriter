@@ -10,7 +10,7 @@ namespace
 	struct St
 		: public sdw::StructInstance
 	{
-		SDW_DeclStructInstance( , St );
+		SDW_DeclStructInstance( St );
 
 		St( sdw::ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -47,7 +47,7 @@ namespace
 	struct St2
 		: public sdw::StructInstance
 	{
-		SDW_DeclStructInstance( , St2 );
+		SDW_DeclStructInstance( St2 );
 
 		St2( sdw::ShaderWriter & writer
 			, ast::expr::ExprPtr expr

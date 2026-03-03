@@ -14,6 +14,9 @@ def printHeader( outs, match ):
 	outs.write( "\n" )
 	outs.write( '#include <string>\n' )
 	outs.write( "\n" )
+	outs.write( "#pragma GCC diagnostic push\n" )
+	outs.write( '#pragma GCC diagnostic ignored "-Wdisabled-optimization"\n' )
+	outs.write( "\n" )
 	outs.write( "namespace ast::expr\n" )
 	outs.write( "{\n" )
 	outs.write( "\tinline std::string getName( " + enumName + " value )\n" )
@@ -38,12 +41,12 @@ def printHeader( outs, match ):
 
 def computeName( name ):
 	result = name
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( name )
 	resName5 = intrName5.match( name )
 	resName4 = intrName4.match( name )
@@ -80,6 +83,8 @@ def printFooter( outs, enumName ):
 	outs.write( "\t}\n" )
 	outs.write( "}\n" )
 	outs.write( "\n" )
+	outs.write( "#pragma GCC diagnostic pop\n" )
+	outs.write( "\n" )
 	outs.write( "#endif\n" )
 
 def main( argv ):
@@ -96,9 +101,9 @@ def main( argv ):
 		print(inEnumFile + " is not an existing file.")
 		return
 
-	intrDecl = re.compile("^ASTIntrDecl\( ([^ ]*) \)$")
+	intrDecl = re.compile("^ASTIntrDecl\\( ([^ ]*) \\)$")
 	intrEnd = re.compile("^ASTIntrEnd$")
-	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
+	intrValue = re.compile("^\\s*ASTIntrValue\\( ([^,]*), ASTIntrName\\( ([^)]*) \\)([\\w:, ()\\[\\]]*) \\)$")
 	with open(inEnumFile, "r") as ins:
 		with open(outEnumFile, "w", newline='\r\n') as outs:
 			array = []

@@ -13,7 +13,7 @@ namespace sdw
 	struct ArithmeticValue
 		: public Value
 	{
-		SDW_DeclValue( , ArithmeticValue );
+		SDW_DeclValue( ArithmeticValue );
 
 		ArithmeticValue( ShaderWriter & writer
 			, expr::ExprPtr expr

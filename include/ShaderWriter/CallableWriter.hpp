@@ -48,18 +48,18 @@ namespace sdw
 		SDW_API explicit CallableWriter( ShaderBuilder & builder
 			, uint32_t flags = 0 );
 
-		SDW_API explicit CallableWriter( ShaderAllocator * allocator = nullptr )
+		explicit CallableWriter( ShaderAllocator * allocator = nullptr )
 			: CallableWriter{ uint32_t( 0u ), allocator }
 		{
 		}
 
-		SDW_API explicit CallableWriter( ast::stmt::FunctionFlag flag
+		explicit CallableWriter( ast::stmt::FunctionFlag flag
 			, ShaderAllocator * allocator = nullptr )
 			: CallableWriter{ uint32_t( flag ), allocator }
 		{
 		}
 
-		SDW_API CallableWriter( ShaderBuilder & builder
+		CallableWriter( ShaderBuilder & builder
 			, ast::stmt::FunctionFlag flag )
 			: CallableWriter{ builder, uint32_t( flag ) }
 		{

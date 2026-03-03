@@ -99,12 +99,12 @@ def printHeader( outs, match ):
 	return enumName
 
 def computeIntrinsicName( functionGroup ):
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( functionGroup )
 	resName5 = intrName5.match( functionGroup )
 	resName4 = intrName4.match( functionGroup )
@@ -127,12 +127,12 @@ def computeIntrinsicName( functionGroup ):
 	return result
 
 def computeFullName( functionGroup ):
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( functionGroup )
 	resName5 = intrName5.match( functionGroup )
 	resName4 = intrName4.match( functionGroup )
@@ -155,12 +155,12 @@ def computeFullName( functionGroup ):
 	return result
 
 def getPostfix( functionGroup ):
-	intrName6 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName5 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName4 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName3 = re.compile( "([\w]*), ([\w]*), ([\w]*), ([\w]*)" )
-	intrName2 = re.compile( "([\w]*), ([\w]*), ([\w]*)" )
-	intrName1 = re.compile( "([\w]*), ([\w]*)" )
+	intrName6 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName5 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName4 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName3 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName2 = re.compile( "([\\w]*), ([\\w]*), ([\\w]*)" )
+	intrName1 = re.compile( "([\\w]*), ([\\w]*)" )
 	resName6 = intrName6.match( functionGroup )
 	resName5 = intrName5.match( functionGroup )
 	resName4 = intrName4.match( functionGroup )
@@ -196,19 +196,19 @@ def getDoublePostfix( postfix ):
 	return ""
 
 def isArray( name ):
-	result = re.sub( "\[\d*\]", "", name )
+	result = re.sub( "\\[\\d*\\]", "", name )
 	return result != name
 
 def discardArray( name ):
-	result = re.sub( "\[\d*\]", "", name )
+	result = re.sub( "\\[\\d*\\]", "", name )
 	return result
 
 def computeParams( params, sep, allowEmpty ):
 	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrParams = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -237,10 +237,10 @@ def computeParams( params, sep, allowEmpty ):
 
 def computeParamsEx( params, sep, lastType ):
 	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrParams = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 1
 		while len( resParam ) > index:
@@ -272,10 +272,10 @@ def computeParamsEx( params, sep, lastType ):
 
 def listParams( params, sep ):
 	result = ""
-	intrParams = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrParams = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resParams = intrParams.match( params )
 	if resParams:
-		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrParam = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resParam = intrParam.split( resParams.group( 1 ) )
 		index = 2
 		while len( resParam ) > index:
@@ -287,10 +287,10 @@ def listParams( params, sep ):
 
 def computeArgs( args, sep ):
 	result = ""
-	intrArgs = re.compile("[, ]*ASTIntrParams\( ([\w, :()\[\]]*) \)$")
+	intrArgs = re.compile("[, ]*ASTIntrParams\\( ([\\w, :()\\[\\]]*) \\)$")
 	resArgs = intrArgs.match( args )
 	if resArgs:
-		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\( ([^,]*), ([^ ]*) \)")
+		intrArg = re.compile("(ASTIntrParam|ASTCppParam|ASTIntrOutParam)\\( ([^,]*), ([^ ]*) \\)")
 		resArg = intrArg.split( resArgs.group( 1 ) )
 		index = 2
 		while len( resArg ) > index:
@@ -533,9 +533,9 @@ def main( argv ):
 		print(inEnumFile + " is not an existing file.")
 		return
 
-	intrDecl = re.compile("^ASTIntrDecl\( ([^ ]*) \)$")
+	intrDecl = re.compile("^ASTIntrDecl\\( ([^ ]*) \\)$")
 	intrEnd = re.compile("^ASTIntrEnd$")
-	intrValue = re.compile("^\s*ASTIntrValue\( ([^,]*), ASTIntrName\( ([^)]*) \)([\w:, ()\[\]]*) \)$")
+	intrValue = re.compile("^\\s*ASTIntrValue\\( ([^,]*), ASTIntrName\\( ([^)]*) \\)([\\w:, ()\\[\\]]*) \\)$")
 	enumName = ""
 	prvFunctionGroup = ""
 	prvParamsGroup = ""

@@ -23,7 +23,7 @@ namespace sdw
 	struct StorageImage
 		: public Value
 	{
-		SDW_DeclValue( SDW_API, StorageImage );
+		SDW_DeclValue( StorageImage );
 
 		SDW_API StorageImage( ShaderWriter & writer
 			, expr::ExprPtr expr
@@ -41,7 +41,7 @@ namespace sdw
 		struct StorageImageFuncsT
 			: public StorageImage
 		{
-			SDW_DeclValue( , StorageImageFuncsT );
+			SDW_DeclValue( StorageImageFuncsT );
 
 			StorageImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -57,7 +57,7 @@ namespace sdw
 	struct StorageImageT
 		: public storageImg::StorageImageFuncsT< FormatT, AccessT, DimT, ArrayedT, MsT >
 	{
-		SDW_DeclValue( , StorageImageT );
+		SDW_DeclValue( StorageImageT );
 
 		static constexpr ast::type::ImageFormat Format = FormatT;
 		static constexpr ast::type::AccessKind Access = AccessT;
