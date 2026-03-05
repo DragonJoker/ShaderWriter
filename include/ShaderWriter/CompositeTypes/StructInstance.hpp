@@ -135,7 +135,7 @@ namespace sdw
 		: public Value
 	{
 	public:
-		SDW_DeclValue( StructInstance );
+		SDW_DeclValue( SDW_INL_API, StructInstance );
 
 		SDW_API StructInstance( ShaderWriter & writer
 			, expr::ExprPtr expr
@@ -172,7 +172,7 @@ namespace sdw
 	};
 }
 
-#define SDW_DeclStructInstance( name )\
+#define SDW_DeclStructInstance( expdecl, name )\
 	template< typename ... ParamsT >\
 	name( sdw::StructInstance const & rhs\
 		, ParamsT && ... params )\
@@ -181,22 +181,22 @@ namespace sdw
 			, rhs.isEnabled() }\
 	{\
 	}\
-	name( sdw::ReturnWrapperT< name > const & rhs )\
+	expdecl name( sdw::ReturnWrapperT< name > const & rhs )\
 		: name{ findWriterMandat( rhs )\
 			, makeExpr( findWriterMandat( rhs ), rhs )\
 			, rhs.isEnabled() }\
 	{\
 	}\
-	name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
+	expdecl name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
 	{\
 		sdw::StructInstance::operator=( rhs );\
 		return *this;\
 	}\
-	name & operator=( name const & rhs ) = default;\
-	name & operator=( name && rhs )noexcept = default;\
-	name( name const & rhs ) = default;\
-	name( name && rhs )noexcept = default;\
-	~name()noexcept override = default
+	expdecl name & operator=( name const & rhs ) = default;\
+	expdecl name & operator=( name && rhs )noexcept = default;\
+	expdecl name( name const & rhs ) = default;\
+	expdecl name( name && rhs )noexcept = default;\
+	expdecl ~name()noexcept override = default
 
 #include "StructInstance.inl"
 #include "StructInstanceHelper.hpp"

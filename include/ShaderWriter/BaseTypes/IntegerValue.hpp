@@ -14,7 +14,7 @@ namespace sdw
 	struct IntegerValue
 		: public Value
 	{
-		SDW_DeclValue( IntegerValue );
+		SDW_DeclValue( , IntegerValue );
 
 		IntegerValue( ShaderWriter & writer
 			, expr::ExprPtr expr

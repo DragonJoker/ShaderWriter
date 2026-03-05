@@ -41,14 +41,26 @@ See LICENSE file in root folder
 
 #if defined( ShaderWriter_Static )
 #	define SDW_API
+#	define SDW_INL_API
 #elif defined( _WIN32 )
 #	if defined( ShaderWriter_Exports )
 #		define SDW_API __declspec( dllexport )
+#		if defined( __MINGW32__ )
+#			define SDW_INL_API
+#		else
+#			define SDW_INL_API __declspec( dllexport )
+#		endif
 #	else
 #		define SDW_API __declspec( dllimport )
+#		if defined( __MINGW32__ )
+#			define SDW_INL_API
+#		else
+#			define SDW_INL_API __declspec( dllimport )
+#		endif
 #	endif
 #else
 #	define SDW_API
+#	define SDW_INL_API
 #endif
 
 namespace sdw

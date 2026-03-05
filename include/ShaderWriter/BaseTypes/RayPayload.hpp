@@ -49,7 +49,7 @@ namespace sdw
 	struct RayPayloadBaseT
 		: public ValueT
 	{
-		SDW_DeclValue( RayPayloadBaseT );
+		SDW_DeclValue( , RayPayloadBaseT );
 
 		template< typename ... ParamsT >
 		RayPayloadBaseT( ShaderWriter & writer
