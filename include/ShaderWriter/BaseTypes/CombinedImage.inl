@@ -2716,7 +2716,7 @@ namespace sdw
 			, public GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2785,7 +2785,7 @@ namespace sdw
 			, public GradProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2842,7 +2842,7 @@ namespace sdw
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2894,7 +2894,7 @@ namespace sdw
 			, public GatherOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2942,7 +2942,7 @@ namespace sdw
 			, public GradFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -2990,7 +2990,7 @@ namespace sdw
 			, public GradRefProjFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradRefProjOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3054,7 +3054,7 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3109,7 +3109,7 @@ namespace sdw
 			, public GradRefFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GradRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3155,7 +3155,7 @@ namespace sdw
 			, public GatherRefOffsetFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefOffsetsFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3199,7 +3199,7 @@ namespace sdw
 			, public SampleRefLodFuncT< FormatT, DimT, ArrayedT, MsT >
 			, public GatherRefFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			using SampleRefFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
 			using SampleRefBiasFuncT< FormatT, DimT, ArrayedT, MsT >::sample;
@@ -3229,7 +3229,7 @@ namespace sdw
 			, public TexSizeFuncT< FormatT, DimT, ArrayedT, MsT, DepthT >
 			, public FetchFuncT< FormatT, DimT, ArrayedT, MsT >
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr

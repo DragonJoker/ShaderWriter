@@ -17,7 +17,7 @@ namespace sdw
 			, expr::ExprPtr expr
 			, bool enabled );
 
-		virtual ~Value() = default;
+		SDW_API virtual ~Value();
 		SDW_API Value( Value && rhs )noexcept;
 		SDW_API Value( Value const & rhs );
 		SDW_API Value & operator=( Value && rhs )noexcept;
@@ -26,29 +26,21 @@ namespace sdw
 		SDW_API void updateExpr( expr::ExprPtr expr );
 
 		SDW_API ast::ShaderBuilder & getBuilder()const;
+		SDW_API virtual type::TypePtr getType()const;
+		SDW_API virtual expr::Expr const * getExpr()const;
 
-		virtual type::TypePtr getType()const
-		{
-			return m_expr->getType();
-		}
-
-		virtual expr::Expr const * getExpr()const
-		{
-			return m_expr.get();
-		}
-
-		inline ShaderWriter * getWriter()const
+		ShaderWriter * getWriter()const
 		{
 			return m_writer;
 		}
 
-		inline bool isEnabled()const
+		bool isEnabled()const
 		{
 			return m_enabled;
 		}
 
 		template< typename OutputT, size_t CountT >
-		static inline expr::ExprPtr ctorCast( expr::ExprPtr op )
+		static expr::ExprPtr ctorCast( expr::ExprPtr op )
 		{
 			auto result = std::move( op );
 
@@ -65,7 +57,7 @@ namespace sdw
 		}
 
 		template< typename OutputT, size_t CountT >
-		static inline Value ctorCast( Value op )
+		static Value ctorCast( Value op )
 		{
 			return Value{ *op.m_writer
 				, ctorCast< OutputT, CountT >( std::move( op.m_expr ) )
@@ -195,18 +187,18 @@ namespace sdw
 		, CreatorT creator );
 }
 
-#define SDW_DeclValue( name )\
-	name( name && rhs )noexcept = default;\
-	name( name const & rhs ) = default;\
-	name & operator=( name && rhs )noexcept = default;\
-	name & operator=( name const & rhs ) = default;\
-	name( sdw::ReturnWrapperT< name > const & rhs )\
+#define SDW_DeclValue( expdecl, name )\
+	expdecl name( name && rhs )noexcept = default;\
+	expdecl name( name const & rhs ) = default;\
+	expdecl name & operator=( name && rhs )noexcept = default;\
+	expdecl name & operator=( name const & rhs ) = default;\
+	expdecl name( sdw::ReturnWrapperT< name > const & rhs )\
 		: name{ findWriterMandat( rhs )\
 			, makeExpr( findWriterMandat( rhs ), rhs )\
 			, rhs.isEnabled() }\
 	{\
 	}\
-	name & operator=( sdw::ReturnWrapperT< name > && rhs )\
+	expdecl name & operator=( sdw::ReturnWrapperT< name > && rhs )\
 	{\
 		if ( rhs.isEnabled() && this->isEnabled() && this->m_expr && !this->m_expr->isConstant() )\
 		{\
@@ -219,7 +211,7 @@ namespace sdw
 		}\
 		return *this;\
 	}\
-	name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
+	expdecl name & operator=( sdw::ReturnWrapperT< name > const & rhs )\
 	{\
 		if ( rhs.isEnabled() && this->isEnabled() && this->m_expr && !this->m_expr->isConstant() )\
 		{\
@@ -232,7 +224,7 @@ namespace sdw
 		}\
 		return *this;\
 	}\
-	~name()override = default
+	expdecl ~name()override = default
 
 #include "Value.inl"
 

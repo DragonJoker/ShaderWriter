@@ -18,6 +18,8 @@ namespace sdw
 {
 	//*****************************************************************************************
 
+	Value::~Value() = default;
+
 	Value::Value( ShaderWriter & writer
 		, expr::ExprPtr expr
 		, bool enabled )
@@ -94,6 +96,16 @@ namespace sdw
 	{
 		assert( getWriter() );
 		return getWriter()->getBuilder();
+	}
+
+	type::TypePtr Value::getType()const
+	{
+		return m_expr->getType();
+	}
+
+	expr::Expr const * Value::getExpr()const
+	{
+		return m_expr.get();
 	}
 
 	//*****************************************************************************************

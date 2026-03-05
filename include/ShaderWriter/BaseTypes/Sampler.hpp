@@ -11,7 +11,7 @@ namespace sdw
 	struct Sampler
 		: public Value
 	{
-		SDW_DeclValue( Sampler );
+		SDW_DeclValue( SDW_INL_API, Sampler );
 
 		SDW_API Sampler( ShaderWriter & writer
 			, expr::ExprPtr expr
@@ -28,7 +28,7 @@ namespace sdw
 	struct SamplerT
 		: public Sampler
 	{
-		SDW_DeclValue( SamplerT );
+		SDW_DeclValue( , SamplerT );
 
 		static constexpr bool Comparison = ComparisonT;
 

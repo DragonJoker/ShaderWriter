@@ -120,7 +120,7 @@ namespace sdw
 	struct CombinedImage
 		: public Value
 	{
-		SDW_DeclValue( CombinedImage );
+		SDW_DeclValue( SDW_INL_API, CombinedImage );
 
 		SDW_API CombinedImage( ShaderWriter & writer
 			, expr::ExprPtr expr
@@ -138,7 +138,7 @@ namespace sdw
 		struct CombinedImageFuncsT
 			: public CombinedImage
 		{
-			SDW_DeclValue( CombinedImageFuncsT );
+			SDW_DeclValue( , CombinedImageFuncsT );
 
 			CombinedImageFuncsT( ShaderWriter & writer
 				, expr::ExprPtr expr
@@ -154,7 +154,7 @@ namespace sdw
 	struct CombinedImageT
 		: public combinedSmplImg::CombinedImageFuncsT< FormatT, DimT, ArrayedT, MsT, DepthT >
 	{
-		SDW_DeclValue( CombinedImageT );
+		SDW_DeclValue( , CombinedImageT );
 
 		static constexpr ast::type::ImageFormat Format = FormatT;
 		static constexpr ast::type::ImageDim Dim = DimT;

@@ -13,7 +13,7 @@ namespace sdw
 	struct Array
 		: public Value
 	{
-		SDW_DeclValue( Array );
+		SDW_DeclValue( , Array );
 
 		Array( ShaderWriter & writer
 			, expr::ExprPtr expr
