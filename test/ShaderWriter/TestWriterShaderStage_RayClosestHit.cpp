@@ -20,7 +20,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( HitPayload );
+		SDW_DeclStructInstance( , HitPayload );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -55,7 +55,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( ObjDesc );
+		SDW_DeclStructInstance( , ObjDesc );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -106,7 +106,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( VertexT );
+		SDW_DeclStructInstance( , VertexT );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -151,7 +151,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( Index );
+		SDW_DeclStructInstance( , Index );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -182,7 +182,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( MatIndex );
+		SDW_DeclStructInstance( , MatIndex );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -223,7 +223,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( WaveFrontMaterialT );
+		SDW_DeclStructInstance( , WaveFrontMaterialT );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -372,7 +372,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( RayLight );
+		SDW_DeclStructInstance( , RayLight );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{

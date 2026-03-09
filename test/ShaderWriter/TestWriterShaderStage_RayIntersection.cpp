@@ -17,7 +17,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( Sphere );
+		SDW_DeclStructInstance( , Sphere );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -53,7 +53,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( Aabb );
+		SDW_DeclStructInstance( , Aabb );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -89,7 +89,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( Ray );
+		SDW_DeclStructInstance( , Ray );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{

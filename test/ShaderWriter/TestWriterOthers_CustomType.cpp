@@ -19,7 +19,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( ColourT );
+		SDW_DeclStructInstance( , ColourT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
@@ -60,7 +60,7 @@ namespace
 	struct Light
 		: public sdw::StructInstance
 	{
-		SDW_DeclStructInstance( Light );
+		SDW_DeclStructInstance( , Light );
 
 		Light( sdw::ShaderWriter & writer, ast::expr::ExprPtr expr, bool enabled )
 			: StructInstance{ writer, std::move( expr ), enabled }
@@ -121,7 +121,7 @@ namespace
 	struct Parameterized
 		: public sdw::StructInstance
 	{
-		SDW_DeclStructInstance( Parameterized );
+		SDW_DeclStructInstance( , Parameterized );
 
 		Parameterized( sdw::ShaderWriter & writer, ast::expr::ExprPtr expr, bool enabled )
 			: StructInstance{ writer, std::move( expr ), enabled }

@@ -9,7 +9,7 @@ namespace
 	struct Voxel
 		: public sdw::StructInstance
 	{
-		SDW_DeclStructInstance( Voxel );
+		SDW_DeclStructInstance( , Voxel );
 
 		Voxel( sdw::ShaderWriter & writer
 			, ast::expr::ExprPtr expr
@@ -640,7 +640,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( Vertex );
+		SDW_DeclStructInstance( , Vertex );
 
 		static sdw::type::BaseStructPtr makeType( sdw::type::TypesCache & cache )
 		{
@@ -697,7 +697,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( MorphTargetData );
+		SDW_DeclStructInstance( , MorphTargetData );
 
 		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
 		{
@@ -729,7 +729,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( MorphTargetsData );
+		SDW_DeclStructInstance( , MorphTargetsData );
 
 		static ast::type::BaseStructPtr makeType( ast::type::TypesCache & cache )
 		{

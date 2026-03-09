@@ -19,7 +19,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( PositionT );
+		SDW_DeclStructInstance( , PositionT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
@@ -74,7 +74,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( SurfaceT );
+		SDW_DeclStructInstance( , SurfaceT );
 
 		template< sdw::var::Flag FlagU >
 		SurfaceT operator=( SurfaceT< FlagU > const & rhs )
@@ -178,7 +178,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( SimplePatchT );
+		SDW_DeclStructInstance( , SimplePatchT );
 
 		template< sdw::var::Flag FlagU >
 		SimplePatchT operator=( SimplePatchT< FlagU > const & rhs )
@@ -243,7 +243,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( PNTriPatchT );
+		SDW_DeclStructInstance( , PNTriPatchT );
 
 		template< sdw::var::Flag FlagU >
 		PNTriPatchT operator=( PNTriPatchT< FlagU > const & rhs )

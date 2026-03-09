@@ -16,7 +16,7 @@ namespace
 		{
 		}
 
-		SDW_DeclStructInstance( PositionT );
+		SDW_DeclStructInstance( , PositionT );
 
 		static sdw::type::IOStructPtr makeIOType( sdw::type::TypesCache & cache
 			, ast::EntryPoint entryPoint )
