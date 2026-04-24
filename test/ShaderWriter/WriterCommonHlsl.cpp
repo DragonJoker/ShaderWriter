@@ -6,6 +6,11 @@ namespace test::sdw_test
 {
 	namespace hlsl_test
 	{
+		static std::string printHlslModel( uint32_t version )
+		{
+			return std::to_string( version / 10u ) + "_" + std::to_string( version % 10u );
+		}
+
 		static std::string generateHlsl( ::ast::Shader const & shader
 			, ::ast::PreprocessResult & preprocessResult
 			, ::ast::ShaderStage stage
@@ -31,6 +36,9 @@ namespace test::sdw_test
 		{
 #if SDW_HasCompilerHlsl
 
+			if ( !testCounts.isHlslRequested( infoIndex, compilers.hlsl.requestedModel ) )
+				return;
+
 			auto validate = [&]()
 				{
 					std::string errors;
@@ -50,7 +58,7 @@ namespace test::sdw_test
 						return;
 					}
 
-					displayShader( "HLSL", hlsl, testCounts, compilers.forceDisplay, true );
+					displayShader( "HLSL " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, testCounts, compilers.forceDisplay, true );
 					bool isCompiled = compileHlsl( hlsl
 						, stage
 						, errors
@@ -58,18 +66,14 @@ namespace test::sdw_test
 						, infoIndex );
 					astCheck( isCompiled )
 					if ( !isCompiled )
-						testCounts.printError( "\n" + printShader( "HLSL", hlsl, true ) + errors );
+						testCounts.printError( "\n" + printShader( "HLSL " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, true ) + errors );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{
-						testCounts.printBlock( printShader( "HLSL", hlsl, true ) );
+						testCounts.printBlock( printShader( "HLSL " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ), hlsl, true ) );
 					}
 				};
-			auto shaderModel = testCounts.getHlslVersion( infoIndex );
-			auto major = shaderModel / 10u;
-			auto minor = shaderModel % 10u;
-			auto model = std::to_string( major ) + "_" + std::to_string( minor );
-			astOn( "HLSL Shader Model " + model );
+			astOn( "HLSL Shader Model " + printHlslModel( testCounts.getHlslVersion( infoIndex ) ) );
 			astCheckNoThrow( validate() )
 #endif
 		}
@@ -82,7 +86,7 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
-		if ( compilers.hlsl )
+		if ( compilers.hlsl.enable )
 		{
 			auto count = testCounts.getHlslInfosSize();
 			for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )

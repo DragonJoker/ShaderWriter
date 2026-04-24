@@ -18,7 +18,10 @@ See LICENSE file in root folder
 #include <optional>
 
 #if defined( _WIN32 )
+#	pragma warning( push )
+#	pragma warning( disable: 4865 )
 #	include <Windows.h>
+#	pragma warning( pop )
 #elif defined( __linux__ )
 #	include <unistd.h>
 #	include <dirent.h>

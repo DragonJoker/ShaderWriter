@@ -962,6 +962,7 @@ namespace ast::vk
 		{
 			extensions.emplace( spirv::NV_mesh_shader );
 			extensions.emplace( spirv::EXT_descriptor_indexing );
+			extensions.emplace( spirv::KHR_physical_storage_buffer );
 			extensions.emplace( spirv::EXT_physical_storage_buffer );
 			extensions.emplace( spirv::KHR_shader_subgroup );
 		}

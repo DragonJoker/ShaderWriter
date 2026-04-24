@@ -60,6 +60,22 @@ namespace test
 		, sdw::DMat2x2, sdw::DMat3x3, sdw::DMat4x4 >;
 	using Vec3FloatDoubleTypes = testing::Types< sdw::Vec3, sdw::DVec3 >;
 
+	template< typename T >
+	inline bool constexpr isInt16Type = std::is_same_v< T, sdw::Int16 >
+		|| std::is_same_v< T, sdw::I16Vec2 >
+		|| std::is_same_v< T, sdw::I16Vec3 >
+		|| std::is_same_v< T, sdw::I16Vec4 >;
+	template< typename T >
+	inline bool constexpr isUInt16Type = std::is_same_v< T, sdw::UInt16 >
+		|| std::is_same_v< T, sdw::U16Vec2 >
+		|| std::is_same_v< T, sdw::U16Vec3 >
+		|| std::is_same_v< T, sdw::U16Vec4 >;
+	template< typename T >
+	inline bool constexpr isFloat64Type = std::is_same_v< T, sdw::Double >
+		|| std::is_same_v< T, sdw::DVec2 >
+		|| std::is_same_v< T, sdw::DVec3 >
+		|| std::is_same_v< T, sdw::DVec4 >;
+
 	template< ast::type::ImageDim DimT
 		, bool ArrayedT
 		, bool MsT

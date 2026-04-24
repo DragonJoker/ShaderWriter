@@ -20,7 +20,7 @@ namespace test
 	template<>
 	struct CompilerHolderT< ast::type::ImageDim::eBuffer >
 	{
-		static constexpr test::Compilers value = Compilers_AllButSpv16;
+		static constexpr test::Compilers value = Compilers_AllButSPIRV16;
 	};
 
 	template< ast::type::ImageDim DimT >
