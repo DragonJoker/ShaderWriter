@@ -555,6 +555,7 @@ namespace test
 					auto float16Int8Feature = ast::vk::makeVkStruct< VkPhysicalDeviceFloat16Int8FeaturesKHR >();
 					auto storage8BitFeature = ast::vk::makeVkStruct< VkPhysicalDevice8BitStorageFeaturesKHR >();
 					auto storage16BitFeature = ast::vk::makeVkStruct< VkPhysicalDevice16BitStorageFeaturesKHR >();
+					auto bufferDeviceAddressFeature = ast::vk::makeVkStruct< VkPhysicalDeviceBufferDeviceAddressFeaturesEXT >();
 					bool hasFeatures2 = false;
 					bool hasVulkan1_1 = false;
 					bool hasVulkan1_2 = false;
@@ -672,30 +673,36 @@ namespace test
 								featuresStructs.push_back( reinterpret_cast< VkStructure * >( &storage16BitFeature ) );
 						}
 
-						if ( isExtensionSupported( "VK_KHR_buffer_device_address", device_extensions ) )
-							info.deviceExtensionNames.push_back( "VK_KHR_buffer_device_address" );
-						else if ( isExtensionSupported( "VK_EXT_buffer_device_address", device_extensions ) )
-							info.deviceExtensionNames.push_back( "VK_EXT_buffer_device_address" );
-
-						if ( isExtensionSupported( "VK_EXT_descriptor_indexing", device_extensions ) )
+						if ( hasVulkan1_2 )
 						{
-							info.deviceExtensionNames.push_back( "VK_EXT_descriptor_indexing" );
-
 							if ( isExtensionSupported( "VK_KHR_buffer_device_address", device_extensions ) )
-							{
-								if ( isExtensionSupported( "VK_KHR_acceleration_structure", device_extensions ) )
-								{
-									info.deviceExtensionNames.push_back( "VK_KHR_acceleration_structure" );
-									featuresStructs.push_back( reinterpret_cast< VkStructure * >( &accelFeature ) );
+								info.deviceExtensionNames.push_back( "VK_KHR_buffer_device_address" );
 
-									if ( hasSpirv1_4
-										&& isExtensionSupported( "VK_KHR_ray_tracing_pipeline", device_extensions ) )
+							if ( isExtensionSupported( "VK_EXT_descriptor_indexing", device_extensions ) )
+							{
+								info.deviceExtensionNames.push_back( "VK_EXT_descriptor_indexing" );
+
+								if ( isExtensionSupported( "VK_KHR_buffer_device_address", device_extensions ) )
+								{
+									if ( isExtensionSupported( "VK_KHR_acceleration_structure", device_extensions ) )
 									{
-										info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
-										featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
+										info.deviceExtensionNames.push_back( "VK_KHR_acceleration_structure" );
+										featuresStructs.push_back( reinterpret_cast< VkStructure * >( &accelFeature ) );
+
+										if ( hasSpirv1_4
+											&& isExtensionSupported( "VK_KHR_ray_tracing_pipeline", device_extensions ) )
+										{
+											info.deviceExtensionNames.push_back( "VK_KHR_ray_tracing_pipeline" );
+											featuresStructs.push_back( reinterpret_cast< VkStructure * >( &rtPipelineFeature ) );
+										}
 									}
 								}
 							}
+						}
+						else if ( isExtensionSupported( "VK_EXT_buffer_device_address", device_extensions ) )
+						{
+							info.deviceExtensionNames.push_back( "VK_EXT_buffer_device_address" );
+								featuresStructs.push_back( reinterpret_cast< VkStructure * >( &bufferDeviceAddressFeature ) );
 						}
 					}
 
