@@ -3104,6 +3104,39 @@ namespace hlsl
 			, adapter );
 	}
 
+	void AdaptationData::addSubgroupBallotResult( ast::expr::Expr const & expr
+		, ast::expr::Expr const & arg )
+	{
+		m_subgroupBallotExprs.try_emplace( &expr, &arg );
+	}
+
+	void AdaptationData::processSubgroupBallotResult( ast::expr::Expr const & source
+		, ast::var::VariablePtr target )
+	{
+		if ( auto it = m_subgroupBallotExprs.find( &source );
+			it != m_subgroupBallotExprs.end() )
+		{
+			m_subgroupBallotVars.try_emplace( target, it->second );
+			m_subgroupBallotExprs.erase( it );
+		}
+	}
+
+	void AdaptationData::processSubgroupBallotResult( ast::var::VariablePtr source
+		, ast::var::VariablePtr target )
+	{
+		if ( auto it = m_subgroupBallotVars.find( source );
+			it != m_subgroupBallotVars.end() )
+			m_subgroupBallotVars.try_emplace( target, it->second );
+	}
+
+	ast::expr::ExprPtr AdaptationData::replaceSubgroupBallotResult( ast::var::VariablePtr var )
+	{
+		if ( auto it = m_subgroupBallotVars.find( var );
+			it != m_subgroupBallotVars.end() )
+			return ast::ExprCloner::submit( exprCache, *it->second );
+		return exprCache.makeIdentifier( shader->getTypesCache(), var );
+	}
+
 	void AdaptationData::declareStruct( ast::type::StructPtr const & structType
 		, ast::stmt::Container * stmt )
 	{

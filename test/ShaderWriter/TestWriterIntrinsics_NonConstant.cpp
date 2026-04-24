@@ -2914,8 +2914,9 @@ namespace
 					auto res = writer.declLocale( "res"
 						, subgroupBallotBitCount( op ) );
 				} );
+			// HLSL's implementation of WaveActiveCountBits doesn't support 128 bits ballot, so we can't test it.
 			test::writeShader( writer
-				, testCounts, AllCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		sdwTestEnd()
 	}
@@ -2954,8 +2955,9 @@ namespace
 					auto res = writer.declLocale( "res"
 						, subgroupBallotExclusiveBitCount( op ) );
 				} );
+			// HLSL's implementation of WaveActiveCountBits doesn't support 128 bits ballot, so we can't test it.
 			test::writeShader( writer
-				, testCounts, AllCompilers );
+				, testCounts, Compilers_NoHLSL );
 		}
 		sdwTestEnd()
 	}
@@ -3660,7 +3662,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( FloatDoubleIntUIntBoolParamsT, testSubgroupQuadSwapHorizontal )
+	TYPED_TEST( FloatDoubleIntUIntParamsT, testSubgroupQuadSwapHorizontal )
 	{
 		using namespace sdw;
 		sdwTestBegin( "testSubgroupQuadSwapHorizontal" );
@@ -3680,7 +3682,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( FloatDoubleIntUIntBoolParamsT, testSubgroupQuadSwapVertical )
+	TYPED_TEST( FloatDoubleIntUIntParamsT, testSubgroupQuadSwapVertical )
 	{
 		using namespace sdw;
 		sdwTestBegin( "testSubgroupQuadSwapVertical" );
@@ -3700,7 +3702,7 @@ namespace
 		sdwTestEnd()
 	}
 
-	TYPED_TEST( FloatDoubleIntUIntBoolParamsT, testSubgroupQuadSwapDiagonal )
+	TYPED_TEST( FloatDoubleIntUIntParamsT, testSubgroupQuadSwapDiagonal )
 	{
 		using namespace sdw;
 		sdwTestBegin( "testSubgroupQuadSwapDiagonal" );

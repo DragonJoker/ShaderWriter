@@ -46,10 +46,12 @@ namespace hlsl
 
 		using ast::ExprCloner::doSubmit;
 		ast::expr::ExprPtr doSubmit( ast::expr::Expr const & expr )override;
+		void visitAliasExpr( ast::expr::Alias const * expr )override;
 		void visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )override;
 		void visitAssignExpr( ast::expr::Assign const * expr )override;
 		void visitCompositeConstructExpr( ast::expr::CompositeConstruct const * expr )override;
 		void visitIdentifierExpr( ast::expr::Identifier const * expr )override;
+		void visitInitExpr( ast::expr::Init const * expr )override;
 		void visitFnCallExpr( ast::expr::FnCall const * expr )override;
 		void visitImageAccessCallExpr( ast::expr::StorageImageAccessCall const * expr )override;
 		void visitIntrinsicCallExpr( ast::expr::IntrinsicCall const * expr )override;
