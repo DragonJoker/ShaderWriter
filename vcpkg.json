@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
   "name": "shaderwriter",
-  "version": "2.8.1",
-  "builtin-baseline": "d9ccd77bb554e67137f3f754a2e2f11f4188c82c",
+  "version": "2.9.0",
+  "builtin-baseline": "c3867e714dd3a51c272826eea77267876517ed99",
   "default-features": [
     "glsl",
     "hlsl",
