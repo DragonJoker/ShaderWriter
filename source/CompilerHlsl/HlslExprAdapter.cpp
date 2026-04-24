@@ -456,6 +456,34 @@ namespace hlsl
 		return result;
 	}
 
+	void ExprAdapter::visitAliasExpr( ast::expr::Alias const * expr )
+	{
+		m_result = doSubmit( expr->getAliasedExpr() );
+
+		if ( m_result
+			&& expr->hasIdentifier() )
+		{
+			m_adaptationData.processSubgroupBallotResult( *m_result, expr->getIdentifier().getVariable() );
+			m_result = m_exprCache.makeAlias( expr->getType()
+				, m_exprCache.makeIdentifier( expr->getIdentifier() )
+				, std::move( m_result ) );
+		}
+	}
+
+	void ExprAdapter::visitInitExpr( ast::expr::Init const * expr )
+	{
+		m_result = doSubmit( expr->getInitialiser() );
+
+		if ( m_result
+			&& expr->hasIdentifier() )
+		{
+			if ( m_result->getKind() == ast::expr::Kind::eIdentifier )
+				m_adaptationData.processSubgroupBallotResult( static_cast< ast::expr::Identifier const & >( *m_result ).getVariable(), expr->getIdentifier().getVariable() );
+			m_result = m_exprCache.makeInit( m_exprCache.makeIdentifier( expr->getIdentifier() )
+				, std::move( m_result ) );
+		}
+	}
+
 	void ExprAdapter::visitArrayAccessExpr( ast::expr::ArrayAccess const * expr )
 	{
 		auto arrayIndex = doSubmit( expr->getRHS() );
@@ -797,6 +825,36 @@ namespace hlsl
 		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eWritePackedPrimitiveIndices4x8NV )
 		{
 			doProcessIntrinsicPackedPrimitiveIndices( *expr );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallot )
+		{
+			ast::expr::ExprList args;
+			for ( auto & arg : expr->getArgList() )
+			{
+				args.emplace_back( doSubmit( *arg ) );
+			}
+
+			auto & arg = *args.front();
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
+				, std::move( args ) );
+			m_adaptationData.addSubgroupBallotResult( *m_result, arg );
+		}
+		else if ( expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotBitCount
+			|| expr->getIntrinsic() == ast::expr::Intrinsic::eSubgroupBallotExclusiveBitCount )
+		{
+			ast::expr::ExprList args;
+			for ( auto & arg : expr->getArgList() )
+			{
+				if ( arg->getKind() == ast::expr::Kind::eIdentifier )
+					args.emplace_back( m_adaptationData.replaceSubgroupBallotResult( static_cast< ast::expr::Identifier const & >( *arg ).getVariable() ) );
+				else
+					args.emplace_back( doSubmit( *arg ) );
+			}
+
+			m_result = m_exprCache.makeIntrinsicCall( expr->getType()
+				, expr->getIntrinsic()
+				, std::move( args ) );
 		}
 		else if ( expr->getIntrinsic() != ast::expr::Intrinsic::eHelperInvocation )
 		{

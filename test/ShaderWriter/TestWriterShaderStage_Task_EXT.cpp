@@ -789,6 +789,39 @@ namespace
 		}
 		sdwTestEnd()
 	}
+
+	TEST_F( TaskEXT, taskSubgroupBallot )
+	{
+		sdwTestBegin( "taskSubgroupBallot" );
+		{
+			sdw::TaskWriter writer{ &testCounts.allocator };
+
+			auto isVisible = writer.implementFunction< sdw::Boolean >( "isVisible"
+				, [&]()
+				{
+					writer.returnStmt( sdw::Boolean{ true } );
+				} );
+
+			writer.implementMainT< PayloadT >( SDW_TaskLocalSize( ThreadsPerWave, 1u, 1u )
+				, sdw::TaskPayloadOutT< PayloadT >{ writer }
+				, [&]( sdw::TaskSubgroupIn in
+					, sdw::TaskPayloadOutT< PayloadT > payload )
+				{
+					auto visible = writer.declLocale( "visible"
+						, isVisible() );
+					auto vote = writer.declLocale( "vote", subgroupBallot( visible ) );
+					auto tasks = writer.declLocale( "tasks", subgroupBallotBitCount( vote ) );
+					auto idxOffset = writer.declLocale( "idxOffset", subgroupBallotExclusiveBitCount( vote ) );
+					payload.dispatchMesh( SDW_TaskLocalSize( tasks, 1_u, 1_u ) );
+				} );
+			test::expectError( "Invalid capability operand: 5"
+				, testCounts );
+			test::writeShader( writer
+				, testCounts
+				, CurrentCompilers );
+		}
+		sdwTestEnd()
+	}
 }
 
 sdwTestSuiteMain()

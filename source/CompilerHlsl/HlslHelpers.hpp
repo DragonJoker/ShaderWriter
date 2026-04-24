@@ -438,6 +438,14 @@ namespace hlsl
 			, ast::var::FlagHolder const & flags
 			, ExprAdapter & adapter );
 
+		void addSubgroupBallotResult( ast::expr::Expr const & expr
+			, ast::expr::Expr const & arg );
+		void processSubgroupBallotResult( ast::expr::Expr const & source
+			, ast::var::VariablePtr target );
+		void processSubgroupBallotResult( ast::var::VariablePtr source
+			, ast::var::VariablePtr target );
+		ast::expr::ExprPtr replaceSubgroupBallotResult( ast::var::VariablePtr var );
+
 		void setHlslType( ast::type::TypePtr orig
 			, ast::type::TypePtr repl )
 		{
@@ -539,6 +547,8 @@ namespace hlsl
 		Routine * m_currentRoutine{};
 		std::unordered_set< ast::type::StructPtr > m_declaredStructs;
 		std::map< ast::type::TypePtr, ast::type::TypePtr > m_replacedTypes;
+		std::unordered_map< ast::expr::Expr const *, ast::expr::Expr const * > m_subgroupBallotExprs;
+		std::map< ast::var::VariablePtr, ast::expr::Expr const * > m_subgroupBallotVars;
 
 	public:
 		HlslShader * shader;
@@ -981,6 +991,7 @@ namespace hlsl
 		bool requiresWaveOps{ false };
 		bool requiresControlBarrier{ false };
 		bool requiresMemoryBarrier{ false };
+		bool requiresInterlockedOperations{ false };
 	};
 	void checkType( ast::type::TypePtr type
 		, IntrinsicsConfig & config );
