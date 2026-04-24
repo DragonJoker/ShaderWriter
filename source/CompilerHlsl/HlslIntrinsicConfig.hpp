@@ -585,6 +585,26 @@ namespace hlsl
 			config.requiresInterpolate = true;
 			break;
 
+	// Atomic Memory Functions
+		case ast::expr::Intrinsic::eAtomicAddI:
+		case ast::expr::Intrinsic::eAtomicAddU:
+		case ast::expr::Intrinsic::eAtomicMinI:
+		case ast::expr::Intrinsic::eAtomicMinU:
+		case ast::expr::Intrinsic::eAtomicMaxI:
+		case ast::expr::Intrinsic::eAtomicMaxU:
+		case ast::expr::Intrinsic::eAtomicAndI:
+		case ast::expr::Intrinsic::eAtomicAndU:
+		case ast::expr::Intrinsic::eAtomicOrI:
+		case ast::expr::Intrinsic::eAtomicOrU:
+		case ast::expr::Intrinsic::eAtomicXorI:
+		case ast::expr::Intrinsic::eAtomicXorU:
+		case ast::expr::Intrinsic::eAtomicExchangeI:
+		case ast::expr::Intrinsic::eAtomicExchangeU:
+		case ast::expr::Intrinsic::eAtomicCompSwapI:
+		case ast::expr::Intrinsic::eAtomicCompSwapU:
+			config.requiresInterlockedOperations = true;
+			break;
+
 
 	//Shader Subgroup Functions
 		case ast::expr::Intrinsic::eSubgroupElect:
