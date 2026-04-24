@@ -119,6 +119,11 @@ namespace hlsl
 			{
 				throw UnsupportedExtensionException{ "Unsupported SV_SampleIndex for this shader model" };
 			}
+
+			if ( intrinsicsConfig.requiresInterlockedOperations && writerConfig.shaderModel < hlsl::v5_0 )
+			{
+				throw UnsupportedExtensionException{ "Unsupported Interlocked operations for this shader model" };
+			}
 		}
 	}
 
