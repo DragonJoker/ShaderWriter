@@ -1282,14 +1282,14 @@ namespace hlsl
 			{
 				doAppendLineEnd();
 				m_result += "\n";
-				if ( !m_allowSingleLineCompound || stmt->size() > 1u )
+				if ( !m_allowSingleLineCompound || stmt->size() != 1u )
 					m_result += m_indent + "{\n";
 				auto save = m_indent;
 				m_indent += "\t";
 				visitContainerStmt( stmt );
 				m_indent = save;
 
-				if ( !m_allowSingleLineCompound || stmt->size() > 1u )
+				if ( !m_allowSingleLineCompound || stmt->size() != 1u )
 				{
 					if ( m_appendSemiColon )
 						m_result += m_indent + "};\n";
