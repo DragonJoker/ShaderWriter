@@ -819,6 +819,8 @@ namespace glsl
 			void visitVariableDeclStmt( ast::stmt::VariableDecl const * stmt )override
 			{
 				checkType( stmt->getVariable()->getType(), m_result );
+				if ( stmt->getVariable()->isShared() )
+					m_result.requiredExtensions.insert( ARB_compute_shader );
 			}
 
 			void visitWhileStmt( ast::stmt::While const * stmt )override
