@@ -182,7 +182,7 @@ namespace test::sdw_test
 		{
 			std::string result;
 
-			if ( compilers.hlsl
+			if ( compilers.hlsl.enable
 				&& !isRayTraceStage( stage )
 				&& !isMeshStage( stage )
 				&& requiredExtensions.contains( spirv::KHR_terminate_invocation )
@@ -209,7 +209,7 @@ namespace test::sdw_test
 		{
 			std::string result;
 
-			if ( compilers.glsl
+			if ( compilers.glsl.enable
 				&& requiredExtensions.contains( spirv::KHR_terminate_invocation ) )
 			{
 				result = sdw_test::validateSpirVToGlsl( spirv, stage, testCounts, true );
@@ -408,7 +408,11 @@ namespace test::sdw_test
 #if SDW_HasCompilerSpirV
 
 			if ( testCounts.isSpirVInitialised( infoIndex )
-				&& !testCounts.isSpvIgnored( infoIndex, compilers.ignoredSpv ) )
+				&& !testCounts.isSpvIgnored( infoIndex, compilers.spirV.ignoredSpv )
+				&& testCounts.isSpvRequested( infoIndex, compilers.spirV.requestedSpv )
+				&& testCounts.isVulkanRequested( infoIndex, compilers.spirV.requestedVulkan )
+				&& ( compilers.spirV.requestedDebugLevel == ~0u
+					|| compilers.spirV.requestedDebugLevel == uint32_t( debugLevel ) ) )
 			{
 				auto validate = [&]( bool availableExtensions )
 					{
@@ -582,7 +586,7 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
-		if ( compilers.spirV )
+		if ( compilers.spirV.enable )
 		{
 			auto count = testCounts.getSpirvInfosSize();
 			for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )
@@ -623,7 +627,7 @@ namespace test::sdw_test
 		, sdw_test::TestCounts & testCounts )
 	{
 #if SDW_Test_HasVulkan && SDW_HasVulkanLayer
-		if ( compilers.spirV )
+		if ( compilers.spirV.enable )
 		{
 			auto count = testCounts.getSpirvInfosSize();
 			for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )

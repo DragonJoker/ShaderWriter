@@ -69,6 +69,9 @@ namespace ast::vk
 #	elif VK_KHR_buffer_device_address
 		case VK_ERROR_INVALID_OPAQUE_CAPTURE_ADDRESS_KHR: stream << "vk_error_invalid_opaque_capture_address"; break;
 #	endif
+#	if VK_EXT_full_screen_exclusive
+		case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT: stream << "vk_error_full_screen_exclusive_mode_lost"; break;
+#	endif
 #endif
 #if VK_KHR_surface
 		case VK_ERROR_SURFACE_LOST_KHR: stream << "vk_error_surface_lost"; break;
@@ -96,9 +99,6 @@ namespace ast::vk
 #endif
 #if VK_EXT_global_priority
 		case VK_ERROR_NOT_PERMITTED_EXT: stream << "vk_error_not_permitted"; break;
-#endif
-#if VK_EXT_full_screen_exclusive
-		case VK_ERROR_FULL_SCREEN_EXCLUSIVE_MODE_LOST_EXT: stream << "vk_error_full_screen_exclusive_mode_lost"; break;
 #endif
 #if VK_EXT_pipeline_creation_cache_control && VK_EXT_PIPELINE_CREATION_CACHE_CONTROL_SPEC_VERSION >= 3
 		case VK_PIPELINE_COMPILE_REQUIRED_EXT: stream << "vk_pipeline_compile_required"; break;
@@ -129,6 +129,9 @@ namespace ast::vk
 #if VK_KHR_pipeline_binary
 		case VK_PIPELINE_BINARY_MISSING_KHR: stream << "The application attempted to create a pipeline binary by querying an internal cache, but the internal cache entry did not exist"; break;
 		case VK_ERROR_NOT_ENOUGH_SPACE_KHR: stream << "The application did not provide enough space to return all the required data"; break;
+#endif
+#if VK_EXT_present_timing
+		case VK_ERROR_PRESENT_TIMING_QUEUE_FULL_EXT: stream << "A present operation on a swapchain created with VK_SWAPCHAIN_CREATE_PRESENT_TIMING_BIT_EXT failed due to insufficient space in the swapchain’s internal results queue to hold requested present timing data."; break;
 #endif
 		case VK_RESULT_MAX_ENUM: stream << "vk_result_max_enum"; break;
 		}

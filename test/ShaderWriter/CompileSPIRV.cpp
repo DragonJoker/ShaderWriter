@@ -93,17 +93,14 @@ namespace test
 			std::vector<VkExtensionProperties> instanceExtensions{};
 		};
 
-		struct Info
+		struct Context
 		{
-			Info( uint32_t papiVersion
-				, uint32_t pspvVersion )
+			Context( uint32_t papiVersion )
 				: apiVersion{ papiVersion }
-				, spvVersion{ pspvVersion }
 			{
 			}
 
 			uint32_t apiVersion;
-			uint32_t spvVersion;
 			std::vector< const char * > instanceLayerNames{};
 			std::vector< const char * > instanceExtensionNames{};
 			std::vector< LayerProperties > instanceLayerProperties{};
@@ -123,6 +120,21 @@ namespace test
 			bool compiling{};
 			bool canCompile{ true };
 			std::vector< std::string > errors{};
+		};
+
+		using ContextPtr = std::unique_ptr< Context >;
+
+		struct Info
+		{
+			Info( uint32_t pspvVersion
+				, Context * pcontext )
+				: spvVersion{ pspvVersion }
+				, context{ pcontext }
+			{
+			}
+
+			uint32_t spvVersion;
+			Context * context;
 		};
 
 		using InfoPtr = std::unique_ptr< Info >;
@@ -210,11 +222,11 @@ namespace test
 				}
 			}
 
-			auto info = reinterpret_cast< Info * >( pUserData );
+			auto context = reinterpret_cast< Context * >( pUserData );
 
-			if ( info->compiling && isError )
+			if ( context->compiling && isError )
 			{
-				info->errors.push_back( stream.str() );
+				context->errors.push_back( stream.str() );
 			}
 			else
 			{
@@ -294,7 +306,7 @@ namespace test
 			return res;
 		}
 
-		VkResult initGlobalLayerProperties( Info & info )
+		VkResult initGlobalLayerProperties( Context & info )
 		{
 			uint32_t instanceLayerCount;
 			std::vector< VkLayerProperties > layersProps;
@@ -357,7 +369,7 @@ namespace test
 				} ) );
 		}
 
-		bool createInstance( Info & info )
+		bool createInstance( Context & info )
 		{
 			initGlobalLayerProperties( info );
 			info.instanceLayerNames.push_back( "VK_LAYER_KHRONOS_validation" );
@@ -466,7 +478,7 @@ namespace test
 			return res == VK_SUCCESS;
 		}
 
-		bool createDevice( Info & info )
+		bool createDevice( Context & info )
 		{
 			uint32_t gpuCount = 1;
 			auto res = vkEnumeratePhysicalDevices( info.instance, &gpuCount, nullptr );
@@ -737,7 +749,7 @@ namespace test
 			return res == VK_SUCCESS;
 		}
 
-		bool createShaderModule( Info & info
+		bool createShaderModule( Context & info
 			, std::vector< uint32_t > const & spirv )
 		{
 #	if defined( WIN32 )
@@ -798,36 +810,35 @@ namespace test
 
 				for ( auto vkV : vkVersions )
 				{
-					if ( vkV <= maxApiVersion )
-					{
-						auto maxSpvVersion = getMaxSpvVersion( vkV );
+					if ( vkV > maxApiVersion )
+						break;
+					contexts.emplace_back( initialiseContext( vkV ) );
+					auto & context = *contexts.back();
 
-						for ( auto it = spvVersions.begin(); it != spvVersions.end(); ++it )
-						{
-							if ( *it <= maxSpvVersion )
-							{
-								infos.push_back( initialiseInfo( vkV, *it ) );
-							}
-						}
+					auto maxSpvVersion = getMaxSpvVersion( vkV );
+					for ( auto spvVersion : spvVersions )
+					{
+						if ( spvVersion > maxSpvVersion )
+							break;
+						infos.emplace_back( std::make_unique< Info >( spvVersion, &context ) );
 					}
 				}
 			}
 
 			~SPIRVContext()noexcept
 			{
-				for ( auto & info : infos )
+				for ( auto & context : contexts )
 				{
-					if ( info )
+					if ( context )
 					{
-						vkDestroyDevice( info->device, nullptr );
+						vkDestroyDevice( context->device, nullptr );
 					}
 				}
 			}
 
-			static InfoPtr initialiseInfo( uint32_t apiVersion
-				, uint32_t spvVersion )
+			static ContextPtr initialiseContext( uint32_t apiVersion )
 			{
-				auto result = std::make_unique< Info >( apiVersion, spvVersion );
+				auto result = std::make_unique< Context >( apiVersion );
 
 				if ( createInstance( *result )
 					&& !createDevice( *result ) )
@@ -842,6 +853,7 @@ namespace test
 				return result;
 			}
 
+			std::vector< ContextPtr > contexts;
 			std::vector< InfoPtr > infos;
 		};
 	}
@@ -856,8 +868,8 @@ namespace test
 		, uint32_t infoIndex )
 	{
 		return retrieveInfo( testCounts, infoIndex )
-			&& retrieveInfo( testCounts, infoIndex )->instance
-			&& retrieveInfo( testCounts, infoIndex )->device;
+			&& retrieveInfo( testCounts, infoIndex )->context->instance
+			&& retrieveInfo( testCounts, infoIndex )->context->device;
 	}
 
 	uint32_t retrieveVulkanVersion( sdw_test::TestCounts const & testCounts
@@ -865,7 +877,7 @@ namespace test
 	{
 		auto info = retrieveInfo( testCounts, infoIndex );
 		return info
-			? info->apiVersion
+			? info->context->apiVersion
 			: 0u;
 	}
 
@@ -940,14 +952,14 @@ namespace test
 		, uint32_t infoIndex
 		, FuncT func )
 	{
-		auto & info = *retrieveInfo( testCounts, infoIndex );
-		info.compiling = true;
+		Info & info = *retrieveInfo( testCounts, infoIndex );
+		info.context->compiling = true;
 		auto result = func();
-		info.compiling = false;
+		info.context->compiling = false;
 
-		if ( !info.errors.empty() )
+		if ( !info.context->errors.empty() )
 		{
-			auto errorsList = std::move( info.errors );
+			auto errorsList = std::move( info.context->errors );
 
 			if ( errorsList.size() == 1u )
 			{
@@ -989,7 +1001,7 @@ namespace test
 				, [&]()
 				{
 					auto info = retrieveInfo( testCounts, infoIndex );
-					return createShaderModule( *info, spirv );
+					return createShaderModule( *info->context, spirv );
 				} );
 		}
 		catch ( std::exception & exc )
@@ -1302,7 +1314,7 @@ namespace test
 	{
 		ast::vk::BuilderContext result
 		{
-			retrieveInfo( testCounts, infoIndex )->device,
+			retrieveInfo( testCounts, infoIndex )->context->device,
 			nullptr,
 			nullptr,
 			vkCreateGraphicsPipelines,
@@ -1431,12 +1443,12 @@ namespace test
 		auto info = retrieveInfo( testCounts, infoIndex );
 		auto find = [&info]( std::string_view name )
 			{
-				auto it = std::find_if( info->deviceExtensionNames.begin(), info->deviceExtensionNames.end()
+				auto it = std::find_if( info->context->deviceExtensionNames.begin(), info->context->deviceExtensionNames.end()
 					, [&name]( const char * lookup )
 					{
 						return name == std::string_view{ lookup };
 					} );
-				return it != info->deviceExtensionNames.end();
+				return it != info->context->deviceExtensionNames.end();
 			};
 
 		if ( config.specVersion >= spirv::v1_6 )

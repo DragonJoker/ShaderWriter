@@ -22,17 +22,27 @@
 #	define ForceDisplayShaders false
 #endif
 
-#define Compilers_None { true, false, false, false, ForceDisplayShaders }
-#define Compilers_GLSL { false, false, false, true, ForceDisplayShaders }
-#define Compilers_HLSL { false, false, true, false, ForceDisplayShaders }
-#define Compilers_SPIRV { false, true, false, false, ForceDisplayShaders }
+#define MakeSPVVersion( major, minor ) uint32_t( ( uint32_t( major ) << 16u ) | ( uint32_t( minor ) << 8u ) )
+#define MakeVkVersion( major, minor ) uint32_t( ( uint32_t( major ) << 22 ) | ( uint32_t( minor ) << 12 ) )
+#define MakeHLSLVersion( major, minor ) uint32_t( ( uint32_t( major ) * 10 ) + uint32_t( minor ) )
+#define MakeGLSLVersion( major, minor ) uint32_t( ( uint32_t( major ) * 100 ) + ( uint32_t( minor ) * 10 ) )
 
-#define Compilers_NoGLSL { true, true, true, false, ForceDisplayShaders }
-#define Compilers_NoHLSL { true, true, false, true, ForceDisplayShaders }
-#define Compilers_NoSPIRV { true, false, true, true, ForceDisplayShaders }
+#define Compilers_None { true, { false, 0u, 0u, 0u, 2u }, { false, 0u }, { false, 0u }, ForceDisplayShaders }
+#define Compilers_GLSL { false, { false, 0u, 0u, 0u, 2u }, { false, 0u }, { true, 0u }, ForceDisplayShaders }
+#define Compilers_HLSL { false, { false, 0u, 0u, 0u, 2u }, { true, 0u }, { false, 0u }, ForceDisplayShaders }
+#define Compilers_SPIRV { false, { true, 0u, 0u, 0u, 2u }, { false, 0u }, { false, 0u }, ForceDisplayShaders }
 
-#define Compilers_All { true, true, true, true, ForceDisplayShaders }
-#define Compilers_AllButSpv16 { true, true, true, true, ForceDisplayShaders, 0x00010600u }
+#define Compilers_NoGLSL { true, { true, 0u, 0u, 0u, 2u }, { true, 0u }, { false, 0u }, ForceDisplayShaders }
+#define Compilers_NoHLSL { true, { true, 0u, 0u, 0u, 2u }, { false, 0u }, { true, 0u }, ForceDisplayShaders }
+#define Compilers_NoSPIRV { true, { false, 0u, 0u, 0u, 2u }, { true, 0u }, { true, 0u }, ForceDisplayShaders }
+
+#define Compilers_All { true, { true, 0u, 0u, 0u, 2u }, { true, 0u }, true, ForceDisplayShaders }
+
+#define Compilers_AllButSPIRVVersion( major, minor ) { true, { true, MakeSPVVersion( major, minor ), 0u, 0u, 2u }, { true, 0u }, { true, 0u }, ForceDisplayShaders }
+#define Compilers_AllButSPIRV16 Compilers_AllButSPIRVVersion( 1, 6 )
+#define Compilers_OnlyOneSPIRV( vkMajor, vkMinor, spvMajor, spvMinor, debugLevel ) { false, { true, 0u, MakeSPVVersion( spvMajor, spvMinor ), MakeVkVersion( vkMajor, vkMinor ), debugLevel }, { false, 0u }, { false, 0u }, ForceDisplayShaders }
+#define Compilers_OnlyOneHLSL( major, minor ) { false, { false, 0u, 0u, 0u, 2u }, { true, MakeHLSLVersion( major, minor ) }, { false, 0u }, ForceDisplayShaders }
+#define Compilers_OnlyOneGLSL( major, minor ) { false, { false, 0u, 0u, 0u, 2u }, { false, 0u }, { true, MakeGLSLVersion( major, minor ) }, ForceDisplayShaders }
 
 #ifndef CurrentCompilers
 #	define CurrentCompilers Compilers_All
@@ -82,16 +92,20 @@ namespace test
 			SDWTest_API void printError( std::string const & text )override;
 
 			SDWTest_API bool isSpirVInitialised( uint32_t infoIndex )const;
-			SDWTest_API bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const;
+			SDWTest_API bool isSpvIgnored( uint32_t infoIndex, uint32_t ignoredVersion )const;
+			SDWTest_API bool isSpvRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
+			SDWTest_API bool isVulkanRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
 			SDWTest_API uint32_t getVulkanVersion( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getSpirVVersion( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getSpirvInfosSize()const;
 
 			SDWTest_API bool isHlslInitialised( uint32_t infoIndex )const;
+			SDWTest_API bool isHlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
 			SDWTest_API uint32_t getHlslVersion( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getHlslInfosSize()const;
 
 			SDWTest_API bool isGlslInitialised( uint32_t infoIndex )const;
+			SDWTest_API bool isGlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const;
 			SDWTest_API uint32_t getGlslVersion( uint32_t infoIndex )const;
 			SDWTest_API uint32_t getGlslInfosSize()const;
 
@@ -143,14 +157,34 @@ namespace test
 		SDWTest_API int testsMain( int argc, char ** argv, std::string_view testSuiteName );
 	}
 
+	struct SpirvCompiler
+	{
+		bool enable;
+		uint32_t ignoredSpv{};
+		uint32_t requestedSpv{};
+		uint32_t requestedVulkan{};
+		uint32_t requestedDebugLevel{ ~0u };
+	};
+
+	struct HlslCompiler
+	{
+		bool enable;
+		uint32_t requestedModel{};
+	};
+
+	struct GlslCompiler
+	{
+		bool enable;
+		uint32_t requestedVersion{};
+	};
+
 	struct Compilers
 	{
 		bool debug;
-		bool spirV;
-		bool hlsl;
-		bool glsl;
+		SpirvCompiler spirV;
+		HlslCompiler hlsl;
+		GlslCompiler glsl;
 		bool forceDisplay;
-		uint32_t ignoredSpv{};
 	};
 
 	std::string printVkVersion( uint32_t vkVersion );

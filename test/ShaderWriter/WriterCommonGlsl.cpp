@@ -7,6 +7,11 @@ namespace test::sdw_test
 {
 	namespace glsl_test
 	{
+		static std::string printGlslVersion( uint32_t version )
+		{
+			return std::to_string( version );
+		}
+
 		static std::string generateGlsl( ::ast::Shader const & shader
 			, ::ast::PreprocessResult & preprocessResult
 			, ::ast::ShaderStage stage
@@ -31,6 +36,9 @@ namespace test::sdw_test
 			, uint32_t infoIndex )
 		{
 #if SDW_HasCompilerGlsl
+
+			if ( !testCounts.isGlslRequested( infoIndex, compilers.glsl.requestedVersion ) )
+				return;
 
 			auto validate = [&]()
 				{
@@ -102,14 +110,14 @@ namespace test::sdw_test
 					}
 
 					if ( !isCompiled )
-						testCounts.printError( printShader( "GLSL", glsl, true ) + errors );
+						testCounts.printError( printShader( "GLSL " + printGlslVersion( testCounts.getGlslVersion( infoIndex ) ), glsl, true ) + errors );
 
 					if ( isCompiled && compilers.forceDisplay )
 					{
-						testCounts.printBlock( printShader( "GLSL", glsl, true ) );
+						testCounts.printBlock( printShader( "GLSL " + printGlslVersion( testCounts.getGlslVersion( infoIndex ) ), glsl, true ) );
 					}
 				};
-			astOn( "GLSL version " + std::to_string( testCounts.getGlslVersion( infoIndex ) ) );
+			astOn( "GLSL " + printGlslVersion( testCounts.getGlslVersion( infoIndex ) ) );
 			astCheckNoThrow( validate() )
 
 #endif
@@ -123,7 +131,7 @@ namespace test::sdw_test
 		, Compilers const & compilers
 		, sdw_test::TestCounts & testCounts )
 	{
-		if ( compilers.glsl )
+		if ( compilers.glsl.enable )
 		{
 			auto count = testCounts.getGlslInfosSize();
 			for ( uint32_t infoIndex = 0u; infoIndex < count; ++infoIndex )

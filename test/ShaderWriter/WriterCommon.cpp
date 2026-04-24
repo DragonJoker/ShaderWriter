@@ -188,9 +188,21 @@ namespace test
 			return retrieveIsSpirVInitialised( *this, infoIndex );
 		}
 
-		bool TestCounts::isSpvIgnored( uint32_t infoIndex, uint32_t ignoredSpvVersion )const
+		bool TestCounts::isSpvIgnored( uint32_t infoIndex, uint32_t ignoredVersion )const
 		{
-			return retrieveSPIRVVersion( *this, infoIndex ) == ignoredSpvVersion;
+			return retrieveSPIRVVersion( *this, infoIndex ) == ignoredVersion;
+		}
+
+		bool TestCounts::isSpvRequested( uint32_t infoIndex, uint32_t requestedVersion )const
+		{
+			return requestedVersion == 0u
+				|| retrieveSPIRVVersion( *this, infoIndex ) == requestedVersion;
+		}
+
+		bool TestCounts::isVulkanRequested( uint32_t infoIndex, uint32_t requestedVersion )const
+		{
+			return requestedVersion == 0u
+				|| retrieveVulkanVersion( *this, infoIndex ) == requestedVersion;
 		}
 
 		uint32_t TestCounts::getVulkanVersion( uint32_t infoIndex )const
@@ -213,6 +225,12 @@ namespace test
 			return retrieveIsHLSLInitialised( *this, infoIndex );
 		}
 
+		bool TestCounts::isHlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const
+		{
+			return requestedVersion == 0u
+				|| retrieveHLSLVersion( *this, infoIndex ) == requestedVersion;
+		}
+
 		uint32_t TestCounts::getHlslVersion( uint32_t infoIndex )const
 		{
 			return retrieveHLSLVersion( *this, infoIndex );
@@ -226,6 +244,12 @@ namespace test
 		bool TestCounts::isGlslInitialised( uint32_t infoIndex )const
 		{
 			return retrieveIsGLSLInitialised( *this, infoIndex );
+		}
+
+		bool TestCounts::isGlslRequested( uint32_t infoIndex, uint32_t requestedVersion )const
+		{
+			return requestedVersion == 0u
+				|| retrieveGLSLVersion( *this, infoIndex ) == requestedVersion;
 		}
 
 		uint32_t TestCounts::getGlslVersion( uint32_t infoIndex )const

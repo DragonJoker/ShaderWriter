@@ -303,8 +303,11 @@ namespace test::sdw_test
 		, Compilers const & compilers )
 	{
 #if SDW_HasCompilerSpirV
-		if ( compilers.spirV
-			&& testCounts.isSpirVInitialised( infoIndex ) )
+		if ( compilers.spirV.enable
+			&& testCounts.isSpirVInitialised( infoIndex )
+			&& !testCounts.isSpvIgnored( infoIndex, compilers.spirV.ignoredSpv )
+			&& testCounts.isSpvRequested( infoIndex, compilers.spirV.requestedSpv )
+			&& testCounts.isVulkanRequested( infoIndex, compilers.spirV.requestedVulkan ) )
 		{
 			astOn( "Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 				+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) );
@@ -352,8 +355,11 @@ namespace test::sdw_test
 		, Compilers const & compilers )
 	{
 #if SDW_HasCompilerSpirV
-		if ( compilers.spirV
-			&& testCounts.isSpirVInitialised( infoIndex ) )
+		if ( compilers.spirV.enable
+			&& testCounts.isSpirVInitialised( infoIndex )
+			&& !testCounts.isSpvIgnored( infoIndex, compilers.spirV.ignoredSpv )
+			&& testCounts.isSpvRequested( infoIndex, compilers.spirV.requestedSpv )
+			&& testCounts.isVulkanRequested( infoIndex, compilers.spirV.requestedVulkan ) )
 		{
 			astOn( "Vulkan " + printVkVersion( testCounts.getVulkanVersion( infoIndex ) )
 				+ " - SPIR-V " + printSpvVersion( testCounts.getSpirVVersion( infoIndex ) ) );
