@@ -87,15 +87,9 @@ namespace ast
 
 	void StmtCloner::visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )
 	{
-		auto save = m_current;
-		auto cont = m_stmtCache.makeConstantBufferDecl( stmt->getName()
-			, stmt->getMemoryLayout()
+		m_current->addStmt( m_stmtCache.makeConstantBufferDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
-		m_current = cont.get();
-		visitContainerStmt( stmt );
-		m_current = save;
-		m_current->addStmt( std::move( cont ) );
+			, stmt->getDescriptorSet() ) );
 	}
 
 	void StmtCloner::visitDemoteStmt( stmt::Demote const * stmt )
@@ -353,21 +347,7 @@ namespace ast
 
 	void StmtCloner::visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )
 	{
-		auto save = m_current;
-		auto cont = m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
-			, stmt->getBindingPoint()
-			, stmt->getDescriptorSet() );
-		m_current = cont.get();
-		visitContainerStmt( stmt );
-		m_current = save;
-		m_current->addStmt( std::move( cont ) );
-	}
-
-	void StmtCloner::visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )
-	{
-		m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
-			, stmt->getSsboInstance()
-			, stmt->getData()
+		m_current->addStmt( m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
 			, stmt->getBindingPoint()
 			, stmt->getDescriptorSet() ) );
 	}

@@ -1011,6 +1011,24 @@ namespace spirv
 				, arrayStride
 				, debugStatement );
 		}
+		else if ( type->getRawKind() == ast::type::Kind::eUniformBuffer )
+		{
+			auto & inputType = static_cast< ast::type::UniformBuffer const & >( *type );
+			result = doRegisterTypeRec( inputType.getDataType()
+				, mbrIndex
+				, parentId
+				, arrayStride
+				, debugStatement );
+		}
+		else if ( type->getRawKind() == ast::type::Kind::eStorageBuffer )
+		{
+			auto & inputType = static_cast< ast::type::StorageBuffer const & >( *type );
+			result = doRegisterTypeRec( inputType.getDataType()
+				, mbrIndex
+				, parentId
+				, arrayStride
+				, debugStatement );
+		}
 		else
 		{
 			result = doRegisterNonArrayType( type

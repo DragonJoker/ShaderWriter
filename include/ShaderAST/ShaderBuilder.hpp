@@ -131,6 +131,17 @@ namespace ast
 			, uint32_t binding
 			, uint32_t set
 			, bool enabled = true );
+		SDAST_API var::VariablePtr registerUniformBuffer( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		SDAST_API var::VariablePtr registerStorageBuffer( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, var::Flag flag = var::Flag::eStorageBuffer
+			, bool enabled = true );
 		SDAST_API var::VariablePtr registerInput( EntryPoint entryPoint
 			, std::string name
 			, uint32_t location
@@ -168,7 +179,7 @@ namespace ast
 		SDAST_API void registerUbo( std::string name
 			, UboInfo const & info )const;
 		SDAST_API void registerPcb( std::string name
-			, InterfaceBlock const & info )const;
+			, PcbInfo const & info )const;
 		SDAST_API void registerShaderRecord( std::string name
 			, ShaderRecordInfo const & info )const;
 		SDAST_API expr::ExprPtr getDummyExpr( type::TypePtr type )const;

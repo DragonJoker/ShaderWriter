@@ -461,7 +461,6 @@ namespace ast
 		class SampledImageDecl;
 		class SamplerDecl;
 		class ShaderBufferDecl;
-		class ShaderStructBufferDecl;
 		class Simple;
 		class SpecialisationConstantDecl;
 		class StructureDecl;
@@ -520,7 +519,6 @@ namespace ast
 		using SampledImageDeclPtr = StmtPtrT< SampledImageDecl >;
 		using SamplerDeclPtr = StmtPtrT< SamplerDecl >;
 		using ShaderBufferDeclPtr = StmtPtrT< ShaderBufferDecl >;
-		using ShaderStructBufferDeclPtr = StmtPtrT< ShaderStructBufferDecl >;
 		using SimplePtr = StmtPtrT< Simple >;
 		using SpecialisationConstantDeclPtr = StmtPtrT< SpecialisationConstantDecl >;
 		using StructureDeclPtr = StmtPtrT< StructureDecl >;

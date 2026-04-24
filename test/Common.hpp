@@ -336,6 +336,10 @@ inline std::string toString( ast::type::Kind const & v )
 		return "TaskPayloadInNV";
 	case ast::type::Kind::eTaskPayloadIn:
 		return "TaskPayloadIn";
+	case ast::type::Kind::eUniformBuffer:
+		return "UniformBuffer";
+	case ast::type::Kind::eStorageBuffer:
+		return "StorageBuffer";
 	default:
 		return "Unknown";
 	}
@@ -492,8 +496,6 @@ inline std::string toString( ast::stmt::Kind const & v )
 		return "PushConstantsBufferDecl";
 	case ast::stmt::Kind::eShaderBufferDecl:
 		return "ShaderBufferDecl";
-	case ast::stmt::Kind::eShaderStructBufferDecl:
-		return "ShaderStructBufferDecl";
 	case ast::stmt::Kind::eSamplerDecl:
 		return "SamplerDecl";
 	case ast::stmt::Kind::eImageDecl:

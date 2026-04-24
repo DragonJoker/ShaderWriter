@@ -13,34 +13,18 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	class UniformBuffer
+	struct UniformBuffer
+		: public Value
 	{
-	public:
+		SDW_DeclValue( SDW_INL_API, UniformBuffer );
+
 		SDW_API UniformBuffer( ShaderWriter & writer
-			, std::string const & blockName
-			, std::string variableName
-			, uint32_t bind
-			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, expr::ExprPtr expr
 			, bool enabled = true );
-		UniformBuffer( ShaderWriter & writer
-			, std::string const & name
-			, uint32_t bind
-			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
-			, bool enabled = true );
-		UniformBuffer( ShaderWriter & writer
-			, std::string const & blockName
-			, std::string variableName
-			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
-			, bool enabled = true );
-		UniformBuffer( ShaderWriter & writer
-			, std::string const & name
-			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
-			, bool enabled = true );
-		SDW_API void end();
+
+		SDW_INL_API void end()
+		{
+		}
 
 		SDW_API StructInstance declStructMember( std::string name
 			, Struct const & s
@@ -71,20 +55,17 @@ namespace sdw
 		Array< ValueT > getMemberArray( std::string_view name
 			, bool enabled = true )const;
 
-		bool isEnabled()const
-		{
-			return m_enabled;
-		}
+		SDW_API static ast::type::UniformBufferPtr makeType( ast::type::TypesCache & cache
+			, std::string const & name
+			, ast::type::MemoryLayout layout );
 
 	private:
-		ShaderWriter & m_writer;
+		SDW_API expr::ExprPtr makeMbrSelect( uint32_t mbrIndex )const;
+		SDW_API expr::ExprPtr makeMbrSelect( std::string_view name )const;
+
+	private:
 		ast::ShaderBuilder & m_builder;
-		stmt::ConstantBufferDeclPtr m_stmt;
-		std::string m_name;
-		ast::InterfaceBlock m_interface;
-		ast::UboInfo m_info;
-		var::VariablePtr m_var;
-		bool m_enabled;
+		ast::type::UniformBufferPtr m_buffer;
 	};
 
 #if SDW_EnableStructHelper
@@ -96,17 +77,16 @@ namespace sdw
 	{
 	public:
 		UniformBufferHelperT( ShaderWriter & writer
-			, std::string name
-			, uint32_t bind
-			, uint32_t set )
-			: StructHelperT< UniformBuffer, LayoutT, FieldsT... >{ writer, std::move( name ), bind, set, LayoutT }
+			, expr::ExprPtr expr
+			, bool enabled = true )
+			: StructHelperT< UniformBuffer, LayoutT, FieldsT... >{ writer, std::move( expr ), enabled }
 		{
 		}
-		UniformBufferHelperT( ShaderWriter & writer
-			, std::string name
-			, LocationHelper location )
-			: UniformBufferHelperT{ writer, std::move( name ), location.binding, location.set }
+
+		static ast::type::UniformBufferPtr makeType( ast::type::TypesCache & cache
+			, std::string const & name )
 		{
+			return UniformBuffer::makeType( cache, name, LayoutT );
 		}
 	};
 

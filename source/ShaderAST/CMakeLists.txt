@@ -259,7 +259,6 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Stmt/StmtSampledImageDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtSamplerDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtShaderBufferDecl.hpp
-	${INCLUDE_DIR}/Stmt/StmtShaderStructBufferDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtSimple.hpp
 	${INCLUDE_DIR}/Stmt/StmtSpecialisationConstantDecl.hpp
 	${INCLUDE_DIR}/Stmt/StmtStructureDecl.hpp
@@ -313,8 +312,7 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Stmt/StmtReturn.cpp
 	${SOURCE_DIR}/Stmt/StmtSampledImageDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtSamplerDecl.cpp
-	${SOURCE_DIR}/Stmt/StmtShaderBufferDecl.cpp
-	${SOURCE_DIR}/Stmt/StmtShaderStructBufferDecl.cpp
+	${SOURCE_DIR}/Stmt/StmtShaderBufferDecl.cpp	
 	${SOURCE_DIR}/Stmt/StmtSimple.cpp
 	${SOURCE_DIR}/Stmt/StmtSpecialisationConstantDecl.cpp
 	${SOURCE_DIR}/Stmt/StmtStructureDecl.cpp
@@ -362,10 +360,12 @@ set( ${PROJECT_NAME}_FOLDER_HEADER_FILES
 	${INCLUDE_DIR}/Type/TypeRayPayload.hpp
 	${INCLUDE_DIR}/Type/TypeSampledImage.hpp
 	${INCLUDE_DIR}/Type/TypeSampler.hpp
+	${INCLUDE_DIR}/Type/TypeStorageBuffer.hpp
 	${INCLUDE_DIR}/Type/TypeStruct.hpp
 	${INCLUDE_DIR}/Type/TypeTaskIO.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationControlIO.hpp
 	${INCLUDE_DIR}/Type/TypeTessellationEvaluationIO.hpp
+	${INCLUDE_DIR}/Type/TypeUniformBuffer.hpp
 )
 set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/ImageConfiguration.cpp
@@ -386,10 +386,12 @@ set( ${PROJECT_NAME}_FOLDER_SOURCE_FILES
 	${SOURCE_DIR}/Type/TypeRayPayload.cpp
 	${SOURCE_DIR}/Type/TypeSampledImage.cpp
 	${SOURCE_DIR}/Type/TypeSampler.cpp
+	${SOURCE_DIR}/Type/TypeStorageBuffer.cpp
 	${SOURCE_DIR}/Type/TypeStruct.cpp
 	${SOURCE_DIR}/Type/TypeTaskIO.cpp
 	${SOURCE_DIR}/Type/TypeTessellationControlIO.cpp
 	${SOURCE_DIR}/Type/TypeTessellationEvaluationIO.cpp
+	${SOURCE_DIR}/Type/TypeUniformBuffer.cpp
 )
 source_group( "Header Files\\Type"
 	FILES

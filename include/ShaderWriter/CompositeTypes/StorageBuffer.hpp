@@ -13,34 +13,18 @@ See LICENSE file in root folder
 
 namespace sdw
 {
-	class StorageBuffer
+	struct StorageBuffer
+		: public Value
 	{
-	public:
+		SDW_DeclValue( SDW_INL_API, StorageBuffer );
+
 		SDW_API StorageBuffer( ShaderWriter & writer
-			, std::string const & blockName
-			, std::string variableName
-			, uint32_t bind
-			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, expr::ExprPtr expr
 			, bool enabled = true );
-		StorageBuffer( ShaderWriter & writer
-			, std::string const & name
-			, uint32_t bind
-			, uint32_t set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true );
-		StorageBuffer( ShaderWriter & writer
-			, std::string const & blockName
-			, std::string variableName
-			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true );
-		StorageBuffer( ShaderWriter & writer
-			, std::string const & name
-			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true );
-		SDW_API void end();
+
+		SDW_INL_API void end()
+		{
+		}
 
 		SDW_API StructInstance declStructMember( std::string name
 			, Struct const & s
@@ -71,21 +55,18 @@ namespace sdw
 		Array< ValueT > getMemberArray( std::string_view name
 			, bool enabled = true )const;
 
-		bool isEnabled()const
-		{
-			return m_enabled;
-		}
+		SDW_API static ast::type::StorageBufferPtr makeType( ast::type::TypesCache & cache
+			, std::string const & name
+			, ast::type::MemoryLayout layout
+			, bool isArray );
 
 	private:
-		ShaderWriter & m_writer;
+		SDW_API expr::ExprPtr makeMbrSelect( uint32_t mbrIndex )const;
+		SDW_API expr::ExprPtr makeMbrSelect( std::string_view name )const;
+
+	private:
 		ast::ShaderBuilder & m_builder;
-		std::string m_name;
-		ast::InterfaceBlock m_interface;
-		ast::SsboInfo m_info;
-		bool m_redeclare;
-		var::VariablePtr m_var;
-		stmt::ShaderBufferDeclPtr m_stmt;
-		bool m_enabled;
+		ast::type::StorageBufferPtr m_buffer;
 	};
 
 #if SDW_EnableStructHelper
@@ -96,13 +77,18 @@ namespace sdw
 		: public StructHelperT< StorageBuffer, LayoutT, FieldsT... >
 	{
 	public:
-		StorageBufferHelperT( ShaderWriter & writer, const std::string & name, uint32_t bind, uint32_t set )
-			: StructHelperT< StorageBuffer, LayoutT, FieldsT... >{ writer, name, bind, set, LayoutT }
+		StorageBufferHelperT( ShaderWriter & writer
+			, expr::ExprPtr expr
+			, bool enabled = true )
+			: StructHelperT< StorageBuffer, LayoutT, FieldsT... >{ writer, std::move( expr ), enabled }
 		{
 		}
-		StorageBufferHelperT( ShaderWriter & writer, const std::string & name, LocationHelper location )
-			: StorageBufferHelperT{ writer, name, location.binding, location.set }
+
+		static ast::type::StorageBufferPtr makeType( ast::type::TypesCache & cache
+			, std::string const & name
+			, bool isArray )
 		{
+			return StorageBuffer::makeType( cache, name, LayoutT, isArray );
 		}
 	};
 

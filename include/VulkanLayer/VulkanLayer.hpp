@@ -7,7 +7,10 @@ See LICENSE file in root folder
 #define VK_NO_PROTOYPES
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
+#pragma warning( push )
+#pragma warning( disable: 4865 )
 #include <vulkan/vulkan.h>
+#pragma warning( pop )
 #pragma GCC diagnostic pop
 
 #include <ShaderAST/ShaderASTPrerequisites.hpp>

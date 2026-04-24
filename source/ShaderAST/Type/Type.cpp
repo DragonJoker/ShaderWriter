@@ -561,19 +561,22 @@ namespace ast::type
 			{
 				type = static_cast< type::TaskPayloadIn const & >( *type ).getType();
 			}
+			else if ( type->getRawKind() == type::Kind::eUniformBuffer )
+			{
+				type = static_cast< type::UniformBuffer const & >( *type ).getDataType();
+			}
+			else if ( type->getRawKind() == type::Kind::eStorageBuffer )
+			{
+				type = static_cast< type::StorageBuffer const & >( *type ).getDataType();
+			}
 			else
 			{
 				break;
 			}
 		}
 
-		if ( type->getRawKind() == type::Kind::eStruct
-			|| type->getRawKind() == type::Kind::eRayDesc )
-		{
-			return true;
-		}
-
-		return false;
+		return ( type->getRawKind() == type::Kind::eStruct
+			|| type->getRawKind() == type::Kind::eRayDesc );
 	}
 
 	bool isStructType( type::TypePtr type )

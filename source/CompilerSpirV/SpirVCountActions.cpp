@@ -430,10 +430,6 @@ namespace spirv
 			{
 			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-			}
-
 			void visitStructureDeclStmt( ast::stmt::StructureDecl const * stmt )override
 			{
 			}

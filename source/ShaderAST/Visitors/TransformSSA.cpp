@@ -1354,6 +1354,11 @@ namespace ast
 				StmtCloner::visitBufferReferenceDeclStmt( stmt );
 			}
 
+			void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
+			{
+				StmtCloner::visitConstantBufferDeclStmt( stmt );
+			}
+
 			void visitDispatchMeshStmt( stmt::DispatchMesh const * stmt )override
 			{
 				declareStruct( stmt->getPayload()->getType() );
@@ -1408,15 +1413,7 @@ namespace ast
 
 			void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override
 			{
-				declareStruct( stmt->getType() );
 				StmtCloner::visitShaderBufferDeclStmt( stmt );
-			}
-
-			void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				declareStruct( stmt->getSsboInstance()->getType() );
-				declareStruct( stmt->getData()->getType() );
-				StmtCloner::visitShaderStructBufferDeclStmt( stmt );
 			}
 
 			void visitStructureDeclStmt( stmt::StructureDecl const * stmt )override

@@ -561,7 +561,7 @@ namespace
 			auto fragUv = writer.declOutput<Vec2>( "fragUv", 0 );
 			auto fragCol = writer.declOutput<Vec4>( "fragCol", 1 );
 
-			ArrayStorageBufferT< Mat4 > ssbo{ writer, "ssbo", Mat4::makeType( writer.getTypesCache() ), ast::type::MemoryLayout::eStd430, 1, 0, true };
+			auto ssbo = writer.declArrayStorageBuffer< Mat4 >( "ssbo", 1, 0, true );
 
 			PushConstantBuffer pcb = writer.declPushConstantsBuffer( "pcb" );
 			pcb.declMember<Int>( "firstMatrix" );
@@ -708,13 +708,13 @@ namespace
 		{
 			auto writer = sdw::VertexWriter{ &testCounts.allocator };
 
-			auto camera = sdw::UniformBuffer{ writer, "camera", 0, 0 };
+			auto camera = sdw::UniformBuffer{ writer.declUniformBuffer( "camera", 0, 0 ) };
 			camera.declMember<sdw::Vec4>( "camera_position" );
 			camera.declMember<sdw::Mat4>( "camera_projection" );
 			camera.declMember<sdw::Mat4>( "camera_view" );
 			camera.end();
 
-			auto transform = sdw::UniformBuffer{ writer, "transform", 1, 0 };
+			auto transform = sdw::UniformBuffer{ writer.declUniformBuffer( "transform", 1, 0 ) };
 			transform.declMember<sdw::Mat4>( "transform_model" );
 			transform.declMember<sdw::Mat4>( "transform_inverted_model" );
 			transform.end();
@@ -744,7 +744,7 @@ namespace
 		{
 			auto writer = sdw::FragmentWriter{ &testCounts.allocator };
 
-			auto camera = sdw::UniformBuffer{ writer, "camera", 0, 0 };
+			auto camera = sdw::UniformBuffer{ writer.declUniformBuffer( "camera", 0, 0 ) };
 			camera.declMember<sdw::Vec4>( "position" );
 			camera.declMember<sdw::Mat4>( "projection" );
 			camera.declMember<sdw::Mat4>( "view" );
@@ -895,7 +895,7 @@ namespace
 		{
 			sdw::VertexWriter writer{ &testCounts.allocator };
 
-			sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
+			sdw::UniformBuffer myUbo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 			auto mvp = myUbo.declMember< sdw::Mat4 >( "mvp" );
 			myUbo.end();
 
@@ -950,7 +950,7 @@ namespace
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
 
-			UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			sdw::UniformBuffer voxelizeUbo{ writer.declUniformBuffer( "VoxelizeUbo", 0u, 0u ) };
 			auto mvp = voxelizeUbo.declMember< Mat4 >( "mvp" );
 			voxelizeUbo.end();
 
@@ -1027,7 +1027,7 @@ namespace
 		{
 			sdw::GeometryWriter writer{ &testCounts.allocator };
 
-			sdw::UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			sdw::UniformBuffer voxelizeUbo{ writer.declUniformBuffer( "VoxelizeUbo", 0u, 0u ) };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
 			auto c3d_vpY = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpY" );
 			auto c3d_vpZ = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpZ" );
@@ -1152,7 +1152,7 @@ namespace
 
 			auto pxl_voxelVisibility = writer.declStorageImg< WUImg3DR8 >( "pxl_voxelVisibility", 1u, 1u );
 
-			sdw::UniformBuffer voxelizeUbo{ writer, "VoxelizeUbo", 0u, 0u };
+			sdw::UniformBuffer voxelizeUbo{ writer.declUniformBuffer( "VoxelizeUbo", 0u, 0u ) };
 			auto c3d_vpX = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpX" );
 			auto c3d_vpY = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpY" );
 			auto c3d_vpZ = voxelizeUbo.declMember< sdw::Mat4 >( "c3d_vpZ" );
@@ -1234,7 +1234,7 @@ namespace
 		{
 			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
-			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer.declUniformBuffer( "Wow", 0u, 0u ) };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
@@ -1372,7 +1372,7 @@ namespace
 		{
 			sdw::TessellationEvaluationWriter writer{ &testCounts.allocator };
 
-			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer.declUniformBuffer( "Wow", 0u, 0u ) };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
@@ -1534,7 +1534,7 @@ namespace
 
 			// Inputs
 			auto position = writer.declInput< Vec3 >( "position", 0u );
-			UniformBuffer matrix{ writer, "Matrix", 0u, 0u };
+			sdw::UniformBuffer matrix{ writer.declUniformBuffer( "Matrix", 0u, 0u ) };
 			auto c3d_viewProjection = matrix.declMember< Mat4 >( "c3d_viewProjection" );
 			matrix.end();
 

@@ -1382,26 +1382,9 @@ namespace glsl
 			{
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
-				{
 					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
-				}
 
-				if ( m_adaptationData.writerConfig.hasDescriptorSets )
-				{
-					ast::StmtCloner::visitConstantBufferDeclStmt( stmt );
-				}
-				else
-				{
-					auto save = m_current;
-					auto cont = m_stmtCache.makeConstantBufferDecl( stmt->getName()
-						, stmt->getMemoryLayout()
-						, stmt->getBindingPoint()
-						, InvalidIndex );
-					m_current = cont.get();
-					visitContainerStmt( stmt );
-					m_current = save;
-					m_current->addStmt( std::move( cont ) );
-				}
+				ast::StmtCloner::visitConstantBufferDeclStmt( stmt );
 			}
 
 			void visitFunctionDeclStmt( ast::stmt::FunctionDecl const * stmt )override
@@ -1605,22 +1588,8 @@ namespace glsl
 				}
 
 				auto save = m_current;
-				ast::stmt::ContainerPtr cont;
-
-				if ( m_adaptationData.writerConfig.vulkanGlsl )
-				{
-					cont = m_stmtCache.makePushConstantsBufferDecl( stmt->getName()
-						, stmt->getMemoryLayout() );
-				}
-				else
-				{
-					// PCB are not supported, implement them as UBO.
-					cont = m_stmtCache.makeConstantBufferDecl( stmt->getName()
-						, stmt->getMemoryLayout()
-						, InvalidIndex
-						, InvalidIndex );
-				}
-
+				auto cont = m_stmtCache.makePushConstantsBufferDecl( stmt->getName()
+					, stmt->getMemoryLayout() );
 				m_current = cont.get();
 				m_inPCB = true;
 				visitContainerStmt( stmt );
@@ -1661,49 +1630,9 @@ namespace glsl
 			{
 				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
 					&& !m_adaptationData.writerConfig.hasStd430Layout )
-				{
 					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
-				}
 
-				if ( m_adaptationData.writerConfig.hasDescriptorSets )
-				{
-					ast::StmtCloner::visitShaderBufferDeclStmt( stmt );
-				}
-				else
-				{
-					auto save = m_current;
-					auto cont = m_stmtCache.makeShaderBufferDecl( stmt->getVariable()
-						, stmt->getBindingPoint()
-						, InvalidIndex );
-					m_current = cont.get();
-					visitContainerStmt( stmt );
-					m_current = save;
-					m_current->addStmt( std::move( cont ) );
-				}
-			}
-
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				declareType( stmt->getData()->getType() );
-
-				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eStd430
-					&& !m_adaptationData.writerConfig.hasStd430Layout )
-				{
-					throw ast::Exception{ "std430 layout is not supported, consider using std140" };
-				}
-
-				if ( m_adaptationData.writerConfig.hasDescriptorSets )
-				{
-					ast::StmtCloner::visitShaderStructBufferDeclStmt( stmt );
-				}
-				else
-				{
-					m_current->addStmt( m_stmtCache.makeShaderStructBufferDecl( stmt->getSsboName()
-						, stmt->getSsboInstance()
-						, stmt->getData()
-						, stmt->getBindingPoint()
-						, InvalidIndex ) );
-				}
+				ast::StmtCloner::visitShaderBufferDeclStmt( stmt );
 			}
 
 			void visitStructureDeclStmt( ast::stmt::StructureDecl const * stmt )override

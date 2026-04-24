@@ -632,7 +632,10 @@ namespace glsl
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				visitContainerStmt( stmt );
+				for ( auto & type : *stmt->getBuffer()->getDataType() )
+				{
+					checkType( type.type, m_result );
+				}
 			}
 
 			void visitContainerStmt( ast::stmt::Container const * cont )override
@@ -783,19 +786,7 @@ namespace glsl
 					m_result.requiredExtensions.insert( EXT_scalar_block_layout );
 				}
 
-				visitContainerStmt( stmt );
-			}
-
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				if ( stmt->getMemoryLayout() == ast::type::MemoryLayout::eScalar )
-				{
-					m_result.requiredExtensions.insert( EXT_scalar_block_layout );
-				}
-
-				m_result.requiredExtensions.insert( ARB_shader_storage_buffer_object );
-
-				for ( auto & type : static_cast< ast::type::Struct const & >( *stmt->getSsboInstance()->getType() ) )
+				for ( auto & type : *stmt->getBuffer()->getDataType() )
 				{
 					checkType( type.type, m_result );
 				}

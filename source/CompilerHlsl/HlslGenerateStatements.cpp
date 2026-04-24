@@ -1222,15 +1222,13 @@ namespace hlsl
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				if ( !stmt->empty() )
-				{
-					m_appendLineEnd = true;
-					doAppendLineEnd();
-					m_result += m_indent + "cbuffer " + stmt->getName() + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")";
-					m_appendSemiColon = true;
-					visitCompoundStmt( stmt );
-					m_appendLineEnd = true;
-				}
+				m_appendLineEnd = true;
+				doAppendLineEnd();
+				m_result += m_indent + "cbuffer " + stmt->getInstanceName() + "Block" + ": register(b" + std::to_string( stmt->getBindingPoint() ) + ")\n";
+				m_result += m_indent + "{\n";
+				m_result += m_indent + "\t" + getTypeName( stmt->getBuffer()->getDataType() ) + " " + adaptName( stmt->getInstanceName() ) + getTypeArraySize( stmt->getBuffer()->getDataType() ) + ";\n";
+				m_result += m_indent + "};\n";
+				m_appendLineEnd = true;
 			}
 
 			void visitDemoteStmt( ast::stmt::Demote const * stmt )override
@@ -1790,19 +1788,24 @@ namespace hlsl
 
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
-				m_appendLineEnd = true;
 				doAppendLineEnd();
-				m_result += m_indent + "RWByteAddressBuffer "
-					+ stmt->getSsboName()
-					+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
-			}
+				ast::type::TypePtr contentType{};
+				if ( auto bufferType = stmt->getBuffer();
+					bufferType->isArray() )
+					contentType = getNonArrayType( bufferType->getMember( 0u ) );
+				else
+					contentType = bufferType;
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				m_appendLineEnd = true;
-				doAppendLineEnd();
-				m_result += m_indent + "RWStructuredBuffer<" + getTypeName( stmt->getData()->getType() ) + "> "
-					+ stmt->getData()->getName()
+				std::string bufferTypeName;
+				if ( isStructType( contentType )
+					|| isDoubleType( contentType->getKind() )
+					|| getSize( *contentType, ast::type::MemoryLayout::eStd140 ) > 16u )
+					bufferTypeName = "RWStructuredBuffer";
+				else
+					bufferTypeName = "RWBuffer";
+
+				m_result += m_indent + bufferTypeName + "<" + getTypeName( contentType ) + "> "
+					+ stmt->getInstanceName() + getTypeArraySize( stmt->getInstanceType() )
 					+ ": register(u" + std::to_string( stmt->getBindingPoint() ) + ");\n";
 			}
 
@@ -1843,6 +1846,8 @@ namespace hlsl
 					m_indent = save;
 					m_result += m_indent + "};\n";
 				}
+
+				m_appendLineEnd = true;
 			}
 
 			void visitSwitchCaseStmt( ast::stmt::SwitchCase const * stmt )override

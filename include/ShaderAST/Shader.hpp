@@ -119,7 +119,7 @@ namespace ast
 		SDAST_API void registerInOut( std::string name, type::TypePtr type );
 		SDAST_API void registerSsbo( std::string name, SsboInfo const & info );
 		SDAST_API void registerUbo( std::string name, UboInfo const & info );
-		SDAST_API void registerPcb( std::string name, InterfaceBlock const & info );
+		SDAST_API void registerPcb( std::string name, PcbInfo const & info );
 		SDAST_API void registerShaderRecord( std::string name, ShaderRecordInfo const & info );
 		/**@}*/
 
@@ -133,7 +133,7 @@ namespace ast
 			return m_data.ubos.at( name );
 		}
 
-		InterfaceBlock const & getPcbInfo( std::string const & name )const
+		PcbInfo const & getPcbInfo( std::string const & name )const
 		{
 			return m_data.pcbs.at( name );
 		}

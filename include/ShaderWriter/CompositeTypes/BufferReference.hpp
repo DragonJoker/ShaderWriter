@@ -31,6 +31,8 @@ namespace sdw
 
 	private:
 		ShaderWriter & m_writer;
+		std::string m_name{};
+		ast::type::MemoryLayout m_layout{};
 		ast::type::TypePtr m_type{};
 		ast::type::TypePtr m_pointer{};
 		bool m_enabled;

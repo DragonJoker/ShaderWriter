@@ -36,7 +36,7 @@ namespace ast::stmt
 		SDAST_API CombinedImageDeclPtr makeCombinedImageDecl( var::VariablePtr variable, uint32_t bindingPoint, uint32_t bindingSet );
 		SDAST_API CommentPtr makeComment( std::string text );
 		SDAST_API CompoundPtr makeCompound();
-		SDAST_API ConstantBufferDeclPtr makeConstantBufferDecl( std::string name, type::MemoryLayout layout, uint32_t bindingPoint, uint32_t bindingSet );
+		SDAST_API ConstantBufferDeclPtr makeConstantBufferDecl( var::VariablePtr variable, uint32_t bindingPoint, uint32_t bindingSet );
 		SDAST_API ContainerPtr makeContainer();
 		SDAST_API ContinuePtr makeContinue();
 		SDAST_API DemotePtr makeDemote();
@@ -71,9 +71,7 @@ namespace ast::stmt
 		SDAST_API ReturnPtr makeReturn( expr::ExprPtr expr );
 		SDAST_API SampledImageDeclPtr makeSampledImageDecl( var::VariablePtr variable, uint32_t bindingPoint, uint32_t bindingSet );
 		SDAST_API SamplerDeclPtr makeSamplerDecl( var::VariablePtr variable, uint32_t bindingPoint, uint32_t bindingSet );
-		SDAST_API ShaderBufferDeclPtr makeShaderBufferDecl( type::TypesCache & typesCache, std::string const & ssboName, type::MemoryLayout layout, uint32_t bindingPoint, uint32_t bindingSet, uint32_t nextVarId );
-		SDAST_API ShaderBufferDeclPtr makeShaderBufferDecl( var::VariablePtr var, uint32_t bindingPoint, uint32_t bindingSet );
-		SDAST_API ShaderStructBufferDeclPtr makeShaderStructBufferDecl( std::string ssboName, var::VariablePtr ssboInstance, var::VariablePtr data, uint32_t bindingPoint, uint32_t bindingSet );
+		SDAST_API ShaderBufferDeclPtr makeShaderBufferDecl( var::VariablePtr variable, uint32_t bindingPoint, uint32_t bindingSet );
 		SDAST_API SimplePtr makeSimple( expr::ExprPtr expr );
 		SDAST_API SpecialisationConstantDeclPtr makeSpecialisationConstantDecl( var::VariablePtr variable, uint32_t location, expr::LiteralPtr value );
 		SDAST_API StructureDeclPtr makeStructureDecl( type::StructPtr type );

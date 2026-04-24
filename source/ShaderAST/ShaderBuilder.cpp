@@ -724,6 +724,65 @@ namespace ast
 		return result;
 	}
 
+	var::VariablePtr ShaderBuilder::registerUniformBuffer( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, bool enabled )
+	{
+		var::VariablePtr result;
+
+		if ( enabled )
+		{
+			result = registerName( name
+				, type
+				, var::Flag::eUniform );
+
+			auto bufType = getNonArrayType( type );
+			AST_Assert( bufType->getKind() == type::Kind::eUniformBuffer );
+			m_shader->registerUbo( std::move( name )
+				, { static_cast< type::UniformBuffer * >( bufType ), { binding, set } } );
+		}
+		else
+		{
+			result = registerName( std::move( name )
+				, type
+				, var::Flag::eUniform );
+		}
+
+		return result;
+	}
+
+	var::VariablePtr ShaderBuilder::registerStorageBuffer( std::string name
+		, type::TypePtr type
+		, uint32_t binding
+		, uint32_t set
+		, var::Flag flag
+		, bool enabled )
+	{
+		var::VariablePtr result;
+
+		if ( enabled )
+		{
+			result = registerName( name
+				, type
+				, flag );
+
+			auto bufType = getNonArrayType( type );
+			AST_Assert( bufType->getKind() == type::Kind::eStorageBuffer );
+			m_shader->registerSsbo( std::move( name )
+				, { static_cast< type::StorageBuffer * >( bufType ), { binding, set } } );
+		}
+		else
+		{
+			result = registerName( std::move( name )
+				, type
+				, flag );
+		}
+
+		return result;
+	}
+
 	var::VariablePtr ShaderBuilder::registerInput( EntryPoint entryPoint
 		, std::string name
 		, uint32_t location
@@ -914,7 +973,7 @@ namespace ast
 	}
 
 	void ShaderBuilder::registerPcb( std::string name
-		, InterfaceBlock const & info )const
+		, PcbInfo const & info )const
 	{
 		m_shader->registerPcb( std::move( name ), info );
 	}

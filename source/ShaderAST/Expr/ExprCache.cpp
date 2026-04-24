@@ -145,6 +145,7 @@ namespace ast::expr
 			|| lhs->getType()->getKind() == type::Kind::eTessellationEvaluationInput
 			|| lhs->getType()->getKind() == type::Kind::eMeshVertexOutput
 			|| lhs->getType()->getKind() == type::Kind::eMeshPrimitiveOutput
+			|| lhs->getType()->getKind() == type::Kind::eStorageBuffer
 			|| isVectorType( lhs->getType()->getKind() )
 			|| isMatrixType( lhs->getType()->getKind() ) );
 		return makeExpr< ArrayAccess >( std::move( type )

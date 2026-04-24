@@ -109,6 +109,8 @@ namespace ast::type
 		eTaskPayload,
 		eTaskPayloadInNV,
 		eTaskPayloadIn,
+		eStorageBuffer,
+		eUniformBuffer,
 		eCount,
 		eInt = eInt32,
 		eUInt = eUInt32,

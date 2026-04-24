@@ -362,7 +362,10 @@ namespace hlsl
 
 			void visitConstantBufferDeclStmt( ast::stmt::ConstantBufferDecl const * stmt )override
 			{
-				visitContainerStmt( stmt );
+				for ( auto & type : *stmt->getBuffer()->getDataType() )
+				{
+					checkType( type.type, m_result );
+				}
 			}
 
 			void visitContainerStmt( ast::stmt::Container const * cont )override
@@ -566,14 +569,8 @@ namespace hlsl
 			void visitShaderBufferDeclStmt( ast::stmt::ShaderBufferDecl const * stmt )override
 			{
 				m_result.requiresUAV = true;
-				visitContainerStmt( stmt );
-			}
 
-			void visitShaderStructBufferDeclStmt( ast::stmt::ShaderStructBufferDecl const * stmt )override
-			{
-				m_result.requiresUAV = true;
-
-				for ( auto & type : static_cast< ast::type::Struct const & >( *stmt->getSsboInstance()->getType() ) )
+				for ( auto & type : *stmt->getBuffer()->getDataType() )
 				{
 					checkType( type.type, m_result );
 				}

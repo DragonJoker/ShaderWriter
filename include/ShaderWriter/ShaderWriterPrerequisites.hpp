@@ -287,11 +287,13 @@ namespace sdw
 	class StructInstance;
 
 	class PushConstantBuffer;
-	class StorageBuffer;
-	class UniformBuffer;
+	struct StorageBuffer;
+	struct UniformBuffer;
 
 	template< typename InstanceT >
-	class ArrayStorageBufferT;
+	struct ArrayStorageBufferT;
+
+	using ArrayStorageBuffer = ArrayStorageBufferT< StructInstance >;
 	/**@}*/
 #pragma endregion
 #pragma region Shader I/O

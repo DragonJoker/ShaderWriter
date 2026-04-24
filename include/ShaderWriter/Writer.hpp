@@ -95,7 +95,7 @@ namespace sdw
 	public:
 #pragma region Type registration
 		/**
-		*name
+		*\name
 		*	Variables registration.
 		*/
 		/**@{*/
@@ -105,7 +105,7 @@ namespace sdw
 #pragma endregion
 #pragma region Variables registration
 		/**
-		*name
+		*\name
 		*	Variables registration.
 		*/
 		/**@{*/
@@ -137,7 +137,7 @@ namespace sdw
 #pragma endregion
 #pragma region Functions
 		/**
-		*name
+		*\name
 		*	Functions
 		*/
 		/**@{*/
@@ -159,7 +159,7 @@ namespace sdw
 #pragma endregion
 #pragma region Cast
 		/**
-		*name
+		*\name
 		*	Cast.
 		*/
 		/**@{*/
@@ -177,7 +177,7 @@ namespace sdw
 #pragma endregion
 #pragma region Control statements
 		/**
-		*name
+		*\name
 		*	Control statements.
 		*/
 		/**@{*/
@@ -247,7 +247,7 @@ namespace sdw
 #pragma endregion
 #pragma region Constant declaration
 		/**
-		*name
+		*\name
 		*	Shader invocation and memory control.
 		*/
 		/**@{*/
@@ -273,7 +273,7 @@ namespace sdw
 #pragma endregion
 #pragma region Constant declaration
 		/**
-		*name
+		*\name
 		*	Constant declaration (#define name value).
 		*/
 		/**@{*/
@@ -293,7 +293,7 @@ namespace sdw
 #pragma endregion
 #pragma region Specialisation constant declaration
 		/**
-		*name
+		*\name
 		*	Specialisation constant declaration.
 		*/
 		/**@{*/
@@ -345,7 +345,7 @@ namespace sdw
 #pragma endregion
 #pragma region Sampler declaration
 		/**
-		*name
+		*\name
 		*	Sampler declaration.
 		*/
 		/**@{*/
@@ -427,7 +427,7 @@ namespace sdw
 #pragma endregion
 #pragma region Sampled Image declaration
 		/**
-		*name
+		*\name
 		*	Combined Sampler and Image declaration.
 		*/
 		/**@{*/
@@ -514,7 +514,7 @@ namespace sdw
 #pragma endregion
 #pragma region Combined Sampler and Image declaration
 		/**
-		*name
+		*\name
 		*	Combined Sampler and Image declaration.
 		*/
 		/**@{*/
@@ -635,7 +635,7 @@ namespace sdw
 #pragma endregion
 #pragma region Storage Image declaration
 		/**
-		*name
+		*\name
 		*	Storage Image declaration.
 		*/
 		/**@{*/
@@ -728,7 +728,7 @@ namespace sdw
 #pragma endregion
 #pragma region Shared variables declaration
 		/**
-		*name
+		*\name
 		*	Shared variables declaration.
 		*/
 		/**@{*/
@@ -745,7 +745,7 @@ namespace sdw
 #pragma endregion
 #pragma region Ray tracing variables declaration
 		/**
-		*name
+		*\name
 		*	Ray tracing variables declaration.
 		*/
 		/**@{*/
@@ -777,56 +777,91 @@ namespace sdw
 #pragma endregion
 #pragma region Uniform buffer declaration
 		/**
-		*name
+		*\name
 		*	Uniform buffer declaration.
 		*/
 		/**@{*/
-		template< typename BindingT, typename SetT, typename ... ParamsT >
+		template< typename BindingT, typename SetT >
 		UniformBuffer declUniformBuffer( std::string name
 			, BindingT binding
 			, SetT set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
-			, bool enabled = true
-			, ParamsT && ... params );
+			, bool enabled = true );
 		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 		T declUniformBuffer( std::string name
 			, BindingT binding
 			, SetT set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
 			, bool enabled = true
 			, ParamsT && ... params );
-		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
-		T declUniformBuffer( std::string name
+		SDW_INL_API UniformBuffer declUniformBuffer( std::string name
 			, LocationHelper location
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd140
+			, bool enabled = true );
+		template< typename T, typename ... ParamsT >
+		T declUniformBuffer( std::string name
+			, LocationHelper location
 			, bool enabled = true
 			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Shader storage buffer declaration
 		/**
-		*name
+		*\name
 		*	Shader storage buffer declaration.
 		*/
 		/**@{*/
-		template< typename BindingT, typename SetT, typename ... ParamsT >
+		template< typename BindingT, typename SetT >
 		StorageBuffer declStorageBuffer( std::string name
 			, BindingT binding
 			, SetT set
 			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true
-			, ParamsT && ... params );
+			, bool enabled = true );
+		SDW_INL_API StorageBuffer declStorageBuffer( std::string name
+			, LocationHelper location
+			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
+			, bool enabled = true );
 		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 		T declStorageBuffer( std::string name
 			, BindingT binding
 			, SetT set
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
 			, bool enabled = true
 			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
+		T declStorageBuffer( std::string name
+			, LocationHelper location
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename BindingT, typename SetT >
+		ArrayStorageBuffer declArrayStorageBuffer( std::string name
+			, BindingT binding
+			, SetT set
+			, Struct const & dataType
+			, bool enabled = true );
+		SDW_INL_API ArrayStorageBuffer declArrayStorageBuffer( std::string name
+			, LocationHelper location
+			, Struct const & dataType
+			, bool enabled = true );
+		template< typename BindingT, typename SetT >
+		ArrayStorageBuffer declArrayStorageBuffer( std::string name
+			, BindingT binding
+			, SetT set
+			, Struct const & dataType
+			, ast::type::MemoryLayout layout
+			, bool enabled = true );
+		SDW_INL_API ArrayStorageBuffer declArrayStorageBuffer( std::string name
+			, LocationHelper location
+			, Struct const & dataType
+			, ast::type::MemoryLayout layout
+			, bool enabled = true );
 		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
 		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, BindingT binding
 			, SetT set
+			, bool enabled = true
+			, ParamsT && ... params );
+		template< typename T, typename ... ParamsT >
+		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
+			, LocationHelper location
 			, bool enabled = true
 			, ParamsT && ... params );
 		template< typename T, typename BindingT, typename SetT, typename ... ParamsT >
@@ -836,22 +871,17 @@ namespace sdw
 			, ast::type::MemoryLayout layout
 			, bool enabled = true
 			, ParamsT && ... params );
-		template< typename T = StorageBuffer, typename ... ParamsT >
-		T declStorageBuffer( std::string name
-			, LocationHelper location
-			, ast::type::MemoryLayout layout = ast::type::MemoryLayout::eStd430
-			, bool enabled = true
-			, ParamsT && ... params );
 		template< typename T, typename ... ParamsT >
 		ArrayStorageBufferT< T > declArrayStorageBuffer( std::string name
 			, LocationHelper location
+			, ast::type::MemoryLayout layout
 			, bool enabled = true
 			, ParamsT && ... params );
 		/**@}*/
 #pragma endregion
 #pragma region Buffer reference declaration
 		/**
-		*name
+		*\name
 		*	Buffer reference declaration.
 		*/
 		/**@{*/
@@ -865,7 +895,7 @@ namespace sdw
 #pragma endregion
 #pragma region Push constants buffer declaration
 		/**
-		*name
+		*\name
 		*	Push constants buffer declaration.
 		*/
 		/**@{*/
@@ -878,7 +908,7 @@ namespace sdw
 #pragma endregion
 #pragma region Struct declaration
 		/**
-		*name
+		*\name
 		*	Struct declaration.
 		*/
 		/**@{*/
@@ -890,7 +920,7 @@ namespace sdw
 #pragma endregion
 #pragma region Locale declaration
 		/**
-		*name
+		*\name
 		*	Locale variable declaration.
 		*/
 		/**@{*/
@@ -956,7 +986,7 @@ namespace sdw
 #pragma endregion
 #pragma region Global variables declaration
 		/**
-		*name
+		*\name
 		*	Global variables declaration.
 		*/
 		/**@{*/
@@ -1022,7 +1052,7 @@ namespace sdw
 #pragma endregion
 #pragma region Already declared variable getters
 		/**
-		*name
+		*\name
 		*	Already declared variable getters.
 		*/
 		/**@{*/
@@ -1036,7 +1066,7 @@ namespace sdw
 #pragma endregion
 #pragma region Getters
 		/**
-		*name
+		*\name
 		*	Getters.
 		*/
 		/**@{*/
@@ -1102,6 +1132,17 @@ namespace sdw
 			, type::TypePtr type
 			, uint32_t binding
 			, uint32_t set
+			, bool enabled = true );
+		SDW_API var::VariablePtr registerUniformBuffer( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, bool enabled = true );
+		SDW_API var::VariablePtr registerStorageBuffer( std::string name
+			, type::TypePtr type
+			, uint32_t binding
+			, uint32_t set
+			, var::Flag flag = var::Flag::eStorageBuffer
 			, bool enabled = true );
 		SDW_API var::VariablePtr registerInOut( std::string name
 			, uint64_t attributes

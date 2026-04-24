@@ -8,7 +8,7 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		auto [type, added] = m_info.registerMember( name
+		auto [type, added, mbrIndex] = m_info.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer )
 				, std::forward< ParamsT >( params )... ) );
 		auto var = registerMember( m_writer, m_var, std::move( name ), type );
@@ -29,7 +29,7 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		auto [type, added] = m_info.registerMember( name
+		auto [type, added, mbrIndex] = m_info.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer )
 				, std::forward< ParamsT >( params )... )
 			, dimension );
@@ -50,7 +50,7 @@ namespace sdw
 		, bool enabled
 		, ParamsT && ... params )
 	{
-		auto [type, added] = m_info.registerMember( name
+		auto [type, added, mbrIndex] = m_info.registerMember( name
 			, ValueT::makeType( getTypesCache( m_writer )
 				, std::forward< ParamsT >( params )... )
 			, type::UnknownArraySize );

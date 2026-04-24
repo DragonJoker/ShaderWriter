@@ -778,27 +778,14 @@ namespace
 			stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			type::TypesCache typesCache;
-			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", type::MemoryLayout::eStd140, 1u, 2u );
+			auto type = typesCache.getUniformBuffer( "Buffer" );
+			auto var = var::makeVariable( testCounts.getNextVarId(), type, "buffer" );
+			auto stmt = stmtCache.makeConstantBufferDecl( var, 1u, 2u );
 			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eMeshNV );
 
 			astRequire( stmt->getKind() == stmt::Kind::eConstantBufferDecl )
 			astCheck( stmt->getBindingPoint() == 1u )
 			astCheck( stmt->getDescriptorSet() == 2u )
-			astCheck( stmt->empty() )
-		}
-		{
-			stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-			type::TypesCache typesCache;
-			auto stmt = stmtCache.makeConstantBufferDecl( "Buffer", type::MemoryLayout::eStd140, 1u, 2u );
-			stmt->add( stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" ) ) );
-			stmt->add( stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" ) ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt, ShaderStage::eTask );
-
-			astRequire( stmt->getKind() == stmt::Kind::eConstantBufferDecl )
-			astCheck( stmt->getBindingPoint() == 1u )
-			astCheck( stmt->getDescriptorSet() == 2u )
-			astCheck( stmt->size() == 2u )
 		}
 		astTestEnd()
 	}
@@ -840,48 +827,15 @@ namespace
 			stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
 			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
 			type::TypesCache typesCache;
-			auto stmt = stmtCache.makeShaderBufferDecl( typesCache, "Buffer", type::MemoryLayout::eStd430, 1u, 2u, testCounts.getNextVarId() );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
-
-			astRequire( stmt->getKind() == stmt::Kind::eShaderBufferDecl )
-			astCheck( stmt->getBindingPoint() == 1u )
-			astCheck( stmt->getDescriptorSet() == 2u )
-			astCheck( stmt->empty() )
-		}
-		{
-			stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-			type::TypesCache typesCache;
-			auto stmt = stmtCache.makeShaderBufferDecl( typesCache, "Buffer", type::MemoryLayout::eStd430, 1u, 2u, testCounts.getNextVarId() );
-			stmt->add( stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "i" ) ) );
-			stmt->add( stmtCache.makeVariableDecl( var::makeVariable( testCounts.getNextVarId(), typesCache.getInt32(), "j" ) ) );
-			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
-
-			astRequire( stmt->getKind() == stmt::Kind::eShaderBufferDecl )
-			astCheck( stmt->getBindingPoint() == 1u )
-			astCheck( stmt->getDescriptorSet() == 2u )
-			astCheck( stmt->size() == 2u )
-		}
-		astTestEnd()
-	}
-
-	TEST( Statements, ShaderStructBufferDecl )
-	{
-		astTestBegin( "testShaderStructBufferDecl" );
-		{
-			stmt::StmtCache stmtCache{ *testCounts.allocatorBlock };
-			expr::ExprCache exprCache{ *testCounts.allocatorBlock };
-			type::TypesCache typesCache;
 			auto baseType = typesCache.getStruct( type::MemoryLayout::eStd430, "BaseType" );
 			auto array = typesCache.getArray( baseType );
-			auto type = typesCache.getStruct( type::MemoryLayout::eStd430, "BufferType" );
-			type->declMember( "Data", array );
-			auto data = var::makeVariable( testCounts.getNextVarId(), type->getMember( "Data" ).type, "Data", var::Flag::eUniform );
+			auto type = typesCache.getStorageBuffer( "BufferType" );
+			type->registerMember( "Data", array );
 			auto instance = var::makeVariable( testCounts.getNextVarId(), type, "Inst", var::Flag::eUniform );
-			auto stmt = stmtCache.makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
+			auto stmt = stmtCache.makeShaderBufferDecl( instance, 1u, 2u );
 			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
 
-			astRequire( stmt->getKind() == stmt::Kind::eShaderStructBufferDecl )
+			astRequire( stmt->getKind() == stmt::Kind::eShaderBufferDecl )
 			astCheck( stmt->getBindingPoint() == 1u )
 			astCheck( stmt->getDescriptorSet() == 2u )
 		}
@@ -893,14 +847,13 @@ namespace
 			baseType->declMember( Builtin::eGlobalInvocationID, type::Kind::eInt32, type::NotArray );
 			baseType->declMember( "mbr", type::Kind::eInt32, type::NotArray, 1u );
 			auto array = typesCache.getArray( baseType );
-			auto type = typesCache.getStruct( type::MemoryLayout::eStd430, "BufferType" );
-			type->declMember( "Data", array );
-			auto data = var::makeVariable( testCounts.getNextVarId(), type->getMember( "Data" ).type, "Data", var::Flag::eUniform );
+			auto type = typesCache.getStorageBuffer( "BufferType" );
+			type->registerMember( "Data", array );
 			auto instance = var::makeVariable( testCounts.getNextVarId(), type, "Inst", var::Flag::eUniform );
-			auto stmt = stmtCache.makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
+			auto stmt = stmtCache.makeShaderBufferDecl( instance, 1u, 2u );
 			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
 
-			astRequire( stmt->getKind() == stmt::Kind::eShaderStructBufferDecl )
+			astRequire( stmt->getKind() == stmt::Kind::eShaderBufferDecl )
 			astCheck( stmt->getBindingPoint() == 1u )
 			astCheck( stmt->getDescriptorSet() == 2u )
 		}
@@ -912,14 +865,13 @@ namespace
 			baseType->declMember( "i", typesCache.getInt32() );
 			baseType->declMember( "j", typesCache.getInt32() );
 			auto array = typesCache.getArray( baseType );
-			auto type = typesCache.getStruct( type::MemoryLayout::eStd430, "BufferType" );
-			type->declMember( "Data", array );
-			auto data = var::makeVariable( testCounts.getNextVarId(), type->getMember( "Data" ).type, "Data", var::Flag::eUniform );
+			auto type = typesCache.getStorageBuffer( "BufferType" );
+			type->registerMember( "Data", array );
 			auto instance = var::makeVariable( testCounts.getNextVarId(), type, "Inst", var::Flag::eUniform );
-			auto stmt = stmtCache.makeShaderStructBufferDecl( "Buffer", instance, data, 1u, 2u );
+			auto stmt = stmtCache.makeShaderBufferDecl( instance, 1u, 2u );
 			checkStmtDependant( testCounts, exprCache, typesCache, *stmt );
 
-			astRequire( stmt->getKind() == stmt::Kind::eShaderStructBufferDecl )
+			astRequire( stmt->getKind() == stmt::Kind::eShaderBufferDecl )
 			astCheck( stmt->getBindingPoint() == 1u )
 			astCheck( stmt->getDescriptorSet() == 2u )
 		}

@@ -406,6 +406,12 @@ namespace glsl
 		case ast::type::Kind::ePointer:
 			result = getTypeName( static_cast< ast::type::Pointer * >( type )->getPointerType() );
 			break;
+		case ast::type::Kind::eUniformBuffer:
+			result = getTypeName( static_cast< ast::type::UniformBuffer * >( type )->getDataType() );
+			break;
+		case ast::type::Kind::eStorageBuffer:
+			result = getTypeName( static_cast< ast::type::StorageBuffer * >( type )->getDataType() );
+			break;
 		default:
 			result = getTypeName( type->getKind() );
 			break;

@@ -5,83 +5,14 @@ See LICENSE file in root folder
 
 #include "ShaderWriter/Writer.hpp"
 
-#include <ShaderAST/Expr/ExprAdd.hpp>
-#include <ShaderAST/Expr/ExprAddAssign.hpp>
-#include <ShaderAST/Expr/ExprAggrInit.hpp>
-#include <ShaderAST/Expr/ExprAndAssign.hpp>
-#include <ShaderAST/Expr/ExprArrayAccess.hpp>
-#include <ShaderAST/Expr/ExprAssign.hpp>
-#include <ShaderAST/Expr/ExprBitAnd.hpp>
-#include <ShaderAST/Expr/ExprBitNot.hpp>
-#include <ShaderAST/Expr/ExprBitOr.hpp>
-#include <ShaderAST/Expr/ExprBitXor.hpp>
-#include <ShaderAST/Expr/ExprCast.hpp>
-#include <ShaderAST/Expr/ExprCompositeConstruct.hpp>
-#include <ShaderAST/Expr/ExprCopy.hpp>
-#include <ShaderAST/Expr/ExprDivide.hpp>
-#include <ShaderAST/Expr/ExprDivideAssign.hpp>
-#include <ShaderAST/Expr/ExprEqual.hpp>
-#include <ShaderAST/Expr/ExprFnCall.hpp>
-#include <ShaderAST/Expr/ExprGreater.hpp>
-#include <ShaderAST/Expr/ExprGreaterEqual.hpp>
 #include <ShaderAST/Expr/ExprIdentifier.hpp>
-#include <ShaderAST/Expr/ExprInit.hpp>
-#include <ShaderAST/Expr/ExprLess.hpp>
-#include <ShaderAST/Expr/ExprLessEqual.hpp>
-#include <ShaderAST/Expr/ExprLiteral.hpp>
-#include <ShaderAST/Expr/ExprLogAnd.hpp>
-#include <ShaderAST/Expr/ExprLogNot.hpp>
-#include <ShaderAST/Expr/ExprLogOr.hpp>
-#include <ShaderAST/Expr/ExprLShift.hpp>
-#include <ShaderAST/Expr/ExprLShiftAssign.hpp>
-#include <ShaderAST/Expr/ExprMbrSelect.hpp>
-#include <ShaderAST/Expr/ExprMinus.hpp>
-#include <ShaderAST/Expr/ExprMinusAssign.hpp>
-#include <ShaderAST/Expr/ExprModulo.hpp>
-#include <ShaderAST/Expr/ExprModuloAssign.hpp>
-#include <ShaderAST/Expr/ExprNotEqual.hpp>
-#include <ShaderAST/Expr/ExprOrAssign.hpp>
-#include <ShaderAST/Expr/ExprPostDecrement.hpp>
-#include <ShaderAST/Expr/ExprPostIncrement.hpp>
-#include <ShaderAST/Expr/ExprPreDecrement.hpp>
-#include <ShaderAST/Expr/ExprPreIncrement.hpp>
-#include <ShaderAST/Expr/ExprQuestion.hpp>
-#include <ShaderAST/Expr/ExprRShift.hpp>
-#include <ShaderAST/Expr/ExprRShiftAssign.hpp>
-#include <ShaderAST/Expr/ExprTimes.hpp>
-#include <ShaderAST/Expr/ExprTimesAssign.hpp>
-#include <ShaderAST/Expr/ExprUnaryMinus.hpp>
-#include <ShaderAST/Expr/ExprUnaryPlus.hpp>
-#include <ShaderAST/Expr/ExprXorAssign.hpp>
 #include <ShaderAST/Stmt/StmtContainer.hpp>
-#include <ShaderAST/Stmt/StmtAccelerationStructureDecl.hpp>
-#include <ShaderAST/Stmt/StmtBufferReferenceDecl.hpp>
-#include <ShaderAST/Stmt/StmtCombinedImageDecl.hpp>
-#include <ShaderAST/Stmt/StmtDispatchMesh.hpp>
-#include <ShaderAST/Stmt/StmtFragmentLayout.hpp>
-#include <ShaderAST/Stmt/StmtHitAttributeVariableDecl.hpp>
-#include <ShaderAST/Stmt/StmtImageDecl.hpp>
-#include <ShaderAST/Stmt/StmtInOutCallableDataVariableDecl.hpp>
-#include <ShaderAST/Stmt/StmtInOutRayPayloadVariableDecl.hpp>
-#include <ShaderAST/Stmt/StmtInOutVariableDecl.hpp>
-#include <ShaderAST/Stmt/StmtReturn.hpp>
-#include <ShaderAST/Stmt/StmtSampledImageDecl.hpp>
-#include <ShaderAST/Stmt/StmtSamplerDecl.hpp>
-#include <ShaderAST/Stmt/StmtShaderStructBufferDecl.hpp>
-#include <ShaderAST/Stmt/StmtSimple.hpp>
-#include <ShaderAST/Stmt/StmtSpecialisationConstantDecl.hpp>
-#include <ShaderAST/Stmt/StmtStructureDecl.hpp>
-#include <ShaderAST/Stmt/StmtVariableDecl.hpp>
-#include <ShaderAST/Type/TypeImage.hpp>
-#include <ShaderAST/Type/TypeCombinedImage.hpp>
-#include <ShaderAST/Type/TypeStruct.hpp>
 #include <ShaderAST/Visitors/CloneExpr.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Shader.hpp>
 #include <ShaderAST/ShaderBuilder.hpp>
 
 #include "WriterInt.hpp"
-#include "Intrinsics/IntrinsicFunctions.hpp"
 
 namespace sdw
 {
@@ -851,16 +782,22 @@ namespace sdw
 		return stmtCache.makeStructureDecl( std::move( type ) );
 	}
 
-	stmt::StmtPtr makeShaderStructBufferDecl( stmt::StmtCache & stmtCache
-		, std::string ssboName
-		, var::VariablePtr ssboInstance
-		, var::VariablePtr data
+	stmt::StmtPtr makeConstantBufferDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr uboInstance
 		, uint32_t bindingPoint
 		, uint32_t bindingSet )
 	{
-		return stmtCache.makeShaderStructBufferDecl( std::move( ssboName )
-			, ssboInstance
-			, data
+		return stmtCache.makeConstantBufferDecl( uboInstance
+			, bindingPoint
+			, bindingSet );
+	}
+
+	stmt::StmtPtr makeShaderBufferDecl( stmt::StmtCache & stmtCache
+		, var::VariablePtr ssboInstance
+		, uint32_t bindingPoint
+		, uint32_t bindingSet )
+	{
+		return stmtCache.makeShaderBufferDecl( ssboInstance
 			, bindingPoint
 			, bindingSet );
 	}
@@ -1126,6 +1063,12 @@ namespace sdw
 		auto ident = ast::findIdentifier( *value.getExpr() );
 		AST_Assert( ident != nullptr );
 		return ident ? ident->getVariable() : nullptr;
+	}
+
+	type::TypePtr makeArrayType( type::TypePtr type
+		, uint32_t dimension )
+	{
+		return type->getTypesCache().getArray( type, dimension );
 	}
 
 	type::TypePtr makeComputeInputType( type::TypePtr type

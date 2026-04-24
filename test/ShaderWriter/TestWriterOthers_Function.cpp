@@ -275,7 +275,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		UniformBuffer buffer{ writer, "MyUbo", 4u, 0u };
+		sdw::UniformBuffer buffer{ writer.declUniformBuffer( "MyUbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v" );
 		buffer.end();
 
@@ -304,7 +304,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer buffer{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v" );
 		buffer.end();
 
@@ -414,7 +414,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer buffer{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v" );
 		buffer.end();
 
@@ -524,7 +524,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer buffer{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v" );
 		buffer.end();
 
@@ -669,7 +669,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		UniformBuffer buffer{ writer, "MyUbo", 4u, 0u };
+		sdw::UniformBuffer buffer{ writer.declUniformBuffer( "MyUbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v", 4u );
 		buffer.end();
 
@@ -702,7 +702,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer buffer{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v", 4u );
 		buffer.end();
 
@@ -798,7 +798,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer buffer{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		auto uv = buffer.declMember< TypeParam >( "v", 4u );
 		buffer.end();
 
@@ -890,7 +890,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		StorageBuffer buffer{ writer, "MySsbo", 4u, 0u };
+		sdw::StorageBuffer buffer{ writer.declStorageBuffer( "MySsbo", 4u, 0u ) };
 		buffer.declMember< TypeParam >( "v", 4u );
 		buffer.end();
 
@@ -1220,7 +1220,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
+		sdw::UniformBuffer buffer{ writer.declUniformBuffer( "Matrices", 0u, 0u ) };
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 
@@ -1340,7 +1340,7 @@ namespace
 		using namespace sdw;
 		sdw::FragmentWriter writer{ &testCounts.allocator };
 
-		UniformBuffer buffer{ writer, "Matrices", 0u, 0u };
+		sdw::UniformBuffer buffer{ writer.declUniformBuffer( "Matrices", 0u, 0u ) };
 		auto c3d_viewMatrix = buffer.declMember< Mat4 >( "c3d_viewMatrix" );
 		buffer.end();
 

@@ -44,7 +44,6 @@ See LICENSE file in root folder
 #include "StmtCombinedImageDecl.hpp"
 #include "StmtSamplerDecl.hpp"
 #include "StmtShaderBufferDecl.hpp"
-#include "StmtShaderStructBufferDecl.hpp"
 #include "StmtSimple.hpp"
 #include "StmtSpecialisationConstantDecl.hpp"
 #include "StmtStructureDecl.hpp"
@@ -103,7 +102,6 @@ namespace ast::stmt
 		SDAST_API virtual void visitSampledImageDeclStmt( SampledImageDecl const * ) = 0;
 		SDAST_API virtual void visitSamplerDeclStmt( SamplerDecl const * ) = 0;
 		SDAST_API virtual void visitShaderBufferDeclStmt( ShaderBufferDecl const * ) = 0;
-		SDAST_API virtual void visitShaderStructBufferDeclStmt( ShaderStructBufferDecl const * ) = 0;
 		SDAST_API virtual void visitSimpleStmt( Simple const * ) = 0;
 		SDAST_API virtual void visitSpecialisationConstantDeclStmt( SpecialisationConstantDecl const * ) = 0;
 		SDAST_API virtual void visitStructureDeclStmt( StructureDecl const * ) = 0;
@@ -160,7 +158,6 @@ namespace ast::stmt
 
 		void visitConstantBufferDeclStmt( ConstantBufferDecl const * stmt )override
 		{
-			visitCompoundStmt( stmt );
 		}
 
 		void visitDemoteStmt( Demote const * stmt )override
@@ -297,11 +294,6 @@ namespace ast::stmt
 		}
 
 		void visitShaderBufferDeclStmt( ShaderBufferDecl const * stmt )override
-		{
-			visitCompoundStmt( stmt );
-		}
-
-		void visitShaderStructBufferDeclStmt( ShaderStructBufferDecl const * stmt )override
 		{
 		}
 

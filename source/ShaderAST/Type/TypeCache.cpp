@@ -1133,6 +1133,16 @@ namespace ast::type
 		return m_array.getType( type, arraySize, explicitLayout );
 	}
 
+	StorageBufferPtr TypesCache::getStorageBuffer( std::string const & name, MemoryLayout layout, bool isArray )
+	{
+		return m_storageBuffers.getType( name, layout, isArray );
+	}
+
+	UniformBufferPtr TypesCache::getUniformBuffer( std::string const & name, MemoryLayout layout )
+	{
+		return m_uniformBuffers.getType( name, layout );
+	}
+
 	Type const * TypesCache::getNonMemberType( TypePtr type )const
 	{
 		return type->getNonMemberType();

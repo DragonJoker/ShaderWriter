@@ -555,6 +555,12 @@ namespace ast::debug
 			case type::Kind::eTaskPayloadIn:
 				result = "TaskPayloadIn";
 				break;
+			case type::Kind::eUniformBuffer:
+				result = "UniformBuffer";
+				break;
+			case type::Kind::eStorageBuffer:
+				result = "StorageBuffer";
+				break;
 			default:
 				break;
 			}
@@ -902,6 +908,22 @@ namespace ast::debug
 			case type::Kind::eComputeInput:
 				result = getTypeName( getNonArrayKind( type ) );
 				result += "<" + getTypeName( *static_cast< type::ComputeInput const & >( type ).getType() );
+				result += ">";
+				break;
+			case type::Kind::eUniformBuffer:
+				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getMemoryLayoutName( static_cast< type::UniformBuffer const & >( type ).getMemoryLayout() );
+				result += "]";
+				result += "<" + getTypeName( *static_cast< type::UniformBuffer const & >( type ).getDataType() );
+				result += ">";
+				break;
+			case type::Kind::eStorageBuffer:
+				result = getTypeName( getNonArrayKind( type ) );
+				result += "[" + getMemoryLayoutName( static_cast< type::StorageBuffer const & >( type ).getMemoryLayout() );
+				if ( static_cast< type::StorageBuffer const & >( type ).isArray() )
+					result += ", Array";
+				result += "]";
+				result += "<" + getTypeName( *static_cast< type::StorageBuffer const & >( type ).getDataType() );
 				result += ">";
 				break;
 			default:
@@ -1593,10 +1615,10 @@ namespace ast::debug
 
 		void visitConstantBufferDeclStmt( stmt::ConstantBufferDecl const * stmt )override
 		{
+			declareStruct( stmt->getBuffer()->getDataType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
-			addStatement( "ConstantsBuffer " + stmt->getName() );
-			visitCompoundStmt( stmt );
+			addStatement( "ConstantsBuffer " + getTypeName( stmt->getInstanceType() ) + " " + stmt->getInstanceName() );
 		}
 
 		void visitContainerStmt( stmt::Container const * stmt )override
@@ -1915,21 +1937,10 @@ namespace ast::debug
 
 		void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override
 		{
-			declareStruct( stmt->getType() );
+			declareStruct( stmt->getBuffer()->getDataType() );
 			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
 			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
-			addStatement( "StorageBuffer " + stmt->getSsboName() + " " + helpers::displayVar( stmt->getVariable() ) );
-			visitCompoundStmt( stmt );
-		}
-
-		void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )override
-		{
-			declareStruct( stmt->getSsboInstance()->getType() );
-			declareStruct( stmt->getData()->getType() );
-			addStatement( "[Binding=" + std::to_string( stmt->getBindingPoint() ) + ", Set=" + std::to_string( stmt->getDescriptorSet() ) + "]" );
-			addStatement( "[Layout=" + getMemoryLayoutName( stmt->getMemoryLayout() ) + "]" );
-			addStatement( "StorageBuffer " + stmt->getSsboName() + " " + helpers::displayVar( stmt->getSsboInstance() ) );
-			addStatement( "BufferInstance " + helpers::displayVar( stmt->getData() ) );
+			addStatement( "StorageBuffer " + getTypeName( stmt->getInstanceType() ) + " " + stmt->getInstanceName() );
 		}
 
 		void visitSimpleStmt( stmt::Simple const * stmt )override

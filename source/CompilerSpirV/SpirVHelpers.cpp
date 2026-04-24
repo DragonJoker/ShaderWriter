@@ -1514,7 +1514,8 @@ namespace spirv
 		case spv::CapabilityVulkanMemoryModelDeviceScope:
 			break;
 		case spv::CapabilityPhysicalStorageBufferAddresses:
-			registerExtension( EXT_physical_storage_buffer );
+			if ( !registerExtension( KHR_physical_storage_buffer ) )
+				registerExtension( EXT_physical_storage_buffer );
 			break;
 		case spv::CapabilityComputeDerivativeGroupLinearNV:
 			break;

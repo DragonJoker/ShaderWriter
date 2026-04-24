@@ -70,7 +70,7 @@ namespace
 		sdwTestBegin( "basicPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer myUbo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto mvp = myUbo.declMember< sdw::Mat4 >( "mvp" );
 		myUbo.end();
 
@@ -106,7 +106,7 @@ namespace
 		sdwTestBegin( "geometryPipeline" );
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer myUbo{ writer, "MyUbo", 0u, 0u };
+		sdw::UniformBuffer myUbo{ writer.declUniformBuffer( "MyUbo", 0u, 0u ) };
 		auto mvp = myUbo.declMember< sdw::Mat4 >( "mvp" );
 		myUbo.end();
 
@@ -222,7 +222,7 @@ namespace
 		static uint32_t constexpr maxPoints = 3u;
 		sdw::TraditionalGraphicsWriter writer{ &testCounts.allocator };
 
-		sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+		sdw::UniformBuffer ubo{ writer.declUniformBuffer( "Wow", 0u, 0u ) };
 		auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 		auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 		ubo.end();

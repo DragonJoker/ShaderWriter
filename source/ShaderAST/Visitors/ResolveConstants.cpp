@@ -584,10 +584,6 @@ namespace ast
 					}
 					void visitShaderBufferDeclStmt( stmt::ShaderBufferDecl const * stmt )override
 					{
-						visitContainerStmt( stmt );
-					}
-					void visitShaderStructBufferDeclStmt( stmt::ShaderStructBufferDecl const * stmt )override
-					{
 					}
 					void visitSimpleStmt( stmt::Simple const * stmt )override
 					{

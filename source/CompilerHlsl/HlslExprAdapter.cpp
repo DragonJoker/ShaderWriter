@@ -12,8 +12,9 @@ See LICENSE file in root folder
 
 #include <ShaderAST/Stmt/StmtCache.hpp>
 #include <ShaderAST/Stmt/StmtVisitor.hpp>
-#include <ShaderAST/Type/TypeImage.hpp>
 #include <ShaderAST/Type/TypeCombinedImage.hpp>
+#include <ShaderAST/Type/TypeImage.hpp>
+#include <ShaderAST/Type/TypeStorageBuffer.hpp>
 #include <ShaderAST/Visitors/GetExprName.hpp>
 #include <ShaderAST/Visitors/ResolveConstants.hpp>
 
@@ -577,6 +578,32 @@ namespace hlsl
 				m_result = ast::ExprCloner::submit( m_exprCache, *itReplaced->second );
 				AST_Assert( m_result );
 			}
+			else if ( var->isMember()
+				&& ( var->getOuter()->getType()->getKind() == ast::type::Kind::eStorageBuffer ) )
+			{
+				auto outer = var->getOuter();
+				auto bufferType = static_cast< ast::type::StorageBuffer * >( outer->getType() );
+				auto mbrIndex = bufferType->findMember( var->getName() );
+				m_result = m_exprCache.makeIdentifier( m_typesCache, outer );
+				// StructuredBuffer being an array, we need to access the first element before selecting the member
+				m_result = m_exprCache.makeArrayAccess( bufferType
+					, std::move( m_result )
+					, m_exprCache.makeLiteral( m_typesCache, 0u ) );
+				m_result = m_exprCache.makeMbrSelect( std::move( m_result )
+					, mbrIndex
+					, var->getFlags() );
+			}
+			else if ( var->isMember()
+				&& ( var->getOuter()->getType()->getKind() == ast::type::Kind::eUniformBuffer ) )
+			{
+				auto outer = var->getOuter();
+				auto bufferType = static_cast< ast::type::UniformBuffer * >( outer->getType() );
+				auto mbrIndex = bufferType->findMember( var->getName() );
+				m_result = m_exprCache.makeIdentifier( m_typesCache, outer );
+				m_result = m_exprCache.makeMbrSelect( std::move( m_result )
+					, mbrIndex
+					, var->getFlags() );
+			}
 			else
 			{
 				m_result = m_exprCache.makeIdentifier( m_typesCache, var );
@@ -856,17 +883,11 @@ namespace hlsl
 				auto ident = ast::findIdentifier( *outer );
 				auto var = ident->getVariable();
 
-				auto it = std::find( m_adaptationData.ssboList.begin()
+				if ( m_adaptationData.ssboList.end() != std::find( m_adaptationData.ssboList.begin()
 					, m_adaptationData.ssboList.end()
-					, var );
-
-				if ( it != m_adaptationData.ssboList.end() )
+					, var ) )
 				{
-					auto tmp = ast::var::makeVariable( m_adaptationData.getNextVarId()
-						, expr->getType()
-						, expr->getOuterType()->getMember( expr->getMemberIndex() ).name
-						, expr->getMemberFlags() );
-					m_result = m_exprCache.makeIdentifier( m_typesCache, tmp );
+					m_result = m_exprCache.makeIdentifier( m_typesCache, var );
 				}
 			}
 		}

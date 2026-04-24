@@ -5,52 +5,62 @@ See LICENSE file in root folder
 #define ___AST_StmtConstantBufferDecl_H___
 #pragma once
 
-#include "StmtCompound.hpp"
-#include "StmtVariableDecl.hpp"
+#include "Stmt.hpp"
 
-#include "ShaderAST/Type/TypeStruct.hpp"
+#include "ShaderAST/Type/TypeUniformBuffer.hpp"
+#include "ShaderAST/Var/Variable.hpp"
 
 namespace ast::stmt
 {
 	class ConstantBufferDecl
-		: public Compound
+		: public Stmt
 	{
 	public:
 		SDAST_API ConstantBufferDecl( StmtCache & stmtCache
-			, std::string name
-			, type::MemoryLayout layout
+			, var::VariablePtr variable
 			, uint32_t bindingPoint
 			, uint32_t bindingSet );
-		SDAST_API void add( VariableDeclPtr decl );
 
 		SDAST_API void accept( VisitorPtr vis )const override;
 
-		inline std::string const & getName()const
+		var::VariablePtr getVariable()const
 		{
-			return m_name;
+			return m_variable;
 		}
 
-		inline type::MemoryLayout getMemoryLayout()const
+		type::TypePtr getInstanceType()const
 		{
-			return m_layout;
+			return m_variable->getType();
 		}
 
-		inline uint32_t getBindingPoint()const
+		std::string const & getInstanceName()const
+		{
+			return m_variable->getName();
+		}
+
+		type::MemoryLayout getMemoryLayout()const
+		{
+			return m_type->getMemoryLayout();
+		}
+
+		type::UniformBufferPtr getBuffer()const
+		{
+			return m_type;
+		}
+
+		uint32_t getBindingPoint()const
 		{
 			return m_bindingPoint;
 		}
 
-		inline uint32_t getDescriptorSet()const
+		uint32_t getDescriptorSet()const
 		{
 			return m_bindingSet;
 		}
 
 	private:
-		using Compound::addStmt;
-
-	private:
-		std::string m_name;
-		type::MemoryLayout m_layout;
+		var::VariablePtr m_variable;
+		type::UniformBufferPtr m_type;
 		uint32_t m_bindingPoint;
 		uint32_t m_bindingSet;
 	};

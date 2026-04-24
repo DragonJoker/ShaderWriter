@@ -1123,7 +1123,7 @@ namespace
 			sdw::TessellationControlWriter writer{ &testCounts.allocator };
 
 			// TCS inputs
-			sdw::UniformBuffer ubo{ writer, "Wow", 0u, 0u };
+			sdw::UniformBuffer ubo{ writer.declUniformBuffer( "Wow", 0u, 0u ) };
 			auto mtx = ubo.declMember< sdw::Mat4 >( "mtx" );
 			auto pos = ubo.declMember< sdw::Vec3 >( "pos" );
 			ubo.end();
