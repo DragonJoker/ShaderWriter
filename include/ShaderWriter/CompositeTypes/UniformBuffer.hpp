@@ -64,7 +64,6 @@ namespace sdw
 		SDW_API expr::ExprPtr makeMbrSelect( std::string_view name )const;
 
 	private:
-		ast::ShaderBuilder & m_builder;
 		ast::type::UniformBufferPtr m_buffer;
 	};
 

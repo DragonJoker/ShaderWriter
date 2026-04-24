@@ -41,22 +41,6 @@ namespace sdw
 		type::TypePtr m_dataType;
 		var::VariablePtr m_var;
 	};
-
-	SDW_API var::VariablePtr registerStorageBuffer( ShaderWriter & writer
-		, std::string name
-		, type::TypePtr type
-		, uint32_t binding
-		, uint32_t set
-		, var::Flag flag = var::Flag::eStorageBuffer
-		, bool enabled = true );
-	SDW_API type::StorageBufferPtr makeArrayStorageBufferType( type::TypesCache & cache
-		, std::string const & name
-		, type::MemoryLayout layout
-		, Struct const & dataType );
-	SDW_API type::StorageBufferPtr makeArrayStorageBufferType( type::TypesCache & cache
-		, std::string const & name
-		, type::MemoryLayout layout
-		, type::TypePtr dataType );
 }
 
 #include "ArrayStorageBuffer.inl"

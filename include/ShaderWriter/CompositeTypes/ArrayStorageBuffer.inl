@@ -49,7 +49,7 @@ namespace sdw
 		, ast::type::MemoryLayout layout
 		, ParamsT && ... params )
 	{
-		auto type = StorageBuffer::makeType( cache
+		auto type = makeStorageBufferType( cache
 			, name + "Type"
 			, layout
 			, true );

@@ -1710,7 +1710,7 @@ namespace sdw
 				, enabled };
 		}
 
-		auto type = StorageBuffer::makeType( getTypesCache()
+		auto type = makeStorageBufferType( getTypesCache()
 			, name + "Type"
 			, layout
 			, false );
@@ -1815,7 +1815,7 @@ namespace sdw
 
 		auto dataType = T::makeType( getTypesCache()
 			, std::forward< ParamsT >( params )... );
-		auto bufType = StorageBuffer::makeType( getTypesCache()
+		auto bufType = makeStorageBufferType( getTypesCache()
 			, name + "Type"
 			, layout
 			, false );

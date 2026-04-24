@@ -28,7 +28,7 @@ namespace sdw
 		, type::MemoryLayout layout
 		, type::TypePtr dataType )
 	{
-		auto type = StorageBuffer::makeType( cache
+		auto type = makeStorageBufferType( cache
 			, name + "Type"
 			, layout
 			, true );

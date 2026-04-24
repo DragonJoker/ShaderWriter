@@ -124,9 +124,10 @@ namespace test
 						auto j = writer.declLocale( "j"
 							, s.getLod( test::getDefault< QueryLodT >( writer ) ) );
 					} );
+				bool constexpr isShadow = isShadowV< DimT, ArrayedT, DepthT >;
 				test::writeShader( writer
 					, testCounts
-					, { true, true, !isShadowV< DimT, ArrayedT, DepthT >, true, ForceDisplayShaders, 0x00010600u } );
+					, { true, CompilerSPIRVIgnoreVersion( 1, 6 ), CompilerHLSLToggleAll( !isShadow ), CompilerGLSLEnableAll, ForceDisplayShaders } );
 			}
 			sdwTestEnd()
 		}
